@@ -20,6 +20,8 @@ class CommonIndexer
                     :agent_person, :agent_software, :agent_family, :agent_corporate_entity,
                     :repository]
 
+  @@records_with_children = []
+
   @@resolved_attributes = ['subjects', 'linked_agents', 'linked_records']
 
 
@@ -174,6 +176,7 @@ class CommonIndexer
     }
 
 
+    record_has_children('collection_management')
     add_extra_documents_hook {|record|
       docs = []
 
@@ -208,6 +211,11 @@ class CommonIndexer
 
   def add_document_prepare_hook(&block)
     @document_prepare_hooks << block
+  end
+
+
+  def record_has_children(record_type)
+    @@records_with_children << record_type.to_s
   end
 
 
@@ -355,12 +363,19 @@ class CommonIndexer
     end
 
     if !batch.empty?
-      # For any record we're updating, delete any child records first
-      req = Net::HTTP::Post.new("/update")
-      req['Content-Type'] = 'application/json'
-      req.body = {:delete => {'query' => "parent_id:(" + batch.map {|e| "\"#{e['id']}\""}.join(" OR ") + ")"}}.to_json
+      # For any record we're updating, delete any child records first (where applicable)
+      records_with_children = batch.map {|e|
+        if @@records_with_children.include?(e['primary_type'].to_s)
+          "\"#{e['id']}\""
+        end
+      }.compact
 
-      response = do_http_request(solr_url, req)
+      if !records_with_children.empty?
+        req = Net::HTTP::Post.new("/update")
+        req['Content-Type'] = 'application/json'
+        req.body = {:delete => {'query' => "parent_id:(" + record_wit_children.join(" OR ") + ")"}}.to_json
+        response = do_http_request(solr_url, req)
+      end
 
       # Now apply the updates
       req = Net::HTTP::Post.new("/update")
