@@ -281,7 +281,25 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
       $driver.find_element(:link, "Manage User Access").click
 
-      $driver.find_element_with_text('//tr', /#{@user}/).find_element(:link, "Edit Groups").click
+      while true
+        # Wait for the table to load
+        $driver.find_element(:link, "Edit Groups")
+
+        user_row = $driver.find_element_with_text('//tr', /#{@user}/, true, true)
+
+        if user_row
+          user_row.find_element(:link, "Edit Groups").click
+          break
+        end
+
+        # Try the next page of users
+        nextpage = $driver.find_elements(:xpath, '//a[@title="Next"]')
+        if nextpage[0]
+          nextpage[0].click
+        else
+          break
+        end
+      end
 
       # Wait for the form to load
       $driver.find_element(:id, "create_account")
