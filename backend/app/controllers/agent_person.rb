@@ -13,11 +13,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/agents/people')
     .description("List all person agents")
-    .params(*Endpoint.pagination)
+    .params()
+    .paginated(true)
     .nopermissionsyet
     .returns([200, "[(:agent_person)]"]) \
   do
-    handle_listing(AgentPerson, params[:page], params[:page_size], params[:modified_since])
+    handle_listing(AgentPerson, params)
   end
 
 
