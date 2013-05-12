@@ -22,6 +22,9 @@
         <pre><%= @import_results %></pre>
         <h3><%= I18n.t("import.import_another") %></h3>
       <% end %>
+      
+
+      
 
       <fieldset>
         <div class="control-group ">
@@ -42,6 +45,7 @@
         </button>
         <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
       </div>
+      <div id="import-results"></div>
     </div>
   </div>
 <% end %>
