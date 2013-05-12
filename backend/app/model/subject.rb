@@ -48,12 +48,7 @@ class Subject < Sequel::Model(:subject)
 
   def self.create_from_json(json, opts = {})
     set_vocabulary(json, opts)
-    obj = super
-
-    obj.terms_sha1 = generate_terms_sha1(json) # add a terms sha1 hash to allow for uniqueness test
-
-    obj.save
-    obj
+    super(json, opts.merge(:terms_sha1 => generate_terms_sha1(json)))
   end
 
 
