@@ -40,18 +40,13 @@ class SearchController < ApplicationController
   private
 
   def set_search_criteria
-    @criteria = params.select{|k,v| ["page", "q", "type", "filter", "sort", "filter_term"].include?(k) and not v.blank?}
+    @criteria = params.select{|k,v| ["page", "q", "type", "sort", "filter_term"].include?(k) and not v.blank?}
 
     @criteria["page"] ||= 1
 
     if @criteria["type"]
       @criteria["type[]"] = Array(@criteria["type"]).reject{|v| v.blank?}
       @criteria.delete("type")
-    end
-
-    if @criteria["filter"]
-      @criteria["filter[]"] = Array(@criteria["filter"]).reject{|v| v.blank?}
-      @criteria.delete("filter")
     end
 
     if @criteria["filter_term"]

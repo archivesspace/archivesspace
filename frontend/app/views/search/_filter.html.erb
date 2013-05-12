@@ -1,8 +1,8 @@
-<% if @search_data.filtered? or @search_data.filtered_terms? or @search_data.query? %>
+<% if @search_data.filtered_terms? or @search_data.query? %>
   <div class="well">
     <h5>
       <%= I18n.t "search_results.filtered_by" %>
-      <%= link_to I18n.t("search_results.clear_all"), params_for_search({"q" => "", "filter" => []}), :class => "btn btn-mini pull-right" %>
+      <%= link_to I18n.t("search_results.clear_all"), params_for_search({"q" => "", "filter_term" => []}), :class => "btn btn-mini pull-right" %>
     </h5>
     <ul>
       <% if @search_data.query? %>

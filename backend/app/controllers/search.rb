@@ -19,10 +19,6 @@ class ArchivesSpaceService < Sinatra::Base
              [String],
              "The list of the fields to produce facets for",
              :optional => true],
-            ["filter",
-             [String],
-             "The list of the facets to filter on",
-             :optional => true],
             ["filter_term", [String], "A json string containing the term/value pairs to be applied to the filter",
              :optional => true],
             ["exclude",
@@ -44,7 +40,6 @@ class ArchivesSpaceService < Sinatra::Base
                               params[:type], show_suppressed, show_published_only, params[:exclude], params[:filter_term],
                               {
                                 "facet.field" => Array(params[:facet]),
-                                "fq" => Array(params[:filter]),
                                 "sort" => params[:sort]
                               }))
   end
@@ -66,10 +61,6 @@ class ArchivesSpaceService < Sinatra::Base
           ["facet",
            [String],
            "The list of the fields to produce facets for",
-           :optional => true],
-          ["filter",
-           [String],
-           "The list of the facets to filter on",
            :optional => true],
           ["filter_term", [String], "A json string containing the term/value pairs to be applied to the filter",
            :optional => true],
@@ -93,7 +84,6 @@ class ArchivesSpaceService < Sinatra::Base
                               params[:type], show_suppressed, show_published_only, params[:exclude], params[:filter_term],
                               {
                                 "facet.field" => Array(params[:facet]),
-                                "fq" => Array(params[:filter]),
                                 "sort" => params[:sort]
                               }))
   end

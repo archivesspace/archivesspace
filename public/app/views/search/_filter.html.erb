@@ -1,4 +1,4 @@
-<% if @search_data.filtered? or @search_data.filtered_terms? or @search_data.query? %>
+<% if @search_data.filtered_terms? or @search_data.query? %>
   <div class="well">
     <h5>
       <%= I18n.t "search_results.filtered_by" %>
