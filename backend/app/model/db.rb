@@ -110,28 +110,34 @@ class DB
   end
 
 
+  def self.needs_savepoint?
+    # Postgres needs a savepoint for any statement that might fail
+    # (otherwise the whole transaction becomes invalid).  Use a savepoint to
+    # run the happy case, since we're half expecting it to fail.
+    [:postgres].include?(@pool.database_type)
+  end
+
+
   class DBAttempt
 
     def initialize(happy_path)
       @happy_path = happy_path
     end
 
+
     def and_if_constraint_fails(&failed_path)
       begin
-        # Postgres needs a savepoint for any statement that might fail
-        # (otherwise the whole transaction becomes invalid).  Use a savepoint to
-        # run the happy case, since we're half expecting it to fail.
-        DB.transaction(:savepoint => true) do
+        DB.transaction(:savepoint => DB.needs_savepoint?) do
           @happy_path.call
         end
       rescue Sequel::DatabaseError => ex
         if DB.is_integrity_violation(ex)
-          failed_path.call
+          failed_path.call(ex)
         else
           raise ex
         end
       rescue Sequel::ValidationFailed => ex
-        failed_path.call
+        failed_path.call(ex)
       end
     end
 
@@ -151,7 +157,8 @@ class DB
 
   def self.is_retriable_exception(exception)
     # Transaction was rolled back, but we can retry
-    (exception.wrapped_exception.cause or exception.wrapped_exception).getSQLState() =~ /^(40|41)/
+    (exception.instance_of?(RetryTransaction) ||
+     (exception.wrapped_exception.cause or exception.wrapped_exception).getSQLState() =~ /^(40|41)/)
   end
 
 
