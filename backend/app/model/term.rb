@@ -20,10 +20,10 @@ class Term < Sequel::Model(:term)
 
   def self.create_from_json(json, opts = {})
     set_vocabulary(json, opts)
+    obj = super
 
     broadcast_changes
-
-    super
+    obj
   end
 
   def self.sequel_to_jsonmodel(obj, opts = {})
