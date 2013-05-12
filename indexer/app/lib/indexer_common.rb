@@ -17,8 +17,7 @@ class CommonIndexer
                     :digital_object, :digital_object_component,
                     :subject, :location,
                     :event,
-                    :agent_person, :agent_software, :agent_family, :agent_corporate_entity,
-                    :repository]
+                    :agent_person, :agent_software, :agent_family, :agent_corporate_entity]
 
   @@records_with_children = []
 
@@ -335,7 +334,7 @@ class CommonIndexer
       reference = JSONModel.parse_reference(uri)
       record_type = reference && reference[:type]
 
-      if !record_type || !@@record_types.include?(record_type.intern)
+      if !record_type || (record_type != 'repository' && !@@record_types.include?(record_type.intern))
         next
       end
 
