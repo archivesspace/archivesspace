@@ -12,8 +12,55 @@ class ImportController < ApplicationController
 
   end
    
-    
+   
+  def upload_xhr
+    # ASpaceImport::Importer.destroy_importers
+    # load '../migrations/lib/importer.rb'
+    # ASpaceImport::init
+    # Rails.logger.debug(params.inspect)
+    if params[:upload].blank?
+      self.response_body = Enumerator.new do |y|
+        y << {'errors' => ["No file uploaded"]}
+      end
+    else
+      
+      source_file = ImportFile.new(params[:upload])
+      importer = get_importer(source_file, params[:importer])
+      self.response_body = Enumerator.new do |y|
+        
+        finished = false
+        while !finished
+          begin
+            importer.run_safe do |message|
+
+              message.each do |k,v|
+
+                if k == 'finished'
+                  v.each do |k,j|
+                    cdata = j.is_a?(Array) ? j.join("<br />") : v
+                    y << "<div class='import-#{k}'>#{cdata}</div>\n"
+                  end
+                  v = "Finished"
+                end
+
+                cdata = v.is_a?(Array) ? v.join("<br />") : v
+                y << "<div data class='import-#{k}'>#{cdata}</div>\n"
+                finished = true if k =~ /finished/
+              end
+            end
+          ensure
+            finished = true
+          end
+        end
+      end
+      
+      headers['Last-Modified'] = Time.now.to_s
+    end
+
+  end 
   
+
+  # TODO -fix this up for non XHR2 browsers
   def upload
 
     if params[:upload].blank?
@@ -21,13 +68,18 @@ class ImportController < ApplicationController
     else
       source_file = ImportFile.new(params[:upload])
 
-      # invoke a new importer and pass the file to it
-      # return the results of the import to the screen
-      # delete the uploaded file
-
       begin
 
-        results = run_import(source_file, params[:importer])
+        i = get_importer(source_file, params[:importer])
+        
+        i.run_safe do |status|
+          # send status to the browser
+          
+          
+        end
+
+        # [i.report_summary, i.report]    
+        
 
         source_file.delete
 
@@ -58,7 +110,7 @@ class ImportController < ApplicationController
   
   protected
   
-  def run_import(source_file, importer_key)
+  def get_importer(source_file, importer_key)
     
     flags = []
     
@@ -79,19 +131,16 @@ class ImportController < ApplicationController
     end
 
         
-    options = {:dry => false, 
+    options = {
                :repo_id => session[:repo_id], 
                :vocab_id => '1',
                :importer => importer,
                :importer_flags => flags,
                :quiet => true,
-               :input_file => source_file.path}
+               :input_file => source_file.path
+               }
+    ASpaceImport::Importer.create_importer(options)    
 
-      i = ASpaceImport::Importer.create_importer(options)    
-      i.run_safe
-      
-      [i.report_summary, i.report]    
-  
   end
 end
 

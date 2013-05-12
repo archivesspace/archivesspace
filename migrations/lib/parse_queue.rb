@@ -6,11 +6,11 @@ module ASpaceImport
   # Manages the JSON object batch set
   
   class Batch < Array
-    attr_accessor :links
+    attr_accessor :repo_id
 
-    def initialize(opts)
+    def initialize(opts = {})
       @opts = opts
-      @dupes = {}
+      @repo_id = Thread.current[:selected_repo_id]
 
       @must_be_unique = ['subject']
 
@@ -20,6 +20,9 @@ module ASpaceImport
       @backing_file = Tempfile.new("import_batch")
     end
      
+    def <<(obj)
+      push(obj)
+    end 
 
     def push(obj)
       hash = obj.to_hash(:raw)
@@ -40,60 +43,60 @@ module ASpaceImport
       @backing_file.write("\n")
     end
 
-    
-    def save
+    def close
+
       @backing_file.close
 
-      repo_id = Thread.current[:selected_repo_id]
-      batch = Tempfile.new("import_batch")
-      
-      batch.write("[")
+      @batch_file = Tempfile.new("import_batch")
+
+      @batch_file.write("[")
 
       uris = []
       File.open(@backing_file.path).each_with_index do |line, i|
-        batch.write(",") unless i == 0
+        @batch_file.write(",") unless i == 0
 
         rec = ASUtils.json_parse(line)
         rec = ASpaceImport::Utils.update_record_references(rec, @uri_remapping)
 
         uris << rec['uri']
 
-        batch.write(ASUtils.to_json(rec))
+        @batch_file.write(ASUtils.to_json(rec))
       end
 
       @backing_file.unlink
 
-      batch.write("]")
-      batch.close
+      @batch_file.write("]")
+      @batch_file.close
+    end
 
-      uri = "/repositories/#{repo_id}/batch_imports"
-      url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
+    
+    def save(&response_handler)
+
+      self.close
       
-      if @opts[:dry]        
-        batch.unlink
-
+      if @opts[:dry]
+        
+        batch = ASUtils.json_parse(File.open(@batch_file).read)
+        @batch_file.unlink
+                
+        mapping = {:saved => Hash[batch.map {|rec| [rec['uri'], [rec['uri'], JSONModel.parse_reference(rec['uri'])[:id]]] }] }
+            
         response = mock('Net::HTTPResponse')
         
-        res_body = "{\"saved\":{"
-        uris.each_with_index do |uri, i|
-          res_body << "," unless i == 0
-          res_body << "\"#{uri}\":\"#{uri}\""
-        end
-        res_body << "}}"
-        
-        res_body
-        
-        response.stubs(:code => 200, :body => res_body)
+        response.stubs(:code => 200, :body => ASUtils.to_json(mapping))
         
         response
         
       else
         begin
+          uri = "/repositories/#{@repo_id}/batch_imports"
+          url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
+          
           JSONModel::HTTP.with_request_priority(:low) do
-            JSONModel::HTTP.post_json_file(url, batch.path)
+            JSONModel::HTTP.post_json_file(url, @batch_file.path, &response_handler)
           end
         ensure
-          batch.unlink
+          @batch_file.unlink
         end
       end
     end
@@ -105,7 +108,6 @@ module ASpaceImport
 
     def initialize(opts)
       @batch = Batch.new(opts) 
-      @dupes = {}
       @opts = opts
     end
     
@@ -131,12 +133,12 @@ module ASpaceImport
     end
 
 
-    def save
+    def save(&block)
       while self.length > 0
-        @opts[:log].warn("Pushing a queued object to the batch before saving")
+        @opts[:log].warn("Saving a queued object that was not explicitly batched")
         self.pop
       end
-      @batch.save
+      @batch.save(&block)
     end
 
     

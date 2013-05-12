@@ -39,7 +39,7 @@ module ASpaceImport
       end
 
 
-      def run
+      def run        
         @reader = Nokogiri::XML::Reader(IO.read(@input_file))
         node_queue = node_queue_for(@reader)
         @context = []
