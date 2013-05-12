@@ -34,6 +34,8 @@ class ArchivesSpaceService < Sinatra::Base
       rescue ImportException => e
         Log.error(e)
         response_hash = {:saved => [], :errors => [e.to_s]}
+      rescue Sequel::ValidationFailed => e
+        response_hash = {:saved => [], :errors => [e.to_s]}
       ensure
         response_hash = {:saved => [], :errors => ["Server error"]} unless response_hash
         progress_ticker.finished(response_hash)
