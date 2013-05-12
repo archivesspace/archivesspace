@@ -53,15 +53,15 @@ class Subject < Sequel::Model(:subject)
 
 
   def self.ensure_exists(json, referrer)
-    begin
+    DB.attempt {
       self.create_from_json(json)
-    rescue Sequel::ValidationFailed
+    }.and_if_constraint_fails {
       source_id = BackendEnumSource.id_for_value("subject_source", json.source)
 
       Subject.find(:vocab_id => JSONModel(:vocabulary).id_for(json.vocabulary),
                    :terms_sha1 => generate_terms_sha1(json),
                    :source_id => source_id)
-    end
+    }
   end
 
 

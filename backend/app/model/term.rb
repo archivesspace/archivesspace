@@ -35,15 +35,15 @@ class Term < Sequel::Model(:term)
 
 
   def self.ensure_exists(json, referrer)
-    begin
+    DB.attempt {
       self.create_from_json(json)
-    rescue Sequel::ValidationFailed
+    }.and_if_constraint_fails {
       term_type_id = BackendEnumSource.id_for_value("subject_term_type", json.term_type)
 
       Term.find(:vocab_id => JSONModel(:vocabulary).id_for(json.vocabulary),
                 :term => json.term,
                 :term_type_id => term_type_id)
-    end
+    }
   end
 
   def self.broadcast_changes
