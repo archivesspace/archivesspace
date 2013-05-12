@@ -44,19 +44,8 @@ class StreamingImport
 
   include JSONModel
 
-  def initialize(stream)
-
-    @tempfile = Tempfile.new('import_stream')
-
-    begin
-      while !(buf = stream.read(4096)).nil?
-        @tempfile.write(buf)
-      end
-    ensure
-      @tempfile.close
-    end
-
-    @json = StreamingJsonReader.new(@tempfile.path)
+  def initialize(file)
+    @json = StreamingJsonReader.new(file.path)
 
     @logical_urls = load_logical_urls
     @dependencies = load_dependencies
@@ -101,8 +90,6 @@ class StreamingImport
     reattach_severed_limbs
 
     touch_toplevel_records
-
-    cleanup
 
     Log.debug("Finished in #{round} rounds")
 
@@ -279,13 +266,6 @@ class StreamingImport
       model.update_mtime_for_ids(ids)
     end
 
-  end
-
-
-  def cleanup
-    if @tempfile
-      @tempfile.unlink
-    end
   end
 
 end
