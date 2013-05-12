@@ -30,7 +30,7 @@ class StreamingJsonReader
           # Skip over the pesky commas
         end
       end
-    rescue
+    rescue org.codehaus.jackson.JsonParseException
       raise JSON::ParserError.new($!)
     ensure
       stream.close
