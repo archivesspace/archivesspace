@@ -84,6 +84,14 @@ module CrudHelpers
       paginated = dataset.paginate(pagination_data[:page], pagination_data[:page_size])
 
       _listing_response(paginated, model)
+
+    elsif pagination_data[:all_ids]
+      # Return a JSON array containing all IDs for the matching records
+      json_response(dataset.select(:id).map {|rec| rec[:id]})
+
+    elsif pagination_data[:id_set]
+      # Return the requested set of IDs
+      _listing_response(pagination_data[:id_set].map {|id| dataset.filter(:id => id).first}.compact, model)
     end
   end
 

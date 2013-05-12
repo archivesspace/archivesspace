@@ -281,6 +281,21 @@ module RESTHelpers
   end
 
 
+  class IdSet
+    def self.value(val)
+      vals = val.is_a?(Array) ? val : val.split(/,/)
+
+      result = vals.map {|elt| Integer(elt)}.uniq
+
+      if result.length > AppConfig[:max_page_size].to_i
+        raise ArgumentError.new("ID set cannot contain more than #{AppConfig[:max_page_size]}n IDs")
+      end
+
+      result
+    end
+  end
+
+
   class BooleanParam
     def self.value(s)
       if s.nil?
@@ -340,19 +355,21 @@ module RESTHelpers
       def process_pagination_params(params, known_params, errors)
         known_params['resolve'] = known_params['modified_since'] = true
 
-        params[:modified_since] = coerce_type((params[:modified_since] || '0'),
+        params['modified_since'] = coerce_type((params[:modified_since] || '0'),
                                               NonNegativeInteger)
 
         if params[:page]
           known_params['page_size'] = known_params['page'] = true
+          params['page_size'] = coerce_type((params[:page_size] || '10'), PageSize)
+          params['page'] = coerce_type(params[:page], NonNegativeInteger)
 
-          params[:page_size] = coerce_type((params[:page_size] || '10'), PageSize)
-          params[:page] = coerce_type(params[:page], NonNegativeInteger)
         elsif params[:id_set]
           known_params['id_set'] = true
-          params[:id_set] = coerce_type(params[:id_set], [Integer])
+          params['id_set'] = coerce_type(params[:id_set], IdSet)
+
         elsif params[:all_ids]
-          params[:all_ids] = known_params['all_ids'] = true
+          params['all_ids'] = known_params['all_ids'] = true
+
         else
           # Must provide either page, id_set or all_ids
           ['page', 'id_set', 'all_ids'].each do |name|
