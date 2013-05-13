@@ -53,8 +53,8 @@
           <% if digital_objects.length > 0 %>
             <li><a href="#digital_objects"><%= I18n.t("digital_object._plural") %> <span class="badge badge-info"><%= digital_objects.length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
-          <% if @children.length > 0 %>
-            <li><a href="#components"><%= I18n.t("archival_object._public.section.components") %> <span class="badge badge-info"><%= @children.length %></span><span class="icon-chevron-right"></span></a></li>
+          <% if children? %>
+            <li><a href="#components"><%= I18n.t("resource._public.section.components") %> <span class="badge badge-info"><%= children.length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
         </ul>
       </div>

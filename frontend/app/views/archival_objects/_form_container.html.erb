@@ -9,7 +9,6 @@
 
   <%= form.hidden_input "parent" %>
   <%= form.hidden_input "resource" %>
-  <%= form.hidden_input "position" %>
   <%= hidden_field_tag "id", @archival_object.id %>
 
   <% define_template("archival_object", jsonmodel_definition(:archival_object)) do |form| %>

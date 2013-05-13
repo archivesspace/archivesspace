@@ -20,4 +20,11 @@ class Search
     SearchResultData.new(search_data, repositories)
   end
 
+
+  def self.tree_view(record_uri)
+    response = JSONModel::HTTP::get_json("/search/tree_view", :node_uri => record_uri)
+
+    ASUtils.json_parse(response["tree_json"])
+  end
+
 end

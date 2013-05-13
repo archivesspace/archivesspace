@@ -1,9 +1,9 @@
-<% if not @children.empty? %>
+<% if children? %>
   <section id="components">
     <h3><%= I18n.t("#{record_type}._public.section.components") %></h3>
 
     <ul class="results-list">
-      <% @children.each do |child| %>
+      <% children.each do |child| %>
         <li class="result">
           <h4>
             <%= icon_for child["node_type"] %>

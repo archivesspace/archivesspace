@@ -88,6 +88,37 @@ class ArchivesSpaceService < Sinatra::Base
                               }))
   end
 
+
+  Endpoint.get('/search/tree_view')
+  .description("Find the tree view for a particular archival record")
+  .params(["node_uri", String, "The URI of the archival record to find the tree view for"])
+  .nopermissionsyet
+  .returns([200, "OK"],
+           [404, '{"error":"Tree for node_uri not found"}']) \
+  do
+
+    show_suppressed = !RequestContext.get(:enforce_suppression)
+    show_published_only = current_user.username === User.PUBLIC_USERNAME
+
+    node_info = JSONModel.parse_reference(params[:node_uri])
+
+    raise RecordNotFound.new if node_info.nil?
+
+    search_data = Solr.search("*:*", 1, 1,
+                              JSONModel(:repository).id_for(node_info[:repository]),
+                              nil, show_suppressed, show_published_only, [],
+                              [{
+                                 :exclude_by_default => true,
+                                 :node_uri => params[:node_uri]
+                               }.to_json])
+
+    raise RecordNotFound.new if search_data["total_hits"] === 0
+
+    json_response(search_data["results"][0])
+
+  end
+
+
   def advanced_query_string(advanced_query)
     if advanced_query.has_key?('subqueries')
       "(#{advanced_query['subqueries'].map{|subq| advanced_query_string(subq)}.join(" #{advanced_query['op']} ")})"

@@ -59,7 +59,9 @@ class PeriodicIndexer < CommonIndexer
       'primary_type' => 'tree_view',
       'exclude_by_default' => 'true',
       'node_uri' => tree['record_uri'],
+      'repository' => JSONModel.repository_for(tree['record_uri']),
       'root_uri' => root_uri,
+      'publish' => true,
       'tree_json' => ASUtils.to_json(:self => this_node,
                                      :path_to_root => path_to_root,
                                      :direct_children => tree['children'].map {|child|
@@ -119,6 +121,8 @@ class PeriodicIndexer < CommonIndexer
         load_tree_docs(tree.to_hash(:trusted), tree_docs, resource_uri)
         @processed_trees << resource_uri
       end
+
+      #TODO digital objects and components too
 
       batch.concat(tree_docs)
     }

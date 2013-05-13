@@ -1,9 +1,15 @@
 en:
   brand:
     title: Archives Space Public
+    home: Home
+    welcome_message: Welcome to ArchivesSpace.
+    welcome_search_label: "Find what you're looking for:"
 
   actions:
     browse: Browse
+    show_advanced_search: Show Advanced Search
+    hide_advanced_search: Hide Advanced Search
+
 
   pagination:
     first: First
