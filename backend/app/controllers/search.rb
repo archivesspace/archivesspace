@@ -26,8 +26,8 @@ class ArchivesSpaceService < Sinatra::Base
             ["exclude",
              [String],
              "A list of document IDs that should be excluded from results",
-             :optional => true],
-            *Endpoint.pagination)
+             :optional => true])
+    .paginated(true)
     .permissions([:view_repository])
     .returns([200, "[(:location)]"]) \
   do
@@ -35,7 +35,6 @@ class ArchivesSpaceService < Sinatra::Base
     show_published_only = current_user.username === User.PUBLIC_USERNAME
 
     query = params[:q] || "*:*"
-
     query = advanced_query_string(params["aq"].query) if params["aq"]
 
     json_response(Solr.search(query, params[:page], params[:page_size],
@@ -73,10 +72,10 @@ class ArchivesSpaceService < Sinatra::Base
           ["exclude",
            [String],
            "A list of document IDs that should be excluded from results",
-           :optional => true],
-          *Endpoint.pagination)
-  .nopermissionsyet
-  .returns([200, "[(:location)]"]) \
+           :optional => true])
+    .nopermissionsyet
+    .paginated(true)
+    .returns([200, "[(:location)]"]) \
   do
     show_suppressed = !RequestContext.get(:enforce_suppression)
     show_published_only = current_user.username === User.PUBLIC_USERNAME

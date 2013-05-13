@@ -24,11 +24,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/subjects')
     .description("Get a list of Subjects")
-    .params(*Endpoint.pagination)
+    .params()
+    .paginated(true)
     .nopermissionsyet
     .returns([200, "[(:subject)]"]) \
   do
-    handle_listing(Subject, params[:page], params[:page_size], params[:modified_since])
+    handle_listing(Subject, params)
   end
 
 

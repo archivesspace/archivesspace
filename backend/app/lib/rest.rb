@@ -68,6 +68,7 @@ module RESTHelpers
       @permissions = []
       @preconditions = []
       @required_params = []
+      @paginated = false
       @returns = []
       @request_context_keyvals = {}
     end
@@ -78,19 +79,6 @@ module RESTHelpers
       end
     end
 
-    def self.pagination
-      [["page_size",
-        PageSize,
-        "The number of results to show per page",
-        :default => 10],
-       ["page", NonNegativeInteger, "The page number to show"],
-       ["modified_since",
-        NonNegativeInteger,
-        "Only include results with a modified date after this timestamp",
-        :default => 0],
-       ["resolve", [String], "A list of references to resolve and embed in the response",
-        :optional => true]]
-    end
 
     ALLOWED_REPORT_FORMATS = ["json", "csv", "xlsx", "html", "pdf"]
 
@@ -174,10 +162,21 @@ module RESTHelpers
     end
 
 
-    def params(*params)
-      @required_params = params.map do |p|
+    def _process_params(params)
+      params.map do |p|
         @@param_types[p[1]] ? [p[0], @@param_types[p[1]]].flatten : p
       end
+    end
+
+    def params(*params)
+      @required_params = _process_params(params)
+
+      self
+    end
+
+
+    def paginated(val)
+      @paginated = val
 
       self
     end
@@ -192,6 +191,7 @@ module RESTHelpers
 
       preconditions = @preconditions
       rp = @required_params
+      paginated = @paginated
       uri = @uri
       method = @method
       request_context = @request_context_keyvals
@@ -213,7 +213,7 @@ module RESTHelpers
       ArchivesSpaceService.send(@method, @uri, {}) do
         RequestContext.open(request_context) do
           DB.open do |db|
-            ensure_params(rp)
+            ensure_params(rp, paginated)
           end
 
           Log.debug("Post-processed params: #{Log.filter_passwords(params).inspect}")
@@ -281,6 +281,21 @@ module RESTHelpers
   end
 
 
+  class IdSet
+    def self.value(val)
+      vals = val.is_a?(Array) ? val : val.split(/,/)
+
+      result = vals.map {|elt| Integer(elt)}.uniq
+
+      if result.length > AppConfig[:max_page_size].to_i
+        raise ArgumentError.new("ID set cannot contain more than #{AppConfig[:max_page_size]}n IDs")
+      end
+
+      result
+    end
+  end
+
+
   class BooleanParam
     def self.value(s)
       if s.nil?
@@ -337,16 +352,37 @@ module RESTHelpers
       end
 
 
-      def ensure_params(declared_params)
+      def process_pagination_params(params, known_params, errors)
+        known_params['resolve'] = known_params['modified_since'] = true
 
-        errors = {
-          :missing => [],
-          :bad_type => [],
-          :failed_validation => []
-        }
+        params['modified_since'] = coerce_type((params[:modified_since] || '0'),
+                                              NonNegativeInteger)
 
-        known_params = {}
+        if params[:page]
+          known_params['page_size'] = known_params['page'] = true
+          params['page_size'] = coerce_type((params[:page_size] || '10'), PageSize)
+          params['page'] = coerce_type(params[:page], NonNegativeInteger)
 
+        elsif params[:id_set]
+          known_params['id_set'] = true
+          params['id_set'] = coerce_type(params[:id_set], IdSet)
+
+        elsif params[:all_ids]
+          params['all_ids'] = known_params['all_ids'] = true
+
+        else
+          # Must provide either page, id_set or all_ids
+          ['page', 'id_set', 'all_ids'].each do |name|
+            errors[:missing] << {
+              :name => name,
+              :doc => "Must provide either 'page' (a number), 'id_set' (an array of record IDs), or 'all_ids' (a boolean)"
+            }
+          end
+        end
+      end
+
+
+      def process_declared_params(declared_params, params, known_params, errors)
         declared_params.each do |definition|
 
           (name, type, doc, opts) = definition
@@ -385,7 +421,21 @@ module RESTHelpers
 
           end
         end
+      end
 
+
+      def ensure_params(declared_params, paginated)
+
+        errors = {
+          :missing => [],
+          :bad_type => [],
+          :failed_validation => []
+        }
+
+        known_params = {}
+
+        process_declared_params(declared_params, params, known_params, errors)
+        process_pagination_params(params, known_params, errors) if paginated
 
         # Any params that were passed in that aren't declared by our endpoint get dropped here.
         unknown_params = params.keys.reject {|p| known_params[p.to_s] }

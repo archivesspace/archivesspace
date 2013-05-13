@@ -49,7 +49,7 @@ class PeriodicIndexer < CommonIndexer
   # prior to the check.
   WINDOW_SECONDS = 30
 
-  PAGE_SIZE = 50
+  PAGE_SIZE = 100
 
   def initialize(state = nil)
     super(AppConfig[:backend_url])
@@ -88,7 +88,28 @@ class PeriodicIndexer < CommonIndexer
 
     login
 
-    JSONModel(:repository).all.each do |repository|
+    # Index any repositories that were changed
+    start = Time.now
+    repositories = JSONModel(:repository).all
+
+    modified_since = [@state.get_last_mtime('repositories', 'repositories') - WINDOW_SECONDS, 0].max
+    updated_repositories = repositories.reject {|repository| Time.parse(repository['last_modified']).to_i < modified_since}.
+                                        map {|repository| {
+        'record' => repository.to_hash(:trusted),
+        'uri' => repository.uri
+      }
+    }
+
+    if !updated_repositories.empty?
+      index_records(updated_repositories)
+      send_commit
+    end
+
+    @state.set_last_mtime('repositories', 'repositories', start)
+
+
+    # And any records in any repositories
+    repositories.each do |repository|
       JSONModel.set_repository(repository.id)
 
       did_something = false
@@ -96,42 +117,24 @@ class PeriodicIndexer < CommonIndexer
 
       @@record_types.each do |type|
         start = Time.now
-        page = 1
-        while true
-          modified_since = [@state.get_last_mtime(repository.id, type) - WINDOW_SECONDS, 0].max
-          records = JSONModel(type).all(:page => page,
-                                        :page_size => PAGE_SIZE,
-                                        'resolve[]' => @@resolved_attributes,
-                                        :modified_since => modified_since)
 
-          # unlimited results return an array
-          if records.kind_of? Array
+        modified_since = [@state.get_last_mtime(repository.id, type) - WINDOW_SECONDS, 0].max
+        id_set = JSONModel::HTTP.get_json(JSONModel(type).uri_for, :all_ids => true, :modified_since => modified_since)
+
+        id_set.each_slice(PAGE_SIZE) do |id_subset|
+
+          records = JSONModel(type).all(:id_set => id_subset.join(","),
+                                        'resolve[]' => @@resolved_attributes)
+
+          if !records.empty?
+            did_something = true
             index_records(records.map {|record|
-                            if !record['last_modified'] ||
-                                (Time.parse(record['last_modified']).to_i >= modified_since)
-                              {
-                                'record' => record.to_hash(:trusted),
-                                'uri' => record.uri
-                              }
-                            end
-                          }.compact)
-            break
 
-          # paginated results return an object
-          else
-            if !records['results'].empty?
-              did_something = true
-            end
-  
-            index_records(records['results'].map {|record|
                             {
                               'record' => record.to_hash(:trusted),
                               'uri' => record.uri
                             }
                           })
-  
-            break if records['last_page'] <= page
-            page += 1
           end
         end
 
@@ -146,7 +149,6 @@ class PeriodicIndexer < CommonIndexer
     end
 
     handle_deletes
-
   end
 
 

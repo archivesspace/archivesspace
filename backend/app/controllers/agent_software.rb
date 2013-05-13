@@ -13,11 +13,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/agents/software')
     .description("List all software agents")
-    .params(*Endpoint.pagination)
+    .params()
+    .paginated(true)
     .nopermissionsyet
     .returns([200, "[(:agent_software)]"]) \
   do
-    handle_listing(AgentSoftware, params[:page], params[:page_size], params[:modified_since])
+    handle_listing(AgentSoftware, params)
   end
 
 

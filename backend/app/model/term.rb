@@ -20,10 +20,10 @@ class Term < Sequel::Model(:term)
 
   def self.create_from_json(json, opts = {})
     set_vocabulary(json, opts)
+    obj = super
 
     broadcast_changes
-
-    super
+    obj
   end
 
   def self.sequel_to_jsonmodel(obj, opts = {})
@@ -35,15 +35,26 @@ class Term < Sequel::Model(:term)
 
 
   def self.ensure_exists(json, referrer)
-    begin
+    DB.attempt {
       self.create_from_json(json)
-    rescue Sequel::ValidationFailed
+    }.and_if_constraint_fails {|exception|
       term_type_id = BackendEnumSource.id_for_value("subject_term_type", json.term_type)
 
-      Term.find(:vocab_id => JSONModel(:vocabulary).id_for(json.vocabulary),
-                :term => json.term,
-                :term_type_id => term_type_id)
-    end
+      term = Term.find(:vocab_id => JSONModel(:vocabulary).id_for(json.vocabulary),
+                       :term => json.term,
+                       :term_type_id => term_type_id)
+
+      if !term
+        # The term exists but we can't find it.  This could mean it was
+        # created in a currently running transaction.  Abort this one to trigger
+        # a retry.
+        Log.info("Term '#{json.term}' seems to have been created by a currently running transaction.  Restarting this one.")
+        sleep 5
+        raise RetryTransaction.new
+      end
+
+      term
+    }
   end
 
   def self.broadcast_changes

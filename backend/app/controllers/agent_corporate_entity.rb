@@ -13,11 +13,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/agents/corporate_entities')
     .description("List all corporate entity agents")
-    .params(*Endpoint.pagination)
+    .params()
+    .paginated(true)
     .nopermissionsyet
     .returns([200, "[(:agent_corporate_entity)]"]) \
   do
-    handle_listing(AgentCorporateEntity, params[:page], params[:page_size], params[:modified_since])
+    handle_listing(AgentCorporateEntity, params)
   end
 
 

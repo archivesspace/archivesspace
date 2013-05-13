@@ -48,25 +48,31 @@ class Subject < Sequel::Model(:subject)
 
   def self.create_from_json(json, opts = {})
     set_vocabulary(json, opts)
-    obj = super
-
-    obj.terms_sha1 = generate_terms_sha1(json) # add a terms sha1 hash to allow for uniqueness test
-
-    obj.save
-    obj
+    super(json, opts.merge(:terms_sha1 => generate_terms_sha1(json)))
   end
 
 
   def self.ensure_exists(json, referrer)
-    begin
+    DB.attempt {
       self.create_from_json(json)
-    rescue Sequel::ValidationFailed
+    }.and_if_constraint_fails {|exception|
       source_id = BackendEnumSource.id_for_value("subject_source", json.source)
 
-      Subject.find(:vocab_id => JSONModel(:vocabulary).id_for(json.vocabulary),
-                   :terms_sha1 => generate_terms_sha1(json),
-                   :source_id => source_id)
-    end
+      subject = Subject.find(:vocab_id => JSONModel(:vocabulary).id_for(json.vocabulary),
+                             :terms_sha1 => generate_terms_sha1(json),
+                             :source_id => source_id)
+
+      if !subject
+        # The subject exists but we can't find it.  This could mean it was
+        # created in a currently running transaction.  Abort this one to trigger
+        # a retry.
+        Log.info("Subject '#{json.terms}' seems to have been created by a currently running transaction.  Restarting this one.")
+        sleep 5
+        raise RetryTransaction.new
+      end
+
+      subject
+    }
   end
 
 
