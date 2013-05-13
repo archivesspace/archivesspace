@@ -27,7 +27,7 @@ class RecordsController < ApplicationController
     ]
 
     @tree_view["path_to_root"].each do |record|
-      raise RecordNotFound.new if not record["publish"] == false
+      raise RecordNotFound.new if not record["publish"] == true
 
       if record["node_type"] === "resource"
         @breadcrumbs.push([record["finding_aid_status"] === 'completed' ? record["finding_aid_title"] : record["title"], url_for(:controller => :records, :action => :resource, :id => record["id"], :repo_id => @repository.id), "resource"])
@@ -41,12 +41,11 @@ class RecordsController < ApplicationController
 
   def digital_object
     @digital_object = JSONModel(:digital_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_instances", "linked_agents"])
-
     raise RecordNotFound.new if not @digital_object.publish
 
     @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
-    tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => @digital_object.id, :repo_id => params[:repo_id])
-    @children = tree['children'].select{|doc| doc['publish']}
+
+    @tree_view = Search.tree_view(@digital_object.uri)
 
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"],
@@ -58,25 +57,23 @@ class RecordsController < ApplicationController
     @digital_object_component = JSONModel(:digital_object_component).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_agents"])
     raise RecordNotFound.new if not @digital_object_component.publish
 
-    @digital_object = JSONModel(:digital_object).find_by_uri(@digital_object_component['digital_object']['ref'], :repo_id => params[:repo_id])
-    raise RecordNotFound.new if not @digital_object.publish
-
     @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
-    @children = JSONModel::HTTP::get_json("/repositories/#{params[:repo_id]}/digital_object_components/#{@digital_object_component.id}/children").select{|doc| doc['publish']}
+
+    @tree_view = Search.tree_view(@digital_object_component.uri)
 
     @breadcrumbs = [
-      [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"],
-      [@digital_object.title, url_for(:controller => :records, :action => :digital_object, :id => @digital_object.id, :repo_id => @repository.id), "digital_object"],
+      [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"]
     ]
 
-    doc = @digital_object_component
-    while doc['parent'] do
-      doc = JSONModel(:digital_object_component).find(JSONModel(:digital_object_component).id_for(doc['parent']['ref']), :repo_id => @repository.id)
+    @tree_view["path_to_root"].each do |record|
+      raise RecordNotFound.new if not record["publish"] == true
 
-      raise RecordNotFound.new if not doc.publish
-
-      @breadcrumbs.push([doc.title, url_for(:controller => :records, :action => :digital_object_component, :id => doc.id, :repo_id => @repository.id), "digital_object_component"])
-    end
+      if record["node_type"] === "digital_object"
+        @breadcrumbs.push([record["title"], url_for(:controller => :records, :action => :digital_object, :id => record["id"], :repo_id => @repository.id), "digital_object"])
+      else
+        @breadcrumbs.push([record["title"], url_for(:controller => :records, :action => :digital_object_component, :id => record["id"], :repo_id => @repository.id), "digital_object_component"])
+      end
+    end    
 
     @breadcrumbs.push([@digital_object_component.title, "#", "digital_object_component"])
   end

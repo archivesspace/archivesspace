@@ -101,28 +101,35 @@ class PeriodicIndexer < CommonIndexer
     super
 
     add_batch_hook {|batch|
-      resources = batch.map {|rec| rec['primary_type'] == 'archival_object' ? rec['resource'] : nil}.compact.uniq
+      records = batch.map {|rec|
+        if rec['primary_type'] == 'archival_object'
+          rec['resource']
+        elsif rec['primary_type'] == 'digital_object_component'
+          rec['digital_object']
+        else
+          nil
+        end
+      }.compact.uniq
 
       # Don't reprocess trees we've already covered during previous batches
-      resources -= @processed_trees
+      records -= @processed_trees
 
-      ## Each resource needs its tree indexed
+      ## Each records needs its tree indexed
 
       # Delete any existing versions
-      delete_trees_for(resources)
+      delete_trees_for(records)
 
       # Add the updated versions
       tree_docs = []
 
-      resources.each do |resource_uri|
-        id = JSONModel(:resource).id_for(resource_uri)
-        tree = JSONModel(:resource_tree).find(nil, :resource_id => id)
+      records.each do |record_uri|
+        record_data = JSONModel.parse_reference(record_uri)
 
-        load_tree_docs(tree.to_hash(:trusted), tree_docs, resource_uri)
-        @processed_trees << resource_uri
+        tree = JSONModel("#{record_data[:type]}_tree".intern).find(nil, "#{record_data[:type]}_id".intern => record_data[:id])
+
+        load_tree_docs(tree.to_hash(:trusted), tree_docs, record_uri)
+        @processed_trees << record_uri
       end
-
-      #TODO digital objects and components too
 
       batch.concat(tree_docs)
     }
