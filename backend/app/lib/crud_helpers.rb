@@ -91,7 +91,7 @@ module CrudHelpers
 
     elsif pagination_data[:id_set]
       # Return the requested set of IDs
-      _listing_response(pagination_data[:id_set].map {|id| dataset.filter(:id => id).first}.compact, model)
+      _listing_response(dataset.filter(:id => pagination_data[:id_set]).all, model)
     end
   end
 
