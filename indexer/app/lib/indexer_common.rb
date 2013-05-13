@@ -20,8 +20,14 @@ class CommonIndexer
                     :agent_person, :agent_software, :agent_family, :agent_corporate_entity]
 
   @@records_with_children = []
+  @@init_hooks = []
 
   @@resolved_attributes = ['subjects', 'linked_agents', 'linked_records']
+
+
+  def self.add_indexer_initialize_hook(&block)
+    @@init_hooks << block
+  end
 
 
   def initialize(backend_url)
@@ -42,6 +48,10 @@ class CommonIndexer
     end
 
     configure_doc_rules
+
+    @@init_hooks.each do |hook|
+      hook.call(self)
+    end
   end
 
   def add_agents(doc, record)
@@ -411,3 +421,8 @@ class CommonIndexer
 end
 
 
+ASUtils.find_local_directories('indexer').each do |dir|
+  Dir.glob(File.join(dir, "*.rb")).sort.each do |file|
+    require file
+  end
+end

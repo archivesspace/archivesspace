@@ -102,16 +102,17 @@ module JSONModel
       raise "Invalid schema name: #{schema_name}"
     end
 
-    # Look on the filesystem first
-    schema = File.join(File.dirname(__FILE__),
-                       "schemas",
-                       "#{schema_name}.rb")
+    [*ASUtils.find_local_directories('schemas'),
+     File.join(File.dirname(__FILE__), "schemas")].each do |dir|
 
-    if File.exists?(schema)
-      return File.open(schema).read
-    else
-      nil
+      schema = File.join(dir, "#{schema_name}.rb")
+
+      if File.exists?(schema)
+        return File.open(schema).read
+      end
     end
+
+    nil
   end
 
 
