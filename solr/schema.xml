@@ -113,6 +113,16 @@
    <field name="create_time" type="date" indexed="true" stored="true" multiValued="false"/>
    <field name="last_modified" type="date" indexed="true" stored="true" multiValued="false"/>
 
+
+   <!-- Dynamic fields for site-specific use -->
+   <dynamicField name="*_u_ustr"  type="string"  indexed="true"  stored="false" multiValued="true"/>
+   <dynamicField name="*_u_uint"  type="int"  indexed="true"  stored="false" multiValued="true"/>
+   <dynamicField name="*_u_utext"  type="text_general"  indexed="true"  stored="false" multiValued="true"/>
+   <dynamicField name="*_u_sstr"  type="string"  indexed="true"  stored="true" multiValued="true"/>
+   <dynamicField name="*_u_sint"  type="int"  indexed="true"  stored="true" multiValued="true"/>
+   <dynamicField name="*_u_stext"  type="text_general"  indexed="true"  stored="true" multiValued="true"/>
+   <dynamicField name="*_u_sort"  type="string"  indexed="true"  stored="false" multiValued="false"/>
+
  </fields>
 
 
