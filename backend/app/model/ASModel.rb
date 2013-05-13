@@ -65,6 +65,8 @@ module ASModel
 
       self.update(self.class.prepare_for_db(json.class, updated))
 
+      self[:last_modified_by] = self.class.current_username
+
       obj = self.save
 
       if apply_linked_records
@@ -148,6 +150,8 @@ module ASModel
           values["repo_id"] = active_repository
         end
 
+        values['created_by'] = current_username
+
         obj = self.create(prepare_for_db(json.class,
                                          json.to_hash.merge(values)))
 
@@ -161,6 +165,11 @@ module ASModel
 
       def high_priority?
         RequestContext.get(:is_high_priority)
+      end
+
+
+      def current_username
+        RequestContext.get(:current_username)
       end
 
 

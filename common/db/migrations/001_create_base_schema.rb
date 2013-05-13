@@ -32,6 +32,8 @@ Sequel.migration do
 
       Integer :editable, :default => 1
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -78,6 +80,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -92,6 +96,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -106,6 +112,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -120,6 +128,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -147,6 +157,8 @@ Sequel.migration do
       String :department
       TextField :additional_contact
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -175,6 +187,8 @@ Sequel.migration do
 
       Integer :hidden, :default => 0
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -197,6 +211,8 @@ Sequel.migration do
       String :group_code_norm, :null => false
       TextField :description, :null => false
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -296,6 +312,8 @@ Sequel.migration do
       Integer :use_restrictions
       TextField :use_restrictions_note
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -351,6 +369,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -392,6 +412,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -428,6 +450,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -460,6 +484,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -487,6 +513,8 @@ Sequel.migration do
 
       DynamicEnum :instance_type_id, :null => false
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -529,6 +557,8 @@ Sequel.migration do
       DynamicEnum :type_3_id
       String :indicator_3
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -546,6 +576,8 @@ Sequel.migration do
       String :name, :null => false, :unique => true
       String :ref_id, :null => false, :unique => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -569,6 +601,8 @@ Sequel.migration do
 
       DynamicEnum :source_id, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -591,6 +625,8 @@ Sequel.migration do
       String :term, :null => false
       DynamicEnum :term_type_id, :null => false
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -674,6 +710,8 @@ Sequel.migration do
 
       apply_name_columns
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -698,6 +736,8 @@ Sequel.migration do
 
       apply_name_columns
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -724,6 +764,8 @@ Sequel.migration do
 
       apply_name_columns
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -749,6 +791,8 @@ Sequel.migration do
 
       apply_name_columns
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -786,6 +830,8 @@ Sequel.migration do
       TextField :email_signature, :null => true
       TextField :note, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -817,6 +863,8 @@ Sequel.migration do
 
       Integer :notification
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -850,6 +898,8 @@ Sequel.migration do
       TextField :physical_details, :null => true
       String :dimensions, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -922,6 +972,8 @@ Sequel.migration do
       DynamicEnum :era_id, :null => true
       DynamicEnum :calendar_id, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -942,6 +994,8 @@ Sequel.migration do
 
       DateTime :timestamp, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -1002,6 +1056,8 @@ Sequel.migration do
 
       String :granted_note, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -1030,6 +1086,8 @@ Sequel.migration do
 
       Integer :publish
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -1086,6 +1144,8 @@ Sequel.migration do
       String :coordinate_3_indicator
       DynamicEnum :temporary_id
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -1119,6 +1179,8 @@ Sequel.migration do
       TextField :processors, :null => true
       Integer :rights_determined, :default => 0, :null => false
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -1162,6 +1224,8 @@ Sequel.migration do
       TextField :text_3, :null => true
       TextField :text_4, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
     end
@@ -1193,6 +1257,8 @@ Sequel.migration do
       String :checksum
       String :checksum_method
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
