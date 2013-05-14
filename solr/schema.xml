@@ -134,7 +134,7 @@
    <dynamicField name="*_u_sstr"  type="string"  indexed="true"  stored="true" multiValued="true"/>
    <dynamicField name="*_u_sint"  type="int"  indexed="true"  stored="true" multiValued="true"/>
    <dynamicField name="*_u_stext"  type="text_general"  indexed="true"  stored="true" multiValued="true"/>
-   <dynamicField name="*_u_sort"  type="string"  indexed="true"  stored="false" multiValued="false"/>
+   <dynamicField name="*_u_sort"  type="sort_string"  indexed="true"  stored="false" multiValued="false"/>
 
  </fields>
 
