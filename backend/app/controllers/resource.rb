@@ -73,17 +73,4 @@ class ArchivesSpaceService < Sinatra::Base
   do
     handle_delete(Resource, params[:resource_id])
   end
-
-
-  Endpoint.get('/repositories/:repo_id/resources/:resource_id/tree_view')
-  .description("Get a the  tree")
-  .params(["resource_id", Integer, "The ID of the resource to retrieve"],
-          ["repo_id", :repo_id])
-  .permissions([:view_repository])
-  .returns([200, "OK"]) \
-  do
-    resource = Resource.get_or_die(params[:resource_id])
-
-    json_response(resource.tree)
-  end
 end
