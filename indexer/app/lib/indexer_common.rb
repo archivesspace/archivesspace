@@ -97,7 +97,7 @@ class CommonIndexer
   def configure_doc_rules
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'archival_object'
-        doc['resource'] = record['record']['resource']['ref']
+        doc['resource'] = record['record']['resource']['ref'] if record['record']['resource']
         doc['title'] = record['record']['label']
       end
     }

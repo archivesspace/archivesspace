@@ -95,10 +95,10 @@ class PeriodicIndexer < CommonIndexer
   end
 
 
-  @processed_trees = []
-
   def configure_doc_rules
     super
+
+    @processed_trees = []
 
     add_batch_hook {|batch|
       records = batch.map {|rec|
@@ -216,27 +216,12 @@ class PeriodicIndexer < CommonIndexer
           if !records.empty?
             did_something = true
             index_records(records.map {|record|
-
                             {
                               'record' => record.to_hash(:trusted),
                               'uri' => record.uri
                             }
                           })
           end
-
-          if !records['results'].empty?
-            did_something = true
-          end
-
-          index_records(records['results'].map {|record|
-                          {
-                            'record' => record.to_hash(:trusted),
-                            'uri' => record.uri
-                          }
-                        })
-
-          break if records['last_page'] <= page
-          page += 1
         end
 
         checkpoints << [repository, type, start]
