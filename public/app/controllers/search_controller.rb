@@ -22,7 +22,7 @@ class SearchController < ApplicationController
     if params[:repo_id].blank?
       @search_data = Search.all(@criteria.merge({"facet[]" => [], "type[]" => ["repository"]}), {})
 
-      return render "search/repositories"
+      return render "search/results"
     end
 
     @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
@@ -40,7 +40,7 @@ class SearchController < ApplicationController
   private
 
   def set_search_criteria
-    @criteria = params.select{|k,v| ["page", "q", "type", "filter", "sort"].include?(k) and not v.blank?}
+    @criteria = params.select{|k,v| ["page", "q", "type", "sort", "filter_term"].include?(k) and not v.blank?}
 
     @criteria["page"] ||= 1
 
@@ -49,22 +49,22 @@ class SearchController < ApplicationController
       @criteria.delete("type")
     end
 
-    if @criteria["filter"]
-      @criteria["filter[]"] = Array(@criteria["filter"]).reject{|v| v.blank?}
-      @criteria.delete("filter")
+    if @criteria["filter_term"]
+      @criteria["filter_term[]"] = Array(@criteria["filter_term"]).reject{|v| v.blank?}
+      @criteria.delete("filter_term")
     end
-
 
     @criteria['type[]'] = Array(params[:type]) if not params[:type].blank?
     @criteria['exclude[]'] = params[:exclude] if not params[:exclude].blank?
-    @criteria['facet[]'] = ["repository", "primary_type", "creators", "subjects"]
+    @criteria['facet[]'] = ["repository", "primary_type", "subjects", "source"]
 
     # only allow locations, subjects, resources and archival objects in search results
-    if params[:type].blank? or @criteria['type[]'].empty?
+    if params["type"].blank? or @criteria['type[]'].empty?
       @criteria['type[]'] = ['resource', 'archival_object', 'digital_object', 'digital_object_component']
     else
-      @criteria['type[]'].keep_if {|t| ['resource', 'archival_object', 'digital_object', 'digital_object_component' 'location', 'subject'].include?(t)}
+      @criteria['type[]'].keep_if {|t| ['agent', 'repository', 'resource', 'archival_object', 'digital_object', 'digital_object_component', 'subject'].include?(t)}
     end
+
   end
 
   def set_advanced_search_criteria

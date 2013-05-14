@@ -1,3 +1,5 @@
+<% set_title I18n.t("brand.home") %>
+
 <br/>
 
 <div class="well">
@@ -5,8 +7,8 @@
     
     <div class="span8">
       
-      <h3>Welcome to ArchivesSpace.</h3>
-      <p>Find what you're looking for:</p>
+      <h3><%= I18n.t("brand.welcome_message") %></h3>
+      <p><%= I18n.t("brand.welcome_search_label") %></p>
 
       <div class="tab-content">
         <div id="simpleSearch" class="tab-pane active">
@@ -19,28 +21,16 @@
 
       <ul class="search-switcher">
         <li class="active">
-          <a href="#simpleSearch" data-toggle="tab">Hide Advanced Search</a>
+          <a href="#simpleSearch" data-toggle="tab"><%= I18n.t("actions.hide_advanced_search") %></a>
         </li>
         <li>
-          <a href="#advancedSearch" data-toggle="tab">Show Advanced Search</a>
+          <a href="#advancedSearch" data-toggle="tab"><%= I18n.t("actions.show_advanced_search") %></a>
         </li>
       </ul>
 
     </div>
     <div class="span4">
-      <h4>Content Here</h4>
-      <p>Something here...</p>
-      <p>Something here...</p>
-      <p>Something here...</p>
-      <hr/>
-      <p>Something else...</p>
+
     </div>
   </div>
 </div>
-  <div class="row-fluid">
-    <div class="span12">
-      <div class="well">
-        Some other information goes here.
-      </div>
-    </div>
-  </div>

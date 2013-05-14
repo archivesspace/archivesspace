@@ -1,0 +1,19 @@
+<% if file_versions.length > 0 %>
+  <section id="file_versions">
+    <h3><%= I18n.t("file_version._plural") %></h3>
+    <ul class="results-list">
+      <% file_versions.each do |file| %>
+        <%
+           uri = URI(file['file_uri'])
+        %>
+        <li class="result">
+          <% if uri.scheme === "http" %>
+            <%= link_to file['file_uri'], file['file_uri'] %>
+          <% else %>
+            <%= file['file_uri'] %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+<% end %>

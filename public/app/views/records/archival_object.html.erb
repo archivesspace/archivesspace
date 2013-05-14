@@ -8,6 +8,13 @@
        end
      end
    end
+
+   published_external_documents = []
+   if @archival_object['external_documents'].length > 0
+     @archival_object['external_documents'].each do |exdoc|
+       published_external_documents.push(exdoc) if exdoc['publish'] === true
+     end
+   end
 %>
 <div class="title-pane">
   <div class="row-fluid">
@@ -23,19 +30,31 @@
   <div class="row-fluid">
     <div class="span3">
       <div id="">
-        <ul class="nav nav-list as-nav-list">
+        <ul class="nav nav-list as-nav-list" data-spy="affix">
           <li><a href="#summary"><%= I18n.t("archival_object._public.section.summary") %> <span class="icon-chevron-right"></span></a></li>
+          <% if @archival_object['dates'].length > 0 %>
+            <li><a href="#dates"><%= I18n.t("date._plural") %> <span class="badge badge-info"><%= @archival_object['dates'].length %></span><span class="icon-chevron-right"></span></a></li>
+          <% end %>
           <% if @archival_object['extents'].length > 0 %>
-            <li><a href="#extents"><%= I18n.t("extent._plural") %> <span class="icon-chevron-right"></span></a></li>
+            <li><a href="#extents"><%= I18n.t("extent._plural") %> <span class="badge badge-info"><%= @archival_object['extents'].length %></span><span class="icon-chevron-right"></span></a></li>
+          <% end %>
+          <% if @archival_object['linked_agents'].length > 0 %>
+            <li><a href="#linked_agents"><%= I18n.t("agent._plural") %> <span class="badge badge-info"><%= @archival_object['linked_agents'].length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
           <% if @archival_object['subjects'].length > 0 %>
-            <li><a href="#subjects"><%= I18n.t("subject._plural") %> <span class="icon-chevron-right"></span></a></li>
+            <li><a href="#subjects"><%= I18n.t("subject._plural") %> <span class="badge badge-info"><%= @archival_object['subjects'].length %></span><span class="icon-chevron-right"></span></a></li>
+          <% end %>
+          <% if @archival_object['notes'].length > 0 %>
+            <li><a href="#notes"><%= I18n.t("note._plural") %> <span class="badge badge-info"><%= @archival_object['notes'].length %></span><span class="icon-chevron-right"></span></a></li>
+          <% end %>
+          <% if published_external_documents.length > 0 %>
+            <li><a href="#external_documents"><%= I18n.t("external_document._plural") %> <span class="badge badge-info"><%= published_external_documents.length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
           <% if digital_objects.length > 0 %>
-            <li><a href="#digital_objects"><%= I18n.t("digital_object._plural") %> <span class="icon-chevron-right"></span></a></li>
+            <li><a href="#digital_objects"><%= I18n.t("digital_object._plural") %> <span class="badge badge-info"><%= digital_objects.length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
-          <% if @children.length > 0 %>
-            <li><a href="#components"><%= I18n.t("archival_object._public.section.components") %> <span class="icon-chevron-right"></span></a></li>
+          <% if children? %>
+            <li><a href="#components"><%= I18n.t("resource._public.section.components") %> <span class="badge badge-info"><%= children.length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
         </ul>
       </div>
@@ -52,87 +71,19 @@
           </dl>
         </section>
 
-        <% if @archival_object['extents'].length > 0 %>
-          <section id="extents">
-            <h3><%= I18n.t("extent._plural") %></h3>
-            <ul class="results-list">
-              <% @archival_object['extents'].each do |extent| %>
-                <li class="result">
-                  <%= extent['number'] %> <%= i18n_enum(:extent, 'extent_type', extent['extent_type']) %> (<%= i18n_enum(:extent, 'portion', extent['portion']) %>)
-                </li>
-              <% end %>
-            </ul>
-          </section>
-        <% end %>
-
-        <% if @archival_object['subjects'].length > 0 %>
-          <section id="subjects">
-            <h3><%= I18n.t("subject._plural") %></h3>
-            <ul class="results-list">
-              <% @archival_object['subjects'].each do |subject| %>
-                <li class="result">
-                  <h4>
-                    <%= icon_for "subject" %>
-                    <%= link_to(subject['_resolved']['title'], {:controller => :search, :action => :search}.merge(params_for_search({"add_filter" => "{!term f=subjects}#{subject['_resolved']['title']}"}))) %>
-                  </h4>
-                </li>
-              <% end %>
-            </ul>
-          </section>
-        <% end %>
-
-        <% if not digital_objects.empty? %>
-          <section id="digital_objects">
-            <h3><%= I18n.t("digital_object._plural") %></h3>
-            <ul class="results-list">
-              <% digital_objects.each do |uri, digital_object| %>
-                <li class="result">
-                  <h4>
-                    <%= icon_for "digital_object" %>
-                    <%= link_to digital_object['title'], {:controller => :records, :action => :digital_object, :id => JSONModel(:digital_object).id_for(uri)} %>
-                  </h4>
-                </li>
-              <% end %>
-            </ul>
-          </section>
-        <% end %>
-
-        <% if @children.length > 0 %>
-          <section id="components">
-            <h3><%= I18n.t("archival_object._public.section.components") %></h3>
-
-            <ul class="results-list">
-              <% @children.each do |child| %>
-                <li class="result">
-                  <h4>
-                    <%= icon_for "archival_object" %>
-                    <%= link_to child["title"], :controller => :records, :action => "archival_object", :id => JSONModel(:archival_object).id_for(child['uri']), :repo_id => @repository.id %>
-                  </h4>
-                </li>
-              <% end %>
-            </ul>
-          </section>
-        <% end %>
+        <%= render :partial => "dates", :locals => {:dates => @archival_object['dates']} %>
+        <%= render :partial => "extents", :locals => {:extents => @archival_object['extents']} %>
+        <%= render :partial => "agents", :locals => {:linked_agents => @archival_object['linked_agents']} %>
+        <%= render :partial => "subjects", :locals => {:subjects => @archival_object['subjects']} %>
+        <%= render :partial => "notes", :locals => {:notes => @archival_object['notes']} %>
+        <%= render :partial => "external_documents", :locals => {:external_documents => published_external_documents} %>
+        <%= render :partial => "instances", :locals => {:digital_objects => digital_objects} %>
+        <%= render :partial => "components", :locals => {:record_type => "archival_object"} %>
 
       </fieldset>
 
       <br/>
       <br/>
-
-      <div class="accordion" id="source">
-        <div class="accordion-group">
-          <div class="accordion-heading">
-            <a class="accordion-toggle" data-toggle="collapse" data-parent="#source" href="#collapseOne">
-              Debugging
-            </a>
-          </div>
-          <div id="collapseOne" class="accordion-body collapse">
-            <div class="accordion-inner">
-              <%= @archival_object.inspect %>
-            </div>
-          </div>
-        </div>
-      </div>
 
     </div>
   </div>

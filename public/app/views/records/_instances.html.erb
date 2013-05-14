@@ -1,0 +1,15 @@
+<% if not digital_objects.empty? %>
+  <section id="digital_objects">
+    <h3><%= I18n.t("digital_object._plural") %></h3>
+    <ul class="results-list">
+      <% digital_objects.each do |uri, digital_object| %>
+        <li class="result">
+          <h4>
+            <%= icon_for "digital_object" %>
+            <%= link_to digital_object['title'], {:controller => :records, :action => :digital_object, :id => JSONModel(:digital_object).id_for(uri)} %>
+          </h4>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+<% end %>

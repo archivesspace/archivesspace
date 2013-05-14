@@ -73,5 +73,4 @@ class ArchivesSpaceService < Sinatra::Base
   do
     handle_delete(Resource, params[:resource_id])
   end
-
 end

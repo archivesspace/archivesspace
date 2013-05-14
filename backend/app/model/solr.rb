@@ -17,7 +17,7 @@ class Solr
 
   def self.search(query, page, page_size, repo_id,
                   record_types = nil, show_suppressed = false, show_published_only = false,
-                  excluded_ids = [], extra_solr_params = {})
+                  excluded_ids = [], filter_terms = [],  extra_solr_params = {})
     url = solr_url
 
     opts = {
@@ -57,10 +57,18 @@ class Solr
       opts << [:fq, "-id:(#{query})"]
     end
 
+    if filter_terms && !filter_terms.empty?
+      filter_terms.map{|str| JSON.parse(str)}.each{|json|
+        json.each {|facet, term|
+          opts << [:fq, "{!term f=#{facet}}#{term}"]
+        }
+      }
+
+    end
+
     @@opts_hooks.each do |hook|
       hook.call(opts)
     end
-
 
     url.path = "/select"
     url.query = URI.encode_www_form(opts)

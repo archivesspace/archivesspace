@@ -35,6 +35,7 @@ class CommonIndexer
     @document_prepare_hooks = []
     @extra_documents_hooks = []
     @delete_hooks = []
+    @batch_hooks = []
     @current_session = nil
 
     while true
@@ -56,6 +57,9 @@ class CommonIndexer
 
   def add_agents(doc, record)
     if record['record']['linked_agents']
+      # index all linked agents first
+      doc['agents'] = record['record']['linked_agents'].collect{|link| link['_resolved']['names'][0]['sort_name']}
+
       # index the creators only
       creators = record['record']['linked_agents'].select{|link| link['role'] === 'creator'}
       doc['creators'] = creators.collect{|link| link['_resolved']['names'][0]['sort_name']} if not creators.empty?
@@ -93,7 +97,7 @@ class CommonIndexer
   def configure_doc_rules
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'archival_object'
-        doc['resource'] = record['record']['resource']
+        doc['resource'] = record['record']['resource']['ref'] if record['record']['resource']
         doc['title'] = record['record']['label']
       end
     }
@@ -136,12 +140,17 @@ class CommonIndexer
 
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'digital_object_component'
-        doc['digital_object'] = record['record']['digital_object']
+        doc['digital_object'] = record['record']['digital_object']['ref']
       end
     }
 
     add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'subject'
+        doc['publish'] = true
+      end
+    }
 
+    add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'resource'
         doc['finding_aid_title'] = record['record']['finding_aid_title'] if record['record']['finding_aid_status'] === 'completed'
       end
@@ -172,6 +181,7 @@ class CommonIndexer
         doc['authority_id'] = record['record']['names'][0]['authority_id']
         doc['source'] = record['record']['names'][0]['source']
         doc['rules'] = record['record']['names'][0]['rules']
+        doc['publish'] = true
 
         # Assign the additional type of 'agent'
         doc['types'] << 'agent'
@@ -230,6 +240,11 @@ class CommonIndexer
 
   def add_extra_documents_hook(&block)
     @extra_documents_hooks << block
+  end
+
+
+  def add_batch_hook(&block)
+    @batch_hooks << block
   end
 
 
@@ -333,6 +348,19 @@ class CommonIndexer
   end
 
 
+  def clean_whitespace(doc)
+    if doc.is_a?(String)
+      doc.strip
+    elsif doc.is_a?(Hash)
+      Hash[doc.map {|k, v| [k, clean_whitespace(v)]}]
+    elsif doc.is_a?(Array)
+      doc.map{|elt| clean_whitespace(elt)}
+    else
+      doc
+    end
+  end
+
+
   def index_records(records)
     batch = []
 
@@ -363,13 +391,20 @@ class CommonIndexer
         hook.call(doc, record)
       end
 
-      batch << doc
+      batch << clean_whitespace(doc)
 
       # Allow a single record to spawn multiple Solr documents if desired
       @extra_documents_hooks.each do |hook|
         batch.concat(hook.call(record))
       end
     end
+
+
+    # Allow hooks to operate on the entire batch if desired
+    @batch_hooks.each_with_index do |hook|
+      batch = hook.call(batch)
+    end
+
 
     if !batch.empty?
       # For any record we're updating, delete any child records first (where applicable)

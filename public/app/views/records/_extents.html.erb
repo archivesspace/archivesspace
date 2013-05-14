@@ -1,0 +1,12 @@
+<% if extents.length > 0 %>
+  <section id="extents">
+    <h3><%= I18n.t("extent._plural") %></h3>
+    <ul class="results-list">
+      <% extents.each do |extent| %>
+        <li class="result">
+          <%= extent['number'] %> <%= i18n_enum(:extent, 'extent_type', extent['extent_type']) %> (<%= i18n_enum(:extent, 'portion', extent['portion']) %>)
+        </li>
+      <% end %>
+    </ul>
+  </section>
+<% end %>
