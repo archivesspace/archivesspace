@@ -131,7 +131,7 @@ module Relationships
 
     # Define a new relationship.
     def define_relationship(opts)
-      [:name, :json_property, :contains_references_to_types].each do |p|
+      [:name, :contains_references_to_types].each do |p|
         opts[p] or raise "No #{p} given"
       end
 
@@ -176,8 +176,10 @@ module Relationships
 
 
     # Delete all existing relationships for 'obj'.
-    def delete_existing_relationships(obj, bump_lock_version_on_referent = false)
+    def delete_existing_relationships(obj, bump_lock_version_on_referent = false, force = false)
       @relationships.values.each do |relationship_defn|
+        next if (!relationship_defn.json_property && !force)
+
         relationship_defn.find_by_participant(obj).each do |relationship|
 
           # If we're deleting a relationship without replacing it, bump the lock
@@ -204,6 +206,9 @@ module Relationships
 
       @relationships.each do |relationship_name, relationship_defn|
         property_name = relationship_defn.json_property
+
+        # If there's no property name, the relationship is just read-only
+        next if !property_name
 
         # For each record reference in our JSON data
         ASUtils.as_array(json[property_name]).each_with_index do |reference, idx|
@@ -293,9 +298,9 @@ module Relationships
     def prepare_for_deletion(dataset)
       dataset.select(:id).each do |obj|
         # Delete all the relationships created against this object
-        delete_existing_relationships(obj, true)
+        delete_existing_relationships(obj, true, true)
         @relationship_dependencies.each do |model|
-          model.delete_existing_relationships(obj, true) if model != self
+          model.delete_existing_relationships(obj, true, true) if model != self
         end
       end
 

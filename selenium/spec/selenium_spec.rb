@@ -1758,27 +1758,15 @@ describe "ArchivesSpace user interface" do
 
       target = $driver.find_element_with_text("//div[@id='archives_tree']//li", /Pony Express Digital Image/)
       target.find_element_with_text("./ul/li/a", /ICO/)
+
+      $driver.click_and_wait_until_gone(:link, "Close Record")
+      $driver.find_element(:xpath, "//a[@title='#{digital_object_title}']").click
+
+      $driver.find_element_with_text("//h2", /#{digital_object_title}/)
     end
   end
 
-  # Chopped out for now because I got another failure when the session expired halfway through.
 
-  # I think we can work around this by creating a non-expiring session for
-  # Selenium to run its regular tests, followed by a very short expiry for
-  # running this specific test.
-
-  # it "expires a session after a nap" do
-  #   sleep $expire + 1
-  #   $driver.find_element(:link => 'Browse').click
-  #   $driver.find_element(:link => 'Subjects').click
-
-  #   $driver.find_element(:css => "div.alert.alert-error").text.should eq('Your session expired due to inactivity. Please sign in again.')
-
-  #   $driver.find_element(:link, "Sign In").click
-  #   $driver.clear_and_send_keys([:id, 'user_username'], @user)
-  #   $driver.clear_and_send_keys([:id, 'user_password'], "testuser")
-  #   $driver.find_element(:id, 'login').click
-  # end
 
   describe "User management" do
 

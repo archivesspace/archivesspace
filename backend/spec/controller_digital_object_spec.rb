@@ -93,4 +93,18 @@ describe 'Digital Objects controller' do
   end
 
 
+  it "doesn't wipe out linked instances on save" do
+    digobj = create(:json_digital_object)
+
+    resource = create(:json_resource,
+                      :instances => [build(:json_instance,
+                                           :digital_object => {'ref' => digobj.uri})])
+
+    digobj = JSONModel(:digital_object).find(digobj.id)
+    digobj.title = "updated"
+    digobj.save
+
+    JSONModel(:resource).find(resource.id).instances.count.should be(1)
+  end
+
 end
