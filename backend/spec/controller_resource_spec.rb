@@ -142,6 +142,9 @@ describe 'Resources controller' do
     resource.instances.length.should eq(1)
     resource.instances[0]["instance_type"].should eq(opts[:instance_type])
     resource.instances[0]["digital_object"]["ref"].should eq(opts[:digital_object][:ref])
+
+    digital_object = JSONModel(:digital_object).find(digital_object.id)
+    digital_object.linked_instances[0]["ref"].should eq(resource.uri)
   end
 
 
