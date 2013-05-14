@@ -304,6 +304,7 @@ en:
         finding_aid: Finding Aid Data
       action:
         add_child: Add Child
+        rapid_data_entry: Rapid Data Entry
 
   repository:
     _frontend:

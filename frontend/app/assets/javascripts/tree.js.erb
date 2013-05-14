@@ -2,6 +2,7 @@
 //= require jquery.ba-hashchange
 //= require jquery.hotkeys
 //= require jstree
+//= require rapid_data_entry
 
 $(function() {
   var $tree = $("#archives_tree"),
@@ -415,8 +416,24 @@ $(function() {
       $(".archives-tree-container").on("click", ".tree-transfer-form .btn-cancel", function(event) {
         $(".tree-transfer-form", ".archives-tree-container").css("display", "");
         $(".transfer-node", ".archives-tree-container").parent().removeClass("open");
-      })
+      });
 
+      // Rapid Data Entry
+      $(".archives-tree-container").on("click", ".add-children", function() {
+        var $selected = $(".selected", $tree);
+        if ($selected.length === 0) {
+          return;
+        }
+
+        var modal_contents = AS.renderTemplate("template_rde_wrapper", {
+          path: $(this).attr("rel"),
+          id_path: $(this).attr("rel"),
+          index: "${index}"
+        });
+
+        AS.openCustomModal("rapidDataEntryModal", $(this).attr("title"), modal_contents, true);
+        $(document).triggerHandler("rdeinit.aspace", [$("#rapidDataEntryModal #rde_form")])
+      });
 
       $(window).hashchange(onHashChange);
 

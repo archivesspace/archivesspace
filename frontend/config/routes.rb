@@ -37,6 +37,7 @@ ArchivesSpace::Application.routes.draw do
   match 'archival_objects/:id' => 'archival_objects#update', :via => [:post]
   match 'archival_objects/:id/delete' => 'archival_objects#delete', :via => [:post]
   match 'archival_objects/:id/parent' => 'archival_objects#parent', :via => [:post]
+  match 'archival_objects/:id/bulk_add_children' => 'archival_objects#bulk_add_children', :via => [:post]
 
   resources :digital_objects
   match 'digital_objects/:id/download_dc' => 'exports#download_dc', :via => [:get]
@@ -56,6 +57,7 @@ ArchivesSpace::Application.routes.draw do
   match 'resources/:id/download_ead' => 'exports#download_ead', :via => [:get]
   match 'resources/:id' => 'resources#update', :via => [:post]
   match 'resources/:id/delete' => 'resources#delete', :via => [:post]
+  match 'resources/:id/bulk_add_children' => 'resources#bulk_add_children', :via => [:post]
 
   resources :subjects
   match 'subjects/:id' => 'subjects#update', :via => [:post]

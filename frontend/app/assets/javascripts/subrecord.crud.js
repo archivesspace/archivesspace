@@ -148,7 +148,7 @@ $(function() {
 
     $(".subrecord-form[data-subrecord-form]:not(.initialised)").init_subrecord_form();
 
-    $(document).bind("monkeypatch.subrecord", function(event, subform) {
+    $(document).bind("subrecordmonkeypatch.aspace", function(event, subform) {
       $(".subrecord-form[data-subrecord-form]", subform).init_subrecord_form();
     });
   });
