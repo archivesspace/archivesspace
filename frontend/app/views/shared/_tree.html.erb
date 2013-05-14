@@ -7,6 +7,10 @@
         :type => :archival_object,
         :action_label =>  I18n.t("resource._frontend.action.add_child"),
         :record_label => I18n.t("archival_object._singular")
+      },
+      :rapid_data_entry => {
+        :type => :archival_object,
+        :action_label =>  I18n.t("resource._frontend.action.rapid_data_entry")
       }
     },
     :archival_object => {
@@ -21,7 +25,11 @@
         :record_label => I18n.t("archival_object._singular")
       },
       :can_move => true,
-      :can_transfer => :resource
+      :can_transfer => :resource,
+      :rapid_data_entry => {
+        :type => :archival_object,
+        :action_label =>  I18n.t("resource._frontend.action.rapid_data_entry")
+      }
     },
     :digital_object => {
       :can_add_child => {
@@ -190,6 +198,13 @@
               <% end %>
             </li>
           </ul>
+        </div>
+      {/if}
+      {if rules.hasOwnProperty("rapid_data_entry")}
+        <div class="btn-group">
+          <a class="btn btn-mini add-children" rel="${rules.rapid_data_entry.type}" href="javascript:void(0);" title="${rules.rapid_data_entry.action_label}">
+            ${rules.rapid_data_entry.action_label}
+          </a>
         </div>
       {/if}
       </div>
