@@ -115,8 +115,8 @@
   </target>
 
 
-  <target name="db:nuke" depends="set-classpath" description="Run migrations against the database configured in config/config.rb">
-    <delete dir="solr_index" />
+  <target name="db:nuke" depends="set-classpath" description="Delete database and Solr index configured in config/config.rb">
+    <delete dir="${aspace.data_directory}/solr_index" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="..">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
