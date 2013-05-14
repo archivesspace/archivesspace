@@ -324,7 +324,7 @@ AS.encodeForAttribute = function(string) {
 };
 
 
-AS.openCustomModal = function(id, title, contents, fillScreen) {
+AS.openCustomModal = function(id, title, contents, fillScreen, modalOpts) {
   $("body").append(AS.renderTemplate("modal_custom_template", {id:id,title:title,content: "", fill: fillScreen||false}));
   var $modal = $("#"+id);
   $modal.append(contents);
@@ -343,6 +343,10 @@ AS.openCustomModal = function(id, title, contents, fillScreen) {
   if (fillScreen) {
     $modal.on("shown resize", resizeModal);
     $(window).resize(resizeModal);
+  }
+
+  if (modalOpts) {
+    $modal.modal(modalOpts);
   }
 
   $modal.modal('show');
