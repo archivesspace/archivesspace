@@ -371,3 +371,7 @@ en:
         name_selector_tooltip: |
             <p>The enumeration to edit.</p>
         no_name_provided: Select an Enumeration Name before creating a new value
+
+  rde:
+    date_type: Date Type
+    instance_type: Instance Type
