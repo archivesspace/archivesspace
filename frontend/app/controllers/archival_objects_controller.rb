@@ -78,24 +78,16 @@ class ArchivalObjectsController < ApplicationController
 
 
   def parent
-    params[:archival_object] ||= {}
-    if params[:parent] and not params[:parent].blank?
-      # set parent as AO uri on params
-      params[:archival_object][:parent] = {'ref' => JSONModel(:archival_object).uri_for(params[:parent])}
+    parent_id = (params[:parent] and !params[:parent].blank?) ? params[:parent] : nil
+    response = JSONModel::HTTP.post_form(JSONModel(:archival_object).uri_for(params[:id]) + "/parent",
+                              :parent => parent_id,
+                              :position => params[:index])
+
+    if response.code == '200'
+      render :json => {:parent => parent_id ? JSONModel(:archival_object).uri_for(parent_id) : nil}
     else
-      #remove parent from AO
-      params[:archival_object][:parent] = nil
+      raise "Error setting parent of archival object: #{response.body}"
     end
-
-    params[:archival_object][:position] = params[:index].to_i if params.has_key? :index
-
-    handle_crud(:instance => :archival_object,
-                :obj => JSONModel(:archival_object).find(params[:id]),
-                :replace => false,
-                :on_invalid => ->(){
-                  raise "Error setting parent of archival object"
-                },
-                :on_valid => ->(id){ return render :text => "success"})
   end
 
 

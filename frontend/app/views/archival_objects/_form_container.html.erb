@@ -7,7 +7,7 @@
 
 <fieldset>
 
-  <%= form.hidden_input "parent" %>
+  <%= form.hidden_input "parent", nil, {"data-base-name" => "archival_object[parent]", "class" => "hidden-parent-uri"} %>
   <%= form.hidden_input "resource" %>
   <%= hidden_field_tag "id", @archival_object.id %>
 

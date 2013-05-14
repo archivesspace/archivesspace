@@ -83,22 +83,16 @@ class DigitalObjectComponentsController < ApplicationController
 
 
   def parent
-    params[:digital_object_component] ||= {}
-    if params[:parent] and not params[:parent].blank?
-      # set parent as DOC uri on params
-      params[:digital_object_component][:parent] = {'ref' => JSONModel(:digital_object_component).uri_for(params[:parent])}
+    parent_id = (params[:parent] and !params[:parent].blank?) ? params[:parent] : nil
+    response = JSONModel::HTTP.post_form(JSONModel(:digital_object_component).uri_for(params[:id]) + "/parent",
+                              :parent => parent_id,
+                              :position => params[:index])
+
+    if response.code == '200'
+      render :json => {:parent => parent_id ? JSONModel(:archival_object).uri_for(parent_id) : nil}
     else
-      #remove parent from DOC
-      params[:digital_object_component][:parent] = nil
+      raise "Error setting parent of digital object component: #{response.body}"
     end
-
-    params[:digital_object_component][:position] = params[:index].to_i if params.has_key? :index
-
-    handle_crud(:instance => :digital_object_component,
-                :obj => JSONModel(:digital_object_component).find(params[:id]),
-                :replace => false,
-                :on_invalid => ->(){ raise "Error setting parent of digital object component" },
-                :on_valid => ->(id){ return render :text => "success"})
   end
 
 

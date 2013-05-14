@@ -7,7 +7,7 @@
 
 <fieldset>
 
-  <%= form.hidden_input "parent" %>
+  <%= form.hidden_input "parent", nil, {"data-base-name" => "digital_object_component[parent]", "class" => "hidden-parent-uri"} %>
   <%= form.hidden_input "digital_object" %>
   <%= hidden_field_tag "id", @digital_object_component.id %>
 

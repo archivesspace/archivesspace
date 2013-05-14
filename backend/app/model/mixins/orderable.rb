@@ -25,8 +25,8 @@ module Orderable
 
     100.times do
       DB.attempt {
-        self.update(:position => new_position)
-        self.save
+        # Go right to the database here to avoid bumping lock_version for tree changes.
+        self.class.dataset.db[self.class.table_name].filter(:id => self.id).update(:position => new_position)
         return
       }.and_if_constraint_fails {
           # Someone's in our spot!  Move everyone out of the way and retry.
@@ -59,19 +59,44 @@ module Orderable
 
     self.class.set_root_record(json, opts)
 
+    # Update the record with everything but its position set
     opts["position"] = nil
     obj = super
 
+    # Then lock in a position (which may involve contention with other updates
+    # happening to the same tree of records)
     if json[self.class.root_record_type]
 
       if !json.position
-        json.position = Sequence.get("#{json[self.class.root_record_type]}_#{json.parent}_children_position")
+        parent = json.parent ? json.parent['ref'] : nil
+        json.position = Sequence.get("#{json[self.class.root_record_type]}_#{parent}_children_position")
       end
 
       self.set_position_in_list(json.position)
     end
 
     obj
+  end
+
+
+  def update_position_only(parent_id, position)
+    if self[:root_record_id]
+      root_uri = self.class.uri_for(self.class.root_record_type.intern, self[:root_record_id])
+      parent_uri = parent_id ? self.class.uri_for(self.class.node_record_type.intern, parent_id) : nil
+
+      self.class.dataset.filter(:id => self.id).update(:parent_id => parent_id,
+                                                       :parent_name => parent_id ? parent_id.to_s : "(root)",
+                                                       :position => nil)
+      self.refresh
+
+      if !position
+         position = Sequence.get("#{root_uri}_#{parent_uri}_children_position")
+      end
+
+      self.set_position_in_list(position)
+    else
+      raise "Root not set for record #{self}"
+    end
   end
 
 
@@ -107,7 +132,8 @@ module Orderable
 
       if json[root_record_type]
         # This new record is a member of a hierarchy, so add it to the end of its siblings
-        json.position = Sequence.get("#{json[root_record_type]}_#{json.parent}_children_position")
+        parent = json.parent ? json.parent['ref'] : nil
+        json.position = Sequence.get("#{json[root_record_type]}_#{parent}_children_position")
       end
 
       super

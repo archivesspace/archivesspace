@@ -27,6 +27,23 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.post('/repositories/:repo_id/archival_objects/:archival_object_id/parent')
+    .description("Set the parent/position of an Archival Object in a tree")
+    .params(["archival_object_id", Integer, "The Archival Object ID to update"],
+            ["parent", Integer, "The parent of this node in the tree", :optional => true],
+            ["position", Integer, "The position of this node in the tree", :optional => true],
+            ["repo_id", :repo_id])
+    .permissions([:update_archival_record])
+    .returns([200, :updated],
+             [400, :error]) \
+  do
+    obj = ArchivalObject.get_or_die(params[:archival_object_id])
+    obj.update_position_only(params[:parent], params[:position])
+
+    updated_response(obj)
+  end
+
+
   Endpoint.get('/repositories/:repo_id/archival_objects/:archival_object_id')
     .description("Get an Archival Object by ID")
     .params(["archival_object_id", Integer, "The Archival Object ID"],

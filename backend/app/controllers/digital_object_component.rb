@@ -25,6 +25,23 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.post('/repositories/:repo_id/digital_object_components/:digital_object_component_id/parent')
+    .description("Set the parent/position of an Digital Object Component in a tree")
+    .params(["digital_object_component_id", Integer, "The Digital Object Component ID to update"],
+            ["parent", Integer, "The parent of this node in the tree", :optional => true],
+            ["position", Integer, "The position of this node in the tree", :optional => true],
+            ["repo_id", :repo_id])
+    .permissions([:update_archival_record])
+    .returns([200, :updated],
+             [400, :error]) \
+  do
+    obj = DigitalObjectComponent.get_or_die(params[:digital_object_component_id])
+    obj.update_position_only(params[:parent], params[:position])
+
+    updated_response(obj)
+  end
+
+
   Endpoint.get('/repositories/:repo_id/digital_object_components/:digital_object_component_id')
     .description("Get an Digital Object Component by ID")
     .params(["digital_object_component_id", Integer, "The Digital Object Component ID"],
