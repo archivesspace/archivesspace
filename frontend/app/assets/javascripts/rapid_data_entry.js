@@ -12,34 +12,34 @@ $(function() {
 
       //$(document).triggerHandler("subrecordcreated.aspace", ["rde", $this]);
       //$(document).triggerHandler("subrecordmonkeypatch.aspace", [$this]);
-      $this.on("click", ".remove-row", function(event) {
+      $modal.on("click", ".remove-row", function(event) {
         event.preventDefault();
         event.stopPropagation();
         $(event.target).closest("tr").remove();
       });
 
-      $this.on("click", ".add-row", function(event) {
+      $modal.on("click", ".add-row", function(event) {
         event.preventDefault();
         event.stopPropagation();
 
         index = index+1;
         var $row = $(AS.renderTemplate("template_rde_row", {
-          path: "children["+index+"]",
-          id_path: "children_"+index+"_",
+          path: "archival_object_children[children]["+index+"]",
+          id_path: "archival_object_children_children__"+index+"_",
           index: index
         }));
         $("table tbody", $this).append($row);
         $(":input:first:visible", $row).focus();
       });
 
-      $this.on("keydown", function(event) {
+      $modal.on("keydown", function(event) {
         if (event.keyCode === 27) { //esc
           event.preventDefault();
           event.stopImmediatePropagation();
         }
       });
 
-      $this.on("keydown", "input[type='text']", function(event) {
+      $modal.on("keydown", "input[type='text']", function(event) {
         var $row = $(event.target).closest("tr");
 
         if (event.keyCode === 13) { // return
@@ -68,19 +68,34 @@ $(function() {
         }
       });
 
-      // This is an Ajax form...
-      $this.ajaxForm({
-        target: $(".rde-wrapper", $modal),
-        success: function() {
-          $(window).trigger("resize");
-        }
-      });
+      var initAjaxForm = function() {
+        $this.ajaxForm({
+          target: $(".rde-wrapper", $modal),
+          success: function() {
+            $(window).trigger("resize");
+            $this = $("form", "#rapidDataEntryModal");
+
+            $("tbody tr", $this).each(function() {
+              var $row = $(this);
+              if ($("td.error", $row).length > 0) {
+                $row.addClass("invalid");
+              } else {
+                $row.addClass("valid");
+              }
+            });
+
+            initAjaxForm();
+          }
+        });
+      };
 
       // Connect up the $modal form submit button
-      $(".btn-primary", $modal).on("click", function() {
+      $($modal).on("click", ".btn-primary", function() {
         $(this).attr("disabled","disabled");
         $this.submit();
       });
+
+      initAjaxForm();
 
       $(window).trigger("resize");
     });

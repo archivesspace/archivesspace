@@ -100,15 +100,15 @@ class ResourcesController < ApplicationController
   def add_children
     @parent = Resource.find(params[:id])
 
-    children_data = cleanup_params_for_schema({"children" => params[:children]}, JSONModel(:archival_object_children).schema)
+    children_data = cleanup_params_for_schema(params[:archival_object_children], JSONModel(:archival_object_children).schema)
 
     begin
-      @archival_object_children = ResourceChildren.from_hash(children_data)
+      @archival_object_children = ResourceChildren.from_hash(children_data, false, true)
+      @archival_object_children.save
     rescue JSONModel::ValidationException => e
-      flash.now[:error] = e.inspect
+      @exceptions = @archival_object_children._exceptions
     end
 
-    @archival_object_children = ResourceChildren.from_hash(children_data, false, true) if @archival_object_children.nil?
 
     render :partial => "archival_objects/rde"
   end

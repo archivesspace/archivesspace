@@ -1,106 +1,110 @@
-<% define_template "rde_row", jsonmodel_definition(:archival_object) do |form| %>
+<% define_template "rde_row", jsonmodel_definition(:archival_object) do |form, archival_object| %>
   <tr>
-    <td><%= form.select "level", form.possible_options_for("level", true) %></td>
-    <td><%= form.checkbox "publish", {}, form.default_for("publish") %></td>
-    <td><%= form.textfield "title" %></td>
-    <td>
-      <%= form.fields_for({}, "dates[0]") do |date| %>
+    <td class="status">
+      <span class="icon-exclamation-sign invalid"></span>
+      <span class="icon-ok valid"></span>
+    </td>
+    <td class="control-group"><%= form.select "level", form.possible_options_for("level", true) %></td>
+    <td class="control-group"><%= form.checkbox "publish", {}, form.default_for("publish") %></td>
+    <td class="control-group"><%= form.textfield "title" %></td>
+    <td class="control-group">
+      <%= form.fields_for(begin archival_object["dates"][0] rescue {} end, "dates[0]") do |date| %>
         <%= form.select "date_type", jsonmodel_definition(:date).options_for(form, "date_type", true) %>
       <% end %>
     </td>
-    <td>
-      <%= form.fields_for({}, "dates[0]") do |date| %>
+    <td class="control-group">
+      <%= form.fields_for(begin archival_object["dates"][0] rescue {} end, "dates[0]") do |date| %>
         <%= form.textfield "expression" %>
       <% end %>
     </td>
-    <td>
-      <%= form.fields_for({}, "dates[0]") do |date| %>
+    <td class="control-group">
+      <%= form.fields_for(begin archival_object["dates"][0] rescue {} end, "dates[0]") do |date| %>
         <%= form.textfield "begin" %>
       <% end %>
     </td>
-    <td>
-      <%= form.fields_for({}, "dates[0]") do |date| %>
+    <td class="control-group">
+      <%= form.fields_for(begin archival_object["dates"][0] rescue {} end, "dates[0]") do |date| %>
         <%= form.textfield "end" %>
       <% end %>
     </td>
-    <td>
-      <%= form.fields_for({}, "instances[0]") do |instance| %>
+    <td class="control-group">
+      <%= form.fields_for(begin archival_object["instances"][0] rescue {} end, "instances[0]") do |instance| %>
         <%= form.select "instance_type", jsonmodel_definition(:instance).options_for(form, 'instance_type', true).reject{|option_arr| option_arr[1] === 'digital_object'} %>
       <% end %>
     </td>
-    <td>
-      <%= form.fields_for({}, "instances[0][container]") do |container| %>
+    <td class="control-group">
+      <%= form.fields_for(begin archival_object["instances"][0]["container"] rescue {} end, "instances[0][container]") do |container| %>
         <%= form.select "type_1", jsonmodel_definition(:container).options_for(form, 'type_1', true) %>
       <% end %>
     </td>
-    <td>
-      <%= form.fields_for({}, "instances[0][container]") do |container| %>
+    <td class="control-group">
+      <%= form.fields_for(begin archival_object["instances"][0]["container"] rescue {} end, "instances[0][container]") do |container| %>
         <%= form.textfield "indicator_1" %>
       <% end %>
     </td>
-    <td>
-      <%= form.fields_for({}, "instances[0][container]") do |container| %>
+    <td class="control-group">
+      <%= form.fields_for(begin archival_object["instances"][0]["container"] rescue {} end, "instances[0][container]") do |container| %>
         <%= form.select "type_2", jsonmodel_definition(:container).options_for(form, 'type_2', true) %>
       <% end %>
     </td>
-    <td>
-      <%= form.fields_for({}, "instances[0][container]") do |container| %>
+    <td class="control-group">
+      <%= form.fields_for(begin archival_object["instances"][0]["container"] rescue {} end, "instances[0][container]") do |container| %>
         <%= form.textfield "indicator_2" %>
       <% end %>
     </td>
-    <td>
-      <%= form.fields_for({}, "instances[0][container]") do |container| %>
+    <td class="control-group">
+      <%= form.fields_for(begin archival_object["instances"][0]["container"] rescue {} end, "instances[0][container]") do |container| %>
         <%= form.select "type_3", jsonmodel_definition(:container).options_for(form, 'type_3', true) %>
       <% end %>
     </td>
-    <td>
-      <%= form.fields_for({}, "instances[0][container]") do |container| %>
+    <td class="control-group">
+      <%= form.fields_for(begin archival_object["instances"][0]["container"] rescue {} end, "instances[0][container]") do |container| %>
         <%= form.textfield "indicator_3" %>
       <% end %>
     </td>
-    <td>
-      <%= form.fields_for({}, "instances[0][container]") do |container| %>
+    <td class="control-group">
+      <%= form.fields_for(begin archival_object["instances"][0]["container"] rescue {} end, "instances[0][container]") do |container| %>
         <%= form.textfield "barcode_1" %>
       <% end %>
     </td>
-    <td>
-      <%= form.fields_for({}, "notes[0]") do |note| %>
+    <td class="control-group">
+      <%= form.fields_for(begin archival_object["notes"][0] rescue {} end, "notes[0]") do |note| %>
         <%= form.select("type", ["",""].concat(note_types_for(:note_singlepart).map {|value, hash| [hash[:i18n], value]})) %>
       <% end %>
     </td>
-    <td>
-      <%= form.fields_for({}, "notes[0]") do |note| %>
+    <td class="control-group">
+      <%= form.fields_for(begin archival_object["notes"][0] rescue {} end, "notes[0]") do |note| %>
         <%= form.textfield "content[0]" %>
       <% end %>
     </td>
-    <td>
-      <%= form.fields_for({}, "notes[1]") do |note| %>
+    <td class="control-group">
+      <%= form.fields_for(begin archival_object["notes"][1] rescue {} end, "notes[1]") do |note| %>
         <%= form.select("type", ["",""].concat(note_types_for(:note_singlepart).map {|value, hash| [hash[:i18n], value]})) %>
       <% end %>
     </td>
-    <td>
-      <%= form.fields_for({}, "notes[1]") do |note| %>
+    <td class="control-group">
+      <%= form.fields_for(begin archival_object["notes"][1] rescue {} end, "notes[1]") do |note| %>
         <%= form.textfield "content[0]" %>
       <% end %>
     </td>
-    <td>
-      <%= form.fields_for({}, "notes[2]") do |note| %>
+    <td class="control-group">
+      <%= form.fields_for(begin archival_object["notes"][2] rescue {} end, "notes[2]") do |note| %>
         <%= form.select("type", ["",""].concat(note_types_for(:note_singlepart).map {|value, hash| [hash[:i18n], value]})) %>
       <% end %>
     </td>
-    <td>
-      <%= form.fields_for({}, "notes[2]") do |note| %>
+    <td class="control-group">
+      <%= form.fields_for(begin archival_object["notes"][2] rescue {} end, "notes[2]") do |note| %>
         <%= form.textfield "content[0]" %>
       <% end %>
     </td>
-    <td>
-      <%= form.fields_for({}, "notes[0]") do |note| %>
+    <td class="control-group">
+      <%= form.fields_for(begin archival_object["notes"][0] rescue {} end, "notes[0]") do |note| %>
         <%= form.hidden_input "jsonmodel_type", "note_singlepart" %>
       <% end %>
-      <%= form.fields_for({}, "notes[1]") do |note| %>
+      <%= form.fields_for(begin archival_object["notes"][1] rescue {} end, "notes[1]") do |note| %>
         <%= form.hidden_input "jsonmodel_type", "note_singlepart" %>
       <% end %>
-      <%= form.fields_for({}, "notes[2]") do |note| %>
+      <%= form.fields_for(begin archival_object["notes"][2] rescue {} end, "notes[2]") do |note| %>
         <%= form.hidden_input "jsonmodel_type", "note_singlepart" %>
       <% end %>
       <div class="btn-group">
@@ -121,6 +125,7 @@
         <table class="table table-striped table-bordered table-condensed">
           <thead>
           <tr>
+            <th/>
             <th><%= I18n.t("archival_object.level") %></th>
             <th><%= I18n.t("archival_object.publish") %></th>
             <th><%= I18n.t("archival_object.title") %></th>

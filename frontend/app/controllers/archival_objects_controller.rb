@@ -132,12 +132,28 @@ class ArchivalObjectsController < ApplicationController
   end
 
 
-  def add_children
+  def rde
+    @parent = JSONModel(:archival_object).find(params[:id])
+    @archival_object_children = ArchivalObjectChildren.new
 
+    render :partial => "archival_objects/rde"
   end
 
-  def rde
 
+  def add_children
+    @parent = JSONModel(:archival_object).find(params[:id])
+
+    children_data = cleanup_params_for_schema(params[:archival_object_children], JSONModel(:archival_object_children).schema)
+
+    begin
+      @archival_object_children = ArchivalObjectChildren.from_hash(children_data, false, true)
+      @archival_object_children.save
+    rescue JSONModel::ValidationException => e
+      @exceptions = @archival_object_children._exceptions
+    end
+
+
+    render :partial => "archival_objects/rde"
   end
 
 

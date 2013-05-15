@@ -756,3 +756,38 @@ ul.subrecord-form-list {
     .border-radius(0);
   }
 }
+
+#rde_form {
+  td {
+    &.control-group {
+      &.error {
+        background-color: @errorBackground;
+      }
+    }
+  }
+  tr {
+    td.status {
+      .valid, .invalid {
+        display: none;
+      }
+    }
+    &.valid {
+      td {
+        background-color: @successBackground;
+      }
+      td.status {
+        .valid {
+          display: block;
+        }
+      }
+    }
+    &.invalid {
+      td.status {
+        background-color: @errorBackground;
+        .invalid {
+          display: block;
+        }
+      }
+    }
+  }
+}
