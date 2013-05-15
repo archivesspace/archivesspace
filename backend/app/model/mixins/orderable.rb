@@ -37,7 +37,7 @@ module Orderable
           # Disables the uniqueness constraint
           siblings_ds.
             filter { position >= new_position }.
-            update(:parent_name => nil)
+            update(:parent_name => Sequel.lit(DB.concat('CAST(id as CHAR)', "'_temp'")))
 
           # Do the update we actually wanted
           siblings_ds.
@@ -59,19 +59,11 @@ module Orderable
 
     self.class.set_root_record(json, opts)
 
-    # Update the record with everything but its position set
-    opts["position"] = nil
     obj = super
 
     # Then lock in a position (which may involve contention with other updates
     # happening to the same tree of records)
-    if json[self.class.root_record_type]
-
-      if !json.position
-        parent = json.parent ? json.parent['ref'] : nil
-        json.position = Sequence.get("#{json[self.class.root_record_type]}_#{parent}_children_position")
-      end
-
+    if json[self.class.root_record_type] && json.position
       self.set_position_in_list(json.position)
     end
 
@@ -86,14 +78,10 @@ module Orderable
 
       self.class.dataset.filter(:id => self.id).update(:parent_id => parent_id,
                                                        :parent_name => parent_id ? parent_id.to_s : "(root)",
-                                                       :position => nil)
+                                                       :position => Sequence.get("#{root_uri}_#{parent_uri}_children_position"))
+
       self.refresh
-
-      if !position
-         position = Sequence.get("#{root_uri}_#{parent_uri}_children_position")
-      end
-
-      self.set_position_in_list(position)
+      self.set_position_in_list(position) if position
     else
       raise "Root not set for record #{self}"
     end
@@ -130,13 +118,13 @@ module Orderable
     def create_from_json(json, opts = {})
       set_root_record(json, opts)
 
-      if json[root_record_type]
-        # This new record is a member of a hierarchy, so add it to the end of its siblings
-        parent = json.parent ? json.parent['ref'] : nil
-        json.position = Sequence.get("#{json[root_record_type]}_#{parent}_children_position")
+      obj = super
+
+      if json[self.root_record_type] && json.position
+        self.set_position_in_list(json.position)
       end
 
-      super
+      obj
     end
 
 
@@ -157,6 +145,8 @@ module Orderable
 
       if json[root_record_type]
         opts["root_record_id"] = parse_reference(json[root_record_type]['ref'], opts)[:id]
+
+        opts["position"] = Sequence.get("#{json[root_record_type]['ref']}_#{json.parent}_children_position")
 
         if json.parent
           opts["parent_id"] = parse_reference(json.parent['ref'], opts)[:id]
