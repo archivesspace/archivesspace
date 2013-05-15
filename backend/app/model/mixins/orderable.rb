@@ -1,5 +1,6 @@
 # Mixin methods for objects that belong in an ordered hierarchy (archival
 # objects, digital object components)
+require 'securerandom'
 
 module Orderable
 
@@ -77,7 +78,7 @@ module Orderable
       parent_uri = parent_id ? self.class.uri_for(self.class.node_record_type.intern, parent_id) : nil
 
       self.class.dataset.filter(:id => self.id).update(:parent_id => parent_id,
-                                                       :parent_name => parent_id ? parent_id.to_s : "(root)",
+                                                       :parent_name => parent_id ? parent_id.to_s : "root@#{parent_uri}",
                                                        :position => Sequence.get("#{root_uri}_#{parent_uri}_children_position"))
 
       self.refresh
@@ -152,8 +153,13 @@ module Orderable
           opts["parent_id"] = parse_reference(json.parent['ref'], opts)[:id]
           opts["parent_name"] = opts["parent_id"].to_s
         else
-          opts["parent_name"] = "(root)"
+          opts["parent_name"] = "root@#{json[root_record_type]['ref']}"
         end
+
+      else
+        # This record isn't part of a tree hierarchy
+        opts["parent_name"] = "orphan@#{SecureRandom.uuid}"
+        opts["position"] = 0
       end
     end
 

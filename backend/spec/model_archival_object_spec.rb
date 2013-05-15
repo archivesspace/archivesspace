@@ -90,22 +90,18 @@ describe 'ArchivalObject model' do
 
 
   it "enforces ref_id uniqueness only within a resource" do
-    res1 = create(:resource, {:repo_id => $repo_id})
-    res2 = create(:resource, {:repo_id => $repo_id})
+    res1 = create(:json_resource)
+    res2 = create(:json_resource)
 
-    create(:archival_object, {:ref_id => "the same", :root_record_id => res1.id, :repo_id => $repo_id})
-    create(:archival_object, {:ref_id => "the same", :root_record_id => nil, :repo_id => $repo_id})
-
-    expect {
-      create(:archival_object, {:ref_id => "the same", :root_record_id => res1.id, :repo_id => $repo_id})
-    }.to raise_error(Sequel::ValidationFailed)
+    create(:json_archival_object, {:ref_id => "the_same", :resource => {:ref => res1.uri}})
+    create(:json_archival_object, {:ref_id => "the_same", :resource => nil})
 
     expect {
-      create(:archival_object, {:ref_id => "the same", :root_record_id => res2.id, :repo_id => $repo_id})
-    }.to_not raise_error
+      create(:json_archival_object, {:ref_id => "the_same", :resource => {:ref => res1.uri}})
+    }.to raise_error(JSONModel::ValidationException)
 
     expect {
-      create(:archival_object, {:ref_id => "the same", :root_record_id => nil, :repo_id => $repo_id})
+      create(:json_archival_object, {:ref_id => "the_same", :resource => nil})
     }.to_not raise_error
   end
 
