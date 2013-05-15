@@ -122,7 +122,7 @@ module Orderable
       obj = super
 
       if json[self.root_record_type] && json.position
-        self.set_position_in_list(json.position)
+        obj.set_position_in_list(json.position)
       end
 
       obj

@@ -106,6 +106,19 @@ describe 'ArchivalObject model' do
   end
 
 
+  it "can create an AO with a position set" do
+    res1 = create(:json_resource)
+
+    expect {
+      create(:json_archival_object,
+             {
+               :ref_id => "the_same",
+               :resource => {:ref => res1.uri},
+               :position => 0
+             })
+    }.to_not raise_error
+  end
+
   it "auto generates a 'label' based on the title (when no date)" do
     title = "Just a title"
 
