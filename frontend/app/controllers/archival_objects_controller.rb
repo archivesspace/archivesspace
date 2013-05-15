@@ -143,15 +143,23 @@ class ArchivalObjectsController < ApplicationController
   def add_children
     @parent = JSONModel(:archival_object).find(params[:id])
 
-    children_data = cleanup_params_for_schema(params[:archival_object_children], JSONModel(:archival_object_children).schema)
+    if params[:archival_object_children].blank? or params[:archival_object_children]["children"].blank?
 
-    begin
-      @archival_object_children = ArchivalObjectChildren.from_hash(children_data, false, true)
-      @archival_object_children.save
-    rescue JSONModel::ValidationException => e
-      @exceptions = @archival_object_children._exceptions
+      @archival_object_children = ArchivalObjectChildren.new
+      flash.now[:error] = "No rows entered"
+
+    else
+
+      children_data = cleanup_params_for_schema(params[:archival_object_children], JSONModel(:archival_object_children).schema)
+
+      begin
+        @archival_object_children = ArchivalObjectChildren.from_hash(children_data, false, true)
+        @archival_object_children.save
+      rescue JSONModel::ValidationException => e
+        @exceptions = @archival_object_children._exceptions
+      end
+
     end
-
 
     render :partial => "archival_objects/rde"
   end

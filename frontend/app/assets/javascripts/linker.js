@@ -152,7 +152,7 @@ $(function() {
 
 
       var showLinkerCreateModal = function() {
-        AS.openCustomModal(config.modal_id, "Create "+ config.label, AS.renderTemplate("linker_createmodal_template", config), true);
+        AS.openCustomModal(config.modal_id, "Create "+ config.label, AS.renderTemplate("linker_createmodal_template", config), 'container');
         if ($(this).hasClass("linker-create-btn")) {
           renderCreateFormForObject($(this).data("target"));
         } else {
@@ -181,7 +181,7 @@ $(function() {
 
 
       var showLinkerBrowseModal = function() {
-        AS.openCustomModal(config.modal_id, "Browse "+ config.label_plural, AS.renderTemplate("linker_browsemodal_template",config), true);
+        AS.openCustomModal(config.modal_id, "Browse "+ config.label_plural, AS.renderTemplate("linker_browsemodal_template",config), 'container');
         renderItemsInModal();
         $("#"+config.modal_id).on("click","#addSelectedButton", addSelected);
         $("#"+config.modal_id).on("click", ".linker-list .pagination .navigation a", function() {

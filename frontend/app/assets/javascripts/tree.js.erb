@@ -425,14 +425,6 @@ $(function() {
           return;
         }
 
-        /*var modal_contents = AS.renderTemplate("template_rde_wrapper", {
-          path: $(this).attr("rel"),
-          id_path: $(this).attr("rel"),
-          index: "${index}"
-        });
-
-        AS.openCustomModal("rapidDataEntryModal", $(this).attr("title"), modal_contents, true);
-        $(document).triggerHandler("rdeinit.aspace", [$("#rapidDataEntryModal #rde_form")])*/
         $(document).triggerHandler("rdeshow.aspace", [$selected, $(this)]);
       });
 

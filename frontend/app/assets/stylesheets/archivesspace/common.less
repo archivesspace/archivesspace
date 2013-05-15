@@ -51,6 +51,18 @@ h2 > .label {
     width: ((@gridColumnWidth) * 12) + (@gridGutterWidth * (12 - 1)) - 14;
   }
 
+  &.full {
+    width: 98%;
+    margin: 0 !important;
+    left: 1%;
+    top: 1%;
+    height: 98%;
+
+    .modal-body {
+      max-height: none;
+    }
+  }
+
   .modal-footer {
     text-align: left;
 

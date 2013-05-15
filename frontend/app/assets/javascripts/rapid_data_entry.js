@@ -103,7 +103,7 @@ $(function() {
 
 
   $(document).bind("rdeshow.aspace", function(event, node, button) {
-    var $modal = AS.openCustomModal("rapidDataEntryModal", "RDE", AS.renderTemplate("modal_content_loading_template"), true, {keyboard: false});
+    var $modal = AS.openCustomModal("rapidDataEntryModal", "RDE", AS.renderTemplate("modal_content_loading_template"), 'full', {keyboard: false});
 
     $.ajax({
       url: "/"+node.attr("rel")+"s/"+node.data("id")+"/rde",

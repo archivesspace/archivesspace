@@ -324,6 +324,13 @@ AS.encodeForAttribute = function(string) {
 };
 
 
+/* AS.openCustomModal
+ *  id : String - id of the modal element
+ *  title : String - to be applied as the modal header
+ *  contents : String/HTML - the contents of the modal
+ *  fillScreen : String/false - 'full'-98% of screen, 'container'-match the container width, false-standard modal size
+ *  modalOpts : object - any twitter bootstrap options to pass on the modal dialog upon init.
+ */
 AS.openCustomModal = function(id, title, contents, fillScreen, modalOpts) {
   $("body").append(AS.renderTemplate("modal_custom_template", {id:id,title:title,content: "", fill: fillScreen||false}));
   var $modal = $("#"+id);
@@ -334,7 +341,14 @@ AS.openCustomModal = function(id, title, contents, fillScreen, modalOpts) {
   });
 
   var resizeModal = function() {
-    $modal.height($(window).height() - ($(window).height() * 0.2)); // -20% for 10% top and bottom margins
+    var height;
+    if (fillScreen === 'full') {
+      height = $(window).height() - ($(window).height() * 0.03);
+    } else {
+      height = $(window).height() - ($(window).height() * 0.2);
+    }
+
+    $modal.height(height); // -20% for 10% top and bottom margins
     var modalBodyHeight = $modal.height() - $(".modal-header", $modal).height() - $(".modal-footer", $modal).height() - 80;
     $(".modal-body", $modal).height(modalBodyHeight);
     $modal.css("marginLeft", -$modal.width() / 2);
