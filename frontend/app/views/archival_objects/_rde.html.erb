@@ -1,50 +1,3 @@
-<%
-  parent_jsonmodel_type = parent.jsonmodel_type.intern
-%>
-
-<% define_template "rde", jsonmodel_definition(:archival_record_children) do |form| %>
-  <div class="modal-body">
-    <%= form_for JSONModel(parent_jsonmodel_type).new, :as => parent_jsonmodel_type.to_s, :url => {:action => :add_children, :id => parent.id}, :html => {:class => 'form-horizontal', :id => 'rde_form'} do |f| %>
-      <table class="table table-striped table-bordered table-condensed">
-        <thead>
-          <tr>
-            <th><%= I18n.t("archival_object.level") %></th>
-            <th><%= I18n.t("archival_object.publish") %></th>
-            <th><%= I18n.t("archival_object.title") %></th>
-            <th><%= I18n.t("rde.date_type") %></th>
-            <th><%= I18n.t("date.expression") %></th>
-            <th><%= I18n.t("date.begin") %></th>
-            <th><%= I18n.t("date.end") %></th>
-            <th><%= I18n.t("rde.instance_type") %></th>
-            <th><%= I18n.t("container.type_1") %></th>
-            <th><%= I18n.t("container.indicator_1") %></th>
-            <th><%= I18n.t("container.type_2") %></th>
-            <th><%= I18n.t("container.indicator_2") %></th>
-            <th><%= I18n.t("container.type_3") %></th>
-            <th><%= I18n.t("container.indicator_3") %></th>
-            <th><%= I18n.t("container.barcode_1") %></th>
-            <th><%= I18n.t("note._singular") %></th>
-            <th><%= I18n.t("note_attributes.content") %></th>
-            <th><%= I18n.t("note._singular") %></th>
-            <th><%= I18n.t("note_attributes.content") %></th>
-            <th><%= I18n.t("note._singular") %></th>
-            <th><%= I18n.t("note_attributes.content") %></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% form.emit_template "rde_row" %>
-        </tbody>
-      </table>
-      <button class="btn btn-small btn-success add-row">Add Row</button>
-    <% end %>
-  </div>
-  <div class="modal-footer">
-    <button id="saveChangesButton" class="btn btn-primary">Add Children</button>
-    <button class="btn btn-cancel" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
-  </div>
-<% end %>
-
 <% define_template "rde_row", jsonmodel_definition(:archival_object) do |form| %>
   <tr>
     <td><%= form.select "level", form.possible_options_for("level", true) %></td>
@@ -141,6 +94,15 @@
       <% end %>
     </td>
     <td>
+      <%= form.fields_for({}, "notes[0]") do |note| %>
+        <%= form.hidden_input "jsonmodel_type", "note_singlepart" %>
+      <% end %>
+      <%= form.fields_for({}, "notes[1]") do |note| %>
+        <%= form.hidden_input "jsonmodel_type", "note_singlepart" %>
+      <% end %>
+      <%= form.fields_for({}, "notes[2]") do |note| %>
+        <%= form.hidden_input "jsonmodel_type", "note_singlepart" %>
+      <% end %>
       <div class="btn-group">
         <button class="btn btn-success add-row"><span class="icon-plus icon-white"></span></button>
         <button class="btn btn-danger remove-row"><span class="icon-remove icon-white"></span></button>
@@ -148,3 +110,57 @@
     </td>
   </tr>
 <% end %>
+
+<div class="rde-wrapper">
+  <div class="modal-body">
+    <%= form_for @archival_object_children, :as => :archival_object_children, :url => {:controller => @parent.jsonmodel_type.pluralize, :action => :add_children, :id => @parent.id}, :html => {:class => 'form-horizontal', :id => 'rde_form'} do |f| %>
+      <%= form_context :archival_object_children, @archival_object_children do |form| %>
+
+        <%= render :partial => "shared/form_messages", :locals => {:form => form} %>
+
+        <table class="table table-striped table-bordered table-condensed">
+          <thead>
+          <tr>
+            <th><%= I18n.t("archival_object.level") %></th>
+            <th><%= I18n.t("archival_object.publish") %></th>
+            <th><%= I18n.t("archival_object.title") %></th>
+            <th><%= I18n.t("rde.date_type") %></th>
+            <th><%= I18n.t("date.expression") %></th>
+            <th><%= I18n.t("date.begin") %></th>
+            <th><%= I18n.t("date.end") %></th>
+            <th><%= I18n.t("rde.instance_type") %></th>
+            <th><%= I18n.t("container.type_1") %></th>
+            <th><%= I18n.t("container.indicator_1") %></th>
+            <th><%= I18n.t("container.type_2") %></th>
+            <th><%= I18n.t("container.indicator_2") %></th>
+            <th><%= I18n.t("container.type_3") %></th>
+            <th><%= I18n.t("container.indicator_3") %></th>
+            <th><%= I18n.t("container.barcode_1") %></th>
+            <th><%= I18n.t("note._singular") %></th>
+            <th><%= I18n.t("note_attributes.content") %></th>
+            <th><%= I18n.t("note._singular") %></th>
+            <th><%= I18n.t("note_attributes.content") %></th>
+            <th><%= I18n.t("note._singular") %></th>
+            <th><%= I18n.t("note_attributes.content") %></th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+            <% if @archival_object_children.children.length > 0 %>
+            <% @archival_object_children.children.each_with_index do |child, idx|
+                form.push(form.set_index("children[]", idx), child) do %>
+                  <%= form.emit_template("rde_row", child) %>
+              <% end
+            end %>
+            <% end %>
+          </tbody>
+        </table>
+        <button class="btn btn-small btn-success add-row">Add Row</button>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button id="saveChangesButton" class="btn btn-primary">Add Children</button>
+    <button class="btn btn-cancel" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
+  </div>
+</div>

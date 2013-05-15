@@ -1,7 +1,7 @@
 class ResourcesController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete, :rde, :add_children]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_archival_record")}
+  before_filter(:only => [:new, :edit, :create, :update, :rde, :add_children]) {|c| user_must_have("update_archival_record")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
   FIND_OPTS = ["subjects", "container_locations", "related_accessions", "linked_agents", "digital_object"]
@@ -87,6 +87,32 @@ class ResourcesController < ApplicationController
     flash[:success] = I18n.t("resource._frontend.messages.deleted", JSONModelI18nWrapper.new(:resource => resource))
     redirect_to(:controller => :resources, :action => :index, :deleted_uri => resource.uri)
   end
+
+
+  def rde
+    @parent = Resource.find(params[:id])
+    @archival_object_children = ResourceChildren.new
+
+    render :partial => "archival_objects/rde"
+  end
+
+
+  def add_children
+    @parent = Resource.find(params[:id])
+
+    children_data = cleanup_params_for_schema({"children" => params[:children]}, JSONModel(:archival_object_children).schema)
+
+    begin
+      @archival_object_children = ResourceChildren.from_hash(children_data)
+    rescue JSONModel::ValidationException => e
+      flash.now[:error] = e.inspect
+    end
+
+    @archival_object_children = ResourceChildren.from_hash(children_data, false, true) if @archival_object_children.nil?
+
+    render :partial => "archival_objects/rde"
+  end
+
 
   private
 

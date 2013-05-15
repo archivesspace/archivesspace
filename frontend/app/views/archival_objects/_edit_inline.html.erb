@@ -8,7 +8,6 @@
         <%= render :partial => "toolbar" %>
         <div class="record-pane">
           <%= render :partial => "archival_objects/form_container", :locals => {:form => form} %>
-          <%= render :partial => "archival_objects/template_rde", :locals => {:parent => @archival_object} %>
           <div class="form-actions">
             <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("archival_object._singular") %></button>
             <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>

@@ -132,4 +132,13 @@ class ArchivalObjectsController < ApplicationController
   end
 
 
+  def add_children
+
+  end
+
+  def rde
+
+  end
+
+
 end

@@ -1,6 +1,6 @@
 $(function() {
 
-  $.fn.init_rapid_data_entry_form = function() {
+  $.fn.init_rapid_data_entry_form = function($modal) {
     $(this).each(function() {
       var $this = $(this);
 
@@ -24,8 +24,8 @@ $(function() {
 
         index = index+1;
         var $row = $(AS.renderTemplate("template_rde_row", {
-          path: "foo",
-          id_path: "foo",
+          path: "children["+index+"]",
+          id_path: "children_"+index+"_",
           index: index
         }));
         $("table tbody", $this).append($row);
@@ -68,24 +68,35 @@ $(function() {
         }
       });
 
+      // This is an Ajax form...
+      $this.ajaxForm({
+        target: $(".rde-wrapper", $modal),
+        success: function() {
+          $(window).trigger("resize");
+        }
+      });
+
+      // Connect up the $modal form submit button
+      $(".btn-primary", $modal).on("click", function() {
+        $(this).attr("disabled","disabled");
+        $this.submit();
+      });
+
+      $(window).trigger("resize");
     });
   };
 
 
-  $(document).bind("rdeinit.aspace", function(event, rdeform) {
-    rdeform.init_rapid_data_entry_form();
-  });
-
   $(document).bind("rdeshow.aspace", function(event, node, button) {
-    var modal_contents = AS.renderTemplate("template_rde", {
-      path: node.attr("rel"),
-      id_path: node.attr("rel"),
-      index: "${index}"
+    var $modal = AS.openCustomModal("rapidDataEntryModal", "RDE", AS.renderTemplate("modal_content_loading_template"), true, {keyboard: false});
+
+    $.ajax({
+      url: "/"+node.attr("rel")+"s/"+node.data("id")+"/rde",
+      success: function(data) {
+        $(".modal-body", $modal).replaceWith(data);
+        $("form", "#rapidDataEntryModal").init_rapid_data_entry_form($modal);
+      }
     });
-
-    AS.openCustomModal("rapidDataEntryModal", "RDE", modal_contents, true, {keyboard: false});
-
-    $("form", "#rapidDataEntryModal").init_rapid_data_entry_form();
   });
 
 });

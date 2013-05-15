@@ -350,6 +350,8 @@ AS.openCustomModal = function(id, title, contents, fillScreen, modalOpts) {
   }
 
   $modal.modal('show');
+
+  return $modal;
 };
 
 
