@@ -16,7 +16,8 @@ module ComponentsAddChildren
       root_model = Kernel.const_get(self.class.root_record_type.camelize)
       node_model = Kernel.const_get(self.class.node_record_type.camelize)
 
-      if root_model === self.class
+
+      if root_model == self.class
         obj[self.class.root_record_type] = {
           'ref' => self.uri
         }
