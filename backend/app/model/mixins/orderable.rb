@@ -38,7 +38,7 @@ module Orderable
           # Disables the uniqueness constraint
           siblings_ds.
             filter { position >= new_position }.
-            update(:parent_name => Sequel.lit(DB.concat('CAST(id as CHAR)', "'_temp'")))
+            update(:parent_name => Sequel.lit(DB.concat('CAST(id as CHAR(10))', "'_temp'")))
 
           # Do the update we actually wanted
           siblings_ds.
