@@ -50,6 +50,8 @@ class ArchivalObjectsController < ApplicationController
 
 
   def update
+    params['archival_object']['position'] = params['archival_object']['position'].to_i if params['archival_object']['position']
+
     @archival_object = JSONModel(:archival_object).find(params[:id], FIND_OPTS)
     resource = @archival_object['resource']['_resolved']
     parent = @archival_object['parent'] ? @archival_object['parent']['_resolved'] : false
@@ -84,7 +86,10 @@ class ArchivalObjectsController < ApplicationController
                               :position => params[:index])
 
     if response.code == '200'
-      render :json => {:parent => parent_id ? JSONModel(:archival_object).uri_for(parent_id) : nil}
+      render :json => {
+        :parent => parent_id ? JSONModel(:archival_object).uri_for(parent_id) : nil,
+        :position => params[:index]
+      }
     else
       raise "Error setting parent of archival object: #{response.body}"
     end

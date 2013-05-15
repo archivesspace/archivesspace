@@ -55,6 +55,8 @@ class DigitalObjectComponentsController < ApplicationController
 
 
   def update
+    params['digital_object_component']['position'] = params['digital_object_component']['position'].to_i if params['digital_object_component']['position']
+
     @digital_object_component = JSONModel(:digital_object_component).find(params[:id], FIND_OPTS)
     digital_object = @digital_object_component['digital_object']['_resolved']
     parent = @digital_object_component['parent'] ? @digital_object_component['parent']['_resolved'] : false
@@ -89,7 +91,10 @@ class DigitalObjectComponentsController < ApplicationController
                               :position => params[:index])
 
     if response.code == '200'
-      render :json => {:parent => parent_id ? JSONModel(:archival_object).uri_for(parent_id) : nil}
+      render :json => {
+        :parent => parent_id ? JSONModel(:archival_object).uri_for(parent_id) : nil,
+        :position => params[:index]
+      }
     else
       raise "Error setting parent of digital object component: #{response.body}"
     end

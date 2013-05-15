@@ -19,4 +19,11 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
 
   set_model_scope :repository
 
+  def validate
+    validates_unique([:root_record_id, :component_id],
+                     :message => "A Digital Object Component ID must be unique to its Digital Object")
+    map_validation_to_json_property([:root_record_id, :component_id], :component_id)
+    super
+  end
+
 end
