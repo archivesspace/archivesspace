@@ -479,11 +479,10 @@ $(function() {
               hiddenInput.attr('name', nodeEl.attr("rel")+ '[parent]');
               hiddenInput.val(null);
             }
-
-            if (data.position) {
-              $("#"+nodeEl.attr("rel")+"_position_", $container).val(data.position);
-            }
           }
+
+          var selectedNode = $tree.jstree("get_selected");
+          $("#"+selectedNode.attr("rel")+"_position_", $container).val(selectedNode.index());
         }
       });
     }
