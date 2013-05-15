@@ -97,6 +97,7 @@ $(function() {
         $("form", "#rapidDataEntryModal").init_rapid_data_entry_form($modal);
       }
     });
+
   });
 
 });
