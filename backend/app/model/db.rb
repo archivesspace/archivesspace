@@ -271,4 +271,14 @@ eof
   def self.blobify(s)
     (@pool.database_type == :derby) ? s.to_sequel_blob : s
   end
+
+
+  def self.concat(s1, s2)
+    if @pool.database_type == :derby
+      "#{s1} || #{s2}"
+    else
+      "CONCAT(#{s1}, #{s2})"
+    end
+  end
+
 end

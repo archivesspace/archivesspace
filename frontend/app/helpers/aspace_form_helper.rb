@@ -275,7 +275,7 @@ module AspaceFormHelper
                  false, false)
     end
 
-    def hidden_input(name, value = nil)
+    def hidden_input(name, value = nil, field_opts = {})
       value = obj[name] if value.nil?
 
       full_name = path(name)
@@ -285,7 +285,7 @@ module AspaceFormHelper
         value = value['ref']
       end
 
-      @forms.tag("input", {:id => id_for(name), :type => "hidden", :value => h(value), :name => full_name},
+      @forms.tag("input", {:id => id_for(name), :type => "hidden", :value => h(value), :name => full_name}.merge(field_opts),
                  false, false)
     end
 

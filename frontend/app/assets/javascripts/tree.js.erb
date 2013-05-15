@@ -466,16 +466,23 @@ $(function() {
           parent: parent_id,
           index: newIndex
         },
-        success: function() {
-          console.warn("NEED TO FIX THIS AS LOCK_VERSION, POSITION, PARENT MAR BECOME OUT OF SYNC WITH FORM")
-//          var currentNodeEl = $(".selected", $tree);
-//          if (nodeEl.attr("id") == currentNodeEl.attr("id")) {
-//            // we need to update the hidden input 'position' in the form
-//            $("#"+nodeEl.attr("rel")+"_position_", $container).val(parseInt(newIndex));
-//            if (parent_id != "") {
-//              $("#"+nodeEl.attr("rel")+"_parent_", $container).val(targetNodelEl.data("uri"));
-//            }
-//          }
+        success: function(data) {
+          // If the reparented record's form is open, update its
+          // hidden field.
+          if (nodeEl.data("id").toString() === $("form input#id").val()) {
+            var hiddenInput = $("input.hidden-parent-uri", $container);
+
+            if (data.parent) {
+              hiddenInput.attr('name', nodeEl.attr("rel") + '[parent][ref]');
+              hiddenInput.val(data.parent);
+            } else {
+              hiddenInput.attr('name', nodeEl.attr("rel")+ '[parent]');
+              hiddenInput.val(null);
+            }
+          }
+
+          var selectedNode = $tree.jstree("get_selected");
+          $("#"+selectedNode.attr("rel")+"_position_", $container).val(selectedNode.index());
         }
       });
     }

@@ -423,8 +423,9 @@ Sequel.migration do
       add_foreign_key([:root_record_id], :resource, :key => :id)
       add_foreign_key([:parent_id], :archival_object, :key => :id)
 
+      add_index([:root_record_id, :parent_name, :position], :unique => true)
+
       add_unique_constraint([:root_record_id, :ref_id], :name => "ao_unique_refid")
-      add_unique_constraint([:root_record_id, :parent_name, :position], :name => "ao_unique_position")
     end
 
 
@@ -496,7 +497,7 @@ Sequel.migration do
       add_foreign_key([:root_record_id], :digital_object, :key => :id)
       add_foreign_key([:parent_id], :digital_object_component, :key => :id)
 
-      add_unique_constraint([:root_record_id, :parent_name, :position], :name => "do_unique_position")
+      add_index([:root_record_id, :parent_name, :position], :unique => true)
     end
 
 
