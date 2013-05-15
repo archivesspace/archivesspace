@@ -1,84 +1,10 @@
 <%
-  parent_jsonmodel_type = :archival_object if parent_jsonmodel_type.nil?
+  parent_jsonmodel_type = parent.jsonmodel_type.intern
 %>
-
-<% define_template "rde_wrapper", jsonmodel_definition(:archival_object) do |form| %>
-  <div class="modal-body">
-    <%= form_for JSONModel(parent_jsonmodel_type).new, :as => parent_jsonmodel_type.to_s, :url => {:action => :bulk_add_children}, :html => {:class => 'form-horizontal', :id => 'rde_form'} do |f| %>
-      <section id="rde" class="subrecord-form" data-subrecord-form="true" data-object-name="Foo" data-template="template_rde_archival_object" data-cardinality="zero_to_many">
-        <div class="subrecord-form-heading" style="overflow: hidden">
-          <a href="#" class="btn btn-small pull-right">+1</a>
-        </div>
-        <div class="subrecord-form-container">
-          <%= form.list_for([JSONModel(:archival_object).new], "children[]") do |item| %>
-            <% form.emit_template("rde_archival_object", item) %>
-          <% end %>
-        </div>
-      </section>
-    <% end %>
-  </div>
-  <div class="modal-footer">
-    <button id="saveChangesButton" class="btn btn-primary">Add Children</button>
-    <button class="btn btn-cancel" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
-  </div>
-<% end %>
-
-<% define_template "rde_archival_object_date", jsonmodel_definition(:date) do |form| %>
-  <%= form.label_and_select "date_type", form.possible_options_for("date_type", true) %>
-  <%= form.label_and_textfield "expression" %>
-  <%= form.label_and_date "begin" %>
-  <%= form.label_and_date "end" %>
-<% end %>
-
-<% define_template "rde_archival_object_instance", jsonmodel_definition(:instance) do |form| %>
-  <%= form.label_and_select "instance_type", form.possible_options_for('instance_type', true).reject{|option_arr| option_arr[1] === 'digital_object'} %>
-<% end %>
-
-<% define_template "rde_archival_object_container", jsonmodel_definition(:container) do |form| %>
-  <%= form.label_and_select "type_1", form.possible_options_for('type_1', true) %>
-  <%= form.label_and_textfield "indicator_1" %>
-  <%= form.label_and_select "type_2", form.possible_options_for('type_2', true) %>
-  <%= form.label_and_textfield "indicator_2" %>
-  <%= form.label_and_select "type_3", form.possible_options_for('type_3', true) %>
-  <%= form.label_and_textfield "indicator_3" %>
-  <%= form.label_and_textfield "barcode_1" %>
-<% end %>
-
-<% define_template "rde_archival_object_note", jsonmodel_definition(:date) do |form| %>
-  <%= form.label_and_select("type", ["",""].concat(note_types_for(:note_singlepart).map {|value, hash| [hash[:i18n], value]})) %>
-  <%= form.label_and_textfield "content[0]" %>
-<% end %>
-
-<% define_template "rde_archival_object", jsonmodel_definition(:archival_object) do |form| %>
-  <div class="subrecord-form-fields">
-    <%= form.label_and_select "level", form.possible_options_for("level", true) %>
-    <%= form.label_and_boolean "publish", {}, form.default_for("publish") %>
-    <%= form.label_and_textfield "title" %>
-    <%= form.fields_for(JSONModel(:date).new, "dates[0]") do |date| %>
-      <% form.emit_template("rde_archival_object_date", date) %>
-    <% end %>
-    <%= form.fields_for(JSONModel(:instance).new, "instances[0]") do |instance| %>
-      <% form.emit_template("rde_archival_object_instance", instance) %>
-      <%= form.fields_for({}, "container") do |container| %>
-        <% form.emit_template("rde_archival_object_container", container) %>
-      <% end %>
-    <% end %>
-    <%= form.fields_for(JSONModel(:note_singlepart).new, "notes[0]") do |note| %>
-      <% form.emit_template("rde_archival_object_note", note) %>
-    <% end %>
-    <%= form.fields_for(JSONModel(:note_singlepart).new, "notes[1]") do |note| %>
-      <% form.emit_template("rde_archival_object_note", note) %>
-    <% end %>
-    <%= form.fields_for(JSONModel(:note_singlepart).new, "notes[2]") do |note| %>
-      <% form.emit_template("rde_archival_object_note", note) %>
-    <% end %>
-  </div>
-<% end %>
-
 
 <% define_template "rde", jsonmodel_definition(:archival_object) do |form| %>
   <div class="modal-body">
-    <%= form_for JSONModel(parent_jsonmodel_type).new, :as => parent_jsonmodel_type.to_s, :url => {:action => :bulk_add_children}, :html => {:class => 'form-horizontal', :id => 'rde_form'} do |f| %>
+    <%= form_for JSONModel(parent_jsonmodel_type).new, :as => parent_jsonmodel_type.to_s, :url => {:action => :bulk_add_children, :id => parent.id}, :html => {:class => 'form-horizontal', :id => 'rde_form'} do |f| %>
       <table class="table table-striped table-bordered table-condensed">
         <thead>
           <tr>

@@ -17,6 +17,9 @@ class Resource < Sequel::Model(:resource)
   include ExternalIDs
   include CollectionManagements
   include UserDefineds
+  include ComponentsAddChildren
+
+  orderable_root_record_type :resource, :archival_object
 
   agent_relator_enum("linked_agent_archival_record_relators")
 
