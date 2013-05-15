@@ -23,7 +23,7 @@ module ComponentsAddChildren
         }
       else
         obj[self.class.root_record_type] = {
-          'ref' => self[self.class.root_record_type.intern]
+          'ref' => self.class.uri_for(self.class.root_record_type, self[:root_record_id])
         }
 
         obj['parent'] = {
