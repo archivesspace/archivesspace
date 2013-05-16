@@ -30,25 +30,25 @@ module Orderable
         self.class.dataset.db[self.class.table_name].filter(:id => self.id).update(:position => new_position)
         return
       }.and_if_constraint_fails {
-          # Someone's in our spot!  Move everyone out of the way and retry.
+        # Someone's in our spot!  Move everyone out of the way and retry.
 
-          # Sigh.  Work around:
-          # http://stackoverflow.com/questions/5403437/atomic-multi-row-update-with-a-unique-constraint
+        # Sigh.  Work around:
+        # http://stackoverflow.com/questions/5403437/atomic-multi-row-update-with-a-unique-constraint
 
-          # Disables the uniqueness constraint
-          siblings_ds.
-            filter { position >= new_position }.
-            update(:parent_name => Sequel.lit(DB.concat('CAST(id as CHAR(10))', "'_temp'")))
+        # Disables the uniqueness constraint
+        siblings_ds.
+        filter { position >= new_position }.
+        update(:parent_name => Sequel.lit(DB.concat('CAST(id as CHAR(10))', "'_temp'")))
 
-          # Do the update we actually wanted
-          siblings_ds.
-            filter { position >= new_position }.
-            update(:position => Sequel.lit('position + 1'))
+        # Do the update we actually wanted
+        siblings_ds.
+        filter { position >= new_position }.
+        update(:position => Sequel.lit('position + 1'))
 
-          # Puts it back again
-          siblings_ds.
-            filter { position >= new_position }.
-            update(:parent_name => self.parent_name)
+        # Puts it back again
+        siblings_ds.
+        filter { position >= new_position }.
+        update(:parent_name => self.parent_name)
       }
     end
 
@@ -78,7 +78,7 @@ module Orderable
       parent_uri = parent_id ? self.class.uri_for(self.class.node_record_type.intern, parent_id) : nil
 
       self.class.dataset.filter(:id => self.id).update(:parent_id => parent_id,
-                                                       :parent_name => parent_id ? parent_id.to_s : "root@#{parent_uri}",
+                                                       :parent_name => parent_id ? parent_id.to_s : "root@#{root_uri}",
                                                        :position => Sequence.get("#{root_uri}_#{parent_uri}_children_position"))
 
       self.refresh
@@ -147,13 +147,13 @@ module Orderable
       if json[root_record_type]
         opts["root_record_id"] = parse_reference(json[root_record_type]['ref'], opts)[:id]
 
-        opts["position"] = Sequence.get("#{json[root_record_type]['ref']}_#{json.parent}_children_position")
-
         if json.parent
           opts["parent_id"] = parse_reference(json.parent['ref'], opts)[:id]
-          opts["parent_name"] = opts["parent_id"].to_s
+          opts["parent_name"] = "#{opts['parent_id']}@#{self.node_record_type}"
+          opts["position"] = Sequence.get("#{json[root_record_type]['ref']}_#{json.parent['ref']}_children_position")
         else
           opts["parent_name"] = "root@#{json[root_record_type]['ref']}"
+          opts["position"] = Sequence.get("#{json[root_record_type]['ref']}__children_position")
         end
 
       else

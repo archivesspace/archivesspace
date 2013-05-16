@@ -302,7 +302,7 @@ module JSONModel
         raise ValidationException.new(:invalid_object => self,
                                       :errors => err["error"])
       else
-        raise Exception.new("Unknown response: #{response.to_hash} (code: #{response.code})")
+        raise Exception.new("Unknown response: #{response.body} (code: #{response.code})")
       end
     end
 
