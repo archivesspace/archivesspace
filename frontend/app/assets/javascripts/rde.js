@@ -15,7 +15,19 @@ $(function() {
       $modal.on("click", ".remove-row", function(event) {
         event.preventDefault();
         event.stopPropagation();
-        $(event.target).closest("tr").remove();
+
+        var $btn = $(event.target).closest("button");
+
+        if ($btn.hasClass("btn-danger")) {
+          $btn.closest("tr").remove();
+        } else {
+          $btn.addClass("btn-danger");
+          $("span", $btn).addClass("icon-white");
+          setTimeout(function() {
+            $btn.removeClass("btn-danger");
+            $("span", $btn).removeClass("icon-white");
+          }, 10000);
+        }
       });
 
       $modal.on("click", ".add-row", function(event) {
@@ -24,7 +36,7 @@ $(function() {
 
         var $currentRow = $(event.target).closest("tr");
         if ($currentRow.length === 0) {
-          $currentRow = $("table tbody tr:first", $this);
+          $currentRow = $("table tbody tr:last", $this);
         }
 
         index = index+1;
@@ -40,7 +52,7 @@ $(function() {
           $("th", $this).each(function(i, th) {
             var $th = $(th);
             if ($th.hasClass("sticky")) {
-              // populate the input from the current or top row
+              // populate the input from the current or bottom row
               var $source = $("td:nth-child("+(i+1)+") :input", $currentRow);
               var $target = $("td:nth-child("+(i+1)+") :input", $row);
 
@@ -79,9 +91,10 @@ $(function() {
             if ($row.index() === $row.siblings().length) {
               // create a new row if return on the last row
               $(".add-row", $row).trigger("click");
+              $(":input:visible:first", $("td", $("table tbody tr:last", $this))[$cell.index()]).focus();
             } else {
-              // focus the next row from the beginning
-              $(":input:visible:first", $row.next()).focus();
+              // focus the next row
+              $(":input:visible:first", $("td", $row.next())[$cell.index()]).focus();
             }
           }
         } else if (event.keyCode === 27) { //esc
@@ -115,6 +128,10 @@ $(function() {
         } else {
           // we're cool.
         }
+      });
+
+      $modal.on("click", "th", function(event) {
+        $(this).toggleClass("sticky");
       });
 
       var initAjaxForm = function() {

@@ -758,6 +758,16 @@ ul.subrecord-form-list {
 }
 
 #rde_form {
+  th {
+    cursor: pointer;
+
+    &.sticky {
+      #gradient > .vertical(#f0f7fa, #dcf1fa);
+    }
+    &:hover {
+      background-color: @tableBackgroundHover;
+    }
+  }
   td {
     &.control-group {
       &.error {
