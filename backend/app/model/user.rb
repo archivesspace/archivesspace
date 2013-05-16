@@ -33,12 +33,11 @@ class User < Sequel::Model(:user)
     obj
   end
 
-
-  def sequel_to_jsonmodel(obj, opts = {})
+  def self.sequel_to_jsonmodel(obj, opts = {})
     json = super
 
     if obj.agent_record_id
-      json[agent_record] = {:ref => uri_for(obj.agent_record_type, obj.agent_record_id)}
+      json['agent_record'] = {:ref => uri_for(obj.agent_record_type, obj.agent_record_id)}
     end
 
     json

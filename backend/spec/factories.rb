@@ -367,8 +367,4 @@ FactoryGirl.define do
     ref_id { generate(:alphanumstr) }
   end
 
-
-  factory :json_collection_management, class: JSONModel(:collection_management) do
-  end
-
 end

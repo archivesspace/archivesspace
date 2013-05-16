@@ -4,6 +4,7 @@ AppConfig[:solr_index_directory] = proc { File.join(AppConfig[:data_directory], 
 AppConfig[:solr_home_directory] = proc { File.join(AppConfig[:data_directory], "solr_home") }
 AppConfig[:solr_indexing_frequency_seconds] = 30
 
+AppConfig[:default_page_size] = 10
 AppConfig[:max_page_size] = 250
 
 AppConfig[:allow_other_unmapped] = false

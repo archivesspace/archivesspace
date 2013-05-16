@@ -79,7 +79,6 @@ module RESTHelpers
       end
     end
 
-
     ALLOWED_REPORT_FORMATS = ["json", "csv", "xlsx", "html", "pdf"]
 
     def self.allowed_report_formats
@@ -360,7 +359,7 @@ module RESTHelpers
 
         if params[:page]
           known_params['page_size'] = known_params['page'] = true
-          params['page_size'] = coerce_type((params[:page_size] || '10'), PageSize)
+          params['page_size'] = coerce_type((params[:page_size] || AppConfig[:default_page_size]), PageSize)
           params['page'] = coerce_type(params[:page], NonNegativeInteger)
 
         elsif params[:id_set]

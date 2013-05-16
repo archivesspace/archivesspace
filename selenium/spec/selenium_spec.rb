@@ -109,8 +109,8 @@ describe "ArchivesSpace user interface" do
     end
 
 
-    it "paginates the list when more than 10 repositories" do
-      10.times.each do |i|
+    it "paginates the list when more than a page of repositories" do
+      AppConfig[:default_page_size].to_i.times.each do |i|
         create_test_repo("quickrepofortesting#{i}_#{Time.now.to_i}_#{$$}",
                          "quickrepofortesting#{i}_#{Time.now.to_i}_#{$$}",
                          false)
@@ -922,6 +922,67 @@ describe "ArchivesSpace user interface" do
       expect {
         $driver.find_element_with_text('//td', /#{@accession_title}/)
       }.to_not raise_error
+    end
+  end
+
+
+  describe "Pagination" do
+
+    before(:all) do
+      login_as_repo_manager
+    end
+
+
+    after(:all) do
+      logout
+      $accession_url = nil
+    end
+
+
+    it "can navigate through pages of accessions" do
+      c = 0
+      (AppConfig[:default_page_size].to_i * 2 + 1).times do
+        create_accession("acc #{c += 1}")
+      end
+      run_index_round
+
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Accessions").click
+      expect {
+        $driver.find_element_with_text('//div', /Showing 1 - #{AppConfig[:default_page_size]}/)
+      }.to_not raise_error
+
+      $driver.find_element(:xpath, '//a[@title="Next"]').click
+      expect {
+        $driver.find_element_with_text('//div', /Showing #{AppConfig[:default_page_size] + 1}/)
+      }.to_not raise_error
+
+    end
+
+    it "can navigate through pages of digital objects " do
+      c = 0
+      (AppConfig[:default_page_size].to_i + 1).times do
+        $driver.find_element(:link, "Create").click
+        $driver.find_element(:link, "Digital Object").click
+
+        $driver.clear_and_send_keys([:id, "digital_object_title_"],("I can't believe this is DO number #{c += 1}"))
+        $driver.clear_and_send_keys([:id, "digital_object_digital_object_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
+        
+        $driver.find_element(:css => "form#new_digital_object button[type='submit']").click
+      end
+      run_index_round
+
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Digital Objects").click
+      expect {
+        $driver.find_element_with_text('//div', /Showing 1 - #{AppConfig[:default_page_size]}/)
+      }.to_not raise_error
+
+      $driver.find_element(:xpath, '//a[@title="Next"]').click
+      expect {
+        $driver.find_element_with_text('//div', /Showing #{AppConfig[:default_page_size] + 1}/)
+      }.to_not raise_error
+
     end
   end
 
@@ -1883,7 +1944,40 @@ describe "ArchivesSpace user interface" do
     after(:all) do
       logout
     end
-    
+
+
+    it "lets you add a new value to an enumeration" do
+      $driver.find_element(:link, 'System').click
+      $driver.find_element(:link, "Manage Enumerations").click
+      
+      enum_select = $driver.find_element(:id => "enum_selector")
+      enum_select.select_option_with_text("accession_acquisition_type")
+      
+      # Wait for the table of enumerations to load
+      $driver.find_element(:css, '.enumeration-list')
+
+      $driver.find_element(:link, 'Create Value').click
+      $driver.clear_and_send_keys([:id, "enumeration_value_"], "manna\n")
+
+      $driver.find_element_with_text('//td', /^manna$/)
+    end
+
+
+    it "lets you delete a value from an enumeration" do
+      manna = $driver.find_element_with_text('//tr', /manna/)
+      manna.find_element(:link, 'Delete').click
+
+      $driver.find_element(:css => "form#delete_enumeration input[type='submit']").click
+
+      $driver.find_element_with_text('//div', /Enumeration Value Deleted/)
+    end
+
+
+    it "lets you merge one value into another in an enumeration" do
+      # write this test!
+    end
+
+
     it "lets you set a default enumeration (date_type)" do
       $driver.find_element(:link, 'System').click
       $driver.find_element(:link, "Manage Enumerations").click
@@ -1923,6 +2017,35 @@ describe "ArchivesSpace user interface" do
 
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
     end
+  end
+
+
+  describe "Search" do
+
+    before(:all) do
+      login_as_repo_manager
+    end
+
+
+    after(:all) do
+      logout
+    end
+
+
+    it "supports global searches" do
+      $driver.find_element(:id, 'global-search-button').click
+      assert(5) { $driver.find_element_with_text("//h2", /Search Results/) }
+    end
+
+
+    it "supports filtering global searches by type" do
+      $driver.find_element(:id, 'global-search-button').click
+      $driver.find_element(:link, "Repository").click
+      assert(5) { $driver.find_element_with_text("//h5", /Filtered By/) }
+      assert(5) { $driver.find_element_with_text("//a", /Record Type: Repository/) }
+      assert(5) { $driver.find_element_with_text('//div', /Showing 1 - 1 of 1 Results/) }
+    end
+
   end
 
 end

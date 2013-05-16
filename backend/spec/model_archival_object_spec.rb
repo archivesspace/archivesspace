@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'ArchivalObject model' do
 
-  it "Allows archival objects to be created" do
+  it "allows archival objects to be created" do
     ao = ArchivalObject.create_from_json(
                                           build(
                                                 :json_archival_object,
@@ -14,12 +14,12 @@ describe 'ArchivalObject model' do
   end
 
 
-  it "Allow multiple archival objects to be created without conflicts" do
+  it "allows multiple archival objects to be created without conflicts" do
     create_list(:json_archival_object, 5)
   end
 
 
-  it "Allows archival objects to be created with an extent" do
+  it "allow archival objects to be created with an extent" do
     
     opts = {:extents => [{
       "portion" => "whole",
@@ -35,7 +35,7 @@ describe 'ArchivalObject model' do
   end
 
 
-  it "Allows archival objects to be created with a date" do
+  it "allows archival objects to be created with a date" do
     
     opts = {:dates => [{
          "date_type" => "single",
@@ -53,7 +53,7 @@ describe 'ArchivalObject model' do
   end
 
 
-  it "Allows archival objects to be created with an instance" do
+  it "allows archival objects to be created with an instance" do
     
     opts = {:instances => [{
          "instance_type" => generate(:instance_type),
@@ -75,6 +75,24 @@ describe 'ArchivalObject model' do
                                          :repo_id => $repo_id)
 
     ArchivalObject[ao[:id]].ref_id.should_not be_nil
+  end
+
+
+  it "will generate a label if requested" do
+    opts = {
+      :title => "", 
+      :dates => [{
+                   "date_type" => "single",
+                   "label" => "creation",
+                   "begin" => generate(:yyyy_mm_dd),
+                   "end" => generate(:yyyy_mm_dd),
+                 }]
+    }
+
+    ao = ArchivalObject.create_from_json(build(:json_archival_object, opts),
+                                         :repo_id => $repo_id)
+
+    ArchivalObject[ao[:id]].label.should_not be_nil
   end
 
 

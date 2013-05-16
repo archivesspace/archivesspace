@@ -466,7 +466,7 @@ end
 
 def create_accession(title)
   req = Net::HTTP::Post.new("#{$test_repo_uri}/accessions")
-  req.body = {:title => title, :id_0 => "#{Time.now.to_i}#{$$}", :accession_date => "2000-01-01"}.to_json
+  req.body = {:title => title, :id_0 => "#{Time.now.to_f}#{$$}", :accession_date => "2000-01-01"}.to_json
 
   response = admin_backend_request(req)
 

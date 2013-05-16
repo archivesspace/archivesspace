@@ -410,6 +410,7 @@
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS} -Xmx64m -XX:MaxPermSize=96m"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
       <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order default -f d  ${example-arg} spec/${spec}" />
     </java>
   </target>
@@ -544,6 +545,10 @@
           description="Generate coverage reports for the frontend">
   </target>
 
+  <target name="public:coverage" depends="set-classpath, public:clean, selenium:public:test"
+          description="Generate coverage reports for the public interface">
+  </target>
+
 
   <target name="test" depends="backend:test, frontend:test, backend:integration, common:test, selenium:test, migrations:test"
           description="Run the full suite of tests">
@@ -600,7 +605,7 @@
     <delete dir="../coverage" />
   </target>
 
-  <target name="coverage" depends="clean-coverage, common:test:coverage, backend:coverage, backend:integration:coverage, migrations:test:coverage, frontend:coverage" description="Run all coverage reports">
+  <target name="coverage" depends="clean-coverage, common:test:coverage, backend:coverage, backend:integration:coverage, migrations:test:coverage, frontend:coverage, public:coverage" description="Run all coverage reports">
   </target>
 
 </project>

@@ -21,6 +21,15 @@ describe 'Repository controller' do
   end
 
 
+  it "supports updating a repository" do
+    repo = create(:json_repo)
+    repo.name = "A new name"
+    repo.save
+
+    JSONModel(:repository).find(repo.id).name.should eq("A new name")
+  end
+
+
   it "can get back a single repository" do
     repo = create(:repo)
 

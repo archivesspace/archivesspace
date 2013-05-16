@@ -49,7 +49,6 @@ class ArchivalObject < Sequel::Model(:archival_object)
                   label
                 }
 
-
   def validate
     validates_unique([:root_record_id, :ref_id],
                      :message => "An Archival Object Ref ID must be unique to its resource")

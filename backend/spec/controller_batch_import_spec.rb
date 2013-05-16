@@ -94,9 +94,8 @@ describe "Batch Import Controller" do
     
     body = ASUtils.json_parse(response.body)
     body['saved'].length.should eq(1)
-    
-    real_id = body['saved'][resource.uri][-1]
 
+    real_id = body['saved'][resource.uri][-1]
     resource_reloaded = JSONModel(:resource).find(real_id, "resolve[]" => ['subjects', 'related_accessions'])
   
     resource_reloaded.subjects[0]['ref'].should eq(subject.uri)
