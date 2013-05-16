@@ -42,9 +42,6 @@ class ArchivalRecordChildren < JSONModel(:archival_record_children)
         end
       end
       child["notes"].compact!
-
-
-      puts "*** child: #{child.inspect}"
     end
 
     super
