@@ -22,12 +22,41 @@ $(function() {
         event.preventDefault();
         event.stopPropagation();
 
+        var $currentRow = $(event.target).closest("tr");
+        if ($currentRow.length === 0) {
+          $currentRow = $("table tbody tr:first", $this);
+        }
+
         index = index+1;
+
         var $row = $(AS.renderTemplate("template_rde_row", {
           path: "archival_record_children[children]["+index+"]",
           id_path: "archival_record_children_children__"+index+"_",
           index: index
         }));
+
+        // Apply any sticky columns
+        if ($currentRow.length > 0) {
+          $("th", $this).each(function(i, th) {
+            var $th = $(th);
+            if ($th.hasClass("sticky")) {
+              // populate the input from the current or top row
+              var $source = $("td:nth-child("+(i+1)+") :input", $currentRow);
+              var $target = $("td:nth-child("+(i+1)+") :input", $row);
+
+              if ($source.is(":checkbox")) {
+                if ($source.attr("checked")) {
+                  $target.attr("checked", "checked");
+                } else {
+                  $target.removeAttr("checked");
+                }
+              } else {
+                $target.val($source.val());
+              }
+            }
+          });
+        }
+
         $("table tbody", $this).append($row);
         $(":input:visible:first", $row).focus();
       });

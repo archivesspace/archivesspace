@@ -134,21 +134,21 @@
           <thead>
           <tr>
             <th/>
-            <th><%= I18n.t("archival_object.level") %></th>
-            <th><%= I18n.t("archival_object.publish") %></th>
+            <th class="sticky"><%= I18n.t("archival_object.level") %></th>
+            <th class="sticky"><%= I18n.t("archival_object.publish") %></th>
             <th><%= I18n.t("archival_object.title") %></th>
-            <th><%= I18n.t("rde.date_type") %></th>
-            <th><%= I18n.t("date.expression") %></th>
-            <th><%= I18n.t("date.begin") %></th>
-            <th><%= I18n.t("date.end") %></th>
-            <th><%= I18n.t("rde.instance_type") %></th>
-            <th><%= I18n.t("container.type_1") %></th>
-            <th><%= I18n.t("container.indicator_1") %></th>
+            <th class="sticky"><%= I18n.t("rde.date_type") %></th>
+            <th class="sticky"><%= I18n.t("date.expression") %></th>
+            <th class="sticky"><%= I18n.t("date.begin") %></th>
+            <th class="sticky"><%= I18n.t("date.end") %></th>
+            <th class="sticky"><%= I18n.t("rde.instance_type") %></th>
+            <th class="sticky"><%= I18n.t("container.type_1") %></th>
+            <th class="sticky"><%= I18n.t("container.indicator_1") %></th>
             <th><%= I18n.t("container.type_2") %></th>
             <th><%= I18n.t("container.indicator_2") %></th>
             <th><%= I18n.t("container.type_3") %></th>
             <th><%= I18n.t("container.indicator_3") %></th>
-            <th><%= I18n.t("container.barcode_1") %></th>
+            <th class="sticky"><%= I18n.t("container.barcode_1") %></th>
             <th><%= I18n.t("note._singular") %></th>
             <th><%= I18n.t("note_attributes.content") %></th>
             <th><%= I18n.t("note._singular") %></th>
@@ -160,15 +160,24 @@
           </thead>
           <tbody>
             <% if @archival_record_children.children.length > 0 %>
-            <% @archival_record_children.children.each_with_index do |child, idx|
-                form.push(form.set_index("children[]", idx), child) do %>
-                  <%= form.emit_template("rde_row", child) %>
-              <% end
-            end %>
+              <% @archival_record_children.children.each_with_index do |child, idx|
+                  form.push(form.set_index("children[]", idx), child) do %>
+                    <%= form.emit_template("rde_row", child) %>
+                <% end
+              end %>
+            <% else %>
+              <%= form.emit_template("rde_row") %>
             <% end %>
           </tbody>
         </table>
-        <button class="btn btn-small btn-success add-row">Add Row</button>
+        <p>
+          <button class="btn btn-small btn-success add-row">Add Row</button>
+        </p>
+        <div class="well" style="width:340px;">
+          <div><strong>Keyboard Shortcuts</strong></div>
+          <div><small><span class="span2">Jump from cell to cell:</span>SHIFT + Arrow Keys</small></div>
+          <div><small><span class="span2">Create a new row:</span> SHIFT + Return</small></div>
+        </div>
       <% end %>
     <% end %>
   </div>
