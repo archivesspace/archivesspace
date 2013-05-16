@@ -242,7 +242,7 @@ module AspaceFormHelper
 
 
     def textfield(name = nil, value = nil, opts =  {})
-      value ||= obj[name]
+      value ||= obj[name] if !name.nil?
 
       options = {:id => id_for(name), :type => "text", :value => h(value), :name => path(name)}
 

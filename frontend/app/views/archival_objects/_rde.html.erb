@@ -33,49 +33,49 @@
       <% end %>
     </td>
     <td class="control-group">
-      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0]["container"] rescue {} end) do %>
+      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0] || {} rescue {} end) do %>
         <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
           <%= form.select "type_1", jsonmodel_definition(:container).options_for(form, 'type_1', true) %>
         <% end %>
       <% end %>
     </td>
     <td class="control-group">
-      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0]["container"] rescue {} end) do %>
+      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0] || {} rescue {} end) do %>
         <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
           <%= form.textfield "indicator_1" %>
         <% end %>
       <% end %>
     </td>
     <td class="control-group">
-      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0]["container"] rescue {} end) do %>
+      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0] || {} rescue {} end) do %>
         <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
           <%= form.select "type_2", jsonmodel_definition(:container).options_for(form, 'type_2', true) %>
         <% end %>
       <% end %>
     </td>
     <td class="control-group">
-      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0]["container"] rescue {} end) do %>
+      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0] || {} rescue {} end) do %>
         <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
           <%= form.textfield "indicator_2" %>
         <% end %>
       <% end %>
     </td>
     <td class="control-group">
-      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0]["container"] rescue {} end) do %>
+      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0] || {} rescue {} end) do %>
         <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
           <%= form.select "type_3", jsonmodel_definition(:container).options_for(form, 'type_3', true) %>
         <% end %>
       <% end %>
     </td>
     <td class="control-group">
-      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0]["container"] rescue {} end) do %>
+      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0] || {} rescue {} end) do %>
         <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
           <%= form.textfield "indicator_3" %>
         <% end %>
       <% end %>
     </td>
     <td class="control-group">
-      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0]["container"] rescue {} end) do %>
+      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0] || {} rescue {} end) do %>
         <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
           <%= form.textfield "barcode_1" %>
         <% end %>
@@ -89,7 +89,9 @@
     </td>
     <td class="control-group">
       <% form.push(form.set_index("notes[]", 0), begin archival_object["notes"][0] || {} rescue {} end) do %>
-        <%= form.textfield "content[0]" %>
+        <% form.push(form.set_index("content[]", 0), begin form["content"][0] || "" rescue "" end) do %>
+          <%= form.textfield nil, form.obj %>
+        <% end %>
       <% end %>
     </td>
     <td class="control-group">
@@ -100,7 +102,9 @@
     </td>
     <td class="control-group">
       <% form.push(form.set_index("notes[]", 1), begin archival_object["notes"][1] || {} rescue {} end) do %>
-        <%= form.textfield "content[0]" %>
+        <% form.push(form.set_index("content[]", 0), begin form["content"][0] || "" rescue "" end) do %>
+          <%= form.textfield nil, form.obj %>
+        <% end %>
       <% end %>
     </td>
     <td class="control-group">
@@ -111,7 +115,9 @@
     </td>
     <td class="control-group">
       <% form.push(form.set_index("notes[]", 2), begin archival_object["notes"][2] || {} rescue {} end) do %>
-        <%= form.textfield "content[0]" %>
+        <% form.push(form.set_index("content[]", 0), begin form["content"][0] || "" rescue "" end) do %>
+          <%= form.textfield nil, form.obj %>
+        <% end %>
       <% end %>
     </td>
     <td class="control-group">
@@ -166,7 +172,9 @@
                 <% end
               end %>
             <% else %>
-              <%= form.emit_template("rde_row") %>
+              <% form.push(form.set_index("children[]", 0), {}) do %>
+                <%= form.emit_template("rde_row") %>
+              <% end %>
             <% end %>
           </tbody>
         </table>
