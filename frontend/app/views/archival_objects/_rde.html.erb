@@ -69,7 +69,7 @@
     </td>
     <td class="control-group">
       <%= form.fields_for(begin archival_object["notes"][0] rescue {} end, "notes[0]") do |note| %>
-        <%= form.select("type", ["",""].concat(note_types_for(:note_singlepart).map {|value, hash| [hash[:i18n], value]})) %>
+        <%= form.select("type", ["",""].concat(note_types_for(:note_singlepart).map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
       <% end %>
     </td>
     <td class="control-group">
@@ -79,7 +79,7 @@
     </td>
     <td class="control-group">
       <%= form.fields_for(begin archival_object["notes"][1] rescue {} end, "notes[1]") do |note| %>
-        <%= form.select("type", ["",""].concat(note_types_for(:note_singlepart).map {|value, hash| [hash[:i18n], value]})) %>
+        <%= form.select("type", ["",""].concat(note_types_for(:note_singlepart).map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
       <% end %>
     </td>
     <td class="control-group">
@@ -89,7 +89,7 @@
     </td>
     <td class="control-group">
       <%= form.fields_for(begin archival_object["notes"][2] rescue {} end, "notes[2]") do |note| %>
-        <%= form.select("type", ["",""].concat(note_types_for(:note_singlepart).map {|value, hash| [hash[:i18n], value]})) %>
+        <%= form.select("type", ["",""].concat(note_types_for(:note_singlepart).map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
       <% end %>
     </td>
     <td class="control-group">

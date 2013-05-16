@@ -29,7 +29,7 @@ $(function() {
           index: index
         }));
         $("table tbody", $this).append($row);
-        $(":input:first:visible", $row).focus();
+        $(":input:visible:first", $row).focus();
       });
 
       $modal.on("keydown", function(event) {
@@ -39,30 +39,50 @@ $(function() {
         }
       });
 
-      $modal.on("keydown", "input[type='text']", function(event) {
+      $modal.on("keydown", ":input, input[type='text']", function(event) {
         var $row = $(event.target).closest("tr");
+        var $cell = $(event.target).closest("td");
 
         if (event.keyCode === 13) { // return
           event.preventDefault();
-          if ($row.index() === $row.siblings().length) {
-            // create a new row if return on the last row
-            $(".add-row", $row).trigger("click");
-          } else {
-            // focus the next row from the beginning
-            $(":input:first:visible", $row.next()).focus();
+
+          if (event.shiftKey) {
+            if ($row.index() === $row.siblings().length) {
+              // create a new row if return on the last row
+              $(".add-row", $row).trigger("click");
+            } else {
+              // focus the next row from the beginning
+              $(":input:visible:first", $row.next()).focus();
+            }
           }
         } else if (event.keyCode === 27) { //esc
           event.preventDefault();
           event.stopImmediatePropagation();
           return true;
         } else if (event.keyCode === 37) { // left
-          event.preventDefault();
-        } else if (event.keyCode === 38) { // up
-          event.preventDefault();
-        } else if (event.keyCode === 39) { // right
-          event.preventDefault();
+          if (event.shiftKey) {
+            event.preventDefault();
+            $(":input:visible:first", $cell.prev()).focus();
+          }
         } else if (event.keyCode === 40) { // down
-          event.preventDefault();
+          if (event.shiftKey) {
+            event.preventDefault();
+            if ($row.index() < $row.siblings().length) {
+              $(":input:visible:first", $("td", $row.next())[$cell.index()]).focus();
+            }
+          }
+        } else if (event.keyCode === 38) { // up
+          if (event.shiftKey) {
+            event.preventDefault();
+            if ($row.index() > 0) {
+              $(":input:visible:first", $("td", $row.prev())[$cell.index()]).focus();
+            }
+          }
+        } else if (event.keyCode === 39) { // right
+          if (event.shiftKey) {
+            event.preventDefault();
+            $(":input:visible:first", $cell.next()).focus();
+          }
         } else {
           // we're cool.
         }
