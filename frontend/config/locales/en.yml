@@ -375,3 +375,4 @@ en:
   rde:
     date_type: Date Type
     instance_type: Instance Type
+    success: "<div class='alert alert-success'>Children Created. Refreshing page...</div>"

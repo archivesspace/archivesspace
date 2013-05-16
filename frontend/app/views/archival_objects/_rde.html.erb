@@ -8,105 +8,113 @@
     <td class="control-group"><%= form.checkbox "publish", {}, form.default_for("publish") %></td>
     <td class="control-group"><%= form.textfield "title" %></td>
     <td class="control-group">
-      <%= form.fields_for(begin archival_object["dates"][0] rescue {} end, "dates[0]") do |date| %>
+      <% form.push(form.set_index("dates[]", 0), begin archival_object["dates"][0] || {} rescue {} end) do %>
         <%= form.select "date_type", jsonmodel_definition(:date).options_for(form, "date_type", true) %>
       <% end %>
     </td>
     <td class="control-group">
-      <%= form.fields_for(begin archival_object["dates"][0] rescue {} end, "dates[0]") do |date| %>
+      <% form.push(form.set_index("dates[]", 0), begin archival_object["dates"][0] || {} rescue {} end) do %>
         <%= form.textfield "expression" %>
       <% end %>
     </td>
     <td class="control-group">
-      <%= form.fields_for(begin archival_object["dates"][0] rescue {} end, "dates[0]") do |date| %>
+      <% form.push(form.set_index("dates[]", 0), begin archival_object["dates"][0] || {} rescue {} end) do %>
         <%= form.textfield "begin" %>
       <% end %>
     </td>
     <td class="control-group">
-      <%= form.fields_for(begin archival_object["dates"][0] rescue {} end, "dates[0]") do |date| %>
+      <% form.push(form.set_index("dates[]", 0), begin archival_object["dates"][0] || {} rescue {} end) do %>
         <%= form.textfield "end" %>
       <% end %>
     </td>
     <td class="control-group">
-      <%= form.fields_for(begin archival_object["instances"][0] rescue {} end, "instances[0]") do |instance| %>
+      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0] || {} rescue {} end) do %>
         <%= form.select "instance_type", jsonmodel_definition(:instance).options_for(form, 'instance_type', true).reject{|option_arr| option_arr[1] === 'digital_object'} %>
       <% end %>
     </td>
     <td class="control-group">
-      <%= form.fields_for(begin archival_object["instances"][0]["container"] rescue {} end, "instances[0][container]") do |container| %>
-        <%= form.select "type_1", jsonmodel_definition(:container).options_for(form, 'type_1', true) %>
+      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0]["container"] rescue {} end) do %>
+        <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
+          <%= form.select "type_1", jsonmodel_definition(:container).options_for(form, 'type_1', true) %>
+        <% end %>
       <% end %>
     </td>
     <td class="control-group">
-      <%= form.fields_for(begin archival_object["instances"][0]["container"] rescue {} end, "instances[0][container]") do |container| %>
-        <%= form.textfield "indicator_1" %>
+      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0]["container"] rescue {} end) do %>
+        <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
+          <%= form.textfield "indicator_1" %>
+        <% end %>
       <% end %>
     </td>
     <td class="control-group">
-      <%= form.fields_for(begin archival_object["instances"][0]["container"] rescue {} end, "instances[0][container]") do |container| %>
-        <%= form.select "type_2", jsonmodel_definition(:container).options_for(form, 'type_2', true) %>
+      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0]["container"] rescue {} end) do %>
+        <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
+          <%= form.select "type_2", jsonmodel_definition(:container).options_for(form, 'type_2', true) %>
+        <% end %>
       <% end %>
     </td>
     <td class="control-group">
-      <%= form.fields_for(begin archival_object["instances"][0]["container"] rescue {} end, "instances[0][container]") do |container| %>
-        <%= form.textfield "indicator_2" %>
+      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0]["container"] rescue {} end) do %>
+        <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
+          <%= form.textfield "indicator_2" %>
+        <% end %>
       <% end %>
     </td>
     <td class="control-group">
-      <%= form.fields_for(begin archival_object["instances"][0]["container"] rescue {} end, "instances[0][container]") do |container| %>
-        <%= form.select "type_3", jsonmodel_definition(:container).options_for(form, 'type_3', true) %>
+      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0]["container"] rescue {} end) do %>
+        <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
+          <%= form.select "type_3", jsonmodel_definition(:container).options_for(form, 'type_3', true) %>
+        <% end %>
       <% end %>
     </td>
     <td class="control-group">
-      <%= form.fields_for(begin archival_object["instances"][0]["container"] rescue {} end, "instances[0][container]") do |container| %>
-        <%= form.textfield "indicator_3" %>
+      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0]["container"] rescue {} end) do %>
+        <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
+          <%= form.textfield "indicator_3" %>
+        <% end %>
       <% end %>
     </td>
     <td class="control-group">
-      <%= form.fields_for(begin archival_object["instances"][0]["container"] rescue {} end, "instances[0][container]") do |container| %>
-        <%= form.textfield "barcode_1" %>
+      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0]["container"] rescue {} end) do %>
+        <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
+          <%= form.textfield "barcode_1" %>
+        <% end %>
       <% end %>
     </td>
     <td class="control-group">
-      <%= form.fields_for(begin archival_object["notes"][0] rescue {} end, "notes[0]") do |note| %>
-        <%= form.select("type", ["",""].concat(note_types_for(:note_singlepart).map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
+      <% form.push(form.set_index("notes[]", 0), begin archival_object["notes"][0] || {} rescue {} end) do %>
+        <%= form.select("type", ["",""].concat(note_types_for(:archival_object).map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
+        <%= form.hidden_input "jsonmodel_type", "note_singlepart" %>
       <% end %>
     </td>
     <td class="control-group">
-      <%= form.fields_for(begin archival_object["notes"][0] rescue {} end, "notes[0]") do |note| %>
+      <% form.push(form.set_index("notes[]", 0), begin archival_object["notes"][0] || {} rescue {} end) do %>
         <%= form.textfield "content[0]" %>
       <% end %>
     </td>
     <td class="control-group">
-      <%= form.fields_for(begin archival_object["notes"][1] rescue {} end, "notes[1]") do |note| %>
-        <%= form.select("type", ["",""].concat(note_types_for(:note_singlepart).map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
+      <% form.push(form.set_index("notes[]", 1), begin archival_object["notes"][1] || {} rescue {} end) do %>
+        <%= form.select("type", ["",""].concat(note_types_for(:archival_object).map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
+        <%= form.hidden_input "jsonmodel_type", "note_singlepart" %>
       <% end %>
     </td>
     <td class="control-group">
-      <%= form.fields_for(begin archival_object["notes"][1] rescue {} end, "notes[1]") do |note| %>
+      <% form.push(form.set_index("notes[]", 1), begin archival_object["notes"][1] || {} rescue {} end) do %>
         <%= form.textfield "content[0]" %>
       <% end %>
     </td>
     <td class="control-group">
-      <%= form.fields_for(begin archival_object["notes"][2] rescue {} end, "notes[2]") do |note| %>
-        <%= form.select("type", ["",""].concat(note_types_for(:note_singlepart).map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
+      <% form.push(form.set_index("notes[]", 2), begin archival_object["notes"][2] || {} rescue {} end) do %>
+        <%= form.select("type", ["",""].concat(note_types_for(:archival_object).map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
+        <%= form.hidden_input "jsonmodel_type", "note_singlepart" %>
       <% end %>
     </td>
     <td class="control-group">
-      <%= form.fields_for(begin archival_object["notes"][2] rescue {} end, "notes[2]") do |note| %>
+      <% form.push(form.set_index("notes[]", 2), begin archival_object["notes"][2] || {} rescue {} end) do %>
         <%= form.textfield "content[0]" %>
       <% end %>
     </td>
     <td class="control-group">
-      <%= form.fields_for(begin archival_object["notes"][0] rescue {} end, "notes[0]") do |note| %>
-        <%= form.hidden_input "jsonmodel_type", "note_singlepart" %>
-      <% end %>
-      <%= form.fields_for(begin archival_object["notes"][1] rescue {} end, "notes[1]") do |note| %>
-        <%= form.hidden_input "jsonmodel_type", "note_singlepart" %>
-      <% end %>
-      <%= form.fields_for(begin archival_object["notes"][2] rescue {} end, "notes[2]") do |note| %>
-        <%= form.hidden_input "jsonmodel_type", "note_singlepart" %>
-      <% end %>
       <div class="btn-group">
         <button class="btn btn-success add-row"><span class="icon-plus icon-white"></span></button>
         <button class="btn btn-danger remove-row"><span class="icon-remove icon-white"></span></button>
@@ -117,8 +125,8 @@
 
 <div class="rde-wrapper">
   <div class="modal-body">
-    <%= form_for @archival_object_children, :as => :archival_object_children, :url => {:controller => @parent.jsonmodel_type.pluralize, :action => :add_children, :id => @parent.id}, :html => {:class => 'form-horizontal', :id => 'rde_form'} do |f| %>
-      <%= form_context :archival_object_children, @archival_object_children do |form| %>
+    <%= form_for @archival_record_children, :as => :archival_record_children, :url => {:controller => @parent.jsonmodel_type.pluralize, :action => :add_children, :id => @parent.id}, :html => {:class => 'form-horizontal', :id => 'rde_form'} do |f| %>
+      <%= form_context :archival_record_children, @archival_record_children do |form| %>
 
         <%= render :partial => "shared/form_messages", :locals => {:form => form} %>
 
@@ -151,8 +159,8 @@
           </tr>
           </thead>
           <tbody>
-            <% if @archival_object_children.children.length > 0 %>
-            <% @archival_object_children.children.each_with_index do |child, idx|
+            <% if @archival_record_children.children.length > 0 %>
+            <% @archival_record_children.children.each_with_index do |child, idx|
                 form.push(form.set_index("children[]", idx), child) do %>
                   <%= form.emit_template("rde_row", child) %>
               <% end

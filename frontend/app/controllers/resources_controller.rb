@@ -90,8 +90,10 @@ class ResourcesController < ApplicationController
 
 
   def rde
+    flash.clear
+
     @parent = Resource.find(params[:id])
-    @archival_object_children = ResourceChildren.new
+    @archival_record_children = ResourceChildren.new
 
     render :partial => "archival_objects/rde"
   end
@@ -100,22 +102,22 @@ class ResourcesController < ApplicationController
   def add_children
     @parent = Resource.find(params[:id])
 
-    if params[:archival_object_children].blank? or params[:archival_object_children]["children"].blank?
+    if params[:archival_record_children].blank? or params[:archival_record_children]["children"].blank?
 
-      @archival_object_children = ResourceChildren.new
+      @archival_record_children = ResourceChildren.new
       flash.now[:error] = "No rows entered"
 
     else
-
-      children_data = cleanup_params_for_schema(params[:archival_object_children], JSONModel(:archival_object_children).schema)
+      children_data = cleanup_params_for_schema(params[:archival_record_children], JSONModel(:archival_record_children).schema)
 
       begin
-        @archival_object_children = ResourceChildren.from_hash(children_data, false, true)
-        @archival_object_children.save
-      rescue JSONModel::ValidationException => e
-        @exceptions = @archival_object_children._exceptions
-      end
+        @archival_record_children = ResourceChildren.from_hash(children_data, false, true)
+        @archival_record_children.save(:resource_id => @parent.id)
 
+        return render :text => I18n.t("rde.success")
+      rescue JSONModel::ValidationException => e
+        @exceptions = @archival_record_children._exceptions
+      end
 
     end
 

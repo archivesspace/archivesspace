@@ -24,8 +24,8 @@ $(function() {
 
         index = index+1;
         var $row = $(AS.renderTemplate("template_rde_row", {
-          path: "archival_object_children[children]["+index+"]",
-          id_path: "archival_object_children_children__"+index+"_",
+          path: "archival_record_children[children]["+index+"]",
+          id_path: "archival_record_children_children__"+index+"_",
           index: index
         }));
         $("table tbody", $this).append($row);
@@ -95,16 +95,23 @@ $(function() {
             $(window).trigger("resize");
             $this = $("form", "#rapidDataEntryModal");
 
-            $("tbody tr", $this).each(function() {
-              var $row = $(this);
-              if ($("td.error", $row).length > 0) {
-                $row.addClass("invalid");
-              } else {
-                $row.addClass("valid");
-              }
-            });
+            if ($this.length) {
+              $("tbody tr", $this).each(function() {
+                var $row = $(this);
+                if ($("td.error", $row).length > 0) {
+                  $row.addClass("invalid");
+                } else {
+                  $row.addClass("valid");
+                }
+              });
 
-            initAjaxForm();
+              initAjaxForm();
+            } else {
+              // we're good to go!
+              setTimeout(function() {
+                location.reload(true);
+              }, 1000);
+            }
           }
         });
       };
