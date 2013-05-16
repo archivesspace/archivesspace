@@ -52,7 +52,7 @@ module ASUtils
      java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
      java.lang.System.get_property("catalina.base")].
       reject { |dir| !Dir.exists?(dir) }.
-      map { |dir| File.join(*[dir, "local", base].compact) }
+      map { |dir| AppConfig[:plugins].map { |plugin| File.join(*[dir, "plugins", plugin, base].compact) } }.flatten
   end
 
 

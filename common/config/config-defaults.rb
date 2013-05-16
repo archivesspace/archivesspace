@@ -60,3 +60,5 @@ AppConfig[:locale] = :en
 
 # Report Configuration
 AppConfig[:report_page_size] = "A4"
+
+AppConfig[:plugins] = ['local']

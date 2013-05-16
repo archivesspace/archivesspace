@@ -95,8 +95,9 @@ class ArchivesSpaceService < Sinatra::Base
 
         # Load all models
         Dir.glob(File.join(prefix, "model", "*.rb")).sort.each do |model|
-          basename = File.basename(model, ".rb")
-          require_relative File.join("model", basename)
+          load File.absolute_path(model)
+#          basename = File.basename(model, ".rb")
+#          require_relative File.join("model", basename)
         end
 
         # Load all reports

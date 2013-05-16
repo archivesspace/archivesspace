@@ -225,11 +225,13 @@ module JSONModel
 
     # Load all JSON schemas from the schemas subdirectory
     # Create a model class for each one.
-    Dir.glob(File.join(File.dirname(__FILE__),
-                       "schemas",
-                       "*.rb")).sort.each do |schema|
-      schema_name = File.basename(schema, ".rb")
-      load_schema(schema_name)
+    [*ASUtils.find_local_directories('schemas'),
+     File.join(File.dirname(__FILE__), "schemas")].each do |dir|
+      Dir.glob(File.join(dir,
+                         "*.rb")).sort.each do |schema|
+        schema_name = File.basename(schema, ".rb")
+        load_schema(schema_name)
+      end
     end
 
     require_relative "validations"
