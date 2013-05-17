@@ -49,6 +49,13 @@
     <td class="control-group">
       <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0] || {} rescue {} end) do %>
         <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
+          <%= form.textfield "barcode_1" %>
+        <% end %>
+      <% end %>
+    </td>
+    <td class="control-group">
+      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0] || {} rescue {} end) do %>
+        <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
           <%= form.select "type_2", jsonmodel_definition(:container).options_for(form, 'type_2', true) %>
         <% end %>
       <% end %>
@@ -71,13 +78,6 @@
       <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0] || {} rescue {} end) do %>
         <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
           <%= form.textfield "indicator_3" %>
-        <% end %>
-      <% end %>
-    </td>
-    <td class="control-group">
-      <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0] || {} rescue {} end) do %>
-        <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
-          <%= form.textfield "barcode_1" %>
         <% end %>
       <% end %>
     </td>
@@ -150,11 +150,11 @@
             <th class="sticky"><%= I18n.t("rde.instance_type") %></th>
             <th class="sticky"><%= I18n.t("container.type_1") %></th>
             <th class="sticky"><%= I18n.t("container.indicator_1") %></th>
+            <th class="sticky"><%= I18n.t("container.barcode_1") %></th>
             <th><%= I18n.t("container.type_2") %></th>
             <th><%= I18n.t("container.indicator_2") %></th>
             <th><%= I18n.t("container.type_3") %></th>
             <th><%= I18n.t("container.indicator_3") %></th>
-            <th class="sticky"><%= I18n.t("container.barcode_1") %></th>
             <th><%= I18n.t("note._singular") %></th>
             <th><%= I18n.t("note_attributes.content") %></th>
             <th><%= I18n.t("note._singular") %></th>

@@ -69,7 +69,7 @@ $(function() {
           });
         }
 
-        $("table tbody", $this).append($row);
+        $currentRow.after($row);
         $(":input:visible:first", $row).focus();
       });
 
@@ -88,14 +88,8 @@ $(function() {
           event.preventDefault();
 
           if (event.shiftKey) {
-            if ($row.index() === $row.siblings().length) {
-              // create a new row if return on the last row
               $(".add-row", $row).trigger("click");
-              $(":input:visible:first", $("td", $("table tbody tr:last", $this))[$cell.index()]).focus();
-            } else {
-              // focus the next row
               $(":input:visible:first", $("td", $row.next())[$cell.index()]).focus();
-            }
           }
         } else if (event.keyCode === 27) { //esc
           event.preventDefault();
