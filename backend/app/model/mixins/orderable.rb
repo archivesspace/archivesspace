@@ -9,7 +9,7 @@ module Orderable
   end
 
 
-  def set_position_in_list(target_position)
+  def set_position_in_list(target_position, sequence)
     siblings_ds = self.class.dataset.
                        filter(:root_record_id => self.root_record_id,
                               :parent_id => self.parent_id,
@@ -18,11 +18,13 @@ module Orderable
     # Find the position of the element we'll be inserted after.  If there are no
     # elements, or if our target position is zero, then we'll get inserted at
     # position zero.
-    predecessor = (target_position > 0) && siblings_ds.order(:position).
-                                                       limit(target_position).
-                                                       select(:position).all
+    predecessor = if target_position > 0
+                    siblings_ds.filter(~:id => self.id).order(:position).limit(target_position).select(:position).all
+                  else
+                    []
+                  end
 
-    new_position = (predecessor && !predecessor.empty?) ? (predecessor.last[:position] + 1) : 0
+    new_position = !predecessor.empty? ? (predecessor.last[:position] + 1) : 0
 
     100.times do
       DB.attempt {
@@ -31,6 +33,10 @@ module Orderable
         return
       }.and_if_constraint_fails {
         # Someone's in our spot!  Move everyone out of the way and retry.
+
+        # Bump the sequence to maintain the invariant that sequence.number >= max(position)
+        # (since we're about to increment the last N positions by 1)
+        Sequence.get(sequence)
 
         # Sigh.  Work around:
         # http://stackoverflow.com/questions/5403437/atomic-multi-row-update-with-a-unique-constraint
@@ -49,6 +55,8 @@ module Orderable
         siblings_ds.
         filter { position >= new_position }.
         update(:parent_name => self.parent_name)
+
+        # Now there's a gap at new_position ready for our element.
       }
     end
 
@@ -57,15 +65,16 @@ module Orderable
 
 
   def update_from_json(json, opts = {}, apply_linked_records = true)
+    sequence = self.class.sequence_for(json)
 
-    self.class.set_root_record(json, opts)
+    self.class.set_root_record(json, sequence, opts)
 
     obj = super
 
     # Then lock in a position (which may involve contention with other updates
     # happening to the same tree of records)
     if json[self.class.root_record_type] && json.position
-      self.set_position_in_list(json.position)
+      self.set_position_in_list(json.position, sequence)
     end
 
     obj
@@ -76,13 +85,14 @@ module Orderable
     if self[:root_record_id]
       root_uri = self.class.uri_for(self.class.root_record_type.intern, self[:root_record_id])
       parent_uri = parent_id ? self.class.uri_for(self.class.node_record_type.intern, parent_id) : nil
+      sequence = "#{root_uri}_#{parent_uri}_children_position"
 
       self.class.dataset.filter(:id => self.id).update(:parent_id => parent_id,
                                                        :parent_name => parent_id ? parent_id.to_s : "root@#{root_uri}",
-                                                       :position => Sequence.get("#{root_uri}_#{parent_uri}_children_position"))
+                                                       :position => Sequence.get(sequence))
 
       self.refresh
-      self.set_position_in_list(position) if position
+      self.set_position_in_list(position, sequence) if position
     else
       raise "Root not set for record #{self}"
     end
@@ -116,20 +126,31 @@ module Orderable
     end
 
 
+    def sequence_for(json)
+      if json[root_record_type]
+        if json.parent
+          "#{json[root_record_type]['ref']}_#{json.parent['ref']}_children_position"
+        else
+          "#{json[root_record_type]['ref']}__children_position"
+        end
+      end
+    end
+
     def create_from_json(json, opts = {})
-      set_root_record(json, opts)
+      sequence = sequence_for(json)
+      set_root_record(json, sequence, opts)
 
       obj = super
 
       if json[self.root_record_type] && json.position
-        obj.set_position_in_list(json.position)
+        obj.set_position_in_list(json.position, sequence)
       end
 
       obj
     end
 
 
-    def set_root_record(json, opts)
+    def set_root_record(json, sequence, opts)
       opts["root_record_id"] = nil
       opts["parent_id"] = nil
       opts["parent_name"] = nil
@@ -150,11 +171,11 @@ module Orderable
         if json.parent
           opts["parent_id"] = parse_reference(json.parent['ref'], opts)[:id]
           opts["parent_name"] = "#{opts['parent_id']}@#{self.node_record_type}"
-          opts["position"] = Sequence.get("#{json[root_record_type]['ref']}_#{json.parent['ref']}_children_position")
         else
           opts["parent_name"] = "root@#{json[root_record_type]['ref']}"
-          opts["position"] = Sequence.get("#{json[root_record_type]['ref']}__children_position")
         end
+
+        opts["position"] = Sequence.get(sequence)
 
       else
         # This record isn't part of a tree hierarchy

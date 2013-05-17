@@ -26,7 +26,6 @@ describe 'Archival Object controller' do
 
 
   it "lets you reorder sibling archival objects" do
-    
     resource = create(:json_resource)
 
     ao_1 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO1")
@@ -48,6 +47,34 @@ describe 'Archival Object controller' do
     tree.children[0]["title"].should eq("AO2")
     tree.children[1]["title"].should eq("AO1")
     tree.children[2]["title"].should eq("AO3")
+  end
+
+
+  it "lets you specify your tree position on creation" do
+    resource = create(:json_resource)
+
+    ao_1 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO1")
+    ao_2 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO2")
+    ao_3 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO3", :position => 1)
+
+    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
+
+    tree.children[0]["title"].should eq("AO1")
+    tree.children[1]["title"].should eq("AO3")
+    tree.children[2]["title"].should eq("AO2")
+  end
+
+
+  it "doesn't mind if your specified position is greater than the existing max position" do
+    resource = create(:json_resource)
+
+    ao_1 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO1", :position => 1)
+    ao_2 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO2")
+
+    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
+
+    tree.children[0]["title"].should eq("AO1")
+    tree.children[1]["title"].should eq("AO2")
   end
 
 
