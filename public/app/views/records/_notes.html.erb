@@ -4,6 +4,16 @@
     <ul class="results-list">
       <% notes.each do |note| %>
         <li class="result">
+          <%
+            if note['label']
+              label_for_note = note['label']
+            elsif note['type']
+              label_for_note = I18n.t("enumerations.#{note['jsonmodel_type']}_type.#{note['type']}", :default => note['type'])
+            else
+              label_for_note = I18n.t("note.#{note['jsonmodel_type']}", :default => note['jsonmodel_type'])
+            end
+          %>
+          <h4><%= label_for_note %></h4>
 <pre><% note['content'].each do |note_content| %>
 <%= note_content.strip %>
 <% end %></pre>
