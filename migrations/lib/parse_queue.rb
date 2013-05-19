@@ -42,6 +42,15 @@ module ASpaceImport
       @backing_file.write(ASUtils.to_json(hash))
       @backing_file.write("\n")
     end
+    
+    def inspect
+      str = "["
+      File.open(@backing_file.path).each do |line|
+        str << "#{line.gsub(/\n/,'')},"
+      end
+      str << "]"
+      str
+    end
 
     def close
 
@@ -70,10 +79,10 @@ module ASpaceImport
     end
 
     
-    def save(&response_handler)
+    def save(&block)
 
       self.close
-      
+
       if @opts[:dry]
         
         batch = ASUtils.json_parse(File.open(@batch_file).read)
@@ -83,9 +92,9 @@ module ASpaceImport
             
         response = mock('Net::HTTPResponse')
         
-        response.stubs(:code => 200, :body => ASUtils.to_json(mapping))
+        response.stubs(:code => 200, :read_body => ASUtils.to_json(mapping))
         
-        response
+        block.call(response)
         
       else
         begin
@@ -93,7 +102,7 @@ module ASpaceImport
           url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
           
           JSONModel::HTTP.with_request_priority(:low) do
-            JSONModel::HTTP.post_json_file(url, @batch_file.path, &response_handler)
+            JSONModel::HTTP.post_json_file(url, @batch_file.path, &block)
           end
         ensure
           @batch_file.unlink
@@ -111,14 +120,14 @@ module ASpaceImport
       @opts = opts
     end
     
+    
     def pop
 
       if self.last.class.method_defined? :uri and !self.last.uri.nil?
         @batch.push(self.last) unless self.last.uri.nil?
       end      
       
-      super
-      
+      super  
     end
     
     
@@ -143,7 +152,7 @@ module ASpaceImport
 
     
     def inspect
-      "Parse Queue: " << super <<  " -- Batch: " << @batch.inspect
+      "Parse Queue: " << super <<  " --- Batch: " << @batch.inspect
     end
     
   end

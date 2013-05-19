@@ -66,21 +66,13 @@ if options[:list]
   exit
 end
 
-x = Proc.new do
-  if options[:importer]
-    i = ASpaceImport::Importer.create_importer(options)
-  
-    if options[:debug]
-      i.run
-    else
-      i.run_safe
-    end
-  
-    puts i.report
+
+if options[:importer]
+  ASpaceImport::Importer.create_importer(options).run_safe do |message|
+    puts message.to_s
   end
 end
 
-x.call
 
 
 
