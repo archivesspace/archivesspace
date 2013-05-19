@@ -71,7 +71,6 @@ class StreamingImport
     @jstream = StreamingJsonReader.new(@tempfile.path)
     
     with_status("Check record URLs") do
-    
       @logical_urls = load_logical_urls
     end
     
@@ -89,8 +88,6 @@ class StreamingImport
 
     round = 0
 
-    self.estimate = @jstream.count
-
     while true
       round += 1
       
@@ -98,6 +95,7 @@ class StreamingImport
       progressed = false
 
       with_status("Record cycle #{round}") do
+        self.estimate = @jstream.count
         @jstream.each do |rec|
           uri = rec['uri']
           dependencies = @dependencies[uri]
@@ -156,6 +154,7 @@ class StreamingImport
 
       # Take the opportunity to validate the record too
       to_jsonmodel(rewrite(rec, {}))
+
     end
 
     logical_urls
@@ -187,7 +186,6 @@ class StreamingImport
 
       RequestContext.open(:current_username => "admin") do
         obj = model_for(record['jsonmodel_type']).create_from_json(json)
-        Log.debug("Created: #{record['uri']}")
 
         obj.uri
       end
@@ -195,7 +193,7 @@ class StreamingImport
       if noerror
         nil
       else
-        raise $!
+        raise $!, "Problem creating '#{title_or_fallback(record)}': #{$!}"
       end
     end
   end
@@ -324,18 +322,29 @@ class StreamingImport
   
   
   def with_status(stat, &block)
-    start = "#{stat}: in progress"
-    fin = "#{stat}: done"
+    @status_id ||= 0
+    @status_id += 1
     
-    @ticker.status_update(start)
+    status = {:id => @status_id, :label => stat}
+    # start = "#{stat}: in progress"
+    # fin = "#{stat}: done"
+    
+    @ticker.status_update(:started, status)
     result = block.call
-    @ticker.status_update(fin, start)
+    # @ticker.status_update(fin, start)
+    @ticker.status_update(:done, status)
     
     result
   end
   
+  
   def estimate=(count)
     @ticker.tick_estimate = count
+  end
+  
+  
+  def title_or_fallback(record)
+    record['title'] ? record['title'] : record['jsonmodel_type']
   end
     
 

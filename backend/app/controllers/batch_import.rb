@@ -21,29 +21,28 @@ class ArchivesSpaceService < Sinatra::Base
              [409, :error]) \
   do
 
-    posted_batch = params[:batch_import]
+    incoming_records = params[:batch_import]
 
-    progressive_response = ProgressTicker.new(:frequency_seconds => 2) do |progress_ticker|
+    live_updates = ProgressTicker.new(:frequency_seconds => 2) do |job_monitor|
 
-      batch = StreamingImport.new(posted_batch, progress_ticker)
+      batch = StreamingImport.new(incoming_records, job_monitor)
 
       begin
         mapping = batch.process
-        response_hash = {:saved => Hash[mapping.map {|logical, real_uri|
+        job_monitor.results = {:saved => Hash[mapping.map {|logical, real_uri|
                          [logical, [real_uri, JSONModel.parse_reference(real_uri)[:id]]]}]}
       rescue ImportException => e
-        Log.error(e)
-        response_hash = {:saved => [], :errors => [e.to_s]}
+        job_monitor.results = {:errors => [e.to_s]}
       rescue Sequel::ValidationFailed => e
-        response_hash = {:saved => [], :errors => [e.to_s]}
+        job_monitor.results = {:errors => [e.to_s]}
       ensure
-        response_hash = {:saved => [], :errors => ["Server error"]} unless response_hash
-        progress_ticker.finished(response_hash)
+        job_monitor.results = {:errors => ["Server error"]} unless job_monitor.results?
+        job_monitor.finish!
       end
     end
 
 
-    [200, {"Content-Type" => "text/plain"}, progressive_response]
+    [200, {"Content-Type" => "text/plain"}, live_updates]
                       
 
   end
