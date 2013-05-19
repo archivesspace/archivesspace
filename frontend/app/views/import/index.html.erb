@@ -24,11 +24,9 @@
       <% end %>
       
 
-      
-
       <fieldset>
         <div class="control-group ">
-          <%= label_tag :upload, 'Select an file to upload:', :class=>"control-label" %>
+          <%= label_tag :upload, I18n.t('import.file_select'), :class=>"control-label" %>
           <div class="controls">
             <%= file_field :upload, :import_file %>
             <%= hidden_field_tag :importer, @importer_key %>
@@ -45,7 +43,9 @@
         </button>
         <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
       </div>
+                                                                                       
       <div id="import-results"></div>
+
     </div>
   </div>
 <% end %>
