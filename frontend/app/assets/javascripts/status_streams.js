@@ -1,11 +1,21 @@
+var statusIndex = 0;
+var progressTotal = 0;
+var partialMessage = "";
+
 
 $(document).ready(function(){
 	$('form#import')
 		.bind("ajax:beforeSend", function(evt, xhr, settings){
 			var $submitButton = $(this).find('input[name="commit"]');
-			$submitButton.text( "Submitting....");		
+			$submitButton.text( "Submitting....");
+			// xhr.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
 		})
 		.submit(function() {
+			
+			statusIndex = 0;
+			progressTotal = 0;
+			partialMessage = "";
+			
 			var formData = new FormData();
 			formData.append('upload[import_file]', document.getElementById('upload_import_file').files[0]); //Files[0] = 1st file
 			formData.append('importer', document.getElementById('importer').value);
@@ -13,7 +23,10 @@ $(document).ready(function(){
 
 			return false;
 			
-		});		
+		});	
+
+
+			
 });
 
 
@@ -33,21 +46,91 @@ function cleanUp(event) {
 }
 
 
+
 function statusUpdate(event) {
 
-	console.log(this.response);
+	var response = this.response;
 
-	// get the latest update
-	var last_index = this.response.lastIndexOf("<div");
-	var update = this.response.substring(last_index);
+	
+	if (response.length > statusIndex) {
+		var latest = response.substring(statusIndex);		
+		statusIndex = response.length;
+	}
 
-	// get rid of stale updates
-	var count = $("#import-results div").length;
-	if (count > 5) {
-		$("#import-results").children("div:first").remove();
+	var k = latest.indexOf("---");
+	if (k < 0){
+		partialMessage = partialMessage + latest;
+	} else {
+		var message = partialMessage + latest.substring(0,k);
+		
+		console.log(message);
+
+		var update = $.parseJSON(message);
+
+		console.log(update);
+		
+		handleUpdate(update);
+		
 	}
 	
-	$('#import-results').append(update);
+
+}
+
+function handleUpdate(updateObject) {
+	if (updateObject.status) {
+		refreshStatus(updateObject.status);
+	}
+	
+	if (updateObject.errors) {
+		showErrors(updateObject.errors);
+	}	
+	
+	if (updateObject.total) {
+		var newTotal = updateObject.total;
+		if (newTotal != progressTotal){
+			progressTotal = newTotal;
+			$("#import-results progress:last").attr('max', progressTotal);
+		}		
+	}
+	
+	if (updateObject.ticks) {
+		var ticks = updateObject.ticks;
+		$("#import-results progress:last").attr('value', ticks);
+	}
+	
+	if (updateObject.saved) {
+		console.log("TRUE");
+		var saved = updateObject.saved;
+		rowhtml = "<div class='import-results-row'><p><b>Saved " + saved.length + " records.</b></p></div>"	
+		$('#import-results').append(rowhtml)
+
+	}
+	
+}
+
+
+
+function refreshStatus(statusArray) {
+	for (var i = 0; i < statusArray.length; i++) {
+		var status = statusArray[i];
+		if (status.type == 'started') {
+			rowhtml = "<div class='import-results-row' id='status-" + status.id + "'><p>" + status.label + ":</p><progress value='5' max='100'></progress></div>"
+
+			$('#import-results').append(rowhtml)
+			
+		} else if (status.type == 'done') {	
+			var max = $("#status-"+status.id + " progress").attr('max');
+			$("#status-"+status.id + " progress").attr('value', max);
+		}
+		
+	}
+}
+
+function showErrors(errorArray) {
+	for (var i = 0; i < errorArray.length; i++) {
+		$("#import-results progress:last").remove();
+		$('#import-results').append("<p><b>Error: " + errorArray[i] + "</b></p>");
+	}
 }
 
 
