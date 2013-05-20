@@ -188,7 +188,13 @@ FactoryGirl.define do
     level { generate(:level) }
     title { "Archival Object #{generate(:generic_title)}" }
   end
-  
+
+  factory :json_classification, class: JSONModel(:classification) do
+    identifier { generate(:alphanumstr) }
+    title { "Classification #{generate(:generic_title)}" }
+    description { generate(:generic_description) }
+  end
+
   factory :json_note_bibliography, class: JSONModel(:note_bibliography) do
     label { generate(:alphanumstr) }
     content { [generate(:alphanumstr)] }

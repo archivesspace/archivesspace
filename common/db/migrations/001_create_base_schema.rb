@@ -1279,6 +1279,25 @@ Sequel.migration do
     end
 
 
+    create_table(:classification) do
+      primary_key :id
+
+      Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
+
+      String :identifier, :null => false
+      HalfLongString :title, :null => false
+      TextField :description, :null => false
+
+      String :created_by
+      String :last_modified_by
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false, :index => true
+    end
+
+    alter_table(:classification) do
+    end
+
 
     create_table(:sequence) do
       String :sequence_name, :primary_key => true

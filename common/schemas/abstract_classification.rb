@@ -6,7 +6,7 @@
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
 
-      "id" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error"},
+      "identifier" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error"},
       "title" => {"type" => "string", "minLength" => 1, "maxLength" => 16384, "ifmissing" => "error"},
       "description" => {"type" => "string", "maxLength" => 65000},
 
