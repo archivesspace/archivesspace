@@ -759,7 +759,10 @@ ul.subrecord-form-list {
 
 #rde_form {
   th {
-    cursor: pointer;
+
+    &.fieldset-label {
+      cursor: pointer;
+    }
 
     &.sticky {
       #gradient > .vertical(#dcf1fa, #caecfa);
@@ -773,6 +776,18 @@ ul.subrecord-form-list {
       &.error {
         background-color: @errorBackground;
       }
+    }
+
+    &.control-group {
+      min-width: 60px;
+      select {
+        width: 100%;
+      }
+      input {
+        padding: 4px 0;
+        width: 100%;
+      }
+      overflow: auto;
     }
   }
   tr {

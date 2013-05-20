@@ -1,3 +1,6 @@
+//= require jquery.event.drag-1.4.min
+//= require jquery.kiketable.colsizable-1.1
+
 $(function() {
 
   $.fn.init_rapid_data_entry_form = function($modal) {
@@ -49,7 +52,7 @@ $(function() {
 
         // Apply any sticky columns
         if ($currentRow.length > 0) {
-          $("th", $this).each(function(i, th) {
+          $("th.fieldset-label", $this).each(function(i, th) {
             var $th = $(th);
             if ($th.hasClass("sticky")) {
               // populate the input from the current or bottom row
@@ -154,6 +157,45 @@ $(function() {
             }
           }
         });
+        /*$("table .fieldset-labels th.fieldset-label", $this).resizable({
+          handles:  "e",
+          alsoResize: "#rde_form table",
+          stop: function() {
+            //persistColumnWidths();
+          }
+        });*/
+        $("table", $this).kiketable_colsizable({
+          dragCells: "tr.fieldset-labels th.fieldset-label",
+          dragMove: true
+        });
+        $("th.fieldset-label .kiketable-colsizable-handler", $this).on("dragend", persistColumnWidths);
+        applyPersistentColumnWidths();
+      };
+
+      var persistColumnWidths = function() {
+        var widths = [];
+        $("table colgroup col", $this).each(function() {
+          widths.push($(this).width() || 150);
+        });
+        $.cookie("rde.widths", JSON.stringify(widths));
+      };
+
+      var applyPersistentColumnWidths = function() {
+        if ( $.cookie("rde.widths") ) {
+          var widths = JSON.parse($.cookie("rde.widths"));
+          $("table colgroup col", $this).each(function(i, el) {
+            $(el).width(widths[i] || 150);
+          });
+        } else {
+          $("table colgroup col.fieldset-col", $this).width(150);
+          $("table colgroup col.status", $this).width(20);
+          $("table colgroup col.actions", $this).width(100);
+        }
+        var total_width = 0;
+        $("table colgroup col", $this).each(function() {
+          total_width += $(this).width();
+        });
+        $("table", $this).width(total_width);
       };
 
       // Connect up the $modal form submit button
