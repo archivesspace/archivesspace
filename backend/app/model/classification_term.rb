@@ -8,7 +8,7 @@ class ClassificationTerm < Sequel::Model(:classification_term)
 
   orderable_root_record_type :classification, :classification_term
 
-  define_relationship(:name => :classification_creator,
+  define_relationship(:name => :classification_term_creator,
                       :json_property => 'creator',
                       :contains_references_to_types => proc {
                         AgentManager.registered_agents.map {|a| a[:model]}

@@ -22,7 +22,8 @@ describe 'Classification models' do
                    :title => "classification A",
                    :identifier => "class-a",
                    :description => "classification A",
-                   :classification => {'ref' => parent.uri}
+                   :classification => {'ref' => parent.uri},
+                   :creator => {'ref' => creator.uri}
                  }.merge(properties))
 
     ClassificationTerm.create_from_json(term)
