@@ -1329,6 +1329,8 @@ Sequel.migration do
       add_foreign_key([:repo_id], :repository, :key => :id)
       add_index([:parent_name, :title], :unique => true)
       add_index([:parent_name, :identifier], :unique => true)
+
+      add_index([:parent_name, :position], :unique => true, :name => "uniq_classterm_pos")
     end
 
 

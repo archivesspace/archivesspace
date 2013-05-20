@@ -107,4 +107,20 @@ describe 'Classification models' do
     expect { term2.refresh }.to raise_error(Sequel::Error)
   end
 
+
+  it "can reorder classification terms" do
+    terms = []
+    5.times do |i|
+      terms << create_classification_term(classification,
+                                          :title => "title #{i}",
+                                          :identifier => "id#{i}")
+    end
+
+    terms.last.update_position_only(nil, 0)
+
+    titles = classification.tree['children'].map {|e| e['title']}
+
+    titles.should eq(["title 4", "title 0", "title 1", "title 2", "title 3"])
+  end
+
 end
