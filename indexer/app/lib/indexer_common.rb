@@ -15,7 +15,7 @@ class CommonIndexer
 
   @@record_types = [:accession, :archival_object, :resource,
                     :digital_object, :digital_object_component,
-                    :subject, :location,
+                    :subject, :location, :classification, :classification_term,
                     :event,
                     :agent_person, :agent_software, :agent_family, :agent_corporate_entity]
 
