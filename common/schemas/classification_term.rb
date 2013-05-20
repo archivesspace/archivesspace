@@ -18,18 +18,19 @@
             "type" => "object",
             "readonly" => "true"
           }
-        }
+        },
       },
 
       "classification" => {
         "type" => "object",
         "subtype" => "ref",
+        "ifmissing" => "error",
         "properties" => {
           "ref" => {"type" => "JSONModel(:classification) uri"},
           "_resolved" => {
             "type" => "object",
             "readonly" => "true"
-          }
+          },
         }
       }
     },
