@@ -1282,6 +1282,8 @@ Sequel.migration do
     create_table(:classification) do
       primary_key :id
 
+      Integer :repo_id, :null => false
+
       Integer :lock_version, :default => 0, :null => false
       Integer :json_schema_version, :null => false
 
@@ -1296,6 +1298,7 @@ Sequel.migration do
     end
 
     alter_table(:classification) do
+      add_foreign_key([:repo_id], :repository, :key => :id)
     end
 
 
@@ -1618,6 +1621,31 @@ Sequel.migration do
         add_foreign_key(["#{record}_id".intern], record, :key => :id)
       end
     end
+
+    create_table(:classification_creator_rlshp) do
+      primary_key :id
+
+      Integer :agent_person_id
+      Integer :agent_software_id
+      Integer :agent_family_id
+      Integer :agent_corporate_entity_id
+
+      Integer :classification_id
+
+      Integer :aspace_relationship_position
+      DateTime :last_modified, :null => false, :index => true
+      DateTime :create_time, :index => true
+    end
+
+    alter_table(:classification_creator_rlshp) do
+      add_foreign_key([:agent_person_id], :agent_person, :key => :id)
+      add_foreign_key([:agent_family_id], :agent_family, :key => :id)
+      add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
+      add_foreign_key([:agent_software_id], :agent_software, :key => :id)
+
+      add_foreign_key([:classification_id], :classification, :key => :id)
+    end
+
 
   end
 

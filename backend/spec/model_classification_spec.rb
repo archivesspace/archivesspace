@@ -10,7 +10,9 @@ describe 'Classification models' do
                            :description => "A classification",
                            :creator => {'ref' => creator.uri})
 
-    Classification.create_from_json(classification)
+    classification = Classification.create_from_json(classification)
+    classification.title.should eq("top-level classification")
+    Classification.to_jsonmodel(classification)['creator']['ref'].should eq(creator.uri)
   end
 
 end

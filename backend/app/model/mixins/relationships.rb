@@ -12,6 +12,11 @@ AbstractRelationship = Class.new(Sequel::Model) do
       [self._reference_columns_for(obj1.class).first, self._reference_columns_for(obj2.class).first]
     end
 
+    if columns.include?(nil)
+      raise ("One of the relationship columns for #{obj1} and #{obj2} couldn't be found." +
+             "  (Have you created the '#{table_name}' table?)")
+    end
+
     self.create(Hash[columns.zip([obj1.id, obj2.id])].merge(properties))
   end
 
