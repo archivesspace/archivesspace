@@ -1,0 +1,105 @@
+<div class="row-fluid">
+  <div class="span3">
+    <%= render :partial => "classifications/sidebar" %>
+  </div>
+  <div class="span9">
+    <%= render :partial => "toolbar" %>
+    <div class="record-pane">
+      <%= readonly_context :classification, @classification do |readonly| %>
+        <h2><%= @classification.title %> <span class="label label-info"><%= I18n.t("classification._singular") %></span></h2>
+
+        <% define_template "classification", jsonmodel_definition(:classification) do |form, classification| %>
+          <section id="basic_information">
+            <h3><%= I18n.t("classification._frontend.section.basic_information") %></h3>
+    
+            <%= form.label_and_textarea "title" %>
+            <% if classification.id_0 %><%= form.label_and_fourpartid %><% end %>
+            <%= form.label_and_select "level", form.possible_options_for("level", true) %>
+            <%= form.label_and_textfield "other_level" %>
+            <%= form.label_and_select "classification_type", form.possible_options_for("classification_type", true) %>
+            <%= form.label_and_select "language", form.possible_options_for("language", true) %>
+            <%= form.label_and_textarea "container_summary" %>
+            <%= form.label_and_boolean "publish" %>
+            <%= form.label_and_boolean "restrictions" %>
+            <%= form.label_and_textarea "repository_processing_note" %>
+          </section>
+
+          <% if @classification.dates.length > 0 %>
+            <%= render :partial => "dates/show", :locals => { :dates => @classification.dates, :section_id => "classification_dates_" } %>
+          <% end %>
+
+          <%= render :partial => "extents/show", :locals => { :extents => @classification.extents, :section_id => "classification_extents_" } %>
+
+          <section id="finding_aid" class="subrecord-form-dummy">
+            <h3><%= I18n.t("classification._frontend.section.finding_aid") %></h3>
+            <div class="subrecord-form-container">
+              <div class="subrecord-form-fields">
+                <% if classification.ead_id or classification.ead_location %>
+                  <%= form.label_and_textfield "ead_id" %>
+                  <%= form.label_and_textfield "ead_location" %>
+                  <hr/>
+                <% end %>
+                <%= form.label_and_textfield "finding_aid_title" %>
+                <%= form.label_and_textfield "finding_aid_filing_title" %>
+                <%= form.label_and_textfield "finding_aid_date" %>
+                <%= form.label_and_textfield "finding_aid_author" %>
+                <%= form.label_and_select "finding_aid_description_rules", form.possible_options_for("finding_aid_description_rules", true) %>
+                <%= form.label_and_textfield "finding_aid_language" %>
+                <%= form.label_and_textfield "finding_aid_sponsor" %>
+                <%= form.label_and_textarea "finding_aid_edition_statement" %>
+                <%= form.label_and_textarea "finding_aid_series_statement" %>
+                <%= form.label_and_textfield "finding_aid_revision_date" %>
+                <%= form.label_and_textarea "finding_aid_revision_description" %>
+                <%= form.label_and_select "finding_aid_status", form.possible_options_for("finding_aid_status", true) %>
+                <%= form.label_and_textarea "finding_aid_note" %>
+              </div>
+            </div>
+          </section>
+        <% end %>
+
+        <% readonly.emit_template("classification", @classification) %>
+
+        <% if @classification.related_accessions.length > 0 %>
+          <%= render :partial => "related_accessions/show", :locals => { :related_accessions => @classification.related_accessions, :section_id => "classification_related_accessions_" } %>
+        <% end %>
+
+        <% if @classification.linked_agents.length > 0 %>
+          <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @classification.linked_agents, :section_id => "classification_linked_agents_" } %>
+        <% end %>
+
+        <% if not @classification.subjects.blank? %>
+          <%= render :partial => "subjects/show_inline", :locals => {:subjects => @classification.subjects, :section_id => "classification_subjects_"} %>
+        <% end %>
+
+        <% if @classification.notes.length > 0 %>
+          <%= render :partial => "notes/show", :locals => { :notes => @classification.notes, :context => readonly } %>
+        <% end %>
+
+        <% if @classification.external_documents.length > 0 %>
+          <%= render :partial => "external_documents/show", :locals => { :external_documents => @classification.external_documents, :section_id => "classification_external_documents_"  } %>
+        <% end %>
+
+        <% if @classification.rights_statements.length > 0 %>
+          <%= render :partial => "rights_statements/show", :locals => { :rights_statements => @classification.rights_statements, :section_id => "classification_rights_statements_"  } %>
+        <% end %>
+
+        <% if @classification.instances.length > 0 %>
+          <%= render :partial => "instances/show", :locals => { :instances => @classification.instances, :section_id => "classification_instances_"  } %>
+        <% end %>
+
+        <% if @classification.deaccessions.length > 0 %>
+          <%= render :partial => "deaccessions/show", :locals => { :deaccessions => @classification.deaccessions, :context => readonly, :section_id => "classification_deaccessions_" } %>
+        <% end %>
+
+        <% if @classification.collection_management %>
+          <%= render :partial => "collection_management/show", :locals => { :collection_management => @classification.collection_management, :context => readonly, :section_id => "classification_collection_management_" } %>
+        <% end %>
+
+        <% if @classification.user_defined %>
+          <%= render :partial => "user_defined/show", :locals => { :user_defined => @classification.user_defined, :context => readonly, :section_id => "classification_user_defined_" } %>
+        <% end %>
+
+      <% end %>
+    </div>
+  </div>
+</div>

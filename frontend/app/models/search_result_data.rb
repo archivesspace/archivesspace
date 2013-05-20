@@ -193,4 +193,8 @@ class SearchResultData
     ["event_type", "outcome"]
   end
 
+  def self.CLASSIFICATION_FACETS
+    []
+  end
+
 end

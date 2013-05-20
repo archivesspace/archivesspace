@@ -1,0 +1,31 @@
+<%= form_for @classification_term, :as => "classification_term", :url => {:action => :update, :id => @classification_term.id}, :html => {:class => 'form-horizontal', :id => 'classification_term_form'} do |f| %>
+  <%= form_context :classification_term, @classification_term do |form| %>
+    <div class="row-fluid">
+      <div class="span3">
+        <%= render :partial => "sidebar" %>
+      </div>
+      <div class="span9">
+        <%= render :partial => "toolbar" %>
+        <div class="record-pane">
+          <%= render :partial => "classification_terms/form_container", :locals => {:form => form} %>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("classification_term._singular") %></button>
+            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% if @refresh_tree_node
+        node_data = {
+          'id' => @classification_term.id,
+          'title' => @classification_term.title,
+          'jsonmodel_type' => @classification_term.jsonmodel_type,
+          'replace_new_node' => controller.action_name === 'create'
+        }
+    %>
+      <script>
+        AS.refreshTreeNode(<%= node_data.to_json.html_safe %>);
+      </script>
+    <% end %>
+  <% end %>
+<% end %>

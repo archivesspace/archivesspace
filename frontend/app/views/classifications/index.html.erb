@@ -1,0 +1,28 @@
+<%= setup_context :title => I18n.t("classification._plural") %>
+
+<div class="row-fluid">
+   <div class="span3">
+     <%= render :partial => "search/filter" %>
+   </div>
+   <div class="span9">
+     <% if user_can?('update_archival_record') %>
+       <div class="row-fluid">
+         <div class="span12">
+           <div class="record-toolbar">
+             <div class="btn-group pull-right">
+               <%= link_to "#{I18n.t("actions.create")} #{I18n.t("classification._singular")}", {:controller => :classifications, :action => :new}, :class => "btn btn-small" %>
+             </div>
+           </div>
+         </div>
+       </div>
+     <% end %>
+
+     <div class="record-pane">
+       <h2><%= I18n.t("classification._plural") %></h2>
+
+       <%= render :partial => "shared/flash_messages" %>
+
+       <%= render :partial => "search/listing" %>
+     </div>
+   </div>
+</div>

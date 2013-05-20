@@ -399,3 +399,26 @@ en:
                   <div><strong>Sticky Columns</strong></div>
                   <div><small>Highlighted columns are sticky and will be replicated when new rows are added. Toggle 'sticky' by clicking the corresponding table heading.</small></div>
                   <div><small>Clicking 'Add Row' will copy values from the last row; The row's '+' button will copy values from the currently focused row.</small></div>
+
+  classification:
+    _frontend:
+      messages:
+        created: "Classification <strong>%{classification.title}</strong> created"
+        updated: "Classification <strong>%{classification.title}</strong> updated"
+        deleted: "Classification <strong>%{classification.title}</strong> deleted"
+      section:
+        basic_information: Basic Information
+      action:
+        add_child: Add Child
+
+  classification_term:
+    _frontend:
+      messages:
+        created: "Classification Term <strong>%{classification_term.title}</strong> created"
+        updated: "Classification Term <strong>%{classification_term.title}</strong> updated"
+        deleted: "Classification Term <strong>%{classification_term.title}</strong> deleted"
+      section:
+        basic_information: Basic Information
+      action:
+        add_child: Add Child
+        add_sibling: Add Sibling
