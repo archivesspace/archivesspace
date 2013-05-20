@@ -1289,7 +1289,7 @@ Sequel.migration do
 
       String :identifier, :null => false
       HalfLongString :title, :null => false
-      TextField :description, :null => false
+      TextField :description
 
       String :created_by
       String :last_modified_by
@@ -1312,7 +1312,7 @@ Sequel.migration do
 
       String :identifier, :null => false
       HalfLongString :title, :null => false
-      TextField :description, :null => false
+      TextField :description
 
       Integer :root_record_id, :null => true
       Integer :parent_id, :null => true
