@@ -395,7 +395,7 @@ Sequel.migration do
       Integer :parent_id, :null => true
       String :parent_name, :null => true
       Integer :position, :null => true
-      
+
       Integer :publish
 
       String :ref_id, :null => false, :unique => false
@@ -1302,6 +1302,34 @@ Sequel.migration do
     end
 
 
+    create_table(:classification_term) do
+      primary_key :id
+
+      Integer :repo_id, :null => false
+
+      Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
+
+      String :identifier, :null => false
+      HalfLongString :title, :null => false
+      TextField :description, :null => false
+
+      Integer :root_record_id, :null => true
+      Integer :parent_id, :null => true
+      String :parent_name, :null => true
+      Integer :position, :null => true
+
+      String :created_by
+      String :last_modified_by
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false, :index => true
+    end
+
+    alter_table(:classification_term) do
+      add_foreign_key([:repo_id], :repository, :key => :id)
+    end
+
+
     create_table(:sequence) do
       String :sequence_name, :primary_key => true
       Integer :value, :null => false
@@ -1647,6 +1675,29 @@ Sequel.migration do
     end
 
 
+    create_table(:classification_term_creator_rlshp) do
+      primary_key :id
+
+      Integer :agent_person_id
+      Integer :agent_software_id
+      Integer :agent_family_id
+      Integer :agent_corporate_entity_id
+
+      Integer :classification_term_id
+
+      Integer :aspace_relationship_position
+      DateTime :last_modified, :null => false, :index => true
+      DateTime :create_time, :index => true
+    end
+
+    alter_table(:classification_term_creator_rlshp) do
+      add_foreign_key([:agent_person_id], :agent_person, :key => :id)
+      add_foreign_key([:agent_family_id], :agent_family, :key => :id)
+      add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
+      add_foreign_key([:agent_software_id], :agent_software, :key => :id)
+
+      add_foreign_key([:classification_term_id], :classification_term, :key => :id)
+    end
   end
 
 

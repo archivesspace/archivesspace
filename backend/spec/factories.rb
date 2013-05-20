@@ -195,6 +195,12 @@ FactoryGirl.define do
     description { generate(:generic_description) }
   end
 
+  factory :json_classification_term, class: JSONModel(:classification_term) do
+    identifier { generate(:alphanumstr) }
+    title { "Classification #{generate(:generic_title)}" }
+    description { generate(:generic_description) }
+  end
+
   factory :json_note_bibliography, class: JSONModel(:note_bibliography) do
     label { generate(:alphanumstr) }
     content { [generate(:alphanumstr)] }

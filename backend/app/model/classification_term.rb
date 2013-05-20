@@ -1,12 +1,12 @@
-class Classification < Sequel::Model(:classification)
+class ClassificationTerm < Sequel::Model(:classification_term)
   include ASModel
   include Relationships
-  include Trees
+  include Orderable
 
-  corresponds_to JSONModel(:classification)
+  corresponds_to JSONModel(:classification_term)
   set_model_scope(:repository)
 
-  tree_of(:classification, :classification_term)
+  orderable_root_record_type :classification, :classification_term
 
   define_relationship(:name => :classification_creator,
                       :json_property => 'creator',
