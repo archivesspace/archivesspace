@@ -16,6 +16,10 @@
       <%= form.label_and_textfield "title" %>
       <%= form.label_and_textarea "description" %>
 
+      <% form.push("creator", form["creator"] || {}) do %>
+        <%= render :partial => "agents/linker", :locals => {:form => form} %>
+      <% end %>
+
     </section>
   <% end %>
 

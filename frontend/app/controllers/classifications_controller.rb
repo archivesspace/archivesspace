@@ -4,14 +4,16 @@ class ClassificationsController < ApplicationController
   before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_archival_record")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
-  FIND_OPTS = []
+  FIND_OPTS = {
+    "resolve[]" => ["creator"]
+  }
 
   def index
     @search_data = Search.for_type(session[:repo_id], "classification", search_params.merge({"facet[]" => SearchResultData.CLASSIFICATION_FACETS}))
   end
 
   def show
-    @classification = JSONModel(:classification).find(params[:id], "resolve[]" => FIND_OPTS)
+    @classification = JSONModel(:classification).find(params[:id], FIND_OPTS)
 
     if params[:inline]
       return render :partial => "classifications/show_inline"
@@ -28,7 +30,7 @@ class ClassificationsController < ApplicationController
 
 
   def edit
-    @classification = JSONModel(:classification).find(params[:id], "resolve[]" => FIND_OPTS)
+    @classification = JSONModel(:classification).find(params[:id], FIND_OPTS)
 
     fetch_tree
     flash.keep if not flash.empty? # keep the notices so they display on the subsequent ajax call
@@ -56,8 +58,7 @@ class ClassificationsController < ApplicationController
 
   def update
     handle_crud(:instance => :classification,
-                :obj => JSONModel(:classification).find(params[:id],
-                                                  "resolve[]" => FIND_OPTS),
+                :obj => JSONModel(:classification).find(params[:id], FIND_OPTS),
                 :on_invalid => ->(){
       render :partial => "edit_inline"
     },

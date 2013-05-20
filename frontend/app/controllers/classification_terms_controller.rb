@@ -5,7 +5,7 @@ class ClassificationTermsController < ApplicationController
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
   FIND_OPTS = {
-    "resolve[]" => []
+    "resolve[]" => ["creator"]
   }
 
   def new
