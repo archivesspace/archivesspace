@@ -1327,6 +1327,8 @@ Sequel.migration do
 
     alter_table(:classification_term) do
       add_foreign_key([:repo_id], :repository, :key => :id)
+      add_index([:parent_name, :title], :unique => true)
+      add_index([:parent_name, :identifier], :unique => true)
     end
 
 
