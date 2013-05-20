@@ -36,17 +36,6 @@
               </div>
             </div>
           <% end %>
-          <div class="btn-group">
-            <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
-              <%= I18n.t("actions.export") %>
-              <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu open-aligned-right">
-              <li><%= link_to I18n.t("actions.export_ead"), {:controller => :exports, :action => :download_ead, :id => @classification.id} %></li>
-              <li><%= link_to I18n.t("actions.export_marc"), {:controller => :exports, :action => :download_marc, :id => @classification.id} %></li>
-              <li><%= link_to I18n.t("actions.container_labels"), {:controller => :exports, :action => :container_labels, :id => @classification.id} %></li>
-            </ul>
-          </div>
         </div>
       </div>
     </div>

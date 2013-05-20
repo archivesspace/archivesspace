@@ -1517,6 +1517,7 @@ en:
     identifier: Identifier
     title: Title
     description: Description
+    creator: Creator
 
   classification_term:
     _singular: Classification Term
@@ -1524,6 +1525,7 @@ en:
     identifier: Identifier
     title: Title
     description: Description
+    creator: Creator
 
   reports:
     CreatedAccessionsReport: Created Accessions

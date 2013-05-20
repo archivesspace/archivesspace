@@ -71,7 +71,7 @@ class ClassificationsController < ApplicationController
 
 
   def delete
-    classification = classification.find(params[:id])
+    classification = JSONModel(:classification).find(params[:id])
     classification.delete
 
     flash[:success] = I18n.t("classification._frontend.messages.deleted", JSONModelI18nWrapper.new(:classification => classification))
