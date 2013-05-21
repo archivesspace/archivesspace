@@ -1,7 +1,7 @@
 class ResourcesController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete, :rde, :add_children]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_archival_record")}
+  before_filter(:only => [:new, :edit, :create, :update, :rde, :add_children]) {|c| user_must_have("update_archival_record")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
   FIND_OPTS = ["subjects", "container_locations", "related_accessions", "linked_agents", "digital_object"]
@@ -87,6 +87,43 @@ class ResourcesController < ApplicationController
     flash[:success] = I18n.t("resource._frontend.messages.deleted", JSONModelI18nWrapper.new(:resource => resource))
     redirect_to(:controller => :resources, :action => :index, :deleted_uri => resource.uri)
   end
+
+
+  def rde
+    flash.clear
+
+    @parent = Resource.find(params[:id])
+    @archival_record_children = ResourceChildren.new
+
+    render :partial => "archival_objects/rde"
+  end
+
+
+  def add_children
+    @parent = Resource.find(params[:id])
+
+    if params[:archival_record_children].blank? or params[:archival_record_children]["children"].blank?
+
+      @archival_record_children = ResourceChildren.new
+      flash.now[:error] = "No rows entered"
+
+    else
+      children_data = cleanup_params_for_schema(params[:archival_record_children], JSONModel(:archival_record_children).schema)
+
+      begin
+        @archival_record_children = ResourceChildren.from_hash(children_data, false, true)
+        @archival_record_children.save(:resource_id => @parent.id)
+
+        return render :text => I18n.t("rde.messages.success")
+      rescue JSONModel::ValidationException => e
+        @exceptions = @archival_record_children._exceptions
+      end
+
+    end
+
+    render :partial => "archival_objects/rde"
+  end
+
 
   private
 

@@ -29,7 +29,7 @@
            // the error, assume it's an array and look for the path of
            // the first element.
            $matched = $("#" + elt + "_0_");
-           $matched.parents(".control-group:first").addClass(type);
+           $matched.closest(".control-group").addClass(type);
          }
          if ($matched && !$("." + type + "[data-target=" + elt + "]").hasClass("linked-to-field")) {
            $("." + type + "[data-target=" + elt + "]").addClass("linked-to-field").append("<span class='icon-chevron-down'></span>").click(function() {
@@ -84,7 +84,8 @@
             <div class="errors-for-attribute">
               <% messages.each do |msg| %>
                 <div class="error"
-                     data-target="<%= form.id_for_javascript(attr) %>">
+                     data-target="<%= form.id_for_javascript(attr) %>"
+                     data-message="<%= h(msg) %>">
                   <% if attr === 'coded_errors' %>
                     <%# Special errors that we pull from the YML instead of inserting verbatim %>
                     <%= I18n.t(form.path(msg)) %>

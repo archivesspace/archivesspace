@@ -415,7 +415,17 @@ $(function() {
       $(".archives-tree-container").on("click", ".tree-transfer-form .btn-cancel", function(event) {
         $(".tree-transfer-form", ".archives-tree-container").css("display", "");
         $(".transfer-node", ".archives-tree-container").parent().removeClass("open");
-      })
+      });
+
+      // Rapid Data Entry
+      $(".archives-tree-container").on("click", ".add-children", function() {
+        var $selected = $(".selected", $tree);
+        if ($selected.length === 0) {
+          return;
+        }
+
+        $(document).triggerHandler("rdeshow.aspace", [$selected, $(this)]);
+      });
 
 
       $(window).hashchange(onHashChange);

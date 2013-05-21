@@ -1,7 +1,7 @@
 class ArchivalObjectsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :parent, :transfer, :delete]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :parent, :transfer, :delete, :rde, :add_children]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update, :parent, :transfer]) {|c| user_must_have("update_archival_record")}
+  before_filter(:only => [:new, :edit, :create, :update, :parent, :transfer, :rde, :add_children]) {|c| user_must_have("update_archival_record")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
   FIND_OPTS = {
@@ -129,6 +129,40 @@ class ArchivalObjectsController < ApplicationController
 
     resolver = Resolver.new(archival_object['resource']['ref'])
     redirect_to resolver.view_uri
+  end
+
+
+  def rde
+    @parent = JSONModel(:archival_object).find(params[:id])
+    @archival_record_children = ArchivalObjectChildren.new
+
+    render :partial => "archival_objects/rde"
+  end
+
+
+  def add_children
+    @parent = JSONModel(:archival_object).find(params[:id])
+
+    if params[:archival_record_children].blank? or params[:archival_record_children]["children"].blank?
+
+      @archival_record_children = ArchivalObjectChildren.new
+      flash.now[:error] = "No rows entered"
+
+    else
+      children_data = cleanup_params_for_schema(params[:archival_record_children], JSONModel(:archival_record_children).schema)
+
+      begin
+        @archival_record_children = ArchivalObjectChildren.from_hash(children_data, false, true)
+        @archival_record_children.save(:archival_object_id => @parent.id)
+
+        return render :text => I18n.t("rde.messages.success")
+      rescue JSONModel::ValidationException => e
+        @exceptions = @archival_record_children._exceptions
+      end
+
+    end
+
+    render :partial => "archival_objects/rde"
   end
 
 

@@ -1,5 +1,5 @@
 <div id="modal_custom_template"><!--
-   <div class="modal hide {if fill} container{/if}" id="${id}">
+   <div class="modal hide {if fill} ${fill}{/if}" id="${id}">
       <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
         <h3>${title|h}</h3>
@@ -30,6 +30,15 @@
       <button class="btn btn-cancel" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
    </div>
 --></div>
+
+<div id="modal_content_loading_template"><!--
+  <div class="modal-body">
+    <div class="modal-loading-message">
+      <div class="alert alert-info">Loading...</div>
+    </div>
+  </div>
+--></div>
+
 
 <div id="linker_browsemodal_template"><!--
    <div class="modal-body linker-container">

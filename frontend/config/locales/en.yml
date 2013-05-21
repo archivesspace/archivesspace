@@ -304,6 +304,7 @@ en:
         finding_aid: Finding Aid Data
       action:
         add_child: Add Child
+        rapid_data_entry: Rapid Data Entry
 
   repository:
     _frontend:
@@ -370,3 +371,31 @@ en:
         name_selector_tooltip: |
             <p>The enumeration to edit.</p>
         no_name_provided: Select an Enumeration Name before creating a new value
+
+  rde:
+    date_type: Date Type
+    instance_type: Instance Type
+    sections:
+      basic_information: Basic Information
+      date: Date
+      instance: Instance
+      notes: Notes
+    actions:
+      add_row: Add Row
+      submit: Add Children
+      reset: Reset
+      showhide_prefix: "Columns:"
+      showhide_suffix: visible
+      showhide_none: All Columns Filtered
+    messages:
+      error_prefix: Row
+      success: "<div class='alert alert-success'>Children Created. Refreshing page...</div>"
+    help:
+      keyboard_shortcuts: |
+                  <div><strong>Keyboard Shortcuts</strong></div>
+                  <div><small><span class="span2">Jump from cell to cell:</span>SHIFT + Arrow Keys</small></div>
+                  <div><small><span class="span2">Create a new row (from last row):</span> SHIFT + Return</small></div>
+      sticky_columns: |
+                  <div><strong>Sticky Columns</strong></div>
+                  <div><small>Highlighted columns are sticky and will be replicated when new rows are added. Toggle 'sticky' by clicking the corresponding table heading.</small></div>
+                  <div><small>Clicking 'Add Row' will copy values from the last row; The row's '+' button will copy values from the currently focused row.</small></div>

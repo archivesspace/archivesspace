@@ -241,7 +241,9 @@ module AspaceFormHelper
     end
 
 
-    def textfield(name = nil, value = "", opts =  {})
+    def textfield(name = nil, value = nil, opts =  {})
+      value ||= obj[name] if !name.nil?
+
       options = {:id => id_for(name), :type => "text", :value => h(value), :name => path(name)}
 
       placeholder = I18n.t("#{i18n_for(name)}_placeholder", :default => '')

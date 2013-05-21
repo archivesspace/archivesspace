@@ -109,7 +109,6 @@ module Orderable
   end
 
 
-
   module ClassMethods
 
     def orderable_root_record_type(root, node)
