@@ -388,6 +388,7 @@ en:
       showhide_suffix: visible
       showhide_none: All Columns Filtered
     messages:
+      error_prefix: Row
       success: "<div class='alert alert-success'>Children Created. Refreshing page...</div>"
     help:
       keyboard_shortcuts: |

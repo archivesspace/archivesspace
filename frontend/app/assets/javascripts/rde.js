@@ -190,13 +190,13 @@ $(function() {
                 }
               });
 
-              $("#form_messages .error", $this).each(function() {
+              $("#form_messages .error[data-target]", $this).each(function() {
                 // tweak the error message to match the column heading
                 var $input = $("#"+$(this).data("target"));
                 var $cell = $input.closest("td");
                 var $row = $cell.closest("tr");
                 var headerText = $($(".fieldset-labels th", $table).get($cell.index())).text();
-                var newMessageText = "Row " + ($row.index()+1) + ": " + headerText + " - " + $(this).data("message");
+                var newMessageText = $this.data("error-prefix") + " " + ($row.index()+1) + ": " + headerText + " - " + $(this).data("message");
 
                 $(this).html(newMessageText);
                 if ($(this).hasClass("linked-to-field")) {
@@ -265,7 +265,7 @@ $(function() {
               $table.showColumns(index+1);
               var $col = $($("table colgroup col").get(index));
               $col.show();
-              $table.width($table.width() - widths[index]);
+              $table.width($table.width() + widths[index]);
             } else {
               hideColumn(index);
             }

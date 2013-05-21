@@ -11,6 +11,9 @@
       <% form.push(form.set_index("dates[]", 0), begin archival_object["dates"][0] || {} rescue {} end) do %>
         <%= form.select "date_type", jsonmodel_definition(:date).options_for(form, "date_type", true) %>
       <% end %>
+      <% form.push("dates", begin archival_object["dates"] || [] rescue [] end) do %>
+        <span id="<%= form.id_for(nil) %>"></span>
+      <% end %>
     </td>
     <td class="control-group">
       <% form.push(form.set_index("dates[]", 0), begin archival_object["dates"][0] || {} rescue {} end) do %>
@@ -132,7 +135,7 @@
 <%= stylesheet_link_tag "archivesspace/rde" %>
 <div class="rde-wrapper">
   <div class="modal-body">
-    <%= form_for @archival_record_children, :as => :archival_record_children, :url => {:controller => @parent.jsonmodel_type.pluralize, :action => :add_children, :id => @parent.id}, :html => {:class => 'form-horizontal', :id => 'rde_form'} do |f| %>
+    <%= form_for @archival_record_children, :as => :archival_record_children, :url => {:controller => @parent.jsonmodel_type.pluralize, :action => :add_children, :id => @parent.id}, :html => {:class => 'form-horizontal', :id => 'rde_form', "data-error-prefix" => I18n.t("rde.messages.error_prefix")} do |f| %>
       <%= form_context :archival_record_children, @archival_record_children do |form| %>
 
         <%= render :partial => "shared/form_messages", :locals => {:form => form} %>
