@@ -5,6 +5,7 @@ en:
     automate: Automatically generate
     browse: Browse
     cancel: Cancel
+    continue: Continue
     confirm: Confirm
     confirm_removal: Confirm Removal
     container_labels: Download Container Labels

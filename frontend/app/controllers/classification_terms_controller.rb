@@ -90,7 +90,8 @@ class ClassificationTermsController < ApplicationController
         :position => params[:index]
       }
     else
-      raise "Error setting parent of archival object: #{response.body}"
+      #raise "Error setting parent of archival object: #{response.body}"
+      render :text => "Unable to move Classification Term", :status => 500
     end
   end
 

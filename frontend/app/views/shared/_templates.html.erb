@@ -1,11 +1,22 @@
 <div id="modal_custom_template"><!--
    <div class="modal hide {if fill} ${fill}{/if}" id="${id}">
-      <div class="modal-header">
-        <a class="close" data-dismiss="modal">×</a>
-        <h3>${title|h}</h3>
-      </div>
+      {if defined("title") && title.length > 0}
+        <div class="modal-header">
+          <a class="close" data-dismiss="modal">×</a>
+          <h3>${title|h}</h3>
+        </div>
+      {/if}
       ${content}
    </div>
+--></div>
+
+<div id="modal_quick_template"><!--
+  <div class="modal-body">
+    <div class="${messageClass}">${message}</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal"><%= I18n.t "actions.continue" %></button>
+  </div>
 --></div>
 
 <div id="save_changes_modal_template"><!--
