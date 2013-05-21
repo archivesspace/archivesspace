@@ -84,7 +84,8 @@
             <div class="errors-for-attribute">
               <% messages.each do |msg| %>
                 <div class="error"
-                     data-target="<%= form.id_for_javascript(attr) %>">
+                     data-target="<%= form.id_for_javascript(attr) %>"
+                     data-message="<%= h(msg) %>">
                   <% if attr === 'coded_errors' %>
                     <%# Special errors that we pull from the YML instead of inserting verbatim %>
                     <%= I18n.t(form.path(msg)) %>

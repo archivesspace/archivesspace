@@ -190,6 +190,20 @@ $(function() {
                 }
               });
 
+              $("#form_messages .error", $this).each(function() {
+                // tweak the error message to match the column heading
+                var $input = $("#"+$(this).data("target"));
+                var $cell = $input.closest("td");
+                var $row = $cell.closest("tr");
+                var headerText = $($(".fieldset-labels th", $table).get($cell.index())).text();
+                var newMessageText = "Row " + ($row.index()+1) + ": " + headerText + " - " + $(this).data("message");
+
+                $(this).html(newMessageText);
+                if ($(this).hasClass("linked-to-field")) {
+                  $(this).append("<span class='icon-chevron-down'></span>");
+                }
+              });
+
               initAjaxForm();
             } else {
               // we're good to go!
@@ -230,13 +244,13 @@ $(function() {
           buttonContainer: '<div class="btn-group" />',
           buttonText: function(options) {
             if (options.length == 0) {
-              return 'All Columns Filtered <b class="caret"></b>';
+              return $select.data("i18n-none") + ' <b class="caret"></b>';
             }
             else if (options.length > 5) {
-              return 'Columns: ' + options.length + ' visible  <b class="caret"></b>';
+              return $select.data("i18n-prefix") + ' ' + options.length + ' ' + $select.data("i18n-suffix") + ' <b class="caret"></b>';
             }
             else {
-              var selected = 'Columns: ';
+              var selected = $select.data("i18n-prefix") + " ";
               options.each(function() {
                 selected += $(this).text() + ', ';
               });
@@ -379,8 +393,8 @@ $(function() {
     });
   });
 
-  $(document).bind("rdeshow.aspace", function(event, $node) {
-    var $modal = AS.openCustomModal("rapidDataEntryModal", "RDE", AS.renderTemplate("modal_content_loading_template"), 'full', {keyboard: false});
+  $(document).bind("rdeshow.aspace", function(event, $node, $button) {
+    var $modal = AS.openCustomModal("rapidDataEntryModal", $button.text(), AS.renderTemplate("modal_content_loading_template"), 'full', {keyboard: false});
 
     $(document).triggerHandler("rdeload.aspace", [$node, $modal]);
   });
