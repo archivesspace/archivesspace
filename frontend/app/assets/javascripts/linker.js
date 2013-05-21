@@ -98,6 +98,8 @@ $(function() {
               $linkerBrowseContainer.load($form.attr("action")+".js?" + $(event.target).serialize(), initBrowseFormInputs);
             });
 
+            $(":input:visible:first", $linkerBrowseContainer).focus();
+
             initBrowseFormInputs();
           }
         });
@@ -139,6 +141,7 @@ $(function() {
             }
           });
           $modal.trigger("resize");
+          $(":input:visible:first", $modal).focus();
         };
 
         $.ajax({

@@ -271,7 +271,7 @@ $(function() {
 $(function() {
   var initSubmenuLink = function(scope) {
     scope = scope || $(document.body);
-    $(".dropdown-submenu > a[href*='javascript:void']:not(.initialised)", scope).click(function(e) {
+    $(scope).on("click", ".dropdown-submenu > a[href*='javascript:void']:not(.initialised)", function(e) {
       e.preventDefault();
       e.stopImmediatePropagation();
       $(this).focus();
