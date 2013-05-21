@@ -3,7 +3,7 @@
     <h3><%= I18n.t("note._plural") %></h3>
     <ul class="results-list">
       <% notes.each do |note| %>
-        <li class="result">
+        <li>
           <%
             if note['label']
               label_for_note = note['label']
