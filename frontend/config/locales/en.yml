@@ -133,6 +133,7 @@ en:
     import_digital_object_csv: Digital Object CSV
     search_all: All Records
     search_placeholder: Search
+    plugins: Plug-ins
     repositories_manage: Manage Repositories
     manage_groups: Manage Groups
     manage_users: Manage Users

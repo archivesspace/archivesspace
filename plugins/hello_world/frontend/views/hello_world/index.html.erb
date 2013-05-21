@@ -1,0 +1,9 @@
+<h3>The world loves you so say hello</h3>
+
+<%= link_to "Say hello", :controller => :hello_world, :action => :new %>
+
+<ul>
+  <% @whosaidhello.each do |who| %>
+    <li><%= who['name'] %></li>
+  <% end %>
+</ul>

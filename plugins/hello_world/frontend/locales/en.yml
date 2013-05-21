@@ -1,0 +1,4 @@
+en:
+  plugins:
+    hello_world:
+      label: Hello World
