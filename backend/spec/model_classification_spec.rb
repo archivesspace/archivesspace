@@ -123,4 +123,20 @@ describe 'Classification models' do
     titles.should eq(["title 4", "title 0", "title 1", "title 2", "title 3"])
   end
 
+
+  it "includes a path from the root node" do
+    term1 = create_classification_term(classification,
+                                       :title => "same titles",
+                                       :identifier => "same IDs")
+
+    term2 = create_classification_term(classification,
+                                       :title => "same titles",
+                                       :identifier => "same IDs",
+                                       :parent => {'ref' => term1.uri})
+
+    titles = ClassificationTerm.to_jsonmodel(term2)['path_from_root'].map {|e| e['title']}
+
+    titles.should eq(["top-level classification", "same titles", "same titles"])
+  end
+
 end

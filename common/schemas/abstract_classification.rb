@@ -10,6 +10,18 @@
       "title" => {"type" => "string", "minLength" => 1, "maxLength" => 16384, "ifmissing" => "error"},
       "description" => {"type" => "string", "maxLength" => 65000},
 
+      "path_from_root" => {
+        "type" => "array",
+        "readonly" => true,
+        "items" => {
+          "type" => "object",
+          "properties" => {
+            "identifier" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error"},
+            "title" => {"type" => "string", "minLength" => 1, "maxLength" => 16384, "ifmissing" => "error"},
+          }
+        }
+      },
+
       "creator" => {
         "type" => "object",
         "subtype" => "ref",

@@ -1,9 +1,11 @@
 require 'digest/sha1'
+require_relative 'classification_indexing'
 
 class ClassificationTerm < Sequel::Model(:classification_term)
   include ASModel
   include Relationships
   include Orderable
+  include ClassificationIndexing
 
   corresponds_to JSONModel(:classification_term)
   set_model_scope(:repository)
@@ -25,6 +27,25 @@ class ClassificationTerm < Sequel::Model(:classification_term)
 
   def update_from_json(json, opts = {}, apply_linked_records = true)
     super(json, {:title_sha1 => Digest::SHA1.hexdigest(json.title)}, apply_linked_records)
+  end
+
+
+  def self.sequel_to_jsonmodel(obj, opts = {})
+    json = super
+
+    path = []
+    node = obj
+    while node
+      path << {'title' => node.title, 'identifier' => node.identifier}
+      node = self[node.parent_id]
+    end
+
+    root = Classification[obj.root_record_id]
+    path << {'title' => root.title, 'identifier' => root.identifier}
+
+    json['path_from_root'] = path.reverse
+
+    json
   end
 
 
