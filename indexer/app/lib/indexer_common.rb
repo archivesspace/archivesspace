@@ -417,7 +417,7 @@ class CommonIndexer
       if !records_with_children.empty?
         req = Net::HTTP::Post.new("/update")
         req['Content-Type'] = 'application/json'
-        req.body = {:delete => {'query' => "parent_id:(" + record_wit_children.join(" OR ") + ")"}}.to_json
+        req.body = {:delete => {'query' => "parent_id:(" + records_with_children.join(" OR ") + ")"}}.to_json
         response = do_http_request(solr_url, req)
       end
 
