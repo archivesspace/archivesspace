@@ -100,10 +100,11 @@ module Orderable
       }
 
       # Run through the standard validation without actually saving
-      to_validate = self.class.new(self.values).set(new_values)
-      errors = to_validate.validate
-      if errors && !errors.empty?
-        raise Sequel::ValidationFailed.new(errors)
+      self.set(new_values)
+      self.validate
+
+      if self.errors && !self.errors.empty?
+        raise Sequel::ValidationFailed.new(self.errors)
       end
 
       # Now do the update (without touching lock_version)
