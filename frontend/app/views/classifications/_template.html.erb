@@ -1,0 +1,21 @@
+<% define_template "classification" do |form, opts = {}|  %>
+  <section id="classification" class="subrecord-form">
+    <div id="classification-container" class="subrecord-form-container">
+      <% if opts[:readonly] %>
+        <div class="token-list <%= form['_resolved']['agent_type'] %>">
+          <%# form.label_with_field(:ref, render_token(:object => form,
+                                                       :label => form["_resolved"]["names"][0]["sort_name"],
+                                                       :type => form["_resolved"]["agent_type"],
+                                                       :uri => form["_resolved"]["uri"])) %>
+        </div>
+      <% else %>
+        <%= render :partial => "classifications/linker",
+                   :locals => {
+                       :form => form
+                   }
+         %>
+      <% end %>
+    </div>
+
+  </section>
+<% end %>
