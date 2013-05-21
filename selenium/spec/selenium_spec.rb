@@ -2033,10 +2033,13 @@ describe "ArchivesSpace user interface" do
 
 
     it "supports filtering global searches by type" do
+      create_accession("A test accession #{Time.now.to_i}_#{$$}")
+      run_index_round
+
       $driver.find_element(:id, 'global-search-button').click
-      $driver.find_element(:link, "Repository").click
+      $driver.find_element(:link, "Accession").click
       assert(5) { $driver.find_element_with_text("//h5", /Filtered By/) }
-      assert(5) { $driver.find_element_with_text("//a", /Record Type: Repository/) }
+      assert(5) { $driver.find_element_with_text("//a", /Record Type: Accession/) }
       assert(5) { $driver.find_element_with_text('//div', /Showing 1 - 1 of 1 Results/) }
     end
 
