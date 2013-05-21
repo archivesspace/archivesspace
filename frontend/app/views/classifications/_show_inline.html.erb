@@ -16,13 +16,14 @@
             <%= form.label_and_textarea "title" %>
             <%= form.label_and_textarea "description" %>
 
-            <div class="token-list">
-              <%= readonly.label_with_field(:creator, render_token(:object => readonly,
-                                                                   :label => readonly["creator"]["_resolved"]["names"][0]["sort_name"],
-                                                                   :type => readonly["creator"]["_resolved"]["agent_type"],
-                                                                   :uri => readonly["creator"]["_resolved"]["uri"])) %>
-            </div>
-
+            <% if !readonly["creator"].blank? %>
+              <div class="token-list">
+                <%= readonly.label_with_field(:creator, render_token(:object => readonly,
+                                                                     :label => readonly["creator"]["_resolved"]["names"][0]["sort_name"],
+                                                                     :type => readonly["creator"]["_resolved"]["agent_type"],
+                                                                     :uri => readonly["creator"]["_resolved"]["uri"])) %>
+              </div>
+            <% end %>
           </section>
         <% end %>
 
