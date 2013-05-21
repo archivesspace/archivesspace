@@ -962,13 +962,7 @@ describe "ArchivesSpace user interface" do
     it "can navigate through pages of digital objects " do
       c = 0
       (AppConfig[:default_page_size].to_i + 1).times do
-        $driver.find_element(:link, "Create").click
-        $driver.find_element(:link, "Digital Object").click
-
-        $driver.clear_and_send_keys([:id, "digital_object_title_"],("I can't believe this is DO number #{c += 1}"))
-        $driver.clear_and_send_keys([:id, "digital_object_digital_object_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
-        
-        $driver.find_element(:css => "form#new_digital_object button[type='submit']").click
+        create_digital_object("I can't believe this is DO number #{c += 1}")
       end
       run_index_round
 

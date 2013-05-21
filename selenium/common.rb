@@ -476,6 +476,18 @@ def create_accession(title)
 end
 
 
+def create_digital_object(title)
+  req = Net::HTTP::Post.new("#{$test_repo_uri}/digital_objects")
+  req.body = {:title => title, :digital_object_id => "#{Time.now.to_f}#{$$}"}.to_json
+
+  response = admin_backend_request(req)
+
+  raise response.body if response.code != '200'
+
+  title
+end
+
+
 def create_resource(values = {})
   if !$test_repo
     ($test_repo, $test_repo_uri) = create_test_repo("repo_#{Time.now.to_i}_#{$$}", "description")
