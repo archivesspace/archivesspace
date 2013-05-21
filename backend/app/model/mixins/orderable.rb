@@ -93,9 +93,21 @@ module Orderable
                       "root@#{root_uri}"
                     end
 
-      self.class.dataset.filter(:id => self.id).update(:parent_id => parent_id,
-                                                       :parent_name => parent_name,
-                                                       :position => Sequence.get(sequence))
+      new_values = {
+        :parent_id => parent_id,
+        :parent_name => parent_name,
+        :position => Sequence.get(sequence)
+      }
+
+      # Run through the standard validation without actually saving
+      to_validate = self.class.new(self.values).set(new_values)
+      errors = to_validate.validate
+      if errors && !errors.empty?
+        raise Sequel::ValidationFailed.new(errors)
+      end
+
+      # Now do the update (without touching lock_version)
+      self.class.dataset.filter(:id => self.id).update(new_values)
 
       self.refresh
       self.set_position_in_list(position, sequence) if position
