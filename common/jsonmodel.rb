@@ -239,7 +239,7 @@ module JSONModel
       enum_wrapper = Struct.new(:enum_source).new(@@init_args[:enum_source])
 
       def enum_wrapper.valid?(name, value)
-        self.values_for(name).include?(value)
+        value == 'other_unmapped' || enum_source.valid?(name, value)
       end
 
 
