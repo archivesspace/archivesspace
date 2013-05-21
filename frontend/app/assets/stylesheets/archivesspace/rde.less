@@ -1,1 +1,84 @@
+@import "twitter/bootstrap/variables";
+@import "twitter/bootstrap/mixins";
+
 @import "../jquery.kiketable.colsizable.css";
+
+#rde_form {
+  .sections {
+    #gradient > .vertical(@navbarBackgroundHighlight, darken(@navbarBackgroundHighlight, 3%));
+    th {
+      border-bottom-color: darken(@navbarBackgroundHighlight, 6%);
+    }
+  }
+  .fieldset-labels {
+    #gradient > .vertical(darken(@navbarBackgroundHighlight, 3%), darken(@navbarBackgroundHighlight, 6%));
+
+    th {
+      border-top-color: darken(@navbarBackgroundHighlight, 6%);
+      &:hover {
+        background-color: @tableBackgroundHover;
+      }
+    }
+  }
+
+  th {
+
+    &.fieldset-label {
+      cursor: pointer;
+    }
+
+    &.sticky {
+      #gradient > .vertical(#dcf1fa, #caecfa);
+    }
+
+    .kiketable-colsizable-handler {
+      background-image: url(../archivesspace/drag_handle.png);
+      border: none;
+      width: 4px;
+    }
+  }
+  td {
+    &.control-group {
+      &.error {
+        background-color: @errorBackground;
+      }
+    }
+
+    &.control-group {
+      min-width: 60px;
+      select {
+        width: 100%;
+      }
+      input {
+        padding: 4px 1%;
+        width: 98%;
+      }
+      overflow: auto;
+    }
+  }
+  tr {
+    td.status {
+      .valid, .invalid {
+        display: none;
+      }
+    }
+    &.valid {
+      td {
+        background-color: @successBackground;
+      }
+      td.status {
+        .valid {
+          display: block;
+        }
+      }
+    }
+    &.invalid {
+      td.status {
+        background-color: @errorBackground;
+        .invalid {
+          display: block;
+        }
+      }
+    }
+  }
+}
