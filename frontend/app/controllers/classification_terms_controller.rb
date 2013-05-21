@@ -90,8 +90,9 @@ class ClassificationTermsController < ApplicationController
         :position => params[:index]
       }
     else
-      #raise "Error setting parent of archival object: #{response.body}"
-      render :text => "Unable to move Classification Term", :status => 500
+      errors = ASUtils.json_parse(response.body)
+
+      render :partial => "shared/quick_messages", :locals => {:exceptions => errors, :jsonmodel => "classification_term"}, :status => 500
     end
   end
 

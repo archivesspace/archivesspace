@@ -503,8 +503,7 @@ $(function() {
           $.jstree.rollback(lastMoveData.rlbk);
 
           // show a modal message
-          //alert(jqXHR.responseText);
-          AS.openQuickModal(jqXHR.responseText, "alert alert-error");
+          AS.openQuickModal(AS.renderTemplate("tree_unable_to_move_message_template"), jqXHR.responseText);
         }
       });
     }
