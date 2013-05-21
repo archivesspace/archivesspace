@@ -87,8 +87,14 @@ module Orderable
       parent_uri = parent_id ? self.class.uri_for(self.class.node_record_type.intern, parent_id) : nil
       sequence = "#{root_uri}_#{parent_uri}_children_position"
 
+      parent_name = if parent_id
+                      "#{parent_id}@#{self.class.node_record_type}"
+                    else
+                      "root@#{root_uri}"
+                    end
+
       self.class.dataset.filter(:id => self.id).update(:parent_id => parent_id,
-                                                       :parent_name => parent_id ? parent_id.to_s : "root@#{root_uri}",
+                                                       :parent_name => parent_name,
                                                        :position => Sequence.get(sequence))
 
       self.refresh
