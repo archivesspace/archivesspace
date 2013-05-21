@@ -1518,6 +1518,7 @@ en:
     title: Title
     description: Description
     creator: Creator
+    id_separator: /
 
   classification_term:
     _singular: Classification Term

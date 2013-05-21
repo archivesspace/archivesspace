@@ -52,6 +52,10 @@
       <li><a href="#resource_collection_management_"><%= I18n.t "collection_management._singular" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
+    <% if not controller.action_name === "show" or @resource.classification %>
+      <li><a href="#resource_classifications_"><%= I18n.t "classification._plural" %> <span class="icon-chevron-right"></span></a></li>
+    <% end %>
+
     <% if not controller.action_name === "show" or @resource.user_defined %>
       <li><a href="#resource_user_defined_"><%= I18n.t "user_defined._singular" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>

@@ -4,6 +4,7 @@ class SearchResultData
     @search_data = search_data
     @facet_data = {}
 
+    self.class.run_result_hooks(search_data)
     init_facets
   end
 
@@ -195,6 +196,31 @@ class SearchResultData
 
   def self.CLASSIFICATION_FACETS
     []
+  end
+
+
+  def self.add_result_hook(&block)
+    @result_hooks ||= []
+    @result_hooks << block
+  end
+
+
+  def self.run_result_hooks(results)
+    Array(@result_hooks).each do |hook|
+      hook.call(results)
+    end
+  end
+
+
+  # Search result mangling for classification paths + titles
+  self.add_result_hook do |results|
+    results['results'].each do |result|
+      if result.has_key?('classification_path')
+        path = ASUtils.json_parse(result['classification_path'])
+        id_string =  path.map {|node| node['identifier']}.join(I18n.t("classification.id_separator"))
+        result['title'] = "#{id_string} #{path.last['title']}"
+      end
+    end
   end
 
 end
