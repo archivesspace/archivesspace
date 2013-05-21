@@ -1312,6 +1312,7 @@ Sequel.migration do
 
       String :identifier, :null => false
       HalfLongString :title, :null => false
+      String :title_sha1, :null => false
       TextField :description
 
       Integer :root_record_id, :null => true
@@ -1327,10 +1328,10 @@ Sequel.migration do
 
     alter_table(:classification_term) do
       add_foreign_key([:repo_id], :repository, :key => :id)
-      add_index([:parent_name, :title], :unique => true)
+      add_index([:parent_name, :title_sha1], :unique => true)
       add_index([:parent_name, :identifier], :unique => true)
 
-      add_index([:parent_name, :position], :unique => true, :name => "uniq_classterm_pos")
+      add_index([:parent_name, :position], :unique => true, :name => "uniq_ct_pos")
     end
 
 
