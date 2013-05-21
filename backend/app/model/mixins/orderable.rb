@@ -207,10 +207,10 @@ module Orderable
       json = super
 
       if obj.root_record_id
-        json[root_record_type] = {:ref => uri_for(root_record_type, obj.root_record_id)}
+        json[root_record_type] = {'ref' => uri_for(root_record_type, obj.root_record_id)}
 
         if obj.parent_id
-          json.parent = {:ref => uri_for(node_record_type, obj.parent_id)}
+          json.parent = {'ref' => uri_for(node_record_type, obj.parent_id)}
         end
       end
 

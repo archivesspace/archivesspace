@@ -19,9 +19,30 @@ class Classification < Sequel::Model(:classification)
                       :is_array => false)
 
 
+  def self.set_path_from_root(json)
+    json['path_from_root'] = [{'title' => json.title, 'identifier' => json.identifier}]
+  end
+
+
+  def self.create_from_json(json, opts = {})
+    self.set_path_from_root(json)
+    obj = super
+    obj.reindex_children
+    obj
+  end
+
+
+  def update_from_json(json, opts = {}, apply_linked_records = true)
+    self.class.set_path_from_root(json)
+    obj = super
+    obj.reindex_children
+    obj
+  end
+
+
   def self.sequel_to_jsonmodel(obj, opts = {})
     json = super
-    json['path_from_root'] = [{'title' => obj.title, 'identifier' => obj.identifier}]
+    self.set_path_from_root(json)
     json
   end
 

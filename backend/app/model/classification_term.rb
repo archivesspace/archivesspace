@@ -21,30 +21,41 @@ class ClassificationTerm < Sequel::Model(:classification_term)
 
 
   def self.create_from_json(json, opts = {})
-    super(json, :title_sha1 => Digest::SHA1.hexdigest(json.title))
+    self.set_path_from_root(json)
+    obj = super(json, :title_sha1 => Digest::SHA1.hexdigest(json.title))
+    obj.reindex_children
+    obj
   end
 
 
   def update_from_json(json, opts = {}, apply_linked_records = true)
-    super(json, {:title_sha1 => Digest::SHA1.hexdigest(json.title)}, apply_linked_records)
+    self.class.set_path_from_root(json)
+    obj = super(json, {:title_sha1 => Digest::SHA1.hexdigest(json.title)}, apply_linked_records)
+    obj.reindex_children
+    obj
+  end
+
+
+  def self.set_path_from_root(json)
+    path = [{'title' => json.title, 'identifier' => json.identifier}]
+    parent_id = json.parent ? self.parse_reference(json.parent['ref'], {})[:id] : nil
+
+    while parent_id
+      node = ClassificationTerm[parent_id]
+      path << {'title' => node.title, 'identifier' => node.identifier}
+      parent_id = node.parent_id
+    end
+
+    root = Classification[self.parse_reference(json.classification['ref'], {})[:id]]
+    path << {'title' => root.title, 'identifier' => root.identifier}
+
+    json['path_from_root'] = path.reverse
   end
 
 
   def self.sequel_to_jsonmodel(obj, opts = {})
     json = super
-
-    path = []
-    node = obj
-    while node
-      path << {'title' => node.title, 'identifier' => node.identifier}
-      node = self[node.parent_id]
-    end
-
-    root = Classification[obj.root_record_id]
-    path << {'title' => root.title, 'identifier' => root.identifier}
-
-    json['path_from_root'] = path.reverse
-
+    self.set_path_from_root(json)
     json
   end
 

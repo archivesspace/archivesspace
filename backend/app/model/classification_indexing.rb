@@ -8,15 +8,11 @@
 
 module ClassificationIndexing
 
-  def after_save
-    reindex_children(true)
-    super
-  end
-
-
   def reindex_children(top = false)
-    self.class.fire_update(self.class.to_jsonmodel(self), self)
-    self.class.update_mtime_for_ids([self.id]) if !top
+    if !top
+      self.class.fire_update(self.class.to_jsonmodel(self), self)
+      self.class.update_mtime_for_ids([self.id])
+    end
 
     self.children.each do |child|
       child.reindex_children
