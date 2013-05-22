@@ -1209,21 +1209,30 @@ Sequel.migration do
 
       Integer :boolean_1
       Integer :boolean_2
+      Integer :boolean_3
 
       String :integer_1, :null => true
       String :integer_2, :null => true
+      String :integer_3, :null => true
 
       String :real_1, :null => true
       String :real_2, :null => true
+      String :real_3, :null => true
 
       String :string_1, :null => true
       String :string_2, :null => true
       String :string_3, :null => true
+      String :string_4, :null => true
 
       TextField :text_1, :null => true
       TextField :text_2, :null => true
       TextField :text_3, :null => true
       TextField :text_4, :null => true
+      TextField :text_5, :null => true
+
+      DateTime :date_1, :null => true
+      DateTime :date_2, :null => true
+      DateTime :date_3, :null => true
 
       String :created_by
       String :last_modified_by

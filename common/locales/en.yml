@@ -1475,17 +1475,25 @@ en:
   user_defined:
     boolean_1: Boolean 1
     boolean_2: Boolean 2
+    boolean_3: Boolean 3
     integer_1: Integer 1
     integer_2: Integer 2
+    integer_3: Integer 3
     real_1: Real 1
     real_2: Real 2
+    real_3: Real 3
     string_1: String 1
     string_2: String 2
     string_3: String 3
+    string_4: String 4
     text_1: Text 1
     text_2: Text 2
     text_3: Text 3
     text_4: Text 4
+    text_5: Text 5
+    date_1: Date 1
+    date_2: Date 2
+    date_3: Date 3
     _singular: User Defined
     _plural: User Defined
 
