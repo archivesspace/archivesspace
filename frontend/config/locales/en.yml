@@ -90,6 +90,7 @@ en:
       primary_type: Record Type
       digital_object_type: Type
       level: Level
+      classification_path: Classification
       accession_date_year: Accession Date
       creators: Creator
       source: Source

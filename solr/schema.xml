@@ -102,7 +102,7 @@
    <field name="tree_json" type="string" indexed="false" stored="true" multiValued="false" />
 
    <!-- A JSON blob representing the classification path -->
-   <field name="classification_path" type="string" indexed="false" stored="true" multiValued="false" />
+   <field name="classification_path" type="string" indexed="true" stored="true" multiValued="false" />
 
    <!-- Event properties required for facets -->
    <field name="event_type" type="string" indexed="true" stored="true" multiValued="false" />

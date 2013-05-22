@@ -85,6 +85,7 @@ class SearchResultData
         return I18n.t("enumerations.name_source.#{facet}", :default => facet)
       end
     end
+
     if facet_group === "level"
         if single_type? and types[0] === "digital_object"
           return I18n.t("enumerations.digital_object_level.#{facet.to_s}", :default => facet)
@@ -97,6 +98,10 @@ class SearchResultData
     return I18n.t("#{facet}._singular", :default => facet) if facet_group === "parent_type"
     return I18n.t("enumerations.collection_management_processing_priority.#{facet}", :default => facet) if facet_group === "processing_priority"
     return I18n.t("enumerations.collection_management_processing_status.#{facet}", :default => facet) if facet_group === "processing_status"
+
+    if facet_group === "classification_path"
+      return ClassificationHelper.format_classification(ASUtils.json_parse(facet))
+    end
 
     facet
   end
@@ -175,7 +180,7 @@ class SearchResultData
   end
 
   def self.RESOURCE_FACETS
-    ["subjects", "publish", "level"]
+    ["subjects", "publish", "level", "classification_path"]
   end
 
   def self.DIGITAL_OBJECT_FACETS

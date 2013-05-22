@@ -201,6 +201,12 @@ class CommonIndexer
       end
     }
 
+    add_document_prepare_hook {|doc, record|
+      if ['resource'].include?(doc['primary_type']) && record['record']['classification']
+        doc['classification_path'] = ASUtils.to_json(record['record']['classification']['_resolved']['path_from_root'])
+      end
+    }
+
 
 
     record_has_children('collection_management')
