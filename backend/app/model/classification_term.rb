@@ -1,5 +1,4 @@
 require 'digest/sha1'
-require_relative 'classification_indexing'
 
 class ClassificationTerm < Sequel::Model(:classification_term)
   include ASModel

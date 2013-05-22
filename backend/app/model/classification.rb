@@ -1,5 +1,3 @@
-require_relative 'classification_indexing'
-
 class Classification < Sequel::Model(:classification)
   include ASModel
   include Relationships
