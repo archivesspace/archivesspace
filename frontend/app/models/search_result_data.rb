@@ -220,7 +220,7 @@ class SearchResultData
   # Search result mangling for classification paths + titles
   self.add_result_hook do |results|
     results['results'].each do |result|
-      if result.has_key?('classification_path')
+      if result['primary_type'] =~ /^classification/ && result.has_key?('classification_path')
         path = ASUtils.json_parse(result['classification_path'])
         result['title'] = ClassificationHelper.format_classification(path)
       end

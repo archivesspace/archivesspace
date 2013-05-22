@@ -4,7 +4,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create a Classification")
     .params(["classification", JSONModel(:classification), "The classification to create", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:update_classification_record])
     .returns([200, :created],
              [400, :error]) \
   do
@@ -45,7 +45,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["classification_id", Integer, "The ID of the classification to retrieve"],
             ["classification", JSONModel(:classification), "The classification to update", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:update_classification_record])
     .returns([200, :updated],
              [400, :error]) \
   do
@@ -68,7 +68,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Delete a Classification")
     .params(["classification_id", Integer, "The classification ID to delete"],
             ["repo_id", :repo_id])
-    .permissions([:delete_archival_record])
+    .permissions([:delete_classification_record])
     .returns([200, :deleted]) \
   do
     handle_delete(Classification, params[:classification_id])

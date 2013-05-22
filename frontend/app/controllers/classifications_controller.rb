@@ -1,8 +1,8 @@
 class ClassificationsController < ApplicationController
   skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_archival_record")}
-  before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
+  before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_classification_record")}
+  before_filter(:only => [:delete]) {|c| user_must_have("delete_classification_record")}
 
   FIND_OPTS = {
     "resolve[]" => ["creator"]

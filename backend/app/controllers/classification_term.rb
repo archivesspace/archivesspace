@@ -4,7 +4,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create a Classification Term")
     .params(["classification_term", JSONModel(:classification_term), "The Classification Term to create", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:update_classification_record])
     .returns([200, :created],
              [400, :error],
              [409, '{"error":{"[:root_record_id, :ref_id]":["A Classification Term Ref ID must be unique to its resource"]}}']) \
@@ -18,7 +18,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["classification_term_id", Integer, "The Classification Term ID to update"],
             ["classification_term", JSONModel(:classification_term), "The Classification Term data to update", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:update_classification_record])
     .returns([200, :updated],
              [400, :error],
              [409, '{"error":{"[:root_record_id, :ref_id]":["A Classification Term Ref ID must be unique to its resource"]}}']) \
@@ -33,7 +33,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["parent", Integer, "The parent of this node in the tree", :optional => true],
             ["position", Integer, "The position of this node in the tree", :optional => true],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:update_classification_record])
     .returns([200, :updated],
              [400, :error]) \
   do
@@ -84,11 +84,12 @@ class ArchivesSpaceService < Sinatra::Base
     handle_listing(ClassificationTerm, params)
   end
 
+
   Endpoint.delete('/repositories/:repo_id/classification_terms/:classification_term_id')
     .description("Delete a Classification Term")
     .params(["classification_term_id", Integer, "The Classification Term to delete"],
             ["repo_id", :repo_id])
-    .permissions([:delete_archival_record])
+    .permissions([:delete_classification_record])
     .returns([200, :deleted]) \
   do
     handle_delete(ClassificationTerm, params[:classification_term_id])

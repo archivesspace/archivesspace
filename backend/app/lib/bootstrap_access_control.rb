@@ -127,6 +127,16 @@ class ArchivesSpaceService
     Permission.define("view_repository",
                       "The ability to view a given repository",
                       :level => "repository")
+
+    Permission.define("update_classification_record",
+                      "The ability to create and modify classification records",
+                      :level => "repository")
+
+    Permission.define("delete_classification_record",
+                      "The ability to delete classification records",
+                      :level => "repository")
+
+
   end
 
 

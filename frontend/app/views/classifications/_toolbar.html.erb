@@ -1,4 +1,4 @@
-<% if user_can?('update_archival_record') %>
+<% if user_can?('update_classification_record') %>
   <div class="row-fluid">
     <div class="span12">
       <div class="record-toolbar">
@@ -20,7 +20,7 @@
           </div>
         <% end %>
         <div class="btn-toolbar pull-right">
-          <% if user_can?('delete_archival_record') %>
+          <% if user_can?('delete_classification_record') %>
             <div class="btn-group">
               <div class="btn btn-inline-form">
                 <%= link_to I18n.t("actions.delete"),
