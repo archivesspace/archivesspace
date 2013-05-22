@@ -107,4 +107,40 @@ describe 'Digital Objects controller' do
     JSONModel(:resource).find(resource.id).instances.count.should be(1)
   end
 
+
+  it "publishes the digital object, subrecords and components when /publish is POSTed" do
+    digital_object = create(:json_digital_object, {
+      :publish => false,
+      :external_documents => [build(:json_external_document, {:publish => false})],
+      :file_versions => [build(:json_file_version, {:publish => false})],
+      :notes => [build(:json_note_bibliography, {:publish => false})]
+    })
+
+    component = create(:json_digital_object_component, {
+      :publish => false,
+      :digital_object => {:ref => digital_object.uri},
+      :external_documents => [build(:json_external_document, {:publish => false})],
+      :file_versions => [build(:json_file_version, {:publish => false})],
+      :notes => [build(:json_note_bibliography, {:publish => false})]
+    })
+
+    url = URI("#{JSONModel::HTTP.backend_url}#{digital_object.uri}/publish")
+
+    request = Net::HTTP::Post.new(url.request_uri)
+    response = JSONModel::HTTP.do_http_request(url, request)
+
+
+    digital_object = JSONModel(:digital_object).find(digital_object.id)
+    digital_object.publish.should eq(true)
+    digital_object.external_documents[0]["publish"].should eq(true)
+    digital_object.file_versions[0]["publish"].should eq(true)
+    digital_object.notes[0]["publish"].should eq(true)
+
+    component = JSONModel(:digital_object_component).find(component.id)
+    component.publish.should eq(true)
+    component.external_documents[0]["publish"].should eq(true)
+    component.file_versions[0]["publish"].should eq(true)
+    component.notes[0]["publish"].should eq(true)
+  end
+
 end

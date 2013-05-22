@@ -73,4 +73,20 @@ class ArchivesSpaceService < Sinatra::Base
   do
     handle_delete(Resource, params[:resource_id])
   end
+
+
+  Endpoint.post('/repositories/:repo_id/resources/:resource_id/publish')
+  .description("Publish a resource and all it's sub-records and components")
+  .params(["resource_id", Integer, "The ID of the resource to retrieve"],
+                     ["repo_id", :repo_id])
+  .permissions([:update_archival_record])
+  .returns([200, :updated],
+           [400, :error]) \
+  do
+    resource = Resource.get_or_die(params[:resource_id])
+    resource.publish_all_subrecords_and_components
+
+    updated_response(resource)
+  end
+
 end

@@ -1,7 +1,7 @@
 class DigitalObjectsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :tree, :new, :edit, :create, :update, :delete]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :tree, :new, :edit, :create, :update, :delete, :publish]
   before_filter(:only => [:index, :show, :tree]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_archival_record")}
+  before_filter(:only => [:new, :edit, :create, :update, :publish]) {|c| user_must_have("update_archival_record")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
 
@@ -77,6 +77,21 @@ class DigitalObjectsController < ApplicationController
 
     flash[:success] = I18n.t("digital_object._frontend.messages.deleted", JSONModelI18nWrapper.new(:digital_object => digital_object))
     redirect_to(:controller => :digital_objects, :action => :index, :deleted_uri => digital_object.uri)
+  end
+
+
+  def publish
+    digital_object = JSONModel(:digital_object).find(params[:id])
+
+    response = JSONModel::HTTP.post_form("#{digital_object.uri}/publish")
+
+    if response.code == '200'
+      flash[:success] = I18n.t("digital_object._frontend.messages.published", JSONModelI18nWrapper.new(:digital_object => digital_object))
+    else
+      flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
+    end
+
+    redirect_to request.referer
   end
 
 

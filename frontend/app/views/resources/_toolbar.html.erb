@@ -20,23 +20,19 @@
           </div>
         <% end %>
         <div class="btn-toolbar pull-right">
-          <% if user_can?('delete_archival_record') %>
-            <div class="btn-group">
-              <div class="btn btn-inline-form">
-                <%= button_to I18n.t("actions.delete"),
-                            {:controller => :resources, :action => :delete, :id => @resource.id},
-                            :method => :post,
-                            :class => "btn btn-small btn-danger delete-record",
-                            :"data-confirmation" => true,
-                            :"data-title" => I18n.t("actions.delete_confirm_title"),
-                            :"data-message" => I18n.t("actions.delete_confirm_message"),
-                            :"data-confirm-btn-label" => "#{I18n.t("actions.delete")}",
-                            :"data-confirm-btn-class" => "btn-danger",
-                            :"data-authenticity_token" => form_authenticity_token %>
-              </div>
-            </div>
-          <% end %>
           <div class="btn-group">
+            <div class="btn btn-inline-form">
+              <%= button_to I18n.t("actions.publish"),
+                          {:controller => :resources, :action => :publish, :id => @resource.id},
+                          :method => :post,
+                          :class => "btn btn-small",
+                          :"data-confirmation" => true,
+                          :"data-title" => I18n.t("actions.publish_confirm_title"),
+                          :"data-message" => I18n.t("actions.publish_confirm_message"),
+                          :"data-confirm-btn-label" => "#{I18n.t("actions.publish")}",
+                          :"data-confirm-btn-class" => "btn-primary",
+                          :"data-authenticity_token" => form_authenticity_token %>
+            </div>
             <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
               <%= I18n.t("actions.export") %>
               <span class="caret"></span>
@@ -46,6 +42,20 @@
               <li><%= link_to I18n.t("actions.export_marc"), {:controller => :exports, :action => :download_marc, :id => @resource.id} %></li>
               <li><%= link_to I18n.t("actions.container_labels"), {:controller => :exports, :action => :container_labels, :id => @resource.id} %></li>
             </ul>
+            <% if user_can?('delete_archival_record') %>
+                <div class="btn btn-inline-form">
+                  <%= button_to I18n.t("actions.delete"),
+                              {:controller => :resources, :action => :delete, :id => @resource.id},
+                              :method => :post,
+                              :class => "btn btn-small btn-danger delete-record",
+                              :"data-confirmation" => true,
+                              :"data-title" => I18n.t("actions.delete_confirm_title"),
+                              :"data-message" => I18n.t("actions.delete_confirm_message"),
+                              :"data-confirm-btn-label" => "#{I18n.t("actions.delete")}",
+                              :"data-confirm-btn-class" => "btn-danger",
+                              :"data-authenticity_token" => form_authenticity_token %>
+              </div>
+            <% end %>
           </div>
         </div>
       </div>

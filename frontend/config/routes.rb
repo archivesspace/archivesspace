@@ -46,6 +46,7 @@ ArchivesSpace::Application.routes.draw do
   match 'digital_objects/:id/download_mods' => 'exports#download_mods', :via => [:get]
   match 'digital_objects/:id' => 'digital_objects#update', :via => [:post]
   match 'digital_objects/:id/delete' => 'digital_objects#delete', :via => [:post]
+  match 'digital_objects/:id/publish' => 'digital_objects#publish', :via => [:post]
 
   resources :digital_object_components
   match 'digital_object_components/:id' => 'digital_object_components#update', :via => [:post]
@@ -60,6 +61,7 @@ ArchivesSpace::Application.routes.draw do
   match 'resources/:id/delete' => 'resources#delete', :via => [:post]
   match 'resources/:id/rde' => 'resources#rde', :via => [:get]
   match 'resources/:id/add_children' => 'resources#add_children', :via => [:post]
+  match 'resources/:id/publish' => 'resources#publish', :via => [:post]
 
   resources :classifications
   match 'classifications/:id' => 'classifications#update', :via => [:post]

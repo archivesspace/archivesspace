@@ -471,4 +471,36 @@ describe 'Resources controller' do
     JSONModel(:resource).find(resource.id).linked_agents[2]['ref'].should eq(agent_a.uri)
   end
 
+
+  it "publishes the resource, subrecords and components when /publish is POSTed" do
+    resource = create(:json_resource, {
+      :publish => false,
+      :external_documents => [build(:json_external_document, {:publish => false})],
+      :notes => [build(:json_note_bibliography, {:publish => false})]
+    })
+
+    archival_object = create(:json_archival_object, {
+      :publish => false,
+      :resource => {:ref => resource.uri},
+      :external_documents => [build(:json_external_document, {:publish => false})],
+      :notes => [build(:json_note_bibliography, {:publish => false})]
+    })
+
+    url = URI("#{JSONModel::HTTP.backend_url}#{resource.uri}/publish")
+
+    request = Net::HTTP::Post.new(url.request_uri)
+    response = JSONModel::HTTP.do_http_request(url, request)
+
+
+    resource = JSONModel(:resource).find(resource.id)
+    resource.publish.should eq(true)
+    resource.external_documents[0]["publish"].should eq(true)
+    resource.notes[0]["publish"].should eq(true)
+
+    archival_object = JSONModel(:archival_object).find(archival_object.id)
+    archival_object.publish.should eq(true)
+    archival_object.external_documents[0]["publish"].should eq(true)
+    archival_object.notes[0]["publish"].should eq(true)
+  end
+
 end

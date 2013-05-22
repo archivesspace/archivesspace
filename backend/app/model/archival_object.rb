@@ -56,4 +56,32 @@ class ArchivalObject < Sequel::Model(:archival_object)
     map_validation_to_json_property([:root_record_id, :ref_id], :ref_id)
     super
   end
+
+
+  def publish_all_subrecords
+
+    # publish all notes
+    notes = ASUtils.json_parse(self.notes || "[]")
+    if not notes.empty?
+      notes.each do |note|
+        note["publish"] = true
+      end
+      self.notes = JSON(notes)
+    end
+
+    # publish all external documents
+    self.external_document.each do |exdoc|
+      exdoc.publish = 1
+      exdoc.save
+    end
+
+    # set our own publish to true
+    self.publish = 1
+
+    # save
+    self.save
+
+  end
+
+
 end
