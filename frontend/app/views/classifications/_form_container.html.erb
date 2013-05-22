@@ -17,7 +17,7 @@
       <%= form.label_and_textarea "description" %>
 
       <% form.push("creator", form["creator"] || {}) do %>
-        <%= render :partial => "agents/linker", :locals => {:form => form, :linker_label => I18n.t("classification.creator")} %>
+        <%= render :partial => "agents/linker", :locals => {:form => form, :linker_label => I18n.t("classification.creator"), :optional => true} %>
       <% end %>
 
     </section>

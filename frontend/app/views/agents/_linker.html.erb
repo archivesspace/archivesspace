@@ -7,10 +7,12 @@
 
    exclude_ids = [] if exclude_ids.blank?
 
+   required = (defined? optional) ? !optional : true
+
    linkable_types = defined?(allowed_types) ? allowed_types : ["agent"]
    creatable_types = defined?(allowed_types) ? allowed_types : ["agent_person", "agent_family", "agent_corporate_entity", "agent_software"]
 %>
-<div class="control-group required">
+<div class="control-group <% if required %> required <% end %>">
   <label class="control-label"><%= defined?(linker_label) ? linker_label : I18n.t("agent._singular") %></label>
   <div class="controls">
     <div class="input-append linker-wrapper">
