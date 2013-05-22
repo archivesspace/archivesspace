@@ -32,10 +32,8 @@ class Resource < Sequel::Model(:resource)
 
 
   def validate
-    validates_unique([:repo_id, :identifier], :message => "Must be unique")
     validates_unique([:repo_id, :ead_id], :message => "Must be unique")
 
-    map_validation_to_json_property([:repo_id, :identifier], :identifier)
     map_validation_to_json_property([:repo_id, :ead_id], :ead_id)
 
     super
