@@ -101,17 +101,21 @@ module Relationships
   def update_from_json(json, opts = {}, apply_linked_records = true)
     obj = super
     self.class.apply_relationships(obj, json, opts)
+    trigger_reindex_of_dependants
 
+    obj
+  end
+
+
+  def trigger_reindex_of_dependants
     # Update the mtime of any record with a relationship to this one.  This
     # encourages the indexer to reindex records when, say, a subject is renamed.
     #
     # Once we have our list of unique models, inform each of them that our
     # instance has been updated (using a class method defined below).
     self.class.relationship_dependencies.uniq.each do |model|
-      model.touch_mtime_of_anyone_related_to(obj)
+      model.touch_mtime_of_anyone_related_to(self)
     end
-
-    obj
   end
 
 

@@ -14,6 +14,8 @@ module ClassificationIndexing
       self.class.update_mtime_for_ids([self.id])
     end
 
+    trigger_reindex_of_dependants
+
     self.children.each do |child|
       child.reindex_children
     end
