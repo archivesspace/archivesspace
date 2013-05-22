@@ -673,6 +673,8 @@ module AspaceFormHelper
           value = I18n.t("#{jsonmodel_type.to_s}.#{property}_#{value}", :default => value)
         elsif schema["properties"][property]["type"] === "boolean"
           value = value === true ? "True" : "False"
+        elsif schema["properties"][property]["type"] === "date"
+          value = value.blank? ? "" : Date.strptime(value, "%Y-%m-%d")
         elsif schema["properties"][property]["type"] === "array"
           # this view doesn't support arrays
           next
