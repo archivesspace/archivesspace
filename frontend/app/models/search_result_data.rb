@@ -4,6 +4,7 @@ class SearchResultData
     @search_data = search_data
     @facet_data = {}
 
+    self.class.run_result_hooks(search_data)
     init_facets
   end
 
@@ -84,6 +85,7 @@ class SearchResultData
         return I18n.t("enumerations.name_source.#{facet}", :default => facet)
       end
     end
+
     if facet_group === "level"
         if single_type? and types[0] === "digital_object"
           return I18n.t("enumerations.digital_object_level.#{facet.to_s}", :default => facet)
@@ -96,6 +98,10 @@ class SearchResultData
     return I18n.t("#{facet}._singular", :default => facet) if facet_group === "parent_type"
     return I18n.t("enumerations.collection_management_processing_priority.#{facet}", :default => facet) if facet_group === "processing_priority"
     return I18n.t("enumerations.collection_management_processing_status.#{facet}", :default => facet) if facet_group === "processing_status"
+
+    if facet_group === "classification_path"
+      return ClassificationHelper.format_classification(ASUtils.json_parse(facet))
+    end
 
     facet
   end
@@ -174,7 +180,7 @@ class SearchResultData
   end
 
   def self.RESOURCE_FACETS
-    ["subjects", "publish", "level"]
+    ["subjects", "publish", "level", "classification_path"]
   end
 
   def self.DIGITAL_OBJECT_FACETS
@@ -191,6 +197,34 @@ class SearchResultData
 
   def self.EVENT_FACETS
     ["event_type", "outcome"]
+  end
+
+  def self.CLASSIFICATION_FACETS
+    []
+  end
+
+
+  def self.add_result_hook(&block)
+    @result_hooks ||= []
+    @result_hooks << block
+  end
+
+
+  def self.run_result_hooks(results)
+    Array(@result_hooks).each do |hook|
+      hook.call(results)
+    end
+  end
+
+
+  # Search result mangling for classification paths + titles
+  self.add_result_hook do |results|
+    results['results'].each do |result|
+      if result['primary_type'] =~ /^classification/ && result.has_key?('classification_path')
+        path = ASUtils.json_parse(result['classification_path'])
+        result['title'] = ClassificationHelper.format_classification(path)
+      end
+    end
   end
 
 end

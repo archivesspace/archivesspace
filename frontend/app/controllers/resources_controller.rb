@@ -4,14 +4,14 @@ class ResourcesController < ApplicationController
   before_filter(:only => [:new, :edit, :create, :update, :rde, :add_children]) {|c| user_must_have("update_archival_record")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
-  FIND_OPTS = ["subjects", "container_locations", "related_accessions", "linked_agents", "digital_object"]
+  FIND_OPTS = ["subjects", "container_locations", "related_accessions", "linked_agents", "digital_object", "classification"]
 
   def index
     @search_data = Search.for_type(session[:repo_id], "resource", search_params.merge({"facet[]" => SearchResultData.RESOURCE_FACETS}))
   end
 
   def show
-    @resource = JSONModel(:resource).find(params[:id], "resolve[]" => FIND_OPTS)
+    @resource = fetch_resource(params[:id])
 
     if params[:inline]
       return render :partial => "resources/show_inline"
@@ -39,7 +39,7 @@ class ResourcesController < ApplicationController
 
 
   def edit
-    @resource = JSONModel(:resource).find(params[:id], "resolve[]" => FIND_OPTS)
+    @resource = fetch_resource(params[:id])
 
     fetch_tree
     flash.keep if not flash.empty? # keep the notices so they display on the subsequent ajax call
@@ -67,8 +67,7 @@ class ResourcesController < ApplicationController
 
   def update
     handle_crud(:instance => :resource,
-                :obj => JSONModel(:resource).find(params[:id],
-                                                  "resolve[]" => FIND_OPTS),
+                :obj => fetch_resource(params[:id]),
                 :on_invalid => ->(){
                   render :partial => "edit_inline"
                 },
@@ -130,6 +129,18 @@ class ResourcesController < ApplicationController
   def fetch_tree
     @tree = JSONModel(:resource_tree).find(nil, :resource_id => @resource.id)
     parse_tree(@tree, proc {|node| node['level'] = I18n.t("enumerations.archival_record_level.#{node['level']}", :default => node['level'])})
+  end
+
+
+  def fetch_resource(id)
+    resource = JSONModel(:resource).find(id, "resolve[]" => FIND_OPTS)
+
+    if resource['classification'] && resource['classification']['_resolved']
+      resolved = resource['classification']['_resolved']
+      resolved['title'] = ClassificationHelper.format_classification(resolved['path_from_root'])
+    end
+
+    resource
   end
 
 end

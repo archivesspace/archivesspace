@@ -8,6 +8,7 @@ $(function() {
     $container = $("#object_container");
 
   if (AS.tree_data && $tree.length) {
+
     var config = {
       root_object_id: AS.tree_data.id,
       root_node_type: AS.tree_data.node_type,
@@ -463,12 +464,15 @@ $(function() {
 
     };
 
-
-    var moveNode = function(nodeEl, targetNodelEl, newIndex) {
+    var lastMoveData;
+    var moveNode = function(nodeEl, targetNodelEl, newIndex, jstreeMoveData) {
       var parent_id = "";
+      lastMoveData = jstreeMoveData;
+
       if (nodeEl.attr("rel") === targetNodelEl.attr("rel")) {
         parent_id = targetNodelEl.data("id");
       }
+
       $.ajax({
         url: APP_PATH+nodeEl.attr("rel")+"s/"+nodeEl.data("id")+"/parent",
         type: "POST",
@@ -493,6 +497,13 @@ $(function() {
 
           var selectedNode = $tree.jstree("get_selected");
           $("#"+selectedNode.attr("rel")+"_position_", $container).val(selectedNode.index());
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          // Rollback the last move.
+          $.jstree.rollback(lastMoveData.rlbk);
+
+          // show a modal message
+          AS.openQuickModal(AS.renderTemplate("tree_unable_to_move_message_template"), jqXHR.responseText);
         }
       });
     }
@@ -662,7 +673,7 @@ $(function() {
             setHashForNode($nodeToSelect.find("a").attr("href"));
           }
         }).bind("move_node.jstree", function(event, data) {
-          moveNode(data.rslt.o, data.rslt.cr, data.rslt.o.index());
+          moveNode(data.rslt.o, data.rslt.cr, data.rslt.o.index(), data);
         }).bind("refreshtreenode.aspace", function(event, data) {
 
           var nodeId = data.jsonmodel_type+"_"+data.id;
@@ -696,9 +707,9 @@ $(function() {
             var nodeEl = $("#" + nodeId, $tree);
             $tree.jstree("rename_node", nodeEl, data.title);
 
-            if (data.level.length > 0 && $(" > a > .badge", nodeEl).length > 0) {
+            if (data.level && data.level.length > 0 && $(" > a > .badge", nodeEl).length > 0) {
               $(" > a > .badge", nodeEl).html(data.level);
-            } else if (data.level.length > 0) {
+            } else if (data.level && data.level.length > 0) {
               nodeEl.find("a").append($('<span class="badge"></span>').text(data.level));
             } else {
               $(" > a > .badge", nodeEl).remove();

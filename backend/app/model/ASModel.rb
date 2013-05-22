@@ -61,6 +61,10 @@ module ASModel
         merge(json.to_hash).
         merge(ASUtils.keys_as_strings(extra_values))
 
+      if updated.has_key?('lock_version') && !updated['lock_version']
+        raise ConflictException.new("You must provide a lock_version in your request")
+      end
+
       self.class.strict_param_setting = false
 
       self.update(self.class.prepare_for_db(json.class, updated))

@@ -51,6 +51,11 @@ class Resolver
       uri_properties[:controller] = :digital_objects
       uri_properties[:id] = JSONModel(:digital_object).id_for(doc["digital_object"]["ref"])
       uri_properties[:anchor] = "tree::digital_object_component_#{@id}"
+    elsif @jsonmodel_type === "classification_term"
+      ct = JSONModel(:classification_term).find(@id)
+      uri_properties[:controller] = :classifications
+      uri_properties[:id] = JSONModel(:classification).id_for(ct["classification"]["ref"])
+      uri_properties[:anchor] = "tree::classification_term_#{@id}"
     end
 
     uri_properties

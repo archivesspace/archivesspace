@@ -47,7 +47,7 @@ describe 'User model' do
     user = User.create_from_json(json)
     agent = AgentPerson.to_jsonmodel(user.agent_record_id)  
     json_user = User.to_jsonmodel(User.get_or_die(user.id), {})
-    json_user['agent_record'][:ref].should eq(agent.uri)
+    json_user['agent_record']['ref'].should eq(agent.uri)
   end
 
 

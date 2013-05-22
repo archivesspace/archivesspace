@@ -1511,6 +1511,23 @@ en:
     _singular: Enumeration
     _plural: Enumerations
 
+  classification:
+    _singular: Classification
+    _plural: Classifications
+    identifier: Identifier
+    title: Title
+    description: Description
+    creator: Creator
+    id_separator: /
+
+  classification_term:
+    _singular: Classification Term
+    _plural: Classification Terms
+    identifier: Identifier
+    title: Title
+    description: Description
+    creator: Creator
+
   reports:
     CreatedAccessionsReport: Created Accessions
     UnprocessedAccessionsReport: Unprocessed Accessions

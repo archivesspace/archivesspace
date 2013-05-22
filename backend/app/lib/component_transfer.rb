@@ -38,7 +38,7 @@ module ComponentTransfer
 
     json.parent = nil
 
-    source_resource_uri = json['resource'][:ref]
+    source_resource_uri = json['resource']['ref']
 
     json.resource['ref'] = target_resource_uri
     

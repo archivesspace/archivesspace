@@ -1,0 +1,35 @@
+<div class="row-fluid">
+  <div class="span3">
+    <%= render :partial => "classifications/sidebar" %>
+  </div>
+  <div class="span9">
+    <%= render :partial => "toolbar" %>
+    <div class="record-pane">
+      <%= readonly_context :classification, @classification do |readonly| %>
+        <h2><%= @classification.title %> <span class="label label-info"><%= I18n.t("classification._singular") %></span></h2>
+
+        <% define_template "classification", jsonmodel_definition(:classification) do |form, classification| %>
+          <section id="basic_information">
+            <h3><%= I18n.t("classification._frontend.section.basic_information") %></h3>
+    
+            <%= form.label_and_textarea "identifier" %>
+            <%= form.label_and_textarea "title" %>
+            <%= form.label_and_textarea "description" %>
+
+            <% if !readonly["creator"].blank? %>
+              <div class="token-list">
+                <%= readonly.label_with_field(:creator, render_token(:object => readonly,
+                                                                     :label => readonly["creator"]["_resolved"]["names"][0]["sort_name"],
+                                                                     :type => readonly["creator"]["_resolved"]["agent_type"],
+                                                                     :uri => readonly["creator"]["_resolved"]["uri"])) %>
+              </div>
+            <% end %>
+          </section>
+        <% end %>
+
+        <% readonly.emit_template("classification", @classification) %>
+
+      <% end %>
+    </div>
+  </div>
+</div>

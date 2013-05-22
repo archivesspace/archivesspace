@@ -87,9 +87,28 @@ module Orderable
       parent_uri = parent_id ? self.class.uri_for(self.class.node_record_type.intern, parent_id) : nil
       sequence = "#{root_uri}_#{parent_uri}_children_position"
 
-      self.class.dataset.filter(:id => self.id).update(:parent_id => parent_id,
-                                                       :parent_name => parent_id ? parent_id.to_s : "root@#{root_uri}",
-                                                       :position => Sequence.get(sequence))
+      parent_name = if parent_id
+                      "#{parent_id}@#{self.class.node_record_type}"
+                    else
+                      "root@#{root_uri}"
+                    end
+
+      new_values = {
+        :parent_id => parent_id,
+        :parent_name => parent_name,
+        :position => Sequence.get(sequence)
+      }
+
+      # Run through the standard validation without actually saving
+      self.set(new_values)
+      self.validate
+
+      if self.errors && !self.errors.empty?
+        raise Sequel::ValidationFailed.new(self.errors)
+      end
+
+      # Now do the update (without touching lock_version)
+      self.class.dataset.filter(:id => self.id).update(new_values)
 
       self.refresh
       self.set_position_in_list(position, sequence) if position
@@ -188,10 +207,10 @@ module Orderable
       json = super
 
       if obj.root_record_id
-        json[root_record_type] = {:ref => uri_for(root_record_type, obj.root_record_id)}
+        json[root_record_type] = {'ref' => uri_for(root_record_type, obj.root_record_id)}
 
         if obj.parent_id
-          json.parent = {:ref => uri_for(node_record_type, obj.parent_id)}
+          json.parent = {'ref' => uri_for(node_record_type, obj.parent_id)}
         end
       end
 

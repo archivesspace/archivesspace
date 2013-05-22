@@ -5,6 +5,13 @@ module Trees
   end
 
 
+  def children
+    Kernel.const_get(self.class.node_type.to_s.camelize).
+           this_repo.filter(:root_record_id => self.id,
+                            :parent_id => nil)
+  end
+
+
   def tree
     links = {}
     properties = {}

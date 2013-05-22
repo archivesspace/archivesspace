@@ -15,14 +15,14 @@ class CommonIndexer
 
   @@record_types = [:accession, :archival_object, :resource,
                     :digital_object, :digital_object_component,
-                    :subject, :location,
+                    :subject, :location, :classification, :classification_term,
                     :event,
                     :agent_person, :agent_software, :agent_family, :agent_corporate_entity]
 
   @@records_with_children = []
   @@init_hooks = []
 
-  @@resolved_attributes = ['subjects', 'linked_agents', 'linked_records']
+  @@resolved_attributes = ['subjects', 'linked_agents', 'linked_records', 'classification']
 
 
   def self.add_indexer_initialize_hook(&block)
@@ -193,6 +193,20 @@ class CommonIndexer
         eid['external_id']
       end
     }
+
+
+    add_document_prepare_hook {|doc, record|
+      if ['classification', 'classification_term'].include?(doc['primary_type'])
+        doc['classification_path'] = ASUtils.to_json(record['record']['path_from_root'])
+      end
+    }
+
+    add_document_prepare_hook {|doc, record|
+      if ['resource'].include?(doc['primary_type']) && record['record']['classification']
+        doc['classification_path'] = ASUtils.to_json(record['record']['classification']['_resolved']['path_from_root'])
+      end
+    }
+
 
 
     record_has_children('collection_management')
@@ -417,7 +431,7 @@ class CommonIndexer
       if !records_with_children.empty?
         req = Net::HTTP::Post.new("/update")
         req['Content-Type'] = 'application/json'
-        req.body = {:delete => {'query' => "parent_id:(" + record_wit_children.join(" OR ") + ")"}}.to_json
+        req.body = {:delete => {'query' => "parent_id:(" + records_with_children.join(" OR ") + ")"}}.to_json
         response = do_http_request(solr_url, req)
       end
 

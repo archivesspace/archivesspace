@@ -50,7 +50,27 @@
         :record_label => I18n.t("digital_object_component._singular")
       },
       :can_move => true
-   }
+    },
+    :classification => {
+      :can_add_child => {
+        :type => :classification_term,
+        :action_label =>  I18n.t("classification._frontend.action.add_child"),
+        :record_label => I18n.t("classification_term._singular")
+      }
+    },
+    :classification_term => {
+      :can_add_child => {
+        :type => :classification_term,
+        :action_label =>  I18n.t("classification_term._frontend.action.add_child"),
+        :record_label => I18n.t("classification_term._singular")
+      },
+      :can_add_sibling => {
+        :type => :classification_term,
+        :action_label =>  I18n.t("classification_term._frontend.action.add_sibling"),
+        :record_label => I18n.t("classification_term._singular")
+      },
+      :can_move => true
+    }
  }
 
 %>
@@ -218,6 +238,10 @@
 
     <div id="tree_revert_changes_label_template"><!--
       <%= I18n.t ("actions.revert") %>
+    --></div>
+
+    <div id="tree_unable_to_move_message_template"><!--
+      <%= I18n.t ("actions.unable_to_move_message") %>
     --></div>
 
   <% end  %>

@@ -395,7 +395,7 @@ Sequel.migration do
       Integer :parent_id, :null => true
       String :parent_name, :null => true
       Integer :position, :null => true
-      
+
       Integer :publish
 
       String :ref_id, :null => false, :unique => false
@@ -1279,6 +1279,61 @@ Sequel.migration do
     end
 
 
+    create_table(:classification) do
+      primary_key :id
+
+      Integer :repo_id, :null => false
+
+      Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
+
+      String :identifier, :null => false
+      HalfLongString :title, :null => false
+      TextField :description
+
+      String :created_by
+      String :last_modified_by
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false, :index => true
+    end
+
+    alter_table(:classification) do
+      add_foreign_key([:repo_id], :repository, :key => :id)
+    end
+
+
+    create_table(:classification_term) do
+      primary_key :id
+
+      Integer :repo_id, :null => false
+
+      Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
+
+      String :identifier, :null => false
+      HalfLongString :title, :null => false
+      String :title_sha1, :null => false
+      TextField :description
+
+      Integer :root_record_id, :null => true
+      Integer :parent_id, :null => true
+      String :parent_name, :null => true
+      Integer :position, :null => true
+
+      String :created_by
+      String :last_modified_by
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false, :index => true
+    end
+
+    alter_table(:classification_term) do
+      add_foreign_key([:repo_id], :repository, :key => :id)
+      add_index([:parent_name, :title_sha1], :unique => true)
+      add_index([:parent_name, :identifier], :unique => true)
+
+      add_index([:parent_name, :position], :unique => true, :name => "uniq_ct_pos")
+    end
+
 
     create_table(:sequence) do
       String :sequence_name, :primary_key => true
@@ -1598,6 +1653,74 @@ Sequel.migration do
       alter_table(table) do
         add_foreign_key(["#{record}_id".intern], record, :key => :id)
       end
+    end
+
+    create_table(:classification_creator_rlshp) do
+      primary_key :id
+
+      Integer :agent_person_id
+      Integer :agent_software_id
+      Integer :agent_family_id
+      Integer :agent_corporate_entity_id
+
+      Integer :classification_id
+
+      Integer :aspace_relationship_position
+      DateTime :last_modified, :null => false, :index => true
+      DateTime :create_time, :index => true
+    end
+
+    alter_table(:classification_creator_rlshp) do
+      add_foreign_key([:agent_person_id], :agent_person, :key => :id)
+      add_foreign_key([:agent_family_id], :agent_family, :key => :id)
+      add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
+      add_foreign_key([:agent_software_id], :agent_software, :key => :id)
+
+      add_foreign_key([:classification_id], :classification, :key => :id)
+    end
+
+
+    create_table(:classification_term_creator_rlshp) do
+      primary_key :id
+
+      Integer :agent_person_id
+      Integer :agent_software_id
+      Integer :agent_family_id
+      Integer :agent_corporate_entity_id
+
+      Integer :classification_term_id
+
+      Integer :aspace_relationship_position
+      DateTime :last_modified, :null => false, :index => true
+      DateTime :create_time, :index => true
+    end
+
+    alter_table(:classification_term_creator_rlshp) do
+      add_foreign_key([:agent_person_id], :agent_person, :key => :id)
+      add_foreign_key([:agent_family_id], :agent_family, :key => :id)
+      add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
+      add_foreign_key([:agent_software_id], :agent_software, :key => :id)
+
+      add_foreign_key([:classification_term_id], :classification_term, :key => :id)
+    end
+
+
+    create_table(:classification_rlshp) do
+      primary_key :id
+
+      Integer :resource_id
+      Integer :classification_id
+      Integer :classification_term_id
+
+      Integer :aspace_relationship_position
+      DateTime :last_modified, :null => false, :index => true
+      DateTime :create_time, :index => true
+    end
+
+    alter_table(:classification_rlshp) do
+      add_foreign_key([:resource_id], :resource, :key => :id)
+      add_foreign_key([:classification_id], :classification, :key => :id)
+      add_foreign_key([:classification_term_id], :classification_term, :key => :id)
     end
 
   end

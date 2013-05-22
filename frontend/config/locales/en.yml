@@ -5,6 +5,7 @@ en:
     automate: Automatically generate
     browse: Browse
     cancel: Cancel
+    continue: Continue
     confirm: Confirm
     confirm_removal: Confirm Removal
     container_labels: Download Container Labels
@@ -36,6 +37,7 @@ en:
     unsuppress: Unsuppress
     unsuppress_confirm_title: Unsuppress this Record?
     unsuppress_confirm_message: "false"
+    unable_to_move_message: "Unable to Move Record"
     delete: Delete
     delete_confirm_title: Delete this Record?
     delete_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove the record from the database, including any references it has to other records.</p>"
@@ -88,6 +90,7 @@ en:
       primary_type: Record Type
       digital_object_type: Type
       level: Level
+      classification_path: Classification
       accession_date_year: Accession Date
       creators: Creator
       source: Source
@@ -399,3 +402,27 @@ en:
                   <div><strong>Sticky Columns</strong></div>
                   <div><small>Highlighted columns are sticky and will be replicated when new rows are added. Toggle 'sticky' by clicking the corresponding table heading.</small></div>
                   <div><small>Clicking 'Add Row' will copy values from the last row; The row's '+' button will copy values from the currently focused row.</small></div>
+
+  classification:
+    _frontend:
+      messages:
+        created: "Classification <strong>%{classification.title}</strong> created"
+        updated: "Classification <strong>%{classification.title}</strong> updated"
+        deleted: "Classification <strong>%{classification.title}</strong> deleted"
+      section:
+        basic_information: Basic Information
+      action:
+        add_child: Add Child
+
+  classification_term:
+    _frontend:
+      messages:
+        created: "Classification Term <strong>%{classification_term.title}</strong> created"
+        created_with_parent: "Classification Term <strong>%{classification_term.title}</strong> created"
+        updated: "Classification Term <strong>%{classification_term.title}</strong> updated"
+        deleted: "Classification Term <strong>%{classification_term.title}</strong> deleted"
+      section:
+        basic_information: Basic Information
+      action:
+        add_child: Add Child
+        add_sibling: Add Sibling

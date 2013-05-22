@@ -95,6 +95,10 @@
           <%= render :partial => "collection_management/show", :locals => { :collection_management => @resource.collection_management, :context => readonly, :section_id => "resource_collection_management_" } %>
         <% end %>
 
+        <% if @resource.classification %>
+          <%= render :partial => "classification/show", :locals => { :classification => @resource.classification, :context => readonly, :section_id => "resource_classification_" } %>
+        <% end %>
+
         <% if @resource.user_defined %>
           <%= render :partial => "user_defined/show", :locals => { :user_defined => @resource.user_defined, :context => readonly, :section_id => "resource_user_defined_" } %>
         <% end %>

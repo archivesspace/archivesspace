@@ -37,7 +37,7 @@ class User < Sequel::Model(:user)
     json = super
 
     if obj.agent_record_id
-      json['agent_record'] = {:ref => uri_for(obj.agent_record_type, obj.agent_record_id)}
+      json['agent_record'] = {'ref' => uri_for(obj.agent_record_type, obj.agent_record_id)}
     end
 
     json

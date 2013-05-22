@@ -19,7 +19,7 @@
 
       "resource_type" => {"type" => "string", "dynamic_enum" => "resource_resource_type"},
       "tree" => {
-          "type" => "object", 
+          "type" => "object",
           "subtype" => "ref",
           "properties" => {
             "ref" => {
@@ -80,6 +80,22 @@
         }
       },
 
+
+      "classification" => {
+        "type" => "object",
+        "subtype" => "ref",
+        "properties" => {
+          "ref" => {
+            "type" => [{"type" => "JSONModel(:classification) uri"},
+                       {"type" => "JSONModel(:classification_term) uri"}],
+            "ifmissing" => "error"
+          },
+          "_resolved" => {
+            "type" => "object",
+            "readonly" => "true"
+          }
+        }
+      },
 
       "notes" => {
         "type" => "array",

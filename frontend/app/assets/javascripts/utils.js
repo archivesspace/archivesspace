@@ -323,6 +323,10 @@ AS.encodeForAttribute = function(string) {
   return string.replace(/"/g, "&quot;");
 };
 
+AS.openQuickModal = function(title, message, messageClass) {
+  AS.openCustomModal("quickModal", title, AS.renderTemplate("modal_quick_template", {message: message}));
+};
+
 
 /* AS.openCustomModal
  *  id : String - id of the modal element

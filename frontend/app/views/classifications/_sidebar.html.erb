@@ -1,0 +1,17 @@
+<div id="archivesSpaceSidebar">
+  <ul class="nav nav-list as-nav-list">
+    <% if @exceptions %>
+      <li class="<% if @exceptions.has_key?(:errors)%>alert-error<% end %>">
+        <a href="#form_messages">Errors and Warnings  <span class="icon-chevron-right"></span></a>
+      </li>
+    <% end %>
+
+    <li><a href="#basic_information"><%= I18n.t("classification._frontend.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
+
+    <% if not controller.action_name === "show" %>
+      <li class="form-actions">
+        <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("classification._singular") %></button>
+      </li>
+    <% end %>
+  </ul>
+</div>

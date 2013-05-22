@@ -61,6 +61,15 @@ ArchivesSpace::Application.routes.draw do
   match 'resources/:id/rde' => 'resources#rde', :via => [:get]
   match 'resources/:id/add_children' => 'resources#add_children', :via => [:post]
 
+  resources :classifications
+  match 'classifications/:id' => 'classifications#update', :via => [:post]
+  match 'classifications/:id/delete' => 'classifications#delete', :via => [:post]
+
+  resources :classification_terms
+  match 'classification_terms/:id' => 'classification_terms#update', :via => [:post]
+  match 'classification_terms/:id/delete' => 'classification_terms#delete', :via => [:post]
+  match 'classification_terms/:id/parent' => 'classification_terms#parent', :via => [:post]
+
   resources :subjects
   match 'subjects/:id' => 'subjects#update', :via => [:post]
   match 'subjects/terms/complete' => 'subjects#terms_complete', :via => [:get]
