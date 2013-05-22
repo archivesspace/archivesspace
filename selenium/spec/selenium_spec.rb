@@ -2040,7 +2040,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Accession").click
       assert(5) { $driver.find_element_with_text("//h5", /Filtered By/) }
       assert(5) { $driver.find_element_with_text("//a", /Record Type: Accession/) }
-      assert(5) { $driver.find_element_with_text('//div', /Showing 1 - 1 of 1 Results/) }
+      assert(5) { $driver.find_element_with_text('//div', /Showing 1.* of.*Results/) }
     end
 
   end
