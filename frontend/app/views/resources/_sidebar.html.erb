@@ -53,7 +53,7 @@
     <% end %>
 
     <% if not controller.action_name === "show" or @resource.classification %>
-      <li><a href="#resource_classifications_"><%= I18n.t "classification._plural" %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#resource_classification_"><%= I18n.t "classification._plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @resource.user_defined %>

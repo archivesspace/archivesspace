@@ -217,8 +217,7 @@ class SearchResultData
     results['results'].each do |result|
       if result.has_key?('classification_path')
         path = ASUtils.json_parse(result['classification_path'])
-        id_string =  path.map {|node| node['identifier']}.join(I18n.t("classification.id_separator"))
-        result['title'] = "#{id_string} #{path.last['title']}"
+        result['title'] = ClassificationHelper.format_classification(path)
       end
     end
   end

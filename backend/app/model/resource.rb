@@ -30,6 +30,11 @@ class Resource < Sequel::Model(:resource)
                       :json_property => 'related_accessions',
                       :contains_references_to_types => proc {[Accession]})
 
+  define_relationship(:name => :classification,
+                      :json_property => 'classification',
+                      :contains_references_to_types => proc {[Classification,
+                                                              ClassificationTerm]},
+                      :is_array => false)
 
   def validate
     validates_unique([:repo_id, :ead_id], :message => "Must be unique")

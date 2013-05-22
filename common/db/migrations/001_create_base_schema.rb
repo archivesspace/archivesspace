@@ -1703,6 +1703,26 @@ Sequel.migration do
 
       add_foreign_key([:classification_term_id], :classification_term, :key => :id)
     end
+
+
+    create_table(:classification_rlshp) do
+      primary_key :id
+
+      Integer :resource_id
+      Integer :classification_id
+      Integer :classification_term_id
+
+      Integer :aspace_relationship_position
+      DateTime :last_modified, :null => false, :index => true
+      DateTime :create_time, :index => true
+    end
+
+    alter_table(:classification_rlshp) do
+      add_foreign_key([:resource_id], :resource, :key => :id)
+      add_foreign_key([:classification_id], :classification, :key => :id)
+      add_foreign_key([:classification_term_id], :classification_term, :key => :id)
+    end
+
   end
 
 
