@@ -54,13 +54,16 @@ class StreamingImport
     
     @ticker = ticker
     
-    with_status("Read import stream") do
+    with_status("Reading JSON records") do
+      
+      @ticker.tick_estimate = 1000 # this is totally made up, just want to show something
     
       @tempfile = Tempfile.new('import_stream')
 
       begin
         while !(buf = stream.read(4096)).nil?
           @tempfile.write(buf)
+          ticker.tick
         end
       ensure
         @tempfile.close
@@ -70,11 +73,11 @@ class StreamingImport
     
     @jstream = StreamingJsonReader.new(@tempfile.path)
     
-    with_status("Check record URLs") do
+    with_status("Validating records and checking links") do
       @logical_urls = load_logical_urls
     end
     
-    with_status("Check record dependencies") do
+    with_status("Evaluating record relationships") do
     
       @dependencies = load_dependencies
     end
@@ -94,8 +97,8 @@ class StreamingImport
       finished = true
       progressed = false
 
-      with_status("Record cycle #{round}") do
-        self.estimate = @jstream.count
+      with_status("Saving records: cycle #{round}") do
+        @ticker.tick_estimate = @jstream.count
         @jstream.each do |rec|
           uri = rec['uri']
           dependencies = @dependencies[uri]
@@ -119,14 +122,14 @@ class StreamingImport
         break
       end
 
-      with_status("Dependency cycle #{round}") do
+      with_status("Dealing with circular dependencies: cycle #{round}") do
         if !progressed
           run_dependency_breaking_cycle
         end
       end
     end
 
-    with_status("Cleanup") do
+    with_status("Cleaning up") do
       reattach_severed_limbs
 
       touch_toplevel_records
@@ -142,6 +145,8 @@ class StreamingImport
 
   def load_logical_urls
     logical_urls = {}
+    
+    @ticker.tick_estimate = 20000; # made up
 
     @jstream.each(true) do |rec|
       
@@ -154,7 +159,8 @@ class StreamingImport
 
       # Take the opportunity to validate the record too
       to_jsonmodel(rewrite(rec, {}))
-
+      
+      @ticker.tick
     end
 
     logical_urls
@@ -164,7 +170,7 @@ class StreamingImport
   def load_dependencies
     dependencies = {}
 
-    self.estimate = @jstream.count
+    @ticker.tick_estimate = @jstream.count
     
     @jstream.each do |rec|
       dependencies[rec['uri']] = extract_refs(rec, @logical_urls) - [rec['uri']]
@@ -326,22 +332,14 @@ class StreamingImport
     @status_id += 1
     
     status = {:id => @status_id, :label => stat}
-    # start = "#{stat}: in progress"
-    # fin = "#{stat}: done"
     
     @ticker.status_update(:started, status)
     result = block.call
-    # @ticker.status_update(fin, start)
     @ticker.status_update(:done, status)
     
     result
   end
-  
-  
-  def estimate=(count)
-    @ticker.tick_estimate = count
-  end
-  
+
   
   def title_or_fallback(record)
     record['title'] ? record['title'] : record['jsonmodel_type']
