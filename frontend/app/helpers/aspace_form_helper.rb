@@ -189,7 +189,7 @@ module AspaceFormHelper
         :"data-date-format" => "yyyy-mm-dd",
         :"data-date" => Date.today.strftime('%Y-%m-%d')
       })
-      label_with_field(name, textfield(name, obj[name], field_opts))
+      label_with_field(name, textfield(name, obj[name], field_opts), opts)
     end
 
     def label_and_textarea(name, opts = {})
@@ -204,7 +204,7 @@ module AspaceFormHelper
 
 
     def label_and_password(name, opts = {})
-      label_with_field(name, password(name, obj[name], opts[:field_opts] || {}))
+      label_with_field(name, password(name, obj[name], opts[:field_opts] || {}), opts)
     end
 
 
@@ -241,7 +241,9 @@ module AspaceFormHelper
     end
 
 
-    def textfield(name = nil, value = "", opts =  {})
+    def textfield(name = nil, value = nil, opts =  {})
+      value ||= obj[name] if !name.nil?
+
       options = {:id => id_for(name), :type => "text", :value => h(value), :name => path(name)}
 
       placeholder = I18n.t("#{i18n_for(name)}_placeholder", :default => '')
@@ -275,7 +277,7 @@ module AspaceFormHelper
                  false, false)
     end
 
-    def hidden_input(name, value = nil)
+    def hidden_input(name, value = nil, field_opts = {})
       value = obj[name] if value.nil?
 
       full_name = path(name)
@@ -285,7 +287,7 @@ module AspaceFormHelper
         value = value['ref']
       end
 
-      @forms.tag("input", {:id => id_for(name), :type => "hidden", :value => h(value), :name => full_name},
+      @forms.tag("input", {:id => id_for(name), :type => "hidden", :value => h(value), :name => full_name}.merge(field_opts),
                  false, false)
     end
 
@@ -383,7 +385,8 @@ module AspaceFormHelper
         required = required?(name)
       end
 
-      control_group_classes << " required" if required
+      control_group_classes << " required" if required == true
+      control_group_classes << " conditionally-required" if required == :conditionally
 
       control_group_classes << " #{opts[:control_class]}" if opts.has_key? :control_class
 
@@ -670,6 +673,8 @@ module AspaceFormHelper
           value = I18n.t("#{jsonmodel_type.to_s}.#{property}_#{value}", :default => value)
         elsif schema["properties"][property]["type"] === "boolean"
           value = value === true ? "True" : "False"
+        elsif schema["properties"][property]["type"] === "date"
+          value = value.blank? ? "" : Date.strptime(value, "%Y-%m-%d")
         elsif schema["properties"][property]["type"] === "array"
           # this view doesn't support arrays
           next

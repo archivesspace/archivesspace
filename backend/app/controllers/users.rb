@@ -43,11 +43,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/users')
     .description("Get a list of system users")
-    .params(*Endpoint.pagination)
+    .params()
+    .paginated(true)
     .permissions([:manage_users])
     .returns([200, "[(:resource)]"]) \
   do
-    handle_listing(User, params[:page], params[:page_size], params[:modified_since], {:exclude => {:id => User.unlisted_user_ids}})
+    handle_listing(User, params, {:exclude => {:id => User.unlisted_user_ids}})
   end
 
 
@@ -187,5 +188,17 @@ class ArchivesSpaceService < Sinatra::Base
       raise NotFoundException.new("User wasn't found")
     end
   end
+
+
+
+  Endpoint.delete('/users/:id')
+    .description("Delete a user")
+    .params(["id", Integer, "The user to delete"])
+    .permissions([:manage_users])
+    .returns([200, :deleted]) \
+  do
+    handle_delete(User, params[:id])
+  end
+
 
 end

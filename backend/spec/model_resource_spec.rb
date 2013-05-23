@@ -21,7 +21,7 @@ describe 'Resource model' do
     
     create_resource(opts)
 
-    expect { create_resource(opts) }.to raise_error
+    expect { create_resource(opts) }.to raise_error(Sequel::ValidationFailed)
   end
 
 
@@ -110,6 +110,15 @@ describe 'Resource model' do
     expect {
       res = create(:resource, {:repo_id => $repo_id, :title => 200.times.map { 'moo'}.join})
     }.to_not raise_error
+  end
+
+
+  it "ensures that ead_ids are unique" do
+    create_resource(:ead_id => "hello")
+
+    expect {
+      create_resource(:ead_id => "hello")
+    }.to raise_error(Sequel::ValidationFailed)
   end
 
 end

@@ -25,6 +25,23 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.post('/repositories/:repo_id/digital_object_components/:digital_object_component_id/parent')
+    .description("Set the parent/position of an Digital Object Component in a tree")
+    .params(["digital_object_component_id", Integer, "The Digital Object Component ID to update"],
+            ["parent", Integer, "The parent of this node in the tree", :optional => true],
+            ["position", Integer, "The position of this node in the tree", :optional => true],
+            ["repo_id", :repo_id])
+    .permissions([:update_archival_record])
+    .returns([200, :updated],
+             [400, :error]) \
+  do
+    obj = DigitalObjectComponent.get_or_die(params[:digital_object_component_id])
+    obj.update_position_only(params[:parent], params[:position])
+
+    updated_response(obj)
+  end
+
+
   Endpoint.get('/repositories/:repo_id/digital_object_components/:digital_object_component_id')
     .description("Get an Digital Object Component by ID")
     .params(["digital_object_component_id", Integer, "The Digital Object Component ID"],
@@ -57,12 +74,23 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/digital_object_components')
     .description("Get a list of Digital Object Components for a Repository")
-    .params(["repo_id", :repo_id],
-            *Endpoint.pagination)
+    .params(["repo_id", :repo_id])
+    .paginated(true)
     .permissions([:view_repository])
     .returns([200, "[(:digital_object_component)]"]) \
   do
-    handle_listing(DigitalObjectComponent, params[:page], params[:page_size], params[:modified_since])
+    handle_listing(DigitalObjectComponent, params)
+  end
+
+
+  Endpoint.delete('/repositories/:repo_id/digital_object_components/:digital_object_component_id')
+    .description("Delete a Digital Object Component")
+    .params(["digital_object_component_id", Integer, "The Digital Object Component to delete"],
+            ["repo_id", :repo_id])
+    .permissions([:delete_archival_record])
+    .returns([200, :deleted]) \
+  do
+    handle_delete(DigitalObjectComponent, params[:digital_object_component_id])
   end
 
 end

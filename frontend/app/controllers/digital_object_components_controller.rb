@@ -1,8 +1,8 @@
 class DigitalObjectComponentsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :parent]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :parent, :delete]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
   before_filter(:only => [:new, :edit, :create, :update, :parent]) {|c| user_must_have("update_archival_record")}
-
+  before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
   FIND_OPTS = {
     "resolve[]" => ["subjects", "linked_agents", "digital_object", "parent"]
@@ -11,7 +11,7 @@ class DigitalObjectComponentsController < ApplicationController
 
   def new
     @digital_object_component = JSONModel(:digital_object_component).new._always_valid!
-    @digital_object_component.title = I18n.t("digital_object_component.title_default")
+    @digital_object_component.title = I18n.t("digital_object_component.title_default", :default => "")
     @digital_object_component.parent = {'ref' => JSONModel(:digital_object_component).uri_for(params[:digital_object_component_id])} if params.has_key?(:digital_object_component_id)
     @digital_object_component.digital_object = {'ref' => JSONModel(:digital_object).uri_for(params[:digital_object_id])} if params.has_key?(:digital_object_id)
 
@@ -38,8 +38,8 @@ class DigitalObjectComponentsController < ApplicationController
                   @digital_object_component = JSONModel(:digital_object_component).find(id, FIND_OPTS)
 
                   success_message = @digital_object_component.parent ?
-                    I18n.t("digital_object_component._html.messages.created_with_parent", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => @digital_object_component['digital_object']['_resolved'], :parent => @digital_object_component['parent']['_resolved'])) :
-                    I18n.t("digital_object_component._html.messages.created", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => @digital_object_component['digital_object']['_resolved']))
+                    I18n.t("digital_object_component._frontend.messages.created_with_parent", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => @digital_object_component['digital_object']['_resolved'], :parent => @digital_object_component['parent']['_resolved'])) :
+                    I18n.t("digital_object_component._frontend.messages.created", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => @digital_object_component['digital_object']['_resolved']))
 
                   @refresh_tree_node = true
 
@@ -55,6 +55,8 @@ class DigitalObjectComponentsController < ApplicationController
 
 
   def update
+    params['digital_object_component']['position'] = params['digital_object_component']['position'].to_i if params['digital_object_component']['position']
+
     @digital_object_component = JSONModel(:digital_object_component).find(params[:id], FIND_OPTS)
     digital_object = @digital_object_component['digital_object']['_resolved']
     parent = @digital_object_component['parent'] ? @digital_object_component['parent']['_resolved'] : false
@@ -64,8 +66,8 @@ class DigitalObjectComponentsController < ApplicationController
                 :on_invalid => ->(){ return render :partial => "edit_inline" },
                 :on_valid => ->(id){
                   success_message = parent ?
-                    I18n.t("digital_object_component._html.messages.updated_with_parent", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object, :parent => parent)) :
-                    I18n.t("digital_object_component._html.messages.updated", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object))
+                    I18n.t("digital_object_component._frontend.messages.updated_with_parent", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object, :parent => parent)) :
+                    I18n.t("digital_object_component._frontend.messages.updated", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object))
                   flash.now[:success] = success_message
 
                   @refresh_tree_node = true
@@ -83,22 +85,30 @@ class DigitalObjectComponentsController < ApplicationController
 
 
   def parent
-    params[:digital_object_component] ||= {}
-    if params[:parent] and not params[:parent].blank?
-      # set parent as DOC uri on params
-      params[:digital_object_component][:parent] = {'ref' => JSONModel(:digital_object_component).uri_for(params[:parent])}
+    parent_id = (params[:parent] and !params[:parent].blank?) ? params[:parent] : nil
+    response = JSONModel::HTTP.post_form(JSONModel(:digital_object_component).uri_for(params[:id]) + "/parent",
+                              :parent => parent_id,
+                              :position => params[:index])
+
+    if response.code == '200'
+      render :json => {
+        :parent => parent_id ? JSONModel(:archival_object).uri_for(parent_id) : nil,
+        :position => params[:index]
+      }
     else
-      #remove parent from DOC
-      params[:digital_object_component][:parent] = nil
+      raise "Error setting parent of digital object component: #{response.body}"
     end
+  end
 
-    params[:digital_object_component][:position] = params[:index].to_i if params.has_key? :index
 
-    handle_crud(:instance => :digital_object_component,
-                :obj => JSONModel(:digital_object_component).find(params[:id]),
-                :replace => false,
-                :on_invalid => ->(){ raise "Error setting parent of digital object component" },
-                :on_valid => ->(id){ return render :text => "success"})
+  def delete
+    digital_object_component = JSONModel(:digital_object_component).find(params[:id])
+    digital_object_component.delete
+
+    flash[:success] = I18n.t("digital_object_component._frontend.messages.deleted", JSONModelI18nWrapper.new(:digital_object_component => digital_object_component))
+
+    resolver = Resolver.new(digital_object_component['digital_object']['ref'])
+    redirect_to resolver.view_uri
   end
 
 end

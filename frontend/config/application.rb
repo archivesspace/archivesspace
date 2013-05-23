@@ -31,6 +31,12 @@ module ArchivesSpace
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
 
+    Array(AppConfig[:plugins]).each do |plugin|
+      config.paths["app/controllers"] << "../plugins/#{plugin}/frontend/controllers"
+      # seems this line isn't required
+      # config.paths["app/views"] << "../plugins/#{plugin}/frontend/views"
+    end
+
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
@@ -44,8 +50,22 @@ module ArchivesSpace
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
+
+    config.i18n.default_locale = AppConfig[:locale]
+
+    # Load the shared 'locales'
+    ASUtils.find_locales_directories.map{|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exists?(dir) }.each do |locales_directory|
+      config.i18n.load_path += Dir[File.join(locales_directory, '**' , '*.{rb,yml}')]
+    end
+
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
-    # config.i18n.default_locale = :de
+
+    # Allow overriding of the i18n locales via the 'local' folder(s)
+    if not ASUtils.find_local_directories.blank?
+      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'locales')}.reject { |dir| !Dir.exists?(dir) }.each do |locales_override_directory|
+        config.i18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]
+      end
+    end
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"

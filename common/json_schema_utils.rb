@@ -119,26 +119,6 @@ module JSONSchemaUtils
      },
 
      {
-       :failed_attribute => ['Type', 'ArchivesSpaceType'],
-       :pattern => /The property '#\/.*?' of type (.*?) did not match one or more of the following types:.*in schema/,
-       :do => ->(msgs, message, path, actual_type) {
-
-         types = []
-
-         message[:errors].each do |sub_msg|
-           if sub_msg[:message] =~ /did not match the following type: (.*?) in schema/
-             types << $1
-           end
-         end
-
-         if message[:failed_attribute] == 'ArchivesSpaceType'
-           msgs[:errors][fragment_join(path)] = ["Type must be one of: #{types.inspect}"]
-         end
-       }
-     },
-
-
-     {
        :failed_attribute => ['custom_validation'],
        :pattern => /Validation failed for '(.*?)': (.*?) in schema /,
        :do => ->(msgs, message, path, property, msg) {

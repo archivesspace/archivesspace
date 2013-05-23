@@ -302,7 +302,7 @@ module JSONModel
         raise ValidationException.new(:invalid_object => self,
                                       :errors => err["error"])
       else
-        raise Exception.new("Unknown response: #{response.to_hash} (code: #{response.code})")
+        raise Exception.new("Unknown response: #{response.body} (code: #{response.code})")
       end
     end
 
@@ -327,6 +327,9 @@ module JSONModel
         raise AccessDeniedException.new
       elsif response.code == '404'
         nil
+      elsif response.code == '409'
+        err = ASUtils.json_parse(response.body)
+        raise ConflictException.new(err["error"])
       else
         raise Exception.new("Unknown response: #{response}")
       end

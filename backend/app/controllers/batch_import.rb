@@ -21,12 +21,32 @@ class ArchivesSpaceService < Sinatra::Base
              [409, :error]) \
   do
 
-    incoming_records = params[:batch_import]
+    # The first time we're invoked, spool our input into a file.  Since the
+    # transaction might get aborted and restarted, the body of this endpoint
+    # might get invoked more than once (if the import gets rolled back, for
+    # example).  That's fine: we'll reopen and reprocess the temp file.
+
+    if !env['batch_import_file']
+      stream = params[:batch_import]
+      tempfile = Tempfile.new('import_stream')
+
+      begin
+        while !(buf = stream.read(4096)).nil?
+          tempfile.write(buf)
+        end
+      ensure
+        tempfile.close
+      end
+
+      env['batch_import_file'] = tempfile
+    end
+
+    File.unlink(env['batch_import_file'])
 
     live_updates = ProgressTicker.new(:frequency_seconds => 1) do |job_monitor|
 
       begin
-        batch = StreamingImport.new(incoming_records, job_monitor)
+        batch = StreamingImport.new(stream, job_monitor)
         
         mapping = batch.process
         job_monitor.results = {:saved => Hash[mapping.map {|logical, real_uri|

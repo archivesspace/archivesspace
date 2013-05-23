@@ -1,5 +1,5 @@
 <h2>
-   <%= @resource.title.blank? ? "#{I18n.t("actions.new_prefix")} #{I18n.t("resource._html.singular")}" : @resource.title %>  <span class="label label-info"><%= I18n.t("resource._html.singular") %></span>
+   <%= @resource.title.blank? ? "#{I18n.t("actions.new_prefix")} #{I18n.t("resource._singular")}" : @resource.title %>  <span class="label label-info"><%= I18n.t("resource._singular") %></span>
 </h2>
 
 <%= render :partial => "shared/form_messages", :locals => {:form => form} %>
@@ -12,12 +12,12 @@
   <% define_template("resource", jsonmodel_definition(:resource)) do |form| %>
 
     <section id="basic_information">
-      <h3><%= I18n.t("resource._html.section.basic_information") %></h3>
+      <h3><%= I18n.t("resource._frontend.section.basic_information") %></h3>
 
       <%= form.label_and_textarea "title" %>
       <%= form.label_and_fourpartid %>
       <%= form.label_and_select "level", form.possible_options_for("level", true) %>
-      <%= form.label_and_textfield "other_level" %>
+      <%= form.label_and_textfield "other_level", :required => true %>
       <%= form.label_and_select "resource_type", form.possible_options_for("resource_type", true) %>
       <%= form.label_and_select "language", form.possible_options_for("language", true) %>
       <%= form.label_and_textarea "container_summary" %>
@@ -30,7 +30,7 @@
     <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
 
     <section id="finding_aid" class="subrecord-form-dummy">
-      <h3><%= I18n.t("resource._html.section.finding_aid") %></h3>
+      <h3><%= I18n.t("resource._frontend.section.finding_aid") %></h3>
       <div class="subrecord-form-container">
         <div class="subrecord-form-fields">
           <%= form.label_and_textfield "ead_id" %>
@@ -67,6 +67,7 @@
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "instances", :custom_action_template => "instances/subrecord_form_action"} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "deaccessions"} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "collection_management", :cardinality => :zero_to_one} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "classification", :cardinality => :zero_to_one} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "user_defined", :cardinality => :zero_to_one} %>
 
 </fieldset>

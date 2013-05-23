@@ -22,7 +22,7 @@ $(function() {
 
       var init = function() {
 
-        $(document).bind("subrecordcreated.aspace", function(e, object_name, formel) {
+        $(document).on("subrecordcreated.aspace", function(e, object_name, formel) {
           formel.triggerHandler(e);
         });
 
@@ -45,7 +45,7 @@ $(function() {
                 if ($this.data("cardinality") === "zero_to_one") {
                   $("> .subrecord-form-heading > .btn", $this).removeAttr("disabled");
                 }
-                $this.parents("form:first").triggerHandler("form-changed");
+                $this.parents("form:first").triggerHandler("formchanged.aspace");
                 $(document).triggerHandler("subrecorddeleted.aspace", [$this]);
               });
               return false;
@@ -78,7 +78,7 @@ $(function() {
           // re-init the sortable behaviour
           AS.initSubRecordSorting($target_subrecord_list);
 
-          $this.parents("form:first").triggerHandler("form-changed");
+          $this.parents("form:first").triggerHandler("formchanged.aspace");
 
           $.proxy(init_subform, formEl)();
 
@@ -95,7 +95,7 @@ $(function() {
         // add binding for creation of subforms
         if ($this.data("custom-action")) {
           // Support custom actions - just buttons really with some data attributes
-          $("> .subrecord-form-heading > .custom-action .btn", $this).on("click", function(event) {
+          $($this).on("click", "> .subrecord-form-heading > .custom-action .btn", function(event) {
             event.preventDefault();
 
             var $target_subrecord_list = $(".subrecord-form-list:first", $(this).parents(".subrecord-form:first"));
@@ -110,7 +110,8 @@ $(function() {
           });
         } else {
 
-          $("> .subrecord-form-heading > .btn", $this).on("click", function() {
+          $($this).on("click", "> .subrecord-form-heading > .btn", function(event) {
+            event.preventDefault();
 
             var $target_subrecord_list = $(".subrecord-form-list:first", $(this).parents(".subrecord-form:first"));
 
@@ -147,7 +148,7 @@ $(function() {
 
     $(".subrecord-form[data-subrecord-form]:not(.initialised)").init_subrecord_form();
 
-    $(document).bind("monkeypatch.subrecord", function(event, subform) {
+    $(document).on("subrecordmonkeypatch.aspace", function(event, subform) {
       $(".subrecord-form[data-subrecord-form]", subform).init_subrecord_form();
     });
   });

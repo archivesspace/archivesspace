@@ -23,7 +23,6 @@
   <property name="default_java_options" value="-Daspace.config.data_directory=${aspace.data_directory} -Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver -Daspace.config.solr_url=http://localhost:${aspace.solr.port}/" />
 
 
-
   <target name="help" description="This help">
     <java classname="org.apache.tools.ant.Main">
       <arg value="-projecthelp" />
@@ -116,8 +115,8 @@
   </target>
 
 
-  <target name="db:nuke" depends="set-classpath" description="Run migrations against the database configured in config/config.rb">
-    <delete dir="solr_index" />
+  <target name="db:nuke" depends="set-classpath" description="Delete database and Solr index configured in config/config.rb">
+    <delete dir="${aspace.data_directory}/solr_index" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="..">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
@@ -182,7 +181,7 @@
   </target>
 
 
-  <target name="backend:war" depends="set-classpath, bootstrap" description="Deploy the backend application as a .war file">
+  <target name="backend:war" depends="set-classpath" description="Deploy the backend application as a .war file">
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="../backend">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
@@ -242,7 +241,7 @@
   </target>
 
 
-  <target name="indexer:war" depends="set-classpath, bootstrap" description="Deploy the indexer application as a .war file">
+  <target name="indexer:war" depends="set-classpath" description="Deploy the indexer application as a .war file">
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="../indexer">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
@@ -312,7 +311,7 @@
   </target>
 
 
-  <target name="frontend:war" depends="set-classpath, bootstrap, frontend:clean" description="Deploy the frontend application as a .war file">
+  <target name="frontend:war" depends="set-classpath, frontend:clean" description="Deploy the frontend application as a .war file">
     <echo message="Precompiling Rails assets (this can take a little while...)" />
 
     <delete failonerror="false" dir="../frontend/tmp" />
@@ -390,7 +389,7 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" 
           failonerror="true"
           dir="../selenium">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS} -Xmx64m -XX:MaxPermSize=96m"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
@@ -408,9 +407,10 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="../selenium-public">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS} -Xmx64m -XX:MaxPermSize=96m"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
       <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order default -f d  ${example-arg} spec/${spec}" />
     </java>
   </target>
@@ -460,9 +460,8 @@
   </target>
 
 
-  <target name="dist" 
-          depends="set-classpath, backend:war, frontend:war, public:war, solr:war, indexer:war"
-          description="Build a standalone distribution zip of all components">
+  <target name="build-zip" depends="set-classpath"
+          description="Bundle everything up into a zip file">
     <delete failonerror="false" dir="target" />
 
     <mkdir dir="target/archivesspace/config" />
@@ -473,8 +472,16 @@
     <mkdir dir="target/archivesspace/logs" />
     <mkdir dir="target/archivesspace/launcher" />
     <mkdir dir="target/archivesspace/scripts/rb" />
-    <mkdir dir="target/archivesspace/local/frontend" />
-    <mkdir dir="target/archivesspace/local/public" />
+    <mkdir dir="target/archivesspace/local/indexer" />
+    <mkdir dir="target/archivesspace/local/schemas" />
+    <mkdir dir="target/archivesspace/local/backend/model/mixins" />
+    <mkdir dir="target/archivesspace/local/backend/model/reports" />
+    <mkdir dir="target/archivesspace/local/backend/controllers" />
+    <mkdir dir="target/archivesspace/local/frontend/views" />
+    <mkdir dir="target/archivesspace/local/frontend/locales" />
+    <mkdir dir="target/archivesspace/local/public/views" />
+    <mkdir dir="target/archivesspace/local/public/locales" />
+    <mkdir dir="target/archivesspace/locales" />
 
     <jar jarfile="target/archivesspace/lib/common.jar">
       <fileset dir="../common" />
@@ -494,6 +501,10 @@
 
     <copy todir="target/archivesspace/launcher">
       <fileset dir="../launcher" excludes="backup/*" />
+    </copy>
+
+    <copy todir="target/archivesspace/locales">
+      <fileset dir="../common/locales" />
     </copy>
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
@@ -518,8 +529,12 @@
       <zipfileset dir="../launcher/backup" includes="backup.sh" prefix="archivesspace/scripts" filemode="755" />
       <zipfileset dir="../launcher/backup" includes="backup.bat" prefix="archivesspace/scripts" filemode="644" />
     </zip>
-
   </target>
+
+
+  <target name="dist" 
+          depends="set-classpath, bootstrap, backend:war, frontend:war, public:war, solr:war, indexer:war, build-zip"
+          description="Build a standalone distribution zip of all components" />
 
 
   <target name="backend:coverage" depends="set-classpath, backend:test" description="Generate coverage reports for the backend">
@@ -530,8 +545,12 @@
           description="Generate coverage reports for the frontend">
   </target>
 
+  <target name="public:coverage" depends="set-classpath, public:clean, selenium:public:test"
+          description="Generate coverage reports for the public interface">
+  </target>
 
-  <target name="test" depends="backend:test, frontend:test, backend:integration, common:test, selenium:test, migrations:test"
+
+  <target name="test" depends="backend:test, frontend:test, backend:integration, common:test, selenium:test, migrations:test, selenium:public:test"
           description="Run the full suite of tests">
   </target>
 
@@ -556,7 +575,7 @@
   </target>
 
 
-  <target name="public:war" depends="set-classpath, bootstrap, public:clean" description="Deploy the public application as a .war file">
+  <target name="public:war" depends="set-classpath, public:clean" description="Deploy the public application as a .war file">
 
    <echo message="Precompiling Rails assets for Public (this can take a little while...)" />
 
@@ -586,7 +605,7 @@
     <delete dir="../coverage" />
   </target>
 
-  <target name="coverage" depends="clean-coverage, common:test:coverage, backend:coverage, backend:integration:coverage, migrations:test:coverage, frontend:coverage" description="Run all coverage reports">
+  <target name="coverage" depends="clean-coverage, common:test:coverage, backend:coverage, backend:integration:coverage, migrations:test:coverage, frontend:coverage, public:coverage" description="Run all coverage reports">
   </target>
 
 </project>

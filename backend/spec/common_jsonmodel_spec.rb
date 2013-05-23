@@ -20,6 +20,11 @@ describe 'JSON model' do
                                    "shorty" => {"type" => "string", "required" => false, "default" => "", "maxLength" => 2},
                                    "wants_integer" => {"type" => "integer", "required" => false},
                                    "wants_uri_or_object" => {"type" => "JSONModel(:testschema) uri_or_object"},
+                                   "wants_testschema_object" => {"type" => "JSONModel(:testschema) object"},
+                                   "wants_this_or_that_schema" => {"type" => [{"type" => "JSONModel(:testschema) object"},
+                                                                              {"type" => "JSONModel(:strictschema) object"},
+                                                                              {"type" => "JSONModel(:treeschema) object"}]},
+                                   "wants_red_green_or_blue" => {"type" => "string", "enum" => ["red", "green", "blue"]},
                                  },
 
                                  "additionalProperties" => false
@@ -33,18 +38,32 @@ describe 'JSON model' do
     JSONModel.destroy_model(:testschema)
     JSONModel.destroy_model(:strictschema)
     JSONModel.destroy_model(:treeschema)
-
+    JSONModel.destroy_model(:urilessschema)
   end
 
 
   it "accepts a simple record" do
-
     JSONModel(:testschema).from_hash({
                                        "elt_0" => "helloworld",
                                        "elt_1" => "thisisatest"
                                      })
-
   end
+
+  
+  it "can give a list of models" do
+    JSONModel(:testschema).models.keys.should include("testschema")
+  end
+
+  
+  it "raises an error if you ask it for a schema source for a non-existent schema" do
+    JSONModel.schema_src("somenonexistenttestschema").should raise_error
+  end
+
+  
+  it "raises an error if you try to substitute a symbol into a uri" do
+    expect { JSONModel(:testschema).substitute_parameters("/uri/number/:number", :number => :wtf) }.to raise_error
+  end
+
   
   it "can recognize a valid url" do
     lambda {
@@ -133,11 +152,21 @@ describe 'JSON model' do
   end
 
 
-  it "can have its validation disabled" do
+  it "raises an error if you ask for an id from a uri for a schema that doesn't have a uri property" do
+    JSONModel.create_model_for("urilessschema",
+                               {
+                                 "type" => "object",
+                                 "$schema" => "http://www.archivesspace.org/archivesspace.json",
+                                 "properties" => {},
+                               })
 
+    expect { JSONModel(:urilessschema).id_for("/some/joke/of/a/uri") }.to raise_error
+  end
+
+
+  it "can have its validation disabled" do
     ts = JSONModel(:testschema).new._always_valid!
     ts._exceptions.should eq({})
-
   end
 
 
@@ -226,6 +255,18 @@ describe 'JSON model' do
   end
 
 
+  it "enforces maximum length of property values" do
+
+    ts = JSONModel(:testschema).from_hash({
+                                            "elt_0" => "helloworld",
+                                            "elt_1" => "thisisatest"
+                                          })
+    ts[:shorty] = "waaaaaaaay too long dude"
+    ts._exceptions[:errors].keys.should eq (["shorty"])
+
+  end
+
+
   it "enforces the type of property values" do
 
     ts = JSONModel(:testschema).from_hash({
@@ -235,6 +276,40 @@ describe 'JSON model' do
     ts[:wants_integer] = "meep"
     ts._exceptions[:errors].keys.should eq (["wants_integer"])
 
+  end
+
+
+  it "enforces ArchivesSpace type property values" do
+
+    ts = JSONModel(:testschema).from_hash({
+                                            "elt_0" => "helloworld",
+                                            "elt_1" => "thisisatest"
+                                          })
+    ts[:wants_testschema_object] = "actually just a string"
+    ts._exceptions[:errors].keys.should eq (["wants_testschema_object"])
+
+  end
+
+
+  it "enforces multiple ArchivesSpace type property values" do
+
+    ts = JSONModel(:testschema).from_hash({
+                                            "elt_0" => "helloworld",
+                                            "elt_1" => "thisisatest"
+                                          })
+    ts[:wants_this_or_that_schema] = "actually just a string"
+    ts._exceptions[:errors].keys.should eq (["wants_this_or_that_schema"])
+  end
+
+
+  it "enforces old fashioned enums" do
+
+    ts = JSONModel(:testschema).from_hash({
+                                            "elt_0" => "helloworld",
+                                            "elt_1" => "thisisatest"
+                                          })
+    ts[:wants_red_green_or_blue] = "yellow"
+    ts._exceptions[:errors].keys.should eq (["wants_red_green_or_blue"])
   end
 
 

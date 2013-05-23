@@ -1,0 +1,32 @@
+<h2>
+  <%= @classification_term.title.blank? ? I18n.t("classification_term._singular") : @classification_term.title %>
+  <span class="label label-info"><%= I18n.t("classification_term._singular") %></span>
+</h2>
+
+<%= render :partial => "shared/form_messages", :locals => {:form => form} %>
+
+<fieldset>
+
+  <%= form.hidden_input "parent", nil, {"data-base-name" => "classification_term[parent]", "class" => "hidden-parent-uri"} %>
+  <%= form.hidden_input "classification" %>
+  <%= form.hidden_input "position" %>
+  <%= hidden_field_tag "id", @classification_term.id %>
+
+  <% define_template("classification_term", jsonmodel_definition(:classification_term)) do |form| %>
+    <section id="basic_information">
+      <h3><%= I18n.t("classification_term._frontend.section.basic_information") %></h3>
+
+      <%= form.label_and_textfield "identifier" %>
+      <%= form.label_and_textfield "title" %>
+      <%= form.label_and_textarea "description" %>
+
+      <% form.push("creator", form["creator"] || {}) do %>
+        <%= render :partial => "agents/linker", :locals => {:form => form, :linker_label => I18n.t("classification.creator"), :optional => true} %>
+      <% end %>
+
+    </section>
+  <% end %>
+
+  <% form.emit_template("classification_term") %>
+
+</fieldset>

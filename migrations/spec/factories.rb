@@ -117,7 +117,6 @@ FactoryGirl.define do
     ref_id { generate(:alphanumstr) }
     level { generate(:level) }
     title { "Archival Object #{generate(:generic_title)}" }
-    internal_only true
   end
   
   factory :json_note_bibliography, class: JSONModel(:note_bibliography) do
@@ -278,7 +277,7 @@ FactoryGirl.define do
   factory :json_subject, class: JSONModel(:subject) do
     terms { [build(:json_term)] }
     vocabulary { create(:json_vocab).uri }
-    ref_id { generate(:url) }
+    authority_id { generate(:url) }
     scope_note { generate(:alphanumstr) }
   end
   

@@ -8,7 +8,7 @@
     <% form.emit_template(item["jsonmodel_type"]) %>
   <% else %>
     <div class="subrecord-form-fields">
-      <div class="control-group">
+      <div class="control-group required">
         <label class="control-label"><%= I18n.t("note.note_type") %></label>
         <div class="controls">
           <select class="top-level-note-type">
@@ -30,7 +30,7 @@
   <div class="inline-subform">
     <div class="control-group">
       <div class="control-label"></div>
-      <div class="controls"><%= I18n.t("note._html.messages.select_a_note_type") %></div>
+      <div class="controls"><%= I18n.t("note._frontend.messages.select_a_note_type") %></div>
     </div>
   </div>
 <% end %>
@@ -71,7 +71,6 @@
           singlepart_note_types.map {|value, hash| [hash[:i18n], value]},
           :field_opts => {:class => "note-type"}) %>
       <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
-      <%= form.label_and_boolean("internal", {}, form.default_for("internal")) %>
 
       <% form.emit_template("content_items", :required => form.required?('content')) %>
     </div>
@@ -86,7 +85,6 @@
       <%= form.label_and_textfield("title") %>
       <%= form.label_and_textfield("enumeration") %>
       <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
-      <%= form.label_and_boolean("internal", {}, form.default_for("internal")) %>
 
       <div class="control-group">
         <label class="control-label"><%= I18n.t("note_orderedlist.items") %></label>
@@ -114,8 +112,8 @@
     <% form.emit_template(item["jsonmodel_type"]) %>
   <% else %>
     <div class="subrecord-form-fields">
-      <div class="control-group">
-        <label class="control-label">Note Type</label>
+      <div class="control-group required">
+        <label class="control-label"><%= I18n.t("note.note_type") %></label>
         <div class="controls">
           <select class="multipart-note-type">
             <option></option>
@@ -148,7 +146,6 @@
           multipart_note_types.map {|value, hash| [hash[:i18n], value]},
           :field_opts => {:class => "note-type"}) %>
       <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
-      <%= form.label_and_boolean("internal", {}, form.default_for("internal")) %>
 
       <% form.emit_template("content_items", :required => form.required?('content')) %>
 
@@ -175,7 +172,7 @@
     <% form.emit_template(item["jsonmodel_type"]) %>
   <% else %>
     <div class="subrecord-form-fields">
-      <div class="control-group">
+      <div class="control-group required">
         <label class="control-label"><%= I18n.t("note.note_type") %></label>
         <div class="controls">
           <select class="bioghist-note-type">
@@ -203,7 +200,6 @@
       <%= form.hidden_input(:jsonmodel_type, "note_bioghist") %>
       <%= form.label_and_textfield("label") %>
       <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
-      <%= form.label_and_boolean("internal", {}, form.default_for("internal")) %>
 
       <% form.emit_template("content_items", :required => form.required?('content')) %>
 
@@ -244,7 +240,6 @@
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_citation") %>
       <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
-      <%= form.label_and_boolean("internal", {}, form.default_for("internal")) %>
 
       <% form.emit_template("content_items", :required => form.required?('content')) %>
 
@@ -267,7 +262,6 @@
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_abstract") %>
       <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
-      <%= form.label_and_boolean("internal", {}, form.default_for("internal")) %>
 
       <% form.emit_template("content_items", :required => form.required?('content')) %>
     </div>
@@ -309,7 +303,6 @@
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_outline") %>
       <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
-      <%= form.label_and_boolean("internal", {}, form.default_for("internal")) %>
 
       <div class="control-group">
         <label class="control-label">Levels</label>
@@ -334,7 +327,6 @@
       <%= form.hidden_input(:jsonmodel_type, "note_definedlist") %>
       <%= form.label_and_textfield("title") %>
       <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
-      <%= form.label_and_boolean("internal", {}, form.default_for("internal")) %>
 
       <section class="subrecord-form">
         <h5 class="subrecord-form-heading">
@@ -368,7 +360,6 @@
       <%= form.label_and_textfield("label") %>
       <% form.emit_template("content_items", :required => form.required?('content')) %>
       <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
-      <%= form.label_and_boolean("internal", {}, form.default_for("internal")) %>
 
       <section class="subrecord-form">
         <h5 class="subrecord-form-heading">
@@ -403,7 +394,6 @@
       <%= form.hidden_input(:jsonmodel_type, "note_chronology") %>
       <%= form.label_and_textfield("title") %>
       <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
-      <%= form.label_and_boolean("internal", {}, form.default_for("internal")) %>
 
       <section class="subrecord-form">
         <h5 class="subrecord-form-heading">
@@ -454,7 +444,6 @@
       <%= form.hidden_input(:jsonmodel_type, "note_bibliography") %>
       <%= form.label_and_textfield("label") %>
       <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
-      <%= form.label_and_boolean("internal", {}, form.default_for("internal")) %>
 
       <% form.emit_template("content_items", :required => form.required?('content')) %>
 
@@ -495,7 +484,6 @@
       <%= form.label_and_textfield("label") %>
       <%= form.label_and_select("type", digital_object_note_types.map {|value, hash| [hash[:i18n], value]}, :field_opts => {:class => "note-type"}) %>
       <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
-      <%= form.label_and_boolean("internal", {}, form.default_for("internal")) %>
 
       <% form.emit_template("content_items", :required => form.required?('content')) %>
     </div>

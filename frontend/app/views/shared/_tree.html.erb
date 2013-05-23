@@ -5,44 +5,72 @@
     :resource => {
       :can_add_child => {
         :type => :archival_object,
-        :action_label =>  I18n.t("resource._html.action.add_child"),
-        :record_label => I18n.t("archival_object._html.singular")
+        :action_label =>  I18n.t("resource._frontend.action.add_child"),
+        :record_label => I18n.t("archival_object._singular")
+      },
+      :rapid_data_entry => {
+        :type => :archival_object,
+        :action_label =>  I18n.t("resource._frontend.action.rapid_data_entry")
       }
     },
     :archival_object => {
       :can_add_child => {
         :type => :archival_object,
-        :action_label =>  I18n.t("archival_object._html.action.add_child"),
-        :record_label => I18n.t("archival_object._html.singular")
+        :action_label =>  I18n.t("archival_object._frontend.action.add_child"),
+        :record_label => I18n.t("archival_object._singular")
       },
       :can_add_sibling => {
         :type => :archival_object,
-        :action_label =>  I18n.t("archival_object._html.action.add_sibling"),
-        :record_label => I18n.t("archival_object._html.singular")
+        :action_label =>  I18n.t("archival_object._frontend.action.add_sibling"),
+        :record_label => I18n.t("archival_object._singular")
       },
       :can_move => true,
-      :can_transfer => :resource
+      :can_transfer => :resource,
+      :rapid_data_entry => {
+        :type => :archival_object,
+        :action_label =>  I18n.t("resource._frontend.action.rapid_data_entry")
+      }
     },
     :digital_object => {
       :can_add_child => {
         :type => :digital_object_component,
-        :action_label =>  I18n.t("digital_object._html.action.add_child"),
-        :record_label => I18n.t("digital_object_component._html.singular")
+        :action_label =>  I18n.t("digital_object._frontend.action.add_child"),
+        :record_label => I18n.t("digital_object_component._singular")
       }
     },
     :digital_object_component => {
       :can_add_child => {
         :type => :digital_object_component,
-        :action_label =>  I18n.t("digital_object_component._html.action.add_child"),
-        :record_label => I18n.t("digital_object_component._html.singular")
+        :action_label =>  I18n.t("digital_object_component._frontend.action.add_child"),
+        :record_label => I18n.t("digital_object_component._singular")
       },
       :can_add_sibling => {
         :type => :digital_object_component,
-        :action_label =>  I18n.t("digital_object_component._html.action.add_sibling"),
-        :record_label => I18n.t("digital_object_component._html.singular")
+        :action_label =>  I18n.t("digital_object_component._frontend.action.add_sibling"),
+        :record_label => I18n.t("digital_object_component._singular")
       },
       :can_move => true
-   }
+    },
+    :classification => {
+      :can_add_child => {
+        :type => :classification_term,
+        :action_label =>  I18n.t("classification._frontend.action.add_child"),
+        :record_label => I18n.t("classification_term._singular")
+      }
+    },
+    :classification_term => {
+      :can_add_child => {
+        :type => :classification_term,
+        :action_label =>  I18n.t("classification_term._frontend.action.add_child"),
+        :record_label => I18n.t("classification_term._singular")
+      },
+      :can_add_sibling => {
+        :type => :classification_term,
+        :action_label =>  I18n.t("classification_term._frontend.action.add_sibling"),
+        :record_label => I18n.t("classification_term._singular")
+      },
+      :can_move => true
+    }
  }
 
 %>
@@ -72,7 +100,7 @@
         {if nodes && nodes.length > 0}
         <ul>
            {for node in nodes}
-              <li id="${node.node_type}_${node.id}" class="${node.node_type} {if node.has_children} jstree-closed{/if}" rel="${node.node_type}" data-id="${node.id}">
+              <li id="${node.node_type}_${node.id}" class="${node.node_type} {if node.has_children} jstree-closed{/if}" rel="${node.node_type}" data-id="${node.id}" data-uri="${node.record_uri}">
                  ${render_node_link(node)}
                  ${render_children(node.children)}
               </li>
@@ -179,7 +207,7 @@
                 <%= form_context :transfer, {} do |form| %>
                 <fieldset>
                   <%= form.hidden_input "current_resource_id", "${root_object_id}" %>
-                  <div class="alert alert-error missing-ref-message" style="display: none;"><%= I18n.t "archival_object._html.messages.please_select_a_resource_for_transfer" %></div>
+                  <div class="alert alert-error missing-ref-message" style="display: none;"><%= I18n.t "archival_object._frontend.messages.please_select_a_resource_for_transfer" %></div>
                   <%= render :partial => "resources/linker", :locals => { :form => form, :exclude_ids => [@tree.record_uri] }%>
                 </fieldset>
                 <div class="form-actions">
@@ -190,6 +218,13 @@
               <% end %>
             </li>
           </ul>
+        </div>
+      {/if}
+      {if rules.hasOwnProperty("rapid_data_entry")}
+        <div class="btn-group">
+          <a class="btn btn-mini add-children" rel="${rules.rapid_data_entry.type}" href="javascript:void(0);" title="${rules.rapid_data_entry.action_label}">
+            ${rules.rapid_data_entry.action_label}
+          </a>
         </div>
       {/if}
       </div>
@@ -203,6 +238,10 @@
 
     <div id="tree_revert_changes_label_template"><!--
       <%= I18n.t ("actions.revert") %>
+    --></div>
+
+    <div id="tree_unable_to_move_message_template"><!--
+      <%= I18n.t ("actions.unable_to_move_message") %>
     --></div>
 
   <% end  %>

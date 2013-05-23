@@ -15,8 +15,6 @@
       "title" => {"type" => "string", "maxLength" => 8192, "ifmissing" => nil},
       "label" => {"type" => "string", "maxLength" => 8192, "readonly" => true},
       
-      "internal_only" => {"type" => "boolean", "default" => false},
-
       "parent" => {
         "type" => "object",
         "subtype" => "ref",

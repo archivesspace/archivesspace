@@ -60,8 +60,9 @@ end
 
 def start_ldap
   Ladle::Server.new(:tmpdir => Dir.tmpdir,
-                    :port   => $ldap_port,
-                    :ldif   => File.absolute_path("data/aspace.ldif"),
+                    :port => $ldap_port,
+                    :ldif => File.absolute_path("data/aspace.ldif"),
+                    :java_bin => ["java", "-Xmx64m"],
                     :domain => "dc=archivesspace,dc=org").tap do |s|
     s.start
   end

@@ -14,6 +14,12 @@
         "ifmissing" => nil,
       },
 
+      "type" => {
+        "type" => "string",
+        "readonly" => true,
+        "dynamic_enum" => "note_bibliography_type"
+      },
+
       "items" => {
         "type" => "array",
         "items" => {"type" => "string", "maxLength" => 65000}

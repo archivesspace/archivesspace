@@ -15,11 +15,19 @@ class CommonIndexer
 
   @@record_types = [:accession, :archival_object, :resource,
                     :digital_object, :digital_object_component,
-                    :subject, :location,
-                    :agent_person, :agent_software, :agent_family, :agent_corporate_entity,
-                    :repository]
+                    :subject, :location, :classification, :classification_term,
+                    :event,
+                    :agent_person, :agent_software, :agent_family, :agent_corporate_entity]
 
-  @@resolved_attributes = ['subjects', 'linked_agents']
+  @@records_with_children = []
+  @@init_hooks = []
+
+  @@resolved_attributes = ['subjects', 'linked_agents', 'linked_records', 'classification']
+
+
+  def self.add_indexer_initialize_hook(&block)
+    @@init_hooks << block
+  end
 
 
   def initialize(backend_url)
@@ -27,6 +35,7 @@ class CommonIndexer
     @document_prepare_hooks = []
     @extra_documents_hooks = []
     @delete_hooks = []
+    @batch_hooks = []
     @current_session = nil
 
     while true
@@ -40,10 +49,17 @@ class CommonIndexer
     end
 
     configure_doc_rules
+
+    @@init_hooks.each do |hook|
+      hook.call(self)
+    end
   end
 
   def add_agents(doc, record)
     if record['record']['linked_agents']
+      # index all linked agents first
+      doc['agents'] = record['record']['linked_agents'].collect{|link| link['_resolved']['names'][0]['sort_name']}
+
       # index the creators only
       creators = record['record']['linked_agents'].select{|link| link['role'] === 'creator'}
       doc['creators'] = creators.collect{|link| link['_resolved']['names'][0]['sort_name']} if not creators.empty?
@@ -70,10 +86,18 @@ class CommonIndexer
   end
 
 
+  def add_level(doc, record)
+    if record['record'].has_key? 'level'
+      doc['level'] = (record['record']['level'] === 'otherlevel') ? record['record']['other_level'] : record['record']['level']
+    end
+  end
+
+
+
   def configure_doc_rules
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'archival_object'
-        doc['resource'] = record['record']['resource']
+        doc['resource'] = record['record']['resource']['ref'] if record['record']['resource']
         doc['title'] = record['record']['label']
       end
     }
@@ -83,6 +107,7 @@ class CommonIndexer
       add_agents(doc, record)
       add_audit_info(doc, record)
       add_notes(doc, record)
+      add_level(doc, record)
     }
 
     add_document_prepare_hook {|doc, record|
@@ -92,14 +117,46 @@ class CommonIndexer
     }
 
     add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'subject'
+        doc['source'] = record['record']['source']
+        doc['first_term_type'] = record['record']['terms'][0]['term_type']
+      end
+    }
+
+    add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'repository'
+        doc['repository'] = doc["id"]
         doc['title'] = record['record']['repo_code']
+        doc['publish'] = true
+        doc['json'] = record['record'].to_json
+      end
+    }
+
+    add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'location' and record['record'].has_key? 'temporary'
+        doc['temporary'] = record['record']['temporary']
       end
     }
 
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'digital_object_component'
-        doc['digital_object'] = record['record']['digital_object']
+        doc['digital_object'] = record['record']['digital_object']['ref']
+      end
+    }
+
+    add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'subject'
+        doc['publish'] = true
+      end
+    }
+
+    add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'resource'
+        doc['finding_aid_title'] = record['record']['finding_aid_title'] if record['record']['finding_aid_status'] === 'completed'
+      end
+
+      if doc['primary_type'] == 'digital_object'
+        doc['digital_object_type'] = record['record']['digital_object_type']
       end
     }
 
@@ -109,6 +166,13 @@ class CommonIndexer
       end
     }
 
+    add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'event'
+        doc['json'] = record['record'].to_json
+        doc['event_type'] = record['record']['event_type']
+        doc['outcome'] = record['record']['outcome']
+      end
+    }
 
     add_document_prepare_hook {|doc, record|
       if ['agent_person', 'agent_family', 'agent_software', 'agent_corporate_entity'].include?(doc['primary_type'])
@@ -117,6 +181,7 @@ class CommonIndexer
         doc['authority_id'] = record['record']['names'][0]['authority_id']
         doc['source'] = record['record']['names'][0]['source']
         doc['rules'] = record['record']['names'][0]['rules']
+        doc['publish'] = true
 
         # Assign the additional type of 'agent'
         doc['types'] << 'agent'
@@ -130,6 +195,21 @@ class CommonIndexer
     }
 
 
+    add_document_prepare_hook {|doc, record|
+      if ['classification', 'classification_term'].include?(doc['primary_type'])
+        doc['classification_path'] = ASUtils.to_json(record['record']['path_from_root'])
+      end
+    }
+
+    add_document_prepare_hook {|doc, record|
+      if ['resource'].include?(doc['primary_type']) && record['record']['classification']
+        doc['classification_path'] = ASUtils.to_json(record['record']['classification']['_resolved']['path_from_root'])
+      end
+    }
+
+
+
+    record_has_children('collection_management')
     add_extra_documents_hook {|record|
       docs = []
 
@@ -167,8 +247,18 @@ class CommonIndexer
   end
 
 
+  def record_has_children(record_type)
+    @@records_with_children << record_type.to_s
+  end
+
+
   def add_extra_documents_hook(&block)
     @extra_documents_hooks << block
+  end
+
+
+  def add_batch_hook(&block)
+    @batch_hooks << block
   end
 
 
@@ -272,6 +362,19 @@ class CommonIndexer
   end
 
 
+  def clean_whitespace(doc)
+    if doc.is_a?(String)
+      doc.strip
+    elsif doc.is_a?(Hash)
+      Hash[doc.map {|k, v| [k, clean_whitespace(v)]}]
+    elsif doc.is_a?(Array)
+      doc.map{|elt| clean_whitespace(elt)}
+    else
+      doc
+    end
+  end
+
+
   def index_records(records)
     batch = []
 
@@ -283,7 +386,7 @@ class CommonIndexer
       reference = JSONModel.parse_reference(uri)
       record_type = reference && reference[:type]
 
-      if !record_type || !@@record_types.include?(record_type.intern)
+      if !record_type || (record_type != 'repository' && !@@record_types.include?(record_type.intern))
         next
       end
 
@@ -302,7 +405,7 @@ class CommonIndexer
         hook.call(doc, record)
       end
 
-      batch << doc
+      batch << clean_whitespace(doc)
 
       # Allow a single record to spawn multiple Solr documents if desired
       @extra_documents_hooks.each do |hook|
@@ -310,13 +413,27 @@ class CommonIndexer
       end
     end
 
-    if !batch.empty?
-      # For any record we're updating, delete any child records first
-      req = Net::HTTP::Post.new("/update")
-      req['Content-Type'] = 'application/json'
-      req.body = {:delete => {'query' => "parent_id:(" + batch.map {|e| "\"#{e['id']}\""}.join(" OR ") + ")"}}.to_json
 
-      response = do_http_request(solr_url, req)
+    # Allow hooks to operate on the entire batch if desired
+    @batch_hooks.each_with_index do |hook|
+      batch = hook.call(batch)
+    end
+
+
+    if !batch.empty?
+      # For any record we're updating, delete any child records first (where applicable)
+      records_with_children = batch.map {|e|
+        if @@records_with_children.include?(e['primary_type'].to_s)
+          "\"#{e['id']}\""
+        end
+      }.compact
+
+      if !records_with_children.empty?
+        req = Net::HTTP::Post.new("/update")
+        req['Content-Type'] = 'application/json'
+        req.body = {:delete => {'query' => "parent_id:(" + records_with_children.join(" OR ") + ")"}}.to_json
+        response = do_http_request(solr_url, req)
+      end
 
       # Now apply the updates
       req = Net::HTTP::Post.new("/update")
@@ -353,3 +470,8 @@ class CommonIndexer
 end
 
 
+ASUtils.find_local_directories('indexer').each do |dir|
+  Dir.glob(File.join(dir, "*.rb")).sort.each do |file|
+    require file
+  end
+end

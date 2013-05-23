@@ -206,13 +206,13 @@ module JSONModel::Validations
   def self.check_user_defined(hash)
     errors = []
 
-    ["integer_1", "integer_2"].each do |k|
+    ["integer_1", "integer_2", "integer_3"].each do |k|
       if !hash[k].nil? and hash[k] !~ /^\-?\d+$/
         errors << [k, "must be an integer"]
       end
     end
 
-    ["real_1", "real_2"].each do |k|
+    ["real_1", "real_2", "real_3"].each do |k|
       if !hash[k].nil? and hash[k] !~ /^\-?\d{0,9}\.\d{1,2}$/
         errors << [k, "must be a number with no more than nine digits and two decimal places"]
       end

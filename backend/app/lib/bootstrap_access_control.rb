@@ -74,6 +74,10 @@ class ArchivesSpaceService
                       "The ability to create new repositories",
                       :level => "global")
 
+    Permission.define("delete_repository",
+                      "The ability to delete a repository",
+                      :level => "global")
+
     Permission.define("index_system",
                       "The ability to read any record for indexing",
                       :level => "global")
@@ -104,6 +108,10 @@ class ArchivesSpaceService
                       "The ability to create and modify event records",
                       :level => "repository")
 
+    Permission.define("delete_event_record",
+                      "The ability to delete event records",
+                      :level => "repository")
+
     Permission.define("suppress_archival_record",
                       "The ability to suppress the major archival record types: accessions/resources/digital objects/components/collection management/events",
                       :level => "repository")
@@ -119,6 +127,16 @@ class ArchivesSpaceService
     Permission.define("view_repository",
                       "The ability to view a given repository",
                       :level => "repository")
+
+    Permission.define("update_classification_record",
+                      "The ability to create and modify classification records",
+                      :level => "repository")
+
+    Permission.define("delete_classification_record",
+                      "The ability to delete classification records",
+                      :level => "repository")
+
+
   end
 
 

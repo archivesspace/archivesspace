@@ -5,12 +5,12 @@
 
   <div class="span9">
     <div class="record-pane">
-      <h2><%= I18n.t("actions.new_prefix") %> <%= I18n.t("group._html.singular") %> <span class="label label-info"><%= I18n.t("group._html.singular") %></span></h2>
+      <h2><%= I18n.t("actions.new_prefix") %> <%= I18n.t("group._singular") %> <span class="label label-info"><%= I18n.t("group._singular") %></span></h2>
 
       <%= form_for @group, :as => "group", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
         <%= form_context :group, @group do |form| %>
           <%= render :partial => "shared/form_messages", :locals => {:form => form} %>
-          <%= form.label_and_textfield :group_code %>
+          <%= form.label_and_textfield :group_code, :required => true %>
           <%= render :partial => "groups/form", :locals => {:form => form} %>
         <% end %>
       <% end %>

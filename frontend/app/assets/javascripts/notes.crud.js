@@ -55,7 +55,7 @@ $(function() {
             $(document).triggerHandler("subrecordcreated.aspace", ["note", $subsubform]);
           }
 
-          $this.parents("form:first").triggerHandler("form-changed");
+          $this.parents("form:first").triggerHandler("formchanged.aspace");
 
           $(":input:visible:first", $subsubform).focus();
 
@@ -114,7 +114,7 @@ $(function() {
               $subform.remove();
             }
 
-            $this.parents("form:first").triggerHandler("form-changed");
+            $this.parents("form:first").triggerHandler("formchanged.aspace");
             $(document).triggerHandler("subrecorddeleted.aspace", [$this]);
           });
         });
@@ -220,7 +220,7 @@ $(function() {
 
         $(":input:visible:first", $note_form).focus();
 
-        $subform.parents("form:first").triggerHandler("form-changed");
+        $subform.parents("form:first").triggerHandler("formchanged.aspace");
         $(document).triggerHandler("subrecordcreated.aspace", ["note", $note_form]);
       };
 
@@ -242,7 +242,7 @@ $(function() {
 
         $(":input:visible:first", $subform).focus();
 
-        $this.parents("form:first").triggerHandler("form-changed");
+        $this.parents("form:first").triggerHandler("formchanged.aspace");
 
         initRemoveActionForSubRecord($subform);
 

@@ -55,12 +55,38 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/resources')
     .description("Get a list of Resources for a Repository")
-    .params(["repo_id", :repo_id],
-            *Endpoint.pagination)
+    .params(["repo_id", :repo_id])
+    .paginated(true)
     .permissions([:view_repository])
     .returns([200, "[(:resource)]"]) \
   do
-    handle_listing(Resource, params[:page], params[:page_size], params[:modified_since])
+    handle_listing(Resource, params)
+  end
+
+
+  Endpoint.delete('/repositories/:repo_id/resources/:resource_id')
+    .description("Delete a Resource")
+    .params(["resource_id", Integer, "The resource ID to delete"],
+            ["repo_id", :repo_id])
+    .permissions([:delete_archival_record])
+    .returns([200, :deleted]) \
+  do
+    handle_delete(Resource, params[:resource_id])
+  end
+
+
+  Endpoint.post('/repositories/:repo_id/resources/:resource_id/publish')
+  .description("Publish a resource and all it's sub-records and components")
+  .params(["resource_id", Integer, "The ID of the resource to retrieve"],
+                     ["repo_id", :repo_id])
+  .permissions([:update_archival_record])
+  .returns([200, :updated],
+           [400, :error]) \
+  do
+    resource = Resource.get_or_die(params[:resource_id])
+    resource.publish_all_subrecords_and_components
+
+    updated_response(resource)
   end
 
 end

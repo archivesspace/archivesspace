@@ -30,3 +30,7 @@ end
 
 class ReferenceError < StandardError
 end
+
+
+class RetryTransaction < Sequel::DatabaseError
+end

@@ -12,6 +12,11 @@ AbstractRelationship = Class.new(Sequel::Model) do
       [self._reference_columns_for(obj1.class).first, self._reference_columns_for(obj2.class).first]
     end
 
+    if columns.include?(nil)
+      raise ("One of the relationship columns for #{obj1} and #{obj2} couldn't be found." +
+             "  (Have you created the '#{table_name}' table?)")
+    end
+
     self.create(Hash[columns.zip([obj1.id, obj2.id])].merge(properties))
   end
 
@@ -96,7 +101,21 @@ module Relationships
   def update_from_json(json, opts = {}, apply_linked_records = true)
     obj = super
     self.class.apply_relationships(obj, json, opts)
+    trigger_reindex_of_dependants
+
     obj
+  end
+
+
+  def trigger_reindex_of_dependants
+    # Update the mtime of any record with a relationship to this one.  This
+    # encourages the indexer to reindex records when, say, a subject is renamed.
+    #
+    # Once we have our list of unique models, inform each of them that our
+    # instance has been updated (using a class method defined below).
+    self.class.relationship_dependencies.uniq.each do |model|
+      model.touch_mtime_of_anyone_related_to(self)
+    end
   end
 
 
@@ -125,13 +144,23 @@ module Relationships
     end
 
 
+    def relationships
+      @relationships.values
+    end
+
+
+    def relationship_dependencies
+      @relationship_dependencies
+    end
+
+
     def find_relationship(name, noerror = false)
       @relationships[name] or (noerror ? nil : raise("Couldn't find #{name} in #{@relationships.inspect}"))
     end
 
     # Define a new relationship.
     def define_relationship(opts)
-      [:name, :json_property, :contains_references_to_types].each do |p|
+      [:name, :contains_references_to_types].each do |p|
         opts[p] or raise "No #{p} given"
       end
 
@@ -176,9 +205,26 @@ module Relationships
 
 
     # Delete all existing relationships for 'obj'.
-    def delete_existing_relationships(obj)
-      @relationships.values.each do |relationship_defn|
-        relationship_defn.find_by_participant(obj).each(&:delete)
+    def delete_existing_relationships(obj, bump_lock_version_on_referent = false, force = false)
+      relationships.each do |relationship_defn|
+        next if (!relationship_defn.json_property && !force)
+
+        relationship_defn.find_by_participant(obj).each do |relationship|
+
+          # If we're deleting a relationship without replacing it, bump the lock
+          # version on the referent object so it doesn't accidentally get
+          # re-added.
+          #
+          # This will also encourage the indexer to pick up changes on deletion
+          # (e.g. a subject gets deleted and we want to reindex the records that
+          # reference it)
+          if bump_lock_version_on_referent
+            referent = relationship.other_referent_than(obj)
+            DB.increase_lock_version_or_fail(referent) if referent
+          end
+
+          relationship.delete
+        end
       end
     end
 
@@ -189,6 +235,9 @@ module Relationships
 
       @relationships.each do |relationship_name, relationship_defn|
         property_name = relationship_defn.json_property
+
+        # If there's no property name, the relationship is just read-only
+        next if !property_name
 
         # For each record reference in our JSON data
         ASUtils.as_array(json[property_name]).each_with_index do |reference, idx|
@@ -237,7 +286,7 @@ module Relationships
     def sequel_to_jsonmodel(obj, opts = {})
       json = super
 
-      @relationships.values.each do |relationship_defn|
+      relationships.each do |relationship_defn|
         property_name = relationship_defn.json_property
 
         # For each defined relationship
@@ -264,7 +313,7 @@ module Relationships
     # Find all instances of the referring class that have a relationship with 'obj'
     # Spans all defined relationships.
     def instances_relating_to(obj)
-      @relationships.values.map {|relationship_defn|
+      relationships.map {|relationship_defn|
         relationship_defn.who_participates_with(obj)
       }.flatten
     end
@@ -276,15 +325,36 @@ module Relationships
 
 
     def prepare_for_deletion(dataset)
-      dataset.each do |obj|
+      dataset.select(:id).each do |obj|
         # Delete all the relationships created against this object
-        delete_existing_relationships(obj)
+        delete_existing_relationships(obj, true, true)
         @relationship_dependencies.each do |model|
-          model.delete_existing_relationships(obj) if model != self
+          model.delete_existing_relationships(obj, true, true) if model != self
         end
       end
 
       super
+    end
+
+
+    # This notifies the current model that an instance of a related model has
+    # been changed.  We respond by finding any of our own instances that refer
+    # to the updated instance and update their mtime.
+    def touch_mtime_of_anyone_related_to(obj)
+      now = Time.now
+
+      relationships.map do |relationship_defn|
+        models = relationship_defn.participating_models
+
+        if models.include?(obj.class)
+          ref_columns = relationship_defn._reference_columns_for(self)
+
+          ref_columns.each do |col|
+            self.filter(:id => relationship_defn.select(col)).
+                 update(:last_modified => now)
+          end
+        end
+      end
     end
 
   end

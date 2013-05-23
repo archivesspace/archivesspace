@@ -1,0 +1,15 @@
+<% if user_can?('delete_event_record') %>
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="record-toolbar">
+        <div class="btn-toolbar pull-right">
+          <div class="btn-group">
+            <div class="btn btn-inline-form">
+              <%= button_delete_action url_for(:controller => :events, :action => :delete, :id => @event.id) %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

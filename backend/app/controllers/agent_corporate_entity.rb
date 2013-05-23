@@ -13,11 +13,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/agents/corporate_entities')
     .description("List all corporate entity agents")
-    .params(*Endpoint.pagination)
+    .params()
+    .paginated(true)
     .nopermissionsyet
     .returns([200, "[(:agent_corporate_entity)]"]) \
   do
-    handle_listing(AgentCorporateEntity, params[:page], params[:page_size], params[:modified_since])
+    handle_listing(AgentCorporateEntity, params)
   end
 
 
@@ -44,6 +45,15 @@ class ArchivesSpaceService < Sinatra::Base
   do
     json_response(resolve_references(AgentCorporateEntity.to_jsonmodel(AgentCorporateEntity.get_or_die(params[:id])),
                                      params[:resolve]))
+  end
+
+  Endpoint.delete('/agents/corporate_entities/:id')
+    .description("Delete a corporate entity agent")
+    .params(["id", Integer, "ID of the corporate entity agent"])
+    .nopermissionsyet
+    .returns([200, :deleted]) \
+  do
+    handle_delete(AgentCorporateEntity, params[:id])
   end
 
 end

@@ -1,18 +1,20 @@
 <h2>
-  <%= @digital_object_component.title %> <span class="label label-info"><%= I18n.t("digital_object_component._html.singular") %></span>
+  <%= @digital_object_component.title.blank? ? I18n.t("digital_object_component._singular") : @digital_object_component.title %>
+  <span class="label label-info"><%= I18n.t("digital_object_component._singular") %></span>
 </h2>
 
 <%= render :partial => "shared/form_messages", :locals => {:form => form} %>
 
 <fieldset>
 
-  <%= form.hidden_input "parent" %>
+  <%= form.hidden_input "parent", nil, {"data-base-name" => "digital_object_component[parent]", "class" => "hidden-parent-uri"} %>
   <%= form.hidden_input "digital_object" %>
+  <%= form.hidden_input "position" %>
   <%= hidden_field_tag "id", @digital_object_component.id %>
 
   <% define_template("digital_object_component", jsonmodel_definition(:digital_object_component)) do |form| %>
     <section id="basic_information">
-      <h3><%= I18n.t("digital_object_component._html.section.basic_information") %></h3>
+      <h3><%= I18n.t("digital_object_component._frontend.section.basic_information") %></h3>
       <%= form.label_and_textfield "label" %>
       <%= form.label_and_textarea "title" %>
       <%= form.label_and_textfield "component_id" %>

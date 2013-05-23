@@ -1,6 +1,8 @@
 class GroupsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:new, :index, :edit, :create, :update]
-  before_filter(:only => [:new, :index, :edit, :create, :update]) {|c| user_must_have("manage_repository")}
+  skip_before_filter :unauthorised_access, :only => [:new, :index, :edit, :create, :update, :show, :delete]
+  before_filter(:only => [:new, :index, :edit, :create, :update, :show]) {|c| user_must_have("manage_repository")}
+  before_filter(:only => [:delete]) {|c| user_must_have("manage_repository")}
+
 
   def new
     @group = JSONModel(:group).new._always_valid!
@@ -9,6 +11,11 @@ class GroupsController < ApplicationController
 
   def index
     @groups = JSONModel(:group).all
+  end
+
+
+  def show
+    redirect_to :action => :index
   end
 
 
@@ -38,6 +45,14 @@ class GroupsController < ApplicationController
                 :on_valid => ->(id){
                   redirect_to(:controller => :groups, :action => :index)
                 })
+  end
+
+
+  def delete
+    group = JSONModel(:group).find(params[:id])
+    group.delete
+
+    redirect_to(:controller => :groups, :action => :index, :deleted_uri => group.uri)
   end
 
 end

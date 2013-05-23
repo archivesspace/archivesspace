@@ -17,6 +17,10 @@
  * limitations under the License.
  * ========================================================= */
 
+/* =============================================================
+ * Customisations for Archives Space include:
+ * - fixing multiple modal recursion issue - http://stackoverflow.com/questions/13649459/twitter-bootstrap-multiple-modal-error
+ * ============================================================ */
 
 !function ($) {
 
@@ -71,7 +75,8 @@
             .addClass('in')
             .attr('aria-hidden', false)
 
-          that.enforceFocus()
+          // ASPACE: Avoid recusion when multiple modals (forms focus themselves)
+          if ($("div.modal.in").length <= 1) that.enforceFocus()
 
           transition ?
             that.$element.one($.support.transition.end, function () { that.$element.focus().trigger('shown') }) :

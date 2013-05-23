@@ -1,5 +1,6 @@
 # Mixin methods for objects that belong in an ordered hierarchy (archival
 # objects, digital object components)
+require 'securerandom'
 
 module Orderable
 
@@ -8,7 +9,7 @@ module Orderable
   end
 
 
-  def set_position_in_list(target_position)
+  def set_position_in_list(target_position, sequence)
     siblings_ds = self.class.dataset.
                        filter(:root_record_id => self.root_record_id,
                               :parent_id => self.parent_id,
@@ -17,37 +18,45 @@ module Orderable
     # Find the position of the element we'll be inserted after.  If there are no
     # elements, or if our target position is zero, then we'll get inserted at
     # position zero.
-    predecessor = (target_position > 0) && siblings_ds.order(:position).
-                                                       limit(target_position).
-                                                       select(:position).all
+    predecessor = if target_position > 0
+                    siblings_ds.filter(~:id => self.id).order(:position).limit(target_position).select(:position).all
+                  else
+                    []
+                  end
 
-    new_position = (predecessor && !predecessor.empty?) ? (predecessor.last[:position] + 1) : 0
+    new_position = !predecessor.empty? ? (predecessor.last[:position] + 1) : 0
 
     100.times do
       DB.attempt {
-        self.update(:position => new_position)
-        self.save
+        # Go right to the database here to avoid bumping lock_version for tree changes.
+        self.class.dataset.db[self.class.table_name].filter(:id => self.id).update(:position => new_position)
         return
       }.and_if_constraint_fails {
-          # Someone's in our spot!  Move everyone out of the way and retry.
+        # Someone's in our spot!  Move everyone out of the way and retry.
 
-          # Sigh.  Work around:
-          # http://stackoverflow.com/questions/5403437/atomic-multi-row-update-with-a-unique-constraint
+        # Bump the sequence to maintain the invariant that sequence.number >= max(position)
+        # (since we're about to increment the last N positions by 1)
+        Sequence.get(sequence)
 
-          # Disables the uniqueness constraint
-          siblings_ds.
-            filter { position >= new_position }.
-            update(:parent_name => nil)
+        # Sigh.  Work around:
+        # http://stackoverflow.com/questions/5403437/atomic-multi-row-update-with-a-unique-constraint
 
-          # Do the update we actually wanted
-          siblings_ds.
-            filter { position >= new_position }.
-            update(:position => Sequel.lit('position + 1'))
+        # Disables the uniqueness constraint
+        siblings_ds.
+        filter { position >= new_position }.
+        update(:parent_name => Sequel.lit(DB.concat('CAST(id as CHAR(10))', "'_temp'")))
 
-          # Puts it back again
-          siblings_ds.
-            filter { position >= new_position }.
-            update(:parent_name => self.parent_name)
+        # Do the update we actually wanted
+        siblings_ds.
+        filter { position >= new_position }.
+        update(:position => Sequel.lit('position + 1'))
+
+        # Puts it back again
+        siblings_ds.
+        filter { position >= new_position }.
+        update(:parent_name => self.parent_name)
+
+        # Now there's a gap at new_position ready for our element.
       }
     end
 
@@ -56,22 +65,56 @@ module Orderable
 
 
   def update_from_json(json, opts = {}, apply_linked_records = true)
+    sequence = self.class.sequence_for(json)
 
-    self.class.set_root_record(json, opts)
+    self.class.set_root_record(json, sequence, opts)
 
-    opts["position"] = nil
     obj = super
 
-    if json[self.class.root_record_type]
-
-      if !json.position
-        json.position = Sequence.get("#{json[self.class.root_record_type]}_#{json.parent}_children_position")
-      end
-
-      self.set_position_in_list(json.position)
+    # Then lock in a position (which may involve contention with other updates
+    # happening to the same tree of records)
+    if json[self.class.root_record_type] && json.position
+      self.set_position_in_list(json.position, sequence)
     end
 
     obj
+  end
+
+
+  def update_position_only(parent_id, position)
+    if self[:root_record_id]
+      root_uri = self.class.uri_for(self.class.root_record_type.intern, self[:root_record_id])
+      parent_uri = parent_id ? self.class.uri_for(self.class.node_record_type.intern, parent_id) : nil
+      sequence = "#{root_uri}_#{parent_uri}_children_position"
+
+      parent_name = if parent_id
+                      "#{parent_id}@#{self.class.node_record_type}"
+                    else
+                      "root@#{root_uri}"
+                    end
+
+      new_values = {
+        :parent_id => parent_id,
+        :parent_name => parent_name,
+        :position => Sequence.get(sequence)
+      }
+
+      # Run through the standard validation without actually saving
+      self.set(new_values)
+      self.validate
+
+      if self.errors && !self.errors.empty?
+        raise Sequel::ValidationFailed.new(self.errors)
+      end
+
+      # Now do the update (without touching lock_version)
+      self.class.dataset.filter(:id => self.id).update(new_values)
+
+      self.refresh
+      self.set_position_in_list(position, sequence) if position
+    else
+      raise "Root not set for record #{self}"
+    end
   end
 
 
@@ -83,7 +126,6 @@ module Orderable
   def has_children?
     self.class.filter(:parent_id => self.id).count > 0
   end
-
 
 
   module ClassMethods
@@ -102,19 +144,31 @@ module Orderable
     end
 
 
-    def create_from_json(json, opts = {})
-      set_root_record(json, opts)
-
+    def sequence_for(json)
       if json[root_record_type]
-        # This new record is a member of a hierarchy, so add it to the end of its siblings
-        json.position = Sequence.get("#{json[root_record_type]}_#{json.parent}_children_position")
+        if json.parent
+          "#{json[root_record_type]['ref']}_#{json.parent['ref']}_children_position"
+        else
+          "#{json[root_record_type]['ref']}__children_position"
+        end
+      end
+    end
+
+    def create_from_json(json, opts = {})
+      sequence = sequence_for(json)
+      set_root_record(json, sequence, opts)
+
+      obj = super
+
+      if json[self.root_record_type] && json.position
+        obj.set_position_in_list(json.position, sequence)
       end
 
-      super
+      obj
     end
 
 
-    def set_root_record(json, opts)
+    def set_root_record(json, sequence, opts)
       opts["root_record_id"] = nil
       opts["parent_id"] = nil
       opts["parent_name"] = nil
@@ -134,10 +188,17 @@ module Orderable
 
         if json.parent
           opts["parent_id"] = parse_reference(json.parent['ref'], opts)[:id]
-          opts["parent_name"] = opts["parent_id"].to_s
+          opts["parent_name"] = "#{opts['parent_id']}@#{self.node_record_type}"
         else
-          opts["parent_name"] = "(root)"
+          opts["parent_name"] = "root@#{json[root_record_type]['ref']}"
         end
+
+        opts["position"] = Sequence.get(sequence)
+
+      else
+        # This record isn't part of a tree hierarchy
+        opts["parent_name"] = "orphan@#{SecureRandom.uuid}"
+        opts["position"] = 0
       end
     end
 
@@ -146,16 +207,26 @@ module Orderable
       json = super
 
       if obj.root_record_id
-        json[root_record_type] = {:ref => uri_for(root_record_type, obj.root_record_id)}
+        json[root_record_type] = {'ref' => uri_for(root_record_type, obj.root_record_id)}
 
         if obj.parent_id
-          json.parent = {:ref => uri_for(node_record_type, obj.parent_id)}
+          json.parent = {'ref' => uri_for(node_record_type, obj.parent_id)}
         end
       end
 
       json
     end
 
+
+    def prepare_for_deletion(dataset)
+      dataset.select(:id).each do |record|
+        self.filter(:parent_id => record.id).select(:id).each do |victim|
+          victim.delete
+        end
+      end
+
+      super
+    end
 
   end
 

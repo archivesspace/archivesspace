@@ -4,6 +4,7 @@ AppConfig[:solr_index_directory] = proc { File.join(AppConfig[:data_directory], 
 AppConfig[:solr_home_directory] = proc { File.join(AppConfig[:data_directory], "solr_home") }
 AppConfig[:solr_indexing_frequency_seconds] = 30
 
+AppConfig[:default_page_size] = 10
 AppConfig[:max_page_size] = 250
 
 AppConfig[:allow_other_unmapped] = false
@@ -55,5 +56,10 @@ AppConfig[:max_usernames_per_source] = 50
 
 AppConfig[:demodb_snapshot_flag] = proc { File.join(AppConfig[:data_directory], "create_demodb_snapshot.txt") }
 
+AppConfig[:locale] = :en
+
 # Report Configuration
 AppConfig[:report_page_size] = "A4"
+
+# Plug-ins to load. They will load in the order specified
+AppConfig[:plugins] = ['local']

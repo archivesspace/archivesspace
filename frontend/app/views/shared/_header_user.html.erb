@@ -1,14 +1,14 @@
 <% if session[:user] %>
   <% if @repositories.length > 0 %>
     <li class="dropdown select-a-repository">
-      <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("repository._html.action.select") %> <b class="caret"></b></a>
+      <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("repository._frontend.action.select") %> <b class="caret"></b></a>
       <ul class="dropdown-menu" style="padding: 15px;">
         <li>
           <%= form_tag({:controller => :repositories, :action => :select}) do |f| %>
             <fieldset>
               <%= select_tag "id", options_for_select(@repositories.map {|repo| [repo.repo_code, repo.id]}, session[:repo_id]) %>
             </fieldset>
-            <button class="btn btn-primary pull-left"><%= I18n.t("repository._html.action.select") %></button>
+            <button class="btn btn-primary pull-left"><%= I18n.t("repository._frontend.action.select") %></button>
           <% end %>
         </li>
       </ul>

@@ -187,9 +187,20 @@ FactoryGirl.define do
     ref_id { generate(:alphanumstr) }
     level { generate(:level) }
     title { "Archival Object #{generate(:generic_title)}" }
-    internal_only true
   end
-  
+
+  factory :json_classification, class: JSONModel(:classification) do
+    identifier { generate(:alphanumstr) }
+    title { "Classification #{generate(:generic_title)}" }
+    description { generate(:generic_description) }
+  end
+
+  factory :json_classification_term, class: JSONModel(:classification_term) do
+    identifier { generate(:alphanumstr) }
+    title { "Classification #{generate(:generic_title)}" }
+    description { generate(:generic_description) }
+  end
+
   factory :json_note_bibliography, class: JSONModel(:note_bibliography) do
     label { generate(:alphanumstr) }
     content { [generate(:alphanumstr)] }
@@ -348,7 +359,7 @@ FactoryGirl.define do
   factory :json_subject, class: JSONModel(:subject) do
     terms { [build(:json_term)] }
     vocabulary { create(:json_vocab).uri }
-    ref_id { generate(:url) }
+    authority_id { generate(:url) }
     scope_note { generate(:alphanumstr) }
   end
   
@@ -366,10 +377,6 @@ FactoryGirl.define do
   factory :json_vocab, class: JSONModel(:vocabulary) do
     name { "Vocabulary #{generate(:generic_title)}" }
     ref_id { generate(:alphanumstr) }
-  end
-
-
-  factory :json_collection_management, class: JSONModel(:collection_management) do
   end
 
 end

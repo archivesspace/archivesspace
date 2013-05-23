@@ -24,11 +24,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/subjects')
     .description("Get a list of Subjects")
-    .params(*Endpoint.pagination)
+    .params()
+    .paginated(true)
     .nopermissionsyet
     .returns([200, "[(:subject)]"]) \
   do
-    handle_listing(Subject, params[:page], params[:page_size], params[:modified_since])
+    handle_listing(Subject, params)
   end
 
 
@@ -40,4 +41,15 @@ class ArchivesSpaceService < Sinatra::Base
   do
     json_response(Subject.to_jsonmodel(params[:subject_id]))
   end
+
+
+  Endpoint.delete('/subjects/:subject_id')
+    .description("Delete a Subject")
+    .params(["subject_id", Integer, "The subject ID to delete"])
+    .nopermissionsyet
+    .returns([200, :deleted]) \
+  do
+    handle_delete(Subject, params[:subject_id])
+  end
+
 end

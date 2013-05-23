@@ -36,6 +36,7 @@ class StreamingJsonReader
       end 
     # rescue
     #   raise JSON::ParserError.new($!)
+
     ensure
       stream.close
     end
@@ -81,7 +82,6 @@ class StreamingImport
     
       @dependencies = load_dependencies
     end
-    
 
     @limbs_for_reattaching = {}
   end
@@ -189,12 +189,17 @@ class StreamingImport
   def do_create(record, noerror = false)
     begin
       json = to_jsonmodel(record, true)
+      model = model_for(record['jsonmodel_type'])
 
-      RequestContext.open(:current_username => "admin") do
-        obj = model_for(record['jsonmodel_type']).create_from_json(json)
+      obj = if model.respond_to?(:ensure_exists)
+              model.ensure_exists(json, nil)
+            else
+              model_for(record['jsonmodel_type']).create_from_json(json)
+            end
 
-        obj.uri
-      end
+      Log.debug("Created: #{record['uri']}")
+
+      obj.uri
     rescue
       if noerror
         nil
@@ -261,7 +266,8 @@ class StreamingImport
         json[k.to_s] = rewrite(v, @logical_urls)
       end
 
-      obj.update_from_json(json)
+      cleaned = JSONModel(json.class.record_type).from_hash(json.to_hash)
+      obj.update_from_json(cleaned)
     end
   end
 
@@ -344,6 +350,4 @@ class StreamingImport
   def title_or_fallback(record)
     record['title'] ? record['title'] : record['jsonmodel_type']
   end
-    
-
 end

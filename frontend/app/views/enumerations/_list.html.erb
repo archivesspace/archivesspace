@@ -1,11 +1,18 @@
 <hr/>
-<div class="btn-group pull-right">
-  <% if @enumeration['editable']%>
-    <%= link_to "#{I18n.t("actions.create")} #{I18n.t("enumeration.value")}", {:controller => :enumerations, :action => :new, :id => JSONModel(:enumeration).id_for(@enumeration["uri"])}, "data-toggle" => "modal-ajax", :class=> "btn" %>
-  <% end %>
-</div>
+<% if @enumeration['editable']%>
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="record-toolbar">
+        <div class="btn-group pull-right">
+          <%= link_to "#{I18n.t("actions.create")} #{I18n.t("enumeration.value")}", {:controller => :enumerations, :action => :new, :id => JSONModel(:enumeration).id_for(@enumeration["uri"])}, "data-toggle" => "modal-ajax", :class=> "btn btn-small" %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
 
-<h2><%= I18n.t("enumeration._html.singular") %>: <%= @enumeration["name"] %></h2>
+
+<h2><%= I18n.t("enumeration._singular") %>: <%= @enumeration["name"] %></h2>
 
 <div class="enumeration-list">
   <table class="table table-striped table-bordered table-condensed">

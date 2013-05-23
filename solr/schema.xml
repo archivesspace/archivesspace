@@ -59,21 +59,54 @@
 
    <field name="subjects" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="creators" type="string" indexed="true" stored="true" multiValued="true"/>
+   <field name="agents" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="notes" type="text_general" indexed="true" stored="false" multiValued="false"/>
 
    <field name="json" type="string" indexed="false" stored="true" multiValued="false" />
+
+   <!-- Archival Record properties required for facets -->
+   <field name="level" type="string" indexed="true" stored="true" multiValued="false"/>
 
    <!-- Accession properties required for facets -->
    <field name="accession_date_year" type="int" indexed="true" stored="true" multiValued="false" />
 
    <!-- Archival Objects store the URI of the resource they belong to (if any) -->
-   <field name="resource" type="string" indexed="true" stored="true" multiValued="false" /> 
+   <field name="resource" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Digital Object properties required for facets -->
+   <field name="digital_object_type" type="string" indexed="true" stored="true" multiValued="false"/>
 
    <!-- Digital Object Components store the URI of the Digital Object they belong to (if any) -->
    <field name="digital_object" type="string" indexed="true" stored="true" multiValued="false" />
 
    <!-- Subjects store all the terms as a display_string -->
    <field name="display_string" type="text_general" indexed="true" stored="true" multiValued="false" />
+   <field name="first_term_type" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Resource stores some Finding Aid data -->
+   <field name="finding_aid_title" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Location properties required for facets -->
+   <field name="temporary" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Trees store the URI of their root record -->
+   <field name="root_uri" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <!-- A hint to the standard search that this isn't the record it's looking for -->
+   <field name="exclude_by_default" type="boolean" indexed="true" stored="true" multiValued="false" />
+
+   <!-- The URI of the tree_view node -->
+   <field name="node_uri" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <!-- A JSON blob representing the tree_view -->
+   <field name="tree_json" type="string" indexed="false" stored="true" multiValued="false" />
+
+   <!-- A JSON blob representing the classification path -->
+   <field name="classification_path" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Event properties required for facets -->
+   <field name="event_type" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="outcome" type="string" indexed="true" stored="true" multiValued="false" />
 
    <!-- Collection Management fields -->
    <field name="parent_title" type="text_general" indexed="true" stored="true" multiValued="false" />
@@ -85,9 +118,9 @@
    <field name="processing_funding_source" type="text_general" indexed="true" stored="true" multiValued="false" />
 
    <!-- Sort fields -->
-   <field name="title_sort" type="string" indexed="true" stored="false" multiValued="false"/>
+   <field name="title_sort" type="sort_string" indexed="true" stored="false" multiValued="false"/>
 
-   <!-- Agent fields -->
+   <!-- Agent and Subject fields -->
    <field name="authority_id" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="source" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="rules" type="string" indexed="true" stored="true" multiValued="false" />
@@ -95,6 +128,16 @@
    <!-- Audit fields -->
    <field name="create_time" type="date" indexed="true" stored="true" multiValued="false"/>
    <field name="last_modified" type="date" indexed="true" stored="true" multiValued="false"/>
+
+
+   <!-- Dynamic fields for site-specific use -->
+   <dynamicField name="*_u_ustr"  type="string"  indexed="true"  stored="false" multiValued="true"/>
+   <dynamicField name="*_u_uint"  type="int"  indexed="true"  stored="false" multiValued="true"/>
+   <dynamicField name="*_u_utext"  type="text_general"  indexed="true"  stored="false" multiValued="true"/>
+   <dynamicField name="*_u_sstr"  type="string"  indexed="true"  stored="true" multiValued="true"/>
+   <dynamicField name="*_u_sint"  type="int"  indexed="true"  stored="true" multiValued="true"/>
+   <dynamicField name="*_u_stext"  type="text_general"  indexed="true"  stored="true" multiValued="true"/>
+   <dynamicField name="*_u_sort"  type="sort_string"  indexed="true"  stored="false" multiValued="false"/>
 
  </fields>
 
@@ -197,6 +240,13 @@
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
         <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+    <fieldType name="sort_string" class="solr.TextField" positionIncrementGap="100">
+      <analyzer>
+        <tokenizer class="solr.KeywordTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory" />
       </analyzer>
     </fieldType>
 

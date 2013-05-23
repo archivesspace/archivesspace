@@ -7,14 +7,14 @@
 
    exclude_ids = [] if exclude_ids.blank?
 %>
-<div class="control-group">
-   <label class="control-label"><%= I18n.t("resource._html.singular") %></label>
+<div class="control-group required">
+   <label class="control-label"><%= I18n.t("resource._singular") %></label>
    <div class="controls">
        <div class="input-append linker-wrapper">
           <input type="text" class="linker"
             id="<%= form.id_for("ref") %>"
-            data-label="<%= I18n.t("resource._html.singular") %>"
-            data-label_plural="<%= I18n.t("resource._html.plural") %>"
+            data-label="<%= I18n.t("resource._singular") %>"
+            data-label_plural="<%= I18n.t("resource._plural") %>"
             data-path="<%= form.path %>"
             data-name="ref"
             data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"

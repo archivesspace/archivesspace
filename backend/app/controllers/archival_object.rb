@@ -27,6 +27,23 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.post('/repositories/:repo_id/archival_objects/:archival_object_id/parent')
+    .description("Set the parent/position of an Archival Object in a tree")
+    .params(["archival_object_id", Integer, "The Archival Object ID to update"],
+            ["parent", Integer, "The parent of this node in the tree", :optional => true],
+            ["position", Integer, "The position of this node in the tree", :optional => true],
+            ["repo_id", :repo_id])
+    .permissions([:update_archival_record])
+    .returns([200, :updated],
+             [400, :error]) \
+  do
+    obj = ArchivalObject.get_or_die(params[:archival_object_id])
+    obj.update_position_only(params[:parent], params[:position])
+
+    updated_response(obj)
+  end
+
+
   Endpoint.get('/repositories/:repo_id/archival_objects/:archival_object_id')
     .description("Get an Archival Object by ID")
     .params(["archival_object_id", Integer, "The Archival Object ID"],
@@ -59,12 +76,22 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/archival_objects')
     .description("Get a list of Archival Objects for a Repository")
-    .params(["repo_id", :repo_id],
-            *Endpoint.pagination)
+    .params(["repo_id", :repo_id])
+    .paginated(true)
     .permissions([:view_repository])
     .returns([200, "[(:archival_object)]"]) \
   do
-    handle_listing(ArchivalObject, params[:page], params[:page_size], params[:modified_since])
+    handle_listing(ArchivalObject, params)
+  end
+
+  Endpoint.delete('/repositories/:repo_id/archival_objects/:archival_object_id')
+    .description("Delete an Archival Object")
+    .params(["archival_object_id", Integer, "The Archival Object to delete"],
+            ["repo_id", :repo_id])
+    .permissions([:delete_archival_record])
+    .returns([200, :deleted]) \
+  do
+    handle_delete(ArchivalObject, params[:archival_object_id])
   end
 
 end

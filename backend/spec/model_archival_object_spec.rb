@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'ArchivalObject model' do
 
-  it "Allows archival objects to be created" do
+  it "allows archival objects to be created" do
     ao = ArchivalObject.create_from_json(
                                           build(
                                                 :json_archival_object,
@@ -14,12 +14,12 @@ describe 'ArchivalObject model' do
   end
 
 
-  it "Allow multiple archival objects to be created without conflicts" do
+  it "allows multiple archival objects to be created without conflicts" do
     create_list(:json_archival_object, 5)
   end
 
 
-  it "Allows archival objects to be created with an extent" do
+  it "allow archival objects to be created with an extent" do
     
     opts = {:extents => [{
       "portion" => "whole",
@@ -35,7 +35,7 @@ describe 'ArchivalObject model' do
   end
 
 
-  it "Allows archival objects to be created with a date" do
+  it "allows archival objects to be created with a date" do
     
     opts = {:dates => [{
          "date_type" => "single",
@@ -53,7 +53,7 @@ describe 'ArchivalObject model' do
   end
 
 
-  it "Allows archival objects to be created with an instance" do
+  it "allows archival objects to be created with an instance" do
     
     opts = {:instances => [{
          "instance_type" => generate(:instance_type),
@@ -78,6 +78,24 @@ describe 'ArchivalObject model' do
   end
 
 
+  it "will generate a label if requested" do
+    opts = {
+      :title => "", 
+      :dates => [{
+                   "date_type" => "single",
+                   "label" => "creation",
+                   "begin" => generate(:yyyy_mm_dd),
+                   "end" => generate(:yyyy_mm_dd),
+                 }]
+    }
+
+    ao = ArchivalObject.create_from_json(build(:json_archival_object, opts),
+                                         :repo_id => $repo_id)
+
+    ArchivalObject[ao[:id]].label.should_not be_nil
+  end
+
+
   it "throws an error if 'level' is 'otherlevel' and 'other level' isn't provided" do
 
     opts = {:level => "otherlevel", :other_level => nil}
@@ -90,25 +108,34 @@ describe 'ArchivalObject model' do
 
 
   it "enforces ref_id uniqueness only within a resource" do
-    res1 = create(:resource, {:repo_id => $repo_id})
-    res2 = create(:resource, {:repo_id => $repo_id})
+    res1 = create(:json_resource)
+    res2 = create(:json_resource)
 
-    create(:archival_object, {:ref_id => "the same", :root_record_id => res1.id, :repo_id => $repo_id})
-    create(:archival_object, {:ref_id => "the same", :root_record_id => nil, :repo_id => $repo_id})
-
-    expect {
-      create(:archival_object, {:ref_id => "the same", :root_record_id => res1.id, :repo_id => $repo_id})
-    }.to raise_error(Sequel::ValidationFailed)
+    create(:json_archival_object, {:ref_id => "the_same", :resource => {:ref => res1.uri}})
+    create(:json_archival_object, {:ref_id => "the_same", :resource => nil})
 
     expect {
-      create(:archival_object, {:ref_id => "the same", :root_record_id => res2.id, :repo_id => $repo_id})
-    }.to_not raise_error
+      create(:json_archival_object, {:ref_id => "the_same", :resource => {:ref => res1.uri}})
+    }.to raise_error(JSONModel::ValidationException)
 
     expect {
-      create(:archival_object, {:ref_id => "the same", :root_record_id => nil, :repo_id => $repo_id})
+      create(:json_archival_object, {:ref_id => "the_same", :resource => nil})
     }.to_not raise_error
   end
 
+
+  it "can create an AO with a position set" do
+    res1 = create(:json_resource)
+
+    expect {
+      create(:json_archival_object,
+             {
+               :ref_id => "the_same",
+               :resource => {:ref => res1.uri},
+               :position => 0
+             })
+    }.to_not raise_error
+  end
 
   it "auto generates a 'label' based on the title (when no date)" do
     title = "Just a title"

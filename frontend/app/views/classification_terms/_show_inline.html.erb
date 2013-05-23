@@ -1,0 +1,29 @@
+<div class="row-fluid">
+  <div class="span3">
+    <%= render :partial => "sidebar" %>
+  </div>
+  <div class="span9">
+    <%= render :partial => "toolbar" %>
+    <div class="record-pane">
+      <%= readonly_context :classification_term, @classification_term do |readonly| %>
+        <h2><%= @classification_term.title %> <span class="label label-info"><%= I18n.t("classification_term._singular") %></span></h2>
+        <%= render :partial => "shared/flash_messages" %>
+        <section id="basic_information">
+          <h3><%= I18n.t("classification_term._frontend.section.basic_information") %></h3>
+          <%= readonly.label_and_textarea "identifier" %>
+          <%= readonly.label_and_textarea "title" %>
+          <%= readonly.label_and_textarea "description" %>
+
+          <% if !readonly["creator"].blank? %>
+            <div class="token-list">
+                <%= readonly.label_with_field(:creator, render_token(:object => readonly,
+                                                             :label => readonly["creator"]["_resolved"]["names"][0]["sort_name"],
+                                                             :type => readonly["creator"]["_resolved"]["agent_type"],
+                                                             :uri => readonly["creator"]["_resolved"]["uri"])) %>
+            </div>
+          <% end %>
+        </section>
+      <% end %>
+    </div>
+  </div>
+</div>

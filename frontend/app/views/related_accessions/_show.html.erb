@@ -3,12 +3,12 @@
 %>
 
 <section id="<%= section_id %>" class="subrecord-form-dummy">
-  <h3><%= I18n.t("related_accession._html.plural") %></h3>
+  <h3><%= I18n.t("related_accession._plural") %></h3>
 
   <div class="subrecord-form-container">
     <div class="subrecord-form-fields">
       <div class="control-group">
-        <label class="control-label"><%= I18n.t "accession._html.plural" %></label>
+        <label class="control-label"><%= I18n.t "accession._plural" %></label>
         <div class="controls token-list">
           <% related_accessions.each_with_index do | accession, index | %>
             <%= render_token :object => accession["_resolved"],

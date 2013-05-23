@@ -41,31 +41,45 @@ class Subject < Sequel::Model(:subject)
 
   def self.generate_terms_sha1(json)
     return nil if json.terms.empty?
-    Digest::SHA1.hexdigest(json.terms.inspect)
+
+    Digest::SHA1.hexdigest(json.terms.map {|term| [term['term'], term['term_type']]}.inspect)
   end
 
 
   def self.create_from_json(json, opts = {})
     set_vocabulary(json, opts)
-    obj = super
+    super(json, opts.merge(:terms_sha1 => generate_terms_sha1(json)))
+  end
 
-    obj.terms_sha1 = generate_terms_sha1(json) # add a terms sha1 hash to allow for uniqueness test
 
-    obj.save
+  def self.ensure_exists(json, referrer)
+    DB.attempt {
+      self.create_from_json(json)
+    }.and_if_constraint_fails {|exception|
+      source_id = BackendEnumSource.id_for_value("subject_source", json.source)
 
-    obj
+      subject = Subject.find(:vocab_id => JSONModel(:vocabulary).id_for(json.vocabulary),
+                             :terms_sha1 => generate_terms_sha1(json),
+                             :source_id => source_id)
+
+      if !subject
+        # The subject exists but we can't find it.  This could mean it was
+        # created in a currently running transaction.  Abort this one to trigger
+        # a retry.
+        Log.info("Subject '#{json.terms}' seems to have been created by a currently running transaction.  Restarting this one.")
+        sleep 5
+        raise RetryTransaction.new
+      end
+
+      subject
+    }
   end
 
 
   def update_from_json(json, opts = {}, apply_linked_records = true)
     self.class.set_vocabulary(json, opts)
-    obj = super
-
-    obj.terms_sha1 = self.class.generate_terms_sha1(json) # add a terms sha1 hash to allow for uniqueness test
-
-    obj.save
-
-    obj
+    self[:terms_sha1] = self.class.generate_terms_sha1(json) # add a terms sha1 hash to allow for uniqueness test
+    super
   end
 
 
@@ -80,9 +94,17 @@ class Subject < Sequel::Model(:subject)
 
   def validate
     super
-    validates_unique([:vocab_id, :terms_sha1], :message => "Subject must be unique")
-    validates_unique([:vocab_id, :ref_id], :message => "Subject heading identifier must be unique")
+
+    if self[:source_id]
+      validates_unique([:vocab_id, :source_id, :terms_sha1], :message => "Subject must be unique")
+    else
+      validates_unique([:vocab_id, :terms_sha1], :message => "Subject must be unique")
+    end
+
+    validates_unique([:vocab_id, :source_id, :authority_id], :message => "Subject heading identifier must be unique within source")
+    map_validation_to_json_property([:vocab_id, :source_id, :authority_id], :authority_id)
     map_validation_to_json_property([:vocab_id, :terms_sha1], :terms)
+    map_validation_to_json_property([:vocab_id, :source_id, :terms_sha1], :terms)
   end
 
 end

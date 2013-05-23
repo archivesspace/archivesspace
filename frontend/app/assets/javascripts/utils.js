@@ -208,7 +208,7 @@ $(function() {
       $this.tooltip().addClass("initialised");
 
       // for manual ArchiveSpace help tooltips
-      if ($this.data("trigger") === "manual" && $this.is("label.control-label")) {
+      if ($this.data("trigger") === "manual" && ($this.is("label.control-label") || $this.is(".subrecord-form-heading-label"))) {
         var openedViaClick = false;
         var showTimeout, hideTimeout;
 
@@ -271,7 +271,7 @@ $(function() {
 $(function() {
   var initSubmenuLink = function(scope) {
     scope = scope || $(document.body);
-    $(".dropdown-submenu > a[href*='javascript:void']:not(.initialised)", scope).click(function(e) {
+    $(scope).on("click", ".dropdown-submenu > a[href*='javascript:void']:not(.initialised)", function(e) {
       e.preventDefault();
       e.stopImmediatePropagation();
       $(this).focus();
@@ -323,8 +323,19 @@ AS.encodeForAttribute = function(string) {
   return string.replace(/"/g, "&quot;");
 };
 
+AS.openQuickModal = function(title, message, messageClass) {
+  AS.openCustomModal("quickModal", title, AS.renderTemplate("modal_quick_template", {message: message}));
+};
 
-AS.openCustomModal = function(id, title, contents, fillScreen) {
+
+/* AS.openCustomModal
+ *  id : String - id of the modal element
+ *  title : String - to be applied as the modal header
+ *  contents : String/HTML - the contents of the modal
+ *  fillScreen : String/false - 'full'-98% of screen, 'container'-match the container width, false-standard modal size
+ *  modalOpts : object - any twitter bootstrap options to pass on the modal dialog upon init.
+ */
+AS.openCustomModal = function(id, title, contents, fillScreen, modalOpts) {
   $("body").append(AS.renderTemplate("modal_custom_template", {id:id,title:title,content: "", fill: fillScreen||false}));
   var $modal = $("#"+id);
   $modal.append(contents);
@@ -334,7 +345,14 @@ AS.openCustomModal = function(id, title, contents, fillScreen) {
   });
 
   var resizeModal = function() {
-    $modal.height($(window).height() - ($(window).height() * 0.2)); // -20% for 10% top and bottom margins
+    var height;
+    if (fillScreen === 'full') {
+      height = $(window).height() - ($(window).height() * 0.03);
+    } else {
+      height = $(window).height() - ($(window).height() * 0.2);
+    }
+
+    $modal.height(height); // -20% for 10% top and bottom margins
     var modalBodyHeight = $modal.height() - $(".modal-header", $modal).height() - $(".modal-footer", $modal).height() - 80;
     $(".modal-body", $modal).height(modalBodyHeight);
     $modal.css("marginLeft", -$modal.width() / 2);
@@ -345,7 +363,13 @@ AS.openCustomModal = function(id, title, contents, fillScreen) {
     $(window).resize(resizeModal);
   }
 
+  if (modalOpts) {
+    $modal.modal(modalOpts);
+  }
+
   $modal.modal('show');
+
+  return $modal;
 };
 
 
@@ -572,7 +596,7 @@ AS.initSubRecordSorting = function($list) {
     });
 
     $list.off("sortupdate").on("sortupdate", function() {
-      $("#object_container form").triggerHandler("form-changed");
+      $("#object_container form").triggerHandler("formchanged.aspace");
     });
   }
 }
@@ -597,36 +621,28 @@ $(function() {
         confirm_class: $this.data("confirm-btn-class") || false
       };
 
-      var confirmInlineFormAction = function() {
-        $this.parents("form").submit();
-      };
-
-
-      var confirmCustomAction = function() {
-        $.ajax({
-          url: $this.data("target"),
-          data: $this.data("params"),
-          type: $this.data("method"),
-          complete: function() {
-            $("#confirmChangesModal").modal("hide").remove();
-            if ($this.data("refresh")) {
-              document.location.reload;
-            }
-          }
-        });
-      };
-
       var onClick = function(event) {
         event.preventDefault();
         event.stopImmediatePropagation();
 
         AS.openCustomModal("confirmChangesModal", template_data.title , AS.renderTemplate("confirmation_modal_template", template_data));
         $("#confirmButton", "#confirmChangesModal").click(function() {
-          if ($this.parents(".btn-inline-form:first").length) {
-            confirmInlineFormAction();
-          } else {
-            confirmCustomAction
+          $(".btn", "#confirmChangesModal").attr("disabled", "disabled");
+
+          var $form = $("<form>")
+            .attr("action", $this.data("target") || $this.attr("href"))
+            .attr("accept-charset", "UTF-8")
+            .attr("method", $this.data("method") || "post");
+
+          if ($this.data("authenticity_token")) {
+            var $h = $("<input type='hidden'>");
+            $h.attr("name", "authenticity_token").val($this.data("authenticity_token"));
+            $form.append($h);
           }
+
+          $(document.body).append($form);
+
+          $form.submit();
         });
       }
 

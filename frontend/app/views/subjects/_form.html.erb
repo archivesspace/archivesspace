@@ -6,8 +6,8 @@
 
   <% define_template "subject", jsonmodel_definition(:subject) do |form| %>
     <section id="basic_information">
-      <h3><%= I18n.t("subject._html.section.basic_information") %></h3>
-      <%= form.label_and_textfield "ref_id" %>
+      <h3><%= I18n.t("subject._frontend.section.basic_information") %></h3>
+      <%= form.label_and_textfield "authority_id" %>
       <%= form.label_and_select "source", form.possible_options_for("source", true) %>
       <%= form.label_and_textarea "scope_note" %>
     </section>
@@ -15,7 +15,7 @@
 
   <% form.emit_template("subject") %>
 
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "terms"} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "terms", :required => true} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
 
 </fieldset>

@@ -13,11 +13,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/agents/people')
     .description("List all person agents")
-    .params(*Endpoint.pagination)
+    .params()
+    .paginated(true)
     .nopermissionsyet
     .returns([200, "[(:agent_person)]"]) \
   do
-    handle_listing(AgentPerson, params[:page], params[:page_size], params[:modified_since])
+    handle_listing(AgentPerson, params)
   end
 
 
@@ -45,5 +46,16 @@ class ArchivesSpaceService < Sinatra::Base
     json_response(resolve_references(AgentPerson.to_jsonmodel(AgentPerson.get_or_die(params[:id])),
                                      params[:resolve]))
   end
+
+
+  Endpoint.delete('/agents/people/:id')
+    .description("Delete an agent person")
+    .params(["id", Integer, "ID of the person agent"])
+    .nopermissionsyet
+    .returns([200, :deleted]) \
+  do
+    handle_delete(AgentPerson, params[:id])
+  end
+
 
 end

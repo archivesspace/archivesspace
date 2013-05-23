@@ -1,17 +1,22 @@
-<%= setup_context :title => @manage_access ? I18n.t("user._html.section.manage_access") : I18n.t("user._html.plural") %>
+<%= setup_context :title => @manage_access ? I18n.t("user._frontend.section.manage_access") : I18n.t("user._plural") %>
 
 <div class="row-fluid">
    <div class="span3"></div>
    <div class="span9">
+     <% if not @manage_access %>
+       <div class="row-fluid">
+         <div class="span12">
+           <div class="record-toolbar">
+             <div class="btn-group pull-right">
+               <%= link_to "#{I18n.t("actions.create")} #{I18n.t("user._singular")}", {:controller => :users, :action => :new}, :class => "btn btn-small" %>
+             </div>
+           </div>
+         </div>
+       </div>
+     <% end %>
+
     <div class="record-pane">
-
-      <% if not @manage_access %>
-        <div class="btn-group pull-right">
-          <%= link_to "#{I18n.t("actions.create")} #{I18n.t("user._html.singular")}", {:controller => :users, :action => :new}, :class => "btn" %>
-        </div>
-      <% end %>
-
-      <h2><%= @manage_access ? I18n.t("user._html.section.manage_access") : I18n.t("user._html.plural") %></h2>
+      <h2><%= @manage_access ? I18n.t("user._frontend.section.manage_access") : I18n.t("user._plural") %></h2>
 
       <% if flash[:success] %>
         <div class="alert alert-success">
@@ -23,7 +28,7 @@
        <table class="table table-striped table-bordered table-condensed">
          <thead>
            <tr>
-             <th><%= I18n.t("user._html.singular") %></th>
+             <th><%= I18n.t("user._singular") %></th>
              <th width="70px"><!-- actions --></th>
            </tr>
          </thead>
@@ -36,7 +41,7 @@
                    <% if @manage_access %>
                     <%= link_to I18n.t("actions.edit_groups"), {:controller => :users, :action => :edit_groups, :id => user.id}, :class => "btn btn-mini" %>
                    <% else %>
-                    <%= link_to I18n.t("actions.edit"), {:controller => :users, :action => :edit, :id => user.id}, :class => "btn btn-mini" %>
+                    <%= link_to I18n.t("actions.edit"), {:controller => :users, :action => :edit, :id => user.id}, :class => "btn btn-mini btn-primary" %>
                    <% end %>
                  </div>
               </td>

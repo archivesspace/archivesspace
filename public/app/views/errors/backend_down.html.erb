@@ -1,6 +1,5 @@
-<%=
-    @breadcrumbs = []
-    setup_context :title => I18n.t("errors.backend_down"), :suppress_breadcrumb => true
+<%
+   set_title I18n.t("errors.backend_down")
 %>
 
 <h2><%= I18n.t("errors.backend_down") %></h2>

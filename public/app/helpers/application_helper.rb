@@ -7,47 +7,12 @@ module ApplicationHelper
     css.html_safe
   end
 
-  def setup_context(options)
-    breadcrumb_trail = options[:breadcrumb_trail] || []
-
-    if options.has_key? :object
-      object = options[:object]
-
-      type = options[:type] || object["jsonmodel_type"]
-      controller = options[:controller] || type.to_s.pluralize
-
-      title = options[:title] || object["title"] || object["username"]
-
-      breadcrumb_trail.push(["#{I18n.t("#{controller.to_s.singularize}._html.plural")}", {:controller => controller, :action => :index}])
-
-      if object.id
-        breadcrumb_trail.push([title, {:controller => controller, :action => :show}])
-        breadcrumb_trail.last.last[:id] = object.id unless object['username']
-
-        if ["edit", "update"].include? action_name
-          breadcrumb_trail.push([I18n.t("actions.edit")])
-          set_title("#{I18n.t("#{type}._html.plural")} | #{title} | #{I18n.t("actions.edit")}")
-        else
-          set_title("#{I18n.t("#{type}._html.plural")} | #{title}")
-        end
-      else # new object
-        breadcrumb_trail.push([options[:title] || "#{I18n.t("actions.new_prefix")} #{I18n.t("#{type}._html.singular")}"])
-        set_title("#{I18n.t("#{controller.to_s.singularize}._html.plural")} | #{options[:title] || I18n.t("actions.new_prefix")}")
-      end
-    elsif options.has_key? :title
-      set_title(options[:title])
-      breadcrumb_trail.push([options[:title]])
-    end
-
-    render(:partial =>"shared/breadcrumb", :layout => false , :locals => { :trail => breadcrumb_trail }).to_s if options[:suppress_breadcrumb] != true
-  end
-
   def set_title(title)
     @title = title
   end
 
   def icon_for(type)
-    "<span class='icon-#{type}' title='#{I18n.t("#{type}._html.singular")}'></span>".html_safe
+    "<span class='icon-#{type}' title='#{I18n.t("#{type}._singular")}'></span>".html_safe
   end
 
   def label_and_value(label, value)
@@ -78,15 +43,9 @@ module ApplicationHelper
   def params_for_search(opts = {})
     search_params = {}
 
-    search_params["filter"] = Array(params["filter"]).clone
-
-    if opts["add_filter"]
-      search_params["filter"].concat(Array(opts["add_filter"]))
-    end
-
-    if opts["remove_filter"]
-      search_params["filter"] = search_params["filter"].reject{|f| Array(opts["remove_filter"]).include?(f)}
-    end
+    search_params["filter_term"] = Array(opts["filter_term"] || params["filter_term"]).clone
+    search_params["filter_term"].concat(Array(opts["add_filter_term"])) if opts["add_filter_term"]
+    search_params["filter_term"] = search_params["filter_term"].reject{|f| Array(opts["remove_filter_term"]).include?(f)} if opts["remove_filter_term"]
 
     search_params["sort"] = opts["sort"] || params["sort"]
 
@@ -95,14 +54,15 @@ module ApplicationHelper
     search_params["type"] = opts["type"] || params["type"]
 
     # retain any advanced search params
-    search_params["advanced"] = opts["advanced"] || params["advanced"]
+    advanced = (opts["advanced"] || params["advanced"])
+    search_params["advanced"] = advanced.blank? || advanced === 'false' ? false : true
     (0..2).each do |i|
       search_params["v#{i}"] = params["v#{i}"]
       search_params["f#{i}"] = params["f#{i}"]
       search_params["op#{i}"] = params["op#{i}"]
     end
 
-    search_params
+    search_params.reject{|k,v| k.blank? or v.blank?}
   end
 
 end

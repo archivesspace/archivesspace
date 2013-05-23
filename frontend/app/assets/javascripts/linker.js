@@ -98,6 +98,8 @@ $(function() {
               $linkerBrowseContainer.load($form.attr("action")+".js?" + $(event.target).serialize(), initBrowseFormInputs);
             });
 
+            $(":input:visible:first", $linkerBrowseContainer).focus();
+
             initBrowseFormInputs();
           }
         });
@@ -130,7 +132,7 @@ $(function() {
                   name: response.title,
                   json: response
                 });
-                $this.parents("form:first").triggerHandler("form-changed");
+                $this.parents("form:first").triggerHandler("formchanged.aspace");
                 $modal.modal("hide");
               }
             }, 
@@ -139,6 +141,7 @@ $(function() {
             }
           });
           $modal.trigger("resize");
+          $(":input:visible:first", $modal).focus();
         };
 
         $.ajax({
@@ -152,7 +155,7 @@ $(function() {
 
 
       var showLinkerCreateModal = function() {
-        AS.openCustomModal(config.modal_id, "Create "+ config.label, AS.renderTemplate("linker_createmodal_template", config), true);
+        AS.openCustomModal(config.modal_id, "Create "+ config.label, AS.renderTemplate("linker_createmodal_template", config), 'container');
         if ($(this).hasClass("linker-create-btn")) {
           renderCreateFormForObject($(this).data("target"));
         } else {
@@ -176,12 +179,12 @@ $(function() {
           });
         });
         $("#"+config.modal_id).modal('hide');
-        $this.parents("form:first").triggerHandler("form-changed");
+        $this.parents("form:first").triggerHandler("formchanged.aspace");
       };
 
 
       var showLinkerBrowseModal = function() {
-        AS.openCustomModal(config.modal_id, "Browse "+ config.label_plural, AS.renderTemplate("linker_browsemodal_template",config), true);
+        AS.openCustomModal(config.modal_id, "Browse "+ config.label_plural, AS.renderTemplate("linker_browsemodal_template",config), 'container');
         renderItemsInModal();
         $("#"+config.modal_id).on("click","#addSelectedButton", addSelected);
         $("#"+config.modal_id).on("click", ".linker-list .pagination .navigation a", function() {
@@ -238,7 +241,7 @@ $(function() {
           items: 'li.token-input-token'
         });
         $(".token-input-list", $linkerWrapper).off("sortupdate").on("sortupdate", function() {
-          $this.parents("form:first").triggerHandler("form-changed");
+          $this.parents("form:first").triggerHandler("formchanged.aspace");
         });
       };
 
@@ -294,13 +297,13 @@ $(function() {
           },
           prePopulate: tokensForPrepopulation(),
           onDelete: function() {
-            $this.parents("form:first").triggerHandler("form-changed");
+            $this.parents("form:first").triggerHandler("formchanged.aspace");
           },
           onAdd:  function(item) {
             if (config.sortable && config.multiplicity == "many") {
               enableSorting();
             }
-            $this.parents("form:first").triggerHandler("form-changed");
+            $this.parents("form:first").triggerHandler("formchanged.aspace");
             $(document).triggerHandler("init.popovers");
           },
           formatQueryParam: function(q, ajax_params) {

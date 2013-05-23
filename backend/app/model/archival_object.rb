@@ -15,6 +15,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include AutoGenerator
   include Notes
   include ExternalIDs
+  include ComponentsAddChildren
 
   agent_relator_enum("linked_agent_archival_record_relators")
 
@@ -49,11 +50,38 @@ class ArchivalObject < Sequel::Model(:archival_object)
                   label
                 }
 
-
   def validate
     validates_unique([:root_record_id, :ref_id],
                      :message => "An Archival Object Ref ID must be unique to its resource")
     map_validation_to_json_property([:root_record_id, :ref_id], :ref_id)
     super
   end
+
+
+  def publish_all_subrecords
+
+    # publish all notes
+    notes = ASUtils.json_parse(self.notes || "[]")
+    if not notes.empty?
+      notes.each do |note|
+        note["publish"] = true
+      end
+      self.notes = JSON(notes)
+    end
+
+    # publish all external documents
+    self.external_document.each do |exdoc|
+      exdoc.publish = 1
+      exdoc.save
+    end
+
+    # set our own publish to true
+    self.publish = 1
+
+    # save
+    self.save
+
+  end
+
+
 end

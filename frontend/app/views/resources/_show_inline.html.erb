@@ -6,11 +6,13 @@
     <%= render :partial => "toolbar" %>
     <div class="record-pane">
       <%= readonly_context :resource, @resource do |readonly| %>
-        <h2><%= @resource.title %> <span class="label label-info"><%= I18n.t("resource._html.singular") %></span></h2>
+        <h2><%= @resource.title %> <span class="label label-info"><%= I18n.t("resource._singular") %></span></h2>
+
+        <%= render :partial => "shared/form_messages", :locals => {:form => readonly} %>
 
         <% define_template "resource", jsonmodel_definition(:resource) do |form, resource| %>
           <section id="basic_information">
-            <h3><%= I18n.t("resource._html.section.basic_information") %></h3>
+            <h3><%= I18n.t("resource._frontend.section.basic_information") %></h3>
     
             <%= form.label_and_textarea "title" %>
             <% if resource.id_0 %><%= form.label_and_fourpartid %><% end %>
@@ -31,7 +33,7 @@
           <%= render :partial => "extents/show", :locals => { :extents => @resource.extents, :section_id => "resource_extents_" } %>
 
           <section id="finding_aid" class="subrecord-form-dummy">
-            <h3><%= I18n.t("resource._html.section.finding_aid") %></h3>
+            <h3><%= I18n.t("resource._frontend.section.finding_aid") %></h3>
             <div class="subrecord-form-container">
               <div class="subrecord-form-fields">
                 <% if resource.ead_id or resource.ead_location %>
@@ -93,6 +95,10 @@
 
         <% if @resource.collection_management %>
           <%= render :partial => "collection_management/show", :locals => { :collection_management => @resource.collection_management, :context => readonly, :section_id => "resource_collection_management_" } %>
+        <% end %>
+
+        <% if @resource.classification %>
+          <%= render :partial => "classification/show", :locals => { :classification => @resource.classification, :context => readonly, :section_id => "resource_classification_" } %>
         <% end %>
 
         <% if @resource.user_defined %>

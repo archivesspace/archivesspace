@@ -26,12 +26,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/events')
     .description("Get a list of Events for a Repository")
-    .params(["repo_id", :repo_id],
-              *Endpoint.pagination)
+    .params(["repo_id", :repo_id])
+    .paginated(true)
     .permissions([:view_repository])
     .returns([200, "[(:event)]"]) \
   do
-    handle_listing(Event, params[:page], params[:page_size], params[:modified_since])
+    handle_listing(Event, params)
   end
 
 
@@ -63,6 +63,17 @@ class ArchivesSpaceService < Sinatra::Base
     sup_state = Event.get_or_die(params[:event_id]).set_suppressed(params[:suppressed])
 
     suppressed_response(params[:event_id], sup_state)
+  end
+
+
+  Endpoint.delete('/repositories/:repo_id/events/:event_id')
+    .description("Delete an event record")
+    .params(["event_id", Integer, "The event ID to delete"],
+            ["repo_id", :repo_id])
+    .permissions([:delete_event_record])
+    .returns([200, :deleted]) \
+  do
+    handle_delete(Event, params[:event_id])
   end
 
 

@@ -195,4 +195,88 @@ describe 'Accession model' do
     end
   end
 
+
+  it "allows accessions to be created with a collection management record" do
+    accession = Accession.create_from_json(build(:json_accession,
+                                                 :collection_management =>
+                                                    {
+                                                      "cataloged_note" => "just a note",
+                                                    }
+                                                 ),
+                                          :repo_id => $repo_id)
+
+    Accession[accession[:id]].collection_management.cataloged_note.should eq("just a note")
+  end
+
+
+  it "reports an error if the accession's collection management record has a total extent that lacks a type" do
+    expect {
+      accession = Accession.create_from_json(build(:json_accession,
+                                                   :collection_management =>
+                                                   {
+                                                     "cataloging_note" => "just a note",
+                                                     "processing_total_extent" => "11",
+                                                   }
+                                                   ),
+                                             :repo_id => $repo_id)
+    }.to raise_error(ValidationException)
+  end
+
+
+  it "allows accessions to be created with user defined fields" do
+    accession = Accession.create_from_json(build(:json_accession,
+                                                 :user_defined =>
+                                                    {
+                                                      "integer_1" => "11",
+                                                    }
+                                                 ),
+                                          :repo_id => $repo_id)
+
+    Accession[accession[:id]].user_defined.integer_1.should eq("11")
+  end
+
+
+  it "reports errors if the accession's user defined fields don't validate" do
+    expect {
+      accession = Accession.create_from_json(build(:json_accession,
+                                                   :user_defined =>
+                                                   {
+                                                     "integer_1" => "3.1415",
+                                                   }
+                                                   ),
+                                             :repo_id => $repo_id)
+    }.to raise_error(ValidationException)
+
+    expect {
+      accession = Accession.create_from_json(build(:json_accession,
+                                                   :user_defined =>
+                                                   {
+                                                     "integer_2" => "moo",
+                                                   }
+                                                   ),
+                                             :repo_id => $repo_id)
+    }.to raise_error(ValidationException)
+
+    expect {
+      accession = Accession.create_from_json(build(:json_accession,
+                                                   :user_defined =>
+                                                   {
+                                                     "real_1" => "3.1415926",
+                                                   }
+                                                   ),
+                                             :repo_id => $repo_id)
+    }.to raise_error(ValidationException)
+
+    expect {
+      accession = Accession.create_from_json(build(:json_accession,
+                                                   :user_defined =>
+                                                   {
+                                                     "real_2" => "real_1 failed because you're only allowed two decimal places",
+                                                   }
+                                                   ),
+                                             :repo_id => $repo_id)
+    }.to raise_error(ValidationException)
+
+  end
+
 end

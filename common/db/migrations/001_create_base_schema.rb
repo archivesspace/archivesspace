@@ -32,6 +32,8 @@ Sequel.migration do
 
       Integer :editable, :default => 1
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -78,6 +80,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -92,6 +96,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -106,6 +112,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -120,6 +128,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -147,6 +157,8 @@ Sequel.migration do
       String :department
       TextField :additional_contact
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -175,6 +187,8 @@ Sequel.migration do
 
       Integer :hidden, :default => 0
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -197,6 +211,8 @@ Sequel.migration do
       String :group_code_norm, :null => false
       TextField :description, :null => false
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -296,6 +312,8 @@ Sequel.migration do
       Integer :use_restrictions
       TextField :use_restrictions_note
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -351,6 +369,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -375,8 +395,7 @@ Sequel.migration do
       Integer :parent_id, :null => true
       String :parent_name, :null => true
       Integer :position, :null => true
-      
-      Integer :internal_only
+
       Integer :publish
 
       String :ref_id, :null => false, :unique => false
@@ -393,6 +412,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -402,8 +423,9 @@ Sequel.migration do
       add_foreign_key([:root_record_id], :resource, :key => :id)
       add_foreign_key([:parent_id], :archival_object, :key => :id)
 
+      add_index([:parent_name, :position], :unique => true, :name => "uniq_ao_pos")
+
       add_unique_constraint([:root_record_id, :ref_id], :name => "ao_unique_refid")
-      add_unique_constraint([:root_record_id, :parent_name, :position], :name => "ao_unique_position")
     end
 
 
@@ -429,6 +451,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -461,6 +485,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -471,7 +497,7 @@ Sequel.migration do
       add_foreign_key([:root_record_id], :digital_object, :key => :id)
       add_foreign_key([:parent_id], :digital_object_component, :key => :id)
 
-      add_unique_constraint([:root_record_id, :parent_name, :position], :name => "do_unique_position")
+      add_index([:parent_name, :position], :unique => true, :name => "uniq_do_pos")
     end
 
 
@@ -488,6 +514,8 @@ Sequel.migration do
 
       DynamicEnum :instance_type_id, :null => false
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -530,6 +558,8 @@ Sequel.migration do
       DynamicEnum :type_3_id
       String :indicator_3
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -547,6 +577,8 @@ Sequel.migration do
       String :name, :null => false, :unique => true
       String :ref_id, :null => false, :unique => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -564,18 +596,22 @@ Sequel.migration do
       Integer :vocab_id, :null => false
 
       LongString :title
-      String :terms_sha1, :unique => true
-      String :ref_id, :unique => true
+      String :terms_sha1, :index => true, :null => false
+      String :authority_id
       TextField :scope_note
 
       DynamicEnum :source_id, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
 
     alter_table(:subject) do
       add_foreign_key([:vocab_id], :vocabulary, :key => :id)
+      add_unique_constraint([:vocab_id, :authority_id, :source_id], :name => "subj_auth_source_uniq")
+      add_unique_constraint([:vocab_id, :terms_sha1, :source_id], :name => "subj_terms_uniq")
     end
 
 
@@ -590,6 +626,8 @@ Sequel.migration do
       String :term, :null => false
       DynamicEnum :term_type_id, :null => false
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -673,6 +711,8 @@ Sequel.migration do
 
       apply_name_columns
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -697,6 +737,8 @@ Sequel.migration do
 
       apply_name_columns
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -723,6 +765,8 @@ Sequel.migration do
 
       apply_name_columns
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -748,6 +792,8 @@ Sequel.migration do
 
       apply_name_columns
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -785,6 +831,8 @@ Sequel.migration do
       TextField :email_signature, :null => true
       TextField :note, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -800,6 +848,8 @@ Sequel.migration do
     create_table(:deaccession) do
       primary_key :id
 
+      Integer :repo_id, :null => false
+
       Integer :lock_version, :default => 0, :null => false
       Integer :json_schema_version, :null => false
 
@@ -814,6 +864,8 @@ Sequel.migration do
 
       Integer :notification
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -847,6 +899,8 @@ Sequel.migration do
       TextField :physical_details, :null => true
       String :dimensions, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -919,6 +973,8 @@ Sequel.migration do
       DynamicEnum :era_id, :null => true
       DynamicEnum :calendar_id, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -939,6 +995,8 @@ Sequel.migration do
 
       DateTime :timestamp, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -999,6 +1057,8 @@ Sequel.migration do
 
       String :granted_note, :null => true
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -1027,6 +1087,8 @@ Sequel.migration do
 
       Integer :publish
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -1083,6 +1145,8 @@ Sequel.migration do
       String :coordinate_3_indicator
       DynamicEnum :temporary_id
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -1116,6 +1180,8 @@ Sequel.migration do
       TextField :processors, :null => true
       Integer :rights_determined, :default => 0, :null => false
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -1143,22 +1209,33 @@ Sequel.migration do
 
       Integer :boolean_1
       Integer :boolean_2
+      Integer :boolean_3
 
       String :integer_1, :null => true
       String :integer_2, :null => true
+      String :integer_3, :null => true
 
       String :real_1, :null => true
       String :real_2, :null => true
+      String :real_3, :null => true
 
       String :string_1, :null => true
       String :string_2, :null => true
       String :string_3, :null => true
+      String :string_4, :null => true
 
       TextField :text_1, :null => true
       TextField :text_2, :null => true
       TextField :text_3, :null => true
       TextField :text_4, :null => true
+      TextField :text_5, :null => true
 
+      DateTime :date_1, :null => true
+      DateTime :date_2, :null => true
+      DateTime :date_3, :null => true
+
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
     end
@@ -1190,6 +1267,8 @@ Sequel.migration do
       String :checksum
       String :checksum_method
 
+      String :created_by
+      String :last_modified_by
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end
@@ -1199,6 +1278,61 @@ Sequel.migration do
       add_foreign_key([:digital_object_component_id], :digital_object_component, :key => :id)
     end
 
+
+    create_table(:classification) do
+      primary_key :id
+
+      Integer :repo_id, :null => false
+
+      Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
+
+      String :identifier, :null => false
+      HalfLongString :title, :null => false
+      TextField :description
+
+      String :created_by
+      String :last_modified_by
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false, :index => true
+    end
+
+    alter_table(:classification) do
+      add_foreign_key([:repo_id], :repository, :key => :id)
+    end
+
+
+    create_table(:classification_term) do
+      primary_key :id
+
+      Integer :repo_id, :null => false
+
+      Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
+
+      String :identifier, :null => false
+      HalfLongString :title, :null => false
+      String :title_sha1, :null => false
+      TextField :description
+
+      Integer :root_record_id, :null => true
+      Integer :parent_id, :null => true
+      String :parent_name, :null => true
+      Integer :position, :null => true
+
+      String :created_by
+      String :last_modified_by
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false, :index => true
+    end
+
+    alter_table(:classification_term) do
+      add_foreign_key([:repo_id], :repository, :key => :id)
+      add_index([:parent_name, :title_sha1], :unique => true)
+      add_index([:parent_name, :identifier], :unique => true)
+
+      add_index([:parent_name, :position], :unique => true, :name => "uniq_ct_pos")
+    end
 
 
     create_table(:sequence) do
@@ -1355,6 +1489,9 @@ Sequel.migration do
     create_enum("note_multipart_type", ["accruals", "appraisal", "arrangement", "bioghist", "accessrestrict", "userestrict", "custodhist", "dimensions", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "legalstatus", "otherfindaid", "phystech", "prefercite", "processinfo", "relatedmaterial", "scopecontent", "separatedmaterial"])
     create_enum("note_orderedlist_enumeration", ["arabic", "loweralpha", "upperalpha", "lowerroman", "upperroman", "null"])
     create_enum("note_singlepart_type", ["abstract", "physdesc", "langmaterial", "physloc", "materialspec", "physfacet"])
+
+    create_enum("note_bibliography_type", ["bibliography"])
+    create_enum("note_index_type", ["index"])
 
     create_enum("country_iso_3166", ["AF", "AX", "AL", "DZ", "AS", "AD", "AO", "AI", "AQ", "AG", "AR", "AM", "AW", "AU", "AT", "AZ", "BS", "BH", "BD", "BB", "BY", "BE", "BZ", "BJ", "BM", "BT", "BO", "BQ", "BA", "BW", "BV", "BR", "IO", "BN", "BG", "BF", "BI", "KH", "CM", "CA", "CV", "KY", "CF", "TD", "CL", "CN", "CX", "CC", "CO", "KM", "CG", "CD", "CK", "CR", "CI", "HR", "CU", "CW", "CY", "CZ", "DK", "DJ", "DM", "DO", "EC", "EG", "SV", "GQ", "ER", "EE", "ET", "FK", "FO", "FJ", "FI", "FR", "GF", "PF", "TF", "GA", "GM", "GE", "DE", "GH", "GI", "GR", "GL", "GD", "GP", "GU", "GT", "GG", "GN", "GW", "GY", "HT", "HM", "VA", "HN", "HK", "HU", "IS", "IN", "ID", "IR", "IQ", "IE", "IM", "IL", "IT", "JM", "JP", "JE", "JO", "KZ", "KE", "KI", "KP", "KR", "KW", "KG", "LA", "LV", "LB", "LS", "LR", "LY", "LI", "LT", "LU", "MO", "MK", "MG", "MW", "MY", "MV", "ML", "MT", "MH", "MQ", "MR", "MU", "YT", "MX", "FM", "MD", "MC", "MN", "ME", "MS", "MA", "MZ", "MM", "NA", "NR", "NP", "NL", "NC", "NZ", "NI", "NE", "NG", "NU", "NF", "MP", "NO", "OM", "PK", "PW", "PS", "PA", "PG", "PY", "PE", "PH", "PN", "PL", "PT", "PR", "QA", "RE", "RO", "RU", "RW", "BL", "SH", "KN", "LC", "MF", "PM", "VC", "WS", "SM", "ST", "SA", "SN", "RS", "SC", "SL", "SG", "SX", "SK", "SI", "SB", "SO", "ZA", "GS", "SS", "ES", "LK", "SD", "SR", "SJ", "SZ", "SE", "CH", "SY", "TW", "TJ", "TZ", "TH", "TL", "TG", "TK", "TO", "TT", "TN", "TR", "TM", "TC", "TV", "UG", "UA", "AE", "GB", "US", "UM", "UY", "UZ", "VU", "VE", "VN", "VG", "VI", "WF", "EH", "YE", "ZM", "ZW"])
 
@@ -1516,6 +1653,74 @@ Sequel.migration do
       alter_table(table) do
         add_foreign_key(["#{record}_id".intern], record, :key => :id)
       end
+    end
+
+    create_table(:classification_creator_rlshp) do
+      primary_key :id
+
+      Integer :agent_person_id
+      Integer :agent_software_id
+      Integer :agent_family_id
+      Integer :agent_corporate_entity_id
+
+      Integer :classification_id
+
+      Integer :aspace_relationship_position
+      DateTime :last_modified, :null => false, :index => true
+      DateTime :create_time, :index => true
+    end
+
+    alter_table(:classification_creator_rlshp) do
+      add_foreign_key([:agent_person_id], :agent_person, :key => :id)
+      add_foreign_key([:agent_family_id], :agent_family, :key => :id)
+      add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
+      add_foreign_key([:agent_software_id], :agent_software, :key => :id)
+
+      add_foreign_key([:classification_id], :classification, :key => :id)
+    end
+
+
+    create_table(:classification_term_creator_rlshp) do
+      primary_key :id
+
+      Integer :agent_person_id
+      Integer :agent_software_id
+      Integer :agent_family_id
+      Integer :agent_corporate_entity_id
+
+      Integer :classification_term_id
+
+      Integer :aspace_relationship_position
+      DateTime :last_modified, :null => false, :index => true
+      DateTime :create_time, :index => true
+    end
+
+    alter_table(:classification_term_creator_rlshp) do
+      add_foreign_key([:agent_person_id], :agent_person, :key => :id)
+      add_foreign_key([:agent_family_id], :agent_family, :key => :id)
+      add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
+      add_foreign_key([:agent_software_id], :agent_software, :key => :id)
+
+      add_foreign_key([:classification_term_id], :classification_term, :key => :id)
+    end
+
+
+    create_table(:classification_rlshp) do
+      primary_key :id
+
+      Integer :resource_id
+      Integer :classification_id
+      Integer :classification_term_id
+
+      Integer :aspace_relationship_position
+      DateTime :last_modified, :null => false, :index => true
+      DateTime :create_time, :index => true
+    end
+
+    alter_table(:classification_rlshp) do
+      add_foreign_key([:resource_id], :resource, :key => :id)
+      add_foreign_key([:classification_id], :classification, :key => :id)
+      add_foreign_key([:classification_term_id], :classification_term, :key => :id)
     end
 
   end

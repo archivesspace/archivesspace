@@ -6,9 +6,9 @@
     <%= render :partial => "toolbar" %>
     <div class="record-pane">
       <%= readonly_context :digital_object_component, @digital_object_component do |readonly| %>
-        <h2><%= @digital_object_component.title %> <span class="label label-info"><%= I18n.t("digital_object_component._html.singular") %></span></h2>
+        <h2><%= @digital_object_component.title %> <span class="label label-info"><%= I18n.t("digital_object_component._singular") %></span></h2>
         <section id="basic_information">
-          <h3><%= I18n.t("digital_object_component._html.section.basic_information") %></h3>
+          <h3><%= I18n.t("digital_object_component._frontend.section.basic_information") %></h3>
   
           <%= readonly.label_and_textfield "label" %>
           <%= readonly.label_and_textarea "title" %>

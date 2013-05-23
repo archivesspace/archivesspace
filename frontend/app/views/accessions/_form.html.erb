@@ -3,7 +3,7 @@
 <% define_template("accession", jsonmodel_definition(:accession)) do |form| %>
   <section id="basic_information">
     <h3>
-      <%= I18n.t "accession._html.section.basic_information" %>
+      <%= I18n.t "accession._frontend.section.basic_information" %>
       <%= link_to_help :topic => "accession_basic_information" %>
     </h3>
     <fieldset>
@@ -46,6 +46,6 @@
 <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "user_defined", :cardinality => :zero_to_one} %>
 
 <div class="form-actions">            
-  <button type="submit" class="btn btn-primary"><%= I18n.t "actions.save_prefix" %> <%= I18n.t "accession._html.singular" %></button>
+  <button type="submit" class="btn btn-primary"><%= I18n.t "actions.save_prefix" %> <%= I18n.t "accession._singular" %></button>
   <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
 </div>

@@ -4,14 +4,20 @@ require 'net/http'
 
 class Solr
 
+  @@opts_hooks ||= []
+
   def self.solr_url
     URI.parse(AppConfig[:solr_url])
   end
 
 
+  def self.add_search_hook(&block)
+    @@opts_hooks << block
+  end
+
   def self.search(query, page, page_size, repo_id,
                   record_types = nil, show_suppressed = false, show_published_only = false,
-                  excluded_ids = [], extra_solr_params = {})
+                  excluded_ids = [], filter_terms = [],  extra_solr_params = {})
     url = solr_url
 
     opts = {
@@ -49,6 +55,19 @@ class Solr
     if excluded_ids && !excluded_ids.empty?
       query = excluded_ids.map { |id| "\"#{id}\"" }.join(' OR ')
       opts << [:fq, "-id:(#{query})"]
+    end
+
+    if filter_terms && !filter_terms.empty?
+      filter_terms.map{|str| JSON.parse(str)}.each{|json|
+        json.each {|facet, term|
+          opts << [:fq, "{!term f=#{facet.strip}}#{term.kind_of?(String) ? term.strip : term}"]
+        }
+      }
+
+    end
+
+    @@opts_hooks.each do |hook|
+      hook.call(opts)
     end
 
     url.path = "/select"

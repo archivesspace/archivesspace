@@ -42,12 +42,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/digital_objects')
     .description("Get a list of Digital Objects for a Repository")
-    .params(["repo_id", :repo_id],
-            *Endpoint.pagination)
+    .params(["repo_id", :repo_id])
+    .paginated(true)
     .permissions([:view_repository])
     .returns([200, "[(:digital_object)]"]) \
   do
-    handle_listing(DigitalObject, params[:page], params[:page_size], params[:modified_since])
+    handle_listing(DigitalObject, params)
   end
 
 
@@ -61,6 +61,32 @@ class ArchivesSpaceService < Sinatra::Base
     digital_object = DigitalObject.get_or_die(params[:digital_object_id])
 
     json_response(digital_object.tree)
+  end
+
+
+  Endpoint.delete('/repositories/:repo_id/digital_objects/:digital_object_id')
+    .description("Delete a Digital Object")
+    .params(["digital_object_id", Integer, "The Digital Object to delete"],
+            ["repo_id", :repo_id])
+    .permissions([:delete_archival_record])
+    .returns([200, :deleted]) \
+  do
+    handle_delete(DigitalObject, params[:digital_object_id])
+  end
+
+
+  Endpoint.post('/repositories/:repo_id/digital_objects/:digital_object_id/publish')
+  .description("Publish a digital object and all it's sub-records and components")
+  .params(["digital_object_id", Integer, "The ID of the digital object to retrieve"],
+          ["repo_id", :repo_id])
+  .permissions([:update_archival_record])
+  .returns([200, :updated],
+           [400, :error]) \
+  do
+    digital_object = DigitalObject.get_or_die(params[:digital_object_id])
+    digital_object.publish_all_subrecords_and_components
+
+    updated_response(digital_object)
   end
 
 end

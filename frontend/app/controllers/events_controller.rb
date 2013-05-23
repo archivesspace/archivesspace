@@ -1,14 +1,15 @@
 class EventsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
   before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_archival_record")}
+  before_filter(:only => [:delete]) {|c| user_must_have("delete_event_record")}
 
   def index
-    @events = JSONModel(:event).all(:page => selected_page)
+    @search_data = Search.for_type(session[:repo_id], "event", search_params.merge({"facet[]" => SearchResultData.EVENT_FACETS}))
   end
 
   def show
-    @event = JSONModel(:event).find(params[:id])
+    redirect_to :action => :index
   end
 
   def new
@@ -40,7 +41,7 @@ class EventsController < ApplicationController
                   render :action => :new
                 },
                 :on_valid => ->(id){
-                  flash[:success] = I18n.t("event._html.messages.created")
+                  flash[:success] = I18n.t("event._frontend.messages.created")
                   return redirect_to :controller => :events, :action => :new if params.has_key?(:plus_one)
 
                   redirect_to :controller => :events, :action => :index, :id => id
@@ -53,9 +54,20 @@ class EventsController < ApplicationController
                 :obj => JSONModel(:event).find(params[:id]),
                 :on_invalid => ->(){ render :action => :edit },
                 :on_valid => ->(id){
-                  flash[:success] = I18n.t("event._html.messages.updated")
+                  flash[:success] = I18n.t("event._frontend.messages.updated")
                   redirect_to :controller => :events, :action => :index
                 })
   end
+
+
+  def delete
+    event = JSONModel(:event).find(params[:id])
+    event.delete
+
+    flash[:success] = I18n.t("event._frontend.messages.deleted", JSONModelI18nWrapper.new(:event => event))
+    redirect_to(:controller => :events, :action => :index, :deleted_uri => event.uri)
+  end
+
+
 
 end

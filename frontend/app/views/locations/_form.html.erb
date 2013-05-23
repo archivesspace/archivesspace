@@ -10,11 +10,11 @@
       <%= form.label_and_textfield "room" %>
       <%= form.label_and_textfield "area" %>
       <hr/>
-      <%= form.label_and_textfield "barcode" %>
-      <%= form.label_and_textfield "classification" %>
+      <%= form.label_and_textfield "barcode", :required => :conditionally %>
+      <%= form.label_and_textfield "classification", :required => :conditionally %>
       <hr/>
-      <%= form.label_and_textfield "coordinate_1_label" %>
-      <%= form.label_and_textfield "coordinate_1_indicator" %>
+      <%= form.label_and_textfield "coordinate_1_label", :required => :conditionally %>
+      <%= form.label_and_textfield "coordinate_1_indicator", :required => :conditionally %>
       <%= form.label_and_textfield "coordinate_2_label" %>
       <%= form.label_and_textfield "coordinate_2_indicator" %>
       <%= form.label_and_textfield "coordinate_3_label" %>

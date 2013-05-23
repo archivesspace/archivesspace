@@ -466,7 +466,19 @@ end
 
 def create_accession(title)
   req = Net::HTTP::Post.new("#{$test_repo_uri}/accessions")
-  req.body = {:title => title, :id_0 => "#{Time.now.to_i}#{$$}", :accession_date => "2000-01-01"}.to_json
+  req.body = {:title => title, :id_0 => "#{Time.now.to_f}#{$$}", :accession_date => "2000-01-01"}.to_json
+
+  response = admin_backend_request(req)
+
+  raise response.body if response.code != '200'
+
+  title
+end
+
+
+def create_digital_object(title)
+  req = Net::HTTP::Post.new("#{$test_repo_uri}/digital_objects")
+  req.body = {:title => title, :digital_object_id => "#{Time.now.to_f}#{$$}"}.to_json
 
   response = admin_backend_request(req)
 

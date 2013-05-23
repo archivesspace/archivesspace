@@ -8,13 +8,13 @@
     <%= render :partial => "accessions/toolbar" %>
     <div class="record-pane">
       <%= readonly_context :accession, @accession do |readonly| %>
-          <h2><%= @accession.title %> <span class="label label-info"><%= I18n.t("accession._html.singular") %></span></h2>
+          <h2><%= @accession.title %> <span class="label label-info"><%= I18n.t("accession._singular") %></span></h2>
   
           <%= render :partial => "shared/flash_messages" %>
   
           <% define_template "accession", jsonmodel_definition(:accession) do |form| %>
           <section id="basic_information">
-            <h3><%= I18n.t "accession._html.section.basic_information" %></h3>
+            <h3><%= I18n.t "accession._frontend.section.basic_information" %></h3>
   
             <%= readonly.label_and_fourpartid %>
             <%= readonly.label_and_date "accession_date" %>

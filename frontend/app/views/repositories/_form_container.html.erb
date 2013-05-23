@@ -35,12 +35,12 @@
     </section>
   <% end %>
 
-  <h3><%= I18n.t("repository._html.section.all_fields") %></h3>
+  <h3><%= I18n.t("repository._frontend.section.all_fields") %></h3>
   <% form.push("repository", form['repository']) do |form| %>
     <% form.emit_template("repository") %>
   <% end %>
 
-  <h3><%= I18n.t("agent_contact._html.plural") %></h3>
+  <h3><%= I18n.t("agent_contact._plural") %></h3>
   <% form.push("agent_representation", form['agent_representation']) do |form| %>
     <%= form.list_for(form['agent_contacts'], "agent_contacts[]") do |item| %>
       <% form.emit_template("agent_contact", item) %>

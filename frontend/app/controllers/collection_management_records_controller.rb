@@ -26,7 +26,7 @@ class CollectionManagementRecordsController < ApplicationController
                   render :action => :new
                 },
                 :on_valid => ->(id){
-                  flash[:success] = I18n.t("collection_management._html.messages.created")
+                  flash[:success] = I18n.t("collection_management._frontend.messages.created")
                   return redirect_to :controller => :collection_management_records, :action => :new if params.has_key?(:plus_one)
 
                   redirect_to :controller => :collection_management_records, :action => :index, :id => id
@@ -38,7 +38,7 @@ class CollectionManagementRecordsController < ApplicationController
                 :obj => JSONModel(:collection_management).find(params[:id]),
                 :on_invalid => ->(){ render :action => :edit },
                 :on_valid => ->(id){
-                  flash[:success] = I18n.t("collection_management._html.messages.updated")
+                  flash[:success] = I18n.t("collection_management._frontend.messages.updated")
                   redirect_to :controller => :collection_management_records, :action => :index
                 })
   end

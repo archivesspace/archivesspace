@@ -8,15 +8,15 @@
     <%= render :partial => "toolbar" %>
     <div class="record-pane">
      <%= readonly_context :subject, @subject do |readonly| %>
-      <h2><%= @subject.title %>  <span class="label label-info"><%= I18n.t("subject._html.singular") %></span></h2>
+      <h2><%= @subject.title %>  <span class="label label-info"><%= I18n.t("subject._singular") %></span></h2>
 
       <%= render :partial => "shared/flash_messages" %>
 
       <% define_template "subject", jsonmodel_definition(:subject) do |form, subject| %>
         <section id="basic_information">
-          <h3><%= I18n.t("subject._html.section.basic_information") %></h3>
+          <h3><%= I18n.t("subject._frontend.section.basic_information") %></h3>
 
-          <%= form.label_and_textfield "ref_id" %>
+          <%= form.label_and_textfield "authority_id" %>
           <%= form.label_and_select "source", form.possible_options_for("source", true) %>
           <%= form.label_and_textarea "scope_note" %>
         </section>

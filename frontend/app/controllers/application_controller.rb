@@ -56,71 +56,7 @@ class ApplicationController < ActionController::Base
       # Param validations that don't have to do with the JSON validator
       opts[:params_check].call(obj, params) if opts[:params_check]
 
-      fix_arrays = proc do |hash, schema|
-        result = hash.clone
-
-        schema['properties'].each do |property, definition|
-          if definition['type'] == 'array' && result[property].is_a?(Hash)
-              result[property] = result[property].map {|_, v| v}
-          end
-        end
-
-        result
-      end
-
-
-      set_false_for_checkboxes = proc do |hash, schema|
-        result = hash.clone
-
-        schema['properties'].each do |property, definition|
-          if definition['type'] == 'boolean'
-            if not result.has_key?(property)
-              result[property] = false
-            else
-              result[property] = (result[property].to_i === 1)
-            end
-          end
-        end
-
-        result
-      end
-      
-      
-      coerce_integers = proc do |hash, schema|
-
-        schema['properties'].each do |property, definition|
-          if definition['type'] == 'integer'
-            if hash.has_key?(property) && hash[property].is_a?(String)
-              if (i = hash[property].to_i) && i > 0
-                hash[property] = i
-              end
-            end
-          end
-        end
-
-        hash
-      end
-
-
-      deserialise_resolved_json_blobs = proc do |hash, schema|
-        # The linker widget sends us the full blob of each record being linked
-        # to as a JSON blob.  Make this available as a regular hash by walking
-        # the document and deserialising these blobs.
-
-        if hash.has_key?('_resolved') && hash['_resolved'].is_a?(String)
-          hash.merge('_resolved' => ASUtils.json_parse(hash['_resolved']))
-        else
-          hash
-        end
-      end
-
-
-      instance = JSONSchemaUtils.map_hash_with_schema(params[opts[:instance]],
-                                                      model.schema,
-                                                      [fix_arrays,
-                                                       set_false_for_checkboxes,
-                                                       deserialise_resolved_json_blobs,
-                                                       coerce_integers])
+      instance = cleanup_params_for_schema(params[opts[:instance]], model.schema)
 
       if opts[:replace] || opts[:replace].nil?
         obj.replace(instance)
@@ -301,8 +237,76 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def cleanup_params_for_schema(params_hash, schema)
+    fix_arrays = proc do |hash, schema|
+      result = hash.clone
+
+      schema['properties'].each do |property, definition|
+        if definition['type'] == 'array' && result[property].is_a?(Hash)
+          result[property] = result[property].map {|_, v| v}
+        end
+      end
+
+      result
+    end
+
+
+    set_false_for_checkboxes = proc do |hash, schema|
+      result = hash.clone
+
+      schema['properties'].each do |property, definition|
+        if definition['type'] == 'boolean'
+          if not result.has_key?(property)
+            result[property] = false
+          else
+            result[property] = (result[property].to_i === 1)
+          end
+        end
+      end
+
+      result
+    end
+
+
+    coerce_integers = proc do |hash, schema|
+
+      schema['properties'].each do |property, definition|
+        if definition['type'] == 'integer'
+          if hash.has_key?(property) && hash[property].is_a?(String)
+            if (i = hash[property].to_i) && i > 0
+              hash[property] = i
+            end
+          end
+        end
+      end
+
+      hash
+    end
+
+
+    deserialise_resolved_json_blobs = proc do |hash, schema|
+      # The linker widget sends us the full blob of each record being linked
+      # to as a JSON blob.  Make this available as a regular hash by walking
+      # the document and deserialising these blobs.
+
+      if hash.has_key?('_resolved') && hash['_resolved'].is_a?(String)
+        hash.merge('_resolved' => ASUtils.json_parse(hash['_resolved']))
+      else
+        hash
+      end
+    end
+
+
+    JSONSchemaUtils.map_hash_with_schema(params_hash,
+                                         schema,
+                                         [fix_arrays,
+                                          set_false_for_checkboxes,
+                                          deserialise_resolved_json_blobs,
+                                          coerce_integers])
+  end
+
   def search_params
-    params_for_search = params.select{|k,v| ["page", "q", "type", "filter", "sort", "exclude"].include?(k) and not v.blank?}
+    params_for_search = params.select{|k,v| ["page", "q", "type", "sort", "exclude", "filter_term"].include?(k) and not v.blank?}
 
     params_for_search["page"] ||= 1
 
@@ -311,9 +315,9 @@ class ApplicationController < ActionController::Base
       params_for_search.delete("type")
     end
 
-    if params_for_search["filter"]
-      params_for_search["filter[]"] = Array(params_for_search["filter"]).reject{|v| v.blank?}
-      params_for_search.delete("filter")
+    if params_for_search["filter_term"]
+      params_for_search["filter_term[]"] = Array(params_for_search["filter_term"]).reject{|v| v.blank?}
+      params_for_search.delete("filter_term")
     end
 
     if params_for_search["exclude"]

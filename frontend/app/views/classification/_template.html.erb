@@ -1,0 +1,13 @@
+<% define_template "classification" do |form, opts = {}|  %>
+  <section id="classification" class="subrecord-form">
+    <div id="classification-container" class="subrecord-form-container">
+      <% if !opts[:readonly] %>
+        <%= render :partial => "classifications/linker",
+                   :locals => {
+                       :form => form
+                   }
+         %>
+      <% end %>
+    </div>
+  </section>
+<% end %>

@@ -51,6 +51,18 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.delete('/repositories/:repo_id/groups/:group_id')
+    .description("Delete a group by ID")
+    .params(["group_id", Integer, "The group ID"],
+            ["repo_id", :repo_id])
+    .permissions([:manage_repository])
+    .returns([200, "(:group)"],
+             [404, '{"error":"Group not found"}']) \
+  do
+    handle_delete(Group, params[:group_id])
+  end
+
+
   Endpoint.get('/repositories/:repo_id/groups')
     .description("Get a list of groups for a repository")
     .params(["repo_id", :repo_id],

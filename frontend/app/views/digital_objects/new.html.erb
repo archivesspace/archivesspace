@@ -7,13 +7,17 @@
           <%= render :partial => "digital_objects/sidebar" %>
        </div> <!-- span3 -->
       <div class="span9">
+        <%= render :partial => "shared/toolbar_new_records" %>
         <div class="record-pane" id="object_container">
-          <h2><%= @digital_object.title %>  <span class="label label-info"><%= I18n.t("digital_object._html.singular") %></span></h2>
+          <h2>
+            <%= @digital_object.title.blank? ? I18n.t("digital_object._singular") : @digital_object.title %>
+            <span class="label label-info"><%= I18n.t("digital_object._singular") %></span>
+          </h2>
 
            <%= render :partial => "digital_objects/form_container", :locals => {:form => form} %>
 
            <div class="form-actions">
-              <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("digital_object._html.singular") %></button>
+              <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("digital_object._singular") %></button>
               <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
            </div>
          </div>

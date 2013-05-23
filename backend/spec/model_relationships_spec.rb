@@ -11,6 +11,9 @@ describe 'Relationships' do
         primary_key :id
         String :name
         Integer :lock_version, :default => 0
+
+        String :created_by
+        String :last_modified_by
         DateTime :create_time
         DateTime :last_modified
       end
@@ -307,6 +310,25 @@ describe 'Relationships' do
     expect {
       cherry.save
     }.to_not raise_error(Sequel::Plugins::OptimisticLocking::Error)
+  end
+
+
+  it "updates the mtime of all related records when one who participates in a relationship is updated" do
+    # Cherry doesn't know about banana
+    cherry = Cherry.create_from_json(JSONModel(:cherry).new)
+
+    # But banana is friends with cherry.  Sad, really.
+    banana = Banana.create_from_json(JSONModel(:banana).from_hash(:friends => [{
+                                                              :ref => cherry.uri
+                                                            }]))
+
+    time = (banana.last_modified.to_f * 1000).to_i
+    sleep 0.1
+
+    cherry.update_from_json(JSONModel(:cherry).from_hash(:lock_version => 0))
+    banana.refresh
+
+    (banana.last_modified.to_f * 1000).to_i.should_not eq(time)
   end
 
 end

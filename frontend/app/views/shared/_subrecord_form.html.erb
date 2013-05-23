@@ -8,22 +8,24 @@
   custom_action_template = false if custom_action_template.blank?
   help_topic = form.help_path_for(name) if help_topic.blank?
 
+  required = form.required?(name) if required.blank?
+
   cardinality = :zero_to_many if cardinality.blank?
 %>
 
 <%= render :partial=>template_erb, :locals => {:form => form} %>
 
-<section id="<%= section_id %>" class="subrecord-form" data-subrecord-form="true" data-object-name="<%= singular %>" data-template="<%= js_template_name %>" <% if custom_action_template %>data-custom-action="true"<% end %> data-cardinality="<%= cardinality %>">
+<section id="<%= section_id %>" class="subrecord-form <% if required == :conditionally %> conditionally-required<% elsif required %> required<% end %>" data-subrecord-form="true" data-object-name="<%= singular %>" data-template="<%= js_template_name %>" <% if custom_action_template %>data-custom-action="true"<% end %> data-cardinality="<%= cardinality %>">
 
   <<%= heading_size %> class="subrecord-form-heading">
-    <%= I18n.t("#{singular}._html.plural") %>
+    <%= wrap_with_tooltip(I18n.t("#{singular}._plural"), "#{form.i18n_for(name)}_tooltip", "subrecord-form-heading-label") %>
 
     <% if !form.readonly? %>
      <%= link_to_help :topic => help_topic %>
      <% if custom_action_template %>
        <%= render :partial => custom_action_template %>
      <% else %>
-       <input type="button" class="btn btn-small pull-right" value="<%= I18n.t("actions.add") %> <%= I18n.t("#{singular}._html.singular") %>"/>
+       <button class="btn btn-small pull-right"><%= I18n.t("actions.add") %> <%= I18n.t("#{singular}._singular") %></button>
      <% end %>
     <% end %>
 

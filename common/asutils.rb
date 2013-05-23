@@ -1,3 +1,5 @@
+require 'config/config-distribution'
+
 module ASUtils
 
   def self.keys_as_strings(hash)
@@ -52,8 +54,19 @@ module ASUtils
      java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
      java.lang.System.get_property("catalina.base")].
       reject { |dir| !Dir.exists?(dir) }.
-      map { |dir| File.join(*[dir, "local", base].compact) }
+      map { |dir| Array(AppConfig[:plugins]).map { |plugin| File.join(*[dir, "plugins", plugin, base].compact) } }.flatten
   end
+
+
+  def self.find_locales_directories(base = nil)
+    [File.join(File.dirname(__FILE__), "..", "common"),
+           java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
+           java.lang.System.get_property("catalina.base")].
+        reject { |dir| !Dir.exists?(dir) }.
+        map { |dir| File.join(*[dir, "locales", base].compact) }
+  end
+
+
 
 
   def self.extract_nested_strings(coll)

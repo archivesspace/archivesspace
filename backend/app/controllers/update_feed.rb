@@ -19,7 +19,8 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/delete-feed')
     .description("Get a stream of deleted records")
     .permissions([:index_system])
-    .params(*Endpoint.pagination)
+    .params()
+    .paginated(true)
     .returns([200, "a list of URIs that were deleted"]) \
   do
     modified_since_time = Time.at(params[:modified_since])

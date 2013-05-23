@@ -1,7 +1,7 @@
 <%= render :partial => "related_agents/template" %>
 
 <section id="notes" class="subrecord-form">
-  <h3 class="subrecord-form-heading"><%= I18n.t("related_agent._html.plural") %></h3>
+  <h3 class="subrecord-form-heading"><%= I18n.t("related_agent._plural") %></h3>
   <div class="subrecord-form-container">
     <%= context.list_for(context["related_agents"], "related_agents[]") do |related_agent| %>
       <% context.emit_template(related_agent["jsonmodel_type"], :readonly => true) %>

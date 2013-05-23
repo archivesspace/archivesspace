@@ -5,6 +5,13 @@ module Trees
   end
 
 
+  def children
+    Kernel.const_get(self.class.node_type.to_s.camelize).
+           this_repo.filter(:root_record_id => self.id,
+                            :parent_id => nil)
+  end
+
+
   def tree
     links = {}
     properties = {}
@@ -13,7 +20,7 @@ module Trees
     node_type = self.class.node_type
 
     top_nodes = []
-    Kernel.const_get(node_type.to_s.camelize).this_repo.filter("root_record_id".intern => self.id).each do |node|
+    Kernel.const_get(node_type.to_s.camelize).this_repo.filter(:root_record_id => self.id).each do |node|
       if node.parent_id
         links[node.parent_id] ||= []
         links[node.parent_id] << [node.position, node.id]
@@ -80,18 +87,25 @@ module Trees
 
       result
     end
-    
+
+
     def sequel_to_jsonmodel(obj, opts = {})
       json = super
-      
       json['tree'] = {'ref' => obj.uri + '/tree'}
-
-      Log.debug("TREE URI #{json['tree'].inspect}")
-
       json
     end
-    
 
+
+    def prepare_for_deletion(dataset)
+      dataset.select(:id).each do |record|
+        Kernel.const_get(node_type.to_s.camelize).
+               this_repo.filter(:root_record_id => record.id, :parent_id => nil).select(:id).each do |subrecord|
+          subrecord.delete
+        end
+      end
+
+      super
+    end
   end
 
 end

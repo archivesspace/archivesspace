@@ -109,8 +109,8 @@ describe "ArchivesSpace user interface" do
     end
 
 
-    it "paginates the list when more than 10 repositories" do
-      10.times.each do |i|
+    it "paginates the list when more than a page of repositories" do
+      AppConfig[:default_page_size].to_i.times.each do |i|
         create_test_repo("quickrepofortesting#{i}_#{Time.now.to_i}_#{$$}",
                          "quickrepofortesting#{i}_#{Time.now.to_i}_#{$$}",
                          false)
@@ -281,7 +281,25 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
       $driver.find_element(:link, "Manage User Access").click
 
-      $driver.find_element_with_text('//tr', /#{@user}/).find_element(:link, "Edit Groups").click
+      while true
+        # Wait for the table to load
+        $driver.find_element(:link, "Edit Groups")
+
+        user_row = $driver.find_element_with_text('//tr', /#{@user}/, true, true)
+
+        if user_row
+          user_row.find_element(:link, "Edit Groups").click
+          break
+        end
+
+        # Try the next page of users
+        nextpage = $driver.find_elements(:xpath, '//a[@title="Next"]')
+        if nextpage[0]
+          nextpage[0].click
+        else
+          break
+        end
+      end
 
       # Wait for the form to load
       $driver.find_element(:id, "create_account")
@@ -350,6 +368,8 @@ describe "ArchivesSpace user interface" do
 
 
     it "can present a browse list of Subjects" do
+      run_index_round
+
       $driver.find_element(:link => 'Browse').click
       $driver.find_element(:link => 'Subjects').click
 
@@ -478,7 +498,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "reports errors when updating a Person Agent with invalid data" do
-      $driver.find_element(:link, 'Edit').click
+      $driver.click_and_wait_until_gone(:link, 'Edit')
 
       $driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], "")
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
@@ -502,7 +522,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can add an external document to an Agent" do
-      $driver.find_element(:link, 'Edit').click
+      $driver.click_and_wait_until_gone(:link, 'Edit')
       $driver.find_element(:css => '#agent_external_documents_ .subrecord-form-heading .btn').click
 
       $driver.clear_and_send_keys([:id, "agent_external_documents__0__title_"], "My URI document")
@@ -518,7 +538,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can add a Biog/Hist note to an Agent" do
-      $driver.find_element(:link, 'Edit').click
+      $driver.click_and_wait_until_gone(:link, 'Edit')
       $driver.find_element(:css => '#notes .subrecord-form-heading .btn').click
       $driver.blocking_find_elements(:css => '#notes .top-level-note-type')[0].select_option("note_bioghist")
 
@@ -537,7 +557,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can add a sub note" do
-      $driver.find_element(:link, 'Edit').click
+      $driver.click_and_wait_until_gone(:link, 'Edit')
 
       notes = $driver.blocking_find_elements(:css => '#notes .subrecord-form-fields')
 
@@ -616,7 +636,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "is presented an Accession edit form" do
-      $driver.find_element(:link, 'Edit').click
+      $driver.click_and_wait_until_gone(:link, 'Edit')
 
       $driver.clear_and_send_keys([:id, 'accession_content_description_'], "Here is a description of this accession.")
       $driver.clear_and_send_keys([:id, 'accession_condition_description_'], "Here we note the condition of this accession.")
@@ -627,7 +647,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "reports errors when updating an Accession with invalid data" do
-      $driver.find_element(:link, 'Edit').click
+      $driver.click_and_wait_until_gone(:link, 'Edit')
       $driver.clear_and_send_keys([:id, "accession_title_"], "")
       $driver.find_element(:css => "form#accession_form button[type='submit']").click
       expect {
@@ -669,7 +689,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can remove an extent when editing an Accession" do
-      $driver.find_element(:link, 'Edit').click
+      $driver.click_and_wait_until_gone(:link, 'Edit')
       $driver.blocking_find_elements(:css => '#accession_extents_ .subrecord-form-remove')[0].click
       $driver.find_element(:css => '#accession_extents_ .confirm-removal').click
 
@@ -685,7 +705,7 @@ describe "ArchivesSpace user interface" do
       create_agent("Subject Agent #{@me}")
       run_index_round
 
-      $driver.find_element(:link, 'Edit').click
+      $driver.click_and_wait_until_gone(:link, 'Edit')
 
       $driver.find_element(:css => '#accession_linked_agents_ .subrecord-form-heading .btn').click
 
@@ -773,7 +793,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can delete an existing date when editing an Accession" do
-      $driver.find_element(:link, 'Edit').click
+      $driver.click_and_wait_until_gone(:link, 'Edit')
 
       # remove the first date
       $driver.find_element(:css => '#accession_dates_ .subrecord-form-remove').click
@@ -824,7 +844,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can delete an existing external documents when editing an Accession" do
-      $driver.find_element(:link, 'Edit').click
+      $driver.click_and_wait_until_gone(:link, 'Edit')
 
       # remove the first external documents
       $driver.find_element(:css => '#accession_external_documents_ .subrecord-form-remove').click
@@ -841,7 +861,7 @@ describe "ArchivesSpace user interface" do
 
     it "can create a subject and link to an Accession" do
 
-      $driver.find_element(:link, 'Edit').click
+      $driver.click_and_wait_until_gone(:link, 'Edit')
 
       $driver.find_element(:css => '#accession_subjects_ .subrecord-form-heading .btn').click
 
@@ -870,7 +890,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can add a rights statement to an Accession" do
-      $driver.find_element(:link, 'Edit').click
+      $driver.click_and_wait_until_gone(:link, 'Edit')
 
       # add a rights sub record
       $driver.find_element(:css => '#accession_rights_statements_ .subrecord-form-heading .btn').click
@@ -902,6 +922,61 @@ describe "ArchivesSpace user interface" do
       expect {
         $driver.find_element_with_text('//td', /#{@accession_title}/)
       }.to_not raise_error
+    end
+  end
+
+
+  describe "Pagination" do
+
+    before(:all) do
+      login_as_repo_manager
+    end
+
+
+    after(:all) do
+      logout
+      $accession_url = nil
+    end
+
+
+    it "can navigate through pages of accessions" do
+      c = 0
+      (AppConfig[:default_page_size].to_i * 2 + 1).times do
+        create_accession("acc #{c += 1}")
+      end
+      run_index_round
+
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Accessions").click
+      expect {
+        $driver.find_element_with_text('//div', /Showing 1 - #{AppConfig[:default_page_size]}/)
+      }.to_not raise_error
+
+      $driver.find_element(:xpath, '//a[@title="Next"]').click
+      expect {
+        $driver.find_element_with_text('//div', /Showing #{AppConfig[:default_page_size] + 1}/)
+      }.to_not raise_error
+
+    end
+
+    it "can navigate through pages of digital objects " do
+      c = 0
+      (AppConfig[:default_page_size].to_i + 1).times do
+        create_digital_object("I can't believe this is DO number #{c += 1}")
+      end
+      run_index_round
+
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Digital Objects").click
+      expect {
+        $driver.find_element_with_text('//div', /Showing 1 - #{AppConfig[:default_page_size]}/)
+      }.to_not raise_error
+
+      $driver.find_element(:xpath, '//a[@title="Next"]').click
+      expect {
+        $driver.find_element_with_text('//div', /Showing #{AppConfig[:default_page_size] + 1}/)
+      }.to_not raise_error
+
     end
   end
 
@@ -1025,7 +1100,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Create").click
       $driver.find_element(:link, "Event").click
       $driver.find_element(:id, "event_event_type_").select_option('virus_check')
-      $driver.clear_and_send_keys([:id, "event_outcome_"], "A good outcome")
+      $driver.find_element(:id, "event_outcome_").select_option("pass")
       $driver.clear_and_send_keys([:id, "event_outcome_note_"], "OK, that's a lie: all test subjects perished.")
 
       $driver.find_element(:id, "event_date__date_type_").select_option("single")
@@ -1362,7 +1437,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can remove an Extent when editing a Resource" do
-      $driver.find_element(:link, 'Edit').click
+      $driver.click_and_wait_until_gone(:link, 'Edit')
 
       $driver.blocking_find_elements(:css => '#resource_extents_ .subrecord-form-remove')[1].click
       $driver.find_element(:css => '#resource_extents_ .confirm-removal').click
@@ -1451,7 +1526,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can edit an existing resource note to add subparts after saving" do
-      $driver.find_element(:link, 'Edit').click
+      $driver.click_and_wait_until_gone(:link, 'Edit')
 
       notes = $driver.blocking_find_elements(:css => '#notes .subrecord-form-fields')
 
@@ -1493,7 +1568,7 @@ describe "ArchivesSpace user interface" do
     it "can add a top-level bibliography too" do
       bibliography_content = "Top-level bibliography content"
 
-      $driver.find_element(:link, 'Edit').click
+      $driver.click_and_wait_until_gone(:link, 'Edit')
 
       $driver.find_element(:css => '#notes > .subrecord-form-heading .btn').click
       $driver.find_last_element(:css => 'select.top-level-note-type').select_option("note_bibliography")
@@ -1535,7 +1610,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can add a deaccession record" do
-      $driver.find_element(:link, 'Edit').click
+      $driver.click_and_wait_until_gone(:link, 'Edit')
 
       $driver.find_element(:css => '#resource_deaccessions_ .subrecord-form-heading .btn').click
 
@@ -1650,7 +1725,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "digital_object_title_"],(digital_object_title))
       $driver.clear_and_send_keys([:id, "digital_object_digital_object_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
 
-      $driver.find_element(:css => "section#digital_object_file_versions_ > h3 > input.btn").click
+      $driver.find_element(:css => "section#digital_object_file_versions_ > h3 > .btn").click
 
       $driver.clear_and_send_keys([:id, "digital_object_file_versions__0__file_uri_"], "/uri/for/this/file/version")
       $driver.clear_and_send_keys([:id , "digital_object_file_versions__0__file_size_bytes_"], '100')
@@ -1685,13 +1760,13 @@ describe "ArchivesSpace user interface" do
         # Wait for the new empty form to be populated.  There's a tricky race
         # condition here that I can't quite track down, so here's my blunt
         # instrument fix.
-        $driver.find_element(:xpath, "//textarea[text()='New Digital Object Component']")
+        $driver.find_element(:xpath, "//textarea[@id='digital_object_component_title_' and not(text())]")
 
         $driver.clear_and_send_keys([:id, "digital_object_component_title_"],(thing))
         $driver.clear_and_send_keys([:id, "digital_object_component_label_"],(thing))
         $driver.clear_and_send_keys([:id, "digital_object_component_component_id_"],(Digest::MD5.hexdigest("#{thing}#{Time.now}")))
 
-        $driver.find_element(:css => "section#digital_object_component_file_versions_ > h3 > input.btn").click
+        $driver.find_element(:css => "section#digital_object_component_file_versions_ > h3 > .btn").click
         $driver.clear_and_send_keys([:id, "digital_object_component_file_versions__0__file_uri_"], "/uri/for/this/file/version")
 
         if idx < 2
@@ -1738,27 +1813,15 @@ describe "ArchivesSpace user interface" do
 
       target = $driver.find_element_with_text("//div[@id='archives_tree']//li", /Pony Express Digital Image/)
       target.find_element_with_text("./ul/li/a", /ICO/)
+
+      $driver.click_and_wait_until_gone(:link, "Close Record")
+      $driver.find_element(:xpath, "//a[@title='#{digital_object_title}']").click
+
+      $driver.find_element_with_text("//h2", /#{digital_object_title}/)
     end
   end
 
-  # Chopped out for now because I got another failure when the session expired halfway through.
 
-  # I think we can work around this by creating a non-expiring session for
-  # Selenium to run its regular tests, followed by a very short expiry for
-  # running this specific test.
-
-  # it "expires a session after a nap" do
-  #   sleep $expire + 1
-  #   $driver.find_element(:link => 'Browse').click
-  #   $driver.find_element(:link => 'Subjects').click
-
-  #   $driver.find_element(:css => "div.alert.alert-error").text.should eq('Your session expired due to inactivity. Please sign in again.')
-
-  #   $driver.find_element(:link, "Sign In").click
-  #   $driver.clear_and_send_keys([:id, 'user_username'], @user)
-  #   $driver.clear_and_send_keys([:id, 'user_password'], "testuser")
-  #   $driver.find_element(:id, 'login').click
-  # end
 
   describe "User management" do
 
@@ -1865,6 +1928,9 @@ describe "ArchivesSpace user interface" do
   
   describe "Enumeration Management" do
     before(:all) do
+      if !$test_repo
+        ($test_repo, $test_repo_uri) = create_test_repo("repo_#{Time.now.to_i}_#{$$}", "description")
+      end
       login("admin", "admin")
     end
 
@@ -1872,7 +1938,40 @@ describe "ArchivesSpace user interface" do
     after(:all) do
       logout
     end
-    
+
+
+    it "lets you add a new value to an enumeration" do
+      $driver.find_element(:link, 'System').click
+      $driver.find_element(:link, "Manage Enumerations").click
+      
+      enum_select = $driver.find_element(:id => "enum_selector")
+      enum_select.select_option_with_text("accession_acquisition_type")
+      
+      # Wait for the table of enumerations to load
+      $driver.find_element(:css, '.enumeration-list')
+
+      $driver.find_element(:link, 'Create Value').click
+      $driver.clear_and_send_keys([:id, "enumeration_value_"], "manna\n")
+
+      $driver.find_element_with_text('//td', /^manna$/)
+    end
+
+
+    it "lets you delete a value from an enumeration" do
+      manna = $driver.find_element_with_text('//tr', /manna/)
+      manna.find_element(:link, 'Delete').click
+
+      $driver.find_element(:css => "form#delete_enumeration input[type='submit']").click
+
+      $driver.find_element_with_text('//div', /Enumeration Value Deleted/)
+    end
+
+
+    it "lets you merge one value into another in an enumeration" do
+      # write this test!
+    end
+
+
     it "lets you set a default enumeration (date_type)" do
       $driver.find_element(:link, 'System').click
       $driver.find_element(:link, "Manage Enumerations").click
@@ -1880,25 +1979,70 @@ describe "ArchivesSpace user interface" do
       enum_select = $driver.find_element(:id => "enum_selector")
       enum_select.select_option_with_text("date_type")
       
-      inclusive_dates = $driver.find_element_with_text('//tr', /Inclusive Dates/)
-      inclusive_dates.find_element(:link, 'Set as Default').click
-      
+      # Wait for the table of enumerations to load
+      $driver.find_element(:css, '.enumeration-list')
+
+      while true
+        inclusive_dates = $driver.find_element_with_text('//tr', /Inclusive Dates/)
+        default_btn = inclusive_dates.find_elements(:link, 'Set as Default')
+
+        if default_btn[0]
+          default_btn[0].click
+          # Keep looping until the 'Set as Default' button is gone
+          sleep 0.1
+        else
+          break
+        end
+      end
+
       $driver.find_element(:link, "Create").click
       $driver.find_element(:link, "Accession").click
-      
+
       $driver.find_element(:css => '#accession_dates_ .subrecord-form-heading .btn').click
-      
+
       date_type_select = $driver.find_element(:id => "accession_dates__0__date_type_")
       selected_type = date_type_select.get_select_value
-      
       selected_type.should eq 'inclusive'
-      
+
       # ensure that the correct subform is loading:
       subform = $driver.find_element(:css => '.date-type-subform')
       subform.find_element_with_text('//label', /Begin/)
       subform.find_element_with_text('//label', /End/)
-      
+
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
     end
+  end
+
+
+  describe "Search" do
+
+    before(:all) do
+      login_as_repo_manager
+    end
+
+
+    after(:all) do
+      logout
+    end
+
+
+    it "supports global searches" do
+      $driver.find_element(:id, 'global-search-button').click
+      assert(5) { $driver.find_element_with_text("//h2", /Search Results/) }
+    end
+
+
+    it "supports filtering global searches by type" do
+      create_accession("A test accession #{Time.now.to_i}_#{$$}")
+      run_index_round
+
+      $driver.find_element(:id, 'global-search-button').click
+      $driver.find_element(:link, "Accession").click
+      assert(5) { $driver.find_element_with_text("//h5", /Filtered By/) }
+      assert(5) { $driver.find_element_with_text("//a", /Record Type: Accession/) }
+      assert(5) { $driver.find_element_with_text('//div', /Showing 1.* of.*Results/) }
+    end
+
   end
 
 end
