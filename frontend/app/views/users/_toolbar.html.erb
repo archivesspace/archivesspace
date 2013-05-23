@@ -10,7 +10,7 @@
         <% if !@user.is_system_user && @user.username.downcase != current_user.downcase %>
           <div class="btn-group">
             <div class="btn btn-inline-form">
-              <%= link_to I18n.t("actions.delete"),
+              <%= button_to I18n.t("actions.delete"),
                           {:controller => :users, :action => :delete, :id => @user.id},
                           :method => :post,
                           :class => "btn btn-small btn-danger delete-record",

@@ -23,7 +23,7 @@
           <% if user_can?('delete_archival_record') %>
             <div class="btn-group">
               <div class="btn btn-inline-form">
-                <%= link_to I18n.t("actions.delete"),
+                <%= button_to I18n.t("actions.delete"),
                             {:controller => :digital_objects, :action => :delete, :id => @digital_object.id},
                             :method => :post,
                             :class => "btn btn-small btn-danger delete-record",

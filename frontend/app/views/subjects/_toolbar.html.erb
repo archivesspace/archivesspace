@@ -9,7 +9,7 @@
         </div>
         <div class="btn-group pull-right">
           <div class="btn btn-inline-form">
-            <%= link_to I18n.t("actions.delete"),
+            <%= button_to I18n.t("actions.delete"),
                         {:controller => :subjects, :action => :delete, :id => @subject.id},
                         :method => :post,
                         :class => "btn btn-small btn-danger delete-record",
