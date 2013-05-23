@@ -8,6 +8,8 @@
       <%= readonly_context :resource, @resource do |readonly| %>
         <h2><%= @resource.title %> <span class="label label-info"><%= I18n.t("resource._singular") %></span></h2>
 
+        <%= render :partial => "shared/form_messages", :locals => {:form => readonly} %>
+
         <% define_template "resource", jsonmodel_definition(:resource) do |form, resource| %>
           <section id="basic_information">
             <h3><%= I18n.t("resource._frontend.section.basic_information") %></h3>

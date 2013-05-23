@@ -53,6 +53,9 @@ en:
     merge: Merge
     form_changes_message: "<small><span class='muted'>You have unsaved changes</span></small>"
     toolbar_disabled_message: "<small><span class='muted'>You have unsaved changes - Save or Revert to access toolbar</span></small>"
+    publish: Publish
+    publish_confirm_title: Publish?
+    publish_confirm_message: "<p>Performing this action will publish this record, any sub-records (External Documents, Notes, etc) and all components in the hierarchy.</p>"
 
   states:
     auto_generated: System generates when saved
@@ -202,6 +205,7 @@ en:
         created: "Digital Object <strong>%{digital_object.title}</strong> Created"
         updated: "Digital Object <strong>%{digital_object.title}</strong> Updated"
         deleted: "Digital Object <strong>%{digital_object.title}</strong> Deleted"
+        published: "The Digital Object <strong>%{digital_object.title}</strong>, its subrecords and components have been published"
       section:
         basic_information: Basic Information
       action:
@@ -303,6 +307,7 @@ en:
         updated: "Resource <strong>%{resource.title}</strong> updated"
         spawned: "A new Resource has been spawned from Accession <strong>%{accession.title}</strong>"
         deleted: "Resource <strong>%{resource.title}</strong> deleted"
+        published: "The Resource <strong>%{resource.title}</strong>, its subrecords and components have been published"
       section:
         basic_information: Basic Information
         finding_aid: Finding Aid Data

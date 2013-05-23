@@ -1,7 +1,7 @@
 class ResourcesController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete, :rde, :add_children]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete, :rde, :add_children, :publish]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update, :rde, :add_children]) {|c| user_must_have("update_archival_record")}
+  before_filter(:only => [:new, :edit, :create, :update, :rde, :add_children, :publish]) {|c| user_must_have("update_archival_record")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
   FIND_OPTS = ["subjects", "container_locations", "related_accessions", "linked_agents", "digital_object", "classification"]
@@ -16,6 +16,7 @@ class ResourcesController < ApplicationController
     if params[:inline]
       return render :partial => "resources/show_inline"
     end
+
     flash.keep
     fetch_tree
   end
@@ -122,6 +123,22 @@ class ResourcesController < ApplicationController
 
     render :partial => "archival_objects/rde"
   end
+
+
+  def publish
+    resource = Resource.find(params[:id])
+
+    response = JSONModel::HTTP.post_form("#{resource.uri}/publish")
+
+    if response.code == '200'
+      flash[:success] = I18n.t("resource._frontend.messages.published", JSONModelI18nWrapper.new(:resource => resource))
+    else
+      flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
+    end
+
+    redirect_to request.referer
+  end
+
 
 
   private

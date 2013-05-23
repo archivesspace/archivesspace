@@ -9,7 +9,7 @@ AppConfig[:max_page_size] = 250
 
 AppConfig[:allow_other_unmapped] = false
 
-AppConfig[:db_url] = proc { AppConfig.demo_db_url }
+AppConfig[:db_url] = "jdbc:mysql://localhost:3306/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123"
 AppConfig[:db_max_connections] = 10
 
 AppConfig[:allow_unsupported_database] = false
