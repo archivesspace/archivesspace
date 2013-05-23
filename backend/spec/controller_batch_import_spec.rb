@@ -25,7 +25,7 @@ describe "Batch Import Controller" do
     
     response.code.should eq('200')
     
-    results = response.body.split(/---\n/).map {|res| ASUtils.json_parse(res) }
+    results = ASUtils.json_parse(response.body)
 
     results.last['saved'].length.should eq(10)
   end
@@ -57,7 +57,7 @@ describe "Batch Import Controller" do
       
       response.code.should eq('200')
       
-      results = response.body.split(/---\n/).map {|res| ASUtils.json_parse(res) }
+      results = ASUtils.json_parse(response.body)
       results.last['saved'].length.should eq(1)
       
       enum = JSONModel::JSONModel(:enumeration).all.find {|obj| obj.name == 'resource_resource_type' }
@@ -92,7 +92,7 @@ describe "Batch Import Controller" do
     response = JSONModel::HTTP.post_json(url, batch_array.to_json)
     response.code.should eq('200')
     
-    results = response.body.split(/---\n/).map {|res| ASUtils.json_parse(res) }
+    results = ASUtils.json_parse(response.body)
     results.last['saved'].length.should eq(1)
     
     real_id = results.last['saved'][resource.uri][-1]
@@ -119,7 +119,7 @@ describe "Batch Import Controller" do
     response = JSONModel::HTTP.post_json(url, batch_array.to_json)
     response.code.should eq('200')
     
-    results = response.body.split(/---\n/).map {|res| ASUtils.json_parse(res) }
+    results = ASUtils.json_parse(response.body)
     results.last['saved'].length.should eq(1)
   end
   

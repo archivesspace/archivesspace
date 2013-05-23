@@ -65,7 +65,7 @@ class ProgressTicker
     updates = @status_updates.swap([])
 
     unless updates.empty?
-      client.call(ASUtils.to_json(:status => updates) + "\n---\n")
+      client.call(ASUtils.to_json(:status => updates) + ",\n")
     end
   end
   
@@ -74,20 +74,21 @@ class ProgressTicker
     results = @results.swap({})
     
     unless results.empty?
-      client.call(ASUtils.to_json(results) + "\n---\n")
+      client.call(ASUtils.to_json(results) + "\n")
     end
   end
       
 
   def each(&client)
     @tick_to_client_thread = Thread.new do
+      client.call("[\n")
       while !@finished.value
         tick_for_client = @last_tick.value
 
         flush_statuses(client)
 
         if tick_for_client
-          client.call(ASUtils.to_json(tick_for_client) + "\n---\n")
+          client.call(ASUtils.to_json(tick_for_client) + ",\n")
         end
 
         sleep @frequency
@@ -102,6 +103,7 @@ class ProgressTicker
       @block.call(self)
     ensure
       self.finish!
+      client.call("\n]")
       @tick_to_client_thread.join
     end
   end

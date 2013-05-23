@@ -116,8 +116,14 @@ module ASpaceImport
           fragments = ""
           response.read_body do |message|
             begin
-              if message =~ /.*---\Z/
-                message = ASUtils.json_parse(fragments + message.sub(/---\Z/, ''))
+              if message =~ /\A\[\n\Z/
+                # do nothing because we're treating the response as a stream
+              elsif message =~ /\A\n\]\Z/
+                # the last message doesn't have a comma, so it's a fragment                
+                message = ASUtils.json_parse(fragments.sub(/\n\Z/, ''))
+                @block.call(message)              
+              elsif message =~ /.*,\n\Z/
+                message = ASUtils.json_parse(fragments + message.sub(/,\n\Z/, ''))
                 @block.call(message)
               else
                 fragments << message
