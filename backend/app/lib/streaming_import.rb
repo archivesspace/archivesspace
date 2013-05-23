@@ -76,6 +76,7 @@ class StreamingImport
     
     with_status("Validating records and checking links") do
       @logical_urls = load_logical_urls
+      Log.debug("Logical URLS #{@logical_urls.inspect}")
     end
     
     with_status("Evaluating record relationships") do
@@ -135,9 +136,9 @@ class StreamingImport
       touch_toplevel_records
 
       cleanup
-
-      @logical_urls
     end
+    
+    @logical_urls    
   end
 
 

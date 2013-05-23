@@ -97,7 +97,6 @@ describe "Batch Import Controller" do
     
     real_id = results.last['saved'][resource.uri][-1]
 
-    real_id = body['saved'][resource.uri][-1]
     resource_reloaded = JSONModel(:resource).find(real_id, "resolve[]" => ['subjects', 'related_accessions'])
   
     resource_reloaded.subjects[0]['ref'].should eq(subject.uri)
