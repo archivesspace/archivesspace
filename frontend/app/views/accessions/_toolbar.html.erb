@@ -24,7 +24,7 @@
         <div class="btn-toolbar pull-right">
           <% if @accession_event_types && !@accession.suppressed %>
             <div class="btn-group">
-              <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
+              <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
                 <%= I18n.t("actions.add_event") %>
                 <span class="caret"></span>
               </a>
@@ -40,7 +40,7 @@
 
           <% if not @accession.suppressed %>
             <div class="btn-group">
-              <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
+              <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
                 <%= I18n.t "actions.spawn" %>
                 <span class="caret"></span>
               </a>
