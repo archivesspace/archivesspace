@@ -98,6 +98,7 @@ class DBMigrator
     return true unless Sequel::Migrator.is_current?(db, MIGRATIONS_DIR)
     PLUGIN_MIGRATIONS.each { |plugin| return true unless Sequel::Migrator.is_current?(db, PLUGIN_MIGRATIONS_DIR[plugin],
                                                                                       :table => "#{plugin}_schema_info") }
+    return false
   end
 
 end

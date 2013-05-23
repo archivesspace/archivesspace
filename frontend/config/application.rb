@@ -31,7 +31,7 @@ module ArchivesSpace
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
 
-    AppConfig[:plugins].each do |plugin|
+    Array(AppConfig[:plugins]).each do |plugin|
       config.paths["app/controllers"] << "../plugins/#{plugin}/frontend/controllers"
       # seems this line isn't required
       # config.paths["app/views"] << "../plugins/#{plugin}/frontend/views"

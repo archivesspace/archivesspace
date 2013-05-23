@@ -3,7 +3,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/helloworld')
     .description("Hello World!")
     .params(["name", String, "Someone to say hello to", :default => 'Anonymous'])
-    .nopermissionsyet
+    .permissions([])
     .returns([200, "{'reply', 'Hello (name)!'}"]) \
   do
     WhoSaidHello.create_from_json(JSONModel(:hello_world).from_hash({:name => params[:name]}))
