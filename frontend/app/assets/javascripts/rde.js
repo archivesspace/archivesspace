@@ -82,8 +82,8 @@ $(function() {
           if ($currentRow.length > 0) {
             if ($th.hasClass("fieldset-label") && $th.hasClass("sticky")) {
               // populate the input from the current or bottom row
-              var $source = $(":input", $("td", $currentRow).get(i));
-              var $target = $(":input", $("td", $row).get(i));
+              var $source = $(":input:first", $("td", $currentRow).get(i));
+              var $target = $(":input:first", $("td", $row).get(i));
 
               if ($source.is(":checkbox")) {
                 if ($source.attr("checked")) {

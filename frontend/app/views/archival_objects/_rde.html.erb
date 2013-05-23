@@ -86,7 +86,7 @@
     </td>
     <td class="control-group">
       <% form.push(form.set_index("notes[]", 0), begin archival_object["notes"][0] || {} rescue {} end) do %>
-        <%= form.select("type", ["",""].concat(note_types_for(:archival_object).map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
+        <%= form.select("type", [""].concat(note_types_for(:archival_object).map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
         <%= form.hidden_input "jsonmodel_type", "note_singlepart" %>
       <% end %>
     </td>
@@ -95,11 +95,14 @@
         <% form.push(form.set_index("content[]", 0), begin form["content"][0] || "" rescue "" end) do %>
           <%= form.textfield nil, form.obj %>
         <% end %>
+        <% form.push("content", begin archival_object["content"] || [] rescue [] end) do %>
+          <span id="<%= form.id_for(nil) %>"></span>
+        <% end %>
       <% end %>
     </td>
     <td class="control-group">
       <% form.push(form.set_index("notes[]", 1), begin archival_object["notes"][1] || {} rescue {} end) do %>
-        <%= form.select("type", ["",""].concat(note_types_for(:archival_object).map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
+        <%= form.select("type", [""].concat(note_types_for(:archival_object).map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
         <%= form.hidden_input "jsonmodel_type", "note_singlepart" %>
       <% end %>
     </td>
@@ -108,11 +111,14 @@
         <% form.push(form.set_index("content[]", 0), begin form["content"][0] || "" rescue "" end) do %>
           <%= form.textfield nil, form.obj %>
         <% end %>
+        <% form.push("content", begin archival_object["content"] || [] rescue [] end) do %>
+          <span id="<%= form.id_for(nil) %>"></span>
+        <% end %>
       <% end %>
     </td>
     <td class="control-group">
       <% form.push(form.set_index("notes[]", 2), begin archival_object["notes"][2] || {} rescue {} end) do %>
-        <%= form.select("type", ["",""].concat(note_types_for(:archival_object).map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
+        <%= form.select("type", [""].concat(note_types_for(:archival_object).map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
         <%= form.hidden_input "jsonmodel_type", "note_singlepart" %>
       <% end %>
     </td>
@@ -120,6 +126,9 @@
       <% form.push(form.set_index("notes[]", 2), begin archival_object["notes"][2] || {} rescue {} end) do %>
         <% form.push(form.set_index("content[]", 0), begin form["content"][0] || "" rescue "" end) do %>
           <%= form.textfield nil, form.obj %>
+        <% end %>
+        <% form.push("content", begin archival_object["content"] || [] rescue [] end) do %>
+          <span id="<%= form.id_for(nil) %>"></span>
         <% end %>
       <% end %>
     </td>
