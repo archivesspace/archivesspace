@@ -47,6 +47,8 @@ module ASpaceImport
 
         self.class.ensure_configuration
 
+        emit_status({'type' => 'started', 'label' => 'Processing XML', 'id' => 'xml'})
+
         @reader.each_with_index do |node, i|
 
           case node.node_type
@@ -63,13 +65,13 @@ module ASpaceImport
           # since otherwise we end up accumulating all nodes in memory.
           node_queue.set(i, nil)
         end
-
-        @log.debug("Parse Queue State: #{parse_queue.inspect}")
+        
+        emit_status({'type' => 'done', 'id' => 'xml'})
 
         save_all
 
         ASpaceImport::RecordProxy.undischarged.each do |prox|
-          @log.debug("Undischarged: #{prox.to_s}")
+          # @log.debug("Undischarged: #{prox.to_s}")
         end
       end
     
@@ -112,7 +114,7 @@ module ASpaceImport
 
 
       def close_context(type)
-        @log.debug("Close context <#{type}>")
+        # @log.debug("Close context <#{type}>")
         if parse_queue.last.jsonmodel_type != type.to_s
           raise "Unexpected Object Type in Queue: Expected #{type} got #{parse_queue.last.jsonmodel_type}"
         end
@@ -143,8 +145,6 @@ module ASpaceImport
 
         obj = context_obj if obj == :context
 
-        @log.debug("Setting <#{obj.jsonmodel_type}> <#{property}> using <#{value.inspect}> (unfiltered)")
-
         begin
           property_type = ASpaceImport::Utils.get_property_type(obj.class.schema['properties'][property.to_s])
         rescue NoMethodError
@@ -158,7 +158,7 @@ module ASpaceImport
             @log.warn("Given a nil value for <#{obj.class.record_type}><#{property}>")
           else
             filtered_value = ASpaceImport::Utils.value_filter(property_type[0]).call(value)
-            @log.debug("Filtered Value: #{filtered_value.inspect}")
+
             if property_type[0].match /list$/
               val_array = obj.send("#{property}").push(filtered_value)
               obj.send("#{property}=", val_array)

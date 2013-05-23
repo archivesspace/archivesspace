@@ -97,11 +97,7 @@ module ASpaceImport
         instance_variable_set("@#{k}", v)
       end
       
-      @log.debug("Importer Flags: #{@flags}")
-      
-      @import_log = []
-      @error_log = []
-      @import_summary
+      # @log.debug("Importer Flags: #{@flags}")
       
       @block = nil
 
@@ -113,7 +109,7 @@ module ASpaceImport
       @parse_queue
     end
 
-    
+
     def save_all
       parse_queue.save do |response|
         if response.code.to_s == '200'
@@ -153,13 +149,6 @@ module ASpaceImport
       
       report
     end
-    
-    def status=(status)
-      if @block
-        @block.call({'status' => status})
-      else
-      end
-    end
       
 
     # Errors arising from bad data should be reported
@@ -188,6 +177,14 @@ module ASpaceImport
       end
     end
 
+    private
+    
+    
+    def emit_status(hsh)
+      if @block
+        @block.call({'status' => [hsh]})
+      end
+    end
     
     # ParseQueue helpers
     
