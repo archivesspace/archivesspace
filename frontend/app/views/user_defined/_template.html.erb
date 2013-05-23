@@ -1,5 +1,4 @@
 <% define_template("user_defined", jsonmodel_definition(:user_defined)) do |form| %>
-      <%= form.obj['date_1'].inspect %>
       <%= form.label_and_boolean "boolean_1", {}, form.default_for("boolean_1") %>
       <%= form.label_and_boolean "boolean_2", {}, form.default_for("boolean_2") %>
       <%= form.label_and_boolean "boolean_3", {}, form.default_for("boolean_3") %>
