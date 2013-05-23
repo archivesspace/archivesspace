@@ -22,16 +22,15 @@
         <div class="btn-toolbar pull-right">
           <div class="btn-group">
             <div class="btn btn-inline-form">
-              <%= button_to I18n.t("actions.publish"),
-                          {:controller => :digital_objects, :action => :publish, :id => @digital_object.id},
-                          :method => :post,
-                          :class => "btn btn-small",
-                          :"data-confirmation" => true,
-                          :"data-title" => I18n.t("actions.publish_confirm_title"),
-                          :"data-message" => I18n.t("actions.publish_confirm_message"),
-                          :"data-confirm-btn-label" => "#{I18n.t("actions.publish")}",
-                          :"data-confirm-btn-class" => "btn-primary",
-                          :"data-authenticity_token" => form_authenticity_token %>
+              <%= button_confirm_action(I18n.t("actions.publish"),
+                                          url_for({:controller => :digital_objects, :action => :publish, :id => @digital_object.id}),
+                                          {
+                                            :class => "btn btn-small",
+                                            :"data-title" => I18n.t("actions.publish_confirm_title"),
+                                            :"data-message" => I18n.t("actions.publish_confirm_message"),
+                                            :"data-confirm-btn-label" => "#{I18n.t("actions.publish")}",
+                                            :"data-confirm-btn-class" => "btn-primary",
+                                          }) %>
             </div>
             <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
               <%= I18n.t("actions.export") %>
@@ -44,16 +43,7 @@
             </ul>
             <% if user_can?('delete_archival_record') %>
               <div class="btn btn-inline-form">
-                <%= button_to I18n.t("actions.delete"),
-                            {:controller => :digital_objects, :action => :delete, :id => @digital_object.id},
-                            :method => :post,
-                            :class => "btn btn-small btn-danger delete-record",
-                            :"data-confirmation" => true,
-                            :"data-title" => I18n.t("actions.delete_confirm_title"),
-                            :"data-message" => I18n.t("actions.delete_confirm_message"),
-                            :"data-confirm-btn-label" => "#{I18n.t("actions.delete")}",
-                            :"data-confirm-btn-class" => "btn-danger",
-                            :"data-authenticity_token" => form_authenticity_token %>
+                <%= button_delete_action url_for(:controller => :digital_objects, :action => :delete, :id => @digital_object.id) %>
               </div>
             <% end %>
           </div>

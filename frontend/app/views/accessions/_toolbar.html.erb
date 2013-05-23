@@ -56,44 +56,34 @@
               <% if user_can?('suppress_archival_record') %>
                 <% if @accession.suppressed %>
                   <div class="btn btn-small btn-inline-form">
-                    <%= button_to I18n.t("actions.unsuppress"),
-                                  {:controller => :accessions, :action => :unsuppress, :id => @accession.id},
-                                  :method => :post,
-                                  :class => "btn btn-small unsuppress-record",
-                                  :"data-confirmation" => true,
-                                  :"data-title" => I18n.t("actions.unsuppress_confirm_title"),
-                                  :"data-message" => I18n.t("actions.unsuppress_confirm_message"),
-                                  :"data-confirm-btn-label" => "#{I18n.t("actions.unsuppress")}",
-                                  :"data-authenticity_token" => form_authenticity_token
+                    <%= button_confirm_action I18n.t("actions.unsuppress"),
+                                              url_for(:controller => :accessions, :action => :unsuppress, :id => @accession.id),
+                                              {
+                                                :class => "btn btn-small unsuppress-record",
+                                                :"data-title" => I18n.t("actions.unsuppress_confirm_title"),
+                                                :"data-message" => I18n.t("actions.unsuppress_confirm_message"),
+                                                :"data-confirm-btn-label" => "#{I18n.t("actions.unsuppress")}"
+                                              }
                     %>
                   </div>
                 <% else %>
                   <div class="btn btn-inline-form">
-                    <%= button_to I18n.t("actions.suppress"),
-                                {:controller => :accessions, :action => :suppress, :id => @accession.id},
-                                :method => :post,
-                                :class => "btn btn-small btn-warning suppress-record",
-                                :"data-confirmation" => true,
-                                :"data-title" => I18n.t("actions.suppress_confirm_title"),
-                                :"data-message" => I18n.t("actions.suppress_confirm_message"),
-                                :"data-confirm-btn-label" => "#{I18n.t("actions.suppress")}",
-                                :"data-confirm-btn-class" => "btn-warning",
-                                :"data-authenticity_token" => form_authenticity_token %>
+                    <%= button_confirm_action I18n.t("actions.suppress"),
+                                              url_for(:controller => :accessions, :action => :suppress, :id => @accession.id),
+                                              {
+                                                :class => "btn btn-small btn-warning suppress-record",
+                                                :"data-title" => I18n.t("actions.suppress_confirm_title"),
+                                                :"data-message" => I18n.t("actions.suppress_confirm_message"),
+                                                :"data-confirm-btn-label" => "#{I18n.t("actions.suppress")}",
+                                                :"data-confirm-btn-class" => "btn-warning"
+                                              }
+                    %>
                   </div>
                 <% end %>
               <% end %>
               <% if user_can?('delete_archival_record') %>
                 <div class="btn btn-inline-form">
-                  <%= button_to I18n.t("actions.delete"),
-                              {:controller => :accessions, :action => :delete, :id => @accession.id},
-                              :method => :post,
-                              :class => "btn btn-small btn-danger delete-record",
-                              :"data-confirmation" => true,
-                              :"data-title" => I18n.t("actions.delete_confirm_title"),
-                              :"data-message" => I18n.t("actions.delete_confirm_message"),
-                              :"data-confirm-btn-label" => "#{I18n.t("actions.delete")}",
-                              :"data-confirm-btn-class" => "btn-danger",
-                              :"data-authenticity_token" => form_authenticity_token %>
+                  <%= button_delete_action url_for(:controller => :accessions, :action => :delete, :id => @accession.id) %>
                 </div>
               <% end %>
             </div>

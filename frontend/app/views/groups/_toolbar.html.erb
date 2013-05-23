@@ -9,16 +9,7 @@
       <div class="btn-toolbar pull-right">
         <div class="btn-group">
           <div class="btn btn-inline-form">
-            <%= button_to I18n.t("actions.delete"),
-                        {:controller => :groups, :action => :delete, :id => @group.id},
-                        :method => :post,
-                        :class => "btn btn-small btn-danger delete-record",
-                        :"data-confirmation" => true,
-                        :"data-title" => I18n.t("actions.delete_confirm_title"),
-                        :"data-message" => I18n.t("actions.delete_confirm_message"),
-                        :"data-confirm-btn-label" => "#{I18n.t("actions.delete")}",
-                        :"data-confirm-btn-class" => "btn-danger",
-                        :"data-authenticity_token" => form_authenticity_token %>
+            <%= button_delete_action url_for(:controller => :groups, :action => :delete, :id => @group.id) %>
           </div>
         </div>
       </div>

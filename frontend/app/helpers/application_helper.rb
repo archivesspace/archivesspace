@@ -167,4 +167,31 @@ module ApplicationHelper
     end
   end
 
+
+  def button_confirm_action(label, target, opts = {})
+    btn_opts = {
+      :"data-target" => target,
+      :method => :post,
+      :class => "btn",
+      :"data-confirmation" => true,
+      :"data-authenticity_token" => form_authenticity_token,
+      :type => "button"
+    }.merge(opts)
+
+    button_tag(label, btn_opts)
+  end
+
+
+  def button_delete_action(url)
+    button_confirm_action(I18n.t("actions.delete"),
+                          url,
+                          {
+                            :class => "btn btn-small btn-danger delete-record",
+                            :"data-title" => I18n.t("actions.delete_confirm_title"),
+                            :"data-message" => I18n.t("actions.delete_confirm_message"),
+                            :"data-confirm-btn-label" => "#{I18n.t("actions.delete")}",
+                            :"data-confirm-btn-class" => "btn-danger"
+                          })
+  end
+
 end
