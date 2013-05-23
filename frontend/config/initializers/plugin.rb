@@ -4,8 +4,10 @@ module Plugins
 
   def self.init
     @config = {'plugins' => []}
-    Dir.glob(Rails.root.join('..', 'plugins', '*', 'frontend', 'controllers', '*_controller.rb')).sort.each do |plugin|
-      @config['plugins'] << plugin[/plugins#{File::SEPARATOR}(.+)#{File::SEPARATOR}frontend/, 1]
+    Array(AppConfig[:plugins]).each do |plugin|
+      if Dir.glob(Rails.root.join('..', 'plugins', plugin, 'frontend', 'controllers', '*_controller.rb')).length > 0
+        @config['plugins'] << plugin
+      end
     end
     puts "Found controllers for plug-ins: #{@config['plugins'].inspect}"
   end
