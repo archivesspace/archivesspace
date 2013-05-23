@@ -25,9 +25,9 @@ describe "Batch Import Controller" do
     
     response.code.should eq('200')
     
-    body = ASUtils.json_parse(response.body)
-    body['saved'].length.should eq(10)
-    
+    results = response.body.split(/---\n/).map {|res| ASUtils.json_parse(res) }
+
+    results.last['saved'].length.should eq(10)
   end
   
   
@@ -57,14 +57,14 @@ describe "Batch Import Controller" do
       
       response.code.should eq('200')
       
-      body = ASUtils.json_parse(response.body)
-      body['saved'].length.should eq(1)
+      results = response.body.split(/---\n/).map {|res| ASUtils.json_parse(res) }
+      results.last['saved'].length.should eq(1)
       
       enum = JSONModel::JSONModel(:enumeration).all.find {|obj| obj.name == 'resource_resource_type' }
       
       enum.values.should include('spaghetti')
     ensure
-      # set things back as they were enum source-wise
+      # set things back as they were enum-source wise
       JSONModel.init_args[:enum_source] = old_enum_source
     end
   end
@@ -92,10 +92,10 @@ describe "Batch Import Controller" do
     response = JSONModel::HTTP.post_json(url, batch_array.to_json)
     response.code.should eq('200')
     
-    body = ASUtils.json_parse(response.body)
-    body['saved'].length.should eq(1)
+    results = response.body.split(/---\n/).map {|res| ASUtils.json_parse(res) }
+    results.last['saved'].length.should eq(1)
     
-    real_id = body['saved'][resource.uri][-1]
+    real_id = results.last['saved'][resource.uri][-1]
 
     resource_reloaded = JSONModel(:resource).find(real_id, "resolve[]" => ['subjects', 'related_accessions'])
   
@@ -119,8 +119,8 @@ describe "Batch Import Controller" do
     response = JSONModel::HTTP.post_json(url, batch_array.to_json)
     response.code.should eq('200')
     
-    body = ASUtils.json_parse(response.body)
-    body['saved'].length.should eq(1)
+    results = response.body.split(/---\n/).map {|res| ASUtils.json_parse(res) }
+    results.last['saved'].length.should eq(1)
   end
   
 
