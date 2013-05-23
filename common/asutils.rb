@@ -1,3 +1,5 @@
+require 'config/config-distribution'
+
 module ASUtils
 
   def self.keys_as_strings(hash)
