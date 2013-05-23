@@ -60,3 +60,6 @@ AppConfig[:locale] = :en
 
 # Report Configuration
 AppConfig[:report_page_size] = "A4"
+
+# Plug-ins to load. They will load in the order specified
+AppConfig[:plugins] = ['hello_world', 'local']

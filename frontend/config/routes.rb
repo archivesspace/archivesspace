@@ -113,6 +113,15 @@ ArchivesSpace::Application.routes.draw do
   match 'reports' => 'reports#index', :via => [:get]
   match 'reports/download' => 'reports#download', :via => [:post]
 
+
+  if Plugins.plugins?
+    scope '/plugins' do
+      Plugins.list.each do |plugin|
+        resources plugin.intern
+      end
+    end
+  end
+
   root :to => 'welcome#index'
 
 end

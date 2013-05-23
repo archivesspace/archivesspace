@@ -1,0 +1,8 @@
+en:
+  plugins:
+    hello_world:
+      label: Hello World
+      title: Hello World!
+      say_hello: Say hello
+      who_said_hello: These folks have already said hello
+      nobody: ... Well, nobody has said hello yet. Why not be the first?!
