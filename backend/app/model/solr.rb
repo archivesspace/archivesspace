@@ -60,7 +60,7 @@ class Solr
     if filter_terms && !filter_terms.empty?
       filter_terms.map{|str| JSON.parse(str)}.each{|json|
         json.each {|facet, term|
-          opts << [:fq, "{!term f=#{facet}}#{term}"]
+          opts << [:fq, "{!term f=#{facet.strip}}#{term.kind_of?(String) ? term.strip : term}"]
         }
       }
 
