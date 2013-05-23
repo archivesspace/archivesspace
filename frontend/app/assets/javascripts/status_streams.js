@@ -1,136 +1,92 @@
-var statusIndex = 0;
-var progressTotal = 0;
-var partialMessage = "";
-
 
 $(document).ready(function(){
-	$('form#import')
-		.bind("ajax:beforeSend", function(evt, xhr, settings){
-			var $submitButton = $(this).find('input[name="commit"]');
-			$submitButton.text( "Submitting....");
-			// xhr.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-		})
-		.submit(function() {
-			
-			statusIndex = 0;
-			progressTotal = 0;
-			partialMessage = "";
-			
-			var formData = new FormData();
-			formData.append('upload[import_file]', document.getElementById('upload_import_file').files[0]); //Files[0] = 1st file
-			formData.append('importer', document.getElementById('importer').value);
-			upload(formData);
+  $('form#import')
+    .bind("ajax:beforeSend", function(evt, xhr, settings){
+      // var $submitButton = $(this).find('input[name="commit"]');
+      // xhr.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+    })
+    .submit(function() {
+      
+      
+      var formData = new FormData();
+      formData.append('upload[import_file]', document.getElementById('upload_import_file').files[0]); //Files[0] = 1st file
+      formData.append('importer', document.getElementById('importer').value);
+      upload(formData);
 
-			return false;
-			
-		});	
-
-
-			
+			$("#import-results").empty();
+      return false;
+    });     
 });
-
 
 
 function upload(formData) {
   var xhr = new XMLHttpRequest();
   xhr.open('POST', '/import/upload_xhr', true);
-	xhr.addEventListener("progress", statusUpdate, false);
-	xhr.addEventListener("load", cleanUp, false);
+
+  var cursor = new ResponseCursor();
+	var emitter = new StandardResultEmitter();
+  
+  xhr.addEventListener("progress", function(evt){
+    
+    var updates = cursor.read_response(this.response);
+
+		for (i=0; i < updates.length; i++) {
+			// send normalized update to the shared inline script
+			handleUpdate(updates[i], emitter);
+		}
+  }, false);
+  
+  xhr.addEventListener("load", function(evt){
+		$("form#import button.btn-primary").removeClass("disabled").removeClass("busy");
+	}, false);
   xhr.send(formData);
 }
 
 
-function cleanUp(event) {
-	$("form#import button.btn-primary").removeClass("disabled").removeClass("busy");
+function StandardResultEmitter() {
 	
-}
-
-
-
-function statusUpdate(event) {
-
-	var response = this.response;
-
-	
-	if (response.length > statusIndex) {
-		var latest = response.substring(statusIndex);		
-		statusIndex = response.length;
-	}
-
-	var k = latest.indexOf("---");
-	if (k < 0){
-		partialMessage = partialMessage + latest;
-	} else {
-		var message = partialMessage + latest.substring(0,k);
-		
-		console.log(message);
-
-		var update = $.parseJSON(message);
-
-		console.log(update);
-		
-		handleUpdate(update);
-		
+	this.add_status_row = function(status) {
+		var progress = "<progress value='1' max='100'></progress></div>";
+		$("#import-results").append("<div class='import-results-row alert' id='status-"+status.id+"'><p>"+status.label+":</p>"+progress+"</div>");		
 	}
 	
-
-}
-
-function handleUpdate(updateObject) {
-	if (updateObject.status) {
-		refreshStatus(updateObject.status);
-	}
-	
-	if (updateObject.errors) {
-		showErrors(updateObject.errors);
-	}	
-	
-	if (updateObject.total) {
-		var newTotal = updateObject.total;
-		if (newTotal != progressTotal){
-			progressTotal = newTotal;
-			$("#import-results progress:last").attr('max', progressTotal);
-		}		
-	}
-	
-	if (updateObject.ticks) {
-		var ticks = updateObject.ticks;
+	this.update_progress = function(ticks, total) {
 		$("#import-results progress:last").attr('value', ticks);
+	  $("#import-results progress:last").attr('max', total);	
 	}
 	
-	if (updateObject.saved) {
-		console.log("TRUE");
-		var saved = updateObject.saved;
-		rowhtml = "<div class='import-results-row'><p><b>Saved " + saved.length + " records.</b></p></div>"	
-		$('#import-results').append(rowhtml)
-
+	this.add_error_row = function(error) {
+		$("#import-results").append("<div class='import-results-row alert alert-error'><p>Error: "+error+"</p>");
 	}
 	
+	this.show_saved = function(save_count) {
+		$("#import-results").append("<div class='import-results-row alert alert-success'><p><b>Saved: "+save_count+" records.</b></p>");	
+	}	
 }
 
 
+function ResponseCursor() {
+  var _index = 0;
+  var response_buffer = "";
+  var latest = "";
 
-function refreshStatus(statusArray) {
-	for (var i = 0; i < statusArray.length; i++) {
-		var status = statusArray[i];
-		if (status.type == 'started') {
-			rowhtml = "<div class='import-results-row' id='status-" + status.id + "'><p>" + status.label + ":</p><progress value='5' max='100'></progress></div>"
-
-			$('#import-results').append(rowhtml)
-			
-		} else if (status.type == 'done') {	
-			var max = $("#status-"+status.id + " progress").attr('max');
-			$("#status-"+status.id + " progress").attr('value', max);
-		}
+  this.read_response = function(response_string) {
+	  latest = response_string.substring(_index);
+    _index = response_string.length;
+	
+		var buffered = response_buffer + latest;
+		var chunked = buffered.split(/---\n/);		
+		var updates = [];
 		
-	}
+		for (i = 0; i < chunked.length - 1; i++) {
+			updates[i] = JSON.parse(chunked[i]);
+		}
+				
+		resonse_buffer = chunked[chunked.length - 1];
+		return updates;
+	}  
 }
 
-function showErrors(errorArray) {
-	for (var i = 0; i < errorArray.length; i++) {
-		$("#import-results progress:last").remove();
-		$('#import-results').append("<p><b>Error: " + errorArray[i] + "</b></p>");
-	}
-}
+
 
 
