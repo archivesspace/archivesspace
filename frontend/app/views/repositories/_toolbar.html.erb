@@ -16,7 +16,7 @@
         <% if false && user_can?('delete_repository') %>
           <div class="btn-group">
             <div class="btn btn-inline-form">
-              <%= link_to I18n.t("actions.delete"),
+              <%= button_to I18n.t("actions.delete"),
                           {:controller => :repositories, :action => :delete, :id => @repository.id},
                           :method => :post,
                           :class => "btn btn-small btn-danger delete-record",

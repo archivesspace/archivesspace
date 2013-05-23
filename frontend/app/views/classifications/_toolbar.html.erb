@@ -23,7 +23,7 @@
           <% if user_can?('delete_classification_record') %>
             <div class="btn-group">
               <div class="btn btn-inline-form">
-                <%= link_to I18n.t("actions.delete"),
+                <%= button_to I18n.t("actions.delete"),
                             {:controller => :classifications, :action => :delete, :id => @classification.id},
                             :method => :post,
                             :class => "btn btn-small btn-danger delete-record",

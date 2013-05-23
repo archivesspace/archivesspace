@@ -22,7 +22,7 @@
         <div class="btn-toolbar pull-right">
           <div class="btn-group">
             <div class="btn btn-inline-form">
-              <%= link_to I18n.t("actions.delete"),
+              <%= button_to I18n.t("actions.delete"),
                           {:controller => :agents, :action => :delete, :id => @agent.id},
                           :method => :post,
                           :class => "btn btn-small btn-danger delete-record",
