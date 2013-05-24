@@ -6,13 +6,13 @@
 <title>
   Module: Orderable
   
-    &mdash; Documentation by YARD 0.8.5.2
+    &mdash; Documentation by YARD 0.8.6.1
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -83,7 +83,7 @@
   
   
     <dt class="r1">Included in:</dt>
-    <dd class="r1"><span class='object_link'><a href="ArchivalObject.html" title="ArchivalObject (class)">ArchivalObject</a></span>, <span class='object_link'><a href="DigitalObjectComponent.html" title="DigitalObjectComponent (class)">DigitalObjectComponent</a></span></dd>
+    <dd class="r1"><span class='object_link'><a href="ArchivalObject.html" title="ArchivalObject (class)">ArchivalObject</a></span>, <span class='object_link'><a href="ClassificationTerm.html" title="ClassificationTerm (class)">ClassificationTerm</a></span>, <span class='object_link'><a href="DigitalObjectComponent.html" title="DigitalObjectComponent (class)">DigitalObjectComponent</a></span></dd>
     
   
   
@@ -93,18 +93,7 @@
 </dl>
 <div class="clear"></div>
 
-<h2>Overview</h2><div class="docstring">
-  <div class="discussion">
-    <p>Mixin methods for objects that belong in an ordered hierarchy (archival
-objects, digital object components)</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><h2>Defined Under Namespace</h2>
+<h2>Defined Under Namespace</h2>
 <p class="children">
   
     
@@ -212,7 +201,7 @@ objects, digital object components)</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_position_in_list-instance_method" title="#set_position_in_list (instance method)">- (Object) <strong>set_position_in_list</strong>(target_position) </a>
+      <a href="#set_position_in_list-instance_method" title="#set_position_in_list (instance method)">- (Object) <strong>set_position_in_list</strong>(target_position, sequence) </a>
     
 
     
@@ -236,6 +225,29 @@ objects, digital object components)</p>
   <span class="summary_signature">
     
       <a href="#update_from_json-instance_method" title="#update_from_json (instance method)">- (Object) <strong>update_from_json</strong>(json, opts = {}, apply_linked_records = true) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_position_only-instance_method" title="#update_position_only (instance method)">- (Object) <strong>update_position_only</strong>(parent_id, position) </a>
     
 
     
@@ -279,12 +291,12 @@ objects, digital object components)</p>
       <pre class="lines">
 
 
-6
 7
-8</pre>
+8
+9</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 6</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 7</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_extend identifier id'>extend</span><span class='lparen token'>(</span><span class='rubyid_ClassMethods constant id'>ClassMethods</span><span class='rparen token'>)</span>
@@ -316,12 +328,12 @@ objects, digital object components)</p>
       <pre class="lines">
 
 
-78
-79
-80</pre>
+122
+123
+124</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 122</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_children identifier id'>children</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_order identifier id'>order</span><span class='lparen token'>(</span><span class='symbol val'>:position</span><span class='rparen token'>)</span>
@@ -370,12 +382,12 @@ objects, digital object components)</p>
       <pre class="lines">
 
 
-83
-84
-85</pre>
+127
+128
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 127</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_has_children? fid id'>has_children?</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
@@ -389,7 +401,7 @@ objects, digital object components)</p>
       <div class="method_details ">
   <h3 class="signature " id="set_position_in_list-instance_method">
   
-    - (<tt>Object</tt>) <strong>set_position_in_list</strong>(target_position) 
+    - (<tt>Object</tt>) <strong>set_position_in_list</strong>(target_position, sequence) 
   
 
   
@@ -401,7 +413,6 @@ objects, digital object components)</p>
       <pre class="lines">
 
 
-11
 12
 13
 14
@@ -445,12 +456,21 @@ objects, digital object components)</p>
 52
 53
 54
-55</pre>
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 12</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_set_position_in_list identifier id'>set_position_in_list</span><span class='lparen token'>(</span><span class='rubyid_target_position identifier id'>target_position</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_set_position_in_list identifier id'>set_position_in_list</span><span class='lparen token'>(</span><span class='rubyid_target_position identifier id'>target_position</span><span class='comma token'>,</span> <span class='rubyid_sequence identifier id'>sequence</span><span class='rparen token'>)</span>
   <span class='rubyid_siblings_ds identifier id'>siblings_ds</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span>
                      <span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:root_record_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span><span class='comma token'>,</span>
                             <span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='comma token'>,</span>
@@ -459,37 +479,45 @@ objects, digital object components)</p>
   <span class='comment val'># Find the position of the element we'll be inserted after.  If there are no</span>
   <span class='comment val'># elements, or if our target position is zero, then we'll get inserted at</span>
   <span class='comment val'># position zero.</span>
-  <span class='rubyid_predecessor identifier id'>predecessor</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_target_position identifier id'>target_position</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_siblings_ds identifier id'>siblings_ds</span><span class='dot token'>.</span><span class='rubyid_order identifier id'>order</span><span class='lparen token'>(</span><span class='symbol val'>:position</span><span class='rparen token'>)</span><span class='dot token'>.</span>
-                                                     <span class='rubyid_limit identifier id'>limit</span><span class='lparen token'>(</span><span class='rubyid_target_position identifier id'>target_position</span><span class='rparen token'>)</span><span class='dot token'>.</span>
-                                                     <span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:position</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span>
+  <span class='rubyid_predecessor identifier id'>predecessor</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_target_position identifier id'>target_position</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
+                  <span class='rubyid_siblings_ds identifier id'>siblings_ds</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='bitnot op'>~</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_order identifier id'>order</span><span class='lparen token'>(</span><span class='symbol val'>:position</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_limit identifier id'>limit</span><span class='lparen token'>(</span><span class='rubyid_target_position identifier id'>target_position</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:position</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span>
+                <span class='rubyid_else else kw'>else</span>
+                  <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+                <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_new_position identifier id'>new_position</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_predecessor identifier id'>predecessor</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_predecessor identifier id'>predecessor</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='lparen token'>(</span><span class='rubyid_predecessor identifier id'>predecessor</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='lbrack token'>[</span><span class='symbol val'>:position</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='integer val'>1</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='integer val'>0</span>
+  <span class='rubyid_new_position identifier id'>new_position</span> <span class='assign token'>=</span> <span class='notop op'>!</span><span class='rubyid_predecessor identifier id'>predecessor</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='integer val'>? </span><span class='lparen token'>(</span><span class='rubyid_predecessor identifier id'>predecessor</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='lbrack token'>[</span><span class='symbol val'>:position</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='integer val'>1</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='integer val'>0</span>
 
   <span class='float val'>100</span><span class='dot token'>.</span><span class='rubyid_times identifier id'>times</span> <span class='rubyid_do do kw'>do</span>
     <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_attempt identifier id'>attempt</span> <span class='lbrace token'>{</span>
-      <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:position</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_new_position identifier id'>new_position</span><span class='rparen token'>)</span>
-      <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
+      <span class='comment val'># Go right to the database here to avoid bumping lock_version for tree changes.</span>
+      <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:position</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_new_position identifier id'>new_position</span><span class='rparen token'>)</span>
       <span class='rubyid_return return kw'>return</span>
     <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_and_if_constraint_fails identifier id'>and_if_constraint_fails</span> <span class='lbrace token'>{</span>
-        <span class='comment val'># Someone's in our spot!  Move everyone out of the way and retry.</span>
+      <span class='comment val'># Someone's in our spot!  Move everyone out of the way and retry.</span>
 
-        <span class='comment val'># Sigh.  Work around:</span>
-        <span class='comment val'># http://stackoverflow.com/questions/5403437/atomic-multi-row-update-with-a-unique-constraint</span>
+      <span class='comment val'># Bump the sequence to maintain the invariant that sequence.number &gt;= max(position)</span>
+      <span class='comment val'># (since we're about to increment the last N positions by 1)</span>
+      <span class='rubyid_Sequence constant id'>Sequence</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='rubyid_sequence identifier id'>sequence</span><span class='rparen token'>)</span>
 
-        <span class='comment val'># Disables the uniqueness constraint</span>
-        <span class='rubyid_siblings_ds identifier id'>siblings_ds</span><span class='dot token'>.</span>
-          <span class='rubyid_filter identifier id'>filter</span> <span class='lbrace token'>{</span> <span class='rubyid_position identifier id'>position</span> <span class='geq op'>&gt;=</span> <span class='rubyid_new_position identifier id'>new_position</span> <span class='rbrace token'>}</span><span class='dot token'>.</span>
-          <span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:parent_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
+      <span class='comment val'># Sigh.  Work around:</span>
+      <span class='comment val'># http://stackoverflow.com/questions/5403437/atomic-multi-row-update-with-a-unique-constraint</span>
 
-        <span class='comment val'># Do the update we actually wanted</span>
-        <span class='rubyid_siblings_ds identifier id'>siblings_ds</span><span class='dot token'>.</span>
-          <span class='rubyid_filter identifier id'>filter</span> <span class='lbrace token'>{</span> <span class='rubyid_position identifier id'>position</span> <span class='geq op'>&gt;=</span> <span class='rubyid_new_position identifier id'>new_position</span> <span class='rbrace token'>}</span><span class='dot token'>.</span>
-          <span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:position</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_lit identifier id'>lit</span><span class='lparen token'>(</span><span class='string val'>'position + 1'</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+      <span class='comment val'># Disables the uniqueness constraint</span>
+      <span class='rubyid_siblings_ds identifier id'>siblings_ds</span><span class='dot token'>.</span>
+      <span class='rubyid_filter identifier id'>filter</span> <span class='lbrace token'>{</span> <span class='rubyid_position identifier id'>position</span> <span class='geq op'>&gt;=</span> <span class='rubyid_new_position identifier id'>new_position</span> <span class='rbrace token'>}</span><span class='dot token'>.</span>
+      <span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:parent_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_lit identifier id'>lit</span><span class='lparen token'>(</span><span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_concat identifier id'>concat</span><span class='lparen token'>(</span><span class='string val'>'CAST(id as CHAR(10))'</span><span class='comma token'>,</span> <span class='string val'>&quot;'_temp'&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
 
-        <span class='comment val'># Puts it back again</span>
-        <span class='rubyid_siblings_ds identifier id'>siblings_ds</span><span class='dot token'>.</span>
-          <span class='rubyid_filter identifier id'>filter</span> <span class='lbrace token'>{</span> <span class='rubyid_position identifier id'>position</span> <span class='geq op'>&gt;=</span> <span class='rubyid_new_position identifier id'>new_position</span> <span class='rbrace token'>}</span><span class='dot token'>.</span>
-          <span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:parent_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_name identifier id'>parent_name</span><span class='rparen token'>)</span>
+      <span class='comment val'># Do the update we actually wanted</span>
+      <span class='rubyid_siblings_ds identifier id'>siblings_ds</span><span class='dot token'>.</span>
+      <span class='rubyid_filter identifier id'>filter</span> <span class='lbrace token'>{</span> <span class='rubyid_position identifier id'>position</span> <span class='geq op'>&gt;=</span> <span class='rubyid_new_position identifier id'>new_position</span> <span class='rbrace token'>}</span><span class='dot token'>.</span>
+      <span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:position</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_lit identifier id'>lit</span><span class='lparen token'>(</span><span class='string val'>'position + 1'</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+
+      <span class='comment val'># Puts it back again</span>
+      <span class='rubyid_siblings_ds identifier id'>siblings_ds</span><span class='dot token'>.</span>
+      <span class='rubyid_filter identifier id'>filter</span> <span class='lbrace token'>{</span> <span class='rubyid_position identifier id'>position</span> <span class='geq op'>&gt;=</span> <span class='rubyid_new_position identifier id'>new_position</span> <span class='rbrace token'>}</span><span class='dot token'>.</span>
+      <span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:parent_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_name identifier id'>parent_name</span><span class='rparen token'>)</span>
+
+      <span class='comment val'># Now there's a gap at new_position ready for our element.</span>
     <span class='rbrace token'>}</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -516,15 +544,6 @@ objects, digital object components)</p>
       <pre class="lines">
 
 
-58
-59
-60
-61
-62
-63
-64
-65
-66
 67
 68
 69
@@ -533,28 +552,128 @@ objects, digital object components)</p>
 72
 73
 74
-75</pre>
+75
+76
+77
+78
+79
+80
+81</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 67</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_linked_records identifier id'>apply_linked_records</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+  <span class='rubyid_sequence identifier id'>sequence</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_sequence_for identifier id'>sequence_for</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
 
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_set_root_record identifier id'>set_root_record</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_set_root_record identifier id'>set_root_record</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_sequence identifier id'>sequence</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
 
-  <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='string val'>&quot;position&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
   <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
 
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_root_record_type identifier id'>root_record_type</span><span class='rbrack token'>]</span>
-
-    <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span>
-      <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span> <span class='assign token'>=</span> <span class='rubyid_Sequence constant id'>Sequence</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{json[self.class.root_record_type]}_#{json.parent}_children_position&quot;</span><span class='rparen token'>)</span>
-    <span class='rubyid_end end kw'>end</span>
-
-    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set_position_in_list identifier id'>set_position_in_list</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span><span class='rparen token'>)</span>
+  <span class='comment val'># Then lock in a position (which may involve contention with other updates</span>
+  <span class='comment val'># happening to the same tree of records)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_root_record_type identifier id'>root_record_type</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set_position_in_list identifier id'>set_position_in_list</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span><span class='comma token'>,</span> <span class='rubyid_sequence identifier id'>sequence</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_obj identifier id'>obj</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update_position_only-instance_method">
+  
+    - (<tt>Object</tt>) <strong>update_position_only</strong>(parent_id, position) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 84</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_update_position_only identifier id'>update_position_only</span><span class='lparen token'>(</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='comma token'>,</span> <span class='rubyid_position identifier id'>position</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:root_record_id</span><span class='rbrack token'>]</span>
+    <span class='rubyid_root_uri identifier id'>root_uri</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_root_record_type identifier id'>root_record_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:root_record_id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_parent_uri identifier id'>parent_uri</span> <span class='assign token'>=</span> <span class='rubyid_parent_id identifier id'>parent_id</span> <span class='integer val'>? </span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_node_record_type identifier id'>node_record_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='comma token'>,</span> <span class='rubyid_parent_id identifier id'>parent_id</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='rubyid_nil nil kw'>nil</span>
+    <span class='rubyid_sequence identifier id'>sequence</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{root_uri}_#{parent_uri}_children_position&quot;</span>
+
+    <span class='rubyid_parent_name identifier id'>parent_name</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_parent_id identifier id'>parent_id</span>
+                    <span class='dstring node'>&quot;#{parent_id}@#{self.class.node_record_type}&quot;</span>
+                  <span class='rubyid_else else kw'>else</span>
+                    <span class='dstring node'>&quot;root@#{root_uri}&quot;</span>
+                  <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_new_values identifier id'>new_values</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+      <span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_parent_id identifier id'>parent_id</span><span class='comma token'>,</span>
+      <span class='symbol val'>:parent_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_parent_name identifier id'>parent_name</span><span class='comma token'>,</span>
+      <span class='symbol val'>:position</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Sequence constant id'>Sequence</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='rubyid_sequence identifier id'>sequence</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+      <span class='symbol val'>:last_modified</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
+    <span class='rbrace token'>}</span>
+
+    <span class='comment val'># Run through the standard validation without actually saving</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set identifier id'>set</span><span class='lparen token'>(</span><span class='rubyid_new_values identifier id'>new_values</span><span class='rparen token'>)</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_validate identifier id'>validate</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_ValidationFailed constant id'>ValidationFailed</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='comment val'># Now do the update (without touching lock_version)</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='rubyid_new_values identifier id'>new_values</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_refresh identifier id'>refresh</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set_position_in_list identifier id'>set_position_in_list</span><span class='lparen token'>(</span><span class='rubyid_position identifier id'>position</span><span class='comma token'>,</span> <span class='rubyid_sequence identifier id'>sequence</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_position identifier id'>position</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Root not set for record #{self}&quot;</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -567,9 +686,9 @@ objects, digital object components)</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 10 10:55:50 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:32 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.5.2 (ruby-1.9.3).
+  0.8.6.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

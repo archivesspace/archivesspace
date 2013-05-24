@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Rack::Request
+  
+    &mdash; Documentation by YARD 0.8.6.1
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (R)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Rack.html" title="Rack (module)">Rack</a></span></span>
+     &raquo; 
+    <span class="title">Request</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="../schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: Rack::Request
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Rack::Request</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">backend/app/main_rackdebug.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#params-instance_method" title="#params (instance method)">- (Object) <strong>params</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#POST-instance_method" title="#POST (instance method)">- (Object) <strong>POST</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="params-instance_method">
+  
+    - (<tt>Object</tt>) <strong>params</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/main_rackdebug.rb', line 417</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_params identifier id'>params</span>
+  
+  <span class='comment val'># dfkldsfls</span>
+  <span class='comment val'>#dsfsdfsd</span>
+  <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='string val'>&quot;RACK PARAMS  ----- &quot;</span><span class='rparen token'>)</span>
+  <span class='comment val'># Log.debug(&quot;RACK GET #{self.GET}&quot;)</span>
+  <span class='comment val'># Log.debug(&quot;RACK POST #{self.POST}&quot;)</span>
+  <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_GET constant id'>GET</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_POST constant id'>POST</span><span class='rparen token'>)</span>
+  <span class='comment val'># Log.debug(&quot;Result: #{result}&quot;)</span>
+  <span class='rubyid_result identifier id'>result</span>
+<span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_EOFError constant id'>EOFError</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+  <span class='comment val'># Log.debug(&quot;EOF&quot; &lt;&lt; e.inspect)</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_GET constant id'>GET</span>
+<span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+  <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='string val'>&quot;ERROR&quot;</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_inspect identifier id'>inspect</span><span class='rparen token'>)</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_e identifier id'>e</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="POST-instance_method">
+  
+    - (<tt>Object</tt>) <strong>POST</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/main_rackdebug.rb', line 438</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_POST constant id'>POST</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@env ivar id'>@env</span><span class='lbrack token'>[</span><span class='string val'>&quot;rack.input&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;Missing rack.input&quot;</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_@env ivar id'>@env</span><span class='lbrack token'>[</span><span class='string val'>&quot;rack.request.form_input&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_eql? fid id'>eql?</span> <span class='rubyid_@env ivar id'>@env</span><span class='lbrack token'>[</span><span class='string val'>&quot;rack.input&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='string val'>&quot;FORM INPUT&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_@env ivar id'>@env</span><span class='lbrack token'>[</span><span class='string val'>&quot;rack.request.form_hash&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_form_data? fid id'>form_data?</span> <span class='orop op'>||</span> <span class='rubyid_parseable_data? fid id'>parseable_data?</span>
+    <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='string val'>&quot;PARSEABLE&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_@env ivar id'>@env</span><span class='lbrack token'>[</span><span class='string val'>&quot;rack.request.form_input&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_@env ivar id'>@env</span><span class='lbrack token'>[</span><span class='string val'>&quot;rack.input&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_@env ivar id'>@env</span><span class='lbrack token'>[</span><span class='string val'>&quot;rack.request.form_hash&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_parse_multipart identifier id'>parse_multipart</span><span class='lparen token'>(</span><span class='rubyid_env identifier id'>env</span><span class='rparen token'>)</span>
+      <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='string val'>&quot;UNLeeeESS BLAH BLAH&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_form_vars identifier id'>form_vars</span> <span class='assign token'>=</span> <span class='rubyid_@env ivar id'>@env</span><span class='lbrack token'>[</span><span class='string val'>&quot;rack.input&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span>
+      <span class='comment val'># Fix for Safari Ajax postings that always append \0</span>
+      <span class='rubyid_form_vars identifier id'>form_vars</span><span class='dot token'>.</span><span class='rubyid_sub! fid id'>sub!</span><span class='lparen token'>(</span><span class='regexp val'>/\0\z/</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span>
+      <span class='rubyid_@env ivar id'>@env</span><span class='lbrack token'>[</span><span class='string val'>&quot;rack.request.form_vars&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_form_vars identifier id'>form_vars</span>
+      <span class='rubyid_@env ivar id'>@env</span><span class='lbrack token'>[</span><span class='string val'>&quot;rack.request.form_hash&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_parse_query identifier id'>parse_query</span><span class='lparen token'>(</span><span class='rubyid_form_vars identifier id'>form_vars</span><span class='rparen token'>)</span>
+      <span class='rubyid_@env ivar id'>@env</span><span class='lbrack token'>[</span><span class='string val'>&quot;rack.input&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_rewind identifier id'>rewind</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_@env ivar id'>@env</span><span class='lbrack token'>[</span><span class='string val'>&quot;rack.request.form_hash&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:39 2013 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.6.1 (ruby-1.9.3).
+</div>
+  </body>
+</html>

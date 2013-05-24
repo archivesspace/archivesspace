@@ -6,13 +6,13 @@
 <title>
   Class: Subject
   
-    &mdash; Documentation by YARD 0.8.5.2
+    &mdash; Documentation by YARD 0.8.6.1
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -378,24 +378,14 @@
 49
 50
 51
-52
-53
-54
-55
-56
-57</pre>
+52</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 49</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_set_vocabulary identifier id'>set_vocabulary</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
-  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
-
-  <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_terms_sha1 identifier id'>terms_sha1</span> <span class='assign token'>=</span> <span class='rubyid_generate_terms_sha1 identifier id'>generate_terms_sha1</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span> <span class='comment val'># add a terms sha1 hash to allow for uniqueness test</span>
-
-  <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
-  <span class='rubyid_obj identifier id'>obj</span>
+  <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='symbol val'>:terms_sha1</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_generate_terms_sha1 identifier id'>generate_terms_sha1</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -418,6 +408,11 @@
       <pre class="lines">
 
 
+55
+56
+57
+58
+59
 60
 61
 62
@@ -428,21 +423,38 @@
 67
 68
 69
-70</pre>
+70
+71
+72
+73
+74
+75
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 55</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_ensure_exists identifier id'>ensure_exists</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_referrer identifier id'>referrer</span><span class='rparen token'>)</span>
-  <span class='rubyid_begin begin kw'>begin</span>
+  <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_attempt identifier id'>attempt</span> <span class='lbrace token'>{</span>
     <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
-  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_ValidationFailed constant id'>ValidationFailed</span>
+  <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_and_if_constraint_fails identifier id'>and_if_constraint_fails</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_exception identifier id'>exception</span><span class='bitor op'>|</span>
     <span class='rubyid_source_id identifier id'>source_id</span> <span class='assign token'>=</span> <span class='rubyid_BackendEnumSource constant id'>BackendEnumSource</span><span class='dot token'>.</span><span class='rubyid_id_for_value identifier id'>id_for_value</span><span class='lparen token'>(</span><span class='string val'>&quot;subject_source&quot;</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_source identifier id'>source</span><span class='rparen token'>)</span>
 
-    <span class='rubyid_Subject constant id'>Subject</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='symbol val'>:vocab_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:vocabulary</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_vocabulary identifier id'>vocabulary</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-                 <span class='symbol val'>:terms_sha1</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_generate_terms_sha1 identifier id'>generate_terms_sha1</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-                 <span class='symbol val'>:source_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_source_id identifier id'>source_id</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_subject identifier id'>subject</span> <span class='assign token'>=</span> <span class='rubyid_Subject constant id'>Subject</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='symbol val'>:vocab_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:vocabulary</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_vocabulary identifier id'>vocabulary</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                           <span class='symbol val'>:terms_sha1</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_generate_terms_sha1 identifier id'>generate_terms_sha1</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                           <span class='symbol val'>:source_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_source_id identifier id'>source_id</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_subject identifier id'>subject</span>
+      <span class='comment val'># The subject exists but we can't find it.  This could mean it was</span>
+      <span class='comment val'># created in a currently running transaction.  Abort this one to trigger</span>
+      <span class='comment val'># a retry.</span>
+      <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Subject '#{json.terms}' seems to have been created by a currently running transaction.  Restarting this one.&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_sleep identifier id'>sleep</span> <span class='integer val'>5</span>
+      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_RetryTransaction constant id'>RetryTransaction</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_subject identifier id'>subject</span>
+  <span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -500,16 +512,16 @@
       <pre class="lines">
 
 
-80
-81
-82
-83
-84
-85
-86</pre>
+86
+87
+88
+89
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 80</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 86</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_json identifier id'>json</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -584,14 +596,14 @@
       <pre class="lines">
 
 
-73
-74
-75
-76
-77</pre>
+79
+80
+81
+82
+83</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 79</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_linked_records identifier id'>apply_linked_records</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_set_vocabulary identifier id'>set_vocabulary</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
@@ -619,12 +631,6 @@
       <pre class="lines">
 
 
-89
-90
-91
-92
-93
-94
 95
 96
 97
@@ -632,10 +638,16 @@
 99
 100
 101
-102</pre>
+102
+103
+104
+105
+106
+107
+108</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 95</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_validate identifier id'>validate</span>
   <span class='rubyid_super super kw'>super</span>
@@ -662,9 +674,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 10 10:56:01 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:43 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.5.2 (ruby-1.9.3).
+  0.8.6.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

@@ -6,13 +6,13 @@
 <title>
   Class: DB::DBAttempt
   
-    &mdash; Documentation by YARD 0.8.5.2
+    &mdash; Documentation by YARD 0.8.6.1
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -198,12 +198,12 @@
       <pre class="lines">
 
 
-115
-116
-117</pre>
+123
+124
+125</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 115</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 123</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_happy_path identifier id'>happy_path</span><span class='rparen token'>)</span>
   <span class='rubyid_@happy_path ivar id'>@happy_path</span> <span class='assign token'>=</span> <span class='rubyid_happy_path identifier id'>happy_path</span>
@@ -236,15 +236,6 @@
       <pre class="lines">
 
 
-119
-120
-121
-122
-123
-124
-125
-126
-127
 128
 129
 130
@@ -253,27 +244,30 @@
 133
 134
 135
-136</pre>
+136
+137
+138
+139
+140
+141
+142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 119</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 128</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_and_if_constraint_fails identifier id'>and_if_constraint_fails</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='rubyid_failed_path identifier id'>failed_path</span><span class='rparen token'>)</span>
   <span class='rubyid_begin begin kw'>begin</span>
-    <span class='comment val'># Postgres needs a savepoint for any statement that might fail</span>
-    <span class='comment val'># (otherwise the whole transaction becomes invalid).  Use a savepoint to</span>
-    <span class='comment val'># run the happy case, since we're half expecting it to fail.</span>
-    <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_transaction identifier id'>transaction</span><span class='lparen token'>(</span><span class='symbol val'>:savepoint</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
+    <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_transaction identifier id'>transaction</span><span class='lparen token'>(</span><span class='symbol val'>:savepoint</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_needs_savepoint? fid id'>needs_savepoint?</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
       <span class='rubyid_@happy_path ivar id'>@happy_path</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_DatabaseError constant id'>DatabaseError</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ex identifier id'>ex</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_is_integrity_violation identifier id'>is_integrity_violation</span><span class='lparen token'>(</span><span class='rubyid_ex identifier id'>ex</span><span class='rparen token'>)</span>
-      <span class='rubyid_failed_path identifier id'>failed_path</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span>
+      <span class='rubyid_failed_path identifier id'>failed_path</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_ex identifier id'>ex</span><span class='rparen token'>)</span>
     <span class='rubyid_else else kw'>else</span>
       <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_ex identifier id'>ex</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_ValidationFailed constant id'>ValidationFailed</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ex identifier id'>ex</span>
-    <span class='rubyid_failed_path identifier id'>failed_path</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span>
+    <span class='rubyid_failed_path identifier id'>failed_path</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_ex identifier id'>ex</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -287,9 +281,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 10 10:55:59 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:40 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.5.2 (ruby-1.9.3).
+  0.8.6.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

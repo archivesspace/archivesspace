@@ -6,13 +6,13 @@
 <title>
   Class: Solr
   
-    &mdash; Documentation by YARD 0.8.5.2
+    &mdash; Documentation by YARD 0.8.6.1
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -122,7 +122,30 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#search-class_method" title="search (class method)">+ (Object) <strong>search</strong>(query, page, page_size, repo_id, record_types = nil, show_suppressed = false, show_published_only = false, excluded_ids = [], extra_solr_params = {}) </a>
+      <a href="#add_search_hook-class_method" title="add_search_hook (class method)">+ (Object) <strong>add_search_hook</strong>(&amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#search-class_method" title="search (class method)">+ (Object) <strong>search</strong>(query, page, page_size, repo_id, record_types = nil, show_suppressed = false, show_published_only = false, excluded_ids = [], filter_terms = [], extra_solr_params = {}) </a>
     
 
     
@@ -175,9 +198,9 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="search-class_method">
+  <h3 class="signature first" id="add_search_hook-class_method">
   
-    + (<tt>Object</tt>) <strong>search</strong>(query, page, page_size, repo_id, record_types = nil, show_suppressed = false, show_published_only = false, excluded_ids = [], extra_solr_params = {}) 
+    + (<tt>Object</tt>) <strong>add_search_hook</strong>(&amp;block) 
   
 
   
@@ -189,12 +212,37 @@
       <pre class="lines">
 
 
-12
-13
 14
 15
-16
-17
+16</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 14</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_add_search_hook identifier id'>add_search_hook</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='rubyid_@@opts_hooks ivar id'>@@opts_hooks</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_block identifier id'>block</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="search-class_method">
+  
+    + (<tt>Object</tt>) <strong>search</strong>(query, page, page_size, repo_id, record_types = nil, show_suppressed = false, show_published_only = false, excluded_ids = [], filter_terms = [], extra_solr_params = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
 18
 19
 20
@@ -265,14 +313,33 @@
 85
 86
 87
-88</pre>
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 12</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 18</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_search identifier id'>search</span><span class='lparen token'>(</span><span class='rubyid_query identifier id'>query</span><span class='comma token'>,</span> <span class='rubyid_page identifier id'>page</span><span class='comma token'>,</span> <span class='rubyid_page_size identifier id'>page_size</span><span class='comma token'>,</span> <span class='rubyid_repo_id identifier id'>repo_id</span><span class='comma token'>,</span>
                 <span class='rubyid_record_types identifier id'>record_types</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_show_suppressed identifier id'>show_suppressed</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_show_published_only identifier id'>show_published_only</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
-                <span class='rubyid_excluded_ids identifier id'>excluded_ids</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_extra_solr_params identifier id'>extra_solr_params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+                <span class='rubyid_excluded_ids identifier id'>excluded_ids</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_filter_terms identifier id'>filter_terms</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span>  <span class='rubyid_extra_solr_params identifier id'>extra_solr_params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='rubyid_solr_url identifier id'>solr_url</span>
 
   <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
@@ -310,6 +377,19 @@
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_excluded_ids identifier id'>excluded_ids</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_excluded_ids identifier id'>excluded_ids</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
     <span class='rubyid_query identifier id'>query</span> <span class='assign token'>=</span> <span class='rubyid_excluded_ids identifier id'>excluded_ids</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_id identifier id'>id</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;\&quot;#{id}\&quot;&quot;</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>' OR '</span><span class='rparen token'>)</span>
     <span class='rubyid_opts identifier id'>opts</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='symbol val'>:fq</span><span class='comma token'>,</span> <span class='dstring node'>&quot;-id:(#{query})&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_filter_terms identifier id'>filter_terms</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_filter_terms identifier id'>filter_terms</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+    <span class='rubyid_filter_terms identifier id'>filter_terms</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_str identifier id'>str</span><span class='bitor op'>|</span> <span class='rubyid_JSON constant id'>JSON</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_str identifier id'>str</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_json identifier id'>json</span><span class='bitor op'>|</span>
+      <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_facet identifier id'>facet</span><span class='comma token'>,</span> <span class='rubyid_term identifier id'>term</span><span class='bitor op'>|</span>
+        <span class='rubyid_opts identifier id'>opts</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='symbol val'>:fq</span><span class='comma token'>,</span> <span class='dstring node'>&quot;{!term f=#{facet.strip}}#{term.kind_of?(String) ? term.strip : term}&quot;</span><span class='rbrack token'>]</span>
+      <span class='rbrace token'>}</span>
+    <span class='rbrace token'>}</span>
+
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_@@opts_hooks ivar id'>@@opts_hooks</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_hook identifier id'>hook</span><span class='bitor op'>|</span>
+    <span class='rubyid_hook identifier id'>hook</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_url identifier id'>url</span><span class='dot token'>.</span><span class='rubyid_path identifier id'>path</span> <span class='assign token'>=</span> <span class='string val'>&quot;/select&quot;</span>
@@ -368,12 +448,12 @@
       <pre class="lines">
 
 
-7
-8
-9</pre>
+9
+10
+11</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 7</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 9</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_solr_url identifier id'>solr_url</span>
   <span class='rubyid_URI constant id'>URI</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_url</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -389,9 +469,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 10 10:55:59 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:41 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.5.2 (ruby-1.9.3).
+  0.8.6.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

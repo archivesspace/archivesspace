@@ -6,13 +6,13 @@
 <title>
   Module: CrudHelpers
   
-    &mdash; Documentation by YARD 0.8.5.2
+    &mdash; Documentation by YARD 0.8.6.1
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -212,7 +212,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#handle_listing-instance_method" title="#handle_listing (instance method)">- (Object) <strong>handle_listing</strong>(model, page, page_size, modified_since, where = {}) </a>
+      <a href="#handle_listing-instance_method" title="#handle_listing (instance method)">- (Object) <strong>handle_listing</strong>(model, pagination_data, where = {}) </a>
     
 
     
@@ -494,7 +494,7 @@
       <div class="method_details ">
   <h3 class="signature " id="handle_listing-instance_method">
   
-    - (<tt>Object</tt>) <strong>handle_listing</strong>(model, page, page_size, modified_since, where = {}) 
+    - (<tt>Object</tt>) <strong>handle_listing</strong>(model, pagination_data, where = {}) 
   
 
   
@@ -516,21 +516,43 @@
 82
 83
 84
-85</pre>
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/crud_helpers.rb', line 75</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_listing identifier id'>handle_listing</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='rubyid_page identifier id'>page</span><span class='comma token'>,</span> <span class='rubyid_page_size identifier id'>page_size</span><span class='comma token'>,</span> <span class='rubyid_modified_since identifier id'>modified_since</span><span class='comma token'>,</span> <span class='rubyid_where identifier id'>where</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_listing identifier id'>handle_listing</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='rubyid_pagination_data identifier id'>pagination_data</span><span class='comma token'>,</span> <span class='rubyid_where identifier id'>where</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
 
   <span class='rubyid_dataset identifier id'>dataset</span> <span class='assign token'>=</span> <span class='rubyid_CrudHelpers constant id'>CrudHelpers</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='rubyid_where identifier id'>where</span><span class='rparen token'>)</span>
 
-  <span class='rubyid_modified_since_time identifier id'>modified_since_time</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_at identifier id'>at</span><span class='lparen token'>(</span><span class='rubyid_modified_since identifier id'>modified_since</span><span class='rparen token'>)</span>
+  <span class='rubyid_modified_since_time identifier id'>modified_since_time</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_at identifier id'>at</span><span class='lparen token'>(</span><span class='rubyid_pagination_data identifier id'>pagination_data</span><span class='lbrack token'>[</span><span class='symbol val'>:modified_since</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_dataset identifier id'>dataset</span> <span class='assign token'>=</span> <span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span> <span class='lbrace token'>{</span> <span class='rubyid_last_modified identifier id'>last_modified</span> <span class='geq op'>&gt;=</span> <span class='rubyid_modified_since_time identifier id'>modified_since_time</span> <span class='rbrace token'>}</span>
 
-  <span class='rubyid_paginated identifier id'>paginated</span> <span class='assign token'>=</span> <span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_paginate identifier id'>paginate</span><span class='lparen token'>(</span><span class='rubyid_page identifier id'>page</span><span class='comma token'>,</span> <span class='rubyid_page_size identifier id'>page_size</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_pagination_data identifier id'>pagination_data</span><span class='lbrack token'>[</span><span class='symbol val'>:page</span><span class='rbrack token'>]</span>
+    <span class='comment val'># Classic pagination mode</span>
+    <span class='rubyid_paginated identifier id'>paginated</span> <span class='assign token'>=</span> <span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_paginate identifier id'>paginate</span><span class='lparen token'>(</span><span class='rubyid_pagination_data identifier id'>pagination_data</span><span class='lbrack token'>[</span><span class='symbol val'>:page</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_pagination_data identifier id'>pagination_data</span><span class='lbrack token'>[</span><span class='symbol val'>:page_size</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 
-  <span class='rubyid__listing_response identifier id'>_listing_response</span><span class='lparen token'>(</span><span class='rubyid_paginated identifier id'>paginated</span><span class='comma token'>,</span> <span class='rubyid_model identifier id'>model</span><span class='rparen token'>)</span>
+    <span class='rubyid__listing_response identifier id'>_listing_response</span><span class='lparen token'>(</span><span class='rubyid_paginated identifier id'>paginated</span><span class='comma token'>,</span> <span class='rubyid_model identifier id'>model</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_pagination_data identifier id'>pagination_data</span><span class='lbrack token'>[</span><span class='symbol val'>:all_ids</span><span class='rbrack token'>]</span>
+    <span class='comment val'># Return a JSON array containing all IDs for the matching records</span>
+    <span class='rubyid_json_response identifier id'>json_response</span><span class='lparen token'>(</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_rec identifier id'>rec</span><span class='bitor op'>|</span> <span class='rubyid_rec identifier id'>rec</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_pagination_data identifier id'>pagination_data</span><span class='lbrack token'>[</span><span class='symbol val'>:id_set</span><span class='rbrack token'>]</span>
+    <span class='comment val'># Return the requested set of IDs</span>
+    <span class='rubyid__listing_response identifier id'>_listing_response</span><span class='lparen token'>(</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_pagination_data identifier id'>pagination_data</span><span class='lbrack token'>[</span><span class='symbol val'>:id_set</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='comma token'>,</span> <span class='rubyid_model identifier id'>model</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -615,9 +637,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 10 10:55:49 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:31 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.5.2 (ruby-1.9.3).
+  0.8.6.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

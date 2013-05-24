@@ -6,13 +6,13 @@
 <title>
   Module: ASModel::CRUD
   
-    &mdash; Documentation by YARD 0.8.5.2
+    &mdash; Documentation by YARD 0.8.6.1
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -348,12 +348,6 @@ dependencies first.</p>
       <pre class="lines">
 
 
-82
-83
-84
-85
-86
-87
 88
 89
 90
@@ -363,10 +357,16 @@ dependencies first.</p>
 94
 95
 96
-97</pre>
+97
+98
+99
+100
+101
+102
+103</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 88</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
   <span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_linked_records identifier id'>linked_records</span><span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='rbrack token'>]</span> <span class='rubyid_or or kw'>or</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_linked_record identifier id'>linked_record</span><span class='bitor op'>|</span>
@@ -421,22 +421,22 @@ report this to the client we just want to tell them that the value for
       <pre class="lines">
 
 
-107
-108
-109
-110
-111
-112
 113
 114
 115
 116
 117
 118
-119</pre>
+119
+120
+121
+122
+123
+124
+125</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 107</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 113</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_map_validation_to_json_property identifier id'>map_validation_to_json_property</span><span class='lparen token'>(</span><span class='rubyid_columns identifier id'>columns</span><span class='comma token'>,</span> <span class='rubyid_property identifier id'>property</span><span class='rparen token'>)</span>
   <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
@@ -472,12 +472,12 @@ report this to the client we just want to tell them that the value for
       <pre class="lines">
 
 
-134
-135
-136</pre>
+140
+141
+142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 140</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_mark_as_system_modified identifier id'>mark_as_system_modified</span>
   <span class='rubyid_@system_modified ivar id'>@system_modified</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
@@ -532,12 +532,12 @@ that their local copy of the record includes the system-generated data too.</p>
       <pre class="lines">
 
 
-129
-130
-131</pre>
+135
+136
+137</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 129</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 135</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_system_modified? fid id'>system_modified?</span>
   <span class='rubyid_@system_modified ivar id'>@system_modified</span>
@@ -602,7 +602,13 @@ that their local copy of the record includes the system-generated data too.</p>
 74
 75
 76
-77</pre>
+77
+78
+79
+80
+81
+82
+83</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 38</span>
@@ -633,9 +639,15 @@ that their local copy of the record includes the system-generated data too.</p>
     <span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span><span class='rparen token'>)</span><span class='dot token'>.</span>
     <span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_keys_as_strings identifier id'>keys_as_strings</span><span class='lparen token'>(</span><span class='rubyid_extra_values identifier id'>extra_values</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
 
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_updated identifier id'>updated</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>'lock_version'</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_updated identifier id'>updated</span><span class='lbrack token'>[</span><span class='string val'>'lock_version'</span><span class='rbrack token'>]</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_ConflictException constant id'>ConflictException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;You must provide a lock_version in your request&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_strict_param_setting identifier id'>strict_param_setting</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
 
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_prepare_for_db identifier id'>prepare_for_db</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='comma token'>,</span> <span class='rubyid_updated identifier id'>updated</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:last_modified_by</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_current_username identifier id'>current_username</span>
 
   <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
 
@@ -658,9 +670,9 @@ that their local copy of the record includes the system-generated data too.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 10 10:55:47 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:29 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.5.2 (ruby-1.9.3).
+  0.8.6.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

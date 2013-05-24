@@ -6,13 +6,13 @@
 <title>
   Class: AspaceFormHelper::FormContext
   
-    &mdash; Documentation by YARD 0.8.5.2
+    &mdash; Documentation by YARD 0.8.6.1
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -356,7 +356,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#hidden_input-instance_method" title="#hidden_input (instance method)">- (Object) <strong>hidden_input</strong>(name, value = nil) </a>
+      <a href="#hidden_input-instance_method" title="#hidden_input (instance method)">- (Object) <strong>hidden_input</strong>(name, value = nil, field_opts = {}) </a>
     
 
     
@@ -1072,7 +1072,7 @@ path (my/nested/object/0/title).</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#textfield-instance_method" title="#textfield (instance method)">- (Object) <strong>textfield</strong>(name = nil, value = &quot;&quot;, opts = {}) </a>
+      <a href="#textfield-instance_method" title="#textfield (instance method)">- (Object) <strong>textfield</strong>(name = nil, value = nil, opts = {}) </a>
     
 
     
@@ -1220,16 +1220,16 @@ path (my/nested/object/0/title).</p>
       <pre class="lines">
 
 
-356
-357
 358
 359
 360
 361
-362</pre>
+362
+363
+364</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 356</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 358</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_allowable_types_for identifier id'>allowable_types_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@active_template ivar id'>@active_template</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@parent ivar id'>@parent</span><span class='dot token'>.</span><span class='rubyid_templates identifier id'>templates</span><span class='lbrack token'>[</span><span class='rubyid_@active_template ivar id'>@active_template</span><span class='rbrack token'>]</span>
@@ -1259,15 +1259,15 @@ path (my/nested/object/0/title).</p>
       <pre class="lines">
 
 
-330
-331
 332
 333
 334
-335</pre>
+335
+336
+337</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 330</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 332</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_checkbox identifier id'>checkbox</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_default identifier id'>default</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span> <span class='rubyid_force_checked identifier id'>force_checked</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{id_for(name)}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;checkbox&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_path identifier id'>path</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='rbrace token'>}</span>
@@ -1296,16 +1296,16 @@ path (my/nested/object/0/title).</p>
       <pre class="lines">
 
 
-347
-348
 349
 350
 351
 352
-353</pre>
+353
+354
+355</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 347</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 349</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_default_for identifier id'>default_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@active_template ivar id'>@active_template</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@parent ivar id'>@parent</span><span class='dot token'>.</span><span class='rubyid_templates identifier id'>templates</span><span class='lbrack token'>[</span><span class='rubyid_@active_template ivar id'>@active_template</span><span class='rbrack token'>]</span>
@@ -1335,8 +1335,6 @@ path (my/nested/object/0/title).</p>
       <pre class="lines">
 
 
-292
-293
 294
 295
 296
@@ -1345,10 +1343,12 @@ path (my/nested/object/0/title).</p>
 299
 300
 301
-302</pre>
+302
+303
+304</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 292</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 294</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_emit_template identifier id'>emit_template</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_@parent ivar id'>@parent</span><span class='dot token'>.</span><span class='rubyid_templates identifier id'>templates</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span>
@@ -1569,7 +1569,7 @@ path (my/nested/object/0/title).</p>
       <div class="method_details ">
   <h3 class="signature " id="hidden_input-instance_method">
   
-    - (<tt>Object</tt>) <strong>hidden_input</strong>(name, value = nil) 
+    - (<tt>Object</tt>) <strong>hidden_input</strong>(name, value = nil, field_opts = {}) 
   
 
   
@@ -1581,8 +1581,6 @@ path (my/nested/object/0/title).</p>
       <pre class="lines">
 
 
-278
-279
 280
 281
 282
@@ -1593,12 +1591,14 @@ path (my/nested/object/0/title).</p>
 287
 288
 289
-290</pre>
+290
+291
+292</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 278</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 280</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_hidden_input identifier id'>hidden_input</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_hidden_input identifier id'>hidden_input</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_field_opts identifier id'>field_opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
 
   <span class='rubyid_full_name identifier id'>full_name</span> <span class='assign token'>=</span> <span class='rubyid_path identifier id'>path</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
@@ -1608,7 +1608,7 @@ path (my/nested/object/0/title).</p>
     <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_value identifier id'>value</span><span class='lbrack token'>[</span><span class='string val'>'ref'</span><span class='rbrack token'>]</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_@forms ivar id'>@forms</span><span class='dot token'>.</span><span class='rubyid_tag identifier id'>tag</span><span class='lparen token'>(</span><span class='string val'>&quot;input&quot;</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;hidden&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_h identifier id'>h</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_full_name identifier id'>full_name</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+  <span class='rubyid_@forms ivar id'>@forms</span><span class='dot token'>.</span><span class='rubyid_tag identifier id'>tag</span><span class='lparen token'>(</span><span class='string val'>&quot;input&quot;</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;hidden&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_h identifier id'>h</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_full_name identifier id'>full_name</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_field_opts identifier id'>field_opts</span><span class='rparen token'>)</span><span class='comma token'>,</span>
              <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -1760,8 +1760,6 @@ path (my/nested/object/0/title).</p>
       <pre class="lines">
 
 
-313
-314
 315
 316
 317
@@ -1775,10 +1773,12 @@ path (my/nested/object/0/title).</p>
 325
 326
 327
-328</pre>
+328
+329
+330</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 313</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 315</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_label identifier id'>label</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;control-label&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:for</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
@@ -1891,17 +1891,17 @@ path (my/nested/object/0/title).</p>
       <pre class="lines">
 
 
-304
-305
 306
 307
 308
 309
 310
-311</pre>
+311
+312
+313</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 304</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 306</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_label_and_fourpartid identifier id'>label_and_fourpartid</span>
   <span class='rubyid_field_html identifier id'>field_html</span> <span class='assign token'>=</span>  <span class='rubyid_textfield identifier id'>textfield</span><span class='lparen token'>(</span><span class='string val'>&quot;id_0&quot;</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_0&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:class</span><span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;id_0&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>10</span><span class='rparen token'>)</span>
@@ -2105,8 +2105,6 @@ path (my/nested/object/0/title).</p>
       <pre class="lines">
 
 
-375
-376
 377
 378
 379
@@ -2131,10 +2129,12 @@ path (my/nested/object/0/title).</p>
 398
 399
 400
-401</pre>
+401
+402
+403</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 375</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 377</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_label_with_field identifier id'>label_with_field</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_field_html identifier id'>field_html</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_control_group_classes identifier id'>control_group_classes</span> <span class='assign token'>=</span> <span class='string val'>&quot;control-group&quot;</span>
@@ -2351,13 +2351,13 @@ path (my/nested/object/0/title)</p>
       <pre class="lines">
 
 
-273
-274
 275
-276</pre>
+276
+277
+278</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 275</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_password identifier id'>password</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span>  <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_@forms ivar id'>@forms</span><span class='dot token'>.</span><span class='rubyid_tag identifier id'>tag</span><span class='lparen token'>(</span><span class='string val'>&quot;input&quot;</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;password&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_h identifier id'>h</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_path identifier id'>path</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='comma token'>,</span>
@@ -2509,16 +2509,16 @@ path (my/nested/object/0/title)</p>
       <pre class="lines">
 
 
-365
-366
 367
 368
 369
 370
-371</pre>
+371
+372
+373</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 365</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 367</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_possible_options_for identifier id'>possible_options_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_add_empty_options identifier id'>add_empty_options</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@active_template ivar id'>@active_template</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@parent ivar id'>@parent</span><span class='dot token'>.</span><span class='rubyid_templates identifier id'>templates</span><span class='lbrack token'>[</span><span class='rubyid_@active_template ivar id'>@active_template</span><span class='rbrack token'>]</span>
@@ -2702,16 +2702,16 @@ path (my/nested/object/0/title)</p>
       <pre class="lines">
 
 
-338
-339
 340
 341
 342
 343
-344</pre>
+344
+345
+346</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 338</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 340</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_required? fid id'>required?</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@active_template ivar id'>@active_template</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@parent ivar id'>@parent</span><span class='dot token'>.</span><span class='rubyid_templates identifier id'>templates</span><span class='lbrack token'>[</span><span class='rubyid_@active_template ivar id'>@active_template</span><span class='rbrack token'>]</span>
@@ -2832,7 +2832,7 @@ path (my/nested/object/0/title)</p>
       <div class="method_details ">
   <h3 class="signature " id="textfield-instance_method">
   
-    - (<tt>Object</tt>) <strong>textfield</strong>(name = nil, value = &quot;&quot;, opts = {}) 
+    - (<tt>Object</tt>) <strong>textfield</strong>(name = nil, value = nil, opts = {}) 
   
 
   
@@ -2870,12 +2870,16 @@ path (my/nested/object/0/title)</p>
 267
 268
 269
-270</pre>
+270
+271
+272</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 244</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_textfield identifier id'>textfield</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span>  <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_textfield identifier id'>textfield</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span>  <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_value identifier id'>value</span> <span class='opasgn op'>||=</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_name identifier id'>name</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+
   <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;text&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_h identifier id'>h</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_path identifier id'>path</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 
   <span class='rubyid_placeholder identifier id'>placeholder</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{i18n_for(name)}_placeholder&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>''</span><span class='rparen token'>)</span>
@@ -2913,9 +2917,9 @@ path (my/nested/object/0/title)</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 10 10:56:09 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:50 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.5.2 (ruby-1.9.3).
+  0.8.6.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

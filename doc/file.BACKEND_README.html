@@ -6,13 +6,13 @@
 <title>
   File: BACKEND_README
   
-    &mdash; Documentation by YARD 0.8.5.2
+    &mdash; Documentation by YARD 0.8.6.1
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -82,7 +82,7 @@ MySQL server.</p>
 
 <p>Simply run:</p>
 
-<pre class="code ruby"><code class="ruby">     $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='rubyid_backend identifier id'>backend</span><span class='symbol val'>:devserver</span>
+<pre class="code ruby"><code class="ruby">     $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>backend:</span><span class='rubyid_devserver identifier id'>devserver</span>
 </code></pre>
 
 <p>To start the backend.  An Apache Derby database will be automatically
@@ -110,13 +110,13 @@ http://localhost:4567/</p>
   <li>
     <p>Run database migrations to create the initial schema:</p>
 
-    <pre class="code ruby"><code class="ruby"> $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='rubyid_db identifier id'>db</span><span class='symbol val'>:migrate</span>
+    <pre class="code ruby"><code class="ruby"> $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>db:</span><span class='rubyid_migrate identifier id'>migrate</span>
 </code></pre>
   </li>
   <li>
     <p>Start the dev server and connect to http://localhost:4567/</p>
 
-    <pre class="code ruby"><code class="ruby"> $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='rubyid_backend identifier id'>backend</span><span class='symbol val'>:devserver</span>
+    <pre class="code ruby"><code class="ruby"> $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>backend:</span><span class='rubyid_devserver identifier id'>devserver</span>
 </code></pre>
   </li>
 </ul>
@@ -128,14 +128,14 @@ indexes to the <code>build/</code> subdirectory.  If you have a burning desire
 for these to go somewhere else, you can specify a target directory
 with:</p>
 
-<pre class="code ruby"><code class="ruby"> <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='rubyid_backend identifier id'>backend</span><span class='symbol val'>:devserver</span> <span class='minus op'>-</span><span class='rubyid_Daspace constant id'>Daspace</span><span class='dot token'>.</span><span class='rubyid_data_directory identifier id'>data_directory</span><span class='assign token'>=</span><span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_ArchivesSpace constant id'>ArchivesSpace</span>
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>backend:</span><span class='rubyid_devserver identifier id'>devserver</span> <span class='minus op'>-</span><span class='rubyid_Daspace constant id'>Daspace</span><span class='dot token'>.</span><span class='rubyid_data_directory identifier id'>data_directory</span><span class='assign token'>=</span><span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_ArchivesSpace constant id'>ArchivesSpace</span>
 </code></pre>
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon May 13 20:10:32 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:28 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.5.2 (ruby-1.9.3).
+  0.8.6.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

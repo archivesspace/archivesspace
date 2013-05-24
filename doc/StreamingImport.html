@@ -6,13 +6,13 @@
 <title>
   Class: StreamingImport
   
-    &mdash; Documentation by YARD 0.8.5.2
+    &mdash; Documentation by YARD 0.8.6.1
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -126,7 +126,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (StreamingImport) <strong>initialize</strong>(stream) </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (StreamingImport) <strong>initialize</strong>(file) </a>
     
 
     
@@ -191,7 +191,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="StreamingImport (class)">StreamingImport</a></span></tt>) <strong>initialize</strong>(stream) 
+    - (<tt><span class='object_link'><a href="" title="StreamingImport (class)">StreamingImport</a></span></tt>) <strong>initialize</strong>(file) 
   
 
   
@@ -220,35 +220,13 @@
 51
 52
 53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65</pre>
+54</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/streaming_import.rb', line 47</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_stream identifier id'>stream</span><span class='rparen token'>)</span>
-
-  <span class='rubyid_@tempfile ivar id'>@tempfile</span> <span class='assign token'>=</span> <span class='rubyid_Tempfile constant id'>Tempfile</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>'import_stream'</span><span class='rparen token'>)</span>
-
-  <span class='rubyid_begin begin kw'>begin</span>
-    <span class='rubyid_while while kw'>while</span> <span class='notop op'>!</span><span class='lparen token'>(</span><span class='rubyid_buf identifier id'>buf</span> <span class='assign token'>=</span> <span class='rubyid_stream identifier id'>stream</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span><span class='lparen token'>(</span><span class='integer val'>4096</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
-      <span class='rubyid_@tempfile ivar id'>@tempfile</span><span class='dot token'>.</span><span class='rubyid_write identifier id'>write</span><span class='lparen token'>(</span><span class='rubyid_buf identifier id'>buf</span><span class='rparen token'>)</span>
-    <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_ensure ensure kw'>ensure</span>
-    <span class='rubyid_@tempfile ivar id'>@tempfile</span><span class='dot token'>.</span><span class='rubyid_close identifier id'>close</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='rubyid_@json ivar id'>@json</span> <span class='assign token'>=</span> <span class='rubyid_StreamingJsonReader constant id'>StreamingJsonReader</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_@tempfile ivar id'>@tempfile</span><span class='dot token'>.</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_file identifier id'>file</span><span class='rparen token'>)</span>
+  <span class='rubyid_@json ivar id'>@json</span> <span class='assign token'>=</span> <span class='rubyid_StreamingJsonReader constant id'>StreamingJsonReader</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_file identifier id'>file</span><span class='dot token'>.</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span>
 
   <span class='rubyid_@logical_urls ivar id'>@logical_urls</span> <span class='assign token'>=</span> <span class='rubyid_load_logical_urls identifier id'>load_logical_urls</span>
   <span class='rubyid_@dependencies ivar id'>@dependencies</span> <span class='assign token'>=</span> <span class='rubyid_load_dependencies identifier id'>load_dependencies</span>
@@ -283,6 +261,17 @@
       <pre class="lines">
 
 
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
 68
 69
 70
@@ -312,23 +301,10 @@
 94
 95
 96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110</pre>
+97</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/streaming_import.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/streaming_import.rb', line 57</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_process identifier id'>process</span>
   <span class='rubyid_round identifier id'>round</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
@@ -367,8 +343,6 @@
 
   <span class='rubyid_touch_toplevel_records identifier id'>touch_toplevel_records</span>
 
-  <span class='rubyid_cleanup identifier id'>cleanup</span>
-
   <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Finished in #{round} rounds&quot;</span><span class='rparen token'>)</span>
 
   <span class='rubyid_@logical_urls ivar id'>@logical_urls</span>
@@ -384,9 +358,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 10 10:56:04 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:46 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.5.2 (ruby-1.9.3).
+  0.8.6.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

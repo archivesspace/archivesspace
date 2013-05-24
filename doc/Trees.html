@@ -6,13 +6,13 @@
 <title>
   Module: Trees
   
-    &mdash; Documentation by YARD 0.8.5.2
+    &mdash; Documentation by YARD 0.8.6.1
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -83,7 +83,7 @@
   
   
     <dt class="r1">Included in:</dt>
-    <dd class="r1"><span class='object_link'><a href="DigitalObject.html" title="DigitalObject (class)">DigitalObject</a></span>, <span class='object_link'><a href="Resource.html" title="Resource (class)">Resource</a></span></dd>
+    <dd class="r1"><span class='object_link'><a href="Classification.html" title="Classification (class)">Classification</a></span>, <span class='object_link'><a href="DigitalObject.html" title="DigitalObject (class)">DigitalObject</a></span>, <span class='object_link'><a href="Resource.html" title="Resource (class)">Resource</a></span></dd>
     
   
   
@@ -155,6 +155,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#children-instance_method" title="#children (instance method)">- (Object) <strong>children</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#tree-instance_method" title="#tree (instance method)">- (Object) <strong>tree</strong> </a>
     
 
@@ -222,9 +245,9 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="tree-instance_method">
+  <h3 class="signature first" id="children-instance_method">
   
-    - (<tt>Object</tt>) <strong>tree</strong> 
+    - (<tt>Object</tt>) <strong>children</strong> 
   
 
   
@@ -240,9 +263,37 @@
 9
 10
 11
-12
-13
-14
+12</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/trees.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_children identifier id'>children</span>
+  <span class='rubyid_Kernel constant id'>Kernel</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_node_type identifier id'>node_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_camelize identifier id'>camelize</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+         <span class='rubyid_this_repo identifier id'>this_repo</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:root_record_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span>
+                          <span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="tree-instance_method">
+  
+    - (<tt>Object</tt>) <strong>tree</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
 15
 16
 17
@@ -277,10 +328,17 @@
 46
 47
 48
-49</pre>
+49
+50
+51
+52
+53
+54
+55
+56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/trees.rb', line 8</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/trees.rb', line 15</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_tree identifier id'>tree</span>
   <span class='rubyid_links identifier id'>links</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -335,9 +393,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 10 10:55:49 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:31 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.5.2 (ruby-1.9.3).
+  0.8.6.1 (ruby-1.9.3).
 </div>
   </body>
 </html>
