@@ -96,7 +96,8 @@ module Orderable
       new_values = {
         :parent_id => parent_id,
         :parent_name => parent_name,
-        :position => Sequence.get(sequence)
+        :position => Sequence.get(sequence),
+        :last_modified => Time.now
       }
 
       # Run through the standard validation without actually saving
