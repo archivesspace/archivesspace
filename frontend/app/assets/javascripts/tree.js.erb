@@ -692,7 +692,7 @@ $(function() {
             nodeEl = $("#"+nodeId, $tree);
 
             if (data.level && data.level.length > 0) {
-              nodeEl.find("a").append($('<span class="badge"></span>').text(data.level));
+              nodeEl.find("a:first").append($('<span class="badge"></span>').text(data.level));
             }
 
             nodeEl.addClass(currentNodeType).addClass("selected").attr("rel", currentNodeType).data("id", data.id);
@@ -710,7 +710,7 @@ $(function() {
             if (data.level && data.level.length > 0 && $(" > a > .badge", nodeEl).length > 0) {
               $(" > a > .badge", nodeEl).html(data.level);
             } else if (data.level && data.level.length > 0) {
-              nodeEl.find("a").append($('<span class="badge"></span>').text(data.level));
+              nodeEl.find("a:first").append($('<span class="badge"></span>').text(data.level));
             } else {
               $(" > a > .badge", nodeEl).remove();
             }
