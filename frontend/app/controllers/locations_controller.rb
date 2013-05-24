@@ -1,7 +1,7 @@
 class LocationsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :batch, :batch_create]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_location_record")}
+  before_filter(:only => [:new, :edit, :create, :update, :batch, :batch_create]) {|c| user_must_have("update_location_record")}
 
   def index
     @search_data = Search.for_type(session[:repo_id], "location", search_params.merge({"facet[]" => SearchResultData.LOCATION_FACETS}))
@@ -46,6 +46,14 @@ class LocationsController < ApplicationController
                   flash[:success] = I18n.t("location._frontend.messages.updated")
                   redirect_to :controller => :locations, :action => :show, :id => id
                 })
+  end
+
+  def batch
+    @location_batch = JSONModel(:location_batch).new
+  end
+
+  def batch_create
+
   end
 
 end
