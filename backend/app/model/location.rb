@@ -29,6 +29,11 @@ class Location < Sequel::Model(:location)
                 }
 
   def self.create_for_batch(batch)
+    locations = generate_locations_for_batch(batch)
+    locations.map{|location| self.create_from_json(location).uri}
+  end
+
+  def self.generate_locations_for_batch(batch)
     indicators_1, indicators_2, indicators_3  = [batch["coordinate_1"], batch["coordinate_2"], batch["coordinate_3"]].
                                                   compact.
                                                   map{|data| generate_indicators(data)}
@@ -51,14 +56,14 @@ class Location < Sequel::Model(:location)
               source_location["coordinate_3_label"] = batch["coordinate_3"]["label"]
               source_location["coordinate_3_indicator"] = indicator_3
 
-              results.push(self.create_from_json(JSONModel(:location).from_hash(source_location)))
+              results.push(JSONModel(:location).from_hash(source_location))
             end
           else
-            results.push(self.create_from_json(JSONModel(:location).from_hash(source_location)))
+            results.push(JSONModel(:location).from_hash(source_location))
           end
         end
       else
-        results.push(self.create_from_json(JSONModel(:location).from_hash(source_location)))
+        results.push(JSONModel(:location).from_hash(source_location))
       end
     end
 
