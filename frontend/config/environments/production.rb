@@ -58,7 +58,8 @@ ArchivesSpace::Application.configure do
                                 file =~ /codemirror\/.*/ or
                                 file =~ /codemirror\/util\/.*/ or
                                 file =~ /.*\.(png|jpg|gif)$/ or
-                                file =~ /themes\/.*\/(application|bootstrap).css/
+                                file =~ /themes\/.*\/(application|bootstrap).css/ or
+                                file =~ /rde.css/
                               }]
 
   # Disable delivery errors, bad email addresses will be ignored
