@@ -165,24 +165,33 @@ appropriate and specify the `encryption` option:
      }]
 
 
-# Overriding Frontend and Public templates/assets
+# Plug-ins and local customizations
 
-Under your `archivesspace` directory there will be a directory called `local`.
-By adding to directories under this you will be able to override the templates,
-locales, and assets (javascript, stylesheets, images) used in both the frontend
-and public applications.
+Under your `archivesspace` directory there is a directory called `plugins`.
+Each directory under the `plugins` directory contains a plug-in. In the standard
+distribution there are two plug-in directories - `hello_world` and `local`.
+The `hello_world` directory contains a simple exemplar plug-in. The `local` directory
+is empty - this is a place to put any local customizations or extensions to ArchivesSpace
+without having to change the core codebase.
 
-To override any of the view templates, just match up the path to the target template
-under the directories `archivesspace/local/frontend/views/`.
-For example, to override the frontend branding, add your own template named `_branding.html.erb`
-in the directory `archivesspace/local/frontend/views/site/`.
+Plug-ins are enabled by listing them in the configuration file. You will see the following line in
+`common/config/config-defaults.rb`:
 
-To apply your own label and text translations, add your locales file to the directory `archivesspace/local/frontend/locales/`.
-Ensure your file is named using the code of the target language - for English use `archivesspace/local/frontend/locales/en.yml`.
+    AppConfig[:plugins] = ['local']
 
-To allow a document (image, stylesheet, PDF etc) to be available from your application as a static resource, you can add it to the directory
-`archivesspace/local/frontend/assets`. For example, your own logo image `archivesspace/local/frontend/assets/my_logo.png` will then be available via the URL
-`http://localhost:8080/assets/my_logo.png`.
+This states that by default the `local` plug-in is enabled and any files contained there will be
+loaded and available to the application. In order to enable other plug-ins simply override this
+configuration in `common/config/config.rb`. For example, to enable the `hello_world` plug-in,
+add a line like this:
+
+    AppConfig[:plugins] = ['local', 'hello_world']
+
+Note that the string must be identical to the name of the directory under the `plugins` directory.
+Also note that the ordering of plug-ins in the list determines the order that the plug-ins will
+be loaded.
+
+For more information about plug-ins and how to use them to override and customize ArchivesSpace,
+please see the README in the `plugins` directory.
 
 
 # Creating backups
