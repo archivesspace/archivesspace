@@ -110,6 +110,13 @@ module ASpaceImport
     end
 
 
+    def send_to_client(message)
+      if @block
+        @block.call(message)
+      end
+    end
+
+
     def save_all
       parse_queue.save do |response|
         if response.code.to_s == '200'
@@ -121,19 +128,19 @@ module ASpaceImport
               elsif message =~ /\A\n\]\Z/
                 # the last message doesn't have a comma, so it's a fragment                
                 message = ASUtils.json_parse(fragments.sub(/\n\Z/, ''))
-                @block.call(message)              
+                send_to_client(message)              
               elsif message =~ /.*,\n\Z/
                 message = ASUtils.json_parse(fragments + message.sub(/,\n\Z/, ''))
-                @block.call(message)
+                send_to_client(message)
               else
                 fragments << message
               end
             rescue JSON::ParserError => e
-              @block.call({'error' => e.to_s})
+              send_to_client({'error' => e.to_s})
             end
           end
         else
-          @block.call({"error" => "Server Error #{response.code}"})
+          send_to_client({"error" => "Server Error #{response.code}"})
         end 
       end
     end
@@ -187,9 +194,7 @@ module ASpaceImport
     
     
     def emit_status(hsh)
-      if @block
-        @block.call({'status' => [hsh]})
-      end
+      send_to_client({'status' => [hsh]})
     end
     
     # ParseQueue helpers
