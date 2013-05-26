@@ -2099,6 +2099,43 @@ describe "ArchivesSpace user interface" do
       }
     end
 
+    it "can access the RDE form when editing an archival object" do
+      $driver.find_element(:css, "#archives_tree_toolbar .icon-arrow-right").click
+      $driver.wait_for_ajax
+
+      $driver.find_element(:id, "archival_object_title_")
+
+      $driver.find_element(:link, "Rapid Data Entry").click
+      $driver.find_element(:id => "rapidDataEntryModal")
+    end
+
+
+    it "can add multiple children and sticky columns stick" do
+      @modal = $driver.find_element(:id => "rapidDataEntryModal")
+
+      @modal.find_element(:id, "archival_record_children_children__0__level_").select_option("fonds")
+      @modal.find_element(:id, "archival_record_children_children__0__dates__0__date_type_").select_option("single")
+      $driver.clear_and_send_keys([:id, "archival_record_children_children__0__dates__0__begin_"], "2013")
+      $driver.clear_and_send_keys([:id, "archival_record_children_children__0__title_"], "Child 1")
+
+      $driver.find_element_with_text("//div[@id='rapidDataEntryModal']//th", /Title/).click
+
+      @modal.find_element(:css, ".btn.add-row").click
+      @modal.find_element(:id, "archival_record_children_children__1__level_").get_select_value.should eq("fonds")
+      @modal.find_element(:id, "archival_record_children_children__1__dates__0__date_type_").get_select_value.should eq("single")
+      @modal.find_element(:id, "archival_record_children_children__1__dates__0__begin_").attribute("value").should eq("2013")
+      @modal.find_element(:id, "archival_record_children_children__1__title_").attribute("value").should eq("Child 1")
+
+      $driver.clear_and_send_keys([:id, "archival_record_children_children__1__title_"], "Child 2")
+
+      $driver.click_and_wait_until_gone(:css => ".modal-footer .btn-primary")
+      $driver.wait_for_ajax
+
+      assert(5) {
+        $driver.find_element_with_text("//div[@id='archives_tree']//li", /Child 1, 2013 Fonds/)
+        $driver.find_element_with_text("//div[@id='archives_tree']//li", /Child 2, 2013 Fonds/)
+      }
+    end
   end
 
 end
