@@ -14,7 +14,6 @@ module ASpaceImport
     @@importers = {}
     attr_accessor :parse_queue
     attr_reader :error_log
-    attr_reader :import_log
 
     def self.list
       list = "The following importers are available\n"
@@ -153,9 +152,7 @@ module ASpaceImport
     def report
       report = "Aspace Import Report\n"
       report << "DRY RUN MODE\n" if @dry
-      unless self.import_log.empty?
-        report += self.import_log.join("\n")
-      end
+
       unless self.error_log.empty?
         report += self.error_log.map { |e| e.to_s }.join('\n\n')
       end
