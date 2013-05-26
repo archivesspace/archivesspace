@@ -503,4 +503,28 @@ describe 'Resources controller' do
     archival_object.notes[0]["publish"].should eq(true)
   end
 
+
+  it "allows posting of array of children" do
+    resource = create(:json_resource)
+
+    archival_object_1 = build(:json_archival_object)
+    archival_object_2 = build(:json_archival_object)
+
+    children = JSONModel(:archival_record_children).from_hash({
+                                                                "children" => [archival_object_1, archival_object_2]
+                                                              })
+
+    url = URI("#{JSONModel::HTTP.backend_url}#{resource.uri}/children")
+    response = JSONModel::HTTP.post_json(url, children.to_json)
+    json_response = ASUtils.json_parse(response.body)
+
+    json_response["status"].should eq("Updated")
+
+    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
+    tree.children.length.should eq(2)
+
+    tree.children[0]["title"].should eq(archival_object_1["title"])
+    tree.children[1]["title"].should eq(archival_object_2["title"])
+  end
+
 end
