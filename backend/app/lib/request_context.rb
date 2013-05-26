@@ -33,4 +33,9 @@ class RequestContext
     end
   end
 
+
+  def self.dump
+    Thread.current[:request_context].clone
+  end
+
 end

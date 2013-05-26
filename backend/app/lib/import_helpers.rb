@@ -1,6 +1,6 @@
 require_relative "../../../migrations/lib/utils"
 
-module ImportHelpers
+module ImportHelpers  
 
   class ImportException < StandardError
     attr_accessor :invalid_object

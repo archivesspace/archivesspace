@@ -186,12 +186,14 @@ en:
     digital_object_csv_title: Import Digital Object Records from a CSV File
     import_report: Import Report
     import_another: Import Another File
+    file_select: Select a file to upload
     submit: Import
     submit_busy_message: Importing...
     messages:
       missing_repo: You need to select a repository before importing
       missing_file: Please select an EAD file to upload
       error_prefix: Error importing file
+      complete: Import Complete
 
   errors:
     error_403: Unable to Access Page

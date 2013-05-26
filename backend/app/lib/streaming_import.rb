@@ -3,14 +3,17 @@ require 'json'
 require 'tempfile'
 
 class StreamingJsonReader
+  attr_reader :count
 
   def initialize(filename)
     @filename = filename
+    @count = nil
   end
 
 
-  def each
+  def each(determine_count = false)
     stream = java.io.FileReader.new(@filename)
+    @count = 0 if determine_count
 
     begin
       mapper = org.codehaus.jackson.map.ObjectMapper.new
@@ -22,6 +25,7 @@ class StreamingJsonReader
 
       while parser.nextToken
         result = parser.readValueAs(java.util.Map.java_class)
+        @count += 1 if determine_count
         yield(result)
 
         begin
@@ -29,9 +33,10 @@ class StreamingJsonReader
         rescue org.codehaus.jackson.JsonParseException
           # Skip over the pesky commas
         end
-      end
-    rescue org.codehaus.jackson.JsonParseException
-      raise JSON::ParserError.new($!)
+      end 
+    # rescue
+    #   raise JSON::ParserError.new($!)
+
     ensure
       stream.close
     end
@@ -41,40 +46,76 @@ end
 
 
 class StreamingImport
-
+  include ImportHelpers
   include JSONModel
 
-  def initialize(file)
-    @json = StreamingJsonReader.new(file.path)
+  def initialize(stream, ticker)
 
-    @logical_urls = load_logical_urls
-    @dependencies = load_dependencies
+    raise StandardError.new("Nothing to stream") unless stream
+    
+    @ticker = ticker
+    
+    with_status("Reading JSON records") do
+      
+      @ticker.tick_estimate = 1000 # this is totally made up, just want to show something
+    
+      @tempfile = Tempfile.new('import_stream')
+
+      begin
+        while !(buf = stream.read(4096)).nil?
+          @tempfile.write(buf)
+          ticker.tick
+        end
+      ensure
+        @tempfile.close
+      end
+
+    end
+    
+    @jstream = StreamingJsonReader.new(@tempfile.path)
+    
+    with_status("Validating records and checking links") do
+      @logical_urls = load_logical_urls
+      Log.debug("Logical URLS #{@logical_urls.inspect}")
+    end
+    
+    with_status("Evaluating record relationships") do
+    
+      @dependencies = load_dependencies
+    end
 
     @limbs_for_reattaching = {}
   end
 
 
   def process
+
     round = 0
 
     while true
       round += 1
+      
       finished = true
       progressed = false
 
-      @json.each do |rec|
-        uri = rec['uri']
-        dependencies = @dependencies[uri]
+      with_status("Saving records: cycle #{round}") do
+        @ticker.tick_estimate = @jstream.count
+        @jstream.each do |rec|
+          uri = rec['uri']
+          dependencies = @dependencies[uri]
 
-        if !@logical_urls[uri] && dependencies.all? {|d| @logical_urls[d]}
-          # migrate it
-          @logical_urls[uri] = do_create(rewrite(rec, @logical_urls))
+          if !@logical_urls[uri] && dependencies.all? {|d| @logical_urls[d]}
+            # migrate it
+            @logical_urls[uri] = do_create(rewrite(rec, @logical_urls))
 
-          progressed = true
-        end
+            progressed = true
+          end
 
-        if !@logical_urls[uri]
-          finished = false
+          if !@logical_urls[uri]
+            finished = false
+          end
+
+          @ticker.tick
         end
       end
 
@@ -82,18 +123,22 @@ class StreamingImport
         break
       end
 
-      if !progressed
-        run_dependency_breaking_cycle
+      with_status("Dealing with circular dependencies: cycle #{round}") do
+        if !progressed
+          run_dependency_breaking_cycle
+        end
       end
     end
 
-    reattach_severed_limbs
+    with_status("Cleaning up") do
+      reattach_severed_limbs
 
-    touch_toplevel_records
+      touch_toplevel_records
 
-    Log.debug("Finished in #{round} rounds")
-
-    @logical_urls
+      cleanup
+    end
+    
+    @logical_urls    
   end
 
 
@@ -101,12 +146,22 @@ class StreamingImport
 
   def load_logical_urls
     logical_urls = {}
+    
+    @ticker.tick_estimate = 20000; # made up
 
-    @json.each do |rec|
+    @jstream.each(true) do |rec|
+      
+      if !rec['uri']
+        raise ImportException.new(:invalid_object => to_jsonmodel(rec, false), 
+                                  :error => "Missing the temporary uri (required to set record relationships)")
+      end
+      
       logical_urls[rec['uri']] = nil
 
       # Take the opportunity to validate the record too
       to_jsonmodel(rewrite(rec, {}))
+      
+      @ticker.tick
     end
 
     logical_urls
@@ -116,8 +171,11 @@ class StreamingImport
   def load_dependencies
     dependencies = {}
 
-    @json.each do |rec|
+    @ticker.tick_estimate = @jstream.count
+    
+    @jstream.each do |rec|
       dependencies[rec['uri']] = extract_refs(rec, @logical_urls) - [rec['uri']]
+      @ticker.tick
     end
 
     dependencies
@@ -147,7 +205,7 @@ class StreamingImport
       if noerror
         nil
       else
-        raise $!
+        raise $!, "Problem creating '#{title_or_fallback(record)}': #{$!}"
       end
     end
   end
@@ -163,7 +221,7 @@ class StreamingImport
   def run_dependency_breaking_cycle
     progressed = false
 
-    @json.each do |rec|
+    @jstream.each do |rec|
       uri = rec['uri']
 
       next if @logical_urls[uri]
@@ -268,4 +326,29 @@ class StreamingImport
 
   end
 
+
+  def cleanup
+    if @tempfile
+      @tempfile.unlink
+    end
+  end
+  
+  
+  def with_status(stat, &block)
+    @status_id ||= 0
+    @status_id += 1
+    
+    status = {:id => @status_id, :label => stat}
+    
+    @ticker.status_update(:started, status)
+    result = block.call
+    @ticker.status_update(:done, status)
+    
+    result
+  end
+
+  
+  def title_or_fallback(record)
+    record['title'] ? record['title'] : record['jsonmodel_type']
+  end
 end

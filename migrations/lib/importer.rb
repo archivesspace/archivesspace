@@ -66,22 +66,23 @@ module ASpaceImport
     end
 
     def initialize(opts = {})
-      
+
       raise "Need a repo_id in order to run" unless opts[:repo_id]
-      
+
       unless opts[:log]
         require 'logger'
         opts[:log] = Logger.new(STDOUT)
+        
+        if opts[:debug] 
+          opts[:log].level = Logger::DEBUG
+        elsif opts[:quiet]
+          opts[:log].level = Logger::UNKNOWN
+        else
+          opts[:log].level = Logger::WARN 
+        end
       end
       
-      if opts[:debug] 
-        opts[:log].level = Logger::DEBUG
-      elsif opts[:quiet]
-        opts[:log].level = Logger::UNKNOWN
-      else
-        opts[:log].level = Logger::WARN 
-      end
-      
+
       JSONModel::set_repository(opts[:repo_id])
 
       @flags = {}    
@@ -96,65 +97,47 @@ module ASpaceImport
         instance_variable_set("@#{k}", v)
       end
       
-      @log.debug("Importer Flags: #{@flags}")
+      # @log.debug("Importer Flags: #{@flags}")
       
-      @import_log = []
-      @error_log = []
-      @import_summary
+      @block = nil
 
       @parse_queue = ASpaceImport::ParseQueue.new(opts)
     end
+
     
     def parse_queue
       @parse_queue
     end
-    
-    def save
-      @parse_queue.save
-    end
-    
 
-    def log_save_result(response)
-      if response.code.to_s == '200'
-        response_body = JSON.parse(response.body)
-        @import_summary = "Response Code 200: #{response_body['saved'].length} records saved."
 
-        @import_log = response_body['saved'].map {|k,u| "Saved: #{u}"}
-      else
-        @import_summary = "Import failed due to server error #{response.code}"
-        err_data = JSON.parse(response.body)['error']
-        error = LoggableError.new
-        if err_data.is_a?(Hash)
-          if err_data.has_key?('error_class') 
-            error.header = "Response #{response.code}" << ": #{err_data['error_class']}"
-          end
-          if err_data.has_key?('record_title')
-            error.record_info[:title] = err_data['record_title']
-          end
-          if err_data.has_key?('record_type')
-            error.record_info[:type] = err_data['record_type']
-          end
-          if err_data.has_key?('errors')
-            if err_data['errors'].is_a?(Array)
-              err_data['errors'].each {|e| error.messages << "#{e[0]}: #{e[1].join(': ')}\n" }
-            else
-              error.messages << err_data['errors'] << "\n"
+    def save_all
+      parse_queue.save do |response|
+        if response.code.to_s == '200'
+          fragments = ""
+          response.read_body do |message|
+            begin
+              if message =~ /\A\[\n\Z/
+                # do nothing because we're treating the response as a stream
+              elsif message =~ /\A\n\]\Z/
+                # the last message doesn't have a comma, so it's a fragment                
+                message = ASUtils.json_parse(fragments.sub(/\n\Z/, ''))
+                @block.call(message)              
+              elsif message =~ /.*,\n\Z/
+                message = ASUtils.json_parse(fragments + message.sub(/,\n\Z/, ''))
+                @block.call(message)
+              else
+                fragments << message
+              end
+            rescue JSON::ParserError => e
+              @block.call({'error' => e.to_s})
             end
           end
-          if err_data.has_key?('other')
-            error.messages << err_data['other']
-          end
         else
-          error.messages << err_data
-        end
-
-        @error_log << error
+          @block.call({"error" => "Server Error #{response.code}"})
+        end 
       end
     end
-    
-    def save_all
-      log_save_result(parse_queue.save)
-    end
+  
     
     def report_summary
       @import_summary
@@ -172,12 +155,15 @@ module ASpaceImport
       
       report
     end
-    
+      
 
     # Errors arising from bad data should be reported
     # out to the user. Other errors can surface 
     # as they arise.
-    def run_safe
+    def run_safe(&block)      
+      
+      @block = block
+            
       begin
         self.run
       rescue JSONModel::ValidationException => e
@@ -197,8 +183,13 @@ module ASpaceImport
       end
     end
 
-    def run
-      @log.debug("Abstract importer class run method")
+    private
+    
+    
+    def emit_status(hsh)
+      if @block
+        @block.call({'status' => [hsh]})
+      end
     end
     
     # ParseQueue helpers
@@ -206,8 +197,6 @@ module ASpaceImport
     # Empty out the parse queue and set any defaults
     def clear_parse_queue
       while !parse_queue.empty?
-        # @log.debug("SET DEFAULTS #{parse_queue.last.to_s}")
-        # parse_queue.last.receivers.each { |r| r.receive }
         parse_queue.pop
       end
     end

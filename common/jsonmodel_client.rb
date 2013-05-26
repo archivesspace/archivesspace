@@ -184,19 +184,19 @@ module JSONModel
     end
 
 
-    def self.do_http_request(url, req)
+    def self.do_http_request(url, req, &block)
       req['X-ArchivesSpace-Session'] = current_backend_session
 
       if high_priority?
         req['X-ArchivesSpace-Priority'] = "high"
       end
 
-      response = http_conn.request(url, req)
+      response = http_conn.request(url, req, &block)
 
       if response.code =~ /^4/
         JSONModel::handle_error(ASUtils.json_parse(response.body))
       end
-
+      
       response
     end
 
@@ -221,14 +221,14 @@ module JSONModel
     end
 
 
-    def self.post_json_file(url, path)
+    def self.post_json_file(url, path, &block)
       File.open(path) do |fh|
         req = Net::HTTP::Post.new(url.request_uri)
         req['Content-Type'] = 'text/json'
         req['Content-Length'] = File.size(path)
         req.body_stream = fh
 
-        do_http_request(url, req)
+        do_http_request(url, req, &block)
       end
     end
 

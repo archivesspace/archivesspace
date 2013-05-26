@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= I18n.t("import.submit_busy_message") %></title>
+    
+    <%= render :partial => "streaming_status_script" %>
+    
+    <script>
+
+			var iframe_emitter = new IFrameResultEmitter();
+
+      function update_status(update){
+				// defined in shared inline script
+        handleUpdate(update, iframe_emitter);
+      }
+      
+			function IFrameResultEmitter() {
+
+				var current_status_id = 0;
+
+				this.add_status_row = function(status) {
+
+					var rowdiv = document.createElement('div');
+					rowdiv.setAttribute('class', 'import-results-row alert');
+					rowdiv.setAttribute('id', status.id);
+					var para = document.createElement('p');
+					var stat = document.createTextNode(status.label);
+					para.appendChild(stat);
+					rowdiv.appendChild(para);
+					
+					var prog = document.createElement('div');
+					prog.setAttribute('class', 'progress-bar');
+					prog.setAttribute('style', 'width: 1px;');
+					var prog_id = "progress-bar-" + status.id;
+					prog.setAttribute('id', prog_id);
+					rowdiv.appendChild(prog);
+
+					document.getElementById("import-results").appendChild(rowdiv);
+					current_status_id = status.id;	
+				}
+
+				this.update_progress = function(ticks, total) {
+					var ht = document.getElementById('import-results').innerHTML;
+					
+	        var elid = "progress-bar-" + current_status_id;
+	        percent = Math.floor((ticks / total) * 100);
+	        document.getElementById(elid).setAttribute("style", "width: " + percent + "%");	
+				}
+
+				this.add_error_row = function(error) {
+
+					var rowdiv = document.createElement('div');
+					rowdiv.setAttribute('class', 'import-results-row alert alert-error');
+					var para = document.createElement('p');
+					var bold = document.createElement('b');
+					var stat = document.createTextNode(error);
+
+					bold.appendChild(stat);
+					para.appendChild(bold);
+					rowdiv.appendChild(para);
+
+					document.getElementById("import-results").appendChild(rowdiv);
+				}
+
+				this.show_saved = function(save_count) {
+
+					var rowdiv = document.createElement('div');
+					rowdiv.setAttribute('class', 'import-results-row alert alert-success');
+					var para = document.createElement('p');
+					var stat = document.createTextNode("Saved: "+save_count+" records.");
+					para.appendChild(stat);
+					rowdiv.appendChild(para);
+
+					document.getElementById("import-results").appendChild(rowdiv);
+				}	
+			}
+
+      
+    </script>
+
+    <style>
+      <%= Rails.application.assets.find_asset("themes/#{ArchivesSpace::Application.config.frontend_theme}/bootstrap").to_s %>
+      <%= Rails.application.assets.find_asset("themes/#{ArchivesSpace::Application.config.frontend_theme}/application").to_s %>
+
+      body {
+        background: white;
+      }
+    </style>
+
+
+  </head>
+  <body>
+    <div class="content-pane">
+
+      <div id="import-alerts"></div>
+      <div id="import-results"></div>
+    </div>
+  </body>
+</html>

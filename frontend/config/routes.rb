@@ -1,7 +1,9 @@
 ArchivesSpace::Application.routes.draw do
 
   get "import/index"
+  get "import/upload_select"
   post "import/upload"
+  post "import/upload_xhr"
 
   match 'login' => "session#login", :via => :post
   match 'logout' => "session#logout", :via => :get
