@@ -2045,4 +2045,97 @@ describe "ArchivesSpace user interface" do
 
   end
 
+
+  describe "RDE" do
+
+    before(:all) do
+      login_as_archivist
+      @resource_uri, @resource_title = create_resource
+      run_index_round
+    end
+
+
+    after(:all) do
+      logout
+    end
+
+    it "can view the RDE form when editing a resource" do
+      # navigate to the edit resource page
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Resources").click
+      resource_row = $driver.find_element_with_text('//tr', /#{@resource_title}/, true, true)
+      resource_row.find_element(:link, "Edit").click
+
+      $driver.find_element(:link, "Rapid Data Entry").click
+      @modal = $driver.find_element(:id => "rapidDataEntryModal")
+      @modal.find_element(:id, "archival_record_children_children__0__level_")
+    end
+
+    it "can review error messages on an invalid entry" do
+      @modal = $driver.find_element(:id => "rapidDataEntryModal")
+
+      @modal.find_element(:css, ".modal-footer .btn-primary").click
+      @modal.find_element_with_text('//div[contains(@class, "error")]', /Row 1: Level of Description - Property is required but was missing/)
+
+      @modal.find_element(:id, "archival_record_children_children__0__dates__0__date_type_").select_option("single")
+      @modal.find_element(:css, ".modal-footer .btn-primary").click
+      @modal.find_element_with_text('//div[contains(@class, "error")]', /Row 1: Level of Description - Property is required but was missing/)
+      @modal.find_element_with_text('//div[contains(@class, "error")]', /Row 1: Begin - is required/)
+    end
+
+    it "can add a child via the RDE form" do
+      @modal = $driver.find_element(:id => "rapidDataEntryModal")
+
+      @modal.find_element(:id, "archival_record_children_children__0__level_").select_option("item")
+      $driver.clear_and_send_keys([:id, "archival_record_children_children__0__title_"], "My AO")
+      $driver.clear_and_send_keys([:id, "archival_record_children_children__0__dates__0__begin_"], "2013")
+
+      $driver.click_and_wait_until_gone(:css => ".modal-footer .btn-primary")
+
+      $driver.wait_for_ajax
+
+      assert(5) {
+        $driver.find_element_with_text("//div[@id='archives_tree']//li", /My AO, 2013 Item/)
+      }
+    end
+
+    it "can access the RDE form when editing an archival object" do
+      $driver.find_element(:css, "#archives_tree_toolbar .icon-arrow-right").click
+      $driver.wait_for_ajax
+
+      $driver.find_element(:id, "archival_object_title_")
+
+      $driver.find_element(:link, "Rapid Data Entry").click
+      $driver.find_element(:id => "rapidDataEntryModal")
+    end
+
+
+    it "can add multiple children and sticky columns stick" do
+      @modal = $driver.find_element(:id => "rapidDataEntryModal")
+
+      @modal.find_element(:id, "archival_record_children_children__0__level_").select_option("fonds")
+      @modal.find_element(:id, "archival_record_children_children__0__dates__0__date_type_").select_option("single")
+      $driver.clear_and_send_keys([:id, "archival_record_children_children__0__dates__0__begin_"], "2013")
+      $driver.clear_and_send_keys([:id, "archival_record_children_children__0__title_"], "Child 1")
+
+      $driver.find_element_with_text("//div[@id='rapidDataEntryModal']//th", /Title/).click
+
+      @modal.find_element(:css, ".btn.add-row").click
+      @modal.find_element(:id, "archival_record_children_children__1__level_").get_select_value.should eq("fonds")
+      @modal.find_element(:id, "archival_record_children_children__1__dates__0__date_type_").get_select_value.should eq("single")
+      @modal.find_element(:id, "archival_record_children_children__1__dates__0__begin_").attribute("value").should eq("2013")
+      @modal.find_element(:id, "archival_record_children_children__1__title_").attribute("value").should eq("Child 1")
+
+      $driver.clear_and_send_keys([:id, "archival_record_children_children__1__title_"], "Child 2")
+
+      $driver.click_and_wait_until_gone(:css => ".modal-footer .btn-primary")
+      $driver.wait_for_ajax
+
+      assert(5) {
+        $driver.find_element_with_text("//div[@id='archives_tree']//li", /Child 1, 2013 Fonds/)
+        $driver.find_element_with_text("//div[@id='archives_tree']//li", /Child 2, 2013 Fonds/)
+      }
+    end
+  end
+
 end

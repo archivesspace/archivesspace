@@ -246,4 +246,36 @@ describe 'Archival Object controller' do
     JSONModel(:archival_object).find(ao.id)[:ref_id].should eq(ref_id)
   end
 
+
+  it "allows posting of array of children" do
+    resource = create(:json_resource)
+    parent_archival_object = create(:json_archival_object, :resource => {:ref => resource.uri})
+
+    archival_object_1 = build(:json_archival_object)
+    archival_object_2 = build(:json_archival_object)
+
+    children = JSONModel(:archival_record_children).from_hash({
+      "children" => [archival_object_1, archival_object_2]
+    })
+
+    url = URI("#{JSONModel::HTTP.backend_url}#{parent_archival_object.uri}/children")
+    response = JSONModel::HTTP.post_json(url, children.to_json)
+    json_response = ASUtils.json_parse(response.body)
+
+    json_response["status"].should eq("Updated")
+    get "#{$repo}/archival_objects/#{json_response["id"]}/children"
+    last_response.should be_ok
+
+    children = JSON(last_response.body)
+
+    children.length.should eq(2)
+    children[0]["title"].should eq(archival_object_1["title"])
+    children[0]["parent"]["ref"].should eq(parent_archival_object.uri)
+    children[0]["resource"]["ref"].should eq(resource.uri)
+
+    children[1]["title"].should eq(archival_object_2["title"])
+    children[1]["parent"]["ref"].should eq(parent_archival_object.uri)
+    children[1]["resource"]["ref"].should eq(resource.uri)
+  end
+
 end
