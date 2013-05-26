@@ -98,6 +98,7 @@ module ASpaceImport
       
       # @log.debug("Importer Flags: #{@flags}")
       
+      @error_log = []
       @block = nil
 
       @parse_queue = ASpaceImport::ParseQueue.new(opts)
