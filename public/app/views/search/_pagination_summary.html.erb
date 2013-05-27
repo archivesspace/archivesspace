@@ -26,10 +26,10 @@
           </ul>
         </li>
         <li class="dropdown-submenu pull-left">
-          <%= link_to I18n.t("search_sorting.last_modified"), params_for_search("sort" => @search_data.sort_filter_for("last_modified", "desc")) %>
+          <%= link_to I18n.t("search_sorting.user_mtime"), params_for_search("sort" => @search_data.sort_filter_for("user_mtime", "desc")) %>
           <ul class="dropdown-menu">
-            <li><%= link_to I18n.t("search_sorting.asc"), params_for_search("sort" => "last_modified asc") %></li>
-            <li><%= link_to I18n.t("search_sorting.desc"), params_for_search("sort" => "last_modified desc") %></li>
+            <li><%= link_to I18n.t("search_sorting.asc"), params_for_search("sort" => "user_mtime asc") %></li>
+            <li><%= link_to I18n.t("search_sorting.desc"), params_for_search("sort" => "user_mtime desc") %></li>
           </ul>
         </li>
       </ul>

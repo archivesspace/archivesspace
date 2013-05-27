@@ -260,7 +260,7 @@ eof
   def self.increase_lock_version_or_fail(obj)
     updated_rows = obj.class.dataset.filter(:id => obj.id, :lock_version => obj.lock_version).
                        update(:lock_version => obj.lock_version + 1,
-                              :last_modified => Time.now)
+                              :system_mtime => Time.now)
 
     if updated_rows != 1
       raise Sequel::Plugins::OptimisticLocking::Error.new("Couldn't create version of: #{obj}")

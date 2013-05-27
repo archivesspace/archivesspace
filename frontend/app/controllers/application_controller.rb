@@ -190,7 +190,7 @@ class ApplicationController < ActionController::Base
 
   def refresh_permissions
     if session[:last_permission_refresh] &&
-        session[:last_permission_refresh] < MemoryLeak::Resources.get(:acl_last_modified)
+        session[:last_permission_refresh] < MemoryLeak::Resources.get(:acl_system_mtime)
       User.refresh_permissions(session)
     end
   end

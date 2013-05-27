@@ -56,7 +56,7 @@ en:
     desc: Descending
     relevance: Relevance
     title_sort: Title
-    last_modified: Modified
+    user_mtime: Modified
     create_time: Created
 
   errors:

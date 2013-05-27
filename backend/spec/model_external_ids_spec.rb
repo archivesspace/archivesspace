@@ -11,7 +11,8 @@ describe 'External ID mixin' do
       String :name
       Integer :lock_version, :default => 0
       DateTime :create_time
-      DateTime :last_modified
+      DateTime :system_mtime
+      DateTime :user_mtime
     end
 
 

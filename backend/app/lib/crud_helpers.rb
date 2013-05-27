@@ -77,7 +77,7 @@ module CrudHelpers
     dataset = CrudHelpers.dataset(model, where)
 
     modified_since_time = Time.at(pagination_data[:modified_since])
-    dataset = dataset.where { last_modified >= modified_since_time }
+    dataset = dataset.where { system_mtime >= modified_since_time }
 
     if pagination_data[:page]
       # Classic pagination mode

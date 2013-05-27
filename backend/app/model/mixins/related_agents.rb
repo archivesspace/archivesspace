@@ -8,6 +8,8 @@ module RelatedAgents
         extend JSONModel
         one_to_one :relationship_date, :class => "ASDate", :key => :related_agents_rlshp_id
 
+        include ASModel::SequelHooks
+
         def self.create(values)
           date_values = values.delete('dates')
           obj = super

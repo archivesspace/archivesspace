@@ -31,7 +31,7 @@ class Enumeration < Sequel::Model(:enumeration)
     self.class.users_of(self.name).each do |definition, model|
       property_id = "#{definition[:property]}_id".intern
       model.filter(property_id => old_enum_value.id).update(property_id => new_enum_value.id,
-                                                            :last_modified => Time.now)
+                                                            :system_mtime => Time.now)
     end
 
     old_enum_value.delete

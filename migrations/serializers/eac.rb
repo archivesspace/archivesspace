@@ -24,7 +24,7 @@ ASpaceExport::serializer :eac do
     xml.control {
       xml.recordId "#{json.uri.gsub(/\//, ':')}"
       
-      xml.maintenanceStatus json.create_time == json.last_modified ? "new" : "revised"
+      xml.maintenanceStatus json.create_time == json.system_mtime ? "new" : "revised"
     
       xml.maintenanceAgency {
         xml.agencyName "unknown"
@@ -58,7 +58,7 @@ ASpaceExport::serializer :eac do
         
         # xml.maintenanceEvent {
         #   xml.eventType "revised"
-        #   ctime = Time.mktime(json.last_modified.to_s).utc.strftime '%Y-%m-%dT%H:%M:%S'
+        #   ctime = Time.mktime(json.system_mtime.to_s).utc.strftime '%Y-%m-%dT%H:%M:%S'
         #   xml.eventDateTime(:standardDateTime => ctime) {
         #     xml.text ctime
         #   } 

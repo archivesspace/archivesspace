@@ -62,13 +62,13 @@
           <% end %>
         <% end %>
         <td>
-          <% if result['create_time'] and result['last_modified'] %>
+          <% if result['create_time'] and result['user_mtime'] %>
             <small>
               <dl>
                 <dt><%= I18n.t("search_results.created") %></dt>
                 <dd><%= Time.parse(result['create_time']).getlocal %></dd>
                 <dt><%= I18n.t("search_results.modified") %></dt>
-                <dd><%= Time.parse(result['last_modified']).getlocal %></dd>
+                <dd><%= Time.parse(result['user_mtime']).getlocal %></dd>
               </dl>
             </small>
           <% end %>

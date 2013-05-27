@@ -112,7 +112,7 @@ en:
     desc: Descending
     relevance: Relevance
     title_sort: Title
-    last_modified: Modified
+    user_mtime: Modified
     primary_type: Record Type
     processing_priority: Priority
     processing_status: Status

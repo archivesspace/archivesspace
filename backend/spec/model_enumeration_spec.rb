@@ -19,7 +19,8 @@ describe 'Enumerations model' do
       Integer :role_id
       Integer :lock_version, :default => 0
       DateTime :create_time
-      DateTime :last_modified
+      DateTime :system_mtime
+      DateTime :user_mtime
     end
 
     @model = Class.new(Sequel::Model(:model_with_enums)) do
