@@ -128,6 +128,7 @@
    <!-- Audit fields -->
    <field name="create_time" type="date" indexed="true" stored="true" multiValued="false"/>
    <field name="system_mtime" type="date" indexed="true" stored="true" multiValued="false"/>
+   <field name="user_mtime" type="date" indexed="true" stored="true" multiValued="false"/>
 
 
    <!-- Dynamic fields for site-specific use -->

@@ -181,7 +181,7 @@ class PeriodicIndexer < CommonIndexer
 
     modified_since = [@state.get_last_mtime('repositories', 'repositories') - WINDOW_SECONDS, 0].max
     updated_repositories = repositories.reject {|repository| Time.parse(repository['system_mtime']).to_i < modified_since}.
-                                        map {|repository| {
+    map {|repository| {
         'record' => repository.to_hash(:trusted),
         'uri' => repository.uri
       }
