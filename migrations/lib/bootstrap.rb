@@ -23,7 +23,7 @@ $dry_mode ||= false
 
 unless $test_mode
   begin
-    json_model_opts = { :client_mode => true, :url => AppConfig[:backend_url], :strict_mode => true }
+    json_model_opts = { :client_mode => true, :url => AppConfig[:backend_url] }
     JSONModel::init(json_model_opts)
   rescue StandardError => e
       $log.warn("Exception #{e.to_s}")

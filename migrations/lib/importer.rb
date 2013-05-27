@@ -29,7 +29,7 @@ module ASpaceImport
 
     def self.create_importer(opts)
       i = @@importers[opts[:importer].to_sym]
-      if !i.nil? && i.usable
+      if !i.nil?
         i.new opts
       else
         raise StandardError.new("Unusable importer or importer not found for: #{name}(#{opts[:importer]})")
@@ -60,9 +60,6 @@ module ASpaceImport
       end
     end
 
-    def self.usable
-      true
-    end
 
     def initialize(opts = {})
 
@@ -80,7 +77,7 @@ module ASpaceImport
           opts[:log].level = Logger::WARN 
         end
       end
-      
+
 
       JSONModel::set_repository(opts[:repo_id])
 
@@ -95,8 +92,6 @@ module ASpaceImport
       opts.each do |k,v|
         instance_variable_set("@#{k}", v)
       end
-      
-      # @log.debug("Importer Flags: #{@flags}")
       
       @error_log = []
       @block = nil
@@ -138,27 +133,12 @@ module ASpaceImport
             rescue JSON::ParserError => e
               send_to_client({'error' => e.to_s})
             end
-          end
+          end 
+    
         else
           send_to_client({"error" => "Server Error #{response.code}"})
         end 
       end
-    end
-  
-    
-    def report_summary
-      @import_summary
-    end
-    
-    def report
-      report = "Aspace Import Report\n"
-      report << "DRY RUN MODE\n" if @dry
-
-      unless self.error_log.empty?
-        report += self.error_log.map { |e| e.to_s }.join('\n\n')
-      end
-      
-      report
     end
       
 

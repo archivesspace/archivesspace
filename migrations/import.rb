@@ -50,16 +50,18 @@ end
 
 optparse.parse!
 
-$dry_mode = true if options[:dry] || options[:list]
-
-if $dry_mode
-  require 'mocha/setup'
-  include Mocha::API
+if options[:dry]
+  $dry_mode = true
 end
 
 require_relative 'lib/bootstrap'
 
+if options[:debug]
+  $log.level = Logger::DEBUG
+end
+
 options[:log] = $log
+
 
 if options[:list]
   puts ASpaceImport::Importer.list
@@ -69,7 +71,14 @@ end
 
 if options[:importer]
   ASpaceImport::Importer.create_importer(options).run_safe do |message|
-    puts message.to_s
+    if message.has_key?('saved')
+      puts "Saved #{message['saved'].length} records."
+      message['saved'].keys.each do |saved|
+        puts "#{saved}\n"
+      end
+    else
+      puts "Server response: #{message.to_s}"
+    end
   end
 end
 
