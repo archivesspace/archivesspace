@@ -13,7 +13,7 @@ class ArchivesSpaceService < Sinatra::Base
     if params[:dry_run] == "true"
       batch["result_locations"] = Location.generate_locations_for_batch(batch)
     else
-      batch["result_locations"] = Location.create_for_batch(batch)
+      batch["result_locations"] = Location.create_for_batch(batch).map {|obj| obj.uri}
     end
 
     json_response(batch)

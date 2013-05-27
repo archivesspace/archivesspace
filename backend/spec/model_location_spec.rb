@@ -71,7 +71,7 @@ describe 'Location model' do
     ids[3].should eq("Oogabooga-D")
   end
 
-  it "generates identifiers for a batch location coordinate definition (int)" do
+  it "generates identifiers for a batch location coordinate definition (integers)" do
     batch = JSONModel(:location_batch).from_hash({
                                                    "source_location" => build(:json_location),
                                                    "coordinate_1" => {
@@ -91,7 +91,7 @@ describe 'Location model' do
   end
 
 
-  it "generates identifiers for a batch location coordinate definition (int)" do
+  it "creates locations from a batch process" do
     batch = JSONModel(:location_batch).from_hash({
                                                    "source_location" => build(:json_location),
                                                    "coordinate_1" => {

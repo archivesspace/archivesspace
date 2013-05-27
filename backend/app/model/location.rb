@@ -30,7 +30,7 @@ class Location < Sequel::Model(:location)
 
   def self.create_for_batch(batch)
     locations = generate_locations_for_batch(batch)
-    locations.map{|location| self.create_from_json(location).uri}
+    locations.map{|location| self.create_from_json(location)}
   end
 
   def self.generate_locations_for_batch(batch)

@@ -53,7 +53,19 @@ class LocationsController < ApplicationController
   end
 
   def batch_create
+    batch = cleanup_params_for_schema(params[:location_batch], JSONModel(:location_batch).schema)
 
+    @location_batch = JSONModel(:location_batch).from_hash(batch)
+
+    uri = "#{JSONModel::HTTP.backend_url}/repositories/#{session[:repo_id]}/locations/batch"
+    if params["dry_run"]
+      uri += "?dry_run=true"
+    end
+    response = JSONModel::HTTP.post_json(URI(uri), batch.to_json)
+
+    batch_response = ASUtils.json_parse(response.body)
+
+    render :action => :batch
   end
 
 end
