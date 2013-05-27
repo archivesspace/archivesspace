@@ -3,7 +3,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/agents/corporate_entities')
     .description("Create a corporate entity agent")
     .params(["agent", JSONModel(:agent_corporate_entity), "The corporate entity to create", :body => true])
-    .nopermissionsyet
+    .permissions([:update_agent_record])
     .returns([200, :created],
              [400, :error]) \
   do
@@ -15,7 +15,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("List all corporate entity agents")
     .params()
     .paginated(true)
-    .nopermissionsyet
+    .permissions([])
     .returns([200, "[(:agent_corporate_entity)]"]) \
   do
     handle_listing(AgentCorporateEntity, params)
@@ -26,7 +26,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Update a corporate entity agent")
     .params(["agent_id", Integer, "The ID of the agent to update"],
             ["agent", JSONModel(:agent_corporate_entity), "The corporate entity to create", :body => true])
-    .nopermissionsyet
+    .permissions([:update_agent_record])
     .returns([200, :updated],
              [400, :error]) \
   do
@@ -39,7 +39,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", Integer, "ID of the corporate entity agent"],
             ["resolve", [String], "A list of references to resolve and embed in the response",
              :optional => true])
-    .nopermissionsyet
+    .permissions([])
     .returns([200, "(:agent)"],
              [404, '{"error":"Agent not found"}']) \
   do
@@ -50,7 +50,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.delete('/agents/corporate_entities/:id')
     .description("Delete a corporate entity agent")
     .params(["id", Integer, "ID of the corporate entity agent"])
-    .nopermissionsyet
+    .permissions([:delete_agent_record])
     .returns([200, :deleted]) \
   do
     handle_delete(AgentCorporateEntity, params[:id])

@@ -90,16 +90,6 @@ class ArchivesSpaceService
                       "The ability to create and modify location records in a given repository",
                       :level => "repository")
 
-    # This doesn't really make sense since subjects aren't repository-scoped.  Needs revisiting.
-    Permission.define("update_subject_record",
-                      "The ability to create and modify subject records",
-                      :level => "repository")
-
-    # This doesn't really make sense since agents aren't repository-scoped.  Needs revisiting.
-    Permission.define("update_agent_record",
-                      "The ability to create and modify agent records",
-                      :level => "repository")
-
     Permission.define("update_archival_record",
                       "The ability to create and modify the major archival record types: accessions/resources/digital objects/components/collection management",
                       :level => "repository")
@@ -120,6 +110,7 @@ class ArchivesSpaceService
                       "The ability to delete the major archival record types: accessions/resources/digital objects/components/collection management/events",
                       :level => "repository")
 
+
     Permission.define("view_suppressed",
                       "The ability to view suppressed records in a given repository",
                       :level => "repository")
@@ -135,6 +126,42 @@ class ArchivesSpaceService
     Permission.define("delete_classification_record",
                       "The ability to delete classification records",
                       :level => "repository")
+
+
+    # Updates and deletes to subjects and agents are a bit funny: they're global
+    # objects, but users are granted permission to modify them by being
+    # associated with a group within a repository.
+
+    Permission.define("update_subject_record",
+                      "The ability to create and modify subject records",
+                      :derived_permission => true,
+                      :level => "repository")
+
+    Permission.define("update_agent_record",
+                      "The ability to create and modify agent records",
+                      :derived_permission => true,
+                      :level => "repository")
+
+    Permission.define("update_vocabulary_record",
+                      "The ability to create and modify vocabulary records",
+                      :derived_permission => true,
+                      :level => "repository")
+
+    Permission.define("delete_agent_record",
+                      "The ability to delete agent records",
+                      :derived_permission => true,
+                      :level => "repository")
+
+    Permission.define("delete_subject_record",
+                      "The ability to delete subject records",
+                      :derived_permission => true,
+                      :level => "repository")
+
+    Permission.define("delete_vocabulary_record",
+                      "The ability to delete vocabulary records",
+                      :derived_permission => true,
+                      :level => "repository")
+
 
 
   end
@@ -161,6 +188,7 @@ class ArchivesSpaceService
 
         created_group.grant("view_repository")
         created_group.grant("view_suppressed")
+        created_group.grant("view_all_records")
         created_group.grant("index_system")
       end
     end

@@ -3,7 +3,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/agents/software')
     .description("Create a software agent")
     .params(["agent", JSONModel(:agent_software), "The software to create", :body => true])
-    .nopermissionsyet
+    .permissions([:update_agent_record])
     .returns([200, :created],
              [400, :error]) \
   do
@@ -15,7 +15,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("List all software agents")
     .params()
     .paginated(true)
-    .nopermissionsyet
+    .permissions([])
     .returns([200, "[(:agent_software)]"]) \
   do
     handle_listing(AgentSoftware, params)
@@ -26,7 +26,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Update a software agent")
     .params(["agent_id", Integer, "The ID of the software to update"],
             ["agent", JSONModel(:agent_software), "The software to create", :body => true])
-    .nopermissionsyet
+    .permissions([:update_agent_record])
     .returns([200, :updated],
              [400, :error]) \
   do
@@ -39,7 +39,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", Integer, "ID of the software agent"],
             ["resolve", [String], "A list of references to resolve and embed in the response",
              :optional => true])
-    .nopermissionsyet
+    .permissions([])
     .returns([200, "(:agent)"],
              [404, '{"error":"Agent not found"}']) \
   do
@@ -50,7 +50,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.delete('/agents/software/:id')
     .description("Delete a software agent")
     .params(["id", Integer, "ID of the software agent"])
-     .nopermissionsyet
+    .permissions([:delete_agent_record])
     .returns([200, :deleted]) \
   do
     handle_delete(AgentSoftware, params[:id])

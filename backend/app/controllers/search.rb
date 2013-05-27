@@ -68,9 +68,9 @@ class ArchivesSpaceService < Sinatra::Base
            [String],
            "A list of document IDs that should be excluded from results",
            :optional => true])
-    .nopermissionsyet
+    .permissions([:view_all_records])
     .paginated(true)
-    .returns([200, "[(:location)]"]) \
+    .returns([200, ""]) \
   do
     show_suppressed = !RequestContext.get(:enforce_suppression)
     show_published_only = current_user.username === User.PUBLIC_USERNAME
@@ -92,7 +92,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/search/tree_view')
   .description("Find the tree view for a particular archival record")
   .params(["node_uri", String, "The URI of the archival record to find the tree view for"])
-  .nopermissionsyet
+  .permissions([:view_all_records])
   .returns([200, "OK"],
            [404, '{"error":"Tree for node_uri not found"}']) \
   do
