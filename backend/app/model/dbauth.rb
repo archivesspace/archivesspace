@@ -14,13 +14,13 @@ class DBAuth
         db[:auth_db].insert(:username => username,
                             :pwhash => pwhash,
                             :create_time => Time.now,
-                            :last_modified => Time.now)
+                            :system_mtime => Time.now)
       }.and_if_constraint_fails {
         db[:auth_db].
         filter(:username => username).
         update(:username => username,
                :pwhash => pwhash,
-               :last_modified => Time.now)
+               :system_mtime => Time.now)
       }
     end
   end

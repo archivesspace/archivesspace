@@ -15,7 +15,8 @@ describe 'Relationships' do
         String :created_by
         String :last_modified_by
         DateTime :create_time
-        DateTime :last_modified
+        DateTime :system_mtime
+        DateTime :user_mtime
       end
     end
 
@@ -25,7 +26,8 @@ describe 'Relationships' do
       Integer :banana_id
       Integer :apple_id
       Integer :aspace_relationship_position
-      DateTime :last_modified, :null => false
+      DateTime :system_mtime, :null => false
+      DateTime :user_mtime, :null => false
     end
 
     $testdb.create_table :friends_rlshp do
@@ -37,7 +39,8 @@ describe 'Relationships' do
       Integer :cherry_id
 
       Integer :aspace_relationship_position
-      DateTime :last_modified, :null => false
+      DateTime :system_mtime, :null => false
+      DateTime :user_mtime, :null => false
     end
   end
 
@@ -248,7 +251,7 @@ describe 'Relationships' do
     time = Time.now.to_f
     banana = Banana.create_from_json(banana_json)
 
-    banana.my_relationships(:fruit_salad)[0][:last_modified].to_f.should be >= time
+    banana.my_relationships(:fruit_salad)[0][:system_mtime].to_f.should be >= time
   end
 
 
@@ -322,13 +325,13 @@ describe 'Relationships' do
                                                               :ref => cherry.uri
                                                             }]))
 
-    time = (banana.last_modified.to_f * 1000).to_i
+    time = (banana.system_mtime.to_f * 1000).to_i
     sleep 0.1
 
     cherry.update_from_json(JSONModel(:cherry).from_hash(:lock_version => 0))
     banana.refresh
 
-    (banana.last_modified.to_f * 1000).to_i.should_not eq(time)
+    (banana.system_mtime.to_f * 1000).to_i.should_not eq(time)
   end
 
 end

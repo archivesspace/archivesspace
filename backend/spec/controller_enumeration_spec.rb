@@ -18,7 +18,8 @@ describe "Enumeration controller" do
         Integer :my_enum_id
         Integer :lock_version, :default => 0
         DateTime :create_time
-        DateTime :last_modified
+        DateTime :system_mtime
+        DateTime :user_mtime
       end
 
       $testdb.alter_table(:controller_enum_model) do
@@ -85,7 +86,7 @@ describe "Enumeration controller" do
     value = EnumerationValue[:value => 'new_value']
     record = @model.create(:my_enum_id => value.id)
 
-    old_time = record[:last_modified]
+    old_time = record[:system_mtime]
 
     request = JSONModel(:enumeration_migration).from_hash(:enum_uri => obj.uri,
                                                           :from => 'new_value',
@@ -93,7 +94,7 @@ describe "Enumeration controller" do
     request.save
 
     record.refresh
-    record[:last_modified].should_not eq(old_time)
+    record[:system_mtime].should_not eq(old_time)
     record[:my_enum_id].should_not eq(value.id)
   end
   

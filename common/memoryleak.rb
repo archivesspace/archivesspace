@@ -24,7 +24,7 @@ module MemoryLeak
     def self.get(resource)
       stale = (@@resources[resource].value.nil? ||
                (@@expiration_seconds[resource] &&
-                (Time.now.to_i - @@resources[resource].value[:last_modified]) > @@expiration_seconds[resource]))
+                (Time.now.to_i - @@resources[resource].value[:system_mtime]) > @@expiration_seconds[resource]))
 
       self.refresh(resource) if stale
 
@@ -44,13 +44,13 @@ module MemoryLeak
 
 
     def self.set(resource, value, time = nil)
-      @@resources[resource].swap({:value => value, :last_modified => (time || Time.now.to_i)})
+      @@resources[resource].swap({:value => value, :system_mtime => (time || Time.now.to_i)})
     end
 
 
     def self.invalidate_all!
       @@resources.values.each do |atom|
-        atom.update {|val| val.merge(:last_modified => 0) if val}
+        atom.update {|val| val.merge(:system_mtime => 0) if val}
       end
     end
 

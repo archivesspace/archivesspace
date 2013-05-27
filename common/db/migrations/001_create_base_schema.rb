@@ -27,7 +27,8 @@ class Sequel::Schema::CreateTableGenerator
       DateTime :create_time, :null => false
     end
 
-    DateTime :last_modified, :null => false, :index => true
+    DateTime :system_mtime, :null => false, :index => true
+    DateTime :user_mtime, :null => false, :index => true
   end
 
 end
@@ -39,7 +40,7 @@ Sequel.migration do
     create_table(:session) do
       primary_key :id
       String :session_id, :unique => true, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      DateTime :system_mtime, :null => false, :index => true
       Integer :expirable, :default => 1
 
       TextBlobField :session_data, :null => true
@@ -81,7 +82,7 @@ Sequel.migration do
       primary_key :id
       String :username, :unique => true, :null => false
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      DateTime :system_mtime, :null => false, :index => true
       String :pwhash, :null => false
     end
 
@@ -562,7 +563,9 @@ Sequel.migration do
     end
 
     self[:vocabulary].insert(:name => "global", :ref_id => "global",
-                             :create_time => Time.now, :last_modified => Time.now)
+                             :create_time => Time.now,
+                             :system_mtime => Time.now,
+                             :user_mtime => Time.now)
 
 
     create_table(:subject) do
@@ -634,7 +637,8 @@ Sequel.migration do
                                      :json_schema_version => 1,
                                      :editable => editable ? 1 : 0,
                                      :create_time => Time.now,
-                                     :last_modified => Time.now)
+                                     :system_mtime => Time.now,
+                                     :user_mtime => Time.now)
 
       id_of_default = nil
 

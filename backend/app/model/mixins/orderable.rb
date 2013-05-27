@@ -97,7 +97,7 @@ module Orderable
         :parent_id => parent_id,
         :parent_name => parent_name,
         :position => Sequence.get(sequence),
-        :last_modified => Time.now
+        :system_mtime => Time.now
       }
 
       # Run through the standard validation without actually saving

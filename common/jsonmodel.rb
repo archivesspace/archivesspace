@@ -168,7 +168,8 @@ module JSONModel
       entry[:schema]["properties"]["jsonmodel_type"] = {"type" => "string", "ifmissing" => "error"}
 
       # All records have audit fields
-      entry[:schema]["properties"]["last_modified"] = {"type" => "date-time", "readonly" => true}
+      entry[:schema]["properties"]["user_mtime"] = {"type" => "date-time", "readonly" => true}
+      entry[:schema]["properties"]["system_mtime"] = {"type" => "date-time", "readonly" => true}
       entry[:schema]["properties"]["create_time"] = {"type" => "date-time", "readonly" => true}
 
       # Records may include a reference to the repository that contains them

@@ -19,7 +19,7 @@ class Session
           completed = DB.attempt {
             db[:session].insert(:session_id => Digest::SHA1.hexdigest(sid),
                                 :session_data => [Marshal.dump({})].pack("m*"),
-                                :last_modified => Time.now)
+                                :system_mtime => Time.now)
             true
           }.and_if_constraint_fails {
             # Retry with a different session ID.
@@ -74,7 +74,7 @@ class Session
       db[:session]
         .filter(:session_id => Digest::SHA1.hexdigest(@id))
         .update(:session_data => [Marshal.dump(@store)].pack("m*"),
-                :last_modified => Time.now)
+                :system_mtime => Time.now)
     end
   end
 
@@ -83,19 +83,19 @@ class Session
     DB.open do |db|
       db[:session]
         .filter(:session_id => Digest::SHA1.hexdigest(@id))
-        .update(:last_modified => Time.now)
+        .update(:system_mtime => Time.now)
     end
   end
 
 
   def age
-    last_modified = 0
+    system_mtime = 0
     DB.open do |db|
-      last_modified = db[:session]
+      system_mtime = db[:session]
         .filter(:session_id => Digest::SHA1.hexdigest(@id))
-        .get(:last_modified)
+        .get(:system_mtime)
     end
-    (Time.now - last_modified).to_i
+    (Time.now - system_mtime).to_i
   end
 
 end

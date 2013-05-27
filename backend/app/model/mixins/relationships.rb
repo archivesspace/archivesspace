@@ -260,7 +260,8 @@ module Relationships
           end
 
           properties[:aspace_relationship_position] = idx
-          properties[:last_modified] = Time.now
+          properties[:system_mtime] = Time.now
+          properties[:user_mtime] = Time.now
 
           relationship_defn.relate(obj, referent, properties)
 
@@ -351,7 +352,7 @@ module Relationships
 
           ref_columns.each do |col|
             self.filter(:id => relationship_defn.select(col)).
-                 update(:last_modified => now)
+                 update(:system_mtime => now)
           end
         end
       end

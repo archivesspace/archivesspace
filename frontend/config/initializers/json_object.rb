@@ -47,7 +47,7 @@ if not ENV['DISABLE_STARTUP']
 
   MemoryLeak::Resources.define(:repository, proc { JSONModel(:repository).all }, 60)
   MemoryLeak::Resources.define(:vocabulary, proc { JSONModel(:vocabulary).all }, 60)
-  MemoryLeak::Resources.define(:acl_last_modified, proc { Time.now.to_i }, 60,
+  MemoryLeak::Resources.define(:acl_system_mtime, proc { Time.now.to_i }, 60,
                                :init => 0)
 
 
@@ -65,7 +65,7 @@ if not ENV['DISABLE_STARTUP']
   end
 
   JSONModel::Notification::add_notification_handler("REFRESH_ACLS") do |msg, params|
-    MemoryLeak::Resources.refresh(:acl_last_modified)
+    MemoryLeak::Resources.refresh(:acl_system_mtime)
   end
 
   JSONModel::Notification::add_notification_handler("ENUMERATION_CHANGED") do |msg, params|

@@ -69,6 +69,7 @@ module ASModel
 
       self.update(self.class.prepare_for_db(json.class, updated))
 
+      self[:user_mtime] = Time.now
       self[:last_modified_by] = self.class.current_username
 
       obj = self.save
@@ -184,7 +185,8 @@ module ASModel
 
           # Manually set any DB hooked values
           json["create_time"] = sequel_obj[:create_time].getutc.iso8601
-          json["last_modified"] = sequel_obj[:last_modified].getutc.iso8601
+          json["system_mtime"] = sequel_obj[:system_mtime].getutc.iso8601
+          json["user_mtime"] = sequel_obj[:user_mtime].getutc.iso8601
 
           hash = json.to_hash
           uri = sequel_obj.uri
@@ -456,7 +458,8 @@ module ASModel
           json[linked_record[:json_property]] = (is_array ? records : records[0])
         end
 
-        json["last_modified"] = obj[:last_modified].getutc.iso8601 if obj[:last_modified]
+        json["system_mtime"] = obj[:system_mtime].getutc.iso8601 if obj[:system_mtime]
+        json["user_mtime"] = obj[:user_mtime].getutc.iso8601 if obj[:user_mtime]
         json["create_time"] = obj[:create_time].getutc.iso8601 if obj[:create_time]
 
         json
@@ -482,7 +485,7 @@ module ASModel
       def update_mtime_for_ids(ids)
         now = Time.now
         ids.each_slice(50) do |subset|
-          self.dataset.filter(:id => subset).update(:last_modified => now)
+          self.dataset.filter(:id => subset).update(:system_mtime => now)
         end
       end
 
@@ -504,13 +507,13 @@ module ASModel
 
     def before_create
       self.create_time = Time.now
-      self.last_modified = Time.now
+      self.system_mtime = self.user_mtime = Time.now
       super
     end
 
 
     def before_update
-      self.last_modified = Time.now
+      self.system_mtime = Time.now
       super
     end
   end
