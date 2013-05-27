@@ -3,7 +3,33 @@ Sequel.extension :inflector
 module MigrationUtils
   def self.shorten_table(name)
     name.to_s.split("_").map {|s| s[0...3]}.join("_")
-  end 
+  end
+end
+
+
+class Sequel::Schema::CreateTableGenerator
+  def apply_name_columns
+    String :authority_id, :null => true
+    String :dates, :null => true
+    TextField :qualifier, :null => true
+    DynamicEnum :source_id, :null => true
+    DynamicEnum :rules_id, :null => true
+    TextField :sort_name, :null => false
+    Integer :sort_name_auto_generate
+  end
+
+
+  def apply_mtime_columns(create_time = true)
+    String :created_by
+    String :last_modified_by
+
+    if create_time
+      DateTime :create_time, :null => false
+    end
+
+    DateTime :last_modified, :null => false, :index => true
+  end
+
 end
 
 
@@ -32,10 +58,7 @@ Sequel.migration do
 
       Integer :editable, :default => 1
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
 
@@ -80,10 +103,7 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
 
@@ -96,10 +116,7 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
 
@@ -112,10 +129,7 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
 
@@ -128,10 +142,7 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
 
@@ -157,10 +168,7 @@ Sequel.migration do
       String :department
       TextField :additional_contact
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
 
@@ -187,10 +195,7 @@ Sequel.migration do
 
       Integer :hidden, :default => 0
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
 
@@ -211,10 +216,7 @@ Sequel.migration do
       String :group_code_norm, :null => false
       TextField :description, :null => false
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
 
@@ -248,8 +250,7 @@ Sequel.migration do
       TextField :description, :null => false
       String :level, :default => "repository"
 
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
 
@@ -312,10 +313,7 @@ Sequel.migration do
       Integer :use_restrictions
       TextField :use_restrictions_note
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
     alter_table(:accession) do
@@ -369,10 +367,7 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
     alter_table(:resource) do
@@ -412,10 +407,7 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
     alter_table(:archival_object) do
@@ -451,10 +443,7 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
     alter_table(:digital_object) do
@@ -485,10 +474,7 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
     alter_table(:digital_object_component) do
@@ -514,10 +500,7 @@ Sequel.migration do
 
       DynamicEnum :instance_type_id, :null => false
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
     alter_table(:instance) do
@@ -531,7 +514,8 @@ Sequel.migration do
       Integer :digital_object_id
       Integer :instance_id
       Integer :aspace_relationship_position
-      DateTime :last_modified, :null => false, :index => true
+
+      apply_mtime_columns(false)
     end
 
     alter_table(:instance_do_link_rlshp) do
@@ -558,10 +542,7 @@ Sequel.migration do
       DynamicEnum :type_3_id
       String :indicator_3
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
     alter_table(:container) do
@@ -577,10 +558,7 @@ Sequel.migration do
       String :name, :null => false, :unique => true
       String :ref_id, :null => false, :unique => true
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
     self[:vocabulary].insert(:name => "global", :ref_id => "global",
@@ -602,10 +580,7 @@ Sequel.migration do
 
       DynamicEnum :source_id, :null => true
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
     alter_table(:subject) do
@@ -626,10 +601,7 @@ Sequel.migration do
       String :term, :null => false
       DynamicEnum :term_type_id, :null => false
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
     alter_table(:term) do
@@ -649,20 +621,6 @@ Sequel.migration do
       add_foreign_key([:subject_id], :subject, :key => :id)
       add_foreign_key([:term_id], :term, :key => :id)
       add_index([:subject_id, :term_id], :name => "subject_term_idx")
-    end
-
-
-    class Sequel::Schema::CreateTableGenerator
-      def apply_name_columns
-        String :authority_id, :null => true
-        String :dates, :null => true
-        TextField :qualifier, :null => true
-        DynamicEnum :source_id, :null => true
-        DynamicEnum :rules_id, :null => true
-        TextField :sort_name, :null => false
-        Integer :sort_name_auto_generate
-      end
-
     end
 
 
@@ -711,10 +669,7 @@ Sequel.migration do
 
       apply_name_columns
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
 
@@ -737,10 +692,7 @@ Sequel.migration do
 
       apply_name_columns
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
 
@@ -765,10 +717,7 @@ Sequel.migration do
 
       apply_name_columns
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
 
@@ -792,10 +741,7 @@ Sequel.migration do
 
       apply_name_columns
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
 
@@ -831,10 +777,7 @@ Sequel.migration do
       TextField :email_signature, :null => true
       TextField :note, :null => true
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
     alter_table(:agent_contact) do
@@ -864,10 +807,7 @@ Sequel.migration do
 
       Integer :notification
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
 
@@ -899,10 +839,7 @@ Sequel.migration do
       TextField :physical_details, :null => true
       String :dimensions, :null => true
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
     alter_table(:extent) do
@@ -933,7 +870,8 @@ Sequel.migration do
       TextField :description, :null => true
 
       Integer :aspace_relationship_position
-      DateTime :last_modified, :null => false, :index => true
+
+      apply_mtime_columns
     end
 
     alter_table(:related_agents_rlshp) do
@@ -973,10 +911,7 @@ Sequel.migration do
       DynamicEnum :era_id, :null => true
       DynamicEnum :calendar_id, :null => true
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
 
@@ -995,10 +930,7 @@ Sequel.migration do
 
       DateTime :timestamp, :null => true
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
     alter_table(:event) do
@@ -1057,10 +989,7 @@ Sequel.migration do
 
       String :granted_note, :null => true
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
 
@@ -1087,10 +1016,7 @@ Sequel.migration do
 
       Integer :publish
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
 
@@ -1145,10 +1071,7 @@ Sequel.migration do
       String :coordinate_3_indicator
       DynamicEnum :temporary_id
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
     alter_table(:location) do
@@ -1180,10 +1103,7 @@ Sequel.migration do
       TextField :processors, :null => true
       Integer :rights_determined, :default => 0, :null => false
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
     alter_table(:collection_management) do
@@ -1234,10 +1154,7 @@ Sequel.migration do
       DateTime :date_2, :null => true
       DateTime :date_3, :null => true
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      apply_mtime_columns
     end
 
     alter_table(:collection_management) do
@@ -1267,10 +1184,7 @@ Sequel.migration do
       String :checksum
       String :checksum_method
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
     alter_table(:file_version) do
@@ -1291,10 +1205,7 @@ Sequel.migration do
       HalfLongString :title, :null => false
       TextField :description
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
     alter_table(:classification) do
@@ -1320,10 +1231,7 @@ Sequel.migration do
       String :parent_name, :null => true
       Integer :position, :null => true
 
-      String :created_by
-      String :last_modified_by
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      apply_mtime_columns
     end
 
     alter_table(:classification_term) do
@@ -1516,8 +1424,8 @@ Sequel.migration do
       Integer :resource_id
 
       Integer :aspace_relationship_position
-      DateTime :last_modified, :null => false, :index => true
-      DateTime :create_time, :index => true
+
+      apply_mtime_columns
 
       String :role
       DynamicEnum :role_id
@@ -1566,7 +1474,9 @@ Sequel.migration do
       Integer :agent_software_id
       Integer :event_id
       Integer :aspace_relationship_position
-      DateTime :last_modified, :null => false, :index => true
+
+      apply_mtime_columns(false)
+
       DynamicEnum :role_id
     end
 
@@ -1589,7 +1499,8 @@ Sequel.migration do
       Integer :accession_id
       Integer :resource_id
       Integer :aspace_relationship_position
-      DateTime :last_modified, :null => false, :index => true
+
+      apply_mtime_columns(false)
     end
 
     alter_table(:spawned_rlshp) do
@@ -1607,7 +1518,8 @@ Sequel.migration do
       Integer :digital_object_component_id
       Integer :subject_id
       Integer :aspace_relationship_position
-      DateTime :last_modified, :null => false, :index => true
+
+      apply_mtime_columns(false)
     end
 
     alter_table(:subject_rlshp) do
@@ -1625,12 +1537,13 @@ Sequel.migration do
       Integer :container_id
       Integer :location_id
       Integer :aspace_relationship_position
-      DateTime :last_modified, :null => false, :index => true
 
       String :status
       String :start_date
       String :end_date
       String :note
+
+      apply_mtime_columns(false)
     end
 
     alter_table(:housed_at_rlshp) do
@@ -1666,8 +1579,8 @@ Sequel.migration do
       Integer :classification_id
 
       Integer :aspace_relationship_position
-      DateTime :last_modified, :null => false, :index => true
-      DateTime :create_time, :index => true
+
+      apply_mtime_columns(false)
     end
 
     alter_table(:classification_creator_rlshp) do
@@ -1691,8 +1604,8 @@ Sequel.migration do
       Integer :classification_term_id
 
       Integer :aspace_relationship_position
-      DateTime :last_modified, :null => false, :index => true
-      DateTime :create_time, :index => true
+
+      apply_mtime_columns(false)
     end
 
     alter_table(:classification_term_creator_rlshp) do
@@ -1713,8 +1626,8 @@ Sequel.migration do
       Integer :classification_term_id
 
       Integer :aspace_relationship_position
-      DateTime :last_modified, :null => false, :index => true
-      DateTime :create_time, :index => true
+
+      apply_mtime_columns(false)
     end
 
     alter_table(:classification_rlshp) do
