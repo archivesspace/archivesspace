@@ -53,17 +53,16 @@ describe 'Location model' do
 
 
   it "generates identifiers for a batch location coordinate definition (letters)" do
-    batch = JSONModel(:location_batch).from_hash({
-      "source_location" => build(:json_location),
-      "coordinate_1" => {
+    batch = JSONModel(:location_batch).from_hash(build(:json_location).to_hash.merge({
+      "coordinate_1_range" => {
         "label" => "Testing",
         "start" => "A",
         "end" => "D",
         "prefix" => "Oogabooga-"
       }
-    })
+    }))
 
-    ids = Location.generate_indicators(batch["coordinate_1"])
+    ids = Location.generate_indicators(batch["coordinate_1_range"])
 
     ids[0].should eq("Oogabooga-A")
     ids[1].should eq("Oogabooga-B")
@@ -72,17 +71,16 @@ describe 'Location model' do
   end
 
   it "generates identifiers for a batch location coordinate definition (integers)" do
-    batch = JSONModel(:location_batch).from_hash({
-                                                   "source_location" => build(:json_location),
-                                                   "coordinate_1" => {
+    batch = JSONModel(:location_batch).from_hash(build(:json_location).to_hash.merge({
+                                                   "coordinate_1_range" => {
                                                      "label" => "Testing",
                                                      "start" => "3",
                                                      "end" => "6",
                                                      "suffix" => "-woozle"
                                                    }
-                                                 })
+                                                 }))
 
-    ids = Location.generate_indicators(batch["coordinate_1"])
+    ids = Location.generate_indicators(batch["coordinate_1_range"])
 
     ids[0].should eq("3-woozle")
     ids[1].should eq("4-woozle")
@@ -92,24 +90,23 @@ describe 'Location model' do
 
 
   it "creates locations from a batch process" do
-    batch = JSONModel(:location_batch).from_hash({
-                                                   "source_location" => build(:json_location),
-                                                   "coordinate_1" => {
+    batch = JSONModel(:location_batch).from_hash(build(:json_location).to_hash.merge({
+                                                   "coordinate_1_range" => {
                                                      "label" => "Range",
                                                      "start" => "1",
                                                      "end" => "10"
                                                    },
-                                                   "coordinate_2" => {
+                                                   "coordinate_2_range" => {
                                                      "label" => "Section",
                                                      "start" => "A",
                                                      "end" => "M"
                                                    },
-                                                   "coordinate_3" => {
+                                                   "coordinate_3_range" => {
                                                      "label" => "Shelf",
                                                      "start" => "1",
                                                      "end" => "7"
                                                    }
-                                                 })
+                                                 }))
 
     locations = Location.create_for_batch(batch)
 

@@ -19,24 +19,23 @@ describe 'Location controller' do
 
 
   it "can perform a dry run batch creation of locations" do
-    batch = JSONModel(:location_batch).from_hash({
-                                                   "source_location" => build(:json_location),
-                                                   "coordinate_1" => {
+    batch = JSONModel(:location_batch).from_hash(build(:json_location).to_hash.merge({
+                                                   "coordinate_1_range" => {
                                                      "label" => "Range",
                                                      "start" => "1",
                                                      "end" => "10"
                                                    },
-                                                   "coordinate_2" => {
+                                                   "coordinate_2_range" => {
                                                      "label" => "Section",
                                                      "start" => "A",
                                                      "end" => "M"
                                                    },
-                                                   "coordinate_3" => {
+                                                   "coordinate_3_range" => {
                                                      "label" => "Shelf",
                                                      "start" => "1",
                                                      "end" => "7"
                                                    }
-                                                 })
+                                                 }))
 
 
     response = JSONModel::HTTP.post_json(URI("#{JSONModel::HTTP.backend_url}/repositories/#{$repo_id}/locations/batch?dry_run=true"),
@@ -44,30 +43,29 @@ describe 'Location controller' do
 
     batch_response = ASUtils.json_parse(response.body)
 
-    batch_response["result_locations"].length.should eq(910)
-    batch_response["result_locations"][0]["uri"].should eq(nil)
+    batch_response.length.should eq(910)
+    batch_response[0]["uri"].should eq(nil)
   end
 
 
   it "can perform a batch creation of locations" do
-    batch = JSONModel(:location_batch).from_hash({
-                                                   "source_location" => build(:json_location),
-                                                   "coordinate_1" => {
+    batch = JSONModel(:location_batch).from_hash(build(:json_location).to_hash.merge({
+                                                   "coordinate_1_range" => {
                                                      "label" => "Range",
                                                      "start" => "1",
                                                      "end" => "10"
                                                    },
-                                                   "coordinate_2" => {
+                                                   "coordinate_2_range" => {
                                                      "label" => "Section",
                                                      "start" => "A",
                                                      "end" => "M"
                                                    },
-                                                   "coordinate_3" => {
+                                                   "coordinate_3_range" => {
                                                      "label" => "Shelf",
                                                      "start" => "1",
                                                      "end" => "7"
                                                    }
-                                                 })
+                                                 }))
 
 
     response = JSONModel::HTTP.post_json(URI("#{JSONModel::HTTP.backend_url}/repositories/#{$repo_id}/locations/batch"),
@@ -75,7 +73,7 @@ describe 'Location controller' do
 
     batch_response = ASUtils.json_parse(response.body)
 
-    batch_response["result_locations"].length.should eq(910)
-    JSONModel.parse_reference(batch_response["result_locations"][0])[:type].should eq("location")
+    batch_response.length.should eq(910)
+    JSONModel.parse_reference(batch_response[0])[:type].should eq("location")
   end
 end

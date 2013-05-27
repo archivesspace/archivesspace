@@ -36,6 +36,12 @@ table {
   dl {
     margin: 0;
   }
+  td {
+    &.error {
+      background-color: @errorBackground !important;
+      color: @errorText;
+    }
+  }
   .table-record-actions {
     .btn {
       white-space: nowrap;

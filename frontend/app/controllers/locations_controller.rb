@@ -53,19 +53,40 @@ class LocationsController < ApplicationController
   end
 
   def batch_create
-    batch = cleanup_params_for_schema(params[:location_batch], JSONModel(:location_batch).schema)
+    begin
+      batch = cleanup_params_for_schema(params[:location_batch], JSONModel(:location_batch).schema)
 
-    @location_batch = JSONModel(:location_batch).from_hash(batch)
+      @location_batch = JSONModel(:location_batch).from_hash(batch, false)
 
-    uri = "#{JSONModel::HTTP.backend_url}/repositories/#{session[:repo_id]}/locations/batch"
-    if params["dry_run"]
-      uri += "?dry_run=true"
+      uri = "#{JSONModel::HTTP.backend_url}/repositories/#{session[:repo_id]}/locations/batch"
+      if params["dry_run"]
+        uri += "?dry_run=true"
+      end
+      response = JSONModel::HTTP.post_json(URI(uri), batch.to_json)
+
+      batch_response = ASUtils.json_parse(response.body)
+
+      if batch_response.kind_of?(Hash) and batch_response.has_key?("error")
+        if params["dry_run"]
+          return render :partial => "shared/quick_messages", :locals => {:exceptions => batch_response, :jsonmodel => "location_batch"}
+        else
+          @exceptions = {:errors => batch_response["error"]}
+
+          return render :action => :batch
+        end
+      end
+
+      if params["dry_run"]
+        render :partial => "locations/batch_preview", :locals => {:locations => batch_response}
+      else
+        flash[:success] = I18n.t("location_batch._frontend.messages.created", :number_created => batch_response.length)
+        redirect_to :action => :index
+      end
+    rescue JSONModel::ValidationException => e
+      @exceptions = @location_batch._exceptions
+
+      return render :action => :batch
     end
-    response = JSONModel::HTTP.post_json(URI(uri), batch.to_json)
-
-    batch_response = ASUtils.json_parse(response.body)
-
-    render :action => :batch
   end
 
 end

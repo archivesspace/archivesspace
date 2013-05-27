@@ -3,11 +3,10 @@
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
     "version" => 1,
     "type" => "object",
+    "parent" => "location",
     "properties" => {
 
-      "source_location" => {"type" => "JSONModel(:location) object", "ifmissing" => "error"},
-
-      "coordinate_1" => {
+      "coordinate_1_range" => {
         "type" => "object",
         "ifmissing" => "error",
         "properties" => {
@@ -19,7 +18,7 @@
         }
       },
 
-      "coordinate_2" => {
+      "coordinate_2_range" => {
         "type" => "object",
         "properties" => {
           "label" => {"type" => "string", "ifmissing" => "error"},
@@ -30,7 +29,7 @@
         }
       },
 
-      "coordinate_3" => {
+      "coordinate_3_range" => {
         "type" => "object",
         "properties" => {
           "label" => {"type" => "string", "ifmissing" => "error"},
@@ -39,9 +38,7 @@
           "prefix" => {"type" => "string"},
           "suffix" => {"type" => "string"},
         }
-      },
-
-      "result_locations" => {"type" => "array", "items" => {"type" => "JSONModel(:location) uri_or_object"}}
+      }
 
     },
 
