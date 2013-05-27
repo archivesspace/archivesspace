@@ -19,10 +19,10 @@ class Search
   end
 
 
-  def self.global(criteria)
+  def self.global(criteria, type)
     criteria["page"] = 1 if not criteria.has_key?("page")
 
-    search_data = JSONModel::HTTP::get_json("/search", criteria)
+    search_data = JSONModel::HTTP::get_json("/search/#{type}", criteria)
     search_data[:criteria] = criteria
 
     SearchResultData.new(search_data)

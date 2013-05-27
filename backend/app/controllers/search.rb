@@ -1,91 +1,72 @@
 class ArchivesSpaceService < Sinatra::Base
 
+  BASE_SEARCH_PARAMS =
+    [["q", String, "A search query string",
+      :optional => true],
+     ["aq", JSONModel(:advanced_query), "A json string containing the advanced query",
+      :optional => true],
+     ["type",
+      [String],
+      "The record type to search (defaults to all types if not specified)",
+      :optional => true],
+     ["sort",
+      String,
+      "The attribute to sort and the direction e.g. &sort=title desc&...",
+      :optional => true],
+     ["facet",
+      [String],
+      "The list of the fields to produce facets for",
+      :optional => true],
+     ["filter_term", [String], "A json string containing the term/value pairs to be applied to the filter",
+      :optional => true],
+     ["exclude",
+      [String],
+      "A list of document IDs that should be excluded from results",
+      :optional => true]]
+
+
   Endpoint.get('/repositories/:repo_id/search')
     .description("Search this repository")
     .params(["repo_id", :repo_id],
-            ["q", String, "A search query string",
-             :optional => true],
-            ["aq", JSONModel(:advanced_query), "A json string containing the advanced query",
-             :optional => true],
-            ["type",
-             [String],
-             "The record type to search (defaults to all types if not specified)",
-             :optional => true],
-            ["sort",
-             String,
-             "The attribute to sort and the direction e.g. &sort=title desc&...",
-             :optional => true],
-            ["facet",
-             [String],
-             "The list of the fields to produce facets for",
-             :optional => true],
-            ["filter_term", [String], "A json string containing the term/value pairs to be applied to the filter",
-             :optional => true],
-            ["exclude",
-             [String],
-             "A list of document IDs that should be excluded from results",
-             :optional => true])
+            *BASE_SEARCH_PARAMS)
     .paginated(true)
     .permissions([:view_repository])
-    .returns([200, "[(:location)]"]) \
+    .returns([200, ""]) \
   do
-    show_suppressed = !RequestContext.get(:enforce_suppression)
-    show_published_only = current_user.username === User.PUBLIC_USERNAME
-
-    query = params[:q] || "*:*"
-    query = advanced_query_string(params["aq"].query) if params["aq"]
-
-    json_response(Solr.search(query, params[:page], params[:page_size],
-                              params[:repo_id],
-                              params[:type], show_suppressed, show_published_only, params[:exclude], params[:filter_term],
-                              {
-                                "facet.field" => Array(params[:facet]),
-                                "sort" => params[:sort]
-                              }))
+    json_response(Search.search(params, params[:repo_id]))
   end
 
+
   Endpoint.get('/search')
-  .description("Search this archive")
-  .params(["q", String, "A search query string",
-           :optional => true],
-          ["aq", JSONModel(:advanced_query), "A json string containing the advanced query",
-           :optional => true],
-          ["type",
-           [String],
-           "The record type to search (defaults to all types if not specified)",
-           :optional => true],
-          ["sort",
-           String,
-           "The attribute to sort and the direction e.g. &sort=title desc&...",
-           :optional => true],
-          ["facet",
-           [String],
-           "The list of the fields to produce facets for",
-           :optional => true],
-          ["filter_term", [String], "A json string containing the term/value pairs to be applied to the filter",
-           :optional => true],
-          ["exclude",
-           [String],
-           "A list of document IDs that should be excluded from results",
-           :optional => true])
+    .description("Search this archive")
+    .params(*BASE_SEARCH_PARAMS)
     .permissions([:view_all_records])
     .paginated(true)
     .returns([200, ""]) \
   do
-    show_suppressed = !RequestContext.get(:enforce_suppression)
-    show_published_only = current_user.username === User.PUBLIC_USERNAME
+    json_response(Search.search(params, nil))
+  end
 
-    query = params[:q] || "*:*"
 
-    query = advanced_query_string(params[:aq]['query']) if params[:aq]
+  Endpoint.get('/search/repositories')
+    .description("Search across repositories")
+    .params(*BASE_SEARCH_PARAMS)
+    .permissions([])
+    .paginated(true)
+    .returns([200, ""]) \
+  do
+    json_response(Search.search(params.merge(:type => ['repository']), nil))
+  end
 
-    json_response(Solr.search(query, params[:page], params[:page_size],
-                              nil,
-                              params[:type], show_suppressed, show_published_only, params[:exclude], params[:filter_term],
-                              {
-                                "facet.field" => Array(params[:facet]),
-                                "sort" => params[:sort]
-                              }))
+
+  Endpoint.get('/search/subjects')
+    .description("Search across subjects")
+    .params(*BASE_SEARCH_PARAMS)
+    .permissions([])
+    .paginated(true)
+    .returns([200, ""]) \
+  do
+    json_response(Search.search(params.merge(:type => ['subject']), nil))
   end
 
 

@@ -253,16 +253,6 @@ describe "ArchivesSpace user interface" do
     end
 
 
-    it "doesn't see the 'Create' menu in the first repository" do
-      # Wait until we're marked as logged in
-      $driver.find_element_with_text('//span', /#{@user}/)
-
-      select_repo(@can_view_repo)
-
-      $driver.ensure_no_such_element(:link, "Create")
-    end
-
-
     it "can select the second repository and find the create link" do
       select_repo(@can_manage_repo)
 
@@ -270,6 +260,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element_with_text('//span', /#{@can_manage_repo}/)
       $driver.find_element(:link, "Create")
     end
+
 
     it "can modify the user's groups for a repository via the Manage Access listing" do
       logout

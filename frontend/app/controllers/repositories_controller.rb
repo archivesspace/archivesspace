@@ -8,7 +8,8 @@ class RepositoriesController < ApplicationController
   before_filter :refresh_repo_list, :only => [:show, :new]
 
   def index
-    @search_data = Search.global(search_params.merge({"facet[]" => [], "type[]" => ["repository"]}))
+    @search_data = Search.global(search_params.merge({"facet[]" => []}),
+                                 "repositories")
   end
 
   def new
