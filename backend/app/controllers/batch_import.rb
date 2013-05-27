@@ -44,26 +44,31 @@ class ArchivesSpaceService < Sinatra::Base
     live_updates = ProgressTicker.new(:frequency_seconds => 1) do |job_monitor|
 
       File.open(env['batch_import_file']) do |stream|
-         begin
-           batch = StreamingImport.new(stream, job_monitor)
+        begin
+          batch = StreamingImport.new(stream, job_monitor)
 
-           mapping = batch.process
-           job_monitor.results = {:saved => Hash[mapping.map {|logical, real_uri|
-                            [logical, [real_uri, JSONModel.parse_reference(real_uri)[:id]]]}]}
-         rescue JSONModel::ValidationException => e
-           job_monitor.results = {:errors => [e]}                   
+          mapping = batch.process
+          job_monitor.results = {:saved => Hash[mapping.map {|logical, real_uri|
+                          [logical, [real_uri, JSONModel.parse_reference(real_uri)[:id]]]}]}
+        rescue JSONModel::ValidationException => e
+          job_monitor.results = {:errors => [e]}                   
 
-         rescue ImportException => e
-           job_monitor.results = {:errors => [e]}
-         rescue Sequel::ValidationFailed => e
-           job_monitor.results = {:errors => [e]}
-         ensure
-           job_monitor.results = {:errors => ["Server error"]} unless job_monitor.results?
-           job_monitor.finish!
-         end
-       end
+        rescue ImportException => e
+          job_monitor.results = {:errors => [e]}
+          
+        rescue Sequel::ValidationFailed => e
+          job_monitor.results = {:errors => [e]}
+          
+        rescue Sequel::DatabaseError => e
+          job_monitor.results = {:errors => [e]}
+
+        ensure
+          job_monitor.results = {:errors => ["Server error"]} unless job_monitor.results?
+          job_monitor.finish!
+        end
+      end
        
-       File.unlink(env['batch_import_file'])
+      File.unlink(env['batch_import_file'])
     end
 
 
