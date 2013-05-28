@@ -34,6 +34,7 @@ class ApplicationController < ActionController::Base
   end
 
   def reestablish_session
+    Thread.current[:backend_session] = nil
     BackendSession.refresh_active_session
 
     establish_session
