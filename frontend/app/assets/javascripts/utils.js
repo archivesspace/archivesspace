@@ -159,9 +159,14 @@ $(function() {
   var initDateFields = function(scope) {
     scope = scope || $(document.body);
     $(".date-field:not(.initialised)", scope).each(function() {
-      $(this).addClass("initialised");
-      $(this).datepicker({
-        autoclose: true
+      var $dateInput = $(this);
+      $dateInput.wrap("<div class='input-append'></div>");
+      $dateInput.addClass("initialised");
+      var $btn = $("<button type='button' class='btn'><span class='icon-calendar'></span></button>");
+      $dateInput.after($btn);
+      $btn.datepicker($dateInput.data()).on("changeDate", function() {
+          $dateInput.val($btn.data("date"));
+          $btn.datepicker("hide");
       });
     });
   };

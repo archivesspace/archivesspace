@@ -8,9 +8,9 @@
       <%= form.label_and_textfield "real_1" %>
       <%= form.label_and_textfield "real_2" %>
       <%= form.label_and_textfield "real_3" %>
-      <%= form.label_and_date "date_1", {:field_opts => {:placeholder => "YYYY-MM-DD", :value => form.obj['date_1'].blank? ? "" : Date.strptime(form.obj['date_1'], "%Y-%m-%d")}} %>
-      <%= form.label_and_date "date_2", {:field_opts => {:placeholder => "YYYY-MM-DD", :value => form.obj['date_2'].blank? ? "" : Date.strptime(form.obj['date_2'], "%Y-%m-%d")}} %>
-      <%= form.label_and_date "date_3", {:field_opts => {:placeholder => "YYYY-MM-DD", :value => form.obj['date_3'].blank? ? "" : Date.strptime(form.obj['date_3'], "%Y-%m-%d")}} %>
+      <%= form.label_and_date "date_1", {:field_opts => {:value => form.obj['date_1'].blank? ? "" : Date.strptime(form.obj['date_1'], "%Y-%m-%d")}} %>
+      <%= form.label_and_date "date_2", {:field_opts => {:value => form.obj['date_2'].blank? ? "" : Date.strptime(form.obj['date_2'], "%Y-%m-%d")}} %>
+      <%= form.label_and_date "date_3", {:field_opts => {:value => form.obj['date_3'].blank? ? "" : Date.strptime(form.obj['date_3'], "%Y-%m-%d")}} %>
       <%= form.label_and_textfield "string_1" %>
       <%= form.label_and_textfield "string_2" %>
       <%= form.label_and_textfield "string_3" %>

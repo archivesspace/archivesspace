@@ -1,45 +1,20 @@
 <% define_template "date_type_single", jsonmodel_definition(:date) do |form| %>
   <div class="inline-subform date-type-subform" data-date-type="single">
-    <%= form.label_and_date "begin", {
-      :field_opts => {
-        :placeholder => "YYYY-MM-DD"
-      },
-      :required => true
-    } %>
+    <%= form.label_and_date "begin", {:required => true} %>
   </div>
 <% end %>
 
 <% define_template "date_type_inclusive", jsonmodel_definition(:date) do |form| %>
   <div class="inline-subform date-type-subform" data-date-type="inclusive">
-    <%= form.label_and_date "begin", {
-      :field_opts => {
-        :placeholder => "YYYY-MM-DD"
-      },
-      :required => true
-    } %>
-    <%= form.label_and_date "end", {
-      :field_opts => {
-        :placeholder => "HH:MM:SS"
-      },
-      :required => true
-    } %>
+    <%= form.label_and_date "begin", {:required => true} %>
+    <%= form.label_and_date "end", {:required => true} %>
   </div>
 <% end %>
 
 <% define_template "date_type_bulk", jsonmodel_definition(:date) do |form| %>
   <div class="inline-subform date-type-subform" data-date-type="bulk">
-    <%= form.label_and_date "begin", {
-      :field_opts => {
-        :placeholder => "YYYY-MM-DD"
-      },
-      :required => true
-    } %>
-    <%= form.label_and_date "end", {
-      :field_opts => {
-        :placeholder => "HH:MM:SS"
-      },
-      :required => true
-    } %>
+    <%= form.label_and_date "begin", {:required => true} %>
+    <%= form.label_and_date "end", {:required => true} %>
   </div>
 <% end %>
 
