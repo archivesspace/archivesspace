@@ -95,7 +95,7 @@ en:
     _singular: Digital Object Component
     _plural: Digital Object Components
 
-  location:
+  location: &location_attributes
     title: Title
     temporary: Temporary
     building: Building
@@ -116,6 +116,19 @@ en:
       You must either specify a barcode, a classification, or both a coordinate 1 label and coordinate 1 indicator
     _singular: Location
     _plural: Locations
+
+  location_batch:
+    <<: *location_attributes
+    label: Label
+    prefix: Prefix
+    suffix: Suffix
+    coordinate_1_range: Coordinate Range 1
+    coordinate_2_range: Coordinate Range 2
+    coordinate_3_range: Coordinate Range 3
+    start: Range Start
+    end: Range End
+    _singular: Batch Locations
+    _plural: Batch Locations
 
   container_location:
     status: Status

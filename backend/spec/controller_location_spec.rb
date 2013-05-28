@@ -17,4 +17,63 @@ describe 'Location controller' do
     JSONModel(:location).all(:page => 1)['results'].count.should eq(1)
   end
 
+
+  it "can perform a dry run batch creation of locations" do
+    batch = JSONModel(:location_batch).from_hash(build(:json_location).to_hash.merge({
+                                                   "coordinate_1_range" => {
+                                                     "label" => "Range",
+                                                     "start" => "1",
+                                                     "end" => "10"
+                                                   },
+                                                   "coordinate_2_range" => {
+                                                     "label" => "Section",
+                                                     "start" => "A",
+                                                     "end" => "M"
+                                                   },
+                                                   "coordinate_3_range" => {
+                                                     "label" => "Shelf",
+                                                     "start" => "1",
+                                                     "end" => "7"
+                                                   }
+                                                 }))
+
+
+    response = JSONModel::HTTP.post_json(URI("#{JSONModel::HTTP.backend_url}/repositories/#{$repo_id}/locations/batch?dry_run=true"),
+                              batch.to_json)
+
+    batch_response = ASUtils.json_parse(response.body)
+
+    batch_response.length.should eq(910)
+    batch_response[0]["uri"].should eq(nil)
+  end
+
+
+  it "can perform a batch creation of locations" do
+    batch = JSONModel(:location_batch).from_hash(build(:json_location).to_hash.merge({
+                                                   "coordinate_1_range" => {
+                                                     "label" => "Range",
+                                                     "start" => "1",
+                                                     "end" => "10"
+                                                   },
+                                                   "coordinate_2_range" => {
+                                                     "label" => "Section",
+                                                     "start" => "A",
+                                                     "end" => "M"
+                                                   },
+                                                   "coordinate_3_range" => {
+                                                     "label" => "Shelf",
+                                                     "start" => "1",
+                                                     "end" => "7"
+                                                   }
+                                                 }))
+
+
+    response = JSONModel::HTTP.post_json(URI("#{JSONModel::HTTP.backend_url}/repositories/#{$repo_id}/locations/batch"),
+                                         batch.to_json)
+
+    batch_response = ASUtils.json_parse(response.body)
+
+    batch_response.length.should eq(910)
+    JSONModel.parse_reference(batch_response[0])[:type].should eq("location")
+  end
 end

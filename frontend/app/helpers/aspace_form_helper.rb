@@ -137,6 +137,7 @@ module AspaceFormHelper
 
 
     def push(name, values_from = {})
+      path(name) # populate the i18n mapping
       @context.push([name, values_from])
       yield(self)
       @context.pop

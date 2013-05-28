@@ -294,7 +294,7 @@ module JSONSchemaUtils
 
 
   def self.is_blank?(obj)
-    obj.nil? || obj == ""
+    obj.nil? || obj == "" || obj == {}
   end
 
 

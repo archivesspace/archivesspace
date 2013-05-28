@@ -11,6 +11,7 @@
           <div class="record-toolbar">
             <div class="btn-group pull-right">
               <%= link_to "#{I18n.t("actions.create")} #{I18n.t("location._singular")}", {:controller => :locations, :action => :new}, :class => "btn btn-small" %>
+              <%= link_to "#{I18n.t("actions.batch")} #{I18n.t("location._plural")}", {:controller => :locations, :action => :batch}, :class => "btn btn-small" %>
             </div>
           </div>
         </div>

@@ -417,6 +417,7 @@ module JSONModel
         else
           cleaned = JSONSchemaUtils.drop_unknown_properties(hash, self.schema, drop_system_properties)
           cleaned = ASUtils.jsonmodels_to_hashes(cleaned)
+
           validate(cleaned, raise_errors)
 
           self.new(cleaned)

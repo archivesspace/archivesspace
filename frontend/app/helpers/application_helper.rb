@@ -11,6 +11,10 @@ module ApplicationHelper
       scripts += javascript_include_tag "#{controller.controller_name}.crud" if File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.crud.js") ||  File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.crud.js.erb")
     end
 
+    if ["batch_create"].include?(controller.action_name)
+      scripts += javascript_include_tag "#{controller.controller_name}.batch" if File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js") ||  File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js.erb")
+    end
+
     scripts.html_safe
   end
 
