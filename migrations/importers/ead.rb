@@ -22,7 +22,9 @@ ASpaceImport::Importer.importer :ead do
       open_context :archival_object  
       set_property :resource, ancestor(:resource)
       set_property :parent, ancestor(:archival_object)
-      set_property :level, node.attributes.find {|a| a[0] == 'level'}[1]
+      if (level_att = node.attributes.find {|a| a[0] == 'level'}) 
+        set_property :level, level_att[1]
+      end
     end
     
     with 'unitid' do |node|      
