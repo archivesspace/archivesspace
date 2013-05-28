@@ -185,8 +185,7 @@ module AspaceFormHelper
     def label_and_date(name, opts = {})
       field_opts = (opts[:field_opts] || {}).merge({
         :class => "date-field",
-        :placeholder => "YYYY-MM-DD",
-        :"data-date-format" => "yyyy-mm-dd",
+        :"data-format" => "yyyy-mm-dd",
         :"data-date" => Date.today.strftime('%Y-%m-%d')
       })
       label_with_field(name, textfield(name, obj[name], field_opts), opts)
