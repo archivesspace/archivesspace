@@ -79,7 +79,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/archival_contexts/people/:agent_id.xml')
     .description("Get an EAC-CPF representation of an Agent")
     .params(["agent_id", Integer, "The ID of the Agent to retrieve"])
-    .nopermissionsyet
+    .permissions([])
     .returns([200, "(:agent)"]) \
   do
     eac = generate_eac(params[:agent_id], 'agent_person')
@@ -90,7 +90,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/archival_contexts/corporate_entities/:agent_id.xml')
     .description("Get an EAC-CPF representation of a Corporate Entity")
     .params(["agent_id", Integer, "The ID of the Agent to retrieve"])
-    .nopermissionsyet
+    .permissions([])
     .returns([200, "(:agent)"]) \
   do
     eac = generate_eac(params[:agent_id], 'agent_corporate_entity')
@@ -101,7 +101,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/archival_contexts/families/:agent_id.xml')
     .description("Get an EAC-CPF representation of a Family")
     .params(["agent_id", Integer, "The ID of the Agent to retrieve"])
-    .nopermissionsyet
+    .permissions([])
     .returns([200, "(:agent)"]) \
   do
     eac = generate_eac(params[:agent_id], 'agent_family')
@@ -112,7 +112,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/archival_contexts/softwares/:agent_id.xml')
     .description("Get an EAC-CPF representation of a Software agent")
     .params(["agent_id", Integer, "The ID of the Agent to retrieve"])
-    .nopermissionsyet
+    .permissions([])
     .returns([200, "(:agent)"]) \
   do
     eac = generate_eac(params[:agent_id], 'agent_software')

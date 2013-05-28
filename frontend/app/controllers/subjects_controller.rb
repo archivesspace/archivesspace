@@ -5,7 +5,8 @@ class SubjectsController < ApplicationController
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
   def index
-    @search_data = Search.global(search_params.merge({"facet[]" => SearchResultData.SUBJECT_FACETS, "type[]" => ["subject"]}))
+    @search_data = Search.global(search_params.merge({"facet[]" => SearchResultData.SUBJECT_FACETS}),
+                                 "subjects")
   end
 
   def show

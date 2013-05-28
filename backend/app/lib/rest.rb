@@ -146,14 +146,6 @@ module RESTHelpers
     end
 
 
-    # Just some scaffolding until everything has permissions specified
-    def nopermissionsyet
-      @has_permissions = true
-      Log.warn("No permissions defined for #{@method.upcase} #{@uri}")
-      self
-    end
-
-
     def request_context(hash)
       @request_context_keyvals = hash
 
