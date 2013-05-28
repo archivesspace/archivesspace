@@ -23,6 +23,7 @@ module ASpaceImport
       
       # i = 0
       @headers = []
+      @proxies = ASpaceImport::RecordProxyMgr.new
     
       CSV.foreach(@input_file) do |row|
     
@@ -43,7 +44,7 @@ module ASpaceImport
     
       save_all
       
-      ASpaceImport::RecordProxy.undischarged.each do |prox|
+      @proxies.undischarged.each do |prox|
         @log.warn("Undischarged: #{prox.to_s}")
       end
     
@@ -57,7 +58,7 @@ module ASpaceImport
       end
 
       parse_queue.each do |obj|   
-        ASpaceImport::RecordProxy.discharge_proxy(obj.key, obj)
+        @proxies.discharge_proxy(obj.key, obj)
       end
       
       @log.debug(parse_queue.inspect)
@@ -96,7 +97,7 @@ module ASpaceImport
         obj.send("#{path.last}=", filtered_val)
 
       else
-        @log.warn("Unconfigured CSV header: #{header}") 
+        # @log.warn("Unconfigured CSV header: #{header}") 
       end
     end
     
@@ -120,7 +121,7 @@ module ASpaceImport
       obj.key = key
         
       if conf[:path] || conf[:defaults]
-        proxy = ASpaceImport::RecordProxy.get_proxy_for(key)
+        proxy = @proxies.get_proxy_for(key)
               
         # Set defaults when done getting data
         if conf[:defaults]

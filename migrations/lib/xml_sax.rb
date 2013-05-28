@@ -5,7 +5,7 @@ require_relative 'utils'
 module ASpaceImport
   module XML
     module SAX
-      
+            
       module ClassMethods
         def with(node_name, &block)
           handler_name = "_#{node_name}"
@@ -44,6 +44,7 @@ module ASpaceImport
         node_queue = node_queue_for(@reader)
         @context = []
         @context_nodes = {}
+        @proxies = ASpaceImport::RecordProxyMgr.new
 
         self.class.ensure_configuration
 
@@ -70,8 +71,8 @@ module ASpaceImport
 
         save_all
 
-        ASpaceImport::RecordProxy.undischarged.each do |prox|
-          # @log.debug("Undischarged: #{prox.to_s}")
+        with_undischarged_proxies do |prox|
+          @log.debug("Undischarged: #{prox.to_s}")
         end
       end
     
@@ -85,7 +86,7 @@ module ASpaceImport
 
 
       def handle_text(node)    
-        ASpaceImport::RecordProxy.discharge_proxy(:text, node.value)
+        @proxies.discharge_proxy(:text, node.value)
       end
 
 
@@ -119,7 +120,7 @@ module ASpaceImport
           raise "Unexpected Object Type in Queue: Expected #{type} got #{parse_queue.last.jsonmodel_type}"
         end
 
-        ASpaceImport::RecordProxy.discharge_proxy(type, parse_queue.last)
+        @proxies.discharge_proxy(type, parse_queue.last)
 
         @context.pop
         parse_queue.pop
@@ -128,7 +129,7 @@ module ASpaceImport
       # Schedule retrieval from the next text node
       # to show up
       def inner_text
-        ASpaceImport::RecordProxy.get_proxy_for(:text)
+        @proxies.get_proxy_for(:text)
       end
 
 
@@ -179,7 +180,7 @@ module ASpaceImport
       # will discharge the JSON subrecord once it is complete
 
       def proxy(record_type = context)
-        ASpaceImport::RecordProxy.get_proxy_for(record_type)
+        @proxies.get_proxy_for(record_type)
       end
 
 
