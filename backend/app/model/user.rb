@@ -87,7 +87,6 @@ class User < Sequel::Model(:user)
 
 
   def derived_permissions
-    determinant_permissions = ['update_archival_record', 'delete_archival_record']
     derived = {
       'update_archival_record' => ['update_subject_record',
                                    'update_agent_record',
@@ -103,7 +102,7 @@ class User < Sequel::Model(:user)
            join(:group_permission, :group_id => :group_id).
            join(:permission, :id => :permission_id).
            filter(:user_id => self.id,
-                  :permission_code => determinant_permissions).
+                  :permission_code => derived.keys).
            select(:permission_code).map {|row| row[:permission_code]}
 
 
