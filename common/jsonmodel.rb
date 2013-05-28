@@ -392,13 +392,13 @@ module JSONModel
       #
       # The validation is a block that takes a hash of properties and returns an array of pairs like:
       # [["propertyname", "the problem with it"], ...]
-      def self.add_validation(name, &block)
+      def self.add_validation(name, level = :error, &block)
         raise "Validation name already taken: #{name}" if @@custom_validations[name]
 
         @@custom_validations[name] = block
 
         self.schema["validations"] ||= []
-        self.schema["validations"] << name
+        self.schema["validations"] << [level, name]
       end
 
 

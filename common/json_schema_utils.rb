@@ -125,6 +125,14 @@ module JSONSchemaUtils
          msgs[:errors][fragment_join(path, property)] = [msg]
        }
      },
+     
+     {
+       :failed_attribute => ['custom_validation'],
+       :pattern => /Warning generated for '(.*?)': (.*?) in schema /,
+       :do => ->(msgs, message, path, property, msg) {
+         msgs[:warnings][fragment_join(path, property)] = [msg]
+       }
+     },
 
      {
        :failed_attribute => ['custom_validation'],

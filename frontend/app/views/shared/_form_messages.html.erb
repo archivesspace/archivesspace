@@ -109,7 +109,8 @@
          <% end %>
          <% if not @exceptions.has_key?(:errors) %>
             <br/>
-            <input type="submit" name="ignorewarnings" class="btn btn-warning" value="<%= I18n.t("actions.save_anyway") %>" />
+            <input type="hidden" name="ignorewarnings" value="true" />
+            <input type="submit" name="ignorewarnings-submit" class="btn btn-warning" value="<%= I18n.t("actions.save_anyway") %>" />
          <% end %>
       </div>
    <% end %>

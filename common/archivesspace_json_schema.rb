@@ -151,7 +151,9 @@ class ArchivesSpaceSchema < JSON::Schema::Validator
 
     # Run any custom validations if we've made it this far with no errors
     if JSON::Validator.validation_errors.empty? && current_schema.schema.has_key?("validations")
-      current_schema.schema["validations"].each do |name|
+      current_schema.schema["validations"].each do |level_and_name|
+        level, name = level_and_name
+
         errors = JSONModel::custom_validations[name].call(data)
 
         errors.each do |error|
@@ -161,7 +163,9 @@ class ArchivesSpaceSchema < JSON::Schema::Validator
             error_string = "Validation error code: #{error}"
           else
             field, msg = error
-            error_string = "Validation failed for '#{field}': #{msg}"
+            prefix = level == :warning ? "Warning generated for" : "Validation failed for"
+            error_string = "#{prefix} '#{field}': #{msg}"
+
           end
 
           err = JSON::Schema::ValidationError.new(error_string,
