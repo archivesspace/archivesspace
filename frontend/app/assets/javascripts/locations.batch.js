@@ -14,4 +14,9 @@ $(function() {
       }
     });
   });
+
+  $("form#new_location_batch").submit(function() {
+    $(".btn-primary", this).addClass("disabled").addClass("busy");
+  });
+
 });

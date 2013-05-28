@@ -39,7 +39,12 @@
             </section>
 
             <div class="form-actions">
-              <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("location._plural") %></button>
+              <% if not I18n.t("location_batch._frontend.messages.warning", :default => "").blank? %><div class="alert alert-warning"><%= I18n.t("location_batch._frontend.messages.warning") %></div><% end %>
+              <button type="submit" class="btn btn-primary">
+                <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %>
+                <span class="btn-label"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("location._plural") %></span>
+                <span class="btn-busy-label"><%= I18n.t("location_batch._frontend.actions.creating") %></span>
+              </button>
               <button type="button" class="btn preview-locations"><%= I18n.t("location_batch._frontend.actions.preview") %></button>
 
               <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
