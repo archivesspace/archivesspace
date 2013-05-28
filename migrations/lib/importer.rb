@@ -1,6 +1,5 @@
 require_relative '../lib/jsonmodel_wrap'
 require_relative '../lib/parse_queue'  
-require 'csv'
 
 module ASpaceImport
   
@@ -13,12 +12,11 @@ module ASpaceImport
 
     @@importers = {}
     attr_accessor :parse_queue
-    attr_reader :error_log
 
     def self.list
-      list = "The following importers are available\n"
+      list = "\nThe following importers are available\n"
       @@importers.each do |i, klass|
-        list += "\t #{klass.name} \t #{klass.profile}\n"
+        list += "*#{i}* \n#{klass.profile}\n\n"
       end
       list
     end
@@ -93,7 +91,6 @@ module ASpaceImport
         instance_variable_set("@#{k}", v)
       end
       
-      @error_log = []
       @block = nil
 
       @parse_queue = ASpaceImport::ParseQueue.new(opts)
@@ -113,6 +110,8 @@ module ASpaceImport
 
 
     def save_all
+      @log.debug(parse_queue.inspect)
+      
       parse_queue.save do |response|
         if response.code.to_s == '200'
           fragments = ""
@@ -152,19 +151,9 @@ module ASpaceImport
       begin
         self.run
       rescue JSONModel::ValidationException => e
-        @import_summary = "Failed to POST import due to validation error."
-        error = LoggableError.new
-        error.header = e.class.name
-        if e.invalid_object
-          if e.invalid_object.respond_to?('title') && !e.invalid_object.title.nil?
-            error.record_info[:title] = e.invalid_object.title
-          else
-            error.record_info[:title] = "Unknown (#{e.invalid_object.to_s})"
-          end
-          error.record_info[:type] = e.invalid_object.jsonmodel_type.capitalize
-        end
-        error.messages = e.errors.map {|k,v| "#{k}: #{v}"}
-        @error_log << error
+        
+        errors = e.errors.collect.map{|attr, err| "#{e.invalid_object.class.record_type}/#{attr} #{err.join(', ')}"}
+        @block.call({"errors" => errors})
       end
     end
 
@@ -184,34 +173,5 @@ module ASpaceImport
       end
     end
   end
-  
-  
-  class LoggableError
-    attr_accessor :header
-    attr_accessor :record_info
-    attr_accessor :messages
-    
-    def initialize
-      @header
-      @record_info = {:type => "unknown", :title => "unknown"}
-      @messages = []
-    end
-    
-    def to_s
-      
-      s = "#{@header}\n"
-      s << "Record type: #{@record_info[:type].capitalize} \n"
-      s << "Record title: #{@record_info[:title].capitalize} \n"
-      s << "Error messages: "
-      s << @messages.join(' : ')
-      s
-    end
-    
-    def to_hash
-      self.instance_values
-    end
-      
-  end
-  
 end
 
