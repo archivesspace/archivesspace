@@ -45,6 +45,8 @@ AppConfig[:search_username] = "search_indexer"
 
 AppConfig[:public_username] = "public_anonymous"
 
+AppConfig[:staff_username] = "staff_system"
+
 AppConfig[:authentication_sources] = []
 
 AppConfig[:realtime_index_backlog_ms] = 60000

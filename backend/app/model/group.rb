@@ -28,6 +28,10 @@ class Group < Sequel::Model(:group)
     'publicanonymous'
   end
 
+  def self.STAFF_GROUP_CODE
+    'staffsystem'
+  end
+
 
   def before_save
     super

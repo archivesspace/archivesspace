@@ -250,6 +250,7 @@ Sequel.migration do
       String :permission_code, :unique => true
       TextField :description, :null => false
       String :level, :default => "repository"
+      Integer :system, :default => 0, :null => false
 
       apply_mtime_columns
     end

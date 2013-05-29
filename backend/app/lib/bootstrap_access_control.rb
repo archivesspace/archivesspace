@@ -68,7 +68,8 @@ class ArchivesSpaceService
 
     Permission.define("view_all_records",
                       "The ability to view any record in the system",
-                      :level => "global")
+                      :level => "global",
+                      :system => true)
 
     Permission.define("create_repository",
                       "The ability to create new repositories",
@@ -80,7 +81,8 @@ class ArchivesSpaceService
 
     Permission.define("index_system",
                       "The ability to read any record for indexing",
-                      :level => "global")
+                      :level => "global",
+                      :system => true)
 
     Permission.define("manage_repository",
                       "The ability to manage a given repository",
@@ -127,6 +129,10 @@ class ArchivesSpaceService
                       "The ability to delete classification records",
                       :level => "repository")
 
+    Permission.define("mediate_edits",
+                      "Track concurrent updates to records",
+                      :level => "global",
+                      :system => true)
 
     # Updates and deletes to subjects and agents are a bit funny: they're global
     # objects, but users are granted permission to modify them by being
@@ -202,7 +208,8 @@ class ArchivesSpaceService
     if User[:username => User.PUBLIC_USERNAME].nil?
       User.create_from_json(JSONModel(:user).from_hash(:username => User.PUBLIC_USERNAME,
                                                        :name => "Public Interface Anonymous"),
-                            :source => "local")
+                            :source => "local",
+                            :is_system_user => 1)
     end
 
     DBAuth.set_password(User.PUBLIC_USERNAME, AppConfig[:public_user_secret])
@@ -221,11 +228,38 @@ class ArchivesSpaceService
     end
 
   end
-  
 
+
+  # Create the user that the frontend will use for trusted communication with
+  # the backend.
+  def self.create_staff_user
+
+    if User[:username => User.STAFF_USERNAME].nil?
+      User.create_from_json(JSONModel(:user).from_hash(:username => User.STAFF_USERNAME,
+                                                       :name => "Staff System User"),
+                            :source => "local",
+                            :is_system_user => 1)
+    end
+
+    DBAuth.set_password(User.STAFF_USERNAME, AppConfig[:staff_user_secret])
+
+    global_repo = Repository[:repo_code => Group.GLOBAL]
+
+    RequestContext.open(:repo_id => global_repo.id) do
+      if Group[:group_code => Group.STAFF_GROUP_CODE].nil?
+        created_group = Group.create_from_json(JSONModel(:group).from_hash(:group_code => Group.STAFF_GROUP_CODE,
+                                                                           :description => "Staff System Group"))
+        created_group.add_user(User[:username => User.STAFF_USERNAME])
+
+        created_group.grant("mediate_edits")
+      end
+    end
+
+  end
 
   set_up_base_permissions
   create_search_user
   create_public_user
+  create_staff_user
 
 end
