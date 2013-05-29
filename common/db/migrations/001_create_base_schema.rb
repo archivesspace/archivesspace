@@ -1263,6 +1263,16 @@ Sequel.migration do
     end
 
 
+    create_table(:active_edit) do
+      primary_key :id
+
+      String :uri, :null => false
+      String :operator, :null => false
+      DateTime :timestamp, :null => false, :index => true
+    end
+
+
+
     create_editable_enum('linked_agent_archival_record_relators',
                 ['act', 'adp', 'anl', 'anm', 'ann', 'app', 'arc', 'arr', 'acp',
                  'art', 'ard', 'asg', 'asn', 'att', 'auc', 'aut', 'aqt', 'aft',
