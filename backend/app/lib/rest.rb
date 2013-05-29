@@ -69,6 +69,7 @@ module RESTHelpers
       @preconditions = []
       @required_params = []
       @paginated = false
+      @use_transaction = :unspecified
       @returns = []
       @request_context_keyvals = {}
     end
@@ -173,6 +174,13 @@ module RESTHelpers
     end
 
 
+    def use_transaction(val)
+      @use_transaction = val
+
+      self
+    end
+
+
     def returns(*returns, &block)
       raise "No .permissions declaration for endpoint #{@method.to_s.upcase} #{@uri}" if !@has_permissions
 
@@ -183,6 +191,7 @@ module RESTHelpers
       preconditions = @preconditions
       rp = @required_params
       paginated = @paginated
+      use_transaction = @use_transaction
       uri = @uri
       method = @method
       request_context = @request_context_keyvals
@@ -218,7 +227,7 @@ module RESTHelpers
             end
           end
 
-          result = DB.open(Endpoint.use_transaction?(params)) do
+          result = DB.open((use_transaction == :unspecified) ? Endpoint.use_transaction?(params) : use_transaction) do
 
             RequestContext.put(:current_username, current_user.username)
 

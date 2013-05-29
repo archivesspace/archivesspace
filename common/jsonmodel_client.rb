@@ -259,7 +259,7 @@ module JSONModel
 
     # Validate this JSONModel instance, produce a JSON string, and send an
     # update to the backend.
-    def save(opts = {})
+    def save(opts = {}, whole_body = false)
 
       clear_errors
 
@@ -281,7 +281,7 @@ module JSONModel
           self.refetch
         end
 
-        return response["id"]
+        return whole_body ? response : response["id"]
 
       elsif response.code == '403'
         raise AccessDeniedException.new

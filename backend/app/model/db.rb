@@ -92,7 +92,7 @@ class DB
 
       rescue Sequel::DatabaseError => e
         if is_retriable_exception(e)
-          Log.info("Retrying transaction after retriable exception")
+          Log.info("Retrying transaction after retriable exception (#{e})")
           sleep 1
         else
           raise e
