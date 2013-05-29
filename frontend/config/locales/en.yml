@@ -107,6 +107,7 @@ en:
       outcome: Outcome
       event_type: Type
       first_term_type: Term Type (First)
+
   search_sorting:
     sort_by: "Sort by:"
     asc: Ascending
@@ -197,6 +198,7 @@ en:
       complete: Import Complete
 
   errors:
+    sidebar_label: Errors and Warnings
     error_403: Unable to Access Page
     error_403_message: "The page you've tried to access may no longer exist or you may not have permission to view it."
     error_404: Record Not Found
@@ -427,6 +429,10 @@ en:
                   <div><strong>Sticky Columns</strong></div>
                   <div><small>Highlighted columns are sticky and will be replicated when new rows are added. Toggle 'sticky' by clicking the corresponding table heading.</small></div>
                   <div><small>Clicking 'Add Row' will copy values from the last row; The row's '+' button will copy values from the currently focused row.</small></div>
+
+  update_monitor:
+    stale_record: This record has been updated by another user. Please refresh the page to access the latest version.
+    other_editors: "This record is currently being edited by another user.  Please contact the following users to ensure no conflicts occur: <strong>%{user_ids}</strong>"
 
   classification:
     _frontend:

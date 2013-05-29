@@ -181,3 +181,15 @@
     <%= I18n.t("mixed_content.help").html_safe %>
   </div>
 --></div>
+
+<div id="update_monitor_stale_record_message_template"><!--
+  <div class="alert alert-error update-monitor-error">
+    <%= I18n.t("update_monitor.stale_record") %>
+  </div>
+--></div>
+
+<div id="update_monitor_other_editors_message_template"><!--
+  <div class="alert alert-warning update-monitor-error">
+    <%= I18n.t("update_monitor.other_editors", :user_ids => "${user_ids}") %>
+  </div>
+--></div>
