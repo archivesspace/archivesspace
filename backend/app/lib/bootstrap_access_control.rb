@@ -216,6 +216,7 @@ class ArchivesSpaceService
         created_group.add_user(User[:username => User.PUBLIC_USERNAME])
 
         created_group.grant("view_repository")
+        created_group.grant("view_all_records")
       end
     end
 
