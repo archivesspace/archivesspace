@@ -601,7 +601,7 @@ AS.initSubRecordSorting = function($list) {
     });
 
     $list.off("sortupdate").on("sortupdate", function() {
-      $("#object_container form").triggerHandler("formchanged.aspace");
+      $("form.aspace-record-form").triggerHandler("formchanged.aspace");
     });
   }
 }

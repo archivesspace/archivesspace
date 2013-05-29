@@ -1,5 +1,6 @@
 <%= setup_context :object => @event %>
-<%= form_for @event, :as => "event", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
+
+<%= form_for @event, :as => "event", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
   <%= form_context :event, @event do |form| %>
     <div class="row-fluid">
       <div class="span3">

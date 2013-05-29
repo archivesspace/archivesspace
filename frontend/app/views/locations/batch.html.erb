@@ -1,57 +1,55 @@
 <%= setup_context :title => "Batch Locations", :trail => [[I18n.t("location._plural"), {:controller => :locations, :action => :index}]] %>
 
-<div id="object_container">
-  <%= form_for @location_batch, :as => "location_batch", :url => {:action => :batch_create}, :html => {:class => 'form-horizontal'} do |f| %>
-    <%= form_context :location_batch, @location_batch do |form| %>
-      <div class="row-fluid">
-        <div class="span3">
-          <%= render :partial => "locations/sidebar_batch" %>
-        </div>
-        <div class="span9">
-          <div class="record-pane">
+<%= form_for @location_batch, :as => "location_batch", :url => {:action => :batch_create}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
+  <%= form_context :location_batch, @location_batch do |form| %>
+    <div class="row-fluid">
+      <div class="span3">
+        <%= render :partial => "locations/sidebar_batch" %>
+      </div>
+      <div class="span9">
+        <div class="record-pane">
 
-            <h2><%= I18n.t("location_batch._singular") %></h2>
+          <h2><%= I18n.t("location_batch._singular") %></h2>
 
-            <%= render :partial => "shared/form_messages", :locals => {:object => @subject, :form => form} %>
+          <%= render :partial => "shared/form_messages", :locals => {:object => @subject, :form => form} %>
 
-            <section class="subrecord-form-dummy" id="location">
-              <h3 class="subrecord-heading"><%= I18n.t("location_batch._frontend.section.location") %></h3>
-              <div class="subrecord-form-container">
-                <p class="alert alert-info">
-                  <%= I18n.t("location_batch._frontend.messages.location_info") %>
-                </p>
-                <div class="subrecord-form-fields">
-                  <%= render :partial => "locations/form", :locals => {:form => form} %>
-                </div>
+          <section class="subrecord-form-dummy" id="location">
+            <h3 class="subrecord-heading"><%= I18n.t("location_batch._frontend.section.location") %></h3>
+            <div class="subrecord-form-container">
+              <p class="alert alert-info">
+                <%= I18n.t("location_batch._frontend.messages.location_info") %>
+              </p>
+              <div class="subrecord-form-fields">
+                <%= render :partial => "locations/form", :locals => {:form => form} %>
               </div>
-            </section>
-
-            <section class="subrecord-form-dummy" id="ranges">
-              <h3 class="subrecord-heading"><%= I18n.t("location_batch._frontend.section.ranges") %></h3>
-              <div class="subrecord-form-container">
-                <p class="alert alert-info">
-                  <%= I18n.t("location_batch._frontend.messages.ranges_info") %>
-                </p>
-                <div class="subrecord-form-fields">
-                  <%= render :partial => "locations/batch_form", :locals => {:form => form} %>
-                </div>
-              </div>
-            </section>
-
-            <div class="form-actions">
-              <% if not I18n.t("location_batch._frontend.messages.warning", :default => "").blank? %><div class="alert alert-warning"><%= I18n.t("location_batch._frontend.messages.warning") %></div><% end %>
-              <button type="submit" class="btn btn-primary">
-                <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %>
-                <span class="btn-label"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("location._plural") %></span>
-                <span class="btn-busy-label"><%= I18n.t("location_batch._frontend.actions.creating") %></span>
-              </button>
-              <button type="button" class="btn preview-locations"><%= I18n.t("location_batch._frontend.actions.preview") %></button>
-
-              <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
             </div>
+          </section>
+
+          <section class="subrecord-form-dummy" id="ranges">
+            <h3 class="subrecord-heading"><%= I18n.t("location_batch._frontend.section.ranges") %></h3>
+            <div class="subrecord-form-container">
+              <p class="alert alert-info">
+                <%= I18n.t("location_batch._frontend.messages.ranges_info") %>
+              </p>
+              <div class="subrecord-form-fields">
+                <%= render :partial => "locations/batch_form", :locals => {:form => form} %>
+              </div>
+            </div>
+          </section>
+
+          <div class="form-actions">
+            <% if not I18n.t("location_batch._frontend.messages.warning", :default => "").blank? %><div class="alert alert-warning"><%= I18n.t("location_batch._frontend.messages.warning") %></div><% end %>
+            <button type="submit" class="btn btn-primary">
+              <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %>
+              <span class="btn-label"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("location._plural") %></span>
+              <span class="btn-busy-label"><%= I18n.t("location_batch._frontend.actions.creating") %></span>
+            </button>
+            <button type="button" class="btn preview-locations"><%= I18n.t("location_batch._frontend.actions.preview") %></button>
+
+            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
           </div>
         </div>
       </div>
-   <% end %>
-  <% end %>
-</div>
+    </div>
+ <% end %>
+<% end %>

@@ -1,2 +1,2 @@
 //= require tree
-//= require detect_form_changes
+//= require form

@@ -1,4 +1,4 @@
-//= require detect_form_changes
+//= require form
 
 $(function() {
   $("button.preview-locations").on("click", function() {

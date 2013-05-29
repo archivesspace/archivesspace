@@ -1,6 +1,6 @@
 <%= setup_context :object => @user %>
 
-<%= form_for @user, :as => "createuser", :url => {:action => :update}, :html => {:class => 'form-horizontal'} do |f| %>
+<%= form_for @user, :as => "createuser", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
   <div class="row-fluid">
      <div class="span12">
        <%= render :partial => "toolbar" %>
