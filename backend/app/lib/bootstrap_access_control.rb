@@ -179,7 +179,8 @@ class ArchivesSpaceService
     if User[:username => User.SEARCH_USERNAME].nil?
       User.create_from_json(JSONModel(:user).from_hash(:username => User.SEARCH_USERNAME,
                                                        :name => "Search Indexer"),
-                            :source => "local")
+                            :source => "local",
+                            :is_system_user => 1)
     end
 
     DBAuth.set_password(User.SEARCH_USERNAME, AppConfig[:search_user_secret])
