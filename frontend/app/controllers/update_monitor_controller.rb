@@ -7,15 +7,13 @@ class UpdateMonitorController < ApplicationController
     uri = params[:uri]
     lock_version = params[:lock_version].to_i
 
-    if uri =~ '/repositories/[0-9]+/'
-      raise "Invalid URI" unless session[:repo_id] == $1
+    if uri =~ /\/repositories\/([0-9]+)/
+      raise "Invalid URI" unless session[:repo_id] == $1.to_i
     end
 
-    user = session[:user]
+    raise AccessDeniedException.new if !session[:user]
 
-    return if !user
-
-    render :json => EditMediator.record(user, uri, lock_version, Time.now)
+    render :json => EditMediator.record(session[:user], uri, lock_version, Time.now)
   end
 
 end
