@@ -35,7 +35,11 @@ $(function() {
         $("#form_messages", $form).prepend(AS.renderTemplate("update_monitor_stale_record_message_template"));
         $(".btn-primary, .btn-toolbar .btn", $form).attr("disabled", "disabled").addClass("disabled");
       } else if (status_data.status === STATUS_OTHER_EDITORS) {
-        $("#form_messages", $form).prepend(AS.renderTemplate("update_monitor_other_editors_message_template", {user_ids: "admin"}));
+        var user_ids = [];
+        $.each(status_data.edited_by, function(user_id, timestamp) {
+          user_ids.push(user_id);
+        });
+        $("#form_messages", $form).prepend(AS.renderTemplate("update_monitor_other_editors_message_template", {user_ids: user_ids.join(", ")}));
       }
 
       // highlight in the sidebar
@@ -79,6 +83,7 @@ $(function() {
         "json")
     };
 
+    poll();
     var polling_interval = setInterval(poll, INTERVAL_PERIOD);
   };
 
