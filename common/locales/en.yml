@@ -1199,6 +1199,8 @@ en:
       suppress_archival_record: suppress the major record types in this repository
       delete_archival_record: delete the major record types in this repository
       delete_event_record: delete event records in this repository
+      update_classification_record: create/update classifications and classification terms
+      delete_classification_record: delete classifications and classification terms
     _singular: Group
     _plural: Groups
 
