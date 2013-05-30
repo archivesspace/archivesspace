@@ -166,7 +166,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id, 'new-member'],(@user))
       $driver.find_element(:id, 'add-new-member').click
-      $driver.find_element(:css => 'input[type="submit"]').click
+      $driver.find_element(:css => 'button[type="submit"]').click
     end
 
 
@@ -181,7 +181,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id, 'new-member'],(@user))
       $driver.find_element(:id, 'add-new-member').click
-      $driver.find_element(:css => 'input[type="submit"]').click
+      $driver.find_element(:css => 'button[type="submit"]').click
     end
 
 
@@ -189,7 +189,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
       $driver.find_element(:link, "Manage Groups").click
       $driver.find_element(:link, "Create Group").click
-      $driver.find_element(:css => "form#new_group input[type='submit']").click
+      $driver.find_element(:css => "form#new_group button[type='submit']").click
       expect {
         $driver.find_element_with_text('//div[contains(@class, "error")]', /Group code - Property is required but was missing/)
       }.to_not raise_error
@@ -202,7 +202,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, 'group_group_code_'], "goo")
       $driver.clear_and_send_keys([:id, 'group_description_'], "Goo group to group goo")
       $driver.find_element(:id, "view_repository").click
-      $driver.find_element(:css => "form#new_group input[type='submit']").click
+      $driver.find_element(:css => "form#new_group button[type='submit']").click
 
 
       expect {
@@ -214,7 +214,7 @@ describe "ArchivesSpace user interface" do
     it "reports errors when attempting to update a Group with missing data" do
       $driver.find_element_with_text('//tr', /goo/).find_element(:link, "Edit").click
       $driver.clear_and_send_keys([:id, 'group_description_'], "")
-      $driver.find_element(:css => "form#new_group input[type='submit']").click
+      $driver.find_element(:css => "form#new_group button[type='submit']").click
       expect {
         $driver.find_element_with_text('//div[contains(@class, "error")]', /Description - Property is required but was missing/)
       }.to_not raise_error
@@ -225,7 +225,7 @@ describe "ArchivesSpace user interface" do
     it "can edit a Group" do
       $driver.find_element_with_text('//tr', /goo/).find_element(:link, "Edit").click
       $driver.clear_and_send_keys([:id, 'group_description_'], "Group to gather goo")
-      $driver.find_element(:css => "form#new_group input[type='submit']").click
+      $driver.find_element(:css => "form#new_group button[type='submit']").click
       expect {
         $driver.find_element_with_text('//tr', /Group to gather goo/)
       }.to_not raise_error
@@ -1952,7 +1952,7 @@ describe "ArchivesSpace user interface" do
       manna = $driver.find_element_with_text('//tr', /manna/)
       manna.find_element(:link, 'Delete').click
 
-      $driver.find_element(:css => "form#delete_enumeration input[type='submit']").click
+      $driver.find_element(:css => "form#delete_enumeration button[type='submit']").click
 
       $driver.find_element_with_text('//div', /Enumeration Value Deleted/)
     end
