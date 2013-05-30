@@ -416,12 +416,12 @@ en:
   linked_agent:
     _frontend:
       action:
-        add: Add Linked Agent
+        add: Add Agent Link
 
-  linked_agent:
+  linked_record:
     _frontend:
       action:
-        add: Add Linked Record
+        add: Add Record Link
 
   location:
     _frontend:
