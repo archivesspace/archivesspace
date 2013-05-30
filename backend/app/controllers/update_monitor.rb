@@ -8,7 +8,7 @@ class ArchivesSpaceService < Sinatra::Base
              :body => true])
     .permissions([:mediate_edits])
     .use_transaction(false)
-    .returns([200, "hooray"]) \
+    .returns([200, "A list of records, the user editing it and the lock version for each"]) \
   do
     edits = ActiveEdit.update_with(params[:active_edits])
 
