@@ -1,3 +1,4 @@
+require 'date'
 
 # Add a new 'ifmissing' attribute which emits either an error or warning
 # depending on its value.
@@ -53,6 +54,18 @@ class ArchivesSpaceTypeAttribute < JSON::Schema::TypeAttribute
 
   def self.validate(current_schema, data, fragments, validator, options = {})
     types = current_schema.schema['type']
+
+    if types == 'date'
+      begin
+        Date.parse(data)
+        return
+      rescue
+        validation_error("The property '#{build_fragment(fragments)}' was not " +
+                         "a well-formed date (value: #{data})",
+                         fragments, current_schema, self, options[:record_errors])
+      end
+    end
+
 
     if types == 'object' && data.is_a?(Hash) && data.has_key?('ref') && current_schema.schema['subtype'] != 'ref'
       # Provide a helpful warning about potentially missing subtype definitions

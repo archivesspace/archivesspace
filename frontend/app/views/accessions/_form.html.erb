@@ -9,7 +9,7 @@
     <fieldset>
        <%= form.label_and_textarea "title" %>
        <%= form.label_and_fourpartid %>
-       <%= form.label_and_date "accession_date", {:field_opts => {:value => (@accession.accession_date.blank? ? "" : Date.strptime(@accession.accession_date, "%Y-%m-%d"))}} %>
+       <%= form.label_and_date "accession_date" %>
        <%= form.label_and_textarea "content_description" %>
        <%= form.label_and_textarea "condition_description" %>
        <%= form.label_and_textarea "disposition" %>

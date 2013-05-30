@@ -303,7 +303,7 @@ Sequel.migration do
       DynamicEnum :resource_type_id
       DynamicEnum :acquisition_type_id
 
-      DateTime :accession_date, :null => true
+      Date :accession_date, :null => true
 
       Integer :restrictions_apply
       
@@ -979,7 +979,7 @@ Sequel.migration do
       String :materials, :null => true
 
       DynamicEnum :ip_status_id, :null => true
-      DateTime :ip_expiration_date, :null => true
+      Date :ip_expiration_date, :null => true
 
       String :license_identifier_terms, :null => true
       String :statute_citation, :null => true
@@ -989,8 +989,8 @@ Sequel.migration do
 
       TextField :permissions, :null => true
       TextField :restrictions, :null => true
-      DateTime :restriction_start_date, :null => true
-      DateTime :restriction_end_date, :null => true
+      Date :restriction_start_date, :null => true
+      Date :restriction_end_date, :null => true
 
       String :granted_note, :null => true
 
@@ -1155,9 +1155,9 @@ Sequel.migration do
       TextField :text_4, :null => true
       TextField :text_5, :null => true
 
-      DateTime :date_1, :null => true
-      DateTime :date_2, :null => true
-      DateTime :date_3, :null => true
+      Date :date_1, :null => true
+      Date :date_2, :null => true
+      Date :date_3, :null => true
 
       apply_mtime_columns
     end
@@ -1554,8 +1554,8 @@ Sequel.migration do
       Integer :aspace_relationship_position
 
       String :status
-      String :start_date
-      String :end_date
+      Date :start_date
+      Date :end_date
       String :note
 
       apply_mtime_columns(false)
