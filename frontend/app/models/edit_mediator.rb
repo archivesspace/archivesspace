@@ -41,6 +41,9 @@ class EditMediator
 
   class UpdateThread
 
+    # We send our local copy of the active edits table to the backend
+    # periodically.  Set this the same as the client's INTERVAL_PERIOD so we
+    # don't add too much delay to a client's update hitting the backend.
     SYNC_WITH_BACKEND_SECONDS = 10
 
     def initialize(active_edits, queue)

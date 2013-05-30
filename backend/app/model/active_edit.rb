@@ -1,5 +1,11 @@
 class ActiveEdit < Sequel::Model(:active_edit)
 
+  # If we haven't seen an update from a client in this amount of time, assume
+  # they've stopped editing.
+  #
+  # This value needs to be at least as much as the client interval plus the
+  # SYNC_WITH_BACKEND_SECONDS value from the frontend.  We add a bit of a margin
+  # so that we're not expiring messages immediately after receiving them.
   EXPIRE_SECONDS = 30
 
   def self.update_with(active_edits)
