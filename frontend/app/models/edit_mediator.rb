@@ -115,9 +115,6 @@ class EditMediator
             elsif request[:type] == :sync
               self.synchronise_with_backend
             end
-
-            puts @active_edits.value.inspect
-
           rescue
             $stderr.puts("ERROR: Edit mediator: #{$!}: #{$@}")
             sleep 5
