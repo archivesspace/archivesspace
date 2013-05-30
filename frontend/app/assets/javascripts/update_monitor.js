@@ -15,7 +15,9 @@ $(function() {
     var poll_url = $form.data("update-monitor-url");
     var lock_version = $form.data("update-monitor-lock_version");
     var uri = $form.data("update-monitor-record-uri");
-    var highlight_interval, polling_interval;
+
+    clearInterval($(document).data("UPDATE_MONITOR_HIGHLIGHT_INTERVAL"));
+    clearInterval($(document).data("UPDATE_MONITOR_POLLING_INTERVAL"));
 
 
     var handleStaleRecord = function(status_data) {
@@ -50,12 +52,12 @@ $(function() {
       }
       var $errorNavListItem = $(".as-nav-list li.alert-error");
 
-      if (!$errorNavListItem.hasClass("acknowledged") && highlight_interval == null) {
-        highlight_interval = setInterval(function() {
+      if (!$errorNavListItem.hasClass("acknowledged") && $(document).data("UPDATE_MONITOR_HIGHLIGHT_INTERVAL") == null) {
+        $(document).data("UPDATE_MONITOR_HIGHLIGHT_INTERVAL", setInterval(function() {
           $errorNavListItem.toggleClass("active");
-        }, 3000)
+        }, 3000));
         $errorNavListItem.hover(function() {
-          clearInterval(highlight_interval);
+          clearInterval($(document).data("UPDATE_MONITOR_HIGHLIGHT_INTERVAL"));
           $errorNavListItem.removeClass("active").addClass("acknowledged");
         }, function() {});
       }
@@ -86,7 +88,7 @@ $(function() {
     };
 
     poll();
-    polling_interval = setInterval(poll, INTERVAL_PERIOD);
+    $(document).data("UPDATE_MONITOR_POLLING_INTERVAL", setInterval(poll, INTERVAL_PERIOD));
   };
 
 
