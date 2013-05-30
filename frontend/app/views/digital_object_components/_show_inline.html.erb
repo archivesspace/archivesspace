@@ -5,50 +5,54 @@
   <div class="span9">
     <%= render :partial => "toolbar" %>
     <div class="record-pane">
-      <%= readonly_context :digital_object_component, @digital_object_component do |readonly| %>
-        <h2><%= @digital_object_component.title %> <span class="label label-info"><%= I18n.t("digital_object_component._singular") %></span></h2>
+      <% define_template "digital_object_component", jsonmodel_definition(:digital_object_component) do |form, digital_object_component| %>
+        <h2><%= digital_object_component.title %> <span class="label label-info"><%= I18n.t("digital_object_component._singular") %></span></h2>
         <section id="basic_information">
           <h3><%= I18n.t("digital_object_component._frontend.section.basic_information") %></h3>
   
-          <%= readonly.label_and_textfield "label" %>
-          <%= readonly.label_and_textarea "title" %>
-          <%= readonly.label_and_textfield "component_id" %>
-          <%= readonly.label_and_boolean "publish" %>
-          <%= readonly.label_and_select "language", readonly.possible_options_for("language") %>
+          <%= form.label_and_textfield "label" %>
+          <%= form.label_and_textarea "title" %>
+          <%= form.label_and_textfield "component_id" %>
+          <%= form.label_and_boolean "publish" %>
+          <%= form.label_and_select "language", form.possible_options_for("language") %>
 
         </section>
 
-        <% if @digital_object_component.file_versions.length > 0 %>
-          <%= render :partial => "file_versions/show", :locals => { :file_versions => @digital_object_component.file_versions, :section_id => "digital_object_component_file_versions_" } %>
+        <% if digital_object_component.file_versions.length > 0 %>
+          <%= render :partial => "file_versions/show", :locals => { :file_versions => digital_object_component.file_versions, :section_id => "digital_object_component_file_versions_" } %>
         <% end %>
 
-        <% if @digital_object_component.dates.length > 0 %>
-          <%= render :partial => "dates/show", :locals => { :dates => @digital_object_component.dates, :section_id => "digital_object_component_dates_" } %>
+        <% if digital_object_component.dates.length > 0 %>
+          <%= render :partial => "dates/show", :locals => { :dates => digital_object_component.dates, :section_id => "digital_object_component_dates_" } %>
         <% end %>
 
-        <% if @digital_object_component.extents.length > 0 %>
-          <%= render :partial => "extents/show", :locals => { :extents => @digital_object_component.extents, :section_id => "digital_object_component_extents_" } %>
+        <% if digital_object_component.extents.length > 0 %>
+          <%= render :partial => "extents/show", :locals => { :extents => digital_object_component.extents, :section_id => "digital_object_component_extents_" } %>
         <% end %>
 
-        <% if @digital_object_component.linked_agents.length > 0 %>
-          <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @digital_object_component.linked_agents, :section_id => "digital_object_component_linked_agents_" } %>
+        <% if digital_object_component.linked_agents.length > 0 %>
+          <%= render :partial => "linked_agents/show", :locals => { :linked_agents => digital_object_component.linked_agents, :section_id => "digital_object_component_linked_agents_" } %>
         <% end %>
 
-        <% if not @digital_object_component.subjects.blank? %>
-          <%= render :partial => "subjects/show_inline", :locals => {:subjects => @digital_object_component.subjects, :section_id => "digital_object_component_subjects_"} %>
+        <% if not digital_object_component.subjects.blank? %>
+          <%= render :partial => "subjects/show_inline", :locals => {:subjects => digital_object_component.subjects, :section_id => "digital_object_component_subjects_"} %>
         <% end %>
 
-        <% if @digital_object_component.notes.length > 0 %>
-          <%= render :partial => "notes/show", :locals => { :notes => @digital_object_component.notes, :context => readonly } %>
+        <% if digital_object_component.notes.length > 0 %>
+          <%= render :partial => "notes/show", :locals => { :notes => digital_object_component.notes, :context => form } %>
         <% end %>
 
-        <% if @digital_object_component.external_documents.length > 0 %>
-          <%= render :partial => "external_documents/show", :locals => { :external_documents => @digital_object_component.external_documents, :section_id => "digital_object_component_external_documents_" } %>
+        <% if digital_object_component.external_documents.length > 0 %>
+          <%= render :partial => "external_documents/show", :locals => { :external_documents => digital_object_component.external_documents, :section_id => "digital_object_component_external_documents_" } %>
         <% end %>
 
-        <% if @digital_object_component.rights_statements.length > 0 %>
-          <%= render :partial => "rights_statements/show", :locals => { :rights_statements => @digital_object_component.rights_statements, :section_id => "digital_object_component_rights_statements_"  } %>
+        <% if digital_object_component.rights_statements.length > 0 %>
+          <%= render :partial => "rights_statements/show", :locals => { :rights_statements => digital_object_component.rights_statements, :section_id => "digital_object_component_rights_statements_"  } %>
         <% end %>
+      <% end %>
+
+      <%= readonly_context :digital_object_component, @digital_object_component do |readonly| %>
+        <% readonly.emit_template("digital_object_component", @digital_object_component) %>
       <% end %>
     </div>
   </div>
