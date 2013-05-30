@@ -49,6 +49,14 @@ module JSONSchemaUtils
      },
 
      {
+       :failed_attribute => ['ArchivesSpaceType'],
+       :pattern => /The property '#(.*?)' was not a well-formed date/,
+       :do => ->(msgs, message, path, property) {
+         msgs[:errors][fragment_join(path)] = ["Not a valid date"]
+       }
+     },
+
+     {
        :failed_attribute => ['Pattern'],
        :pattern => /The property '#\/.*?' did not match the regex '(.*?)' in schema/,
        :do => ->(msgs, message, path, regexp) {

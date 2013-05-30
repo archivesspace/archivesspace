@@ -136,6 +136,7 @@ en:
     end_date: End Date
     note: Note
     location: Location
+    ref: Location
     _singular: Location
     _plural: Locations
 
@@ -960,7 +961,7 @@ en:
   accession:
     <<: *section_tooltips
     accession_date: Accession Date
-    accession_date_inline_help: e.g. YYYY, YYYY-MM, or YYYY-MM-DD
+    accession_date_inline_help: e.g. YYYY-MM-DD
     accession_date_tooltip: |
         <p>REQUIRED FIELD: The date the accession took place. It is not 
         necessarily the same date as when the record is created.</p>
@@ -1510,11 +1511,11 @@ en:
     text_4: Text 4
     text_5: Text 5
     date_1: Date 1
-    date_1_inline_help: e.g. YYYY, YYYY-MM, or YYYY-MM-DD
+    date_1_inline_help: e.g. YYYY-MM-DD
     date_2: Date 2
-    date_2_inline_help: e.g. YYYY, YYYY-MM, or YYYY-MM-DD
+    date_2_inline_help: e.g. YYYY-MM-DD
     date_3: Date 3
-    date_3_inline_help: e.g. YYYY, YYYY-MM, or YYYY-MM-DD
+    date_3_inline_help: e.g. YYYY-MM-DD
     _singular: User Defined
     _plural: User Defined
 
