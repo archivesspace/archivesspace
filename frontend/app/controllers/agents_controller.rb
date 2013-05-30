@@ -11,7 +11,7 @@ class AgentsController < ApplicationController
   }
 
   def index
-    @search_data = Search.for_type(session[:repo_id], "agent", search_params.merge({"facet[]" => SearchResultData.AGENT_FACETS}))
+    @search_data = Search.for_type(session[:repo_id], "agent", {"sort" => "title_sort asc"}.merge(search_params.merge({"facet[]" => SearchResultData.AGENT_FACETS})))
   end
 
   def show

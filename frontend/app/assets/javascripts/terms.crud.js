@@ -48,7 +48,7 @@ $(function() {
           $("select", this.$element.parents(".row-fluid:first")).val(item.term_type);
           return item.term;
         }
-      }).focus();
+      });
   };
 
 
