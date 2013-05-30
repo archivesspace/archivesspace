@@ -680,6 +680,7 @@ en:
     type_3_tooltip: *container_type_tooltip
     indicator_3: Indicator 3
     indicator_3_tooltip: *container_indicator_tooltip
+    container_locations: Locations
     _plural: Containers
     _singular: Container
 
