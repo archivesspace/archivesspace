@@ -120,7 +120,7 @@ class ArchivesSpaceService < Sinatra::Base
       DBAuth.set_password(params[:user].username, params[:password])
     end
 
-    if params[:groups] && params[:repo_id]
+    if params[:repo_id]
       groups = Array(params[:groups]).map {|uri|
         group_ref = JSONModel.parse_reference(uri)
         repo_id = JSONModel.parse_reference(group_ref[:repository])[:id]

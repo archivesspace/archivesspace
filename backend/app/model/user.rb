@@ -28,10 +28,9 @@ class User < Sequel::Model(:user)
       opts['agent_record_id'] = agent_obj.id
     end
 
-    obj = super(json, opts)
-
-    obj
+    super(json, opts)
   end
+
 
   def self.sequel_to_jsonmodel(obj, opts = {})
     json = super
@@ -41,6 +40,11 @@ class User < Sequel::Model(:user)
     end
 
     json
+  end
+
+
+  def self.broadcast_changes
+    Notifications.notify("REFRESH_ACLS")
   end
 
 
@@ -177,6 +181,8 @@ class User < Sequel::Model(:user)
     Array(groups).each do |group|
       group.add_user(self)
     end
+
+    self.class.broadcast_changes
   end
 
 
