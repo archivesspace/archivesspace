@@ -165,6 +165,32 @@ module JSONModel::Validations
   end
 
 
+  def self.check_container(hash)
+    errors = []
+    got_current = false
+
+    hash["container_locations"].each do |loc|
+      if loc["status"] == "current"
+        if got_current
+          errors << ["container_locations", "only one location can be current"]
+          break
+        else
+          got_current = true
+        end
+      end
+    end
+
+    errors
+  end
+
+
+  if JSONModel(:container)
+    JSONModel(:container).add_validation("check_container") do |hash|
+      check_container(hash)
+    end
+  end
+
+
   def self.check_instance(hash)
     errors = []
 
