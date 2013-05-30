@@ -1,4 +1,5 @@
 require_relative '../lib/realtime_indexing'
+require 'date'
 
 module ASModel
   include JSONModel
@@ -532,6 +533,11 @@ module ASModel
           :description => "JSON booleans become DB integers",
           :json_to_db => ->(bool) { bool ? 1 : 0 },
           :db_to_json => ->(int) { int === 1 }
+        },
+        'date' => {
+          :description => "Date strings become dates",
+          :json_to_db => ->(s) { Date.parse(s) },
+          :db_to_json => ->(date) { date.strftime('%Y-%m-%d') }
         }
       }
 
