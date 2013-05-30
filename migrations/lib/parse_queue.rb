@@ -5,7 +5,7 @@ module ASpaceImport
 
   # Manages the JSON object batch set
 
-  class Batch < Array
+  class Batch
     attr_accessor :repo_id
 
     def initialize(opts = {})
@@ -45,11 +45,6 @@ module ASpaceImport
     end
 
 
-    def <<(obj)
-      push(obj)
-    end
-
-
     def push(obj)
       hash = obj.to_hash
 
@@ -69,18 +64,36 @@ module ASpaceImport
     end
 
 
-    def inspect
+    def save(&block)
 
-      str = "["
-      File.open(@working_file.path).each do |line|
-        @log.debug("Line #{line}")
-        str << "#{line.gsub(/\n/,'')},"
+      close
+
+      begin
+        if @dry
+          batch = ASUtils.json_parse(File.open(@batch_file).read)
+
+          mapping = {:saved => Hash[batch.map {|rec| [rec['uri'], [rec['uri'], JSONModel.parse_reference(rec['uri'])[:id]]] }] }
+
+          response = @dry_response.new(mapping)
+
+          block.call(response)
+
+        else
+
+          uri = "/repositories/#{@repo_id}/batch_imports"
+          url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
+
+          JSONModel::HTTP.with_request_priority(:low) do
+            JSONModel::HTTP.post_json_file(url, @batch_file.path, &block)
+          end
+        end
+      ensure
+        @batch_file.unlink
       end
-      str << "]"
-
-      str
     end
 
+
+    private
 
     def close
 
@@ -107,39 +120,10 @@ module ASpaceImport
       @batch_file.write("]")
       @batch_file.close
     end
-
-
-    def save(&block)
-
-      self.close
-
-      begin
-        if @dry
-          batch = ASUtils.json_parse(File.open(@batch_file).read)
-
-          mapping = {:saved => Hash[batch.map {|rec| [rec['uri'], [rec['uri'], JSONModel.parse_reference(rec['uri'])[:id]]] }] }
-
-          response = @dry_response.new(mapping)
-
-          block.call(response)
-
-        else
-
-          uri = "/repositories/#{@repo_id}/batch_imports"
-          url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
-
-          JSONModel::HTTP.with_request_priority(:low) do
-            JSONModel::HTTP.post_json_file(url, @batch_file.path, &block)
-          end
-        end
-      ensure
-        @batch_file.unlink
-      end
-    end
   end
 
 
-  class ParseQueue < Array
+  class ImportCache < Array
 
     def initialize(opts)
       @batch = Batch.new(opts)
@@ -150,7 +134,6 @@ module ASpaceImport
 
 
     def pop
-
       if self.last.class.method_defined? :uri and !self.last.uri.nil?
         @batch.push(self.last) unless self.last.uri.nil?
       end
@@ -170,17 +153,27 @@ module ASpaceImport
     end
 
 
-    def save(&block)
-      while self.length > 0
-        @log.warn("Saving a queued object that was not explicitly batched")
+    def clear!
+      while !self.empty?
         self.pop
       end
+
+      self
+    end
+
+
+    def save!(&block)
+      unless self.empty?
+        @log.warn("Saving objects that were not explicitly cleared from the cache")
+        self.clear!
+      end
+
       @batch.save(&block)
     end
 
 
     def inspect
-      "Parse Queue: " << super <<  " --- Batch: " << @batch.inspect
+      "Import Cache: " << super <<  " --- Batch: " << @batch.inspect
     end
 
   end

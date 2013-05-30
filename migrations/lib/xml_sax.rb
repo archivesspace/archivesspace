@@ -39,7 +39,8 @@ module ASpaceImport
       end
 
 
-      def run        
+      def run
+        @cache = super      
         @reader = Nokogiri::XML::Reader(IO.read(@input_file))
         node_queue = node_queue_for(@reader)
         @context = []
@@ -69,11 +70,13 @@ module ASpaceImport
         
         emit_status({'type' => 'done', 'id' => 'xml'})
 
-        save_all
+        # save_all
 
         with_undischarged_proxies do |prox|
           @log.debug("Undischarged: #{prox.to_s}")
         end
+        
+        @cache
       end
     
     
@@ -106,7 +109,7 @@ module ASpaceImport
         obj = ASpaceImport::JSONModel(type).new
 
         @context.push(type)
-        parse_queue.push(obj)
+        @cache.push(obj)
 
         @context_nodes[@node_name] ||= []
         @context_nodes[@node_name][@node_depth] ||= []
@@ -116,14 +119,14 @@ module ASpaceImport
 
       def close_context(type)
         # @log.debug("Close context <#{type}>")
-        if parse_queue.last.jsonmodel_type != type.to_s
-          raise "Unexpected Object Type in Queue: Expected #{type} got #{parse_queue.last.jsonmodel_type}"
+        if @cache.last.jsonmodel_type != type.to_s
+          raise "Unexpected Object Type in Queue: Expected #{type} got #{@cache.last.jsonmodel_type}"
         end
 
-        @proxies.discharge_proxy(type, parse_queue.last)
+        @proxies.discharge_proxy(type, @cache.last)
 
         @context.pop
-        parse_queue.pop
+        @cache.pop
       end
 
       # Schedule retrieval from the next text node
@@ -187,7 +190,7 @@ module ASpaceImport
       def ancestor(*types)
         queue_offset = @context_nodes.has_key?(@node_name) ? -2 : -1
 
-        obj = parse_queue[0..queue_offset].reverse.find { |o| types.map {|t| t.to_s }.include?(o.class.record_type)}          
+        obj = @cache[0..queue_offset].reverse.find { |o| types.map {|t| t.to_s }.include?(o.class.record_type)}          
         obj
       end
 
@@ -208,7 +211,7 @@ module ASpaceImport
 
 
       def context_obj
-        parse_queue.last
+        @cache.last
       end
     
     end

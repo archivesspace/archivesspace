@@ -1,17 +1,17 @@
 require_relative '../lib/jsonmodel_wrap'
-require_relative '../lib/parse_queue'  
+require_relative '../lib/parse_queue'
 
 module ASpaceImport
-  
+
   def self.init
     Dir.glob(File.dirname(__FILE__) + '/../importers/*', &method(:load))
   end
-  
+
 
   class Importer
 
     @@importers = {}
-    attr_accessor :parse_queue
+
 
     def self.list
       list = "\nThe following importers are available\n"
@@ -33,7 +33,7 @@ module ASpaceImport
         raise StandardError.new("Unusable importer or importer not found for: #{name}(#{opts[:importer]})")
       end
     end
-    
+
     def self.destroy_importers
       @@importers.each do |key, klass|
         Object.send(:remove_const, klass.name)
@@ -66,39 +66,85 @@ module ASpaceImport
       unless opts[:log]
         require 'logger'
         opts[:log] = Logger.new(STDOUT)
-        
-        if opts[:debug] 
+
+        if opts[:debug]
           opts[:log].level = Logger::DEBUG
         elsif opts[:quiet]
           opts[:log].level = Logger::UNKNOWN
         else
-          opts[:log].level = Logger::WARN 
+          opts[:log].level = Logger::WARN
         end
       end
 
 
       JSONModel::set_repository(opts[:repo_id])
 
-      @flags = {}    
+      @flags = {}
       if opts[:importer_flags]
         opts[:importer_flags].each do |flag|
           @flags[flag] = true
         end
         opts.delete(:importer_flags)
       end
-        
+
       opts.each do |k,v|
         instance_variable_set("@#{k}", v)
       end
-      
-      @block = nil
 
-      @parse_queue = ASpaceImport::ParseQueue.new(opts)
+      @block = nil
     end
 
-    
-    def parse_queue
-      @parse_queue
+
+    def run_safe(&block)
+
+      @block = block
+      return nil unless @block
+
+      begin
+        cache = self.run
+        cache.save! do |response|
+          handle_save_response(response)
+        end
+      rescue JSONModel::ValidationException => e
+
+        errors = e.errors.collect.map{|attr, err| "#{e.invalid_object.class.record_type}/#{attr} #{err.join(', ')}"}
+        @block.call({"errors" => errors})
+      end
+    end
+
+
+    private
+
+    def run
+      ASpaceImport::ImportCache.new({:log => @log, :dry => @dry})
+    end
+
+
+    def handle_save_response(response)
+      if response.code.to_s == '200'
+        fragments = ""
+        response.read_body do |message|
+          begin
+            if message =~ /\A\[\n\Z/
+              # do nothing because we're treating the response as a stream
+            elsif message =~ /\A\n\]\Z/
+              # the last message doesn't have a comma, so it's a fragment
+              message = ASUtils.json_parse(fragments.sub(/\n\Z/, ''))
+              send_to_client(message)
+            elsif message =~ /.*,\n\Z/
+              message = ASUtils.json_parse(fragments + message.sub(/,\n\Z/, ''))
+              send_to_client(message)
+            else
+              fragments << message
+            end
+          rescue JSON::ParserError => e
+            send_to_client({'error' => e.to_s})
+          end
+        end
+
+      else
+        send_to_client({"error" => "Server Error #{response.code}"})
+      end
     end
 
 
@@ -109,69 +155,10 @@ module ASpaceImport
     end
 
 
-    def save_all
-      @log.debug(parse_queue.inspect)
-      
-      parse_queue.save do |response|
-        if response.code.to_s == '200'
-          fragments = ""
-          response.read_body do |message|
-            begin
-              if message =~ /\A\[\n\Z/
-                # do nothing because we're treating the response as a stream
-              elsif message =~ /\A\n\]\Z/
-                # the last message doesn't have a comma, so it's a fragment                
-                message = ASUtils.json_parse(fragments.sub(/\n\Z/, ''))
-                send_to_client(message)              
-              elsif message =~ /.*,\n\Z/
-                message = ASUtils.json_parse(fragments + message.sub(/,\n\Z/, ''))
-                send_to_client(message)
-              else
-                fragments << message
-              end
-            rescue JSON::ParserError => e
-              send_to_client({'error' => e.to_s})
-            end
-          end 
-    
-        else
-          send_to_client({"error" => "Server Error #{response.code}"})
-        end 
-      end
-    end
-      
-
-    # Errors arising from bad data should be reported
-    # out to the user. Other errors can surface 
-    # as they arise.
-    def run_safe(&block)      
-      
-      @block = block
-            
-      begin
-        self.run
-      rescue JSONModel::ValidationException => e
-        
-        errors = e.errors.collect.map{|attr, err| "#{e.invalid_object.class.record_type}/#{attr} #{err.join(', ')}"}
-        @block.call({"errors" => errors})
-      end
-    end
-
-    private
-    
-    
     def emit_status(hsh)
-      send_to_client({'status' => [hsh]})
+      @block.call({'status' => [hsh]})
     end
-    
-    # ParseQueue helpers
-    
-    # Empty out the parse queue and set any defaults
-    def clear_parse_queue
-      while !parse_queue.empty?
-        parse_queue.pop
-      end
-    end
+
   end
 end
 

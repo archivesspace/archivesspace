@@ -20,6 +20,7 @@ module ASpaceImport
       end
     
       def run
+        @cache = super
 
         @doc = Nokogiri::XML::Document.parse(IO.read(@input_file))
         @doc.remove_namespaces!
@@ -28,9 +29,7 @@ module ASpaceImport
           object(path, defn)
         end
 
-        @log.debug("Parse Queue State: #{parse_queue.inspect}")
-
-        save_all
+        @cache
       end
       
       
@@ -39,7 +38,7 @@ module ASpaceImport
         @context.last.xpath(path).each do |node|
           @context << node
           obj = ASpaceImport::JSONModel(defn[:obj]).new
-          parse_queue << obj
+          @cache << obj
           defn[:map].each do |key, defn|
             process_field(obj, key, defn)
           end

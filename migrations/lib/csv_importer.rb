@@ -1,9 +1,10 @@
+require 'csv'
 require_relative 'utils'
 require_relative 'record_proxy'
 
 module ASpaceImport
   module CSVImport
-    
+
     module ClassMethods
       def configuration
         @configuration ||= self.configure
@@ -13,22 +14,23 @@ module ASpaceImport
     def self.included(base)
       base.extend(ClassMethods)
     end
-      
+
     def configuration
       self.class.configuration
     end
-    
-    
+
+
     def run
-      
+      @cache = super
+
       # i = 0
       @headers = []
       @proxies = ASpaceImport::RecordProxyMgr.new
-    
+
       CSV.foreach(@input_file) do |row|
-    
+
         # i = i+1
-    
+
         if @headers.empty?
           @headers = row
           bad_headers = []
@@ -40,52 +42,48 @@ module ASpaceImport
           parse_row(row) #unless i > 2
         end
       end
-    
-    
-      save_all
-      
+
       @proxies.undischarged.each do |prox|
         @log.warn("Undischarged: #{prox.to_s}")
       end
-    
+
+      @cache
     end
-    
-    
+
+
     def parse_row(row)
 
       row.each_with_index do |cell, i|
         parse_cell(@headers[i], cell)
       end
 
-      parse_queue.each do |obj|   
+      @cache.each do |obj|
         @proxies.discharge_proxy(obj.key, obj)
       end
-      
-      @log.debug(parse_queue.inspect)
-      
-      clear_parse_queue
+
+      @log.debug(@cache.inspect)
+
+      @cache.clear!
     end
-    
-    
+
+
     def parse_cell(header, val)
 
       val = nil if val == 'NULL'
-      
+
       return nil if val.nil?
 
       @log.debug("PARSING HEADER: #{header} VALUE: #{val}")
 
       if configuration.has_key?(header)
 
-        # TODO - optimize out?
-        # TODO - check the config ahead of time
         if configuration[header].is_a?(Array)
           path_string = configuration[header][1]
           val = configuration[header][0].call(val)
         else
           path_string = configuration[header]
         end
-          
+
         path = path_string.scan(/[^.]+/)
 
         obj = get_queued_or_new(path.slice!(0))
@@ -97,16 +95,16 @@ module ASpaceImport
         obj.send("#{path.last}=", filtered_val)
 
       else
-        # @log.warn("Unconfigured CSV header: #{header}") 
+        # @log.warn("Unconfigured CSV header: #{header}")
       end
     end
-    
+
     # TODO - optimize by running this logic one per key
-    
+
     def get_new(key)
 
       conf = configuration[key.to_sym]
-      
+
       if conf.nil?
         conf = {}
       end
@@ -119,37 +117,37 @@ module ASpaceImport
 
       obj = ASpaceImport::JSONModel(type).new
       obj.key = key
-        
+
       if conf[:path] || conf[:defaults]
         proxy = @proxies.get_proxy_for(key)
-              
+
         # Set defaults when done getting data
         if conf[:defaults]
           conf[:defaults].each do |key, val|
             proxy.on_discharge(self, :set_default, key, val)
           end
         end
-        
+
         # Set path when complete
-        if conf[:path]  
+        if conf[:path]
           path = conf[:path].scan(/[^.]+/)
           set_property ancestor(path[0]), path[1], proxy
         end
-        
+
         # Do what needs to be done before batching the record
         if conf[:on_row_complete]
-          proxy.on_discharge(conf[:on_row_complete], :call, parse_queue)
+          proxy.on_discharge(conf[:on_row_complete], :call, @cache)
         end
-        
+
       end
-          
-      @parse_queue.push(obj)
-    
+
+      @cache.push(obj)
+
       obj
     end
 
     def get_queued_or_new(key)
-      if (obj = @parse_queue.find {|j| j.key == key })  
+      if (obj = @cache.find {|j| j.key == key })
         obj
       else
         get_new(key)
@@ -158,18 +156,18 @@ module ASpaceImport
 
 
     def set_default(property, val, obj)
-      if obj.send("#{property}").nil?       
+      if obj.send("#{property}").nil?
         obj.send("#{property}=", val)
       end
     end
-    
-   
+
+
     def ancestor(*types)
-      obj = parse_queue.reverse.find { |o| types.map {|t| t.to_s }.include?(o.class.record_type)}
+      obj = @cache.reverse.find { |o| types.map {|t| t.to_s }.include?(o.class.record_type)}
       obj
     end
-        
-    
+
+
     def set_property(obj = :context, property, value)
 
       if obj.nil?
@@ -212,8 +210,8 @@ module ASpaceImport
       end
 
     end
-        
-        
+
+
     class CSVSyntaxException < StandardError
 
       def initialize(type, element)
@@ -224,10 +222,9 @@ module ASpaceImport
       def to_s
         "#<:CSVSyntaxException: #{@type} => #{@element.inspect}"
       end
-    end    
+    end
 
   end
 end
-    
-    
-    
+
+
