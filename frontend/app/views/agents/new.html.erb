@@ -1,6 +1,6 @@
 <%= setup_context :object => @agent, :controller => :agents,  :type => @agent.agent_type, :title => "#{I18n.t("actions.new_prefix")} #{I18n.t("agent.agent_type.#{@agent.agent_type}")}" %>
 
-<%= form_for @agent, :as => "agent", :url => {:action => :create}, :html => {:class => 'form-horizontal', :id => "agent_form"} do |f| %>
+<%= form_for @agent, :as => "agent", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form', :id => "agent_form"} do |f| %>
   <%= form_context :agent, @agent do |form| %>
     <div class="row-fluid">
       <div class="span3">

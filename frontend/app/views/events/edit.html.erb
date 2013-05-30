@@ -1,6 +1,6 @@
 <%= setup_context :object => @event, :title => @event.id %>
 
-<%= form_for @event, :as => "event", :url => {:action => :update}, :html => {:class => 'form-horizontal'} do |f| %>
+<%= form_for @event, :as => "event", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@event)) do |f| %>
   <%= form_context :event, @event do |form| %>
     <div class="row-fluid">
       <div class="span3">

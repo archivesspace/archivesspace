@@ -1,24 +1,22 @@
 <%= setup_context :object => @agent, :controller => :agents, :type => @agent.agent_type, :title => @agent.names[0]["sort_name"] %>
 
-<div  id="object_container">
-  <%= form_for @agent, :as => "agent", :url => {:action => :update}, :html => {:class => 'form-horizontal', :id => "agent_form"} do |f| %>
-    <%= form_context :agent, @agent do |form| %>
-      <div class="row-fluid">
-        <div class="span3">
-          <%= render :partial => "sidebar", :locals => {:form => form} %>
-        </div>
-        <div class="span9">
-          <%= render :partial => "toolbar" %>
-          <div class="record-pane">
-            <h2><%= @agent.names[0]["sort_name"] %>  <span class="label label-info"><%= I18n.t("agent._singular") %></span></h2>
-            <%= render :partial => "agents/form", :locals => {:form => form} %>
-            <div class="form-actions">
-              <button type="submit" class="btn btn-primary"><%= I18n.t "actions.save_prefix" %> <%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></button>
-              <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
-            </div>
+<%= form_for @agent, :as => "agent", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form', :id => "agent_form"}.merge(update_monitor_params(@agent)) do |f| %>
+  <%= form_context :agent, @agent do |form| %>
+    <div class="row-fluid">
+      <div class="span3">
+        <%= render :partial => "sidebar", :locals => {:form => form} %>
+      </div>
+      <div class="span9">
+        <%= render :partial => "toolbar" %>
+        <div class="record-pane">
+          <h2><%= @agent.names[0]["sort_name"] %>  <span class="label label-info"><%= I18n.t("agent._singular") %></span></h2>
+          <%= render :partial => "agents/form", :locals => {:form => form} %>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary"><%= I18n.t "actions.save_prefix" %> <%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></button>
+            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
           </div>
         </div>
       </div>
-    <% end %>
+    </div>
   <% end %>
-</div>
+<% end %>

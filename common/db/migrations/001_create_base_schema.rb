@@ -250,6 +250,7 @@ Sequel.migration do
       String :permission_code, :unique => true
       TextField :description, :null => false
       String :level, :default => "repository"
+      Integer :system, :default => 0, :null => false
 
       apply_mtime_columns
     end
@@ -1260,6 +1261,16 @@ Sequel.migration do
       String :operator, :null => false
       DateTime :timestamp, :null => false
     end
+
+
+    create_table(:active_edit) do
+      primary_key :id
+
+      String :uri, :null => false
+      String :operator, :null => false
+      DateTime :timestamp, :null => false, :index => true
+    end
+
 
 
     create_editable_enum('linked_agent_archival_record_relators',

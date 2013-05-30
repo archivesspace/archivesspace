@@ -59,10 +59,15 @@ class User < Sequel::Model(:user)
   end
 
 
+  def self.STAFF_USERNAME
+    AppConfig[:staff_username]
+  end
+
+
   def self.unlisted_user_ids
     @@unlisted_user_ids if not @@unlisted_user_ids.nil?
 
-    @@unlisted_user_ids = Array(User[:username => [User.SEARCH_USERNAME, User.PUBLIC_USERNAME]]).collect {|user| user.id}
+    @@unlisted_user_ids = Array(User[:username => [User.SEARCH_USERNAME, User.PUBLIC_USERNAME, User.STAFF_USERNAME]]).collect {|user| user.id}
 
     @@unlisted_user_ids
   end

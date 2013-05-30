@@ -23,7 +23,7 @@
 </head>
 <body>
   <div class="content-pane">
-    <%= form_tag '/import/upload', :multipart => true, :class => 'form-horizontal', :id => "import_iframe" do %>
+    <%= form_tag '/import/upload', :multipart => true, :class => 'form-horizontal aspace-record-form', :id => "import_iframe" do %>
     <fieldset>
       <div class="control-group ">
         <%= label_tag :upload, I18n.t('import.file_select'), :class=>"control-label" %>

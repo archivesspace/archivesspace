@@ -1,5 +1,6 @@
 //= require terms.crud
 //= require subrecord.crud
+//= require form
 
 $(function() {
 

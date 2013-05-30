@@ -59,7 +59,7 @@
                   <% if user_can?('update_event_record') %>
                     <li><%= link_to I18n.t("event._singular"), :controller => :events, :action => :new %></li>
                   <% end %>
-                  <% if user_can?('update_archival_record') %>
+                  <% if user_can?('update_classification_record') %>
                     <li><%= link_to I18n.t("classification._singular"), :controller => :classifications, :action => :new %></li>
                   <% end %>
                 </ul>

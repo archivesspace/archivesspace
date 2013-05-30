@@ -1,3 +1,5 @@
+//= require update_monitor
+
 // add form change detection
 $(function() {
   var ignoredKeycodes = [37,39,9];
@@ -14,8 +16,6 @@ $(function() {
       $this.data("changedDetectionEnabled", true);
 
 
-      var $objectContainer = $($this.closest("#object_container")[0]);
-
       var onFormElementChange = function(event) {
         $this.triggerHandler("formchanged.aspace");
       };
@@ -26,10 +26,10 @@ $(function() {
           onFormElementChange();
         }
       });
-      $objectContainer.live("focusin", ":input", function(event) {
+      $this.live("focusin", ":input", function(event) {
         $(event.target).parents(".subrecord-form").addClass("focus");
       });
-      $objectContainer.live("focusout", ":input", function(event) {
+      $this.live("focusout", ":input", function(event) {
         $(event.target).parents(".subrecord-form").removeClass("focus");
       });
       $(":radio, :checkbox", $this).live("click", onFormElementChange);
@@ -37,8 +37,8 @@ $(function() {
 
       $this.bind("formchanged.aspace", function() {
         $this.data("form_changed", true);
-        $("#object_container .record-toolbar").addClass("formchanged");
-        $("#object_container .record-toolbar .btn-toolbar .btn").addClass("disabled").attr("disabled","disabled");
+        $(".record-toolbar", $this).addClass("formchanged");
+        $(".record-toolbar .btn-toolbar .btn", $this).addClass("disabled").attr("disabled","disabled");
       });
 
       $this.bind("submit", function() {
@@ -46,23 +46,31 @@ $(function() {
         $(":input[type='submit']", $this).attr("disabled","disabled");
       });
 
-      $("#object_container .record-toolbar .revert-changes .btn").click(function() {
+      $(".record-toolbar .revert-changes .btn", $this).click(function() {
         $this.data("form_changed", false);
         return true;
       });
 
       $(window).bind("beforeunload", function(event) {
-        if ($this.data("form_changed")) {
+        if ($this.data("form_changed") === true) {
           return 'Please note you have some unsaved changes.';
         }
       });
+
+      if ($this.data("update-monitor")) {
+        $(document).trigger("setupupdatemonitor.aspace", [$this]);
+      } else if ($this.closest(".modal").length === 0) {
+        // if form isn't opened via a modal, then clear the timeouts
+        // and they will be reinitialised for that form (e.g. tree forms)
+        $(document).trigger("clearupdatemonitorintervals.aspace", [$this]);
+      }
 
     });
   };
 
   $(document).ajaxComplete(function() {
-    $.proxy(initFormChangeDetection, $("#object_container form"))();
+    $.proxy(initFormChangeDetection, $("form.aspace-record-form"))();
   });
 
-  $.proxy(initFormChangeDetection, $("#object_container form"))();
+  $.proxy(initFormChangeDetection, $("form.aspace-record-form"))();
 });

@@ -12,8 +12,9 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([])
     .returns([200, "[(:permission)]"]) \
   do
+    where = {:system => 0}
     handle_unlimited_listing(Permission,
-                             (params[:level] == "all") ? {} : {:level => params[:level]})
+                             (params[:level] == "all") ? where : where.merge(:level => params[:level]))
   end
 
 end

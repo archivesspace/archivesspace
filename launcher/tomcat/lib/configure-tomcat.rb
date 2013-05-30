@@ -98,6 +98,7 @@ class TomcatSetup
     config = <<EOF
 AppConfig[:search_user_secret] = "#{SecureRandom.hex}"
 AppConfig[:public_user_secret] = "#{SecureRandom.hex}"
+AppConfig[:staff_user_secret] = "#{SecureRandom.hex}"
 
 AppConfig[:frontend_cookie_secret] = "#{SecureRandom.hex}"
 AppConfig[:public_cookie_secret] = "#{SecureRandom.hex}"

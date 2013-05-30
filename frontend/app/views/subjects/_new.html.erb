@@ -1,4 +1,4 @@
-<%= form_for @subject, :as => "subject", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
+<%= form_for @subject, :as => "subject", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
   <%= form_context :subject, @subject do |form| %>
     <%= hidden_field "inline", "true" %>
     <%= render :partial => "subjects/form", :locals => {:form => form} %>

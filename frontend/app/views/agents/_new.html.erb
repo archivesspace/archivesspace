@@ -1,4 +1,4 @@
-<%= form_for @agent, :as => "agent", :url => {:action => :create}, :html => {:class => 'form-horizontal', :id => "agent_form"} do |f| %>
+<%= form_for @agent, :as => "agent", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form', :id => "agent_form"} do |f| %>
   <%= form_context :agent, @agent do |form| %>
     <%= render :partial => "agents/form", :locals => {:form => form} %>
   <% end %>

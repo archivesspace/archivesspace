@@ -120,6 +120,8 @@ ArchivesSpace::Application.routes.draw do
   match 'reports' => 'reports#index', :via => [:get]
   match 'reports/download' => 'reports#download', :via => [:post]
 
+  match 'update_monitor/poll' => 'update_monitor#poll', :via => [:post]
+
 
   if Plugins.plugins?
     scope '/plugins' do

@@ -21,6 +21,8 @@ class Permission < Sequel::Model(:permission)
 
     opts[:level] ||= "repository"
 
+    opts[:system] = (opts[:system] ? 1 : 0)
+
     permission = (Permission[:permission_code => code] or
                   Permission.create(opts.merge(:permission_code => code,
                                                :description => description)))

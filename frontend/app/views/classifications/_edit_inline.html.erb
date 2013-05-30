@@ -1,4 +1,4 @@
-<%= form_for @classification, :as => "classification", :url => {:action => :update, :id => @classification.id}, :html => {:class => 'form-horizontal', :id => "classification_form"} do |f| %>
+<%= form_for @classification, :as => "classification", :url => {:action => :update, :id => @classification.id}, :html => {:class => 'form-horizontal aspace-record-form', :id => "classification_form"}.merge(update_monitor_params(@classification)) do |f| %>
   <%= form_context :classification, @classification do |form| %>
     <div class="row-fluid">
       <div class="span3">
