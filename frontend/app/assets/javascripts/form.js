@@ -59,6 +59,8 @@ $(function() {
 
       if ($this.data("update-monitor")) {
         $(document).trigger("setupupdatemonitor.aspace", [$this]);
+      } else {
+        $(document).trigger("clearupdatemonitorintervals.aspace", [$this]);
       }
 
     });

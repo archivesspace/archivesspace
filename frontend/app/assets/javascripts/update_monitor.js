@@ -95,4 +95,9 @@ $(function() {
   $(document).bind("setupupdatemonitor.aspace", function(event, $form) {
     setupUpdateMonitor($form);
   });
+
+  $(document).bind("clearupdatemonitorintervals.aspace", function(event) {
+    clearInterval($(document).data("UPDATE_MONITOR_HIGHLIGHT_INTERVAL"));
+    clearInterval($(document).data("UPDATE_MONITOR_POLLING_INTERVAL"));
+  });
 });
