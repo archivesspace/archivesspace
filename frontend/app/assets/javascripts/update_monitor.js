@@ -15,16 +15,14 @@ $(function() {
     var poll_url = $form.data("update-monitor-url");
     var lock_version = $form.data("update-monitor-lock_version");
     var uri = $form.data("update-monitor-record-uri");
+    var highlight_interval, polling_interval;
+
 
     var handleStaleRecord = function(status_data) {
-      console.log("STALE RECORD");
-      console.log(status_data);
       insertErrorAndHighlightSidebar(status_data);
     };
 
     var handleOpenedForEditing = function(status_data) {
-      console.log("RECORD OPENED FOR EDITING");
-      console.log(status_data);
       insertErrorAndHighlightSidebar(status_data);
     };
 
@@ -32,7 +30,9 @@ $(function() {
       // insert the error
       $("#form_messages .update-monitor-error", $form).remove(); // remove any existing errors
       if (status_data.status === STATUS_STALE) {
-        $("#form_messages", $form).prepend(AS.renderTemplate("update_monitor_stale_record_message_template"));
+        var message = AS.renderTemplate("update_monitor_stale_record_message_template");
+        $("#form_messages", $form).prepend(message);
+        $(".record-pane .form-actions", $form).prepend(message);
         $(".btn-primary, .btn-toolbar .btn", $form).attr("disabled", "disabled").addClass("disabled");
       } else if (status_data.status === STATUS_OTHER_EDITORS) {
         var user_ids = [];
@@ -44,12 +44,12 @@ $(function() {
 
       // highlight in the sidebar
       if ($(".as-nav-list li.alert-error").length === 0) {
-        $(".as-nav-list").prepend("<li class='alert-error update-monitor-error'><a href='#form_messages'>Errors and Warnings</a></li>");
+        $(".as-nav-list").prepend("<li class='alert-error update-monitor-error'><a href='#form_messages'>Errors and Warnings <span class='icon-chevron-right'></span></a></li>");
       }
       var $errorNavListItem = $(".as-nav-list li.alert-error");
 
-      if (!$errorNavListItem.hasClass("acknowledged")) {
-        var highlight_interval = setInterval(function() {
+      if (!$errorNavListItem.hasClass("acknowledged") && highlight_interval == null) {
+        highlight_interval = setInterval(function() {
           $errorNavListItem.toggleClass("active");
         }, 3000)
         $errorNavListItem.hover(function() {
@@ -84,7 +84,7 @@ $(function() {
     };
 
     poll();
-    var polling_interval = setInterval(poll, INTERVAL_PERIOD);
+    polling_interval = setInterval(poll, INTERVAL_PERIOD);
   };
 
 
