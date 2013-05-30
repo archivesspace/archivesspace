@@ -169,7 +169,7 @@ module JSONModel::Validations
     errors = []
     got_current = false
 
-    hash["container_locations"].each do |loc|
+    Array(hash["container_locations"]).each do |loc|
       if loc["status"] == "current"
         if got_current
           errors << ["container_locations", "only one location can be current"]
