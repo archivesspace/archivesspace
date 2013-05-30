@@ -1,4 +1,4 @@
-<%= form_for @digital_object_component, :as => "digital_object_component", :url => {:action => :update, :id => @digital_object_component.id}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
+<%= form_for @digital_object_component, :as => "digital_object_component", :url => {:action => :update, :id => @digital_object_component.id}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@digital_object_component) do |f| %>
   <%= form_context :digital_object_component, @digital_object_component do |form| %>
     <div class="row-fluid">
       <div class="span3">
