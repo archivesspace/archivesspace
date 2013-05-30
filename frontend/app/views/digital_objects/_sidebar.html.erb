@@ -2,7 +2,7 @@
   <ul class="nav nav-list as-nav-list">
     <% if @exceptions %>
       <li class="<% if @exceptions.has_key?(:errors)%>alert-error<% end %>">
-        <a href="#form_messages">Errors and Warnings  <span class="icon-chevron-right"></span></a>
+        <a href="#form_messages"><%= I18n.t("errors.sidebar_label") %> <span class="icon-chevron-right"></span></a>
       </li>
     <% end %>
 

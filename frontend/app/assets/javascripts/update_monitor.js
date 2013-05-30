@@ -1,6 +1,13 @@
 $(function() {
 
-  var INTERVAL_PERIOD = 10000; // check every 10 seconds
+  // Every 10 seconds:
+  // Poll to check if the current version is still current
+  // and if any users are editing the same record
+  //
+  // Ensure this value is less than the timeout to
+  // remove the status from the update monitor.
+  // See EXPIRE_SECONDS in backend/app/model/active_edit.rb
+  var INTERVAL_PERIOD = 10000;
   var STATUS_STALE = "stale";
   var STATUS_OTHER_EDITORS = "opened_for_editing";
 
@@ -18,15 +25,6 @@ $(function() {
 
     clearInterval($(document).data("UPDATE_MONITOR_HIGHLIGHT_INTERVAL"));
     clearInterval($(document).data("UPDATE_MONITOR_POLLING_INTERVAL"));
-
-
-    var handleStaleRecord = function(status_data) {
-      insertErrorAndHighlightSidebar(status_data);
-    };
-
-    var handleOpenedForEditing = function(status_data) {
-      insertErrorAndHighlightSidebar(status_data);
-    };
 
     var insertErrorAndHighlightSidebar = function(status_data) {
       // insert the error
@@ -48,7 +46,7 @@ $(function() {
 
       // highlight in the sidebar
       if ($(".as-nav-list li.alert-error").length === 0) {
-        $(".as-nav-list").prepend("<li class='alert-error update-monitor-error'><a href='#form_messages'>Errors and Warnings <span class='icon-chevron-right'></span></a></li>");
+        $(".as-nav-list").prepend(AS.renderTemplate("as_nav_list_errors_item_template"));
       }
       var $errorNavListItem = $(".as-nav-list li.alert-error");
 
@@ -75,10 +73,8 @@ $(function() {
           uri: uri
         },
         function(json, textStatus, jqXHR) {
-          if (json.status === STATUS_STALE) {
-            handleStaleRecord(json);
-          } else if (json.status === STATUS_OTHER_EDITORS) {
-            handleOpenedForEditing(json);
+          if (json.status === STATUS_STALE || json.status === STATUS_OTHER_EDITORS) {
+            insertErrorAndHighlightSidebar(json)
           } else {
             // nobody else editing and lock_version still current
             clearAnyMonitorErrors()
