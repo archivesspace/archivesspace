@@ -5,7 +5,7 @@ class SubjectsController < ApplicationController
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
   def index
-    @search_data = Search.global(search_params.merge({"facet[]" => SearchResultData.SUBJECT_FACETS}),
+    @search_data = Search.global({"sort" => "title_sort asc"}.merge(search_params.merge({"facet[]" => SearchResultData.SUBJECT_FACETS})),
                                  "subjects")
   end
 
@@ -14,7 +14,7 @@ class SubjectsController < ApplicationController
   end
 
   def new
-    @subject = JSONModel(:subject).new({:vocab_id => JSONModel(:vocabulary).id_for(current_vocabulary["uri"])})._always_valid!
+    @subject = JSONModel(:subject).new({:vocab_id => JSONModel(:vocabulary).id_for(current_vocabulary["uri"]), :terms => [{}]})._always_valid!
     render :partial => "subjects/new" if inline?
   end
 

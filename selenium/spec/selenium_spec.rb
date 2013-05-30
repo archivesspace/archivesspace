@@ -337,6 +337,9 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:css => '#subject_external_documents_ .subrecord-form-heading .btn').click
 
+      $driver.find_element(:css => '#subject_terms_ .subrecord-form-remove').click
+      $driver.find_element(:css => '#subject_terms_ .confirm-removal').click
+
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
 
       # check messages
@@ -351,7 +354,6 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:link => 'Create').click
       $driver.find_element(:link => 'Subject').click
-      $driver.find_element(:css => '#subject_terms_ .subrecord-form-heading .btn').click
       $driver.clear_and_send_keys([:id, "subject_terms__0__term_"], "just a term really #{now}")
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
       assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("just a term really #{now} Subject") }
@@ -861,7 +863,6 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, "a.linker-create-btn").click
 
       $driver.find_element(:css, ".modal #subject_terms_ .subrecord-form-heading .btn").click
-      $driver.find_element(:css, ".modal #subject_terms_ .subrecord-form-heading .btn").click
 
       $driver.clear_and_send_keys([:id => "subject_terms__0__term_"], "#{@me}AccessionTermABC")
       $driver.clear_and_send_keys([:id => "subject_terms__1__term_"], "#{@me}AccessionTermDEF")
@@ -1327,7 +1328,6 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, ".linker-wrapper a.btn").click
       $driver.find_element(:css, "a.linker-create-btn").click
 
-      $driver.find_element(:css, ".modal #subject_terms_ .subrecord-form-heading .btn").click
       $driver.find_element(:css, ".modal #subject_terms_ .subrecord-form-heading .btn").click
 
       $driver.clear_and_send_keys([:id => "subject_terms__0__term_"], "#{$$}TestTerm123")
