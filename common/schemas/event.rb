@@ -25,7 +25,7 @@
       },
 
       "date" => {"type" => "JSONModel(:date) object"},
-      "timestamp" => {"type" => "string"},
+      "timestamp" => {"type" => "string", "format" => "date-time"},
       "outcome" => {"type" => "string", "dynamic_enum" => "event_outcome"},
       "outcome_note" => {"type" => "string", "maxLength" => 255},
 
