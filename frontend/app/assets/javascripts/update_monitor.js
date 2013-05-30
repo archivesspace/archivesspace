@@ -28,7 +28,7 @@ $(function() {
 
     var insertErrorAndHighlightSidebar = function(status_data) {
       // insert the error
-      $("#form_messages .update-monitor-error", $form).remove(); // remove any existing errors
+      $(".record-pane .update-monitor-error", $form).remove(); // remove any existing errors
       if (status_data.status === STATUS_STALE) {
         var message = AS.renderTemplate("update_monitor_stale_record_message_template");
         $("#form_messages", $form).prepend(message);
@@ -39,7 +39,9 @@ $(function() {
         $.each(status_data.edited_by, function(user_id, timestamp) {
           user_ids.push(user_id);
         });
-        $("#form_messages", $form).prepend(AS.renderTemplate("update_monitor_other_editors_message_template", {user_ids: user_ids.join(", ")}));
+        var message = AS.renderTemplate("update_monitor_other_editors_message_template", {user_ids: user_ids.join(", ")});
+        $("#form_messages", $form).prepend(message);
+        $(".record-pane .form-actions", $form).prepend(message);
       }
 
       // highlight in the sidebar
@@ -60,7 +62,7 @@ $(function() {
     };
 
     var clearAnyMonitorErrors = function() {
-      $("li.update-monitor-error", $form).remove();
+      $(".update-monitor-error", $form).remove();
     };
 
     var poll = function() {
