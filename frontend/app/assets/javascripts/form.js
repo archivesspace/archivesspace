@@ -59,7 +59,9 @@ $(function() {
 
       if ($this.data("update-monitor")) {
         $(document).trigger("setupupdatemonitor.aspace", [$this]);
-      } else {
+      } else if ($this.closest(".modal").length === 0) {
+        // if form isn't opened via a modal, then clear the timeouts
+        // and they will be reinitialised for that form (e.g. tree forms)
         $(document).trigger("clearupdatemonitorintervals.aspace", [$this]);
       }
 

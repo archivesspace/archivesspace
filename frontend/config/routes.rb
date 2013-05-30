@@ -8,8 +8,6 @@ ArchivesSpace::Application.routes.draw do
   match 'login' => "session#login", :via => :post
   match 'logout' => "session#logout", :via => :get
 
-  match 'update_monitor/poll' => "update_monitor#poll", :via => [:post]
-
   match 'repositories/select' => 'repositories#select', :via => [:post]
   resources :repositories
   match 'repositories/:id' => 'repositories#update', :via => [:post]

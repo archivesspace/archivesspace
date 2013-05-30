@@ -23,8 +23,7 @@ $(function() {
     var lock_version = $form.data("update-monitor-lock_version");
     var uri = $form.data("update-monitor-record-uri");
 
-    clearInterval($(document).data("UPDATE_MONITOR_HIGHLIGHT_INTERVAL"));
-    clearInterval($(document).data("UPDATE_MONITOR_POLLING_INTERVAL"));
+    $(document).trigger("clearupdatemonitorintervals.aspace");
 
     var insertErrorAndHighlightSidebar = function(status_data) {
       // insert the error
