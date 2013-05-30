@@ -305,7 +305,7 @@ en:
     _frontend:
       title_prefix: Processing
       action:
-        add: Add Collection Management
+        add: Add Collection Management Fields
 
   container:
     _frontend:
@@ -448,6 +448,7 @@ en:
         number_to_create: Number of Locations
         warning: Depending on the size of your ranges, this process may take a few minutes to complete.
       action:
+        create: Create Locations
         preview: Preview Locations
         preview_short: Preview
         creating: Batch In Progress...
@@ -547,6 +548,7 @@ en:
         deleted: Subject Deleted
       section:
         basic_information: Basic Information
+        terms: Subject Headings
       action:
         create: Create Subject
         save: Save Subject
@@ -572,7 +574,7 @@ en:
   user_defined:
     _frontend:
       action:
-        add: Add User Defined
+        add: Add User Defined Fields
 
   rde:
     date_type: Date Type
