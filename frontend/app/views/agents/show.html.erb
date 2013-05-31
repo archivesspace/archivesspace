@@ -20,6 +20,7 @@
                <div class="control-label"><%= I18n.t("agent.type") %></div>
                <div class="controls label-only"><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></div>
             </div>
+            <%= display_audit_info(@agent) %>
           </section>
         </div>
 

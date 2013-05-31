@@ -74,6 +74,8 @@ class CommonIndexer
 
 
   def add_audit_info(doc, record)
+    doc['created_by'] = record['record']['created_by'] if record['record'].has_key? 'created_by'
+    doc['last_modified_by'] = record['record']['last_modified_by'] if record['record'].has_key? 'last_modified_by'
     doc['user_mtime'] = record['record']['user_mtime'] if record['record'].has_key? 'user_mtime'
     doc['system_mtime'] = record['record']['system_mtime'] if record['record'].has_key? 'system_mtime'
     doc['create_time'] = record['record']['create_time'] if record['record'].has_key? 'create_time'
@@ -233,6 +235,8 @@ class CommonIndexer
           'processors' => cm['processors'],
           'suppressed' => record['record']['suppressed'].to_s,
           'repository' => get_record_scope(record['uri']),
+          'created_by' => cm['created_by'],
+          'last_modified_by' => cm['last_modified_by'],
           'system_mtime' => cm['system_mtime'],
           'user_mtime' => cm['user_mtime'],
           'create_time' => cm['create_time'],

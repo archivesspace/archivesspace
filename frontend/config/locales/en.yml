@@ -82,12 +82,10 @@ en:
     result_type: Record Type
     result_title: Title
     filtered_by: Filtered By
-    modified: Last Modified
-    created: Created
+    modified: Last Modified by
+    created: Created by
     text_placeholder: Filter by text
     clear_all: Clear All
-    created: Created
-    modified: Modified
     filter:
       query: Text
       subjects: Subject

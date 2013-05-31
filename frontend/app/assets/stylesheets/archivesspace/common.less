@@ -217,9 +217,15 @@ h2 > .label {
 .record-pane {
   padding: 10px;
   margin: 0;
+  border: 1px solid #EEE;
+  border-top: none;
 
   h2 {
     margin-top: 0;
+  }
+
+  section {
+    overflow: hidden;
   }
 }
 
@@ -425,6 +431,22 @@ div.progress-container {
   width: 20em;
   height: 20px;
   border: 1px solid black;
+}
+
+.audit-display-compact {
+  padding: 4px;
+  margin-right: 4px;
+  min-width: 60px;
+  float: left;
+}
+
+.audit-display-wide {
+  border: 1px solid #F6F6F6;
+  background-color: #F1F1F1;
+  padding: 4px;
+  margin-right: 4px;
+  float: right;
+  line-height: @baseLineHeight;
 }
 
 /* end i-frame import workaround */

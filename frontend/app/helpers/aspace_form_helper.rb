@@ -657,7 +657,7 @@ module AspaceFormHelper
     s
   end
 
-  PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW = ["jsonmodel_type", "lock_version", "_resolved", "uri", "ref", "create_time", "system_mtime", "user_mtime"]
+  PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW = ["jsonmodel_type", "lock_version", "_resolved", "uri", "ref", "create_time", "system_mtime", "user_mtime", "created_by", "last_modified_by"]
 
   def read_only_view(hash, opts = {})
     jsonmodel_type = hash["jsonmodel_type"]
@@ -691,7 +691,8 @@ module AspaceFormHelper
 
     end
 
-  html << "</div>"
+    html << display_audit_info(hash, :format => 'wide')
+    html << "</div>"
 
     html.html_safe
   end
