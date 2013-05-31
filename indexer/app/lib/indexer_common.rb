@@ -116,6 +116,7 @@ class CommonIndexer
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'accession'
         doc['accession_date_year'] = Date.parse(record['record']['accession_date']).year
+        doc['identifier'] = (0...4).map {|i| record['record']["id_#{i}"]}.compact.join("-")
       end
     }
 

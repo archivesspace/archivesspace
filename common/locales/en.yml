@@ -970,6 +970,7 @@ en:
     accession_id: Identifier
     accession_id_tooltip: |
         <p>The internal database number for a specific accession record.</p>
+    identifier: Identifier
     id_0: Identifier
     id_0_tooltip: |
         <p>REQUIRED FIELD:  The unique identifier for an accession within a

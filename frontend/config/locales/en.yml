@@ -123,6 +123,7 @@ en:
     rules: Rules
     outcome: Outcome
     event_type: Type
+    identifier: Identifier
 
   navbar:
     brand: ArchivesSpace

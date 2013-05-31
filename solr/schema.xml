@@ -69,6 +69,7 @@
 
    <!-- Accession properties required for facets -->
    <field name="accession_date_year" type="int" indexed="true" stored="true" multiValued="false" />
+   <field name="identifier" type="sort_string" indexed="true" stored="true" multiValued="false" />
 
    <!-- Archival Objects store the URI of the resource they belong to (if any) -->
    <field name="resource" type="string" indexed="true" stored="true" multiValued="false" />
