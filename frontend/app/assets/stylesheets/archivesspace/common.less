@@ -198,6 +198,11 @@ h2 > .label {
   #gradient > .vertical(#F3F3F3, #EDEDED);
   .box-shadow(~"1px 1px 2px rgba(0,0,0,.15)");
   min-height: 2em;
+  overflow: visible;
+
+  &.formchanged {
+    overflow: hidden;
+  }
 
   .btn-toolbar {
     margin: 0;
