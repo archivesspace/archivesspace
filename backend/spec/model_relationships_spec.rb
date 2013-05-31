@@ -28,6 +28,8 @@ describe 'Relationships' do
       Integer :aspace_relationship_position
       DateTime :system_mtime, :null => false
       DateTime :user_mtime, :null => false
+      String :created_by
+      String :last_modified_by
     end
 
     $testdb.create_table :friends_rlshp do
@@ -41,6 +43,8 @@ describe 'Relationships' do
       Integer :aspace_relationship_position
       DateTime :system_mtime, :null => false
       DateTime :user_mtime, :null => false
+      String :created_by
+      String :last_modified_by
     end
   end
 

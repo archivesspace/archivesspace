@@ -13,6 +13,8 @@ describe 'External ID mixin' do
       DateTime :create_time
       DateTime :system_mtime
       DateTime :user_mtime
+      String :created_by
+      String :last_modified_by
     end
 
 

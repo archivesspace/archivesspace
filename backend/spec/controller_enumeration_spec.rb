@@ -20,6 +20,8 @@ describe "Enumeration controller" do
         DateTime :create_time
         DateTime :system_mtime
         DateTime :user_mtime
+        String :created_by
+        String :last_modified_by
       end
 
       $testdb.alter_table(:controller_enum_model) do

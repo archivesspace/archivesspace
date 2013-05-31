@@ -71,7 +71,7 @@ module ASModel
       self.update(self.class.prepare_for_db(json.class, updated))
 
       self[:user_mtime] = Time.now
-      self[:last_modified_by] = self.class.current_username
+      self[:last_modified_by] = RequestContext.get(:current_username)
 
       obj = self.save
 
@@ -156,7 +156,7 @@ module ASModel
           values["repo_id"] = active_repository
         end
 
-        values['created_by'] = current_username
+        values['created_by'] = RequestContext.get(:current_username)
 
         obj = self.create(prepare_for_db(json.class,
                                          json.to_hash.merge(values)))
@@ -171,11 +171,6 @@ module ASModel
 
       def high_priority?
         RequestContext.get(:is_high_priority)
-      end
-
-
-      def current_username
-        RequestContext.get(:current_username)
       end
 
 
@@ -511,9 +506,8 @@ module ASModel
     end
 
     def before_create
-      if self.class.current_username
-        self.created_by = self.class.current_username
-        self.last_modified_by = self.class.current_username
+      if RequestContext.get(:current_username)
+        self.created_by = self.last_modified_by = RequestContext.get(:current_username)
       end
       self.create_time = Time.now
       self.system_mtime = self.user_mtime = Time.now
@@ -522,8 +516,8 @@ module ASModel
 
 
     def before_update
-      if self.class.current_username
-        self.last_modified_by = self.class.current_username
+      if RequestContext.get(:current_username)
+        self.last_modified_by = RequestContext.get(:current_username)
       end
       self.system_mtime = Time.now
       super

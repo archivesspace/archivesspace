@@ -21,6 +21,8 @@ describe 'Enumerations model' do
       DateTime :create_time
       DateTime :system_mtime
       DateTime :user_mtime
+      String :created_by
+      String :last_modified_by
     end
 
     @model = Class.new(Sequel::Model(:model_with_enums)) do
