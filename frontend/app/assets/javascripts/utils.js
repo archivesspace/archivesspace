@@ -505,7 +505,7 @@ AS.initAddAsYouGoActions = function($form, $list) {
       $a.click(function(e) {
         e.preventDefault();
 
-        $btn.triggerHandler("click");
+        $btn.trigger("click");
       });
       $asYouGo.append($a);
     });

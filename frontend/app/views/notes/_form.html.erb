@@ -3,7 +3,7 @@
 <section id="notes" class="subrecord-form">
   <h3 class="subrecord-form-heading">
     <%= wrap_with_tooltip(I18n.t("note._plural"), "#{form.i18n_for('notes')}_tooltip", "subrecord-form-heading-label") %>
-    <button class="btn btn-small pull-right"><%= I18n.t("actions.add") %> <%= I18n.t("note._singular") %></button>
+    <button class="btn btn-small pull-right"><%= I18n.t("note._frontend.action.add") %></button>
   </h3>
   <div class="subrecord-form-container">
     <%= form.list_for(form["notes"], "notes[]") do |note| %>

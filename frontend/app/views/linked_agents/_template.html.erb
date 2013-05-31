@@ -15,8 +15,8 @@
       <% end %>
       <%= render :partial => "agents/linker", :locals => {:form => form} %>
 
-      <div class="agent-terms" style="display: none">
-        <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "terms"} %>
+      <div class="agent-terms subrecord-form-container" style="display: none">
+        <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "terms", :heading_text => I18n.t("subject._frontend.section.terms")} %>
       </div>
 
     </div>

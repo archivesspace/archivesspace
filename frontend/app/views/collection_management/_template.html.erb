@@ -1,4 +1,5 @@
 <% define_template("collection_management", jsonmodel_definition(:collection_management)) do |form| %>
+  <div class="subrecord-form-fields">
       <%= form.label_and_textarea "cataloged_note" %>
       <%= form.label_and_textfield "processing_hours_per_foot_estimate" %>
       <%= form.label_and_textfield "processing_total_extent", :required => :conditionally %>
@@ -10,4 +11,5 @@
       <%= form.label_and_textarea "processing_funding_source" %>
       <%= form.label_and_textarea "processors" %>
       <%= form.label_and_boolean "rights_determined", {}, form.default_for("rights_determined") %>
+    </div>
 <% end %>

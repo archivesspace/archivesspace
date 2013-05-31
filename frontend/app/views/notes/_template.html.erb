@@ -48,7 +48,7 @@
         <% form.emit_template("content_item", item) %>
       <% end %>
       <% if not form.readonly? %>
-        <button class="btn btn-mini add-content-item-btn"><%= I18n.t("actions.add") %> <%= I18n.t("note.content_item") %></button>
+        <button class="btn btn-mini add-content-item-btn"><%= I18n.t("note._frontend.action.add_content_item") %></button>
       <% end %>
     </div>
   </div>
@@ -93,7 +93,7 @@
             <% form.emit_template("orderedlist_item", item) %>
           <% end %>
           <% if not form.readonly? %>
-            <button class="btn btn-mini add-item-btn"><%= I18n.t("actions.add") %> <%= I18n.t("note_orderedlist.item_singular") %></button>
+            <button class="btn btn-mini add-item-btn"><%= I18n.t("note._frontend.action.add_note_orderedlist") %></button>
           <% end %>
         </div>
       </div>
@@ -153,7 +153,7 @@
         <h5 class="subrecord-form-heading">
           <%= I18n.t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
-            <button class="btn btn-small add-sub-note-btn pull-right"><%= I18n.t("actions.add") %> <%= I18n.t("note_multipart.sub_notes_singular") %></button>
+            <button class="btn btn-small add-sub-note-btn pull-right"><%= I18n.t("note._frontend.action.add_sub_note") %></button>
           <% end %>
         </h5>
         <div class="subrecord-form-container">
@@ -208,7 +208,7 @@
           <%= I18n.t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
             <div class="btn-group pull-right">
-              <button class="btn btn-small add-sub-note-btn"><%= I18n.t("actions.add") %> <%= I18n.t("note_multipart.sub_notes_singular") %></button>
+              <button class="btn btn-small add-sub-note-btn"><%= I18n.t("note._frontend.action.add_sub_note") %></button>
             </div>
           <% end %>
         </h5>
@@ -279,8 +279,8 @@
       <% if not form.readonly? %>
         <div class="subrecord-form-heading">
           <div class="btn-group note_outline_level_btns">
-            <button class="btn btn-mini add-sub-item-btn"><%= I18n.t("actions.add") %> Item</button>
-            <button class="btn btn-mini add-sub-level-btn"><%= I18n.t("actions.add") %> Level</button>
+            <button class="btn btn-mini add-sub-item-btn"><%= I18n.t("note._frontend.action.add_note_outline_level_item") %></button>
+            <button class="btn btn-mini add-sub-level-btn"><%= I18n.t("note._frontend.action.add_note_outline_level_level") %></button>
           </div>
         </div>
       <% end %>
@@ -305,13 +305,13 @@
       <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
 
       <div class="control-group">
-        <label class="control-label">Levels</label>
+        <label class="control-label"><%= I18n.t("note_outline.levels") %></label>
         <div class="controls note-outline-levels">
           <%= form.list_for((form["levels"] || []), "levels[]") do |item| %>
             <% form.emit_template("note_outline_level", item) %>
           <% end %>
           <% if not form.readonly? %>
-            <button class="btn btn-mini add-level-btn"><%= I18n.t("actions.add") %> Level</button>
+            <button class="btn btn-mini add-level-btn"><%= I18n.t("note._frontend.action.add_note_outline_level_item") %></button>
           <% end %>
         </div>
       </div>
@@ -332,7 +332,7 @@
         <h5 class="subrecord-form-heading">
           <%= I18n.t("note_definedlist.items") %>
           <% if not form.readonly? %>
-            <button class="btn btn-mini pull-right add-item-btn"><%= I18n.t("actions.add") %> <%= I18n.t("note_definedlist.items_singular") %></button>
+            <button class="btn btn-mini pull-right add-item-btn"><%= I18n.t("note._frontend.action.note_definedlist_item") %></button>
           <% end %>
         </h5>
         <div class="subrecord-form-container">
@@ -365,7 +365,7 @@
         <h5 class="subrecord-form-heading">
           <%= I18n.t("note_index.items") %>
           <% if not form.readonly? %>
-            <button class="btn btn-mini pull-right add-item-btn"><%= I18n.t("actions.add") %> <%= I18n.t("note_index.items_singular") %></button>
+            <button class="btn btn-mini pull-right add-item-btn"><%= I18n.t("note._frontend.action.add_note_index_item") %></button>
           <% end %>
         </h5>
         <div class="subrecord-form-container">
@@ -399,7 +399,7 @@
         <h5 class="subrecord-form-heading">
           <%= I18n.t("note_chronology.items") %>
           <% if not form.readonly? %>
-            <button class="btn btn-mini pull-right add-item-btn"><%= I18n.t("actions.add") %> <%= I18n.t("note_chronology.items_singular") %></button>
+            <button class="btn btn-mini pull-right add-item-btn"><%= I18n.t("note._frontend.action.add_note_chronology_item") %></button>
           <% end %>
         </h5>
         <div class="subrecord-form-container">
@@ -422,7 +422,7 @@
           <% form.emit_template("chronology_item_event", event) %>
         <% end %>
         <% if not form.readonly? %>
-          <button class="btn btn-mini add-event-btn"><%= I18n.t("actions.add") %> <%= I18n.t("chronology_item.events_singular") %></button>
+          <button class="btn btn-mini add-event-btn"><%= I18n.t("note._frontend.action.add_event") %></button>
         <% end %>
       </div>
     </div>
@@ -456,7 +456,7 @@
             <% form.emit_template("bib_item", item) %>
           <% end %>
           <% if not form.readonly? %>
-            <button class="btn btn-mini add-item-btn"><%= I18n.t("actions.add") %> <%= I18n.t("note_bibliography.items_singular") %></button>
+            <button class="btn btn-mini add-item-btn"><%= I18n.t("note._frontend.action.add_note_bibliography_item") %></button>
           <% end %>
         </div>
       </div>

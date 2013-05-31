@@ -661,6 +661,7 @@ en:
   note_outline:
     <<: *note_attributes
     option: Outline
+    levels: Levels
 
   container: &container_attributes
     type_1: Container 1 Type 
