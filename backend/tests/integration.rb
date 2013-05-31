@@ -31,7 +31,6 @@ def do_post(s, url)
     req["X-ARCHIVESSPACE-SESSION"] = @session if @session
 
     r = http.request(req)
-
     {:body => JSON(r.body), :status => r.code}
   end
 end
@@ -183,6 +182,37 @@ def run_tests(opts)
               url("/repositories/#{repo_id}/resources"))
 
   coll_id = r[:body]["id"] or fail("Resource creation", r)
+
+
+  puts "Catch reference errors in batch imports"
+  r = do_post([{
+                :jsonmodel_type => "resource",
+                :uri => "/repositories/#{repo_id}/temp_id_1",
+                :title => "integration test resource #{$$}",
+                :id_0 => "xyz456",
+                :subjects => [{"ref" => "/subjects/99999999999999"}],
+                :language => "eng",
+                :level => "collection",
+                :extents => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}]
+              }].to_json,
+              url("/repositories/#{repo_id}/batch_imports"))
+
+  r[:body].last["errors"] or fail("Catch reference errors", r)
+
+
+  puts "Rollback batch imports with reference errors"
+  r = do_post([{
+                :jsonmodel_type => "resource",
+                :uri => "/repositories/#{repo_id}/temp_id_2",
+                :title => "integration test resource #{$$}",
+                :id_0 => "xyz456",
+                :language => "eng",
+                :level => "collection",
+                :extents => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}]
+              }].to_json,
+              url("/repositories/#{repo_id}/batch_imports"))
+
+  r[:body].last["saved"] or fail("Rollback reference errors", r)
 
 
   puts "Retrieve the resource with subjects resolved"
