@@ -185,6 +185,8 @@ module ASModel
           sequel_obj.refresh
 
           # Manually set any DB hooked values
+          json["created_by"] = sequel_obj[:created_by]
+          json["last_modified_by"] = sequel_obj[:last_modified_by]
           json["create_time"] = sequel_obj[:create_time].getutc.iso8601
           json["system_mtime"] = sequel_obj[:system_mtime].getutc.iso8601
           json["user_mtime"] = sequel_obj[:user_mtime].getutc.iso8601
@@ -459,6 +461,8 @@ module ASModel
           json[linked_record[:json_property]] = (is_array ? records : records[0])
         end
 
+        json["created_by"] = obj[:created_by] if obj[:created_by]
+        json["last_modified_by"] = obj[:last_modified_by] if obj[:last_modified_by]
         json["system_mtime"] = obj[:system_mtime].getutc.iso8601 if obj[:system_mtime]
         json["user_mtime"] = obj[:user_mtime].getutc.iso8601 if obj[:user_mtime]
         json["create_time"] = obj[:create_time].getutc.iso8601 if obj[:create_time]
@@ -507,6 +511,10 @@ module ASModel
     end
 
     def before_create
+      if self.class.current_username
+        self.created_by = self.class.current_username
+        self.last_modified_by = self.class.current_username
+      end
       self.create_time = Time.now
       self.system_mtime = self.user_mtime = Time.now
       super
@@ -514,6 +522,9 @@ module ASModel
 
 
     def before_update
+      if self.class.current_username
+        self.last_modified_by = self.class.current_username
+      end
       self.system_mtime = Time.now
       super
     end

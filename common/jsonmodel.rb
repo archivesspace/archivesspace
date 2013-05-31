@@ -168,6 +168,8 @@ module JSONModel
       entry[:schema]["properties"]["jsonmodel_type"] = {"type" => "string", "ifmissing" => "error"}
 
       # All records have audit fields
+      entry[:schema]["properties"]["created_by"] = {"type" => "string", "readonly" => true}
+      entry[:schema]["properties"]["last_modified_by"] = {"type" => "string", "readonly" => true}
       entry[:schema]["properties"]["user_mtime"] = {"type" => "date-time", "readonly" => true}
       entry[:schema]["properties"]["system_mtime"] = {"type" => "date-time", "readonly" => true}
       entry[:schema]["properties"]["create_time"] = {"type" => "date-time", "readonly" => true}

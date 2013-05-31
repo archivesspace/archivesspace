@@ -198,4 +198,27 @@ module ApplicationHelper
                           })
   end
 
+
+  def display_audit_info(hash, opts = {})
+    fmt = opts[:format] || 'compact'
+    html = "<div class='audit-display-#{fmt}'><small>"
+    if hash['create_time'] and hash['user_mtime']
+      if opts[:format] == 'wide'
+        html << "<strong>#{I18n.t("search_results.created")} #{hash['created_by']}</strong>"
+        html << " #{Time.parse(hash['create_time']).getlocal}, "
+        html << "<strong>#{I18n.t("search_results.modified")} #{hash['last_modified_by']}</strong>"
+        html << " #{Time.parse(hash['user_mtime']).getlocal}"
+      else
+        html << "<dl>"
+        html << "<dt>#{I18n.t("search_results.created")} #{hash['created_by']}</dt>"
+        html << "<dd>#{Time.parse(hash['create_time']).getlocal}</dd>"
+        html << "<dt>#{I18n.t("search_results.modified")} #{hash['last_modified_by']}</dt>"
+        html << "<dd>#{Time.parse(hash['user_mtime']).getlocal}</dd>"
+        html << "</dl>"
+      end
+    end
+    html << "</small></div>"
+    html.html_safe
+  end
+
 end
