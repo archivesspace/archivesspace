@@ -10,7 +10,7 @@ class Search
 
     Solr.search(query, params[:page], params[:page_size],
                 repo_id,
-                params[:type], show_suppressed, show_published_only, params[:exclude], params[:filter_term],
+                params[:type], show_suppressed, show_published_only, false, params[:exclude], params[:filter_term],
                 {
                   "facet.field" => Array(params[:facet]),
                   "sort" => params[:sort]

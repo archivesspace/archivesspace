@@ -87,9 +87,8 @@ class ArchivesSpaceService < Sinatra::Base
 
     search_data = Solr.search("*:*", 1, 1,
                               JSONModel(:repository).id_for(node_info[:repository]),
-                              nil, show_suppressed, show_published_only, [],
+                              ['tree_view'], show_suppressed, show_published_only, true, [],
                               [{
-                                 :exclude_by_default => true,
                                  :node_uri => params[:node_uri]
                                }.to_json])
 

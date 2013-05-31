@@ -57,6 +57,7 @@ class PeriodicIndexer < CommonIndexer
     result << {
       'id' => "tree_view_#{tree['record_uri']}",
       'primary_type' => 'tree_view',
+      'types' => ['tree_view'],
       'exclude_by_default' => 'true',
       'node_uri' => tree['record_uri'],
       'repository' => JSONModel.repository_for(tree['record_uri']),
