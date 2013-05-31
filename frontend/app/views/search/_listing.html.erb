@@ -62,7 +62,7 @@
           <% end %>
         <% end %>
         <td>
-          <%= display_audit_info(result) %>
+          <%= display_audit_info(result, :format => 'compact') %>
         </td>
         <% if !params[:linker] || params[:linker] === 'false' %>
           <td class="table-record-actions">

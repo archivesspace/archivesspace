@@ -200,10 +200,10 @@ module ApplicationHelper
 
 
   def display_audit_info(hash, opts = {})
-    fmt = opts[:format] || 'compact'
+    fmt = opts[:format] || 'wide'
     html = "<div class='audit-display-#{fmt}'><small>"
     if hash['create_time'] and hash['user_mtime']
-      if opts[:format] == 'wide'
+      if fmt == 'wide'
         html << "<strong>#{I18n.t("search_results.created")} #{hash['created_by']}</strong>"
         html << " #{Time.parse(hash['create_time']).getlocal}, "
         html << "<strong>#{I18n.t("search_results.modified")} #{hash['last_modified_by']}</strong>"

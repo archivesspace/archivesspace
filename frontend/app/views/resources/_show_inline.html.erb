@@ -24,6 +24,7 @@
             <%= form.label_and_boolean "publish" %>
             <%= form.label_and_boolean "restrictions" %>
             <%= form.label_and_textarea "repository_processing_note" %>
+            <%= display_audit_info(@resource) %>
           </section>
 
           <% if @resource.dates.length > 0 %>
