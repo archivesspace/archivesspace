@@ -1,0 +1,1 @@
+//= require embedded_search

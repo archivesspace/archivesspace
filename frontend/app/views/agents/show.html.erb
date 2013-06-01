@@ -94,6 +94,8 @@
         <% if @agent.external_documents.length > 0 %>
           <%= render :partial => "external_documents/show", :locals => { :external_documents => @agent.external_documents, :section_id => "agent_external_documents_" } %>
         <% end %>
+
+        <%= render :partial => "search/embedded", :locals => {:filter_term => {"agents" => @agent.title}.to_json} %>
       <% end %>
     </div>
   </div>
