@@ -10,7 +10,11 @@ class SearchController < ApplicationController
         render :json => @search_data
       }
       format.js {
-        render :partial => "search/results"
+        if params[:listing_only]
+          render :partial => "search/listing"
+        else
+          render :partial => "search/results"
+        end
       }
       format.html {
         store_search
