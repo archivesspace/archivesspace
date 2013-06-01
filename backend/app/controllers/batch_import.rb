@@ -51,42 +51,23 @@ class ArchivesSpaceService < Sinatra::Base
            job_monitor.results = {:saved => Hash[mapping.map {|logical, real_uri|
                             [logical, [real_uri, JSONModel.parse_reference(real_uri)[:id]]]}]}
          rescue JSONModel::ValidationException => e
-           job_monitor.results = {:errors => [e]}                   
+           job_monitor.results = {:errors => [e]}
 
          rescue ImportException => e
            job_monitor.results = {:errors => [e]}
          rescue Sequel::ValidationFailed => e
+           job_monitor.results = {:errors => [e]}
+         rescue ReferenceError => e
            job_monitor.results = {:errors => [e]}
          ensure
            job_monitor.results = {:errors => ["Server error"]} unless job_monitor.results?
            job_monitor.finish!
          end
        end
-       
+
        File.unlink(env['batch_import_file'])
     end
 
-
-    # live_updates = ProgressTicker.new(:frequency_seconds => 1) do |job_monitor|
-    # 
-    #   begin
-    #     batch = StreamingImport.new(stream, job_monitor)
-    #     
-    #     mapping = batch.process
-    #     job_monitor.results = {:saved => Hash[mapping.map {|logical, real_uri|
-    #                      [logical, [real_uri, JSONModel.parse_reference(real_uri)[:id]]]}]}
-    #   rescue JSONModel::ValidationException => e
-    #     job_monitor.results = {:errors => [e]}                   
-    #   
-    #   rescue ImportException => e
-    #     job_monitor.results = {:errors => [e]}
-    #   rescue Sequel::ValidationFailed => e
-    #     job_monitor.results = {:errors => [e]}
-    #   ensure
-    #     job_monitor.results = {:errors => ["Server error"]} unless job_monitor.results?
-    #     job_monitor.finish!
-    #   end
-    # end
 
 
     [200, {"Content-Type" => "text/plain"}, live_updates]
