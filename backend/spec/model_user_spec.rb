@@ -90,4 +90,16 @@ describe 'User model' do
     Group[group[:id]].user.should include(new_user)
   end
 
+
+  it "notifies about ACL changes when new groups are added to a user" do
+
+    group = Group.create_from_json(build(:json_group), :repo_id => $repo_id)
+    new_user = create(:user)
+
+    old_notification = Notifications.last_notification
+    new_user.add_to_groups(group)
+
+    Notifications.last_notification.should_not eq(old_notification)
+  end
+
 end
