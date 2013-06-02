@@ -200,7 +200,7 @@ def run_tests(opts)
   r[:body].last["errors"] or fail("Catch reference errors", r)
 
 
-  puts "Rollback batch imports with reference errors"
+  puts "Catch references in batch imports before creating records"
   r = do_post([{
                 :jsonmodel_type => "resource",
                 :uri => "/repositories/#{repo_id}/temp_id_2",

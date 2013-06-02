@@ -34,6 +34,24 @@ module URIResolver
   end
 
 
+  def self.ensure_reference_is_valid(reference, active_repository = nil)
+
+    # error on anything that points outside the active repository
+    if active_repository && \
+       reference.start_with?("/repositories/") && \
+       !reference.start_with?("/repositories/#{active_repository}/")
+
+      raise ReferenceError.new("Inter-repository links are not allowed in this operation! (Bad link: '#{reference}')")
+    end
+
+    #ensure the referent record actually exists
+    resolved = ASUtils.json_parse(resolve_uri(reference, nil))
+    if resolved.has_key?('error')
+      raise ReferenceError.new("Reference does not exist! (Reference: '#{reference}')")
+    end
+  end
+
+
   def resolve_references(value, properties_to_resolve)
     URIResolver.resolve_references(value, properties_to_resolve, env)
   end
