@@ -102,6 +102,9 @@
    <!-- A JSON blob representing the tree_view -->
    <field name="tree_json" type="string" indexed="false" stored="true" multiValued="false" />
 
+   <!-- And for top-level records, the entire tree with all descendants -->
+   <field name="whole_tree_json" type="string" indexed="false" stored="true" multiValued="false" />
+
    <!-- A JSON blob representing the classification path -->
    <field name="classification_path" type="string" indexed="true" stored="true" multiValued="false" />
 
