@@ -36,6 +36,7 @@ $(function() {
         $("#form_messages", $form).prepend(message);
         $(".record-pane .form-actions", $form).prepend(message);
         $(".btn-primary, .btn-toolbar .btn", $form).attr("disabled", "disabled").addClass("disabled");
+        clearInterval($(document).data("UPDATE_MONITOR_POLLING_INTERVAL"));
       } else if (status_data.status === STATUS_OTHER_EDITORS) {
         var user_ids = [];
         $.each(status_data.edited_by, function(user_id, timestamp) {
