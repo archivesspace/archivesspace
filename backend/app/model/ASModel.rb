@@ -693,7 +693,7 @@ module ASModel
         # repository.
         if ref && self.model_scope == :repository && uri.start_with?("/repositories/")
           if !uri.start_with?("/repositories/#{active_repository}/")
-            raise "Invalid URI reference for this repo: '#{uri}'"
+            raise ReferenceError.new("Invalid URI reference for this (#{active_repository}) repo: '#{uri}'")
           end
         end
 

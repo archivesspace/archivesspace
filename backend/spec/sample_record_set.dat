@@ -7,10 +7,10 @@
             "external_ids": [], 
             "jsonmodel_type": "collection_management", 
             "repository": {
-                "ref": "/repositories/2"
+                "ref": "/repositories/{{repo_id}}"
             }, 
             "rights_determined": false, 
-            "uri": "/repositories/2/collection_management/1"
+            "uri": "/repositories/{{repo_id}}/collection_management/1"
         }, 
         "dates": [
             {
@@ -53,11 +53,11 @@
         "publish": false, 
         "related_resources": [
             {
-                "ref": "/repositories/2/resources/1"
+                "ref": "/repositories/{{repo_id}}/resources/1"
             }
         ], 
         "repository": {
-            "ref": "/repositories/2"
+            "ref": "/repositories/{{repo_id}}"
         }, 
         "restrictions_apply": false, 
         "rights_statements": [], 
@@ -68,7 +68,7 @@
         ], 
         "suppressed": false, 
         "title": "A test accession", 
-        "uri": "/repositories/2/accessions/1", 
+        "uri": "/repositories/{{repo_id}}/accessions/1", 
         "use_restrictions": false, 
         "user_defined": {
             "boolean_1": true, 
@@ -76,7 +76,7 @@
             "integer_1": "123", 
             "jsonmodel_type": "user_defined", 
             "repository": {
-                "ref": "/repositories/2"
+                "ref": "/repositories/{{repo_id}}"
             }
         }
     }, 
@@ -86,10 +86,10 @@
             "external_ids": [], 
             "jsonmodel_type": "collection_management", 
             "repository": {
-                "ref": "/repositories/2"
+                "ref": "/repositories/{{repo_id}}"
             }, 
             "rights_determined": false, 
-            "uri": "/repositories/2/collection_management/2"
+            "uri": "/repositories/{{repo_id}}/collection_management/2"
         }, 
         "dates": [
             {
@@ -147,11 +147,11 @@
         "publish": false, 
         "related_accessions": [
             {
-                "ref": "/repositories/2/accessions/1"
+                "ref": "/repositories/{{repo_id}}/accessions/1"
             }
         ], 
         "repository": {
-            "ref": "/repositories/2"
+            "ref": "/repositories/{{repo_id}}"
         }, 
         "restrictions": false, 
         "rights_statements": [], 
@@ -162,16 +162,16 @@
         ], 
         "title": "A test resource", 
         "tree": {
-            "ref": "/repositories/2/resources/1/tree"
+            "ref": "/repositories/{{repo_id}}/resources/1/tree"
         }, 
-        "uri": "/repositories/2/resources/1", 
+        "uri": "/repositories/{{repo_id}}/resources/1", 
         "user_defined": {
             "boolean_1": true, 
             "boolean_2": false, 
             "integer_1": "123", 
             "jsonmodel_type": "user_defined", 
             "repository": {
-                "ref": "/repositories/2"
+                "ref": "/repositories/{{repo_id}}"
             }
         }
     }, 
@@ -187,18 +187,18 @@
         ], 
         "linked_records": [
             {
-                "ref": "/repositories/2/accessions/1", 
+                "ref": "/repositories/{{repo_id}}/accessions/1", 
                 "role": "outcome"
             }
         ], 
         "outcome": "pass", 
         "outcome_note": "test event 1",
         "repository": {
-            "ref": "/repositories/2"
+            "ref": "/repositories/{{repo_id}}"
         }, 
         "suppressed": false, 
         "timestamp": "2000-01-01T00:00:00Z", 
-        "uri": "/repositories/2/events/4"
+        "uri": "/repositories/{{repo_id}}/events/4"
     }, 
     {
         "event_type": "agreement_received", 
@@ -212,18 +212,18 @@
         ], 
         "linked_records": [
             {
-                "ref": "/repositories/2/resources/1", 
+                "ref": "/repositories/{{repo_id}}/resources/1", 
                 "role": "source"
             }
         ], 
         "outcome": "partial pass", 
         "outcome_note": "test event 2", 
         "repository": {
-            "ref": "/repositories/2"
+            "ref": "/repositories/{{repo_id}}"
         }, 
         "suppressed": false, 
         "timestamp": "2001-02-02T00:00:00Z", 
-        "uri": "/repositories/2/events/5"
+        "uri": "/repositories/{{repo_id}}/events/5"
     }, 
     {
         "dates": [], 
@@ -240,15 +240,15 @@
         "publish": true, 
         "ref_id": "b7148c25fb96b7355a68303572320413", 
         "repository": {
-            "ref": "/repositories/2"
+            "ref": "/repositories/{{repo_id}}"
         }, 
         "resource": {
-            "ref": "/repositories/2/resources/1"
+            "ref": "/repositories/{{repo_id}}/resources/1"
         }, 
         "rights_statements": [], 
         "subjects": [], 
         "title": "test archival object 1", 
-        "uri": "/repositories/2/archival_objects/1"
+        "uri": "/repositories/{{repo_id}}/archival_objects/1"
     }, 
     {
         "dates": [], 
@@ -265,15 +265,15 @@
         "publish": true, 
         "ref_id": "aa99bb1229b122f94f0c4b482d7df783", 
         "repository": {
-            "ref": "/repositories/2"
+            "ref": "/repositories/{{repo_id}}"
         }, 
         "resource": {
-            "ref": "/repositories/2/resources/1"
+            "ref": "/repositories/{{repo_id}}/resources/1"
         }, 
         "rights_statements": [], 
         "subjects": [], 
         "title": "test archival object 2", 
-        "uri": "/repositories/2/archival_objects/2"
+        "uri": "/repositories/{{repo_id}}/archival_objects/2"
     }, 
     {
         "dates": [], 
@@ -288,20 +288,20 @@
         "linked_agents": [], 
         "notes": [], 
         "parent": {
-            "ref": "/repositories/2/archival_objects/1"
+            "ref": "/repositories/{{repo_id}}/archival_objects/1"
         }, 
         "publish": true, 
         "ref_id": "2f2bf77283de1dbffa17969bb0af71a8", 
         "repository": {
-            "ref": "/repositories/2"
+            "ref": "/repositories/{{repo_id}}"
         }, 
         "resource": {
-            "ref": "/repositories/2/resources/1"
+            "ref": "/repositories/{{repo_id}}/resources/1"
         }, 
         "rights_statements": [], 
         "subjects": [], 
         "title": "test archival object 1.5", 
-        "uri": "/repositories/2/archival_objects/3"
+        "uri": "/repositories/{{repo_id}}/archival_objects/3"
     }, 
     {
         "authority_id": "abc", 
@@ -370,22 +370,22 @@
         "notes": [], 
         "publish": true, 
         "repository": {
-            "ref": "/repositories/2"
+            "ref": "/repositories/{{repo_id}}"
         }, 
         "restrictions": false, 
         "rights_statements": [], 
         "subjects": [], 
         "title": "A test digital object", 
         "tree": {
-            "ref": "/repositories/2/digital_objects/1/tree"
+            "ref": "/repositories/{{repo_id}}/digital_objects/1/tree"
         }, 
-        "uri": "/repositories/2/digital_objects/1"
+        "uri": "/repositories/{{repo_id}}/digital_objects/1"
     }, 
     {
         "component_id": "abc", 
         "dates": [], 
         "digital_object": {
-            "ref": "/repositories/2/digital_objects/1"
+            "ref": "/repositories/{{repo_id}}/digital_objects/1"
         }, 
         "extents": [], 
         "external_documents": [], 
@@ -396,18 +396,18 @@
         "notes": [], 
         "publish": true, 
         "repository": {
-            "ref": "/repositories/2"
+            "ref": "/repositories/{{repo_id}}"
         }, 
         "rights_statements": [], 
         "subjects": [], 
         "title": "digital object child 1", 
-        "uri": "/repositories/2/digital_object_components/1"
+        "uri": "/repositories/{{repo_id}}/digital_object_components/1"
     }, 
     {
         "component_id": "def", 
         "dates": [], 
         "digital_object": {
-            "ref": "/repositories/2/digital_objects/1"
+            "ref": "/repositories/{{repo_id}}/digital_objects/1"
         }, 
         "extents": [], 
         "external_documents": [], 
@@ -418,18 +418,18 @@
         "notes": [], 
         "publish": true, 
         "repository": {
-            "ref": "/repositories/2"
+            "ref": "/repositories/{{repo_id}}"
         }, 
         "rights_statements": [], 
         "subjects": [], 
         "title": "digital object child 2", 
-        "uri": "/repositories/2/digital_object_components/2"
+        "uri": "/repositories/{{repo_id}}/digital_object_components/2"
     }, 
     {
         "component_id": "xyz", 
         "dates": [], 
         "digital_object": {
-            "ref": "/repositories/2/digital_objects/1"
+            "ref": "/repositories/{{repo_id}}/digital_objects/1"
         }, 
         "extents": [], 
         "external_documents": [], 
@@ -439,15 +439,15 @@
         "linked_agents": [], 
         "notes": [], 
         "parent": {
-            "ref": "/repositories/2/digital_object_components/1"
+            "ref": "/repositories/{{repo_id}}/digital_object_components/1"
         }, 
         "publish": true, 
         "repository": {
-            "ref": "/repositories/2"
+            "ref": "/repositories/{{repo_id}}"
         }, 
         "rights_statements": [], 
         "subjects": [], 
         "title": "digital object child 1.5", 
-        "uri": "/repositories/2/digital_object_components/3"
+        "uri": "/repositories/{{repo_id}}/digital_object_components/3"
     }
 ]

@@ -4,7 +4,9 @@ describe "Deletion of Archival Records" do
 
   before(:each) do
     test_data = File.read(File.join(File.dirname(__FILE__), 'sample_record_set.dat'))
+    test_data = test_data.gsub('/repositories/{{repo_id}}', "/repositories/#{$repo_id}")
     post "/repositories/#{$repo_id}/batch_imports", test_data
+    raise "Test data import failed: #{last_response.body}" unless last_response.status == 200
   end
 
 
