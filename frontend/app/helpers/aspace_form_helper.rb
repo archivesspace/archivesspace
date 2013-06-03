@@ -708,6 +708,7 @@ module AspaceFormHelper
       :"data-update-monitor" => true,
       :"data-update-monitor-url" => url_for(:controller => :update_monitor, :action => :poll),
       :"data-update-monitor-record-uri" => record.uri,
+      :"data-update-monitor-record-is-stale" => !!@record_is_stale,
       :"data-update-monitor-lock_version" => record.lock_version
     }
   end

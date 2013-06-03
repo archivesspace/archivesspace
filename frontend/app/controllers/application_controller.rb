@@ -86,6 +86,9 @@ class ApplicationController < ActionController::Base
         id = obj.save
       end
       opts[:on_valid].call(id)
+    rescue ConflictException
+      instance_variable_set(:"@record_is_stale".intern, true)
+      opts[:on_invalid].call
     rescue JSONModel::ValidationException => e
       # Throw the form back to the user to display error messages.
       instance_variable_set("@exceptions".intern, obj._exceptions)

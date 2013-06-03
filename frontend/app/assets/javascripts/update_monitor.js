@@ -22,17 +22,21 @@ $(function() {
     var poll_url = $form.data("update-monitor-url");
     var lock_version = $form.data("update-monitor-lock_version");
     var uri = $form.data("update-monitor-record-uri");
+    var already_stale = $form.data("update-monitor-record-is-stale");
 
     $(document).trigger("clearupdatemonitorintervals.aspace");
 
     var insertErrorAndHighlightSidebar = function(status_data) {
       // insert the error
       $(".record-pane .update-monitor-error", $form).remove(); // remove any existing errors
-      if (status_data.status === STATUS_STALE) {
-        var message = AS.renderTemplate("update_monitor_stale_record_message_template");
+      if (already_stale || status_data.status === STATUS_STALE) {
+        var message = AS.renderTemplate(already_stale ?
+                                        "update_monitor_save_failed_with_stale_record_template" :
+                                        "update_monitor_stale_record_message_template");
         $("#form_messages", $form).prepend(message);
         $(".record-pane .form-actions", $form).prepend(message);
         $(".btn-primary, .btn-toolbar .btn", $form).attr("disabled", "disabled").addClass("disabled");
+        clearInterval($(document).data("UPDATE_MONITOR_POLLING_INTERVAL"));
       } else if (status_data.status === STATUS_OTHER_EDITORS) {
         var user_ids = [];
         $.each(status_data.edited_by, function(user_id, timestamp) {
@@ -65,6 +69,11 @@ $(function() {
     };
 
     var poll = function() {
+      if (already_stale) {
+        insertErrorAndHighlightSidebar();
+        return;
+      }
+
       $.post(
         poll_url,
         {
