@@ -621,5 +621,6 @@ en:
                   <div><small>Clicking 'Add Row' will copy values from the last row; The row's '+' button will copy values from the currently focused row.</small></div>
 
   update_monitor:
+    save_failed: <strong>Failed to save your changes</strong>
     stale_record: This record has been updated by another user. Please refresh the page to access the latest version.
     other_editors: "This record is currently being edited by another user.  Please contact the following users to ensure no conflicts occur: <strong>%{user_ids}</strong>"
