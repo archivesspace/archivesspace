@@ -173,7 +173,8 @@ class StreamingImport
     @ticker.tick_estimate = @jstream.count
 
     @jstream.each do |rec|
-      dependencies[rec['uri']] = extract_refs(rec, @logical_urls) - [rec['uri']]
+      dependencies[rec['uri']] = extract_logical_urls(rec, @logical_urls) - [rec['uri']]
+      check_for_invalid_external_references(rec, @logical_urls)
       @ticker.tick
     end
 
@@ -228,7 +229,7 @@ class StreamingImport
       missing_dependencies = @dependencies[uri].reject {|d| @logical_urls[d]}
 
       rec.keys.each do |k|
-        if !extract_refs(rec[k], missing_dependencies).empty?
+        if !extract_logical_urls(rec[k], missing_dependencies).empty?
           @limbs_for_reattaching[uri] ||= []
           @limbs_for_reattaching[uri] << [k, rec[k]]
           rec.delete(k)
@@ -272,16 +273,33 @@ class StreamingImport
   end
 
 
-  # A ref is any string that appears in our working set of logical_urls
-  def extract_refs(record, logical_urls)
+  # If 'record' contains references to records outside of the current
+  # repository, blow up.
+  def check_for_invalid_external_references(record, logical_urls)
     if record.respond_to?(:to_array)
-      record.map {|e| extract_refs(e, logical_urls)}.flatten(1)
+      record.each {|e| check_for_invalid_external_references(e, logical_urls)}
+    elsif record.respond_to?(:each)
+      record.each do |k, v|
+        if k == 'ref' && !logical_urls.has_key?(v)
+          URIResolver.ensure_reference_is_valid(v, RequestContext.get(:repo_id))
+        elsif k != '_resolved'
+          check_for_invalid_external_references(v, logical_urls)
+        end
+      end
+    end
+  end
+
+
+  # A ref is any string that appears in our working set of logical_urls
+  def extract_logical_urls(record, logical_urls)
+    if record.respond_to?(:to_array)
+      record.map {|e| extract_logical_urls(e, logical_urls)}.flatten(1)
     elsif record.respond_to?(:each)
       refs = []
 
       record.each do |k, v|
-        if k == 'ref' || v.respond_to?(:each)
-          refs += extract_refs(v, logical_urls)
+        if k != '_resolved'
+          refs += extract_logical_urls(v, logical_urls)
         end
       end
 
@@ -290,10 +308,6 @@ class StreamingImport
       if logical_urls.include?(record)
         [record]
       else
-        # then this must be a pre-existing, same-repository record, so take the opportunity
-        # to verify that
-        URIResolver.ensure_reference_is_valid(record, RequestContext.get(:repo_id))
-
         []
       end
     end
