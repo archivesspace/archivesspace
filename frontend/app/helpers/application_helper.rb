@@ -128,6 +128,7 @@ module ApplicationHelper
     search_params["type"] = opts["type"] || params["type"]
     search_params["facets"] = opts["facets"] || params["facets"]
     search_params["exclude"] = opts["exclude"] || params["exclude"]
+    search_params["listing_only"] = true if params["listing_only"]
 
     search_params["q"] = opts["q"] || params["q"]
 

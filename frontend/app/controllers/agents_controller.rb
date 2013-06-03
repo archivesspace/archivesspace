@@ -39,8 +39,8 @@ class AgentsController < ApplicationController
                 },
                 :on_valid => ->(id){
                   return render :json => @agent.to_hash if inline?
-                  return redirect_to({:controller => :agents, :action => :new, :type => @agent_type}, :flash => {:success => I18n.t("agent._frontend.messages.created")}) if params.has_key?(:plus_one)
-                  redirect_to({:controller => :agents, :action => :show, :id => id, :type => @agent_type}, :flash => {:success => I18n.t("agent._frontend.messages.created")})
+                  return redirect_to({:controller => :agents, :action => :new, :agent_type => @agent_type}, :flash => {:success => I18n.t("agent._frontend.messages.created")}) if params.has_key?(:plus_one)
+                  redirect_to({:controller => :agents, :action => :show, :id => id, :agent_type => @agent_type}, :flash => {:success => I18n.t("agent._frontend.messages.created")})
                 })
   end
 
@@ -58,7 +58,7 @@ class AgentsController < ApplicationController
                 },
                 :on_valid => ->(id){
                   flash[:success] = I18n.t("agent._frontend.messages.updated")
-                  redirect_to :controller => :agents, :action => :show, :id => id, :type => @agent_type
+                  redirect_to :controller => :agents, :action => :show, :id => id, :agent_type => @agent_type
                 })
   end
 
@@ -86,9 +86,9 @@ class AgentsController < ApplicationController
     end
 
     def assign_types
-      return if not params.has_key? 'type'
+      return if not params.has_key? 'agent_type'
 
-      @agent_type = :"#{params[:type]}"
+      @agent_type = :"#{params[:agent_type]}"
       @name_type = name_type_for_agent_type(@agent_type)
     end
 end

@@ -57,6 +57,7 @@ en:
     publish: Publish
     publish_confirm_title: Publish?
     publish_confirm_message: "<p>Performing this action will publish this record, any sub-records (External Documents, Notes, etc) and all components in the hierarchy.</p>"
+    view_search_results: Go to Search Results
 
   states:
     auto_generated: System generates when saved
@@ -105,6 +106,8 @@ en:
       outcome: Outcome
       event_type: Type
       first_term_type: Term Type (First)
+      classification_uri: Classification
+      location_uris: Location
 
   search_sorting:
     sort_by: "Sort by:"
@@ -123,6 +126,7 @@ en:
     rules: Rules
     outcome: Outcome
     event_type: Type
+    identifier: Identifier
 
   navbar:
     brand: ArchivesSpace
@@ -227,6 +231,9 @@ en:
         basic_information: Basic Information
         name: Names
         contacts: Contact Details
+        search_embedded: Linked Records
+      action:
+        create: Create Agent
 
   agent_contact:
     _frontend:
@@ -279,6 +286,7 @@ en:
         deleted: "Classification <strong>%{classification.title}</strong> deleted"
       section:
         basic_information: Basic Information
+        search_embedded: Linked Records
       action:
         add_child: Add Child
         create: Create Classification
@@ -294,6 +302,7 @@ en:
         deleted: "Classification Term <strong>%{classification_term.title}</strong> deleted"
       section:
         basic_information: Basic Information
+        search_embedded: Linked Records
       action:
         add_child: Add Child
         add_sibling: Add Sibling
@@ -309,6 +318,11 @@ en:
     _frontend:
       action:
         add: Add Container
+
+  container_location:
+    _frontend:
+      action:
+        add: Add Location
 
   date:
     _frontend:
@@ -380,7 +394,7 @@ en:
       section:
         basic_information: Basic Information
       action:
-        create: Create Event
+        save: Save Event
 
   extent:
     _frontend:
@@ -428,11 +442,13 @@ en:
         updated: Location Saved
       section:
         basic_information: Basic Information
+        search_embedded: Linked Records
       action:
         add_child: Add Subcomponent
         add_sibling: Add Sibling
         create: Create Location
         batch: Batch Locations
+        save: Save Location
 
   location_batch:
     _frontend:
@@ -547,6 +563,7 @@ en:
       section:
         basic_information: Basic Information
         terms: Subject Headings
+        search_embedded: Linked Records
       action:
         create: Create Subject
         save: Save Subject
@@ -567,6 +584,7 @@ en:
         edit_account_submit: Update Account
       action:
         create_account: Create Account
+        update_account: Update Account
         create: Create User
 
   user_defined:

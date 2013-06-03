@@ -14,7 +14,6 @@
         <% end %>
         <% if ['edit', 'update'].include?(controller.action_name) %>
           <div class="pull-left revert-changes">
-            &#180;
             <%= link_to I18n.t("actions.revert"), {:controller => :classifications, :action => :edit, :id => JSONModel(:classification).id_for(@classification_term.classification["ref"]), :anchor => "classification_term_#{@classification_term.id}"}, :class => "btn btn-small" %>
             <%= I18n.t("actions.toolbar_disabled_message") %>
           </div>

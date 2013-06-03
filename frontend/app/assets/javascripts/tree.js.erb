@@ -135,6 +135,7 @@ $(function() {
           success: function(html) {
             $container.html(html);
             AS.resetScrollSpy();
+            $(document).trigger("loadedtreenode.aspace", [$container]);
           },
           error: function(obj, errorText, errorDesc) {
             $container.html("<div class='alert alert-error'><p>An error occurred loading this form.</p><pre>"+errorDesc+"</pre></div>")

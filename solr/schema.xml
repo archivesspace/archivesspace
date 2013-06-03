@@ -69,6 +69,7 @@
 
    <!-- Accession properties required for facets -->
    <field name="accession_date_year" type="int" indexed="true" stored="true" multiValued="false" />
+   <field name="identifier" type="sort_string" indexed="true" stored="true" multiValued="false" />
 
    <!-- Archival Objects store the URI of the resource they belong to (if any) -->
    <field name="resource" type="string" indexed="true" stored="true" multiValued="false" />
@@ -103,6 +104,10 @@
 
    <!-- A JSON blob representing the classification path -->
    <field name="classification_path" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Fields to allow view of linked records (for classifications/locations -->
+   <field name="classification_uri" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="location_uris" type="string" indexed="true" stored="true" multiValued="true" />
 
    <!-- Event properties required for facets -->
    <field name="event_type" type="string" indexed="true" stored="true" multiValued="false" />

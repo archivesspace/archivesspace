@@ -1,5 +1,9 @@
 <%= setup_context(:title => I18n.t("accession._plural")) %>
 
+<%
+   add_column(I18n.t("accession.identifier"), proc {|record| record['identifier']}, :sortable => true, :sort_by => "identifier")
+%>
+
 <div class="row-fluid">
   <div class="span3">
       <%= render :partial => "search/filter" %>

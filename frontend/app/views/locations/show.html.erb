@@ -12,6 +12,8 @@
       <%= render :partial => "shared/flash_messages" %>
 
       <%= read_only_view(@location.to_hash) %>
+
+      <%= render :partial => "search/embedded", :locals => {:record => @location, :filter_term => {"location_uris" => @location.uri}.to_json, :heading_text => I18n.t("location._frontend.section.search_embedded")} %>
     </div>
   </div>
 </div>

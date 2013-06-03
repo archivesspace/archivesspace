@@ -9,7 +9,7 @@
       <% terms.each do | term | %>
         <div class="row-fluid">
           <div class="span6"><%= term["term"] %></div>
-          <div class="span6"><%= I18n.t("enumerations.subject_term_type.#{term["term_type"]}") %></div>
+          <div class="span6"><%= I18n.t("enumerations.subject_term_type.#{term["term_type"]}", :default => term["term_type"]) %></div>
         </div>
       <% end %>
     </div>

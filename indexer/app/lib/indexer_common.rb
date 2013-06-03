@@ -116,6 +116,7 @@ class CommonIndexer
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'accession'
         doc['accession_date_year'] = Date.parse(record['record']['accession_date']).year
+        doc['identifier'] = (0...4).map {|i| record['record']["id_#{i}"]}.compact.join("-")
       end
     }
 
@@ -207,9 +208,18 @@ class CommonIndexer
     add_document_prepare_hook {|doc, record|
       if ['resource'].include?(doc['primary_type']) && record['record']['classification']
         doc['classification_path'] = ASUtils.to_json(record['record']['classification']['_resolved']['path_from_root'])
+        doc['classification_uri'] = record['record']['classification']['ref']
       end
     }
 
+    add_document_prepare_hook {|doc, record|
+      if ['resource', 'archival_object'].include?(doc['primary_type']) && record['record']['instances'] && record['record']['instances'].length > 0
+        doc['location_uris'] = record['record']['instances'].
+                                  collect{|instance| instance["container"]}.compact.
+                                  collect{|container| container["container_locations"]}.flatten.
+                                  collect{|container_location| container_location["ref"]}.uniq
+      end
+    }
 
 
     record_has_children('collection_management')

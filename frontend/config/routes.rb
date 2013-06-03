@@ -90,15 +90,15 @@ ArchivesSpace::Application.routes.draw do
   match 'events/:id/delete' => 'events#delete', :via => [:post]
 
   match 'agents/contact_form' => 'agents#contact_form', :via => [:get]
-  match 'agents/:type/name_form' => 'agents#name_form', :via => [:get]
-  match 'agents/:type/create' => 'agents#create', :via => [:post]
-  match 'agents/:type/new' => 'agents#new', :via => [:get]
-  match 'agents/:type/:id/edit' => 'agents#edit', :via => [:get]
-  match 'agents/:type/:id/update' => 'agents#update', :via => [:post]
-  match 'agents/:type/:id/download_eac' => 'exports#download_eac', :via => [:get]
-  match 'agents/:type/:id' => 'agents#show', :via => [:get]
+  match 'agents/:agent_type/name_form' => 'agents#name_form', :via => [:get]
+  match 'agents/:agent_type/create' => 'agents#create', :via => [:post]
+  match 'agents/:agent_type/new' => 'agents#new', :via => [:get]
+  match 'agents/:agent_type/:id/edit' => 'agents#edit', :via => [:get]
+  match 'agents/:agent_type/:id/update' => 'agents#update', :via => [:post]
+  match 'agents/:agent_type/:id/download_eac' => 'exports#download_eac', :via => [:get]
+  match 'agents/:agent_type/:id' => 'agents#show', :via => [:get]
   match 'agents' => 'agents#index', :via => [:get]
-  match 'agents/:type/:id/delete' => 'agents#delete', :via => [:post]
+  match 'agents/:agent_type/:id/delete' => 'agents#delete', :via => [:post]
 
 
   resources :collection_management
