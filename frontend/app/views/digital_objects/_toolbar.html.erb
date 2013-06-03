@@ -14,7 +14,6 @@
         <% end %>
         <% if ['edit', 'update'].include?(controller.action_name) %>
           <div class="pull-left revert-changes">
-            &#160;
             <%= link_to I18n.t("actions.revert"), {:controller => :digital_objects, :action => :edit, :id => @digital_object.id}, :class => "btn btn-small" %>
             <%= I18n.t("actions.toolbar_disabled_message") %>
           </div>
