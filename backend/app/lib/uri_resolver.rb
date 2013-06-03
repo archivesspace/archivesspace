@@ -38,15 +38,14 @@ module URIResolver
 
     # error on anything that points outside the active repository
     if active_repository && \
-       reference.start_with?("/repositories/") && \
-       !reference.start_with?("/repositories/#{active_repository}/")
+      reference.start_with?("/repositories/") && \
+      reference !~ /^\/repositories\/#{active_repository}($|\/)/
 
-      raise ReferenceError.new("Inter-repository links are not allowed in this operation! (Bad link: '#{reference}')")
+      raise ReferenceError.new("Inter-repository links are not allowed in this operation! (Bad link: '#{reference}'; Active repo: '#/repositories/#{active_repository}')")
     end
 
-    #ensure the referent record actually exists
-    resolved = ASUtils.json_parse(resolve_uri(reference, nil))
-    if resolved.has_key?('error')
+    # ensure the referent record actually exists
+    if !self.record_exists?(reference)
       raise ReferenceError.new("Reference does not exist! (Reference: '#{reference}')")
     end
   end
@@ -54,6 +53,24 @@ module URIResolver
 
   def resolve_references(value, properties_to_resolve)
     URIResolver.resolve_references(value, properties_to_resolve, env)
+  end
+
+
+  def self.record_exists?(uri)
+    parsed = JSONModel.parse_reference(uri)
+
+    if parsed
+      begin
+        model = Kernel.const_get(parsed[:type].camelize)
+        return !model[parsed[:id]].nil?
+      rescue NameError
+        # Questionable, but deal with URIs like /repositories/2/resources/1/tree
+        # yielding "ResourceTree" which isn't a real model.
+        return true
+      end
+    end
+
+    false
   end
 
 
