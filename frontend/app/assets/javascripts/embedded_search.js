@@ -26,5 +26,8 @@ $(function() {
   };
 
   $(".embedded-search").each(init_embeddedSearch);
+  $(document).on("loadedtreenode.aspace", function(event, $container) {
+    $(".embedded-search", $container).each(init_embeddedSearch);
+  });
 
 });

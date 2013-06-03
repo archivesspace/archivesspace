@@ -14,7 +14,7 @@
     <% if not controller.action_name === "show" %>
       <li class="form-actions">
         <div class="btn-group <% if ["new", "create"].include?(controller.action_name) %>btn-submit-group<% end %>">
-          <button type="submit" class="btn btn-primary"><%= I18n.t("event._frontend.action.create") %></button>
+          <button type="submit" class="btn btn-primary"><%= I18n.t("event._frontend.action.save") %></button>
           <% if ["new", "create"].include?(controller.action_name) %>
             <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary"><%= I18n.t("actions.save_plus_one") %></button>
           <% end %>

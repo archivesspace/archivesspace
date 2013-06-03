@@ -4,7 +4,7 @@
       <div class="record-toolbar">
         <% if !['edit', 'update'].include?(controller.action_name) %>
           <div class="btn-group pull-left">
-            <%= link_to I18n.t("actions.edit"), {:controller => :agents, :action => :edit, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-small btn-primary" %>
+            <%= link_to I18n.t("actions.edit"), {:controller => :agents, :action => :edit, :id => @agent.id, :agent_type => @agent.agent_type}, :class => "btn btn-small btn-primary" %>
           </div>
         <% end %>
         <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
@@ -14,7 +14,7 @@
         <% end %>
         <% if ['edit', 'update'].include?(controller.action_name) %>
           <div class="pull-left revert-changes">
-            &#180;
+            &#160;
             <%= link_to I18n.t("actions.revert"), {:controller => :agents, :action => :edit, :id => @agent.id}, :class => "btn btn-small" %>
             <%= I18n.t("actions.toolbar_disabled_message") %>
           </div>

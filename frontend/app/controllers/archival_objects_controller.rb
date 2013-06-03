@@ -5,7 +5,7 @@ class ArchivalObjectsController < ApplicationController
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
   FIND_OPTS = {
-    "resolve[]" => ["subjects", "location", "linked_agents", "digital_object", "resource", "parent"]
+    "resolve[]" => ["subjects", "linked_agents", "digital_object", "resource", "parent", "container_locations"]
   }
 
   def new
