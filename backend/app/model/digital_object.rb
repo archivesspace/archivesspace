@@ -78,4 +78,13 @@ class DigitalObject < Sequel::Model(:digital_object)
 
   end
 
+
+  def validate
+    validates_unique([:repo_id, :digital_object_id], :message => "Must be unique")
+
+    map_validation_to_json_property([:repo_id, :digital_object_id], :digital_object_id)
+
+    super
+  end
+
 end
