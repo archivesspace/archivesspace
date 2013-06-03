@@ -145,7 +145,6 @@ describe "Batch Import Controller" do
     response.code.should eq('200')
 
     results = ASUtils.json_parse(response.body)
-    puts results.inspect
 
     results.last['errors'].length.should eq(1)
     results.last['errors'][0].should match(/Inter\-repository links/)
@@ -160,7 +159,6 @@ describe "Batch Import Controller" do
     response.code.should eq('200')
 
     results = ASUtils.json_parse(response.body)
-    puts results.inspect
     results.last['saved'].length.should eq(1)
   end
 
@@ -184,7 +182,6 @@ describe "Batch Import Controller" do
     response.code.should eq('200')
 
     results = ASUtils.json_parse(response.body)
-    puts results.inspect
 
     results.last['errors'].length.should eq(1)
     results.last['errors'][0].should match(/Reference does not exist/)
@@ -199,7 +196,6 @@ describe "Batch Import Controller" do
     response.code.should eq('200')
 
     results = ASUtils.json_parse(response.body)
-    puts results.inspect
     results.last['saved'].length.should eq(1)
   end
 
