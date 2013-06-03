@@ -1716,6 +1716,8 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "digital_object_title_"],(digital_object_title))
       $driver.clear_and_send_keys([:id, "digital_object_digital_object_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
 
+      $driver.find_element(:id => 'digital_object_digital_object_type_').select_option_with_text("Mixed Materials")
+
       $driver.find_element(:css => "section#digital_object_file_versions_ > h3 > .btn").click
 
       $driver.clear_and_send_keys([:id, "digital_object_file_versions__0__file_uri_"], "/uri/for/this/file/version")
@@ -1810,6 +1812,12 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element_with_text("//h2", /#{digital_object_title}/)
     end
+
+
+    it "applies i18n to the show view" do
+      $driver.find_element_with_text("//div", /Mixed Materials/) # not mixed_materials
+    end
+
   end
 
 
