@@ -1,15 +1,32 @@
-<% if children? %>
+<% components = whole_tree? ? whole_tree['children'] : children %>
+
+<% show_node = lambda do |child, stripe| %>
+  <li class="result <% if stripe %>striped<% else %>unstriped<% end %>">
+    <h4>
+      <%= icon_for child["node_type"] %>
+      <%= link_to child["title"], :controller => :records, :action => child["node_type"] || child["jsonmodel_type"], :id => child['id'] || JSONModel(child["jsonmodel_type"].intern).id_for(child['uri']), :repo_id => @repository.id %>
+    </h4>
+
+    <% if !child['children'].blank? %>
+      <ul class="results-list">
+        <% 
+           child['children'].each_with_index do |subchild, i|
+             show_node.call(subchild, ((i % 2) == 0) != stripe)
+           end
+        %> 
+    </ul>
+    <% end %>
+
+  </li>
+<% end %>
+
+<% unless components.blank? %>
   <section id="components">
     <h3><%= I18n.t("#{record_type}._public.section.components") %></h3>
 
     <ul class="results-list">
-      <% children.each do |child| %>
-        <li class="result">
-          <h4>
-            <%= icon_for child["node_type"] %>
-            <%= link_to child["title"], :controller => :records, :action => child["node_type"] || child["jsonmodel_type"], :id => child['id'] || JSONModel(child["jsonmodel_type"].intern).id_for(child['uri']), :repo_id => @repository.id %>
-          </h4>
-        </li>
+      <% components.each_with_index do |child, i| %>
+        <% show_node.call(child, (i % 2) == 0) %>
       <% end %>
     </ul>
   </section>
