@@ -440,7 +440,7 @@ describe 'Resources controller' do
 
     expect {
       resource.save
-    }.to raise_error(ReferenceError, /Invalid URI reference/)
+    }.to raise_error
   end
 
 
