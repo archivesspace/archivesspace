@@ -109,23 +109,6 @@ module RESTHelpers
     end
 
 
-    def self.use_transaction?(params)
-      if !params.has_key?(:use_transaction)
-        # Always use a transaction if the endpoint doesn't support choosing.
-        return true
-      end
-
-      if params[:use_transaction] == 'auto'
-        # The user didn't specify whether to use a transaction or not.
-        # Go with what seems best for their given database.
-        AppConfig[:db_url] !~ /jdbc:(derby|h2)/
-      else
-        # The user knows best!
-        params[:use_transaction] == 'true'
-      end
-    end
-
-
     def self.get(uri); self.method(:get).uri(uri); end
     def self.post(uri); self.method(:post).uri(uri); end
     def self.delete(uri); self.method(:delete).uri(uri); end
@@ -227,7 +210,7 @@ module RESTHelpers
             end
           end
 
-          result = DB.open((use_transaction == :unspecified) ? Endpoint.use_transaction?(params) : use_transaction) do
+          result = DB.open((use_transaction == :unspecified) ? true : use_transaction) do
 
             RequestContext.put(:current_username, current_user.username)
 
