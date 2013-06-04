@@ -7,14 +7,14 @@ class AccessionsController < ApplicationController
 
   before_filter :set_event_types,  :only => [:show, :edit, :update]
 
-    FIND_OPTS = ["subjects", "related_resources", "linked_agents", "container_locations", "digital_object"]
+  FIND_OPTS = ["subjects", "related_resources", "linked_agents", "container_locations", "digital_object", "classification"]
 
   def index
     @search_data = Search.for_type(session[:repo_id], "accession", search_params.merge({"facet[]" => SearchResultData.ACCESSION_FACETS}))
   end
 
   def show
-    @accession = Accession.find(params[:id], "resolve[]" => FIND_OPTS)
+    @accession = fetch_resolved(params[:id])
 
     flash[:info] = I18n.t("accession._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:accession => @accession)) if @accession.suppressed
   end
@@ -24,7 +24,7 @@ class AccessionsController < ApplicationController
   end
 
   def edit
-    @accession = Accession.find(params[:id], "resolve[]" => FIND_OPTS)
+    @accession = fetch_resolved(params[:id])
 
     if @accession.suppressed
       redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
@@ -49,7 +49,7 @@ class AccessionsController < ApplicationController
   def update
     handle_crud(:instance => :accession,
                 :model => Accession,
-                :obj => JSONModel(:accession).find(params[:id], "resolve[]" => FIND_OPTS),
+                :obj => fetch_resolved(params[:id]),
                 :on_invalid => ->(){
                   return render :partial => "accessions/edit_inline" if params[:inline]
                   return render action: "edit"
@@ -89,6 +89,18 @@ class AccessionsController < ApplicationController
 
 
   private
+
+  # refactoring note: suspiciously similar to resources_controller.rb
+  def fetch_resolved(id)
+    accession = Accession.find(id, "resolve[]" => FIND_OPTS)
+
+    if accession['classification'] && accession['classification']['_resolved']
+      resolved = accession['classification']['_resolved']
+      resolved['title'] = ClassificationHelper.format_classification(resolved['path_from_root'])
+    end
+
+    accession
+  end
 
   def fetch_tree
     @tree = JSONModel(:accession_tree).find(nil, :accession_id => @accession.id)
