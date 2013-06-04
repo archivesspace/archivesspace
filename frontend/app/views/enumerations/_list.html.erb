@@ -41,7 +41,7 @@
               <% else %>
                 <%= link_to I18n.t("actions.unset_default"), {:controller => :enumerations, :action => :set_default, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => nil}, :method => :post, :class=> "btn btn-mini" %>
               <% end%>
-              <% if @enumeration['editable']%>
+              <% if @enumeration['editable'] && !Array(@enumeration['readonly_values']).include?(enum_value) %>
                 <%= link_to I18n.t("actions.merge"), {:controller => :enumerations, :action => :delete, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :merge => true, :value => enum_value}, "data-toggle" => "modal-ajax", :class=> "btn btn-mini btn-warning" %>
                 <%= link_to I18n.t("actions.delete"), {:controller => :enumerations, :action => :delete, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => enum_value}, "data-toggle" => "modal-ajax", :class=> "btn btn-mini btn-danger" %>
               <% end %>
