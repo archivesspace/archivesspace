@@ -168,7 +168,10 @@ module JSONModel
       entry[:schema]["properties"]["jsonmodel_type"] = {"type" => "string", "ifmissing" => "error"}
 
       # All records have audit fields
-      entry[:schema]["properties"]["last_modified"] = {"type" => "date-time", "readonly" => true}
+      entry[:schema]["properties"]["created_by"] = {"type" => "string", "readonly" => true}
+      entry[:schema]["properties"]["last_modified_by"] = {"type" => "string", "readonly" => true}
+      entry[:schema]["properties"]["user_mtime"] = {"type" => "date-time", "readonly" => true}
+      entry[:schema]["properties"]["system_mtime"] = {"type" => "date-time", "readonly" => true}
       entry[:schema]["properties"]["create_time"] = {"type" => "date-time", "readonly" => true}
 
       # Records may include a reference to the repository that contains them
@@ -391,13 +394,13 @@ module JSONModel
       #
       # The validation is a block that takes a hash of properties and returns an array of pairs like:
       # [["propertyname", "the problem with it"], ...]
-      def self.add_validation(name, &block)
+      def self.add_validation(name, level = :error, &block)
         raise "Validation name already taken: #{name}" if @@custom_validations[name]
 
         @@custom_validations[name] = block
 
         self.schema["validations"] ||= []
-        self.schema["validations"] << name
+        self.schema["validations"] << [level, name]
       end
 
 
@@ -416,6 +419,7 @@ module JSONModel
         else
           cleaned = JSONSchemaUtils.drop_unknown_properties(hash, self.schema, drop_system_properties)
           cleaned = ASUtils.jsonmodels_to_hashes(cleaned)
+
           validate(cleaned, raise_errors)
 
           self.new(cleaned)

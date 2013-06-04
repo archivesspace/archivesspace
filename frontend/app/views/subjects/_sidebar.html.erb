@@ -2,15 +2,19 @@
   <ul class="nav nav-list as-nav-list">
     <% if @exceptions %>
       <li class="<% if @exceptions.has_key?(:errors)%>alert-error<% end %>">
-        <a href="#form_messages">Errors and Warnings  <span class="icon-chevron-right"></span></a>
+        <a href="#form_messages"><%= I18n.t("errors.sidebar_label") %>   <span class="icon-chevron-right"></span></a>
       </li>
     <% end %>
 
     <li><a href="#basic_information"><%= I18n.t("subject._frontend.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
-    <li><a href="#subject_terms_"><%= I18n.t("term._plural") %> <span class="icon-chevron-right"></span></a></li>
+    <li><a href="#subject_terms_"><%= I18n.t("subject._frontend.section.terms") %> <span class="icon-chevron-right"></span></a></li>
 
     <% if not controller.action_name === "show" or @subject.external_documents.length > 0 %>
       <li><a href="#subject_external_documents_"><%= I18n.t("external_document._plural") %> <span class="icon-chevron-right"></span></a></li>
+    <% end %>
+
+    <% if controller.action_name === "show" %>
+      <li><a href="#search_embedded"><%= I18n.t("subject._frontend.section.search_embedded") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" %>

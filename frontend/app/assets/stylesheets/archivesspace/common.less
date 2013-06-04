@@ -124,6 +124,10 @@ h2 > .label {
   }
 }
 
+.record-toolbar {
+  overflow: hidden;
+}
+
 .btn.btn-mini {
   [class^="icon-"], [class*=" icon-"] {
     margin-top: -1px;
@@ -194,6 +198,11 @@ h2 > .label {
   #gradient > .vertical(#F3F3F3, #EDEDED);
   .box-shadow(~"1px 1px 2px rgba(0,0,0,.15)");
   min-height: 2em;
+  overflow: visible;
+
+  &.formchanged {
+    overflow: hidden;
+  }
 
   .btn-toolbar {
     margin: 0;
@@ -201,6 +210,7 @@ h2 > .label {
 
   .revert-changes {
     display: none;
+    margin-left: 5px;
   }
 
   &.formchanged {
@@ -213,6 +223,8 @@ h2 > .label {
 .record-pane {
   padding: 10px;
   margin: 0;
+  border: 1px solid #EEE;
+  border-top: none;
 
   h2 {
     margin-top: 0;
@@ -221,6 +233,12 @@ h2 > .label {
 
 .dropdown-submenu a:focus .dropdown-menu {
   display: block;
+}
+
+.nav-list {
+  .alert-error a {
+    .transition(~"background-color 1s, color 1s");
+  }
 }
 
 .nav-list .form-actions {
@@ -415,6 +433,30 @@ div.progress-container {
   width: 20em;
   height: 20px;
   border: 1px solid black;
+}
+
+.audit-display-compact {
+  padding: 4px;
+  margin-right: 4px;
+  min-width: 60px;
+  float: left;
+}
+
+.audit-display-wide {
+  border: 1px solid #F6F6F6;
+  background-color: #F1F1F1;
+  padding: 4px;
+  margin-right: 4px;
+  float: right;
+  line-height: @baseLineHeight;
+}
+
+.browser-warning {
+  margin-bottom: 0;
+
+  .container {
+    text-align: center;
+  }
 }
 
 /* end i-frame import workaround */

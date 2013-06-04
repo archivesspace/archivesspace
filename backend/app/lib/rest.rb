@@ -69,6 +69,7 @@ module RESTHelpers
       @preconditions = []
       @required_params = []
       @paginated = false
+      @use_transaction = :unspecified
       @returns = []
       @request_context_keyvals = {}
     end
@@ -108,23 +109,6 @@ module RESTHelpers
     end
 
 
-    def self.use_transaction?(params)
-      if !params.has_key?(:use_transaction)
-        # Always use a transaction if the endpoint doesn't support choosing.
-        return true
-      end
-
-      if params[:use_transaction] == 'auto'
-        # The user didn't specify whether to use a transaction or not.
-        # Go with what seems best for their given database.
-        AppConfig[:db_url] !~ /jdbc:(derby|h2)/
-      else
-        # The user knows best!
-        params[:use_transaction] == 'true'
-      end
-    end
-
-
     def self.get(uri); self.method(:get).uri(uri); end
     def self.post(uri); self.method(:post).uri(uri); end
     def self.delete(uri); self.method(:delete).uri(uri); end
@@ -142,14 +126,6 @@ module RESTHelpers
         @preconditions << proc { |request| current_user.can?(permission) }
       end
 
-      self
-    end
-
-
-    # Just some scaffolding until everything has permissions specified
-    def nopermissionsyet
-      @has_permissions = true
-      Log.warn("No permissions defined for #{@method.upcase} #{@uri}")
       self
     end
 
@@ -181,6 +157,13 @@ module RESTHelpers
     end
 
 
+    def use_transaction(val)
+      @use_transaction = val
+
+      self
+    end
+
+
     def returns(*returns, &block)
       raise "No .permissions declaration for endpoint #{@method.to_s.upcase} #{@uri}" if !@has_permissions
 
@@ -191,6 +174,7 @@ module RESTHelpers
       preconditions = @preconditions
       rp = @required_params
       paginated = @paginated
+      use_transaction = @use_transaction
       uri = @uri
       method = @method
       request_context = @request_context_keyvals
@@ -226,7 +210,7 @@ module RESTHelpers
             end
           end
 
-          result = DB.open(Endpoint.use_transaction?(params)) do
+          result = DB.open((use_transaction == :unspecified) ? true : use_transaction) do
 
             RequestContext.put(:current_username, current_user.username)
 

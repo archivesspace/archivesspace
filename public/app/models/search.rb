@@ -24,7 +24,13 @@ class Search
   def self.tree_view(record_uri)
     response = JSONModel::HTTP::get_json("/search/tree_view", :node_uri => record_uri)
 
-    ASUtils.json_parse(response["tree_json"])
+    tree_view = ASUtils.json_parse(response["tree_json"])
+
+    if response['whole_tree_json']
+      tree_view['whole_tree'] = ASUtils.json_parse(response['whole_tree_json'])
+    end
+
+    tree_view
   end
 
 end

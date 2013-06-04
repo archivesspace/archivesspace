@@ -15,7 +15,7 @@
 
   <% form.emit_template("subject") %>
 
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "terms", :required => true} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "terms", :required => true, :heading_text => I18n.t("subject._frontend.section.terms")} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
 
 </fieldset>

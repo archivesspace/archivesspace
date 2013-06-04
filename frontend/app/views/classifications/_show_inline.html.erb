@@ -24,10 +24,13 @@
                                                                      :uri => readonly["creator"]["_resolved"]["uri"])) %>
               </div>
             <% end %>
+            <%= display_audit_info(@classification) %>
           </section>
         <% end %>
 
         <% readonly.emit_template("classification", @classification) %>
+
+        <%= render :partial => "search/embedded", :locals => {:filter_term => {"classification_uri" => @classification.uri}.to_json, :heading_text => I18n.t("classification._frontend.section.search_embedded")} %>
 
       <% end %>
     </div>

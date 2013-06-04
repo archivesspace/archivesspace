@@ -30,36 +30,13 @@ class ApplicationController < ActionController::Base
 
 
   def establish_session
-    if session[:session]
-      Thread.current[:backend_session] = session[:session]
-      return session[:session]
-    end
-
-    username = AppConfig[:public_username]
-    password = AppConfig[:public_user_secret]
-
-    url = URI.parse(AppConfig[:backend_url] + "/users/#{username}/login")
-
-    request = Net::HTTP::Post.new(url.request_uri)
-    request.set_form_data("expiring" => "false",
-                          "password" => password)
-
-    response = JSONModel::HTTP.do_http_request(url, request)
-
-    if response.code == '200'
-      auth = ASUtils.json_parse(response.body)
-
-      session[:session] = auth['session']
-      Thread.current[:backend_session] = auth['session']
-
-    else
-      raise "Authentication to backend failed: #{response.body}"
-    end
+    Thread.current[:backend_session] = BackendSession.get_active_session
   end
 
   def reestablish_session
-    session[:session] = nil
     Thread.current[:backend_session] = nil
+    BackendSession.refresh_active_session
+
     establish_session
     redirect_to request.url
   end

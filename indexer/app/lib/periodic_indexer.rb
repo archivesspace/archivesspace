@@ -54,9 +54,10 @@ class PeriodicIndexer < CommonIndexer
   def load_tree_docs(tree, result, root_uri, path_to_root = [])
     this_node = tree.reject {|k, v| k == 'children'}
 
-    result << {
+    doc = {
       'id' => "tree_view_#{tree['record_uri']}",
       'primary_type' => 'tree_view',
+      'types' => ['tree_view'],
       'exclude_by_default' => 'true',
       'node_uri' => tree['record_uri'],
       'repository' => JSONModel.repository_for(tree['record_uri']),
@@ -68,6 +69,13 @@ class PeriodicIndexer < CommonIndexer
                                        child.reject {|k, v| k == 'children'}
                                      })
     }
+
+    # For the root node, store a copy of the whole tree
+    if path_to_root.empty?
+      doc['whole_tree_json'] = ASUtils.to_json(tree)
+    end
+
+    result << doc
 
     tree['children'].each do |child|
       load_tree_docs(child, result, root_uri, path_to_root + [this_node])
@@ -116,7 +124,7 @@ class PeriodicIndexer < CommonIndexer
       # Don't reprocess trees we've already covered during previous batches
       records -= @processed_trees
 
-      ## Each records needs its tree indexed
+      ## Each record needs its tree indexed
 
       # Delete any existing versions
       delete_trees_for(records)
@@ -180,8 +188,8 @@ class PeriodicIndexer < CommonIndexer
     repositories = JSONModel(:repository).all
 
     modified_since = [@state.get_last_mtime('repositories', 'repositories') - WINDOW_SECONDS, 0].max
-    updated_repositories = repositories.reject {|repository| Time.parse(repository['last_modified']).to_i < modified_since}.
-                                        map {|repository| {
+    updated_repositories = repositories.reject {|repository| Time.parse(repository['system_mtime']).to_i < modified_since}.
+    map {|repository| {
         'record' => repository.to_hash(:trusted),
         'uri' => repository.uri
       }

@@ -1,0 +1,7 @@
+<p><strong><%= I18n.t("location_batch._frontend.messages.number_to_create") %></strong>: <%= locations.length %></p>
+
+<ol>
+  <% locations.each do |location| %>
+    <li><%= location %></li>
+  <% end %>
+</ol>

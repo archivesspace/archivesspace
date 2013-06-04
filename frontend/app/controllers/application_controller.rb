@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  before_filter :determine_browser_support
 
   # Note: This should be first!
   before_filter :store_user_session
@@ -86,6 +87,9 @@ class ApplicationController < ActionController::Base
         id = obj.save
       end
       opts[:on_valid].call(id)
+    rescue ConflictException
+      instance_variable_set(:"@record_is_stale".intern, true)
+      opts[:on_invalid].call
     rescue JSONModel::ValidationException => e
       # Throw the form back to the user to display error messages.
       instance_variable_set("@exceptions".intern, obj._exceptions)
@@ -190,7 +194,7 @@ class ApplicationController < ActionController::Base
 
   def refresh_permissions
     if session[:last_permission_refresh] &&
-        session[:last_permission_refresh] < MemoryLeak::Resources.get(:acl_last_modified)
+        session[:last_permission_refresh] < MemoryLeak::Resources.get(:acl_system_mtime)
       User.refresh_permissions(session)
     end
   end
@@ -233,6 +237,27 @@ class ApplicationController < ActionController::Base
     return render :template => "404", :layout => nil if inline?
 
     render "/404"
+  end
+
+
+  def determine_browser_support
+    if session[:browser_support]
+      @browser_support = session[:browser_support].intern
+      return
+    end
+
+    user_agent = UserAgent.parse(request.user_agent)
+
+    @browser_support = :unknown
+    if BrowserSupport.bronze.detect {|browser| user_agent <= browser}
+      @browser_support = :bronze
+    elsif BrowserSupport.silver.detect {|browser| user_agent <= browser}
+      @browser_support = :silver
+    elsif BrowserSupport.silver.detect {|browser| user_agent > browser} || BrowserSupport.gold.detect {|browser| user_agent >= browser}
+      @browser_support = :gold
+    end
+
+    session[:browser_support] = @browser_support
   end
 
   protected

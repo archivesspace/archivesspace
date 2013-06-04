@@ -11,6 +11,10 @@ module ApplicationHelper
       scripts += javascript_include_tag "#{controller.controller_name}.crud" if File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.crud.js") ||  File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.crud.js.erb")
     end
 
+    if ["batch_create"].include?(controller.action_name)
+      scripts += javascript_include_tag "#{controller.controller_name}.batch" if File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js") ||  File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js.erb")
+    end
+
     scripts.html_safe
   end
 
@@ -124,6 +128,7 @@ module ApplicationHelper
     search_params["type"] = opts["type"] || params["type"]
     search_params["facets"] = opts["facets"] || params["facets"]
     search_params["exclude"] = opts["exclude"] || params["exclude"]
+    search_params["listing_only"] = true if params["listing_only"]
 
     search_params["q"] = opts["q"] || params["q"]
 
@@ -192,6 +197,29 @@ module ApplicationHelper
                             :"data-confirm-btn-label" => "#{I18n.t("actions.delete")}",
                             :"data-confirm-btn-class" => "btn-danger"
                           })
+  end
+
+
+  def display_audit_info(hash, opts = {})
+    fmt = opts[:format] || 'wide'
+    html = "<div class='row-fluid'><div class='audit-display-#{fmt}'><small>"
+    if hash['create_time'] and hash['user_mtime']
+      if fmt == 'wide'
+        html << "<strong>#{I18n.t("search_results.created")} #{hash['created_by']}</strong>"
+        html << " #{Time.parse(hash['create_time']).getlocal}, "
+        html << "<strong>#{I18n.t("search_results.modified")} #{hash['last_modified_by']}</strong>"
+        html << " #{Time.parse(hash['user_mtime']).getlocal}"
+      else
+        html << "<dl>"
+        html << "<dt>#{I18n.t("search_results.created")} #{hash['created_by']}</dt>"
+        html << "<dd>#{Time.parse(hash['create_time']).getlocal}</dd>"
+        html << "<dt>#{I18n.t("search_results.modified")} #{hash['last_modified_by']}</dt>"
+        html << "<dd>#{Time.parse(hash['user_mtime']).getlocal}</dd>"
+        html << "</dl>"
+      end
+    end
+    html << "</small></div></div>"
+    html.html_safe
   end
 
 end

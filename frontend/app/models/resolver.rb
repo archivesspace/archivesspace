@@ -40,7 +40,7 @@ class Resolver
 
     if @jsonmodel_type.start_with? "agent_"
       uri_properties[:controller] = :agents
-      uri_properties[:type] = @jsonmodel_type
+      uri_properties[:agent_type] = @jsonmodel_type
     elsif @jsonmodel_type === "archival_object"
       ao = JSONModel(:archival_object).find(@id)
       uri_properties[:controller] = :resources

@@ -68,7 +68,8 @@ class ArchivesSpaceService
 
     Permission.define("view_all_records",
                       "The ability to view any record in the system",
-                      :level => "global")
+                      :level => "global",
+                      :system => true)
 
     Permission.define("create_repository",
                       "The ability to create new repositories",
@@ -80,7 +81,8 @@ class ArchivesSpaceService
 
     Permission.define("index_system",
                       "The ability to read any record for indexing",
-                      :level => "global")
+                      :level => "global",
+                      :system => true)
 
     Permission.define("manage_repository",
                       "The ability to manage a given repository",
@@ -88,16 +90,6 @@ class ArchivesSpaceService
 
     Permission.define("update_location_record",
                       "The ability to create and modify location records in a given repository",
-                      :level => "repository")
-
-    # This doesn't really make sense since subjects aren't repository-scoped.  Needs revisiting.
-    Permission.define("update_subject_record",
-                      "The ability to create and modify subject records",
-                      :level => "repository")
-
-    # This doesn't really make sense since agents aren't repository-scoped.  Needs revisiting.
-    Permission.define("update_agent_record",
-                      "The ability to create and modify agent records",
                       :level => "repository")
 
     Permission.define("update_archival_record",
@@ -120,6 +112,7 @@ class ArchivesSpaceService
                       "The ability to delete the major archival record types: accessions/resources/digital objects/components/collection management/events",
                       :level => "repository")
 
+
     Permission.define("view_suppressed",
                       "The ability to view suppressed records in a given repository",
                       :level => "repository")
@@ -136,6 +129,46 @@ class ArchivesSpaceService
                       "The ability to delete classification records",
                       :level => "repository")
 
+    Permission.define("mediate_edits",
+                      "Track concurrent updates to records",
+                      :level => "global",
+                      :system => true)
+
+    # Updates and deletes to subjects and agents are a bit funny: they're global
+    # objects, but users are granted permission to modify them by being
+    # associated with a group within a repository.
+
+    Permission.define("update_subject_record",
+                      "The ability to create and modify subject records",
+                      :derived_permission => true,
+                      :level => "repository")
+
+    Permission.define("update_agent_record",
+                      "The ability to create and modify agent records",
+                      :derived_permission => true,
+                      :level => "repository")
+
+    Permission.define("update_vocabulary_record",
+                      "The ability to create and modify vocabulary records",
+                      :derived_permission => true,
+                      :level => "repository")
+
+    Permission.define("delete_agent_record",
+                      "The ability to delete agent records",
+                      :derived_permission => true,
+                      :level => "repository")
+
+    Permission.define("delete_subject_record",
+                      "The ability to delete subject records",
+                      :derived_permission => true,
+                      :level => "repository")
+
+    Permission.define("delete_vocabulary_record",
+                      "The ability to delete vocabulary records",
+                      :derived_permission => true,
+                      :level => "repository")
+
+
 
   end
 
@@ -146,7 +179,8 @@ class ArchivesSpaceService
     if User[:username => User.SEARCH_USERNAME].nil?
       User.create_from_json(JSONModel(:user).from_hash(:username => User.SEARCH_USERNAME,
                                                        :name => "Search Indexer"),
-                            :source => "local")
+                            :source => "local",
+                            :is_system_user => 1)
     end
 
     DBAuth.set_password(User.SEARCH_USERNAME, AppConfig[:search_user_secret])
@@ -161,6 +195,7 @@ class ArchivesSpaceService
 
         created_group.grant("view_repository")
         created_group.grant("view_suppressed")
+        created_group.grant("view_all_records")
         created_group.grant("index_system")
       end
     end
@@ -174,7 +209,8 @@ class ArchivesSpaceService
     if User[:username => User.PUBLIC_USERNAME].nil?
       User.create_from_json(JSONModel(:user).from_hash(:username => User.PUBLIC_USERNAME,
                                                        :name => "Public Interface Anonymous"),
-                            :source => "local")
+                            :source => "local",
+                            :is_system_user => 1)
     end
 
     DBAuth.set_password(User.PUBLIC_USERNAME, AppConfig[:public_user_secret])
@@ -188,15 +224,43 @@ class ArchivesSpaceService
         created_group.add_user(User[:username => User.PUBLIC_USERNAME])
 
         created_group.grant("view_repository")
+        created_group.grant("view_all_records")
       end
     end
 
   end
-  
 
+
+  # Create the user that the frontend will use for trusted communication with
+  # the backend.
+  def self.create_staff_user
+
+    if User[:username => User.STAFF_USERNAME].nil?
+      User.create_from_json(JSONModel(:user).from_hash(:username => User.STAFF_USERNAME,
+                                                       :name => "Staff System User"),
+                            :source => "local",
+                            :is_system_user => 1)
+    end
+
+    DBAuth.set_password(User.STAFF_USERNAME, AppConfig[:staff_user_secret])
+
+    global_repo = Repository[:repo_code => Group.GLOBAL]
+
+    RequestContext.open(:repo_id => global_repo.id) do
+      if Group[:group_code => Group.STAFF_GROUP_CODE].nil?
+        created_group = Group.create_from_json(JSONModel(:group).from_hash(:group_code => Group.STAFF_GROUP_CODE,
+                                                                           :description => "Staff System Group"))
+        created_group.add_user(User[:username => User.STAFF_USERNAME])
+
+        created_group.grant("mediate_edits")
+      end
+    end
+
+  end
 
   set_up_base_permissions
   create_search_user
   create_public_user
+  create_staff_user
 
 end

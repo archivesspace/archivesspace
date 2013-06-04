@@ -8,7 +8,7 @@
 
          if ($("#" + elt).length) {
            $matched = $("#" + elt);
-           $matched.parents(".control-group:first").addClass(type);
+           $matched.closest(".control-group, td").addClass(type);
            if ($("#" + elt).is("section")) {
              $("#" + elt).addClass(type);
            }
@@ -29,7 +29,7 @@
            // the error, assume it's an array and look for the path of
            // the first element.
            $matched = $("#" + elt + "_0_");
-           $matched.closest(".control-group").addClass(type);
+           $matched.closest(".control-group, td").addClass(type);
          }
          if ($matched && !$("." + type + "[data-target=" + elt + "]").hasClass("linked-to-field")) {
            $("." + type + "[data-target=" + elt + "]").addClass("linked-to-field").append("<span class='icon-chevron-down'></span>").click(function() {
@@ -109,7 +109,8 @@
          <% end %>
          <% if not @exceptions.has_key?(:errors) %>
             <br/>
-            <input type="submit" name="ignorewarnings" class="btn btn-warning" value="<%= I18n.t("actions.save_anyway") %>" />
+            <input type="hidden" name="ignorewarnings" value="true" />
+            <input type="submit" name="ignorewarnings-submit" class="btn btn-warning" value="<%= I18n.t("actions.save_anyway") %>" />
          <% end %>
       </div>
    <% end %>

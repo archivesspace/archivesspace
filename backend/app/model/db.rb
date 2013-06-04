@@ -79,7 +79,12 @@ class DB
           # Sequel::Rollback which has been quietly caught.
           return
         else
-          return yield @pool
+          begin
+            return yield @pool
+          rescue Sequel::Rollback
+            # If we're not in a transaction we can't roll back, but no need to blow up.
+            Log.warn("Sequel::Rollback caught but we're not inside of a transaction")
+          end
         end
 
 
@@ -92,7 +97,7 @@ class DB
 
       rescue Sequel::DatabaseError => e
         if is_retriable_exception(e)
-          Log.info("Retrying transaction after retriable exception")
+          Log.info("Retrying transaction after retriable exception (#{e})")
           sleep 1
         else
           raise e
@@ -260,11 +265,16 @@ eof
   def self.increase_lock_version_or_fail(obj)
     updated_rows = obj.class.dataset.filter(:id => obj.id, :lock_version => obj.lock_version).
                        update(:lock_version => obj.lock_version + 1,
-                              :last_modified => Time.now)
+                              :system_mtime => Time.now)
 
     if updated_rows != 1
       raise Sequel::Plugins::OptimisticLocking::Error.new("Couldn't create version of: #{obj}")
     end
+  end
+
+
+  def self.supports_mvcc?
+    ![:derby, :h2].include?(@pool.database_type)
   end
 
 

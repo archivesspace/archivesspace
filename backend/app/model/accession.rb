@@ -15,6 +15,7 @@ class Accession < Sequel::Model(:accession)
   include CollectionManagements
   include Instances
   include UserDefineds
+  include Classifications
 
   agent_relator_enum("linked_agent_archival_record_relators")
 

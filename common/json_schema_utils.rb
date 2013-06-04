@@ -49,6 +49,14 @@ module JSONSchemaUtils
      },
 
      {
+       :failed_attribute => ['ArchivesSpaceType'],
+       :pattern => /The property '#(.*?)' was not a well-formed date/,
+       :do => ->(msgs, message, path, property) {
+         msgs[:errors][fragment_join(path)] = ["Not a valid date"]
+       }
+     },
+
+     {
        :failed_attribute => ['Pattern'],
        :pattern => /The property '#\/.*?' did not match the regex '(.*?)' in schema/,
        :do => ->(msgs, message, path, regexp) {
@@ -123,6 +131,14 @@ module JSONSchemaUtils
        :pattern => /Validation failed for '(.*?)': (.*?) in schema /,
        :do => ->(msgs, message, path, property, msg) {
          msgs[:errors][fragment_join(path, property)] = [msg]
+       }
+     },
+     
+     {
+       :failed_attribute => ['custom_validation'],
+       :pattern => /Warning generated for '(.*?)': (.*?) in schema /,
+       :do => ->(msgs, message, path, property, msg) {
+         msgs[:warnings][fragment_join(path, property)] = [msg]
        }
      },
 
@@ -286,7 +302,7 @@ module JSONSchemaUtils
 
 
   def self.is_blank?(obj)
-    obj.nil? || obj == ""
+    obj.nil? || obj == "" || obj == {}
   end
 
 

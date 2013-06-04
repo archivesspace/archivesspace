@@ -1,4 +1,5 @@
 require_relative '../lib/realtime_indexing'
+require 'date'
 
 module ASModel
   include JSONModel
@@ -69,7 +70,8 @@ module ASModel
 
       self.update(self.class.prepare_for_db(json.class, updated))
 
-      self[:last_modified_by] = self.class.current_username
+      self[:user_mtime] = Time.now
+      self[:last_modified_by] = RequestContext.get(:current_username)
 
       obj = self.save
 
@@ -154,7 +156,7 @@ module ASModel
           values["repo_id"] = active_repository
         end
 
-        values['created_by'] = current_username
+        values['created_by'] = RequestContext.get(:current_username)
 
         obj = self.create(prepare_for_db(json.class,
                                          json.to_hash.merge(values)))
@@ -172,19 +174,17 @@ module ASModel
       end
 
 
-      def current_username
-        RequestContext.get(:current_username)
-      end
-
-
       # (Potentially) notify the real-time indexer that an update is available.
       def fire_update(json, sequel_obj)
         if high_priority?
           sequel_obj.refresh
 
           # Manually set any DB hooked values
+          json["created_by"] = sequel_obj[:created_by]
+          json["last_modified_by"] = sequel_obj[:last_modified_by]
           json["create_time"] = sequel_obj[:create_time].getutc.iso8601
-          json["last_modified"] = sequel_obj[:last_modified].getutc.iso8601
+          json["system_mtime"] = sequel_obj[:system_mtime].getutc.iso8601
+          json["user_mtime"] = sequel_obj[:user_mtime].getutc.iso8601
 
           hash = json.to_hash
           uri = sequel_obj.uri
@@ -456,7 +456,10 @@ module ASModel
           json[linked_record[:json_property]] = (is_array ? records : records[0])
         end
 
-        json["last_modified"] = obj[:last_modified].getutc.iso8601 if obj[:last_modified]
+        json["created_by"] = obj[:created_by] if obj[:created_by]
+        json["last_modified_by"] = obj[:last_modified_by] if obj[:last_modified_by]
+        json["system_mtime"] = obj[:system_mtime].getutc.iso8601 if obj[:system_mtime]
+        json["user_mtime"] = obj[:user_mtime].getutc.iso8601 if obj[:user_mtime]
         json["create_time"] = obj[:create_time].getutc.iso8601 if obj[:create_time]
 
         json
@@ -482,7 +485,7 @@ module ASModel
       def update_mtime_for_ids(ids)
         now = Time.now
         ids.each_slice(50) do |subset|
-          self.dataset.filter(:id => subset).update(:last_modified => now)
+          self.dataset.filter(:id => subset).update(:system_mtime => now)
         end
       end
 
@@ -497,20 +500,26 @@ module ASModel
     # top-level records upon save.  Pure-nested records don't need refreshing,
     # so skip them.
     def _save_refresh
-      if self.class.has_jsonmodel? && self.class.my_jsonmodel.schema['uri']
+      if self.class.respond_to?(:has_jsonmodel?) && self.class.has_jsonmodel? && self.class.my_jsonmodel.schema['uri']
         _refresh(this.opts[:server] ? this : this.server(:default))
       end
     end
 
     def before_create
+      if RequestContext.get(:current_username)
+        self.created_by = self.last_modified_by = RequestContext.get(:current_username)
+      end
       self.create_time = Time.now
-      self.last_modified = Time.now
+      self.system_mtime = self.user_mtime = Time.now
       super
     end
 
 
     def before_update
-      self.last_modified = Time.now
+      if RequestContext.get(:current_username)
+        self.last_modified_by = RequestContext.get(:current_username)
+      end
+      self.system_mtime = Time.now
       super
     end
   end
@@ -529,6 +538,11 @@ module ASModel
           :description => "JSON booleans become DB integers",
           :json_to_db => ->(bool) { bool ? 1 : 0 },
           :db_to_json => ->(int) { int === 1 }
+        },
+        'date' => {
+          :description => "Date strings become dates",
+          :json_to_db => ->(s) { Date.parse(s) },
+          :db_to_json => ->(date) { date.strftime('%Y-%m-%d') }
         }
       }
 
@@ -679,7 +693,7 @@ module ASModel
         # repository.
         if ref && self.model_scope == :repository && uri.start_with?("/repositories/")
           if !uri.start_with?("/repositories/#{active_repository}/")
-            raise "Invalid URI reference for this repo: '#{uri}'"
+            raise ReferenceError.new("Invalid URI reference for this (#{active_repository}) repo: '#{uri}'")
           end
         end
 

@@ -4,9 +4,24 @@ class Permission < Sequel::Model(:permission)
 
   set_model_scope :global
 
+  @derived_permissions = []
+
+  def self.derived?(code)
+    @derived_permissions.include?(code)
+  end
+
 
   def self.define(code, description, opts = {})
+    if opts[:derived_permission]
+      # Derived permissions aren't actually stored in the database: we just add
+      # them to the user's list of permissions at query time.
+      @derived_permissions << code
+      return
+    end
+
     opts[:level] ||= "repository"
+
+    opts[:system] = (opts[:system] ? 1 : 0)
 
     permission = (Permission[:permission_code => code] or
                   Permission.create(opts.merge(:permission_code => code,

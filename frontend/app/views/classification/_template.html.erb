@@ -1,6 +1,6 @@
 <% define_template "classification" do |form, opts = {}|  %>
-  <section id="classification" class="subrecord-form">
-    <div id="classification-container" class="subrecord-form-container">
+  <div id="classification-container" class="subrecord-form-container">
+    <div class="subrecord-form-fields">
       <% if !opts[:readonly] %>
         <%= render :partial => "classifications/linker",
                    :locals => {
@@ -9,5 +9,5 @@
          %>
       <% end %>
     </div>
-  </section>
+  </div>
 <% end %>

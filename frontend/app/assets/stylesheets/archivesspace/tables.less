@@ -7,6 +7,10 @@ table {
     #gradient > .vertical(@navbarBackgroundHighlight, @navbarBackground);
     th {
       white-space: nowrap;
+
+      &.highlighted {
+        #gradient > .vertical(#f0f7fa, #dcf1fa);
+      }
     }
     .col {
       &.primary-type {
@@ -31,6 +35,12 @@ table {
   }
   dl {
     margin: 0;
+  }
+  td {
+    &.error {
+      background-color: @errorBackground !important;
+      color: @errorText;
+    }
   }
   .table-record-actions {
     .btn {
@@ -91,4 +101,15 @@ table.table-sortable {
 }
 .table-audit-cell {
   width: 100px;
+}
+
+table.table-spreadsheet {
+  width: 100%;
+  table-layout: fixed;
+
+  input[type="text"] {
+    width: 96%;
+    padding-left: 2%;
+    padding-right: 2%;
+  }
 }

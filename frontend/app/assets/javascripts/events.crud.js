@@ -1,6 +1,7 @@
 //= require agents.crud
 //= require dates.crud
 //= require subrecord.crud
+//= require form
 
 $(document).ready(function() {
   $('#event_chronotype_label_').on('change', function () {

@@ -9,7 +9,7 @@
     <fieldset>
        <%= form.label_and_textarea "title" %>
        <%= form.label_and_fourpartid %>
-       <%= form.label_and_date "accession_date", {:field_opts => {:value => (@accession.accession_date.blank? ? "" : Date.strptime(@accession.accession_date, "%Y-%m-%d"))}} %>
+       <%= form.label_and_date "accession_date" %>
        <%= form.label_and_textarea "content_description" %>
        <%= form.label_and_textarea "condition_description" %>
        <%= form.label_and_textarea "disposition" %>
@@ -43,9 +43,10 @@
 <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "instances", :custom_action_template => "instances/subrecord_form_action"} %>
 <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "deaccessions"} %>
 <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "collection_management", :cardinality => :zero_to_one} %>
+<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "classification", :cardinality => :zero_to_one} %>
 <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "user_defined", :cardinality => :zero_to_one} %>
 
 <div class="form-actions">            
-  <button type="submit" class="btn btn-primary"><%= I18n.t "actions.save_prefix" %> <%= I18n.t "accession._singular" %></button>
+  <button type="submit" class="btn btn-primary"><%= I18n.t("accession._frontend.action.save") %></button>
   <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
 </div>

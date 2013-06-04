@@ -98,7 +98,7 @@ def main
   java.lang.System.set_property("solr.data.dir", AppConfig[:solr_index_directory])
   java.lang.System.set_property("solr.solr.home", AppConfig[:solr_home_directory])
 
-  [:search_user_secret, :public_user_secret].each do |property|
+  [:search_user_secret, :public_user_secret, :staff_user_secret].each do |property|
     if !AppConfig.has_key?(property)
       java.lang.System.set_property("aspace.config.#{property}", SecureRandom.hex)
     end

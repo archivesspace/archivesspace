@@ -166,7 +166,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id, 'new-member'],(@user))
       $driver.find_element(:id, 'add-new-member').click
-      $driver.find_element(:css => 'input[type="submit"]').click
+      $driver.find_element(:css => 'button[type="submit"]').click
     end
 
 
@@ -181,7 +181,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id, 'new-member'],(@user))
       $driver.find_element(:id, 'add-new-member').click
-      $driver.find_element(:css => 'input[type="submit"]').click
+      $driver.find_element(:css => 'button[type="submit"]').click
     end
 
 
@@ -189,7 +189,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
       $driver.find_element(:link, "Manage Groups").click
       $driver.find_element(:link, "Create Group").click
-      $driver.find_element(:css => "form#new_group input[type='submit']").click
+      $driver.find_element(:css => "form#new_group button[type='submit']").click
       expect {
         $driver.find_element_with_text('//div[contains(@class, "error")]', /Group code - Property is required but was missing/)
       }.to_not raise_error
@@ -202,7 +202,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, 'group_group_code_'], "goo")
       $driver.clear_and_send_keys([:id, 'group_description_'], "Goo group to group goo")
       $driver.find_element(:id, "view_repository").click
-      $driver.find_element(:css => "form#new_group input[type='submit']").click
+      $driver.find_element(:css => "form#new_group button[type='submit']").click
 
 
       expect {
@@ -214,7 +214,7 @@ describe "ArchivesSpace user interface" do
     it "reports errors when attempting to update a Group with missing data" do
       $driver.find_element_with_text('//tr', /goo/).find_element(:link, "Edit").click
       $driver.clear_and_send_keys([:id, 'group_description_'], "")
-      $driver.find_element(:css => "form#new_group input[type='submit']").click
+      $driver.find_element(:css => "form#new_group button[type='submit']").click
       expect {
         $driver.find_element_with_text('//div[contains(@class, "error")]', /Description - Property is required but was missing/)
       }.to_not raise_error
@@ -225,7 +225,7 @@ describe "ArchivesSpace user interface" do
     it "can edit a Group" do
       $driver.find_element_with_text('//tr', /goo/).find_element(:link, "Edit").click
       $driver.clear_and_send_keys([:id, 'group_description_'], "Group to gather goo")
-      $driver.find_element(:css => "form#new_group input[type='submit']").click
+      $driver.find_element(:css => "form#new_group button[type='submit']").click
       expect {
         $driver.find_element_with_text('//tr', /Group to gather goo/)
       }.to_not raise_error
@@ -253,16 +253,6 @@ describe "ArchivesSpace user interface" do
     end
 
 
-    it "doesn't see the 'Create' menu in the first repository" do
-      # Wait until we're marked as logged in
-      $driver.find_element_with_text('//span', /#{@user}/)
-
-      select_repo(@can_view_repo)
-
-      $driver.ensure_no_such_element(:link, "Create")
-    end
-
-
     it "can select the second repository and find the create link" do
       select_repo(@can_manage_repo)
 
@@ -270,6 +260,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element_with_text('//span', /#{@can_manage_repo}/)
       $driver.find_element(:link, "Create")
     end
+
 
     it "can modify the user's groups for a repository via the Manage Access listing" do
       logout
@@ -346,6 +337,9 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:css => '#subject_external_documents_ .subrecord-form-heading .btn').click
 
+      $driver.find_element(:css => '#subject_terms_ .subrecord-form-remove').click
+      $driver.find_element(:css => '#subject_terms_ .confirm-removal').click
+
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
 
       # check messages
@@ -360,7 +354,6 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:link => 'Create').click
       $driver.find_element(:link => 'Subject').click
-      $driver.find_element(:css => '#subject_terms_ .subrecord-form-heading .btn').click
       $driver.clear_and_send_keys([:id, "subject_terms__0__term_"], "just a term really #{now}")
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
       assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("just a term really #{now} Subject") }
@@ -870,7 +863,6 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, "a.linker-create-btn").click
 
       $driver.find_element(:css, ".modal #subject_terms_ .subrecord-form-heading .btn").click
-      $driver.find_element(:css, ".modal #subject_terms_ .subrecord-form-heading .btn").click
 
       $driver.clear_and_send_keys([:id => "subject_terms__0__term_"], "#{@me}AccessionTermABC")
       $driver.clear_and_send_keys([:id => "subject_terms__1__term_"], "#{@me}AccessionTermDEF")
@@ -1337,7 +1329,6 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, "a.linker-create-btn").click
 
       $driver.find_element(:css, ".modal #subject_terms_ .subrecord-form-heading .btn").click
-      $driver.find_element(:css, ".modal #subject_terms_ .subrecord-form-heading .btn").click
 
       $driver.clear_and_send_keys([:id => "subject_terms__0__term_"], "#{$$}TestTerm123")
       $driver.clear_and_send_keys([:id => "subject_terms__1__term_"], "#{$$}FooTerm456")
@@ -1725,6 +1716,8 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "digital_object_title_"],(digital_object_title))
       $driver.clear_and_send_keys([:id, "digital_object_digital_object_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
 
+      $driver.find_element(:id => 'digital_object_digital_object_type_').select_option_with_text("Mixed Materials")
+
       $driver.find_element(:css => "section#digital_object_file_versions_ > h3 > .btn").click
 
       $driver.clear_and_send_keys([:id, "digital_object_file_versions__0__file_uri_"], "/uri/for/this/file/version")
@@ -1819,6 +1812,12 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element_with_text("//h2", /#{digital_object_title}/)
     end
+
+
+    it "applies i18n to the show view" do
+      $driver.find_element_with_text("//div", /Mixed Materials/) # not mixed_materials
+    end
+
   end
 
 
@@ -1961,7 +1960,7 @@ describe "ArchivesSpace user interface" do
       manna = $driver.find_element_with_text('//tr', /manna/)
       manna.find_element(:link, 'Delete').click
 
-      $driver.find_element(:css => "form#delete_enumeration input[type='submit']").click
+      $driver.find_element(:css => "form#delete_enumeration button[type='submit']").click
 
       $driver.find_element_with_text('//div', /Enumeration Value Deleted/)
     end
@@ -2137,5 +2136,157 @@ describe "ArchivesSpace user interface" do
       }
     end
   end
+
+
+  describe "Location batch" do
+
+    before(:all) do
+      login_as_archivist
+    end
+
+
+    after(:all) do
+      logout
+    end
+
+    it "displays error messages upon invalid batch" do
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Locations").click
+      $driver.find_element(:link, "Batch Locations").click
+
+      $driver.click_and_wait_until_gone(:css => "form#new_location_batch .btn-primary")
+
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /Building - Property is required but was missing/)
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /Coordinate Range 1 - Property is required but was missing/)
+    end
+
+    it "can preview the titles of locations that will be created" do
+      $driver.clear_and_send_keys([:id, "location_batch_building_"], "123 Awesome Street")
+      $driver.clear_and_send_keys([:id, "location_batch_coordinate_1_range__label_"], "Room")
+      $driver.clear_and_send_keys([:id, "location_batch_coordinate_1_range__start_"], "1A")
+      $driver.clear_and_send_keys([:id, "location_batch_coordinate_1_range__end_"], "1B")
+      $driver.clear_and_send_keys([:id, "location_batch_coordinate_2_range__label_"], "Shelf")
+      $driver.clear_and_send_keys([:id, "location_batch_coordinate_2_range__start_"], "1")
+      $driver.clear_and_send_keys([:id, "location_batch_coordinate_2_range__end_"], "4")
+
+      $driver.click_and_wait_until_gone(:css => "form#new_location_batch .btn.preview-locations")
+
+      modal = $driver.find_element(:id, "batchPreviewModal")
+      $driver.wait_for_ajax
+
+      $driver.find_element_with_text('//div[@id="batchPreviewModal"]//li', /123 Awesome Street \[Room: 1A, Shelf: 1\]/)
+      $driver.find_element_with_text('//div[@id="batchPreviewModal"]//li', /123 Awesome Street \[Room: 1A, Shelf: 2\]/)
+      $driver.find_element_with_text('//div[@id="batchPreviewModal"]//li', /123 Awesome Street \[Room: 1A, Shelf: 3\]/)
+      $driver.find_element_with_text('//div[@id="batchPreviewModal"]//li', /123 Awesome Street \[Room: 1A, Shelf: 4\]/)
+      $driver.find_element_with_text('//div[@id="batchPreviewModal"]//li', /123 Awesome Street \[Room: 1B, Shelf: 1\]/)
+      $driver.find_element_with_text('//div[@id="batchPreviewModal"]//li', /123 Awesome Street \[Room: 1B, Shelf: 2\]/)
+      $driver.find_element_with_text('//div[@id="batchPreviewModal"]//li', /123 Awesome Street \[Room: 1B, Shelf: 3\]/)
+      $driver.find_element_with_text('//div[@id="batchPreviewModal"]//li', /123 Awesome Street \[Room: 1B, Shelf: 4\]/)
+
+      $driver.click_and_wait_until_gone(:css, ".modal-footer button")
+    end
+
+    it "creates all the locations for the range" do
+      $driver.click_and_wait_until_gone(:css => "form#new_location_batch .btn-primary")
+
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /8 Locations Created/)
+
+      run_index_round
+      $driver.navigate.refresh
+
+      $driver.find_element_with_text('//td', /123 Awesome Street \[Room: 1A, Shelf: 1\]/)
+      $driver.find_element_with_text('//td', /123 Awesome Street \[Room: 1A, Shelf: 2\]/)
+      $driver.find_element_with_text('//td', /123 Awesome Street \[Room: 1A, Shelf: 3\]/)
+      $driver.find_element_with_text('//td', /123 Awesome Street \[Room: 1A, Shelf: 4\]/)
+      $driver.find_element_with_text('//td', /123 Awesome Street \[Room: 1B, Shelf: 1\]/)
+      $driver.find_element_with_text('//td', /123 Awesome Street \[Room: 1B, Shelf: 2\]/)
+      $driver.find_element_with_text('//td', /123 Awesome Street \[Room: 1B, Shelf: 3\]/)
+      $driver.find_element_with_text('//td', /123 Awesome Street \[Room: 1B, Shelf: 4\]/)
+    end
+
+  end
+
+
+  describe "Classifications" do
+
+    before(:all) do
+      login_as_admin
+    end
+
+
+    after(:all) do
+      logout
+    end
+
+
+    test_classification = "Classification #{Time.now.to_i}_#{$$}"
+
+    it "allows you to create a classification tree" do
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Classification").click
+
+      $driver.clear_and_send_keys([:id, 'classification_identifier_'], "10")
+      $driver.clear_and_send_keys([:id, 'classification_title_'], test_classification)
+
+      $driver.click_and_wait_until_gone(:css => "form#classification_form button[type='submit']")
+
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Classification.*created/i)
+    end
+
+
+    it "allows you to link a resource to a classification" do
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Resource").click
+
+      $driver.clear_and_send_keys([:id, "resource_title_"], "a resource")
+      $driver.complete_4part_id("resource_id_%d_")
+      $driver.find_element(:id, "resource_language_").select_option("eng")
+      $driver.find_element(:id, "resource_level_").select_option("collection")
+      $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
+
+      # Now add a classification
+      $driver.find_element(:css => '#resource_classification_ .subrecord-form-heading .btn').click
+
+      assert(5) {
+        run_index_round
+        $driver.clear_and_send_keys([:id, "token-input-resource_classification__ref_"],
+                                    test_classification)
+        $driver.find_element(:css, "li.token-input-dropdown-item2").click
+      }
+
+      $driver.click_and_wait_until_gone(:css => "form#resource_form button[type='submit']")
+      $driver.click_and_wait_until_gone(:link, "Close Record")
+
+      $driver.find_element(:css => 'div.token.classification').text.should match(/#{test_classification}/)
+    end
+
+
+    it "allows you to link an accession to a classification" do
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Accession").click
+
+      $driver.clear_and_send_keys([:id, "accession_title_"], "Tomorrow's Harvest")
+      $driver.complete_4part_id("accession_id_%d_")
+
+      $driver.clear_and_send_keys([:id, "accession_accession_date_"], "2013-06-11")
+
+      # Now add a classification
+      $driver.find_element(:css => '#accession_classification_ .subrecord-form-heading .btn').click
+
+      assert(5) {
+        run_index_round
+        $driver.clear_and_send_keys([:id, "token-input-accession_classification__ref_"],
+                                    test_classification)
+        $driver.find_element(:css, "li.token-input-dropdown-item2").click
+      }
+
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
+
+      $driver.find_element(:css => 'div.token.classification').text.should match(/#{test_classification}/)
+    end
+
+
+  end
+
 
 end

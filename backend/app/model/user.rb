@@ -28,10 +28,9 @@ class User < Sequel::Model(:user)
       opts['agent_record_id'] = agent_obj.id
     end
 
-    obj = super(json, opts)
-
-    obj
+    super(json, opts)
   end
+
 
   def self.sequel_to_jsonmodel(obj, opts = {})
     json = super
@@ -41,6 +40,11 @@ class User < Sequel::Model(:user)
     end
 
     json
+  end
+
+
+  def self.broadcast_changes
+    Notifications.notify("REFRESH_ACLS")
   end
 
 
@@ -59,10 +63,15 @@ class User < Sequel::Model(:user)
   end
 
 
+  def self.STAFF_USERNAME
+    AppConfig[:staff_username]
+  end
+
+
   def self.unlisted_user_ids
     @@unlisted_user_ids if not @@unlisted_user_ids.nil?
 
-    @@unlisted_user_ids = Array(User[:username => [User.SEARCH_USERNAME, User.PUBLIC_USERNAME]]).collect {|user| user.id}
+    @@unlisted_user_ids = Array(User[:username => [User.SEARCH_USERNAME, User.PUBLIC_USERNAME, User.STAFF_USERNAME]]).collect {|user| user.id}
 
     @@unlisted_user_ids
   end
@@ -86,8 +95,36 @@ class User < Sequel::Model(:user)
   end
 
 
+  def derived_permissions
+    derived = {
+      'update_archival_record' => ['update_subject_record',
+                                   'update_agent_record',
+                                   'update_vocabulary_record'],
+      'delete_archival_record' => ['delete_subject_record',
+                                   'delete_agent_record',
+                                   'delete_vocabulary_record']
+    }
+
+    actual_permissions =
+      self.class.db[:group].
+           join(:group_user, :group_id => :id).
+           join(:group_permission, :group_id => :group_id).
+           join(:permission, :id => :permission_id).
+           filter(:user_id => self.id,
+                  :permission_code => derived.keys).
+           select(:permission_code).map {|row| row[:permission_code]}
+
+
+    actual_permissions.map {|p| derived[p]}.flatten
+  end
+
+
   # True if a user has access to perform 'permission' in 'repo_id'
   def can?(permission_code, opts = {})
+    if derived_permissions.include?(permission_code.to_s)
+      return true
+    end
+
     permission = Permission[:permission_code => permission_code.to_s]
     global_repo = Repository[:repo_code => Group.GLOBAL]
 
@@ -111,6 +148,9 @@ class User < Sequel::Model(:user)
   def permissions
     result = {}
 
+    derived = derived_permissions
+
+
     # Crikey...
     ds = self.class.db[:group].
       join(:group_user, :group_id => :id).
@@ -123,7 +163,7 @@ class User < Sequel::Model(:user)
 
     ds.each do |row|
       repository_uri = JSONModel(:repository).uri_for(row[:repo_id])
-      result[repository_uri] ||= []
+      result[repository_uri] ||= derived.clone
       result[repository_uri] << row[:permission_code]
     end
 
@@ -141,6 +181,8 @@ class User < Sequel::Model(:user)
     Array(groups).each do |group|
       group.add_user(self)
     end
+
+    self.class.broadcast_changes
   end
 
 

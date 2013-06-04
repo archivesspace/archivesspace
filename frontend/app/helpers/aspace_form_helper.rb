@@ -137,6 +137,7 @@ module AspaceFormHelper
 
 
     def push(name, values_from = {})
+      path(name) # populate the i18n mapping
       @context.push([name, values_from])
       yield(self)
       @context.pop
@@ -185,8 +186,7 @@ module AspaceFormHelper
     def label_and_date(name, opts = {})
       field_opts = (opts[:field_opts] || {}).merge({
         :class => "date-field",
-        :placeholder => "YYYY-MM-DD",
-        :"data-date-format" => "yyyy-mm-dd",
+        :"data-format" => "yyyy-mm-dd",
         :"data-date" => Date.today.strftime('%Y-%m-%d')
       })
       label_with_field(name, textfield(name, obj[name], field_opts), opts)
@@ -657,7 +657,7 @@ module AspaceFormHelper
     s
   end
 
-  PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW = ["jsonmodel_type", "lock_version", "_resolved", "uri", "ref", "create_time", "last_modified"]
+  PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW = ["jsonmodel_type", "lock_version", "_resolved", "uri", "ref", "create_time", "system_mtime", "user_mtime", "created_by", "last_modified_by", "sort_name_auto_generate"]
 
   def read_only_view(hash, opts = {})
     jsonmodel_type = hash["jsonmodel_type"]
@@ -691,13 +691,26 @@ module AspaceFormHelper
 
     end
 
-  html << "</div>"
+    html << display_audit_info(hash, :format => 'wide')
+    html << "</div>"
 
     html.html_safe
   end
 
   def preserve_newlines(string)
     string.gsub(/\n/, '<br>')
+  end
+
+
+
+  def update_monitor_params(record)
+    {
+      :"data-update-monitor" => true,
+      :"data-update-monitor-url" => url_for(:controller => :update_monitor, :action => :poll),
+      :"data-update-monitor-record-uri" => record.uri,
+      :"data-update-monitor-record-is-stale" => !!@record_is_stale,
+      :"data-update-monitor-lock_version" => record.lock_version
+    }
   end
 
 end

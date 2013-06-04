@@ -16,7 +16,10 @@ class Solr
   end
 
   def self.search(query, page, page_size, repo_id,
-                  record_types = nil, show_suppressed = false, show_published_only = false,
+                  record_types = nil,
+                  show_suppressed = false,
+                  show_published_only = false,
+                  show_excluded_docs = false,
                   excluded_ids = [], filter_terms = [],  extra_solr_params = {})
     url = solr_url
 
@@ -46,6 +49,10 @@ class Solr
 
     if !show_suppressed
       opts << [:fq, "suppressed:false"]
+    end
+
+    if !show_excluded_docs
+      opts << [:fq, "-exclude_by_default:true"]
     end
 
     if show_published_only

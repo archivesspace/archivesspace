@@ -5,16 +5,9 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/repositories/:repo_id/batch_imports')
     .description("Import a batch of records")
     .params(["batch_import", :body_stream, "The batch of records"],
-            ["repo_id", :repo_id],
-            ["use_transaction", String,
-             ("Specifies whether to perform the import within a database transaction. " +
-              "Default is database-dependent: MySQL uses a transaction, but the demo DB doesn't. " +
-              "You can force the demo DB to use a transaction by setting this parameter to 'true', but " +
-              "note that the system may become unresponsive while the import is running."),
-             :validation => ["Must be one of 'true', 'false' or 'auto'",
-                             ->(v){ ['true', 'false', 'auto'].include?(v) }],
-             :default => 'auto'])
+            ["repo_id", :repo_id])
     .request_context(:create_enums => true)
+    .use_transaction(false)
     .permissions([:update_archival_record])
     .returns([200, :created],
              [400, :error],
@@ -43,55 +36,29 @@ class ArchivesSpaceService < Sinatra::Base
 
     live_updates = ProgressTicker.new(:frequency_seconds => 1) do |job_monitor|
 
-      File.open(env['batch_import_file']) do |stream|
-        begin
-          batch = StreamingImport.new(stream, job_monitor)
+      # Wrap the import in a transaction if the DB supports MVCC
+      DB.open(DB.supports_mvcc?) do
+        File.open(env['batch_import_file']) do |stream|
+          begin
+            batch = StreamingImport.new(stream, job_monitor)
 
-          mapping = batch.process
-          job_monitor.results = {:saved => Hash[mapping.map {|logical, real_uri|
-                          [logical, [real_uri, JSONModel.parse_reference(real_uri)[:id]]]}]}
-        rescue JSONModel::ValidationException => e
-          job_monitor.results = {:errors => [e]}                   
+            mapping = batch.process
+            job_monitor.results = {:saved => Hash[mapping.map {|logical, real_uri|
+                                                    [logical, [real_uri, JSONModel.parse_reference(real_uri)[:id]]]}]}
+          rescue JSONModel::ValidationException, ImportException, Sequel::ValidationFailed, Sequel::DatabaseError, ReferenceError => e
+            job_monitor.results = {:errors => [e]}
 
-        rescue ImportException => e
-          job_monitor.results = {:errors => [e]}
-          
-        rescue Sequel::ValidationFailed => e
-          job_monitor.results = {:errors => [e]}
-          
-        rescue Sequel::DatabaseError => e
-          job_monitor.results = {:errors => [e]}
-
-        ensure
-          job_monitor.results = {:errors => ["Server error"]} unless job_monitor.results?
-          job_monitor.finish!
+            # Roll back the transaction (if there is one)
+            raise Sequel::Rollback
+          ensure
+            job_monitor.results = {:errors => ["Server error"]} unless job_monitor.results?
+            job_monitor.finish!
+          end
         end
       end
-       
+
       File.unlink(env['batch_import_file'])
     end
-
-
-    # live_updates = ProgressTicker.new(:frequency_seconds => 1) do |job_monitor|
-    # 
-    #   begin
-    #     batch = StreamingImport.new(stream, job_monitor)
-    #     
-    #     mapping = batch.process
-    #     job_monitor.results = {:saved => Hash[mapping.map {|logical, real_uri|
-    #                      [logical, [real_uri, JSONModel.parse_reference(real_uri)[:id]]]}]}
-    #   rescue JSONModel::ValidationException => e
-    #     job_monitor.results = {:errors => [e]}                   
-    #   
-    #   rescue ImportException => e
-    #     job_monitor.results = {:errors => [e]}
-    #   rescue Sequel::ValidationFailed => e
-    #     job_monitor.results = {:errors => [e]}
-    #   ensure
-    #     job_monitor.results = {:errors => ["Server error"]} unless job_monitor.results?
-    #     job_monitor.finish!
-    #   end
-    # end
 
 
     [200, {"Content-Type" => "text/plain"}, live_updates]

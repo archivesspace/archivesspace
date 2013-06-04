@@ -68,7 +68,7 @@ $(function() {
       // show the sub record bits
       return;
     }
-    $(".nav-list-submenu").empty();
+    $(".nav-list-submenu").remove();
     $("#archivesSpaceSidebar .nav-list > li").each(function() {
       var $nav = $(this);
       var $link = $("a", $nav);
@@ -159,9 +159,14 @@ $(function() {
   var initDateFields = function(scope) {
     scope = scope || $(document.body);
     $(".date-field:not(.initialised)", scope).each(function() {
-      $(this).addClass("initialised");
-      $(this).datepicker({
-        autoclose: true
+      var $dateInput = $(this);
+      $dateInput.wrap("<div class='input-append'></div>");
+      $dateInput.addClass("initialised");
+      var $btn = $("<button type='button' class='btn'><span class='icon-calendar'></span></button>");
+      $dateInput.after($btn);
+      $btn.datepicker($dateInput.data()).on("changeDate", function() {
+          $dateInput.val($btn.data("date"));
+          $btn.datepicker("hide");
       });
     });
   };
@@ -323,7 +328,7 @@ AS.encodeForAttribute = function(string) {
   return string.replace(/"/g, "&quot;");
 };
 
-AS.openQuickModal = function(title, message, messageClass) {
+AS.openQuickModal = function(title, message) {
   AS.openCustomModal("quickModal", title, AS.renderTemplate("modal_quick_template", {message: message}));
 };
 
@@ -500,7 +505,7 @@ AS.initAddAsYouGoActions = function($form, $list) {
       $a.click(function(e) {
         e.preventDefault();
 
-        $btn.triggerHandler("click");
+        $btn.trigger("click");
       });
       $asYouGo.append($a);
     });
@@ -596,7 +601,7 @@ AS.initSubRecordSorting = function($list) {
     });
 
     $list.off("sortupdate").on("sortupdate", function() {
-      $("#object_container form").triggerHandler("formchanged.aspace");
+      $("form.aspace-record-form").triggerHandler("formchanged.aspace");
     });
   }
 }

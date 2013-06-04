@@ -33,7 +33,7 @@ class StreamingJsonReader
         rescue org.codehaus.jackson.JsonParseException
           # Skip over the pesky commas
         end
-      end 
+      end
     # rescue
     #   raise JSON::ParserError.new($!)
 
@@ -52,13 +52,13 @@ class StreamingImport
   def initialize(stream, ticker)
 
     raise StandardError.new("Nothing to stream") unless stream
-    
+
     @ticker = ticker
-    
+
     with_status("Reading JSON records") do
-      
+
       @ticker.tick_estimate = 1000 # this is totally made up, just want to show something
-    
+
       @tempfile = Tempfile.new('import_stream')
 
       begin
@@ -71,16 +71,15 @@ class StreamingImport
       end
 
     end
-    
+
     @jstream = StreamingJsonReader.new(@tempfile.path)
-    
+
     with_status("Validating records and checking links") do
       @logical_urls = load_logical_urls
-      Log.debug("Logical URLS #{@logical_urls.inspect}")
     end
-    
+
     with_status("Evaluating record relationships") do
-    
+
       @dependencies = load_dependencies
     end
 
@@ -94,7 +93,7 @@ class StreamingImport
 
     while true
       round += 1
-      
+
       finished = true
       progressed = false
 
@@ -137,8 +136,8 @@ class StreamingImport
 
       cleanup
     end
-    
-    @logical_urls    
+
+    @logical_urls
   end
 
 
@@ -146,21 +145,21 @@ class StreamingImport
 
   def load_logical_urls
     logical_urls = {}
-    
+
     @ticker.tick_estimate = 20000; # made up
 
     @jstream.each(true) do |rec|
-      
+
       if !rec['uri']
-        raise ImportException.new(:invalid_object => to_jsonmodel(rec, false), 
+        raise ImportException.new(:invalid_object => to_jsonmodel(rec, false),
                                   :error => "Missing the temporary uri (required to set record relationships)")
       end
-      
+
       logical_urls[rec['uri']] = nil
 
       # Take the opportunity to validate the record too
       to_jsonmodel(rewrite(rec, {}))
-      
+
       @ticker.tick
     end
 
@@ -172,9 +171,10 @@ class StreamingImport
     dependencies = {}
 
     @ticker.tick_estimate = @jstream.count
-    
+
     @jstream.each do |rec|
-      dependencies[rec['uri']] = extract_refs(rec, @logical_urls) - [rec['uri']]
+      dependencies[rec['uri']] = extract_logical_urls(rec, @logical_urls) - [rec['uri']]
+      check_for_invalid_external_references(rec, @logical_urls)
       @ticker.tick
     end
 
@@ -229,7 +229,7 @@ class StreamingImport
       missing_dependencies = @dependencies[uri].reject {|d| @logical_urls[d]}
 
       rec.keys.each do |k|
-        if !extract_refs(rec[k], missing_dependencies).empty?
+        if !extract_logical_urls(rec[k], missing_dependencies).empty?
           @limbs_for_reattaching[uri] ||= []
           @limbs_for_reattaching[uri] << [k, rec[k]]
           rec.delete(k)
@@ -273,16 +273,33 @@ class StreamingImport
   end
 
 
-  # A ref is any string that appears in our working set of logical_urls
-  def extract_refs(record, logical_urls)
+  # If 'record' contains references to records outside of the current
+  # repository, blow up.
+  def check_for_invalid_external_references(record, logical_urls)
     if record.respond_to?(:to_array)
-      record.map {|e| extract_refs(e, logical_urls)}.flatten(1)
+      record.each {|e| check_for_invalid_external_references(e, logical_urls)}
+    elsif record.respond_to?(:each)
+      record.each do |k, v|
+        if k == 'ref' && !logical_urls.has_key?(v)
+          URIResolver.ensure_reference_is_valid(v, RequestContext.get(:repo_id))
+        elsif k != '_resolved'
+          check_for_invalid_external_references(v, logical_urls)
+        end
+      end
+    end
+  end
+
+
+  # A ref is any string that appears in our working set of logical_urls
+  def extract_logical_urls(record, logical_urls)
+    if record.respond_to?(:to_array)
+      record.map {|e| extract_logical_urls(e, logical_urls)}.flatten(1)
     elsif record.respond_to?(:each)
       refs = []
 
       record.each do |k, v|
         if k != '_resolved'
-          refs += extract_refs(v, logical_urls)
+          refs += extract_logical_urls(v, logical_urls)
         end
       end
 
@@ -332,22 +349,22 @@ class StreamingImport
       @tempfile.unlink
     end
   end
-  
-  
+
+
   def with_status(stat, &block)
     @status_id ||= 0
     @status_id += 1
-    
+
     status = {:id => @status_id, :label => stat}
-    
+
     @ticker.status_update(:started, status)
     result = block.call
     @ticker.status_update(:done, status)
-    
+
     result
   end
 
-  
+
   def title_or_fallback(record)
     record['title'] ? record['title'] : record['jsonmodel_type']
   end

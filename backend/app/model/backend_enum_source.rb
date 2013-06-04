@@ -87,7 +87,7 @@ class BackendEnumSource
 
     if !result
       # skip the cache
-      self.cache_entry_for(enum_name, true)[:value_to_id_map][value]
+      result = self.cache_entry_for(enum_name, true)[:value_to_id_map][value]
     end
 
     result

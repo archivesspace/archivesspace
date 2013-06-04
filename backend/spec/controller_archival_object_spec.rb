@@ -278,4 +278,27 @@ describe 'Archival Object controller' do
     children[1]["resource"]["ref"].should eq(resource.uri)
   end
 
+  it "lets you create an archival object with an instance with a container with a location (and the location is resolved)" do
+
+    # create the record with all the instance/container etc
+    location = create(:json_location, :temporary => generate(:temporary_location_type))
+    status = 'current'
+
+    archival_object = create(:json_archival_object, {
+      :instances => [build(:json_instance, {
+        :container => build(:json_container, {
+          :container_locations => [{'ref' => location.uri,
+                                    'status' => status,
+                                    'start_date' => generate(:yyyy_mm_dd),
+                                    'end_date' => generate(:yyyy_mm_dd)}]
+        })
+      })]
+    })
+
+    obj = JSONModel(:archival_object).find(archival_object.id, "resolve[]" => "container_locations")
+
+    obj.instances[0]["container"]["container_locations"][0]["status"].should eq(status)
+    obj.instances[0]["container"]["container_locations"][0]["_resolved"]["building"].should eq(location.building)
+  end
+
 end

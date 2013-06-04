@@ -95,7 +95,7 @@ en:
     _singular: Digital Object Component
     _plural: Digital Object Components
 
-  location:
+  location: &location_attributes
     title: Title
     temporary: Temporary
     building: Building
@@ -117,12 +117,26 @@ en:
     _singular: Location
     _plural: Locations
 
+  location_batch:
+    <<: *location_attributes
+    label: Label
+    prefix: Prefix
+    suffix: Suffix
+    coordinate_1_range: Coordinate Range 1
+    coordinate_2_range: Coordinate Range 2
+    coordinate_3_range: Coordinate Range 3
+    start: Range Start
+    end: Range End
+    _singular: Batch Locations
+    _plural: Batch Locations
+
   container_location:
     status: Status
     start_date: Start Date
     end_date: End Date
     note: Note
     location: Location
+    ref: Location
     _singular: Location
     _plural: Locations
 
@@ -647,6 +661,7 @@ en:
   note_outline:
     <<: *note_attributes
     option: Outline
+    levels: Levels
 
   container: &container_attributes
     type_1: Container 1 Type 
@@ -667,6 +682,7 @@ en:
     type_3_tooltip: *container_type_tooltip
     indicator_3: Indicator 3
     indicator_3_tooltip: *container_indicator_tooltip
+    container_locations: Locations
     _plural: Containers
     _singular: Container
 
@@ -907,12 +923,14 @@ en:
         <li>unknown <em>(for events)</em></li>
         </ul>
     begin: Begin
+    begin_inline_help: e.g. YYYY, YYYY-MM, or YYYY-MM-DD
     begin_tooltip: |
         <p>A normalized date (in the form YYYY, YYYY-MM, or YYYY-MM-DD) representing a single date or the first date in a date range.</p>
         <p>See DACS 2.4.7-2.4.16</p>
         <p>A.D. years are expressed with four digits.</p>
         <p>B.C. years are expressed as a negative number, e.g., -214 for 214 B.C.</p>
     end: End
+    end_inline_help: e.g. YYYY, YYYY-MM, or YYYY-MM-DD
     end_tooltip: |
         <p>A normalized date (in the form YYYY, YYYY-MM, or YYYY-MM-DD) representing the second date in a date range.</p>
         <p>See DACS 2.4.7-2.4.16</p>
@@ -945,12 +963,14 @@ en:
   accession:
     <<: *section_tooltips
     accession_date: Accession Date
+    accession_date_inline_help: e.g. YYYY-MM-DD
     accession_date_tooltip: |
         <p>REQUIRED FIELD: The date the accession took place. It is not 
         necessarily the same date as when the record is created.</p>
     accession_id: Identifier
     accession_id_tooltip: |
         <p>The internal database number for a specific accession record.</p>
+    identifier: Identifier
     id_0: Identifier
     id_0_tooltip: |
         <p>REQUIRED FIELD:  The unique identifier for an accession within a
@@ -1183,6 +1203,8 @@ en:
       suppress_archival_record: suppress the major record types in this repository
       delete_archival_record: delete the major record types in this repository
       delete_event_record: delete event records in this repository
+      update_classification_record: create/update classifications and classification terms
+      delete_classification_record: delete classifications and classification terms
     _singular: Group
     _plural: Groups
 
@@ -1492,8 +1514,11 @@ en:
     text_4: Text 4
     text_5: Text 5
     date_1: Date 1
+    date_1_inline_help: e.g. YYYY-MM-DD
     date_2: Date 2
+    date_2_inline_help: e.g. YYYY-MM-DD
     date_3: Date 3
+    date_3_inline_help: e.g. YYYY-MM-DD
     _singular: User Defined
     _plural: User Defined
 

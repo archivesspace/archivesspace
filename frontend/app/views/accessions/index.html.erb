@@ -1,5 +1,9 @@
 <%= setup_context(:title => I18n.t("accession._plural")) %>
 
+<%
+   add_column(I18n.t("accession.identifier"), proc {|record| record['identifier']}, :sortable => true, :sort_by => "identifier")
+%>
+
 <div class="row-fluid">
   <div class="span3">
       <%= render :partial => "search/filter" %>
@@ -10,7 +14,7 @@
         <div class="span12">
           <div class="record-toolbar">
             <div class="btn-group pull-right">
-              <%= link_to "Create Accession", {:controller => :accessions, :action => :new}, :class => "btn btn-small" %>
+              <%= link_to I18n.t("accession._frontend.action.create"), {:controller => :accessions, :action => :new}, :class => "btn btn-small" %>
             </div>
           </div>
         </div>

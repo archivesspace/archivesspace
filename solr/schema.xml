@@ -69,6 +69,7 @@
 
    <!-- Accession properties required for facets -->
    <field name="accession_date_year" type="int" indexed="true" stored="true" multiValued="false" />
+   <field name="identifier" type="sort_string" indexed="true" stored="true" multiValued="false" />
 
    <!-- Archival Objects store the URI of the resource they belong to (if any) -->
    <field name="resource" type="string" indexed="true" stored="true" multiValued="false" />
@@ -101,8 +102,15 @@
    <!-- A JSON blob representing the tree_view -->
    <field name="tree_json" type="string" indexed="false" stored="true" multiValued="false" />
 
+   <!-- And for top-level records, the entire tree with all descendants -->
+   <field name="whole_tree_json" type="string" indexed="false" stored="true" multiValued="false" />
+
    <!-- A JSON blob representing the classification path -->
    <field name="classification_path" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Fields to allow view of linked records (for classifications/locations -->
+   <field name="classification_uri" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="location_uris" type="string" indexed="true" stored="true" multiValued="true" />
 
    <!-- Event properties required for facets -->
    <field name="event_type" type="string" indexed="true" stored="true" multiValued="false" />
@@ -126,8 +134,11 @@
    <field name="rules" type="string" indexed="true" stored="true" multiValued="false" />
 
    <!-- Audit fields -->
+   <field name="created_by" type="string" indexed="true" stored="true" multiValued="false"/>
+   <field name="last_modified_by" type="string" indexed="true" stored="true" multiValued="false"/>
    <field name="create_time" type="date" indexed="true" stored="true" multiValued="false"/>
-   <field name="last_modified" type="date" indexed="true" stored="true" multiValued="false"/>
+   <field name="system_mtime" type="date" indexed="true" stored="true" multiValued="false"/>
+   <field name="user_mtime" type="date" indexed="true" stored="true" multiValued="false"/>
 
 
    <!-- Dynamic fields for site-specific use -->

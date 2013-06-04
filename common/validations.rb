@@ -165,6 +165,32 @@ module JSONModel::Validations
   end
 
 
+  def self.check_container(hash)
+    errors = []
+    got_current = false
+
+    Array(hash["container_locations"]).each do |loc|
+      if loc["status"] == "current"
+        if got_current
+          errors << ["container_locations", "only one location can be current"]
+          break
+        else
+          got_current = true
+        end
+      end
+    end
+
+    errors
+  end
+
+
+  if JSONModel(:container)
+    JSONModel(:container).add_validation("check_container") do |hash|
+      check_container(hash)
+    end
+  end
+
+
   def self.check_instance(hash)
     errors = []
 
@@ -229,30 +255,25 @@ module JSONModel::Validations
   end
 
 
-  def self.check_resource(hash)
-    errors = []
+  if JSONModel(:resource)
+    JSONModel(:resource).add_validation("check_resource_otherlevel", :warning) do |hash|
+      check_otherlevel(hash)
+    end
+  end
+
+
+  def self.check_otherlevel(hash)
+    warnings = []
 
     if hash["level"] === "otherlevel"
-      errors << ["other_level", "is required"] if hash["other_level"].nil?
+      warnings << ["other_level", "is required"] if hash["other_level"].nil?
     end
-
-    errors
+    
+    warnings
   end
-
-
-  if JSONModel(:resource)
-    JSONModel(:resource).add_validation("check_resource") do |hash|
-      check_resource(hash)
-    end
-  end
-
 
   def self.check_archival_object(hash)
     errors = []
-
-    if hash["level"] === "otherlevel"
-      errors << ["other_level", "is required"] if hash["other_level"].nil?
-    end
 
     if (!hash.has_key?("dates") || hash["dates"].empty?) && (!hash.has_key?("title") || hash["title"].empty?)
       errors << ["dates", "one or more required (or enter a Title)"]
@@ -267,6 +288,11 @@ module JSONModel::Validations
     JSONModel(:archival_object).add_validation("check_archival_object") do |hash|
       check_archival_object(hash)
     end
+    
+    JSONModel(:archival_object).add_validation("check_archival_object_otherlevel", :warning) do |hash|
+      check_otherlevel(hash);
+    end
+    
   end
 
 

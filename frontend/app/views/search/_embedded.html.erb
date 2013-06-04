@@ -1,0 +1,19 @@
+<%
+  ajax_search_url = url_for({:controller => :search, :action => :do_search, :format => :js, :listing_only => true}.merge(params_for_search({"add_filter_term" => filter_term})))
+  html_search_url = url_for({:controller => :search, :action => :do_search}.merge(params_for_search({"add_filter_term" => filter_term})))
+
+  heading_text = "Linked Records" if heading_text.blank?
+%>
+
+<section id="search_embedded" class="subrecord-form-dummy">
+  <h3 class="subrecord-form-heading">
+    <%= heading_text %>
+    <%= link_to I18n.t("actions.view_search_results"), html_search_url, :class => "btn btn-small pull-right" %>
+  </h3>
+  <div class="subrecord-form-container">
+    <div class="subrecord-form-fields embedded-search" data-url="<%= ajax_search_url %>">
+      <div class="alert alert-info">Loading...</div>
+    </div>
+  </div>
+
+</section>

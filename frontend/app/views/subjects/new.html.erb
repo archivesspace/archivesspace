@@ -1,6 +1,6 @@
 <%= setup_context :object => @subject %>
 
-<%= form_for @subject, :as => "subject", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
+<%= form_for @subject, :as => "subject", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
   <%= form_context :subject, @subject do |form| %>
     <div class="row-fluid">
       <div class="span3">
@@ -14,7 +14,7 @@
           <%= render :partial => "subjects/form", :locals => {:form => form} %>
           <div class="form-actions">
             <div class="btn-group">
-              <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("subject._singular") %></button>
+              <button type="submit" class="btn btn-primary"><%= I18n.t("subject._frontend.action.save") %></button>
               <button type="submit" name="plus_one" class="btn btn-primary"><%= I18n.t("actions.save_plus_one") %></button>
             </div>
             <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>

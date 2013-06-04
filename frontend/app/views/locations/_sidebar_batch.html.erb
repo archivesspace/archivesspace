@@ -1,0 +1,19 @@
+<div id="archivesSpaceSidebar">
+  <ul class="nav nav-list as-nav-list">
+    <% if @exceptions %>
+      <li class="<% if @exceptions.has_key?(:errors)%>alert-error<% end %>">
+        <a href="#form_messages"><%= I18n.t("errors.sidebar_label") %>   <span class="icon-chevron-right"></span></a>
+      </li>
+    <% end %>
+
+    <li><a href="#location"><%= I18n.t("location_batch._frontend.section.location") %> <span class="icon-chevron-right"></span></a></li>
+    <li><a href="#ranges"><%= I18n.t("location_batch._frontend.section.ranges") %> <span class="icon-chevron-right"></span></a></li>
+
+    <li class="form-actions">
+      <div class="btn-group <% if ["new", "create"].include?(controller.action_name) %>btn-submit-group<% end %>">
+        <button type="submit" class="btn btn-primary" style="width: 70%;"><%= I18n.t("location_batch._frontend.action.create") %></button>
+        <button type="button" class="btn preview-locations" style="width: 30%;"><%= I18n.t("location_batch._frontend.action.preview_short") %></button>
+      </div>
+    </li>
+  </ul>
+</div>

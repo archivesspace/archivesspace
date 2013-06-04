@@ -26,12 +26,17 @@ class Enumeration < Sequel::Model(:enumeration)
   # 'source_id' and repoint them to 'destination_id'.
   def migrate(old_value, new_value)
     old_enum_value = self.enumeration_value.find {|val| val[:value] == old_value}
+
+    if old_enum_value.readonly != 0
+      raise AccessDeniedException.new("Can't transfer from a read-only enumeration value")
+    end
+
     new_enum_value = self.enumeration_value.find {|val| val[:value] == new_value}
 
     self.class.users_of(self.name).each do |definition, model|
       property_id = "#{definition[:property]}_id".intern
       model.filter(property_id => old_enum_value.id).update(property_id => new_enum_value.id,
-                                                            :last_modified => Time.now)
+                                                            :system_mtime => Time.now)
     end
 
     old_enum_value.delete
@@ -53,6 +58,14 @@ class Enumeration < Sequel::Model(:enumeration)
     added_values = incoming_values - existing_values
     removed_values = existing_values - incoming_values
 
+    # Make sure we're not being asked to remove read-only values.
+    if EnumerationValue.filter(:enumeration_id => obj.id,
+                               :value => removed_values,
+                               :readonly => 1).count > 0
+      raise AccessDeniedException.new("Can't remove read-only enumeration values")
+    end
+
+
     added_values.each do |value|
       obj.add_enumeration_value(:value => value)
     end
@@ -65,14 +78,14 @@ class Enumeration < Sequel::Model(:enumeration)
         raise ConflictException.new("Can't delete a value that's in use: #{value}")
       }
     end
-    
+
 
     broadcast_changes
 
     obj.refresh
-    
+
     existing_default = obj.default_value.nil? ? nil : obj.default_value[:value]
-    
+
     if opts[:default_value] != existing_default
       if opts[:default_value]
         new_default = EnumerationValue[:value => opts[:default_value]]
@@ -81,11 +94,11 @@ class Enumeration < Sequel::Model(:enumeration)
       else
         obj.default_value = nil
       end
-      
+
       obj.save
     end
-    
-    
+
+
     obj
   end
 
@@ -101,19 +114,31 @@ class Enumeration < Sequel::Model(:enumeration)
   def update_from_json(json, opts = {}, apply_linked_records = true)
     default_value = json['default_value']
     json['default_value'] = nil
-    
+
     self.class.apply_values(super, json, opts.merge({:default_value => default_value}))
   end
 
 
   def self.sequel_to_jsonmodel(obj, opts = {})
     json = super
-    json['values'] = obj.enumeration_value.map {|val| val[:value]}
+
+    values = obj.enumeration_value.map {|enum_value|
+      {
+        :value => enum_value[:value],
+        :readonly => enum_value[:readonly]
+      }
+    }
+
+    json['values'] = values.map {|v| v[:value]}
+    json['readonly_values'] = values.map {|v| v[:value] if (v[:readonly] != 0)}.compact
+
     if obj.default_value
       json['default_value'] = EnumerationValue[:id => obj.default_value][:value]
     end
+
     json
   end
+
 
 
   def self.broadcast_changes

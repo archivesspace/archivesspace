@@ -163,11 +163,20 @@ section {
 .icon-subject {background-position: 0 -48px;}
 .icon-repository {background-position: 0 -144px;}
 
+
 .results-list {
   clear:both;
   border-top: 1px solid #EEE;
   margin: 0 0 10px;
   list-style: none;
+
+  border-left: 1px solid #EEE;
+  padding-left: 5px;
+
+  li.result > .results-list {
+    margin-left: 15px;
+  }
+
 
   .result {
     h3, h4 {
@@ -191,7 +200,16 @@ section {
     &:last-child {
       border-color: #EEE;
     }
+
+    &.striped {
+      background-color: #F9F9F9;
+    }
+
+    &.unstriped {
+      background-color: #FFF;
+    }
   }
+
 }
 
 /* Form sidebar navigation */

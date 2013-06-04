@@ -28,6 +28,10 @@ class Group < Sequel::Model(:group)
     'publicanonymous'
   end
 
+  def self.STAFF_GROUP_CODE
+    'staffsystem'
+  end
+
 
   def before_save
     super
@@ -64,6 +68,9 @@ class Group < Sequel::Model(:group)
   def self.set_permissions(obj, json)
     obj.remove_all_permission
     (json.grants_permissions or []).each do |permission_code|
+
+      next if Permission.derived?(permission_code)
+
       permission = Permission[:permission_code => permission_code]
 
       if permission.nil?

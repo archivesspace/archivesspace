@@ -1,6 +1,6 @@
 <%= setup_context :title => I18n.t("import.#{@importer_key}_title") %>
 
-<%= form_tag '/import/upload', :multipart => true, :class => 'form-horizontal', :id => "import" do %>
+<%= form_tag '/import/upload', :multipart => true, :class => 'form-horizontal aspace-record-form', :id => "import" do %>
   <div class="row-fluid">
     <div class="span12 record-pane">
       <h2><%= @title %></h2>
@@ -21,7 +21,7 @@
       
       
       <div id="import-index" class="content-pane">
-        <%= form_tag '/import/upload', :multipart => true, :class => 'form-horizontal', :id => "import" do %>
+        <%= form_tag '/import/upload', :multipart => true, :class => 'form-horizontal aspace-record-form', :id => "import" do %>
         <fieldset>
           <div class="control-group ">
             <%= label_tag :upload, I18n.t('import.file_select'), :class=>"control-label" %>

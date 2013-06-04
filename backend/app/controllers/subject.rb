@@ -5,7 +5,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Update a Subject")
     .params(["subject_id", Integer, "The subject ID"],
             ["subject", JSONModel(:subject), "The subject data to update", :body => true])
-    .nopermissionsyet
+    .permissions([:update_subject_record])
     .returns([200, :updated]) \
   do
     handle_update(Subject, :subject_id, :subject)
@@ -15,7 +15,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/subjects')
     .description("Create a Subject")
     .params(["subject", JSONModel(:subject), "The subject data to create", :body => true])
-    .nopermissionsyet
+    .permissions([:update_subject_record])
     .returns([200, :created]) \
   do
     handle_create(Subject, :subject)
@@ -26,7 +26,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get a list of Subjects")
     .params()
     .paginated(true)
-    .nopermissionsyet
+    .permissions([])
     .returns([200, "[(:subject)]"]) \
   do
     handle_listing(Subject, params)
@@ -36,7 +36,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/subjects/:subject_id')
     .description("Get a Subject by ID")
     .params(["subject_id", Integer, "The subject ID"])
-    .nopermissionsyet
+    .permissions([])
     .returns([200, "(:subject)"]) \
   do
     json_response(Subject.to_jsonmodel(params[:subject_id]))
@@ -46,7 +46,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.delete('/subjects/:subject_id')
     .description("Delete a Subject")
     .params(["subject_id", Integer, "The subject ID to delete"])
-    .nopermissionsyet
+    .permissions([:delete_subject_record])
     .returns([200, :deleted]) \
   do
     handle_delete(Subject, params[:subject_id])

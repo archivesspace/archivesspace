@@ -3,6 +3,7 @@ en:
     add: Add
     add_event: Add Event
     automate: Automatically generate
+    batch: Batch
     browse: Browse
     cancel: Cancel
     continue: Continue
@@ -56,6 +57,7 @@ en:
     publish: Publish
     publish_confirm_title: Publish?
     publish_confirm_message: "<p>Performing this action will publish this record, any sub-records (External Documents, Notes, etc) and all components in the hierarchy.</p>"
+    view_search_results: Go to Search Results
 
   states:
     auto_generated: System generates when saved
@@ -81,12 +83,10 @@ en:
     result_type: Record Type
     result_title: Title
     filtered_by: Filtered By
-    modified: Last Modified
-    created: Created
+    modified: Last Modified by
+    created: Created by
     text_placeholder: Filter by text
     clear_all: Clear All
-    created: Created
-    modified: Modified
     filter:
       query: Text
       subjects: Subject
@@ -106,13 +106,16 @@ en:
       outcome: Outcome
       event_type: Type
       first_term_type: Term Type (First)
+      classification_uri: Classification
+      location_uris: Location
+
   search_sorting:
     sort_by: "Sort by:"
     asc: Ascending
     desc: Descending
     relevance: Relevance
     title_sort: Title
-    last_modified: Modified
+    user_mtime: Modified
     primary_type: Record Type
     processing_priority: Priority
     processing_status: Status
@@ -123,6 +126,7 @@ en:
     rules: Rules
     outcome: Outcome
     event_type: Type
+    identifier: Identifier
 
   navbar:
     brand: ArchivesSpace
@@ -151,6 +155,10 @@ en:
     register_prefix: Need an account?
     list_reports: Reports
     global_admin: System
+
+  browser_support:
+    bronze: ArchivesSpace does not fully support this browser.  Please consider upgrading your browser to the latest versions of either Chrome, Firefox or Internet Explorer.
+    unknown: ArchivesSpace does not fully support this browser.  Please consider upgrading your browser to the latest versions of either Chrome, Firefox or Internet Explorer.
 
   welcome:
     heading: Welcome to ArchivesSpace
@@ -196,71 +204,11 @@ en:
       complete: Import Complete
 
   errors:
+    sidebar_label: Errors and Warnings
     error_403: Unable to Access Page
     error_403_message: "The page you've tried to access may no longer exist or you may not have permission to view it."
     error_404: Record Not Found
     error_404_message: "The record you've tried to access may no longer exist or you may not have permission to view it."
-
-  digital_object:
-    _frontend:
-      messages:
-        created: "Digital Object <strong>%{digital_object.title}</strong> Created"
-        updated: "Digital Object <strong>%{digital_object.title}</strong> Updated"
-        deleted: "Digital Object <strong>%{digital_object.title}</strong> Deleted"
-        published: "The Digital Object <strong>%{digital_object.title}</strong>, its subrecords and components have been published"
-      section:
-        basic_information: Basic Information
-      action:
-        add_child: Add Child
-
-  digital_object_component:
-    _frontend:
-      messages:
-        created_with_parent: Digital Object Component <strong>%{digital_object_component.title}</strong> created as child of <strong>%{parent.title}</strong> on Digital Object <strong>%{digital_object.title}</strong>
-        created: Digital Object Component <strong>%{digital_object_component.title}</strong> created on Digital Object <strong>%{digital_object.title}</strong>
-        updated_with_parent: Digital Object Component <strong>%{digital_object_component.title}</strong> updated
-        updated: Digital Object Component <strong>%{digital_object_component.title}</strong> updated
-        deleted: Digital Object Component <strong>%{digital_object_component.title}</strong> deleted
-      section:
-        basic_information: Basic Information
-      action:
-        add_child: Add Child
-        add_sibling: Add Sibling
-
-  location:
-    _frontend:
-      messages:
-        created: Location Created
-        updated: Location Saved
-      section:
-        basic_information: Basic Information
-      action:
-        add_child: Add Subcomponent
-        add_sibling: Add Sibling
-
-  event:
-    _frontend:
-      messages:
-        created: Event Created
-        updated: Event Saved
-        deleted: Event Deleted
-      section:
-        basic_information: Basic Information
-
-  related_agent:
-    _frontend:
-      messages:
-        select_a_type: "<em>Please select a Relationship Type</em>"
-
-  note:
-    _frontend:
-      messages:
-        select_a_note_type: "<em>Please select a Note Type</em>"
-
-  instance: &instance_attributes
-    _frontend:
-      messages:
-        select_a_type: Please select an Instance Type
 
   accession:
     _frontend:
@@ -273,6 +221,9 @@ en:
         deleted: Accession <strong>%{accession.title}</strong> deleted
       section:
         basic_information: Basic Information
+      action:
+        create: Create Accession
+        save: Save Accession
 
   agent: &agent_attributes
     _frontend:
@@ -284,6 +235,34 @@ en:
         basic_information: Basic Information
         name: Names
         contacts: Contact Details
+        search_embedded: Linked Records
+      action:
+        create: Create Agent
+
+  agent_contact:
+    _frontend:
+      action:
+        add: Add Contact
+
+  agent_corporate_entity:
+    _frontend:
+      action:
+        save: Save Corporate Entity
+
+  agent_family:
+    _frontend:
+      action:
+        save: Save Family
+
+  agent_person:
+    _frontend:
+      action:
+        save: Save Person
+
+  agent_software:
+    _frontend:
+      action:
+        save: Save Software
 
   archival_object:
     _frontend:
@@ -301,69 +280,92 @@ en:
       action:
         add_child: Add Child
         add_sibling: Add Sibling
+        save: Save Archival Object
 
-  resource:
+  classification:
     _frontend:
       messages:
-        created: "Resource <strong>%{resource.title}</strong> created"
-        updated: "Resource <strong>%{resource.title}</strong> updated"
-        spawned: "A new Resource has been spawned from Accession <strong>%{accession.title}</strong>"
-        deleted: "Resource <strong>%{resource.title}</strong> deleted"
-        published: "The Resource <strong>%{resource.title}</strong>, its subrecords and components have been published"
+        created: "Classification <strong>%{classification.title}</strong> created"
+        updated: "Classification <strong>%{classification.title}</strong> updated"
+        deleted: "Classification <strong>%{classification.title}</strong> deleted"
       section:
         basic_information: Basic Information
-        finding_aid: Finding Aid Data
+        search_embedded: Linked Records
       action:
         add_child: Add Child
-        rapid_data_entry: Rapid Data Entry
+        create: Create Classification
+        save: Save Classification
+        add: Add Classification
 
-  repository:
+  classification_term:
     _frontend:
       messages:
-        created: Repository Created
-        updated: Repository Saved
-        deleted: Repository Deleted
-        selected: Repository is Currently Selected
-        selected_short: Selected
-        changed: The Repository <strong>%{repository.repo_code}</strong> is now active
-        create_first_repository: "To create your first Repository, click the <strong>System</strong> menu above and then <strong>Manage Repositories</strong>."
-        no_access_to_repositories: "<p>You do not have access to any Repositories.</p><p>Please contact your System Administrator to request access.</p>"
-      section:
-        all_fields: Repository Fields
-      action:
-        select: Select Repository
-
-  term:
-    _frontend:
-      messages:
-        preview_pending: Subject Preview
-
-  subject:
-    _frontend:
-      messages:
-        created: Subject Created
-        updated: Subject Saved
-        deleted: Subject Deleted
+        created: "Classification Term <strong>%{classification_term.title}</strong> created"
+        created_with_parent: "Classification Term <strong>%{classification_term.title}</strong> created"
+        updated: "Classification Term <strong>%{classification_term.title}</strong> updated"
+        deleted: "Classification Term <strong>%{classification_term.title}</strong> deleted"
       section:
         basic_information: Basic Information
-
-  user:
-    _frontend:
-      messages:
-        created: User Created
-        updated: User Saved
-        deleted: User Deleted
-        error_update: User not saved
-        error_create: User not created
-      section:
-        manage_access: Manage User Access
-        account: Account
-        edit_account: Edit Account
-        edit_account_submit: Update Account
+        search_embedded: Linked Records
+      action:
+        add_child: Add Child
+        add_sibling: Add Sibling
+        save: Save Classification Term
 
   collection_management: &collection_management_attributes
     _frontend:
       title_prefix: Processing
+      action:
+        add: Add Collection Management Fields
+
+  container:
+    _frontend:
+      action:
+        add: Add Container
+
+  container_location:
+    _frontend:
+      action:
+        add: Add Location
+
+  date:
+    _frontend:
+      action:
+        add: Add Date
+
+  deaccession:
+    _frontend:
+      action:
+        add: Add Deaccession
+
+  digital_object:
+    _frontend:
+      messages:
+        created: "Digital Object <strong>%{digital_object.title}</strong> Created"
+        updated: "Digital Object <strong>%{digital_object.title}</strong> Updated"
+        deleted: "Digital Object <strong>%{digital_object.title}</strong> Deleted"
+        published: "The Digital Object <strong>%{digital_object.title}</strong>, its subrecords and components have been published"
+      section:
+        basic_information: Basic Information
+      action:
+        add_child: Add Child
+        create: Create Digital Object
+        save: Save Digital Object
+
+  digital_object_component:
+    _frontend:
+      messages:
+        created_with_parent: Digital Object Component <strong>%{digital_object_component.title}</strong> created as child of <strong>%{parent.title}</strong> on Digital Object <strong>%{digital_object.title}</strong>
+        created: Digital Object Component <strong>%{digital_object_component.title}</strong> created on Digital Object <strong>%{digital_object.title}</strong>
+        updated_with_parent: Digital Object Component <strong>%{digital_object_component.title}</strong> updated
+        updated: Digital Object Component <strong>%{digital_object_component.title}</strong> updated
+        deleted: Digital Object Component <strong>%{digital_object_component.title}</strong> deleted
+      section:
+        basic_information: Basic Information
+      action:
+        add_child: Add Child
+        add_sibling: Add Sibling
+        save: Save Digital Object Component
 
   enumeration:
     _frontend:
@@ -382,6 +384,217 @@ en:
         name_selector_tooltip: |
             <p>The enumeration to edit.</p>
         no_name_provided: Select an Enumeration Name before creating a new value
+      action:
+        create_value: Create Value
+        delete_value: Delete Value
+        merge_value: Merge Value
+
+  event:
+    _frontend:
+      messages:
+        created: Event Created
+        updated: Event Saved
+        deleted: Event Deleted
+      section:
+        basic_information: Basic Information
+      action:
+        save: Save Event
+
+  extent:
+    _frontend:
+      action:
+        add: Add Extent
+
+  external_document:
+    _frontend:
+      action:
+        add: Add External Document
+
+  file_version:
+    _frontend:
+      action:
+        add: Add File Version
+
+  group:
+    _frontend:
+      action:
+        create: Create Group
+        save: Save Group
+
+  instance:
+    _frontend:
+      messages:
+        select_a_type: Please select an Instance Type
+      action:
+        add_digital_object: Add Digital Object
+        add: Add Instance
+
+  linked_agent:
+    _frontend:
+      action:
+        add: Add Agent Link
+
+  linked_record:
+    _frontend:
+      action:
+        add: Add Record Link
+
+  location:
+    _frontend:
+      messages:
+        created: Location Created
+        updated: Location Saved
+      section:
+        basic_information: Basic Information
+        search_embedded: Linked Records
+      action:
+        add_child: Add Subcomponent
+        add_sibling: Add Sibling
+        create: Create Location
+        batch: Batch Locations
+        save: Save Location
+
+  location_batch:
+    _frontend:
+      section:
+        location: Base Location
+        ranges: Coordinate Ranges
+      messages:
+        created: "<strong>%{number_created} Locations</strong> Created"
+        location_info: "Define the base values that will be applied to all locations generated from the <strong>Coordinate Ranges</strong> below."
+        ranges_info: "Please note, any Coordinate fields entered in the above <strong>Base Location</strong> will be replaced with the values generated by the ranges below."
+        number_to_create: Number of Locations
+        warning: Depending on the size of your ranges, this process may take a few minutes to complete.
+      action:
+        create: Create Locations
+        preview: Preview Locations
+        preview_short: Preview
+        creating: Batch In Progress...
+
+  name:
+    _frontend:
+      action:
+        add: Add Name
+
+  note:
+    _frontend:
+      messages:
+        select_a_note_type: "<em>Please select a Note Type</em>"
+      action:
+        add: Add Note
+        add_content_item: Add Content Item
+        add_note_orderedlist: Add Item
+        add_sub_note: Add Sub Note
+        add_note_index_item: Add Item
+        add_note_chronology_item: Add Item
+        add_event: Add Event
+        add_note_bibliography_item: Add Item
+        add_note_outline_level_item: Add Item
+        add_note_outline_level_level: Add Level
+        note_definedlist_item: Add Item
+
+  related_accession:
+    _frontend:
+      action:
+        add: Add Related Accession
+
+  related_agent:
+    _frontend:
+      messages:
+        select_a_type: "<em>Please select a Relationship Type</em>"
+      action:
+        add: Add Related Agent
+
+  related_resource:
+    _frontend:
+      action:
+        add: Add Related Resource
+
+  repository:
+    _frontend:
+      messages:
+        created: Repository Created
+        updated: Repository Saved
+        deleted: Repository Deleted
+        selected: Repository is Currently Selected
+        selected_short: Selected
+        changed: The Repository <strong>%{repository.repo_code}</strong> is now active
+        create_first_repository: "To create your first Repository, click the <strong>System</strong> menu above and then <strong>Manage Repositories</strong>."
+        no_access_to_repositories: "<p>You do not have access to any Repositories.</p><p>Please contact your System Administrator to request access.</p>"
+      section:
+        all_fields: Repository Fields
+      action:
+        select: Select Repository
+        create: Create Repository
+        save: Save Repository
+        create: Create Repository
+
+  resource:
+    _frontend:
+      messages:
+        created: "Resource <strong>%{resource.title}</strong> created"
+        updated: "Resource <strong>%{resource.title}</strong> updated"
+        spawned: "A new Resource has been spawned from Accession <strong>%{accession.title}</strong>"
+        deleted: "Resource <strong>%{resource.title}</strong> deleted"
+        published: "The Resource <strong>%{resource.title}</strong>, its subrecords and components have been published"
+      section:
+        basic_information: Basic Information
+        finding_aid: Finding Aid Data
+      action:
+        add_child: Add Child
+        rapid_data_entry: Rapid Data Entry
+        create: Create Resource
+        save: Save Resource
+
+  rights_statement:
+    _frontend:
+      action:
+        add: Add Rights Statement
+
+  term:
+    _frontend:
+      messages:
+        preview_pending: Subject Preview
+      action:
+        add: Add Subject Heading
+
+  subject:
+    _frontend:
+      messages:
+        created: Subject Created
+        updated: Subject Saved
+        deleted: Subject Deleted
+      section:
+        basic_information: Basic Information
+        terms: Subject Headings
+        search_embedded: Linked Records
+      action:
+        create: Create Subject
+        save: Save Subject
+        add: Add Subject
+
+  user:
+    _frontend:
+      messages:
+        created: User Created
+        updated: User Saved
+        deleted: User Deleted
+        error_update: User not saved
+        error_create: User not created
+      section:
+        manage_access: Manage User Access
+        account: Account
+        edit_account: Edit Account
+        edit_account_submit: Update Account
+      action:
+        create_account: Create Account
+        update_account: Update Account
+        create: Create User
+
+  user_defined:
+    _frontend:
+      action:
+        add: Add User Defined Fields
 
   rde:
     date_type: Date Type
@@ -411,26 +624,7 @@ en:
                   <div><small>Highlighted columns are sticky and will be replicated when new rows are added. Toggle 'sticky' by clicking the corresponding table heading.</small></div>
                   <div><small>Clicking 'Add Row' will copy values from the last row; The row's '+' button will copy values from the currently focused row.</small></div>
 
-  classification:
-    _frontend:
-      messages:
-        created: "Classification <strong>%{classification.title}</strong> created"
-        updated: "Classification <strong>%{classification.title}</strong> updated"
-        deleted: "Classification <strong>%{classification.title}</strong> deleted"
-      section:
-        basic_information: Basic Information
-      action:
-        add_child: Add Child
-
-  classification_term:
-    _frontend:
-      messages:
-        created: "Classification Term <strong>%{classification_term.title}</strong> created"
-        created_with_parent: "Classification Term <strong>%{classification_term.title}</strong> created"
-        updated: "Classification Term <strong>%{classification_term.title}</strong> updated"
-        deleted: "Classification Term <strong>%{classification_term.title}</strong> deleted"
-      section:
-        basic_information: Basic Information
-      action:
-        add_child: Add Child
-        add_sibling: Add Sibling
+  update_monitor:
+    save_failed: <strong>Failed to save your changes</strong>
+    stale_record: This record has been updated by another user. Please refresh the page to access the latest version.
+    other_editors: "This record is currently being edited by another user.  Please contact the following users to ensure no conflicts occur: <strong>%{user_ids}</strong>"

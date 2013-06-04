@@ -19,7 +19,10 @@ describe 'Enumerations model' do
       Integer :role_id
       Integer :lock_version, :default => 0
       DateTime :create_time
-      DateTime :last_modified
+      DateTime :system_mtime
+      DateTime :user_mtime
+      String :created_by
+      String :last_modified_by
     end
 
     @model = Class.new(Sequel::Model(:model_with_enums)) do
@@ -36,7 +39,7 @@ describe 'Enumerations model' do
   end
 
 
-  it "Automatically turns enumeration values into links to the enumeration table" do
+  it "automatically turns enumeration values into links to the enumeration table" do
     obj = @model.new(:role => 'battlemage')
 
     # As if by magic, the string 'battlemage' has been resolved to an ID linking
@@ -45,14 +48,14 @@ describe 'Enumerations model' do
   end
 
 
-  it "Throws an error if you link to an enumeration that doesn't really exist" do
+  it "throws an error if you link to an enumeration that doesn't really exist" do
     expect {
       @model.new(:role => 'penguin')
     }.to raise_error
   end
 
 
-  it "Allows all usages of one enumeration value to be migrated to another" do
+  it "allows all usages of one enumeration value to be migrated to another" do
     @enum.add_enumeration_value(:value => 'sea cow')
     obj = @model.create(:role => 'sea cow')
 
@@ -63,12 +66,44 @@ describe 'Enumerations model' do
   end
 
 
-  it "Refuses to migrate from one enumeration set to another" do
+  it "refuses to migrate from one enumeration set to another" do
     obj = @model.create(:role => 'battlemage')
 
     expect {
       Enumeration[:name => 'test_role_enum'].migrate('battlemage', 'mushroom')
     }.to raise_error
+  end
+
+
+  it "protects readonly enum values from being deleted or transferred" do
+    enum = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'readonly_role_enum_delete',
+                                                                          :values => ['readonly_apple']))
+
+
+    $testdb[:enumeration_value].filter(:value => 'readonly_apple').
+                                update(:readonly => 1)
+
+
+    expect {
+      Enumeration.apply_values(enum, {'values' => []})
+    }.to raise_error(AccessDeniedException)
+
+    expect {
+      enum.migrate('readonly_apple', 'anything')
+    }.to raise_error(AccessDeniedException)
+  end
+
+
+  it "returns readonly values" do
+    enum = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'readonly_role_enum_select',
+                                                                          :values => ['readonly_apple']))
+
+
+    $testdb[:enumeration_value].filter(:value => 'readonly_apple').
+                                update(:readonly => 1)
+
+
+    Enumeration.to_jsonmodel(enum)['readonly_values'].include?('readonly_apple').should be(true)
   end
 
 end

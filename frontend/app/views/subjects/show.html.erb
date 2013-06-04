@@ -19,6 +19,7 @@
           <%= form.label_and_textfield "authority_id" %>
           <%= form.label_and_select "source", form.possible_options_for("source", true) %>
           <%= form.label_and_textarea "scope_note" %>
+          <%= display_audit_info(@subject) %>
         </section>
       <% end %>
 
@@ -29,6 +30,8 @@
       <% if @subject.external_documents.length > 0 %>
         <%= render :partial => "external_documents/show", :locals => { :external_documents => @subject.external_documents, :section_id => "subject_external_documents_" } %>
       <% end %>
+
+      <%= render :partial => "search/embedded", :locals => {:record => @subject, :filter_term => {"subjects" => @subject.title}.to_json, :heading_text => I18n.t("subject._frontend.section.search_embedded")} %>
     <% end %>
    </div>
   </div>

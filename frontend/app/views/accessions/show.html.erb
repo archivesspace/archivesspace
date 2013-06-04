@@ -35,8 +35,8 @@
             <%= readonly.label_and_textarea "access_restrictions_note" %>
             <%= readonly.label_and_boolean "use_restrictions" %>
             <%= readonly.label_and_textarea "use_restrictions_note" %>
-            
-            
+
+            <%= display_audit_info(@accession) %>
           </section>
           <% end %>
 
@@ -81,6 +81,10 @@
          <% if @accession.collection_management %>
            <%= render :partial => "collection_management/show", :locals => { :collection_management => @accession.collection_management, :context => readonly, :section_id => "accession_collection_management_" } %>
          <% end %>
+
+        <% if @accession.classification %>
+          <%= render :partial => "classification/show", :locals => { :classification => @accession.classification, :context => readonly, :section_id => "resource_classification_" } %>
+        <% end %>
 
          <% if @accession.user_defined %>
            <%= render :partial => "user_defined/show", :locals => { :user_defined => @accession.user_defined, :context => readonly, :section_id => "accession_user_defined_" } %>

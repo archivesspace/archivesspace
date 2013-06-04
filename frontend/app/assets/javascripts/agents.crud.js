@@ -1,6 +1,7 @@
 //= require subrecord.crud
 //= require notes.crud
 //= require related_agents.crud
+//= require form
 
 $(function() {
 
