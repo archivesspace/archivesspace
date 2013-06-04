@@ -131,7 +131,7 @@ describe 'Subject model' do
     # A record that uses the victim subject
     acc = create(:json_accession, 'subjects' => [{'ref' => victim_subject.uri}])
 
-    target_subject.assimilate(victim_subject)
+    target_subject.assimilate([victim_subject])
 
     JSONModel(:accession).find(acc.id).subjects[0]['ref'].should eq(target_subject.uri)
 
