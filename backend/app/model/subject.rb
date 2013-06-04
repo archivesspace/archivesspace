@@ -92,6 +92,18 @@ class Subject < Sequel::Model(:subject)
   end
 
 
+  def assimilate(victim)
+    # Find all of the victim's subject relationships
+    self.class.relationship_dependencies.each do |model|
+      model.transfer(:subject, self, [victim])
+    end
+
+    victim.delete
+
+    trigger_reindex_of_dependants
+  end
+
+
   def validate
     super
 

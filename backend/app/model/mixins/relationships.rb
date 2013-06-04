@@ -21,6 +21,32 @@ AbstractRelationship = Class.new(Sequel::Model) do
   end
 
 
+  # Find any relationship instances that reference 'victims' and modify them to
+  # refer to 'target' instead.
+  def self.transfer(target, victims)
+    unless victims.all? {|victim| victim.class == target.class}
+      raise ReferenceError.new("Can't transfer between objects of different types")
+    end
+
+    victim_ids = victims.map {|v| v[:id]}
+    columns = self._reference_columns_for(target.class)
+
+    columns.each do |col|
+      self.filter(col => victim_ids).update(col => target.id)
+    end
+
+    if columns.count > 1
+      # If this relationship allows two objects of the same type to be related,
+      # make sure that we haven't just created a relationship between an object
+      # and itself.
+      where = Hash[columns.map {|c| [c, target.id]}]
+      if self.filter(where).count != 0
+        raise "Transfer would create a circular relationship!"
+      end
+    end
+  end
+
+
   def self.to_s
     "<#Relationship #{table_name}>"
   end
@@ -322,6 +348,12 @@ module Relationships
 
     def add_relationship_dependency(clz)
       @relationship_dependencies << clz
+    end
+
+
+    def transfer(relationship_name, target, victims)
+      relationship = find_relationship(relationship_name)
+      relationship.transfer(target, victims)
     end
 
 
