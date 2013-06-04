@@ -96,4 +96,25 @@ describe 'ASpaceImport' do
   end
 
 
+  it "can import the file at examples/csv/do_tracer_v2.csv" do
+
+    @opts.merge!({
+            :input_file => '../examples/csv/do_tracer_v2.csv',
+            :importer => 'digital_objects',
+            :quiet => true
+            })
+
+    @i = ASpaceImport::Importer.create_importer(@opts)
+
+    count = 0
+
+    @i.run_safe do |msg|
+      if msg['saved']
+        count = msg['saved'].count
+      end
+    end
+
+    count.should eq(19)
+  end
+
 end
