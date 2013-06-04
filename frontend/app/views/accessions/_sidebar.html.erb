@@ -48,6 +48,10 @@
       <li><a href="#accession_collection_management_"><%= I18n.t "collection_management._singular" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
+    <% if not controller.action_name === "show" or @accession.classification %>
+      <li><a href="#accession_classification_"><%= I18n.t "classification._plural" %> <span class="icon-chevron-right"></span></a></li>
+    <% end %>
+
     <% if not controller.action_name === "show" or @accession.user_defined %>
       <li><a href="#accession_user_defined_"><%= I18n.t "user_defined._singular" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>

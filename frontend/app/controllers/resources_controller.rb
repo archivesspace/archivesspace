@@ -11,7 +11,7 @@ class ResourcesController < ApplicationController
   end
 
   def show
-    @resource = fetch_resource(params[:id])
+    @resource = fetch_resolved(params[:id])
 
     if params[:inline]
       return render :partial => "resources/show_inline"
@@ -40,7 +40,7 @@ class ResourcesController < ApplicationController
 
 
   def edit
-    @resource = fetch_resource(params[:id])
+    @resource = fetch_resolved(params[:id])
 
     fetch_tree
     flash.keep if not flash.empty? # keep the notices so they display on the subsequent ajax call
@@ -68,7 +68,7 @@ class ResourcesController < ApplicationController
 
   def update
     handle_crud(:instance => :resource,
-                :obj => fetch_resource(params[:id]),
+                :obj => fetch_resolved(params[:id]),
                 :on_invalid => ->(){
                   render :partial => "edit_inline"
                 },
@@ -149,7 +149,8 @@ class ResourcesController < ApplicationController
   end
 
 
-  def fetch_resource(id)
+  # refactoring note: suspiciously similar to accessions_controller.rb
+  def fetch_resolved(id)
     resource = JSONModel(:resource).find(id, "resolve[]" => FIND_OPTS)
 
     if resource['classification'] && resource['classification']['_resolved']

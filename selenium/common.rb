@@ -598,6 +598,17 @@ def login_as_repo_manager
 end
 
 
+def login_as_admin
+  if !$test_repo
+    ($test_repo, $test_repo_uri) = create_test_repo("repo_#{Time.now.to_i}_#{$$}", "description")
+  end
+
+  login("admin", "admin")
+
+  select_repo($test_repo)
+end
+
+
 def report_sleep
   puts "Total time spent sleeping: #{$sleep_time.inspect} seconds"
 end

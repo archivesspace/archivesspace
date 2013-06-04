@@ -121,4 +121,17 @@ describe 'Resource model' do
     }.to raise_error(Sequel::ValidationFailed)
   end
 
+
+  it "can be linked to a classification" do
+    classification = build(:json_classification,
+                           :title => "top-level classification",
+                           :identifier => "abcdef",
+                           :description => "A classification")
+
+    classification = Classification.create_from_json(classification)
+    resource = create_resource(:classification => {'ref' => classification.uri})
+
+    resource.linked_records(:classification).title.should eq("top-level classification")
+  end
+
 end

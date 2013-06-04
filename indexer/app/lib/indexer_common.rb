@@ -206,7 +206,9 @@ class CommonIndexer
     }
 
     add_document_prepare_hook {|doc, record|
-      if ['resource'].include?(doc['primary_type']) && record['record']['classification']
+      records_with_classifications = ['resource', 'accession']
+
+      if records_with_classifications.include?(doc['primary_type']) && record['record']['classification']
         doc['classification_path'] = ASUtils.to_json(record['record']['classification']['_resolved']['path_from_root'])
         doc['classification_uri'] = record['record']['classification']['ref']
       end

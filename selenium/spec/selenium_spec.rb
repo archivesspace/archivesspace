@@ -2206,4 +2206,87 @@ describe "ArchivesSpace user interface" do
 
   end
 
+
+  describe "Classifications" do
+
+    before(:all) do
+      login_as_admin
+    end
+
+
+    after(:all) do
+      logout
+    end
+
+
+    test_classification = "Classification #{Time.now.to_i}_#{$$}"
+
+    it "allows you to create a classification tree" do
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Classification").click
+
+      $driver.clear_and_send_keys([:id, 'classification_identifier_'], "10")
+      $driver.clear_and_send_keys([:id, 'classification_title_'], test_classification)
+
+      $driver.click_and_wait_until_gone(:css => "form#classification_form button[type='submit']")
+
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Classification.*created/i)
+    end
+
+
+    it "allows you to link a resource to a classification" do
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Resource").click
+
+      $driver.clear_and_send_keys([:id, "resource_title_"], "a resource")
+      $driver.complete_4part_id("resource_id_%d_")
+      $driver.find_element(:id, "resource_language_").select_option("eng")
+      $driver.find_element(:id, "resource_level_").select_option("collection")
+      $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
+
+      # Now add a classification
+      $driver.find_element(:css => '#resource_classification_ .subrecord-form-heading .btn').click
+
+      assert(5) {
+        run_index_round
+        $driver.clear_and_send_keys([:id, "token-input-resource_classification__ref_"],
+                                    test_classification)
+        $driver.find_element(:css, "li.token-input-dropdown-item2").click
+      }
+
+      $driver.click_and_wait_until_gone(:css => "form#resource_form button[type='submit']")
+      $driver.click_and_wait_until_gone(:link, "Close Record")
+
+      $driver.find_element(:css => 'div.token.classification').text.should match(/#{test_classification}/)
+    end
+
+
+    it "allows you to link an accession to a classification" do
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Accession").click
+
+      $driver.clear_and_send_keys([:id, "accession_title_"], "Tomorrow's Harvest")
+      $driver.complete_4part_id("accession_id_%d_")
+
+      $driver.clear_and_send_keys([:id, "accession_accession_date_"], "2013-06-11")
+
+      # Now add a classification
+      $driver.find_element(:css => '#accession_classification_ .subrecord-form-heading .btn').click
+
+      assert(5) {
+        run_index_round
+        $driver.clear_and_send_keys([:id, "token-input-accession_classification__ref_"],
+                                    test_classification)
+        $driver.find_element(:css, "li.token-input-dropdown-item2").click
+      }
+
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
+
+      $driver.find_element(:css => 'div.token.classification').text.should match(/#{test_classification}/)
+    end
+
+
+  end
+
+
 end

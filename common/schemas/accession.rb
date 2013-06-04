@@ -27,15 +27,31 @@
 
       "content_description" => {"type" => "string", "maxLength" => 65000},
       "condition_description" => {"type" => "string", "maxLength" => 65000},
-      
+
       "disposition" => {"type" => "string", "maxLength" => 65000},
       "inventory" => {"type" => "string", "maxLength" => 65000},
-      
+
       "provenance" => {"type" => "string", "maxLength" => 65000},
 
       "accession_date" => {"type" => "date", "minLength" => 1, "ifmissing" => "error"},
-      
+
       "publish" => {"type" => "boolean", "default" => false},
+
+      "classification" => {
+        "type" => "object",
+        "subtype" => "ref",
+        "properties" => {
+          "ref" => {
+            "type" => [{"type" => "JSONModel(:classification) uri"},
+                       {"type" => "JSONModel(:classification_term) uri"}],
+            "ifmissing" => "error"
+          },
+          "_resolved" => {
+            "type" => "object",
+            "readonly" => "true"
+          }
+        }
+      },
 
       "subjects" => {
         "type" => "array",
