@@ -79,7 +79,12 @@ class DB
           # Sequel::Rollback which has been quietly caught.
           return
         else
-          return yield @pool
+          begin
+            return yield @pool
+          rescue Sequel::Rollback
+            # If we're not in a transaction we can't roll back, but no need to blow up.
+            Log.warn("Sequel::Rollback caught but we're not inside of a transaction")
+          end
         end
 
 
@@ -265,6 +270,11 @@ eof
     if updated_rows != 1
       raise Sequel::Plugins::OptimisticLocking::Error.new("Couldn't create version of: #{obj}")
     end
+  end
+
+
+  def self.supports_mvcc?
+    ![:derby, :h2].include?(@pool.database_type)
   end
 
 
