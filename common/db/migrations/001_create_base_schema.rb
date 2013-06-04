@@ -1637,6 +1637,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :resource_id
+      Integer :accession_id
       Integer :classification_id
       Integer :classification_term_id
 
@@ -1647,6 +1648,7 @@ Sequel.migration do
 
     alter_table(:classification_rlshp) do
       add_foreign_key([:resource_id], :resource, :key => :id)
+      add_foreign_key([:accession_id], :accession, :key => :id)
       add_foreign_key([:classification_id], :classification, :key => :id)
       add_foreign_key([:classification_term_id], :classification_term, :key => :id)
     end

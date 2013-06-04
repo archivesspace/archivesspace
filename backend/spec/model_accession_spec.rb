@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-def create_accession
+def create_accession(opts = {})
   Accession.create_from_json(build(:json_accession,
-                                   :title => "Papers of Mark Triggs"),
+                                   {:title => "Papers of Mark Triggs"}.merge(opts)),
                              :repo_id => $repo_id)
 end
 
@@ -277,6 +277,19 @@ describe 'Accession model' do
                                              :repo_id => $repo_id)
     }.to raise_error(ValidationException)
 
+  end
+
+
+  it "can be linked to a classification" do
+    classification = build(:json_classification,
+                           :title => "top-level classification",
+                           :identifier => "abcdef",
+                           :description => "A classification")
+
+    classification = Classification.create_from_json(classification)
+    accession = create_accession(:classification => {'ref' => classification.uri})
+
+    accession.linked_records(:classification).title.should eq("top-level classification")
   end
 
 end
