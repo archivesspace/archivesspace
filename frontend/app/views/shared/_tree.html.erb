@@ -91,8 +91,10 @@
   <div id="tree_template"><!--
        {macro render_node_link(node)}
           <a href="#tree::${node.node_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">
-            ${node.title|h}
-            {if node.level}<span class="badge">${node.level}</span>{/if}
+            <span class="title-column pull-left">${node.title|h}</span>
+            <span class="field-column field-column-3 pull-right">Container Info</span>
+            <span class="field-column field-column-2 pull-right">Graphic Materials</span>
+            <span class="field-column field-column-1 pull-right">${node.level}</span>
           </a>
        {/macro}
 
