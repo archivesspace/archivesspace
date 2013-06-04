@@ -25,7 +25,7 @@ gem 'jquery-rails'
 
 gem 'json-schema'
 
-gem 'markaby'
+gem 'useragent'
 
 gem "jruby-jars", "= 1.7.3"
 
