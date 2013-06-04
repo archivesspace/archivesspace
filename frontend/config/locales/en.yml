@@ -157,8 +157,8 @@ en:
     global_admin: System
 
   browser_support:
-    bronze: Archives Space does not fully support this browser.  Please consider upgrading your browser to the latest versions of either Chrome, Firefox or Internet Explorer.
-    unknown: Archives Space does not fully support this browser.  Please consider upgrading your browser to the latest versions of either Chrome, Firefox or Internet Explorer.
+    bronze: ArchivesSpace does not fully support this browser.  Please consider upgrading your browser to the latest versions of either Chrome, Firefox or Internet Explorer.
+    unknown: ArchivesSpace does not fully support this browser.  Please consider upgrading your browser to the latest versions of either Chrome, Firefox or Internet Explorer.
 
   welcome:
     heading: Welcome to ArchivesSpace
