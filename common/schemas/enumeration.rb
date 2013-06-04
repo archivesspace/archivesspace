@@ -17,6 +17,13 @@
           "type" => "string",
         }
       },
+      "readonly_values" => {
+        "type" => "array",
+        "readonly" => true,
+        "items" => {
+          "type" => "string",
+        }
+      }
     },
 
     "additionalProperties" => false,

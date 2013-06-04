@@ -54,7 +54,7 @@ Sequel.migration do
       Integer :json_schema_version, :null => false
 
       String :name, :null => false, :unique => true
-      
+
       Integer :default_value
 
       Integer :editable, :default => 1
@@ -68,8 +68,9 @@ Sequel.migration do
 
       Integer :enumeration_id, :null => false, :index => true
       String :value, :null => false, :index => true
+      Integer :readonly, :default => 0
     end
- 
+
 
     alter_table(:enumeration_value) do
       add_foreign_key([:enumeration_id], :enumeration, :key => :id)
@@ -628,12 +629,12 @@ Sequel.migration do
     end
 
 
-    def create_editable_enum(name, values, default = nil)
-      create_enum(name, values, default, true)
+    def create_editable_enum(name, values, default = nil, opts = {})
+      create_enum(name, values, default, true, opts)
     end
 
 
-    def create_enum(name, values, default = nil, editable = false)
+    def create_enum(name, values, default = nil, editable = false, opts = {})
       id = self[:enumeration].insert(:name => name,
                                      :json_schema_version => 1,
                                      :editable => editable ? 1 : 0,
@@ -643,8 +644,11 @@ Sequel.migration do
 
       id_of_default = nil
 
+      readonly_values = Array(opts[:readonly_values])
+
       values.each do |value|
-        id_of_value = self[:enumeration_value].insert(:enumeration_id => id, :value => value)
+        id_of_value = self[:enumeration_value].insert(:enumeration_id => id, :value => value,
+                                                      :readonly => readonly_values.include?(value) ? 1 : 0)
         id_of_default = id_of_value if value === default
       end
 
@@ -1332,7 +1336,30 @@ Sequel.migration do
 
     create_editable_enum('extent_extent_type', ["cassettes", "cubic_feet", "files", "gigabytes", "leaves", "linear_feet", "megabytes", "photographic_prints", "photographic_slides", "reels", "sheets", "terabytes", "volumes"])
 
-    create_editable_enum('event_event_type', ["accession", "accumulation", "acknowledgement", "acknowledgement_sent", "agreement_signed", "agreement_received", "agreement_sent", "appraisal", "assessment", "capture", "cataloging", "collection", "compression", "contribution", "component_transfer", "copyright_transfer", "custody_transfer", "deaccession", "decompression", "decryption", "deletion", "digital_signature_validation", "fixity_check", "ingestion", "message_digest_calculation", "migration", "normalization", "processing", "publication", "replication", "validation", "virus_check"])
+    create_editable_enum('event_event_type',
+                         ["accession", "accumulation",
+                          "acknowledgement", "acknowledgement_sent",
+                          "agreement_signed", "agreement_received",
+                          "agreement_sent", "appraisal", "assessment", "capture",
+                          "cataloging", "collection", "compression",
+                          "contribution", "component_transfer",
+                          "copyright_transfer", "custody_transfer",
+                          "deaccession", "decompression", "decryption",
+                          "deletion", "digital_signature_validation",
+                          "fixity_check", "ingestion",
+                          "message_digest_calculation", "migration",
+                          "normalization", "processing", "publication",
+                          "replication", "validation", "virus_check"],
+                         nil,
+
+                         # These values are used in the accession "Add Event"
+                         # form, so they need to be here.
+                         #
+                         # See accessions_controller.rb for the definitive list.
+                         :readonly_values => ['acknowledgement_sent',
+                                              'agreement_sent',
+                                              'agreement_signed',
+                                              'copyright_transfer'])
 
     create_editable_enum('container_type', ["box", "carton", "case", "folder", "frame", "object", "page", "reel", "volume"])
 
