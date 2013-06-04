@@ -1,6 +1,8 @@
 module AspaceFormHelper
   class FormContext
 
+    COMBOBOX_MIN_LIMIT = 11 # if a <select> has equal or more options than this value, output a combobox
+
     def initialize(name, values_from, parent)
 
       values = values_from.is_a?(JSONModelType) ? values_from.to_hash(:raw) : values_from
@@ -199,7 +201,8 @@ module AspaceFormHelper
 
     def label_and_select(name, options, opts = {})
       options = ([""] + options) if opts[:nodefault]
-      label_with_field(name, select(name, options, opts[:field_opts] || {}), opts)
+      widget = options.length < COMBOBOX_MIN_LIMIT ? select(name, options, opts[:field_opts] || {}) : combobox(name, options, opts[:field_opts] || {})
+      label_with_field(name, widget, opts)
     end
 
 
@@ -223,6 +226,11 @@ module AspaceFormHelper
       end
 
       label_with_field(name, value.blank? ? default : value , opts)
+    end
+
+
+    def combobox(name, options, opts = {})
+      select(name, options, opts.merge({:"data-combobox" => true}))
     end
 
 
