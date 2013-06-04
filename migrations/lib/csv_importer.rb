@@ -66,7 +66,6 @@ module ASpaceImport
         @log.warn("Undischarged: #{prox.to_s}")
       end
 
-      @log.debug(@cache.inspect)
       @cache
     end
 
