@@ -72,6 +72,8 @@ module ASpaceImport
         if @dry
           batch = ASUtils.json_parse(File.open(@batch_file).read)
 
+          @log.debug("Posted file contents: #{batch.inspect}")
+
           mapping = {:saved => Hash[batch.map {|rec| [rec['uri'], [rec['uri'], JSONModel.parse_reference(rec['uri'])[:id]]] }] }
 
           response = @dry_response.new(mapping)
@@ -142,18 +144,12 @@ module ASpaceImport
     end
 
 
-    def <<(obj)
-      push(obj)
-    end
-
-
-    def push(obj)
-      @selected = obj
-      super
-    end
-
-
     def clear!
+      self.write!
+    end
+
+
+    def write!
       while !self.empty?
         self.pop
       end
