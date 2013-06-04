@@ -92,9 +92,9 @@
        {macro render_node_link(node)}
           <a href="#tree::${node.node_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">
             <span class="title-column pull-left">${node.title|h}</span>
-            <span class="field-column field-column-3 pull-right">Container Info</span>
-            <span class="field-column field-column-2 pull-right">Graphic Materials</span>
-            <span class="field-column field-column-1 pull-right">${node.level}</span>
+            <span class="field-column field-column-3 pull-right">${node.containers||"&#160;"}</span>
+            <span class="field-column field-column-2 pull-right">${node.instance_types||"&#160;"}</span>
+            <span class="field-column field-column-1 pull-right">${node.level||"&#160;"}</span>
           </a>
        {/macro}
 

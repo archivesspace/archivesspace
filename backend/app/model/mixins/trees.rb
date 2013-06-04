@@ -37,6 +37,8 @@ module Trees
       }
 
       properties[node.id][:level] = ((node.level === 'otherlevel') ? node.other_level : node.level) if node.respond_to?(:level)
+      properties[node.id][:instance_types] = node.instance.map{|instance| instance["instance_type"]} if node.respond_to?(:instance) && node.instance.length > 0
+      properties[node.id][:instance_types] = node.instance.map{|instance| BackendEnumSource.value_for_id("instance_instance_type", instance.instance_type_id)} if node.respond_to?(:instance) && node.instance.length > 0
     end
 
     result = {
@@ -49,6 +51,7 @@ module Trees
     }
 
     result[:level] = ((self.level === 'otherlevel') ? self.other_level : self.level) if self.respond_to?(:level)
+    result[:instance_types] = self.instance.map{|instance| BackendEnumSource.value_for_id("instance_instance_type", instance.instance_type_id)} if self.respond_to?(:instance) && self.instance.length > 0
 
     # Assumes that the tree's JSONModel type is just the root type with '_tree'
     # stuck on.  Maybe a bit presumptuous?
