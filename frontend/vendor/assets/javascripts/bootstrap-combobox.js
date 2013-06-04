@@ -24,7 +24,7 @@
     this.options = $.extend({}, $.fn.combobox.defaults, options)
     this.$source = $(element)
     this.$container = this.setup()
-    this.$element = this.$container.find('input[type=text]')
+    this.$element = this.$container.find('input[type=text]').attr("id", this.$source.attr("id") + "_combobox")
     this.$target = this.$container.find('input[type=hidden]')
     this.$button = this.$container.find('.dropdown-toggle')
     this.$menu = $(this.options.menu).appendTo('body')

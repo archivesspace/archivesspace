@@ -889,7 +889,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:id => "accession_rights_statements__0__rights_type_").select_option("intellectual_property")
       $driver.find_element(:id => "accession_rights_statements__0__ip_status_").select_option("copyrighted")
-      $driver.find_element(:id => "accession_rights_statements__0__jurisdiction_").select_option("AU")
+      $driver.clear_and_send_keys([:id => "accession_rights_statements__0__jurisdiction__combobox"], ["AU", :return])
       $driver.find_element(:id, "accession_rights_statements__0__active_").click
 
       # add an external document
@@ -1166,7 +1166,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => 'div.accession').text.should match(/enraged guinea pigs/)
 
       $driver.complete_4part_id("resource_id_%d_")
-      $driver.find_element(:id, "resource_language_").select_option("eng")
+      $driver.clear_and_send_keys([:id, "resource_language__combobox"], ["eng", :return])
       $driver.find_element(:id, "resource_level_").select_option("collection")
 
       # condition and content descriptions have come across as notes fields
@@ -1209,7 +1209,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id, "resource_title_"],(resource_title))
       $driver.complete_4part_id("resource_id_%d_")
-      $driver.find_element(:id, "resource_language_").select_option("eng")
+      $driver.clear_and_send_keys([:id, "resource_language__combobox"], ["eng", :return])
       $driver.find_element(:id, "resource_level_").select_option("collection")
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
       $driver.find_element(:css => "form#resource_form button[type='submit']").click
@@ -1461,7 +1461,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id, "resource_title_"], "a resource with notes")
       $driver.complete_4part_id("resource_id_%d_")
-      $driver.find_element(:id, "resource_language_").select_option("eng")
+      $driver.clear_and_send_keys([:id, "resource_language__combobox"], ["eng", :return])
       $driver.find_element(:id, "resource_level_").select_option("collection")
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
 
@@ -1627,7 +1627,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id, "resource_title_"], "a resource")
       $driver.complete_4part_id("resource_id_%d_")
-      $driver.find_element(:id, "resource_language_").select_option("eng")
+      $driver.clear_and_send_keys([:id, "resource_language__combobox"], ["eng", :return])
       $driver.find_element(:id, "resource_level_").select_option("collection")
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
 
@@ -2240,7 +2240,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id, "resource_title_"], "a resource")
       $driver.complete_4part_id("resource_id_%d_")
-      $driver.find_element(:id, "resource_language_").select_option("eng")
+      $driver.clear_and_send_keys([:id, "resource_language__combobox"], ["eng", :return])
       $driver.find_element(:id, "resource_level_").select_option("collection")
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
 
