@@ -87,7 +87,7 @@ class RecordsController < ApplicationController
 
   private
 
-  def fetch_uris(root_uri, repo_id)
+  def fetch_uris(root_uri, repo_id, promises)
     result = {}
     page = 1
     while true
@@ -99,7 +99,7 @@ class RecordsController < ApplicationController
 
       results['results'].each do |r|
         rec = ASUtils.json_parse(r['json'])
-        result[rec['uri']] = rec
+        promises.fetch(rec['uri']).call(rec)
       end
 
       if results['this_page'] < results['last_page']
@@ -134,11 +134,7 @@ class RecordsController < ApplicationController
       end
     end
 
-    records = fetch_uris(root_uri, repo_id)
-
-    uris_to_lookup.each do |uri, callback|
-      callback.call(records.fetch(uri))
-    end
+    fetch_uris(root_uri, repo_id, uris_to_lookup)
   end
 
 end
