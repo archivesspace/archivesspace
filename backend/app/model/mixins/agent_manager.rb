@@ -53,18 +53,28 @@ module AgentManager
                                :contains_records_of_type => my_agent_type[:name_type],
                                :corresponding_to_association => my_agent_type[:name_type],
                                :always_resolve => true)
-      
-        
+
+
         self.one_to_many :agent_contact
-      
+
 
         self.def_nested_record(:the_property => :agent_contacts,
                                :contains_records_of_type => :agent_contact,
                                :corresponding_to_association => :agent_contact,
                                :always_resolve => true)
+
+
+        self.one_to_many :date, :class => "ASDate"
+
+
+        self.def_nested_record(:the_property => :dates_of_existence,
+                               :contains_records_of_type => :date,
+                               :corresponding_to_association => :date,
+                               :always_resolve => true)
+
       end
- 
-        
+
+
 
 
       def my_agent_type

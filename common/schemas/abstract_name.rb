@@ -8,6 +8,7 @@
     "properties" => {
       "authority_id" => {"type" => "string", "maxLength" => 255},
       "dates" => {"type" => "string", "maxLength" => 255},
+      "use_dates" => {"type" => "array", "items" => {"type" => "JSONModel(:date) object"}},
       "qualifier" => {"type" => "string", "maxLength" => 255},
       "source" => {"type" => "string", "dynamic_enum" => "name_source"},
       "rules" => {"type" => "string", "dynamic_enum" => "name_rule"},
