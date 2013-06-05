@@ -1,0 +1,26 @@
+<% show_components = defined?(show_components) ? show_components : true %>
+
+<fieldset class="form-horizontal">
+  <section id="summary">
+    <h3><%= I18n.t("archival_object._public.section.summary") %></h3>
+
+    <dl class="dl-horizontal">
+      <%= label_and_value I18n.t("archival_object.component_id"), archival_object['component_id'] %>
+      <%= label_and_value I18n.t("archival_object.level"), i18n_enum(:archival_object, 'level', archival_object['level']) %>
+      <%= label_and_value I18n.t("archival_object.language"), i18n_enum(:archival_object, 'language', archival_object['language']) %>
+    </dl>
+  </section>
+
+  <%= render :partial => "dates", :locals => {:dates => archival_object['dates']} %>
+  <%= render :partial => "extents", :locals => {:extents => archival_object['extents']} %>
+  <%= render :partial => "agents", :locals => {:linked_agents => archival_object['linked_agents']} %>
+  <%= render :partial => "subjects", :locals => {:subjects => archival_object['subjects']} %>
+  <%= render :partial => "notes", :locals => {:notes => archival_object['notes']} %>
+  <%= render :partial => "external_documents", :locals => {:external_documents => archival_object.published_external_documents} %>
+  <%= render :partial => "instances", :locals => {:digital_objects => archival_object.digital_objects} %>
+
+  <% if show_components %>
+    <%= render :partial => "components", :locals => {:record_type => "archival_object"} %>
+  <% end %>
+
+</fieldset>

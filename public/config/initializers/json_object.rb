@@ -2,15 +2,17 @@ require "jsonmodel"
 require "memoryleak"
 
 if not ENV['DISABLE_STARTUP']
-  begin
-    JSONModel::init(:client_mode => true,
-                    :priority => :high,
-                    :url => AppConfig[:backend_url])
-  rescue
-    $stderr.puts "Connection to backend failed.  Retrying..."
-    sleep(5)
+  while true
+    begin
+      JSONModel::init(:client_mode => true,
+                      :priority => :high,
+                      :url => AppConfig[:backend_url])
+      break
+    rescue
+      $stderr.puts "Connection to backend failed.  Retrying..."
+      sleep(5)
+    end
   end
-
 
   MemoryLeak::Resources.define(:repository, proc { JSONModel(:repository).all }, 60)
 

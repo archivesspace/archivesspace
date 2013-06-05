@@ -414,7 +414,7 @@ class CommonIndexer
       doc['title'] = values['title']
       doc['primary_type'] = record_type
       doc['types'] = [record_type]
-      doc['fullrecord'] = ASUtils.to_json(values)
+      doc['fullrecord'] = doc['json'] = ASUtils.to_json(values)
       doc['suppressed'] = values['suppressed'].to_s
       doc['publish'] = values.has_key?('publish') ? values['publish'].to_s : 'false'
       doc['repository'] = get_record_scope(uri)

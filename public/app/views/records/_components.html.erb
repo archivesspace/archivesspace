@@ -1,4 +1,7 @@
-<% components = whole_tree? ? whole_tree['children'] : children %>
+<%
+   components = whole_tree? ? whole_tree['children'] : children 
+   show_full_component = defined?(show_full_component) ? show_full_component : false
+   %>
 
 <% show_node = lambda do |child, stripe| %>
   <li class="result <% if stripe %>striped<% else %>unstriped<% end %>">
@@ -6,6 +9,16 @@
       <%= icon_for child["node_type"] %>
       <%= link_to child["title"], :controller => :records, :action => child["node_type"] || child["jsonmodel_type"], :id => child['id'] || JSONModel(child["jsonmodel_type"].intern).id_for(child['uri']), :repo_id => @repository.id %>
     </h4>
+
+    <% if show_full_component && record_type == 'resource' %>
+      <div class="component-view">
+        <%= render :partial => "archival_object", 
+                   :locals => {
+                     :archival_object => ArchivalObjectView.new(child['fullrecord']),
+                     :show_components => false
+                   } %>
+      </div>
+    <% end %>
 
     <% if !child['children'].blank? %>
       <ul class="results-list">
@@ -22,7 +35,17 @@
 
 <% unless components.blank? %>
   <section id="components">
-    <h3><%= I18n.t("#{record_type}._public.section.components") %></h3>
+    <h3>
+      <%= I18n.t("#{record_type}._public.section.components") %>
+      <% if defined?(show_expand_collapse) && show_expand_collapse %>
+        <% button_label = I18n.t(show_full_component ? "components.collapse" : "components.expand") %>
+
+        <%= link_to(button_label,
+                    backlink.merge(:components => !show_full_component, :anchor => "components"),
+                    :class => "btn btn-mini expand-collapse-btn") %>
+
+      <% end %>
+    </h3>
 
     <ul class="results-list">
       <% components.each_with_index do |child, i| %>

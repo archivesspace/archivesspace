@@ -111,3 +111,7 @@ en:
   agent:
     _singular: Name
     _plural: Names
+
+  components:
+    expand: Expand
+    collapse: Collapse

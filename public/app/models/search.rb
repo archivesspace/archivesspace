@@ -11,6 +11,7 @@ class Search
     SearchResultData.new(search_data, repositories)
   end
 
+
   def self.repo(repo_id, criteria, repositories)
     criteria["page"] = 1 if not criteria.has_key?("page")
 
