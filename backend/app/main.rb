@@ -67,111 +67,114 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   configure do
-
-    require_relative "model/db"
-    DB.connect
-
-    require_relative "model/backend_enum_source"
-    JSONModel::init(:allow_other_unmapped => AppConfig[:allow_other_unmapped],
-                    :enum_source => BackendEnumSource)
+    begin
+      require_relative "model/db"
+      DB.connect
 
 
-    # We'll handle these ourselves
-    disable :sessions
-
-    set :raise_errors, Proc.new { false }
-    set :show_exceptions, false
-    set :logging, false
-
-    if DB.connected?
-
-      require_relative "model/ASModel"
-
-      [File.dirname(__FILE__), *ASUtils.find_local_directories('backend')].each do |prefix|
-        # Load all mixins
-        Dir.glob(File.join(prefix, "model", "mixins", "*.rb")).sort.each do |mixin|
-          require File.absolute_path(mixin)
-        end
-
-        # Load all models
-        Dir.glob(File.join(prefix, "model", "*.rb")).sort.each do |model|
-          require File.absolute_path(model)
-        end
-
-        # Load all reports
-        Dir.glob(File.join(prefix, "model", "reports", "*.rb")).sort.each do |report|
-          require File.absolute_path(report)
-        end
-
-        # Load all controllers
-        Dir.glob(File.join(prefix, "controllers", "*.rb")).sort.each do |controller|
-          require File.absolute_path(controller)
-        end
-      end
-
-      # Start the notifications background delivery thread
-      Notifications.init if !Thread.current[:test_mode]
+      require_relative "model/backend_enum_source"
+      JSONModel::init(:allow_other_unmapped => AppConfig[:allow_other_unmapped],
+                      :enum_source => BackendEnumSource)
 
 
-      if !Thread.current[:test_mode] && ENV["ASPACE_INTEGRATION"] != "true"
-        # Start the job scheduler
-        if !settings.respond_to? :scheduler?
-          Log.info("Starting job scheduler")
-          set :scheduler, Rufus::Scheduler.start_new
-        end
+      # We'll handle these ourselves
+      disable :sessions
 
+      set :raise_errors, Proc.new { false }
+      set :show_exceptions, false
+      set :logging, false
 
-        settings.scheduler.cron("0 * * * *", :tags => 'notification_expiry') do
-          Log.info("Expiring old notifications")
-          Notifications.expire_old_notifications
-          Log.info("Done")
-        end
+      if DB.connected?
 
-        if AppConfig[:db_url] == AppConfig.demo_db_url &&
-            settings.scheduler.find_by_tag('demo_db_backup').empty?
+        require_relative "model/ASModel"
 
-          Log.info("Enabling backups for the embedded demo database " +
-                   "running at schedule: #{AppConfig[:demo_db_backup_schedule]}")
+        [File.dirname(__FILE__), *ASUtils.find_local_directories('backend')].each do |prefix|
+          # Load all mixins
+          Dir.glob(File.join(prefix, "model", "mixins", "*.rb")).sort.each do |mixin|
+            require File.absolute_path(mixin)
+          end
 
+          # Load all models
+          Dir.glob(File.join(prefix, "model", "*.rb")).sort.each do |model|
+            require File.absolute_path(model)
+          end
 
-          settings.scheduler.cron(AppConfig[:demo_db_backup_schedule],
-                                  :tags => 'demo_db_backup') do
-            Log.info("Starting backup of embedded demo database")
-            DB.demo_db_backup
-            Log.info("Backup of embedded demo database completed!")
+          # Load all reports
+          Dir.glob(File.join(prefix, "model", "reports", "*.rb")).sort.each do |report|
+            require File.absolute_path(report)
+          end
+
+          # Load all controllers
+          Dir.glob(File.join(prefix, "controllers", "*.rb")).sort.each do |controller|
+            require File.absolute_path(controller)
           end
         end
 
-        if AppConfig[:solr_backup_schedule] && AppConfig[:solr_backup_number_to_keep] > 0
-          settings.scheduler.cron(AppConfig[:solr_backup_schedule],
-                                  :tags => 'solr_backup') do
-            Log.info("Creating snapshot of Solr index and indexer state")
-            SolrSnapshotter.snapshot
+        # Start the notifications background delivery thread
+        Notifications.init if !Thread.current[:test_mode]
+
+
+        if !Thread.current[:test_mode] && ENV["ASPACE_INTEGRATION"] != "true"
+          # Start the job scheduler
+          if !settings.respond_to? :scheduler?
+            Log.info("Starting job scheduler")
+            set :scheduler, Rufus::Scheduler.start_new
+          end
+
+
+          settings.scheduler.cron("0 * * * *", :tags => 'notification_expiry') do
+            Log.info("Expiring old notifications")
+            Notifications.expire_old_notifications
+            Log.info("Done")
+          end
+
+          if AppConfig[:db_url] == AppConfig.demo_db_url &&
+              settings.scheduler.find_by_tag('demo_db_backup').empty?
+
+            Log.info("Enabling backups for the embedded demo database " +
+                     "running at schedule: #{AppConfig[:demo_db_backup_schedule]}")
+
+
+            settings.scheduler.cron(AppConfig[:demo_db_backup_schedule],
+                                    :tags => 'demo_db_backup') do
+              Log.info("Starting backup of embedded demo database")
+              DB.demo_db_backup
+              Log.info("Backup of embedded demo database completed!")
+            end
+          end
+
+          if AppConfig[:solr_backup_schedule] && AppConfig[:solr_backup_number_to_keep] > 0
+            settings.scheduler.cron(AppConfig[:solr_backup_schedule],
+                                    :tags => 'solr_backup') do
+              Log.info("Creating snapshot of Solr index and indexer state")
+              SolrSnapshotter.snapshot
+            end
           end
         end
 
+        ANONYMOUS_USER = AnonymousUser.new
+
+        require_relative "lib/bootstrap_access_control"
+
+        @loaded_hooks.each do |hook|
+          hook.call
+        end
+        @archivesspace_loaded = true
+
+        Notifications.notify("BACKEND_STARTED")
+
+      else
+        Log.error("***** DATABASE CONNECTION FAILED *****\n" +
+                  "\n" +
+                  "ArchivesSpace could not connect to your specified database URL (#{AppConfig[:db_url]}).\n\n" +
+                  "Please check your configuration and try again.")
       end
 
-      ANONYMOUS_USER = AnonymousUser.new
-
-      require_relative "lib/bootstrap_access_control"
-
-      @loaded_hooks.each do |hook|
-        hook.call
-      end
-      @archivesspace_loaded = true
-
-      Notifications.notify("BACKEND_STARTED")
-
-    else
-      Log.error("***** DATABASE CONNECTION FAILED *****\n" +
-                "\n" +
-                "ArchivesSpace could not connect to your specified database URL (#{AppConfig[:db_url]}).\n\n" +
-                "Please check your configuration and try again.")
+      # Setup public static file sharing
+      set :public_folder, Proc.new { File.join(File.dirname(__FILE__), "static") }
+    rescue
+      ASUtils.dump_diagnostics($!)
     end
-
-    # Setup public static file sharing
-    set :public_folder, Proc.new { File.join(File.dirname(__FILE__), "static") }
   end
 
 

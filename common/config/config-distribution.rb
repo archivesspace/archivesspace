@@ -44,6 +44,18 @@ class AppConfig
   end
 
 
+  def self.dump_sanitised
+    Hash[@@parameters.map {|k, v|
+           if k.to_s =~ /secret/
+             [k, "[SECRET]"]
+           else
+             v = v.to_s.gsub(/password=.*?[$&]/, '[SECRET]')
+             [k, v]
+           end
+         }]
+  end
+
+
   def self.get_preferred_config_path
 
     if java.lang.System.getProperty("aspace.config")
