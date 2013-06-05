@@ -10,7 +10,9 @@ class RecordsController < ApplicationController
 
     @tree_view = Search.tree_view(@resource.uri)
 
-    load_full_records(@resource.uri, @tree_view['whole_tree'], params[:repo_id])
+    if @show_components
+      load_full_records(@resource.uri, @tree_view['whole_tree'], params[:repo_id])
+    end
 
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"],
