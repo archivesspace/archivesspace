@@ -1,21 +1,3 @@
-<%
-   digital_objects = {}
-
-   if not @resource['instances'].blank?
-     @resource['instances'].each do |instance|
-       if instance['instance_type'] === "digital_object"
-         digital_objects[instance['digital_object']['ref']] = instance['digital_object']['_resolved']
-       end
-     end
-   end
-
-  published_external_documents = []
-  if @resource['external_documents'].length > 0
-    @resource['external_documents'].each do |exdoc|
-      published_external_documents.push(exdoc) if exdoc['publish'] === true
-    end
-  end
-%>
 <div class="title-pane">
   <div class="row-fluid">
     <div class="span3">
@@ -48,11 +30,11 @@
           <% if @resource['notes'].length > 0 %>
             <li><a href="#notes"><%= I18n.t("note._plural") %> <span class="badge badge-info"><%= @resource['notes'].length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
-          <% if published_external_documents.length > 0 %>
-            <li><a href="#external_documents"><%= I18n.t("external_document._plural") %> <span class="badge badge-info"><%= published_external_documents.length %></span><span class="icon-chevron-right"></span></a></li>
+          <% if @resource.published_external_documents.length > 0 %>
+            <li><a href="#external_documents"><%= I18n.t("external_document._plural") %> <span class="badge badge-info"><%= @resource.published_external_documents.length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
-          <% if digital_objects.length > 0 %>
-            <li><a href="#digital_objects"><%= I18n.t("digital_object._plural") %> <span class="badge badge-info"><%= digital_objects.length %></span><span class="icon-chevron-right"></span></a></li>
+          <% if @resource.digital_objects.length > 0 %>
+            <li><a href="#digital_objects"><%= I18n.t("digital_object._plural") %> <span class="badge badge-info"><%= @resource.digital_objects.length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
           <% if children? %>
             <li><a href="#components"><%= I18n.t("resource._public.section.components") %> <span class="badge badge-info"><%= children.length %></span><span class="icon-chevron-right"></span></a></li>
@@ -90,9 +72,14 @@
         <%= render :partial => "agents", :locals => {:linked_agents => @resource['linked_agents']} %>
         <%= render :partial => "subjects", :locals => {:subjects => @resource['subjects']} %>
         <%= render :partial => "notes", :locals => {:notes => @resource['notes']} %>
-        <%= render :partial => "external_documents", :locals => {:external_documents => published_external_documents} %>
-        <%= render :partial => "instances", :locals => {:digital_objects => digital_objects} %>
-        <%= render :partial => "components", :locals => {:record_type => "resource"} %>
+        <%= render :partial => "external_documents", :locals => {:external_documents => @resource.published_external_documents} %>
+        <%= render :partial => "instances", :locals => {:digital_objects => @resource.digital_objects} %>
+        <%= render :partial => "components", :locals => {
+              :record_type => "resource",
+              :show_expand_collapse => true,
+              :backlink => {:action => :resource, :controller => :records, :id => @resource.id},
+              :show_full_component => @show_components
+            } %>
       </fieldset>
 
 

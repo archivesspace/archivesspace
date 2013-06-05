@@ -1,21 +1,3 @@
-<%
-   digital_objects = {}
-
-   if not @archival_object['instances'].blank?
-     @archival_object['instances'].each do |instance|
-       if instance['instance_type'] === "digital_object"
-         digital_objects[instance['digital_object']['ref']] = instance['digital_object']['_resolved']
-       end
-     end
-   end
-
-   published_external_documents = []
-   if @archival_object['external_documents'].length > 0
-     @archival_object['external_documents'].each do |exdoc|
-       published_external_documents.push(exdoc) if exdoc['publish'] === true
-     end
-   end
-%>
 <div class="title-pane">
   <div class="row-fluid">
     <div class="span3">
@@ -47,11 +29,11 @@
           <% if @archival_object['notes'].length > 0 %>
             <li><a href="#notes"><%= I18n.t("note._plural") %> <span class="badge badge-info"><%= @archival_object['notes'].length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
-          <% if published_external_documents.length > 0 %>
-            <li><a href="#external_documents"><%= I18n.t("external_document._plural") %> <span class="badge badge-info"><%= published_external_documents.length %></span><span class="icon-chevron-right"></span></a></li>
+          <% if @archival_object.published_external_documents.length > 0 %>
+            <li><a href="#external_documents"><%= I18n.t("external_document._plural") %> <span class="badge badge-info"><%= @archival_object.published_external_documents.length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
-          <% if digital_objects.length > 0 %>
-            <li><a href="#digital_objects"><%= I18n.t("digital_object._plural") %> <span class="badge badge-info"><%= digital_objects.length %></span><span class="icon-chevron-right"></span></a></li>
+          <% if @archival_object.digital_objects.length > 0 %>
+            <li><a href="#digital_objects"><%= I18n.t("digital_object._plural") %> <span class="badge badge-info"><%= @archival_object.digital_objects.length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
           <% if children? %>
             <li><a href="#components"><%= I18n.t("resource._public.section.components") %> <span class="badge badge-info"><%= children.length %></span><span class="icon-chevron-right"></span></a></li>
@@ -60,27 +42,10 @@
       </div>
     </div>
     <div class="span9">
-      <fieldset class="form-horizontal">
-        <section id="summary">
-          <h3><%= I18n.t("archival_object._public.section.summary") %></h3>
-
-          <dl class="dl-horizontal">
-            <%= label_and_value I18n.t("archival_object.component_id"), @archival_object['component_id'] %>
-            <%= label_and_value I18n.t("archival_object.level"), i18n_enum(:archival_object, 'level', @archival_object['level']) %>
-            <%= label_and_value I18n.t("archival_object.language"), i18n_enum(:archival_object, 'language', @archival_object['language']) %>
-          </dl>
-        </section>
-
-        <%= render :partial => "dates", :locals => {:dates => @archival_object['dates']} %>
-        <%= render :partial => "extents", :locals => {:extents => @archival_object['extents']} %>
-        <%= render :partial => "agents", :locals => {:linked_agents => @archival_object['linked_agents']} %>
-        <%= render :partial => "subjects", :locals => {:subjects => @archival_object['subjects']} %>
-        <%= render :partial => "notes", :locals => {:notes => @archival_object['notes']} %>
-        <%= render :partial => "external_documents", :locals => {:external_documents => published_external_documents} %>
-        <%= render :partial => "instances", :locals => {:digital_objects => digital_objects} %>
-        <%= render :partial => "components", :locals => {:record_type => "archival_object"} %>
-
-      </fieldset>
+      <%= render :partial => "archival_object", 
+                 :locals => {
+                   :archival_object => @archival_object
+                 } %>
 
       <br/>
       <br/>
