@@ -233,6 +233,7 @@ en:
         deleted: Agent Deleted
       section:
         basic_information: Basic Information
+        dates_of_existence: Dates of Existence
         name: Names
         contacts: Contact Details
         search_embedded: Linked Records
@@ -329,6 +330,11 @@ en:
         add: Add Location
 
   date:
+    _frontend:
+      action:
+        add: Add Date
+
+  dates_of_existence:
     _frontend:
       action:
         add: Add Date
@@ -473,6 +479,8 @@ en:
 
   name:
     _frontend:
+      section:
+        use_date: Date(s) of Name Use
       action:
         add: Add Name
 
@@ -595,6 +603,11 @@ en:
     _frontend:
       action:
         add: Add User Defined Fields
+        
+  use_date:
+    _frontend:
+      action:
+        add: Add Use Date
 
   rde:
     date_type: Date Type

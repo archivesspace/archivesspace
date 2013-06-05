@@ -44,6 +44,9 @@
                   </div>
                   <div id="agent_name_<%= index %>" class="accordion-body collapse">
                     <%= read_only_view(name.to_hash) %>
+                    <% if name['use_dates'].length > 0 %>
+                      <%= render :partial => "dates/show", :locals => { :dates => name['use_dates'], :context => readonly } %>
+                    <% end %>
                   </div>
                 </div>
               <% end %>
@@ -85,6 +88,10 @@
 
         <% if @agent.notes.length > 0 %>
           <%= render :partial => "notes/show", :locals => { :notes => @agent.notes, :context => readonly } %>
+        <% end %>
+
+        <% if @agent.dates_of_existence.length > 0 %>
+          <%= render :partial => "dates/show", :locals => { :dates => @agent.dates_of_existence, :context => readonly } %>
         <% end %>
 
         <% if !@agent['related_agents'].blank? %>

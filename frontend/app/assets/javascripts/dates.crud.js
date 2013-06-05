@@ -37,7 +37,7 @@ $(function() {
   };
 
   $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
-    if (object_name === "date") {
+    if (object_name === "date" || object_name === "dates_of_existence" || object_name == "use_date") {
       initDateForm($(subform));
     }
   });
