@@ -13,7 +13,7 @@ ASpaceImport::Importer.importer :digital_objects do
     {
       # 1. Map the cell data to schemas or handlers
 
-      'agent_role' => 'd.agent_role', #
+      'agent_role' => 'd.agent_role',
       'agent_type' => 'agent.agent_type',
 
       'agent_contact_address_1' => 'agent_contact.address_1',
@@ -48,6 +48,8 @@ ASpaceImport::Importer.importer :digital_objects do
       'agent_name_suffix' => 'agent_name.suffix',
 
       'agent_name_description_note' => 'note_bioghist.content',
+      'agent_name_description_citation' => 'note_citation.content',
+      # 'agent_name_description_type' => '',
 
       'digital_object_acknowledgement_sent' => [normalize_boolean, 'acknowledgement_sent_event_date.boolean'],
       'digital_object_acknowledgement_sent_date' => [date_flip, 'acknowledgement_sent_event_date.expression'],
@@ -116,7 +118,7 @@ ASpaceImport::Importer.importer :digital_objects do
       'subject_source' => 'subject.source',
       'subject_term' => 'subject.term',
       'subject_term_type' => 'subject.term_type',
-      
+
       'user_defined_boolean_1' => [normalize_boolean, 'user_defined.boolean_1'],
       'user_defined_boolean_2' => [normalize_boolean, 'user_defined.boolean_2'],
       'user_defined_date_1' => [date_flip, 'user_defined.date_1'],
@@ -259,7 +261,13 @@ ASpaceImport::Importer.importer :digital_objects do
           agent = cache.find {|obj| obj.class.record_type =~ /^agent_(perso|fami|corpo)/}
           agent.notes << this
         }
+      },
 
+      :note_citation => {
+        :on_row_complete => Proc.new {|cache, this|
+          note_biogist = cache.find {|obj| obj.class.record_type == 'note_bioghist'}
+          note_biogist.subnotes << this
+        }
       },
 
       :subject => {
@@ -272,17 +280,14 @@ ASpaceImport::Importer.importer :digital_objects do
           digital_object.subjects << {'ref' => this.uri}
         }
       },
-      
+
       :user_defined => {
         :on_row_complete => Proc.new {|cache, this|
-          digital_object = cache.find {|obj| obj.class.record_type == 'digital_object'} 
+          digital_object = cache.find {|obj| obj.class.record_type == 'digital_object'}
           digital_object.user_defined = this
         }
-        
-        
       }
     }
-
   end
 
 
@@ -349,20 +354,20 @@ ASpaceImport::Importer.importer :digital_objects do
 
     @date_flip
   end
-  
+
+
   def self.to_real
     @to_real ||= Proc.new {|val| "%0.2f" % val.to_f}
 
     @to_real
   end
-  
+
+
   def self.to_int
     @to_int ||= Proc.new {|val| val.to_i.to_s}
 
     @to_int
   end
-  
-
 end
 
 

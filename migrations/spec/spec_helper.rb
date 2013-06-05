@@ -5,12 +5,13 @@ $test_mode = true
 
 $backend_port = TestUtils::free_port_from(3636)
 $backend_url = "http://localhost:#{$backend_port}"
-$expire = 300
 
 $backend_start_fn = proc {
   TestUtils::start_backend($backend_port,
                            {
-                             :session_expire_after_seconds => $expire
+                             :session_expire_after_seconds => 300,
+                             :realtime_index_backlog_ms => 600000,
+                             :db_url => AppConfig.demo_db_url
                            })
 }
 
@@ -47,9 +48,7 @@ include FactoryGirl::Syntax::Methods
 
 
 def make_test_vocab
-  vocab = JSONModel(:vocabulary).from_hash("ref_id" => 'test_vocab',
-                                          "name" => "Test Vocabulary")
-  vocab.save
-  
+  vocab = create(:json_vocab)
+
   vocab.uri
 end
