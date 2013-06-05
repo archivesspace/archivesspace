@@ -24,6 +24,7 @@
 
     <%= yield(SidebarHelper::SidebarGenerator.new(self, {:record => record, :record_type => record_type})) %>
 
+    <%= sidebar_plugins_for(record) %>
 
     <% unless defined?(suppress_submit_buttons) && suppress_submit_buttons %>
       <% if controller.action_name != "show" %>

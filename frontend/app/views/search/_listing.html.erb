@@ -45,7 +45,7 @@
         <% end %>
         <% if show_record_type? %>
           <td>
-            <%=  I18n.t("#{result["primary_type"]}._singular") %>
+             <%=  I18n.t("#{result["primary_type"]}._singular", :default => I18n.t("plugins.#{result["primary_type"]}._singular")) %>
           </td>
         <% end %>
         <% if show_title_column? %>

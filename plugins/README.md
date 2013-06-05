@@ -5,6 +5,7 @@ Plug-ins provide a mechanism to customize ArchivesSpace by overriding or extendi
 without changing the core codebase. As they are self-contained, they also permit the ready
 sharing of packages of customization between ArchivesSpace instances.
 
+
 Plug-ins are enabled by placing them in the `plugins` directory, and referencing them in the
 ArchivesSpace configuration, `common/config/config.rb`. For example:
 
@@ -61,30 +62,43 @@ Will be availble via the following URL:
 
     http://your.frontend.domain.and:port/assets/my_logo.png
 
-If one or more enabled plug-ins contain a frontend controller, then a `Plug-ins` dropdown menu
-will appear in the Repository toolbar. It will contain an item for each enabled plug-in that
-contains a frontend contrller. Selecting an item from this dropdown will invoke the `index`
-action on a controller whose name is the same as the plug-in. For example, in the `hello_world`
-examplar plug-in, there is the following controller:
 
-    plugins/hello_world/frontend/controllers/hello_world_controller.rb
+Plug-ins can optionally contain a configuration file at `plugins/[plugin-name]/config.yml`.
+This configuration file supports the following options:
 
-The presence of this controller file causes the `Plug-ins` dropdown menu to appear (assuming the
-`hello_world` plug-in is enabled). Selecting `Hello World` causes the `index` action to be invoked
-on the `HelloWorldController` contained in `hello_world_controller.rb`.
+    system_menu_controller
+      The name of a controller that will be accessible via a Plug-ins menu in the System toolbar
+    repository_menu_controller
+      The name of a controller that will be accessible via a Plug-ins menu in the Repository toolbar
+    parents
+      [record-type]
+        name
+        cardinality
+      ...
+
+`system_menu_controller` and `repository_menu_controller` specify the names of frontend controllers
+that will be accessible via the system and repository toolbars respectively. A `Plug-ins` dropdown
+will appear in the toolbars if any enabled plug-ins have declared these configuration options. The
+controller name follows the standard naming conventions, for example:
+
+    repository_menu_controller: hello_world
+
+Points to a controller file at `plugins/hello_world/frontend/controllers/hello_world_controller.rb`
+which implements a controller class called `HelloWorldController`. When the menu item is selected
+by the user, the `index` action is called on the controller.
 
 Note that the URLs for plug-in controllers are scoped under `plugins`, so the URL for the above
 example is:
 
     http://your.frontend.domain.and:port/plugins/hello_world
 
-Also note that the translation for the plug-in's name in the `Plug-ins` dropdown menu is specified
+Also note that the translation for the plug-in's name in the `Plug-ins` dropdown menus is specified
 in a locale file in the `frontend/locales` directory in the plug-in. For example, in the `hello_world`
 example there is an english locale file at:
 
     plugins/hello_world/frontend/locales/en.yml
 
-The translation for the plug-in name in the `Plug-ins` dropdown menu is specified by the key `label`
+The translation for the plug-in name in the `Plug-ins` dropdown menus is specified by the key `label`
 under the plug-in, like this:
 
     en:
@@ -99,6 +113,13 @@ interface elements. In the example above, the translation for the `label` key ca
 directly in an erb view file as follows:
 
     <%= I18n.t("plugins.hello_world.label") %>
+
+Each entry under `parents` specifies a record type that this plug-in provides a new subrecord for.
+`[record-type]` is the name of the existing record type, for example `accession`. `name` is the
+name of the plug-in in its role as a subrecord of this parent, for example `hello_worlds`.
+`cardinality` specifies the cardinality of the plug-in records. Currently supported values are
+`zero-to-many` and `zero-to-one`.
+
 
 Please refer to the `hello_world` exemplar plug-in to find out more about how to implement
 a plug-in. Be sure to test your plug-in thoroughly as it may have unanticipated impacts on your

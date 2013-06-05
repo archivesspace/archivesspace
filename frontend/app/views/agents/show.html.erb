@@ -103,6 +103,8 @@
           <%= render :partial => "external_documents/show", :locals => { :external_documents => @agent.external_documents, :section_id => "agent_external_documents_" } %>
         <% end %>
 
+        <%= show_plugins_for(@agent, readonly) %>
+
         <%= render :partial => "search/embedded", :locals => {:filter_term => {"agents" => @agent.title}.to_json, :heading_text => I18n.t("agent._frontend.section.search_embedded")} %>
       <% end %>
     </div>

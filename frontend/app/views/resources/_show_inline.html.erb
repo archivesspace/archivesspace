@@ -106,6 +106,8 @@
           <%= render :partial => "user_defined/show", :locals => { :user_defined => @resource.user_defined, :context => readonly, :section_id => "resource_user_defined_" } %>
         <% end %>
 
+        <%= show_plugins_for(@resource, readonly) %>
+
       <% end %>
     </div>
   </div>

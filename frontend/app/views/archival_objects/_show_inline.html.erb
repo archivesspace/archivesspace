@@ -52,6 +52,9 @@
           <%= render :partial => "instances/show", :locals => { :instances => archival_object.instances, :section_id => "archival_object_instances_"  } %>
         <% end %>
       <% end %>
+
+      <%= show_plugins_for(@archival_object, readonly) %>
+
       <%= readonly_context :archival_object, @archival_object do |readonly| %>
         <% readonly.emit_template("archival_object", @archival_object) %>
       <% end %>

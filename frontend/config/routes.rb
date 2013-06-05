@@ -128,9 +128,17 @@ ArchivesSpace::Application.routes.draw do
   match 'update_monitor/poll' => 'update_monitor#poll', :via => [:post]
 
 
-  if Plugins.plugins?
+  if Plugins.system_menu_items?
     scope '/plugins' do
-      Plugins.list.each do |plugin|
+      Plugins.system_menu_items.each do |plugin|
+        resources plugin.intern
+      end
+    end
+  end
+
+  if Plugins.repository_menu_items?
+    scope '/plugins' do
+      Plugins.repository_menu_items.each do |plugin|
         resources plugin.intern
       end
     end
