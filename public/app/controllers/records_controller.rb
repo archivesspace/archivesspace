@@ -113,10 +113,8 @@ class RecordsController < ApplicationController
   end
 
 
-  def promise_for(uris_to_lookup, node)
-    uris_to_lookup[node['record_uri']] = lambda {|record|
-      node['fullrecord'] = record
-    }
+  def promise_for(node)
+    lambda {|record| node['fullrecord'] = record }
   end
 
 
@@ -128,7 +126,7 @@ class RecordsController < ApplicationController
 
       # Store a promise to satisfy the record for this URI later on
       if node['record_uri'] && node['record_uri'] != root_uri
-        uris_to_lookup[node['record_uri']] = promise_for(uris_to_lookup, node)
+        uris_to_lookup[node['record_uri']] = promise_for(node)
       end
 
       if node['children']
