@@ -76,8 +76,6 @@
         <%= render :partial => "instances", :locals => {:digital_objects => @resource.digital_objects} %>
         <%= render :partial => "components", :locals => {
               :record_type => "resource",
-              :show_expand_collapse => true,
-              :backlink => {:action => :resource, :controller => :records, :id => @resource.id},
               :show_full_component => @show_components
             } %>
       </fieldset>

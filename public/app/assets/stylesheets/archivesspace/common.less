@@ -443,3 +443,40 @@ pre {
   float: right;
 }
 
+
+/* accordion styles */
+.accordion {
+  &.details {
+    .accordion-body {
+      background-color: #fafafa;      
+      &.in {
+        padding-top: 8px;
+        border-top: 1px solid #E5E5E5;
+      }
+    }
+  }
+  .accordion-body.collapse {
+    border-top: none;
+  }
+  .accordion-toggle {
+
+    padding-left: 10px;
+    padding-top: 0px;
+    float: left;
+
+    .icon-chevron-down {
+      display: block;
+    }
+    .icon-chevron-right {
+      display: none;
+    }
+    .collapsed {
+      .icon-chevron-down {
+        display: none;
+      }
+      .icon-chevron-right {
+        display: block;
+      }
+    }
+  }
+}

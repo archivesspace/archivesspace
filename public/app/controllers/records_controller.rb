@@ -6,21 +6,18 @@ class RecordsController < ApplicationController
 
     @resource = ArchivalObjectView.new(resource)
 
-    @show_components = params[:components].nil? ? true : (params[:components] === 'true')
-
     @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
 
     @tree_view = Search.tree_view(@resource.uri)
 
-    if @show_components
-      load_full_records(@resource.uri, @tree_view['whole_tree'], params[:repo_id])
-    end
+    load_full_records(@resource.uri, @tree_view['whole_tree'], params[:repo_id])
 
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"],
       [@resource.finding_aid_status === 'completed' ? @resource.finding_aid_title : @resource.title, "#", "resource"]
     ]
   end
+
 
   def archival_object
     @archival_object = ArchivalObjectView.new(JSONModel(:archival_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents"]))
