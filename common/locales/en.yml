@@ -373,6 +373,9 @@ en:
         <ul>
         <li>1886-1961 <em>(for H.D., Hilda Doolittle, 1886-1961)</em></li>
         </ul>
+    use_dates: Usage Dates
+    use_dates_tooltip: |
+        <p>Dates in which this name was used for the agent.</p>
     qualifier: Qualifier
     qualifier_tooltip: |
         <p>A term or phrase for distinguishing two name forms identical in all other respects but identifying two different entities.  The term may be a date, a place, or any other suitable descriptor.</p>
@@ -959,6 +962,9 @@ en:
 
   date_type_inclusive:
     <<: *date_attributes
+    
+  date_label:
+    <<: *date_attributes
 
   accession:
     <<: *section_tooltips
@@ -1107,6 +1113,9 @@ en:
         <p>Allows links from this Agent record to another in associative, hierarchical, or parent/child relationships.</p>
     external_documents_tooltip: |
         <p>Allows links to external documentation, e.g. biographical files, reference works, etc. about this Agent.</p>
+    dates_of_existence: Dates of Existence
+    dates_of_existence_tooltip: |
+        <p>Dates in which the agent existed.</p>
     _singular: Agent
     _plural: Agents
 

@@ -27,6 +27,10 @@
     <% if not controller.action_name === "show" or @agent.external_documents.length > 0 %>
       <li><a href="#agent_external_documents_"><%= I18n.t "external_document._plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
+    
+    <% if not controller.action_name === "show" or @agent.dates_of_existence.length > 0 %>
+      <li><a href="#dates"><%= I18n.t "agent.dates_of_existence" %> <span class="icon-chevron-right"></span></a></li>
+    <% end %>
 
     <% if controller.action_name === "show" %>
       <li><a href="#search_embedded"><%= I18n.t("agent._frontend.section.search_embedded") %> <span class="icon-chevron-right"></span></a></li>
