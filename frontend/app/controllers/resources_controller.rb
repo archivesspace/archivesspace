@@ -145,7 +145,15 @@ class ResourcesController < ApplicationController
 
   def fetch_tree
     @tree = JSONModel(:resource_tree).find(nil, :resource_id => @resource.id)
-    parse_tree(@tree, proc {|node| node['level'] = I18n.t("enumerations.archival_record_level.#{node['level']}", :default => node['level'])})
+    parse_tree(@tree, proc {|node|
+      node['level'] = I18n.t("enumerations.archival_record_level.#{node['level']}", :default => node['level'])
+      node['instance_types'] = node['instance_types'].map{|instance_type| I18n.t("enumerations.instance_instance_type.#{instance_type}", :default => instance_type)}
+      node['containers'].each{|container|
+        container["type_1"] = I18n.t("enumerations.container_type.#{container["type_1"]}", :default => container["type_1"]) if container["type_1"]
+        container["type_2"] = I18n.t("enumerations.container_type.#{container["type_2"]}", :default => container["type_2"]) if container["type_2"]
+        container["type_3"] = I18n.t("enumerations.container_type.#{container["type_3"]}", :default => container["type_3"]) if container["type_3"]
+      }
+    })
   end
 
 

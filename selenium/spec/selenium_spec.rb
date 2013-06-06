@@ -1291,7 +1291,10 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:id, "dismissChangesButton").click
 
       # Last added node now selected (text will include the 'level' badge)
-      assert(5) { $driver.find_element(:css => "a.jstree-clicked").text.strip.should eq('DecemberItem') }
+      assert(5) {
+        $driver.find_element(:css => "a.jstree-clicked .title-column").text.strip.should eq('December')
+        $driver.find_element(:css => "a.jstree-clicked .field-column-1").text.strip.should eq('Item')
+      }
     end
 
 
@@ -2094,7 +2097,8 @@ describe "ArchivesSpace user interface" do
       $driver.wait_for_ajax
 
       assert(5) {
-        $driver.find_element_with_text("//div[@id='archives_tree']//li", /My AO, 2013 Item/)
+        $driver.find_element_with_text("//div[@id='archives_tree']//li//span", /My AO, 2013/)
+        $driver.find_element_with_text("//div[@id='archives_tree']//li//span", /Item/)
       }
     end
 
@@ -2131,8 +2135,8 @@ describe "ArchivesSpace user interface" do
       $driver.wait_for_ajax
 
       assert(5) {
-        $driver.find_element_with_text("//div[@id='archives_tree']//li", /Child 1, 2013 Fonds/)
-        $driver.find_element_with_text("//div[@id='archives_tree']//li", /Child 2, 2013 Fonds/)
+        $driver.find_element_with_text("//div[@id='archives_tree']//li//span", /Child 1, 2013/)
+        $driver.find_element_with_text("//div[@id='archives_tree']//li//span", /Child 2, 2013/)
       }
     end
   end

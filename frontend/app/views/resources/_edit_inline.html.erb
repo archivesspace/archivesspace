@@ -22,6 +22,14 @@
            'title' => @resource.title,
            'level' => @resource.level==='otherlevel' ? @resource.other_level : I18n.t("enumerations.archival_record_level.#{@resource.level}", :default => @resource.level),
            'jsonmodel_type' => @resource.jsonmodel_type,
+           'node_type' => @resource.jsonmodel_type,
+           'instance_types' => @resource.instances.map{|instance| I18n.t("enumerations.instance_instance_type.#{instance['instance_type']}", :default => instance['instance_type'])},
+           'containers' => @resource.to_hash["instances"].map{|instance| instance["container"]}.compact.map {|container|
+             container["type_1"] = I18n.t("enumerations.container_type.#{container["type_1"]}", :default => container["type_1"]) if container["type_1"]
+             container["type_2"] = I18n.t("enumerations.container_type.#{container["type_2"]}", :default => container["type_2"]) if container["type_2"]
+             container["type_3"] = I18n.t("enumerations.container_type.#{container["type_3"]}", :default => container["type_3"]) if container["type_3"]
+             container
+           },
            'replace_new_node' => false
          }
     %>

@@ -9,6 +9,11 @@
       "record_uri" => {"type" => "string", "ifmissing" => "error"},
       "title" => {"type" => "string", "minLength" => 1, "required" => false, "maxLength" => 16384},
       "level" => {"type" => "string", "maxLength" => 255},
+      "instance_types" => {"type" => "array", "items" => {"type" => "string"}},
+      "containers" => {"type" => "array", "items" => {"type" => "object"}},
+      "digital_object_type" => {"type" => "string", "maxLength" => 255},
+      "file_versions" => {"type" => "array", "items" => {"type" => "object"}},
+      "level" => {"type" => "string", "maxLength" => 255},
       "node_type" => {"type" => "string", "maxLength" => 255},
       "publish" => {"type" => "boolean", "default" => true},
       "children" => {

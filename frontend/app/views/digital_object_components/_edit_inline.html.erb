@@ -21,6 +21,8 @@
            'title' => @digital_object_component.title,
            'level' => false,
            'jsonmodel_type' => @digital_object_component.jsonmodel_type,
+           'node_type' => @digital_object_component.jsonmodel_type,
+           'file_versions' => @digital_object_component.file_versions,
            'replace_new_node' => controller.action_name === 'create'
          }
     %>

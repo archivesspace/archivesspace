@@ -88,11 +88,79 @@
     AS.tree_data = $.parseJSON('<%= j(@tree.to_json.html_safe) %>');
   </script>
 
+  <div id="tree_node_resource_template"><!--
+    {macro render_container_summary(node)}
+      {if node.containers.length > 0}
+        {for container in node.containers}
+          ${container.type_1}: ${container.indicator_1}{if container.type_2}, ${container.type_2}: ${container.indicator_2}{/if}{if container.type_3}, ${container.type_3}: ${container.indicator_3}{/if}{if container_index+1 < node.containers.length}, {/if}
+        {/for}
+      {else}
+        &#160;
+      {/if}
+    {/macro}
+
+    {macro render_instance_types(node)}
+      ${node.instance_types.join(", ")||"&#160;"}
+    {/macro}
+
+    <span class="tree-node-text">
+      <span class="title-column pull-left">${node.title|h}</span>
+      <span class="field-column field-column-3 pull-right" title="${AS.encodeForAttribute(render_container_summary(node))}">${render_container_summary(node)}</span>
+      <span class="field-column field-column-2 pull-right" title="${AS.encodeForAttribute(render_instance_types(node))}">${render_instance_types(node)}</span>
+      <span class="field-column field-column-1 pull-right">${node.level||"&#160;"}</span>
+    </span>
+  --></div>
+
+  <div id="tree_node_archival_object_template"><!--
+    {eval}node.tmp = {node: node};{/eval}
+    ${AS.renderTemplate("tree_node_resource_template", node.tmp)}
+  --></div>
+
+  <div id="tree_node_classification_template"><!--
+    <span class="tree-node-text">
+      <span class="title-column pull-left">${node.title|h}</span>
+    </span>
+  --></div>
+
+  <div id="tree_node_classification_term_template"><!--
+    {eval}node.tmp = {node: node};{/eval}
+    ${AS.renderTemplate("tree_node_classification_template", node.tmp)}
+  --></div>
+
+  <div id="tree_node_digital_object_template"><!--
+    {macro render_file_version_summary(node)}
+      {if node.file_versions.length > 0}
+        {for file in node.file_versions}${file.file_uri}{if file_index+1 < node.file_versions.length}, {/if} {/for}
+      {else}
+        &#160;
+      {/if}
+    {/macro}
+    <span class="tree-node-text">
+      <span class="title-column pull-left">${node.title|h}</span>
+      <span class="field-column field-column-2 pull-right" title="">${render_file_version_summary(node)}</span>
+      <span class="field-column field-column-1 pull-right">${node.digital_object_type||"&#160;"}</span>
+    </span>
+  --></div>
+
+  <div id="tree_node_digital_object_component_template"><!--
+    {macro render_file_version_summary(node)}
+      {if node.file_versions.length > 0}
+        {for file in node.file_versions}${file.file_uri}{if file_index+1 < node.file_versions.length}, {/if} {/for}
+      {else}
+        &#160;
+      {/if}
+    {/macro}
+    <span class="tree-node-text">
+      <span class="title-column pull-left">${node.title|h}</span>
+      <span class="field-column field-column-2 pull-right" title="">${render_file_version_summary(node)}</span>
+    </span>  --></div>
+
   <div id="tree_template"><!--
+
        {macro render_node_link(node)}
           <a href="#tree::${node.node_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">
-            ${node.title|h}
-            {if node.level}<span class="badge">${node.level}</span>{/if}
+            {eval}node.tmp = {node: node};{/eval}
+            ${AS.renderTemplate("tree_node_"+node.node_type+"_template", node.tmp)}
           </a>
        {/macro}
 

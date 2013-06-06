@@ -287,6 +287,8 @@ module Relationships
     def sequel_to_jsonmodel(obj, opts = {})
       json = super
 
+      return json if opts[:skip_relationships]
+
       relationships.each do |relationship_defn|
         property_name = relationship_defn.json_property
 

@@ -16,15 +16,6 @@ $(function() {
       rules: $(".archives-tree").data("rules")
     };
 
-    var getCurrentTitle = function(nodeType) {
-      return $("#"+nodeType+"_title_", $container).val();
-    };
-
-    var getCurrentLevel = function(nodeType) {
-      var level_val = $("#"+nodeType+"_level_", $container).val();
-      return level_val === "otherlevel" ? $("#"+nodeType+"_other_level_", $container).val() : $("#"+nodeType+"_level_", $container).find(":selected").text();
-    };
-
     var initForm = function(html) {
       $container.html(html);
 
@@ -692,9 +683,7 @@ $(function() {
 
             nodeEl = $("#"+nodeId, $tree);
 
-            if (data.level && data.level.length > 0) {
-              nodeEl.find("a:first").append($('<span class="badge"></span>').text(data.level));
-            }
+            $("> a", nodeEl).html(AS.renderTemplate("tree_node_"+data['node_type']+"_template", {node: data})).prepend("<ins class='jstree-icon'>&nbsp;</ins>");
 
             nodeEl.addClass(currentNodeType).addClass("selected").attr("rel", currentNodeType).data("id", data.id);
             var newHash = "#tree::"+nodeId;
@@ -706,15 +695,7 @@ $(function() {
             // rename the existing node
 
             var nodeEl = $("#" + nodeId, $tree);
-            $tree.jstree("rename_node", nodeEl, data.title);
-
-            if (data.level && data.level.length > 0 && $(" > a > .badge", nodeEl).length > 0) {
-              $(" > a > .badge", nodeEl).html(data.level);
-            } else if (data.level && data.level.length > 0) {
-              nodeEl.find("a:first").append($('<span class="badge"></span>').text(data.level));
-            } else {
-              $(" > a > .badge", nodeEl).remove();
-            }
+            $("> a > .tree-node-text", nodeEl).replaceWith(AS.renderTemplate("tree_node_"+data['node_type']+"_template", {node: data}));
           }
         });
     };
