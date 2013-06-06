@@ -58,14 +58,18 @@
       overflow: hidden;
 
       .jstree-hovered {
-         > .field-column {
-          background-color: transparent !important;
+        > .tree-node-text {
+          .field-column {
+            background-color: transparent !important;
+          }
         }
       }
       &.selected {
         > a {
-          > .field-column {
-            background-color: transparent !important;
+          > .tree-node-text {
+            .field-column {
+              background-color: transparent !important;
+            }
           }
         }
       }
@@ -89,31 +93,40 @@
         margin-left: 2px;
         color: #666;
         padding-left: 2px;
+        overflow: hidden;
 
         &.field-column-1 {
           width: 90px;
           background-color: #e8e8e8;
         }
         &.field-column-2 {
-          width: 110px;
+          width: 150px;
           background-color: #e8e8e8;
         }
         &.field-column-3 {
-          width: 180px;
+          width: 200px;
           background-color: #e8e8e8;
         }
-      }
-
-      .badge {
-        .transition(opacity 0.5s);
-        .opacity(60);
-        margin-left: 5px;
       }
 
       &:hover, &.jstree-clicked {
         .badge {
           .transition(opacity 0.5s);
           .opacity(100);
+        }
+      }
+    }
+
+    .digital_object {
+      a {
+        .field-column-1 {
+          width: 100px;
+        }
+        .field-column-2 {
+          width: 350px;
+        }
+        .field-column-3 {
+          display: none;
         }
       }
     }
@@ -262,6 +275,36 @@
   .opacity(95);
   .box-shadow(3px 3px 10px rgba(0, 0, 0, 0.6));
   z-index: 1;
+}
+
+@media (max-width: 1200px) {
+  .archives-tree-container {
+    .archives-tree {
+      a {
+        .field-column {
+          &.field-column-2 {
+            width: 110px;
+          }
+          &.field-column-3 {
+            width: 180px;
+          }
+        }
+      }
+      .digital_object {
+        a {
+          .field-column-1 {
+            width: 100px;
+          }
+          .field-column-2 {
+            width: 200px;
+          }
+          .field-column-3 {
+            display: none;
+          }
+        }
+      }
+    }
+  }
 }
 
 @media (max-width: 980px) {

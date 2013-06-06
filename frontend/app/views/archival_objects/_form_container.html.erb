@@ -5,7 +5,6 @@
 
 <%= render :partial => "shared/form_messages", :locals => {:form => form} %>
 
-<fieldset>
 
   <%= form.hidden_input "parent", nil, {"data-base-name" => "archival_object[parent]", "class" => "hidden-parent-uri"} %>
   <%= form.hidden_input "resource" %>
@@ -16,19 +15,21 @@
     <section id="basic_information">
       <h3><%= I18n.t("archival_object._frontend.section.basic_information") %></h3>
 
-      <%= form.label_and_textarea("title", :required => :conditionally)%>
-    
-      <% if form.obj["ref_id"].blank? %>
-        <%= form.label_and_readonly "ref_id", "<em>#{I18n.t("archival_object.ref_id_auto_generation_message")}</em>" %>
-      <% else %>
-        <%= form.label_with_field "ref_id", form.hidden_input("ref_id") + "<span class='identifier-display'><span class='identifier-display-part'>#{form.obj["ref_id"]}</span></span>".html_safe %>
-      <% end %>
-      <%= form.hidden_input "ref_id" %>
-      <%= form.label_and_textfield("component_id")%>
-      <%= form.label_and_select "level", form.possible_options_for("level", true) %>
-      <%= form.label_and_textfield "other_level", :required => true %>
-      <%= form.label_and_select "language", form.possible_options_for("language", true) %>
-      <%= form.label_and_boolean "publish", {}, form.default_for("publish") %>
+      <fieldset>
+        <%= form.label_and_textarea("title", :required => :conditionally)%>
+
+        <% if form.obj["ref_id"].blank? %>
+          <%= form.label_and_readonly "ref_id", "<em>#{I18n.t("archival_object.ref_id_auto_generation_message")}</em>" %>
+        <% else %>
+          <%= form.label_with_field "ref_id", form.hidden_input("ref_id") + "<span class='identifier-display'><span class='identifier-display-part'>#{form.obj["ref_id"]}</span></span>".html_safe %>
+        <% end %>
+        <%= form.hidden_input "ref_id" %>
+        <%= form.label_and_textfield("component_id")%>
+        <%= form.label_and_select "level", form.possible_options_for("level", true) %>
+        <%= form.label_and_textfield "other_level", :required => true %>
+        <%= form.label_and_select "language", form.possible_options_for("language", true) %>
+        <%= form.label_and_boolean "publish", {}, form.default_for("publish") %>
+      </fieldset>
     </section>
   <% end %>
 
@@ -46,4 +47,3 @@
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "instances", :custom_action_template => "instances/subrecord_form_action"} %>
 
-</fieldset>

@@ -325,7 +325,7 @@ AS.encodeForAttribute = function(string) {
   if (string === null || string === undefined) {
     return "";
   }
-  return string.replace(/"/g, "&quot;");
+  return $.trim(string.replace(/"/g, "&quot;"));
 };
 
 AS.openQuickModal = function(title, message) {
