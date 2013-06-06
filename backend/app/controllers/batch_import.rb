@@ -45,7 +45,7 @@ class ArchivesSpaceService < Sinatra::Base
             mapping = batch.process
             job_monitor.results = {:saved => Hash[mapping.map {|logical, real_uri|
                                                     [logical, [real_uri, JSONModel.parse_reference(real_uri)[:id]]]}]}
-          rescue JSONModel::ValidationException, ImportException, Sequel::ValidationFailed, ReferenceError => e
+          rescue JSONModel::ValidationException, ImportException, Sequel::ValidationFailed, Sequel::DatabaseError, ReferenceError => e
             job_monitor.results = {:errors => [e]}
 
             # Roll back the transaction (if there is one)

@@ -2,14 +2,14 @@ require 'securerandom'
 
 module ASpaceImport
   module Utils
-    
+
     # Fake an ID to create URIs
     def self.mint_id
       "import_#{SecureRandom.uuid}"
     end
 
     def self.get_property_type(property_def)
-    
+
       # subrecord slots taking more than one type
 
       if property_def['type'].is_a? Array
@@ -18,12 +18,12 @@ module ASpaceImport
         elsif property_def['type'].reject {|t| t['type'].match(/object$/)}.length != 0
           raise ASpaceImportException.new(:property_def => property_def)
         end
-      
+
         return [:record_inline, property_def['type'].map {|t| t['type'].scan(/:([a-zA-Z_]*)/)[0][0] }]
       end
-    
+
       # dynamic enums
-    
+
       if property_def['type'] == 'string' && property_def.has_key?('dynamic_enum')
         return [:dynamic_enum, nil]
       end
@@ -34,38 +34,38 @@ module ASpaceImport
 
       when 'boolean'
         [:boolean, nil]
-      
+
       when 'integer'
         [:integer, nil]
-    
+
       when 'date'
         [:string, nil]
-      
+
       when 'string'
         [:string, nil]
-      
+
       when 'object'
-        if property_def['subtype'] == 'ref'          
+        if property_def['subtype'] == 'ref'
           [:record_ref, ref_type_list(property_def['properties']['ref']['type'])]
         else
           [:object_inline, nil] # e.g., resource - external_id
         end
-      
+
       when 'array'
         arr = get_property_type(property_def['items'])
         [(arr[0].to_s + '_list').to_sym, arr[1]]
-      
+
       when /^JSONModel\(:([a-z_]*)\)\s(uri)$/
         [:record_uri, [$1]]
-      
+
       when /^JSONModel\(:([a-z_]*)\)\s(uri_or_object)$/
         [:record_uri_or_record_inline, [$1]]
-      
+
       when /^JSONModel\(:([a-z_]*)\)\sobject$/
         [:record_inline, [$1]]
 
       else
-      
+
         raise ASpaceImportException.new(:property_def => property_def)
       end
     end
@@ -125,7 +125,7 @@ module ASpaceImport
 
        else
          raise "Can't handle #{property_type}"
-       end 
+       end
      end
 
 
@@ -136,7 +136,7 @@ module ASpaceImport
 
        elsif property_ref_type.is_a?(Array)
          property_ref_type.map { |t| t.scan(/:([a-zA-Z_]*)/)[0][0] }
-       else  
+       else
          property_ref_type.scan(/:([a-zA-Z_]*)/)[0][0]
        end
      end

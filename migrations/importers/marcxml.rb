@@ -4,7 +4,7 @@ ASpaceImport::Importer.importer :marcxml do
   include ASpaceImport::XML::DOM
 
   def self.profile
-    "Imports MARC XML To ArchivesSpace \t (flags: subjects_and_agents_only)"
+    "Imports MARC XML To ArchivesSpace\n(Use the 'subjects_and_agents_only' flag to ignore everything but subjects and agents.)"
   end
 
 

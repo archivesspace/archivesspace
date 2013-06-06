@@ -1,13 +1,9 @@
 require_relative "spec_helper"
-require_relative "../lib/bootstrap"
-
-
 
 describe "ASpaceImport::Importer" do
 
   before(:each) do
     @repo_id = 2
-    ASpaceImport::Importer.destroy_importers
   end
 
 
@@ -15,10 +11,10 @@ describe "ASpaceImport::Importer" do
     ASpaceImport::Importer.importer :foo do
       def greet; "bar"; end
     end
-    
+
     ASpaceImport::Importer.create_importer(:importer => :foo, :repo_id => @repo_id).greet.should eq("bar")
   end
-  
+
 
   it "should not let two importers be registered  under the same key" do
     expect { ASpaceImport::Importer.importer :sgml do "Imports stuff" end }.to_not raise_error
