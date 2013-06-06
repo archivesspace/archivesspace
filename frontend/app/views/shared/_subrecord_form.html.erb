@@ -7,6 +7,7 @@
   template_erb = "#{name.to_s}/template" if template_erb.blank?
   js_template_name = "template_#{template}" if js_template_name.blank?
   custom_action_template = false if custom_action_template.blank?
+  template_overrides = false if template_overrides.blank?
   help_topic = form.help_path_for(name) if help_topic.blank?
 
   required = form.required?(name) if required.blank?
@@ -14,7 +15,12 @@
   cardinality = :zero_to_many if cardinality.blank?
 %>
 
+<% if template_overrides %>
+  <%= render :partial=>template_overrides %>
+<% end %>
+
 <%= render :partial=>template_erb, :locals => {:form => form} %>
+
 
 <section id="<%= section_id %>" class="subrecord-form <% if required == :conditionally %> conditionally-required<% elsif required %> required<% end %>" data-subrecord-form="true" data-object-name="<%= singular %>" data-template="<%= js_template_name %>" <% if custom_action_template %>data-custom-action="true"<% end %> data-cardinality="<%= cardinality %>">
 
