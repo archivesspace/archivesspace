@@ -91,7 +91,9 @@
   <div id="tree_node_resource_template"><!--
     {macro render_container_summary(node)}
       {if node.containers.length > 0}
-        {for container in node.containers}${container.type_1}: ${container.indicator_1}{if container_index+1 < node.containers.length}, {/if} {/for}
+        {for container in node.containers}
+          ${container.type_1}: ${container.indicator_1}{if container.type_2}, ${container.type_2}: ${container.indicator_2}{/if}{if container.type_3}, ${container.type_3}: ${container.indicator_3}{/if}{if container_index+1 < node.containers.length}, {/if}
+        {/for}
       {else}
         &#160;
       {/if}
