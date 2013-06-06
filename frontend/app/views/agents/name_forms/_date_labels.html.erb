@@ -1,0 +1,3 @@
+<% define_template "date_label", jsonmodel_definition(:date) do |form| %>
+	<%= form.label_and_select "label", form.possible_options_for("label", false, :include => ["usage"]) %>
+<% end %>
