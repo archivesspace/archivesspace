@@ -1,18 +1,16 @@
 class RecordsController < ApplicationController
 
   def resource
-    @resource = ArchivalObjectView.new(JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents"]))
-    raise RecordNotFound.new if not @resource.publish
+    resource = JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents"])
+    raise RecordNotFound.new if (!resource || !resource.publish)
 
-    @show_components = params[:components].nil? ? true : (params[:components] === 'true')
+    @resource = ArchivalObjectView.new(resource)
 
     @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
 
     @tree_view = Search.tree_view(@resource.uri)
 
-    if @show_components
-      load_full_records(@resource.uri, @tree_view['whole_tree'], params[:repo_id])
-    end
+    load_full_records(@resource.uri, @tree_view['whole_tree'], params[:repo_id])
 
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"],
@@ -20,9 +18,12 @@ class RecordsController < ApplicationController
     ]
   end
 
+
   def archival_object
-    @archival_object = ArchivalObjectView.new(JSONModel(:archival_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents"]))
-    raise RecordNotFound.new if not @archival_object.publish
+    archival_object = JSONModel(:archival_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents"])
+    raise RecordNotFound.new if (!archival_object || !archival_object.publish)
+
+    @archival_object = ArchivalObjectView.new(archival_object)
 
     @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
 

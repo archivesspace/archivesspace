@@ -1,50 +1,56 @@
 <%
-   components = whole_tree? ? whole_tree['children'] : children 
+   components = whole_tree? ? whole_tree['children'] : children
    show_full_component = defined?(show_full_component) ? show_full_component : false
-   %>
+%>
 
+
+<% node_id = 0; %>
 <% show_node = lambda do |child, stripe| %>
-  <li class="result <% if stripe %>striped<% else %>unstriped<% end %>">
-    <h4>
-      <%= icon_for child["node_type"] %>
-      <%= link_to child["title"], :controller => :records, :action => child["node_type"] || child["jsonmodel_type"], :id => child['id'] || JSONModel(child["jsonmodel_type"].intern).id_for(child['uri']), :repo_id => @repository.id %>
-    </h4>
-
-    <% if show_full_component && record_type == 'resource' %>
+<% node_id += 1 %>
+<li class="result <% if stripe %>striped<% else %>unstriped<% end %>">
+  <h4>
+    <a class="collapsible-toggle" href="#<%= "node#{node_id}" %>">
+      <span class="icon-chevron-right"></span>
+      <span class="icon-chevron-down"></span>
+    </a>
+    <%= icon_for child["node_type"] %>
+    <%= link_to child["title"], :controller => :records, :action => child["node_type"] || child["jsonmodel_type"], :id => child['id'] || JSONModel(child["jsonmodel_type"].intern).id_for(child['uri']), :repo_id => @repository.id %>
+  </h4>
+  <div id="<%= "node#{node_id}" %>" class="collapsible-panel">
+    <% if record_type == 'resource' %>
       <div class="component-view">
-        <%= render :partial => "archival_object", 
-                   :locals => {
-                     :archival_object => ArchivalObjectView.new(child['fullrecord']),
-                     :show_components => false
-                   } %>
+        <% if child['fullrecord'] %>
+          <%= render :partial => "archival_object",
+                     :locals => {
+                       :archival_object => ArchivalObjectView.new(child['fullrecord']),
+                       :show_components => false
+                     } %>
+        <% end %>
       </div>
     <% end %>
 
     <% if !child['children'].blank? %>
-      <ul class="results-list">
-        <% 
-           child['children'].each_with_index do |subchild, i|
-             show_node.call(subchild, ((i % 2) == 0) != stripe)
-           end
-        %> 
+    <ul class="results-list">
+      <%
+         child['children'].each_with_index do |subchild, i|
+           show_node.call(subchild, ((i % 2) == 0) != stripe)
+         end
+      %>
     </ul>
     <% end %>
-
-  </li>
+  </div>
+</li>
 <% end %>
 
 <% unless components.blank? %>
   <section id="components">
     <h3>
       <%= I18n.t("#{record_type}._public.section.components") %>
-      <% if defined?(show_expand_collapse) && show_expand_collapse %>
-        <% button_label = I18n.t(show_full_component ? "components.collapse" : "components.expand") %>
 
-        <%= link_to(button_label,
-                    backlink.merge(:components => !show_full_component, :anchor => "components"),
-                    :class => "btn btn-mini expand-collapse-btn") %>
-
-      <% end %>
+      <div class="btn-group pull-right">
+        <button id="collapse-all-btn" class="btn btn-mini expand-collapse-btn"><%= I18n.t('components.collapse') %></button>
+        <button id="expand-all-btn" class="btn btn-mini expand-collapse-btn"><%= I18n.t('components.expand') %></button>
+      </div>
     </h3>
 
     <ul class="results-list">
@@ -54,3 +60,26 @@
     </ul>
   </section>
 <% end %>
+
+
+
+<script type="text/javascript">
+  document.ready = function (e) {
+    $(".collapsible-toggle").on("click", function(event) {
+      event.preventDefault();
+
+      $($(this).attr("href")).toggleClass("collapsed");
+      $(this).toggleClass("collapsed")
+    });
+
+    $('#expand-all-btn').on('click', function () {
+      $(".collapsible-toggle, .collapsible-panel").removeClass("collapsed");
+
+    });
+
+    $('#collapse-all-btn').on('click', function () {
+      $(".collapsible-toggle, .collapsible-panel").addClass("collapsed");
+    });
+  };
+</script>
+

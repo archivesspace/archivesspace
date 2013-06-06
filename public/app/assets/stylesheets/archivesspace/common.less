@@ -173,7 +173,7 @@ section {
   border-left: 1px solid #EEE;
   padding-left: 5px;
 
-  li.result > .results-list {
+  li.result .results-list {
     margin-left: 15px;
   }
 
@@ -439,7 +439,28 @@ pre {
 }
 
 
-.expand-collapse-btn {
-  float: right;
-}
+/* custom collapse styles */
+.collapsible-toggle {
+  text-decoration: none;
 
+  .icon-chevron-down, .icon-chevron-right {
+    text-decoration: none;
+  }
+
+  .icon-chevron-right {
+    display: none;
+  }
+  &.collapsed {
+    .icon-chevron-right {
+      display: inline-block;
+    }
+    .icon-chevron-down {
+      display: none;
+    }
+  }
+}
+.collapsible-panel {
+  &.collapsed {
+    display: none;
+  }
+}
