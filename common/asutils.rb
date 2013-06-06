@@ -1,3 +1,5 @@
+require 'java'
+require 'tmpdir'
 require 'config/config-distribution'
 
 module ASUtils
@@ -67,8 +69,6 @@ module ASUtils
   end
 
 
-
-
   def self.extract_nested_strings(coll)
     if coll.is_a?(Hash)
       coll.values.map {|v| self.extract_nested_strings(v)}.flatten.compact
@@ -77,6 +77,44 @@ module ASUtils
     else
       coll
     end
+  end
+
+
+  def self.dump_diagnostics(exception = nil)
+    runtime = java.lang.Runtime.getRuntime
+    diagnostics = {
+      :environment => java.lang.System.getenv,
+      :jvm_properties => java.lang.System.getProperties,
+      :globals => Hash[global_variables.map {|v| [v, eval(v.to_s)]}],
+      :appconfig => defined?(AppConfig) ? AppConfig.dump_sanitised : "not loaded",
+      :memory => {
+        :free => runtime.freeMemory,
+        :max => runtime.maxMemory,
+        :total => runtime.totalMemory
+      },
+      :cpu_count => runtime.availableProcessors,
+      :exception => exception && {:msg => exception, :backtrace => exception.backtrace}
+    }
+
+    tmp = File.join(Dir.tmpdir, "aspace_diagnostic_#{Time.now.to_i}.txt")
+    File.open(tmp, "w") do |fh|
+      fh.write(JSON.pretty_generate(diagnostics))
+    end
+
+    msg = <<EOF
+A trace file has been written to the following location: #{tmp}
+
+This file contains information that will assist developers in diagnosing
+problems with your ArchivesSpace installation.  Please review the file's
+contents for sensitive information (such as passwords) that you might not
+want to share.
+EOF
+
+    $stderr.puts("=" * 72)
+    $stderr.puts(msg)
+    $stderr.puts("=" * 72)
+
+    raise exception if exception
   end
 
 end

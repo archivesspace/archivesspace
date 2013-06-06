@@ -98,6 +98,7 @@ module JSONModel
 
 
   def self.schema_src(schema_name)
+
     if schema_name.to_s !~ /\A[0-9A-Za-z_-]+\z/
       raise "Invalid schema name: #{schema_name}"
     end

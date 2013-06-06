@@ -1,4 +1,5 @@
 require_relative 'launcher_init'
+require 'asutils'
 require 'fileutils'
 require 'securerandom'
 require 'uri'
@@ -111,25 +112,30 @@ def main
     end
   end
 
-  start_server(URI(AppConfig[:backend_url]).port, {:war => File.join('wars', 'backend.war'), :path => '/'})
-  start_server(URI(AppConfig[:solr_url]).port,
-               {:war => File.join('wars', 'solr.war'), :path => '/'},
-               {:war => File.join('wars', 'indexer.war'), :path => '/aspace-indexer'})
-  start_server(URI(AppConfig[:frontend_url]).port,
-               {:war => File.join('wars', 'frontend.war'), :path => '/'},
-               {:static_dir => File.join(java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
-                                         "local",
-                                         "frontend",
-                                         "assets"),
-                :path => '/assets'}
-  )
-  start_server(URI(AppConfig[:public_url]).port,
-               {:war => File.join('wars', 'public.war'), :path => '/'},
-               {:static_dir => File.join(java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
-                                         "local",
-                                         "public",
-                                         "assets"),
-                :path => '/assets'})
+  begin
+    start_server(URI(AppConfig[:backend_url]).port, {:war => File.join('wars', 'backend.war'), :path => '/'})
+    start_server(URI(AppConfig[:solr_url]).port,
+                 {:war => File.join('wars', 'solr.war'), :path => '/'},
+                 {:war => File.join('wars', 'indexer.war'), :path => '/aspace-indexer'})
+    start_server(URI(AppConfig[:frontend_url]).port,
+                 {:war => File.join('wars', 'frontend.war'), :path => '/'},
+                 {:static_dir => File.join(java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
+                                           "local",
+                                           "frontend",
+                                           "assets"),
+                   :path => '/assets'}
+                 )
+    start_server(URI(AppConfig[:public_url]).port,
+                 {:war => File.join('wars', 'public.war'), :path => '/'},
+                 {:static_dir => File.join(java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
+                                           "local",
+                                           "public",
+                                           "assets"),
+                   :path => '/assets'})
+  rescue
+    # If anything fails on startup, dump a diagnostic file.
+    ASUtils.dump_diagnostics($!)
+  end
 
   puts <<EOF
 ************************************************************

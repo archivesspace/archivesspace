@@ -16,7 +16,7 @@ gem 'jquery-rails'
 
 gem 'json-schema'
 
-gem "jruby-jars", "= 1.7.3"
+gem "jruby-jars", "= 1.7.4"
 
 gem 'atomic', '= 1.0.1'
 gem "puma"
