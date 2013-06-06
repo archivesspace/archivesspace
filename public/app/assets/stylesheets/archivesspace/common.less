@@ -439,39 +439,28 @@ pre {
 }
 
 
-/* accordion styles */
-.accordion {
-  &.details {
-    .accordion-body {
-      background-color: #fafafa;      
-      &.in {
-        padding-top: 8px;
-        border-top: 1px solid #E5E5E5;
-      }
-    }
-  }
-  .accordion-body.collapse {
-    border-top: none;
-  }
-  .accordion-toggle {
+/* custom collapse styles */
+.collapsible-toggle {
+  text-decoration: none;
 
-    padding-left: 10px;
-    padding-top: 0px;
-    float: left;
+  .icon-chevron-down, .icon-chevron-right {
+    text-decoration: none;
+  }
 
-    .icon-chevron-down {
-      display: block;
-    }
+  .icon-chevron-right {
+    display: none;
+  }
+  &.collapsed {
     .icon-chevron-right {
+      display: inline-block;
+    }
+    .icon-chevron-down {
       display: none;
     }
-    .collapsed {
-      .icon-chevron-down {
-        display: none;
-      }
-      .icon-chevron-right {
-        display: block;
-      }
-    }
+  }
+}
+.collapsible-panel {
+  &.collapsed {
+    display: none;
   }
 }

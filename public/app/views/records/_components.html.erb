@@ -7,43 +7,37 @@
 <% node_id = 0; %>
 <% show_node = lambda do |child, stripe| %>
 <% node_id += 1 %>
-<li class="accordion result <% if stripe %>striped<% else %>unstriped<% end %>">
-  <div class="accordion-heading">
-    <h4>
-      <div class="accordion-toggle">
-        <a data-toggle="collapse" href="#<%= "node#{node_id}" %>">
-          <i class="icon-chevron-right"></i>
-          <i class="icon-chevron-down"></i>
-        </a>
+<li class="result <% if stripe %>striped<% else %>unstriped<% end %>">
+  <h4>
+    <a class="collapsible-toggle" href="#<%= "node#{node_id}" %>">
+      <span class="icon-chevron-right"></span>
+      <span class="icon-chevron-down"></span>
+    </a>
+    <%= icon_for child["node_type"] %>
+    <%= link_to child["title"], :controller => :records, :action => child["node_type"] || child["jsonmodel_type"], :id => child['id'] || JSONModel(child["jsonmodel_type"].intern).id_for(child['uri']), :repo_id => @repository.id %>
+  </h4>
+  <div id="<%= "node#{node_id}" %>" class="collapsible-panel">
+    <% if record_type == 'resource' %>
+      <div class="component-view">
+        <% if child['fullrecord'] %>
+          <%= render :partial => "archival_object",
+                     :locals => {
+                       :archival_object => ArchivalObjectView.new(child['fullrecord']),
+                       :show_components => false
+                     } %>
+        <% end %>
       </div>
-      <%= icon_for child["node_type"] %>
-      <%= link_to child["title"], :controller => :records, :action => child["node_type"] || child["jsonmodel_type"], :id => child['id'] || JSONModel(child["jsonmodel_type"].intern).id_for(child['uri']), :repo_id => @repository.id %>
-    </h4>
-  </div>
-  <div id="<%= "node#{node_id}" %>" class="accordion-body collapse in">
-    <div class="accordion-inner">
-      <% if record_type == 'resource' %>
-        <div class="component-view">
-          <% if child['fullrecord'] %>
-            <%= render :partial => "archival_object",
-                       :locals => {
-                         :archival_object => ArchivalObjectView.new(child['fullrecord']),
-                         :show_components => false
-                       } %>
-          <% end %>
-        </div>
-      <% end %>
+    <% end %>
 
-      <% if !child['children'].blank? %>
-      <ul class="results-list">
-        <%
-           child['children'].each_with_index do |subchild, i|
-             show_node.call(subchild, ((i % 2) == 0) != stripe)
-           end
-        %>
-      </ul>
-      <% end %>
-    </div>
+    <% if !child['children'].blank? %>
+    <ul class="results-list">
+      <%
+         child['children'].each_with_index do |subchild, i|
+           show_node.call(subchild, ((i % 2) == 0) != stripe)
+         end
+      %>
+    </ul>
+    <% end %>
   </div>
 </li>
 <% end %>
@@ -71,20 +65,20 @@
 
 <script type="text/javascript">
   document.ready = function (e) {
+    $(".collapsible-toggle").on("click", function(event) {
+      event.preventDefault();
+
+      $($(this).attr("href")).toggleClass("collapsed");
+      $(this).toggleClass("collapsed")
+    });
+
     $('#expand-all-btn').on('click', function () {
-      $('.collapse').not('.in').collapse('show');
-      $('.collapsed').removeClass('collapsed')
+      $(".collapsible-toggle, .collapsible-panel").removeClass("collapsed");
+
     });
 
     $('#collapse-all-btn').on('click', function () {
-      var parent_panels = $('#components > .results-list > .accordion > .accordion-body.collapse');
-      parent_panels.collapse('hide');
-      setTimeout(function() {
-        $(".collapse", parent_panels).collapse('hide');
-      }, 400);
-
-
-      $('.accordion-toggle a').addClass('collapsed');
+      $(".collapsible-toggle, .collapsible-panel").addClass("collapsed");
     });
   };
 </script>
