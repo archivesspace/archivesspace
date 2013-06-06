@@ -965,6 +965,15 @@ en:
     
   date_label:
     <<: *date_attributes
+    
+  existence_date:
+    <<: *date_attributes
+    
+  useage_date:
+    <<: *date_attributes
+    
+  date_fields:
+    <<: *date_attributes
 
   accession:
     <<: *section_tooltips
