@@ -933,10 +933,12 @@ en:
       deaccession: Deaccession
       agent_relation: Agent Relation
       digitized: Digitized
+      existence: Existence
       event: Event
       issued: Issued
       modified: Modified
       publication: Publication
+      usage: Usage
       other: Other
     date_certainty:
       approximate: Approximate
