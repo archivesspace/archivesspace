@@ -24,11 +24,13 @@
     <div class="accordion-inner">
       <% if record_type == 'resource' %>
         <div class="component-view">
-          <%= render :partial => "archival_object",
-                     :locals => {
-                       :archival_object => ArchivalObjectView.new(child['fullrecord']),
-                       :show_components => false
-                     } %>
+          <% if child['fullrecord'] %>
+            <%= render :partial => "archival_object",
+                       :locals => {
+                         :archival_object => ArchivalObjectView.new(child['fullrecord']),
+                         :show_components => false
+                       } %>
+          <% end %>
         </div>
       <% end %>
 

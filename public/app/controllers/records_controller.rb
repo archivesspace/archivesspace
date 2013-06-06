@@ -20,8 +20,10 @@ class RecordsController < ApplicationController
 
 
   def archival_object
-    @archival_object = ArchivalObjectView.new(JSONModel(:archival_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents"]))
-    raise RecordNotFound.new if not @archival_object.publish
+    archival_object = JSONModel(:archival_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents"])
+    raise RecordNotFound.new if (!archival_object || !archival_object.publish)
+
+    @archival_object = ArchivalObjectView.new(archival_object)
 
     @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
 
