@@ -444,22 +444,6 @@ en:
     _singular: Name
     _plural: Names
 
-  agent_person:
-    _singular: Person
-    _plural: People
-
-  agent_family:
-    _singular: Family
-    _plural: Families
-
-  agent_software:
-    _singular: Software
-    _plural: Software
-
-  agent_corporate_entity:
-    _singular: Corporate Entity
-    _plural: Corporate Entities
-
   agent_contact:
     name: Contact Name
     name_tooltip: |
@@ -1125,8 +1109,29 @@ en:
     dates_of_existence: Dates of Existence
     dates_of_existence_tooltip: |
         <p>Dates in which the agent existed.</p>
+    publish: Publish
     _singular: Agent
     _plural: Agents
+
+  agent_person:
+    <<: *agent_attributes
+    _singular: Person
+    _plural: People
+
+  agent_family:
+    <<: *agent_attributes
+    _singular: Family
+    _plural: Families
+
+  agent_software:
+    <<: *agent_attributes
+    _singular: Software
+    _plural: Software
+
+  agent_corporate_entity:
+    <<: *agent_attributes
+    _singular: Corporate Entity
+    _plural: Corporate Entities
 
   archival_object: &archival_object_attributes
     title: Title

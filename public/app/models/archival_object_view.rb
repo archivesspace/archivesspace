@@ -26,6 +26,11 @@ class ArchivalObjectView
   end
 
 
+  def published_agents
+    Array(@archival_object['linked_agents']).find_all {|doc| doc['_resolved']['publish'] === true}
+  end
+
+
   def method_missing(method, *args, &block)
     @archival_object.send(method, *args, &block)
   end

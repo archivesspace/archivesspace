@@ -15,6 +15,7 @@ class User < Sequel::Model(:user)
       opts['agent_record_id'] = 1
     else
       agent = JSONModel(:agent_person).from_hash(
+                :publish => false,
                 :names => [{
                   :primary_name => json.name,
                   :source => 'local',
