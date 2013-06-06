@@ -53,8 +53,10 @@
     <h3>
       <%= I18n.t("#{record_type}._public.section.components") %>
 
-      <button id="collapse-all-btn" class="btn btn-mini expand-collapse-btn"><%= I18n.t('components.collapse') %></button>
-      <button id="expand-all-btn" class="btn btn-mini expand-collapse-btn"><%= I18n.t('components.expand') %></button>
+      <div class="btn-group pull-right">
+        <button id="collapse-all-btn" class="btn btn-mini expand-collapse-btn"><%= I18n.t('components.collapse') %></button>
+        <button id="expand-all-btn" class="btn btn-mini expand-collapse-btn"><%= I18n.t('components.expand') %></button>
+      </div>
     </h3>
 
     <ul class="results-list">
@@ -75,7 +77,13 @@
     });
 
     $('#collapse-all-btn').on('click', function () {
-      $('.collapse').collapse('hide');
+      var parent_panels = $('#components > .results-list > .accordion > .accordion-body.collapse');
+      parent_panels.collapse('hide');
+      setTimeout(function() {
+        $(".collapse", parent_panels).collapse('hide');
+      }, 400);
+
+
       $('.accordion-toggle a').addClass('collapsed');
     });
   };
