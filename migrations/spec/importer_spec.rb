@@ -4,7 +4,6 @@ describe "ASpaceImport::Importer" do
 
   before(:each) do
     @repo_id = 2
-    ASpaceImport::Importer.destroy_importers
   end
 
 
