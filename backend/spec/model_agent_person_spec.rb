@@ -60,4 +60,17 @@ describe 'Agent model' do
   end
 
 
+  it "allows dates_of_existence for an agent, and filters out other labels" do
+    n = build(:json_name_person)
+
+    d1 = build(:json_date, :label => 'existence')
+    d2 = build(:json_date, :label => 'creation')
+    
+    agent = AgentPerson.create_from_json(build(:json_agent_person, {:names => [n], :dates_of_existence => [d1]}))
+
+    JSONModel(:agent_person).find(agent[:id]).dates_of_existence.length.should eq(1)
+
+    expect { AgentPerson.create_from_json(build(:json_agent_person, {:names => [n], :dates_of_existence => [d2]})) }.to raise_error(JSONModel::ValidationException)
+  end
+
 end
