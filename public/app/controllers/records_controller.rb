@@ -1,8 +1,10 @@
 class RecordsController < ApplicationController
 
   def resource
-    @resource = ArchivalObjectView.new(JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents"]))
-    raise RecordNotFound.new if not @resource.publish
+    resource = JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents"])
+    raise RecordNotFound.new if (!resource || !resource.publish)
+
+    @resource = ArchivalObjectView.new(resource)
 
     @show_components = params[:components].nil? ? true : (params[:components] === 'true')
 
