@@ -213,12 +213,12 @@ en:
   accession:
     _frontend:
       messages:
-        created: Accession <strong>%{accession.title}</strong> created
-        unsuppressed: Accession <strong>%{accession.title}</strong> unsuppressed
-        updated: Accession <strong>%{accession.title}</strong> updated
-        suppressed: Accession <strong>%{accession.title}</strong> suppressed
+        created: Accession <strong>%{accession.label}</strong> created
+        unsuppressed: Accession <strong>%{accession.label}</strong> unsuppressed
+        updated: Accession <strong>%{accession.label}</strong> updated
+        suppressed: Accession <strong>%{accession.label}</strong> suppressed
         suppressed_info: Accession is suppressed and cannot be edited
-        deleted: Accession <strong>%{accession.title}</strong> deleted
+        deleted: Accession <strong>%{accession.label}</strong> deleted
       section:
         basic_information: Basic Information
       action:
