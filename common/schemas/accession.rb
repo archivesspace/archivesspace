@@ -18,7 +18,8 @@
         }
       },
 
-      "title" => {"type" => "string", "maxLength" => 16384, "minLength" => 1},
+      "title" => {"type" => "string", "maxLength" => 8192, "minLength" => 1},
+      "label" => {"type" => "string", "maxLength" => 8192, "readonly" => true},
 
       "id_0" => {"type" => "string", "ifmissing" => "error", "maxLength" => 255},
       "id_1" => {"type" => "string", "maxLength" => 255},

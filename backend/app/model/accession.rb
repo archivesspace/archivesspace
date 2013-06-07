@@ -16,6 +16,7 @@ class Accession < Sequel::Model(:accession)
   include Instances
   include UserDefineds
   include Classifications
+  include AutoGenerator
 
   agent_relator_enum("linked_agent_archival_record_relators")
 
@@ -28,6 +29,21 @@ class Accession < Sequel::Model(:accession)
                       :contains_references_to_types => proc {[Resource]})
 
 
+  auto_generate :property => :label,
+                :generator => proc { |json|
+                  
+                  label = ""
+                  
+                  %w(title id_0 id_1 id_2 id_3).each do |p|
+                    
+                    if json[p]
+                      label += ", " if label.length
+                      label += json[p]
+                    end
+                  end
+  
+                  label
+                }
 
   def set_suppressed(val)
     self.suppressed = val ? 1 : 0
