@@ -465,14 +465,16 @@ end
 
 
 def create_accession(title)
+  identifier = "#{Time.now.to_f}#{$$}"
+
   req = Net::HTTP::Post.new("#{$test_repo_uri}/accessions")
-  req.body = {:title => title, :id_0 => "#{Time.now.to_f}#{$$}", :accession_date => "2000-01-01"}.to_json
+  req.body = {:title => title, :id_0 => identifier, :accession_date => "2000-01-01"}.to_json
 
   response = admin_backend_request(req)
 
   raise response.body if response.code != '200'
 
-  title
+  [title, "#{title}, #{identifier}"]
 end
 
 

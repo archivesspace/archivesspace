@@ -624,7 +624,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "accession_condition_description_"], "Slightly squashed")
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-      assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("#{@accession_title} Accession") }
+      assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("#{@accession_title}, #{@shared_4partid.join(", ")} Accession") }
     end
 
 
@@ -667,7 +667,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-      assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("#{@accession_title} Accession") }
+      assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("#{@accession_title}, #{@shared_4partid.join(", ")} Accession") }
     end
 
 
@@ -977,7 +977,7 @@ describe "ArchivesSpace user interface" do
 
     before(:all) do
       login_as_repo_manager
-      @accession_title = create_accession("My accession to test the record lifecycle")
+      @accession_title, @accession_label = create_accession("My accession to test the record lifecycle")
       run_index_round
     end
 
@@ -999,7 +999,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, ".suppress-record.btn").click
       $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
 
-      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession_title} suppressed") }
+      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession_label} suppressed") }
       assert(5) { $driver.find_element(:css => "div.alert.alert-info").text.should eq('Accession is suppressed and cannot be edited') }
 
       run_index_round
@@ -1023,7 +1023,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element_with_text('//h2', /Accessions/)
 
       # No element found
-      $driver.find_element_with_text('//td', /#{@accession_title}/, true, true).should eq(nil)
+      $driver.find_element_with_text('//td', /#{@accession_label}/, true, true).should eq(nil)
 
       # check the accession url
       $driver.get($accession_url)
@@ -1042,7 +1042,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, ".unsuppress-record.btn").click
       $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
 
-      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession_title} unsuppressed") }
+      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession_label} unsuppressed") }
     end
 
 
@@ -1052,7 +1052,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
 
       #Ensure Accession no longer exists
-      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession_title} deleted") }
+      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession_label} deleted") }
 
       run_index_round
 
@@ -1061,7 +1061,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element_with_text('//h2', /Accessions/)
 
       # No element found
-      $driver.find_element_with_text('//td', /#{@accession_title}/, true, true).should eq(nil)
+      $driver.find_element_with_text('//td', /#{@accession_label}/, true, true).should eq(nil)
 
       # Navigate back to the accession's page
       $driver.get($accession_url)
@@ -1077,7 +1077,7 @@ describe "ArchivesSpace user interface" do
 
     before(:all) do
       login_as_archivist
-      @accession_title = create_accession("Events link to this accession")
+      @accession_title, accession_label = create_accession("Events link to this accession")
       @agent_name = create_agent("Geddy Lee")
       run_index_round
     end
