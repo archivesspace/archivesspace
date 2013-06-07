@@ -204,10 +204,8 @@ $(function() {
           // only allow selection of unselected items
 
           if ($.inArray(obj.uri, currentlySelectedIds) === -1) {
-
-            var obj_name = obj.title ? obj.title : fallbackName(obj);
             formattedResults.push({
-              name: obj_name,
+              name: obj.title,
               id: obj.id,
               json: obj
             });
@@ -215,17 +213,6 @@ $(function() {
         });
         return formattedResults;
       };
-
-
-      var fallbackName = function(obj) {
-        if (obj.label) {
-          return obj.label;
-        } else if (obj.identifier) {
-          return obj.identifier;
-        } else {
-          return "Untitled record";
-        }
-      }
 
 
       var addEventBindings = function() {
