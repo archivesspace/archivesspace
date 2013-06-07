@@ -31,7 +31,7 @@ module JSONModel::Validations
     errors = []
 
     if hash["source"].nil?
-      if hash["rules"].nil? 
+      if hash["rules"].nil?
         errors << ["rules", "is required when 'source' is blank"]
         errors << ["source", "is required when 'rules' is blank"]
       elsif hash["authority_id"]
@@ -41,7 +41,7 @@ module JSONModel::Validations
 
     errors
   end
-  
+
   def self.check_name(hash)
     errors = []
     errors << ["sort_name", "Property is required but was missing"] if hash["sort_name"].nil? and !hash["sort_name_auto_generate"]
@@ -268,7 +268,7 @@ module JSONModel::Validations
     if hash["level"] === "otherlevel"
       warnings << ["other_level", "is required"] if hash["other_level"].nil?
     end
-    
+
     warnings
   end
 
@@ -288,11 +288,11 @@ module JSONModel::Validations
     JSONModel(:archival_object).add_validation("check_archival_object") do |hash|
       check_archival_object(hash)
     end
-    
+
     JSONModel(:archival_object).add_validation("check_archival_object_otherlevel", :warning) do |hash|
       check_otherlevel(hash);
     end
-    
+
   end
 
 
@@ -320,5 +320,22 @@ module JSONModel::Validations
 
     errors
   end
+
+
+  [:agent_person, :agent_family, :agent_software, :agent_corporate_entity].each do |agent_type|
+
+    JSONModel(agent_type).add_validation("check_#{agent_type.to_s}") do |hash|
+      errors = []
+
+      if hash.has_key?("dates_of_existence") && hash["dates_of_existence"].find {|d| d['label'] != 'existence' }
+        errors << ["dates_of_existence", "Label must be 'existence' in this context"]
+      end
+
+      errors
+    end
+  end
+
+
+
 
 end

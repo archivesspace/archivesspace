@@ -32,11 +32,11 @@ describe 'Person agent controller' do
 
 
   it "can give a list of person agents" do
-    
+
     start = JSONModel(:agent_person).all(:page => 1)['results'].count
-    
+
     2.times { create_person }
-    
+
     JSONModel(:agent_person).all(:page => 1)['results'].count.should eq(start+2)
   end
 
@@ -91,5 +91,32 @@ describe 'Person agent controller' do
     agent = JSONModel(:agent_person).find(id)
 
     agent.title.should eq("Jimi Hendrix, Mr")
+  end
+
+
+  it "allows agents to have dates of existence" do
+
+    date = build(:json_date, :label => "existence")
+
+    id = create_person({:dates_of_existence => [date]}).id
+
+    agent = JSONModel(:agent_person).find(id)
+
+    agent.dates_of_existence.length.should eq(1)
+    agent.dates_of_existence[0]["expression"].should eq(date.expression)
+  end
+
+
+  it "allows names to have use dates" do
+
+    date = build(:json_date)
+
+    name = build(:json_name_person, {:use_dates => [date]})
+
+    id = create_person({:names => [name]}).id
+
+    agent = JSONModel(:agent_person).find(id)
+
+    agent.names[0]['use_dates'].length.should eq(1)
   end
 end

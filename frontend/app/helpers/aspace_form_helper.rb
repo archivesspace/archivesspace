@@ -324,7 +324,7 @@ module AspaceFormHelper
         options["data-trigger"] = "manual"
         options["data-template"] = '<div class="tooltip archivesspace-help"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
         options[:class] += " has-tooltip"
-      end 
+      end
 
       @forms.content_tag(:label, I18n.t(i18n_for(name)), options.merge(opts || {}))
     end
@@ -517,7 +517,7 @@ module AspaceFormHelper
           JSONModel.enum_default_value(jsonmodel_schema_definition(name)['dynamic_enum'])
         else
           jsonmodel_schema_definition(name)['default']
-        end  
+        end
       else
         nil
       end
@@ -545,6 +545,9 @@ module AspaceFormHelper
       defn = jsonmodel_schema_definition(property)
 
       jsonmodel_enum_for(property).each do |v|
+        if opts[:include] && !opts[:include].include?(v)
+          next
+        end
         if opts.has_key?(:i18n_prefix)
           i18n_path =  "#{opts[:i18n_prefix]}.#{v}"
         elsif defn.has_key?('dynamic_enum')

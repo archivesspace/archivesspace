@@ -16,6 +16,7 @@
 
 <%= render :partial=>template_erb, :locals => {:form => form} %>
 
+
 <section id="<%= section_id %>" class="subrecord-form <% if required == :conditionally %> conditionally-required<% elsif required %> required<% end %>" data-subrecord-form="true" data-object-name="<%= singular %>" data-template="<%= js_template_name %>" <% if custom_action_template %>data-custom-action="true"<% end %> data-cardinality="<%= cardinality %>">
 
   <<%= heading_size %> class="subrecord-form-heading">

@@ -909,6 +909,14 @@ Sequel.migration do
       Integer :digital_object_id, :null => true
       Integer :digital_object_component_id, :null => true
       Integer :related_agents_rlshp_id, :null => true
+      Integer :agent_person_id, :null => true
+      Integer :agent_family_id, :null => true
+      Integer :agent_corporate_entity_id, :null => true
+      Integer :agent_software_id, :null => true
+      Integer :name_person_id, :null => true
+      Integer :name_family_id, :null => true
+      Integer :name_corporate_entity_id, :null => true
+      Integer :name_software_id, :null => true
 
       DynamicEnum :date_type_id, :null => true
       DynamicEnum :label_id, :null => false
@@ -1420,7 +1428,7 @@ Sequel.migration do
     create_enum("container_location_status", ["current", "previous"], "current")
 
     create_enum("date_type", ["single", "bulk", "inclusive"])
-    create_enum("date_label", ["broadcast", "copyright", "creation", "deaccession", "digitized", "event", "issued", "modified", "publication", "agent_relation", "other"])
+    create_enum("date_label", ["broadcast", "copyright", "creation", "deaccession", "digitized", "event", "issued", "modified", "publication", "agent_relation", "other", "usage", "existence"])
     create_enum("date_certainty", ["approximate", "inferred", "questionable"])
 
     create_enum("deaccession_scope", ["whole", "part"], "whole")

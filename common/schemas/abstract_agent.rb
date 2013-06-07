@@ -39,6 +39,8 @@
         "type" => "array",
         "items" => {"type" => [{"type" => "JSONModel(:note_bioghist) object"}]},
       },
+      
+      "dates_of_existence" => {"type" => "array", "items" => {"type" => "JSONModel(:date) object"}},
 
     },
   },

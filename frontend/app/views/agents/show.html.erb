@@ -24,6 +24,10 @@
           </section>
         </div>
 
+        <% if @agent.dates_of_existence.length > 0 %>
+          <%= render :partial => "dates/show", :locals => { :dates => @agent.dates_of_existence, :section_title => I18n.t("agent.dates_of_existence"), :section_id => "dates_of_existence", :context => readonly } %>
+        <% end %>
+
         <div class="row-fluid">
           <section id="names">
             <h3><%= I18n.t("agent_name._plural") %></h3>
@@ -44,6 +48,9 @@
                   </div>
                   <div id="agent_name_<%= index %>" class="accordion-body collapse">
                     <%= read_only_view(name.to_hash) %>
+                    <% if name['use_dates'].length > 0 %>
+                      <%= render :partial => "dates/show", :locals => { :dates => name['use_dates'], :section_id => "name_use_dates", :section_title => I18n.t("agent_name.use_dates"), :context => readonly } %>
+                    <% end %>
                   </div>
                 </div>
               <% end %>
