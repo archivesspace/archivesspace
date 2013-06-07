@@ -1,7 +1,7 @@
 ---
 layout: page
 title: ArchivesSpace
-tagline: Version 0.4.x-dev
+tagline: Version 0.5.x-dev
 ---
 {% include JB/setup %}
 
