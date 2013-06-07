@@ -63,11 +63,11 @@ GEM
     json (1.7.7)
     json (1.7.7-java)
     json-schema (1.0.10)
-    less (2.2.2)
+    less (2.3.1)
       commonjs (~> 0.2.6)
-    less-rails (2.2.6)
+    less-rails (2.3.3)
       actionpack (>= 3.1)
-      less (~> 2.2.0)
+      less (~> 2.3.1)
     mail (2.5.3)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -165,7 +165,7 @@ DEPENDENCIES
   jruby-openssl
   json
   json-schema
-  less-rails
+  less-rails (~> 2.3.3)
   net-http-persistent
   nokogiri
   puma
