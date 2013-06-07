@@ -1,4 +1,4 @@
-<%= setup_context(:object => @accession) %>
+<%= setup_context(:object => @accession, :title => @accession.label) %>
 
 <%= form_for @accession, :as => "accession", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form', :id => "accession_form"}.merge(update_monitor_params(@accession)) do |f| %>
   <%= form_context :accession, @accession do |form| %>
@@ -11,7 +11,7 @@
         <%= render :partial => "accessions/toolbar" %>
         <div class="record-pane">
           <%= link_to_help :topic => "accession" %>
-          <h2><%= @accession.title%> <span class="label label-info"><%= I18n.t("accession._singular") %></span></h2>
+          <h2><%= @accession.label %> <span class="label label-info"><%= I18n.t("accession._singular") %></span></h2>
           <input type="hidden" name="_method" value="put" />
           <%= render :partial => "accessions/form", :locals => {:form => form} %>
         </div>

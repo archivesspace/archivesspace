@@ -287,7 +287,8 @@ Sequel.migration do
 
       String :identifier, :null => false
 
-      LongString :title, :null => true
+      HalfLongString :title, :null => true
+      HalfLongString :label, :null => true
       
       Integer :publish
       

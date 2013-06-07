@@ -20,7 +20,7 @@
             <td><%= (0..3).map{|i| accession["_resolved"]["id_#{i}"]}.compact.join("-") %></td>
             <td>
               <%= render_token :object => accession["_resolved"],
-                               :label => accession["_resolved"]["title"],
+                               :label => accession["_resolved"]["label"],
                                :type => "accession",
                                :uri => accession["ref"] %>
             </td>

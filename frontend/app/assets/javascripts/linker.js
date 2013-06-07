@@ -135,7 +135,7 @@ $(function() {
                 $this.parents("form:first").triggerHandler("formchanged.aspace");
                 $modal.modal("hide");
               }
-            }, 
+            },
             error: function(obj, errorText, errorDesc) {
               $("#createAndLinkButton", $modal).removeAttr("disabled");
             }
@@ -202,6 +202,7 @@ $(function() {
 
         $.each(searchData.search_data.results, function(index, obj) {
           // only allow selection of unselected items
+
           if ($.inArray(obj.uri, currentlySelectedIds) === -1) {
             formattedResults.push({
               name: obj.title,
