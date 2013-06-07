@@ -405,6 +405,7 @@ en:
         basic_information: Basic Information
       action:
         save: Save Event
+        create: Create Event
 
   extent:
     _frontend:

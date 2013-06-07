@@ -969,7 +969,7 @@ en:
   existence_date:
     <<: *date_attributes
     
-  useage_date:
+  usage_date:
     <<: *date_attributes
     
   date_fields:

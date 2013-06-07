@@ -24,6 +24,10 @@
           </section>
         </div>
 
+        <% if @agent.dates_of_existence.length > 0 %>
+          <%= render :partial => "dates/show", :locals => { :dates => @agent.dates_of_existence, :section_title => I18n.t("agent.dates_of_existence"), :section_id => "dates_of_existence", :context => readonly } %>
+        <% end %>
+
         <div class="row-fluid">
           <section id="names">
             <h3><%= I18n.t("agent_name._plural") %></h3>
@@ -88,10 +92,6 @@
 
         <% if @agent.notes.length > 0 %>
           <%= render :partial => "notes/show", :locals => { :notes => @agent.notes, :context => readonly } %>
-        <% end %>
-
-        <% if @agent.dates_of_existence.length > 0 %>
-          <%= render :partial => "dates/show", :locals => { :dates => @agent.dates_of_existence, :section_title => I18n.t("agent.dates_of_existence"), :context => readonly } %>
         <% end %>
 
         <% if !@agent['related_agents'].blank? %>

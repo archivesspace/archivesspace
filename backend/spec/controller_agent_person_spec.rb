@@ -96,7 +96,7 @@ describe 'Person agent controller' do
 
   it "allows agents to have dates of existence" do
 
-    date = build(:json_date)
+    date = build(:json_date, :label => "existence")
 
     id = create_person({:dates_of_existence => [date]}).id
 

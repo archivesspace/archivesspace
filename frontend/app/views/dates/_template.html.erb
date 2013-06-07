@@ -1,10 +1,3 @@
-<% 
-  overrides = false if overrides.blank?
-  Rails.logger.debug("OVERRIDES #{overrides.inspect}")
-  @o = overrides
-
-%>
-
 <% define_template "date_type_single", jsonmodel_definition(:date) do |form| %>
   <div class="inline-subform date-type-subform" data-date-type="single">
     <%= form.label_and_date "begin", {:required => true} %>
