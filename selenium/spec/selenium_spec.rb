@@ -407,7 +407,7 @@ describe "ArchivesSpace user interface" do
     it "reports an error when Authority ID is provided without a Source" do
       $driver.clear_and_send_keys([:id, "agent_names__0__authority_id_"], "authid123")
       $driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], "Hendrix")
-      
+
       rules_select = $driver.find_element(:id => "agent_names__0__rules_")
       rules_select.select_option("local")
 
@@ -528,6 +528,19 @@ describe "ArchivesSpace user interface" do
       external_document_sections.length.should eq (1)
       external_document_sections[0].find_element(:link => "http://archivesspace.org")
     end
+
+
+    it "can add a date of existence to an Agent" do
+      $driver.click_and_wait_until_gone(:link, 'Edit')
+      $driver.find_element(:css => '#dates_of_existence .subrecord-form-heading .btn').click
+
+      $driver.clear_and_send_keys([:id, "agent_dates_of_existence__0__expression_"], "1973")
+
+      $driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
+
+      # check for date expression
+      $driver.find_element_with_text('//div', /1973/)
+      end
 
 
     it "can add a Biog/Hist note to an Agent" do
@@ -908,7 +921,7 @@ describe "ArchivesSpace user interface" do
 
     it "can show a browse list of Accessions" do
       run_index_round
-      
+
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Accessions").click
       expect {
@@ -1722,7 +1735,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id, "digital_object_file_versions__0__file_uri_"], "/uri/for/this/file/version")
       $driver.clear_and_send_keys([:id , "digital_object_file_versions__0__file_size_bytes_"], '100')
-      
+
       $driver.find_element(:css => "form#new_digital_object button[type='submit']").click
 
       # The new Digital Object shows up on the tree
@@ -1826,7 +1839,7 @@ describe "ArchivesSpace user interface" do
 
     before(:all) do
       login("admin", "admin")
-      
+
       (@user, @pass) = create_user
     end
 
@@ -1837,14 +1850,14 @@ describe "ArchivesSpace user interface" do
     it "can create a user account" do
       $driver.find_element(:link, 'System').click
       $driver.find_element(:link, "Manage Users").click
-      
+
       $driver.find_element(:link, "Create User").click
-      
+
       $driver.clear_and_send_keys([:id, "user_username_"], @user)
       $driver.clear_and_send_keys([:id, "user_name_"], @user)
       $driver.clear_and_send_keys([:id, "user_password_"], @pass)
       $driver.clear_and_send_keys([:id, "user_confirm_password_"], @pass)
-      
+
       $driver.find_element(:id, 'create_account').click
     end
   end
@@ -1924,7 +1937,7 @@ describe "ArchivesSpace user interface" do
     end
 
   end
-  
+
   describe "Enumeration Management" do
     before(:all) do
       if !$test_repo
@@ -1942,10 +1955,10 @@ describe "ArchivesSpace user interface" do
     it "lets you add a new value to an enumeration" do
       $driver.find_element(:link, 'System').click
       $driver.find_element(:link, "Manage Enumerations").click
-      
+
       enum_select = $driver.find_element(:id => "enum_selector")
       enum_select.select_option_with_text("accession_acquisition_type")
-      
+
       # Wait for the table of enumerations to load
       $driver.find_element(:css, '.enumeration-list')
 
@@ -1974,10 +1987,10 @@ describe "ArchivesSpace user interface" do
     it "lets you set a default enumeration (date_type)" do
       $driver.find_element(:link, 'System').click
       $driver.find_element(:link, "Manage Enumerations").click
-      
+
       enum_select = $driver.find_element(:id => "enum_selector")
       enum_select.select_option_with_text("date_type")
-      
+
       # Wait for the table of enumerations to load
       $driver.find_element(:css, '.enumeration-list')
 
