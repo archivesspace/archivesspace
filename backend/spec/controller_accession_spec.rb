@@ -34,9 +34,7 @@ describe 'Accession controller' do
       acc = JSONModel(:accession).from_hash("id_0" => "abcdef")
     rescue JSONModel::ValidationException => e
       errors = ["accession_date"]
-      warnings = ["content_description", "condition_description"]
       (e.errors.keys.sort.should eq(errors.sort))
-      (e.warnings.keys.sort.should eq(warnings.sort))
     end
 
     JSONModel::strict_mode(true)
