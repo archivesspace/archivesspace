@@ -1,5 +1,8 @@
+<%
+  heading_text = I18n.t("term._plural") if heading_text.blank?
+%>
 <section id="terms" class="subrecord-form-dummy">
-  <h3><%= I18n.t("term._plural") %></h3>
+  <h3><%= heading_text %></h3>
   <div class="subrecord-form-container">
     <div class="subrecord-form-fields">
       <div class="row-fluid">
