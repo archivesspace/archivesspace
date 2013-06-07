@@ -18,7 +18,7 @@
         }
       },
 
-      "title" => {"type" => "string", "maxLength" => 16384, "minLength" => 1, "ifmissing" => "error"},
+      "title" => {"type" => "string", "maxLength" => 16384, "minLength" => 1},
 
       "id_0" => {"type" => "string", "ifmissing" => "error", "maxLength" => 255},
       "id_1" => {"type" => "string", "maxLength" => 255},

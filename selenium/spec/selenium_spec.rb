@@ -641,10 +641,10 @@ describe "ArchivesSpace user interface" do
 
     it "reports errors when updating an Accession with invalid data" do
       $driver.click_and_wait_until_gone(:link, 'Edit')
-      $driver.clear_and_send_keys([:id, "accession_title_"], "")
+      $driver.clear_and_send_keys([:id, "accession_id_0_"], "")
       $driver.find_element(:css => "form#accession_form button[type='submit']").click
       expect {
-        $driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
+        $driver.find_element_with_text('//div[contains(@class, "error")]', /Identifier - Property is required but was missing/)
       }.to_not raise_error
       # cancel first to back out bad change
       $driver.find_element(:link, "Cancel").click

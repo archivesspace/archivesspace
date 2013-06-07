@@ -33,11 +33,10 @@ describe 'Accession controller' do
     begin
       acc = JSONModel(:accession).from_hash("id_0" => "abcdef")
     rescue JSONModel::ValidationException => e
-      errors = ["title", "accession_date"]
+      errors = ["accession_date"]
       warnings = ["content_description", "condition_description"]
-
-      (e.errors.keys - errors).should eq([])
-      (e.warnings.keys - warnings).should eq([])
+      (e.errors.keys.sort.should eq(errors.sort))
+      (e.warnings.keys.sort.should eq(warnings.sort))
     end
 
     JSONModel::strict_mode(true)
