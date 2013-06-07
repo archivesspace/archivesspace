@@ -36,8 +36,8 @@ end
 
 
 def link_schema(item)
-  "<a href='#{item}.html'>#{item.to_s.sub(/_schema/,'')}</a>"
-#  linkify(item)
+  "<span class='object_link'><a href='#{item}.html'>#{item.to_s.sub(/_schema/,'')}</a></span>"
+ # linkify(item)
 end
   
 
