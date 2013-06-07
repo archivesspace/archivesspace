@@ -16,9 +16,9 @@ This page is maintained by the Hudson Molonglo development team and only provide
 
 ## Source Code and Documentation
      
-Visit the code [repository](https://github.com/hudmol/archivesspace/).
+Visit the code repository at [https://github.com/hudmol/archivesspace](https://github.com/hudmol/archivesspace/).
 
-See the code [documentation](doc/)
+Read the documentation at [http://hudmol.github.io/archivesspace/doc](doc/).
 
 The application is divided into 2 parts. The backend application provides a RESTful API to the data layer. The frontend application provides a user interface built on the Rails framework. Both parts rely upon a common toolset for working with JSON representations of ASpace data.
     
