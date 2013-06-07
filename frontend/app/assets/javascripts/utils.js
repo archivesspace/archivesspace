@@ -1,5 +1,6 @@
 //= require trimpath-template-1.0.38
 //= require bootstrap-datepicker
+//= require bootstrap-combobox
 
 // initialise ajax modal
 
@@ -155,6 +156,7 @@ $(function() {
 });
 
 // date fields and datepicker initialisation
+$.fn.combobox.defaults.template = '<div class="combobox-container input-append"><input type="hidden" /><input type="text" autocomplete="off" /><span class="add-on btn dropdown-toggle" data-dropdown="dropdown"><span class="caret"/><span class="combobox-clear"><span class="icon-remove"></span></span></span></div>';
 $(function() {
   var initDateFields = function(scope) {
     scope = scope || $(document.body);
@@ -176,6 +178,27 @@ $(function() {
   });
   $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     initDateFields(subform)
+  });
+});
+
+
+// select fields and combobox initialisation
+$(function() {
+  var initComboboxFields = function(scope) {
+    scope = scope || $(document.body);
+    $("select[data-combobox]:not(.initialised)", scope).each(function() {
+      var $selectInput = $(this);
+      $selectInput.data("combobox", null).addClass("initialised");
+      $selectInput.combobox();
+    });
+  };
+  initComboboxFields();
+
+  $(document).ajaxComplete(function() {
+    initComboboxFields();
+  });
+  $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
+    initComboboxFields(subform)
   });
 });
 
