@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="_index.html">Index (S)</a> &raquo;
+    <a href="alpha_index.html">Index (S)</a> &raquo;
     
     
     <span class="title">Solr</span>
@@ -145,7 +145,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#search-class_method" title="search (class method)">+ (Object) <strong>search</strong>(query, page, page_size, repo_id, record_types = nil, show_suppressed = false, show_published_only = false, excluded_ids = [], filter_terms = [], extra_solr_params = {}) </a>
+      <a href="#search-class_method" title="search (class method)">+ (Object) <strong>search</strong>(query, page, page_size, repo_id, record_types = nil, show_suppressed = false, show_published_only = false, show_excluded_docs = false, excluded_ids = [], filter_terms = [], extra_solr_params = {}) </a>
     
 
     
@@ -231,7 +231,7 @@
       <div class="method_details ">
   <h3 class="signature " id="search-class_method">
   
-    + (<tt>Object</tt>) <strong>search</strong>(query, page, page_size, repo_id, record_types = nil, show_suppressed = false, show_published_only = false, excluded_ids = [], filter_terms = [], extra_solr_params = {}) 
+    + (<tt>Object</tt>) <strong>search</strong>(query, page, page_size, repo_id, record_types = nil, show_suppressed = false, show_published_only = false, show_excluded_docs = false, excluded_ids = [], filter_terms = [], extra_solr_params = {}) 
   
 
   
@@ -332,13 +332,23 @@
 104
 105
 106
-107</pre>
+107
+108
+109
+110
+111
+112
+113
+114</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 18</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_search identifier id'>search</span><span class='lparen token'>(</span><span class='rubyid_query identifier id'>query</span><span class='comma token'>,</span> <span class='rubyid_page identifier id'>page</span><span class='comma token'>,</span> <span class='rubyid_page_size identifier id'>page_size</span><span class='comma token'>,</span> <span class='rubyid_repo_id identifier id'>repo_id</span><span class='comma token'>,</span>
-                <span class='rubyid_record_types identifier id'>record_types</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_show_suppressed identifier id'>show_suppressed</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_show_published_only identifier id'>show_published_only</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+                <span class='rubyid_record_types identifier id'>record_types</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span>
+                <span class='rubyid_show_suppressed identifier id'>show_suppressed</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+                <span class='rubyid_show_published_only identifier id'>show_published_only</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+                <span class='rubyid_show_excluded_docs identifier id'>show_excluded_docs</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
                 <span class='rubyid_excluded_ids identifier id'>excluded_ids</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_filter_terms identifier id'>filter_terms</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span>  <span class='rubyid_extra_solr_params identifier id'>extra_solr_params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='rubyid_solr_url identifier id'>solr_url</span>
 
@@ -368,6 +378,10 @@
 
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_show_suppressed identifier id'>show_suppressed</span>
     <span class='rubyid_opts identifier id'>opts</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='symbol val'>:fq</span><span class='comma token'>,</span> <span class='string val'>&quot;suppressed:false&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_show_excluded_docs identifier id'>show_excluded_docs</span>
+    <span class='rubyid_opts identifier id'>opts</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='symbol val'>:fq</span><span class='comma token'>,</span> <span class='string val'>&quot;-exclude_by_default:true&quot;</span><span class='rbrack token'>]</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_show_published_only identifier id'>show_published_only</span>
@@ -469,7 +483,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:41 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:13 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.6.1 (ruby-1.9.3).
 </div>

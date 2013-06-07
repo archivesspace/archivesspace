@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="../_index.html">Index (C)</a> &raquo;
+    <a href="../alpha_index.html">Index (C)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../ASpaceImport.html" title="ASpaceImport (module)">ASpaceImport</a></span></span>
      &raquo; 
     <span class="title">CSVImport</span>
@@ -97,7 +97,7 @@
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="CSVImport/CSVSyntaxException.html" title="ASpaceImport::CSVImport::CSVSyntaxException (class)">CSVSyntaxException</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="CSVImport/CSVSyntaxException.html" title="ASpaceImport::CSVImport::CSVSyntaxException (class)">CSVSyntaxException</a></span>, <span class='object_link'><a href="CSVImport/CellHandler.html" title="ASpaceImport::CSVImport::CellHandler (class)">CellHandler</a></span>
     
   
     
@@ -153,29 +153,6 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#ancestor-instance_method" title="#ancestor (instance method)">- (Object) <strong>ancestor</strong>(*types) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#configuration-instance_method" title="#configuration (instance method)">- (Object) <strong>configuration</strong> </a>
     
 
@@ -213,7 +190,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>TODO - optimize by running this logic one per key.</p>
+    <span class="summary_desc"><div class='inline'>
 </div></span>
   
 </li>
@@ -245,7 +222,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#parse_cell-instance_method" title="#parse_cell (instance method)">- (Object) <strong>parse_cell</strong>(header, val) </a>
+      <a href="#parse_cell-instance_method" title="#parse_cell (instance method)">- (Object) <strong>parse_cell</strong>(handler, cell_contents) </a>
     
 
     
@@ -334,29 +311,6 @@
 </li>
 
       
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#set_property-instance_method" title="#set_property (instance method)">- (Object) <strong>set_property</strong>(obj = :context, property, value) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
     </ul>
   
 
@@ -381,12 +335,12 @@
       <pre class="lines">
 
 
-13
-14
-15</pre>
+37
+38
+39</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/csv_importer.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/csv_importer.rb', line 37</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_extend identifier id'>extend</span><span class='lparen token'>(</span><span class='rubyid_ClassMethods constant id'>ClassMethods</span><span class='rparen token'>)</span>
@@ -404,40 +358,7 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="ancestor-instance_method">
-  
-    - (<tt>Object</tt>) <strong>ancestor</strong>(*types) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-166
-167
-168
-169</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/csv_importer.rb', line 166</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_types identifier id'>types</span><span class='rparen token'>)</span>
-  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_parse_queue identifier id'>parse_queue</span><span class='dot token'>.</span><span class='rubyid_reverse identifier id'>reverse</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_o identifier id'>o</span><span class='bitor op'>|</span> <span class='rubyid_types identifier id'>types</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_t identifier id'>t</span><span class='bitor op'>|</span> <span class='rubyid_t identifier id'>t</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_o identifier id'>o</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
-  <span class='rubyid_obj identifier id'>obj</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="configuration-instance_method">
+  <h3 class="signature first" id="configuration-instance_method">
   
     - (<tt>Object</tt>) <strong>configuration</strong> 
   
@@ -451,12 +372,12 @@
       <pre class="lines">
 
 
-17
-18
-19</pre>
+42
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/csv_importer.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/csv_importer.rb', line 42</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_configuration identifier id'>configuration</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_configuration identifier id'>configuration</span>
@@ -476,32 +397,12 @@
   
 
   
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>TODO - optimize by running this logic one per key</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
 115
 116
 117
@@ -527,62 +428,36 @@
 137
 138
 139
-140
-141
-142
-143
-144
-145
-146
-147
-148</pre>
+140</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/csv_importer.rb', line 105</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/csv_importer.rb', line 115</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_new identifier id'>get_new</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='rparen token'>)</span>
 
-  <span class='rubyid_conf identifier id'>conf</span> <span class='assign token'>=</span> <span class='rubyid_configuration identifier id'>configuration</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span><span class='rbrack token'>]</span>
-  
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_conf identifier id'>conf</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
-    <span class='rubyid_conf identifier id'>conf</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_conf identifier id'>conf</span> <span class='assign token'>=</span> <span class='rubyid_configuration identifier id'>configuration</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+
+  <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:record_type</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:record_type</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_key identifier id'>key</span>
+
+  <span class='rubyid_proxy identifier id'>proxy</span> <span class='assign token'>=</span> <span class='rubyid_@proxies ivar id'>@proxies</span><span class='dot token'>.</span><span class='rubyid_get_proxy_for identifier id'>get_proxy_for</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:on_create</span><span class='rbrack token'>]</span>
+    <span class='rubyid_proxy identifier id'>proxy</span><span class='dot token'>.</span><span class='rubyid_on_spawn identifier id'>on_spawn</span><span class='lparen token'>(</span><span class='rubyid_conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:on_create</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:record_type</span><span class='rbrack token'>]</span>
-    <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:record_type</span><span class='rbrack token'>]</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_key identifier id'>key</span>
+  <span class='comment val'># Set defaults when done getting data</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:defaults</span><span class='rbrack token'>]</span>
+    <span class='rubyid_conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:defaults</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span>
+      <span class='rubyid_proxy identifier id'>proxy</span><span class='dot token'>.</span><span class='rubyid_on_discharge identifier id'>on_discharge</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='comma token'>,</span> <span class='symbol val'>:set_default</span><span class='comma token'>,</span> <span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
-  <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_key identifier id'>key</span> <span class='assign token'>=</span> <span class='rubyid_key identifier id'>key</span>
-    
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:path</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:defaults</span><span class='rbrack token'>]</span>
-    <span class='rubyid_proxy identifier id'>proxy</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_RecordProxy constant id'>RecordProxy</span><span class='dot token'>.</span><span class='rubyid_get_proxy_for identifier id'>get_proxy_for</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='rparen token'>)</span>
-          
-    <span class='comment val'># Set defaults when done getting data</span>
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:defaults</span><span class='rbrack token'>]</span>
-      <span class='rubyid_conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:defaults</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span>
-        <span class='rubyid_proxy identifier id'>proxy</span><span class='dot token'>.</span><span class='rubyid_on_discharge identifier id'>on_discharge</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='comma token'>,</span> <span class='symbol val'>:set_default</span><span class='comma token'>,</span> <span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
-      <span class='rubyid_end end kw'>end</span>
-    <span class='rubyid_end end kw'>end</span>
-    
-    <span class='comment val'># Set path when complete</span>
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:path</span><span class='rbrack token'>]</span>  
-      <span class='rubyid_path identifier id'>path</span> <span class='assign token'>=</span> <span class='rubyid_conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:path</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_scan identifier id'>scan</span><span class='lparen token'>(</span><span class='regexp val'>/[^.]+/</span><span class='rparen token'>)</span>
-      <span class='rubyid_set_property identifier id'>set_property</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_path identifier id'>path</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_proxy identifier id'>proxy</span>
-    <span class='rubyid_end end kw'>end</span>
-    
-    <span class='comment val'># Do what needs to be done before batching the record</span>
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:on_row_complete</span><span class='rbrack token'>]</span>
-      <span class='rubyid_proxy identifier id'>proxy</span><span class='dot token'>.</span><span class='rubyid_on_discharge identifier id'>on_discharge</span><span class='lparen token'>(</span><span class='rubyid_conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:on_row_complete</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:call</span><span class='comma token'>,</span> <span class='rubyid_parse_queue identifier id'>parse_queue</span><span class='rparen token'>)</span>
-    <span class='rubyid_end end kw'>end</span>
-    
+  <span class='comment val'># Set links before batching the record</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:on_row_complete</span><span class='rbrack token'>]</span>
+    <span class='rubyid_proxy identifier id'>proxy</span><span class='dot token'>.</span><span class='rubyid_on_discharge identifier id'>on_discharge</span><span class='lparen token'>(</span><span class='rubyid_conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:on_row_complete</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:call</span><span class='comma token'>,</span> <span class='rubyid_@cache ivar id'>@cache</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
-      
-  <span class='rubyid_@parse_queue ivar id'>@parse_queue</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
 
-  <span class='rubyid_obj identifier id'>obj</span>
+  <span class='rubyid_proxy identifier id'>proxy</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -605,23 +480,29 @@
       <pre class="lines">
 
 
-150
-151
-152
-153
-154
-155
-156</pre>
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/csv_importer.rb', line 150</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/csv_importer.rb', line 103</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_queued_or_new identifier id'>get_queued_or_new</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_@parse_queue ivar id'>@parse_queue</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_j identifier id'>j</span><span class='bitor op'>|</span> <span class='rubyid_j identifier id'>j</span><span class='dot token'>.</span><span class='rubyid_key identifier id'>key</span> <span class='eq op'>==</span> <span class='rubyid_key identifier id'>key</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>  
-    <span class='rubyid_obj identifier id'>obj</span>
+  <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_prox identifier id'>prox</span> <span class='assign token'>=</span> <span class='rubyid_@cache ivar id'>@cache</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_j identifier id'>j</span><span class='bitor op'>|</span> <span class='rubyid_j identifier id'>j</span><span class='dot token'>.</span><span class='rubyid_key identifier id'>key</span> <span class='eq op'>==</span> <span class='rubyid_key identifier id'>key</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+    <span class='rubyid_prox identifier id'>prox</span>
   <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_get_new identifier id'>get_new</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='rparen token'>)</span>
+    <span class='rubyid_prox identifier id'>prox</span> <span class='assign token'>=</span> <span class='rubyid_get_new identifier id'>get_new</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='rparen token'>)</span>
+    <span class='rubyid_@cache ivar id'>@cache</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_prox identifier id'>prox</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_prox identifier id'>prox</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -632,7 +513,7 @@
       <div class="method_details ">
   <h3 class="signature " id="parse_cell-instance_method">
   
-    - (<tt>Object</tt>) <strong>parse_cell</strong>(header, val) 
+    - (<tt>Object</tt>) <strong>parse_cell</strong>(handler, cell_contents) 
   
 
   
@@ -644,25 +525,6 @@
       <pre class="lines">
 
 
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
 88
 89
 90
@@ -675,44 +537,23 @@
 97
 98
 99
-100
-101</pre>
+100</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/csv_importer.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/csv_importer.rb', line 88</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_parse_cell identifier id'>parse_cell</span><span class='lparen token'>(</span><span class='rubyid_header identifier id'>header</span><span class='comma token'>,</span> <span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_parse_cell identifier id'>parse_cell</span><span class='lparen token'>(</span><span class='rubyid_handler identifier id'>handler</span><span class='comma token'>,</span> <span class='rubyid_cell_contents identifier id'>cell_contents</span><span class='rparen token'>)</span>
 
-  <span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_val identifier id'>val</span> <span class='eq op'>==</span> <span class='string val'>'NULL'</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_handler identifier id'>handler</span>
   
-  <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+  <span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_handler identifier id'>handler</span><span class='dot token'>.</span><span class='rubyid_extract_value identifier id'>extract_value</span><span class='lparen token'>(</span><span class='rubyid_cell_contents identifier id'>cell_contents</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_val identifier id'>val</span>
 
-  <span class='rubyid_@log ivar id'>@log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;PARSING HEADER: #{header} VALUE: #{val}&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_prox identifier id'>prox</span> <span class='assign token'>=</span> <span class='rubyid_get_queued_or_new identifier id'>get_queued_or_new</span><span class='lparen token'>(</span><span class='rubyid_handler identifier id'>handler</span><span class='dot token'>.</span><span class='rubyid_target_key identifier id'>target_key</span><span class='rparen token'>)</span>
+  <span class='rubyid_property identifier id'>property</span> <span class='assign token'>=</span> <span class='rubyid_handler identifier id'>handler</span><span class='dot token'>.</span><span class='rubyid_target_path identifier id'>target_path</span>
 
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_configuration identifier id'>configuration</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_header identifier id'>header</span><span class='rparen token'>)</span>
-
-    <span class='comment val'># TODO - optimize out?</span>
-    <span class='comment val'># TODO - check the config ahead of time</span>
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_configuration identifier id'>configuration</span><span class='lbrack token'>[</span><span class='rubyid_header identifier id'>header</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='rparen token'>)</span>
-      <span class='rubyid_path_string identifier id'>path_string</span> <span class='assign token'>=</span> <span class='rubyid_configuration identifier id'>configuration</span><span class='lbrack token'>[</span><span class='rubyid_header identifier id'>header</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span>
-      <span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_configuration identifier id'>configuration</span><span class='lbrack token'>[</span><span class='rubyid_header identifier id'>header</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
-    <span class='rubyid_else else kw'>else</span>
-      <span class='rubyid_path_string identifier id'>path_string</span> <span class='assign token'>=</span> <span class='rubyid_configuration identifier id'>configuration</span><span class='lbrack token'>[</span><span class='rubyid_header identifier id'>header</span><span class='rbrack token'>]</span>
-    <span class='rubyid_end end kw'>end</span>
-      
-    <span class='rubyid_path identifier id'>path</span> <span class='assign token'>=</span> <span class='rubyid_path_string identifier id'>path_string</span><span class='dot token'>.</span><span class='rubyid_scan identifier id'>scan</span><span class='lparen token'>(</span><span class='regexp val'>/[^.]+/</span><span class='rparen token'>)</span>
-
-    <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_get_queued_or_new identifier id'>get_queued_or_new</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='dot token'>.</span><span class='rubyid_slice! fid id'>slice!</span><span class='lparen token'>(</span><span class='integer val'>0</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-
-    <span class='comment val'># TODO - combine these in utils</span>
-    <span class='rubyid_property_type identifier id'>property_type</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Utils constant id'>Utils</span><span class='dot token'>.</span><span class='rubyid_get_property_type identifier id'>get_property_type</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_path identifier id'>path</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-    <span class='rubyid_filtered_val identifier id'>filtered_val</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Utils constant id'>Utils</span><span class='dot token'>.</span><span class='rubyid_value_filter identifier id'>value_filter</span><span class='lparen token'>(</span><span class='rubyid_property_type identifier id'>property_type</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
-
-    <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{path.last}=&quot;</span><span class='comma token'>,</span> <span class='rubyid_filtered_val identifier id'>filtered_val</span><span class='rparen token'>)</span>
-
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_@log ivar id'>@log</span><span class='dot token'>.</span><span class='rubyid_warn identifier id'>warn</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Unconfigured CSV header: #{header}&quot;</span><span class='rparen token'>)</span> 
-  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_prox identifier id'>prox</span><span class='dot token'>.</span><span class='rubyid_set identifier id'>set</span><span class='lparen token'>(</span><span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -735,37 +576,35 @@
       <pre class="lines">
 
 
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66</pre>
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/csv_importer.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/csv_importer.rb', line 73</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_parse_row identifier id'>parse_row</span><span class='lparen token'>(</span><span class='rubyid_row identifier id'>row</span><span class='rparen token'>)</span>
-
-  <span class='rubyid_row identifier id'>row</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_cell identifier id'>cell</span><span class='comma token'>,</span> <span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span>
-    <span class='rubyid_parse_cell identifier id'>parse_cell</span><span class='lparen token'>(</span><span class='rubyid_@headers ivar id'>@headers</span><span class='lbrack token'>[</span><span class='rubyid_i identifier id'>i</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_cell identifier id'>cell</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='rubyid_parse_queue identifier id'>parse_queue</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>   
-    <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_RecordProxy constant id'>RecordProxy</span><span class='dot token'>.</span><span class='rubyid_discharge_proxy identifier id'>discharge_proxy</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_row identifier id'>row</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_cell identifier id'>cell</span><span class='comma token'>,</span> <span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='rubyid_parse_cell identifier id'>parse_cell</span><span class='lparen token'>(</span><span class='rubyid_@cell_handlers ivar id'>@cell_handlers</span><span class='lbrack token'>[</span><span class='rubyid_i identifier id'>i</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_cell identifier id'>cell</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
   
-  <span class='rubyid_@log ivar id'>@log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='rubyid_parse_queue identifier id'>parse_queue</span><span class='dot token'>.</span><span class='rubyid_inspect identifier id'>inspect</span><span class='rparen token'>)</span>
-  
-  <span class='rubyid_clear_parse_queue identifier id'>clear_parse_queue</span>
+  <span class='comment val'># swap out proxy objects for real JSONModel objects</span>
+  <span class='rubyid_@cache ivar id'>@cache</span><span class='dot token'>.</span><span class='rubyid_map! fid id'>map!</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_proxy identifier id'>proxy</span><span class='bitor op'>|</span> <span class='rubyid_proxy identifier id'>proxy</span><span class='dot token'>.</span><span class='rubyid_spawn identifier id'>spawn</span> <span class='rbrace token'>}</span>
+
+  <span class='comment val'># run linking jobs and set defaults</span>
+  <span class='rubyid_@cache ivar id'>@cache</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_@proxies ivar id'>@proxies</span><span class='dot token'>.</span><span class='rubyid_discharge_proxy identifier id'>discharge_proxy</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+
+  <span class='comment val'># empty the working area of the cache</span>
+  <span class='comment val'># @log.debug(@cache.inspect)</span>
+  <span class='rubyid_@cache ivar id'>@cache</span><span class='dot token'>.</span><span class='rubyid_clear! fid id'>clear!</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -788,67 +627,57 @@
       <pre class="lines">
 
 
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
 47
 48
 49
-50</pre>
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/csv_importer.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/csv_importer.rb', line 47</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_run identifier id'>run</span>
-  
-  <span class='comment val'># i = 0</span>
-  <span class='rubyid_@headers ivar id'>@headers</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@cache ivar id'>@cache</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
+
+  <span class='rubyid_@cell_handlers ivar id'>@cell_handlers</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@proxies ivar id'>@proxies</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_RecordProxyMgr constant id'>RecordProxyMgr</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
 
   <span class='rubyid_CSV constant id'>CSV</span><span class='dot token'>.</span><span class='rubyid_foreach identifier id'>foreach</span><span class='lparen token'>(</span><span class='rubyid_@input_file ivar id'>@input_file</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_row identifier id'>row</span><span class='bitor op'>|</span>
 
-    <span class='comment val'># i = i+1</span>
-
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_@headers ivar id'>@headers</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
-      <span class='rubyid_@headers ivar id'>@headers</span> <span class='assign token'>=</span> <span class='rubyid_row identifier id'>row</span>
-      <span class='rubyid_bad_headers identifier id'>bad_headers</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-      <span class='rubyid_@headers ivar id'>@headers</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_h identifier id'>h</span><span class='bitor op'>|</span> <span class='rubyid_bad_headers identifier id'>bad_headers</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_h identifier id'>h</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_h identifier id'>h</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span> <span class='regexp val'>/^[a-z]*_[a-z0-9_]*$/</span> <span class='rbrace token'>}</span>
-      <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_bad_headers identifier id'>bad_headers</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
-        <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_CSVSyntaxException constant id'>CSVSyntaxException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:bad_headers</span><span class='comma token'>,</span> <span class='rubyid_bad_headers identifier id'>bad_headers</span><span class='rparen token'>)</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_@cell_handlers ivar id'>@cell_handlers</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+      <span class='rubyid_@cell_handlers ivar id'>@cell_handlers</span><span class='comma token'>,</span> <span class='rubyid_bad_headers identifier id'>bad_headers</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_configure_cell_handlers identifier id'>configure_cell_handlers</span><span class='lparen token'>(</span><span class='rubyid_row identifier id'>row</span><span class='rparen token'>)</span>
+      <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_bad_headers identifier id'>bad_headers</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+        <span class='rubyid_@log ivar id'>@log</span><span class='dot token'>.</span><span class='rubyid_warn identifier id'>warn</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Data source has headers that aren't defined: #{bad_headers.join(', ')}&quot;</span><span class='rparen token'>)</span>
       <span class='rubyid_end end kw'>end</span>
     <span class='rubyid_else else kw'>else</span>
-      <span class='rubyid_parse_row identifier id'>parse_row</span><span class='lparen token'>(</span><span class='rubyid_row identifier id'>row</span><span class='rparen token'>)</span> <span class='comment val'>#unless i &gt; 2</span>
+      <span class='rubyid_parse_row identifier id'>parse_row</span><span class='lparen token'>(</span><span class='rubyid_row identifier id'>row</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
-
-  <span class='rubyid_save_all identifier id'>save_all</span>
-  
-  <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_RecordProxy constant id'>RecordProxy</span><span class='dot token'>.</span><span class='rubyid_undischarged identifier id'>undischarged</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_prox identifier id'>prox</span><span class='bitor op'>|</span>
+  <span class='rubyid_@proxies ivar id'>@proxies</span><span class='dot token'>.</span><span class='rubyid_undischarged identifier id'>undischarged</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_prox identifier id'>prox</span><span class='bitor op'>|</span>
     <span class='rubyid_@log ivar id'>@log</span><span class='dot token'>.</span><span class='rubyid_warn identifier id'>warn</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Undischarged: #{prox.to_s}&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
+  <span class='rubyid_@cache ivar id'>@cache</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -871,128 +700,19 @@
       <pre class="lines">
 
 
-159
-160
-161
-162
-163</pre>
+143
+144
+145
+146
+147</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/csv_importer.rb', line 159</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/csv_importer.rb', line 143</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_default identifier id'>set_default</span><span class='lparen token'>(</span><span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_val identifier id'>val</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{property}&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>       
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{property}&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
     <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{property}=&quot;</span><span class='comma token'>,</span> <span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="set_property-instance_method">
-  
-    - (<tt>Object</tt>) <strong>set_property</strong>(obj = :context, property, value) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-172
-173
-174
-175
-176
-177
-178
-179
-180
-181
-182
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201
-202
-203
-204
-205
-206
-207
-208
-209
-210
-211
-212
-213</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/csv_importer.rb', line 172</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_set_property identifier id'>set_property</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='symbol val'>:context</span><span class='comma token'>,</span> <span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
-
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
-    <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Trying to set property #{property} on nil object&quot;</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_property identifier id'>property</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
-    <span class='rubyid_@log ivar id'>@log</span><span class='dot token'>.</span><span class='rubyid_warn identifier id'>warn</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Can't set &lt;#{obj.class.record_type}&gt; &lt;#{property}&gt;: nil value&quot;</span><span class='rparen token'>)</span>
-    <span class='rubyid_return return kw'>return</span> <span class='rubyid_false false kw'>false</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_context_obj identifier id'>context_obj</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_obj identifier id'>obj</span> <span class='eq op'>==</span> <span class='symbol val'>:context</span>
-
-  <span class='rubyid_@log ivar id'>@log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Setting &lt;#{obj.jsonmodel_type}&gt; &lt;#{property}&gt; using &lt;#{value.inspect}&gt; (unfiltered)&quot;</span><span class='rparen token'>)</span>
-
-  <span class='rubyid_begin begin kw'>begin</span>
-    <span class='rubyid_property_type identifier id'>property_type</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Utils constant id'>Utils</span><span class='dot token'>.</span><span class='rubyid_get_property_type identifier id'>get_property_type</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_NoMethodError constant id'>NoMethodError</span>
-    <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Having some trouble finding a property &lt;#{property}&gt; on a &lt;#{obj.class.record_type}&gt; object&quot;</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_RecordProxy constant id'>RecordProxy</span><span class='rparen token'>)</span>
-    <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_on_discharge identifier id'>on_discharge</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='comma token'>,</span> <span class='symbol val'>:set_property</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_property identifier id'>property</span><span class='rparen token'>)</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
-      <span class='rubyid_@log ivar id'>@log</span><span class='dot token'>.</span><span class='rubyid_warn identifier id'>warn</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Given a nil value for &lt;#{obj.class.record_type}&gt;&lt;#{property}&gt;&quot;</span><span class='rparen token'>)</span>
-    <span class='rubyid_else else kw'>else</span>
-      <span class='rubyid_filtered_value identifier id'>filtered_value</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Utils constant id'>Utils</span><span class='dot token'>.</span><span class='rubyid_value_filter identifier id'>value_filter</span><span class='lparen token'>(</span><span class='rubyid_property_type identifier id'>property_type</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
-      <span class='rubyid_@log ivar id'>@log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Filtered Value: #{filtered_value.inspect}&quot;</span><span class='rparen token'>)</span>
-      <span class='rubyid_if if kw'>if</span> <span class='rubyid_property_type identifier id'>property_type</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span> <span class='regexp val'>/list$/</span>
-        <span class='rubyid_val_array identifier id'>val_array</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{property}&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_filtered_value identifier id'>filtered_value</span><span class='rparen token'>)</span>
-        <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{property}=&quot;</span><span class='comma token'>,</span> <span class='rubyid_val_array identifier id'>val_array</span><span class='rparen token'>)</span>
-      <span class='rubyid_else else kw'>else</span>
-        <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{property}&quot;</span><span class='rparen token'>)</span>
-          <span class='rubyid_@log ivar id'>@log</span><span class='dot token'>.</span><span class='rubyid_warn identifier id'>warn</span><span class='lparen token'>(</span><span class='string val'>&quot;Setting a property that has already been set&quot;</span><span class='rparen token'>)</span>
-        <span class='rubyid_end end kw'>end</span>
-        <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{property}=&quot;</span><span class='comma token'>,</span> <span class='rubyid_filtered_value identifier id'>filtered_value</span><span class='rparen token'>)</span>
-      <span class='rubyid_end end kw'>end</span>
-    <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_end end kw'>end</span>
-
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1005,7 +725,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:39 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:11 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.6.1 (ruby-1.9.3).
 </div>

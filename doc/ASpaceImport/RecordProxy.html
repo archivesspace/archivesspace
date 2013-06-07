@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="../_index.html">Index (R)</a> &raquo;
+    <a href="../alpha_index.html">Index (R)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../ASpaceImport.html" title="ASpaceImport (module)">ASpaceImport</a></span></span>
      &raquo; 
     <span class="title">RecordProxy</span>
@@ -104,7 +104,22 @@
 </dl>
 <div class="clear"></div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>This object can temporarily represent a JSONModel object
+in streaming contexts where, for example, an object may
+not be ready to link to other objects (because it&#8217;s not
+valid yet) or may not even be ready to be an object of
+a particular type. The proxy can handle object creation
+or can just act as a store for delayed jobs.</p>
 
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
 
 
 
@@ -139,90 +154,39 @@
 </li>
 
     
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#key-instance_method" title="#key (instance method)">- (Object) <strong>key</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute key.</p>
+</div></span>
+  
+</li>
+
+    
   </ul>
 
 
 
 
-  
-    <h2>
-      Class Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
-    </h2>
-
-    <ul class="summary">
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#discharge_proxy-class_method" title="discharge_proxy (class method)">+ (Object) <strong>discharge_proxy</strong>(proxy_key, proxied_obj) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>the object appears, and the proxy can be
-discharged.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#get_proxy_for-class_method" title="get_proxy_for (class method)">+ (Object) <strong>get_proxy_for</strong>(record_type, other_key = nil) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#undischarged-class_method" title="undischarged (class method)">+ (Object) <strong>undischarged</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-    </ul>
   
     <h2>
       Instance Method Summary
@@ -257,7 +221,7 @@ discharged.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (RecordProxy) <strong>initialize</strong>(record_type) </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (RecordProxy) <strong>initialize</strong>(key, record_type = nil) </a>
     
 
     
@@ -282,7 +246,99 @@ discharged.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#method_missing-instance_method" title="#method_missing (instance method)">- (Object) <strong>method_missing</strong>(meth) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#on_discharge-instance_method" title="#on_discharge (instance method)">- (Object) <strong>on_discharge</strong>(receiver, method, *args) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>jobs to run when discharged by the importer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#on_spawn-instance_method" title="#on_spawn (instance method)">- (Object) <strong>on_spawn</strong>(callback) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>jobs to run after spawning an object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set-instance_method" title="#set (instance method)">- (Object) <strong>set</strong>(k, v) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#spawn-instance_method" title="#spawn (instance method)">- (Object) <strong>spawn</strong> </a>
     
 
     
@@ -334,7 +390,7 @@ discharged.</p>
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="ASpaceImport::RecordProxy (class)">RecordProxy</a></span></tt>) <strong>initialize</strong>(record_type) 
+    - (<tt><span class='object_link'><a href="" title="ASpaceImport::RecordProxy (class)">RecordProxy</a></span></tt>) <strong>initialize</strong>(key, record_type = nil) 
   
 
   
@@ -356,19 +412,68 @@ discharged.</p>
       <pre class="lines">
 
 
-37
-38
-39
-40
-41</pre>
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/record_proxy.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/record_proxy.rb', line 53</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_record_type identifier id'>record_type</span><span class='rparen token'>)</span>
-  <span class='rubyid_@record_type ivar id'>@record_type</span> <span class='assign token'>=</span> <span class='rubyid_record_type identifier id'>record_type</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_record_type identifier id'>record_type</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='rubyid_@key ivar id'>@key</span> <span class='assign token'>=</span> <span class='rubyid_key identifier id'>key</span>
   <span class='rubyid_@jobs ivar id'>@jobs</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@spawn_callbacks ivar id'>@spawn_callbacks</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
   <span class='rubyid_@discharged ivar id'>@discharged</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_@data ivar id'>@data</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_record_type identifier id'>record_type</span>
+    <span class='rubyid_@record_type ivar id'>@record_type</span> <span class='assign token'>=</span> <span class='rubyid_record_type identifier id'>record_type</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+<div id="method_missing_details" class="method_details_list">
+  <h2>Dynamic Method Handling</h2>
+  <p class="notice this">
+    This class handles dynamic methods through the <tt>method_missing</tt> method
+    
+  </p>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="method_missing-instance_method">
+  
+    - (<tt>Object</tt>) <strong>method_missing</strong>(meth) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+76
+77
+78</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'migrations/lib/record_proxy.rb', line 76</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_method_missing identifier id'>method_missing</span><span class='lparen token'>(</span><span class='rubyid_meth identifier id'>meth</span><span class='rparen token'>)</span>
+  <span class='rubyid_@data ivar id'>@data</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_meth identifier id'>meth</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_@data ivar id'>@data</span><span class='lbrack token'>[</span><span class='rubyid_meth identifier id'>meth</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_nil nil kw'>nil</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -408,12 +513,12 @@ discharged.</p>
       <pre class="lines">
 
 
-3
-4
-5</pre>
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/record_proxy.rb', line 3</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/record_proxy.rb', line 50</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_discharged identifier id'>discharged</span>
   <span class='rubyid_@discharged ivar id'>@discharged</span>
@@ -424,17 +529,12 @@ discharged.</p>
 </table>
 </div>
     
-  </div>
-
-
-  <div id="class_method_details" class="method_details_list">
-    <h2>Class Method Details</h2>
-
-    
-      <div class="method_details first">
-  <h3 class="signature first" id="discharge_proxy-class_method">
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="key-instance_method">
   
-    + (<tt>Object</tt>) <strong>discharge_proxy</strong>(proxy_key, proxied_obj) 
+    - (<tt>Object</tt>) <strong>key</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -442,8 +542,7 @@ discharged.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>the object appears, and the proxy can be
-discharged</p>
+    <p>Returns the value of attribute key</p>
 
 
   </div>
@@ -457,105 +556,15 @@ discharged</p>
       <pre class="lines">
 
 
-18
-19
-20
-21
-22
-23</pre>
+51
+52
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/record_proxy.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/record_proxy.rb', line 51</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_discharge_proxy identifier id'>discharge_proxy</span><span class='lparen token'>(</span><span class='rubyid_proxy_key identifier id'>proxy_key</span><span class='comma token'>,</span> <span class='rubyid_proxied_obj identifier id'>proxied_obj</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@proxies ivar id'>@proxies</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_proxy_key identifier id'>proxy_key</span><span class='rparen token'>)</span>
-    <span class='rubyid_@proxies ivar id'>@proxies</span><span class='lbrack token'>[</span><span class='rubyid_proxy_key identifier id'>proxy_key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_discharge identifier id'>discharge</span><span class='lparen token'>(</span><span class='rubyid_proxied_obj identifier id'>proxied_obj</span><span class='rparen token'>)</span>
-    <span class='rubyid_@proxies ivar id'>@proxies</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='rubyid_proxy_key identifier id'>proxy_key</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="get_proxy_for-class_method">
-  
-    + (<tt>Object</tt>) <strong>get_proxy_for</strong>(record_type, other_key = nil) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-7
-8
-9
-10
-11
-12
-13
-14</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/record_proxy.rb', line 7</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_get_proxy_for identifier id'>get_proxy_for</span><span class='lparen token'>(</span><span class='rubyid_record_type identifier id'>record_type</span><span class='comma token'>,</span> <span class='rubyid_other_key identifier id'>other_key</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
-  
-  <span class='rubyid_proxy_key identifier id'>proxy_key</span> <span class='assign token'>=</span> <span class='rubyid_other_key identifier id'>other_key</span> <span class='integer val'>? </span><span class='rubyid_other_key identifier id'>other_key</span> <span class='colon op'>:</span> <span class='rubyid_record_type identifier id'>record_type</span>
-  
-  <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_@proxies ivar id'>@proxies</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_proxy_key identifier id'>proxy_key</span><span class='rparen token'>)</span>
-    <span class='rubyid_@proxies ivar id'>@proxies</span><span class='lbrack token'>[</span><span class='rubyid_proxy_key identifier id'>proxy_key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_proxy_key identifier id'>proxy_key</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="undischarged-class_method">
-  
-    + (<tt>Object</tt>) <strong>undischarged</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-26
-27
-28
-29
-30
-31
-32
-33
-34</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/record_proxy.rb', line 26</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_undischarged identifier id'>undischarged</span>
-  <span class='rubyid_undis identifier id'>undis</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-  <span class='rubyid_@proxies ivar id'>@proxies</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_proxy identifier id'>proxy</span><span class='bitor op'>|</span>
-    <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_proxy identifier id'>proxy</span><span class='dot token'>.</span><span class='rubyid_discharged identifier id'>discharged</span>
-      <span class='rubyid_undis identifier id'>undis</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_proxy identifier id'>proxy</span>
-    <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_undis identifier id'>undis</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_key identifier id'>key</span>
+  <span class='rubyid_@key ivar id'>@key</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -564,6 +573,7 @@ discharged</p>
 </div>
     
   </div>
+
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
@@ -584,13 +594,13 @@ discharged</p>
       <pre class="lines">
 
 
-53
-54
-55
-56</pre>
+122
+123
+124
+125</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/record_proxy.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/record_proxy.rb', line 122</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_discharge identifier id'>discharge</span><span class='lparen token'>(</span><span class='rubyid_proxied_obj identifier id'>proxied_obj</span><span class='rparen token'>)</span>
   <span class='rubyid_@jobs ivar id'>@jobs</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_proc identifier id'>proc</span><span class='bitor op'>|</span> <span class='rubyid_proc identifier id'>proc</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_proxied_obj identifier id'>proxied_obj</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
@@ -611,21 +621,182 @@ discharged</p>
   
 
   
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>jobs to run when discharged by the importer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+117
+118
+119</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'migrations/lib/record_proxy.rb', line 117</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_on_discharge identifier id'>on_discharge</span><span class='lparen token'>(</span><span class='rubyid_receiver identifier id'>receiver</span><span class='comma token'>,</span> <span class='rubyid_method identifier id'>method</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
+  <span class='rubyid_@jobs ivar id'>@jobs</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_receiver identifier id'>receiver</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_method identifier id'>method</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="on_spawn-instance_method">
+  
+    - (<tt>Object</tt>) <strong>on_spawn</strong>(callback) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>jobs to run after spawning an object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+111
+112
+113</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'migrations/lib/record_proxy.rb', line 111</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_on_spawn identifier id'>on_spawn</span><span class='lparen token'>(</span><span class='rubyid_callback identifier id'>callback</span><span class='rparen token'>)</span>
+  <span class='rubyid_@spawn_callbacks ivar id'>@spawn_callbacks</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_callback identifier id'>callback</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set-instance_method">
+  
+    - (<tt>Object</tt>) <strong>set</strong>(k, v) 
+  
+
+  
+
+  
 </h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-48
-49
-50</pre>
+71
+72
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/record_proxy.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/record_proxy.rb', line 71</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_on_discharge identifier id'>on_discharge</span><span class='lparen token'>(</span><span class='rubyid_receiver identifier id'>receiver</span><span class='comma token'>,</span> <span class='rubyid_method identifier id'>method</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>   
-  <span class='rubyid_@jobs ivar id'>@jobs</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_receiver identifier id'>receiver</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_method identifier id'>method</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_set identifier id'>set</span><span class='lparen token'>(</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
+  <span class='rubyid_@data ivar id'>@data</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_v identifier id'>v</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="spawn-instance_method">
+  
+    - (<tt>Object</tt>) <strong>spawn</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'migrations/lib/record_proxy.rb', line 81</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_spawn identifier id'>spawn</span>
+
+  <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;Can't spawn an object because record type is unknown&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@record_type ivar id'>@record_type</span>
+  <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_@record_type ivar id'>@record_type</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:call</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_@record_type ivar id'>@record_type</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_@data ivar id'>@data</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='rubyid_@record_type ivar id'>@record_type</span>
+
+  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+  <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_key identifier id'>key</span> <span class='assign token'>=</span> <span class='rubyid_@key ivar id'>@key</span>
+  <span class='rubyid_@data ivar id'>@data</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
+
+    <span class='rubyid_next next kw'>next</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_k identifier id'>k</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_property_type identifier id'>property_type</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Utils constant id'>Utils</span><span class='dot token'>.</span><span class='rubyid_get_property_type identifier id'>get_property_type</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_filtered_val identifier id'>filtered_val</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Utils constant id'>Utils</span><span class='dot token'>.</span><span class='rubyid_value_filter identifier id'>value_filter</span><span class='lparen token'>(</span><span class='rubyid_property_type identifier id'>property_type</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_property_type identifier id'>property_type</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span> <span class='match op'>=~</span> <span class='regexp val'>/_list$/</span>
+      <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_k identifier id'>k</span><span class='rparen token'>)</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_filtered_val identifier id'>filtered_val</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{k}=&quot;</span><span class='comma token'>,</span> <span class='rubyid_filtered_val identifier id'>filtered_val</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_@spawn_callbacks ivar id'>@spawn_callbacks</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_callback identifier id'>callback</span><span class='bitor op'>|</span>
+    <span class='rubyid_callback identifier id'>callback</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_@data ivar id'>@data</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_obj identifier id'>obj</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -648,15 +819,17 @@ discharged</p>
       <pre class="lines">
 
 
-43
-44
-45</pre>
+65
+66
+67
+68</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/record_proxy.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/record_proxy.rb', line 65</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_s identifier id'>to_s</span>
-  <span class='dstring node'>&quot;Record Proxy for &lt;#{@record_type}&gt;&quot;</span>
+  <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_@record_type ivar id'>@record_type</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_@record_type ivar id'>@record_type</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:call</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_@record_type ivar id'>@record_type</span> <span class='colon op'>:</span> <span class='string val'>&quot;Anonymous or Typeless Object&quot;</span>
+  <span class='dstring node'>&quot;Record Proxy for &lt;#{type}&gt;&quot;</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -669,7 +842,7 @@ discharged</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:57 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:33 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.6.1 (ruby-1.9.3).
 </div>

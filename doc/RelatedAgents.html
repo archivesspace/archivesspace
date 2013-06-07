@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="_index.html">Index (R)</a> &raquo;
+    <a href="alpha_index.html">Index (R)</a> &raquo;
     
     
     <span class="title">RelatedAgents</span>
@@ -307,7 +307,9 @@
 52
 53
 54
-55</pre>
+55
+56
+57</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/mixins/related_agents.rb', line 4</span>
@@ -318,6 +320,8 @@
     <span class='rubyid_clz identifier id'>clz</span><span class='dot token'>.</span><span class='rubyid_instance_eval identifier id'>instance_eval</span> <span class='rubyid_do do kw'>do</span>
       <span class='rubyid_extend identifier id'>extend</span> <span class='rubyid_JSONModel constant id'>JSONModel</span>
       <span class='rubyid_one_to_one identifier id'>one_to_one</span> <span class='symbol val'>:relationship_date</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;ASDate&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:key</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:related_agents_rlshp_id</span>
+
+      <span class='rubyid_include identifier id'>include</span> <span class='rubyid_ASModel constant id'>ASModel</span><span class='colon2 op'>::</span><span class='rubyid_SequelHooks constant id'>SequelHooks</span>
 
       <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span><span class='lparen token'>(</span><span class='rubyid_values identifier id'>values</span><span class='rparen token'>)</span>
         <span class='rubyid_date_values identifier id'>date_values</span> <span class='assign token'>=</span> <span class='rubyid_values identifier id'>values</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='string val'>'dates'</span><span class='rparen token'>)</span>
@@ -385,8 +389,6 @@
       <pre class="lines">
 
 
-71
-72
 73
 74
 75
@@ -408,10 +410,12 @@
 91
 92
 93
-94</pre>
+94
+95
+96</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/related_agents.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/related_agents.rb', line 73</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_prepare_related_agents_for_display identifier id'>prepare_related_agents_for_display</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'related_agents'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_relationship identifier id'>relationship</span><span class='bitor op'>|</span>
@@ -458,8 +462,6 @@
       <pre class="lines">
 
 
-58
-59
 60
 61
 62
@@ -468,10 +470,12 @@
 65
 66
 67
-68</pre>
+68
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/related_agents.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/related_agents.rb', line 60</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_prepare_related_agents_for_storage identifier id'>prepare_related_agents_for_storage</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'related_agents'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_relationship identifier id'>relationship</span><span class='bitor op'>|</span>
@@ -511,13 +515,13 @@
       <pre class="lines">
 
 
-97
-98
 99
-100</pre>
+100
+101
+102</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/related_agents.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/related_agents.rb', line 99</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_linked_records identifier id'>apply_linked_records</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_RelatedAgents constant id'>RelatedAgents</span><span class='dot token'>.</span><span class='rubyid_prepare_related_agents_for_storage identifier id'>prepare_related_agents_for_storage</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
@@ -534,7 +538,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:34 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:05 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.6.1 (ruby-1.9.3).
 </div>

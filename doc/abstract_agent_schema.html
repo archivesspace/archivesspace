@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="_index.html">Index (a)</a> &raquo;
+    <a href="alpha_index.html">Index (a)</a> &raquo;
     
     
     <span class="title">abstract_agent_schema</span>
@@ -91,6 +91,8 @@
 			
 				<h3 class="signature"> - (array ([{"type"=>"JSONModel(:note_bioghist) object"}])) <strong>notes</strong></h3>
 			
+				<h3 class="signature"> - (array (JSONModel(:date) object)) <strong>dates_of_existence</strong></h3>
+			
 		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
 
       <table class="source_code">
@@ -143,7 +145,9 @@
 42
 43
 44
-45</pre>
+45
+46
+47</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/abstract_agent.rb', line 1</span>
@@ -189,6 +193,8 @@
         <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
         <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:note_bioghist) object&quot;</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='rbrace token'>}</span><span class='comma token'>,</span>
+      
+      <span class='string val'>&quot;dates_of_existence&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:date) object&quot;</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
 
     <span class='rbrace token'>}</span><span class='comma token'>,</span>
   <span class='rbrace token'>}</span><span class='comma token'>,</span>
@@ -206,7 +212,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:58 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:34 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.6.1 (ruby-1.9.3).
 </div>

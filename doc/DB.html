@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="_index.html">Index (D)</a> &raquo;
+    <a href="alpha_index.html">Index (D)</a> &raquo;
     
     
     <span class="title">DB</span>
@@ -524,6 +524,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#supports_mvcc%3F-class_method" title="supports_mvcc? (class method)">+ (Boolean) <strong>supports_mvcc?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#transaction-class_method" title="transaction (class method)">+ (Object) <strong>transaction</strong>(*args) </a>
     
 
@@ -611,12 +634,12 @@
       <pre class="lines">
 
 
-147
-148
-149</pre>
+152
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 147</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 152</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_attempt identifier id'>attempt</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_DBAttempt constant id'>DBAttempt</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
@@ -642,12 +665,12 @@
       <pre class="lines">
 
 
-217
-218
-219</pre>
+222
+223
+224</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 217</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 222</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_backups_dir identifier id'>backups_dir</span>
   <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:backup_directory</span><span class='rbrack token'>]</span>
@@ -673,12 +696,12 @@
       <pre class="lines">
 
 
-273
-274
-275</pre>
+283
+284
+285</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 283</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_blobify identifier id'>blobify</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span>
   <span class='lparen token'>(</span><span class='rubyid_@pool ivar id'>@pool</span><span class='dot token'>.</span><span class='rubyid_database_type identifier id'>database_type</span> <span class='eq op'>==</span> <span class='symbol val'>:derby</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_s identifier id'>s</span><span class='dot token'>.</span><span class='rubyid_to_sequel_blob identifier id'>to_sequel_blob</span> <span class='colon op'>:</span> <span class='rubyid_s identifier id'>s</span>
@@ -704,11 +727,6 @@
       <pre class="lines">
 
 
-170
-171
-172
-173
-174
 175
 176
 177
@@ -720,10 +738,15 @@
 183
 184
 185
-186</pre>
+186
+187
+188
+189
+190
+191</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 170</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 175</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_supported identifier id'>check_supported</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_SUPPORTED_DATABASES constant id'>SUPPORTED_DATABASES</span><span class='dot token'>.</span><span class='rubyid_any? fid id'>any?</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span> <span class='rubyid_url identifier id'>url</span> <span class='match op'>=~</span> <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:pattern</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
@@ -763,16 +786,16 @@
       <pre class="lines">
 
 
-278
-279
-280
-281
-282
-283
-284</pre>
+288
+289
+290
+291
+292
+293
+294</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 278</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 288</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_concat identifier id'>concat</span><span class='lparen token'>(</span><span class='rubyid_s1 identifier id'>s1</span><span class='comma token'>,</span> <span class='rubyid_s2 identifier id'>s2</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@pool ivar id'>@pool</span><span class='dot token'>.</span><span class='rubyid_database_type identifier id'>database_type</span> <span class='eq op'>==</span> <span class='symbol val'>:derby</span>
@@ -929,11 +952,6 @@
       <pre class="lines">
 
 
-245
-246
-247
-248
-249
 250
 251
 252
@@ -943,10 +961,15 @@
 256
 257
 258
-259</pre>
+259
+260
+261
+262
+263
+264</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 245</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 250</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_demo_db_backup identifier id'>demo_db_backup</span>
   <span class='comment val'># Timestamp must come first here for filenames to sort chronologically</span>
@@ -984,12 +1007,12 @@
       <pre class="lines">
 
 
-165
-166
-167</pre>
+170
+171
+172</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 165</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 170</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_disconnect identifier id'>disconnect</span>
   <span class='rubyid_@pool ivar id'>@pool</span><span class='dot token'>.</span><span class='rubyid_disconnect identifier id'>disconnect</span>
@@ -1015,11 +1038,6 @@
       <pre class="lines">
 
 
-222
-223
-224
-225
-226
 227
 228
 229
@@ -1035,10 +1053,15 @@
 239
 240
 241
-242</pre>
+242
+243
+244
+245
+246
+247</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 222</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 227</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_expire_backups identifier id'>expire_backups</span>
 
@@ -1082,23 +1105,23 @@
       <pre class="lines">
 
 
-262
-263
-264
-265
-266
 267
 268
 269
-270</pre>
+270
+271
+272
+273
+274
+275</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 262</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 267</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_increase_lock_version_or_fail identifier id'>increase_lock_version_or_fail</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_updated_rows identifier id'>updated_rows</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='symbol val'>:lock_version</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_lock_version identifier id'>lock_version</span><span class='rparen token'>)</span><span class='dot token'>.</span>
                      <span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:lock_version</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_lock_version identifier id'>lock_version</span> <span class='plus op'>+</span> <span class='integer val'>1</span><span class='comma token'>,</span>
-                            <span class='symbol val'>:last_modified</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='rparen token'>)</span>
+                            <span class='symbol val'>:system_mtime</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='rparen token'>)</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_updated_rows identifier id'>updated_rows</span> <span class='neq op'>!=</span> <span class='integer val'>1</span>
     <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_Plugins constant id'>Plugins</span><span class='colon2 op'>::</span><span class='rubyid_OptimisticLocking constant id'>OptimisticLocking</span><span class='colon2 op'>::</span><span class='rubyid_Error constant id'>Error</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Couldn't create version of: #{obj}&quot;</span><span class='rparen token'>)</span>
@@ -1135,12 +1158,12 @@
       <pre class="lines">
 
 
-153
-154
-155</pre>
+158
+159
+160</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 153</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 158</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_is_integrity_violation identifier id'>is_integrity_violation</span><span class='lparen token'>(</span><span class='rubyid_exception identifier id'>exception</span><span class='rparen token'>)</span>
   <span class='lparen token'>(</span><span class='rubyid_exception identifier id'>exception</span><span class='dot token'>.</span><span class='rubyid_wrapped_exception identifier id'>wrapped_exception</span><span class='dot token'>.</span><span class='rubyid_cause identifier id'>cause</span> <span class='rubyid_or or kw'>or</span> <span class='rubyid_exception identifier id'>exception</span><span class='dot token'>.</span><span class='rubyid_wrapped_exception identifier id'>wrapped_exception</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_getSQLState identifier id'>getSQLState</span><span class='lparen token'>(</span><span class='rparen token'>)</span> <span class='match op'>=~</span> <span class='regexp val'>/^23/</span>
@@ -1166,14 +1189,14 @@
       <pre class="lines">
 
 
-158
-159
-160
-161
-162</pre>
+163
+164
+165
+166
+167</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 158</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 163</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_is_retriable_exception identifier id'>is_retriable_exception</span><span class='lparen token'>(</span><span class='rubyid_exception identifier id'>exception</span><span class='rparen token'>)</span>
   <span class='comment val'># Transaction was rolled back, but we can retry</span>
@@ -1224,15 +1247,15 @@
       <pre class="lines">
 
 
-113
-114
-115
-116
-117
-118</pre>
+118
+119
+120
+121
+122
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 113</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 118</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_needs_savepoint? fid id'>needs_savepoint?</span>
   <span class='comment val'># Postgres needs a savepoint for any statement that might fail</span>
@@ -1303,7 +1326,12 @@
 107
 108
 109
-110</pre>
+110
+111
+112
+113
+114
+115</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 68</span>
@@ -1322,7 +1350,12 @@
         <span class='comment val'># Sequel::Rollback which has been quietly caught.</span>
         <span class='rubyid_return return kw'>return</span>
       <span class='rubyid_else else kw'>else</span>
-        <span class='rubyid_return return kw'>return</span> <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_@pool ivar id'>@pool</span>
+        <span class='rubyid_begin begin kw'>begin</span>
+          <span class='rubyid_return return kw'>return</span> <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_@pool ivar id'>@pool</span>
+        <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_Rollback constant id'>Rollback</span>
+          <span class='comment val'># If we're not in a transaction we can't roll back, but no need to blow up.</span>
+          <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_warn identifier id'>warn</span><span class='lparen token'>(</span><span class='string val'>&quot;Sequel::Rollback caught but we're not inside of a transaction&quot;</span><span class='rparen token'>)</span>
+        <span class='rubyid_end end kw'>end</span>
       <span class='rubyid_end end kw'>end</span>
 
 
@@ -1335,7 +1368,7 @@
 
     <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_DatabaseError constant id'>DatabaseError</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
       <span class='rubyid_if if kw'>if</span> <span class='rubyid_is_retriable_exception identifier id'>is_retriable_exception</span><span class='lparen token'>(</span><span class='rubyid_e identifier id'>e</span><span class='rparen token'>)</span>
-        <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='string val'>&quot;Retrying transaction after retriable exception&quot;</span><span class='rparen token'>)</span>
+        <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Retrying transaction after retriable exception (#{e})&quot;</span><span class='rparen token'>)</span>
         <span class='rubyid_sleep identifier id'>sleep</span> <span class='integer val'>1</span>
       <span class='rubyid_else else kw'>else</span>
         <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_e identifier id'>e</span>
@@ -1350,6 +1383,60 @@
 
     <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Failed to connect to the database: #{last_err}&quot;</span>
   <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="supports_mvcc?-class_method">
+  
+    + (<tt>Boolean</tt>) <strong>supports_mvcc?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+278
+279
+280</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 278</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_supports_mvcc? fid id'>supports_mvcc?</span>
+  <span class='notop op'>!</span><span class='lbrack token'>[</span><span class='symbol val'>:derby</span><span class='comma token'>,</span> <span class='symbol val'>:h2</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_@pool ivar id'>@pool</span><span class='dot token'>.</span><span class='rubyid_database_type identifier id'>database_type</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1397,7 +1484,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:40 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:13 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.6.1 (ruby-1.9.3).
 </div>

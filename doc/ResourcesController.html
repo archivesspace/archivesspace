@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="_index.html">Index (R)</a> &raquo;
+    <a href="alpha_index.html">Index (R)</a> &raquo;
     
     
     <span class="title">ResourcesController</span>
@@ -578,7 +578,7 @@
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 42</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_edit identifier id'>edit</span>
-  <span class='rubyid_@resource ivar id'>@resource</span> <span class='assign token'>=</span> <span class='rubyid_fetch_resource identifier id'>fetch_resource</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_@resource ivar id'>@resource</span> <span class='assign token'>=</span> <span class='rubyid_fetch_resolved identifier id'>fetch_resolved</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 
   <span class='rubyid_fetch_tree identifier id'>fetch_tree</span>
   <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_keep identifier id'>keep</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='comment val'># keep the notices so they display on the subsequent ajax call</span>
@@ -800,7 +800,7 @@
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 13</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_show identifier id'>show</span>
-  <span class='rubyid_@resource ivar id'>@resource</span> <span class='assign token'>=</span> <span class='rubyid_fetch_resource identifier id'>fetch_resource</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_@resource ivar id'>@resource</span> <span class='assign token'>=</span> <span class='rubyid_fetch_resolved identifier id'>fetch_resolved</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:inline</span><span class='rbrack token'>]</span>
     <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;resources/show_inline&quot;</span>
@@ -848,7 +848,7 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update identifier id'>update</span>
   <span class='rubyid_handle_crud identifier id'>handle_crud</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:resource</span><span class='comma token'>,</span>
-              <span class='symbol val'>:obj</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_fetch_resource identifier id'>fetch_resource</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+              <span class='symbol val'>:obj</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_fetch_resolved identifier id'>fetch_resolved</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='comma token'>,</span>
               <span class='symbol val'>:on_invalid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
                 <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;edit_inline&quot;</span>
               <span class='rbrace token'>}</span><span class='comma token'>,</span>
@@ -869,7 +869,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:52 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:28 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.6.1 (ruby-1.9.3).
 </div>

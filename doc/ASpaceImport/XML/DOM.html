@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="../../_index.html">Index (D)</a> &raquo;
+    <a href="../../alpha_index.html">Index (D)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../../ASpaceImport.html" title="ASpaceImport (module)">ASpaceImport</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../XML.html" title="ASpaceImport::XML (module)">XML</a></span></span>
      &raquo; 
     <span class="title">DOM</span>
@@ -332,6 +332,7 @@
       <pre class="lines">
 
 
+36
 37
 38
 39
@@ -350,18 +351,17 @@
 52
 53
 54
-55
-56</pre>
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/xml_dom.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/xml_dom.rb', line 36</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_object identifier id'>object</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_defn identifier id'>defn</span><span class='rparen token'>)</span>
   <span class='rubyid_@context ivar id'>@context</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rubyid_@doc ivar id'>@doc</span><span class='rbrack token'>]</span>
   <span class='rubyid_@context ivar id'>@context</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='dot token'>.</span><span class='rubyid_xpath identifier id'>xpath</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_node identifier id'>node</span><span class='bitor op'>|</span>
     <span class='rubyid_@context ivar id'>@context</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_node identifier id'>node</span>
     <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_defn identifier id'>defn</span><span class='lbrack token'>[</span><span class='symbol val'>:obj</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
-    <span class='rubyid_parse_queue identifier id'>parse_queue</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_obj identifier id'>obj</span>
+    <span class='rubyid_@cache ivar id'>@cache</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_obj identifier id'>obj</span>
     <span class='rubyid_defn identifier id'>defn</span><span class='lbrack token'>[</span><span class='symbol val'>:map</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_defn identifier id'>defn</span><span class='bitor op'>|</span>
       <span class='rubyid_process_field identifier id'>process_field</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_defn identifier id'>defn</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
@@ -397,6 +397,7 @@
       <pre class="lines">
 
 
+58
 59
 60
 61
@@ -427,11 +428,10 @@
 86
 87
 88
-89
-90</pre>
+89</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/xml_dom.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/xml_dom.rb', line 58</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_process_field identifier id'>process_field</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
   
@@ -497,13 +497,13 @@
 30
 31
 32
-33
-34</pre>
+33</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'migrations/lib/xml_dom.rb', line 22</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_run identifier id'>run</span>
+  <span class='rubyid_@cache ivar id'>@cache</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
 
   <span class='rubyid_@doc ivar id'>@doc</span> <span class='assign token'>=</span> <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='colon2 op'>::</span><span class='rubyid_Document constant id'>Document</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_IO constant id'>IO</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span><span class='lparen token'>(</span><span class='rubyid_@input_file ivar id'>@input_file</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='rubyid_@doc ivar id'>@doc</span><span class='dot token'>.</span><span class='rubyid_remove_namespaces! fid id'>remove_namespaces!</span>
@@ -512,9 +512,7 @@
     <span class='rubyid_object identifier id'>object</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_defn identifier id'>defn</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_@log ivar id'>@log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Parse Queue State: #{parse_queue.inspect}&quot;</span><span class='rparen token'>)</span>
-
-  <span class='rubyid_save_all identifier id'>save_all</span>
+  <span class='rubyid_@cache ivar id'>@cache</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -527,7 +525,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:38 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:10 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.6.1 (ruby-1.9.3).
 </div>

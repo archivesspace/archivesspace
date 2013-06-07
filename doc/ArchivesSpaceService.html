@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="_index.html">Index (A)</a> &raquo;
+    <a href="alpha_index.html">Index (A)</a> &raquo;
     
     
     <span class="title">ArchivesSpaceService</span>
@@ -106,7 +106,7 @@
   
     <dt class="r1 last">Defined in:</dt>
     <dd class="r1 last">backend/app/main.rb<span class="defines">,<br />
-  backend/app/main_rackdebug.rb,<br /> backend/app/controllers/term.rb,<br /> backend/app/controllers/agent.rb,<br /> backend/app/controllers/event.rb,<br /> backend/app/controllers/group.rb,<br /> backend/app/controllers/users.rb,<br /> backend/app/controllers/search.rb,<br /> backend/app/controllers/system.rb,<br /> backend/app/controllers/exports.rb,<br /> backend/app/controllers/reports.rb,<br /> backend/app/controllers/subject.rb,<br /> backend/app/controllers/location.rb,<br /> backend/app/controllers/resource.rb,<br /> backend/app/controllers/accession.rb,<br /> backend/app/controllers/permission.rb,<br /> backend/app/controllers/repository.rb,<br /> backend/app/controllers/vocabulary.rb,<br /> backend/app/controllers/enumeration.rb,<br /> backend/app/controllers/external_id.rb,<br /> backend/app/controllers/update_feed.rb,<br /> backend/app/controllers/agent_family.rb,<br /> backend/app/controllers/agent_person.rb,<br /> backend/app/controllers/batch_import.rb,<br /> backend/app/controllers/notifications.rb,<br /> backend/app/controllers/agent_software.rb,<br /> backend/app/controllers/classification.rb,<br /> backend/app/controllers/digital_object.rb,<br /> backend/app/controllers/archival_object.rb,<br /> backend/app/controllers/component_transfer.rb,<br /> backend/app/controllers/classification_term.rb,<br /> backend/app/controllers/collection_management.rb,<br /> backend/app/controllers/agent_corporate_entity.rb,<br /> backend/app/controllers/component_add_children.rb,<br /> backend/app/controllers/digital_object_component.rb,<br /> backend/app/lib/bootstrap_access_control.rb</span>
+  backend/app/main_rackdebug.rb,<br /> backend/app/controllers/term.rb,<br /> backend/app/controllers/event.rb,<br /> backend/app/controllers/group.rb,<br /> backend/app/controllers/users.rb,<br /> backend/app/controllers/search.rb,<br /> backend/app/controllers/system.rb,<br /> backend/app/controllers/exports.rb,<br /> backend/app/controllers/reports.rb,<br /> backend/app/controllers/subject.rb,<br /> backend/app/controllers/location.rb,<br /> backend/app/controllers/resource.rb,<br /> backend/app/controllers/accession.rb,<br /> backend/app/controllers/permission.rb,<br /> backend/app/controllers/repository.rb,<br /> backend/app/controllers/vocabulary.rb,<br /> backend/app/controllers/enumeration.rb,<br /> backend/app/controllers/external_id.rb,<br /> backend/app/controllers/update_feed.rb,<br /> backend/app/controllers/agent_family.rb,<br /> backend/app/controllers/agent_person.rb,<br /> backend/app/controllers/batch_import.rb,<br /> backend/app/controllers/notifications.rb,<br /> backend/app/controllers/agent_software.rb,<br /> backend/app/controllers/classification.rb,<br /> backend/app/controllers/digital_object.rb,<br /> backend/app/controllers/update_monitor.rb,<br /> backend/app/controllers/archival_object.rb,<br /> backend/app/controllers/component_transfer.rb,<br /> backend/app/controllers/classification_term.rb,<br /> backend/app/controllers/collection_management.rb,<br /> backend/app/controllers/agent_corporate_entity.rb,<br /> backend/app/controllers/component_add_children.rb,<br /> backend/app/controllers/digital_object_component.rb,<br /> backend/app/lib/bootstrap_access_control.rb</span>
 </dd>
   
 </dl>
@@ -128,6 +128,33 @@
   <h2>Constant Summary</h2>
   
     <dl class="constants">
+      
+        <dt id="BASE_SEARCH_PARAMS-constant" class="">BASE_SEARCH_PARAMS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrack token'>[</span><span class='lbrack token'>[</span><span class='string val'>&quot;q&quot;</span><span class='comma token'>,</span> <span class='rubyid_String constant id'>String</span><span class='comma token'>,</span> <span class='string val'>&quot;A search query string&quot;</span><span class='comma token'>,</span>
+<span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+     <span class='lbrack token'>[</span><span class='string val'>&quot;aq&quot;</span><span class='comma token'>,</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:advanced_query</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='string val'>&quot;A json string containing the advanced query&quot;</span><span class='comma token'>,</span>
+<span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+     <span class='lbrack token'>[</span><span class='string val'>&quot;type&quot;</span><span class='comma token'>,</span>
+<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+<span class='string val'>&quot;The record type to search (defaults to all types if not specified)&quot;</span><span class='comma token'>,</span>
+<span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+     <span class='lbrack token'>[</span><span class='string val'>&quot;sort&quot;</span><span class='comma token'>,</span>
+<span class='rubyid_String constant id'>String</span><span class='comma token'>,</span>
+<span class='string val'>&quot;The attribute to sort and the direction e.g. &amp;sort=title desc&amp;...&quot;</span><span class='comma token'>,</span>
+<span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+     <span class='lbrack token'>[</span><span class='string val'>&quot;facet&quot;</span><span class='comma token'>,</span>
+<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+<span class='string val'>&quot;The list of the fields to produce facets for&quot;</span><span class='comma token'>,</span>
+<span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+     <span class='lbrack token'>[</span><span class='string val'>&quot;filter_term&quot;</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;A json string containing the term/value pairs to be applied to the filter&quot;</span><span class='comma token'>,</span>
+<span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+     <span class='lbrack token'>[</span><span class='string val'>&quot;exclude&quot;</span><span class='comma token'>,</span>
+<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+<span class='string val'>&quot;A list of document IDs that should be excluded from results&quot;</span><span class='comma token'>,</span>
+<span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+</pre></dd>
       
         <dt id="ALLOWED_PERMISSION_LEVELS-constant" class="">ALLOWED_PERMISSION_LEVELS =
           
@@ -193,6 +220,30 @@
 
   
     <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_staff_user-class_method" title="create_staff_user (class method)">+ (Object) <strong>create_staff_user</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Create the user that the frontend will use for trusted communication with
+the backend.</p>
 </div></span>
   
 </li>
@@ -442,7 +493,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="URIResolver.html" title="URIResolver (module)">URIResolver</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="URIResolver.html#resolve_references-class_method" title="URIResolver.resolve_references (method)">resolve_references</a></span>, <span class='object_link'><a href="URIResolver.html#resolve_references-instance_method" title="URIResolver#resolve_references (method)">#resolve_references</a></span>, <span class='object_link'><a href="URIResolver.html#resolve_uri-class_method" title="URIResolver.resolve_uri (method)">resolve_uri</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="URIResolver.html#ensure_reference_is_valid-class_method" title="URIResolver.ensure_reference_is_valid (method)">ensure_reference_is_valid</a></span>, <span class='object_link'><a href="URIResolver.html#record_exists%3F-class_method" title="URIResolver.record_exists? (method)">record_exists?</a></span>, <span class='object_link'><a href="URIResolver.html#resolve_references-class_method" title="URIResolver.resolve_references (method)">resolve_references</a></span>, <span class='object_link'><a href="URIResolver.html#resolve_references-instance_method" title="URIResolver#resolve_references (method)">#resolve_references</a></span>, <span class='object_link'><a href="URIResolver.html#resolve_uri-class_method" title="URIResolver.resolve_uri (method)">resolve_uri</a></span></p>
 
   
   
@@ -475,33 +526,35 @@
       <pre class="lines">
 
 
-171
-172
-173
-174
-175
-176
-177
-178
-179
-180
-181
-182
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194</pre>
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 171</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 206</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_public_user identifier id'>create_public_user</span>
 
@@ -509,7 +562,8 @@
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_User constant id'>User</span><span class='lbrack token'>[</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_PUBLIC_USERNAME constant id'>PUBLIC_USERNAME</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
     <span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:user</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_PUBLIC_USERNAME constant id'>PUBLIC_USERNAME</span><span class='comma token'>,</span>
                                                      <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Public Interface Anonymous&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-                          <span class='symbol val'>:source</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;local&quot;</span><span class='rparen token'>)</span>
+                          <span class='symbol val'>:source</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;local&quot;</span><span class='comma token'>,</span>
+                          <span class='symbol val'>:is_system_user</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_DBAuth constant id'>DBAuth</span><span class='dot token'>.</span><span class='rubyid_set_password identifier id'>set_password</span><span class='lparen token'>(</span><span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_PUBLIC_USERNAME constant id'>PUBLIC_USERNAME</span><span class='comma token'>,</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:public_user_secret</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -523,6 +577,7 @@
       <span class='rubyid_created_group identifier id'>created_group</span><span class='dot token'>.</span><span class='rubyid_add_user identifier id'>add_user</span><span class='lparen token'>(</span><span class='rubyid_User constant id'>User</span><span class='lbrack token'>[</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_PUBLIC_USERNAME constant id'>PUBLIC_USERNAME</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 
       <span class='rubyid_created_group identifier id'>created_group</span><span class='dot token'>.</span><span class='rubyid_grant identifier id'>grant</span><span class='lparen token'>(</span><span class='string val'>&quot;view_repository&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_created_group identifier id'>created_group</span><span class='dot token'>.</span><span class='rubyid_grant identifier id'>grant</span><span class='lparen token'>(</span><span class='string val'>&quot;view_all_records&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -548,35 +603,37 @@
       <pre class="lines">
 
 
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167
-168</pre>
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 143</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 176</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_search_user identifier id'>create_search_user</span>
 
@@ -584,7 +641,8 @@
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_User constant id'>User</span><span class='lbrack token'>[</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_SEARCH_USERNAME constant id'>SEARCH_USERNAME</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
     <span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:user</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_SEARCH_USERNAME constant id'>SEARCH_USERNAME</span><span class='comma token'>,</span>
                                                      <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Search Indexer&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-                          <span class='symbol val'>:source</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;local&quot;</span><span class='rparen token'>)</span>
+                          <span class='symbol val'>:source</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;local&quot;</span><span class='comma token'>,</span>
+                          <span class='symbol val'>:is_system_user</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_DBAuth constant id'>DBAuth</span><span class='dot token'>.</span><span class='rubyid_set_password identifier id'>set_password</span><span class='lparen token'>(</span><span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_SEARCH_USERNAME constant id'>SEARCH_USERNAME</span><span class='comma token'>,</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:search_user_secret</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -599,7 +657,92 @@
 
       <span class='rubyid_created_group identifier id'>created_group</span><span class='dot token'>.</span><span class='rubyid_grant identifier id'>grant</span><span class='lparen token'>(</span><span class='string val'>&quot;view_repository&quot;</span><span class='rparen token'>)</span>
       <span class='rubyid_created_group identifier id'>created_group</span><span class='dot token'>.</span><span class='rubyid_grant identifier id'>grant</span><span class='lparen token'>(</span><span class='string val'>&quot;view_suppressed&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_created_group identifier id'>created_group</span><span class='dot token'>.</span><span class='rubyid_grant identifier id'>grant</span><span class='lparen token'>(</span><span class='string val'>&quot;view_all_records&quot;</span><span class='rparen token'>)</span>
       <span class='rubyid_created_group identifier id'>created_group</span><span class='dot token'>.</span><span class='rubyid_grant identifier id'>grant</span><span class='lparen token'>(</span><span class='string val'>&quot;index_system&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create_staff_user-class_method">
+  
+    + (<tt>Object</tt>) <strong>create_staff_user</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Create the user that the frontend will use for trusted communication with
+the backend.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 236</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_staff_user identifier id'>create_staff_user</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_User constant id'>User</span><span class='lbrack token'>[</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_STAFF_USERNAME constant id'>STAFF_USERNAME</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+    <span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:user</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_STAFF_USERNAME constant id'>STAFF_USERNAME</span><span class='comma token'>,</span>
+                                                     <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Staff System User&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                          <span class='symbol val'>:source</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;local&quot;</span><span class='comma token'>,</span>
+                          <span class='symbol val'>:is_system_user</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_DBAuth constant id'>DBAuth</span><span class='dot token'>.</span><span class='rubyid_set_password identifier id'>set_password</span><span class='lparen token'>(</span><span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_STAFF_USERNAME constant id'>STAFF_USERNAME</span><span class='comma token'>,</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:staff_user_secret</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_global_repo identifier id'>global_repo</span> <span class='assign token'>=</span> <span class='rubyid_Repository constant id'>Repository</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Group constant id'>Group</span><span class='dot token'>.</span><span class='rubyid_GLOBAL constant id'>GLOBAL</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_global_repo identifier id'>global_repo</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_Group constant id'>Group</span><span class='lbrack token'>[</span><span class='symbol val'>:group_code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Group constant id'>Group</span><span class='dot token'>.</span><span class='rubyid_STAFF_GROUP_CODE constant id'>STAFF_GROUP_CODE</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+      <span class='rubyid_created_group identifier id'>created_group</span> <span class='assign token'>=</span> <span class='rubyid_Group constant id'>Group</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:group</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='symbol val'>:group_code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Group constant id'>Group</span><span class='dot token'>.</span><span class='rubyid_STAFF_GROUP_CODE constant id'>STAFF_GROUP_CODE</span><span class='comma token'>,</span>
+                                                                         <span class='symbol val'>:description</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Staff System Group&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+      <span class='rubyid_created_group identifier id'>created_group</span><span class='dot token'>.</span><span class='rubyid_add_user identifier id'>add_user</span><span class='lparen token'>(</span><span class='rubyid_User constant id'>User</span><span class='lbrack token'>[</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_STAFF_USERNAME constant id'>STAFF_USERNAME</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+      <span class='rubyid_created_group identifier id'>created_group</span><span class='dot token'>.</span><span class='rubyid_grant identifier id'>grant</span><span class='lparen token'>(</span><span class='string val'>&quot;mediate_edits&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -625,16 +768,16 @@
       <pre class="lines">
 
 
-41
 42
 43
 44
 45
 46
-47</pre>
+47
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 42</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_loaded_hook identifier id'>loaded_hook</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@archivesspace_loaded ivar id'>@archivesspace_loaded</span>
@@ -801,7 +944,40 @@
 137
 138
 139
-140</pre>
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 3</span>
@@ -874,7 +1050,8 @@
 
   <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;view_all_records&quot;</span><span class='comma token'>,</span>
                     <span class='string val'>&quot;The ability to view any record in the system&quot;</span><span class='comma token'>,</span>
-                    <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;global&quot;</span><span class='rparen token'>)</span>
+                    <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;global&quot;</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:system</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
 
   <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;create_repository&quot;</span><span class='comma token'>,</span>
                     <span class='string val'>&quot;The ability to create new repositories&quot;</span><span class='comma token'>,</span>
@@ -886,7 +1063,8 @@
 
   <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;index_system&quot;</span><span class='comma token'>,</span>
                     <span class='string val'>&quot;The ability to read any record for indexing&quot;</span><span class='comma token'>,</span>
-                    <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;global&quot;</span><span class='rparen token'>)</span>
+                    <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;global&quot;</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:system</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
 
   <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;manage_repository&quot;</span><span class='comma token'>,</span>
                     <span class='string val'>&quot;The ability to manage a given repository&quot;</span><span class='comma token'>,</span>
@@ -894,16 +1072,6 @@
 
   <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;update_location_record&quot;</span><span class='comma token'>,</span>
                     <span class='string val'>&quot;The ability to create and modify location records in a given repository&quot;</span><span class='comma token'>,</span>
-                    <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
-
-  <span class='comment val'># This doesn't really make sense since subjects aren't repository-scoped.  Needs revisiting.</span>
-  <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;update_subject_record&quot;</span><span class='comma token'>,</span>
-                    <span class='string val'>&quot;The ability to create and modify subject records&quot;</span><span class='comma token'>,</span>
-                    <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
-
-  <span class='comment val'># This doesn't really make sense since agents aren't repository-scoped.  Needs revisiting.</span>
-  <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;update_agent_record&quot;</span><span class='comma token'>,</span>
-                    <span class='string val'>&quot;The ability to create and modify agent records&quot;</span><span class='comma token'>,</span>
                     <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
 
   <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;update_archival_record&quot;</span><span class='comma token'>,</span>
@@ -926,6 +1094,7 @@
                     <span class='string val'>&quot;The ability to delete the major archival record types: accessions/resources/digital objects/components/collection management/events&quot;</span><span class='comma token'>,</span>
                     <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
 
+
   <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;view_suppressed&quot;</span><span class='comma token'>,</span>
                     <span class='string val'>&quot;The ability to view suppressed records in a given repository&quot;</span><span class='comma token'>,</span>
                     <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
@@ -941,6 +1110,46 @@
   <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;delete_classification_record&quot;</span><span class='comma token'>,</span>
                     <span class='string val'>&quot;The ability to delete classification records&quot;</span><span class='comma token'>,</span>
                     <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;mediate_edits&quot;</span><span class='comma token'>,</span>
+                    <span class='string val'>&quot;Track concurrent updates to records&quot;</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;global&quot;</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:system</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+
+  <span class='comment val'># Updates and deletes to subjects and agents are a bit funny: they're global</span>
+  <span class='comment val'># objects, but users are granted permission to modify them by being</span>
+  <span class='comment val'># associated with a group within a repository.</span>
+
+  <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;update_subject_record&quot;</span><span class='comma token'>,</span>
+                    <span class='string val'>&quot;The ability to create and modify subject records&quot;</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:derived_permission</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;update_agent_record&quot;</span><span class='comma token'>,</span>
+                    <span class='string val'>&quot;The ability to create and modify agent records&quot;</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:derived_permission</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;update_vocabulary_record&quot;</span><span class='comma token'>,</span>
+                    <span class='string val'>&quot;The ability to create and modify vocabulary records&quot;</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:derived_permission</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;delete_agent_record&quot;</span><span class='comma token'>,</span>
+                    <span class='string val'>&quot;The ability to delete agent records&quot;</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:derived_permission</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;delete_subject_record&quot;</span><span class='comma token'>,</span>
+                    <span class='string val'>&quot;The ability to delete subject records&quot;</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:derived_permission</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;delete_vocabulary_record&quot;</span><span class='comma token'>,</span>
+                    <span class='string val'>&quot;The ability to delete vocabulary records&quot;</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:derived_permission</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
+
 
 
 <span class='rubyid_end end kw'>end</span>
@@ -971,16 +1180,16 @@
       <pre class="lines">
 
 
-122
-123
-124
-125
-126
-127
-128</pre>
+102
+103
+104
+105
+106
+107
+108</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/controllers/search.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'backend/app/controllers/search.rb', line 102</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_advanced_query_string identifier id'>advanced_query_string</span><span class='lparen token'>(</span><span class='rubyid_advanced_query identifier id'>advanced_query</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_advanced_query identifier id'>advanced_query</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>'subqueries'</span><span class='rparen token'>)</span>
@@ -1010,12 +1219,12 @@
       <pre class="lines">
 
 
-257
-258
-259</pre>
+260
+261
+262</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 257</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 260</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_current_user identifier id'>current_user</span>
   <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='symbol val'>:aspace_user</span><span class='rbrack token'>]</span>
@@ -1041,10 +1250,6 @@
       <pre class="lines">
 
 
-177
-178
-179
-180
 181
 182
 183
@@ -1054,10 +1259,14 @@
 187
 188
 189
-190</pre>
+190
+191
+192
+193
+194</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 177</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 181</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_exception! fid id'>handle_exception!</span><span class='lparen token'>(</span><span class='rubyid_boom identifier id'>boom</span><span class='rparen token'>)</span>
   <span class='rubyid_@env ivar id'>@env</span><span class='lbrack token'>[</span><span class='string val'>'sinatra.error'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_boom identifier id'>boom</span>
@@ -1117,12 +1326,12 @@
       <pre class="lines">
 
 
-262
-263
-264</pre>
+265
+266
+267</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 262</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 265</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_high_priority_request? fid id'>high_priority_request?</span>
   <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>&quot;HTTP_X_ARCHIVESSPACE_PRIORITY&quot;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='lparen token'>(</span><span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>&quot;HTTP_X_ARCHIVESSPACE_PRIORITY&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_downcase identifier id'>downcase</span> <span class='eq op'>==</span> <span class='string val'>&quot;high&quot;</span><span class='rparen token'>)</span>
@@ -1148,12 +1357,12 @@
       <pre class="lines">
 
 
-252
-253
-254</pre>
+255
+256
+257</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 252</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 255</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_session identifier id'>session</span>
   <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='symbol val'>:aspace_session</span><span class='rbrack token'>]</span>
@@ -1169,7 +1378,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:39 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:12 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.6.1 (ruby-1.9.3).
 </div>

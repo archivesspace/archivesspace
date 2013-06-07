@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="../../_index.html">Index (S)</a> &raquo;
+    <a href="../../alpha_index.html">Index (S)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../../ASpaceImport.html" title="ASpaceImport (module)">ASpaceImport</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../XML.html" title="ASpaceImport::XML (module)">XML</a></span></span>
      &raquo; 
     <span class="title">SAX</span>
@@ -596,20 +596,20 @@ will discharge the JSON subrecord once it is complete.</p>
       <pre class="lines">
 
 
-186
-187
-188
-189
 190
-191</pre>
+191
+192
+193
+194
+195</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 186</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 190</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_types identifier id'>types</span><span class='rparen token'>)</span>
   <span class='rubyid_queue_offset identifier id'>queue_offset</span> <span class='assign token'>=</span> <span class='rubyid_@context_nodes ivar id'>@context_nodes</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_@node_name ivar id'>@node_name</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='integer val'>-2</span> <span class='colon op'>:</span> <span class='integer val'>-1</span>
 
-  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_parse_queue identifier id'>parse_queue</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='dot2 op'>..</span><span class='rubyid_queue_offset identifier id'>queue_offset</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_reverse identifier id'>reverse</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_o identifier id'>o</span><span class='bitor op'>|</span> <span class='rubyid_types identifier id'>types</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_t identifier id'>t</span><span class='bitor op'>|</span> <span class='rubyid_t identifier id'>t</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_o identifier id'>o</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>          
+  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_@cache ivar id'>@cache</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='dot2 op'>..</span><span class='rubyid_queue_offset identifier id'>queue_offset</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_reverse identifier id'>reverse</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_o identifier id'>o</span><span class='bitor op'>|</span> <span class='rubyid_types identifier id'>types</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_t identifier id'>t</span><span class='bitor op'>|</span> <span class='rubyid_t identifier id'>t</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_o identifier id'>o</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>          
   <span class='rubyid_obj identifier id'>obj</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -633,31 +633,31 @@ will discharge the JSON subrecord once it is complete.</p>
       <pre class="lines">
 
 
-114
-115
-116
-117
-118
-119
 120
 121
 122
 123
-124</pre>
+124
+125
+126
+127
+128
+129
+130</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 120</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_close_context identifier id'>close_context</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
-  <span class='rubyid_@log ivar id'>@log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Close context &lt;#{type}&gt;&quot;</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_parse_queue identifier id'>parse_queue</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='dot token'>.</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='neq op'>!=</span> <span class='rubyid_type identifier id'>type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
-    <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Unexpected Object Type in Queue: Expected #{type} got #{parse_queue.last.jsonmodel_type}&quot;</span>
+  <span class='comment val'># @log.debug(&quot;Close context &lt;#{type}&gt;&quot;)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@cache ivar id'>@cache</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='dot token'>.</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='neq op'>!=</span> <span class='rubyid_type identifier id'>type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Unexpected Object Type in Queue: Expected #{type} got #{@cache.last.jsonmodel_type}&quot;</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_RecordProxy constant id'>RecordProxy</span><span class='dot token'>.</span><span class='rubyid_discharge_proxy identifier id'>discharge_proxy</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_parse_queue identifier id'>parse_queue</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='rparen token'>)</span>
+  <span class='rubyid_@proxies ivar id'>@proxies</span><span class='dot token'>.</span><span class='rubyid_discharge_proxy identifier id'>discharge_proxy</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_@cache ivar id'>@cache</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='rparen token'>)</span>
 
   <span class='rubyid_@context ivar id'>@context</span><span class='dot token'>.</span><span class='rubyid_pop identifier id'>pop</span>
-  <span class='rubyid_parse_queue identifier id'>parse_queue</span><span class='dot token'>.</span><span class='rubyid_pop identifier id'>pop</span>
+  <span class='rubyid_@cache ivar id'>@cache</span><span class='dot token'>.</span><span class='rubyid_pop identifier id'>pop</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -680,12 +680,12 @@ will discharge the JSON subrecord once it is complete.</p>
       <pre class="lines">
 
 
-204
-205
-206</pre>
+208
+209
+210</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 204</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 208</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_context identifier id'>context</span>
   <span class='rubyid_@context ivar id'>@context</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span>
@@ -711,15 +711,15 @@ will discharge the JSON subrecord once it is complete.</p>
       <pre class="lines">
 
 
-209
-210
-211</pre>
+213
+214
+215</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 209</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 213</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_context_obj identifier id'>context_obj</span>
-  <span class='rubyid_parse_queue identifier id'>parse_queue</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span>
+  <span class='rubyid_@cache ivar id'>@cache</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -742,17 +742,17 @@ will discharge the JSON subrecord once it is complete.</p>
       <pre class="lines">
 
 
-194
-195
-196
-197
 198
 199
 200
-201</pre>
+201
+202
+203
+204
+205</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 194</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 198</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_getat identifier id'>getat</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_attribute identifier id'>attribute</span><span class='rparen token'>)</span>
   <span class='rubyid_att_pair identifier id'>att_pair</span> <span class='assign token'>=</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_attributes identifier id'>attributes</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span> <span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_attribute identifier id'>attribute</span><span class='rbrace token'>}</span>
@@ -783,18 +783,18 @@ will discharge the JSON subrecord once it is complete.</p>
       <pre class="lines">
 
 
-90
-91
-92
-93
-94
-95
 96
 97
-98</pre>
+98
+99
+100
+101
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 96</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_closer identifier id'>handle_closer</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='rparen token'>)</span>
 
@@ -826,15 +826,15 @@ will discharge the JSON subrecord once it is complete.</p>
       <pre class="lines">
 
 
-77
-78
-79
-80
-81
-82</pre>
+83
+84
+85
+86
+87
+88</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 83</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_opener identifier id'>handle_opener</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='rparen token'>)</span>
 
@@ -863,15 +863,15 @@ will discharge the JSON subrecord once it is complete.</p>
       <pre class="lines">
 
 
-85
-86
-87</pre>
+91
+92
+93</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 85</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 91</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_text identifier id'>handle_text</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='rparen token'>)</span>    
-  <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_RecordProxy constant id'>RecordProxy</span><span class='dot token'>.</span><span class='rubyid_discharge_proxy identifier id'>discharge_proxy</span><span class='lparen token'>(</span><span class='symbol val'>:text</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
+  <span class='rubyid_@proxies ivar id'>@proxies</span><span class='dot token'>.</span><span class='rubyid_discharge_proxy identifier id'>discharge_proxy</span><span class='lparen token'>(</span><span class='symbol val'>:text</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -905,15 +905,15 @@ to show up</p>
       <pre class="lines">
 
 
-128
-129
-130</pre>
+134
+135
+136</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 128</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 134</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_inner_text identifier id'>inner_text</span>
-  <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_RecordProxy constant id'>RecordProxy</span><span class='dot token'>.</span><span class='rubyid_get_proxy_for identifier id'>get_proxy_for</span><span class='lparen token'>(</span><span class='symbol val'>:text</span><span class='rparen token'>)</span>
+  <span class='rubyid_@proxies ivar id'>@proxies</span><span class='dot token'>.</span><span class='rubyid_get_proxy_for identifier id'>get_proxy_for</span><span class='lparen token'>(</span><span class='symbol val'>:text</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -984,27 +984,27 @@ to clear it.  This might not be necessary in new versions of Nokogiri.</p>
       <pre class="lines">
 
 
-101
-102
-103
-104
-105
-106
 107
 108
 109
 110
-111</pre>
+111
+112
+113
+114
+115
+116
+117</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 101</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 107</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_open_context identifier id'>open_context</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
 
   <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
 
   <span class='rubyid_@context ivar id'>@context</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
-  <span class='rubyid_parse_queue identifier id'>parse_queue</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+  <span class='rubyid_@cache ivar id'>@cache</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
 
   <span class='rubyid_@context_nodes ivar id'>@context_nodes</span><span class='lbrack token'>[</span><span class='rubyid_@node_name ivar id'>@node_name</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
   <span class='rubyid_@context_nodes ivar id'>@context_nodes</span><span class='lbrack token'>[</span><span class='rubyid_@node_name ivar id'>@node_name</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_@node_depth ivar id'>@node_depth</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -1044,15 +1044,15 @@ will discharge the JSON subrecord once it is complete</p>
       <pre class="lines">
 
 
-181
-182
-183</pre>
+185
+186
+187</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 181</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 185</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_proxy identifier id'>proxy</span><span class='lparen token'>(</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='assign token'>=</span> <span class='rubyid_context identifier id'>context</span><span class='rparen token'>)</span>
-  <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_RecordProxy constant id'>RecordProxy</span><span class='dot token'>.</span><span class='rubyid_get_proxy_for identifier id'>get_proxy_for</span><span class='lparen token'>(</span><span class='rubyid_record_type identifier id'>record_type</span><span class='rparen token'>)</span>
+  <span class='rubyid_@proxies ivar id'>@proxies</span><span class='dot token'>.</span><span class='rubyid_get_proxy_for identifier id'>get_proxy_for</span><span class='lparen token'>(</span><span class='rubyid_record_type identifier id'>record_type</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1107,18 +1107,28 @@ will discharge the JSON subrecord once it is complete</p>
 71
 72
 73
-74</pre>
+74
+75
+76
+77
+78
+79
+80</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 42</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_run identifier id'>run</span>
+  <span class='rubyid_@cache ivar id'>@cache</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>      
   <span class='rubyid_@reader ivar id'>@reader</span> <span class='assign token'>=</span> <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='colon2 op'>::</span><span class='rubyid_Reader constant id'>Reader</span><span class='lparen token'>(</span><span class='rubyid_IO constant id'>IO</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span><span class='lparen token'>(</span><span class='rubyid_@input_file ivar id'>@input_file</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='rubyid_node_queue identifier id'>node_queue</span> <span class='assign token'>=</span> <span class='rubyid_node_queue_for identifier id'>node_queue_for</span><span class='lparen token'>(</span><span class='rubyid_@reader ivar id'>@reader</span><span class='rparen token'>)</span>
   <span class='rubyid_@context ivar id'>@context</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
   <span class='rubyid_@context_nodes ivar id'>@context_nodes</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_@proxies ivar id'>@proxies</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_RecordProxyMgr constant id'>RecordProxyMgr</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
 
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_ensure_configuration identifier id'>ensure_configuration</span>
+
+  <span class='rubyid_emit_status identifier id'>emit_status</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='string val'>'type'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'started'</span><span class='comma token'>,</span> <span class='string val'>'label'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'Processing XML'</span><span class='comma token'>,</span> <span class='string val'>'id'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'xml'</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
 
   <span class='rubyid_@reader ivar id'>@reader</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span>
 
@@ -1136,14 +1146,16 @@ will discharge the JSON subrecord once it is complete</p>
     <span class='comment val'># since otherwise we end up accumulating all nodes in memory.</span>
     <span class='rubyid_node_queue identifier id'>node_queue</span><span class='dot token'>.</span><span class='rubyid_set identifier id'>set</span><span class='lparen token'>(</span><span class='rubyid_i identifier id'>i</span><span class='comma token'>,</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
+  
+  <span class='rubyid_emit_status identifier id'>emit_status</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='string val'>'type'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'done'</span><span class='comma token'>,</span> <span class='string val'>'id'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'xml'</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
 
-  <span class='rubyid_@log ivar id'>@log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Parse Queue State: #{parse_queue.inspect}&quot;</span><span class='rparen token'>)</span>
+  <span class='comment val'># save_all</span>
 
-  <span class='rubyid_save_all identifier id'>save_all</span>
-
-  <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_RecordProxy constant id'>RecordProxy</span><span class='dot token'>.</span><span class='rubyid_undischarged identifier id'>undischarged</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_prox identifier id'>prox</span><span class='bitor op'>|</span>
+  <span class='rubyid_with_undischarged_proxies identifier id'>with_undischarged_proxies</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_prox identifier id'>prox</span><span class='bitor op'>|</span>
     <span class='rubyid_@log ivar id'>@log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Undischarged: #{prox.to_s}&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
+  
+  <span class='rubyid_@cache ivar id'>@cache</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1166,12 +1178,6 @@ will discharge the JSON subrecord once it is complete</p>
       <pre class="lines">
 
 
-133
-134
-135
-136
-137
-138
 139
 140
 141
@@ -1206,10 +1212,14 @@ will discharge the JSON subrecord once it is complete</p>
 170
 171
 172
-173</pre>
+173
+174
+175
+176
+177</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 133</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/xml_sax.rb', line 139</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_property identifier id'>set_property</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='symbol val'>:context</span><span class='comma token'>,</span> <span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
 
@@ -1224,8 +1234,6 @@ will discharge the JSON subrecord once it is complete</p>
 
   <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_context_obj identifier id'>context_obj</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_obj identifier id'>obj</span> <span class='eq op'>==</span> <span class='symbol val'>:context</span>
 
-  <span class='rubyid_@log ivar id'>@log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Setting &lt;#{obj.jsonmodel_type}&gt; &lt;#{property}&gt; using &lt;#{value.inspect}&gt; (unfiltered)&quot;</span><span class='rparen token'>)</span>
-
   <span class='rubyid_begin begin kw'>begin</span>
     <span class='rubyid_property_type identifier id'>property_type</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Utils constant id'>Utils</span><span class='dot token'>.</span><span class='rubyid_get_property_type identifier id'>get_property_type</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_NoMethodError constant id'>NoMethodError</span>
@@ -1239,7 +1247,7 @@ will discharge the JSON subrecord once it is complete</p>
       <span class='rubyid_@log ivar id'>@log</span><span class='dot token'>.</span><span class='rubyid_warn identifier id'>warn</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Given a nil value for &lt;#{obj.class.record_type}&gt;&lt;#{property}&gt;&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_else else kw'>else</span>
       <span class='rubyid_filtered_value identifier id'>filtered_value</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Utils constant id'>Utils</span><span class='dot token'>.</span><span class='rubyid_value_filter identifier id'>value_filter</span><span class='lparen token'>(</span><span class='rubyid_property_type identifier id'>property_type</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
-      <span class='rubyid_@log ivar id'>@log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Filtered Value: #{filtered_value.inspect}&quot;</span><span class='rparen token'>)</span>
+
       <span class='rubyid_if if kw'>if</span> <span class='rubyid_property_type identifier id'>property_type</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span> <span class='regexp val'>/list$/</span>
         <span class='rubyid_val_array identifier id'>val_array</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{property}&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_filtered_value identifier id'>filtered_value</span><span class='rparen token'>)</span>
         <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{property}=&quot;</span><span class='comma token'>,</span> <span class='rubyid_val_array identifier id'>val_array</span><span class='rparen token'>)</span>
@@ -1263,7 +1271,7 @@ will discharge the JSON subrecord once it is complete</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:38 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:10 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.6.1 (ruby-1.9.3).
 </div>

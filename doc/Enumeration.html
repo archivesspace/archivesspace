@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="_index.html">Index (E)</a> &raquo;
+    <a href="alpha_index.html">Index (E)</a> &raquo;
     
     
     <span class="title">Enumeration</span>
@@ -602,11 +602,6 @@
       <pre class="lines">
 
 
-44
-45
-46
-47
-48
 49
 50
 51
@@ -648,10 +643,23 @@
 87
 88
 89
-90</pre>
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/enumeration.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/enumeration.rb', line 49</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_apply_values identifier id'>apply_values</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='comment val'># don't allow update of an non-editable enumeration</span>
@@ -665,6 +673,14 @@
   <span class='rubyid_added_values identifier id'>added_values</span> <span class='assign token'>=</span> <span class='rubyid_incoming_values identifier id'>incoming_values</span> <span class='minus op'>-</span> <span class='rubyid_existing_values identifier id'>existing_values</span>
   <span class='rubyid_removed_values identifier id'>removed_values</span> <span class='assign token'>=</span> <span class='rubyid_existing_values identifier id'>existing_values</span> <span class='minus op'>-</span> <span class='rubyid_incoming_values identifier id'>incoming_values</span>
 
+  <span class='comment val'># Make sure we're not being asked to remove read-only values.</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_EnumerationValue constant id'>EnumerationValue</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:enumeration_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span>
+                             <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_removed_values identifier id'>removed_values</span><span class='comma token'>,</span>
+                             <span class='symbol val'>:readonly</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_AccessDeniedException constant id'>AccessDeniedException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;Can't remove read-only enumeration values&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+
   <span class='rubyid_added_values identifier id'>added_values</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_value identifier id'>value</span><span class='bitor op'>|</span>
     <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_add_enumeration_value identifier id'>add_enumeration_value</span><span class='lparen token'>(</span><span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
@@ -677,14 +693,14 @@
       <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_ConflictException constant id'>ConflictException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Can't delete a value that's in use: #{value}&quot;</span><span class='rparen token'>)</span>
     <span class='rbrace token'>}</span>
   <span class='rubyid_end end kw'>end</span>
-  
+
 
   <span class='rubyid_broadcast_changes identifier id'>broadcast_changes</span>
 
   <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_refresh identifier id'>refresh</span>
-  
+
   <span class='rubyid_existing_default identifier id'>existing_default</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_default_value identifier id'>default_value</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='integer val'>? </span><span class='rubyid_nil nil kw'>nil</span> <span class='colon op'>:</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_default_value identifier id'>default_value</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span><span class='rbrack token'>]</span>
-  
+
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:default_value</span><span class='rbrack token'>]</span> <span class='neq op'>!=</span> <span class='rubyid_existing_default identifier id'>existing_default</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:default_value</span><span class='rbrack token'>]</span>
       <span class='rubyid_new_default identifier id'>new_default</span> <span class='assign token'>=</span> <span class='rubyid_EnumerationValue constant id'>EnumerationValue</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:default_value</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
@@ -693,11 +709,11 @@
     <span class='rubyid_else else kw'>else</span>
       <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_default_value identifier id'>default_value</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
     <span class='rubyid_end end kw'>end</span>
-    
+
     <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
   <span class='rubyid_end end kw'>end</span>
-  
-  
+
+
   <span class='rubyid_obj identifier id'>obj</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -721,12 +737,12 @@
       <pre class="lines">
 
 
-119
-120
-121</pre>
+144
+145
+146</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/enumeration.rb', line 119</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/enumeration.rb', line 144</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_broadcast_changes identifier id'>broadcast_changes</span>
   <span class='rubyid_Notifications constant id'>Notifications</span><span class='dot token'>.</span><span class='rubyid_notify identifier id'>notify</span><span class='lparen token'>(</span><span class='string val'>&quot;ENUMERATION_CHANGED&quot;</span><span class='rparen token'>)</span>
@@ -752,15 +768,15 @@
       <pre class="lines">
 
 
-93
-94
-95
-96
-97
-98</pre>
+106
+107
+108
+109
+110
+111</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/enumeration.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/enumeration.rb', line 106</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_default_value identifier id'>default_value</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'default_value'</span><span class='rbrack token'>]</span>
@@ -834,24 +850,46 @@
       <pre class="lines">
 
 
-109
-110
-111
-112
-113
-114
-115
-116</pre>
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/enumeration.rb', line 109</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/enumeration.rb', line 122</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_json identifier id'>json</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
-  <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'values'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_enumeration_value identifier id'>enumeration_value</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span> <span class='rubyid_val identifier id'>val</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+
+  <span class='rubyid_values identifier id'>values</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_enumeration_value identifier id'>enumeration_value</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_enum_value identifier id'>enum_value</span><span class='bitor op'>|</span>
+    <span class='lbrace token'>{</span>
+      <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_enum_value identifier id'>enum_value</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+      <span class='symbol val'>:readonly</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_enum_value identifier id'>enum_value</span><span class='lbrack token'>[</span><span class='symbol val'>:readonly</span><span class='rbrack token'>]</span>
+    <span class='rbrace token'>}</span>
+  <span class='rbrace token'>}</span>
+
+  <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'values'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_values identifier id'>values</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_v identifier id'>v</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+  <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'readonly_values'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_values identifier id'>values</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_v identifier id'>v</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='lbrack token'>[</span><span class='symbol val'>:readonly</span><span class='rbrack token'>]</span> <span class='neq op'>!=</span> <span class='integer val'>0</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
+
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_default_value identifier id'>default_value</span>
     <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'default_value'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_EnumerationValue constant id'>EnumerationValue</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_default_value identifier id'>default_value</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span><span class='rbrack token'>]</span>
   <span class='rubyid_end end kw'>end</span>
+
   <span class='rubyid_json identifier id'>json</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -936,19 +974,29 @@
 37
 38
 39
-40</pre>
+40
+41
+42
+43
+44
+45</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/enumeration.rb', line 27</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_migrate identifier id'>migrate</span><span class='lparen token'>(</span><span class='rubyid_old_value identifier id'>old_value</span><span class='comma token'>,</span> <span class='rubyid_new_value identifier id'>new_value</span><span class='rparen token'>)</span>
   <span class='rubyid_old_enum_value identifier id'>old_enum_value</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_enumeration_value identifier id'>enumeration_value</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span> <span class='rubyid_val identifier id'>val</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_old_value identifier id'>old_value</span><span class='rbrace token'>}</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_old_enum_value identifier id'>old_enum_value</span><span class='dot token'>.</span><span class='rubyid_readonly identifier id'>readonly</span> <span class='neq op'>!=</span> <span class='integer val'>0</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_AccessDeniedException constant id'>AccessDeniedException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;Can't transfer from a read-only enumeration value&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
   <span class='rubyid_new_enum_value identifier id'>new_enum_value</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_enumeration_value identifier id'>enumeration_value</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span> <span class='rubyid_val identifier id'>val</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_new_value identifier id'>new_value</span><span class='rbrace token'>}</span>
 
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_users_of identifier id'>users_of</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_definition identifier id'>definition</span><span class='comma token'>,</span> <span class='rubyid_model identifier id'>model</span><span class='bitor op'>|</span>
     <span class='rubyid_property_id identifier id'>property_id</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{definition[:property]}_id&quot;</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span>
     <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='rubyid_property_id identifier id'>property_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_old_enum_value identifier id'>old_enum_value</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='rubyid_property_id identifier id'>property_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_new_enum_value identifier id'>new_enum_value</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span>
-                                                          <span class='symbol val'>:last_modified</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='rparen token'>)</span>
+                                                          <span class='symbol val'>:system_mtime</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_old_enum_value identifier id'>old_enum_value</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
@@ -976,20 +1024,20 @@
       <pre class="lines">
 
 
-101
-102
-103
-104
-105
-106</pre>
+114
+115
+116
+117
+118
+119</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/enumeration.rb', line 101</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/enumeration.rb', line 114</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_linked_records identifier id'>apply_linked_records</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_default_value identifier id'>default_value</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'default_value'</span><span class='rbrack token'>]</span>
   <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'default_value'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
-  
+
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_apply_values identifier id'>apply_values</span><span class='lparen token'>(</span><span class='rubyid_super super kw'>super</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:default_value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_default_value identifier id'>default_value</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -1003,7 +1051,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:45 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:19 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.6.1 (ruby-1.9.3).
 </div>

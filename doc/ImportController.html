@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="_index.html">Index (I)</a> &raquo;
+    <a href="alpha_index.html">Index (I)</a> &raquo;
     
     
     <span class="title">ImportController</span>
@@ -163,7 +163,53 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>Handle POST requests from IE 9 and worse.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#upload_select-instance_method" title="#upload_select (instance method)">- (Object) <strong>upload_select</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Index as iframe for IE 9 and lower.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#upload_xhr-instance_method" title="#upload_xhr (instance method)">- (Object) <strong>upload_xhr</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Handle POST requests from browsers that support XKR2.</p>
 </div></span>
   
 </li>
@@ -200,7 +246,6 @@
       <pre class="lines">
 
 
-5
 6
 7
 8
@@ -211,12 +256,11 @@
 13</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/import_controller.rb', line 5</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/import_controller.rb', line 6</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_index identifier id'>index</span>
-  
   <span class='rubyid_@importer_key ivar id'>@importer_key</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:importer</span><span class='rbrack token'>]</span>
-  
+      
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span> <span class='gt op'>&gt;</span> <span class='integer val'>1</span>
     <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:notice</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;import.messages.missing_repo&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
@@ -237,34 +281,22 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Handle POST requests from IE 9 and worse</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
 39
 40
 41
@@ -285,47 +317,125 @@
 56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/import_controller.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/import_controller.rb', line 39</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_upload identifier id'>upload</span>
+  <span class='comment val'># no-cache required for streaming to work</span>
+  <span class='rubyid_headers identifier id'>headers</span><span class='lbrack token'>[</span><span class='string val'>'Cache-Control'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>'no-cache'</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response_body identifier id'>response_body</span> <span class='assign token'>=</span> <span class='rubyid_Enumerator constant id'>Enumerator</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_y identifier id'>y</span><span class='bitor op'>|</span>
 
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:upload</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
-    <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;import.messages.missing_file&quot;</span><span class='rparen token'>)</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_source_file identifier id'>source_file</span> <span class='assign token'>=</span> <span class='rubyid_ImportFile constant id'>ImportFile</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:upload</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='lparen token'>(</span><span class='rubyid_leader identifier id'>leader</span><span class='comma token'>,</span> <span class='rubyid_trailer identifier id'>trailer</span><span class='rparen token'>)</span> <span class='assign token'>=</span> <span class='rubyid_render_to_string identifier id'>render_to_string</span><span class='lparen token'>(</span><span class='symbol val'>:uploading</span><span class='comma token'>,</span> <span class='symbol val'>:layout</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_scan identifier id'>scan</span><span class='lparen token'>(</span><span class='regexp val'>/\A(.*)(&lt;\/body&gt;.*)\z/</span><span class='rubyid_m identifier id'>m</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
 
-    <span class='comment val'># invoke a new importer and pass the file to it</span>
-    <span class='comment val'># return the results of the import to the screen</span>
-    <span class='comment val'># delete the uploaded file</span>
+    <span class='comment val'># Emit the template up to the &lt;/body&gt; straight away</span>
+    <span class='rubyid_y identifier id'>y</span> <span class='lshft op'>&lt;&lt;</span> <span class='lparen token'>(</span><span class='rubyid_leader identifier id'>leader</span> <span class='plus op'>+</span> <span class='string val'>&quot;\r\n&quot;</span><span class='rparen token'>)</span>
 
-    <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_run_importer identifier id'>run_importer</span><span class='lparen token'>(</span><span class='rubyid_y identifier id'>y</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_json_status identifier id'>json_status</span><span class='bitor op'>|</span>
+      <span class='dstring node'>&quot;&lt;script&gt;update_status(#{json_status});&lt;/script&gt;&quot;</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span> <span class='plus op'>+</span> <span class='string val'>&quot;\r\n&quot;</span>
+    <span class='rubyid_end end kw'>end</span> 
 
-      <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_run_import identifier id'>run_import</span><span class='lparen token'>(</span><span class='rubyid_source_file identifier id'>source_file</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:importer</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-
-      <span class='rubyid_source_file identifier id'>source_file</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
-
-      <span class='rubyid_if if kw'>if</span> <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span> <span class='regexp val'>/200/</span>
-        <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span>
-      <span class='rubyid_else else kw'>else</span>
-        <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;import.messages.error_prefix&quot;</span><span class='rparen token'>)</span> 
-      <span class='rubyid_end end kw'>end</span>
-      
-      <span class='rubyid_@import_results ivar id'>@import_results</span> <span class='assign token'>=</span> <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span>
-
-    <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_ValidationException constant id'>ValidationException</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
-      <span class='rubyid_errors_str identifier id'>errors_str</span> <span class='assign token'>=</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_collect identifier id'>collect</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_attr identifier id'>attr</span><span class='comma token'>,</span> <span class='rubyid_err identifier id'>err</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;#{e.invalid_object.class.record_type}/#{attr} #{err.join(', ')}&quot;</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
-      <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{I18n.t(&quot;import.messages.error_prefix&quot;)}: &lt;br/&gt; &lt;div class='offset1'&gt;#{errors_str}&lt;/div&gt;&quot;</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
-    <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
-      <span class='rubyid_Rails constant id'>Rails</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Exception raised on file import: #{e.inspect}&quot;</span><span class='rparen token'>)</span>
-      <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{I18n.t(&quot;import.messages.error_prefix&quot;)}: &lt;br/&gt; &lt;div class='offset1'&gt;#{e.class.name} #{e.inspect}&lt;/div&gt;&quot;</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
-    <span class='rubyid_end end kw'>end</span>
-
+    <span class='rubyid_y identifier id'>y</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_trailer identifier id'>trailer</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_index identifier id'>index</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="upload_select-instance_method">
   
-  <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:index</span>
+    - (<tt>Object</tt>) <strong>upload_select</strong> 
+  
 
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Index as iframe for IE 9 and lower</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+17
+18
+19
+20
+21</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/import_controller.rb', line 17</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_upload_select identifier id'>upload_select</span>
+  <span class='rubyid_index identifier id'>index</span>
+
+  <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:upload_select</span><span class='comma token'>,</span> <span class='symbol val'>:layout</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="upload_xhr-instance_method">
+  
+    - (<tt>Object</tt>) <strong>upload_xhr</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Handle POST requests from browsers that support XKR2</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/import_controller.rb', line 26</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_upload_xhr identifier id'>upload_xhr</span>
+  
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response_body identifier id'>response_body</span> <span class='assign token'>=</span> <span class='rubyid_Enumerator constant id'>Enumerator</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_y identifier id'>y</span><span class='bitor op'>|</span>
+    <span class='rubyid_run_importer identifier id'>run_importer</span><span class='lparen token'>(</span><span class='rubyid_y identifier id'>y</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_json_status identifier id'>json_status</span><span class='bitor op'>|</span>
+      <span class='rubyid_json_status identifier id'>json_status</span> <span class='plus op'>+</span> <span class='string val'>&quot;---\n&quot;</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_headers identifier id'>headers</span><span class='lbrack token'>[</span><span class='string val'>'Last-Modified'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -338,7 +448,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 24 13:47:51 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:26 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.6.1 (ruby-1.9.3).
 </div>
