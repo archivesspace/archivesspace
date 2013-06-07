@@ -37,7 +37,7 @@ class Accession < Sequel::Model(:accession)
                   %w(title id_0 id_1 id_2 id_3).each do |p|
                     
                     if json[p]
-                      label += ", " if label.length
+                      label += ", " if !label.empty?
                       label += json[p]
                     end
                   end
