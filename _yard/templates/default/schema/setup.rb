@@ -14,7 +14,6 @@ def schema
 
     next unless defn["type"]
     if defn["type"] == 'array' and defn["items"]["type"] == 'object'
-      puts defn.inspect
       defn["type"] += " (Object (#{defn["items"]["properties"].keys.join(', ')}))"
     elsif defn["type"] == 'array' and defn["items"]["type"]
       defn["type"] += " (#{defn["items"]["type"]})"
