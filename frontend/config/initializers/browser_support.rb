@@ -12,12 +12,14 @@ module BrowserSupport
     ]
 
     @silver_browsers = [
-      Browser.new("Internet Explorer", "9.0"),
+      Browser.new("Internet Explorer", "9"),
       Browser.new("Firefox", "7"),
     ]
 
     @gold_browsers = [
       Browser.new("Chrome", "1"),
+      Browser.new("Safari", "5"),
+      Browser.new("Firefox", "8"),
     ]
   end
 
