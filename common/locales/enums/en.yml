@@ -301,6 +301,7 @@ en:
       assessment: Assessment
       capture: Capture
       cataloging: Cataloging
+      cataloged: Cataloged
       collection: Collection
       compression: Compression
       contribution: Contribution
@@ -318,6 +319,7 @@ en:
       migration: Migration
       normalization: Normalization
       processing: Processing
+      processed: Processed
       publication: Publication
       replication: Replication
       validation: Validation

@@ -1350,14 +1350,14 @@ Sequel.migration do
                           "acknowledgement", "acknowledgement_sent",
                           "agreement_signed", "agreement_received",
                           "agreement_sent", "appraisal", "assessment", "capture",
-                          "cataloging", "collection", "compression",
+                          "cataloging", "cataloged", "collection", "compression",
                           "contribution", "component_transfer",
                           "copyright_transfer", "custody_transfer",
                           "deaccession", "decompression", "decryption",
                           "deletion", "digital_signature_validation",
                           "fixity_check", "ingestion",
                           "message_digest_calculation", "migration",
-                          "normalization", "processing", "publication",
+                          "normalization", "processing", "processed", "publication",
                           "replication", "validation", "virus_check"],
                          nil,
 
@@ -1368,7 +1368,9 @@ Sequel.migration do
                          :readonly_values => ['acknowledgement_sent',
                                               'agreement_sent',
                                               'agreement_signed',
-                                              'copyright_transfer'])
+                                              'cataloged',
+                                              'copyright_transfer',
+                                              'processed'])
 
     create_editable_enum('container_type', ["box", "carton", "case", "folder", "frame", "object", "page", "reel", "volume"])
 

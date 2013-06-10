@@ -108,7 +108,7 @@ class AccessionsController < ApplicationController
 
 
   def set_event_types
-    @accession_event_types = ['acknowledgement_sent', 'agreement_sent', 'agreement_signed', 'copyright_transfer']
+    @accession_event_types = ['acknowledgement_sent', 'agreement_sent', 'agreement_signed', 'cataloged', 'copyright_transfer', 'processed']
   end
 
 end
