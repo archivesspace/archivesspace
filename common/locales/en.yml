@@ -226,7 +226,6 @@ en:
       appraisal: Appraisal
       assessment: Assessment
       capture: Capture
-      cataloging: Cataloging
       cataloged: Cataloged
       collection: Collection
       compression: Compression
@@ -243,7 +242,6 @@ en:
       message_digest_calculation: Message Digest Calculation
       migration: Migration
       normalization: Normalization
-      processing: Processing
       processed: Processed
       publication: Publication
       replication: Replication
