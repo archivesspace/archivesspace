@@ -15,24 +15,10 @@ describe 'Date model' do
   end
 
 
-  it "throws a validation error if date begin is missing (applies to any date type)" do
-    opts = {:begin => nil}
+  it "throws a validation error if date type is missing" do
+    opts = {:date_type => nil}
 
-    5.times do
-      json = build(:json_date, opts)
-      expect { ASDate.create_from_json(json) }.to raise_error(JSONModel::ValidationException)
-    end
-  end
-
-
-  it "allows a single date to be created" do
-    opts = {:begin => generate(:yyyy_mm_dd), 
-            :expression => generate(:alphanumstr)
-            }
-
-    date = create_date(opts)
-
-    ASDate[date[:id]].begin.should eq(opts[:begin])
+    expect { create_date(opts) }.to raise_error(JSONModel::ValidationException)
   end
 
 
@@ -57,7 +43,7 @@ describe 'Date model' do
 
     opts = {:begin => '2012-13', :end => '2012-14'}
     expect { create_date(opts) }.to raise_error(JSONModel::ValidationException)
-    
+
     opts = {:begin => '2012-12-32', :end => '2012-12-32'}
     expect { create_date(opts) }.to raise_error(JSONModel::ValidationException)
 
@@ -66,62 +52,41 @@ describe 'Date model' do
   end
 
 
-  it "reports an error if a bulk date lacks a begin date" do
-    opts = {:date_type => 'bulk',
-            :begin => nil, 
-            }
-            
-    expect { create_date(opts) }.to raise_error(JSONModel::ValidationException)
-  end
-
-
-  it "reports an error if a bulk date lacks an end date" do
-    opts = {:date_type => 'bulk',
-            :end => nil
-            }
-    
-    expect { create_date(opts) }.to raise_error(JSONModel::ValidationException)
-  end
-
-
   it "ensures end is not before begin" do
     # ok if begin and end are the same
-    opts = {:date_type => 'bulk', :begin => "2000-01-01", :end => "2000-01-01"}
+    opts = {:begin => "2000-01-01", :end => "2000-01-01"}
     expect { create_date(opts) }.to_not raise_error
 
-    # not ok if end if before begin
-    opts = {:date_type => 'inclusive', :begin => "2000-01-01", :end => "1999-12-31"}
+    # not ok if end is before begin
+    opts = {:begin => "2000-01-01", :end => "1999-12-31"}
     expect { create_date(opts) }.to raise_error(JSONModel::ValidationException)
 
     # and even if the dates are incomplete
-    opts = {:date_type => 'bulk', :begin => "2000", :end => "1999"}
+    opts = {:begin => "2000", :end => "1999"}
     expect { create_date(opts) }.to raise_error(JSONModel::ValidationException)
 
     # and at different levels of specificity
-    opts = {:date_type => 'inclusive', :begin => "2000", :end => "1999-12"}
+    opts = {:begin => "2000", :end => "1999-12"}
     expect { create_date(opts) }.to raise_error(JSONModel::ValidationException)
 
+    # and at different levels of specificity in the same year
+    opts = {:begin => "1999", :end => "1999-12"}
+    expect { create_date(opts) }.to_not raise_error(JSONModel::ValidationException)
+
+    # and at different levels of specificity in the same month
+    opts = {:begin => "1999-12-01", :end => "1999-12"}
+    expect { create_date(opts) }.to_not raise_error(JSONModel::ValidationException)
   end
 
 
-  it "reports an error if no expression or date type is set" do
+  it "reports an error if no expression, begin, or end is set" do
 
-    opts = {:date_type => nil,
+    opts = {:begin => nil,
+            :end => nil,
             :expression => nil
     }
 
     expect { create_date(opts) }.to raise_error(JSONModel::ValidationException)
   end
 
-
-  it "allows a date to be created with an expression but no date type" do
-
-    opts = {:date_type => nil,
-            :expression => "My Birthday"
-    }
-
-    date = create_date(opts)
-
-    ASDate[date[:id]].expression.should eq(opts[:expression])
-  end
 end
