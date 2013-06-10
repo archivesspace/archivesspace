@@ -41,9 +41,17 @@ $(function() {
         $(".record-toolbar .btn-toolbar .btn", $this).addClass("disabled").attr("disabled","disabled");
       });
 
-      $this.bind("submit", function() {
+      $("#createPlusOne", $this).on("click", function() {
+        $this.data("createPlusOne", "true");
+      });
+
+      $this.bind("submit", function(event) {
         $this.data("form_changed", false);
         $(":input[type='submit']", $this).attr("disabled","disabled");
+        if ($(this).data("createPlusOne")) {
+          var $input = $("<input>").attr("type", "hidden").attr("name", "plus_one").val("true");
+          $($this).append($input);
+        }
       });
 
       $(".record-toolbar .revert-changes .btn", $this).click(function() {
