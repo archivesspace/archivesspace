@@ -1970,7 +1970,7 @@ describe "ArchivesSpace user interface" do
 
     it "lets you add a new value to an enumeration" do
       $driver.find_element(:link, 'System').click
-      $driver.find_element(:link, "Manage Enumerations").click
+      $driver.find_element(:link, "Manage Controlled Value Lists").click
 
       enum_select = $driver.find_element(:id => "enum_selector")
       enum_select.select_option_with_text("accession_acquisition_type")
@@ -1991,7 +1991,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:css => "form#delete_enumeration button[type='submit']").click
 
-      $driver.find_element_with_text('//div', /Enumeration Value Deleted/)
+      $driver.find_element_with_text('//div', /Value Deleted/)
     end
 
 
@@ -2002,7 +2002,7 @@ describe "ArchivesSpace user interface" do
 
     it "lets you set a default enumeration (date_type)" do
       $driver.find_element(:link, 'System').click
-      $driver.find_element(:link, "Manage Enumerations").click
+      $driver.find_element(:link, "Manage Controlled Value Lists").click
 
       enum_select = $driver.find_element(:id => "enum_selector")
       enum_select.select_option_with_text("date_type")
