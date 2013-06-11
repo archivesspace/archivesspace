@@ -296,7 +296,8 @@ module JSONModel
       elsif response.code =~ /^4/
         err = ASUtils.json_parse(response.body)
 
-        if err["error"].is_a?(Array)
+        puts "ERROR: #{err['error'].inspect}"
+        if err["error"].is_a?(Hash)
           err["error"].each do |field, errors|
             errors.each do |msg|
               add_error(field, msg)
