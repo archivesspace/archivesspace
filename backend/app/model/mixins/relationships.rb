@@ -24,24 +24,53 @@ AbstractRelationship = Class.new(Sequel::Model) do
   # Find any relationship instances that reference 'victims' and modify them to
   # refer to 'target' instead.
   def self.transfer(target, victims)
-    unless victims.all? {|victim| victim.class == target.class}
-      raise ReferenceError.new("Can't transfer between objects of different types")
-    end
+    target_columns = self._reference_columns_for(target.class)
 
-    victim_ids = victims.map {|v| v[:id]} - [target.id]
-    columns = self._reference_columns_for(target.class)
+    victims_by_model = victims.reject {|v| v.id == target.id}.group_by(&:class)
+    victims_by_model.each do |victim_model, victims|
 
-    columns.each do |col|
-      self.filter(col => victim_ids).update(col => target.id)
-    end
+      unless participating_models.include?(victim_model)
+        raise ReferenceError.new("This class doesn't belong to relationship #{self}: #{victim.class}")
+      end
 
-    if columns.count > 1
-      # If this relationship allows two objects of the same type to be related,
-      # make sure that we haven't just created a relationship between an object
-      # and itself.
-      where = Hash[columns.map {|c| [c, target.id]}]
-      if self.filter(where).count != 0
-        raise "Transfer would create a circular relationship!"
+      victim_columns = self._reference_columns_for(victim_model)
+
+      victim_columns.each do |victim_col|
+
+        # Find any relationship where the current column contains a reference to
+        # our victim
+        self.filter(victim_col => victims.map(&:id)).each do |relationship|
+
+          # Remove this relationship's reference to the victim
+          relationship[victim_col] = nil
+
+          # Now add a new reference to the target (which, if the victim and
+          # target are of different types, might require updating a different
+          # column to the one we just set to NULL)
+          target_columns.each do |target_col|
+
+            if relationship[target_col]
+              # This column is already used to reference the other record in our
+              # relationship so we'll skip over it.  But while we're here, make
+              # sure we're not about to create a circular relationship.
+
+              if relationship[target_col] == target.id
+                raise "Transfer would create a circular relationship!"
+              end
+
+            else
+              # Found a free column.  Store our updated reference here.
+              relationship[target_col] = target.id
+              break
+            end
+
+          end
+
+          relationship[:system_mtime] = Time.now
+          relationship[:user_mtime] = Time.now
+
+          relationship.save
+        end
       end
     end
   end
