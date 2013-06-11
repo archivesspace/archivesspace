@@ -94,8 +94,10 @@ class Subject < Sequel::Model(:subject)
 
   def assimilate(victims)
     # Find all of the victim's subject relationships
-    self.class.relationship_dependencies.each do |model|
-      model.transfer(:subject, self, victims)
+    self.class.relationship_dependencies.each do |relationship, models|
+      models.each do |model|
+        model.transfer(relationship, self, victims)
+      end
     end
 
     victims.each(&:delete)

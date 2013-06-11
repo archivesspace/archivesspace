@@ -117,7 +117,7 @@ module Relationships
   def self.included(base)
     base.instance_eval do
       @relationships ||= {}
-      @relationship_dependencies ||= []
+      @relationship_dependencies ||= {}
     end
 
     base.extend(ClassMethods)
@@ -139,7 +139,7 @@ module Relationships
     #
     # Once we have our list of unique models, inform each of them that our
     # instance has been updated (using a class method defined below).
-    self.class.relationship_dependencies.uniq.each do |model|
+    self.class.dependent_models.each do |model|
       model.touch_mtime_of_anyone_related_to(self)
     end
   end
@@ -177,6 +177,11 @@ module Relationships
 
     def relationship_dependencies
       @relationship_dependencies
+    end
+
+
+    def dependent_models
+      @relationship_dependencies.values.flatten.uniq
     end
 
 
@@ -224,7 +229,7 @@ module Relationships
 
         linked_models.each do |model|
           model.include(Relationships)
-          model.add_relationship_dependency(base)
+          model.add_relationship_dependency(opts[:name], base)
         end
       end
     end
@@ -348,8 +353,9 @@ module Relationships
     end
 
 
-    def add_relationship_dependency(clz)
-      @relationship_dependencies << clz
+    def add_relationship_dependency(relationship_name, clz)
+      @relationship_dependencies[relationship_name] ||= []
+      @relationship_dependencies[relationship_name] << clz
     end
 
 
@@ -363,7 +369,7 @@ module Relationships
       dataset.select(:id).each do |obj|
         # Delete all the relationships created against this object
         delete_existing_relationships(obj, true, true)
-        @relationship_dependencies.each do |model|
+        dependent_models.each do |model|
           model.delete_existing_relationships(obj, true, true) if model != self
         end
       end
