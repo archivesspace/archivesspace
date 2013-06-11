@@ -73,4 +73,23 @@ describe 'Agent model' do
     expect { AgentPerson.create_from_json(build(:json_agent_person, {:names => [n], :dates_of_existence => [d2]})) }.to raise_error(JSONModel::ValidationException)
   end
 
+
+  it "can merge one agent into another" do
+    victim_agent = AgentPerson.create_from_json(build(:json_agent_person))
+    target_agent = AgentPerson.create_from_json(build(:json_agent_person))
+
+    # A record that uses the victim agent
+    acc = create(:json_accession, 'linked_agents' => [{
+                                                        'ref' => victim_agent.uri,
+                                                        'role' => 'source'
+                                                      }])
+
+    target_agent.assimilate([victim_agent])
+
+    JSONModel(:accession).find(acc.id).linked_agents[0]['ref'].should eq(target_agent.uri)
+
+    victim_agent.exists?.should be(false)
+  end
+
+
 end

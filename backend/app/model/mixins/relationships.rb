@@ -162,6 +162,19 @@ module Relationships
   end
 
 
+  def assimilate(victims)
+    self.class.relationship_dependencies.each do |relationship, models|
+      models.each do |model|
+        model.transfer(relationship, self, victims)
+      end
+    end
+
+    victims.each(&:delete)
+
+    trigger_reindex_of_dependants
+  end
+
+
   module ClassMethods
 
     # Reset relationship definitions for the current class
