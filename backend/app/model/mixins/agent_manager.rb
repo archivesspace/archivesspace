@@ -12,10 +12,12 @@ module AgentManager
   end
 
 
-  def self.type_to_model_map
-    Hash[self.registered_agents.map {|agent_type|
-           [agent_type[:jsonmodel], agent_type[:model]]
-         }]
+  def self.model_for(type)
+    self.registered_agents.each do |agent_type|
+      return agent_type[:model] if (agent_type[:jsonmodel].to_s == type)
+    end
+
+    return nil
   end
 
 
@@ -26,6 +28,11 @@ module AgentManager
 
   def self.agent_type_of(agent_class)
     @@registered_agents[agent_class]
+  end
+
+
+  def self.known_agent_type?(type)
+    registered_agents.any? {|a| a[:jsonmodel].to_s == type}
   end
 
 

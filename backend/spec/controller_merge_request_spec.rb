@@ -18,6 +18,22 @@ describe 'Accession controller' do
   end
 
 
+it "doesn't mess things up if you merge something with itself" do
+    target = create(:json_subject)
+
+    request = JSONModel(:merge_request).new
+    request.target = {'ref' => target.uri}
+    request.victims = [{'ref' => target.uri}]
+
+    request.save(:record_type => 'subject')
+
+    expect {
+      JSONModel(:subject).find(target.id)
+    }.to_not raise_error
+  end
+
+
+
   it "throws an error if you ask it to merge something other than a subject" do
     target = create(:json_subject)
     victim = create(:json_agent_person)

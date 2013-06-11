@@ -28,7 +28,7 @@ AbstractRelationship = Class.new(Sequel::Model) do
       raise ReferenceError.new("Can't transfer between objects of different types")
     end
 
-    victim_ids = victims.map {|v| v[:id]}
+    victim_ids = victims.map {|v| v[:id]} - [target.id]
     columns = self._reference_columns_for(target.class)
 
     columns.each do |col|
@@ -163,6 +163,8 @@ module Relationships
 
 
   def assimilate(victims)
+    victims = victims.reject {|v| v.id == self.id}
+
     self.class.relationship_dependencies.each do |relationship, models|
       models.each do |model|
         model.transfer(relationship, self, victims)
