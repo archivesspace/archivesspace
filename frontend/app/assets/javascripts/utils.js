@@ -645,6 +645,14 @@ $(function() {
             $form.append($h);
           }
 
+          if ($this.data("form-data")) {
+            $.each($this.data("form-data"), function (name, value) {
+              var $h = $("<input type='hidden'>");
+              $h.attr("name", name).val(value);
+              $form.append($h);
+            });
+          }
+
           $(document.body).append($form);
 
           $form.submit();
