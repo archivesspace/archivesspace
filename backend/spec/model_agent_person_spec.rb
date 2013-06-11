@@ -92,4 +92,19 @@ describe 'Agent model' do
   end
 
 
+  it "handles related agents when merging" do
+    victim_agent = AgentPerson.create_from_json(build(:json_agent_person))
+    target_agent = AgentPerson.create_from_json(build(:json_agent_person))
+
+    relationship = JSONModel(:agent_relationship_parentchild).new
+    relationship.relator = "is_child_of"
+    relationship.ref = victim_agent.uri
+    related_agent = create(:json_agent_person, "related_agents" => [relationship.to_hash])
+
+    # Merging victim into target updates the related agent relationship too
+    target_agent.assimilate([victim_agent])
+    JSONModel(:agent_person).find(related_agent.id).related_agents[0]['ref'].should eq(target_agent.uri)
+  end
+
+
 end
