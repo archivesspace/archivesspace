@@ -1091,7 +1091,7 @@ describe "ArchivesSpace user interface" do
     before(:all) do
       login_as_archivist
       @accession_title, accession_label = create_accession("Events link to this accession")
-      @agent_name = create_agent("Geddy Lee")
+      agent_uri, @agent_name = create_agent("Geddy Lee")
       run_index_round
     end
 
