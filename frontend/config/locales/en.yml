@@ -18,6 +18,8 @@ en:
     spawn: Spawn
     link_to: Link To
     add_prefix: Add
+    merge_confirm_title: Merge into this record?
+    merge_confirm_message: The subject you selected will be deleted, and any records that were linked to it will be re-linked to '%{target}'.
     move: Move
     move_up_a_level: Up a Level
     move_up: Up
@@ -573,6 +575,9 @@ en:
         created: Subject Created
         updated: Subject Saved
         deleted: Subject Deleted
+        merged: Subject(s) Merged
+        merge_description: Merge another subject into this one by selecting it here
+        please_select_a_subject_to_merge: Please select a subject to merge with this one
       section:
         basic_information: Basic Information
         terms: Subject Headings

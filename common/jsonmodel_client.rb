@@ -290,12 +290,17 @@ module JSONModel
         err = ASUtils.json_parse(response.body)
         raise ConflictException.new(err["error"])
 
+      elsif response.code == '404'
+        raise RecordNotFound.new
+
       elsif response.code =~ /^4/
         err = ASUtils.json_parse(response.body)
 
-        err["error"].each do |field, errors|
-          errors.each do |msg|
-            add_error(field, msg)
+        if err["error"].is_a?(Hash)
+          err["error"].each do |field, errors|
+            errors.each do |msg|
+              add_error(field, msg)
+            end
           end
         end
 

@@ -1,7 +1,7 @@
 class SubjectsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :terms_complete, :delete]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :terms_complete, :delete, :merge]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_subject_record")}
+  before_filter(:only => [:new, :edit, :create, :update, :merge]) {|c| user_must_have("update_subject_record")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
   def index
@@ -69,6 +69,23 @@ class SubjectsController < ApplicationController
 
     render :json => []
   end
+
+
+  def merge
+    request = JSONModel(:merge_request).new
+    request.target = {'ref' => JSONModel(:subject).uri_for(params[:id])}
+    request.victims = [{'ref' => params[:ref]}]
+
+    begin
+      request.save(:record_type => 'subject')
+      flash[:success] = I18n.t("subject._frontend.messages.merged")
+      redirect_to :controller => :subjects, :action => :show, :id => params[:id]
+    rescue RecordNotFound => e
+      flash[:error] = I18n.t("errors.error_404")
+      redirect_to :controller => :subjects, :action => :show, :id => params[:id]
+    end
+  end
+
 
   def delete
     subject = JSONModel(:subject).find(params[:id])
