@@ -1,69 +1,21 @@
-<div id="archivesSpaceSidebar">
-  <ul class="nav nav-list as-nav-list">
-    <% if @exceptions %>
-      <li class="<% if @exceptions.has_key?(:errors)%>alert-error<% end %>">
-        <a href="#form_messages"><%= I18n.t("errors.sidebar_label") %>   <span class="icon-chevron-right"></span></a>
-      </li>
-    <% end %>
+<%= render(:layout => '/shared/sidebar',
+           :locals => {
+             :record_type => 'resource',
+             :record => @resource
+           }) do |sidebar| %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'date', :property => 'dates') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'extent', :property => 'extents') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'finding_aid', :property => :none) %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'related_accession', :property => 'related_accessions') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'linked_agent', :property => 'linked_agents') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'subject', :property => 'subjects') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'note', :property => 'notes', :anchor => 'notes') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'external_document', :property => 'external_documents') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'rights_statement', :property => 'rights_statements') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'instance', :property => 'instances') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'deaccession', :property => 'deaccessions') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'collection_management', :property => 'collection_management') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'classification', :property => 'classification') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'user_defined', :property => 'user_defined') %>
+<% end %>
 
-    <li><a href="#basic_information"><%= I18n.t("resource._frontend.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
-
-    <% if controller.action_name != "show" || @resource.dates.length > 0 %>
-      <li><a href="#resource_dates_"><%= I18n.t("date._plural") %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-      
-    <li><a href="#resource_extents_"><%= I18n.t("extent._plural") %>  <span class="icon-chevron-right"></span></a></li>
-
-    <li><a href="#finding_aid"><%= I18n.t("resource._frontend.section.finding_aid") %> <span class="icon-chevron-right"></span></a></li>
-
-    <% if controller.action_name != "show" || @resource.related_accessions.length > 0 %>
-      <li><a href="#resource_related_accessions_"><%= I18n.t("related_accession._plural") %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if controller.action_name != "show" || @resource.linked_agents.length > 0 %>
-      <li><a href="#resource_linked_agents_"><%= I18n.t("linked_agent._plural") %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if controller.action_name != "show" || @resource.subjects.length > 0 %>
-      <li><a href="#resource_subjects_"><%= I18n.t("subject._plural") %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if controller.action_name != "show" or @resource.notes.length > 0 %>
-      <li><a href="#notes"><%= I18n.t("note._plural") %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if controller.action_name != "show" or @resource.external_documents.length > 0 %>
-      <li><a href="#resource_external_documents_"><%= I18n.t("external_document._plural") %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if controller.action_name != "show" or @resource.rights_statements.length > 0 %>
-      <li><a href="#resource_rights_statements_"><%= I18n.t("rights_statement._plural") %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if controller.action_name != "show" or @resource.instances.length > 0 %>
-      <li><a href="#resource_instances_"><%= I18n.t("instance._plural") %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if controller.action_name != "show" or @resource.deaccessions.length > 0 %>
-      <li><a href="#resource_deaccessions_"><%= I18n.t("deaccession._plural") %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if controller.action_name != "show" or @resource.collection_management %>
-      <li><a href="#resource_collection_management_"><%= I18n.t "collection_management._singular" %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if controller.action_name != "show" or @resource.classification %>
-      <li><a href="#resource_classification_"><%= I18n.t "classification._plural" %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if controller.action_name != "show" or @resource.user_defined %>
-      <li><a href="#resource_user_defined_"><%= I18n.t "user_defined._singular" %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if controller.action_name != "show" %>
-      <li class="form-actions">
-        <button type="submit" class="btn btn-primary"><%= I18n.t("resource._frontend.action.save") %></button>
-      </li>
-    <% end %>
-  </ul>
-</div>
