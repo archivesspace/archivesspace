@@ -371,6 +371,19 @@ describe "ArchivesSpace user interface" do
       }.to_not raise_error
     end
 
+    it "can use plus+1 submit to quickly add another" do
+      now = "#{$$}.#{Time.now.to_i}"
+
+      $driver.find_element(:link => 'Create').click
+      $driver.find_element(:link => 'Subject').click
+
+      $driver.clear_and_send_keys([:id, "subject_terms__0__term_"], "My First New Term #{now}")
+      $driver.find_element(:css => "form #createPlusOne").click
+
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Subject Created/)
+      $driver.find_element(:id, "subject_terms__0__term_").attribute("value").should eq("")
+    end
+
   end
 
 
