@@ -5,7 +5,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["merge_request",
              JSONModel(:merge_request), "A merge request",
              :body => true])
-    .permissions([:update_subject_record])
+    .permissions([:merge_subject_record])
     .returns([200, :updated]) \
   do
     target, victims = parse_references(params[:merge_request])
@@ -25,7 +25,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["merge_request",
              JSONModel(:merge_request), "A merge request",
              :body => true])
-    .permissions([:update_agent_record])
+    .permissions([:merge_agent_record])
     .returns([200, :updated]) \
   do
     target, victims = parse_references(params[:merge_request])
