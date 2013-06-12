@@ -200,7 +200,11 @@ module Relationships
       end
     end
 
-    victims.each(&:delete)
+    DB.attempt {
+      victims.each(&:delete)
+    }.and_if_constraint_fails {
+      raise MergeRequestFailed.new("Can't complete merge: record still in use")
+    }
 
     trigger_reindex_of_dependants
   end

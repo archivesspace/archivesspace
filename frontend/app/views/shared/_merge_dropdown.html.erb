@@ -1,0 +1,37 @@
+<%
+   singular = "#{controller}".singularize 
+   extra_params = {} if extra_params.blank?
+%>
+
+<div id="merge-dropdown" class="btn-group dropdown">
+  <a class="btn btn-small dropdown-toggle merge-action" data-toggle="dropdown" href="#" title="<%= I18n.t("actions.merge") %>">
+    <%= I18n.t("actions.merge") %> <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu merge-form">
+    <li>
+      <p><%= I18n.t("#{singular}._frontend.messages.merge_description") %></p>
+      <%= form_tag(url_for({:controller => controller, :action => :merge, :id => record.id}.merge(extra_params))) do |f| %>
+        <%= form_context :merge, {} do |form| %>
+        <fieldset>
+          <div class="alert alert-error missing-ref-message" style="display: none;"><%= I18n.t "#{singular}._frontend.messages.please_select_a_#{singular}_to_merge" %></div>
+          <%= render :partial => "#{controller}/linker", :locals => { :form => form, :exclude_ids => [record.uri], :hide_create => true }%>
+        </fieldset>
+        <div class="form-actions">
+          <%=
+             button_confirm_action(I18n.t("actions.merge"),
+                                   url_for({:controller => controller, :action => :merge, :id => record.id}.merge(extra_params)),
+                                   {
+                                     :class => "btn btn-primary pull-left merge-button",
+                                     :"data-title" => confirmation_title,
+                                     :"data-message" => confirmation_msg,
+                                     :"data-confirm-btn-label" => "#{I18n.t("actions.merge")}",
+                                     :"data-confirm-btn-class" => "btn-primary"
+                                   })
+          %>
+          <a class="btn btn-cancel pull-right" href="#"><%= I18n.t("actions.cancel") %></a>
+        </div>
+        <% end %>
+      <% end %>
+    </li>
+  </ul>
+</div>
