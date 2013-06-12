@@ -26,7 +26,8 @@ AbstractRelationship = Class.new(Sequel::Model) do
   def self.transfer(target, victims)
     target_columns = self._reference_columns_for(target.class)
 
-    victims_by_model = victims.reject {|v| v.id == target.id}.group_by(&:class)
+    victims_by_model = victims.reject {|v| (v.class == target.class) && (v.id == target.id)}.group_by(&:class)
+
     victims_by_model.each do |victim_model, victims|
 
       unless participating_models.include?(victim_model)
@@ -192,7 +193,7 @@ module Relationships
 
 
   def assimilate(victims)
-    victims = victims.reject {|v| v.id == self.id}
+    victims = victims.reject {|v| (v.class == self.class) && (v.id == self.id)}
 
     self.class.relationship_dependencies.each do |relationship, models|
       models.each do |model|

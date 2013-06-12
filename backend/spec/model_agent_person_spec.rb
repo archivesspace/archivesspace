@@ -123,4 +123,22 @@ describe 'Agent model' do
     victim_agent.exists?.should be(false)
   end
 
+
+  it "can merge different agent types into another, even if they have the same DB id" do
+    victim_agent = AgentFamily.create_from_json(build(:json_agent_family))
+    target_agent = AgentPerson.create_from_json(build(:json_agent_person))
+
+    db_id = [victim_agent.id, target_agent.id].max
+    (victim_agent.id - target_agent.id).abs.times do |n|
+      AgentFamily.create_from_json(build(:json_agent_family))
+      AgentPerson.create_from_json(build(:json_agent_person))
+    end
+
+    victim_agent = AgentFamily[db_id]
+    target_agent = AgentPerson[db_id]
+
+    target_agent.assimilate([victim_agent])
+    victim_agent.exists?.should be(false)
+  end
+
 end
