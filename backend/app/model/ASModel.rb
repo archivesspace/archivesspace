@@ -32,6 +32,7 @@ module ASModel
 
     def self.included(base)
       base.extend(ClassMethods)
+      base.include(JSONModel)
     end
 
     Sequel.extension :inflector
