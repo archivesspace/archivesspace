@@ -379,6 +379,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      Integer :system_generated, :default => 0
+
       apply_mtime_columns
     end
 
@@ -419,6 +421,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      Integer :system_generated, :default => 0
+
       apply_mtime_columns
     end
 
@@ -455,6 +459,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      Integer :system_generated, :default => 0
+
       apply_mtime_columns
     end
 
@@ -485,6 +491,8 @@ Sequel.migration do
 
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
+
+      Integer :system_generated, :default => 0
 
       apply_mtime_columns
     end
