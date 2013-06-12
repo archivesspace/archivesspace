@@ -20,8 +20,8 @@
           <% if @archival_object['extents'].length > 0 %>
             <li><a href="#extents"><%= I18n.t("extent._plural") %> <span class="badge badge-info"><%= @archival_object['extents'].length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
-          <% if @archival_object['linked_agents'].length > 0 %>
-            <li><a href="#linked_agents"><%= I18n.t("agent._plural") %> <span class="badge badge-info"><%= @archival_object['linked_agents'].length %></span><span class="icon-chevron-right"></span></a></li>
+          <% if @archival_object.published_agents.length > 0 %>
+            <li><a href="#linked_agents"><%= I18n.t("agent._plural") %> <span class="badge badge-info"><%= @archival_object.published_agents.length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
           <% if @archival_object['subjects'].length > 0 %>
             <li><a href="#subjects"><%= I18n.t("subject._plural") %> <span class="badge badge-info"><%= @archival_object['subjects'].length %></span><span class="icon-chevron-right"></span></a></li>

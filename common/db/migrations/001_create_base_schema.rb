@@ -105,6 +105,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      Integer :publish
+
       apply_mtime_columns
     end
 
@@ -117,6 +119,8 @@ Sequel.migration do
 
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
+
+      Integer :publish
 
       apply_mtime_columns
     end
@@ -131,6 +135,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      Integer :publish
+
       apply_mtime_columns
     end
 
@@ -143,6 +149,8 @@ Sequel.migration do
 
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
+
+      Integer :publish
 
       apply_mtime_columns
     end

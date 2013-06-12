@@ -186,7 +186,7 @@ class CommonIndexer
         doc['authority_id'] = record['record']['names'][0]['authority_id']
         doc['source'] = record['record']['names'][0]['source']
         doc['rules'] = record['record']['names'][0]['rules']
-        doc['publish'] = true
+        doc['publish'] = record['record']['publish']
 
         # Assign the additional type of 'agent'
         doc['types'] << 'agent'

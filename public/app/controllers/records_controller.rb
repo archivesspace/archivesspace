@@ -47,8 +47,10 @@ class RecordsController < ApplicationController
   end
 
   def digital_object
-    @digital_object = JSONModel(:digital_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_instances", "linked_agents"])
-    raise RecordNotFound.new if not @digital_object.publish
+    digital_object = JSONModel(:digital_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_instances", "linked_agents"])
+    raise RecordNotFound.new if (!digital_object || !digital_object.publish)
+
+    @digital_object = DigitalObjectView.new(digital_object)
 
     @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
 
@@ -61,8 +63,10 @@ class RecordsController < ApplicationController
   end
 
   def digital_object_component
-    @digital_object_component = JSONModel(:digital_object_component).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_agents"])
-    raise RecordNotFound.new if not @digital_object_component.publish
+    digital_object_component = JSONModel(:digital_object_component).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_agents"])
+    raise RecordNotFound.new if (!digital_object_component && !digital_object_component.publish)
+
+    @digital_object_component = DigitalObjectView.new(digital_object_component)
 
     @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
 

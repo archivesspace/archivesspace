@@ -20,6 +20,7 @@ class ArchivesSpaceService
     # (should this record be undeletable?)
     if AgentSoftware[1].nil?
       json = JSONModel(:agent_software).from_hash(
+                :publish => false,
                 :names => [{
                   :software_name => 'ArchivesSpace',
                   :version => 'alpha',

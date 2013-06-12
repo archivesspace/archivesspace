@@ -42,6 +42,8 @@
       
       "dates_of_existence" => {"type" => "array", "items" => {"type" => "JSONModel(:date) object"}},
 
+      "publish" => {"type" => "boolean", "default" => true},
+
     },
   },
 }

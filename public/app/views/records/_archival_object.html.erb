@@ -13,7 +13,7 @@
 
   <%= render :partial => "dates", :locals => {:dates => archival_object['dates']} %>
   <%= render :partial => "extents", :locals => {:extents => archival_object['extents']} %>
-  <%= render :partial => "agents", :locals => {:linked_agents => archival_object['linked_agents']} %>
+  <%= render :partial => "agents", :locals => {:linked_agents => archival_object.published_agents} %>
   <%= render :partial => "subjects", :locals => {:subjects => archival_object['subjects']} %>
   <%= render :partial => "notes", :locals => {:notes => archival_object['notes']} %>
   <%= render :partial => "external_documents", :locals => {:external_documents => archival_object.published_external_documents} %>
