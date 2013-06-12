@@ -1,0 +1,3 @@
+<% if controller.action_name != "show" or !record[property].blank? %>
+  <li><a href="#<%= record_type %>_<%= property %>_"><%= I18n.t "#{subrecord_type}._plural" %> <span class="icon-chevron-right"></span></a></li>
+<% end %>

@@ -1,0 +1,26 @@
+<div id="archivesSpaceSidebar">
+  <ul class="nav nav-list as-nav-list">
+    <% if @exceptions %>
+      <li class="<% if @exceptions.has_key?(:errors)%>alert-error<% end %>">
+        <a href="#form_messages"><%= I18n.t("errors.sidebar_label") %>  <span class="icon-chevron-right"></span></a>
+      </li>
+    <% end %>
+
+    <li>
+      <a href="#basic_information">
+        <%= I18n.t("#{record_type}._frontend.section.basic_information") %>
+        <span class="icon-chevron-right"></span>
+      </a>
+    </li>
+
+    <%= yield(SidebarHelper::SidebarGenerator.new(self, {:record => record, :record_type => record_type})) %>
+
+
+    <% if controller.action_name != "show" %>
+      <li class="form-actions">
+        <button type="submit" class="btn btn-primary"><%= I18n.t("#{record_type}._frontend.action.save") %></button>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
