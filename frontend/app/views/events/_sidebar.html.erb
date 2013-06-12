@@ -11,7 +11,7 @@
     <li><a href="#event_linked_agents_"><%= I18n.t("linked_agent._plural") %> <span class="icon-chevron-right"></span></a></li>
     <li><a href="#event_linked_records_"><%= I18n.t("linked_record._plural") %> <span class="icon-chevron-right"></span></a></li>
 
-    <% if not controller.action_name === "show" %>
+    <% if controller.action_name != "show" %>
       <li class="form-actions">
         <div class="btn-group <% if ["new", "create"].include?(controller.action_name) %>btn-submit-group<% end %>">
           <button type="submit" class="btn btn-primary"><%= I18n.t("event._frontend.action.save") %></button>

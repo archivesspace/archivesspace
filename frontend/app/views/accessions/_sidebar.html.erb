@@ -8,7 +8,7 @@
 
     <li><a href="#basic_information"><%= I18n.t "accession._frontend.section.basic_information" %> <span class="icon-chevron-right"></span></a></li>
 
-    <% if not controller.action_name === "show" or @accession.dates.length > 0 %>
+    <% if controller.action_name != "show" or @accession.dates.length > 0 %>
       <li><a href="#accession_dates_"><%= I18n.t "date._plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
@@ -28,35 +28,35 @@
       <li><a href="#accession_subjects_"><%= I18n.t "subject._plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @accession.external_documents.length > 0 %>
+    <% if controller.action_name != "show" or @accession.external_documents.length > 0 %>
       <li><a href="#accession_external_documents_"><%= I18n.t "external_document._plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @accession.rights_statements.length > 0 %>
+    <% if controller.action_name != "show" or @accession.rights_statements.length > 0 %>
       <li><a href="#accession_rights_statements_"><%= I18n.t "rights_statement._plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @accession.instances.length > 0 %>
+    <% if controller.action_name != "show" or @accession.instances.length > 0 %>
       <li><a href="#accession_instances_"><%= I18n.t("instance._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @accession.deaccessions.length > 0 %>
+    <% if controller.action_name != "show" or @accession.deaccessions.length > 0 %>
       <li><a href="#accession_deaccessions_"><%= I18n.t "deaccession._plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @accession.collection_management %>
+    <% if controller.action_name != "show" or @accession.collection_management %>
       <li><a href="#accession_collection_management_"><%= I18n.t "collection_management._singular" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @accession.classification %>
+    <% if controller.action_name != "show" or @accession.classification %>
       <li><a href="#accession_classification_"><%= I18n.t "classification._plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @accession.user_defined %>
+    <% if controller.action_name != "show" or @accession.user_defined %>
       <li><a href="#accession_user_defined_"><%= I18n.t "user_defined._singular" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" %>
+    <% if controller.action_name != "show" %>
       <li class="form-actions">
         <button type="submit" class="btn btn-primary"><%= I18n.t("accession._frontend.action.save") %></button>
       </li>

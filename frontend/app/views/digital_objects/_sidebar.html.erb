@@ -8,7 +8,7 @@
 
     <li><a href="#basic_information"><%= I18n.t("digital_object._frontend.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
 
-    <% if not controller.action_name === "show" or @digital_object.file_versions.length > 0 %>
+    <% if controller.action_name != "show" or @digital_object.file_versions.length > 0 %>
       <li><a href="#digital_object_file_versions_"><%= I18n.t("file_version._singular") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
@@ -16,7 +16,7 @@
       <li><a href="#digital_object_dates_"><%= I18n.t("date._singular") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @digital_object.extents.length > 0 %>
+    <% if controller.action_name != "show" or @digital_object.extents.length > 0 %>
       <li><a href="#digital_object_extents_"><%= I18n.t("extent._singular") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
@@ -32,27 +32,27 @@
       <li><a href="#digital_object_subjects_"><%= I18n.t("subject._singular") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @digital_object.notes.length > 0 %>
+    <% if controller.action_name != "show" or @digital_object.notes.length > 0 %>
       <li><a href="#notes"><%= I18n.t("note._singular") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @digital_object.external_documents.length > 0 %>
+    <% if controller.action_name != "show" or @digital_object.external_documents.length > 0 %>
       <li><a href="#digital_object_external_documents_"><%= I18n.t("external_document._singular") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @digital_object.rights_statements.length > 0 %>
+    <% if controller.action_name != "show" or @digital_object.rights_statements.length > 0 %>
       <li><a href="#digital_object_rights_statements_"><%= I18n.t("rights_statement._singular") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @digital_object.collection_management %>
+    <% if controller.action_name != "show" or @digital_object.collection_management %>
       <li><a href="#digital_object_collection_management_"><%= I18n.t "collection_management._singular" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @digital_object.user_defined %>
+    <% if controller.action_name != "show" or @digital_object.user_defined %>
       <li><a href="#digital_object_user_defined_"><%= I18n.t "user_defined._singular" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" %>
+    <% if controller.action_name != "show" %>
       <li class="form-actions">
         <button type="submit" class="btn btn-primary"><%= I18n.t("digital_object._frontend.action.save") %></button>
       </li>

@@ -24,24 +24,24 @@
       <li><a href="#archival_object_subjects_"><%= I18n.t("subject._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
     
-    <% if not controller.action_name === "show" or @archival_object.notes.length > 0 %>
+    <% if controller.action_name != "show" or @archival_object.notes.length > 0 %>
       <li><a href="#notes"><%= I18n.t("note._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @archival_object.external_documents.length > 0 %>
+    <% if controller.action_name != "show" or @archival_object.external_documents.length > 0 %>
       <li><a href="#archival_object_external_documents_"><%= I18n.t("external_document._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @archival_object.rights_statements.length > 0 %>
+    <% if controller.action_name != "show" or @archival_object.rights_statements.length > 0 %>
       <li><a href="#archival_object_rights_statements_"><%= I18n.t("rights_statement._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @archival_object.instances.length > 0 %>
+    <% if controller.action_name != "show" or @archival_object.instances.length > 0 %>
       <li><a href="#archival_object_instances_"><%= I18n.t("instance._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
 
-    <% if not controller.action_name === "show" %>
+    <% if controller.action_name != "show" %>
       <div class="form-actions">
         <% if @archival_object.id.blank? %>
           <div class="btn-group btn-submit-group">

@@ -9,7 +9,7 @@
     <li><a href="#basic_information"><%= I18n.t("subject._frontend.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
     <li><a href="#subject_terms_"><%= I18n.t("subject._frontend.section.terms") %> <span class="icon-chevron-right"></span></a></li>
 
-    <% if not controller.action_name === "show" or @subject.external_documents.length > 0 %>
+    <% if controller.action_name != "show" or @subject.external_documents.length > 0 %>
       <li><a href="#subject_external_documents_"><%= I18n.t("external_document._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
@@ -17,7 +17,7 @@
       <li><a href="#search_embedded"><%= I18n.t("subject._frontend.section.search_embedded") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" %>
+    <% if controller.action_name != "show" %>
       <li class="form-actions">
         <div class="btn-group <% if ["new", "create"].include?(controller.action_name) %>btn-submit-group<% end %>">
           <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("subject._singular") %></button>

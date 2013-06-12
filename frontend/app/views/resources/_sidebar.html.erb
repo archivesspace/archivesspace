@@ -28,39 +28,39 @@
       <li><a href="#resource_subjects_"><%= I18n.t("subject._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @resource.notes.length > 0 %>
+    <% if controller.action_name != "show" or @resource.notes.length > 0 %>
       <li><a href="#notes"><%= I18n.t("note._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @resource.external_documents.length > 0 %>
+    <% if controller.action_name != "show" or @resource.external_documents.length > 0 %>
       <li><a href="#resource_external_documents_"><%= I18n.t("external_document._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @resource.rights_statements.length > 0 %>
+    <% if controller.action_name != "show" or @resource.rights_statements.length > 0 %>
       <li><a href="#resource_rights_statements_"><%= I18n.t("rights_statement._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @resource.instances.length > 0 %>
+    <% if controller.action_name != "show" or @resource.instances.length > 0 %>
       <li><a href="#resource_instances_"><%= I18n.t("instance._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @resource.deaccessions.length > 0 %>
+    <% if controller.action_name != "show" or @resource.deaccessions.length > 0 %>
       <li><a href="#resource_deaccessions_"><%= I18n.t("deaccession._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @resource.collection_management %>
+    <% if controller.action_name != "show" or @resource.collection_management %>
       <li><a href="#resource_collection_management_"><%= I18n.t "collection_management._singular" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @resource.classification %>
+    <% if controller.action_name != "show" or @resource.classification %>
       <li><a href="#resource_classification_"><%= I18n.t "classification._plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" or @resource.user_defined %>
+    <% if controller.action_name != "show" or @resource.user_defined %>
       <li><a href="#resource_user_defined_"><%= I18n.t "user_defined._singular" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" %>
+    <% if controller.action_name != "show" %>
       <li class="form-actions">
         <button type="submit" class="btn btn-primary"><%= I18n.t("resource._frontend.action.save") %></button>
       </li>
