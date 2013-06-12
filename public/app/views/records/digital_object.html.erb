@@ -1,11 +1,15 @@
+<%
+   record_title = @digital_object.title
+   set_title(record_title)
+%>
+
 <div class="title-pane">
   <div class="row-fluid">
     <div class="span3">
 
     </div>
     <div class="span9">
-      <h2>
-        <%= @digital_object.title %></h2>
+      <h2><%= record_title %></h2>
     </div>
   </div>
 </div>
