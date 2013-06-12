@@ -33,7 +33,6 @@ GEM
       i18n (= 0.6.1)
       multi_json (~> 1.0)
     arel (3.0.2)
-    atomic (1.0.1)
     atomic (1.0.1-java)
     bouncy-castle-java (1.5.0146.1)
     builder (3.0.4)
@@ -60,14 +59,13 @@ GEM
     jruby-openssl (0.7.7)
       bouncy-castle-java (>= 1.5.0146.1)
     jruby-rack (1.1.12)
-    json (1.7.7)
     json (1.7.7-java)
     json-schema (1.0.10)
-    less (2.2.2)
+    less (2.3.2)
       commonjs (~> 0.2.6)
-    less-rails (2.2.6)
+    less-rails (2.3.3)
       actionpack (>= 3.1)
-      less (~> 2.2.0)
+      less (~> 2.3.1)
     mail (2.5.3)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -75,11 +73,8 @@ GEM
     mime-types (1.22)
     multi_json (1.7.2)
     net-http-persistent (2.8)
-    nokogiri (1.5.9)
     nokogiri (1.5.9-java)
     polyglot (0.3.3)
-    puma (1.6.3)
-      rack (~> 1.2)
     puma (1.6.3-java)
       rack (~> 1.2)
     rack (1.4.5)
@@ -165,7 +160,7 @@ DEPENDENCIES
   jruby-openssl
   json
   json-schema
-  less-rails
+  less-rails (~> 2.3.3)
   net-http-persistent
   nokogiri
   puma
