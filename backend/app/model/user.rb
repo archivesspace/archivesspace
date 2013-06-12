@@ -103,7 +103,9 @@ class User < Sequel::Model(:user)
                                    'update_vocabulary_record'],
       'delete_archival_record' => ['delete_subject_record',
                                    'delete_agent_record',
-                                   'delete_vocabulary_record']
+                                   'delete_vocabulary_record'],
+      'merge_agents_and_subjects' => ['merge_subject_record',
+                                      'merge_agent_record']
     }
 
     actual_permissions =

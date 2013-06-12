@@ -138,7 +138,6 @@ class ArchivesSpaceService
     # Updates and deletes to subjects and agents are a bit funny: they're global
     # objects, but users are granted permission to modify them by being
     # associated with a group within a repository.
-
     Permission.define("update_subject_record",
                       "The ability to create and modify subject records",
                       :derived_permission => true,
@@ -166,6 +165,24 @@ class ArchivesSpaceService
 
     Permission.define("delete_vocabulary_record",
                       "The ability to delete vocabulary records",
+                      :derived_permission => true,
+                      :level => "repository")
+
+
+    # Merge permissions are special too.  A user with merge_agents_and_subjects
+    # in any repository is granted merge_agent_record and merge_subject_record
+    Permission.define("merge_agents_and_subjects",
+                      "The ability to merge agent/subject records",
+                      :level => "repository")
+
+
+    Permission.define("merge_subject_record",
+                      "The ability to merge subject records",
+                      :derived_permission => true,
+                      :level => "repository")
+
+    Permission.define("merge_agent_record",
+                      "The ability to merge agent records",
                       :derived_permission => true,
                       :level => "repository")
 

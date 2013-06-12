@@ -7,39 +7,17 @@
             <%= link_to I18n.t("actions.edit"), {:controller => :subjects, :action => :edit, :id => @subject.id}, :class => "btn btn-small btn-primary" %>
           </div>
 
-          <div id="merge-dropdown" class="btn-group dropdown">
-            <a class="btn btn-small dropdown-toggle merge-action" data-toggle="dropdown" href="#" title="<%= I18n.t("actions.merge") %>">
-              <%= I18n.t("actions.merge") %> <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu merge-form">
-              <li>
-                <p><%= I18n.t("subject._frontend.messages.merge_description") %></p>
-                <%= form_tag(url_for(:controller => :subjects, :action => :merge, :id => @subject.id)) do |f| %>
-                  <%= form_context :merge, {} do |form| %>
-                  <fieldset>
-                    <div class="alert alert-error missing-ref-message" style="display: none;"><%= I18n.t "subject._frontend.messages.please_select_a_subject_to_merge" %></div>
-                    <%= render :partial => "subjects/linker", :locals => { :form => form, :exclude_ids => [@subject.uri], :hide_create => true }%>
-                  </fieldset>
-                  <div class="form-actions">
-                    <%=
-                       button_confirm_action(I18n.t("actions.merge"),
-                                             url_for(:controller => :subjects, :action => :merge, :id => @subject.id),
-                                             {
-                                               :class => "btn btn-primary pull-left merge-button",
-                                               :"data-title" => I18n.t("actions.merge_confirm_title"),
-                                               :"data-message" => I18n.t("actions.merge_confirm_message",
-                                                                         :target => @subject.title),
-                                               :"data-confirm-btn-label" => "#{I18n.t("actions.merge")}",
-                                               :"data-confirm-btn-class" => "btn-primary"
-                                             })
-                    %>
-                    <a class="btn btn-cancel pull-right" href="#"><%= I18n.t("actions.cancel") %></a>
-                  </div>
-                  <% end %>
-                <% end %>
-              </li>
-            </ul>
-          </div>
+          <% if user_can?('merge_subject_record') %>
+          <%=
+             render :partial => "shared/merge_dropdown",
+                    :locals => {:record => @subject,
+                                :controller => :subjects,
+                                :confirmation_title => I18n.t("actions.merge_confirm_title"),
+                                :confirmation_msg => I18n.t("actions.merge_subject_confirm_message",
+                                                            :target => @subject.title)}
+          %>
+          <% end %>
+
         </div>
         <div class="btn-group pull-right">
           <div class="btn btn-inline-form">

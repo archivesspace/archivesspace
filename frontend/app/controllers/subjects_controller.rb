@@ -72,18 +72,9 @@ class SubjectsController < ApplicationController
 
 
   def merge
-    request = JSONModel(:merge_request).new
-    request.target = {'ref' => JSONModel(:subject).uri_for(params[:id])}
-    request.victims = [{'ref' => params[:ref]}]
-
-    begin
-      request.save(:record_type => 'subject')
-      flash[:success] = I18n.t("subject._frontend.messages.merged")
-      redirect_to :controller => :subjects, :action => :show, :id => params[:id]
-    rescue RecordNotFound => e
-      flash[:error] = I18n.t("errors.error_404")
-      redirect_to :controller => :subjects, :action => :show, :id => params[:id]
-    end
+    handle_merge(JSONModel(:subject).uri_for(params[:id]),
+                 params[:ref],
+                 'subject')
   end
 
 

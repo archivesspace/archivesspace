@@ -73,4 +73,72 @@ describe 'Agent model' do
     expect { AgentPerson.create_from_json(build(:json_agent_person, {:names => [n], :dates_of_existence => [d2]})) }.to raise_error(JSONModel::ValidationException)
   end
 
+
+  it "can merge one agent into another" do
+    victim_agent = AgentPerson.create_from_json(build(:json_agent_person))
+    target_agent = AgentPerson.create_from_json(build(:json_agent_person))
+
+    # A record that uses the victim agent
+    acc = create(:json_accession, 'linked_agents' => [{
+                                                        'ref' => victim_agent.uri,
+                                                        'role' => 'source'
+                                                      }])
+
+    target_agent.assimilate([victim_agent])
+
+    JSONModel(:accession).find(acc.id).linked_agents[0]['ref'].should eq(target_agent.uri)
+
+    victim_agent.exists?.should be(false)
+  end
+
+
+  it "handles related agents when merging" do
+    victim_agent = AgentPerson.create_from_json(build(:json_agent_person))
+    target_agent = AgentPerson.create_from_json(build(:json_agent_person))
+
+    relationship = JSONModel(:agent_relationship_parentchild).new
+    relationship.relator = "is_child_of"
+    relationship.ref = victim_agent.uri
+    related_agent = create(:json_agent_person, "related_agents" => [relationship.to_hash])
+
+    # Merging victim into target updates the related agent relationship too
+    target_agent.assimilate([victim_agent])
+    JSONModel(:agent_person).find(related_agent.id).related_agents[0]['ref'].should eq(target_agent.uri)
+  end
+
+
+  it "can merge different agent types into another" do
+    victim_agent = AgentFamily.create_from_json(build(:json_agent_family))
+    target_agent = AgentPerson.create_from_json(build(:json_agent_person))
+
+    # A record that uses the victim agent
+    acc = create(:json_accession, 'linked_agents' => [{
+                                                        'ref' => victim_agent.uri,
+                                                        'role' => 'source'
+                                                      }])
+
+    target_agent.assimilate([victim_agent])
+    JSONModel(:accession).find(acc.id).linked_agents[0]['ref'].should eq(target_agent.uri)
+
+    victim_agent.exists?.should be(false)
+  end
+
+
+  it "can merge different agent types into another, even if they have the same DB id" do
+    victim_agent = AgentFamily.create_from_json(build(:json_agent_family))
+    target_agent = AgentPerson.create_from_json(build(:json_agent_person))
+
+    db_id = [victim_agent.id, target_agent.id].max
+    (victim_agent.id - target_agent.id).abs.times do |n|
+      AgentFamily.create_from_json(build(:json_agent_family))
+      AgentPerson.create_from_json(build(:json_agent_person))
+    end
+
+    victim_agent = AgentFamily[db_id]
+    target_agent = AgentPerson[db_id]
+
+    target_agent.assimilate([victim_agent])
+    victim_agent.exists?.should be(false)
+  end
+
 end

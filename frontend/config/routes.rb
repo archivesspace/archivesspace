@@ -100,6 +100,7 @@ ArchivesSpace::Application.routes.draw do
   match 'agents/:agent_type/:id' => 'agents#show', :via => [:get]
   match 'agents' => 'agents#index', :via => [:get]
   match 'agents/:agent_type/:id/delete' => 'agents#delete', :via => [:post]
+  match 'agents/:id/merge' => 'agents#merge', :via => [:post]
 
 
   resources :collection_management

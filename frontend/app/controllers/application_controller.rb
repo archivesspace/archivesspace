@@ -98,6 +98,25 @@ class ApplicationController < ActionController::Base
   end
 
 
+  def handle_merge(target_uri, victim_uri, merge_type, extra_params = {})
+    request = JSONModel(:merge_request).new
+    request.target = {'ref' => target_uri}
+    request.victims = [{'ref' => victim_uri}]
+
+    begin
+      request.save(:record_type => merge_type)
+      flash[:success] = I18n.t("#{merge_type}._frontend.messages.merged")
+      redirect_to({:action => :show, :id => params[:id]}.merge(extra_params))
+    rescue ValidationException => e
+      flash[:error] = e.errors
+      redirect_to({:action => :show, :id => params[:id]}.merge(extra_params))
+    rescue RecordNotFound => e
+      flash[:error] = I18n.t("errors.error_404")
+      redirect_to({:action => :show, :id => params[:id]}.merge(extra_params))
+    end
+  end
+
+
   def selected_page
     if params["page"]
       page = Integer(params["page"])

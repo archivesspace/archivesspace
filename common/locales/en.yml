@@ -1228,6 +1228,7 @@ en:
       delete_event_record: delete event records in this repository
       update_classification_record: create/update classifications and classification terms
       delete_classification_record: delete classifications and classification terms
+      merge_agents_and_subjects: merge agent/subject records
     _singular: Group
     _plural: Groups
 

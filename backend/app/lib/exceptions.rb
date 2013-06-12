@@ -34,3 +34,7 @@ end
 
 class RetryTransaction < Sequel::DatabaseError
 end
+
+
+class MergeRequestFailed < StandardError
+end

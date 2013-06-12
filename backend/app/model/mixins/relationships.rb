@@ -24,24 +24,54 @@ AbstractRelationship = Class.new(Sequel::Model) do
   # Find any relationship instances that reference 'victims' and modify them to
   # refer to 'target' instead.
   def self.transfer(target, victims)
-    unless victims.all? {|victim| victim.class == target.class}
-      raise ReferenceError.new("Can't transfer between objects of different types")
-    end
+    target_columns = self._reference_columns_for(target.class)
 
-    victim_ids = victims.map {|v| v[:id]}
-    columns = self._reference_columns_for(target.class)
+    victims_by_model = victims.reject {|v| (v.class == target.class) && (v.id == target.id)}.group_by(&:class)
 
-    columns.each do |col|
-      self.filter(col => victim_ids).update(col => target.id)
-    end
+    victims_by_model.each do |victim_model, victims|
 
-    if columns.count > 1
-      # If this relationship allows two objects of the same type to be related,
-      # make sure that we haven't just created a relationship between an object
-      # and itself.
-      where = Hash[columns.map {|c| [c, target.id]}]
-      if self.filter(where).count != 0
-        raise "Transfer would create a circular relationship!"
+      unless participating_models.include?(victim_model)
+        raise ReferenceError.new("This class doesn't belong to relationship #{self}: #{victim.class}")
+      end
+
+      victim_columns = self._reference_columns_for(victim_model)
+
+      victim_columns.each do |victim_col|
+
+        # Find any relationship where the current column contains a reference to
+        # our victim
+        self.filter(victim_col => victims.map(&:id)).each do |relationship|
+
+          # Remove this relationship's reference to the victim
+          relationship[victim_col] = nil
+
+          # Now add a new reference to the target (which, if the victim and
+          # target are of different types, might require updating a different
+          # column to the one we just set to NULL)
+          target_columns.each do |target_col|
+
+            if relationship[target_col]
+              # This column is already used to reference the other record in our
+              # relationship so we'll skip over it.  But while we're here, make
+              # sure we're not about to create a circular relationship.
+
+              if relationship[target_col] == target.id
+                raise "Transfer would create a circular relationship!"
+              end
+
+            else
+              # Found a free column.  Store our updated reference here.
+              relationship[target_col] = target.id
+              break
+            end
+
+          end
+
+          relationship[:system_mtime] = Time.now
+          relationship[:user_mtime] = Time.now
+
+          relationship.save
+        end
       end
     end
   end
@@ -117,7 +147,7 @@ module Relationships
   def self.included(base)
     base.instance_eval do
       @relationships ||= {}
-      @relationship_dependencies ||= []
+      @relationship_dependencies ||= {}
     end
 
     base.extend(ClassMethods)
@@ -139,7 +169,7 @@ module Relationships
     #
     # Once we have our list of unique models, inform each of them that our
     # instance has been updated (using a class method defined below).
-    self.class.relationship_dependencies.uniq.each do |model|
+    self.class.dependent_models.each do |model|
       model.touch_mtime_of_anyone_related_to(self)
     end
   end
@@ -162,6 +192,25 @@ module Relationships
   end
 
 
+  def assimilate(victims)
+    victims = victims.reject {|v| (v.class == self.class) && (v.id == self.id)}
+
+    self.class.relationship_dependencies.each do |relationship, models|
+      models.each do |model|
+        model.transfer(relationship, self, victims)
+      end
+    end
+
+    DB.attempt {
+      victims.each(&:delete)
+    }.and_if_constraint_fails {
+      raise MergeRequestFailed.new("Can't complete merge: record still in use")
+    }
+
+    trigger_reindex_of_dependants
+  end
+
+
   module ClassMethods
 
     # Reset relationship definitions for the current class
@@ -177,6 +226,11 @@ module Relationships
 
     def relationship_dependencies
       @relationship_dependencies
+    end
+
+
+    def dependent_models
+      @relationship_dependencies.values.flatten.uniq
     end
 
 
@@ -224,7 +278,7 @@ module Relationships
 
         linked_models.each do |model|
           model.include(Relationships)
-          model.add_relationship_dependency(base)
+          model.add_relationship_dependency(opts[:name], base)
         end
       end
     end
@@ -348,8 +402,9 @@ module Relationships
     end
 
 
-    def add_relationship_dependency(clz)
-      @relationship_dependencies << clz
+    def add_relationship_dependency(relationship_name, clz)
+      @relationship_dependencies[relationship_name] ||= []
+      @relationship_dependencies[relationship_name] << clz
     end
 
 
@@ -363,7 +418,7 @@ module Relationships
       dataset.select(:id).each do |obj|
         # Delete all the relationships created against this object
         delete_existing_relationships(obj, true, true)
-        @relationship_dependencies.each do |model|
+        dependent_models.each do |model|
           model.delete_existing_relationships(obj, true, true) if model != self
         end
       end
