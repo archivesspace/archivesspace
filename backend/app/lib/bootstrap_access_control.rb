@@ -1,5 +1,44 @@
 class ArchivesSpaceService
 
+  def self.create_system_user(username, name, password)
+    if User[:username => username].nil?
+      User.create_from_json(JSONModel(:user).from_hash(:username => username,
+                                                       :name => name),
+                            :source => "local",
+                            :is_system_user => 1)
+      DBAuth.set_password(username, password)
+
+      return true
+    end
+
+    false
+  end
+
+
+  def self.create_group(group_code, description, users_to_add, permissions)
+    global_repo = Repository[:repo_code => Group.GLOBAL]
+
+    RequestContext.open(:repo_id => global_repo.id) do
+      if Group[:group_code => group_code].nil?
+        created_group = Group.create_from_json(JSONModel(:group).from_hash(:group_code => group_code,
+                                                                           :description => description),
+                                               :is_system_user => 1)
+        users_to_add.each do |user|
+          created_group.add_user(User[:username => user])
+        end
+
+        permissions.each do |permission|
+          created_group.grant(permission)
+        end
+
+        return true
+      end
+    end
+
+    false
+  end
+
+
   def self.set_up_base_permissions
 
     if not Repository[:repo_code => Group.GLOBAL]
@@ -28,34 +67,16 @@ class ArchivesSpaceService
                   :rules => 'local',
                   :sort_name_auto_generate => true
               }])
-    
+
       sys_agent = AgentSoftware.create_from_json(json, :system_generated => true)
-    else    
-  
+    else
       Log.warn("Ran access control bootstrap without creating an Agent record for this software.")
     end
 
 
     # Create the admin user
-    if User[:username => User.ADMIN_USERNAME].nil?
-      User.create_from_json(JSONModel(:user).from_hash(:username => User.ADMIN_USERNAME,
-                                                       :name => "Administrator"),
-                            :source => "local",
-                            :is_system_user => 1)
-      DBAuth.set_password(User.ADMIN_USERNAME, User.ADMIN_USERNAME)
-    end
-
-
-    global_repo = Repository[:repo_code => Group.GLOBAL]
-
-    RequestContext.open(:repo_id => global_repo.id) do
-      if Group[:group_code => Group.ADMIN_GROUP_CODE].nil?
-        created_group = Group.create_from_json(JSONModel(:group).from_hash(:group_code => Group.ADMIN_GROUP_CODE,
-                                                                           :description => "Administrators"),
-                                               :is_system_user => 1)
-        created_group.add_user(User[:username => User.ADMIN_USERNAME])
-      end
-    end
+    self.create_system_user(User.ADMIN_USERNAME, "Administrator", User.ADMIN_USERNAME)
+    self.create_group(Group.ADMIN_GROUP_CODE, "Administrators", [User.ADMIN_USERNAME], [])
 
 
     ## Standard permissions
@@ -192,89 +213,28 @@ class ArchivesSpaceService
 
 
   def self.create_search_user
-
-    # Create the searchindex user
-    if User[:username => User.SEARCH_USERNAME].nil?
-      User.create_from_json(JSONModel(:user).from_hash(:username => User.SEARCH_USERNAME,
-                                                       :name => "Search Indexer"),
-                            :source => "local",
-                            :is_system_user => 1)
-    end
-
+    self.create_system_user(User.SEARCH_USERNAME, "Search Indexer", AppConfig[:search_user_secret])
     DBAuth.set_password(User.SEARCH_USERNAME, AppConfig[:search_user_secret])
-
-    global_repo = Repository[:repo_code => Group.GLOBAL]
-
-    RequestContext.open(:repo_id => global_repo.id) do
-      if Group[:group_code => Group.SEARCHINDEX_GROUP_CODE].nil?
-        created_group = Group.create_from_json(JSONModel(:group).from_hash(:group_code => Group.SEARCHINDEX_GROUP_CODE,
-                                                                           :description => "Search index"))
-        created_group.add_user(User[:username => User.SEARCH_USERNAME])
-
-        created_group.grant("view_repository")
-        created_group.grant("view_suppressed")
-        created_group.grant("view_all_records")
-        created_group.grant("index_system")
-      end
-    end
-
+    self.create_group(Group.SEARCHINDEX_GROUP_CODE, "Search index", [User.SEARCH_USERNAME],
+                      ["view_repository", "view_suppressed", "view_all_records", "index_system"])
   end
 
 
   def self.create_public_user
-
-    # Create the public_anonymous user
-    if User[:username => User.PUBLIC_USERNAME].nil?
-      User.create_from_json(JSONModel(:user).from_hash(:username => User.PUBLIC_USERNAME,
-                                                       :name => "Public Interface Anonymous"),
-                            :source => "local",
-                            :is_system_user => 1)
-    end
-
+    self.create_system_user(User.PUBLIC_USERNAME, "Public Interface Anonymous", AppConfig[:search_user_secret])
     DBAuth.set_password(User.PUBLIC_USERNAME, AppConfig[:public_user_secret])
-
-    global_repo = Repository[:repo_code => Group.GLOBAL]
-
-    RequestContext.open(:repo_id => global_repo.id) do
-      if Group[:group_code => Group.PUBLIC_GROUP_CODE].nil?
-        created_group = Group.create_from_json(JSONModel(:group).from_hash(:group_code => Group.PUBLIC_GROUP_CODE,
-                                                                           :description => "Public Anonymous"))
-        created_group.add_user(User[:username => User.PUBLIC_USERNAME])
-
-        created_group.grant("view_repository")
-        created_group.grant("view_all_records")
-      end
-    end
-
+    self.create_group(Group.PUBLIC_GROUP_CODE, "Public Anonymous", [User.PUBLIC_USERNAME],
+                      ["view_repository", "view_all_records"])
   end
 
 
-  # Create the user that the frontend will use for trusted communication with
-  # the backend.
   def self.create_staff_user
-
-    if User[:username => User.STAFF_USERNAME].nil?
-      User.create_from_json(JSONModel(:user).from_hash(:username => User.STAFF_USERNAME,
-                                                       :name => "Staff System User"),
-                            :source => "local",
-                            :is_system_user => 1)
-    end
-
+    self.create_system_user(User.STAFF_USERNAME, "Staff System User", AppConfig[:search_user_secret])
     DBAuth.set_password(User.STAFF_USERNAME, AppConfig[:staff_user_secret])
-
-    global_repo = Repository[:repo_code => Group.GLOBAL]
-
-    RequestContext.open(:repo_id => global_repo.id) do
-      if Group[:group_code => Group.STAFF_GROUP_CODE].nil?
-        created_group = Group.create_from_json(JSONModel(:group).from_hash(:group_code => Group.STAFF_GROUP_CODE,
-                                                                           :description => "Staff System Group"))
-        created_group.add_user(User[:username => User.STAFF_USERNAME])
-
-        created_group.grant("mediate_edits")
-      end
-    end
-
+    self.create_group(Group.STAFF_GROUP_CODE, "Staff System Group", [User.STAFF_USERNAME],
+                      ["mediate_edits"])
   end
+
 
   set_up_base_permissions
   create_search_user
