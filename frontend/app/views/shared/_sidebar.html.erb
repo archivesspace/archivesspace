@@ -31,7 +31,7 @@
           <% if plusone && record.id.blank? %>
             <div class="btn-group btn-submit-group">
               <button type="submit" class="btn btn-primary"><%= save_button_text %></button>
-              <button type="#{plusone}" id="createPlusOne" class="btn btn-primary btn-plus-one"><%= I18n.t("actions.save_plus_one") %></button>
+              <button type="#{plusone}" class="btn btn-primary btn-plus-one createPlusOneBtn"><%= I18n.t("actions.save_plus_one") %></button>
             </div>
           <% else %>
             <button type="submit" class="btn btn-primary"><%= save_button_text %></button>
