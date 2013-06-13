@@ -6,6 +6,4 @@
                   :default => I18n.t("#{record_type}._frontend.section.#{subrecord_type}"))
 %>
 
-<% if controller.action_name != "show" || property == :none || !record[property].blank? %>
-  <li><a href="#<%= anchor %>"><%= title %> <span class="icon-chevron-right"></span></a></li>
-<% end %>
+<li><a href="#<%= anchor %>"><%= title %> <span class="icon-chevron-right"></span></a></li>

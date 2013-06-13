@@ -16,11 +16,35 @@ module SidebarHelper
     end
 
     def render_for_view_and_edit(opts)
+      record = @opts[:record]
+      property = opts[:property]
+
+      if @form.controller.action_name != "show" || property == :none || !record[property].blank?
+        render_entry(opts)
+      else
+        ""
+      end
+    end
+
+    def render_for_view_only(opts)
+      record = @opts[:record]
+      property = opts[:property]
+
+      if @form.controller.action_name == "show" && !record[property].blank?
+        render_entry(opts)
+      end
+    end
+
+
+    private
+
+    def render_entry(opts)
       ensure_properties(opts, [:subrecord_type, :property])
 
       @form.render(:partial => '/shared/sidebar_entry',
                    :locals => opts.merge(@opts))
     end
+
 
   end
 
