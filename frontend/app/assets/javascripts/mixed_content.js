@@ -83,10 +83,17 @@ $(function() {
       CodeMirror.xmlHints[path] = [];
 
       for (var i=0; i<defs.length; i++ ) {
-        CodeMirror.xmlHints[path].push(defs[i].tag);
+        var definition = defs[i];
 
-        if (defs[i].elements) {
-          addToPath(path+defs[i].tag+"><", defs[i].elements);
+        if (typeof definition == "string") {
+          definition = AS.mixedContentElements[definition];
+        }
+
+        CodeMirror.xmlHints[path].push(definition.tag);
+        CodeMirror.xmlHints[path + definition.tag + " "] = definition.attributes || [];
+
+        if (definition.elements) {
+          addToPath(path+definition.tag+"><", definition.elements);
         }
       }
 
@@ -94,18 +101,14 @@ $(function() {
 
     if (AS.mixedContentElements) {
       CodeMirror.xmlHints['<'] = [];
-      for (var i = 0; i < AS.mixedContentElements.length; i++) {
-        var def = AS.mixedContentElements[i];
-
-        CodeMirror.xmlHints['<'].push(def.tag);
-        CodeMirror.xmlHints["<" + def.tag + " "] = def.attributes || [];
+      $.each(AS.mixedContentElements, function(tag, def) {
+        CodeMirror.xmlHints['<'].push(tag);
+        CodeMirror.xmlHints["<" + tag + " "] = def.attributes || [];
 
         if (def.elements) {
-          addToPath("<" + def.tag + "><", def.elements)
+          addToPath("<" + def.tag + "><", def.elements);
         }
-
-        
-      }
+      });
     } else {
       throw "No mixed content rules found: AS.mixedContentElements is null"
     }

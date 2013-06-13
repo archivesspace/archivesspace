@@ -18,39 +18,41 @@ module NotesParser
       if emph.attr("render").blank?
         emph.tagName("em")
 
-        # render="bolditalic: <strong><em>
+      # render="bolditalic: <strong><em>
       elsif emph.attr("render") === "bolditalic"
         emph.tagName("em")
-        emph.wrap("<strong></strong>")
+        emph.wrap("<strong class='render-bolditalic'></strong>")
 
         # render="bold" (or contains "bold"): <strong>
       elsif emph.attr("render").include?("bold")
-        emph.tagName("strong")
+        emph.tagName("strong").attr("class", "render-bold")
 
         # render="italic": <em>
       elsif emph.attr("render") === "italic"
-        emph.tagName("em")
+        emph.tagName("em").attr("class", "render-italic")
 
         # render="super": <sup>
       elsif emph.attr("render") === "super"
-        emph.tagName("sup")
+        emph.tagName("sup").attr("class", "render-super")
 
         # render="sub": <sub>
       elsif emph.attr("render") === "sub"
-        emph.tagName("sub")
+        emph.tagName("sub").attr("class", "render-sub")
 
         # render="underline": (style as CSS with underline)
       elsif emph.attr("render") === "underline"
-        emph.tagName("span").attr("class", "underlined")
+        emph.tagName("span").attr("class", "render-underline")
 
         # render="nonproport": <code>
       elsif emph.attr("render") === "nonproport"
-        emph.tagName("code")
+        emph.tagName("code").attr("class", "render-nonproport")
 
         # just make it an em
       else
-        emph.tagName("em")
+        emph.tagName("em").attr("class", "render-unknown")
       end
+
+      emph.removeAttr("render")
     end
 
     document.toString()
