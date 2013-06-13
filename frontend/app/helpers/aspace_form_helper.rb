@@ -235,7 +235,7 @@ module AspaceFormHelper
 
 
     def select(name, options, opts = {})
-      @forms.select_tag(path(name), @forms.options_for_select(options, obj[name] || default_for(name)), {:id => id_for(name)}.merge!(opts))
+      @forms.select_tag(path(name), @forms.options_for_select(options, obj[name] || default_for(name) || opts[:default]), {:id => id_for(name)}.merge!(opts))
     end
 
 
