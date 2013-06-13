@@ -2,7 +2,7 @@
            :locals => {
              :record_type => 'digital_object_component',
              :record => @digital_object_component,
-             :plusone => true
+             :plusone => :button
            }) do |sidebar| %>
 
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'file_version', :property => 'file_versions') %>

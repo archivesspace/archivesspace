@@ -2,7 +2,7 @@
            :locals => {
              :record_type => 'classification_term',
              :record => @classification_term,
-             :plusone => true
+             :plusone => :button
            }) do |sidebar| %>
     <%= sidebar.render_for_view_only(:subrecord_type => 'search_embedded', :property => :none, :anchor => 'search_embedded') %>
 <% end %>

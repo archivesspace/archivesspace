@@ -2,7 +2,7 @@
            :locals => {
              :record_type => 'subject',
              :record => @subject,
-             :plusone => true
+             :plusone => :submit
            }) do |sidebar| %>
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'terms', :property => 'terms') %>
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'external_document', :property => 'external_documents') %>

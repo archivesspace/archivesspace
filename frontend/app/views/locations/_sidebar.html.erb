@@ -2,7 +2,7 @@
            :locals => {
              :record_type => 'location',
              :record => @location,
-             :plusone => true
+             :plusone => :submit
            }) do |sidebar| %>
     <%= sidebar.render_for_view_only(:subrecord_type => 'search_embedded', :property => :none, :anchor => 'search_embedded') %>
 <% end %>

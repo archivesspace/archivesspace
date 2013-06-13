@@ -2,7 +2,7 @@
            :locals => {
              :record_type => 'archival_object',
              :record => @archival_object,
-             :plusone => true
+             :plusone => :button
            }) do |sidebar| %>
 
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'date', :property => 'dates') %>

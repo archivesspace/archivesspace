@@ -3,7 +3,7 @@
              :record_type => 'repository',
              :record => @repository,
              :suppress_basic_information => true,
-             :plusone => true
+             :plusone => :submit
            }) do |sidebar| %>
 
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'all_fields', :property => :none, :anchor => 'all_fields') %>
