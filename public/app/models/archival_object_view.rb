@@ -6,6 +6,21 @@ class ArchivalObjectView
   end
 
 
+  # Make our wrapping methods show up when accessed as a hash too
+  def [](k)
+    result = @archival_object[k]
+
+    if !result
+      m = "#{k}".intern
+      result = if self.respond_to?(m)
+                 self.send(m)
+               end
+    end
+
+    result
+  end
+
+
   def digital_objects
     digital_objects = {}
 

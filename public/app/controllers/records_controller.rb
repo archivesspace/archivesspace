@@ -93,7 +93,6 @@ class RecordsController < ApplicationController
   private
 
   def fetch_uris(root_uri, repo_id, promises)
-    result = {}
     page = 1
     while true
       results = Search.repo(repo_id,
@@ -104,7 +103,10 @@ class RecordsController < ApplicationController
 
       results['results'].each do |r|
         rec = ASUtils.json_parse(r['json'])
-        promises.fetch(rec['uri']).call(rec)
+        begin
+          promises.fetch(rec['uri']).call(rec)
+        rescue KeyError
+        end
       end
 
       if results['this_page'] < results['last_page']
@@ -113,8 +115,6 @@ class RecordsController < ApplicationController
         break
       end
     end
-
-    result
   end
 
 

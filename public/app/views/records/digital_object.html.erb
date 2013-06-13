@@ -16,35 +16,21 @@
 <div class="content-pane">
   <div class="row-fluid">
     <div class="span3">
-      <div id="">
-        <ul class="nav nav-list as-nav-list" data-spy="affix">
-          <li><a href="#summary"><%= I18n.t("archival_object._public.section.summary") %> <span class="icon-chevron-right"></span></a></li>
-          <% if @digital_object.published_file_versions.length > 0 %>
-            <li><a href="#file_versions"><%= I18n.t("file_version._plural") %> <span class="badge badge-info"><%= @digital_object.published_file_versions.length %></span><span class="icon-chevron-right"></span></a></li>
-          <% end %>
-          <% if @digital_object['dates'].length > 0 %>
-            <li><a href="#dates"><%= I18n.t("date._plural") %> <span class="badge badge-info"><%= @digital_object['dates'].length %></span><span class="icon-chevron-right"></span></a></li>
-          <% end %>
-          <% if @digital_object['extents'].length > 0 %>
-            <li><a href="#extents"><%= I18n.t("extent._plural") %> <span class="badge badge-info"><%= @digital_object['extents'].length %></span><span class="icon-chevron-right"></span></a></li>
-          <% end %>
-          <% if @digital_object.published_agents.length > 0 %>
-            <li><a href="#linked_agents"><%= I18n.t("agent._plural") %> <span class="badge badge-info"><%= @digital_object.published_agents.length %></span><span class="icon-chevron-right"></span></a></li>
-          <% end %>
-          <% if @digital_object['subjects'].length > 0 %>
-            <li><a href="#subjects"><%= I18n.t("subject._plural") %> <span class="badge badge-info"><%= @digital_object['subjects'].length %></span><span class="icon-chevron-right"></span></a></li>
-          <% end %>
-          <% if @digital_object['notes'].length > 0 %>
-            <li><a href="#notes"><%= I18n.t("note._plural") %> <span class="badge badge-info"><%= @digital_object['notes'].length %></span><span class="icon-chevron-right"></span></a></li>
-          <% end %>
-          <% if @digital_object.published_external_documents.length > 0 %>
-            <li><a href="#external_documents"><%= I18n.t("external_document._plural") %> <span class="badge badge-info"><%= @digital_object.published_external_documents.length %></span><span class="icon-chevron-right"></span></a></li>
-          <% end %>
-          <% if children? %>
-            <li><a href="#components"><%= I18n.t("digital_object._public.section.components") %> <span class="badge badge-info"><%= children.length %></span><span class="icon-chevron-right"></span></a></li>
-          <% end %>
-        </ul>
-      </div>
+      <%= render(:partial => 'navlist',
+                 :locals => {
+                   :record_type => 'digital_object',
+                   :record => @digital_object,
+                   :entries => [
+                     {:property => 'published_file_versions', :subrecord_type => 'file_version', :anchor => 'file_versions'},
+                     {:property => 'dates', :subrecord_type => 'date', :anchor => 'dates'},
+                     {:property => 'extents', :subrecord_type => 'extent', :anchor => 'extents'},
+                     {:property => 'published_agents', :subrecord_type => 'agent', :anchor => 'linked_agents'},
+                     {:property => 'subjects', :subrecord_type => 'subject', :anchor => 'subjects'},
+                     {:property => 'notes', :subrecord_type => 'note', :anchor => 'notes'},
+                     {:property => 'published_external_documents', :subrecord_type => 'external_document', :anchor => 'external_documents'},
+                   ]
+                 })
+       %>
     </div>
     <div class="span9">
       <fieldset class="form-horizontal">
