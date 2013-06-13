@@ -1,0 +1,51 @@
+<div class="row-fluid">
+  <div class="span12">
+    <div class="record-toolbar">
+      <% if !['edit', 'update', 'create'].include?(controller.action_name) %>
+        <div class="btn-group pull-left">
+          <%= link_to I18n.t("actions.edit"), {:action => :edit, :id => record.id, :anchor => "#{record_type}_#{record.id}"}, :class => "btn btn-small btn-primary" %>
+        </div>
+      <% end %>
+      <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
+        <div class="pull-left save-changes">
+          <button type="submit" class="btn btn-primary btn-small"><%= I18n.t("actions.save_prefix") %></button>
+        </div>
+      <% end %>
+      <% if ['edit', 'update'].include?(controller.action_name) %>
+        <div class="pull-left revert-changes">
+          <%= link_to I18n.t("actions.revert"), {:action => :edit, :id => record.id}, :class => "btn btn-small" %>
+          <%= I18n.t("actions.toolbar_disabled_message") %>
+        </div>
+      <% end %>
+      <div class="btn-toolbar pull-right">
+        <div class="btn-group">
+          <div class="btn btn-inline-form">
+            <%= button_confirm_action(I18n.t("actions.publish"),
+                        url_for({:action => :publish, :id => record.id}),
+                        {
+                          :class => "btn btn-small",
+                          :"data-title" => I18n.t("actions.publish_confirm_title"),
+                          :"data-message" => I18n.t("actions.publish_confirm_message"),
+                          :"data-confirm-btn-label" => "#{I18n.t("actions.publish")}",
+                          :"data-confirm-btn-class" => "btn-primary",
+                        }) %>
+          </div>
+          <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+            <%= I18n.t("actions.export") %>
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu open-aligned-right">
+            <%= yield :exports %>
+          </ul>
+          <% if user_can?('delete_archival_record') %>
+            <div class="btn-group">
+              <div class="btn btn-inline-form">
+                <%= button_delete_action url_for(:action => :delete, :id => record.id) %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
