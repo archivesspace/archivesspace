@@ -106,6 +106,13 @@ module ASModel
     end
 
 
+    # Mixins will hook in here to add their own publish actions.
+    def publish!
+      self.publish = 1
+      self.save
+    end
+
+
     # When reporting a Sequel validation error against the set of 'columns',
     # report it against the JSONModel 'property' instead.
     #

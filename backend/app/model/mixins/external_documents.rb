@@ -1,5 +1,14 @@
 module ExternalDocuments
 
+  def publish!
+    # publish all external documents
+    self.external_document.each do |exdoc|
+      exdoc.publish!
+    end
+
+    super
+  end
+
   def self.included(base)
     base.many_to_many(:external_document,
                       :before_add => proc { |obj, item_to_add|
