@@ -1,3 +1,7 @@
+<%
+  plusone = defined?(plusone) ? plusone : false
+%>
+
 <div id="archivesSpaceSidebar">
   <ul class="nav nav-list as-nav-list">
     <% if @exceptions %>
@@ -18,7 +22,14 @@
 
     <% if controller.action_name != "show" %>
       <li class="form-actions">
-        <button type="submit" class="btn btn-primary"><%= I18n.t("#{record_type}._frontend.action.save") %></button>
+        <% if plusone && record.id.blank? %>
+          <div class="btn-group btn-submit-group">
+            <button type="submit" class="btn btn-primary"><%= I18n.t("archival_object._frontend.action.save") %></button>
+            <button type="button" id="createPlusOne" class="btn btn-primary btn-plus-one"><%= I18n.t("actions.save_plus_one") %></button>
+          </div>
+        <% else %>
+          <button type="submit" class="btn btn-primary"><%= I18n.t("#{record_type}._frontend.action.save") %></button>
+        <% end %>
       </li>
     <% end %>
   </ul>
