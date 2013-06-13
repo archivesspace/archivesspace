@@ -1,13 +1,12 @@
 class RecordsController < ApplicationController
 
+  before_filter :get_repository
+
   def resource
     resource = JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents"])
     raise RecordNotFound.new if (!resource || !resource.publish)
 
     @resource = ArchivalObjectView.new(resource)
-
-    @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
-
     @tree_view = Search.tree_view(@resource.uri)
 
     load_full_records(@resource.uri, @tree_view['whole_tree'], params[:repo_id])
@@ -24,9 +23,6 @@ class RecordsController < ApplicationController
     raise RecordNotFound.new if (!archival_object || !archival_object.publish)
 
     @archival_object = ArchivalObjectView.new(archival_object)
-
-    @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
-
     @tree_view = Search.tree_view(@archival_object.uri)
 
     @breadcrumbs = [
@@ -51,9 +47,6 @@ class RecordsController < ApplicationController
     raise RecordNotFound.new if (!digital_object || !digital_object.publish)
 
     @digital_object = DigitalObjectView.new(digital_object)
-
-    @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
-
     @tree_view = Search.tree_view(@digital_object.uri)
 
     @breadcrumbs = [
@@ -67,9 +60,6 @@ class RecordsController < ApplicationController
     raise RecordNotFound.new if (!digital_object_component && !digital_object_component.publish)
 
     @digital_object_component = DigitalObjectView.new(digital_object_component)
-
-    @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
-
     @tree_view = Search.tree_view(@digital_object_component.uri)
 
     @breadcrumbs = [
@@ -91,6 +81,11 @@ class RecordsController < ApplicationController
 
 
   private
+
+  def get_repository
+    @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
+  end
+
 
   def fetch_uris(root_uri, repo_id, promises)
     page = 1
