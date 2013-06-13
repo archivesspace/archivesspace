@@ -21,8 +21,6 @@ module SidebarHelper
 
       if @form.controller.action_name != "show" || property == :none || !record[property].blank?
         render_entry(opts)
-      else
-        ""
       end
     end
 
@@ -30,7 +28,7 @@ module SidebarHelper
       record = @opts[:record]
       property = opts[:property]
 
-      if @form.controller.action_name == "show" && !record[property].blank?
+      if @form.controller.action_name == "show" && (!record[property].blank? || property == :none)
         render_entry(opts)
       end
     end
