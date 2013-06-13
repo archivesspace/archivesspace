@@ -18,6 +18,12 @@ h2 > .label {
 }
 
 .breadcrumb {
+  // patch to fix inline-block issue in IE8
+  // https://github.com/twitter/bootstrap/issues/5455
+  li {
+    margin-right: 1px;
+  }
+
   margin-top: -@baseLineHeight;
   #gradient > .vertical(#efefef, #eaeaea);
   padding: 5px 10px;
