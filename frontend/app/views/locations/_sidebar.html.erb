@@ -1,26 +1,8 @@
-<div id="archivesSpaceSidebar">
-  <ul class="nav nav-list as-nav-list">
-    <% if @exceptions %>
-      <li class="<% if @exceptions.has_key?(:errors)%>alert-error<% end %>">
-        <a href="#form_messages"><%= I18n.t("errors.sidebar_label") %>   <span class="icon-chevron-right"></span></a>
-      </li>
-    <% end %>
-
-    <li><a href="#basic_information"><%= I18n.t("location._frontend.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
-
-    <% if controller.action_name === "show" %>
-      <li><a href="#search_embedded"><%= I18n.t("location._frontend.section.search_embedded") %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if controller.action_name != "show" %>
-      <li class="form-actions">
-        <div class="btn-group <% if ["new", "create"].include?(controller.action_name) %>btn-submit-group<% end %>">
-          <button type="submit" class="btn btn-primary"><%= I18n.t("location._frontend.action.save") %></button>
-          <% if ["new", "create"].include?(controller.action_name) %>
-            <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary"><%= I18n.t("actions.save_plus_one") %></button>
-          <% end %>
-        </div>
-      </li>
-    <% end %>
-  </ul>
-</div>
+<%= render(:layout => '/shared/sidebar',
+           :locals => {
+             :record_type => 'location',
+             :record => @location,
+             :plusone => true
+           }) do |sidebar| %>
+    <%= sidebar.render_for_view_only(:subrecord_type => 'search_embedded', :property => :none, :anchor => 'search_embedded') %>
+<% end %>
