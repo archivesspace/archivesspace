@@ -408,6 +408,7 @@ en:
         deleted: Event Deleted
       section:
         basic_information: Basic Information
+        date: Event Date/Time
       action:
         save: Save Event
         create: Create Event

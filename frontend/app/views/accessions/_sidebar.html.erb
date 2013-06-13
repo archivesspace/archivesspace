@@ -1,65 +1,20 @@
-<div id="archivesSpaceSidebar">
-  <ul class="nav nav-list as-nav-list">
-    <% if @exceptions %>
-      <li class="<% if @exceptions.has_key?(:errors)%>alert-error<% end %>">
-        <a href="#form_messages"><%= I18n.t("errors.sidebar_label") %>  <span class="icon-chevron-right"></span></a>
-      </li>
-    <% end %>
+<%= render(:layout => '/shared/sidebar',
+           :locals => {
+             :record_type => 'accession',
+             :record => @accession
+           }) do |sidebar| %>
 
-    <li><a href="#basic_information"><%= I18n.t "accession._frontend.section.basic_information" %> <span class="icon-chevron-right"></span></a></li>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'date', :property => 'dates') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'extent', :property => 'extents') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'linked_agent', :property => 'linked_agents') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'related_resource', :property => 'related_resources') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'subject', :property => 'subjects') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'external_document', :property => 'external_documents') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'rights_statement', :property => 'rights_statements') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'instance', :property => 'instances') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'deaccession', :property => 'deaccessions') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'collection_management', :property => 'collection_management') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'classification', :property => 'classification') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'user_defined', :property => 'user_defined') %>
 
-    <% if not controller.action_name === "show" or @accession.dates.length > 0 %>
-      <li><a href="#accession_dates_"><%= I18n.t "date._plural" %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if controller.action_name != "show" || @accession.extents.length > 0 %>
-      <li><a href="#accession_extents_"><%= I18n.t "extent._plural" %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if controller.action_name != "show" || @accession.linked_agents.length > 0 %>
-      <li><a href="#accession_linked_agents_"><%= I18n.t "linked_agent._plural" %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if controller.action_name != "show" || @accession.related_resources.length > 0 %>
-      <li><a href="#accession_related_resources_"><%= I18n.t "related_resource._plural" %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if controller.action_name != "show" || @accession.subjects.length > 0 %>
-      <li><a href="#accession_subjects_"><%= I18n.t "subject._plural" %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if not controller.action_name === "show" or @accession.external_documents.length > 0 %>
-      <li><a href="#accession_external_documents_"><%= I18n.t "external_document._plural" %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if not controller.action_name === "show" or @accession.rights_statements.length > 0 %>
-      <li><a href="#accession_rights_statements_"><%= I18n.t "rights_statement._plural" %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if not controller.action_name === "show" or @accession.instances.length > 0 %>
-      <li><a href="#accession_instances_"><%= I18n.t("instance._plural") %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if not controller.action_name === "show" or @accession.deaccessions.length > 0 %>
-      <li><a href="#accession_deaccessions_"><%= I18n.t "deaccession._plural" %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if not controller.action_name === "show" or @accession.collection_management %>
-      <li><a href="#accession_collection_management_"><%= I18n.t "collection_management._singular" %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if not controller.action_name === "show" or @accession.classification %>
-      <li><a href="#accession_classification_"><%= I18n.t "classification._plural" %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if not controller.action_name === "show" or @accession.user_defined %>
-      <li><a href="#accession_user_defined_"><%= I18n.t "user_defined._singular" %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if not controller.action_name === "show" %>
-      <li class="form-actions">
-        <button type="submit" class="btn btn-primary"><%= I18n.t("accession._frontend.action.save") %></button>
-      </li>
-    <% end %>
-  </ul>
-</div>
+<% end %>

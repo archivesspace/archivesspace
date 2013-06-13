@@ -41,7 +41,7 @@ $(function() {
         $(".record-toolbar .btn-toolbar .btn", $this).addClass("disabled").attr("disabled","disabled");
       });
 
-      $("#createPlusOne", $this).on("click", function() {
+      $(".createPlusOneBtn", $this).on("click", function() {
         $this.data("createPlusOne", "true");
       });
 
