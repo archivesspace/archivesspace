@@ -14,45 +14,24 @@ module NotesParser
 
     # tweak the emph tags
     document.select("emph").each do | emph |
+      # make all emph's a span
+      emph.tagName("span")
+
       # <emph> should render as <em> if there is no @render attribute. If there is, render as follows:
       if emph.attr("render").blank?
-        emph.tagName("em")
+        emph.attr("class", "emph render-none")
 
-      # render="bolditalic: <strong><em>
-      elsif emph.attr("render") === "bolditalic"
-        emph.tagName("em")
-        emph.wrap("<strong class='render-bolditalic'></strong>")
-
-        # render="bold" (or contains "bold"): <strong>
-      elsif emph.attr("render").include?("bold")
-        emph.tagName("strong").attr("class", "render-bold")
-
-        # render="italic": <em>
-      elsif emph.attr("render") === "italic"
-        emph.tagName("em").attr("class", "render-italic")
-
-        # render="super": <sup>
-      elsif emph.attr("render") === "super"
-        emph.tagName("sup").attr("class", "render-super")
-
-        # render="sub": <sub>
-      elsif emph.attr("render") === "sub"
-        emph.tagName("sub").attr("class", "render-sub")
-
-        # render="underline": (style as CSS with underline)
-      elsif emph.attr("render") === "underline"
-        emph.tagName("span").attr("class", "render-underline")
-
-        # render="nonproport": <code>
+      # render="nonproport": <code>
       elsif emph.attr("render") === "nonproport"
-        emph.tagName("code").attr("class", "render-nonproport")
+        emph.attr("class", "emph render-#{emph.attr("render")}")
+        emph.tagName("code")
+        emph.removeAttr("render")
 
-        # just make it an em
+      # set a class so CSS can style based on the render value
       else
-        emph.tagName("em").attr("class", "render-unknown")
+        emph.attr("class", "emph render-#{emph.attr("render")}")
+        emph.removeAttr("render")
       end
-
-      emph.removeAttr("render")
     end
 
     document.toString()
