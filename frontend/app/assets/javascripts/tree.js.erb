@@ -247,6 +247,14 @@ $(function() {
           }
         });
 
+        // init the cut and paste actions
+        if ($tree.data("clipboard")) {
+          // disable paste if current node is a child
+          if (nodeEl.closest("#"+$tree.data("clipboard")).length === 0) {
+            $(".paste-node", "#archives_tree_toolbar").removeClass("disabled");
+          }
+        }
+        $(".cut-node", "#archives_tree_toolbar").removeClass("disabled");
       }
     };
 
@@ -409,6 +417,32 @@ $(function() {
         $(".tree-transfer-form", ".archives-tree-container").css("display", "");
         $(".transfer-node", ".archives-tree-container").parent().removeClass("open");
       });
+
+      // Cut and Paste
+      $(".archives-tree-container").on("click", ".cut-node", function(event) {
+        event.preventDefault();
+        if ($(this).hasClass("disabled")) {
+          return;
+        }
+        var $selected = $(".selected", $tree);
+
+        $selected.addClass("cut-to-clipboard");
+        $tree.data("clipboard", $selected.attr("id"));
+        $(this).addClass("disabled").addClass("btn-success");
+      }).on("click", ".paste-node", function(event) {
+          event.preventDefault();
+          if ($(this).hasClass("disabled") || !$tree.data("clipboard")) {
+            return;
+          }
+
+          var $target = $(".selected", $tree);
+
+          //moveNode($("#"+$tree.data("clipboard")), $target, 0);
+          $tree.jstree("move_node", "#"+$tree.data("clipboard"), "#"+$target.attr("id"));
+          $tree.data("clipboard", null);
+          $(this).addClass("disabled");
+          $(".cut-to-clipboard", $tree).removeClass("cut-to-clipboard");
+        });
 
       // Rapid Data Entry
       $(".archives-tree-container").on("click", ".add-children", function() {
@@ -641,18 +675,18 @@ $(function() {
         }).bind("before.jstree", function (event, data) {
           // check current form
           if (data.func === "select_node") {
-          if ($("form", $container).data("form_changed")) {
-            event.preventDefault();
-            event.stopImmediatePropagation();
+            if ($("form", $container).data("form_changed")) {
+              event.preventDefault();
+              event.stopImmediatePropagation();
 
-            // don't do anything if node hasn't changed
-            if ($(data.args[0]).attr("href") === location.hash) {
-              return;
+              // don't do anything if node hasn't changed
+              if ($(data.args[0]).attr("href") === location.hash) {
+                return;
+              }
+
+              confirmChanges($(data.args[0]).parent());
+              return false;
             }
-
-            confirmChanges($(data.args[0]).parent());
-            return false;
-          }
           }
         }).bind("select_node.jstree", function (event, data) {
           var $nodeToSelect = $(data.rslt.obj);
