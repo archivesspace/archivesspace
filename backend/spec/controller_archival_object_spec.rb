@@ -301,4 +301,31 @@ describe 'Archival Object controller' do
     obj.instances[0]["container"]["container_locations"][0]["_resolved"]["building"].should eq(location.building)
   end
 
+
+  it "accepts move of multiple children" do
+    resource = create(:json_resource)
+    target = create(:json_archival_object, :resource => {:ref => resource.uri})
+
+    sibling_1 = create(:json_archival_object, :resource => {:ref => resource.uri})
+    sibling_2 = create(:json_archival_object, :resource => {:ref => resource.uri})
+
+    response = JSONModel::HTTP::post_form("#{target.uri}/accept_children", {"children[]" => [sibling_1.uri, sibling_2.uri], "position" => 0})
+    json_response = ASUtils.json_parse(response.body)
+
+    json_response["status"].should eq("Updated")
+    get "#{$repo}/archival_objects/#{target.id}/children"
+    last_response.should be_ok
+
+    children = ASUtils.json_parse(last_response.body)
+
+    children.length.should eq(2)
+    children[0]["title"].should eq(sibling_1["title"])
+    children[0]["parent"]["ref"].should eq(target.uri)
+    children[0]["resource"]["ref"].should eq(resource.uri)
+
+    children[1]["title"].should eq(sibling_2["title"])
+    children[1]["parent"]["ref"].should eq(target.uri)
+    children[1]["resource"]["ref"].should eq(resource.uri)
+  end
+
 end

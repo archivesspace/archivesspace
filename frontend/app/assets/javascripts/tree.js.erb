@@ -109,6 +109,22 @@ $(function() {
     };
 
 
+    var getPrimarySelectedNode = function() {
+      return $(".primary-selected", $tree);
+    };
+
+    var getSelectedNodes = function() {
+      return $tree.jstree("get_selected");
+    };
+
+    var clearSelected = function(includingPrimary) {
+      if (includingPrimary) {
+        $tree.jstree("deselect_all");
+      } else {
+        $(".selected:not(.primary-selected)", $tree).removeClass("selected");
+      }
+    };
+
     var loadPaneForNode = function(nodeEl) {
 
       insertLoadingMessage();
@@ -180,7 +196,7 @@ $(function() {
 
 
     var renderTreeNodeNavigation = function(event) {
-      var currentNodeEl = $(".selected", $tree);
+      var currentNodeEl = getPrimarySelectedNode();
       if (currentNodeEl.length === 0) {
         return;
       }
@@ -287,13 +303,13 @@ $(function() {
 
       if ($("form", $container).data("form_changed")) {
         confirmChanges($(id_from_hash));
-        changeHashSilently("#tree::"+$(".selected", $tree).attr("id"));
+        changeHashSilently("#tree::"+getPrimarySelectedNode().attr("id"));
         return;
       }
 
       var $selected = $(id_from_hash);
-      $(".selected", $tree).removeClass("selected");
-      $selected.addClass("selected");
+      getPrimarySelectedNode().removeClass("primary-selected");
+      $selected.addClass("primary-selected").addClass("selected");
       $tree.jstree("deselect_all");
       $tree.jstree("open_node", $selected);
       $tree.jstree("select_node", $selected);
@@ -315,16 +331,16 @@ $(function() {
     var addTreeEventBindings = function() {
 
       $(".archives-tree-container").on("click", ".add-child", function() {
-        var $selected = $(".selected", $tree);
+        var $selected = getPrimarySelectedNode();
         if ($selected.length === 0) {
           return;
         }
 
-        addnewNode($selected, $(this).attr("rel"), config.rules[$(".selected", $tree).attr("rel")]["can_add_child"]);
+        addnewNode($selected, $(this).attr("rel"), config.rules[getPrimarySelectedNode().attr("rel")]["can_add_child"]);
       });
 
       $(".archives-tree-container").on("click", ".add-sibling", function() {
-        var $selected = $(".selected", $tree);
+        var $selected = getPrimarySelectedNode();
         if ($selected.length === 0) {
           return;
         }
@@ -339,10 +355,10 @@ $(function() {
           return;
         }
 
-        if ($(".selected", $tree).attr("id") === "new") {
-          setHashForNode($(".selected", $tree).parents("li:first").attr("id"));
+        if (getPrimarySelectedNode().attr("id") === "new") {
+          setHashForNode(getPrimarySelectedNode().parents("li:first").attr("id"));
         } else {
-          loadPaneForNode($(".selected", $tree));
+          loadPaneForNode(getPrimarySelectedNode());
         }
       });
 
@@ -366,7 +382,7 @@ $(function() {
         event.preventDefault();
         event.stopPropagation();
 
-        var $selected = $(".selected", $tree);
+        var $selected = getPrimarySelectedNode();
         if ($selected.length === 0) {
           return;
         }
@@ -379,6 +395,11 @@ $(function() {
         loadTreeActionsForNode($selected)
 
         $("a:first", $selected).focus();
+      });
+      $tree.on("multiplenodesselected.aspace", function() {
+        $(".move-node", "#archives_tree_toolbar").addClass("disabled");
+      }).on("singlenodeselected.aspace", function() {
+          $(".move-node", "#archives_tree_toolbar").removeClass("disabled");
       });
 
       // TRANSFER STUFF
@@ -424,7 +445,9 @@ $(function() {
         if ($(this).hasClass("disabled")) {
           return;
         }
-        var $selected = $(".selected", $tree);
+        var $selected = getPrimarySelectedNode();
+
+        $(".cut-to-clipboard", $tree).removeClass("cut-to-clipboard");
 
         $selected.addClass("cut-to-clipboard");
         $tree.data("clipboard", $selected.attr("id"));
@@ -435,7 +458,7 @@ $(function() {
             return;
           }
 
-          var $target = $(".selected", $tree);
+          var $target = getPrimarySelectedNode();
 
           //moveNode($("#"+$tree.data("clipboard")), $target, 0);
           $tree.jstree("move_node", "#"+$tree.data("clipboard"), "#"+$target.attr("id"));
@@ -446,7 +469,7 @@ $(function() {
 
       // Rapid Data Entry
       $(".archives-tree-container").on("click", ".add-children", function() {
-        var $selected = $(".selected", $tree);
+        var $selected = getPrimarySelectedNode();
         if ($selected.length === 0) {
           return;
         }
@@ -491,6 +514,44 @@ $(function() {
     };
 
     var lastMoveData;
+    var moveNodes = function(jstreeMoveData) {
+      var nodeEl = $(jstreeMoveData.rslt.cr[0]);
+      var data_for_post = {
+        children: $.makeArray(jstreeMoveData.rslt.o.map(function(i, moved) {return $(moved).data("uri")})),
+        index: jstreeMoveData.rslt.cp
+      };
+
+      $.ajax({
+        url: APP_PATH+nodeEl.attr("rel")+"s/"+nodeEl.data("id")+"/accept_children",
+        type: "POST",
+        data: data_for_post,
+        success: function(data) {
+          // If the reparented record's form is open, update its
+          // hidden field.
+          if (nodeEl.data("id").toString() === $("form input#id").val()) {
+            var hiddenInput = $("input.hidden-parent-uri", $container);
+
+            if (data.parent) {
+              hiddenInput.attr('name', nodeEl.attr("rel") + '[parent][ref]');
+              hiddenInput.val(data.parent);
+            } else {
+              hiddenInput.attr('name', nodeEl.attr("rel")+ '[parent]');
+              hiddenInput.val(null);
+            }
+          }
+
+          var selectedNode = $tree.jstree("get_selected");
+          $("#"+selectedNode.attr("rel")+"_position_", $container).val(selectedNode.index());
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          // Rollback the last move.
+          $.jstree.rollback(jstreeMoveData.rlbk);
+
+          // show a modal message
+          AS.openQuickModal(AS.renderTemplate("tree_unable_to_move_message_template"), jqXHR.responseText);
+        }
+      });
+    };
     var moveNode = function(nodeEl, targetNodelEl, newIndex, jstreeMoveData) {
       var parent_id = "";
       lastMoveData = jstreeMoveData;
@@ -597,7 +658,10 @@ $(function() {
         },
         "ui": {
           "selected_parent_close": false,
-          "selected_parent_open": true
+          "selected_parent_open": true,
+          "select_limit": -1,
+          "select_multiple_modifier": "shift",
+          "disable_selecting_children": true
         },
         "crrm" : {
           "move" : {
@@ -641,7 +705,7 @@ $(function() {
           "shift+left": false,
           "right": false,
           "ctrl+right": function() {
-            $($(".move-node-down-into","#archives_tree_toolbar")[$(".selected", $tree).index()]).trigger("click");
+            $($(".move-node-down-into","#archives_tree_toolbar")[getPrimarySelectedNode().index()]).trigger("click");
           },
           "shift+right": false,
           "space": false,
@@ -652,20 +716,26 @@ $(function() {
         },
         "plugins": [ "themes", "html_data", "ui", "crrm", "dnd", "cookies","hotkeys"]
       }).one("loaded.jstree", function() {
-          $(".selected", $tree).removeClass("selected");
+          getPrimarySelectedNode().removeClass("selected");
 
           if (location.hash) {
             $(location.hash.replace("tree::","")).addClass("selected");
           }
 
-          if ($(".selected", $tree).length === 0) {
-            $("li:first", $tree).addClass("selected");
+          if (getPrimarySelectedNode().length === 0) {
+            if ($(".selected", $tree).length > 0) {
+              $(".selected:first", $tree).addClass("primary-selected");
+            } else {
+              $("li:first", $tree).addClass("primary-selected").addClass("selected");
+            }
           }
 
-          $tree.jstree("open_node", $(".selected", $tree));
-          $tree.jstree("select_node", $(".selected", $tree));
+          $(".selected:not(.primary-selected)", $tree).removeClass("selected");
 
-          loadTreeActionsForNode($(".selected", $tree));
+          $tree.jstree("open_node", getPrimarySelectedNode());
+          $tree.jstree("select_node", getPrimarySelectedNode());
+
+          loadTreeActionsForNode(getPrimarySelectedNode());
 
           setTimeout(function() {
             $(".selected a:first", $tree).focus();
@@ -689,17 +759,36 @@ $(function() {
             }
           }
         }).bind("select_node.jstree", function (event, data) {
-          var $nodeToSelect = $(data.rslt.obj);
-          if ($nodeToSelect.find("a").attr("href") === location.hash) {
-            return;
-          }
-          if ($nodeToSelect.attr("id") === "new") {
-            setHashForNode("new");
-          } else {
-            setHashForNode($nodeToSelect.find("a").attr("href"));
-          }
+//          var $nodeToSelect = $(data.rslt.obj);
+//          if ($nodeToSelect.find("a").attr("href") === location.hash) {
+//            return;
+//          }
+//          if ($nodeToSelect.attr("id") === "new") {
+//            setHashForNode("new");
+//          } else {
+//            setHashForNode($nodeToSelect.find("a").attr("href"));
+//          }
+            clearSelected();
+            if ($tree.jstree("get_selected").length > 1) {
+              $tree.jstree("get_selected").addClass("selected");
+              $tree.trigger("multiplenodesselected.aspace");
+            } else if ($tree.jstree("get_selected").length === 1) {
+              var $selectedNode = $($tree.jstree("get_selected")[0]);
+              $(".primary-selected", $tree).removeClass("primary-selected");
+              $selectedNode.addClass("primary-selected");
+              if ($selectedNode.attr("id") === "new") {
+                setHashForNode("new");
+              } else {
+                setHashForNode($selectedNode.find("a").attr("href"));
+              }
+              $tree.trigger("singlenodeselected.aspace");
+            }
         }).bind("move_node.jstree", function(event, data) {
-          moveNode(data.rslt.o, data.rslt.cr, data.rslt.o.index(), data);
+          if (data.rslt.o.length > 1) {
+            moveNodes(data);
+          } else {
+            moveNode(data.rslt.o, data.rslt.cr, data.rslt.o.index(), data);
+          }
         }).bind("refreshtreenode.aspace", function(event, data) {
 
           var nodeId = data.jsonmodel_type+"_"+data.id;
@@ -736,7 +825,7 @@ $(function() {
 
     $tree.html(AS.renderTemplate("tree_template", {tree: AS.tree_data, config: config}));
     initTree(function() {
-      loadPaneForNode($(".selected", $tree));
+      loadPaneForNode(getPrimarySelectedNode());
     });
     addTreeEventBindings();
 
