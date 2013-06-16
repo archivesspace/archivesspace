@@ -98,7 +98,7 @@ class ApplicationController < ActionController::Base
   end
 
 
-  def handle_merge(target_uri, victim_uri, merge_type, extra_params = {})
+  def handle_merge(victim_uri, target_uri, merge_type, extra_params = {})
     request = JSONModel(:merge_request).new
     request.target = {'ref' => target_uri}
     request.victims = [{'ref' => victim_uri}]
@@ -106,7 +106,9 @@ class ApplicationController < ActionController::Base
     begin
       request.save(:record_type => merge_type)
       flash[:success] = I18n.t("#{merge_type}._frontend.messages.merged")
-      redirect_to({:action => :show, :id => params[:id]}.merge(extra_params))
+
+      resolver = Resolver.new(target_uri)
+      redirect_to(resolver.view_uri)
     rescue ValidationException => e
       flash[:error] = e.errors
       redirect_to({:action => :show, :id => params[:id]}.merge(extra_params))

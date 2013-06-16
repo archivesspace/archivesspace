@@ -18,9 +18,9 @@ en:
     spawn: Spawn
     link_to: Link To
     add_prefix: Add
-    merge_confirm_title: Merge into this record?
-    merge_subject_confirm_message: The subject you selected will be deleted, and any records that were linked to it will be re-linked to '%{target}'.
-    merge_agent_confirm_message: The agent you selected will be deleted, and any records that were linked to it will be re-linked to '%{target}'.
+    merge_confirm_title: Merge this record?
+    merge_subject_confirm_message: The subject '%{target}' will be deleted and any linked records will be re-linked to the subject you selected.
+    merge_agent_confirm_message: The agent '%{target}' will be deleted and any linked records will be re-linked to the agent you selected.
     move: Move
     move_up_a_level: Up a Level
     move_up: Up
@@ -234,8 +234,9 @@ en:
         created: Agent Created
         updated: Agent Saved
         deleted: Agent Deleted
-        merge_description: Merge another agent into this one by selecting it here
+        merge_description: Merge this agent into...
         merged: Agent(s) Merged
+        please_select_a_agent_to_merge: Please select an agent
       section:
         basic_information: Basic Information
         dates_of_existence: Dates of Existence
@@ -580,8 +581,8 @@ en:
         updated: Subject Saved
         deleted: Subject Deleted
         merged: Subject(s) Merged
-        merge_description: Merge another subject into this one by selecting it here
-        please_select_a_subject_to_merge: Please select a subject to merge
+        merge_description: Merge this subject into...
+        please_select_a_subject_to_merge: Please select a subject
       section:
         basic_information: Basic Information
         terms: Subject Headings
