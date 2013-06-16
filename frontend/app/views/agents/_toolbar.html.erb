@@ -6,25 +6,28 @@
           <div class="btn-group pull-left">
             <%= link_to I18n.t("actions.edit"), {:controller => :agents, :action => :edit, :id => @agent.id, :agent_type => @agent.agent_type}, :class => "btn btn-small btn-primary" %>
           </div>
-
-          <% if user_can?('merge_agent_record') %>
-          <%=
-             render :partial => "shared/merge_dropdown",
-                    :locals => {:record => @agent,
-                                :extra_params => {:agent_type => @agent.agent_type},
-                                :controller => :agents,
-                                :confirmation_title => I18n.t("actions.merge_confirm_title"),
-                                :confirmation_msg => I18n.t("actions.merge_agent_confirm_message",
-                                                            :target => @agent.title)}
-          %>
-          <% end %>
-
         <% end %>
         <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
           <div class="pull-left save-changes">
             <button type="submit" class="btn btn-primary btn-small"><%= I18n.t("actions.save_prefix") %></button>
           </div>
         <% end %>
+
+        <% if user_can?('merge_agent_record') %>
+          <div class="pull-left">
+            <%=
+               render :partial => "shared/merge_dropdown",
+                      :locals => {:record => @agent,
+                                  :extra_params => {:agent_type => @agent.agent_type},
+                                  :controller => :agents,
+                                  :confirmation_title => I18n.t("actions.merge_confirm_title"),
+                                  :confirmation_msg => I18n.t("actions.merge_agent_confirm_message",
+                                                              :target => @agent.title)}
+            %>
+          </div>
+        <% end %>
+
+
         <% if ['edit', 'update'].include?(controller.action_name) %>
           <div class="pull-left revert-changes">
             <%= link_to I18n.t("actions.revert"), {:controller => :agents, :action => :edit, :id => @agent.id}, :class => "btn btn-small" %>

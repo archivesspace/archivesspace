@@ -9,6 +9,11 @@ $(function () {
   $(".merge-action").on("click", function(event) {
     event.preventDefault();
     event.stopImmediatePropagation();
+
+    if ($(this).attr('disabled')) {
+      return;
+    }
+
     if ($(".merge-form")[0].style.display === "block") {
       // Hide it
       $(".merge-form").css("display", "");

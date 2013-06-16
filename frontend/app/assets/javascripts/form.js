@@ -17,13 +17,17 @@ $(function() {
 
 
       var onFormElementChange = function(event) {
-        $this.triggerHandler("formchanged.aspace");
+        if ($(event.target).parents("*[data-no-change-tracking='true']").length === 0) {
+          $this.data("form_changed", true);
+          $(".record-toolbar", $this).addClass("formchanged");
+          $(".record-toolbar .btn-toolbar .btn", $this).addClass("disabled").attr("disabled","disabled");
+        }
       };
       $(":input", $this).live("change keyup", function(event) {
         if ($(this).data("original_value") && ($(this).data("original_value") !== $(this).val())) {
-          onFormElementChange();
+          onFormElementChange(event);
         } else if ($.inArray(event.keyCode, ignoredKeycodes) === -1) {
-          onFormElementChange();
+          onFormElementChange(event);
         }
       });
       $this.live("focusin", ":input", function(event) {
@@ -35,11 +39,7 @@ $(function() {
       $(":radio, :checkbox", $this).live("click", onFormElementChange);
 
 
-      $this.bind("formchanged.aspace", function() {
-        $this.data("form_changed", true);
-        $(".record-toolbar", $this).addClass("formchanged");
-        $(".record-toolbar .btn-toolbar .btn", $this).addClass("disabled").attr("disabled","disabled");
-      });
+      $this.bind("formchanged.aspace", onFormElementChange);
 
       $(".createPlusOneBtn", $this).on("click", function() {
         $this.data("createPlusOne", "true");

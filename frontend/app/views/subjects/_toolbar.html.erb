@@ -2,24 +2,37 @@
   <div class="row-fluid">
     <div class="span12">
       <div class="record-toolbar">
-        <div class="pull-left">
-          <div class="btn-group">
+        <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
+          <div class="pull-left save-changes">
+            <button type="submit" class="btn btn-primary btn-small"><%= I18n.t("actions.save_prefix") %></button>
+          </div>
+        <% else %>
+          <div class="btn-group pull-left">
             <%= link_to I18n.t("actions.edit"), {:controller => :subjects, :action => :edit, :id => @subject.id}, :class => "btn btn-small btn-primary" %>
           </div>
+        <% end %>
 
-          <% if user_can?('merge_subject_record') %>
-          <%=
-             render :partial => "shared/merge_dropdown",
-                    :locals => {:record => @subject,
-                                :controller => :subjects,
-                                :confirmation_title => I18n.t("actions.merge_confirm_title"),
-                                :confirmation_msg => I18n.t("actions.merge_subject_confirm_message",
-                                                            :target => @subject.title)}
-          %>
-          <% end %>
+        <% if user_can?('merge_subject_record') %>
+          <div class="pull-left btn-toolbar">
+            <%=
+               render :partial => "shared/merge_dropdown",
+                      :locals => {:record => @subject,
+                                  :controller => :subjects,
+                                  :confirmation_title => I18n.t("actions.merge_confirm_title"),
+                                  :confirmation_msg => I18n.t("actions.merge_subject_confirm_message",
+                                                              :target => @subject.title)}
+            %>
+          </div>
+        <% end %>
+          
+        <% if ['edit', 'update'].include?(controller.action_name) %>
+          <div class="pull-left revert-changes">
+            <%= link_to I18n.t("actions.revert"), {:controller => :subjects, :action => :edit, :id => @subject.id}, :class => "btn btn-small" %>
+            <%= I18n.t("actions.toolbar_disabled_message") %>
+          </div>
+        <% end %>
 
-        </div>
-        <div class="btn-group pull-right">
+        <div class="btn-group btn-toolbar pull-right">
           <div class="btn btn-inline-form">
             <%= button_delete_action url_for(:controller => :subjects, :action => :delete, :id => @subject.id) %>
           </div>

@@ -3,7 +3,7 @@
    extra_params = {} if extra_params.blank?
 %>
 
-<div id="merge-dropdown" class="btn-group dropdown">
+<div id="merge-dropdown" class="btn-group dropdown" data-no-change-tracking="true">
   <a class="btn btn-small dropdown-toggle merge-action" data-toggle="dropdown" href="#" title="<%= I18n.t("actions.merge") %>">
     <%= I18n.t("actions.merge") %> <span class="caret"></span>
   </a>
