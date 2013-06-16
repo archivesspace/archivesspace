@@ -57,6 +57,29 @@ describe 'Enumerations model' do
     }.to raise_error
   end
 
+
+  it "won't create redundant enum values" do
+    expect {
+      Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'tomato_enum',
+                                                                     :values => ['tomato', 'tomato']))
+    }.to raise_error
+
+    #note: test fails in mysql if the :name value is repeated, even though the first order failed
+    expect {
+      Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'another_tomato_enum',
+                                                                :values => ['tomato']))
+    }.to_not raise_error
+  end
+
+
+  it "will preserve the case of enum values" do
+    tomato = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'not_another_tomato_enum',
+                                                                :values => ['Tomato']))
+
+    Enumeration.to_jsonmodel(tomato)['values'].include?('Tomato').should be(true)
+  end
+
+
   # created for MySQL-related bug
   it "treats values that differ only in case as separate values" do
     model = Class.new(Sequel::Model(:model_with_enums)) do
