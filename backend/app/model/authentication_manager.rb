@@ -29,6 +29,9 @@ class AuthenticationManager
 
         user = User.find(:username => username)
 
+        # Force their admin status based on what they already had
+        jsonmodel_user.is_admin = (user && user.can?(:administer_system))
+
         if user
           begin
             user.update_from_json(jsonmodel_user,
