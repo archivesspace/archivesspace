@@ -748,7 +748,7 @@ $(function() {
 
             $("> a", nodeEl).html(AS.renderTemplate("tree_node_"+data['node_type']+"_template", {node: data})).prepend("<ins class='jstree-icon'>&nbsp;</ins>");
 
-            nodeEl.removeClass("new").addClass(currentNodeType).addClass("selected").addClass("primary-selected").attr("rel", currentNodeType).data("id", data.id);
+            nodeEl.removeClass("new").addClass(currentNodeType).addClass("selected").addClass("primary-selected").attr("rel", currentNodeType).data("id", data.id).data("uri", data.uri);
             var newHash = "#tree::"+nodeId;
             nodeEl.find("a").attr("href", newHash).addClass("jstree-clicked").attr("title", data.title);
 
