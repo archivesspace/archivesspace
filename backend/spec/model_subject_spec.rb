@@ -88,23 +88,20 @@ describe 'Subject model' do
      }.to raise_error(Sequel::ValidationFailed)
 
   end
-  
+
   it "ensures subject heading identifiers are unique within a source" do
     vocab = create(:json_vocab)
-    
     heading_id = "12aBCD12"
-    
     subject_a = create(:json_subject, {:vocabulary => vocab.uri, :source => "local", :authority_id => heading_id})
-   
-   expect {
+
+    expect {
       create(:json_subject, {:vocabulary => vocab.uri})
     }.to_not raise_error(JSONModel::ValidationException)
-    
+
     expect {
       create(:json_subject, {:vocabulary => vocab.uri, :source => "local", :authority_id => heading_id})
     }.to raise_error(JSONModel::ValidationException)
-    
-    
+
   end
 
 
@@ -124,6 +121,21 @@ describe 'Subject model' do
     #term_id_2 = createTerm
 
     Subject[subject[:id]].title.should eq("#{term_id_0.term} -- #{term_id_1.term}")
+  end
+
+
+  it "can merge one subject into another" do
+    victim_subject = Subject.create_from_json(build(:json_subject))
+    target_subject = Subject.create_from_json(build(:json_subject))
+
+    # A record that uses the victim subject
+    acc = create(:json_accession, 'subjects' => [{'ref' => victim_subject.uri}])
+
+    target_subject.assimilate([victim_subject])
+
+    JSONModel(:accession).find(acc.id).subjects[0]['ref'].should eq(target_subject.uri)
+
+    victim_subject.exists?.should be(false)
   end
 
 

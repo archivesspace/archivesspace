@@ -132,7 +132,7 @@ $(function() {
                   name: response.title,
                   json: response
                 });
-                $this.parents("form:first").triggerHandler("formchanged.aspace");
+                $this.triggerHandler("change");
                 $modal.modal("hide");
               }
             },
@@ -179,7 +179,7 @@ $(function() {
           });
         });
         $("#"+config.modal_id).modal('hide');
-        $this.parents("form:first").triggerHandler("formchanged.aspace");
+        $this.triggerHandler("change");
       };
 
 
@@ -298,13 +298,13 @@ $(function() {
           },
           prePopulate: tokensForPrepopulation(),
           onDelete: function() {
-            $this.parents("form:first").triggerHandler("formchanged.aspace");
+            $this.triggerHandler("change");
           },
           onAdd:  function(item) {
             if (config.sortable && config.multiplicity == "many") {
               enableSorting();
             }
-            $this.parents("form:first").triggerHandler("formchanged.aspace");
+            $this.triggerHandler("change");
             $(document).triggerHandler("init.popovers");
           },
           formatQueryParam: function(q, ajax_params) {

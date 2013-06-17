@@ -78,6 +78,7 @@ class Group < Sequel::Model(:group)
       end
 
       if permission[:level] == 'global'
+        Log.error("You can't assign a global permission to a repository")
         raise AccessDeniedException.new("You can't assign a global permission to a repository")
       end
 

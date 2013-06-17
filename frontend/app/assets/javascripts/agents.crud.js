@@ -3,6 +3,7 @@
 //= require dates.crud
 //= require related_agents.crud
 //= require form
+//= require merge_dropdown
 
 $(function() {
 

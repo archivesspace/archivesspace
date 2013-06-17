@@ -32,6 +32,7 @@ module ASModel
 
     def self.included(base)
       base.extend(ClassMethods)
+      base.extend(JSONModel)
     end
 
     Sequel.extension :inflector
@@ -102,6 +103,13 @@ module ASModel
         Tombstone.create(:uri => uri)
         RealtimeIndexing.record_delete(uri)
       end
+    end
+
+
+    # Mixins will hook in here to add their own publish actions.
+    def publish!
+      self.publish = 1
+      self.save
     end
 
 

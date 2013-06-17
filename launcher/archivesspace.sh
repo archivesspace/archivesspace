@@ -20,6 +20,15 @@
 
 cd "`dirname $0`"
 
+# Check for Java
+java -version &>/dev/null
+
+if [ "$?" != "0" ]; then
+    echo "Could not run your 'java' executable."
+    echo "Please ensure that Java 1.6 (or above) is installed and on your PATH"
+    exit
+fi
+
 if [ ! -e "scripts/find-base.sh" ]; then
     cd "$(dirname `readlink $0`)"
 fi

@@ -1,50 +1,18 @@
-<div id="archivesSpaceSidebar">
-  <ul class="nav nav-list as-nav-list">
-    <% if @exceptions %>
-      <li class="<% if @exceptions.has_key?(:errors)%>alert-error<% end %>">
-        <a href="#form_messages"><%= I18n.t("errors.sidebar_label") %>  <span class="icon-chevron-right"></span></a>
-      </li>
-    <% end %>
+<%= render(:layout => '/shared/sidebar',
+           :locals => {
+             :record_type => 'agent',
+             :record => @agent,
+             :plusone => :submit,
+             :save_button_text => I18n.t("#{@agent.agent_type}._frontend.action.save")
+           }) do |sidebar| %>
 
-    <li><a href="#agent_details"><%= I18n.t("agent._frontend.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'dates_of_existence', :property => 'dates_of_existence',
+                                         :anchor => 'dates_of_existence') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_name', :property => 'names', :anchor => 'names') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_contact', :property => 'agent_contacts', :anchor => 'contacts') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'note', :property => 'notes', :anchor => 'notes') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'related_agent', :property => 'related_agents', :anchor => 'related_agents') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'external_document', :property => 'external_documents') %>
 
-    <% if not controller.action_name === "show" or @agent.dates_of_existence.length > 0 %>
-      <li><a href="#dates_of_existence"><%= I18n.t "agent.dates_of_existence" %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if not controller.action_name === "show" or @agent.names.length > 0 %>
-      <li><a href="#names"><%= I18n.t("agent_name._plural") %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if not controller.action_name === "show" or @agent.agent_contacts.length > 0 %>
-      <li><a href="#contacts"><%= I18n.t("agent_contact._plural") %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if not controller.action_name === "show" or @agent.notes.length > 0 %>
-      <li><a href="#notes"><%= I18n.t("note._plural") %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if not controller.action_name === "show" or !@agent['related_agents'].blank? %>
-      <li><a href="#related_agents"><%= I18n.t("related_agent._plural") %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if not controller.action_name === "show" or @agent.external_documents.length > 0 %>
-      <li><a href="#agent_external_documents_"><%= I18n.t "external_document._plural" %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if controller.action_name === "show" %>
-      <li><a href="#search_embedded"><%= I18n.t("agent._frontend.section.search_embedded") %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if not controller.action_name === "show" %>
-      <li class="form-actions">
-        <div class="btn-group <% if ["new", "create"].include?(controller.action_name) %>btn-submit-group<% end %>">
-          <button type="submit" class="btn btn-primary"><%= I18n.t("#{@agent.agent_type}._frontend.action.save") %></button>
-          <% if ["new", "create"].include?(controller.action_name) %>
-            <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary"><%= I18n.t("actions.save_plus_one") %></button>
-          <% end %>
-        </div>
-      </li>
-    <% end %>
-  </ul>
-</div>
+    <%= sidebar.render_for_view_only(:subrecord_type => 'search_embedded', :property => :none, :anchor => 'search_embedded') %>
+<% end %>

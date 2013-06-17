@@ -9,7 +9,7 @@ describe 'Subject controller' do
     vocab.save
     @vocab_id = vocab.id
   end
-  
+
 
   it "lets you create a subject and get it back" do
     subject = create(:json_subject, :terms => [build(:json_term, "term" => "1981 Heroes")], :scope_note => "scopenote")

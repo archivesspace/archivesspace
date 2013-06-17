@@ -12,24 +12,18 @@ class NamePerson < Sequel::Model(:name_person)
                   if json["name_order"] === "inverted"
                     result << json["primary_name"] if json["primary_name"]
                     result << ", #{json["rest_of_name"]}" if json["rest_of_name"]
-                    result << ", #{json["prefix"]}" if json["prefix"]
-                    result << ", #{json["suffix"]}" if json["suffix"]
-                    result << ", #{json["title"]}" if json["title"]
-                    result << ", #{json["number"]}" if json["number"]
-                    result << " (#{json["fuller_form"]})" if json["fuller_form"]
-                    result << ", #{json["dates"]}" if json["dates"]
-                    result << " (#{json["qualifier"]})" if json["qualifier"]
                   elsif json["name_order"] === "direct"
                     result << json["rest_of_name"] if json["rest_of_name"]
                     result << " #{json["primary_name"]}" if json["primary_name"]
-                    result << ", #{json["prefix"]}" if json["prefix"]
-                    result << ", #{json["suffix"]}" if json["suffix"]
-                    result << ", #{json["title"]}" if json["title"]
-                    result << ", #{json["number"]}" if json["number"]
-                    result << " (#{json["fuller_form"]})" if json["fuller_form"]
-                    result << ", #{json["dates"]}" if json["dates"]
-                    result << " (#{json["qualifier"]})" if json["qualifier"]
                   end
+
+                  result << ", #{json["prefix"]}" if json["prefix"]
+                  result << ", #{json["suffix"]}" if json["suffix"]
+                  result << ", #{json["title"]}" if json["title"]
+                  result << ", #{json["number"]}" if json["number"]
+                  result << " (#{json["fuller_form"]})" if json["fuller_form"]
+                  result << ", #{json["dates"]}" if json["dates"]
+                  result << " (#{json["qualifier"]})" if json["qualifier"]
 
                   result
                 },

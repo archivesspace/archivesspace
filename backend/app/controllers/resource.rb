@@ -84,7 +84,7 @@ class ArchivesSpaceService < Sinatra::Base
            [400, :error]) \
   do
     resource = Resource.get_or_die(params[:resource_id])
-    resource.publish_all_subrecords_and_components
+    resource.publish!
 
     updated_response(resource)
   end
