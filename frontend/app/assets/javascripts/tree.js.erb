@@ -121,6 +121,7 @@ $(function() {
       if (includingPrimary) {
         $tree.jstree("deselect_all");
       } else {
+        $tree.jstree("deselect_node", $(".selected:not(.primary-selected)", $tree));
         $(".selected:not(.primary-selected)", $tree).removeClass("selected");
       }
     };
@@ -266,7 +267,7 @@ $(function() {
         // init the cut and paste actions
         if ($tree.data("clipboard")) {
           // disable paste if current node is a child
-          if (nodeEl.closest("#"+$tree.data("clipboard")).length === 0) {
+          if (nodeEl.closest($tree.data("clipboard")).length === 0) {
             $(".paste-node", "#archives_tree_toolbar").removeClass("disabled");
           }
         }
@@ -387,6 +388,8 @@ $(function() {
           return;
         }
 
+        clearSelected();
+
         var target_index = $(this).data("target-index") || 0;
 
         $tree.jstree("move_node", "#"+$selected.attr("id"), "#" + $(this).data("target-node-id"), target_index);
@@ -445,12 +448,12 @@ $(function() {
         if ($(this).hasClass("disabled")) {
           return;
         }
-        var $selected = getPrimarySelectedNode();
+        var $selected = getSelectedNodes();
 
         $(".cut-to-clipboard", $tree).removeClass("cut-to-clipboard");
 
         $selected.addClass("cut-to-clipboard");
-        $tree.data("clipboard", $selected.attr("id"));
+        $tree.data("clipboard", $selected);
         $(this).addClass("disabled").addClass("btn-success");
       }).on("click", ".paste-node", function(event) {
           event.preventDefault();
@@ -461,7 +464,7 @@ $(function() {
           var $target = getPrimarySelectedNode();
 
           //moveNode($("#"+$tree.data("clipboard")), $target, 0);
-          $tree.jstree("move_node", "#"+$tree.data("clipboard"), "#"+$target.attr("id"));
+          $tree.jstree("move_node", $tree.data("clipboard"), "#"+$target.attr("id"));
           $tree.data("clipboard", null);
           $(this).addClass("disabled");
           $(".cut-to-clipboard", $tree).removeClass("cut-to-clipboard");
@@ -768,7 +771,7 @@ $(function() {
 //          } else {
 //            setHashForNode($nodeToSelect.find("a").attr("href"));
 //          }
-            clearSelected();
+            clearSelected(false);
             if ($tree.jstree("get_selected").length > 1) {
               $tree.jstree("get_selected").addClass("selected");
               $tree.trigger("multiplenodesselected.aspace");
@@ -800,6 +803,7 @@ $(function() {
 
             var parentNode = nodeEl.parents("li:first");
 
+            clearSelected(true);
             nodeEl.remove();
 
             $tree.jstree("create_node", parentNode, "last", {"attr":{"id": nodeId}, "data": data});
@@ -808,10 +812,12 @@ $(function() {
 
             $("> a", nodeEl).html(AS.renderTemplate("tree_node_"+data['node_type']+"_template", {node: data})).prepend("<ins class='jstree-icon'>&nbsp;</ins>");
 
-            nodeEl.addClass(currentNodeType).addClass("selected").attr("rel", currentNodeType).data("id", data.id);
+            nodeEl.removeClass("new").addClass(currentNodeType).addClass("selected").addClass("primary-selected").attr("rel", currentNodeType).data("id", data.id);
             var newHash = "#tree::"+nodeId;
             nodeEl.find("a").attr("href", newHash).addClass("jstree-clicked").attr("title", data.title);
+
             changeHashSilently(newHash);
+            $tree.jstree("select_node", nodeEl);
 
             loadTreeActionsForNode(nodeEl);
           } else {
