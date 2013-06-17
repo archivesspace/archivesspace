@@ -109,7 +109,7 @@ class Event < Sequel::Model(:event)
     #build event
     event = JSONModel(:event).from_hash(
       :linked_agents => [{:ref => agent_uri, :role => 'implementer'}],
-      :event_type => 'cataloging',
+      :event_type => 'cataloged',
       :timestamp => Time.now.utc.iso8601,
       :linked_records => [{:ref => record_uri, :role => 'outcome'}]
     )
