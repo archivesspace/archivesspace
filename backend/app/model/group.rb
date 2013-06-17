@@ -11,7 +11,7 @@ class Group < Sequel::Model(:group)
 
   def self.GLOBAL
     # The repository code indicating that this group is global to all repositories
-    '_archivesspace'
+    ASConstants::Group.GLOBAL
   end
 
   def self.ADMIN_GROUP_CODE

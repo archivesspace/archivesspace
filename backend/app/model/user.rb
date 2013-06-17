@@ -194,13 +194,22 @@ class User < Sequel::Model(:user)
       join(:repository, :id => :group__repo_id).
       filter(:user_id => self.id).
       distinct.
-      select(Sequel.qualify(:repository, :id).as(:repo_id), :permission_code)
+      select(Sequel.qualify(:repository, :id).as(:repo_id), Sequel.qualify(:repository, :repo_code).as(:repo_code), :permission_code)
+
+    global_permissions = []
 
     ds.each do |row|
       repository_uri = JSONModel(:repository).uri_for(row[:repo_id])
       result[repository_uri] ||= derived.clone
       result[repository_uri] << row[:permission_code]
+
+      if row[:repo_code] == Group.GLOBAL
+        global_permissions << row[:permission_code]
+      end
     end
+
+    # Attach permissions in the global repository under the symbolic name too
+    result[Group.GLOBAL] = global_permissions + derived
 
     result
   end
