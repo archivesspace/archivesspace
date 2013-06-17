@@ -6,6 +6,21 @@ class ArchivalObjectView
   end
 
 
+  # Make our wrapping methods show up when accessed as a hash too
+  def [](k)
+    result = @archival_object[k]
+
+    if !result
+      m = "#{k}".intern
+      result = if self.respond_to?(m)
+                 self.send(m)
+               end
+    end
+
+    result
+  end
+
+
   def digital_objects
     digital_objects = {}
 
@@ -23,6 +38,11 @@ class ArchivalObjectView
 
   def published_external_documents
     Array(@archival_object['external_documents']).find_all {|doc| doc['publish'] === true}
+  end
+
+
+  def published_agents
+    Array(@archival_object['linked_agents']).find_all {|doc| doc['_resolved']['publish'] === true}
   end
 
 

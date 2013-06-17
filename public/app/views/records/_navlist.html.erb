@@ -1,0 +1,22 @@
+<div id="">
+  <ul class="nav nav-list as-nav-list" data-spy="affix">
+    <li><a href="#summary"><%= I18n.t("#{record_type}._public.section.summary") %> <span class="icon-chevron-right"></span></a></li>
+
+    <% entries.each do |entry| %>
+      <% unless record[entry[:property]].blank? %>
+        <li>
+          <a href="#<%= entry[:anchor] %>">
+            <%= I18n.t("#{entry[:subrecord_type]}._plural") %>
+            <span class="badge badge-info">
+              <%= record[entry[:property]].length
+              %></span><span class="icon-chevron-right"></span>
+          </a>
+        </li>
+      <% end %>
+    <% end %>
+
+    <% if children? %>
+    <li><a href="#components"><%= I18n.t("#{record_type}._public.section.components") %> <span class="badge badge-info"><%= children.length %></span><span class="icon-chevron-right"></span></a></li>
+    <% end %>
+  </ul>
+</div>

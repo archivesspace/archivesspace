@@ -3,7 +3,7 @@
 <%= render :partial => "agents/contact_details", :locals => {:form => form} %>
 
 <fieldset>
-  <section id="agent_details">
+  <section id="basic_information">
     <h3><%= I18n.t("agent._frontend.section.basic_information") %></h3>
     <div class="control-group">
       <label class="control-label"><%= I18n.t("agent.type") %></label>
@@ -12,6 +12,7 @@
         <strong><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></strong>
       </div>
     </div>
+    <%= form.label_and_boolean "publish", {}, form.default_for("publish") %>
   </section>
 
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates_of_existence", :section_id => "dates_of_existence", :template_erb => "dates/template", :template => "existence_date", :heading_text => I18n.t("agent._frontend.section.dates_of_existence"), :template_overrides => {"date_label" => "agents/date_labels"}} %>

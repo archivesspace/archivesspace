@@ -39,39 +39,4 @@ class Resource < Sequel::Model(:resource)
     super
   end
 
-
-  def publish_all_subrecords_and_components
-
-    # publish all archival object children
-    children = ArchivalObject.filter(:root_record_id => self.id)
-    if not children.empty?
-      children.each do |ao|
-        ao.publish_all_subrecords
-      end
-    end
-
-    # publish all notes
-    notes = ASUtils.json_parse(self.notes || "[]")
-    if not notes.empty?
-      notes.each do |note|
-        note["publish"] = true
-      end
-      self.notes = JSON(notes)
-    end
-
-    # publish all external documents
-    self.external_document.each do |exdoc|
-      exdoc.publish = 1
-      exdoc.save
-    end
-
-    # set our own publish to true
-    self.publish = 1
-
-    # save
-    self.save
-
-  end
-
-
 end

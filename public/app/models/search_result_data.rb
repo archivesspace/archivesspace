@@ -92,6 +92,14 @@ class SearchResultData
     @search_data[:criteria].has_key?("type[]") and @search_data[:criteria]["type[]"].length === 1
   end
 
+  def types
+    if @search_data[:criteria].has_key?("type[]") and @search_data[:criteria]["type[]"].length > 0
+      @search_data[:criteria]["type[]"].collect{|type| I18n.t("#{type}._plural")}
+    else
+      []
+    end
+  end
+
   def sorted?
     @search_data[:criteria].has_key?("sort")
   end

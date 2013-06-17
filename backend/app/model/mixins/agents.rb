@@ -47,7 +47,8 @@ module Agents
 
     def initialize_terms(clz)
       clz.instance_eval do
-        include ASModel
+        include ASModel::CRUD
+        include ASModel::SequelHooks
 
         self.strict_param_setting = false
 

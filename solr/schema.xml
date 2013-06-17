@@ -57,6 +57,8 @@
    <field name="publish" type="boolean" indexed="true" stored="true" multiValued="false" />
    <field name="external_id" type="string" indexed="true" stored="true" multiValued="true" />
 
+   <field name="system_generated" type="boolean" indexed="true" stored="true" multiValued="false" />
+
    <field name="subjects" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="creators" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="agents" type="string" indexed="true" stored="true" multiValued="true"/>
