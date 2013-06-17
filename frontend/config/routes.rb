@@ -50,11 +50,13 @@ ArchivesSpace::Application.routes.draw do
   match 'digital_objects/:id' => 'digital_objects#update', :via => [:post]
   match 'digital_objects/:id/delete' => 'digital_objects#delete', :via => [:post]
   match 'digital_objects/:id/publish' => 'digital_objects#publish', :via => [:post]
+  match 'digital_objects/:id/accept_children' => 'digital_objects#accept_children', :via => [:post]
 
   resources :digital_object_components
   match 'digital_object_components/:id' => 'digital_object_components#update', :via => [:post]
   match 'digital_object_components/:id/parent' => 'digital_object_components#parent', :via => [:post]
   match 'digital_object_components/:id/delete' => 'digital_object_components#delete', :via => [:post]
+  match 'digital_object_components/:id/accept_children' => 'digital_object_components#accept_children', :via => [:post]
 
   resources :resources
   match 'resources/:id/container_labels' => 'exports#container_labels', :via => [:get]

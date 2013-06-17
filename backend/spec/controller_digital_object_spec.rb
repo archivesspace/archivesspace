@@ -143,4 +143,29 @@ describe 'Digital Objects controller' do
     component.notes[0]["publish"].should eq(true)
   end
 
+
+  it "accepts move of multiple children" do
+    digital_object = create(:json_digital_object)
+    doc = create(:json_digital_object_component, :digital_object => {:ref => digital_object.uri})
+
+    child_1 = create(:json_digital_object_component, :digital_object => {:ref => digital_object.uri}, :parent => {:ref => doc.uri})
+    child_2 = create(:json_digital_object_component, :digital_object => {:ref => digital_object.uri}, :parent => {:ref => doc.uri})
+
+    response = JSONModel::HTTP::post_form("#{digital_object.uri}/accept_children", {"children[]" => [child_1.uri, child_2.uri], "position" => 0})
+    json_response = ASUtils.json_parse(response.body)
+
+    json_response["status"].should eq("Updated")
+
+    tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
+
+    tree.children.length.should eq(3)
+    tree.children[0]["title"].should eq(child_1["title"])
+    tree.children[0]["record_uri"].should eq(child_1.uri)
+
+    tree.children[1]["title"].should eq(child_2["title"])
+    tree.children[1]["record_uri"].should eq(child_2.uri)
+
+    tree.children[2]["title"].should eq(doc["title"])
+    tree.children[2]["record_uri"].should eq(doc.uri)
+  end
 end

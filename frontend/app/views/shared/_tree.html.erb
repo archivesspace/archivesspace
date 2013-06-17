@@ -39,7 +39,8 @@
         :type => :digital_object_component,
         :action_label =>  I18n.t("digital_object._frontend.action.add_child"),
         :record_label => I18n.t("digital_object_component._singular")
-      }
+      },
+      :can_accept_paste_from_clipboard => :archival_object
     },
     :digital_object_component => {
       :can_add_child => {
@@ -52,7 +53,9 @@
         :action_label =>  I18n.t("digital_object_component._frontend.action.add_sibling"),
         :record_label => I18n.t("digital_object_component._singular")
       },
-      :can_move => true
+      :can_move => true,
+      :can_accept_paste_from_clipboard => :archival_object,
+      :can_cut_to_clipboard => :archival_object
     },
     :classification => {
       :can_add_child => {

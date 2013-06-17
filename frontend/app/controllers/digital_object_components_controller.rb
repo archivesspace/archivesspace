@@ -1,7 +1,7 @@
 class DigitalObjectComponentsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :parent, :delete]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :parent, :delete, :accept_children]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update, :parent]) {|c| user_must_have("update_archival_record")}
+  before_filter(:only => [:new, :edit, :create, :update, :parent, :accept_children]) {|c| user_must_have("update_archival_record")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
   FIND_OPTS = {
@@ -109,6 +109,22 @@ class DigitalObjectComponentsController < ApplicationController
 
     resolver = Resolver.new(digital_object_component['digital_object']['ref'])
     redirect_to resolver.view_uri
+  end
+
+
+  def accept_children
+    response = JSONModel::HTTP.post_form(JSONModel(:digital_object_component).uri_for(params[:id]) + "/accept_children",
+                                         "children[]" => params[:children],
+                                         "position" => params[:index].to_i)
+
+    if response.code == '200'
+      render :json => {
+        :parent => params[:id],
+        :position => params[:index].to_i
+      }
+    else
+      raise "Error setting parent of archival objects: #{response.body}"
+    end
   end
 
 end
