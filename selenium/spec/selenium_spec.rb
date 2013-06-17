@@ -257,7 +257,7 @@ describe "ArchivesSpace user interface" do
       select_repo(@can_manage_repo)
 
       # Wait until it's selected
-      $driver.find_element_with_text('//span', /#{@can_manage_repo}/)
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /#{@can_manage_repo}/)
       $driver.find_element(:link, "Create")
     end
 
