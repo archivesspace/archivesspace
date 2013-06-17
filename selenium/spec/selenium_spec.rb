@@ -417,7 +417,7 @@ describe "ArchivesSpace user interface" do
     end
 
 
-    it "reports an error when Authority ID is provided without a Source" do
+    it "reports a warning when Authority ID is provided without a Source" do
       $driver.clear_and_send_keys([:id, "agent_names__0__authority_id_"], "authid123")
       $driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], "Hendrix")
 
@@ -425,7 +425,7 @@ describe "ArchivesSpace user interface" do
       rules_select.select_option("local")
 
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
-      $driver.find_element_with_text('//div[contains(@class, "error")]', /^Source - is required .*?authority id$/)
+      $driver.find_element_with_text('//div[contains(@class, "warning")]', /^Source - is required .*?authority id$/)
     end
 
 
