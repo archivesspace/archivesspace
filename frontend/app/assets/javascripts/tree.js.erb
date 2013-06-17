@@ -762,16 +762,8 @@ $(function() {
             }
           }
         }).bind("select_node.jstree", function (event, data) {
-//          var $nodeToSelect = $(data.rslt.obj);
-//          if ($nodeToSelect.find("a").attr("href") === location.hash) {
-//            return;
-//          }
-//          if ($nodeToSelect.attr("id") === "new") {
-//            setHashForNode("new");
-//          } else {
-//            setHashForNode($nodeToSelect.find("a").attr("href"));
-//          }
             clearSelected(false);
+
             if ($tree.jstree("get_selected").length > 1) {
               $tree.jstree("get_selected").addClass("selected");
               $tree.trigger("multiplenodesselected.aspace");
