@@ -32,11 +32,13 @@
           </div>
         <% end %>
 
-        <div class="btn-group btn-toolbar pull-right">
-          <div class="btn btn-inline-form">
-            <%= button_delete_action url_for(:controller => :subjects, :action => :delete, :id => @subject.id) %>
+        <% if user_can?('delete_subject_record') %>
+          <div class="btn-group btn-toolbar pull-right">
+            <div class="btn btn-inline-form">
+              <%= button_delete_action url_for(:controller => :subjects, :action => :delete, :id => @subject.id) %>
+            </div>
           </div>
-        </div>
+        <% end %>
 
       </div>
     </div>

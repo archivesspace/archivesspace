@@ -34,12 +34,15 @@
             <%= I18n.t("actions.toolbar_disabled_message") %>
           </div>
         <% end %>
+
         <div class="btn-toolbar pull-right">
-          <div class="btn-group">
-            <div class="btn btn-inline-form">
-              <%= button_delete_action url_for(:controller => :agents, :action => :delete, :id => @agent.id) %>
+          <% if user_can?('delete_agent_record') %>
+            <div class="btn-group">
+              <div class="btn btn-inline-form">
+                <%= button_delete_action url_for(:controller => :agents, :action => :delete, :id => @agent.id) %>
+              </div>
             </div>
-          </div>
+          <% end %>
 
           <div class="btn-group">
             <%= link_to I18n.t("actions.export_eac"), {:controller => :exports, :action => :download_eac, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-small" %>
