@@ -115,8 +115,7 @@ class Event < Sequel::Model(:event)
     )
 
 
-    # Use the global repository to capture events about global records
-    RequestContext.open(:repo_id => 1) do
+    RequestContext.in_global_repo do
       Event.create_from_json(event, :system_generated => true)
     end
   end

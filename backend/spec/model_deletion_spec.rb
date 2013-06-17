@@ -112,11 +112,14 @@ describe "Deletion of Archival Records" do
 
 
   it "can delete an agent" do
-    acc = Accession.where(:title => "A test accession").first
-    acc.my_relationships(:linked_agents).count.should eq(1)
+    agent = AgentSoftware.create_from_json(build(:json_agent_software))
 
-    agent = AgentSoftware[1]
-    agent.should_not be(nil)
+    acc = Accession.create_from_json(build(:json_accession,
+                                           :linked_agents => [{
+                                                                'ref' => agent.uri,
+                                                                'role' => 'creator'
+                                                              }]))
+    acc.my_relationships(:linked_agents).count.should eq(1)
 
     agent.delete
 

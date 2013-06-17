@@ -8,12 +8,7 @@ class User < Sequel::Model(:user)
 
 
   def self.create_from_json(json, opts = {})
-    # These users are part of the software
-    if json.username == self.SEARCH_USERNAME || json.username == self.PUBLIC_USERNAME
-
-      opts['agent_record_type'] = :agent_software
-      opts['agent_record_id'] = 1
-    else
+    if !opts[:is_hidden_user]
       agent = JSONModel(:agent_person).from_hash(
                 :publish => false,
                 :names => [{
@@ -70,11 +65,7 @@ class User < Sequel::Model(:user)
 
 
   def self.unlisted_user_ids
-    @@unlisted_user_ids if not @@unlisted_user_ids.nil?
-
-    @@unlisted_user_ids = Array(User[:username => [User.SEARCH_USERNAME, User.PUBLIC_USERNAME, User.STAFF_USERNAME]]).collect {|user| user.id}
-
-    @@unlisted_user_ids
+    @@unlisted_user_ids ||= User.filter(:is_hidden_user => 1).collect {|user| user.id}
   end
 
 
