@@ -206,6 +206,8 @@ class ArchivesSpaceService < Sinatra::Base
     if params[:user].is_admin && !current_user.can?(:administer_system)
       raise AccessDeniedException.new("Only admins can create admin users")
     end
+
+    RequestContext.put(:apply_admin_access, current_user.can?(:administer_system))
   end
 
 end

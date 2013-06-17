@@ -38,6 +38,8 @@ class User < Sequel::Model(:user)
 
   def self.make_admin_if_requested(obj, json)
 
+    return if !RequestContext.get(:apply_admin_access)
+
     # Nothing to do if these already agree
     begin
       return if (json.is_admin === obj.can?(:administer_system))
