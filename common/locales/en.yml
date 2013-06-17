@@ -1455,6 +1455,7 @@ en:
     title: Title
     department: Department
     additional_contact: Additional Contact Information
+    is_admin: Grant system administrator permissions
     _singular: User
     _plural: Users
 

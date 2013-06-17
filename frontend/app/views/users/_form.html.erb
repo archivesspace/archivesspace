@@ -16,4 +16,9 @@
 
    <%= form.label_and_password "password", {:field_opts => {:size => 30, :class => "input-large"}, :required => @user.id ? :conditionally : true} %>
    <%= form.label_and_password "confirm_password", {:field_opts => {:size => 30, :class => "input-large"}, :required => @user.id ? :conditionally : true} %>
+
+   <% if user_can?('administer_system') %>
+     <%= form.label_and_boolean "is_admin" %>
+   <% end %>
+
 </fieldset>
