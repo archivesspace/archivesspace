@@ -18,9 +18,7 @@ $(function() {
 
       var onFormElementChange = function(event) {
         if ($(event.target).parents("*[data-no-change-tracking='true']").length === 0) {
-          $this.data("form_changed", true);
-          $(".record-toolbar", $this).addClass("formchanged");
-          $(".record-toolbar .btn-toolbar .btn", $this).addClass("disabled").attr("disabled","disabled");
+          $this.trigger("formchanged.aspace");
         }
       };
       $(":input", $this).live("change keyup", function(event) {
@@ -39,7 +37,11 @@ $(function() {
       $(":radio, :checkbox", $this).live("click", onFormElementChange);
 
 
-      $this.bind("formchanged.aspace", onFormElementChange);
+      $this.bind("formchanged.aspace", function(event) {
+        $this.data("form_changed", true);
+        $(".record-toolbar", $this).addClass("formchanged");
+        $(".record-toolbar .btn-toolbar .btn", $this).addClass("disabled").attr("disabled","disabled");
+      });
 
       $(".createPlusOneBtn", $this).on("click", function() {
         $this.data("createPlusOne", "true");
