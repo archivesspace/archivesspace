@@ -22,7 +22,7 @@ class DB
       require "db/db_migrator"
 
       if ENV['ASPACE_TEST_DB_URL']
-        test_db_url = ENV['TEST_DB_URL']
+        test_db_url = ENV['ASPACE_TEST_DB_URL']
       else
         test_db_url = "jdbc:derby:memory:fakedb;create=true"
 
