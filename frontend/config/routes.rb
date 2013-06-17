@@ -38,7 +38,6 @@ ArchivesSpace::Application.routes.draw do
   resources :archival_objects
   match 'archival_objects/:id' => 'archival_objects#update', :via => [:post]
   match 'archival_objects/:id/delete' => 'archival_objects#delete', :via => [:post]
-  match 'archival_objects/:id/parent' => 'archival_objects#parent', :via => [:post]
   match 'archival_objects/:id/rde' => 'archival_objects#rde', :via => [:get]
   match 'archival_objects/:id/add_children' => 'archival_objects#add_children', :via => [:post]
   match 'archival_objects/:id/accept_children' => 'archival_objects#accept_children', :via => [:post]
@@ -54,7 +53,6 @@ ArchivesSpace::Application.routes.draw do
 
   resources :digital_object_components
   match 'digital_object_components/:id' => 'digital_object_components#update', :via => [:post]
-  match 'digital_object_components/:id/parent' => 'digital_object_components#parent', :via => [:post]
   match 'digital_object_components/:id/delete' => 'digital_object_components#delete', :via => [:post]
   match 'digital_object_components/:id/accept_children' => 'digital_object_components#accept_children', :via => [:post]
 
@@ -72,11 +70,12 @@ ArchivesSpace::Application.routes.draw do
   resources :classifications
   match 'classifications/:id' => 'classifications#update', :via => [:post]
   match 'classifications/:id/delete' => 'classifications#delete', :via => [:post]
+  match 'classifications/:id/accept_children' => 'classifications#accept_children', :via => [:post]
 
   resources :classification_terms
   match 'classification_terms/:id' => 'classification_terms#update', :via => [:post]
   match 'classification_terms/:id/delete' => 'classification_terms#delete', :via => [:post]
-  match 'classification_terms/:id/parent' => 'classification_terms#parent', :via => [:post]
+  match 'classification_terms/:id/accept_children' => 'classification_terms#accept_children', :via => [:post]
 
   resources :subjects
   match 'subjects/:id' => 'subjects#update', :via => [:post]

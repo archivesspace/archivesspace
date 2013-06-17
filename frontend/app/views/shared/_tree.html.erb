@@ -62,7 +62,8 @@
         :type => :classification_term,
         :action_label =>  I18n.t("classification._frontend.action.add_child"),
         :record_label => I18n.t("classification_term._singular")
-      }
+      },
+      :can_accept_paste_from_clipboard => :classification_term
     },
     :classification_term => {
       :can_add_child => {
@@ -75,7 +76,9 @@
         :action_label =>  I18n.t("classification_term._frontend.action.add_sibling"),
         :record_label => I18n.t("classification_term._singular")
       },
-      :can_move => true
+      :can_move => true,
+      :can_accept_paste_from_clipboard => :classification_term,
+      :can_cut_to_clipboard => :classification_term
     }
  }
 
@@ -239,10 +242,10 @@
       {if rules.hasOwnProperty("can_accept_paste_from_clipboard") || rules.hasOwnProperty("can_cut_to_clipboard")}
         <div class="btn-group">
           {if rules.hasOwnProperty("can_cut_to_clipboard") && rules.can_cut_to_clipboard}
-            <a href="#" class="btn btn-mini cut-node disabled">Cut</a>
+            <a href="#" class="btn btn-mini cut-node disabled"><%= I18n.t "actions.cut" %></a>
           {/if}
           {if rules.hasOwnProperty("can_accept_paste_from_clipboard") && rules.can_accept_paste_from_clipboard}
-            <a href="#" class="btn btn-mini paste-node disabled">Paste</a>
+            <a href="#" class="btn btn-mini paste-node disabled"><%= I18n.t "actions.paste" %></a>
           {/if}
         </div>
       {/if}

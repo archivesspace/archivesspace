@@ -141,18 +141,7 @@ class ResourcesController < ApplicationController
 
 
   def accept_children
-    response = JSONModel::HTTP.post_form(JSONModel(:resource).uri_for(params[:id]) + "/accept_children",
-                                         "children[]" => params[:children],
-                                         "position" => params[:index].to_i)
-
-    if response.code == '200'
-      render :json => {
-        :parent => params[:id],
-        :position => params[:index].to_i
-      }
-    else
-      raise "Error setting parent of archival objects: #{response.body}"
-    end
+    handle_accept_children(JSONModel(:resource))
   end
 
 

@@ -1,7 +1,7 @@
 class ClassificationsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete, :accept_children]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_classification_record")}
+  before_filter(:only => [:new, :edit, :create, :update, :accept_children]) {|c| user_must_have("update_classification_record")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_classification_record")}
 
   FIND_OPTS = {
@@ -77,6 +77,12 @@ class ClassificationsController < ApplicationController
     flash[:success] = I18n.t("classification._frontend.messages.deleted", JSONModelI18nWrapper.new(:classification => classification))
     redirect_to(:controller => :classifications, :action => :index, :deleted_uri => classification.uri)
   end
+
+
+  def accept_children
+    handle_accept_children(JSONModel(:classification))
+  end
+
 
   private
 
