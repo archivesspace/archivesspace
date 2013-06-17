@@ -63,7 +63,7 @@ Sequel.migration do
     end
 
 
-    create_table(:enumeration_value) do
+    create_table(:enumeration_value, :collate => :utf8_bin) do
       primary_key :id
 
       Integer :enumeration_id, :null => false, :index => true

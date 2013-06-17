@@ -10,6 +10,9 @@ describe 'Enumerations model' do
 
     @enum2 = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'second_test_role_enum',
                                                                             :values => ['mushroom']))
+
+    @enum3 = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'case_test_role_enum',
+                                                                            :values => ['frog']))
   end
 
 
@@ -48,10 +51,58 @@ describe 'Enumerations model' do
   end
 
 
-  it "throws an error if you link to an enumeration that doesn't really exist" do
+  it "throws an error if you link to an enumeration that doesn't really exist..." do
     expect {
       @model.new(:role => 'penguin')
     }.to raise_error
+  end
+
+
+  it "won't create redundant enum values" do
+    expect {
+      Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'tomato_enum',
+                                                                     :values => ['tomato', 'tomato']))
+    }.to raise_error
+
+    #note: test fails in mysql if the :name value is repeated, even though the first order failed
+    expect {
+      Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'another_tomato_enum',
+                                                                :values => ['tomato']))
+    }.to_not raise_error
+  end
+
+
+  it "will preserve the case of enum values" do
+    tomato = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'not_another_tomato_enum',
+                                                                :values => ['Tomato']))
+
+    Enumeration.to_jsonmodel(tomato)['values'].include?('Tomato').should be(true)
+  end
+
+
+  # created for MySQL-related bug
+  it "treats values that differ only in case as separate values" do
+    model = Class.new(Sequel::Model(:model_with_enums)) do
+      include ASModel
+      include DynamicEnums
+      uses_enums(:property => 'role', :uses_enum => 'case_test_role_enum')
+    end
+
+    RequestContext.open(:create_enums => true) do
+      BackendEnumSource.valid?('case_test_role_enum', 'camel').should be(true)
+      BackendEnumSource.valid?('case_test_role_enum', 'Camel').should be(true)
+    end
+
+    expect {
+      model.new(:role => 'camel')
+    }.to_not raise_error
+
+    expect {
+      model.new(:role => 'Camel')
+    }.to_not raise_error
+
+    Enumeration.to_jsonmodel(@enum3)['values'].include?('camel').should be(true)
+    Enumeration.to_jsonmodel(@enum3)['values'].include?('Camel').should be(true)
   end
 
 
