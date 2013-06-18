@@ -5,26 +5,42 @@ require_relative 'utils'
 module ASpaceImport
   module XML
     module SAX
-            
+
       module ClassMethods
-        def with(node_name, &block)
-          handler_name = "_#{node_name}"
+        def with(path, &block)
+          @sticky_nodes ||= {}
+          parts = path.split("/").reverse
+          handler_name = ""
+          while parts.length > 1
+            @sticky_nodes[parts.last] = true
+            handler_name << "_#{parts.pop}"
+          end
+
+          handler_name << "_#{parts.pop}"
+
           define_method(handler_name, block)
         end
-        
+
         def ensure_configuration
           @configured ||= false
+          @stickies = []
           unless @configured
             self.configure
-          end  
+          end
         end
-        
+
+        def make_sticky?(node_name)
+          @sticky_nodes[node_name] || false
+        end
+
       end
-      
+
+
       def self.included(base)
         base.extend(ClassMethods)
       end
-      
+
+
       def method_missing(*args)
       end
 
@@ -40,12 +56,13 @@ module ASpaceImport
 
 
       def run
-        @cache = super      
+        @cache = super
         @reader = Nokogiri::XML::Reader(IO.read(@input_file))
         node_queue = node_queue_for(@reader)
-        @context = []
+        @contexts = []
         @context_nodes = {}
         @proxies = ASpaceImport::RecordProxyMgr.new
+        @stickies = []
 
         self.class.ensure_configuration
 
@@ -56,7 +73,7 @@ module ASpaceImport
           case node.node_type
 
           when 1
-            handle_opener(node)        
+            handle_opener(node)
           when 3
             handle_text(node)
           when 15
@@ -67,65 +84,77 @@ module ASpaceImport
           # since otherwise we end up accumulating all nodes in memory.
           node_queue.set(i, nil)
         end
-        
-        emit_status({'type' => 'done', 'id' => 'xml'})
 
-        # save_all
+        emit_status({'type' => 'done', 'id' => 'xml'})
 
         with_undischarged_proxies do |prox|
           @log.debug("Undischarged: #{prox.to_s}")
         end
-        
+
         @cache
       end
-    
-    
-      def handle_opener(node)
 
-         @node_name = node.name
-         @node_depth = node.depth
-         self.send("_#{node.name}", node)
+
+      def handle_opener(node)
+        @node_name = node.name
+        @node_depth = node.depth
+        @node = node
+
+        # constrained handlers, e.g. publication/date
+        @stickies.each_with_index do |prefix, i|
+          self.send("_#{@stickies[i..@stickies.length].join('_')}_#{node.name}", node)
+        end
+
+        # unconstrained handlers, e.g., date
+        self.send("_#{node.name}", node)
+
+        # config calls for constrained handlers on this path
+        make_sticky(node.name) if self.class.make_sticky?(node.name)
       end
 
 
-      def handle_text(node)    
+      def handle_text(node)
         @proxies.discharge_proxy(:text, node.value)
       end
 
 
       def handle_closer(node)
-
         if @context_nodes[node.name] && @context_nodes[node.name][node.depth]
           @context_nodes[node.name][node.depth].reverse.each do |type|
             close_context(type)
           end
           @context_nodes[node.name].delete_at(node.depth)
         end
-      end     
-
-
-      def open_context(type)
-
-        obj = ASpaceImport::JSONModel(type).new
-
-        @context.push(type)
-        @cache.push(obj)
-
-        @context_nodes[@node_name] ||= []
-        @context_nodes[@node_name][@node_depth] ||= []
-        @context_nodes[@node_name][@node_depth] << type
+        @stickies.pop if @stickies.last == node.name
       end
 
 
+      def open_context(type, properties = {})
+        obj = ASpaceImport::JSONModel(type).new
+        @contexts.push(type)
+        @cache.push(obj)
+        @context_nodes[@node_name] ||= []
+        @context_nodes[@node_name][@node_depth] ||= []
+        @context_nodes[@node_name][@node_depth] << type
+        properties.each do |k,v|
+          set obj, k, v
+        end
+
+        yield obj if block_given?
+      end
+
+
+      alias_method :make, :open_context
+
+
       def close_context(type)
-        # @log.debug("Close context <#{type}>")
         if @cache.last.jsonmodel_type != type.to_s
           raise "Unexpected Object Type in Queue: Expected #{type} got #{@cache.last.jsonmodel_type}"
         end
 
-        @proxies.discharge_proxy(type, @cache.last)
+        @proxies.discharge_proxy("#{type}-#{@contexts.length}", @cache.last)
 
-        @context.pop
+        @contexts.pop
         @cache.pop
       end
 
@@ -136,18 +165,38 @@ module ASpaceImport
       end
 
 
-      def set_property(obj = :context, property, value)
+      def inner_xml
+        @node.inner_xml.strip
+      end
 
+
+      def append(obj = context_obj, property, value)
+        property_type = ASpaceImport::Utils.get_property_type(obj.class.schema['properties'][property.to_s])
+        return unless property_type[0].match(/string/) && value.is_a?(String)
+        filtered_value = ASpaceImport::Utils.value_filter(property_type[0]).call(value)
+        if obj.send(property)
+          obj.send(property).send(:<<, property)
+        else
+          obj.send("#{property}=", filtered_value)
+        end
+      end
+
+
+      def set(*args)
+        set_property(*args)
+      end
+
+
+      def set_property(obj = context_obj, property, value)
         if obj.nil?
-          raise "Trying to set property #{property} on nil object"
+          @log.warn "Tried to set property #{property} on an object that couldn't be found"
+          return false
         end
 
         if property.nil?
           @log.warn("Can't set <#{obj.class.record_type}> <#{property}>: nil value")
           return false
         end
-
-        obj = context_obj if obj == :context
 
         begin
           property_type = ASpaceImport::Utils.get_property_type(obj.class.schema['properties'][property.to_s])
@@ -162,10 +211,8 @@ module ASpaceImport
             @log.warn("Given a nil value for <#{obj.class.record_type}><#{property}>")
           else
             filtered_value = ASpaceImport::Utils.value_filter(property_type[0]).call(value)
-
             if property_type[0].match /list$/
-              val_array = obj.send("#{property}").push(filtered_value)
-              obj.send("#{property}=", val_array)
+              obj.send("#{property}").push(filtered_value)
             else
               if obj.send("#{property}")
                 @log.warn("Setting a property that has already been set")
@@ -179,44 +226,55 @@ module ASpaceImport
 
       # Since it won't do to push subrecords into
       # parent records until the subrecords are complete,
-      # a proxy can be assigned instead, and the proxy 
+      # a proxy can be assigned instead, and the proxy
       # will discharge the JSON subrecord once it is complete
 
       def proxy(record_type = context)
-        @proxies.get_proxy_for(record_type)
+        @proxies.get_proxy_for("#{record_type}-#{@contexts.length}", record_type)
+      end
+
+
+      def node
+        @node
       end
 
 
       def ancestor(*types)
-        queue_offset = @context_nodes.has_key?(@node_name) ? -2 : -1
+        queue_offset = (@context_nodes.has_key?(@node_name) && @context_nodes[@node_name][@node_depth]) ? -2 : -1
 
-        obj = @cache[0..queue_offset].reverse.find { |o| types.map {|t| t.to_s }.include?(o.class.record_type)}          
-        obj
+        obj = @cache[0..queue_offset].reverse.find { |o| types.map {|t| t.to_s }.include?(o.class.record_type)}
+        block_given? ? yield(obj) : obj
       end
 
 
-      def getat(node, attribute)
-        att_pair = node.attributes.find {|a| a[0] == attribute}
+      def att(attribute)
+        att_pair = @node.attributes.find {|a| a[0] == attribute}
         if att_pair.nil?
           nil
         else
-          att_pair[1].downcase
+          att_pair[1]
         end
-      end 
+      end
 
 
       def context
-        @context.last
+        @contexts.last
+      end
+
+
+      def full_context
+        @contexts
       end
 
 
       def context_obj
         @cache.last
       end
-    
+
+
+      def make_sticky(node_name)
+        @stickies << node_name
+      end
     end
   end
 end
-    
-    
-    
