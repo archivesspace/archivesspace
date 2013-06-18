@@ -36,7 +36,26 @@
 <% end %>
 
 <% define_template "content_item" do |form, item| %>
-  <div class="subrecord-form-fields"><%= form.textarea(nil, item, :class => "mixed-content") %></div>
+  <div class="subrecord-form-fields">
+  <% if form.readonly? %>
+    <div class="tabbable tabs-below">
+      <div class="tab-content">
+        <div class="tab-pane active" id="<%= form.id_for("item") %>_raw">
+          <%= form.textarea(nil, item, :class => "mixed-content") %>
+        </div>
+        <div class="tab-pane" id="<%= form.id_for("item") %>_parsed">
+          <%= clean_note(item).html_safe %>
+        </div>
+      </div>
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#<%= form.id_for("item") %>_raw" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.raw_title") %>"><%= I18n.t("note._frontend.preview.raw") %></a></li>
+        <li><a href="#<%= form.id_for("item") %>_parsed" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.parsed_title") %>"><%= I18n.t("note._frontend.preview.parsed") %></a></li>
+      </ul>
+    </div>
+  <% else %>
+    <%= form.textarea(nil, item, :class => "mixed-content") %>
+  <% end %>
+  </div>
 <% end %>
 
 

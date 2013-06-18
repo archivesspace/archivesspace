@@ -39,7 +39,7 @@
       <matches pattern=".*coverage" string="${ant.project.invoked-targets}" />
     </condition>
 
-    <property name="jruby_classpath" value="${jruby_file}:../lib/*:../common" />
+    <property name="jruby_classpath" value="${jruby_file}:../lib/*:../common:../common/lib/*" />
     <property name="COVERAGE_REPORTS" value="false" />
   </target>
 
@@ -484,8 +484,12 @@
     <mkdir dir="target/archivesspace/locales" />
 
     <jar jarfile="target/archivesspace/lib/common.jar">
-      <fileset dir="../common" />
+      <fileset dir="../common" excludes="lib/*" />
     </jar>
+
+    <copy todir="target/archivesspace/lib">
+      <fileset dir="../common/lib" />
+    </copy>
 
     <copy file="solr.war" todir="target/archivesspace/wars" />
     <copy file="../backend/backend.war" todir="target/archivesspace/wars" />

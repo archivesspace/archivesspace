@@ -1,64 +1,73 @@
 $(function() {
-  AS.mixedContentElements = [
-      {
-        tag: "blockquote",
-        attributes: []
+  AS.mixedContentElements = {
+      "blockquote": {
+        "tag": "blockquote",
+        "attributes": []
       },
-      {
-        tag: "date",
-        attributes: ["type", "normal", "calendar", "era"]
+      "date": {
+        "tag": "date",
+        "attributes": ["type", "normal", "calendar", "era"]
       },
-      {
-        tag: "function",
-        attributes: ["rules", "source"]
+      "function": {
+        "tag": "function",
+        "attributes": ["rules", "source"]
       },
-      {
-        tag: "occupation",
-        attributes: ["type", "normal", "calendar", "era"]
+      "occupation": {
+        "tag": "occupation",
+        "attributes": ["type", "normal", "calendar", "era"]
       },
-      {
-        tag: "subject",
-        attributes: ["type", "normal", "calendar", "era"]
+      "subject": {
+        "tag": "subject",
+        "attributes": ["type", "normal", "calendar", "era"]
       },
-      {
-        tag: "emph",
-        attributes: ["render"]
+      "emph": {
+        "tag": "emph",
+        "attributes": ["render"]
       },
-      {
-        tag: "corpname",
-        attributes: ["rules", "role", "source"]
+      "corpname": {
+        "tag": "corpname",
+        "attributes": ["rules", "role", "source"]
       },
-      {
-        tag: "persname",
-        attributes: ["rules", "role", "source"]
+      "p": {
+        "tag": "p",
+        "attributes": [],
+        "elements": ["emph"]
       },
-      {
-        tag: "famname",
-        attributes: ["rules", "role", "source"]
+      "persname": {
+        "tag": "persname",
+        "attributes": ["rules", "role", "source"]
       },
-      {
-        tag: "name",
-        attributes: ["rules", "role", "source"]
+      "famname": {
+        "tag": "famname",
+        "attributes": ["rules", "role", "source"]
       },
-      {
-        tag: "geogname",
-        attributes: ["rules", "role", "source"]
+      "name": {
+        "tag": "name",
+        "attributes": ["rules", "role", "source"]
       },
-      {
-        tag: "genreform",
-        attributes: ["rules", "role", "type"]
+      "geogname": {
+        "tag": "geogname",
+        "attributes": ["rules", "role", "source"]
       },
-      {
-        tag: "title",
-        attributes: ["render"]
+      "genreform": {
+        "tag": "genreform",
+        "attributes": ["rules", "role", "type"]
       },
-      {
-        tag: "ref",
-        attributes: ["target", "show", "title", "actuate"]
+      "title": {
+        "tag": "title",
+        "attributes": ["render"]
       },
-      {
-        tag: "extref",
-        attributes: ["target", "show", "title", "actuate"]
+      "ref": {
+        "tag": "ref",
+        "attributes": ["target", "show", "title", "actuate"]
+      },
+      "extref": {
+        "tag": "extref",
+        "attributes": ["target", "show", "title", "actuate"]
+      },
+      "lb": {
+        "tag": "lb",
+        "attributes": []
       }
-    ];
+    };
 });

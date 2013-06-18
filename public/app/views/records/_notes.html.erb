@@ -14,9 +14,13 @@
             end
           %>
           <h4><%= label_for_note %></h4>
-<pre><% note['content'].each do |note_content| %>
-<%= note_content.strip %>
-<% end %></pre>
+          <div class="well note-contents">
+            <% note['content'].each do |note_content| %>
+              <div class="note-content">
+                <%= clean_note(note_content.strip).html_safe %>
+              </div>
+            <% end %>
+          </div>
         </li>
       <% end %>
     </ul>
