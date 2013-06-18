@@ -7,7 +7,7 @@ class ResourcesController < ApplicationController
   FIND_OPTS = ["subjects", "container_locations", "related_accessions", "linked_agents", "digital_object", "classification"]
 
   def index
-    @search_data = Search.for_type(session[:repo_id], "resource", search_params.merge({"facet[]" => SearchResultData.RESOURCE_FACETS}))
+    @search_data = Search.for_type(session[:repo_id], params[:include_components]==="true" ? ["resource", "archival_object"] : "resource", search_params.merge({"facet[]" => SearchResultData.RESOURCE_FACETS}))
   end
 
   def show

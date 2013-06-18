@@ -1,7 +1,12 @@
 <%= setup_context :title => I18n.t("resource._plural") %>
 
+<%
+   @show_multiselect_column = user_can?("delete_archival_record")
+%>
+
 <div class="row-fluid">
    <div class="span3">
+     <%= render :partial => "search/components_switch" %>
      <%= render :partial => "search/filter" %>
    </div>
    <div class="span9">
@@ -9,8 +14,11 @@
        <div class="row-fluid">
          <div class="span12">
            <div class="record-toolbar">
-             <div class="btn-group pull-right">
+             <div class="pull-right">
                <%= link_to I18n.t("resource._frontend.action.create"), {:controller => :resources, :action => :new}, :class => "btn btn-small" %>
+               <% if user_can?("delete_archival_record") %>
+                <%= button_delete_multiple_action %>
+               <% end %>
              </div>
            </div>
          </div>

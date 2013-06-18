@@ -12,6 +12,7 @@ ArchivesSpace::Application.routes.draw do
   resources :repositories
   match 'repositories/:id' => 'repositories#update', :via => [:post]
   match 'repositories/:id/delete' => 'repositories#delete', :via => [:post]
+  match 'repositories/delete_records' => 'repositories#delete_records', :via => [:post]
 
   match 'users/manage_access' => 'users#manage_access', :via => [:get]
   match 'users/:id/edit_groups' => 'users#edit_groups', :via => [:get]

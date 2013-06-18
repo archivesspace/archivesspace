@@ -670,9 +670,17 @@ $(function() {
 
           if ($this.data("form-data")) {
             $.each($this.data("form-data"), function (name, value) {
-              var $h = $("<input type='hidden'>");
-              $h.attr("name", name).val(value);
-              $form.append($h);
+              if (typeof value === "object") {
+                $.each(value, function(i, val) {
+                  var $h = $("<input type='hidden'>");
+                  $h.attr("name", name+"[]").val(val);
+                  $form.append($h);
+                });
+              } else {
+                var $h = $("<input type='hidden'>");
+                $h.attr("name", name).val(value);
+                $form.append($h);
+              }
             });
           }
 

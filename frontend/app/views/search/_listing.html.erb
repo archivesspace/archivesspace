@@ -1,5 +1,5 @@
 <% if @search_data.results? %>
-  <table class="table table-striped table-bordered table-condensed table-hover table-sortable table-search-results" <% if allow_multi_select? %>data-multiselect="true"<% end %>>
+  <table id="tabledSearchResults" class="table table-striped table-bordered table-condensed table-hover table-sortable table-search-results" <% if allow_multi_select? %>data-multiselect="true"<% end %>>
     <thead>
     <tr>
       <% if allow_multi_select? %>
