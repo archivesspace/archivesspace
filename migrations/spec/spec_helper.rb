@@ -15,8 +15,7 @@ $backend_start_fn = proc {
                            })
 }
 
-AppConfig[:backend_url] = $backend
-
+AppConfig[:backend_url] = $backend_url
 
 def start_backend
   $backend_pid = $backend_start_fn.call
