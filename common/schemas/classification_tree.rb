@@ -6,6 +6,7 @@
     "uri" => "/repositories/:repo_id/classifications/:classification_id/tree",
     "parent" => "record_tree",
     "properties" => {
+      "identifier" => {"type" => "string", "maxLength" => 255},
       "children" => {
         "type" => "array",
         "additionalItems" => false,

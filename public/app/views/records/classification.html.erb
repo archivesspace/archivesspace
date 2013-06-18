@@ -1,0 +1,37 @@
+<%
+   record_title = @classification.title
+   set_title(record_title)
+%>
+
+<div class="title-pane">
+  <div class="row-fluid">
+    <div class="span3">
+    </div>
+    <div class="span9">
+      <h2><%= record_title %></h2>
+    </div>
+  </div>
+</div>
+<div class="content-pane">
+  <div class="row-fluid">
+    <div class="span3">
+    </div>
+    <div class="span9">
+
+      <% show_term = lambda do |term| %>
+        <li><%= term['identifier'] %>. <%= term['title'] %></li>
+        <% if !term['children'].empty? %>
+          <ul>
+            <% term['children'].each do |node| %>
+              <% show_term.call(node) %>
+            <% end %>
+          </ul>
+        <% end %>
+      <% end %>
+
+      <ul>
+        <% show_term.call(@tree_view['whole_tree']) %>
+      </ul>
+    </div>
+  </div>
+</div>
