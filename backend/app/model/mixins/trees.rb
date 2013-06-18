@@ -22,16 +22,19 @@ module Trees
 
 
   def build_node_query
-    node_query = self.class.node_model.this_repo.filter(:root_record_id => self.id)
-    node_query = node_query.eager(:instance => :container).all if self.class.node_model.associations().include?(:instance)
-    node_query = node_query.eager(:file_version).all if self.class.node_model.associations().include?(:file_version)
-
-    node_query
+    self.class.node_model.this_repo.filter(:root_record_id => self.id)
   end
 
 
-  def node_title
-    node_type === :archival_object ? node.label : node.title
+  def load_node_properties(node, properties)
+    # Does nothing by default, but classes that use this mixin add their own
+    # behaviour here.
+  end
+
+
+  def load_root_properties(properties)
+    # Does nothing by default, but classes that use this mixin add their own
+    # behaviour here.
   end
 
 
@@ -53,25 +56,14 @@ module Trees
       end
 
       properties[node.id] = {
-        :title => node_title,
+        :title => node[:title],
         :id => node.id,
         :record_uri => self.class.uri_for(node_type, node.id),
         :publish => node.respond_to?(:publish) ? node.publish===1 : true,
         :node_type => node_type.to_s
       }
 
-      properties[node.id][:level] = ((node.level === 'otherlevel') ? node.other_level : node.level) if node.respond_to?(:level)
-
-      # for tree nodes with instances
-      if node.respond_to?(:instance) && node.instance.length > 0
-        properties[node.id][:instance_types] = node.instance.map{|instance| instance.values[:instance_type]}
-        properties[node.id][:containers] = node.instance.collect{|instance| instance.container}.flatten.compact.map{|container| Container.to_jsonmodel(container, :skip_relationships => true)}
-      end
-
-      # for digital component tree nodes
-      if node.respond_to?(:file_version)
-        properties[node.id][:file_versions] = node.file_version.map{|file| FileVersion.to_jsonmodel(file, :skip_relationships => true)}
-      end
+      load_node_properties(node, properties)
     end
 
     result = {
@@ -83,20 +75,7 @@ module Trees
       :record_uri => self.class.uri_for(root_type, self.id)
     }
 
-    result[:level] = ((self.level === 'otherlevel') ? self.other_level : self.level) if self.respond_to?(:level)
-
-    if self.respond_to?(:instance) && self.instance.length > 0
-      result[:instance_types] = self.instance.map{|instance| instance.values[:instance_type]}
-      result[:containers] = self.instance.collect{|instance| instance.container}.flatten.compact.map{|container| Container.to_jsonmodel(container, :skip_relationships => true)}
-    end
-
-    if self.respond_to?(:digital_object_type)
-      result[:digital_object_type] = self.values[:digital_object_type]
-    end
-
-    if self.respond_to?(:file_version)
-      result[:file_versions] = self.file_version.map{|file| FileVersion.to_jsonmodel(file, :skip_relationships => true)}
-    end
+    load_root_properties(result)
 
     # Assumes that the tree's JSONModel type is just the root type with '_tree'
     # stuck on.  Maybe a bit presumptuous?

@@ -8,6 +8,7 @@ class DigitalObject < Sequel::Model(:digital_object)
   include ExternalDocuments
   include Agents
   include Trees
+  include DigitalObjectTrees
   include Notes
   include RightsStatements
   include ExternalIDs

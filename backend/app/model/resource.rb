@@ -12,6 +12,7 @@ class Resource < Sequel::Model(:resource)
   include Deaccessions
   include Agents
   include Trees
+  include ResourceTrees
   include Notes
   include Relationships
   include ExternalIDs
