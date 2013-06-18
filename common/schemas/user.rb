@@ -45,6 +45,11 @@
               "readonly" => "true"
             }
           }
+      },
+
+      "is_admin" => {
+        "type" => "boolean",
+        "default" => false
       }
     },
 

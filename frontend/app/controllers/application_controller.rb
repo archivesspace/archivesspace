@@ -1,3 +1,4 @@
+require 'asconstants'
 require 'memoryleak'
 require 'search'
 
@@ -176,11 +177,11 @@ class ApplicationController < ActionController::Base
      session[:user] &&
      session[:permissions] &&
 
-     ((session[:permissions][repository] &&
-       session[:permissions][repository].include?(permission)) ||
+     (session[:permissions][repository] &&
+      session[:permissions][repository].include?(permission) ||
 
-      (session[:permissions]['/repositories/1'] &&
-       session[:permissions]['/repositories/1'].include?(permission))))
+      (session[:permissions][ASConstants::Group.GLOBAL] &&
+       session[:permissions][ASConstants::Group.GLOBAL].include?(permission))))
   end
 
   helper_method :current_vocabulary

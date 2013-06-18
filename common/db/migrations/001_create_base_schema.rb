@@ -144,6 +144,7 @@ Sequel.migration do
     create_table(:agent_software) do
       primary_key :id
 
+      String :system_role, :default => "none", :index => true, :null => false
       Integer :lock_version, :default => 0, :null => false
       Integer :json_schema_version, :null => false
 
@@ -165,10 +166,11 @@ Sequel.migration do
       String :username, :null => false, :unique => true
       String :name, :null => false
       String :source, :null => true
-      Integer :agent_record_id, :null => false
-      String :agent_record_type, :null => false
+      Integer :agent_record_id, :null => true
+      String :agent_record_type, :null => true
 
       Integer :is_system_user, :default => 0, :null => false
+      Integer :is_hidden_user, :default => 0, :null => false
 
       String :email
       String :first_name

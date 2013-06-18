@@ -5,6 +5,13 @@ class RequestContext
   end
 
 
+  def self.in_global_repo
+    self.open(:repo_id => Repository.global_repo_id) do
+      yield
+    end
+  end
+
+
   def self.open(context = {})
     # Stash the original context
     original_context = Thread.current[:request_context]
