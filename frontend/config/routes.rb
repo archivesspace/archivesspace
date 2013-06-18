@@ -78,6 +78,7 @@ ArchivesSpace::Application.routes.draw do
   match 'subjects/:id' => 'subjects#update', :via => [:post]
   match 'subjects/terms/complete' => 'subjects#terms_complete', :via => [:get]
   match 'subjects/:id/delete' => 'subjects#delete', :via => [:post]
+  match 'subjects/:id/merge' => 'subjects#merge', :via => [:post]
 
   match 'locations/batch' => 'locations#batch', :via => [:get]
   match 'locations/batch_create' => 'locations#batch_create', :via => [:post]
@@ -99,6 +100,7 @@ ArchivesSpace::Application.routes.draw do
   match 'agents/:agent_type/:id' => 'agents#show', :via => [:get]
   match 'agents' => 'agents#index', :via => [:get]
   match 'agents/:agent_type/:id/delete' => 'agents#delete', :via => [:post]
+  match 'agents/:id/merge' => 'agents#merge', :via => [:post]
 
 
   resources :collection_management

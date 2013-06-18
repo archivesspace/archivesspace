@@ -10,6 +10,13 @@ h2 > .label {
 
 .breadcrumb {
   border-top: 1px solid #FFF;
+
+  // patch to fix inline-block issue in IE8
+  // https://github.com/twitter/bootstrap/issues/5455
+  li {
+    margin-right: 1px;
+  }
+
   .box-shadow(~"inset 0 -1px 0 rgba(0,0,0,.05), 0 1px 10px rgba(0,0,0,.05)");
 
   .return-to-search {
@@ -154,7 +161,7 @@ section {
 .icon-agent_person {background-position: -168px 0;}
 .icon-agent_software {background-position: -360px -144px;}
 .icon-agent_corporate_entity {background-position: -432px -144px;}
-.icon-agent_family {background-image: url(../../archivesspace/icon-family.png); background-position: 0 0;}
+.icon-agent_family {background-image: asset-url('archivesspace/icon-family.png'); background-position: center center;}
 .icon-resource {background-position: -264px -24px;}
 .icon-archival_object {background-position: -24px -24px;}
 .icon-digital_object {background-position: -384px -120px;}
@@ -462,5 +469,15 @@ pre {
 .collapsible-panel {
   &.collapsed {
     display: none;
+  }
+}
+
+#component_switch {
+  border-bottom: 1px @hrBorder solid;
+  padding: @baseLineHeight/2 0;
+  margin-bottom: @baseLineHeight;
+
+  #component_switch_checkbox {
+    margin: 0;
   }
 }

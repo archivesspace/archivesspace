@@ -18,6 +18,12 @@ h2 > .label {
 }
 
 .breadcrumb {
+  // patch to fix inline-block issue in IE8
+  // https://github.com/twitter/bootstrap/issues/5455
+  li {
+    margin-right: 1px;
+  }
+
   margin-top: -@baseLineHeight;
   #gradient > .vertical(#efefef, #eaeaea);
   padding: 5px 10px;
@@ -459,5 +465,25 @@ div.progress-container {
   }
 }
 
-/* end i-frame import workaround */
+.merge-form {
+  padding: 10px;
 
+  .controls {
+    margin-left: 0;
+  }
+  .control-label {
+    width: 80%;
+    text-align: left;
+    margin-left: 0;
+  }
+  form {
+    margin: 0;
+  }
+  fieldset {
+    width: 300px;
+    padding: 10px;
+  }
+  .form-actions {
+    margin: 0;
+  }
+}

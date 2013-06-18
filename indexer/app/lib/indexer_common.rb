@@ -186,7 +186,7 @@ class CommonIndexer
         doc['authority_id'] = record['record']['names'][0]['authority_id']
         doc['source'] = record['record']['names'][0]['source']
         doc['rules'] = record['record']['names'][0]['rules']
-        doc['publish'] = true
+        doc['publish'] = record['record']['publish']
 
         # Assign the additional type of 'agent'
         doc['types'] << 'agent'
@@ -418,6 +418,7 @@ class CommonIndexer
       doc['fullrecord'] = doc['json'] = ASUtils.to_json(values)
       doc['suppressed'] = values['suppressed'].to_s
       doc['publish'] = values.has_key?('publish') ? values['publish'].to_s : 'false'
+      doc['system_generated'] = values.has_key?('system_generated') ? values['system_generated'].to_s : 'false'
       doc['repository'] = get_record_scope(uri)
 
       @document_prepare_hooks.each do |hook|

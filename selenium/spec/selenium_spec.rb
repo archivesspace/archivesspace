@@ -371,6 +371,19 @@ describe "ArchivesSpace user interface" do
       }.to_not raise_error
     end
 
+    it "can use plus+1 submit to quickly add another" do
+      now = "#{$$}.#{Time.now.to_i}"
+
+      $driver.find_element(:link => 'Create').click
+      $driver.find_element(:link => 'Subject').click
+
+      $driver.clear_and_send_keys([:id, "subject_terms__0__term_"], "My First New Term #{now}")
+      $driver.find_element(:css => "form #createPlusOne").click
+
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Subject Created/)
+      $driver.find_element(:id, "subject_terms__0__term_").attribute("value").should eq("")
+    end
+
   end
 
 
@@ -404,7 +417,7 @@ describe "ArchivesSpace user interface" do
     end
 
 
-    it "reports an error when Authority ID is provided without a Source" do
+    it "reports a warning when Authority ID is provided without a Source" do
       $driver.clear_and_send_keys([:id, "agent_names__0__authority_id_"], "authid123")
       $driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], "Hendrix")
 
@@ -412,7 +425,7 @@ describe "ArchivesSpace user interface" do
       rules_select.select_option("local")
 
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
-      $driver.find_element_with_text('//div[contains(@class, "error")]', /^Source - is required .*?authority id$/)
+      $driver.find_element_with_text('//div[contains(@class, "warning")]', /^Source - is required .*?authority id$/)
     end
 
 
@@ -1091,7 +1104,7 @@ describe "ArchivesSpace user interface" do
     before(:all) do
       login_as_archivist
       @accession_title, accession_label = create_accession("Events link to this accession")
-      @agent_name = create_agent("Geddy Lee")
+      agent_uri, @agent_name = create_agent("Geddy Lee")
       run_index_round
     end
 
@@ -1957,7 +1970,7 @@ describe "ArchivesSpace user interface" do
 
     it "lets you add a new value to an enumeration" do
       $driver.find_element(:link, 'System').click
-      $driver.find_element(:link, "Manage Enumerations").click
+      $driver.find_element(:link, "Manage Controlled Value Lists").click
 
       enum_select = $driver.find_element(:id => "enum_selector")
       enum_select.select_option_with_text("accession_acquisition_type")
@@ -1978,7 +1991,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:css => "form#delete_enumeration button[type='submit']").click
 
-      $driver.find_element_with_text('//div', /Enumeration Value Deleted/)
+      $driver.find_element_with_text('//div', /Value Deleted/)
     end
 
 
@@ -1989,7 +2002,7 @@ describe "ArchivesSpace user interface" do
 
     it "lets you set a default enumeration (date_type)" do
       $driver.find_element(:link, 'System').click
-      $driver.find_element(:link, "Manage Enumerations").click
+      $driver.find_element(:link, "Manage Controlled Value Lists").click
 
       enum_select = $driver.find_element(:id => "enum_selector")
       enum_select.select_option_with_text("date_type")

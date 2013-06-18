@@ -1,6 +1,7 @@
 //= require terms.crud
 //= require subrecord.crud
 //= require form
+//= require merge_dropdown
 
 $(function() {
 

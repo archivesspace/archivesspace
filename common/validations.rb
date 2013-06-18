@@ -27,6 +27,7 @@ module JSONModel::Validations
 
   # Specification:
   # https://www.pivotaltracker.com/story/show/41430143
+  # See also: https://www.pivotaltracker.com/story/show/51373893
   def self.check_source(hash)
     errors = []
 
@@ -34,12 +35,20 @@ module JSONModel::Validations
       if hash["rules"].nil?
         errors << ["rules", "is required when 'source' is blank"]
         errors << ["source", "is required when 'rules' is blank"]
-      elsif hash["authority_id"]
-        errors << ["source", "is required if there is an authority id"]
       end
     end
 
     errors
+  end
+
+  # https://www.pivotaltracker.com/story/show/51373893
+  def self.check_authority_id(hash)
+    warnings = []
+    if hash["source"].nil? && hash["authority_id"]
+      warnings << ["source", "is required if there is an authority id"]
+    end
+    
+    warnings
   end
 
   def self.check_name(hash)
@@ -55,6 +64,9 @@ module JSONModel::Validations
       end
       JSONModel(type).add_validation("#{type}_check_name") do |hash|
         check_name(hash)
+      end
+      JSONModel(type).add_validation("#{type}_check_authority_id", :warning) do |hash|
+        check_authority_id(hash)
       end
     end
   end

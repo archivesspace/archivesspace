@@ -1,7 +1,7 @@
 class SubjectsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :terms_complete, :delete]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :terms_complete, :delete, :merge]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_subject_record")}
+  before_filter(:only => [:new, :edit, :create, :update, :merge]) {|c| user_must_have("update_subject_record")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
   def index
@@ -69,6 +69,14 @@ class SubjectsController < ApplicationController
 
     render :json => []
   end
+
+
+  def merge
+    handle_merge(JSONModel(:subject).uri_for(params[:id]),
+                 params[:ref],
+                 'subject')
+  end
+
 
   def delete
     subject = JSONModel(:subject).find(params[:id])

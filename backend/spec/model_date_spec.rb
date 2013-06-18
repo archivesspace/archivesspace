@@ -33,7 +33,7 @@ describe 'Date model' do
 
   it "BC?  NP!" do
     expect { create_date(:begin => '-0100-01-01', :end => '-0050-01-01') }.to_not raise_error
-    expect { create_date(:begin => '1996-01-01', :end => '-0050-01-01') }.to raise_error(JSONModel::ValidationException)
+    expect { create_date(:begin => '1996-01-01', :end => '-0050-01-01', :date_type => 'inclusive') }.to raise_error(JSONModel::ValidationException)
   end
 
 

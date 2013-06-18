@@ -6,6 +6,7 @@ en:
     welcome_search_label: "Find what you're looking for:"
 
   actions:
+    search: Search
     browse: Browse
     show_advanced_search: Show Advanced Search
     hide_advanced_search: Hide Advanced Search
@@ -24,6 +25,7 @@ en:
     page_connector: of
 
   search_results:
+    searching: Searching
     title: All Records
     no_results: No Records
     no_results_prefix: There were no search results for
@@ -36,6 +38,7 @@ en:
     clear_all: Clear All
     created: Created
     modified: Modified
+    component_switch: Include Components
     filter:
       query: Text
       subjects: Subject

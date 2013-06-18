@@ -33,7 +33,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     enum.migrate(params[:migration].from, params[:migration].to)
 
-     json_response(Enumeration.to_jsonmodel(enum_id))
+    json_response(Enumeration.to_jsonmodel(enum_id))
   end
 
 

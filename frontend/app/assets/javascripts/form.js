@@ -17,13 +17,15 @@ $(function() {
 
 
       var onFormElementChange = function(event) {
-        $this.triggerHandler("formchanged.aspace");
+        if ($(event.target).parents("*[data-no-change-tracking='true']").length === 0) {
+          $this.trigger("formchanged.aspace");
+        }
       };
       $(":input", $this).live("change keyup", function(event) {
         if ($(this).data("original_value") && ($(this).data("original_value") !== $(this).val())) {
-          onFormElementChange();
+          onFormElementChange(event);
         } else if ($.inArray(event.keyCode, ignoredKeycodes) === -1) {
-          onFormElementChange();
+          onFormElementChange(event);
         }
       });
       $this.live("focusin", ":input", function(event) {
@@ -35,15 +37,23 @@ $(function() {
       $(":radio, :checkbox", $this).live("click", onFormElementChange);
 
 
-      $this.bind("formchanged.aspace", function() {
+      $this.bind("formchanged.aspace", function(event) {
         $this.data("form_changed", true);
         $(".record-toolbar", $this).addClass("formchanged");
         $(".record-toolbar .btn-toolbar .btn", $this).addClass("disabled").attr("disabled","disabled");
       });
 
-      $this.bind("submit", function() {
+      $(".createPlusOneBtn", $this).on("click", function() {
+        $this.data("createPlusOne", "true");
+      });
+
+      $this.bind("submit", function(event) {
         $this.data("form_changed", false);
         $(":input[type='submit']", $this).attr("disabled","disabled");
+        if ($(this).data("createPlusOne")) {
+          var $input = $("<input>").attr("type", "hidden").attr("name", "plus_one").val("true");
+          $($this).append($input);
+        }
       });
 
       $(".record-toolbar .revert-changes .btn", $this).click(function() {

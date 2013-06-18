@@ -15,6 +15,7 @@ class User < Sequel::Model(:user)
       opts['agent_record_id'] = 1
     else
       agent = JSONModel(:agent_person).from_hash(
+                :publish => false,
                 :names => [{
                   :primary_name => json.name,
                   :source => 'local',
@@ -102,7 +103,9 @@ class User < Sequel::Model(:user)
                                    'update_vocabulary_record'],
       'delete_archival_record' => ['delete_subject_record',
                                    'delete_agent_record',
-                                   'delete_vocabulary_record']
+                                   'delete_vocabulary_record'],
+      'merge_agents_and_subjects' => ['merge_subject_record',
+                                      'merge_agent_record']
     }
 
     actual_permissions =

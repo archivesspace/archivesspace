@@ -539,7 +539,7 @@ def create_archival_object(values = {})
 end
 
 
-def create_agent(name)
+def create_agent(name, values = {})
   req = Net::HTTP::Post.new("/agents/people")
   req.body = {
     "agent_contacts" => [],
@@ -551,17 +551,20 @@ def create_agent(name)
         "primary_name" => name,
         "rest_of_name" => name,
         "sort_name" => name,
+        "sort_name_auto_generate" => false,
         "source" => "local"
       }
     ],
-  }.to_json
+  }.merge(values).to_json
 
 
   response = admin_backend_request(req)
 
   raise response.body if response.code != '200'
 
-  name
+  uri = JSON.parse(response.body)['uri']
+
+  [uri, name]
 end
 
 
