@@ -547,6 +547,7 @@ describe "ArchivesSpace user interface" do
       $driver.click_and_wait_until_gone(:link, 'Edit')
       $driver.find_element(:css => '#dates_of_existence .subrecord-form-heading .btn').click
 
+      $driver.find_element(:id => "agent_dates_of_existence__0__date_type_").select_option("single")
       $driver.clear_and_send_keys([:id, "agent_dates_of_existence__0__expression_"], "1973")
 
       $driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
