@@ -66,11 +66,22 @@
       }
       &.selected {
         > a {
+          background-color: #d9f4ff;
           > .tree-node-text {
             .field-column {
               background-color: transparent !important;
             }
           }
+        }
+      }
+      &.primary-selected {
+        > a {
+          background-color: #beebff;
+        }
+      }
+      &.cut-to-clipboard {
+        > ins, > a {
+          .opacity(50);
         }
       }
     }
@@ -109,11 +120,8 @@
         }
       }
 
-      &:hover, &.jstree-clicked {
-        .badge {
-          .transition(opacity 0.5s);
-          .opacity(100);
-        }
+      &.jstree-clicked {
+        background-color: transparent;
       }
     }
 

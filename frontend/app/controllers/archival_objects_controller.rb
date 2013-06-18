@@ -1,7 +1,7 @@
 class ArchivalObjectsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :parent, :transfer, :delete, :rde, :add_children]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :transfer, :delete, :rde, :add_children, :accept_children]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update, :parent, :transfer, :rde, :add_children]) {|c| user_must_have("update_archival_record")}
+  before_filter(:only => [:new, :edit, :create, :update, :transfer, :rde, :add_children, :accept_children]) {|c| user_must_have("update_archival_record")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
   FIND_OPTS = {
@@ -79,20 +79,8 @@ class ArchivalObjectsController < ApplicationController
   end
 
 
-  def parent
-    parent_id = (params[:parent] and !params[:parent].blank?) ? params[:parent] : nil
-    response = JSONModel::HTTP.post_form(JSONModel(:archival_object).uri_for(params[:id]) + "/parent",
-                              :parent => parent_id,
-                              :position => params[:index])
-
-    if response.code == '200'
-      render :json => {
-        :parent => parent_id ? JSONModel(:archival_object).uri_for(parent_id) : nil,
-        :position => params[:index]
-      }
-    else
-      raise "Error setting parent of archival object: #{response.body}"
-    end
+  def accept_children
+    handle_accept_children(JSONModel(:archival_object))
   end
 
 

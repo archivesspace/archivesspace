@@ -11,7 +11,8 @@
       :rapid_data_entry => {
         :type => :archival_object,
         :action_label =>  I18n.t("resource._frontend.action.rapid_data_entry")
-      }
+      },
+      :can_accept_paste_from_clipboard => :archival_object
     },
     :archival_object => {
       :can_add_child => {
@@ -29,14 +30,17 @@
       :rapid_data_entry => {
         :type => :archival_object,
         :action_label =>  I18n.t("resource._frontend.action.rapid_data_entry")
-      }
+      },
+      :can_accept_paste_from_clipboard => :archival_object,
+      :can_cut_to_clipboard => :archival_object
     },
     :digital_object => {
       :can_add_child => {
         :type => :digital_object_component,
         :action_label =>  I18n.t("digital_object._frontend.action.add_child"),
         :record_label => I18n.t("digital_object_component._singular")
-      }
+      },
+      :can_accept_paste_from_clipboard => :archival_object
     },
     :digital_object_component => {
       :can_add_child => {
@@ -49,14 +53,17 @@
         :action_label =>  I18n.t("digital_object_component._frontend.action.add_sibling"),
         :record_label => I18n.t("digital_object_component._singular")
       },
-      :can_move => true
+      :can_move => true,
+      :can_accept_paste_from_clipboard => :archival_object,
+      :can_cut_to_clipboard => :archival_object
     },
     :classification => {
       :can_add_child => {
         :type => :classification_term,
         :action_label =>  I18n.t("classification._frontend.action.add_child"),
         :record_label => I18n.t("classification_term._singular")
-      }
+      },
+      :can_accept_paste_from_clipboard => :classification_term
     },
     :classification_term => {
       :can_add_child => {
@@ -69,7 +76,9 @@
         :action_label =>  I18n.t("classification_term._frontend.action.add_sibling"),
         :record_label => I18n.t("classification_term._singular")
       },
-      :can_move => true
+      :can_move => true,
+      :can_accept_paste_from_clipboard => :classification_term,
+      :can_cut_to_clipboard => :classification_term
     }
  }
 
@@ -230,6 +239,16 @@
             </a>
           {/if}
         </div>
+      {if rules.hasOwnProperty("can_accept_paste_from_clipboard") || rules.hasOwnProperty("can_cut_to_clipboard")}
+        <div class="btn-group">
+          {if rules.hasOwnProperty("can_cut_to_clipboard") && rules.can_cut_to_clipboard}
+            <a href="#" class="btn btn-mini cut-node disabled"><%= I18n.t "actions.cut" %></a>
+          {/if}
+          {if rules.hasOwnProperty("can_accept_paste_from_clipboard") && rules.can_accept_paste_from_clipboard}
+            <a href="#" class="btn btn-mini paste-node disabled"><%= I18n.t "actions.paste" %></a>
+          {/if}
+        </div>
+      {/if}
       {if rules.hasOwnProperty("can_move")}
         <div class="btn-group dropdown move-node-menu">
           <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Move">

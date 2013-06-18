@@ -527,4 +527,30 @@ describe 'Resources controller' do
     tree.children[1]["title"].should eq(archival_object_2["title"])
   end
 
+
+  it "accepts move of multiple children" do
+    resource = create(:json_resource)
+    ao = create(:json_archival_object, :resource => {:ref => resource.uri})
+
+    child_1 = create(:json_archival_object, :resource => {:ref => resource.uri}, :parent => {:ref => ao.uri})
+    child_2 = create(:json_archival_object, :resource => {:ref => resource.uri}, :parent => {:ref => ao.uri})
+
+    response = JSONModel::HTTP::post_form("#{resource.uri}/accept_children", {"children[]" => [child_1.uri, child_2.uri], "position" => 0})
+    json_response = ASUtils.json_parse(response.body)
+
+    json_response["status"].should eq("Updated")
+
+    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
+
+    tree.children.length.should eq(3)
+    tree.children[0]["title"].should eq(child_1["title"])
+    tree.children[0]["record_uri"].should eq(child_1.uri)
+
+    tree.children[1]["title"].should eq(child_2["title"])
+    tree.children[1]["record_uri"].should eq(child_2.uri)
+
+    tree.children[2]["title"].should eq(ao["title"])
+    tree.children[2]["record_uri"].should eq(ao.uri)
+  end
+
 end
