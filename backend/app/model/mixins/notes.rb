@@ -12,6 +12,17 @@ module Notes
   end
 
 
+  def publish!
+    notes = ASUtils.json_parse(self.notes || "[]")
+    if not notes.empty?
+      notes.each do |note|
+        note["publish"] = true
+      end
+      self.notes = JSON(notes)
+    end
+
+    super
+  end
 
   module ClassMethods
 

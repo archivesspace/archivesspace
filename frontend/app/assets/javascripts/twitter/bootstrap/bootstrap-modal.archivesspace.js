@@ -1,5 +1,5 @@
 /* =========================================================
- * bootstrap-modal.js v2.2.2
+ * bootstrap-modal.js v2.3.2
  * http://twitter.github.com/bootstrap/javascript.html#modals
  * =========================================================
  * Copyright 2012 Twitter, Inc.
@@ -64,8 +64,7 @@
             that.$element.appendTo(document.body) //don't move modals dom position
           }
 
-          that.$element
-            .show()
+          that.$element.show()
 
           if (transition) {
             that.$element[0].offsetWidth // force reflow
@@ -144,16 +143,17 @@
         })
       }
 
-    , hideModal: function (that) {
-        this.$element
-          .hide()
-          .trigger('hidden')
-
-        this.backdrop()
+    , hideModal: function () {
+        var that = this
+        this.$element.hide()
+        this.backdrop(function () {
+          that.removeBackdrop()
+          that.$element.trigger('hidden')
+        })
       }
 
     , removeBackdrop: function () {
-        this.$backdrop.remove()
+        this.$backdrop && this.$backdrop.remove()
         this.$backdrop = null
       }
 
@@ -177,6 +177,8 @@
 
           this.$backdrop.addClass('in')
 
+          if (!callback) return
+
           doAnimate ?
             this.$backdrop.one($.support.transition.end, callback) :
             callback()
@@ -185,8 +187,8 @@
           this.$backdrop.removeClass('in')
 
           $.support.transition && this.$element.hasClass('fade')?
-            this.$backdrop.one($.support.transition.end, $.proxy(this.removeBackdrop, this)) :
-            this.removeBackdrop()
+            this.$backdrop.one($.support.transition.end, callback) :
+            callback()
 
         } else if (callback) {
           callback()

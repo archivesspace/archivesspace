@@ -51,7 +51,11 @@ module ApplicationHelper
 
     search_params["q"] = opts["q"] || params["q"]
 
-    search_params["type"] = opts["type"] || params["type"]
+    if opts["type"] && opts["type"].kind_of?(Array)
+      search_params["type"] = opts["type"]
+    else
+      search_params["type"] = opts["type"] || params["type"]
+    end
 
     # retain any advanced search params
     advanced = (opts["advanced"] || params["advanced"])
@@ -63,6 +67,32 @@ module ApplicationHelper
     end
 
     search_params.reject{|k,v| k.blank? or v.blank?}
+  end
+
+  def set_title_for_search
+    title =  I18n.t("actions.search")
+
+    if @search_data
+      if params[:type] && !@search_data.types.blank?
+        title = "#{I18n.t("search_results.searching")} #{@search_data.types.join(", ")}"
+      end
+
+      facets_to_display = []
+
+      if @search_data.query?
+        facets_to_display << @search_data.facet_label_for_query
+      end
+
+      if @search_data.filtered_terms?
+        facets_to_display << @search_data[:criteria]["filter_term[]"].collect{|filter_term| @search_data.facet_label_for_filter(filter_term)}
+      end
+
+      if facets_to_display.length > 0
+        title += " | #{facets_to_display.join(", ")}"
+      end
+    end
+
+    set_title(title)
   end
 
 end

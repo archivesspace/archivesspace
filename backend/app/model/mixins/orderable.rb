@@ -124,6 +124,15 @@ module Orderable
   end
 
 
+  def publish!
+    children.each do |child|
+      child.publish!
+    end
+
+    super
+  end
+
+
   def has_children?
     self.class.filter(:parent_id => self.id).count > 0
   end

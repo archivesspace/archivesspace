@@ -163,10 +163,9 @@ describe 'User controller' do
 
 
   it "throws an exception when a user is created with an invalid group" do
-
     expect {
       build(:json_user).save(:password => '123', "groups[]" => ["/repositories/0/groups/999999999"])
-    }.to raise_error(JSONModel::ValidationException)
+    }.to raise_error(RecordNotFound)
 
   end
 

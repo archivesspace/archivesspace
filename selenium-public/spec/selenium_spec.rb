@@ -24,7 +24,7 @@ describe "ArchivesSpace Public interface" do
   end
 
 
-  before(:each) do
+  before(:all) do
     $driver.navigate.to $frontend
   end
 
@@ -153,6 +153,48 @@ describe "ArchivesSpace Public interface" do
       $driver.find_element_with_text('//h2', /Record Not Found/)
     end
 
+  end
+
+
+  describe "Agents" do
+
+    before(:all) do
+      unpublished_agent_uri, $unpublished_agent = create_agent("Unpubished Dude", {"publish" => false})
+      published_agent_uri, $published_agent = create_agent("Published Dude", {"publish" => true})
+
+      $published_resource_uri, $published_resource_title = create_resource({
+        :title => "Published Resource No.3",
+        :publish => true,
+        :id_0 => "published3",
+        :linked_agents => [
+          {:ref => unpublished_agent_uri, :role => 'creator'},
+          {:ref => published_agent_uri, :role => 'creator'},
+        ]
+      })
+
+      @indexer.run_index_round
+    end
+
+
+    it "published are visible in the names search results" do
+      $driver.find_element(:link, "Names").click
+
+      $driver.find_element(:link, $published_agent)
+      assert(5) {
+        $driver.ensure_no_such_element(:link, $unpublished_agent)
+      }
+    end
+
+    it "linked records show for an agent search" do
+      $driver.find_element(:link, $published_agent).click
+      $driver.find_element(:link, $published_resource_title)
+    end
+
+    it "linked record shows published agents in the list" do
+      $driver.find_element(:link, $published_resource_title).click
+      $driver.find_element(:link, $published_agent)
+      $driver.ensure_no_such_element(:link, $unpublished_agent)
+    end
 
   end
 

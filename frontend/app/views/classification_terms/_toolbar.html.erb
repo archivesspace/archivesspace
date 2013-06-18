@@ -1,33 +1,9 @@
 <% if user_can?('update_classification_record') %>
-  <div class="row-fluid">
-    <div class="span12">
-      <div class="record-toolbar">
-        <% if !['edit', 'update', 'create'].include?(controller.action_name) %>
-          <div class="btn-group pull-left">
-            <%= link_to I18n.t("actions.edit"), {:controller => :classifications, :action => :edit, :id => JSONModel(:classification).id_for(@classification_term.classification["ref"]), :anchor => "classification_term_#{@classification_term.id}"}, :class => "btn btn-small btn-primary" %>
-          </div>
-        <% end %>
-        <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
-          <div class="pull-left save-changes">
-            <button type="submit" class="btn btn-primary btn-small"><%= I18n.t("actions.save_prefix") %></button>
-          </div>
-        <% end %>
-        <% if ['edit', 'update'].include?(controller.action_name) %>
-          <div class="pull-left revert-changes">
-            <%= link_to I18n.t("actions.revert"), {:controller => :classifications, :action => :edit, :id => JSONModel(:classification).id_for(@classification_term.classification["ref"]), :anchor => "classification_term_#{@classification_term.id}"}, :class => "btn btn-small" %>
-            <%= I18n.t("actions.toolbar_disabled_message") %>
-          </div>
-        <% end %>
-        <div class="btn-toolbar pull-right">
-          <% if user_can?('delete_classification_record') %>
-            <div class="btn-group">
-              <div class="btn btn-inline-form">
-                <%= button_delete_action url_for(:controller => :classification_terms, :action => :delete, :id => @classification_term.id) %>
-              </div>
-            </div>
-        <% end %>
-        </div>
-      </div>
-    </div>
-  </div>
+  <%= render(:partial => '/shared/component_toolbar',
+             :locals => {
+               :parent_link => {:controller => :classifications, :action => :edit, :id => JSONModel(:classification).id_for(@classification_term.classification["ref"]), :anchor => "classification_term_#{@classification_term.id}"},
+               :record => @classification_term,
+               :show_delete => user_can?('delete_classification_record')
+              })
+  %>
 <% end %>

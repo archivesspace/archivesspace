@@ -18,6 +18,9 @@ en:
     spawn: Spawn
     link_to: Link To
     add_prefix: Add
+    merge_confirm_title: Merge this record?
+    merge_subject_confirm_message: The subject '%{target}' will be deleted and any linked records will be re-linked to the subject you selected.
+    merge_agent_confirm_message: The agent '%{target}' will be deleted and any linked records will be re-linked to the agent you selected.
     move: Move
     move_up_a_level: Up a Level
     move_up: Up
@@ -32,7 +35,7 @@ en:
     set_default: Set as Default
     suppress: Suppress
     suppress_confirm_title: Suppress this Record?
-    suppress_confirm_message: While a suppressed record will remain in the database, it will become hidden to most users and unavailable to most functions.
+    suppress_confirm_message: "While a suppressed record will remain in the database, it will become hidden to most users and unavailable to most functions."
     transfer: Transfer
     unset_default: Unset Default
     unsuppress: Unsuppress
@@ -144,7 +147,7 @@ en:
     repositories_manage: Manage Repositories
     manage_groups: Manage Groups
     manage_users: Manage Users
-    manage_enumerations: Manage Enumerations
+    manage_enumerations: Manage Controlled Value Lists
     manage_user_access: Manage User Access
     logout: Logout
     login: Sign In
@@ -231,6 +234,9 @@ en:
         created: Agent Created
         updated: Agent Saved
         deleted: Agent Deleted
+        merge_description: Merge this agent into...
+        merged: Agent(s) Merged
+        please_select_a_agent_to_merge: Please select an agent
       section:
         basic_information: Basic Information
         dates_of_existence: Dates of Existence
@@ -376,20 +382,20 @@ en:
   enumeration:
     _frontend:
       messages:
-        deleted: Enumeration Value Deleted
-        delete_error: Failed to delete Enumeration Value
-        delete_conflict: "Unable to delete Enumeration as it's currently being referenced by a record"
-        default_set: Enumeration Default Set
-        created: Enumeration Value Created
-        create_error: Failed to create Enumeration Value
-        merged: Enumeration Value Merged
+        deleted: Value Deleted
+        delete_error: Failed to delete Value
+        delete_conflict: "Unable to delete Value as it's currently being referenced by a record"
+        default_set: Default Value Set
+        created: Value Created
+        create_error: Failed to create Value
+        merged: Value Merged
         merge_tip: This Value may be merged with another
-        merge_error: Failed to merge Enumeration Value
-        no_selection: Please select an Enumeration Name
-        name_selector: Enumeration Name
+        merge_error: Failed to merge Value
+        no_selection: Please select a Controlled Value List
+        name_selector: List Name
         name_selector_tooltip: |
-            <p>The enumeration to edit.</p>
-        no_name_provided: Select an Enumeration Name before creating a new value
+            <p>The Controlled Value List to edit.</p>
+        no_name_provided: Select a Value List before creating a new value
       action:
         create_value: Create Value
         delete_value: Delete Value
@@ -403,6 +409,7 @@ en:
         deleted: Event Deleted
       section:
         basic_information: Basic Information
+        date: Event Date/Time
       action:
         save: Save Event
         create: Create Event
@@ -573,6 +580,9 @@ en:
         created: Subject Created
         updated: Subject Saved
         deleted: Subject Deleted
+        merged: Subject(s) Merged
+        merge_description: Merge this subject into...
+        please_select_a_subject_to_merge: Please select a subject
       section:
         basic_information: Basic Information
         terms: Subject Headings
@@ -604,7 +614,7 @@ en:
     _frontend:
       action:
         add: Add User Defined Fields
-        
+
   use_date:
     _frontend:
       action:

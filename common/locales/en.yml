@@ -187,12 +187,12 @@ en:
     event_type: Type
     event_type_toolkit: |
         <p>A categorization of the nature of the event.</p>
-        <p>Values in this Enumeration may be modified.</p>
+        <p>Values in this Controlled Value List may be modified.</p>
         <p>See PREMIS eventType</p>
     outcome: Outcome
     outcome_tooltip: |
         <p>A categorization of the overall result of the event in terms of success, partial success, or failure. Recommended practice is to use a controlled vocabulary that a system can act upon automatically. More detail about the outcome may be recorded in an Outcome Note. Recommended practice is to define events with sufficient granularity that each event has a single outcome.</p>
-        <p>Values in this Enumeration may be modified.</p>
+        <p>Values in this Controlled Value List may be modified.</p>
     outcome_note: Outcome Note
     outcome_note_tooltip: |
         <p>A detailed description of the result or product of the event. This may be used to record all error and warning messages issued by a program involved in the event or to record a pointer to an error log.</p>
@@ -301,11 +301,11 @@ en:
     source: Source
     source_tooltip: |
         <p>CONDITIONALLY REQUIRED FIELD, if Name Rules is not used. An indicator of the authoritative source from which the name was taken.</p>
-        <p>Values in this Enumeration may be modified.</p>
+        <p>Values in this Controlled Value List may be modified.</p>
     rules: Rules
     rules_tooltip: |
         <p>CONDITIONALLY REQUIRED FIELD, if Name Source is not used. An indication of the rules used to formulate the name entry.</p>
-        <p>Values in this Enumeration may be modified.</p>
+        <p>Values in this Controlled Value List may be modified.</p>
     name_order: Name Order
     name_order_tooltip: |
         <p>Indicates if the name form should be displayed in inverted (last name, first name) order or in direct order (first name last name).</p>
@@ -444,22 +444,6 @@ en:
     _singular: Name
     _plural: Names
 
-  agent_person:
-    _singular: Person
-    _plural: People
-
-  agent_family:
-    _singular: Family
-    _plural: Families
-
-  agent_software:
-    _singular: Software
-    _plural: Software
-
-  agent_corporate_entity:
-    _singular: Corporate Entity
-    _plural: Corporate Entities
-
   agent_contact:
     name: Contact Name
     name_tooltip: |
@@ -467,7 +451,7 @@ en:
     salutation: Salutation
     salutation_tooltip: |
         <p>Salutation for the contact person.</p>
-        <p>Values in this Enumeration may be modified.</p>
+        <p>Values in this Controlled Value List may be modified.</p>
     address_1: Address 1
     address_1_tooltip: |
         <p>Address for the contact person.</p>
@@ -670,7 +654,7 @@ en:
     type_1: Container 1 Type 
     type_1_tooltip: &container_type_tooltip |
         <p>The type of the primary container in which the described material is housed.</p>
-        <p>Values in this Enumeration may be modified.</p>
+        <p>Values in this Controlled Value List may be modified.</p>
     indicator_1: Container 1 Indicator
     indicator_1_tooltip: &container_indicator_tooltip |
         <p>An alphanumeric expression for indicating the place of a container in a sequence of containers.</p>
@@ -693,7 +677,7 @@ en:
     instance_type: Type
     instance_type_tooltip: |
         <p>A designation of the manifestation for the described materials. The instance designation is optional, but required to open and complete a container record for the material described.</p>
-        <p>Values in this Enumeration may be modified.</p>
+        <p>Values in this Controlled Value List may be modified.</p>
     digital_object: Digital Object
     _plural: Instances
     _singular: Instance
@@ -713,7 +697,7 @@ en:
     use_statement: Use Statement
     use_statement_tooltip: |
         <p>A descriptor indicating the use for which the digital file is intended (e.g., a thumbnail).</p>
-        <p>Values in this Enumeration may be modified.</p>
+        <p>Values in this Controlled Value List may be modified.</p>
     xlink_actuate_attribute: XLink Actuate Attribute
     xlink_actuate_attribute_tooltip: |
         <p>An XLink attribute used for export for indicating how the digital object should display (e.g. whether the link occurs automatically or must be requested by the user). It is used in conjunction with the XLink Show attribute.</p>
@@ -723,7 +707,7 @@ en:
     file_format_name: File Format Name
     file_format_name_tooltip: |
         <p>The name of the format for the file type.</p>
-        <p>Values in this Enumeration may be modified.</p>
+        <p>Values in this Controlled Value List may be modified.</p>
         <p>Examples:</p>
         <ul>
         <li>Audio Interchange File Format (aiff)</li>
@@ -748,7 +732,7 @@ en:
     checksum_method: Checksum Method
     checksum_method_tooltip: |
         <p>The algorithm used for generating checksums.</p>
-        <p>Values in this Enumeration may be modified.</p>
+        <p>Values in this Controlled Value List may be modified.</p>
         <p>Examples:</p>
         <ul>
         <li>MD5</li>
@@ -770,7 +754,7 @@ en:
     extent_type: Type
     extent_type_tooltip: &extent_type_tooltip |
         <p>A term indicating the type of unit used to measure the extent of materials described.</p>
-        <p>Values in this Enumeration may be modified.</p>
+        <p>Values in this Controlled Value List may be modified.</p>
         <p>See DACS 2.5</p>
     container_summary: Container Summary
     container_summary_tooltip: |
@@ -972,6 +956,9 @@ en:
   usage_date:
     <<: *date_attributes
     
+  archival_record_date:
+    <<: *date_attributes
+
   date_fields:
     <<: *date_attributes
 
@@ -1050,7 +1037,7 @@ en:
     resource_type: Resource Type
     resource_type_tooltip: |
         <p>A list of terms used by a repository for categorizing its resources into basic types.</p>
-        <p>Values in this Enumeration may be modified.</p>
+        <p>Values in this Controlled Value List may be modified.</p>
     access_restrictions: Access Restrictions?
     access_restrictions_tooltip: |
         <p>A checkbox for indicating access to the materials is restricted.</p>
@@ -1125,8 +1112,29 @@ en:
     dates_of_existence: Dates of Existence
     dates_of_existence_tooltip: |
         <p>Dates in which the agent existed.</p>
+    publish: Publish
     _singular: Agent
     _plural: Agents
+
+  agent_person:
+    <<: *agent_attributes
+    _singular: Person
+    _plural: People
+
+  agent_family:
+    <<: *agent_attributes
+    _singular: Family
+    _plural: Families
+
+  agent_software:
+    <<: *agent_attributes
+    _singular: Software
+    _plural: Software
+
+  agent_corporate_entity:
+    <<: *agent_attributes
+    _singular: Corporate Entity
+    _plural: Corporate Entities
 
   archival_object: &archival_object_attributes
     title: Title
@@ -1223,6 +1231,7 @@ en:
       delete_event_record: delete event records in this repository
       update_classification_record: create/update classifications and classification terms
       delete_classification_record: delete classifications and classification terms
+      merge_agents_and_subjects: merge agent/subject records
     _singular: Group
     _plural: Groups
 
@@ -1298,7 +1307,7 @@ en:
     finding_aid_description_rules: Description Rules
     finding_aid_description_rules_tooltip: |
         <p>Indicates the descriptive rules used to guide description of the Resource.</p>
-        <p>Values in this Enumeration may be modified.</p>
+        <p>Values in this Controlled Value List may be modified.</p>
     finding_aid_language: Language
     finding_aid_language_tooltip: |
         <p>Indicates all the languages present in the finding aid generated from the resource description.</p>
@@ -1410,7 +1419,7 @@ en:
     source: Source
     source_tooltip: |
         <p>The vocabulary from which an established term is taken.</p>
-        <p>Values in this Enumeration may be modified.</p>
+        <p>Values in this Controlled Value List may be modified.</p>
         <p>Examples:</p>
         <ul>
         <li>Medical Subject Headings (mesh)</li>
@@ -1482,7 +1491,7 @@ en:
     processing_priority: Priority
     processing_priority_tooltip: |
         <p>Indicates the priority assigned to processing of an archival unit.</p>
-        <p>Values in this Enumeration may be modified.</p>
+        <p>Values in this Controlled Value List may be modified.</p>
         <p>Examples:</p>
         <ul>
         <li>High</li>
@@ -1492,7 +1501,7 @@ en:
     processing_status: Processing Status
     processing_status_tooltip: |
         <p>For indicating the current status of processing for an archival unit (accession, resource, or digital object).</p>
-        <p>Values in this Enumeration may be modified.</p>
+        <p>Values in this Controlled Value List may be modified.</p>
         <p>Examples:</p>
         <ul>
         <li>New</li>
@@ -1544,15 +1553,15 @@ en:
     # tooltips not displaying
     name: Name
     name_tooltip: |
-        <p>The name of the Enumeration of to which you wish to add a value.</p>
+        <p>The name of the Controlled Value List of to which you wish to add a value.</p>
     value: Value
     value_tooltip: |
-        <p>The value for the Enumeration you wish to add or edit.</p>
-        <p>Whenever possible, Enumeration values should be in lower case and have underscores ("_") instead of spaces. Translations for the values should be added to the locales file.</p>
+        <p>The value for the Controlled Value List you wish to add or edit.</p>
+        <p>Whenever possible, values should be in lower case and have underscores ("_") instead of spaces. Translations for the values should be added to the locales file.</p>
     translation: Translation
     merge_into: Merge Into
-    _singular: Enumeration
-    _plural: Enumerations
+    _singular: Controlled Value List
+    _plural: Controlled Value lists
 
   classification:
     _singular: Classification

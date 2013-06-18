@@ -12,6 +12,15 @@ module Trees
   end
 
 
+  def publish!
+    children.each do |child|
+      child.publish!
+    end
+
+    super
+  end
+
+
   def tree
     links = {}
     properties = {}

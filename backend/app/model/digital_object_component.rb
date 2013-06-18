@@ -26,36 +26,4 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
     super
   end
 
-
-  def publish_all_subrecords
-
-    # publish all notes
-    notes = ASUtils.json_parse(self.notes || "[]")
-    if not notes.empty?
-      notes.each do |note|
-        note["publish"] = true
-      end
-      self.notes = JSON(notes)
-    end
-
-    # publish all file versions
-    self.file_version.each do |file|
-      file.publish = 1
-      file.save
-    end
-
-    # publish all external documents
-    self.external_document.each do |exdoc|
-      exdoc.publish = 1
-      exdoc.save
-    end
-
-    # set our own publish to true
-    self.publish = 1
-
-    # save
-    self.save
-
-  end
-
 end

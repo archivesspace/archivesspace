@@ -35,12 +35,19 @@
 
       "external_documents" => {"type" => "array", "items" => {"type" => "JSONModel(:external_document) object"}},
 
+      "system_generated" => {
+        "readonly" => true,
+        "type" => "boolean"
+      },
+
       "notes" => {
         "type" => "array",
         "items" => {"type" => [{"type" => "JSONModel(:note_bioghist) object"}]},
       },
       
       "dates_of_existence" => {"type" => "array", "items" => {"type" => "JSONModel(:date) object"}},
+
+      "publish" => {"type" => "boolean", "default" => true},
 
     },
   },

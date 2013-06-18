@@ -1,6 +1,10 @@
+<%
+  set_title_for_search
+%>
 <div class="content-pane">
   <div class="row-fluid">
     <div class="span3">
+      <%= render :partial => "search/components_switch" %>
       <%= render :partial => "search/filter" %>
     </div>
     <div class="span9">

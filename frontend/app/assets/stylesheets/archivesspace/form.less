@@ -60,7 +60,7 @@ fieldset {
 form .control-group {
   &.conditionally-required {
     > .control-label {
-      background-image: url(../../archivesspace/conditionally_required.png);
+      background-image: asset-url('archivesspace/conditionally_required.png');
       background-repeat: no-repeat;
       background-position: right center;
       padding-right: 16px;
@@ -68,13 +68,13 @@ form .control-group {
   }
   &.conditionally-required.error {
     > .control-label {
-      background-image: url(../../archivesspace/required_loud.png);
+      background-image: asset-url('archivesspace/required_loud.png');
     }
   }
   &.required {
     > .control-label {
       font-weight: bold;
-      background-image: url(../../archivesspace/required_quiet.png);
+      background-image: asset-url('archivesspace/required_quiet.png');
       background-repeat: no-repeat;
       background-position: right center;
       padding-right: 16px;
@@ -82,7 +82,7 @@ form .control-group {
   }
   &.required.error {
     > .control-label {
-      background-image: url(../../archivesspace/required_loud.png);
+      background-image: asset-url('archivesspace/required_loud.png');
     }
   }
 
@@ -262,7 +262,7 @@ section h3 {
     button:first-child {
       width: 80%;
     }
-    #createPlusOne {
+    .createPlusOneBtn {
       width: 20%;
     }
   }
@@ -340,22 +340,22 @@ section h3 {
   }
 
   &.required > .subrecord-form-heading {
-    background-image: url(../../archivesspace/required_quiet.png);
+    background-image: asset-url('archivesspace/required_quiet.png');
     background-repeat: no-repeat;
     background-position: 5px center;
     padding-left: 22px;
   }
   &.required.error > .subrecord-form-heading {
-    background-image: url(../../archivesspace/required_loud.png);
+    background-image: asset-url('archivesspace/required_loud.png');
   }
   &.conditionally-required > .subrecord-form-heading {
-    background-image: url(../../archivesspace/conditionally_required.png);
+    background-image: asset-url('archivesspace/conditionally_required.png');
     background-repeat: no-repeat;
     background-position: 5px center;
     padding-left: 22px;
   }
   &.conditionally-required.error > .subrecord-form-heading {
-    background-image: url(../../archivesspace/required_loud.png);
+    background-image: asset-url('archivesspace/required_loud.png');
   }
 
   .subrecord-form-fields .subrecord-form {
@@ -443,7 +443,7 @@ ul.subrecord-form-list {
     top: 5px;
     height: 30px;
     width: 30px;
-    background-image: url(../../archivesspace/drag_handle_btn.png);
+    background-image: asset-url('archivesspace/drag_handle_btn.png');
     background-repeat: no-repeat;
     cursor: move;
 

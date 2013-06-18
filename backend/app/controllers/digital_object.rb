@@ -84,7 +84,7 @@ class ArchivesSpaceService < Sinatra::Base
            [400, :error]) \
   do
     digital_object = DigitalObject.get_or_die(params[:digital_object_id])
-    digital_object.publish_all_subrecords_and_components
+    digital_object.publish!
 
     updated_response(digital_object)
   end

@@ -63,7 +63,7 @@ Sequel.migration do
     end
 
 
-    create_table(:enumeration_value) do
+    create_table(:enumeration_value, :collate => :utf8_bin) do
       primary_key :id
 
       Integer :enumeration_id, :null => false, :index => true
@@ -105,6 +105,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      Integer :publish
+
       apply_mtime_columns
     end
 
@@ -117,6 +119,8 @@ Sequel.migration do
 
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
+
+      Integer :publish
 
       apply_mtime_columns
     end
@@ -131,6 +135,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      Integer :publish
+
       apply_mtime_columns
     end
 
@@ -143,6 +149,8 @@ Sequel.migration do
 
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
+
+      Integer :publish
 
       apply_mtime_columns
     end
@@ -371,6 +379,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      Integer :system_generated, :default => 0
+
       apply_mtime_columns
     end
 
@@ -411,6 +421,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      Integer :system_generated, :default => 0
+
       apply_mtime_columns
     end
 
@@ -447,6 +459,8 @@ Sequel.migration do
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
+      Integer :system_generated, :default => 0
+
       apply_mtime_columns
     end
 
@@ -477,6 +491,8 @@ Sequel.migration do
 
       Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
+
+      Integer :system_generated, :default => 0
 
       apply_mtime_columns
     end
