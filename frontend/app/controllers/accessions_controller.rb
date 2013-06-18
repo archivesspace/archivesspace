@@ -31,8 +31,6 @@ class AccessionsController < ApplicationController
     end
 
     return render :partial => "accessions/edit_inline" if params[:inline]
-
-    fetch_tree
   end
 
   def create
@@ -101,11 +99,6 @@ class AccessionsController < ApplicationController
 
     accession
   end
-
-  def fetch_tree
-    @tree = JSONModel(:accession_tree).find(nil, :accession_id => @accession.id)
-  end
-
 
   def set_event_types
     @accession_event_types = ['acknowledgement_sent', 'agreement_sent', 'agreement_signed', 'cataloged', 'copyright_transfer', 'processed']

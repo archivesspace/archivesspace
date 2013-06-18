@@ -3,9 +3,18 @@
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
     "version" => 1,
     "type" => "object",
-    "parent" => "record_tree",
     "uri" => "/repositories/:repo_id/resources/:resource_id/tree",
-    "properties" => {},
+    "parent" => "record_tree",
+    "properties" => {
+      "level" => {"type" => "string", "maxLength" => 255},
+      "instance_types" => {"type" => "array", "items" => {"type" => "string"}},
+      "containers" => {"type" => "array", "items" => {"type" => "object"}},
+      "children" => {
+        "type" => "array",
+        "additionalItems" => false,
+        "items" => { "type" => "JSONModel(:resource_tree) object" }
+      }
+    },
     "additionalProperties" => false,
   },
 }

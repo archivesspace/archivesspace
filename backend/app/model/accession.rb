@@ -31,19 +31,20 @@ class Accession < Sequel::Model(:accession)
 
   auto_generate :property => :label,
                 :generator => proc { |json|
-                  
+
                   label = ""
-                  
+
                   %w(title id_0 id_1 id_2 id_3).each do |p|
-                    
+
                     if json[p]
                       label += ", " if !label.empty?
                       label += json[p]
                     end
                   end
-  
+
                   label
                 }
+
 
   def set_suppressed(val)
     self.suppressed = val ? 1 : 0
@@ -56,25 +57,6 @@ class Accession < Sequel::Model(:accession)
     end
 
     val
-  end
-
-
-  def tree
-    resources = self.linked_records(:spawned).map {|resource|
-      {
-        :title => resource.title,
-        :id => resource.id,
-        :node_type => 'resource',
-        :record_uri => resource.uri,
-      }
-    }
-
-    JSONModel(:accession_tree).
-        from_hash(:title => self.title,
-                  :id => self.id,
-                  :node_type => 'accession',
-                  :children => resources,
-                  :record_uri => self.uri)
   end
 
 end
