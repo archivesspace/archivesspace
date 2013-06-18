@@ -414,7 +414,7 @@
 
 <% define_template "chronology_item" do |form, item| %>
   <div class="subrecord-form-fields" data-type="chronology_item">
-    <%= form.label_and_date "event_date" %>
+    <%= form.label_and_textfield("event_date") %>
     <div class="control-group">
       <label class="control-label"><%= I18n.t("chronology_item.events") %></label>
       <div class="controls">
