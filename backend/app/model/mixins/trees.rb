@@ -6,7 +6,7 @@ module Trees
 
 
   def children
-    Kernel.const_get(self.class.node_type.to_s.camelize).
+    self.class.node_model.
            this_repo.filter(:root_record_id => self.id,
                             :parent_id => nil)
   end
@@ -21,6 +21,15 @@ module Trees
   end
 
 
+  def build_node_query
+    node_query = self.class.node_model.this_repo.filter(:root_record_id => self.id)
+    node_query = node_query.eager(:instance => :container).all if self.class.node_model.associations().include?(:instance)
+    node_query = node_query.eager(:file_version).all if self.class.node_model.associations().include?(:file_version)
+
+    node_query
+  end
+
+
   def tree
     links = {}
     properties = {}
@@ -30,13 +39,7 @@ module Trees
 
     top_nodes = []
 
-    node_class = Kernel.const_get(node_type.to_s.camelize)
-
-    node_query = node_class.this_repo.filter(:root_record_id => self.id)
-    node_query = node_query.eager(:instance => :container).all if node_class.associations().include?(:instance)
-    node_query = node_query.eager(:file_version).all if node_class.associations().include?(:file_version)
-
-    node_query.each do |node|
+    build_node_query.each do |node|
       if node.parent_id
         links[node.parent_id] ||= []
         links[node.parent_id] << [node.position, node.id]
@@ -114,6 +117,11 @@ module Trees
     end
 
 
+    def node_model
+      Kernel.const_get(node_type.to_s.camelize)
+    end
+
+
     def assemble_tree(node, links, properties)
       result = properties[node].clone
 
@@ -138,8 +146,9 @@ module Trees
 
     def prepare_for_deletion(dataset)
       dataset.select(:id).each do |record|
-        Kernel.const_get(node_type.to_s.camelize).
-               this_repo.filter(:root_record_id => record.id, :parent_id => nil).select(:id).each do |subrecord|
+        node_model.this_repo.filter(:root_record_id => record.id,
+                                    :parent_id => nil).
+          select(:id).each do |subrecord|
           subrecord.delete
         end
       end
