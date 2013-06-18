@@ -558,9 +558,14 @@ en:
     note_citation: Citation
     note_abstract: Abstract
     note_outline: Outline
+    note_text: Text
     note_type: Note Type
     _singular: Note
     _plural: Notes
+
+  note_text:
+    <<: *note_attributes
+    option: Text
 
   note_index:
     <<: *note_attributes

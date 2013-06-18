@@ -508,3 +508,17 @@
     </div>
   </div>
 <% end %>
+
+
+<% define_template "note_text", jsonmodel_definition(:note_text) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_text">
+    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_text") %></h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_text") %>
+
+      <%= form.textarea('content', form['content'], :class => "mixed-content") %>
+
+      <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
+    </div>
+  </div>
+<% end %>
