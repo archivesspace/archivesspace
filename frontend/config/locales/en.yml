@@ -496,7 +496,7 @@ en:
       preview:
         raw: Raw
         raw_title: The raw note content
-        parsed: Parsed
+        parsed: Formatted
         parsed_title: How the note will be rendered in the Public application
       messages:
         select_a_note_type: "<em>Please select a Note Type</em>"

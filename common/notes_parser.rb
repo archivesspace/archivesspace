@@ -1,7 +1,5 @@
 require 'java'
 
-require Rails.root.join('..', 'common', 'lib', 'jsoup-1.7.2.jar')
-
 module NotesParser
 
   def self.parse(note, base_uri)
