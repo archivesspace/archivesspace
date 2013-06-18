@@ -116,7 +116,7 @@ module ASpaceImport
     private
 
     def run
-      ASpaceImport::ImportCache.new({:log => @log, :dry => @dry})
+      ASpaceImport::ImportCache.new({:log => @log, :dry => @dry, :batch_path => @batch_path})
     end
 
 

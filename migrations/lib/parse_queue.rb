@@ -46,7 +46,12 @@ module ASpaceImport
 
 
     def push(obj)
-      hash = obj.to_hash
+      begin
+        hash = obj.to_hash
+      rescue JSONModel::ValidationException => e
+        @log.debug("Invalid Object: #{obj.inspect}")
+        raise e
+      end
 
       if @must_be_unique.include?(hash['jsonmodel_type'])
         hash_code = hash.clone.tap {|h| h.delete("uri")}.hash
@@ -70,16 +75,17 @@ module ASpaceImport
 
       begin
         if @dry
+          if @batch_path
+            FileUtils.copy_file(@batch_file.path, @batch_path)
+          end
           batch = ASUtils.json_parse(File.open(@batch_file).read)
 
-          @log.debug("Posted file contents: #{batch.inspect}")
+          # @log.debug("Posted file contents: #{batch.inspect}")
 
           mapping = {:saved => Hash[batch.map {|rec| [rec['uri'], [rec['uri'], JSONModel.parse_reference(rec['uri'])[:id]]] }] }
-
           response = @dry_response.new(mapping)
 
           block.call(response)
-
         else
 
           uri = "/repositories/#{@repo_id}/batch_imports"
@@ -163,7 +169,6 @@ module ASpaceImport
         @log.warn("Saving objects that were not explicitly cleared from the cache")
         self.clear!
       end
-
       @batch.save(&block)
     end
 

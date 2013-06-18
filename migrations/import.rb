@@ -1,25 +1,25 @@
 #!/usr/bin/env ruby
 require 'optparse'
 
-options = {:dry => false, 
+options = {:dry => false,
            :debug => false,
-           :relaxed => false, 
-           :repo_id => 2, 
+           :relaxed => false,
+           :repo_id => 2,
            :vocab_id => 1}
 
 optparse = OptionParser.new do|opts|
   opts.banner = "Usage: import.rb [options] IMPORTER_ARGS"
-  
+
   opts.on( '-a', '--allow-failures', 'Do not stop because an import fails') do
     options[:relaxed] = true
   end
   opts.on( '-d', '--debug', 'Debug mode' ) do
     options[:debug] = true
-  end 
+  end
   opts.on( '-f', '--flags FLAG(,FLAG)*', Array, 'Importer-specific flags' ) do|flags|
     options[:importer_flags] = flags
   end
-  
+
   opts.on( '-h', '--help', 'Display this screen' ) do
     puts opts
     exit
@@ -32,6 +32,10 @@ optparse = OptionParser.new do|opts|
   end
   opts.on( '-n', '--dry-run', 'Do a dry run' ) do
     options[:dry] = true
+  end
+
+  opts.on( '-p', '--batch-path PATH', 'Make a snapshot of the batch request at PATH') do |path|
+    options[:batch_path] = options[:dry] && path
   end
 
   opts.on( '-q', '--quiet', 'No logging' ) do
@@ -73,8 +77,8 @@ if options[:importer]
   ASpaceImport::Importer.create_importer(options).run_safe do |message|
     if message.has_key?('saved')
       puts "Saved #{message['saved'].length} records."
-      message['saved'].keys.each do |saved|
-        puts "#{saved}\n"
+      message['saved'].each do |logical_uri, uri_and_id|
+        puts "#{uri_and_id[0]}\n"
       end
     else
       puts "Server response: #{message.to_s}"
