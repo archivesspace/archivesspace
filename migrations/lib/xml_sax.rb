@@ -63,16 +63,21 @@ module ASpaceImport
         @context_nodes = {}
         @proxies = ASpaceImport::RecordProxyMgr.new
         @stickies = []
+        # another hack for noko:
+        @node_shadow = nil
 
         self.class.ensure_configuration
 
-        emit_status({'type' => 'started', 'label' => 'Processing XML', 'id' => 'xml'})
-
         @reader.each_with_index do |node, i|
-
           case node.node_type
 
           when 1
+            # Nokogiri Reader won't create events for closing tags on empty nodes
+            # https://github.com/sparklemotion/nokogiri/issues/928
+            # handle_closer(node) if node.self_closing? #<--- don't do this it's horribly slow
+            if @node_shadow && node.depth <= @node_shadow[1]
+              handle_closer(@node_shadow)
+            end
             handle_opener(node)
           when 3
             handle_text(node)
@@ -87,29 +92,32 @@ module ASpaceImport
 
         emit_status({'type' => 'done', 'id' => 'xml'})
 
-        with_undischarged_proxies do |prox|
-          @log.debug("Undischarged: #{prox.to_s}")
-        end
+        # with_undischarged_proxies do |prox|
+        #   @log.debug("Undischarged: #{prox.to_s}")
+        # end
 
         @cache
       end
 
 
       def handle_opener(node)
-        @node_name = node.name
+        @node_name = node.local_name
         @node_depth = node.depth
+        @node_shadow = [node.local_name, node.depth]
         @node = node
 
         # constrained handlers, e.g. publication/date
         @stickies.each_with_index do |prefix, i|
-          self.send("_#{@stickies[i..@stickies.length].join('_')}_#{node.name}", node)
+          self.send("_#{@stickies[i..@stickies.length].join('_')}_#{@node_name}", node)
         end
 
         # unconstrained handlers, e.g., date
-        self.send("_#{node.name}", node)
+        self.send("_#{@node_name}", node)
 
         # config calls for constrained handlers on this path
-        make_sticky(node.name) if self.class.make_sticky?(node.name)
+        make_sticky(@node_name) if self.class.make_sticky?(@node_name)
+
+        @node = nil
       end
 
 
@@ -119,13 +127,15 @@ module ASpaceImport
 
 
       def handle_closer(node)
-        if @context_nodes[node.name] && @context_nodes[node.name][node.depth]
-          @context_nodes[node.name][node.depth].reverse.each do |type|
+        @node_shadow = nil
+        node_info = node.is_a?(Array) ? node : [node.local_name, node.depth]
+        if @context_nodes[node_info[0]] && @context_nodes[node_info[0]][node_info[1]]
+          @context_nodes[node_info[0]][node_info[1]].reverse.each do |type|
             close_context(type)
           end
-          @context_nodes[node.name].delete_at(node.depth)
+          @context_nodes[node_info[0]].delete_at(node_info[1])
         end
-        @stickies.pop if @stickies.last == node.name
+        @stickies.pop if @stickies.last == node_info[0]
       end
 
 
@@ -149,14 +159,15 @@ module ASpaceImport
 
       def close_context(type)
         if @cache.last.jsonmodel_type != type.to_s
+          @log.debug(@cache.last.inspect)
           raise "Unexpected Object Type in Queue: Expected #{type} got #{@cache.last.jsonmodel_type}"
         end
 
-        @proxies.discharge_proxy("#{type}-#{@contexts.length}", @cache.last)
-
+        @proxies.discharge_proxy("#{@cache.last.jsonmodel_type}-#{@contexts.length}", @cache.last)
         @contexts.pop
         @cache.pop
       end
+
 
       # Schedule retrieval from the next text node
       # to show up
@@ -208,7 +219,7 @@ module ASpaceImport
           value.on_discharge(self, :set_property, obj, property)
         else
           if value.nil?
-            @log.warn("Given a nil value for <#{obj.class.record_type}><#{property}>")
+            @log.debug("Given a nil value for <#{obj.class.record_type}><#{property}>")
           else
             filtered_value = ASpaceImport::Utils.value_filter(property_type[0]).call(value)
             if property_type[0].match /list$/
