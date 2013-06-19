@@ -8,7 +8,7 @@ class HelloWorldController < ApplicationController
    
 
   def new
-    JSONModel::HTTP::get_json('/helloworld', :name => session[:user])
+    JSONModel::HTTP::get_json('/helloworld', :who => session[:user])
     @whosaidhello = JSONModel::HTTP::get_json('/whosaidhello')
 
     render :action => :index

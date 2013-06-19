@@ -34,4 +34,6 @@
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "collection_management", :cardinality => :zero_to_one} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "user_defined", :cardinality => :zero_to_one} %>
 
+  <%= form_plugins_for("digital_object", form) %>
+
 </fieldset>

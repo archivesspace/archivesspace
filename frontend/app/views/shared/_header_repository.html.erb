@@ -102,11 +102,11 @@
           <ul class="nav pull-right">
             <li><%= link_to I18n.t("navbar.list_reports"), :controller => :reports, :action => :index %></li>
 
-            <% if Plugins.plugins? %>
+            <% if Plugins.repository_menu_items? %>
               <li class="dropdown plugin-container">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("navbar.plugins") %> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <% Plugins.list.each do |plugin| %>
+                  <% Plugins.repository_menu_items.each do |plugin| %>
                     <li><%= link_to I18n.t("plugins.#{plugin}.label"), :controller => plugin.intern, :action => :index %></li>
                   <% end %>
                 </ul>
