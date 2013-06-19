@@ -129,6 +129,7 @@ ArchivesSpace::Application.routes.draw do
   match 'update_monitor/poll' => 'update_monitor#poll', :via => [:post]
 
   match 'batch_delete/archival_records' => 'batch_delete#archival_records', :via => [:post]
+  match 'batch_delete/subjects' => 'batch_delete#subjects', :via => [:post]
 
 
   if Plugins.system_menu_items?
