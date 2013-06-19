@@ -201,8 +201,8 @@ module ApplicationHelper
   end
 
 
-  def button_delete_multiple_action
-    button_delete_action(url_for(:controller => :repositories, :action => :delete_records), {
+  def button_delete_multiple_action(target_action)
+    button_delete_action(url_for(:controller => :batch_delete, :action => target_action), {
       :class => "btn btn-small btn-danger multiselect-enabled",
       :"data-multiselect" => "#tabledSearchResults",
       :"data-title" => I18n.t("actions.delete_multiple_confirm_title"),

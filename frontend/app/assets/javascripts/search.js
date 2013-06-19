@@ -42,6 +42,8 @@ $(function() {
       }
     });
 
+    $(".multiselect-column :input:checked", $table).closest("tr").addClass("selected");
+
   };
 
   $(".table-search-results[data-multiselect]").each(init_multiselect_listing);

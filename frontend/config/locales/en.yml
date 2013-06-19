@@ -165,6 +165,11 @@ en:
     list_reports: Reports
     global_admin: System
 
+  batch_delete:
+    archival_objects:
+      success: Records deleted
+      error: "Unable to delete Records:"
+
   browser_support:
     bronze: ArchivesSpace does not fully support this browser.  Please consider upgrading your browser to the latest versions of either Chrome, Firefox or Internet Explorer.
     unknown: ArchivesSpace does not fully support this browser.  Please consider upgrading your browser to the latest versions of either Chrome, Firefox or Internet Explorer.

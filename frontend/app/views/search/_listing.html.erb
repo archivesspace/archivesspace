@@ -38,7 +38,7 @@
     <tbody>
     <%= render :partial => "shared/pagination_summary" %>
     <% @search_data['results'].each do |result| 
-      deleted = (params.has_key?("deleted_uri") and params["deleted_uri"] === result["id"]) || false
+      deleted = (params.has_key?("deleted_uri") and Array(params["deleted_uri"]).include?(result["id"])) || false
     %>
       <tr class="<%= "deleted" if deleted %>">
         <% if allow_multi_select? %>

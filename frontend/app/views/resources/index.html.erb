@@ -17,7 +17,7 @@
              <div class="pull-right">
                <%= link_to I18n.t("resource._frontend.action.create"), {:controller => :resources, :action => :new}, :class => "btn btn-small" %>
                <% if user_can?("delete_archival_record") %>
-                <%= button_delete_multiple_action %>
+                <%= button_delete_multiple_action(:archival_records) %>
                <% end %>
              </div>
            </div>
