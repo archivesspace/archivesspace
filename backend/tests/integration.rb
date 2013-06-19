@@ -320,6 +320,11 @@ def run_tests(opts)
   r = do_get(url("/repositories"))
   r[:body]["code"] == "SESSION_EXPIRED" or fail("Session expiry", r)
 
+
+  @session = nil
+  puts "Check cannot delete record via batch when not authenticated"
+  r = do_post(URI.encode_www_form("record_uris[]" => "/repositories/#{repo_id}/accessions/#{acc_id}"), url("/batch_delete"))
+  r[:status] == '403' or fail("batch deleting when not authenticated", r)
 end
 
 
