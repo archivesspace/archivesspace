@@ -10,6 +10,7 @@ class SearchController < ApplicationController
     set_search_criteria
 
     @search_data = Search.all(@criteria, @repositories)
+    @term_map = params[:term_map] ? ASUtils.json_parse(params[:term_map]) : {}
 
     render "search/results"
   end

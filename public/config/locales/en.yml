@@ -52,6 +52,7 @@ en:
       notes: Notes
       source: Source
       agents: Agents
+      classification_uri: Classification
 
   search_sorting:
     sort_by: "Sort by:"

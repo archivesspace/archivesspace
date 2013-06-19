@@ -19,7 +19,14 @@
     <div class="span9">
 
       <% show_term = lambda do |term| %>
-        <li><%= term['identifier'] %>. <%= term['title'] %></li>
+        <li><%= link_to("#{term['identifier']}. #{term['title']}",
+                        {
+                          :controller => :search,
+                          :action => :search,
+                          :term_map => {term['record_uri'] => term['title']}.to_json
+                        }.merge(params_for_search({
+                          "add_filter_term" => {"classification_uri" => term['record_uri']}.to_json
+                        }))) %></li>
         <% if !term['children'].empty? %>
           <ul>
             <% term['children'].each do |node| %>
