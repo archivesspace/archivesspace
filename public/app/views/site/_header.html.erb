@@ -18,6 +18,7 @@
             <li <% if params["type"]==="digital_object"%> class="active" <% end%>><%= link_to I18n.t("digital_object._plural"), {:controller => :search, :action => :search, :type => "digital_object"} %></li>
             <li <% if params["type"]==="subject"%> class="active" <% end%>><%= link_to I18n.t("subject._plural"),  {:controller => :search, :action => :search, :type => "subject"} %></li>
             <li <% if params["type"]==="agent"%> class="active" <% end%>><%= link_to I18n.t("agent._plural"),  {:controller => :search, :action => :search, :type => "agent"} %></li>
+            <li <% if params["type"]==="classification"%> class="active" <% end%>><%= link_to I18n.t("classification._plural"),  {:controller => :search, :action => :search, :type => "classification"} %></li>
             <% if not current_page?(root_url) %>
               <li class="pull-right search-switcher">
                   <%= link_to "Hide Advanced", { :advanced => nil }, { :class => params["advanced"]?"":"hide" } %>

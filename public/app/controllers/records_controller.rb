@@ -57,7 +57,7 @@ class RecordsController < ApplicationController
 
   def digital_object_component
     digital_object_component = JSONModel(:digital_object_component).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_agents"])
-    raise RecordNotFound.new if (!digital_object_component && !digital_object_component.publish)
+    raise RecordNotFound.new if (!digital_object_component || !digital_object_component.publish)
 
     @digital_object_component = DigitalObjectView.new(digital_object_component)
     @tree_view = Search.tree_view(@digital_object_component.uri)
@@ -74,10 +74,24 @@ class RecordsController < ApplicationController
       else
         @breadcrumbs.push([record["title"], url_for(:controller => :records, :action => :digital_object_component, :id => record["id"], :repo_id => @repository.id), "digital_object_component"])
       end
-    end    
+    end
 
     @breadcrumbs.push([@digital_object_component.title, "#", "digital_object_component"])
   end
+
+  def classification
+    @classification = JSONModel(:classification).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_agents"])
+    raise RecordNotFound.new if (!@classification || !@classification.publish)
+
+    @tree_view = Search.tree_view(@classification.uri)
+
+    @breadcrumbs = [
+      [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"]
+    ]
+
+    @breadcrumbs.push([@classification.title, "#", "classification"])
+  end
+
 
 
   private

@@ -110,12 +110,14 @@ class PeriodicIndexer < CommonIndexer
 
     add_batch_hook {|batch|
       records = batch.map {|rec|
-        if ['resource', 'digital_object'].include?(rec['primary_type'])
+        if ['resource', 'digital_object', 'classification'].include?(rec['primary_type'])
           rec['id']
         elsif rec['primary_type'] == 'archival_object'
           rec['resource']
         elsif rec['primary_type'] == 'digital_object_component'
           rec['digital_object']
+        elsif rec['primary_type'] == 'classification_term'
+          rec['classification']
         else
           nil
         end

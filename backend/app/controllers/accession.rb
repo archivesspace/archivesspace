@@ -63,18 +63,6 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/repositories/:repo_id/accessions/:accession_id/tree')
-    .description("Get the tree of resources that relate to an Accession")
-    .params(["accession_id", Integer, "The accession ID"],
-            ["repo_id", :repo_id])
-    .permissions([:view_repository])
-    .returns([200, "(:accession_tree)"]) \
-  do
-    accession = Accession.get_or_die(params[:accession_id])
-
-    json_response(accession.tree)
-  end
-
   Endpoint.delete('/repositories/:repo_id/accessions/:accession_id')
     .description("Delete an Accession")
     .params(["accession_id", Integer, "The accession ID to delete"],

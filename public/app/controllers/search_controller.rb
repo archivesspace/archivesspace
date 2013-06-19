@@ -1,9 +1,16 @@
 class SearchController < ApplicationController
 
+  DETAIL_TYPES = ['resource', 'archival_object', 'digital_object',
+                  'digital_object_component', 'classification']
+
+  VIEWABLE_TYPES = ['agent', 'repository', 'subject'] + DETAIL_TYPES
+
+
   def search
     set_search_criteria
 
     @search_data = Search.all(@criteria, @repositories)
+    @term_map = params[:term_map] ? ASUtils.json_parse(params[:term_map]) : {}
 
     render "search/results"
   end
@@ -44,27 +51,20 @@ class SearchController < ApplicationController
 
     @criteria["page"] ||= 1
 
-    if @criteria["type"]
-      @criteria["type[]"] = Array(@criteria["type"]).reject{|v| v.blank?}
-      @criteria.delete("type")
-    end
-
     if @criteria["filter_term"]
       @criteria["filter_term[]"] = Array(@criteria["filter_term"]).reject{|v| v.blank?}
       @criteria.delete("filter_term")
     end
 
-    @criteria['type[]'] = Array(params[:type]) if not params[:type].blank?
-    @criteria['exclude[]'] = params[:exclude] if not params[:exclude].blank?
-    @criteria['facet[]'] = ["repository", "primary_type", "subjects", "source"]
-
-    # only allow locations, subjects, resources and archival objects in search results
-    if params["type"].blank? or @criteria['type[]'].empty?
-      @criteria['type[]'] = ['resource', 'archival_object', 'digital_object', 'digital_object_component']
+    if params[:type].blank?
+      @criteria['type[]'] = DETAIL_TYPES
     else
-      @criteria['type[]'].keep_if {|t| ['agent', 'repository', 'resource', 'archival_object', 'digital_object', 'digital_object_component', 'subject'].include?(t)}
+      @criteria['type[]'] = Array(params[:type]).keep_if {|t| VIEWABLE_TYPES.include?(t)}
+      @criteria.delete("type")
     end
 
+    @criteria['exclude[]'] = params[:exclude] if not params[:exclude].blank?
+    @criteria['facet[]'] = ["repository", "primary_type", "subjects", "source"]
   end
 
   def set_advanced_search_criteria

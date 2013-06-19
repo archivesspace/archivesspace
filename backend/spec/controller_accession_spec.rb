@@ -285,24 +285,6 @@ describe 'Accession controller' do
   end
 
 
-  it "can return a list of all related resources" do
-    resource = create(:json_resource)
-    accession = create(:json_accession)
-
-    resource.related_accessions = [{'ref' => accession.uri}]
-    resource.save
-
-    JSONModel(:resource).find(resource.id).related_accessions[0]['ref'].should eq(accession.uri)
-
-    # Now query the tree
-    tree = JSONModel(:accession_tree).find(nil, :accession_id => accession.id)
-    tree.title.should eq(accession.title)
-    tree.children.count.should eq(1)
-    tree.children[0]['title'].should eq(resource.title)
-    tree.children[0]['record_uri'].should eq(resource.uri)
-  end
-
-
   it "allows accessions to be created with an agent link" do
 
     agent1 = create(:json_agent_person)
