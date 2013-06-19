@@ -1,8 +1,9 @@
 class BatchDeleteController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:archival_records, :subjects, :agents]
+  skip_before_filter :unauthorised_access, :only => [:archival_records, :subjects, :agents, :classifications]
   before_filter(:only => [:archival_records]) {|c| user_must_have("delete_archival_record")}
   before_filter(:only => [:subjects]) {|c| user_must_have("delete_subject_record")}
   before_filter(:only => [:agents]) {|c| user_must_have("delete_agent_record")}
+  before_filter(:only => [:classifications]) {|c| user_must_have("delete_classification_record")}
 
 
   def archival_records
@@ -14,6 +15,10 @@ class BatchDeleteController < ApplicationController
   end
 
   def agents
+    delete_records(params[:record_uris])
+  end
+
+  def classifications
     delete_records(params[:record_uris])
   end
 

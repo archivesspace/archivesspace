@@ -131,6 +131,7 @@ ArchivesSpace::Application.routes.draw do
   match 'batch_delete/archival_records' => 'batch_delete#archival_records', :via => [:post]
   match 'batch_delete/subjects' => 'batch_delete#subjects', :via => [:post]
   match 'batch_delete/agents' => 'batch_delete#agents', :via => [:post]
+  match 'batch_delete/classifications' => 'batch_delete#classifications', :via => [:post]
 
 
   if Plugins.system_menu_items?

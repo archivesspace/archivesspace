@@ -1,6 +1,6 @@
 <%= setup_context(:title => I18n.t("agent._plural")) %>
 <%
-   @show_multiselect_column = user_can?("delete_archival_record")
+   @show_multiselect_column = user_can?("delete_agent_record")
 
    add_column(I18n.t("agent_name.authority_id"), proc {|record| record['authority_id']}, :sortable => true, :sort_by => "authority_id")
    add_column(I18n.t("agent_name.source"), proc {|record| I18n.t("enumerations.name_source.#{record['source']}", :default => record['source']) if record['source']}, :sortable => true, :sort_by => "source")
@@ -28,7 +28,9 @@
                   <li><%= link_to I18n.t("agent_software._singular"), :controller => :agents, :action => :new, :agent_type => :agent_software %></li>
                 </ul>
               </div>
-              <%= button_delete_multiple_action(:agents) %>
+              <% if user_can?('delete_agent_record') %>
+                <%= button_delete_multiple_action(:agents) %>
+              <% end %>
             </div>
         </div>
       </div>
