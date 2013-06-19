@@ -613,8 +613,9 @@ $(function() {
           "selected_parent_close": false,
           "selected_parent_open": true,
           "select_limit": -1,
-          "select_multiple_modifier": "shift",
-          "disable_selecting_children": true
+          // if OS X, use meta for single select (as ctrl used for menu)
+          "select_multiple_modifier": (navigator.appVersion.indexOf("Mac") != -1) ? "meta" : "ctrl",
+          "disable_selecting_children": false
         },
         "crrm" : {
           "move" : {
@@ -712,8 +713,7 @@ $(function() {
             }
           }
         }).bind("select_node.jstree", function (event, data) {
-            clearSelected(false);
-
+            $(".selected", $tree).removeClass("selected");
             if ($tree.jstree("get_selected").length > 1) {
               $tree.jstree("get_selected").addClass("selected");
             } else if ($tree.jstree("get_selected").length === 1) {
