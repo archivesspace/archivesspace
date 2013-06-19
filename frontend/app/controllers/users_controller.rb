@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   skip_before_filter :unauthorised_access, :only => [:new, :complete, :edit, :index, :create, :update, :show, :manage_access, :edit_groups, :update_groups, :delete]
+  before_filter(:unauthorised_access, :only => [:new, :create]) { |c| !AppConfig[:allow_user_registration] && session[:user].nil? }
   before_filter(:only => [:index, :edit, :update, :delete]) {|c| user_must_have("manage_users")}
   before_filter(:only => [:manage_access, :edit_groups, :update_groups, :complete]) {|c| user_must_have("manage_repository")}
   before_filter :user_needs_to_be_a_user_manager_or_new_user, :only => [:new, :create]
@@ -21,8 +22,12 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = JSONModel(:user).new._always_valid!
-    render action: "new"
+    if AppConfig[:allow_user_registration]
+      @user = JSONModel(:user).new._always_valid!
+      render action: "new"
+    else
+      redirect_to(:controller => :welcome, :action => :index)
+    end
   end
 
   def complete
