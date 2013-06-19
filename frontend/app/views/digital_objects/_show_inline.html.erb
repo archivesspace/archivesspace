@@ -5,18 +5,18 @@
   <div class="span9">
     <%= render :partial => "toolbar" %>
     <div class="record-pane">
-      <% define_template "digital_object", jsonmodel_definition(:digital_object) do |form, digital_object| %>
+      <% define_template "digital_object", jsonmodel_definition(:digital_object) do |readonly, digital_object| %>
         <h2><%= digital_object.title %> <span class="label label-info"><%= I18n.t("digital_object._singular") %></span></h2>
         <section id="basic_information">
           <h3><%= I18n.t("digital_object._frontend.section.basic_information") %></h3>
   
-          <%= form.label_and_textarea "title" %>
-          <%= form.label_and_textfield "digital_object_id" %>
-          <%= form.label_and_boolean "publish" %>
-          <%= form.label_and_select "level", form.possible_options_for("level") %>
-          <%= form.label_and_select "digital_object_type", form.possible_options_for("digital_object_type") %>
-          <%= form.label_and_select "language", form.possible_options_for("language") %>
-          <%= form.label_and_boolean "restrictions" %>
+          <%= readonly.label_and_textarea "title" %>
+          <%= readonly.label_and_textfield "digital_object_id" %>
+          <%= readonly.label_and_boolean "publish" %>
+          <%= readonly.label_and_select "level", readonly.possible_options_for("level") %>
+          <%= readonly.label_and_select "digital_object_type", readonly.possible_options_for("digital_object_type") %>
+          <%= readonly.label_and_select "language", readonly.possible_options_for("language") %>
+          <%= readonly.label_and_boolean "restrictions" %>
           <%= display_audit_info(digital_object) %>
         </section>
 
@@ -68,7 +68,7 @@
         <% end %>
 
         <% if digital_object.notes.length > 0 %>
-          <%= render :partial => "notes/show", :locals => { :notes => digital_object.notes, :context => form } %>
+          <%= render :partial => "notes/show", :locals => { :notes => digital_object.notes, :context => readonly } %>
         <% end %>
 
         <% if digital_object.external_documents.length > 0 %>
@@ -86,9 +86,9 @@
         <% if digital_object.user_defined %>
           <%= render :partial => "user_defined/show", :locals => { :user_defined => digital_object.user_defined, :section_id => "digital_object_user_defined_"  } %>
         <% end %>
-      <% end %>
 
-      <%= show_plugins_for(@digital_object, readonly) %>
+        <%= show_plugins_for(@digital_object, readonly) %>
+      <% end %>
 
       <%= readonly_context :digital_object, @digital_object do |readonly| %>
         <% readonly.emit_template("digital_object", @digital_object) %>

@@ -5,18 +5,18 @@
   <div class="span9">
     <%= render :partial => "toolbar" %>
     <div class="record-pane">
-      <% define_template "archival_object", jsonmodel_definition(:archival_object) do |form, archival_object| %>
+      <% define_template "archival_object", jsonmodel_definition(:archival_object) do |readonly, archival_object| %>
         <h2><%= archival_object.label %> <span class="label label-info"><%= I18n.t("archival_object._singular") %></span></h2>
         <%= render :partial => "shared/flash_messages" %>
         <section id="basic_information">
           <h3><%= I18n.t("archival_object._frontend.section.basic_information") %></h3>
-          <%= form.label_and_textarea "title" %>
-          <%= form.label_with_field "ref_id", "<div class='identifier-display'><div class='identifier-display-part'>#{form["ref_id"]}</div></div>" %>
-          <%= form.label_and_textfield "component_id" %>
-          <%= form.label_and_select "level", form.possible_options_for("level", true) %>
-          <%= form.label_and_textfield "other_level" %>
-          <%= form.label_and_select "language", form.possible_options_for("language", true) %>
-          <%= form.label_and_boolean "publish" %>
+          <%= readonly.label_and_textarea "title" %>
+          <%= readonly.label_with_field "ref_id", "<div class='identifier-display'><div class='identifier-display-part'>#{readonly["ref_id"]}</div></div>" %>
+          <%= readonly.label_and_textfield "component_id" %>
+          <%= readonly.label_and_select "level", readonly.possible_options_for("level", true) %>
+          <%= readonly.label_and_textfield "other_level" %>
+          <%= readonly.label_and_select "language", readonly.possible_options_for("language", true) %>
+          <%= readonly.label_and_boolean "publish" %>
           <%= display_audit_info(@archival_object) %>
         </section>
 
@@ -37,7 +37,7 @@
         <% end %>
 
         <% if archival_object.notes.length > 0 %>
-          <%= render :partial => "notes/show", :locals => { :notes => archival_object.notes, :context => form } %>
+          <%= render :partial => "notes/show", :locals => { :notes => archival_object.notes, :context => readonly } %>
         <% end %>
 
         <% if archival_object.external_documents.length > 0 %>
@@ -51,9 +51,9 @@
         <% if archival_object.instances.length > 0 %>
           <%= render :partial => "instances/show", :locals => { :instances => archival_object.instances, :section_id => "archival_object_instances_"  } %>
         <% end %>
-      <% end %>
 
-      <%= show_plugins_for(@archival_object, readonly) %>
+        <%= show_plugins_for(@archival_object, readonly) %>
+      <% end %>
 
       <%= readonly_context :archival_object, @archival_object do |readonly| %>
         <% readonly.emit_template("archival_object", @archival_object) %>

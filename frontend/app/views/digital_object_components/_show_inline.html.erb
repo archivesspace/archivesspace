@@ -5,16 +5,16 @@
   <div class="span9">
     <%= render :partial => "toolbar" %>
     <div class="record-pane">
-      <% define_template "digital_object_component", jsonmodel_definition(:digital_object_component) do |form, digital_object_component| %>
+      <% define_template "digital_object_component", jsonmodel_definition(:digital_object_component) do |readonly, digital_object_component| %>
         <h2><%= digital_object_component.title %> <span class="label label-info"><%= I18n.t("digital_object_component._singular") %></span></h2>
         <section id="basic_information">
           <h3><%= I18n.t("digital_object_component._frontend.section.basic_information") %></h3>
   
-          <%= form.label_and_textfield "label" %>
-          <%= form.label_and_textarea "title" %>
-          <%= form.label_and_textfield "component_id" %>
-          <%= form.label_and_boolean "publish" %>
-          <%= form.label_and_select "language", form.possible_options_for("language") %>
+          <%= readonly.label_and_textfield "label" %>
+          <%= readonly.label_and_textarea "title" %>
+          <%= readonly.label_and_textfield "component_id" %>
+          <%= readonly.label_and_boolean "publish" %>
+          <%= readonly.label_and_select "language", readonly.possible_options_for("language") %>
 
         </section>
 
@@ -39,7 +39,7 @@
         <% end %>
 
         <% if digital_object_component.notes.length > 0 %>
-          <%= render :partial => "notes/show", :locals => { :notes => digital_object_component.notes, :context => form } %>
+          <%= render :partial => "notes/show", :locals => { :notes => digital_object_component.notes, :context => readonly } %>
         <% end %>
 
         <% if digital_object_component.external_documents.length > 0 %>
@@ -49,9 +49,11 @@
         <% if digital_object_component.rights_statements.length > 0 %>
           <%= render :partial => "rights_statements/show", :locals => { :rights_statements => digital_object_component.rights_statements, :section_id => "digital_object_component_rights_statements_"  } %>
         <% end %>
+
+        <%= show_plugins_for(@digital_object_component, readonly) %>
+
       <% end %>
 
-      <%= show_plugins_for(@digital_object_component, readonly) %>
 
       <%= readonly_context :digital_object_component, @digital_object_component do |readonly| %>
         <% readonly.emit_template("digital_object_component", @digital_object_component) %>
