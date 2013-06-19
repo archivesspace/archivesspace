@@ -615,7 +615,7 @@ $(function() {
           "select_limit": -1,
           // if OS X, use meta for single select (as ctrl used for menu)
           "select_multiple_modifier": (navigator.appVersion.indexOf("Mac") != -1) ? "meta" : "ctrl",
-          "disable_selecting_children": false
+          "disable_selecting_children": true
         },
         "crrm" : {
           "move" : {
@@ -726,6 +726,14 @@ $(function() {
                 setHashForNode($selectedNode.find("a").attr("href"));
               }
             }
+        }).bind("deselect_node.jstree", function (event, data) {
+          var $node = $(data.rslt.obj)
+          if ($node.hasClass("primary-selected")) {
+            // we don't want to allow deselection of the primary selected node
+            $tree.jstree("select_node", $node);
+          } else {
+            $node.removeClass("selected");
+          }
         }).bind("move_node.jstree", function(event, data) {
           moveNodes(data);
         }).bind("refreshtreenode.aspace", function(event, data) {
