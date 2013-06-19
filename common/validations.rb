@@ -75,29 +75,37 @@ module JSONModel::Validations
   def self.check_date(hash)
     errors = []
 
-    if hash["expression"].nil? and hash["date_type"].nil?
-      errors << ["date_type", "is required"]
-    elsif hash["date_type"] === "single"
-      errors << ["begin", "is required"] if hash["begin"].nil?
-    elsif hash["date_type"] === "inclusive" || hash["date_type"] === "bulk"
-      errors << ["begin", "is required"] if hash["begin"].nil?
-      errors << ["end", "is required"] if hash["end"].nil?
+    # check that end isn't before begin
+    # need to expand to full date+time - choosing to use rfc3339, though just doing a string compare
 
-      # check that end isn't before begin
-      # need to expand to full date+time - choosing to use rfc3339, though just doing a string compare
+    if hash["begin"] && hash["end"]
+      bt, et = "#{hash["begin"]}", "#{hash["end"]}"
 
-      if hash["begin"] && hash["end"]
-        bt = "#{hash["begin"]}"
-        2.times { bt << '-01' if bt !~ /\-\d\d\-\d\d/ }
-        bt << "T00:00:00+00:00"
+      bt.insert(0, '+') unless bt.start_with?('-')
+      et.insert(0, '+') unless et.start_with?('-')
 
-        et = "#{hash["end"]}"
-        et << '-12' if et !~ /\-\d\d/
-        et << '-31' if et !~ /\-\d\d\-\d\d/
-        et << "T23:59:59+00:00"
+      dates = [bt, et].sort_by(&:length)
 
-        errors << ["end", "must not be before begin"] if Time.parse(et) < Time.parse(bt)
+      # expand the longer of the two
+      2.times { dates[1] << '-01' if dates[1] !~ /\-\d\d\-\d\d/ }
+
+      # expand the shorter
+      while dates[0].length < dates[1].length
+        dates[0] << dates[1][dates[0].length]
       end
+
+      dates.each do |d|
+        d[0] = "" if d.start_with?('+')
+        d << "T00:00:00+00:00"
+      end
+
+      errors << ["end", "must not be before begin"] if Time.parse(et) < Time.parse(bt)
+    end
+
+    if hash["expression"].nil? && hash["begin"].nil? && hash["end"].nil?
+      errors << ["expression", "is required unless a begin or end date is given"]
+      errors << ["begin", "is required unless an expression or an end date is given"]
+      errors << ["end", "is required unless an expression or a begin date is given"]
     end
 
     errors
@@ -114,12 +122,12 @@ module JSONModel::Validations
   def self.check_rights_statement(hash)
     errors = []
 
-    if hash["rights_type"] === "intellectual_property"
+    if hash["rights_type"] == "intellectual_property"
       errors << ["ip_status", "is required"] if hash["ip_status"].nil?
       errors << ["jurisdiction", "is required"] if hash["jurisdiction"].nil?
-    elsif hash["rights_type"] === "license"
+    elsif hash["rights_type"] == "license"
       errors << ["license_identifier_terms", "is required"] if hash["license_identifier_terms"].nil?
-    elsif hash["rights_type"] === "statute"
+    elsif hash["rights_type"] == "statute"
       errors << ["statute_citation", "is required"] if hash["statute_citation"].nil?
       errors << ["jurisdiction", "is required"] if hash["jurisdiction"].nil?
     end
@@ -164,7 +172,7 @@ module JSONModel::Validations
   def self.check_container_location(hash)
     errors = []
 
-    errors << ["end_date", "is required"] if hash["end_date"].nil? and hash["status"] === "previous"
+    errors << ["end_date", "is required"] if hash["end_date"].nil? and hash["status"] == "previous"
 
     errors
   end
@@ -206,7 +214,7 @@ module JSONModel::Validations
   def self.check_instance(hash)
     errors = []
 
-    if hash["instance_type"] === "digital_object"
+    if hash["instance_type"] == "digital_object"
       errors << ["digital_object", "is required"] if hash["digital_object"].nil?
     elsif hash["instance_type"]
       errors << ["container", "is required"] if hash["container"].nil?
@@ -277,7 +285,7 @@ module JSONModel::Validations
   def self.check_otherlevel(hash)
     warnings = []
 
-    if hash["level"] === "otherlevel"
+    if hash["level"] == "otherlevel"
       warnings << ["other_level", "is required"] if hash["other_level"].nil?
     end
 

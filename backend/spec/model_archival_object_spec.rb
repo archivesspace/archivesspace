@@ -41,7 +41,6 @@ describe 'ArchivalObject model' do
          "date_type" => "single",
          "label" => "creation",
          "begin" => generate(:yyyy_mm_dd),
-         "end" => generate(:yyyy_mm_dd),
       }]}
     
     ao = ArchivalObject.create_from_json(
@@ -85,7 +84,6 @@ describe 'ArchivalObject model' do
                    "date_type" => "single",
                    "label" => "creation",
                    "begin" => generate(:yyyy_mm_dd),
-                   "end" => generate(:yyyy_mm_dd),
                  }]
     }
 
