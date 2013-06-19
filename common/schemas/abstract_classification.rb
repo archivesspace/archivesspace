@@ -10,6 +10,8 @@
       "title" => {"type" => "string", "minLength" => 1, "maxLength" => 16384, "ifmissing" => "error"},
       "description" => {"type" => "string", "maxLength" => 65000},
 
+      "publish" => {"type" => "boolean", "default" => true, "readonly" => true},
+
       "path_from_root" => {
         "type" => "array",
         "readonly" => true,

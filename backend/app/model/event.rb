@@ -109,14 +109,13 @@ class Event < Sequel::Model(:event)
     #build event
     event = JSONModel(:event).from_hash(
       :linked_agents => [{:ref => agent_uri, :role => 'implementer'}],
-      :event_type => 'cataloging',
+      :event_type => 'cataloged',
       :timestamp => Time.now.utc.iso8601,
       :linked_records => [{:ref => record_uri, :role => 'outcome'}]
     )
 
 
-    # Use the global repository to capture events about global records
-    RequestContext.open(:repo_id => 1) do
+    RequestContext.in_global_repo do
       Event.create_from_json(event, :system_generated => true)
     end
   end

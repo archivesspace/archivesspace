@@ -47,3 +47,4 @@
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "instances", :custom_action_template => "instances/subrecord_form_action"} %>
 
+  <%= form_plugins_for("archival_object", form) %>

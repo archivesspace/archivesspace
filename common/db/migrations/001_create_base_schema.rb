@@ -144,6 +144,7 @@ Sequel.migration do
     create_table(:agent_software) do
       primary_key :id
 
+      String :system_role, :default => "none", :index => true, :null => false
       Integer :lock_version, :default => 0, :null => false
       Integer :json_schema_version, :null => false
 
@@ -165,10 +166,11 @@ Sequel.migration do
       String :username, :null => false, :unique => true
       String :name, :null => false
       String :source, :null => true
-      Integer :agent_record_id, :null => false
-      String :agent_record_type, :null => false
+      Integer :agent_record_id, :null => true
+      String :agent_record_type, :null => true
 
       Integer :is_system_user, :default => 0, :null => false
+      Integer :is_hidden_user, :default => 0, :null => false
 
       String :email
       String :first_name
@@ -1366,14 +1368,14 @@ Sequel.migration do
                           "acknowledgement", "acknowledgement_sent",
                           "agreement_signed", "agreement_received",
                           "agreement_sent", "appraisal", "assessment", "capture",
-                          "cataloging", "collection", "compression",
+                          "cataloged", "collection", "compression",
                           "contribution", "component_transfer",
                           "copyright_transfer", "custody_transfer",
                           "deaccession", "decompression", "decryption",
                           "deletion", "digital_signature_validation",
                           "fixity_check", "ingestion",
                           "message_digest_calculation", "migration",
-                          "normalization", "processing", "publication",
+                          "normalization", "processed", "publication",
                           "replication", "validation", "virus_check"],
                          nil,
 
@@ -1384,7 +1386,9 @@ Sequel.migration do
                          :readonly_values => ['acknowledgement_sent',
                                               'agreement_sent',
                                               'agreement_signed',
-                                              'copyright_transfer'])
+                                              'cataloged',
+                                              'copyright_transfer',
+                                              'processed'])
 
     create_editable_enum('container_type', ["box", "carton", "case", "folder", "frame", "object", "page", "reel", "volume"])
 

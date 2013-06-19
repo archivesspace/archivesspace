@@ -9,6 +9,7 @@ require "db/db_migrator"
 require 'fileutils'
 require "jsonmodel"
 require "asutils"
+require "asconstants"
 require_relative 'exceptions'
 require_relative 'logging'
 require 'config/config-distribution'

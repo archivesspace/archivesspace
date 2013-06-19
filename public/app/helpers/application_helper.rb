@@ -57,6 +57,8 @@ module ApplicationHelper
       search_params["type"] = opts["type"] || params["type"]
     end
 
+    search_params["term_map"] = params["term_map"]
+
     # retain any advanced search params
     advanced = (opts["advanced"] || params["advanced"])
     search_params["advanced"] = advanced.blank? || advanced === 'false' ? false : true

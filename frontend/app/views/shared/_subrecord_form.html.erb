@@ -1,8 +1,10 @@
 <%
+  plugin = false if plugin.blank?
+  i18n_prefix = plugin ? 'plugins.' : ''
   singular = name.singularize
   section_id = form.id_for(name) if section_id.blank?
   heading_size = "h3" if heading_size.blank?
-  heading_text = I18n.t("#{singular}._plural") if heading_text.blank?
+  heading_text = I18n.t("#{i18n_prefix}#{singular}._plural") if heading_text.blank?
   template = singular if template.blank?
   template_erb = "#{name.to_s}/template" if template_erb.blank?
   js_template_name = "template_#{template}" if js_template_name.blank?
@@ -27,7 +29,7 @@
      <% if custom_action_template %>
        <%= render :partial => custom_action_template %>
      <% else %>
-       <button class="btn btn-small pull-right"><%= I18n.t("#{singular}._frontend.action.add") %></button>
+       <button class="btn btn-small pull-right"><%= I18n.t("#{i18n_prefix}#{singular}._frontend.action.add") %></button>
      <% end %>
     <% end %>
 

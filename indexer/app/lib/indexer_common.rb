@@ -207,6 +207,13 @@ class CommonIndexer
     }
 
     add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'classification_term'
+        doc['classification'] = record['record']['classification']['ref']
+      end
+    }
+
+
+    add_document_prepare_hook {|doc, record|
       records_with_classifications = ['resource', 'accession']
 
       if records_with_classifications.include?(doc['primary_type']) && record['record']['classification']

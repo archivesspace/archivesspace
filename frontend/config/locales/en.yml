@@ -11,6 +11,7 @@ en:
     confirm_removal: Confirm Removal
     container_labels: Download Container Labels
     create: Create
+    cut: Cut
     edit: Edit
     edit_groups: Edit Groups
     export: Export
@@ -26,6 +27,7 @@ en:
     move_up: Up
     move_down: Down
     move_down_into: Down Into...
+    paste: Paste
     remove: Remove
     new_prefix: New
     save_prefix: Save
@@ -494,6 +496,11 @@ en:
 
   note:
     _frontend:
+      preview:
+        raw: Raw
+        raw_title: The raw note content
+        parsed: Formatted
+        parsed_title: How the note will be rendered in the Public application
       messages:
         select_a_note_type: "<em>Please select a Note Type</em>"
       action:

@@ -68,7 +68,7 @@ class SearchResultData
   end
 
   def facet_label_string(facet_group, facet)
-    return I18n.t("#{facet}._singular", :default => facet) if facet_group === "primary_type"
+    return I18n.t("#{facet}._singular", :default => I18n.t("plugins.#{facet}._singular", :default => facet)) if facet_group === "primary_type"
     return I18n.t("enumerations.name_source.#{facet}", :default => I18n.t("enumerations.subject_source.#{facet}", :default => facet)) if facet_group === "source"
     return I18n.t("enumerations.name_rule.#{facet}", :default => facet) if facet_group === "rules"
     return I18n.t("boolean.#{facet.to_s}", :default => facet) if facet_group === "publish"

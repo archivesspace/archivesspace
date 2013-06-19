@@ -34,6 +34,18 @@
       <% end %>
     </ul>
   </li>
+
+  <% if Plugins.system_menu_items? %>
+    <li class="dropdown plugin-container">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("navbar.plugins") %> <b class="caret"></b></a>
+      <ul class="dropdown-menu">
+        <% Plugins.system_menu_items.each do |plugin| %>
+          <li><%= link_to I18n.t("plugins.#{plugin}.label"), :controller => plugin.intern, :action => :index %></li>
+        <% end %>
+      </ul>
+    </li>
+  <% end %>
+
   <li class="dropdown user-container">
     <div class="input-append">
       <span class="inset-label">

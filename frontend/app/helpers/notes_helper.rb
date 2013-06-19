@@ -1,3 +1,5 @@
+require 'notes_parser'
+
 module NotesHelper
 
   def note_types_for(jsonmodel_type)
@@ -89,6 +91,11 @@ module NotesHelper
     end
 
     note_types
+  end
+
+
+  def clean_note(note)
+    NotesParser::parse(note, url_for(:root))
   end
 
 end

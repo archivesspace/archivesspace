@@ -22,4 +22,6 @@
   <%= render :partial => "related_agents/form", :locals => {:form => form} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents", :section_id => "agent_external_documents_"} %>
 
+<%= form_plugins_for("agent", form) %>
+
 </fieldset>

@@ -8,12 +8,7 @@ class User < Sequel::Model(:user)
 
 
   def self.create_from_json(json, opts = {})
-    # These users are part of the software
-    if json.username == self.SEARCH_USERNAME || json.username == self.PUBLIC_USERNAME
-
-      opts['agent_record_type'] = :agent_software
-      opts['agent_record_id'] = 1
-    else
+    if !opts[:is_hidden_user]
       agent = JSONModel(:agent_person).from_hash(
                 :publish => false,
                 :names => [{
@@ -29,7 +24,41 @@ class User < Sequel::Model(:user)
       opts['agent_record_id'] = agent_obj.id
     end
 
-    super(json, opts)
+    obj = super(json, opts)
+    make_admin_if_requested(obj, json)
+    obj
+  end
+
+
+  def update_from_json(json, opts = {}, apply_linked_records = true)
+    self.class.make_admin_if_requested(self, json)
+    super
+  end
+
+
+  def self.make_admin_if_requested(obj, json)
+
+    return if !RequestContext.get(:apply_admin_access)
+
+    # Nothing to do if these already agree
+    begin
+      return if (json.is_admin === obj.can?(:administer_system))
+    rescue PermissionNotFound
+      # System is being bootstrapped and permissions aren't here yet.  That's
+      # fine.
+    end
+
+    admins = Group.any_repo[:group_code => Group.ADMIN_GROUP_CODE]
+
+    if admins
+      if json.is_admin
+        admins.add_user(obj)
+      else
+        admins.remove_user(obj)
+      end
+
+      self.broadcast_changes
+    end
   end
 
 
@@ -38,6 +67,10 @@ class User < Sequel::Model(:user)
 
     if obj.agent_record_id
       json['agent_record'] = {'ref' => uri_for(obj.agent_record_type, obj.agent_record_id)}
+    end
+
+    if obj.can?(:administer_system)
+      json['is_admin'] = true
     end
 
     json
@@ -70,11 +103,7 @@ class User < Sequel::Model(:user)
 
 
   def self.unlisted_user_ids
-    @@unlisted_user_ids if not @@unlisted_user_ids.nil?
-
-    @@unlisted_user_ids = Array(User[:username => [User.SEARCH_USERNAME, User.PUBLIC_USERNAME, User.STAFF_USERNAME]]).collect {|user| user.id}
-
-    @@unlisted_user_ids
+    @@unlisted_user_ids ||= User.filter(:is_hidden_user => 1).collect {|user| user.id}
   end
 
 
@@ -122,6 +151,9 @@ class User < Sequel::Model(:user)
   end
 
 
+  class PermissionNotFound < StandardError; end
+
+
   # True if a user has access to perform 'permission' in 'repo_id'
   def can?(permission_code, opts = {})
     if derived_permissions.include?(permission_code.to_s)
@@ -131,7 +163,7 @@ class User < Sequel::Model(:user)
     permission = Permission[:permission_code => permission_code.to_s]
     global_repo = Repository[:repo_code => Group.GLOBAL]
 
-    raise "The permission '#{permission_code}' doesn't exist" if permission.nil?
+    raise PermissionNotFound.new("The permission '#{permission_code}' doesn't exist") if permission.nil?
 
     if permission[:level] == "repository" && self.class.active_repository.nil?
       raise("Problem when checking permission: #{permission.permission_code} " +
@@ -162,13 +194,22 @@ class User < Sequel::Model(:user)
       join(:repository, :id => :group__repo_id).
       filter(:user_id => self.id).
       distinct.
-      select(Sequel.qualify(:repository, :id).as(:repo_id), :permission_code)
+      select(Sequel.qualify(:repository, :id).as(:repo_id), Sequel.qualify(:repository, :repo_code).as(:repo_code), :permission_code)
+
+    global_permissions = []
 
     ds.each do |row|
       repository_uri = JSONModel(:repository).uri_for(row[:repo_id])
       result[repository_uri] ||= derived.clone
       result[repository_uri] << row[:permission_code]
+
+      if row[:repo_code] == Group.GLOBAL
+        global_permissions << row[:permission_code]
+      end
     end
+
+    # Attach permissions in the global repository under the symbolic name too
+    result[Group.GLOBAL] = global_permissions + derived
 
     result
   end

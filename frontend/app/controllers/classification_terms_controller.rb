@@ -1,7 +1,7 @@
 class ClassificationTermsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :parent, :transfer, :delete]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :accept_children, :transfer, :delete]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update, :parent, :transfer]) {|c| user_must_have("update_classification_record")}
+  before_filter(:only => [:new, :edit, :create, :update, :accept_children, :transfer]) {|c| user_must_have("update_classification_record")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_classification_record")}
 
   FIND_OPTS = {
@@ -76,22 +76,8 @@ class ClassificationTermsController < ApplicationController
   end
 
 
-  def parent
-    parent_id = (params[:parent] and !params[:parent].blank?) ? params[:parent] : nil
-    response = JSONModel::HTTP.post_form(JSONModel(:classification_term).uri_for(params[:id]) + "/parent",
-                              :parent => parent_id,
-                              :position => params[:index])
-
-    if response.code == '200'
-      render :json => {
-        :parent => parent_id ? JSONModel(:classification_term).uri_for(parent_id) : nil,
-        :position => params[:index]
-      }
-    else
-      errors = ASUtils.json_parse(response.body)
-
-      render :partial => "shared/quick_messages", :locals => {:exceptions => errors, :jsonmodel => "classification_term"}, :status => 500
-    end
+  def accept_children
+    handle_accept_children(JSONModel(:classification_term))
   end
 
 

@@ -169,4 +169,19 @@ describe 'User controller' do
 
   end
 
+
+  it "allows admin users to create other admin users" do
+    user_id = build(:json_user, :is_admin => true).save('password' => '123')
+    User[:id => user_id].can?(:administer_system).should be(true)
+  end
+
+
+  it "doesn't let non-admins create admins" do
+    as_anonymous_user do
+      expect {
+        user_id = build(:json_user, :is_admin => true).save('password' => '123')
+      }.to raise_error(AccessDeniedException)
+    end
+  end
+
 end

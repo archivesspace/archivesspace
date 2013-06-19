@@ -44,4 +44,16 @@ class Classification < Sequel::Model(:classification)
     json
   end
 
+
+  def load_node_properties(node, properties)
+    super
+    properties[node.id][:identifier] = node.identifier
+  end
+
+
+  def load_root_properties(properties)
+    super
+    properties[:identifier] = self.identifier
+  end
+
 end

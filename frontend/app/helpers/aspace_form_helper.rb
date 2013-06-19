@@ -320,10 +320,12 @@ module AspaceFormHelper
       label_with_field("id_0", field_html, :control_class => "identifier-fields")
     end
 
+
     def label(name, opts = {})
+      prefix = opts[:plugin] ? 'plugins.' : ''
       options = {:class => "control-label", :for => id_for(name)}
 
-      tooltip = I18n.t_raw("#{i18n_for(name)}_tooltip", :default => '')
+      tooltip = I18n.t_raw("#{prefix}#{i18n_for(name)}_tooltip", :default => '')
       if not tooltip.empty?
         options[:title] = tooltip
         options["data-placement"] = "bottom"
@@ -334,7 +336,7 @@ module AspaceFormHelper
         options[:class] += " has-tooltip"
       end
 
-      @forms.content_tag(:label, I18n.t(i18n_for(name)), options.merge(opts || {}))
+      @forms.content_tag(:label, I18n.t(prefix + i18n_for(name)), options.merge(opts || {}))
     end
 
     def checkbox(name, opts = {}, default = true, force_checked = false)
@@ -383,6 +385,8 @@ module AspaceFormHelper
 
 
     def label_with_field(name, field_html, opts = {})
+      opts[:label_opts] ||= {}
+      opts[:label_opts][:plugin] = opts[:plugin]
       control_group_classes = "control-group"
 
       # There must be a better way to say this...
@@ -673,15 +677,16 @@ module AspaceFormHelper
   def read_only_view(hash, opts = {})
     jsonmodel_type = hash["jsonmodel_type"]
     schema = JSONModel(jsonmodel_type).schema
+    prefix = opts[:plugin] ? 'plugins.' : ''
     html = "<div class='form-horizontal'>"
 
     hash.reject {|k,v| PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW.include?(k)}.each do |property, value|
 
       if schema and schema["properties"].has_key?(property)
         if (schema["properties"][property].has_key?('dynamic_enum'))
-          value = I18n.t("enumerations.#{schema["properties"][property]["dynamic_enum"]}.#{value}", :default => value)
+          value = I18n.t("#{prefix}enumerations.#{schema["properties"][property]["dynamic_enum"]}.#{value}", :default => value)
         elsif schema["properties"][property].has_key?("enum")
-          value = I18n.t("#{jsonmodel_type.to_s}.#{property}_#{value}", :default => value)
+          value = I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}_#{value}", :default => value)
         elsif schema["properties"][property]["type"] === "boolean"
           value = value === true ? "True" : "False"
         elsif schema["properties"][property]["type"] === "date"
@@ -696,7 +701,7 @@ module AspaceFormHelper
       end
 
       html << "<div class='control-group'>"
-      html << "<div class='control-label'>#{I18n.t("#{jsonmodel_type.to_s}.#{property}")}</div>"
+      html << "<div class='control-label'>#{I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}")}</div>"
       html << "<div class='controls label-only'>#{value}</div>"
       html << "</div>"
 

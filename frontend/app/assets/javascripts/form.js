@@ -49,7 +49,7 @@ $(function() {
 
       $this.bind("submit", function(event) {
         $this.data("form_changed", false);
-        $(":input[type='submit']", $this).attr("disabled","disabled");
+        $(":input[type='submit'], :input.btn-primary", $this).attr("disabled","disabled");
         if ($(this).data("createPlusOne")) {
           var $input = $("<input>").attr("type", "hidden").attr("name", "plus_one").val("true");
           $($this).append($input);

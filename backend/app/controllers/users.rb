@@ -5,9 +5,6 @@ class ArchivesSpaceService < Sinatra::Base
   include AuthHelpers
 
 
-  # FIXME: no restrictions on account creation just now because it's useful
-  # for testing, but it feels like we shouldn't really let people create their
-  # own accounts like this.
   Endpoint.post('/users')
     .description("Create a local user")
     .params(["password", String, "The user's password"],
@@ -17,6 +14,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :created],
              [400, :error]) \
   do
+    check_admin_access
     params[:user].username = Username.value(params[:user].username)
 
     user = User.create_from_json(params[:user], :source => "local")
@@ -111,6 +109,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :updated],
              [400, :error]) \
   do
+    check_admin_access
     params[:user].username = Username.value(params[:user].username)
 
     obj = User.get_or_die(params[:id])
@@ -200,5 +199,19 @@ class ArchivesSpaceService < Sinatra::Base
     handle_delete(User, params[:id])
   end
 
+
+  private
+
+  def check_admin_access
+    if params[:user].is_admin && !current_user.can?(:administer_system)
+      raise AccessDeniedException.new("Only admins can create admin users")
+    end
+
+    # Saving people from themselves :)
+    about_to_remove_own_permission = (params[:user].username == current_user.username)
+
+    RequestContext.put(:apply_admin_access,
+                       current_user.can?(:administer_system) && !about_to_remove_own_permission)
+  end
 
 end

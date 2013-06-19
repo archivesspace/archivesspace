@@ -92,6 +92,8 @@ describe JSONModel do
                     :strict_mode => true,
                     :allow_other_unmapped => true)
 
+    AppConfig[:plugins] = []
+
     # main schema
     Dir.stub(:glob){ ['stub', 'child_stub'] }
 

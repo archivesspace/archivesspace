@@ -16,6 +16,12 @@ class Repository < Sequel::Model(:repository)
     not Repository[id].nil?
   end
 
+
+  def self.global_repo_id
+    self[:repo_code => Group.GLOBAL].id
+  end
+
+
   def after_create
 
     if self.repo_code == Group.GLOBAL

@@ -19,6 +19,7 @@
     <% if @refresh_tree_node
          node_data = {
            'id' => @resource.id,
+           'uri' => @resource.uri,
            'title' => @resource.title,
            'level' => @resource.level==='otherlevel' ? @resource.other_level : I18n.t("enumerations.archival_record_level.#{@resource.level}", :default => @resource.level),
            'jsonmodel_type' => @resource.jsonmodel_type,

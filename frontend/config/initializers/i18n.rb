@@ -1,10 +1,15 @@
 module I18n
 
-  INTERPOLATION_PATTERN = Regexp.union(
-    /%%/,
-    /%\{([[:word:]\.]+)\}/,                     # matches placeholders like "%{foo}" or "%{resource.title}"
-    /%<(\w+)>(.*?\d*\.?\d*[bBdiouxXeEfgGcps])/  # matches placeholders like "%<foo>.d"
-  )
+  # Override the I18n string pattern to take into account
+  # JSONModel paths.. suppress the warning that ensues.
+  silence_warnings do
+    INTERPOLATION_PATTERN = Regexp.union(
+      /%%/,
+      /%\{([[:word:]\.]+)\}/,                     # matches placeholders like "%{foo}" or "%{resource.title}"
+      /%<(\w+)>(.*?\d*\.?\d*[bBdiouxXeEfgGcps])/  # matches placeholders like "%<foo>.d"
+    )
+  end
+
 
   def self.try_really_hard_to_find_a_key(exception, locale, key, opts)
 

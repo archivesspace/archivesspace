@@ -70,7 +70,6 @@ describe 'Digital Object Component controller' do
   end
 
 
-
   it "supports saving and loading file versions" do
     version = build(:json_file_version)
     digital_object_component = create(:json_digital_object_component,
@@ -80,6 +79,33 @@ describe 'Digital Object Component controller' do
 
     created.file_versions.count.should eq(1)
     created.file_versions[0]['file_uri'].should eq(version.file_uri)
+  end
+
+
+  it "accepts move of multiple children" do
+    digital_object = create(:json_digital_object)
+    target = create(:json_digital_object_component, :digital_object => {:ref => digital_object.uri})
+
+    sibling_1 = create(:json_digital_object_component, :digital_object => {:ref => digital_object.uri})
+    sibling_2 = create(:json_digital_object_component, :digital_object => {:ref => digital_object.uri})
+
+    response = JSONModel::HTTP::post_form("#{target.uri}/accept_children", {"children[]" => [sibling_1.uri, sibling_2.uri], "position" => 0})
+    json_response = ASUtils.json_parse(response.body)
+
+    json_response["status"].should eq("Updated")
+    get "#{$repo}/digital_object_components/#{target.id}/children"
+    last_response.should be_ok
+
+    children = ASUtils.json_parse(last_response.body)
+
+    children.length.should eq(2)
+    children[0]["title"].should eq(sibling_1["title"])
+    children[0]["parent"]["ref"].should eq(target.uri)
+    children[0]["digital_object"]["ref"].should eq(digital_object.uri)
+
+    children[1]["title"].should eq(sibling_2["title"])
+    children[1]["parent"]["ref"].should eq(target.uri)
+    children[1]["digital_object"]["ref"].should eq(digital_object.uri)
   end
 
 end

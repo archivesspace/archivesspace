@@ -5,7 +5,7 @@
     "type" => "object",
 
     "properties" => {
-      "date_type" => {"type" => "string", "dynamic_enum" => "date_type"},
+      "date_type" => {"type" => "string", "dynamic_enum" => "date_type", "ifmissing" => "error"},
       "label" => {"type" => "string", "dynamic_enum" => "date_label", "ifmissing" => "error"},
 
       "certainty" => {"type" => "string", "dynamic_enum" => "date_certainty"},

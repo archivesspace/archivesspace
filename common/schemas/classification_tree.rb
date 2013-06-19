@@ -3,9 +3,16 @@
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
     "version" => 1,
     "type" => "object",
-    "parent" => "record_tree",
     "uri" => "/repositories/:repo_id/classifications/:classification_id/tree",
-    "properties" => {},
+    "parent" => "record_tree",
+    "properties" => {
+      "identifier" => {"type" => "string", "maxLength" => 255},
+      "children" => {
+        "type" => "array",
+        "additionalItems" => false,
+        "items" => { "type" => "JSONModel(:classification_tree) object" }
+      }
+    },
     "additionalProperties" => false,
   },
 }

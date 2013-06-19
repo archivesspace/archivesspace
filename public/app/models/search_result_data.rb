@@ -36,12 +36,15 @@ class SearchResultData
     @search_data[:criteria].has_key?("filter_term[]") and @search_data[:criteria]["filter_term[]"].reject{|f| f.empty?}.length > 0
   end
 
-  def facet_label_for_filter(filter)
+  def facet_label_for_filter(filter, term_map = {})
     filter_json = JSON.parse(filter)
     facet = filter_json.keys[0]
     term = filter_json[facet]
 
-    if @facet_data.has_key?(facet) and @facet_data[facet].has_key?(term)
+    if term_map.has_key?(term)
+      # Use the translation provided in the URL
+      facet_display_string(facet, term_map[term])
+    elsif @facet_data.has_key?(facet) and @facet_data[facet].has_key?(term)
       @facet_data[facet][term][:display_string]
     else
       facet_display_string(facet, term)

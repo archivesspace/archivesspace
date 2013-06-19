@@ -1,3 +1,4 @@
+require 'asconstants'
 require 'memoryleak'
 require 'search'
 
@@ -119,6 +120,22 @@ class ApplicationController < ActionController::Base
   end
 
 
+  def handle_accept_children(target_jsonmodel)
+    response = JSONModel::HTTP.post_form(target_jsonmodel.uri_for(params[:id]) + "/accept_children",
+                                         "children[]" => params[:children],
+                                         "position" => params[:index].to_i)
+
+    if response.code == '200'
+      render :json => {
+        :parent => params[:id],
+        :position => params[:index].to_i
+      }
+    else
+      raise "Error setting parent of archival objects: #{response.body}"
+    end
+  end
+
+
   def selected_page
     if params["page"]
       page = Integer(params["page"])
@@ -160,11 +177,11 @@ class ApplicationController < ActionController::Base
      session[:user] &&
      session[:permissions] &&
 
-     ((session[:permissions][repository] &&
-       session[:permissions][repository].include?(permission)) ||
+     (session[:permissions][repository] &&
+      session[:permissions][repository].include?(permission) ||
 
-      (session[:permissions]['/repositories/1'] &&
-       session[:permissions]['/repositories/1'].include?(permission))))
+      (session[:permissions][ASConstants::Group.GLOBAL] &&
+       session[:permissions][ASConstants::Group.GLOBAL].include?(permission))))
   end
 
   helper_method :current_vocabulary
