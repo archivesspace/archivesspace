@@ -388,11 +388,17 @@ $(function() {
           return;
         }
 
-        clearSelected();
-
         var target_index = $(this).data("target-index") || 0;
 
-        $tree.jstree("move_node", "#"+$selected.attr("id"), "#" + $(this).data("target-node-id"), target_index);
+        // check if target node is one of the selected nodes
+        if (getSelectedNodes().is("#" + $(this).data("target-node-id"))) {
+          // ok it is selected.
+          // let's deselect it and allow the rest of the selection to be moved
+          // into it.
+          $tree.jstree("deselect_node", "#" + $(this).data("target-node-id"));
+        }
+
+        $tree.jstree("move_node", getSelectedNodes(), "#" + $(this).data("target-node-id"), target_index);
 
         $("a:first", $selected).focus();
       });
@@ -613,7 +619,8 @@ $(function() {
           "selected_parent_close": false,
           "selected_parent_open": true,
           "select_limit": -1,
-          "select_multiple_modifier": "shift",
+          // if OS X, use meta for single select (as ctrl used for menu)
+          "select_multiple_modifier": (navigator.appVersion.indexOf("Mac") != -1) ? "meta" : "ctrl",
           "disable_selecting_children": true
         },
         "crrm" : {
@@ -712,8 +719,7 @@ $(function() {
             }
           }
         }).bind("select_node.jstree", function (event, data) {
-            clearSelected(false);
-
+            $(".selected", $tree).removeClass("selected");
             if ($tree.jstree("get_selected").length > 1) {
               $tree.jstree("get_selected").addClass("selected");
             } else if ($tree.jstree("get_selected").length === 1) {
@@ -726,6 +732,14 @@ $(function() {
                 setHashForNode($selectedNode.find("a").attr("href"));
               }
             }
+        }).bind("deselect_node.jstree", function (event, data) {
+          var $node = $(data.rslt.obj)
+          if ($node.hasClass("primary-selected")) {
+            // we don't want to allow deselection of the primary selected node
+            $tree.jstree("select_node", $node);
+          } else {
+            $node.removeClass("selected");
+          }
         }).bind("move_node.jstree", function(event, data) {
           moveNodes(data);
         }).bind("refreshtreenode.aspace", function(event, data) {
