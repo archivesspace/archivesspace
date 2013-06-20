@@ -560,6 +560,9 @@ module AspaceFormHelper
         if opts[:include] && !opts[:include].include?(v)
           next
         end
+        if opts[:exclude] && opts[:exclude].include?(v)
+          next
+        end
         if opts.has_key?(:i18n_prefix)
           i18n_path =  "#{opts[:i18n_prefix]}.#{v}"
         elsif defn.has_key?('dynamic_enum')
