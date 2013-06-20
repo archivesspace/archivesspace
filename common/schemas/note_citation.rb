@@ -7,6 +7,13 @@
 
     "properties" => {
 
+      "content" => {
+        "type" => "array",
+        "items" => {"type" => "string", "maxLength" => 65000},
+        "minItems" => 1,
+        "ifmissing" => "error",
+      },
+
       "xlink" => {
         "type" => "object",
         "properties" => {
