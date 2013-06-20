@@ -259,10 +259,17 @@ class ApplicationController < ActionController::Base
     sanitize_param(params)
   end
 
+
   def unauthorised_access
     render_403
   end
 
+
+  def account_self_service
+    if !AppConfig[:allow_user_registration] && session[:user].nil?
+      render_403
+    end
+  end
 
   def render_403
     return render :template => "403", :layout => nil if inline?
