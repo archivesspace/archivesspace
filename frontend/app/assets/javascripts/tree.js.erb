@@ -388,11 +388,9 @@ $(function() {
           return;
         }
 
-        clearSelected();
-
         var target_index = $(this).data("target-index") || 0;
 
-        $tree.jstree("move_node", "#"+$selected.attr("id"), "#" + $(this).data("target-node-id"), target_index);
+        $tree.jstree("move_node", getSelectedNodes(), "#" + $(this).data("target-node-id"), target_index);
 
         $("a:first", $selected).focus();
       });
