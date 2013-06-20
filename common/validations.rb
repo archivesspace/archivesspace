@@ -1,3 +1,4 @@
+require 'date'
 require 'time'
 
 module JSONModel::Validations
@@ -72,34 +73,61 @@ module JSONModel::Validations
   end
 
 
+  # Take a date like YYYY or YYYY-MM and pad to YYYY-MM-DD
+  #
+  # Note: this might not yield a valid date.  The only goal is that something
+  # valid on the way in remains valid on the way out.
+  #
+  def self.normalise_date(date)
+    negated = date.start_with?("-")
+
+    parts = date.gsub(/^-/, '').split(/-/)
+
+    # Pad out to the right length
+    padded = (parts + ['01', '01']).take(3)
+
+    (negated ? "-" : "") + padded.join("-")
+  end
+
+
+  # Returns a valid date or throws if the input is invalid.
+  def self.parse_sloppy_date(s)
+    begin
+      Date.strptime(normalise_date(s), '%Y-%m-%d')
+    rescue
+      raise ArgumentError.new($!)
+    end
+  end
+
+
   def self.check_date(hash)
     errors = []
 
-    # check that end isn't before begin
-    # need to expand to full date+time - choosing to use rfc3339, though just doing a string compare
+    begin
+      begin_date = parse_sloppy_date(hash['begin']) if hash['begin']
+    rescue ArgumentError => e
+      errors << ["begin", "not a valid date"]
+    end
 
-    if hash["begin"] && hash["end"]
-      bt, et = "#{hash["begin"]}", "#{hash["end"]}"
+    begin
+      if hash['end']
+        # If padding our end date with months/days would cause it to fall before
+        # the start date (e.g. if the start date was '2000-05' and the end date
+        # just '2000'), use the start date in place of end.
+        end_s = if begin_date && hash['begin'] && hash['begin'].start_with?(hash['end'])
+                  hash['begin']
+                else
+                  hash['end']
+                end
 
-      bt.insert(0, '+') unless bt.start_with?('-')
-      et.insert(0, '+') unless et.start_with?('-')
-
-      dates = [bt, et].sort_by(&:length)
-
-      # expand the longer of the two
-      2.times { dates[1] << '-01' if dates[1] !~ /\-\d\d\-\d\d/ }
-
-      # expand the shorter
-      while dates[0].length < dates[1].length
-        dates[0] << dates[1][dates[0].length]
+        end_date = parse_sloppy_date(end_s)
       end
+    rescue ArgumentError
+      errors << ["end", "not a valid date"]
+    end
 
-      dates.each do |d|
-        d[0] = "" if d.start_with?('+')
-        d << "T00:00:00+00:00"
-      end
-
-      errors << ["end", "must not be before begin"] if Time.parse(et) < Time.parse(bt)
+    if begin_date && end_date && end_date < begin_date
+      errors << ["end", "must not be before begin"]
     end
 
     if hash["expression"].nil? && hash["begin"].nil? && hash["end"].nil?
