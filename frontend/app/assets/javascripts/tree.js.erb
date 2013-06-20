@@ -390,6 +390,14 @@ $(function() {
 
         var target_index = $(this).data("target-index") || 0;
 
+        // check if target node is one of the selected nodes
+        if (getSelectedNodes().is("#" + $(this).data("target-node-id"))) {
+          // ok it is selected.
+          // let's deselect it and allow the rest of the selection to be moved
+          // into it.
+          $tree.jstree("deselect_node", "#" + $(this).data("target-node-id"));
+        }
+
         $tree.jstree("move_node", getSelectedNodes(), "#" + $(this).data("target-node-id"), target_index);
 
         $("a:first", $selected).focus();
