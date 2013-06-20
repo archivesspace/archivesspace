@@ -209,7 +209,6 @@ FactoryGirl.define do
 
   factory :json_note_bioghist, class: JSONModel(:note_bioghist) do
     label { generate(:alphanumstr) }
-    content { [generate(:alphanumstr)] }
     subnotes { [ build(:json_note_outline) ] }
   end
 
@@ -332,7 +331,6 @@ FactoryGirl.define do
   
   factory :json_note_multipart, class: JSONModel(:note_multipart) do
     type { generate(:multipart_note_type)}
-    content { [generate(:alphanumstr), generate(:alphanumstr)] }
   end
  
   factory :json_resource, class: JSONModel(:resource) do
