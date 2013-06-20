@@ -14,6 +14,7 @@
             </li>
             <li class="divider-vertical"></li>
             <li <% if params["type"]==="repository"%> class="active" <% end%>><%= link_to I18n.t("repository._plural"), {:controller => :search, :action => :search, :type => "repository"} %></li>
+            <li <% if params["type"]==="accession"%> class="active" <% end%>><%= link_to I18n.t("accession._plural"), {:controller => :search, :action => :search, :type => "accession"} %></li>
             <li <% if params["type"]==="resource"%> class="active" <% end%>><%= link_to I18n.t("resource._plural"), {:controller => :search, :action => :search, :type => "resource"} %></li>
             <li <% if params["type"]==="digital_object"%> class="active" <% end%>><%= link_to I18n.t("digital_object._plural"), {:controller => :search, :action => :search, :type => "digital_object"} %></li>
             <li <% if params["type"]==="subject"%> class="active" <% end%>><%= link_to I18n.t("subject._plural"),  {:controller => :search, :action => :search, :type => "subject"} %></li>

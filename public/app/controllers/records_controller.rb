@@ -92,6 +92,9 @@ class RecordsController < ApplicationController
     @breadcrumbs.push([@classification.title, "#", "classification"])
   end
 
+  def accession
+    render :text => "woop"
+  end
 
 
   private
