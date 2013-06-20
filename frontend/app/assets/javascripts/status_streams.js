@@ -45,9 +45,14 @@ function upload(formData) {
 
 function StandardResultEmitter() {
 	
-	this.add_status_row = function(status) {
-		var progress = "<progress value='1' max='100'></progress></div>";
+	this.add_status_row = function(status, bar) {
+		bar = bar === 'undefined' ? true : bar;
+		var progress = bar ? "<progress value='1' max='100'></progress>" : "";
 		$("#import-results").append("<div class='import-results-row alert' id='status-"+status.id+"'><p>"+status.label+":</p>"+progress+"</div>");		
+	}
+	
+	this.refresh_status_message = function(status) {
+		$("#status-" + status.id + " p").html(status.label);
 	}
 	
 	this.update_progress = function(ticks, total) {

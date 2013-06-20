@@ -65,11 +65,11 @@ ASpaceImport::Importer.importer :ead do
       norm_dates.map! {|d| d =~ /^([0-9]{4}(\-(1[0-2]|0[1-9])(\-(0[1-9]|[12][0-9]|3[01]))?)?)$/ ? d : nil}
 
       make :date, {
-        :date_type => att('type'),
+        :date_type => att('type'), # || 'single',
         :expression => inner_xml,
         :label => 'other',
-        :begin => norm_dates[0], # review after https://www.pivotaltracker.com/story/show/49087643
-        :end => norm_dates[1] # review after https://www.pivotaltracker.com/story/show/49087643
+        # :begin => norm_dates[0], 
+        # :end => norm_dates[1]
       } do |date|
         set ancestor(:resource, :archival_object), :dates, date
       end

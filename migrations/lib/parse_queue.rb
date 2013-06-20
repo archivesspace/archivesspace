@@ -138,12 +138,15 @@ module ASpaceImport
       opts.each do |k,v|
         instance_variable_set("@#{k}", v)
       end
+      @counter = 0
     end
 
 
     def pop
       if self.last.class.method_defined? :uri and !self.last.uri.nil?
-        @batch.push(self.last) unless self.last.uri.nil?
+        @batch.push(self.last) 
+        @counter += 1
+        @client_block.call({'status' => [{'type' => 'refresh', 'label' => "About #{@counter} records generated.", 'id' => 'xml'}]}) if (@counter % 500) == 0
       end
 
       super

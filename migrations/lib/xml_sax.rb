@@ -219,7 +219,7 @@ module ASpaceImport
           value.on_discharge(self, :set_property, obj, property)
         else
           if value.nil?
-            @log.debug("Given a nil value for <#{obj.class.record_type}><#{property}>")
+            # @log.debug("Given a nil value for <#{obj.class.record_type}><#{property}>")
           else
             filtered_value = ASpaceImport::Utils.value_filter(property_type[0]).call(value)
             if property_type[0].match /list$/

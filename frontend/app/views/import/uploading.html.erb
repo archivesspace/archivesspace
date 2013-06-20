@@ -19,7 +19,6 @@
 				var current_status_id = 0;
 
 				this.add_status_row = function(status) {
-
 					var rowdiv = document.createElement('div');
 					rowdiv.setAttribute('class', 'import-results-row alert');
 					rowdiv.setAttribute('id', status.id);
@@ -37,6 +36,10 @@
 
 					document.getElementById("import-results").appendChild(rowdiv);
 					current_status_id = status.id;	
+				}
+				
+				this.refresh_status_message = function(status) {
+				  //not implemented for bronze browsers : (
 				}
 
 				this.update_progress = function(ticks, total) {
