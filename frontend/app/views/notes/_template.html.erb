@@ -166,9 +166,7 @@
           :field_opts => {:class => "note-type"}) %>
       <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
 
-      <% form.emit_template("content_items", :required => form.required?('content')) %>
-
-      <section class="subrecord-form">
+      <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
         <h5 class="subrecord-form-heading">
           <%= I18n.t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
@@ -176,6 +174,9 @@
           <% end %>
         </h5>
         <div class="subrecord-form-container">
+          <% form.obj["subnotes"] = [JSONModel(:note_text).new.to_hash(:raw)] if form["subnotes"].blank? %>
+
+
           <%= form.list_for(form["subnotes"], "subnotes[]") do |subnote| %>
             <% form.emit_template(subnote["jsonmodel_type"]) %>
           <% end %>
@@ -220,9 +221,7 @@
       <%= form.label_and_textfield("label") %>
       <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
 
-      <% form.emit_template("content_items", :required => form.required?('content')) %>
-
-      <section class="subrecord-form">
+      <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
         <h5 class="subrecord-form-heading">
           <%= I18n.t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
@@ -516,7 +515,7 @@
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_text") %>
 
-      <%= form.textarea('content', form['content'], :class => "mixed-content") %>
+      <%= form.label_and_textarea('content', :field_opts => {:class => "mixed-content"}) %>
 
       <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
     </div>

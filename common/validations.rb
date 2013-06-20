@@ -47,7 +47,7 @@ module JSONModel::Validations
     if hash["source"].nil? && hash["authority_id"]
       warnings << ["source", "is required if there is an authority id"]
     end
-    
+
     warnings
   end
 
@@ -356,6 +356,14 @@ module JSONModel::Validations
   end
 
 
-
+  [:note_multipart, :note_bioghist].each do |schema|
+    JSONModel(schema).add_validation("#{schema}_check_at_least_one_text_note") do |hash|
+      if Array(hash['subnotes']).any? {|subnote| subnote['jsonmodel_type'] == 'note_text'}
+        []
+        else
+        [["subnotes", "Must contain at least one 'text' subnote"]]
+      end
+    end
+  end
 
 end

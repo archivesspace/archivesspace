@@ -586,6 +586,7 @@ en:
 
   note_multipart:
     <<: *note_attributes
+    subnotes: Sub Notes
     sub_notes: Sub Notes
     sub_notes_singular: Sub Note
 
