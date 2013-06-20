@@ -166,7 +166,7 @@ en:
     global_admin: System
 
   batch_delete:
-    archival_objects:
+    archival_records:
       success: Records deleted
       error: "Unable to delete records:"
     subjects:
