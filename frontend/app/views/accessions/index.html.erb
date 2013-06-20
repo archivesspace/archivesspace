@@ -1,6 +1,7 @@
 <%= setup_context(:title => I18n.t("accession._plural")) %>
 
 <%
+   @show_multiselect_column = user_can?("delete_archival_record")
    add_column(I18n.t("accession.identifier"), proc {|record| record['identifier']}, :sortable => true, :sort_by => "identifier")
 %>
 
@@ -13,8 +14,11 @@
       <div class="row-fluid">
         <div class="span12">
           <div class="record-toolbar">
-            <div class="btn-group pull-right">
+            <div class="pull-right">
               <%= link_to I18n.t("accession._frontend.action.create"), {:controller => :accessions, :action => :new}, :class => "btn btn-small" %>
+              <% if user_can?("delete_archival_record") %>
+                <%= button_delete_multiple_action(:archival_records) %>
+              <% end %>
             </div>
           </div>
         </div>

@@ -204,7 +204,7 @@ module RESTHelpers
           RequestContext.put(:repo_id, params[:repo_id])
           RequestContext.put(:is_high_priority, high_priority_request?)
 
-          if !env["ASPACE_REENTRANT"]
+          if env["REQUEST_METHOD"] != "GET" || !env["ASPACE_REENTRANT"]
             unless preconditions.all? { |precondition| self.instance_eval &precondition }
               raise AccessDeniedException.new("Access denied")
             end

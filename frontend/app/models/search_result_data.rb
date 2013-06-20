@@ -180,11 +180,11 @@ class SearchResultData
   end
 
   def self.RESOURCE_FACETS
-    ["subjects", "publish", "level", "classification_path"]
+    ["subjects", "publish", "level", "classification_path", "primary_type"]
   end
 
   def self.DIGITAL_OBJECT_FACETS
-    ["subjects", "publish", "digital_object_type", "level"]
+    ["subjects", "publish", "digital_object_type", "level", "primary_type"]
   end
 
   def self.LOCATION_FACETS

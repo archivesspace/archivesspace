@@ -81,12 +81,13 @@ module URIResolver
   # Usually we'll want to resolve records with the permissions of the user
   # making the request, so pass through the env from their request.
   #
-  def self.resolve_uri(uri, env)
+  def self.forward_rack_request(method, uri, env)
     if env
-      env = env.merge('ASPACE_REENTRANT' => true, 'PATH_INFO' => uri)
+      env = env.merge('ASPACE_REENTRANT' => true, 'PATH_INFO' => uri,
+                      'REQUEST_METHOD' => method)
     else
       env = {
-        'REQUEST_METHOD' => "GET",
+        'REQUEST_METHOD' => method,
         'SCRIPT_NAME' => "",
         'PATH_INFO' => uri,
         'QUERY_STRING' => "",
@@ -97,7 +98,12 @@ module URIResolver
       }
     end
 
-    response = ArchivesSpaceService.call(env)
+    ArchivesSpaceService.call(env)
+  end
+
+
+  def self.resolve_uri(uri, env)
+    response = forward_rack_request("GET", uri, env)
 
     resolved = ""
 

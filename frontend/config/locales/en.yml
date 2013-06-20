@@ -47,6 +47,9 @@ en:
     delete: Delete
     delete_confirm_title: Delete this Record?
     delete_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove the record from the database, including any references it has to other records.</p>"
+    delete_multiple: Delete Records
+    delete_multiple_confirm_title: Delete Records?
+    delete_multiple_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove these records from the database, including any references they have to other records.</p>"
     export_eac: Download EAC-CPF
     export_ead: Download EAD
     export_mods: Download MODS
@@ -92,6 +95,7 @@ en:
     created: Created by
     text_placeholder: Filter by text
     clear_all: Clear All
+    component_switch: Show Components
     filter:
       query: Text
       subjects: Subject
@@ -160,6 +164,17 @@ en:
     register_prefix: Need an account?
     list_reports: Reports
     global_admin: System
+
+  batch_delete:
+    archival_records:
+      success: Records deleted
+      error: "Unable to delete records:"
+    subjects:
+      success: Subjects deleted
+      error: "Unable to delete subjects:"
+    agents:
+      success: Agents deleted
+      error: "Unable to delete agents:"
 
   browser_support:
     bronze: ArchivesSpace does not fully support this browser.  Please consider upgrading your browser to the latest versions of either Chrome, Firefox or Internet Explorer.
@@ -568,6 +583,7 @@ en:
         rapid_data_entry: Rapid Data Entry
         create: Create Resource
         save: Save Resource
+        delete_multiple: Delete Resources
 
   rights_statement:
     _frontend:

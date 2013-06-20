@@ -38,3 +38,11 @@ end
 
 class MergeRequestFailed < StandardError
 end
+
+class BatchDeleteFailed < StandardError
+  attr_accessor :errors
+
+  def initialize(errors)
+    @errors = errors
+  end
+end

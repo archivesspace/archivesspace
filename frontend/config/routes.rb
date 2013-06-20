@@ -12,6 +12,7 @@ ArchivesSpace::Application.routes.draw do
   resources :repositories
   match 'repositories/:id' => 'repositories#update', :via => [:post]
   match 'repositories/:id/delete' => 'repositories#delete', :via => [:post]
+  match 'repositories/delete_records' => 'repositories#delete_records', :via => [:post]
 
   match 'users/manage_access' => 'users#manage_access', :via => [:get]
   match 'users/:id/edit_groups' => 'users#edit_groups', :via => [:get]
@@ -126,6 +127,11 @@ ArchivesSpace::Application.routes.draw do
   match 'reports/download' => 'reports#download', :via => [:post]
 
   match 'update_monitor/poll' => 'update_monitor#poll', :via => [:post]
+
+  match 'batch_delete/archival_records' => 'batch_delete#archival_records', :via => [:post]
+  match 'batch_delete/subjects' => 'batch_delete#subjects', :via => [:post]
+  match 'batch_delete/agents' => 'batch_delete#agents', :via => [:post]
+  match 'batch_delete/classifications' => 'batch_delete#classifications', :via => [:post]
 
 
   if Plugins.system_menu_items?

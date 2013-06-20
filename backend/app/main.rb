@@ -210,6 +210,10 @@ class ArchivesSpaceService < Sinatra::Base
     json_response({:error => {"member_usernames" => [request.env['sinatra.error']]}}, 400)
   end
 
+  error BatchDeleteFailed do
+    json_response({:error => {"failures" => request.env['sinatra.error'].errors}}, 403)
+  end
+
   error ValidationException do
     json_response({
                     :error => request.env['sinatra.error'].errors,

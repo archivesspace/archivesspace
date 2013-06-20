@@ -1,0 +1,4 @@
+<p id="component_switch">
+  <%= check_box_tag "component_switch_checkbox", params[:include_components], params[:include_components] === "true", :onclick => "location.href = $('#component_switch_link').attr('href');" %>
+  <%= link_to I18n.t("search_results.component_switch"), params_for_search({"include_components" => !(params[:include_components]==="true")}), :id => "component_switch_link" %>
+</p>

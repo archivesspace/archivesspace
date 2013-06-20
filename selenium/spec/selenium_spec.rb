@@ -943,6 +943,34 @@ describe "ArchivesSpace user interface" do
         $driver.find_element_with_text('//td', /#{@accession_title}/)
       }.to_not raise_error
     end
+
+
+    it "can delete multiple Accessions from the listing" do
+      # first login as someone with access to delete
+      logout
+      login_as_repo_manager
+
+      second_accession_title = "A new accession about to be deleted"
+      create_accession(second_accession_title)
+      run_index_round
+
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Accessions").click
+
+      $driver.find_elements(:css, ".multiselect-column input").each do |checkbox|
+        checkbox.click
+      end
+
+      $driver.find_element(:css, ".record-toolbar .btn.multiselect-enabled").click
+      $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
+
+      assert(5) { $driver.find_element(:css => ".alert.alert-success").text.should eq("Records deleted") }
+
+      # refresh the indexer and the page to make sure it stuck
+      run_index_round
+      $driver.navigate.refresh
+      assert(5) { $driver.find_element(:css => ".alert.alert-info").text.should eq("No records found") }
+    end
   end
 
 

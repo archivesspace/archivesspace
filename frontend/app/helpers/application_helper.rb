@@ -129,6 +129,7 @@ module ApplicationHelper
     search_params["facets"] = opts["facets"] || params["facets"]
     search_params["exclude"] = opts["exclude"] || params["exclude"]
     search_params["listing_only"] = true if params["listing_only"]
+    search_params["include_components"] = opts.has_key?("include_components") ? opts["include_components"] : params["include_components"]
 
     search_params["q"] = opts["q"] || params["q"]
 
@@ -187,8 +188,8 @@ module ApplicationHelper
   end
 
 
-  def button_delete_action(url)
-    button_confirm_action(I18n.t("actions.delete"),
+  def button_delete_action(url, opts = {})
+    button_confirm_action(opts[:label] || I18n.t("actions.delete"),
                           url,
                           {
                             :class => "btn btn-small btn-danger delete-record",
@@ -196,9 +197,20 @@ module ApplicationHelper
                             :"data-message" => I18n.t("actions.delete_confirm_message"),
                             :"data-confirm-btn-label" => "#{I18n.t("actions.delete")}",
                             :"data-confirm-btn-class" => "btn-danger"
-                          })
+                          }.merge(opts))
   end
 
+
+  def button_delete_multiple_action(target_action)
+    button_delete_action(url_for(:controller => :batch_delete, :action => target_action), {
+      :class => "btn btn-small btn-danger multiselect-enabled",
+      :"data-multiselect" => "#tabledSearchResults",
+      :"data-title" => I18n.t("actions.delete_multiple_confirm_title"),
+      :"data-message" => I18n.t("actions.delete_multiple_confirm_message"),
+      :"data-confirm-btn-label" => "#{I18n.t("actions.delete_multiple")}",
+      :disabled => "disabled"
+    })
+  end
 
   def display_audit_info(hash, opts = {})
     fmt = opts[:format] || 'wide'
