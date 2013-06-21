@@ -513,11 +513,30 @@
   <div class="subrecord-form-fields" data-type="note_text">
     <h4 class="subrecord-form-heading"><%= I18n.t("note.note_text") %></h4>
     <div class="subrecord-form-container">
-      <%= form.hidden_input(:jsonmodel_type, "note_text") %>
+      <% if form.readonly? %>
+        <div class="subrecord-form-fields notes-readonly">
+          <div class="tabbable tabs-below">
+            <div class="tab-content">
+              <div class="tab-pane active" id="<%= form.id_for("content") %>_raw">
+                <%= form.textarea(nil, form["content"], :class => "mixed-content") %>
+              </div>
+              <div class="tab-pane" id="<%= form.id_for("content") %>_parsed">
+                <%= clean_note(form["content"]).html_safe %>
+              </div>
+            </div>
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#<%= form.id_for("content") %>_raw" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.raw_title") %>"><%= I18n.t("note._frontend.preview.raw") %></a></li>
+              <li><a href="#<%= form.id_for("content") %>_parsed" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.parsed_title") %>"><%= I18n.t("note._frontend.preview.parsed") %></a></li>
+            </ul>
+          </div>
+        </div>
+      <% else %>
+        <%= form.hidden_input(:jsonmodel_type, "note_text") %>
 
-      <%= form.label_and_textarea('content', :field_opts => {:class => "mixed-content"}) %>
+        <%= form.label_and_textarea('content', :field_opts => {:class => "mixed-content"}) %>
 
-      <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
+        <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
+      <% end %>
     </div>
   </div>
 <% end %>
