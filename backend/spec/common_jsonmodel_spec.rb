@@ -363,7 +363,9 @@ describe 'JSON model' do
                                                      "type" => "accruals",
                                                      "content" => ["moo"],
                                                      "label" => "moo",
-                                                     "subnotes" => [{"jsonmodel_type" => "note_definedlist"}]}],
+                                                     "subnotes" => [{"jsonmodel_type" => "note_definedlist",
+                                                      "items" => [["label" => "moo"]]
+                                                      }]}],
                                        "extents" => [{"portion" => "whole",
                                                        "number" => "5",
                                                        "extent_type" => "cassettes",
@@ -373,7 +375,7 @@ describe 'JSON model' do
 
     rescue JSONModel::ValidationException => e
       e.errors.keys.sort.should eq(["notes/0/content",
-                                    "notes/1/subnotes/0/title"])
+                                    "notes/1/subnotes/0/items/0"])
     end
   end
 
