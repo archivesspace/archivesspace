@@ -4,6 +4,8 @@ Properties
 
 array (string)	content
 
+string	type
+
 array (Object (value, type, reference, reference_text))	items
 
 

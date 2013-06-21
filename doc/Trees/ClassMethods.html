@@ -6,13 +6,13 @@
 <title>
   Module: Trees::ClassMethods
   
-    &mdash; Documentation by YARD 0.8.6.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -108,6 +108,29 @@
   <span class="summary_signature">
     
       <a href="#assemble_tree-instance_method" title="#assemble_tree (instance method)">- (Object) <strong>assemble_tree</strong>(node, links, properties) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#node_model-instance_method" title="#node_model (instance method)">- (Object) <strong>node_model</strong> </a>
     
 
     
@@ -266,7 +289,6 @@
       <pre class="lines">
 
 
-108
 109
 110
 111
@@ -278,10 +300,11 @@
 117
 118
 119
-120</pre>
+120
+121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/trees.rb', line 108</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/trees.rb', line 109</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_assemble_tree identifier id'>assemble_tree</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_links identifier id'>links</span><span class='comma token'>,</span> <span class='rubyid_properties identifier id'>properties</span><span class='rparen token'>)</span>
   <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='rubyid_node identifier id'>node</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
@@ -295,6 +318,37 @@
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_result identifier id'>result</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="node_model-instance_method">
+  
+    - (<tt>Object</tt>) <strong>node_model</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+104
+105
+106</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/trees.rb', line 104</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_node_model identifier id'>node_model</span>
+  <span class='rubyid_Kernel constant id'>Kernel</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='rubyid_node_type identifier id'>node_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_camelize identifier id'>camelize</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -317,12 +371,12 @@
       <pre class="lines">
 
 
-103
-104
-105</pre>
+99
+100
+101</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/trees.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/trees.rb', line 99</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_node_type identifier id'>node_type</span>
   <span class='rubyid_@node_type ivar id'>@node_type</span>
@@ -348,7 +402,6 @@
       <pre class="lines">
 
 
-130
 131
 132
 133
@@ -357,15 +410,18 @@
 136
 137
 138
-139</pre>
+139
+140
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/trees.rb', line 130</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/trees.rb', line 131</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_prepare_for_deletion identifier id'>prepare_for_deletion</span><span class='lparen token'>(</span><span class='rubyid_dataset identifier id'>dataset</span><span class='rparen token'>)</span>
   <span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_record identifier id'>record</span><span class='bitor op'>|</span>
-    <span class='rubyid_Kernel constant id'>Kernel</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='rubyid_node_type identifier id'>node_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_camelize identifier id'>camelize</span><span class='rparen token'>)</span><span class='dot token'>.</span>
-           <span class='rubyid_this_repo identifier id'>this_repo</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:root_record_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_subrecord identifier id'>subrecord</span><span class='bitor op'>|</span>
+    <span class='rubyid_node_model identifier id'>node_model</span><span class='dot token'>.</span><span class='rubyid_this_repo identifier id'>this_repo</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:root_record_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span>
+                                <span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+      <span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_subrecord identifier id'>subrecord</span><span class='bitor op'>|</span>
       <span class='rubyid_subrecord identifier id'>subrecord</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
@@ -393,12 +449,12 @@
       <pre class="lines">
 
 
-98
-99
-100</pre>
+94
+95
+96</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/trees.rb', line 98</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/trees.rb', line 94</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_root_type identifier id'>root_type</span>
   <span class='rubyid_@root_type ivar id'>@root_type</span>
@@ -424,14 +480,14 @@
       <pre class="lines">
 
 
-123
 124
 125
 126
-127</pre>
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/trees.rb', line 123</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/trees.rb', line 124</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_json identifier id'>json</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -459,13 +515,13 @@
       <pre class="lines">
 
 
-92
-93
-94
-95</pre>
+88
+89
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/trees.rb', line 92</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/trees.rb', line 88</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_tree_of identifier id'>tree_of</span><span class='lparen token'>(</span><span class='rubyid_root_type identifier id'>root_type</span><span class='comma token'>,</span> <span class='rubyid_node_type identifier id'>node_type</span><span class='rparen token'>)</span>
   <span class='rubyid_@root_type ivar id'>@root_type</span> <span class='assign token'>=</span> <span class='rubyid_root_type identifier id'>root_type</span>
@@ -482,9 +538,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:02 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 21 15:52:38 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

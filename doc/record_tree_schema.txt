@@ -10,13 +10,9 @@ string	record_uri
 
 string (max length: 16384)	title
 
-string (max length: 255)	level
-
-string (max length: 255)	node_type
-
 boolean	publish
 
-array (JSONModel(:record_tree) object)	children
+string (max length: 255)	node_type
 
 
 

@@ -16,7 +16,7 @@ array (JSONModel(:term) uri_or_object)	terms
 
 JSONModel(:vocabulary) uri	vocabulary
 
-string (max length: 255)	ref_id
+string (max length: 255)	authority_id
 
 array (JSONModel(:external_document) object)	external_documents
 

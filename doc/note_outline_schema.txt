@@ -4,8 +4,6 @@ Properties
 
 boolean	publish
 
-boolean	internal
-
 array (JSONModel(:note_outline_level) object)	levels
 
 

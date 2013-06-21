@@ -6,13 +6,13 @@
 <title>
   Module: NotesHelper
   
-    &mdash; Documentation by YARD 0.8.6.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -130,6 +130,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#clean_note-instance_method" title="#clean_note (instance method)">- (Object) <strong>clean_note</strong>(note) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#multipart_subnotes-instance_method" title="#multipart_subnotes (instance method)">- (Object) <strong>multipart_subnotes</strong> </a>
     
 
@@ -197,8 +220,6 @@
       <pre class="lines">
 
 
-80
-81
 82
 83
 84
@@ -209,10 +230,12 @@
 89
 90
 91
-92</pre>
+92
+93
+94</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 80</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 82</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_bioghist_subnotes identifier id'>bioghist_subnotes</span>
   <span class='rubyid_note_types identifier id'>note_types</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -226,6 +249,37 @@
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_note_types identifier id'>note_types</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="clean_note-instance_method">
+  
+    - (<tt>Object</tt>) <strong>clean_note</strong>(note) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+97
+98
+99</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 97</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_clean_note identifier id'>clean_note</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='rparen token'>)</span>
+  <span class='rubyid_NotesParser constant id'>NotesParser</span><span class='colon2 op'>::</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='rubyid_url_for identifier id'>url_for</span><span class='lparen token'>(</span><span class='symbol val'>:root</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -248,8 +302,6 @@
       <pre class="lines">
 
 
-65
-66
 67
 68
 69
@@ -260,10 +312,12 @@
 74
 75
 76
-77</pre>
+77
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 67</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_multipart_subnotes identifier id'>multipart_subnotes</span>
   <span class='rubyid_note_types identifier id'>note_types</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -299,8 +353,6 @@
       <pre class="lines">
 
 
-3
-4
 5
 6
 7
@@ -358,10 +410,12 @@
 59
 60
 61
-62</pre>
+62
+63
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 3</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 5</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_note_types_for identifier id'>note_types_for</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span><span class='rparen token'>)</span>
   <span class='rubyid_note_types identifier id'>note_types</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
@@ -434,9 +488,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:06 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 21 15:52:42 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

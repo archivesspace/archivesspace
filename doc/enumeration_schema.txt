@@ -12,6 +12,8 @@ boolean	editable
 
 array (string)	values
 
+array (string)	readonly_values
+
 
 
 

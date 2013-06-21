@@ -6,13 +6,13 @@
 <title>
   Module: Notes::ClassMethods
   
-    &mdash; Documentation by YARD 0.8.6.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -197,17 +197,6 @@
       <pre class="lines">
 
 
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
 36
 37
 38
@@ -217,10 +206,21 @@
 42
 43
 44
-45</pre>
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/notes.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/notes.rb', line 36</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_apply_notes identifier id'>apply_notes</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_super_callback identifier id'>super_callback</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_notes_blob identifier id'>notes_blob</span> <span class='assign token'>=</span> <span class='rubyid_JSON constant id'>JSON</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span><span class='rparen token'>)</span>
@@ -264,14 +264,14 @@
       <pre class="lines">
 
 
-18
-19
-20
-21
-22</pre>
+29
+30
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/notes.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/notes.rb', line 29</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_apply_notes identifier id'>apply_notes</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='bitor op'>|</span>
@@ -299,17 +299,17 @@
       <pre class="lines">
 
 
-48
-49
-50
-51
-52
-53
-54
-55</pre>
+59
+60
+61
+62
+63
+64
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/notes.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/notes.rb', line 59</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_notes identifier id'>notes</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span> <span class='orop op'>||</span> <span class='string val'>&quot;[]&quot;</span><span class='rparen token'>)</span>
@@ -330,9 +330,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:02 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 21 15:52:38 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

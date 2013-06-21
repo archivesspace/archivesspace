@@ -6,13 +6,13 @@
 <title>
   Class: AuthenticationManager
   
-    &mdash; Documentation by YARD 0.8.6.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -288,7 +288,10 @@ Return a User object if successful, nil otherwise</p>
 59
 60
 61
-62</pre>
+62
+63
+64
+65</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/authentication_manager.rb', line 20</span>
@@ -304,6 +307,9 @@ Return a User object if successful, nil otherwise</p>
       <span class='rubyid_end end kw'>end</span>
 
       <span class='rubyid_user identifier id'>user</span> <span class='assign token'>=</span> <span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_username identifier id'>username</span><span class='rparen token'>)</span>
+
+      <span class='comment val'># Force their admin status based on what they already had</span>
+      <span class='rubyid_jsonmodel_user identifier id'>jsonmodel_user</span><span class='dot token'>.</span><span class='rubyid_is_admin identifier id'>is_admin</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_user identifier id'>user</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_can? fid id'>can?</span><span class='lparen token'>(</span><span class='symbol val'>:administer_system</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
 
       <span class='rubyid_if if kw'>if</span> <span class='rubyid_user identifier id'>user</span>
         <span class='rubyid_begin begin kw'>begin</span>
@@ -388,14 +394,14 @@ Return a User object if successful, nil otherwise</p>
       <pre class="lines">
 
 
-65
-66
-67
 68
-69</pre>
+69
+70
+71
+72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/authentication_manager.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/authentication_manager.rb', line 68</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_matching_usernames identifier id'>matching_usernames</span><span class='lparen token'>(</span><span class='rubyid_query identifier id'>query</span><span class='rparen token'>)</span>
   <span class='rubyid_authentication_sources identifier id'>authentication_sources</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_source identifier id'>source</span><span class='bitor op'>|</span>
@@ -452,9 +458,9 @@ Return a User object if successful, nil otherwise</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:22 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 21 15:52:57 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

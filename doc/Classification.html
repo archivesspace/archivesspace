@@ -6,13 +6,13 @@
 <title>
   Class: Classification
   
-    &mdash; Documentation by YARD 0.8.6.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -206,6 +206,52 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#load_node_properties-instance_method" title="#load_node_properties (instance method)">- (Object) <strong>load_node_properties</strong>(node, properties) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_root_properties-instance_method" title="#load_root_properties (instance method)">- (Object) <strong>load_root_properties</strong>(properties) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#update_from_json-instance_method" title="#update_from_json (instance method)">- (Object) <strong>update_from_json</strong>(json, opts = {}, apply_linked_records = true) </a>
     
 
@@ -250,7 +296,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="Trees.html" title="Trees (module)">Trees</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Trees.html#children-instance_method" title="Trees#children (method)">#children</a></span>, <span class='object_link'><a href="Trees.html#included-class_method" title="Trees.included (method)">included</a></span>, <span class='object_link'><a href="Trees.html#tree-instance_method" title="Trees#tree (method)">#tree</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Trees.html#build_node_query-instance_method" title="Trees#build_node_query (method)">#build_node_query</a></span>, <span class='object_link'><a href="Trees.html#children-instance_method" title="Trees#children (method)">#children</a></span>, <span class='object_link'><a href="Trees.html#included-class_method" title="Trees.included (method)">included</a></span>, <span class='object_link'><a href="Trees.html#publish%21-instance_method" title="Trees#publish! (method)">#publish!</a></span>, <span class='object_link'><a href="Trees.html#tree-instance_method" title="Trees#tree (method)">#tree</a></span></p>
 
   
   
@@ -261,7 +307,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="Relationships.html" title="Relationships (module)">Relationships</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Relationships.html#included-class_method" title="Relationships.included (method)">included</a></span>, <span class='object_link'><a href="Relationships.html#linked_records-instance_method" title="Relationships#linked_records (method)">#linked_records</a></span>, <span class='object_link'><a href="Relationships.html#my_relationships-instance_method" title="Relationships#my_relationships (method)">#my_relationships</a></span>, <span class='object_link'><a href="Relationships.html#trigger_reindex_of_dependants-instance_method" title="Relationships#trigger_reindex_of_dependants (method)">#trigger_reindex_of_dependants</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Relationships.html#assimilate-instance_method" title="Relationships#assimilate (method)">#assimilate</a></span>, <span class='object_link'><a href="Relationships.html#included-class_method" title="Relationships.included (method)">included</a></span>, <span class='object_link'><a href="Relationships.html#linked_records-instance_method" title="Relationships#linked_records (method)">#linked_records</a></span>, <span class='object_link'><a href="Relationships.html#my_relationships-instance_method" title="Relationships#my_relationships (method)">#my_relationships</a></span>, <span class='object_link'><a href="Relationships.html#trigger_reindex_of_dependants-instance_method" title="Relationships#trigger_reindex_of_dependants (method)">#trigger_reindex_of_dependants</a></span></p>
 
   
   
@@ -401,7 +447,73 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="update_from_json-instance_method">
+  <h3 class="signature first" id="load_node_properties-instance_method">
+  
+    - (<tt>Object</tt>) <strong>load_node_properties</strong>(node, properties) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+48
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/classification.rb', line 48</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_load_node_properties identifier id'>load_node_properties</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_properties identifier id'>properties</span><span class='rparen token'>)</span>
+  <span class='rubyid_super super kw'>super</span>
+  <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:identifier</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_identifier identifier id'>identifier</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_root_properties-instance_method">
+  
+    - (<tt>Object</tt>) <strong>load_root_properties</strong>(properties) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+54
+55
+56
+57</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/classification.rb', line 54</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_load_root_properties identifier id'>load_root_properties</span><span class='lparen token'>(</span><span class='rubyid_properties identifier id'>properties</span><span class='rparen token'>)</span>
+  <span class='rubyid_super super kw'>super</span>
+  <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='symbol val'>:identifier</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_identifier identifier id'>identifier</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update_from_json-instance_method">
   
     - (<tt>Object</tt>) <strong>update_from_json</strong>(json, opts = {}, apply_linked_records = true) 
   
@@ -442,9 +554,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:20 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 21 15:52:56 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

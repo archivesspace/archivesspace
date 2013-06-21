@@ -6,7 +6,9 @@ string	uri
 
 array (Object (external_id, source))	external_ids
 
-string (max length: 16384)	title
+string (max length: 8192)	title
+
+string (max length: 8192)	label
 
 string (max length: 255)	id_0
 
@@ -29,6 +31,8 @@ string (max length: 65000)	provenance
 date	accession_date
 
 boolean	publish
+
+object	classification
 
 array (Object (ref, _resolved))	subjects
 

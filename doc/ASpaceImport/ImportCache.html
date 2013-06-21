@@ -6,13 +6,13 @@
 <title>
   Class: ASpaceImport::ImportCache
   
-    &mdash; Documentation by YARD 0.8.6.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -293,21 +293,23 @@
       <pre class="lines">
 
 
-130
-131
-132
-133
-134
-135</pre>
+136
+137
+138
+139
+140
+141
+142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 130</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 136</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_@batch ivar id'>@batch</span> <span class='assign token'>=</span> <span class='rubyid_Batch constant id'>Batch</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
     <span class='rubyid_instance_variable_set identifier id'>instance_variable_set</span><span class='lparen token'>(</span><span class='dstring node'>&quot;@#{k}&quot;</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_@counter ivar id'>@counter</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -337,12 +339,12 @@
       <pre class="lines">
 
 
-147
-148
-149</pre>
+156
+157
+158</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 147</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 156</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_clear! fid id'>clear!</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_write! fid id'>write!</span>
@@ -368,12 +370,12 @@
       <pre class="lines">
 
 
-171
-172
-173</pre>
+179
+180
+181</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 171</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 179</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_inspect identifier id'>inspect</span>
   <span class='string val'>&quot;Import Cache: &quot;</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_super super kw'>super</span> <span class='lshft op'>&lt;&lt;</span>  <span class='string val'>&quot; --- Batch: &quot;</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_@batch ivar id'>@batch</span><span class='dot token'>.</span><span class='rubyid_inspect identifier id'>inspect</span>
@@ -399,20 +401,24 @@
       <pre class="lines">
 
 
-138
-139
-140
-141
-142
-143
-144</pre>
+145
+146
+147
+148
+149
+150
+151
+152
+153</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 138</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 145</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_pop identifier id'>pop</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_method_defined? fid id'>method_defined?</span> <span class='colon op'>:</span><span class='rubyid_uri identifier id'>uri</span> <span class='rubyid_and and kw'>and</span> <span class='notop op'>!</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
-    <span class='rubyid_@batch ivar id'>@batch</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='rparen token'>)</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+    <span class='rubyid_@batch ivar id'>@batch</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='rparen token'>)</span> 
+    <span class='rubyid_@counter ivar id'>@counter</span> <span class='opasgn op'>+=</span> <span class='integer val'>1</span>
+    <span class='rubyid_@client_block ivar id'>@client_block</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='string val'>'status'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='string val'>'type'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'refresh'</span><span class='comma token'>,</span> <span class='string val'>'label'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;About #{@counter} records generated.&quot;</span><span class='comma token'>,</span> <span class='string val'>'id'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'xml'</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_@counter ivar id'>@counter</span> <span class='mod op'>%</span> <span class='integer val'>500</span><span class='rparen token'>)</span> <span class='eq op'>==</span> <span class='integer val'>0</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_super super kw'>super</span>
@@ -438,24 +444,22 @@
       <pre class="lines">
 
 
-161
-162
-163
-164
-165
-166
-167
-168</pre>
+170
+171
+172
+173
+174
+175
+176</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 161</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 170</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_save! fid id'>save!</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
     <span class='rubyid_@log ivar id'>@log</span><span class='dot token'>.</span><span class='rubyid_warn identifier id'>warn</span><span class='lparen token'>(</span><span class='string val'>&quot;Saving objects that were not explicitly cleared from the cache&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_clear! fid id'>clear!</span>
   <span class='rubyid_end end kw'>end</span>
-
   <span class='rubyid_@batch ivar id'>@batch</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -479,16 +483,16 @@
       <pre class="lines">
 
 
-152
-153
-154
-155
-156
-157
-158</pre>
+161
+162
+163
+164
+165
+166
+167</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 152</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 161</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_write! fid id'>write!</span>
   <span class='rubyid_while while kw'>while</span> <span class='notop op'>!</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -508,9 +512,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:33 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 21 15:53:07 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

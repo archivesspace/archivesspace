@@ -6,13 +6,13 @@
 <title>
   Class: AccessionsController
   
-    &mdash; Documentation by YARD 0.8.6.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -374,6 +374,8 @@
       <pre class="lines">
 
 
+36
+37
 38
 39
 40
@@ -381,17 +383,15 @@
 42
 43
 44
-45
-46
-47</pre>
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 36</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create identifier id'>create</span>
   <span class='rubyid_handle_crud identifier id'>handle_crud</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:accession</span><span class='comma token'>,</span>
               <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Accession constant id'>Accession</span><span class='comma token'>,</span>
-              <span class='symbol val'>:on_invalid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='lbrace token'>{</span> <span class='rubyid_render identifier id'>render</span> <span class='label val'>action:</span> <span class='string val'>&quot;new&quot;</span> <span class='rbrace token'>}</span><span class='comma token'>,</span>
+              <span class='symbol val'>:on_invalid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='lbrace token'>{</span> <span class='rubyid_render identifier id'>render</span> <span class='rubyid_action identifier id'>action</span><span class='colon op'>:</span> <span class='string val'>&quot;new&quot;</span> <span class='rbrace token'>}</span><span class='comma token'>,</span>
               <span class='symbol val'>:on_valid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
                   <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;accession._frontend.messages.created&quot;</span><span class='comma token'>,</span> <span class='rubyid_JSONModelI18nWrapper constant id'>JSONModelI18nWrapper</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:accession</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@accession ivar id'>@accession</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
                   <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:accessions</span><span class='comma token'>,</span>
@@ -419,16 +419,16 @@
       <pre class="lines">
 
 
+80
+81
 82
 83
 84
 85
-86
-87
-88</pre>
+86</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 80</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
   <span class='rubyid_accession identifier id'>accession</span> <span class='assign token'>=</span> <span class='rubyid_Accession constant id'>Accession</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -466,9 +466,7 @@
 31
 32
 33
-34
-35
-36</pre>
+34</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 26</span>
@@ -481,8 +479,6 @@
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;accessions/edit_inline&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:inline</span><span class='rbrack token'>]</span>
-
-  <span class='rubyid_fetch_tree identifier id'>fetch_tree</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -602,16 +598,16 @@
       <pre class="lines">
 
 
+62
+63
 64
 65
 66
 67
-68
-69
-70</pre>
+68</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 64</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 62</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_suppress identifier id'>suppress</span>
   <span class='rubyid_accession identifier id'>accession</span> <span class='assign token'>=</span> <span class='rubyid_Accession constant id'>Accession</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -641,16 +637,16 @@
       <pre class="lines">
 
 
+71
+72
 73
 74
 75
 76
-77
-78
-79</pre>
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 71</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_unsuppress identifier id'>unsuppress</span>
   <span class='rubyid_accession identifier id'>accession</span> <span class='assign token'>=</span> <span class='rubyid_Accession constant id'>Accession</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -680,6 +676,8 @@
       <pre class="lines">
 
 
+47
+48
 49
 50
 51
@@ -691,12 +689,10 @@
 57
 58
 59
-60
-61
-62</pre>
+60</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 47</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update identifier id'>update</span>
   <span class='rubyid_handle_crud identifier id'>handle_crud</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:accession</span><span class='comma token'>,</span>
@@ -704,7 +700,7 @@
               <span class='symbol val'>:obj</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_fetch_resolved identifier id'>fetch_resolved</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='comma token'>,</span>
               <span class='symbol val'>:on_invalid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
                 <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;accessions/edit_inline&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:inline</span><span class='rbrack token'>]</span>
-                <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='label val'>action:</span> <span class='string val'>&quot;edit&quot;</span>
+                <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='rubyid_action identifier id'>action</span><span class='colon op'>:</span> <span class='string val'>&quot;edit&quot;</span>
               <span class='rbrace token'>}</span><span class='comma token'>,</span>
               <span class='symbol val'>:on_valid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
                 <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;accession._frontend.messages.updated&quot;</span><span class='comma token'>,</span> <span class='rubyid_JSONModelI18nWrapper constant id'>JSONModelI18nWrapper</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:accession</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@accession ivar id'>@accession</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -723,9 +719,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:28 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 21 15:53:03 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

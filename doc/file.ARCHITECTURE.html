@@ -6,13 +6,13 @@
 <title>
   File: ARCHITECTURE
   
-    &mdash; Documentation by YARD 0.8.6.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -112,13 +112,13 @@ wrapper around the nested key/value pairs we want–essentially: a
 regular Ruby hash plus validation.  There is a JSONModel class
 instance for each type of record in the system, so:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span>
+<pre class="code ruby"><code><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span>
 </code></pre>
 
 <p>is a class that knows how to take a hash of properties and make sure
 those properties conform to the specification of a Digital Object:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_myhash identifier id'>myhash</span><span class='rparen token'>)</span>
+<pre class="code ruby"><code><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_myhash identifier id'>myhash</span><span class='rparen token'>)</span>
 </code></pre>
 
 <p>If it passes validation, a new JSONModel(:digital_object) instance is
@@ -126,7 +126,7 @@ returned, which provides accessors for accessing its value, and
 facilities for round-tripping between JSON documents and regular Ruby
 hashes:</p>
 
-<pre class="code ruby"><code class="ruby"> <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_myhash identifier id'>myhash</span><span class='rparen token'>)</span>
+<pre class="code ruby"><code> <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_myhash identifier id'>myhash</span><span class='rparen token'>)</span>
 
  <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span>  <span class='comment val'># or obj['title']</span>
  <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span> <span class='assign token'>=</span> <span class='string val'>'a new title'</span>  <span class='comment val'># or obj['title'] = 'a new title'</span>
@@ -158,7 +158,7 @@ the backend.</p>
 <p>Most actions against the backend require you to be logged in as a user
 with the appropriate permissions.  By sending a request like:</p>
 
-<pre class="code ruby"><code class="ruby"> <span class='rubyid_POST constant id'>POST</span> <span class='regexp val'>/users/</span><span class='rubyid_admin identifier id'>admin</span><span class='div op'>/</span><span class='rubyid_login? fid id'>login?</span><span class='rubyid_password identifier id'>password</span><span class='assign token'>=</span><span class='rubyid_login identifier id'>login</span>
+<pre class="code ruby"><code> <span class='rubyid_POST constant id'>POST</span> <span class='regexp val'>/users/</span><span class='rubyid_admin identifier id'>admin</span><span class='div op'>/</span><span class='rubyid_login? fid id'>login?</span><span class='rubyid_password identifier id'>password</span><span class='assign token'>=</span><span class='rubyid_login identifier id'>login</span>
 </code></pre>
 
 <p>your authentication request will be validated, and a session token
@@ -166,7 +166,7 @@ will be returned in the JSON response for your request.  To remain
 authenticated, provide this token with subsequent requests in the
 X-ArchivesSpace-Session header.  For example:</p>
 
-<pre class="code ruby"><code class="ruby"> <span class='rubyid_X constant id'>X</span><span class='minus op'>-</span><span class='rubyid_ArchivesSpace constant id'>ArchivesSpace</span><span class='minus op'>-</span><span class='rubyid_Session constant id'>Session</span><span class='colon op'>:</span> <span class='float val'>8e921</span><span class='rubyid_ac9bbe9a4a947eee8a7c5fa8b4c81c51729935860c1adfed60a5e4202cb identifier id'>ac9bbe9a4a947eee8a7c5fa8b4c81c51729935860c1adfed60a5e4202cb</span>
+<pre class="code ruby"><code> <span class='rubyid_X constant id'>X</span><span class='minus op'>-</span><span class='rubyid_ArchivesSpace constant id'>ArchivesSpace</span><span class='minus op'>-</span><span class='rubyid_Session constant id'>Session</span><span class='colon op'>:</span> <span class='float val'>8e921</span><span class='rubyid_ac9bbe9a4a947eee8a7c5fa8b4c81c51729935860c1adfed60a5e4202cb identifier id'>ac9bbe9a4a947eee8a7c5fa8b4c81c51729935860c1adfed60a5e4202cb</span>
 </code></pre>
 
 <h3 id="crud">CRUD</h3>
@@ -175,7 +175,7 @@ X-ArchivesSpace-Session header.  For example:</p>
 different “top-level” record types.  Working with records follows a
 fairly standard pattern:</p>
 
-<pre class="code ruby"><code class="ruby"> <span class='comment val'># Get a paginated list of accessions from repository '123'</span>
+<pre class="code ruby"><code> <span class='comment val'># Get a paginated list of accessions from repository '123'</span>
  <span class='rubyid_GET constant id'>GET</span> <span class='regexp val'>/repositories/</span><span class='integer val'>123</span><span class='div op'>/</span><span class='rubyid_accessions? fid id'>accessions?</span><span class='rubyid_page identifier id'>page</span><span class='assign token'>=</span><span class='integer val'>1</span>
 
  <span class='comment val'># Create a new accession</span>
@@ -198,19 +198,19 @@ ships with a module called JSONModel::Client that simplifies the
 common CRUD-style operations.  Including this module just requires
 passing an additional parameter when initialising JSONModel:</p>
 
-<pre class="code ruby"><code class="ruby"> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_init identifier id'>init</span><span class='lparen token'>(</span><span class='symbol val'>:client_mode</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span> <span class='symbol val'>:url</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@backend_url ivar id'>@backend_url</span><span class='rparen token'>)</span>
+<pre class="code ruby"><code> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_init identifier id'>init</span><span class='lparen token'>(</span><span class='symbol val'>:client_mode</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span> <span class='symbol val'>:url</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@backend_url ivar id'>@backend_url</span><span class='rparen token'>)</span>
  <span class='rubyid_include identifier id'>include</span> <span class='rubyid_JSONModel constant id'>JSONModel</span>
 </code></pre>
 
 <p>If you’ll be working against a single repository, it’s convenient to
 set it as the default for subsequent actions:</p>
 
-<pre class="code ruby"><code class="ruby"> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_set_repository identifier id'>set_repository</span><span class='lparen token'>(</span><span class='integer val'>123</span><span class='rparen token'>)</span>
+<pre class="code ruby"><code> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_set_repository identifier id'>set_repository</span><span class='lparen token'>(</span><span class='integer val'>123</span><span class='rparen token'>)</span>
 </code></pre>
 
 <p>Then, several additional JSONModel methods are available:</p>
 
-<pre class="code ruby"><code class="ruby"> <span class='comment val'># As before, get a paginated list of accessions</span>
+<pre class="code ruby"><code> <span class='comment val'># As before, get a paginated list of accessions</span>
  <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:accession</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='lparen token'>(</span><span class='symbol val'>:page</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
 
  <span class='comment val'># Create a new accession</span>
@@ -515,7 +515,7 @@ each model to handle its nested records, so the ASModel mix-in
 provides a declaration to handle this automatically.  For example, the
 <code>accession</code> model uses a definition like:</p>
 
-<pre class="code ruby"><code class="ruby"> <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:dates</span><span class='comma token'>,</span>
+<pre class="code ruby"><code> <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:dates</span><span class='comma token'>,</span>
                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:date</span><span class='comma token'>,</span>
                         <span class='symbol val'>:corresponding_to_association</span>  <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:date</span><span class='comma token'>,</span>
                         <span class='symbol val'>:always_resolve</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
@@ -536,7 +536,7 @@ between two top-level records where the link has zero or more
 properties of its own.  For example, the <code>Event</code> model can be related
 to several different types of records:</p>
 
-<pre class="code ruby"><code class="ruby"> <span class='rubyid_define_relationship identifier id'>define_relationship</span><span class='lparen token'>(</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:event_link</span><span class='comma token'>,</span>
+<pre class="code ruby"><code> <span class='rubyid_define_relationship identifier id'>define_relationship</span><span class='lparen token'>(</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:event_link</span><span class='comma token'>,</span>
                      <span class='symbol val'>:json_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'linked_records'</span><span class='comma token'>,</span>
                      <span class='symbol val'>:contains_references_to_types</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span><span class='lbrack token'>[</span><span class='rubyid_Accession constant id'>Accession</span><span class='comma token'>,</span> <span class='rubyid_Resource constant id'>Resource</span><span class='comma token'>,</span> <span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
 </code></pre>
@@ -544,7 +544,7 @@ to several different types of records:</p>
 <p>The JSONModel schema for events states that the ‘linked_records’
 property must look like:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='label val'>linked_records:</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='label val'>ref:</span> <span class='string val'>'/repositories/123/accessions/456'</span><span class='comma token'>,</span> <span class='label val'>role:</span> <span class='string val'>'authorizer'</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='dot3 op'>...</span><span class='rbrack token'>]</span>
+<pre class="code ruby"><code><span class='rubyid_linked_records identifier id'>linked_records</span><span class='colon op'>:</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='rubyid_ref identifier id'>ref</span><span class='colon op'>:</span> <span class='string val'>'/repositories/123/accessions/456'</span><span class='comma token'>,</span> <span class='rubyid_role identifier id'>role</span><span class='colon op'>:</span> <span class='string val'>'authorizer'</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='dot3 op'>...</span><span class='rbrack token'>]</span>
 </code></pre>
 
 <p>That is, it must be an array of objects with ‘ref’ and ‘role’ keys set
@@ -571,12 +571,12 @@ different agents need to be modelled as separate record types.</p>
 <p>The <code>agent_manager</code> module captures the high-level similarities
 between agents.  Each agent model includes the agent manager mixin:</p>
 
-<pre class="code ruby"><code class="ruby"> <span class='rubyid_include identifier id'>include</span> <span class='rubyid_AgentManager constant id'>AgentManager</span><span class='colon2 op'>::</span><span class='rubyid_Mixin constant id'>Mixin</span>
+<pre class="code ruby"><code> <span class='rubyid_include identifier id'>include</span> <span class='rubyid_AgentManager constant id'>AgentManager</span><span class='colon2 op'>::</span><span class='rubyid_Mixin constant id'>Mixin</span>
 </code></pre>
 
 <p>and then defines itself declaratively by the provided class method:</p>
 
-<pre class="code ruby"><code class="ruby"> <span class='rubyid_register_agent_type identifier id'>register_agent_type</span><span class='lparen token'>(</span><span class='symbol val'>:jsonmodel</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_person</span><span class='comma token'>,</span>
+<pre class="code ruby"><code> <span class='rubyid_register_agent_type identifier id'>register_agent_type</span><span class='lparen token'>(</span><span class='symbol val'>:jsonmodel</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_person</span><span class='comma token'>,</span>
                      <span class='symbol val'>:name_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:name_person</span><span class='comma token'>,</span>
                      <span class='symbol val'>:name_model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_NamePerson constant id'>NamePerson</span><span class='rparen token'>)</span>
 </code></pre>
@@ -798,9 +798,9 @@ polling and keeps indexing latency low where it matters.</p>
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:24:57 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 21 15:52:34 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

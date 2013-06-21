@@ -10,11 +10,9 @@ string	level
 
 string (max length: 255)	other_level
 
-string (max length: 16384)	title
+string (max length: 8192)	title
 
-boolean	title_auto_generate
-
-boolean	internal_only
+string (max length: 8192)	label
 
 object	parent
 

@@ -6,13 +6,13 @@
 <title>
   Module: ASModel::SequelHooks
   
-    &mdash; Documentation by YARD 0.8.6.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -220,14 +220,14 @@ so skip them.</p>
       <pre class="lines">
 
 
-502
-503
-504
-505
-506</pre>
+510
+511
+512
+513
+514</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 502</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 510</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid__save_refresh identifier id'>_save_refresh</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:has_jsonmodel?</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_has_jsonmodel? fid id'>has_jsonmodel?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_my_jsonmodel identifier id'>my_jsonmodel</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'uri'</span><span class='rbrack token'>]</span>
@@ -255,17 +255,17 @@ so skip them.</p>
       <pre class="lines">
 
 
-508
-509
-510
-511
-512
-513
-514
-515</pre>
+516
+517
+518
+519
+520
+521
+522
+523</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 508</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 516</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_before_create identifier id'>before_create</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:current_username</span><span class='rparen token'>)</span>
@@ -296,16 +296,16 @@ so skip them.</p>
       <pre class="lines">
 
 
-518
-519
-520
-521
-522
-523
-524</pre>
+526
+527
+528
+529
+530
+531
+532</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 518</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 526</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_before_update identifier id'>before_update</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:current_username</span><span class='rparen token'>)</span>
@@ -325,9 +325,9 @@ so skip them.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:01 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 21 15:52:37 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

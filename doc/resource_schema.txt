@@ -68,6 +68,8 @@ JSONModel(:user_defined) object	user_defined
 
 array (Object (ref, _resolved))	related_accessions
 
+object	classification
+
 array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_index) object"}, {"type"=>"JSONModel(:note_multipart) object"}, {"type"=>"JSONModel(:note_singlepart) object"}])	notes
 
 

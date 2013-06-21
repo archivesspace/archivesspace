@@ -6,13 +6,13 @@
 <title>
   Class: AgentSoftware
   
-    &mdash; Documentation by YARD 0.8.6.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -117,6 +117,118 @@
 
 
 
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#archivesspace_record-class_method" title="archivesspace_record (class method)">+ (Object) <strong>archivesspace_record</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_archivesspace_record-class_method" title="create_archivesspace_record (class method)">+ (Object) <strong>create_archivesspace_record</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Create the agent record that represents the system itself.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#system_role-class_method" title="system_role (class method)">+ (Object) <strong>system_role</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete-instance_method" title="#delete (instance method)">- (Object) <strong>delete</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
 
   
   
@@ -124,10 +236,10 @@
   
   
   
-  <h2>Method Summary</h2>
+  
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="Notes.html" title="Notes (module)">Notes</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Notes.html#included-class_method" title="Notes.included (method)">included</a></span>, <span class='object_link'><a href="Notes.html#update_from_json-instance_method" title="Notes#update_from_json (method)">#update_from_json</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Notes.html#included-class_method" title="Notes.included (method)">included</a></span>, <span class='object_link'><a href="Notes.html#publish%21-instance_method" title="Notes#publish! (method)">#publish!</a></span>, <span class='object_link'><a href="Notes.html#update_from_json-instance_method" title="Notes#update_from_json (method)">#update_from_json</a></span></p>
 
   
   
@@ -160,7 +272,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="ExternalDocuments.html" title="ExternalDocuments (module)">ExternalDocuments</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="ExternalDocuments.html#included-class_method" title="ExternalDocuments.included (method)">included</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="ExternalDocuments.html#included-class_method" title="ExternalDocuments.included (method)">included</a></span>, <span class='object_link'><a href="ExternalDocuments.html#publish%21-instance_method" title="ExternalDocuments#publish! (method)">#publish!</a></span></p>
 
   
   
@@ -186,12 +298,194 @@
 
   
 
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="archivesspace_record-class_method">
+  
+    + (<tt>Object</tt>) <strong>archivesspace_record</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+33
+34
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/agent_software.rb', line 33</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_archivesspace_record identifier id'>archivesspace_record</span>
+  <span class='rubyid_AgentSoftware constant id'>AgentSoftware</span><span class='lbrack token'>[</span><span class='symbol val'>:system_role</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_system_role identifier id'>system_role</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create_archivesspace_record-class_method">
+  
+    + (<tt>Object</tt>) <strong>create_archivesspace_record</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Create the agent record that represents the system itself</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/agent_software.rb', line 39</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_archivesspace_record identifier id'>create_archivesspace_record</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_AgentSoftware constant id'>AgentSoftware</span><span class='lbrack token'>[</span><span class='symbol val'>:system_role</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_system_role identifier id'>system_role</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+    <span class='rubyid_json identifier id'>json</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:agent_software</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span>
+              <span class='symbol val'>:publish</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+              <span class='symbol val'>:names</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span>
+                <span class='symbol val'>:software_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ArchivesSpace'</span><span class='comma token'>,</span>
+                <span class='symbol val'>:version</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'alpha'</span><span class='comma token'>,</span>
+                <span class='symbol val'>:source</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'local'</span><span class='comma token'>,</span>
+                <span class='symbol val'>:rules</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'local'</span><span class='comma token'>,</span>
+                <span class='symbol val'>:sort_name_auto_generate</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span>
+            <span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_AgentSoftware constant id'>AgentSoftware</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span>
+                                   <span class='symbol val'>:system_generated</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span>
+                                   <span class='symbol val'>:system_role</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_system_role identifier id'>system_role</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="system_role-class_method">
+  
+    + (<tt>Object</tt>) <strong>system_role</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+19
+20
+21</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/agent_software.rb', line 19</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_system_role identifier id'>system_role</span>
+  <span class='string val'>&quot;archivesspace_agent&quot;</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="delete-instance_method">
+  
+    - (<tt>Object</tt>) <strong>delete</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26
+27
+28
+29
+30</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/agent_software.rb', line 24</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_system_role identifier id'>system_role</span> <span class='eq op'>==</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_system_role identifier id'>system_role</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_AccessDeniedException constant id'>AccessDeniedException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;Can't delete the system's own agent&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_super super kw'>super</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:20 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 21 15:52:56 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

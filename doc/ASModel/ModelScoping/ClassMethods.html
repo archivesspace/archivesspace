@@ -6,13 +6,13 @@
 <title>
   Module: ASModel::ModelScoping::ClassMethods
   
-    &mdash; Documentation by YARD 0.8.6.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -312,18 +312,18 @@
       <pre class="lines">
 
 
-704
-705
-706
-707
-708
-709
-710
-711
-712</pre>
+712
+713
+714
+715
+716
+717
+718
+719
+720</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 704</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 712</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_active_repository identifier id'>active_repository</span>
   <span class='rubyid_repo identifier id'>repo</span> <span class='assign token'>=</span> <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span><span class='rparen token'>)</span>
@@ -355,12 +355,12 @@
       <pre class="lines">
 
 
-613
-614
-615</pre>
+621
+622
+623</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 613</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 621</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_enable_suppression identifier id'>enable_suppression</span>
   <span class='rubyid_@suppressible ivar id'>@suppressible</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
@@ -409,12 +409,12 @@
       <pre class="lines">
 
 
-618
-619
-620</pre>
+626
+627
+628</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 618</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 626</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_enforce_suppression? fid id'>enforce_suppression?</span>
   <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:enforce_suppression</span><span class='rparen token'>)</span>
@@ -440,17 +440,17 @@
       <pre class="lines">
 
 
-677
-678
-679
-680
-681
-682
-683
-684</pre>
+685
+686
+687
+688
+689
+690
+691
+692</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 677</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 685</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_model_scope identifier id'>model_scope</span><span class='lparen token'>(</span><span class='rubyid_noerror identifier id'>noerror</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_@model_scope ivar id'>@model_scope</span> <span class='rubyid_or or kw'>or</span>
@@ -491,23 +491,23 @@
       <pre class="lines">
 
 
-688
-689
-690
-691
-692
-693
-694
-695
 696
 697
 698
 699
 700
-701</pre>
+701
+702
+703
+704
+705
+706
+707
+708
+709</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 688</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 696</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_ref identifier id'>ref</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
@@ -544,14 +544,6 @@
       <pre class="lines">
 
 
-627
-628
-629
-630
-631
-632
-633
-634
 635
 636
 637
@@ -591,10 +583,18 @@
 671
 672
 673
-674</pre>
+674
+675
+676
+677
+678
+679
+680
+681
+682</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 627</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 635</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_model_scope identifier id'>set_model_scope</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='lbrack token'>[</span><span class='symbol val'>:repository</span><span class='comma token'>,</span> <span class='symbol val'>:global</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
@@ -688,12 +688,12 @@
       <pre class="lines">
 
 
-623
-624
-625</pre>
+631
+632
+633</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 623</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 631</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_suppressible? fid id'>suppressible?</span>
   <span class='rubyid_@suppressible ivar id'>@suppressible</span>
@@ -719,12 +719,12 @@
       <pre class="lines">
 
 
-715
-716
-717</pre>
+723
+724
+725</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 715</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 723</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='comma token'>,</span> <span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_active_repository identifier id'>active_repository</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -740,9 +740,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:01 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 21 15:52:37 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

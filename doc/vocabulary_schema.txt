@@ -8,7 +8,7 @@ string (max length: 255)	ref_id
 
 string (max length: 255)	name
 
-array (JSONModel(:term) object)	terms
+array (JSONModel(:term) uri)	terms
 
 
 

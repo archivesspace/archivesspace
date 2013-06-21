@@ -6,13 +6,13 @@
 <title>
   Module: ASModel::CRUD
   
-    &mdash; Documentation by YARD 0.8.6.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -232,6 +232,29 @@ report it against the JSONModel &#8216;property&#8217; instead.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#publish%21-instance_method" title="#publish! (instance method)">- (Object) <strong>publish!</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Mixins will hook in here to add their own publish actions.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#system_modified%3F-instance_method" title="#system_modified? (instance method)">- (Boolean) <strong>system_modified?</strong> </a>
     
 
@@ -302,13 +325,15 @@ from the client.</p>
 
 33
 34
-35</pre>
+35
+36</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 33</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_extend identifier id'>extend</span><span class='lparen token'>(</span><span class='rubyid_ClassMethods constant id'>ClassMethods</span><span class='rparen token'>)</span>
+  <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_extend identifier id'>extend</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -348,7 +373,6 @@ dependencies first.</p>
       <pre class="lines">
 
 
-90
 91
 92
 93
@@ -363,10 +387,11 @@ dependencies first.</p>
 102
 103
 104
-105</pre>
+105
+106</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 91</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
   <span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_linked_records identifier id'>linked_records</span><span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='rbrack token'>]</span> <span class='rubyid_or or kw'>or</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_linked_record identifier id'>linked_record</span><span class='bitor op'>|</span>
@@ -421,22 +446,22 @@ report this to the client we just want to tell them that the value for
       <pre class="lines">
 
 
-115
-116
-117
-118
-119
-120
-121
-122
 123
 124
 125
 126
-127</pre>
+127
+128
+129
+130
+131
+132
+133
+134
+135</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 115</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 123</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_map_validation_to_json_property identifier id'>map_validation_to_json_property</span><span class='lparen token'>(</span><span class='rubyid_columns identifier id'>columns</span><span class='comma token'>,</span> <span class='rubyid_property identifier id'>property</span><span class='rparen token'>)</span>
   <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
@@ -472,15 +497,58 @@ report this to the client we just want to tell them that the value for
       <pre class="lines">
 
 
-142
-143
-144</pre>
+150
+151
+152</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 142</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 150</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_mark_as_system_modified identifier id'>mark_as_system_modified</span>
   <span class='rubyid_@system_modified ivar id'>@system_modified</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="publish!-instance_method">
+  
+    - (<tt>Object</tt>) <strong>publish!</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Mixins will hook in here to add their own publish actions.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+110
+111
+112
+113</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 110</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_publish! fid id'>publish!</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span> <span class='assign token'>=</span> <span class='integer val'>1</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -532,12 +600,12 @@ that their local copy of the record includes the system-generated data too.</p>
       <pre class="lines">
 
 
-137
-138
-139</pre>
+145
+146
+147</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 137</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 145</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_system_modified? fid id'>system_modified?</span>
   <span class='rubyid_@system_modified ivar id'>@system_modified</span>
@@ -563,7 +631,6 @@ that their local copy of the record includes the system-generated data too.</p>
       <pre class="lines">
 
 
-39
 40
 41
 42
@@ -609,10 +676,11 @@ that their local copy of the record includes the system-generated data too.</p>
 82
 83
 84
-85</pre>
+85
+86</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 40</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_extra_values identifier id'>extra_values</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_linked_records identifier id'>apply_linked_records</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
 
@@ -672,9 +740,9 @@ that their local copy of the record includes the system-generated data too.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:00 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 21 15:52:36 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

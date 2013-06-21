@@ -6,13 +6,13 @@
 <title>
   Module: Orderable::ClassMethods
   
-    &mdash; Documentation by YARD 0.8.6.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -312,21 +312,21 @@
       <pre class="lines">
 
 
-158
-159
-160
-161
-162
-163
-164
-165
-166
 167
 168
-169</pre>
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 158</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 167</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_sequence identifier id'>sequence</span> <span class='assign token'>=</span> <span class='rubyid_sequence_for identifier id'>sequence_for</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
@@ -361,12 +361,12 @@
       <pre class="lines">
 
 
-143
-144
-145</pre>
+152
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 143</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 152</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_node_record_type identifier id'>node_record_type</span>
   <span class='rubyid_@node_record_type ivar id'>@node_record_type</span>
@@ -392,13 +392,13 @@
       <pre class="lines">
 
 
-134
-135
-136
-137</pre>
+143
+144
+145
+146</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 143</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_orderable_root_record_type identifier id'>orderable_root_record_type</span><span class='lparen token'>(</span><span class='rubyid_root identifier id'>root</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span><span class='rparen token'>)</span>
   <span class='rubyid_@root_record_type ivar id'>@root_record_type</span> <span class='assign token'>=</span> <span class='rubyid_root identifier id'>root</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
@@ -425,18 +425,18 @@
       <pre class="lines">
 
 
-222
-223
-224
-225
-226
-227
-228
-229
-230</pre>
+231
+232
+233
+234
+235
+236
+237
+238
+239</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 222</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 231</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_prepare_for_deletion identifier id'>prepare_for_deletion</span><span class='lparen token'>(</span><span class='rubyid_dataset identifier id'>dataset</span><span class='rparen token'>)</span>
   <span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_record identifier id'>record</span><span class='bitor op'>|</span>
@@ -468,12 +468,12 @@
       <pre class="lines">
 
 
-139
-140
-141</pre>
+148
+149
+150</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 139</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 148</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_root_record_type identifier id'>root_record_type</span>
   <span class='rubyid_@root_record_type ivar id'>@root_record_type</span>
@@ -499,22 +499,22 @@
       <pre class="lines">
 
 
-207
-208
-209
-210
-211
-212
-213
-214
-215
 216
 217
 218
-219</pre>
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 207</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 216</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_json identifier id'>json</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -550,18 +550,18 @@
       <pre class="lines">
 
 
-148
-149
-150
-151
-152
-153
-154
-155
-156</pre>
+157
+158
+159
+160
+161
+162
+163
+164
+165</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 148</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 157</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sequence_for identifier id'>sequence_for</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='rubyid_root_record_type identifier id'>root_record_type</span><span class='rbrack token'>]</span>
@@ -593,15 +593,6 @@
       <pre class="lines">
 
 
-172
-173
-174
-175
-176
-177
-178
-179
-180
 181
 182
 183
@@ -625,10 +616,19 @@
 201
 202
 203
-204</pre>
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 172</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 181</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_root_record identifier id'>set_root_record</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_sequence identifier id'>sequence</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='string val'>&quot;root_record_id&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
@@ -674,9 +674,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:03 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 21 15:52:39 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>
