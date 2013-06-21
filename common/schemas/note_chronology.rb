@@ -6,7 +6,7 @@
 
     "properties" => {
 
-      "title" => {"type" => "string", "ifmissing" => "error", "maxLength" => 16384},
+      "title" => {"type" => "string", "maxLength" => 16384},
 
       "publish" => {"type" => "boolean", "default" => true},
 
