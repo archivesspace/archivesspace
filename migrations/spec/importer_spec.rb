@@ -31,10 +31,12 @@ describe "ASpaceImport::Importer" do
       doc1_src = <<ANEAD
 
 <c id="1" level="file">
+  <unittitle>oh well</unittitle>
   <container id="cid1" type="Box" label="Text"></container>
   <container parent="cid2" type="Folder"></container>
   <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
   <c id="2" level="file">
+    <unittitle>whatever</unittitle>
     <container id="cid3" type="Box" label="Text">FOO</container>
   </c>
 </c>
