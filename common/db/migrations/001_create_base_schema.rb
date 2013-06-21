@@ -830,8 +830,8 @@ Sequel.migration do
       DynamicEnum :scope_id, :null => false
       String :description, :null => false
 
-      String :reason
-      String :disposition
+      TextField :reason
+      TextField :disposition
 
       Integer :notification
 
