@@ -190,9 +190,23 @@ h2 > .label {
   font-size: @baseFontSize;
 }
 
-.dropdown-menu.open-aligned-right {
-  left: auto;
-  right: 0;
+.dropdown-menu {
+  &.open-aligned-right {
+    left: auto;
+    right: 0;
+  }
+
+  a.disabled, a[disabled="disabled"] {
+    .opacity(50);
+    &:hover {
+      background: transparent !important;
+      color: #333333 !important;
+
+      [class^="icon-"], [class*=" icon-"] {
+        background-image: asset-url(@iconSpritePath) !important;
+      }
+    }
+  }
 }
 
 .record-toolbar {
