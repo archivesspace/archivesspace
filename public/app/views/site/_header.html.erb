@@ -20,16 +20,14 @@
             <li <% if params["type"]==="agent"%> class="active" <% end%>><%= link_to I18n.t("agent._plural"),  {:controller => :search, :action => :search, :type => "agent"} %></li>
             <li <% if params["type"]==="classification"%> class="active" <% end%>><%= link_to I18n.t("classification._plural"),  {:controller => :search, :action => :search, :type => "classification"} %></li>
             <% if not current_page?(root_url) %>
-              <li class="pull-right search-switcher">
-                  <%= link_to "Hide Advanced", { :advanced => nil }, { :class => params["advanced"]?"":"hide" } %>
-                  <%= link_to "Show Advanced", { :advanced => true }, { :class => params["advanced"]?"hide":"" } %>
-              </li>
             <li class="pull-right">
               <%= form_tag(url_for(:controller => :search, :action => :search), :method => :get, :class => "navbar-form pull-left") do %>
                   <div class="input-append">
                     <input id="global-search-box" type="text" class="span2" placeholder="<%= I18n.t("navbar.search_placeholder") %>" name="q" value="<%= params[:q] %>"/>
                     <div class="btn-group">
-                      <button id="global-search-button" class="btn last"><span class=" icon-search"></span></button>
+                      <button id="global-search-button" class="btn"><span class=" icon-search"></span></button>
+                      <%= link_to "<span class='icon-chevron-down'></span>".html_safe, { :advanced => nil }, { :class => "btn search-switcher last", :style => params["advanced"]?"display:none":"" } %>
+                      <%= link_to "<span class='icon-chevron-up'></span>".html_safe, { :advanced => true }, { :class => "btn search-switcher last", :style => params["advanced"]?"":"display:none" } %>
                     </div>
                   </div>
               <% end %>
