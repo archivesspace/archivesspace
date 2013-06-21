@@ -191,7 +191,7 @@ ASpaceImport::Importer.importer :marcxml do
             :map => {
               "child::subfield[@code='b']" => Proc.new {|note, node|
                 note.send('label=', node.inner_text)
-                note.content << node.inner_text 
+                note.subnotes = [{'jsonmodel_type' => 'note_text', 'content' => node.inner_text}]
               }
             },
             :defaults => {
@@ -240,7 +240,7 @@ ASpaceImport::Importer.importer :marcxml do
             :map => {
               "child::subfield" => Proc.new {|note, node|
                 note.send('label=', node.inner_text)
-                note.content << node.inner_text 
+                note.subnotes = [{'jsonmodel_type' => 'note_text', 'content' => node.inner_text}]
               }
             },
             :defaults => {
@@ -255,7 +255,7 @@ ASpaceImport::Importer.importer :marcxml do
             :map => {
               "child::subfield" => Proc.new {|note, node|
                 note.send('label=', node.inner_text)
-                note.content << node.inner_text 
+                note.subnotes = [{'jsonmodel_type' => 'note_text', 'content' => node.inner_text}]
               }
             },
             :defaults => {
@@ -270,7 +270,7 @@ ASpaceImport::Importer.importer :marcxml do
             :map => {
               "child::subfield" => Proc.new {|note, node|
                 note.send('label=', node.inner_text)
-                note.content << node.inner_text 
+                note.subnotes = [{'jsonmodel_type' => 'note_text', 'content' => node.inner_text}]
               }
             },
             :defaults => {
@@ -315,7 +315,7 @@ ASpaceImport::Importer.importer :marcxml do
       :map => {
         "child::subfield[@code='a']" => Proc.new {|note, node|
           note.send('label=', node.inner_text)
-          note.content << node.inner_text 
+          note.subnotes = [{'jsonmodel_type' => 'note_text', 'content' => node.inner_text}]
         }
       },
       :defaults => {
