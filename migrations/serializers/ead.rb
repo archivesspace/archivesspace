@@ -54,7 +54,7 @@ ASpaceExport::serializer :ead do
             next if note['internal']
             next unless ead.archdesc_children.include?(note['type'])
 
-            content = Array(note['content']).join(" ")
+            content = ASpaceExport::Utils.extract_note_text(note)
 
             xml.send(note['type']) {
               xml.p content

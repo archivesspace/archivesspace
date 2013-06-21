@@ -39,7 +39,7 @@ ASpaceExport::serializer :mods do
       
       mods.notes.each do |note|
         xml.note({:type => note['type'], :displayLabel => note['label']}) {
-          xml.text note['content']
+          xml.text ASpaceExport::Utils.extract_note_text(note)
         }
       end
       

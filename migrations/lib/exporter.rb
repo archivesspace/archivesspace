@@ -1,5 +1,6 @@
 require 'jsonmodel'
 require 'nokogiri'
+require_relative 'utils'
 
 module ASpaceExport
   

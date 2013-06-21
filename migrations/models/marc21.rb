@@ -155,7 +155,7 @@ ASpaceExport::model :marc21 do
 
     notes.each do |note|
 
-      knote = Proc.new{ |d,s| df(d).with_sfs([s, Array(note['content']).join(" ")]) }
+      knote = Proc.new{ |d,s| df(d).with_sfs([s, Array(ASpaceExport::Utils.extract_note_text(note))]) }
 
       case note['type']
       
