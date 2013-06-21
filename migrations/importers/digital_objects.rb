@@ -295,9 +295,13 @@ ASpaceImport::Importer.importer :digital_objects do
 
   def self.event_template(event_type)
     {
-      :record_type => :date,
+      :record_type => Proc.new {|data|
+        data['boolean'] ? :date : nil
+      },
       :defaults => date_defaults,
-
+      :on_create => Proc.new {|data, obj|
+        obj.expression = 'unknown' unless data['expression']
+      },
       :on_row_complete => Proc.new { |cache, date|
         digital_object = cache.find {|obj| obj.class.record_type == 'digital_object'}
         event = ASpaceImport::JSONModel(:event).new

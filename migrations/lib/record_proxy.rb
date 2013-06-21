@@ -82,6 +82,8 @@ module ASpaceImport
 
       raise "Can't spawn an object because record type is unknown" unless @record_type
       type = @record_type.respond_to?(:call) ? @record_type.call(@data) : @record_type
+      
+      return nil unless type
 
       obj = ASpaceImport::JSONModel(type).new
       obj.key = @key
