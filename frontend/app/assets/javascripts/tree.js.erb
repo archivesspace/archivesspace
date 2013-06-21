@@ -272,6 +272,9 @@ $(function() {
           }
         }
         $(".cut-node", "#archives_tree_toolbar").removeClass("disabled");
+
+        // toggle action disabled/enabled based on status of tree
+        enableDisableToolbarActions();
       }
     };
 
@@ -326,6 +329,15 @@ $(function() {
       $("#new", $tree).addClass("new").attr("rel", newNodeType).data("params", new_object_params || {});
       $("#new", $tree).find("a").attr("href", "#new");
       setHashForNode("new");
+    };
+
+
+    var enableDisableToolbarActions = function() {
+      if (getSelectedNodes().length === 1) {
+        $(".move-node.move-node-up, .move-node.move-node-down", "#archives_tree_toolbar").removeAttr("disabled").removeClass("disabled");
+      } else {
+        $(".move-node.move-node-up, .move-node.move-node-down", "#archives_tree_toolbar").attr("disabled", "disabled").addClass("disabled");
+      }
     };
 
 
@@ -384,7 +396,7 @@ $(function() {
         event.stopPropagation();
 
         var $selected = getPrimarySelectedNode();
-        if ($selected.length === 0) {
+        if ($selected.length === 0 || $(this).hasClass("disabled") || $(this).attr("disabled")==="disabled") {
           return;
         }
 
@@ -401,6 +413,13 @@ $(function() {
         $tree.jstree("move_node", getSelectedNodes(), "#" + $(this).data("target-node-id"), target_index);
 
         $("a:first", $selected).focus();
+      });
+      // disable the move-node-up and move-node-down actions when multiple nodes are selected
+      // (as behaviour of such actions is unclear when nodes are selected across branches)
+      $tree.on("treemultipleselected.aspace", function() {
+        enableDisableToolbarActions()
+      }).on("treesingleselected.aspace", function() {
+        enableDisableToolbarActions()
       });
 
       // TRANSFER STUFF
@@ -722,6 +741,7 @@ $(function() {
             $(".selected", $tree).removeClass("selected");
             if ($tree.jstree("get_selected").length > 1) {
               $tree.jstree("get_selected").addClass("selected");
+              $tree.trigger("treemultipleselected.aspace");
             } else if ($tree.jstree("get_selected").length === 1) {
               var $selectedNode = $($tree.jstree("get_selected")[0]);
               $(".primary-selected", $tree).removeClass("primary-selected");
@@ -731,6 +751,7 @@ $(function() {
               } else {
                 setHashForNode($selectedNode.find("a").attr("href"));
               }
+              $tree.trigger("treesingleselected.aspace");
             }
         }).bind("deselect_node.jstree", function (event, data) {
           var $node = $(data.rslt.obj)
