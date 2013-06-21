@@ -6,13 +6,13 @@
 <title>
   Class: DigitalObject
   
-    &mdash; Documentation by YARD 0.8.6.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -98,7 +98,7 @@
   
     
       <dt class="r2">Includes:</dt>
-      <dd class="r2"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="Agents.html" title="Agents (module)">Agents</a></span>, <span class='object_link'><a href="CollectionManagements.html" title="CollectionManagements (module)">CollectionManagements</a></span>, <span class='object_link'><a href="Dates.html" title="Dates (module)">Dates</a></span>, <span class='object_link'><a href="Extents.html" title="Extents (module)">Extents</a></span>, <span class='object_link'><a href="ExternalDocuments.html" title="ExternalDocuments (module)">ExternalDocuments</a></span>, <span class='object_link'><a href="ExternalIDs.html" title="ExternalIDs (module)">ExternalIDs</a></span>, <span class='object_link'><a href="FileVersions.html" title="FileVersions (module)">FileVersions</a></span>, <span class='object_link'><a href="Notes.html" title="Notes (module)">Notes</a></span>, <span class='object_link'><a href="RightsStatements.html" title="RightsStatements (module)">RightsStatements</a></span>, <span class='object_link'><a href="Subjects.html" title="Subjects (module)">Subjects</a></span>, <span class='object_link'><a href="Trees.html" title="Trees (module)">Trees</a></span>, <span class='object_link'><a href="UserDefineds.html" title="UserDefineds (module)">UserDefineds</a></span></dd>
+      <dd class="r2"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="Agents.html" title="Agents (module)">Agents</a></span>, <span class='object_link'><a href="CollectionManagements.html" title="CollectionManagements (module)">CollectionManagements</a></span>, <span class='object_link'><a href="Dates.html" title="Dates (module)">Dates</a></span>, <span class='object_link'><a href="DigitalObjectTrees.html" title="DigitalObjectTrees (module)">DigitalObjectTrees</a></span>, <span class='object_link'><a href="Extents.html" title="Extents (module)">Extents</a></span>, <span class='object_link'><a href="ExternalDocuments.html" title="ExternalDocuments (module)">ExternalDocuments</a></span>, <span class='object_link'><a href="ExternalIDs.html" title="ExternalIDs (module)">ExternalIDs</a></span>, <span class='object_link'><a href="FileVersions.html" title="FileVersions (module)">FileVersions</a></span>, <span class='object_link'><a href="Notes.html" title="Notes (module)">Notes</a></span>, <span class='object_link'><a href="RightsStatements.html" title="RightsStatements (module)">RightsStatements</a></span>, <span class='object_link'><a href="Subjects.html" title="Subjects (module)">Subjects</a></span>, <span class='object_link'><a href="Trees.html" title="Trees (module)">Trees</a></span>, <span class='object_link'><a href="UserDefineds.html" title="UserDefineds (module)">UserDefineds</a></span></dd>
       
     
   
@@ -160,29 +160,6 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#publish_all_subrecords_and_components-instance_method" title="#publish_all_subrecords_and_components (instance method)">- (Object) <strong>publish_all_subrecords_and_components</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#validate-instance_method" title="#validate (instance method)">- (Object) <strong>validate</strong> </a>
     
 
@@ -238,7 +215,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="FileVersions.html" title="FileVersions (module)">FileVersions</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="FileVersions.html#included-class_method" title="FileVersions.included (method)">included</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="FileVersions.html#included-class_method" title="FileVersions.included (method)">included</a></span>, <span class='object_link'><a href="FileVersions.html#publish%21-instance_method" title="FileVersions#publish! (method)">#publish!</a></span></p>
 
   
   
@@ -271,7 +248,18 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="Notes.html" title="Notes (module)">Notes</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Notes.html#included-class_method" title="Notes.included (method)">included</a></span>, <span class='object_link'><a href="Notes.html#update_from_json-instance_method" title="Notes#update_from_json (method)">#update_from_json</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Notes.html#included-class_method" title="Notes.included (method)">included</a></span>, <span class='object_link'><a href="Notes.html#publish%21-instance_method" title="Notes#publish! (method)">#publish!</a></span>, <span class='object_link'><a href="Notes.html#update_from_json-instance_method" title="Notes#update_from_json (method)">#update_from_json</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="DigitalObjectTrees.html" title="DigitalObjectTrees (module)">DigitalObjectTrees</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="DigitalObjectTrees.html#build_node_query-instance_method" title="DigitalObjectTrees#build_node_query (method)">#build_node_query</a></span>, <span class='object_link'><a href="DigitalObjectTrees.html#load_node_properties-instance_method" title="DigitalObjectTrees#load_node_properties (method)">#load_node_properties</a></span>, <span class='object_link'><a href="DigitalObjectTrees.html#load_root_properties-instance_method" title="DigitalObjectTrees#load_root_properties (method)">#load_root_properties</a></span>, <span class='object_link'><a href="DigitalObjectTrees.html#set_file_version-instance_method" title="DigitalObjectTrees#set_file_version (method)">#set_file_version</a></span></p>
 
   
   
@@ -282,7 +270,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="Trees.html" title="Trees (module)">Trees</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Trees.html#children-instance_method" title="Trees#children (method)">#children</a></span>, <span class='object_link'><a href="Trees.html#included-class_method" title="Trees.included (method)">included</a></span>, <span class='object_link'><a href="Trees.html#tree-instance_method" title="Trees#tree (method)">#tree</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Trees.html#build_node_query-instance_method" title="Trees#build_node_query (method)">#build_node_query</a></span>, <span class='object_link'><a href="Trees.html#children-instance_method" title="Trees#children (method)">#children</a></span>, <span class='object_link'><a href="Trees.html#included-class_method" title="Trees.included (method)">included</a></span>, <span class='object_link'><a href="Trees.html#load_node_properties-instance_method" title="Trees#load_node_properties (method)">#load_node_properties</a></span>, <span class='object_link'><a href="Trees.html#load_root_properties-instance_method" title="Trees#load_root_properties (method)">#load_root_properties</a></span>, <span class='object_link'><a href="Trees.html#publish%21-instance_method" title="Trees#publish! (method)">#publish!</a></span>, <span class='object_link'><a href="Trees.html#tree-instance_method" title="Trees#tree (method)">#tree</a></span></p>
 
   
   
@@ -304,7 +292,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="ExternalDocuments.html" title="ExternalDocuments (module)">ExternalDocuments</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="ExternalDocuments.html#included-class_method" title="ExternalDocuments.included (method)">included</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="ExternalDocuments.html#included-class_method" title="ExternalDocuments.included (method)">included</a></span>, <span class='object_link'><a href="ExternalDocuments.html#publish%21-instance_method" title="ExternalDocuments#publish! (method)">#publish!</a></span></p>
 
   
   
@@ -382,7 +370,6 @@
       <pre class="lines">
 
 
-27
 28
 29
 30
@@ -394,10 +381,11 @@
 36
 37
 38
-39</pre>
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object.rb', line 28</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_json identifier id'>json</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -425,108 +413,7 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="publish_all_subrecords_and_components-instance_method">
-  
-    - (<tt>Object</tt>) <strong>publish_all_subrecords_and_components</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object.rb', line 42</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_publish_all_subrecords_and_components identifier id'>publish_all_subrecords_and_components</span>
-
-  <span class='comment val'># publish all components</span>
-  <span class='rubyid_components identifier id'>components</span> <span class='assign token'>=</span> <span class='rubyid_DigitalObjectComponent constant id'>DigitalObjectComponent</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:root_record_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_components identifier id'>components</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
-    <span class='rubyid_components identifier id'>components</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_component identifier id'>component</span><span class='bitor op'>|</span>
-      <span class='rubyid_component identifier id'>component</span><span class='dot token'>.</span><span class='rubyid_publish_all_subrecords identifier id'>publish_all_subrecords</span>
-    <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='comment val'># publish all notes</span>
-  <span class='rubyid_notes identifier id'>notes</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span> <span class='orop op'>||</span> <span class='string val'>&quot;[]&quot;</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_notes identifier id'>notes</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
-    <span class='rubyid_notes identifier id'>notes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
-      <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>&quot;publish&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
-    <span class='rubyid_end end kw'>end</span>
-    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span> <span class='assign token'>=</span> <span class='rubyid_JSON constant id'>JSON</span><span class='lparen token'>(</span><span class='rubyid_notes identifier id'>notes</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='comment val'># publish all file versions</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_file_version identifier id'>file_version</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_file identifier id'>file</span><span class='bitor op'>|</span>
-    <span class='rubyid_file identifier id'>file</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span> <span class='assign token'>=</span> <span class='integer val'>1</span>
-    <span class='rubyid_file identifier id'>file</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='comment val'># publish all external documents</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_external_document identifier id'>external_document</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_exdoc identifier id'>exdoc</span><span class='bitor op'>|</span>
-    <span class='rubyid_exdoc identifier id'>exdoc</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span> <span class='assign token'>=</span> <span class='integer val'>1</span>
-    <span class='rubyid_exdoc identifier id'>exdoc</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='comment val'># set our own publish to true</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span> <span class='assign token'>=</span> <span class='integer val'>1</span>
-
-  <span class='comment val'># save</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
-
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="validate-instance_method">
+  <h3 class="signature first" id="validate-instance_method">
   
     - (<tt>Object</tt>) <strong>validate</strong> 
   
@@ -540,16 +427,16 @@
       <pre class="lines">
 
 
-82
-83
-84
-85
-86
-87
-88</pre>
+43
+44
+45
+46
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object.rb', line 43</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_validate identifier id'>validate</span>
   <span class='rubyid_validates_unique identifier id'>validates_unique</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='comma token'>,</span> <span class='symbol val'>:digital_object_id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:message</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Must be unique&quot;</span><span class='rparen token'>)</span>
@@ -569,9 +456,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:20 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 21 15:52:56 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

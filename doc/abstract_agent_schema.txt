@@ -6,13 +6,21 @@ string	uri
 
 array (Object (external_id, source))	external_ids
 
+string	title
+
 string	agent_type
 
 array (JSONModel(:agent_contact) object)	agent_contacts
 
 array (JSONModel(:external_document) object)	external_documents
 
+boolean	system_generated
+
 array ([{"type"=>"JSONModel(:note_bioghist) object"}])	notes
+
+array (JSONModel(:date) object)	dates_of_existence
+
+boolean	publish
 
 
 

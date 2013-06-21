@@ -1,0 +1,12 @@
+JSON Schema: Classification_tree
+/repositories/:repo_id/classifications/:classification_id/tree
+Properties
+
+string (max length: 255)	identifier
+
+array (JSONModel(:classification_tree) object)	children
+
+
+
+
+

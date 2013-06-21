@@ -1,0 +1,14 @@
+JSON Schema: Location_batch
+
+Properties
+
+object	coordinate_1_range
+
+object	coordinate_2_range
+
+object	coordinate_3_range
+
+
+
+
+

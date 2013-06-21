@@ -6,6 +6,8 @@ string (max length: 255)	authority_id
 
 string (max length: 255)	dates
 
+array (JSONModel(:date) object)	use_dates
+
 string (max length: 255)	qualifier
 
 string	source

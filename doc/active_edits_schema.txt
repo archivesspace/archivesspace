@@ -1,0 +1,12 @@
+JSON Schema: Active_edits
+/update_monitor
+Properties
+
+string	uri
+
+array (Object (user, uri, time))	active_edits
+
+
+
+
+

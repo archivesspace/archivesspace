@@ -6,13 +6,13 @@
 <title>
   Module: URIResolver
   
-    &mdash; Documentation by YARD 0.8.6.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -138,6 +138,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#forward_rack_request-class_method" title="forward_rack_request (class method)">+ (Object) <strong>forward_rack_request</strong>(method, uri, env) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Redispatch the current request to a different route handler.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#record_exists%3F-class_method" title="record_exists? (class method)">+ (Boolean) <strong>record_exists?</strong>(uri) </a>
     
 
@@ -198,7 +221,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Redispatch the current request to a different route handler.</p>
+    <span class="summary_desc"><div class='inline'>
 </div></span>
   
 </li>
@@ -304,6 +327,84 @@
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_record_exists? fid id'>record_exists?</span><span class='lparen token'>(</span><span class='rubyid_reference identifier id'>reference</span><span class='rparen token'>)</span>
     <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_ReferenceError constant id'>ReferenceError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Reference does not exist! (Reference: '#{reference}')&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="forward_rack_request-class_method">
+  
+    + (<tt>Object</tt>) <strong>forward_rack_request</strong>(method, uri, env) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Redispatch the current request to a different route handler.</p>
+
+<p>Careful: If env is nil this bypasses the usual permission checking when fetching records.</p>
+
+<p>Usually we&#8217;ll want to resolve records with the permissions of the user
+making the request, so pass through the env from their request.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 84</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_forward_rack_request identifier id'>forward_rack_request</span><span class='lparen token'>(</span><span class='rubyid_method identifier id'>method</span><span class='comma token'>,</span> <span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_env identifier id'>env</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_env identifier id'>env</span>
+    <span class='rubyid_env identifier id'>env</span> <span class='assign token'>=</span> <span class='rubyid_env identifier id'>env</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='string val'>'ASPACE_REENTRANT'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span> <span class='string val'>'PATH_INFO'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span>
+                    <span class='string val'>'REQUEST_METHOD'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_method identifier id'>method</span><span class='rparen token'>)</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_env identifier id'>env</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+      <span class='string val'>'REQUEST_METHOD'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_method identifier id'>method</span><span class='comma token'>,</span>
+      <span class='string val'>'SCRIPT_NAME'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;&quot;</span><span class='comma token'>,</span>
+      <span class='string val'>'PATH_INFO'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span>
+      <span class='string val'>'QUERY_STRING'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;&quot;</span><span class='comma token'>,</span>
+      <span class='string val'>'SERVER_NAME'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;archivesspace.org&quot;</span><span class='comma token'>,</span>
+      <span class='string val'>'SERVER_PORT'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>80</span><span class='comma token'>,</span>
+      <span class='string val'>'rack.input'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_StringIO constant id'>StringIO</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='comma token'>,</span>
+      <span class='string val'>'ASPACE_REENTRANT'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span>
+    <span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_ArchivesSpaceService constant id'>ArchivesSpaceService</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_env identifier id'>env</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -485,74 +586,29 @@
   
 
   
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>Redispatch the current request to a different route handler.</p>
-
-<p>Careful: If env is nil this bypasses the usual permission checking when fetching records.</p>
-
-<p>Usually we&#8217;ll want to resolve records with the permissions of the user
-making the request, so pass through the env from their request.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
 105
 106
 107
 108
-109</pre>
+109
+110
+111
+112
+113
+114
+115</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 105</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_resolve_uri identifier id'>resolve_uri</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_env identifier id'>env</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_env identifier id'>env</span>
-    <span class='rubyid_env identifier id'>env</span> <span class='assign token'>=</span> <span class='rubyid_env identifier id'>env</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='string val'>'ASPACE_REENTRANT'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span> <span class='string val'>'PATH_INFO'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_env identifier id'>env</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
-      <span class='string val'>'REQUEST_METHOD'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;GET&quot;</span><span class='comma token'>,</span>
-      <span class='string val'>'SCRIPT_NAME'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;&quot;</span><span class='comma token'>,</span>
-      <span class='string val'>'PATH_INFO'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span>
-      <span class='string val'>'QUERY_STRING'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;&quot;</span><span class='comma token'>,</span>
-      <span class='string val'>'SERVER_NAME'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;archivesspace.org&quot;</span><span class='comma token'>,</span>
-      <span class='string val'>'SERVER_PORT'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>80</span><span class='comma token'>,</span>
-      <span class='string val'>'rack.input'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_StringIO constant id'>StringIO</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='comma token'>,</span>
-      <span class='string val'>'ASPACE_REENTRANT'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span>
-    <span class='rbrace token'>}</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_ArchivesSpaceService constant id'>ArchivesSpaceService</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_env identifier id'>env</span><span class='rparen token'>)</span>
+  <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_forward_rack_request identifier id'>forward_rack_request</span><span class='lparen token'>(</span><span class='string val'>&quot;GET&quot;</span><span class='comma token'>,</span> <span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_env identifier id'>env</span><span class='rparen token'>)</span>
 
   <span class='rubyid_resolved identifier id'>resolved</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span>
 
@@ -610,9 +666,9 @@ making the request, so pass through the env from their request.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:01 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 21 15:52:38 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

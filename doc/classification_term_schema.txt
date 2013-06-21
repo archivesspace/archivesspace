@@ -1,0 +1,14 @@
+JSON Schema: Classification_term
+/repositories/:repo_id/classification_terms
+Properties
+
+integer	position
+
+object	parent
+
+object	classification
+
+
+
+
+

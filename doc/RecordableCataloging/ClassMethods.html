@@ -6,13 +6,13 @@
 <title>
   Module: RecordableCataloging::ClassMethods
   
-    &mdash; Documentation by YARD 0.8.6.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -171,23 +171,25 @@
 27
 28
 29
-30</pre>
+30
+31</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/mixins/recordable_cataloging.rb', line 10</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-  
+
   <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
 
-  <span class='rubyid_agent_uri identifier id'>agent_uri</span> <span class='assign token'>=</span> <span class='rubyid_case case kw'>case</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:system_generated</span><span class='rbrack token'>]</span>
-              <span class='rubyid_when when kw'>when</span> <span class='rubyid_true true kw'>true</span>
-                <span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='symbol val'>:agent_software</span><span class='comma token'>,</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
-              <span class='rubyid_else else kw'>else</span>
-                <span class='rubyid_user identifier id'>user</span> <span class='assign token'>=</span> <span class='rubyid_User constant id'>User</span><span class='lbrack token'>[</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:current_username</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
-                <span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='symbol val'>:agent_person</span><span class='comma token'>,</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_agent_record_id identifier id'>agent_record_id</span><span class='rparen token'>)</span>
-              <span class='rubyid_end end kw'>end</span>
-              
+  <span class='rubyid_agent_uri identifier id'>agent_uri</span> <span class='assign token'>=</span> <span class='rubyid_AgentSoftware constant id'>AgentSoftware</span><span class='dot token'>.</span><span class='rubyid_archivesspace_record identifier id'>archivesspace_record</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
+
+  <span class='comment val'># If the current user has a linked agent, use it.</span>
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:system_generated</span><span class='rbrack token'>]</span>
+    <span class='rubyid_user identifier id'>user</span> <span class='assign token'>=</span> <span class='rubyid_User constant id'>User</span><span class='lbrack token'>[</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:current_username</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_agent_record_id identifier id'>agent_record_id</span>
+      <span class='rubyid_agent_uri identifier id'>agent_uri</span> <span class='assign token'>=</span> <span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='symbol val'>:agent_person</span><span class='comma token'>,</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_agent_record_id identifier id'>agent_record_id</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_Event constant id'>Event</span><span class='dot token'>.</span><span class='rubyid_for_cataloging identifier id'>for_cataloging</span><span class='lparen token'>(</span><span class='rubyid_agent_uri identifier id'>agent_uri</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
 
@@ -208,9 +210,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 07 15:25:05 2013 by
+  ArchivesSpace Version 0.5.x Documentation Generated on Fri Jun 21 15:52:42 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>
