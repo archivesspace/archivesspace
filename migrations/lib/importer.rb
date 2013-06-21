@@ -101,6 +101,7 @@ module ASpaceImport
       return nil unless @block
 
       begin
+        emit_status({'type' => 'started', 'label' => 'Beginning Import', 'id' => 'xml'})
         cache = self.run
         cache.save! do |response|
           handle_save_response(response)
@@ -116,7 +117,7 @@ module ASpaceImport
     private
 
     def run
-      ASpaceImport::ImportCache.new({:log => @log, :dry => @dry})
+      ASpaceImport::ImportCache.new({:log => @log, :dry => @dry, :batch_path => @batch_path, :client_block => @block})
     end
 
 

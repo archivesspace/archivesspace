@@ -8,7 +8,7 @@
       "content" => {
         "type" => "array",
         "items" => {"type" => "string", "maxLength" => 65000},
-        "minItems" => 1,
+        "minItems" => 0,
         "ifmissing" => "error",
       },
       "publish" => {"type" => "boolean", "default" => true},

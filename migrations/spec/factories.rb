@@ -293,7 +293,7 @@ FactoryGirl.define do
   end
 
   factory :json_vocab, class: JSONModel(:vocabulary) do
-    name { "Vocabulary #{generate(:generic_title)}" }
+    name { "Vocabulary #{generate(:generic_title)} #{rand(100000000)}" }
     ref_id { generate(:alphanumstr) }
   end
 
