@@ -1251,7 +1251,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Identifier - Property is required but was missing/)
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Number - Property is required but was missing/)
-      $driver.find_element_with_text('//div[contains(@class, "error")]', /Language - Property is required but was missing/)
+      $driver.find_element_with_text('//div[contains(@class, "warning")]', /Language - Property was missing/)
 
       $driver.find_element(:css, "a.btn.btn-cancel").click
     end

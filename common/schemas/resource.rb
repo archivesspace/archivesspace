@@ -15,7 +15,7 @@
       "level" => {"type" => "string", "ifmissing" => "error", "dynamic_enum" => "archival_record_level"},
       "other_level" => {"type" => "string", "maxLength" => 255},
 
-      "language" => {"ifmissing" => "error"},
+      "language" => {"ifmissing" => "warn"},
 
       "resource_type" => {"type" => "string", "dynamic_enum" => "resource_resource_type"},
       "tree" => {
