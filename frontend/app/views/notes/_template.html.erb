@@ -389,7 +389,7 @@
         </h5>
         <div class="subrecord-form-container">
           <%= form.list_for(form["items"], "items[]") do |item| %>
-            <% form.emit_template("index_item", item) %>
+            <% form.emit_template("note_index_item", item) %>
           <% end %>
         </div>
       </section>
@@ -397,10 +397,11 @@
   </div>
 <% end %>
 
-<% define_template "index_item" do |form, item| %>
-  <div class="subrecord-form-fields" data-type="index_item">
+<% define_template "note_index_item", jsonmodel_definition(:note_index_item) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_index_item">
+    <%= form.hidden_input(:jsonmodel_type, "note_index_item") %>
     <%= form.label_and_textfield "value" %>
-    <%= form.label_and_textfield "type" %>
+    <%= form.label_and_select("type", form.possible_options_for("type")) %>
     <%= form.label_and_textfield "reference" %>
     <%= form.label_and_textfield "reference_text" %>
   </div>

@@ -566,7 +566,7 @@ en:
     <<: *note_attributes
     option: Index
 
-  index_item:
+  note_index_item:
     value: Value
     value_tooltip: The content of each entry in the bibliography. At least one is required for any index note.
     type: Type

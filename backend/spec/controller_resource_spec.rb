@@ -85,7 +85,7 @@ describe 'Resources controller' do
   it "can give a list of all resources" do
 
     powers = ['coal', 'wind', 'love']
-    
+
     powers.each do |p|
       create(:json_resource, {:title => p})
     end
@@ -101,9 +101,9 @@ describe 'Resources controller' do
   it "lets you create a resource with an extent" do
 
     opts = {:portion => generate(:portion)}
-    
+
     extents = [build(:json_extent, opts)]
-    
+
     resource = create(:json_resource, :extents => extents)
 
     JSONModel(:resource).find(resource.id).extents.length.should eq(1)
@@ -112,12 +112,12 @@ describe 'Resources controller' do
 
 
   it "lets you create a resource with an instance and container" do
-    
+
     opts = {:instance_type => generate(:instance_type),
             :container => build(:json_container)
             }
-    
-    id = create(:json_resource, 
+
+    id = create(:json_resource,
                 :instances => [build(:json_instance, opts)]
                 ).id
 
@@ -149,12 +149,12 @@ describe 'Resources controller' do
 
 
   it "lets you edit an instance of a resource" do
-    
+
     opts = {:instance_type => generate(:instance_type),
             :container => build(:json_container)
             }
-            
-    id = create(:json_resource, 
+
+    id = create(:json_resource,
                 :instances => [build(:json_instance, opts)]
                 ).id
 
@@ -164,7 +164,7 @@ describe 'Resources controller' do
     until old_type != opts[:instance_type]
       opts[:instance_type] = generate(:instance_type)
     end
-    
+
     resource.instances[0]["instance_type"] = opts[:instance_type]
 
     resource.save
@@ -361,11 +361,11 @@ describe 'Resources controller' do
 
 
   it "allows an resource to be created with an attached deaccession" do
-    
+
     test_begin_date = generate(:yyyy_mm_dd)
     test_boolean = (rand(2) == 1) ? false : true
-    
-    r = create(:json_resource, 
+
+    r = create(:json_resource,
                :deaccessions => [build(:json_deaccession, {
                  :scope => "whole",
                  :date => build(:json_date, {
@@ -373,7 +373,7 @@ describe 'Resources controller' do
                  })
                })]
                )
-    
+
     JSONModel(:resource).find(r.id).deaccessions.length.should eq(1)
     JSONModel(:resource).find(r.id).deaccessions[0]["scope"].should eq("whole")
     JSONModel(:resource).find(r.id).deaccessions[0]["date"]["begin"].should eq(test_begin_date)
@@ -417,17 +417,13 @@ describe 'Resources controller' do
     resource = create(:json_resource)
 
     notes = build(:json_note_bibliography)
-
-    # No 'content' but that's OK because it's optional for notes of type index.
-    index = JSONModel(:note_index).from_hash(:items => [{
-                                                          :value => 'something',
-                                                          :type => 'else'
-                                                        }])
+    index = build(:json_note_index)
 
     resource.notes = [notes, index]
     resource.save
 
     JSONModel(:resource).find(resource.id)[:notes].first.should eq(notes.to_hash)
+    JSONModel(:resource).find(resource.id)[:notes].last.should eq(index.to_hash)
   end
 
 
