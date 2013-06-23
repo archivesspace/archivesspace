@@ -28,7 +28,10 @@ class Resource < JSONModel(:resource)
     if accession.content_description
       notes << JSONModel(:note_multipart).from_hash(:type => "scopecontent",
                                                     :label => I18n.t('accession.content_description'),
-                                                    :content => [accession.content_description])
+                                                    :subnotes => [{
+                                                                    'content' => accession.content_description,
+                                                                    'jsonmodel_type' => 'note_text'
+                                                                  }])
     end
 
     if accession.condition_description
