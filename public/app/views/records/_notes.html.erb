@@ -1,14 +1,83 @@
-<% render_node_text = lambda do | text | %>
-  <div class="note-content">
-    <%= clean_note(text.strip).html_safe %>
+<% render_content = lambda do | note | %>
+  <% Array(note['content']).each do |note_content| %>
+    <div class="note-content">
+      <%= clean_note(note_content.strip).html_safe %>
+    </div>
+  <% end %>
+<% end %>
+
+<%
+  note_renderers = {}
+%>
+
+<% render_note = lambda do | note | %>
+  <% render_content.call(note) %>
+  <% if note_renderers.has_key?(note['jsonmodel_type']) %>
+    <% note_renderers[note['jsonmodel_type']].call(note) %>
+  <% end %>
+<% end %>
+
+<% note_renderers['note_orderedlist'] = lambda do | note | %>
+  <div class="note_orderedlist enumeration-<%= note['enumeration'] %>">
+    <ul>
+      <% note['items'].each do |item| %>
+        <li><%= item %></li>
+      <% end %>
+    </ul>
   </div>
 <% end %>
+
+<% note_renderers['note_singlepart'] = lambda do | note | %>
+<% end %>
+
+<% note_renderers['note_multipart'] = lambda do | note | %>
+  <% Array(note['subnotes']).each do |subnote| %>
+    <% render_note.call(subnote) %>
+  <% end %>
+<% end %>
+
+<% note_renderers['note_bibliography'] = lambda do | note | %>
+  <div class="note_bibliography">
+    <ul>
+      <% note['items'].each do |item| %>
+        <li><%= item %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<% note_renderers['note_index'] = lambda do | note | %>
+<% end %>
+
+<% note_renderers['note_chronology'] = lambda do | note | %>
+  <dl>
+    <% note['items'].each do |item| %>
+      <dt><%= item['event_date'] %></dt>
+      <% item['events'].each do | event | %>
+        <dd><%= event %></dd>
+      <% end %>
+    <% end %>
+  </dl>
+<% end %>
+
+<% note_renderers['note_definedlist'] = lambda do | note | %>
+  <dl>
+    <% note['items'].each do |item| %>
+      <dt><%= item['label'] %></dt>
+      <dd><%= item['value'] %></dd>
+    <% end %>
+  </dl>
+<% end %>
+
+<% note_renderers['note_text'] = lambda do | note | %>
+<% end %>
+
 <% if notes.length > 0 %>
   <section id="notes">
     <h3><%= I18n.t("note._plural") %></h3>
     <ul class="results-list">
       <% notes.each do |note| %>
-        <li>
+        <li class="well">
           <%
             if note['label']
               label_for_note = note['label']
@@ -19,15 +88,8 @@
             end
           %>
           <h4><%= label_for_note %></h4>
-          <div class="well note-contents">
-            <% Array(note['content']).each do |note_content| %>
-              <% render_node_text.call(note_content) %>
-            <% end %>
-            <% Array(note['subnotes']).each do |subnote| %>
-              <% Array(subnote['content']).each do |note_content| %>
-                <% render_node_text.call(note_content) %>
-              <% end %>
-            <% end %>
+          <div class="note-contents">
+            <% render_note.call(note) %>
           </div>
         </li>
       <% end %>
