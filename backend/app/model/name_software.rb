@@ -14,7 +14,7 @@ class NameSoftware < Sequel::Model(:name_software)
                   result << " #{json["version"]}" if json["version"]
                   result << " (#{json["qualifier"]})" if json["qualifier"]
 
-                  result
+                  result.length > 255 ? result[0..254] : result
                 },
                 :only_if => proc { |json| json["sort_name_auto_generate"] }
 
