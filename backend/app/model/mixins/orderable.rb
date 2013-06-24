@@ -9,6 +9,22 @@ module Orderable
   end
 
 
+  def set_root(new_root)
+    self.root_record_id = new_root.id
+    save
+    refresh
+
+    if self.parent_id.nil?
+      # Set ourselves to the end of the list
+      update_position_only(nil, nil)
+    end
+
+    children.each do |child|
+      child.set_root(new_root)
+    end
+  end
+
+
   def set_position_in_list(target_position, sequence)
     siblings_ds = self.class.dataset.
                        filter(:root_record_id => self.root_record_id,

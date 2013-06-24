@@ -957,7 +957,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Accessions").click
 
-      $driver.find_elements(:css, ".multiselect-column input").each do |checkbox|
+      $driver.blocking_find_elements(:css, ".multiselect-column input").each do |checkbox|
         checkbox.click
       end
 

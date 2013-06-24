@@ -11,10 +11,10 @@ class Resource < Sequel::Model(:resource)
   include Instances
   include Deaccessions
   include Agents
+  include Relationships
   include Trees
   include ResourceTrees
   include Notes
-  include Relationships
   include ExternalIDs
   include CollectionManagements
   include UserDefineds
@@ -31,6 +31,7 @@ class Resource < Sequel::Model(:resource)
   define_relationship(:name => :spawned,
                       :json_property => 'related_accessions',
                       :contains_references_to_types => proc {[Accession]})
+
 
   def validate
     validates_unique([:repo_id, :ead_id], :message => "Must be unique")

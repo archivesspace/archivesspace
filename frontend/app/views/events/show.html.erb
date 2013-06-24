@@ -1,0 +1,17 @@
+<%= setup_context :object => @event, :title => @event.id %>
+
+<div class="row-fluid">
+   <div class="span3">
+     <%= render :partial => "events/sidebar" %>
+   </div>
+  <div class="span9">
+    <%= render :partial => "toolbar" %>
+    <div class="record-pane">
+      <h2><%= I18n.t("enumerations.event_event_type.#{@event.event_type}") %>  <span class="label label-info"><%= I18n.t("event._singular") %></span></h2>
+
+      <%= render :partial => "shared/flash_messages" %>
+
+      <%= read_only_view(@event.to_hash) %>
+    </div>
+  </div>
+</div>

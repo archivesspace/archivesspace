@@ -7,8 +7,13 @@ class LocationsController < ApplicationController
     @search_data = Search.for_type(session[:repo_id], "location", search_params.merge({"facet[]" => SearchResultData.LOCATION_FACETS}))
   end
 
-  def show
+
+  def get_location
     @location = JSONModel(:location).find(params[:id])
+  end
+
+  def show
+    get_location
   end
 
   def new
@@ -17,7 +22,7 @@ class LocationsController < ApplicationController
   end
 
   def edit
-    @location = JSONModel(:location).find(params[:id])
+    get_location
   end
 
   def create
