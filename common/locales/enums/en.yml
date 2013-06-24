@@ -1305,3 +1305,13 @@ en:
     agent_relationship_subordinatesuperior_relator:
       is_subordinate_to: Is Subordinate to Related
       is_superior_of: Is Superior of Related
+    note_index_item_type:
+      name: Name
+      person: Person
+      family: Family
+      corporate_entity: Corporate Entity
+      subject: Subject
+      function: Function
+      occupation: Occupation
+      title: Title
+      geographic_name: Geographic Name
