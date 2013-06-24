@@ -72,9 +72,9 @@ module ASpaceImport
 
     def parse_row(row)
       row.each_with_index { |cell, i| parse_cell(@cell_handlers[i], cell) }
-      
+
       # swap out proxy objects for real JSONModel objects
-      @cache.map! {|proxy| proxy.spawn }
+      @cache.map! {|proxy| proxy.spawn }.compact!
 
       # run linking jobs and set defaults
       @cache.each { |obj| @proxies.discharge_proxy(obj.key, obj) }
@@ -88,27 +88,25 @@ module ASpaceImport
     def parse_cell(handler, cell_contents)
 
       return nil unless handler
-      
+
       val = handler.extract_value(cell_contents)
-      
+
       return nil unless val
 
-      prox = get_queued_or_new(handler.target_key)
-      property = handler.target_path
-
-      prox.set(property, val)
+      get_queued_or_new(handler.target_key) do |prox|
+        property = handler.target_path
+        prox.set(property, val)
+      end
     end
 
 
     def get_queued_or_new(key)
       if (prox = @cache.find {|j| j.key == key })
-        prox
-      else
-        prox = get_new(key)
+        yield  prox
+      elsif (prox = get_new(key))
+        yield prox
         @cache.push(prox)
       end
-
-      prox
     end
 
 

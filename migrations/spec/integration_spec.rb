@@ -112,7 +112,7 @@ describe 'ASpaceImport' do
       end
     end
 
-    count.should eq(19)
+    count.should eq(18)
   end
 
 
