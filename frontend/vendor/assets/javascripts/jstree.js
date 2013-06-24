@@ -1106,7 +1106,8 @@
           //if(this.data.ui.hovered && obj.get(0) === this.data.ui.hovered.get(0)) { return; }
           if(!obj.hasClass("jstree-hovered")) { this.dehover_node(); }
           this.data.ui.hovered = obj.children("a").addClass("jstree-hovered").parent();
-          this._fix_scroll(obj);
+          //ArchivesSpace: Don't auto scroll upon hover as moves user's context not knowingly
+          //this._fix_scroll(obj);
           this.__callback({ "obj" : obj });
         },
         dehover_node : function () {

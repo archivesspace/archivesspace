@@ -91,6 +91,7 @@
   <div  id="archives_tree" class="archives-tree"
         data-read-only="<%= read_only %>"
         data-rules="<%= hierarchy_rules.to_json %>"
+        data-root-id="<%= @tree_root_id %>"
   ></div>
 
   <script>
@@ -164,6 +165,11 @@
       <span class="field-column field-column-2 pull-right" title="">${render_file_version_summary(node)}</span>
     </span>  --></div>
 
+  <div id="tree_node_template"><!--
+    {eval}node.tmp = {node: node};{/eval}
+    ${AS.renderTemplate("tree_node_"+node.node_type+"_template", node.tmp)}
+  --></div>
+
   <div id="tree_template"><!--
 
        {macro render_node_link(node)}
@@ -179,7 +185,6 @@
            {for node in nodes}
               <li id="${node.node_type}_${node.id}" class="${node.node_type} {if node.has_children} jstree-closed{/if}" rel="${node.node_type}" data-id="${node.id}" data-uri="${node.record_uri}">
                  ${render_node_link(node)}
-                 ${render_children(node.children)}
               </li>
            {/for}
         </ul>
@@ -295,7 +300,7 @@
                 <fieldset>
                   <%= form.hidden_input "current_resource_id", "${root_object_id}" %>
                   <div class="alert alert-error missing-ref-message" style="display: none;"><%= I18n.t "archival_object._frontend.messages.please_select_a_resource_for_transfer" %></div>
-                  <%= render :partial => "resources/linker", :locals => { :form => form, :exclude_ids => [@tree.record_uri] }%>
+                  <%= render :partial => "resources/linker", :locals => { :form => form, :exclude_ids => [@resource.id] }%>
                 </fieldset>
                 <div class="form-actions">
                   <button class="btn btn-primary pull-left"><%= I18n.t("actions.transfer") %></button>
