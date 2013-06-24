@@ -88,7 +88,6 @@ ASpaceImport::Importer.importer :accessions do
       :processed_event_date => event_template('processed'),
 
       :accession => {
-        :defaults => accession_defaults,
         :on_row_complete => Proc.new { |queue, accession|
           queue.select {|obj| obj.class.record_type == 'event'}.each do |event|
             event.linked_records << {'role' => 'source', 'ref' => accession.uri}
@@ -158,14 +157,6 @@ ASpaceImport::Importer.importer :accessions do
         event.date = date
         event.linked_records << {'role' => 'subject', 'ref' => accession.uri}
       }
-    }
-  end
-
-
-  def self.accession_defaults
-    {
-      :condition_description => "'Condition Description', as required",
-      :content_description => "'Content Description', as required",
     }
   end
 
