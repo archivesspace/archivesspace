@@ -10,10 +10,6 @@ class LocationsController < ApplicationController
 
   def get_location
     @location = JSONModel(:location).find(params[:id])
-    @location_title = ['building', 'barcode', 'classification',
-              'coordinate_1_label', 'coordinate_1_indicator'].map {|p|
-      @location[p]
-    }.compact.join(" -- ")
   end
 
   def show
