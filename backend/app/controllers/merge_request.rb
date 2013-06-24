@@ -10,9 +10,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     target, victims = parse_references(params[:merge_request])
 
-    if (victims.map {|r| r[:type]} + [target[:type]]).any? {|type| type != 'subject'}
-      raise BadParamsException.new(:merge_request => ["Subject merge request can only merge subject records"])
-    end
+    ensure_type('subject', target, victims)
 
     Subject.get_or_die(target[:id]).assimilate(victims.map {|v| Subject.get_or_die(v[:id])})
 
@@ -55,13 +53,8 @@ class ArchivesSpaceService < Sinatra::Base
     target, victims = parse_references(params[:merge_request])
     repo_uri = JSONModel(:repository).uri_for(params[:repo_id])
 
-    if ([target] + victims).any? {|r| r[:repository] != repo_uri}
-      raise BadParamsException.new(:merge_request => ["All records to merge must be in the repository specified"])
-    end
-
-    if (victims.map {|r| r[:type]} + [target[:type]]).any? {|type| type != 'resource'}
-      raise BadParamsException.new(:merge_request => ["Resource merge request can only merge resource records"])
-    end
+    check_repository(target, victims, params[:repo_id])
+    ensure_type('resource', target, victims)
 
     Resource.get_or_die(target[:id]).assimilate(victims.map {|v| Resource.get_or_die(v[:id])})
 
@@ -81,13 +74,8 @@ class ArchivesSpaceService < Sinatra::Base
     target, victims = parse_references(params[:merge_request])
     repo_uri = JSONModel(:repository).uri_for(params[:repo_id])
 
-    if ([target] + victims).any? {|r| r[:repository] != repo_uri}
-      raise BadParamsException.new(:merge_request => ["All records to merge must be in the repository specified"])
-    end
-
-    if (victims.map {|r| r[:type]} + [target[:type]]).any? {|type| type != 'digital_object'}
-      raise BadParamsException.new(:merge_request => ["Digital Object merge request can only merge digital object records"])
-    end
+    check_repository(target, victims, params[:repo_id])
+    ensure_type('digital_object', target, victims)
 
     DigitalObject.get_or_die(target[:id]).assimilate(victims.map {|v| DigitalObject.get_or_die(v[:id])})
 
@@ -102,6 +90,21 @@ class ArchivesSpaceService < Sinatra::Base
     victims = request.victims.map {|victim| JSONModel.parse_reference(victim['ref'])}
 
     [target, victims]
+  end
+
+  def check_repository(target, victims, repo_id)
+    repo_uri = JSONModel(:repository).uri_for(repo_id)
+
+    if ([target] + victims).any? {|r| r[:repository] != repo_uri}
+      raise BadParamsException.new(:merge_request => ["All records to merge must be in the repository specified"])
+    end
+  end
+
+
+  def ensure_type(type, target, victims)
+    if (victims.map {|r| r[:type]} + [target[:type]]).any? {|t| t != type}
+      raise BadParamsException.new(:merge_request => ["This merge request can only merge #{type} records"])
+    end
   end
 
 end
