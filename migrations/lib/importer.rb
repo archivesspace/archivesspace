@@ -107,8 +107,7 @@ module ASpaceImport
           handle_save_response(response)
         end
       rescue JSONModel::ValidationException => e
-
-        errors = e.errors.collect.map{|attr, err| "#{e.invalid_object.class.record_type}/#{attr} #{err.join(', ')}"}
+        errors = e.errors.map{|attr, err| "#{e.invalid_object ? e.invalid_object.class.record_type : ''}/#{attr} #{err.join(', ')}"}
         @block.call({"errors" => errors})
       end
     end

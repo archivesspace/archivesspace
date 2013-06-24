@@ -14,6 +14,7 @@ module ASpaceImport
         rescue JSONModel::ValidationException => e
 
           e.errors.reject! {|path, mssg| 
+                            e.attribute_types &&
                             e.attribute_types.has_key?(path) && 
                             e.attribute_types[path] == 'ArchivesSpaceDynamicEnum'}
                             
