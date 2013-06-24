@@ -8,11 +8,21 @@ module Identifiers
   def id_3=(v); @id_3 = v; self.modified!; end
 
 
+  def self.format(identifier)
+    identifier.compact.join("--")
+  end
+
+
+  def self.parse(identifier)
+    ASUtils.json_parse(identifier || "[]")
+  end
+
+
   def after_initialize
     # Split the identifier into its components and add the individual pieces as
     # variables on this instance.
     if self[:identifier]
-      identifier = ASUtils.json_parse(self[:identifier] || "[]")
+      identifier = Identifiers.parse(self[:identifier])
 
       4.times do |i|
         self.instance_eval {

@@ -201,7 +201,9 @@ class ArchivesSpaceService
                       :derived_permission => true,
                       :level => "repository")
 
-
+    Permission.define("merge_archival_record",
+                      "The ability to merge archival records records",
+                      :level => "repository")
 
   end
 

@@ -961,7 +961,7 @@ Sequel.migration do
 
       DynamicEnum :event_type_id, :null => false
       DynamicEnum :outcome_id, :null => true
-      String :outcome_note, :null => true
+      LongString :outcome_note, :null => true
 
       DateTime :timestamp, :null => true
 

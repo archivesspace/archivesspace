@@ -17,7 +17,8 @@
                        {"type" => "JSONModel(:agent_person) uri"},
                        {"type" => "JSONModel(:agent_corporate_entity) uri"},
                        {"type" => "JSONModel(:agent_software) uri"},
-                       {"type" => "JSONModel(:agent_family) uri"}],
+                       {"type" => "JSONModel(:agent_family) uri"},
+                       {"type" => "JSONModel(:resource) uri"}],
             "ifmissing" => "error"
           },
         }
@@ -35,7 +36,8 @@
                          {"type" => "JSONModel(:agent_person) uri"},
                          {"type" => "JSONModel(:agent_corporate_entity) uri"},
                          {"type" => "JSONModel(:agent_software) uri"},
-                         {"type" => "JSONModel(:agent_family) uri"}],
+                         {"type" => "JSONModel(:agent_family) uri"},
+                         {"type" => "JSONModel(:resource) uri"}],
               "ifmissing" => "error"
             },
           }

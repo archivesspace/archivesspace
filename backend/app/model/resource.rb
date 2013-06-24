@@ -32,6 +32,18 @@ class Resource < Sequel::Model(:resource)
                       :json_property => 'related_accessions',
                       :contains_references_to_types => proc {[Accession]})
 
+
+  def assimilate(victims)
+    victims.each do |victim|
+      adopt_children(victim)
+    end
+
+    Event.for_archival_record_merge(self, victims)
+
+    super
+  end
+
+
   def validate
     validates_unique([:repo_id, :ead_id], :message => "Must be unique")
 

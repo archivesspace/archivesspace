@@ -120,4 +120,33 @@ class Event < Sequel::Model(:event)
     end
   end
 
+
+  def self.for_archival_record_merge(target, victims)
+    user = User[:username => RequestContext.get(:current_username)]
+
+    merge_note = ""
+    victims.each do |victim|
+      victim_json = victim.class.to_jsonmodel(victim)
+      merge_note += (Identifiers.format(Identifiers.parse(victim_json['identifier'])) +
+                     " -- " +
+                     victim_json['title'] +
+                     "\n")
+    end
+
+    event = JSONModel(:event).from_hash(
+      :linked_agents => [{
+                           "role" => "implementer",
+                           "ref" => JSONModel(:agent_person).uri_for(user.agent_record_id)
+                         }],
+      :event_type => 'component_transfer',
+      :outcome => 'pass',
+      :outcome_note => merge_note,
+      :timestamp => Time.now.utc.iso8601,
+      :linked_records => [{:ref => target.uri, :role => 'outcome'}]
+    )
+
+    Event.create_from_json(event, :system_generated => true)
+  end
+
+
 end
