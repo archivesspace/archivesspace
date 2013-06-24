@@ -31,9 +31,17 @@ class DigitalObject < Sequel::Model(:digital_object)
     json["linked_instances"] = []
 
     obj.linked_records(:instance_do_link).each do |link|
-      json["linked_instances"].push({
-          "ref" => link.resource ? link.resource.uri : link.archival_object.uri 
-      })
+      uri = link.resource.uri if link.resource
+      uri = link.archival_object.uri if link.archival_object
+      uri = link.accession.uri if link.accession
+
+      if uri.nil?
+        raise "Digital Object Instance not linked to either a resource, archival object or accession"
+      end
+
+        json["linked_instances"].push({
+            "ref" => uri
+        })
     end
 
     json

@@ -3,10 +3,10 @@ class RecordsController < ApplicationController
   before_filter :get_repository
 
   def resource
-    resource = JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents"])
+    resource = JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents", "related_accessions"])
     raise RecordNotFound.new if (!resource || !resource.publish)
 
-    @resource = ArchivalObjectView.new(resource)
+    @resource = ResourceView.new(resource)
     @tree_view = Search.tree_view(@resource.uri)
 
     load_full_records(@resource.uri, @tree_view['whole_tree'], params[:repo_id])
@@ -93,7 +93,16 @@ class RecordsController < ApplicationController
   end
 
   def accession
-    render :text => "woop"
+    accession = JSONModel(:accession).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_agents", "container_locations", "digital_object", "related_resources"])
+    raise RecordNotFound.new if (!accession || !accession.publish)
+
+    @accession = AccessionView.new(accession)
+
+    @breadcrumbs = [
+      [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"]
+    ]
+
+    @breadcrumbs.push([@accession.title, "#", "accession"])
   end
 
 

@@ -26,6 +26,7 @@
                      {:property => 'subjects', :subrecord_type => 'subject', :anchor => 'subjects'},
                      {:property => 'notes', :subrecord_type => 'note', :anchor => 'notes'},
                      {:property => 'published_external_documents', :subrecord_type => 'external_document', :anchor => 'external_documents'},
+                     {:property => 'published_related_accessions', :subrecord_type => 'accession', :anchor => 'accessions'},
                      {:property => 'digital_objects', :subrecord_type => 'digital_object', :anchor => 'external_documents'},
                    ]
                  })
@@ -63,6 +64,7 @@
         <%= render :partial => "subjects", :locals => {:subjects => @resource['subjects']} %>
         <%= render :partial => "notes", :locals => {:notes => @resource['notes']} %>
         <%= render :partial => "external_documents", :locals => {:external_documents => @resource.published_external_documents} %>
+        <%= render :partial => "accessions", :locals => {:accessions => @resource.published_related_accessions} %>
         <%= render :partial => "instances", :locals => {:digital_objects => @resource.digital_objects} %>
         <%= render :partial => "components", :locals => {
               :record_type => "resource",
