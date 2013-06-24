@@ -332,7 +332,7 @@ class ArchivesSpaceService < Sinatra::Base
 
       end_time = Time.now
 
-      Log.debug("Responded with #{result.to_s.gsub(/^(.{1024}).+$/, '\\1...')} in #{(end_time - start_time) * 1000}ms")
+      Log.debug("Responded with #{result.to_s[0..512]}... in #{(end_time - start_time) * 1000}ms")
 
       result
     end
