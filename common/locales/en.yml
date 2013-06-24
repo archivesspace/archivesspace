@@ -36,6 +36,8 @@ en:
         <p>Records information about materials that may have been separated and discarded, returned to a donor, or transferred to another institution.</p>
     collection_management_tooltip: |
         <p>Additional, internal-only information about how the materials described will be or have been processed.</p>
+    classification_tooltip: |
+        <p>Used for linking the materials described to a Classification or a Classification Term (e.g. a record group system) managed within the application.</p>
     user_defined_tooltip: |
         <p>User defined fields for recording additional information not captured in other sections of the application.</p>
 
@@ -98,19 +100,49 @@ en:
   location: &location_attributes
     title: Title
     temporary: Temporary
+    temporary_tooltip: |
+        <p>Used to indicate if this Location is a specific type of temporary location (e.g. an exhibition area).</p>
     building: Building
+    building_tooltip: |
+        <p>REQUIRED FIELD. Used to indicate the building in which a location exists.</p>
     floor: Floor
+    floor_tooltip: |
+        <p>Used to indicate the floor on which a location exists.</p>
     room: Room
+    room_tooltip: |
+        <p>Used to indicate the room in which a location exists.</p>
     area: Area
+    area_tooltip: |
+        <p>Used to indicate the area (e.g. of a room) in which a location exists.</p>
     barcode: Barcode
+    barcode_tooltip: |
+        <p>CONDITIONALLY REQUIRED FIELD: Either barcode, classification, or Coordinate 1 Label and Coordinate 1 Indicator must contain data.</p>
+        <p>Used to record the barcode of, e.g., a shelf or range that uniquely identifies a location.</p>
     classification: Classification
+    classification_tooltip: |
+        <p>CONDITIONALLY REQUIRED FIELD: Either barcode, classification, or Coordinate 1 Label and Coordinate 1 Indicator must contain data.</p>
+        <p>Used to record a classification number that uniquely identifies a location.</p>
     coordinates: Coordinates
     coordinate_1_label: Coordinate Label 1
+    coordinate_1_label_tooltip: |
+        <p>CONDITIONALLY REQUIRED FIELD: Either barcode, classification, or Coordinate 1 Label and Coordinate 1 Indicator must contain data.</p>
+        <p>Used to record a label (e.g. "Shelf", "Range", "Drawer") for a specific location.</p>
     coordinate_1_indicator: Coordinate Indicator 1
+    coordinate_1_indicator_tooltip: |
+        <p>CONDITIONALLY REQUIRED FIELD: Either barcode, classification, or Coordinate 1 Label and Coordinate 1 Indicator must contain data.</p>
+        <p>Used to record an indicator such as a number or letter that uniquely identifies a location in combination with the associated coordinate label.</p>
     coordinate_2_label: Coordinate Label 2
+    coordinate_2_label_tooltip: |
+        <p>Used to record a label (e.g. "Shelf", "Range", "Drawer") for a specific location.</p>
     coordinate_2_indicator: Coordinate Indicator 2
+    coordinate_2_indicator_tooltip: |
+        <p>Used to record an indicator such as a number or letter that uniquely identifies a location in combination with the associated coordinate label.</p>
     coordinate_3_label: Coordinate Label 3
+    coordinate_3_label_tooltip: |
+        <p>Used to record a label (e.g. "Shelf", "Range", "Drawer") for a specific location.</p>
     coordinate_3_indicator: Coordinate Indicator 3
+    coordinate_3_indicator_tooltip: |
+        <p>Used to record an indicator such as a number or letter that uniquely identifies a location in combination with the associated coordinate label.</p>
     display_string: Display String
     location_fields_error: >
       You must either specify a barcode, a classification, or both a coordinate 1 label and coordinate 1 indicator
@@ -132,9 +164,17 @@ en:
 
   container_location:
     status: Status
+    status_tooltip: |
+        <p>REQUIRED FIELD. Indicates whether the location statement for this record is current or refers to a previous location for the described instance.</p>
     start_date: Start Date
+    start_date_tooltip: |
+        <p>REQUIRED FIELD. Indicates the date at which the described instance was stored at this location, or a known date from which the materials were stored here.</p> 
     end_date: End Date
+    end_date_tooltip: |
+        <p>Indicates the date at which the described instance was moved from this location.</p> 
     note: Note
+    note_tooltip: |
+        <p>Used to record additional information about the instance and its relation to this location.</p>
     location: Location
     ref: Location
     _singular: Location
@@ -142,6 +182,8 @@ en:
 
   linked_record:
     role: Role
+    role_tooltip: |
+        <p>The role in which the linked record relates to the current record.</p>
     ref: Record
     ref_plural: Records
     _singular: Record Link
@@ -153,7 +195,7 @@ en:
         <p>REQUIRED FIELD. An indication of what function (creator, source, or subject) the Agent has in regards to its link to a certain description record.</p>
     relator: Relator
     relator_tooltip: |
-        <p>An indication of what role the name has in regards to its function as indicated in how it is linked (e.g., creator, source, or subject) to a certain description record. For example, a name may be linked as a creator to a record, but with the more specific role of "illustrator".</p>
+        <p>An indication of what role the Agent has in regards to its function as indicated in how it is linked (e.g., creator, source, or subject) to a certain description record. For example, a Agent may be linked as a creator to a record, but with the more specific role of "illustrator".</p>
         <p>See MARC Code List for Relators.</p>
     ref: Agent
     # ref_tooltip is not displaying
@@ -185,7 +227,7 @@ en:
   event:
     <<: *section_tooltips
     event_type: Type
-    event_type_toolkit: |
+    event_type_tooltip: |
         <p>A categorization of the nature of the event.</p>
         <p>Values in this Controlled Value List may be modified.</p>
         <p>See PREMIS eventType</p>
@@ -203,7 +245,7 @@ en:
     timestamp_tooltip: |
         <p>A specific timestamp, with full date and time information, about when the event occured. By default, the application assumes that the timestamp is in UTC.</p>
     chronotype_label: Date/Time specifier
-    chronotype_tooltip: |
+    chronotype_label_tooltip: |
         <p>Indicates what type of date is associated with this event.</p>
     chronotype:
       subrecord: Date Subrecord
@@ -290,7 +332,7 @@ en:
   agent_name: &agent_name_attributes
     authority_id: Authority ID
     authority_id_tooltip: |
-        <p>The unique identifier for the record within the source from which it was acquired, (i.e., a MADS record identifier or EAC record identifier). The identifier may be represented as a URI.</p>
+        <p>The unique identifier for the Name Form for an Agent within the source from which it was acquired, (i.e., a MADS record identifier or EAC record identifier). The identifier may be represented as a URI.</p>
         <p>See DACS 13.2</p>
         <p>Examples:</p>
         <ul>
@@ -441,10 +483,10 @@ en:
         </ul>
 
   name:
-    _singular: Name
-    _plural: Names
+    _singular: Name Form
+    _plural: Name Forms
 
-  agent_contact:
+  agent_contact: &agent_contact
     name: Contact Name
     name_tooltip: |
         <p>Name of the person serving as contact for the entity in the main record.</p>
@@ -1104,10 +1146,10 @@ en:
       agent_person: Person
       agent_corporate_entity: Corporate Entity
       agent_software: Software
-    names: Names
+    names: Name Forms
     names_tooltip: |
-        <p>REQUIRED SUBRECORD: Records different forms of an Agent's name. Each Agent record must have at least one Name subrecord.</p>
-    contact_details_tooltip: |
+        <p>REQUIRED SUBRECORD: Records different forms of an Agent's name. Each Agent record must have at least one Name Form subrecord.</p>
+    contacts_tooltip: |
         <p>Records contact information about a particular Agent.</p>
     notes_tooltip: |
         <p>Records additional descriptive information about an Agent, such as a biographical note or an administrative history.</p>
@@ -1238,6 +1280,7 @@ en:
       update_classification_record: create/update classifications and classification terms
       delete_classification_record: delete classifications and classification terms
       merge_agents_and_subjects: merge agent/subject records
+      merge_archival_record: merge the major record types in this repository
     _singular: Group
     _plural: Groups
 
@@ -1270,6 +1313,9 @@ en:
         <li>Audio and video recordings</li>
         </ul>
     resource_type: Resource Type
+    resource_type_tooltip: |
+        <p>A list of terms used by a repository for categorizing its resources into basic types.</p>
+        <p>Values in this Controlled Value List may be modified.</p>
     repository_processing_note: Repository Processing Note
     extents_tooltip: |
         <p>REQUIRED SUBRECORD: Used for recording the size of the described materials.</p>
@@ -1335,7 +1381,7 @@ en:
     finding_aid_status: Finding Aid Status
     finding_aid_status_tooltip: |
         <p>Indicates the status of the finding aid.</p>
-    finding_aid_note: Note
+    finding_aid_note: Finding Aid Note
     finding_aid_note_tooltip: |
         <p>For recording any additional information about the finding aid (not the described Resource) not covered by the other finding aid data elements.</p>
     _singular: Resource
@@ -1393,6 +1439,8 @@ en:
     city: City
     district: State or Region
     country: Country
+    country_tooltip: |
+        <p>The country in which the repository is located, taken from the ISO 3166 code list.</p>
     post_code: Postal Code
     telephone: Telephone
     telephone_ext: Extension
@@ -1400,6 +1448,8 @@ en:
     email: Email
     email_signature: Email Signature
     url: Home Page URL
+    url_tooltip: |
+        <p>A URL for the repository's webpage.</p>
     contact_persons: Contact Persons
     image_url: Branding Image URL
     image_url_tooltip: |
@@ -1432,6 +1482,13 @@ en:
         <li>Library of Congress Subject Headings (lcsh)</li>
         </ul>
     scope_note: Scope Note
+    scope_note_tooltip: |
+        <p>A note that explains and clarifies what is meant and what is not meant in the definition of the term and in its use as a subject heading.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Here are entered works on biological studies of bacteria. Works on the science are entered under the heading Bacteriology.</li>
+        <li>"The right of security and privacy in a man's home." - Black, Law dictionary, 4th ed., 1951.</li>
+        </ul>
     terms: Terms
     terms_tooltip: |
         <p>REQUIRED SUBRECORD. Used to manage each term or subdivision within a given subject heading. Each subject record must have at least one term associated with it.</p>
@@ -1447,7 +1504,7 @@ en:
         <p>REQUIRED FIELD. The username for the account that the user will use to authenticate to the application.</P>
     name: Full name
     name_tooltip: |
-        <p>The full name of the user designated by the username.</p>
+        <p>REQUIRED FIELD. The full name of the user designated by the username.</p>
     password: Password
     password_tooltip: |
         <p>The password used with the username to authenticate to the application.</p>
@@ -1455,13 +1512,29 @@ en:
     confirm_password_tooltip: |
         <p>A second field used to confirm a match with the password entered into the first field.</p>
     email: Email
+    email_tooltip: |
+        <p>The user's email address.</p>
     first_name: First Name
+    first_name_tooltip: |
+        <p>The user's first name.</p>
     last_name: Last Name
+    last_name_tooltip: |
+        <p>The user's last name.</p>
     telephone: Phone
+    telephone_tooltip: |
+        <p>The user's telephone number.</p>
     title: Title
+    title_tooltip: |
+        <p>The user's job title.</p>
     department: Department
+    department_tooltip: |
+        <p>The user's department.</p>
     additional_contact: Additional Contact Information
+    additional_contact_tooltip: |
+        <p>Additional contact information for the user, or information such as the user's work schedule.</p>
     is_admin: Grant system administrator permissions
+    is_admin_tooltip: |
+        <p>Used to indicate whether the user should have full administrative privileges to the application.</p>
     _singular: User
     _plural: Users
 
@@ -1516,6 +1589,8 @@ en:
         <li>Completed</li>
         </ul>
     processing_funding_source: Funding Source
+    processing_funding_source_tooltip: |
+        <p>Used to indicate the source of funding the processing of the described materials.</p>
     processors: Processors
     processors_tooltip: |
         <p>For listing staff to whom processing of the archival unit (accession, resource, or digital objects) has been assigned.</p>
@@ -1592,6 +1667,7 @@ en:
     UnprocessedAccessionsReport: Unprocessed Accessions
     parameters:
       from: From
+      from_tooltip:
       to: To
     formats:
       json: JSON
