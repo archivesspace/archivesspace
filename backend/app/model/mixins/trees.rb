@@ -14,6 +14,17 @@ module Trees
   end
 
 
+  def assimilate(victims)
+    victims.each do |victim|
+      adopt_children(victim)
+    end
+
+    Event.for_archival_record_merge(self, victims)
+
+    super
+  end
+
+
   def children
     self.class.node_model.
            this_repo.filter(:root_record_id => self.id,

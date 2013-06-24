@@ -69,6 +69,31 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.post('/merge_requests/digital_object')
+    .description("Carry out a merge request against Digital_Object records")
+    .params(["repo_id", :repo_id],
+            ["merge_request",
+             JSONModel(:merge_request), "A merge request",
+             :body => true])
+    .permissions([:merge_archival_record])
+    .returns([200, :updated]) \
+  do
+    target, victims = parse_references(params[:merge_request])
+    repo_uri = JSONModel(:repository).uri_for(params[:repo_id])
+
+    if ([target] + victims).any? {|r| r[:repository] != repo_uri}
+      raise BadParamsException.new(:merge_request => ["All records to merge must be in the repository specified"])
+    end
+
+    if (victims.map {|r| r[:type]} + [target[:type]]).any? {|type| type != 'digital_object'}
+      raise BadParamsException.new(:merge_request => ["Digital Object merge request can only merge digital object records"])
+    end
+
+    DigitalObject.get_or_die(target[:id]).assimilate(victims.map {|v| DigitalObject.get_or_die(v[:id])})
+
+    json_response(:status => "OK")
+  end
+
 
   private
 

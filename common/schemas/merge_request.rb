@@ -1,3 +1,13 @@
+MERGEABLE_TYPES = [
+                   {"type" => "JSONModel(:subject) uri"},
+                   {"type" => "JSONModel(:agent_person) uri"},
+                   {"type" => "JSONModel(:agent_corporate_entity) uri"},
+                   {"type" => "JSONModel(:agent_software) uri"},
+                   {"type" => "JSONModel(:agent_family) uri"},
+                   {"type" => "JSONModel(:resource) uri"},
+                   {"type" => "JSONModel(:digital_object) uri"}
+                  ]
+
 {
   :schema => {
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
@@ -13,12 +23,7 @@
         "subtype" => "ref",
         "properties" => {
           "ref" => {
-            "type" => [{"type" => "JSONModel(:subject) uri"},
-                       {"type" => "JSONModel(:agent_person) uri"},
-                       {"type" => "JSONModel(:agent_corporate_entity) uri"},
-                       {"type" => "JSONModel(:agent_software) uri"},
-                       {"type" => "JSONModel(:agent_family) uri"},
-                       {"type" => "JSONModel(:resource) uri"}],
+            "type" => MERGEABLE_TYPES,
             "ifmissing" => "error"
           },
         }
@@ -32,12 +37,7 @@
           "subtype" => "ref",
           "properties" => {
             "ref" => {
-              "type" => [{"type" => "JSONModel(:subject) uri"},
-                         {"type" => "JSONModel(:agent_person) uri"},
-                         {"type" => "JSONModel(:agent_corporate_entity) uri"},
-                         {"type" => "JSONModel(:agent_software) uri"},
-                         {"type" => "JSONModel(:agent_family) uri"},
-                         {"type" => "JSONModel(:resource) uri"}],
+              "type" => MERGEABLE_TYPES,
               "ifmissing" => "error"
             },
           }
