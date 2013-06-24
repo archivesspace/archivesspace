@@ -161,7 +161,10 @@ ASpaceImport::Importer.importer :ead do
         make :note_multipart, {
           :type => node.name,
           :persistent_id => att('id'),
-          :content => inner_xml
+          :subnotes => {
+            'jsonmodel_type' => 'note_text',
+            'content' => inner_xml
+          }
         } do |note|
           set ancestor(:resource, :archival_object), :notes, note
         end

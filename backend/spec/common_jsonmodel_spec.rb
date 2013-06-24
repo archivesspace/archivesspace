@@ -364,7 +364,7 @@ describe 'JSON model' do
                                                      "content" => ["moo"],
                                                      "label" => "moo",
                                                      "subnotes" => [{"jsonmodel_type" => "note_definedlist",
-                                                      "items" => [["label" => "moo"]]
+                                                      "items" => [["label" => "should_have_been_an_object"]]
                                                       }]}],
                                        "extents" => [{"portion" => "whole",
                                                        "number" => "5",
@@ -375,7 +375,9 @@ describe 'JSON model' do
 
     rescue JSONModel::ValidationException => e
       e.errors.keys.sort.should eq(["notes/0/content",
-                                    "notes/1/subnotes/0/items/0"])
+                                    "notes/1/subnotes", # missing a text field
+                                    "notes/1/subnotes/0/items/0" # wrong type
+                                   ])
     end
   end
 

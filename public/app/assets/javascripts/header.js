@@ -31,11 +31,11 @@ $(function() {
 
 
   // Toggle Advanced Search
-  $(".nav .search-switcher a").click(function(event) {
+  $(".nav .search-switcher").click(function(event) {
     event.stopPropagation();
     event.preventDefault();
 
-    $(".nav .search-switcher a").toggleClass("hide");
+    $(".nav .search-switcher").toggle();
     $(".advanced-search-container").slideToggle();
   });
 
@@ -43,7 +43,7 @@ $(function() {
     event.stopPropagation();
     event.preventDefault();
 
-    $(".nav .search-switcher a").toggleClass("hide");
+    $(".nav .search-switcher").toggle();
     $(".advanced-search-container").slideUp();
   });
 

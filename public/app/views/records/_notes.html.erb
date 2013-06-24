@@ -1,3 +1,8 @@
+<% render_node_text = lambda do | text | %>
+  <div class="note-content">
+    <%= clean_note(text.strip).html_safe %>
+  </div>
+<% end %>
 <% if notes.length > 0 %>
   <section id="notes">
     <h3><%= I18n.t("note._plural") %></h3>
@@ -15,10 +20,13 @@
           %>
           <h4><%= label_for_note %></h4>
           <div class="well note-contents">
-            <% note['content'].each do |note_content| %>
-              <div class="note-content">
-                <%= clean_note(note_content.strip).html_safe %>
-              </div>
+            <% Array(note['content']).each do |note_content| %>
+              <% render_node_text.call(note_content) %>
+            <% end %>
+            <% Array(note['subnotes']).each do |subnote| %>
+              <% Array(subnote['content']).each do |note_content| %>
+                <% render_node_text.call(note_content) %>
+              <% end %>
             <% end %>
           </div>
         </li>

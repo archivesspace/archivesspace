@@ -130,10 +130,11 @@ module JSONSchemaUtils
        :failed_attribute => ['custom_validation'],
        :pattern => /Validation failed for '(.*?)': (.*?) in schema /,
        :do => ->(msgs, message, path, property, msg) {
+         property = (property && !property.empty?) ? property : nil
          msgs[:errors][fragment_join(path, property)] = [msg]
        }
      },
-     
+
      {
        :failed_attribute => ['custom_validation'],
        :pattern => /Warning generated for '(.*?)': (.*?) in schema /,

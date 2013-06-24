@@ -159,11 +159,18 @@ class ArchivesSpaceSchema < JSON::Schema::Validator
   end
 
 
+  def already_failed?(fragments)
+    JSON::Validator.validation_errors.any? {|error|
+      error.fragments == fragments
+    }
+  end
+
+
   def validate(current_schema, data, fragments, options = {})
     super
 
     # Run any custom validations if we've made it this far with no errors
-    if JSON::Validator.validation_errors.empty? && current_schema.schema.has_key?("validations")
+    if !already_failed?(fragments) && current_schema.schema.has_key?("validations")
       current_schema.schema["validations"].each do |level_and_name|
         level, name = level_and_name
 

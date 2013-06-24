@@ -6,7 +6,12 @@
     "parent" => "abstract_note",
 
     "properties" => {
-
+      "content" => {
+        "type" => "array",
+        "items" => {"type" => "string", "maxLength" => 65000},
+        "minItems" => 1,
+        "ifmissing" => "error",
+      },
     },
 
     "additionalProperties" => false,

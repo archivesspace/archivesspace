@@ -4,6 +4,26 @@ def get_note(obj, id)
   obj['notes'].find{|n| n['persistent_id'] == id}
 end
 
+def get_notes_by_type(obj, note_type)
+  obj['notes'].select{|n| n['type'] == note_type}
+end
+
+def get_note_by_type(obj, note_type)
+  get_notes_by_type(obj, note_type)[0]
+end
+
+
+def get_subnotes_by_type(obj, note_type)
+  obj['subnotes'].select {|sn| sn['jsonmodel_type'] == note_type}
+end
+
+def note_content(note)
+  if note['content']
+    Array(note['content']).join("")
+  else
+    get_subnotes_by_type(note, 'note_text').map {|sn| sn['content']}.join("").gsub(/\n +/, "\n")
+  end
+end
 
 describe 'ASpaceImport' do
 
@@ -207,8 +227,9 @@ describe 'ASpaceImport' do
     # RESOURCE
     it "maps '<date>' correctly" do
     # 	IF nested in <chronitem>
-      @archival_objects['12']['notes'].find{|n| n['persistent_id'] == 'ref53'}['subnotes'][0]['items'][0]['event_date'].should eq('1895')
-      @archival_objects['12']['notes'].find{|n| n['persistent_id'] == 'ref53'}['subnotes'][0]['items'][1]['event_date'].should eq('1995')
+      get_subnotes_by_type(get_note(@archival_objects['12'], 'ref53'), 'note_chronology')[0]['items'][0]['event_date'].should eq('1895')
+
+      get_subnotes_by_type(get_note(@archival_objects['12'], 'ref53'), 'note_chronology')[0]['items'][1]['event_date'].should eq('1995')
 
     # 	IF nested in <publicationstmt>
       @resource['finding_aid_date'].should eq('Resource-FindingAidDate-AT')
@@ -438,33 +459,36 @@ describe 'ASpaceImport' do
 
     # Simple Notes
     it "maps '<abstract>' correctly" do
-      @resource['notes'].find{|n| n['type'] == 'abstract'}['content'][0].should eq("Resource-Abstract-AT")
+      note_content(get_note_by_type(@resource, 'abstract')).should eq("Resource-Abstract-AT")
     end
 
     it "maps '<accessrestrict>' correctly" do
-      nc = @resource['notes'].select{|n| n['type'] == 'accessrestrict'}.map{|n| n['content'][0]}
+      nc = get_notes_by_type(@resource, 'accessrestrict').map {|note|
+        note_content(note)
+      }.flatten
+
       nc[0].should eq("<head>Resource-ConditionsGoverningAccess-AT</head>\n<p>Resource-ConditionsGoverningAccess-AT</p>")
       nc[1].should eq("<head>Resource-LegalStatus-AT</head>\n<legalstatus>Resource-LegalStatus-AT</legalstatus>")
     end
 
     it "maps '<accruals>' correctly" do
-      @resource['notes'].find{|n| n['type'] == 'accruals'}['content'][0].should eq("<head>Resource-Accruals-AT</head>\n<p>Resource-Accruals-AT</p>")
+      note_content(get_note_by_type(@resource, 'accruals')).should eq("<head>Resource-Accruals-AT</head>\n<p>Resource-Accruals-AT</p>")
     end
 
     it "maps '<acqinfo>' correctly" do
-      @resource['notes'].find{|n| n['type'] == 'acqinfo'}['content'][0].should eq("<head>Resource-ImmediateSourceAcquisition</head>\n<p>Resource-ImmediateSourceAcquisition</p>")
+      note_content(get_note_by_type(@resource, 'acqinfo')).should eq("<head>Resource-ImmediateSourceAcquisition</head>\n<p>Resource-ImmediateSourceAcquisition</p>")
     end
 
     it "maps '<altformavail>' correctly" do
-      @resource['notes'].find{|n| n['type'] == 'altformavail'}['content'][0].should eq("<head>Resource-ExistenceLocationCopies-AT</head>\n<p>Resource-ExistenceLocationCopies-AT</p>")
+      note_content(get_note_by_type(@resource, 'altformavail')).should eq("<head>Resource-ExistenceLocationCopies-AT</head>\n<p>Resource-ExistenceLocationCopies-AT</p>")
     end
 
     it "maps '<appraisal>' correctly" do
-      @resource['notes'].find{|n| n['type'] == 'appraisal'}['content'][0].should eq("<head>Resource-Appraisal-AT</head>\n<p>Resource-Appraisal-AT</p>")
+      note_content(get_note_by_type(@resource, 'appraisal')).should eq("<head>Resource-Appraisal-AT</head>\n<p>Resource-Appraisal-AT</p>")
     end
 
     it "maps '<arrangement>' correctly" do
-      @resource['notes'].find{|n| n['type'] == 'arrangement'}['content'][0].should eq("<head>Resource-Arrangement-Note</head>\n<p>Resource-Arrangement-Note</p>")
+      note_content(get_note_by_type(@resource, 'arrangement')).should eq("<head>Resource-Arrangement-Note</head>\n<p>Resource-Arrangement-Note</p>")
     end
 
     it "maps '<bioghist>' correctly" do
@@ -474,28 +498,27 @@ describe 'ASpaceImport' do
     end
 
     it "maps '<custodhist>' correctly" do
-      @resource['notes'].find{|n| n['type'] == 'custodhist'}['content'][0].should eq("<head>Resource--CustodialHistory-AT</head>\n<p>Resource--CustodialHistory-AT</p>")
+      note_content(get_note_by_type(@resource, 'custodhist')).should eq("<head>Resource--CustodialHistory-AT</head>\n<p>Resource--CustodialHistory-AT</p>")
     end
 
     it "maps '<dimensions>' correctly" do
-      @resource['notes'].find{|n| n['type'] == 'dimensions'}['content'][0].should eq("Resource-Dimensions-AT")
+      note_content(get_note_by_type(@resource, 'dimensions')).should eq("Resource-Dimensions-AT")
     end
 
     it "maps '<fileplan>' correctly" do
-      @resource['notes'].find{|n| n['type'] == 'fileplan'}['content'][0].should eq("<head>Resource-FilePlan-AT</head>\n<p>Resource-FilePlan-AT</p>")
+      note_content(get_note_by_type(@resource, 'fileplan')).should eq("<head>Resource-FilePlan-AT</head>\n<p>Resource-FilePlan-AT</p>")
     end
 
     it "maps '<langmaterial>' correctly" do
-      @archival_objects['06']['notes'].find{|n| n['type'] == 'langmaterial'}['content'][0].should eq("<language langcode=\"eng\"/>")
+      note_content(get_note_by_type(@archival_objects['06'], 'langmaterial')).should eq("<language langcode=\"eng\"/>")
     end
 
-    it "maps '<accessrestrict>/<legalstatus>' correctly" do
-    # <legalstatus>
-      @resource['notes'].find{|n| n['type'] == 'legalstatus'}['content'][0].should eq("Resource-LegalStatus-AT")
+    it "maps '<legalstatus>' correctly" do
+      note_content(get_note_by_type(@resource, 'legalstatus')).should eq("Resource-LegalStatus-AT")
     end
 
     it "maps '<materialspec>' correctly" do
-      @resource['notes'].find{|n| n['type'] == 'materialspec'}['persistent_id'].should eq("ref22")
+      get_note_by_type(@resource, 'materialspec')['persistent_id'].should eq("ref22")
     end
 
     it "maps '<note>' correctly" do
@@ -511,11 +534,11 @@ describe 'ASpaceImport' do
     end
 
     it "maps '<originalsloc>' correctly" do
-      @resource['notes'].find{|n| n['type'] == 'originalsloc'}['persistent_id'].should eq("ref13")
+      get_note_by_type(@resource, 'originalsloc')['persistent_id'].should eq("ref13")
     end
 
     it "maps '<otherfindaid>' correctly" do
-      @resource['notes'].find{|n| n['type'] == 'otherfindaid'}['persistent_id'].should eq("ref23")
+      get_note_by_type(@resource, 'otherfindaid')['persistent_id'].should eq("ref23")
     end
 
     it "maps '<physdesc>' correctly" do
@@ -524,40 +547,40 @@ describe 'ASpaceImport' do
     end
 
     it "maps '<physfacet>' correctly" do
-      @resource['notes'].find{|n| n['type'] == 'physfacet'}['content'][0].should eq("Resource-PhysicalFacet-AT")
+      note_content(get_note_by_type(@resource, 'physfacet')).should eq("Resource-PhysicalFacet-AT")
     end
 
     it "maps '<physloc>' correctly" do
-      @resource['notes'].find{|n| n['type'] == 'physloc'}['persistent_id'].should eq("ref21")
+      get_note_by_type(@resource, 'physloc')['persistent_id'].should eq("ref21")
     end
 
     it "maps '<phystech>' correctly" do
-      @resource['notes'].find{|n| n['type'] == 'phystech'}['persistent_id'].should eq("ref24")
+      get_note_by_type(@resource, 'phystech')['persistent_id'].should eq("ref24")
     end
 
     it "maps '<prefercite>' correctly" do
-      @resource['notes'].find{|n| n['type'] == 'prefercite'}['persistent_id'].should eq("ref26")
+      get_note_by_type(@resource, 'prefercite')['persistent_id'].should eq("ref26")
     end
 
     it "maps '<processinfo>' correctly" do
-      @resource['notes'].find{|n| n['type'] == 'prefercite'}['persistent_id'].should eq("ref26")
+      get_note_by_type(@resource, 'prefercite')['persistent_id'].should eq("ref26")
     end
 
     it "maps '<relatedmaterial>' correctly" do
-      @resource['notes'].find{|n| n['type'] == 'prefercite'}['persistent_id'].should eq("ref26")
+      get_note_by_type(@resource, 'prefercite')['persistent_id'].should eq("ref26")
     end
 
     it "maps '<scopecontent>' correctly" do
-      @resource['notes'].find{|n| n['type'] == 'scopecontent'}['persistent_id'].should eq("ref29")
+      get_note_by_type(@resource, 'scopecontent')['persistent_id'].should eq("ref29")
       @archival_objects['01']['notes'].find{|n| n['type'] == 'scopecontent'}['persistent_id'].should eq("ref43")
     end
 
     it "maps '<separatedmaterial>' correctly" do
-      @resource['notes'].find{|n| n['type'] == 'separatedmaterial'}['persistent_id'].should eq("ref30")
+      get_note_by_type(@resource, 'separatedmaterial')['persistent_id'].should eq("ref30")
     end
 
     it "maps '<userestrict>' correctly" do
-      @resource['notes'].find{|n| n['type'] == 'userestrict'}['persistent_id'].should eq("ref9")
+      get_note_by_type(@resource, 'userestrict')['persistent_id'].should eq("ref9")
     end
 
     # Structured Notes
@@ -617,11 +640,11 @@ describe 'ASpaceImport' do
     #         <date>
     #         <event>
       ref53 = get_note(@archival_objects['12'], 'ref53')
-      ref53['subnotes'][0]['items'][0]['events'][0].should eq('first date')
-    	ref53['subnotes'][0]['items'][1]['events'][0].should eq('second date')
+      get_subnotes_by_type(ref53, 'note_chronology')[0]['items'][0]['events'][0].should eq('first date')
+      get_subnotes_by_type(ref53, 'note_chronology')[0]['items'][1]['events'][0].should eq('second date')
 
     #         <eventgrp><event>
-      ref50 = get_note(@archival_objects['06'], 'ref50')['subnotes'][0]
+      ref50 = get_subnotes_by_type(get_note(@archival_objects['06'], 'ref50'), 'note_chronology')[0]
       item = ref50['items'].find{|i| i['event_date'] && i['event_date'] == '1895'}
       item['events'].sort.should eq(['Event1', 'Event2'])
     #         other nested and inline elements
@@ -640,8 +663,7 @@ describe 'ASpaceImport' do
       note_dl['items'].map {|i| i['value']}.sort.should eq(['2K', '2500 K', '4500 K'].sort)
     # ELSE WHEN @type != deflist AND <defitem> not present
       ref44 = get_note(@resource, 'ref44')
-      note_ol = ref44['subnotes'][0]
-      note_ol['jsonmodel_type'].should eq('note_orderedlist')
+      note_ol = get_subnotes_by_type(ref44, 'note_orderedlist')[0]
     #     <head>
       note_ol['title'].should eq('Resource-GeneralNoteMULTIPARTLISTTitle-AT')
     #     <item>

@@ -38,7 +38,12 @@ ASpaceImport::Importer.importer :eac do
             :obj => :note_bioghist,
             :rel => :notes,
             :map => {
-              "self::biogHist" => :content
+              "self::biogHist" => Proc.new {|note, node|
+                note['subnotes'] << {
+                  'jsonmodel_type' => 'note_text',
+                  'content' => node.inner_text
+                }
+              }
             },
             :defaults => {
               :label => 'default label'

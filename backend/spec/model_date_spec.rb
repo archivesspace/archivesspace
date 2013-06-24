@@ -38,9 +38,6 @@ describe 'Date model' do
 
 
   it "throws a validation error when begin is not a valid ISO Date" do
-    opts = {:begin => '123', :end => '123'}
-    expect { create_date(opts) }.to raise_error(JSONModel::ValidationException)
-
     opts = {:begin => '2012-13', :end => '2012-14'}
     expect { create_date(opts) }.to raise_error(JSONModel::ValidationException)
 

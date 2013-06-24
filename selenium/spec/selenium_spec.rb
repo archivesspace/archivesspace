@@ -566,8 +566,8 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:id, "agent_notes__0__label_")
 
       biog = "Jimi was an American musician and songwriter; and one of the most influential electric guitarists in the history of popular music."
-      $driver.execute_script("$('#agent_notes__0__content__0_').data('CodeMirror').setValue('#{biog}')")
-      $driver.execute_script("$('#agent_notes__0__content__0_').data('CodeMirror').save()")
+      $driver.execute_script("$('#agent_notes__0__subnotes__0__content_').data('CodeMirror').setValue('#{biog}')")
+      $driver.execute_script("$('#agent_notes__0__subnotes__0__content_').data('CodeMirror').save()")
 
       $driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
@@ -1226,11 +1226,11 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:id, "resource_level_").select_option("collection")
 
       # condition and content descriptions have come across as notes fields
-      $driver.execute_script("$('#resource_notes__0__content__0_').data('CodeMirror').toTextArea()")
-      $driver.find_element(:id => "resource_notes__0__content__0_").attribute("value").should eq("9 guinea pigs")
+      $driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').toTextArea()")
+      $driver.find_element(:id => "resource_notes__0__subnotes__0__content_").attribute("value").should eq("9 guinea pigs")
 
-      $driver.execute_script("$('#resource_notes__1__content__0_').data('CodeMirror').toTextArea()")
-      $driver.find_element(:id => "resource_notes__1__content__0_").attribute("value").should eq("furious")
+      $driver.find_element(:id => "resource_notes__1__content__0_").text.should match(/furious/)
+
 
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
 
@@ -1565,8 +1565,8 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, 'resource_notes__2__label_'],
                                   "A multipart note")
 
-      $driver.execute_script("$('#resource_notes__2__content__0_').data('CodeMirror').setValue('Some note content')")
-      $driver.execute_script("$('#resource_notes__2__content__0_').data('CodeMirror').save()")
+      $driver.execute_script("$('#resource_notes__2__subnotes__0__content_').data('CodeMirror').setValue('Some note content')")
+      $driver.execute_script("$('#resource_notes__2__subnotes__0__content_').data('CodeMirror').save()")
 
 
       # Save the resource
@@ -1644,14 +1644,14 @@ describe "ArchivesSpace user interface" do
 
     it "can wrap note content text with EAD mark up" do
       # select some text
-      $driver.execute_script("$('#resource_notes__0__content__0_').data('CodeMirror').setValue('ABC')")
-      $driver.execute_script("$('#resource_notes__0__content__0_').data('CodeMirror').setSelection({line: 0, ch: 0}, {line: 0, ch: 3})")
+      $driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').setValue('ABC')")
+      $driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').setSelection({line: 0, ch: 0}, {line: 0, ch: 3})")
 
       # select a tag to wrap the text
       $driver.find_element(:css => "select.mixed-content-wrap-action").select_option("ref")
-      $driver.execute_script("$('#resource_notes__0__content__0_').data('CodeMirror').save()")
-      $driver.execute_script("$('#resource_notes__0__content__0_').data('CodeMirror').toTextArea()")
-      $driver.find_element(:id => "resource_notes__0__content__0_").attribute("value").should eq("<ref>ABC</ref>")
+      $driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').save()")
+      $driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').toTextArea()")
+      $driver.find_element(:id => "resource_notes__0__subnotes__0__content_").attribute("value").should eq("<ref>ABC</ref>")
 
       # Save the resource
       $driver.find_element(:css => "form#resource_form button[type='submit']").click

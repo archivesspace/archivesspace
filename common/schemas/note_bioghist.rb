@@ -14,6 +14,7 @@
                                {"type" => "JSONModel(:note_citation) object"},
                                {"type" => "JSONModel(:note_orderedlist) object"},
                                {"type" => "JSONModel(:note_definedlist) object"},
+                               {"type" => "JSONModel(:note_text) object"},
                                {"type" => "JSONModel(:note_outline) object"}]},
       },
     },

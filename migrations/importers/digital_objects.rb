@@ -257,6 +257,9 @@ ASpaceImport::Importer.importer :digital_objects do
       },
 
       :note_bioghist => {
+        :on_create => Proc.new {|data, obj|
+          obj.subnotes = [{'jsonmodel_type' => 'note_text', 'content' => data['content']}]
+        },
         :on_row_complete => Proc.new {|cache, this|
           agent = cache.find {|obj| obj.class.record_type =~ /^agent_(perso|fami|corpo)/}
           agent.notes << this
