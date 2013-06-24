@@ -1,4 +1,4 @@
-<%= setup_context :object => JSONModel(:repository).new(@repository['repository']), :title => @repository.id %>
+<%= setup_context :object => JSONModel(:repository).new(@repository['repository']), :title => @repository.repository['name'] %>
 
 <%= form_for @repository, :as => "repository", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@repository)) do |f| %>
   <%= form_context :repository, @repository do |form| %>
