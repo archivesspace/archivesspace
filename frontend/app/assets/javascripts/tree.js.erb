@@ -624,22 +624,27 @@ $(function() {
     };
 
     var formatJSONForJSTree = function(node_json) {
+      var node_id = node_json.node_type + "_" + node_json.id;
       var result = {
         data: {
           title: AS.renderTemplate("tree_node_template", {node: node_json}),
           attr: {
-            href: "#tree::"+node_json.node_type+"_"+node_json.id,
+            href: "#tree::"+node_id,
             title: AS.encodeForAttribute(node_json.title)
           }
         },
         attr: {
-          id: node_json.node_type + "_" + node_json.id,
+          id: node_id,
           rel: node_json.node_type,
           "data-id": node_json.id,
           "data-uri": node_json.record_uri,
           class: node_json.node_type
         }
       };
+
+      if ($.inArray(node_id, initiallyOpenedNodes()) >= 0) {
+        result["state"] = "open";
+      }
 
       if (node_json.hasOwnProperty("children") && node_json.children.length > 0) {
         result["children"] = $.makeArray(node_json.children).map(function(child_id) {return formatJSONForJSTree(AS.tree_data[child_id])})
@@ -648,6 +653,31 @@ $(function() {
       return result;
     };
 
+    var path_to_node;
+    var initiallyOpenedNodes = function() {
+      if (path_to_node) {
+        return path_to_node;
+      }
+      if (location.hash) {
+        var hash_id = location.hash.replace("tree::","");
+        if (AS.tree_data.hasOwnProperty(hash_id.replace("#", ""))) {
+          path_to_node = [];
+          var node_id = hash_id.replace("#", "");
+          while(true) {
+            var node = AS.tree_data[node_id];
+            path_to_node.push(node_id);
+            if (node.hasOwnProperty("parent")) {
+              node_id = node.parent;
+            } else {
+              path_to_node = path_to_node.reverse();
+              path_to_node.pop();
+              return path_to_node;
+            }
+          }
+        }
+      }
+      return [];
+    }
 
     var initTree = function(onTreeLoadCallback) {
       $tree.jstree({
@@ -655,6 +685,7 @@ $(function() {
           "progressive_unload": true,
           "progressive_render": true,
           "data": function(node, callback) {
+            path_to_node = null;
             if (node === -1) {
               callback(formatJSONForJSTree(AS.tree_data[$tree.data("root-id")]));
             } else {
@@ -735,7 +766,10 @@ $(function() {
           getPrimarySelectedNode().removeClass("selected");
 
           if (location.hash) {
-            $(location.hash.replace("tree::","")).addClass("selected");
+            var hash_id = location.hash.replace("tree::","");
+            if (AS.tree_data.hasOwnProperty(hash_id.replace("#", ""))) {
+              $(hash_id).addClass("selected");
+            }
           }
 
           if (getPrimarySelectedNode().length === 0) {
@@ -839,6 +873,11 @@ $(function() {
 
     initTree(function() {
       loadPaneForNode(getPrimarySelectedNode());
+      setTimeout(function(){
+        getPrimarySelectedNode().ScrollTo({
+          offsetTop: $tree.height() / 2
+        });
+      },0);
     });
     addTreeEventBindings();
 
