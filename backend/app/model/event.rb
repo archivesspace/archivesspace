@@ -127,7 +127,14 @@ class Event < Sequel::Model(:event)
     merge_note = ""
     victims.each do |victim|
       victim_json = victim.class.to_jsonmodel(victim)
-      merge_note += (Identifiers.format(Identifiers.parse(victim_json['identifier'])) +
+
+      if victim_json['identifier']
+        identifier = Identifiers.format(Identifiers.parse(victim_json['identifier']))
+      else
+        identifier = victim_json['digital_object_id']
+      end
+
+      merge_note += (identifier +
                      " -- " +
                      victim_json['title'] +
                      "\n")
