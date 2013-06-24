@@ -9,7 +9,7 @@ class EventsController < ApplicationController
   end
 
   def show
-    redirect_to :action => :index
+    @event = JSONModel(:event).find(params[:id])
   end
 
   def new

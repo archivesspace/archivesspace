@@ -8,7 +8,7 @@
       </div>
       <div class="span9">
         <div class="record-pane">
-          <h2><%= @location.id %>  <span class="label label-info"><%= I18n.t("location._singular") %></span></h2>
+          <h2><%= @location_title %>  <span class="label label-info"><%= I18n.t("location._singular") %></span></h2>
           <br/>
           <%= render :partial => "shared/form_messages", :locals => {:object => @subject, :form => form} %>
           <%= render :partial => "locations/form", :locals => {:form => form} %>
