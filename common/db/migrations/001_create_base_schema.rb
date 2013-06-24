@@ -359,7 +359,6 @@ Sequel.migration do
       Integer :restrictions
 
       TextField :repository_processing_note
-      TextField :container_summary
 
       String :ead_id
       String :ead_location

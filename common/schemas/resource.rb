@@ -36,7 +36,6 @@
       "restrictions" => {"type" => "boolean", "default" => false},
 
       "repository_processing_note" => {"type" => "string", "maxLength" => 65000},
-      "container_summary" => {"type" => "string", "maxLength" => 65000},
 
       "ead_id" => {"type" => "string", "maxLength" => 255},
       "ead_location" => {"type" => "string", "maxLength" => 255},
