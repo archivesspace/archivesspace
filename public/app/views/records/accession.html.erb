@@ -1,0 +1,78 @@
+<%
+  set_title(@accession.label)
+%>
+<div class="title-pane">
+  <div class="row-fluid">
+    <div class="span3">
+
+    </div>
+    <div class="span9">
+      <h2><%= @accession.label %></h2>
+    </div>
+  </div>
+</div>
+<div class="content-pane">
+  <div class="row-fluid">
+    <div class="span3">
+      <%= render(:partial => 'navlist',
+                 :locals => {
+                   :record_type => 'resource',
+                   :record => @accession,
+                   :entries => [
+                     {:property => 'dates', :subrecord_type => 'date', :anchor => 'dates'},
+                     {:property => 'extents', :subrecord_type => 'extent', :anchor => 'extents'},
+                     {:property => 'published_agents', :subrecord_type => 'agent', :anchor => 'linked_agents'},
+                     {:property => 'published_related_resources', :subrecord_type => 'resource', :anchor => 'resources'},
+                     {:property => 'subjects', :subrecord_type => 'subject', :anchor => 'subjects'},
+                     {:property => 'published_external_documents', :subrecord_type => 'external_document', :anchor => 'external_documents'},
+                     {:property => 'digital_objects', :subrecord_type => 'digital_object', :anchor => 'external_documents'},
+                   ]
+                 })
+       %>
+    </div>
+
+    <div class="span9">
+      <fieldset class="form-horizontal">
+        <section id="summary">
+          <h3><%= I18n.t("resource._public.section.summary") %></h3>
+          <dl class="dl-horizontal">
+            <dt><%= I18n.t("resource.id_0") %></dt>
+            <dd class="identifier-display">
+              <% ['id_0','id_1','id_2','id_3'].collect{|prop| @accession[prop]}.each do |id| %>
+                <span class="identifier-display-part"><%= id %></span>
+              <% end %>
+            </dd>
+            <% if @accession['finding_aid_status'] === "completed" %>
+              <div class="clearfix"></div>
+              <%= label_and_value I18n.t("resource.finding_aid_author"), @accession['finding_aid_author'] %>
+              <%= label_and_value I18n.t("resource.finding_aid_date"), @accession['finding_aid_date'] %>
+              <%= label_and_value I18n.t("resource.finding_aid_description_rules"), i18n_enum(:resource, 'finding_aid_description_rules', @accession['finding_aid_description_rules']) %>
+              <%= label_and_value I18n.t("resource.finding_aid_language"), @accession['finding_aid_language'] %>
+              <%= label_and_value I18n.t("resource.finding_aid_sponsor"), @accession['finding_aid_sponsor'] %>
+              <%= label_and_value I18n.t("resource.finding_aid_edition_statement"), @accession['finding_aid_edition_statement'] %>
+              <%= label_and_value I18n.t("resource.finding_aid_series_statement"), @accession['finding_aid_series_statement'] %>
+              <%= label_and_value I18n.t("resource.finding_aid_note"), @accession['finding_aid_note'] %>
+            <% end %>
+          </dl>
+        </section>
+
+        <%= render :partial => "dates", :locals => {:dates => @accession['dates']} %>
+        <%= render :partial => "extents", :locals => {:extents => @accession['extents']} %>
+        <%= render :partial => "agents", :locals => {:linked_agents => @accession.published_agents} %>
+        <%= render :partial => "resources", :locals => {:resources => @accession.published_related_resources} %>
+        <%= render :partial => "subjects", :locals => {:subjects => @accession['subjects']} %>
+        <%= render :partial => "external_documents", :locals => {:external_documents => @accession.published_external_documents} %>
+        <%= render :partial => "instances", :locals => {:digital_objects => @accession.digital_objects} %>
+        <%= render :partial => "components", :locals => {
+              :record_type => "resource",
+              :show_full_component => @show_components
+            } %>
+      </fieldset>
+
+
+      <br/>
+      <br/>
+
+    </div>
+  </div>
+</div>

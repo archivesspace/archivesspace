@@ -20,4 +20,16 @@ describe 'Digital object model' do
     expect { DigitalObject.create_from_json(json2, :repo_id => $repo_id) }.to raise_error
   end
 
+
+  it "can link a digital object to an accession" do
+    digital_object = create(:json_digital_object)
+    acc = create(:json_accession,
+                 :instances => [build(:json_instance,
+                                      :instance_type => 'digital_object',
+                                      :digital_object => {'ref' => digital_object.uri})])
+
+    digital_object = JSONModel(:digital_object).find(digital_object.id)
+    digital_object.linked_instances.count.should eq(1)
+  end
+
 end

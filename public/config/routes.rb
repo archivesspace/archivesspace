@@ -7,6 +7,7 @@ ArchivesSpacePublic::Application.routes.draw do
   match 'repositories/:repo_id/digital_object_components/:id' => 'records#digital_object_component', :via => [:get]
   match 'repositories/:repo_id' => 'search#repository', :via => [:get]
   match 'repositories/:repo_id/classifications/:id' => 'records#classification', :via => [:get]
+  match 'repositories/:repo_id/accessions/:id' => 'records#accession', :via => [:get]
   match 'repositories' => 'search#repository', :via => [:get]
   match 'subjects/:id' => 'search#subject', :via => [:get]
   root :to => "site#index"
