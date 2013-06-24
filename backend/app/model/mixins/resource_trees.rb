@@ -24,7 +24,15 @@ module ResourceTrees
       properties[:containers] = node.instance.collect {|instance|
         instance.container
       }.flatten.compact.map {|container|
-        Container.to_jsonmodel(container, :skip_relationships => true)
+        properties = {}
+        [1, 2, 3].each do |i|
+          properties["type_#{i}"] = BackendEnumSource.value_for_id("container_type",
+                                                                   container["type_#{i}_id".intern])
+
+          properties["indicator_#{i}"] = container["indicator_#{i}".intern]
+        end
+
+        properties
       }
     end
   end
