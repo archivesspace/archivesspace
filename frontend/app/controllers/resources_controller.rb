@@ -1,8 +1,9 @@
 class ResourcesController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete, :rde, :add_children, :publish, :accept_children]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete, :rde, :add_children, :publish, :accept_children, :merge]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
   before_filter(:only => [:new, :edit, :create, :update, :rde, :add_children, :publish, :accept_children]) {|c| user_must_have("update_archival_record")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
+  before_filter(:only => [:merge]) {|c| user_must_have("merge_archival_record")}
 
   FIND_OPTS = ["subjects", "container_locations", "related_accessions", "linked_agents", "digital_object", "classification"]
 
@@ -142,6 +143,13 @@ class ResourcesController < ApplicationController
 
   def accept_children
     handle_accept_children(JSONModel(:resource))
+  end
+
+
+  def merge
+    handle_merge(JSONModel(:resource).uri_for(params[:id]),
+                 params[:ref],
+                 'resource')
   end
 
 

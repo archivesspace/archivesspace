@@ -1,9 +1,9 @@
 class DigitalObjectsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :tree, :new, :edit, :create, :update, :delete, :publish, :accept_children]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :tree, :new, :edit, :create, :update, :delete, :publish, :accept_children, :merge]
   before_filter(:only => [:index, :show, :tree]) {|c| user_must_have("view_repository")}
   before_filter(:only => [:new, :edit, :create, :update, :publish, :accept_children]) {|c| user_must_have("update_archival_record")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
-
+  before_filter(:only => [:merge]) {|c| user_must_have("merge_archival_record")}
 
   FIND_OPTS = ["subjects", "linked_agents", "linked_instances"]
 
@@ -97,6 +97,13 @@ class DigitalObjectsController < ApplicationController
 
   def accept_children
     handle_accept_children(JSONModel(:digital_object))
+  end
+
+
+  def merge
+    handle_merge(JSONModel(:digital_object).uri_for(params[:id]),
+                 params[:ref],
+                 'digital_object')
   end
 
 
