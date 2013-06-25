@@ -91,11 +91,14 @@
   <div  id="archives_tree" class="archives-tree"
         data-read-only="<%= read_only %>"
         data-rules="<%= hierarchy_rules.to_json %>"
-        data-root-id="<%= @tree_root_id %>"
-  ></div>
+        data-tree-url="<%= url_for(:action => :tree) %>"
+        data-root-id="resource_<%= @resource.id %>"
+  >
+    <div class="alert alert-info"><%= image_tag "jstree/throbber.gif" %> Loading the tree...</div>
+  </div>
 
   <script>
-    AS.tree_data = $.parseJSON('<%= j(@tree.to_json.html_safe) %>');
+    AS.tree_data = {};
   </script>
 
   <div id="tree_node_resource_template"><!--

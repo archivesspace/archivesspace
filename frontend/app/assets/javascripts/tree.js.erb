@@ -680,135 +680,137 @@ $(function() {
     }
 
     var initTree = function(onTreeLoadCallback) {
-      $tree.jstree({
-        "json_data": {
-          "progressive_unload": true,
-          "progressive_render": true,
-          "data": function(node, callback) {
-            path_to_node = null;
-            if (node === -1) {
-              callback(formatJSONForJSTree(AS.tree_data[$tree.data("root-id")]));
-            } else {
-              callback(formatJSONForJSTree(AS.tree_data[node.attr("id")]).children);
+      $.getJSON($tree.data("tree-url"), function(tree_data) {
+        AS.tree_data = tree_data;
+        $tree.jstree({
+          "json_data": {
+            "progressive_unload": true,
+            "progressive_render": true,
+            "data": function(node, callback) {
+              path_to_node = null;
+              if (node === -1) {
+                callback(formatJSONForJSTree(AS.tree_data[$tree.data("root-id")]));
+              } else {
+                callback(formatJSONForJSTree(AS.tree_data[node.attr("id")]).children);
+              }
             }
-          }
-        },
-        "themes": {
-          "theme": "default",
-          "url": "<%= asset_path('jstree/style.css') %>"
-        },
-        "dnd": {
-          "drop_target" : false,
-          "drag_target" : false
-        },
-        "ui": {
-          "selected_parent_close": false,
-          "selected_parent_open": true,
-          "select_limit": -1,
-          // if OS X, use meta for single select (as ctrl used for menu)
-          "select_multiple_modifier": (navigator.appVersion.indexOf("Mac") != -1) ? "meta" : "ctrl",
-          "disable_selecting_children": true
-        },
-        "crrm" : {
-          "move" : {
-            "check_move" : function (m) {
+          },
+          "themes": {
+            "theme": "default",
+            "url": "<%= asset_path('jstree/style.css') %>"
+          },
+          "dnd": {
+            "drop_target" : false,
+            "drag_target" : false
+          },
+          "ui": {
+            "selected_parent_close": false,
+            "selected_parent_open": true,
+            "select_limit": -1,
+            // if OS X, use meta for single select (as ctrl used for menu)
+            "select_multiple_modifier": (navigator.appVersion.indexOf("Mac") != -1) ? "meta" : "ctrl",
+            "disable_selecting_children": true
+          },
+          "crrm" : {
+            "move" : {
+              "check_move" : function (m) {
 
-              // can't move top level parent
-              if ($(m.o[0]).hasClass(config.root_node_type)) {
+                // can't move top level parent
+                if ($(m.o[0]).hasClass(config.root_node_type)) {
+                  return false;
+                }
+
+                // can't move to above the root child node
+                if ($(m.np[0]).hasClass("archives-tree")) {
+                  return false;
+                }
+
+                return true;
+              }
+            }
+          },
+          "core": {
+            "animation": 0,
+            "html_titles": true
+          },
+          "cookies": {
+            "save_selected": false
+          },
+          "hotkeys": {
+            "up": false,
+            "ctrl+up": function() {
+              $(".move-node-up","#archives_tree_toolbar").trigger("click");
+            },
+            "shift+up": false,
+            "down": false,
+            "ctrl+down": function() {
+              $(".move-node-down","#archives_tree_toolbar").trigger("click");
+            },
+            "shift+down": false,
+            "left": false,
+            "ctrl+left": function() {
+              $(".move-node-up-level","#archives_tree_toolbar").trigger("click");
+            },
+            "shift+left": false,
+            "right": false,
+            "ctrl+right": function() {
+              $($(".move-node-down-into","#archives_tree_toolbar")[getPrimarySelectedNode().index()]).trigger("click");
+            },
+            "shift+right": false,
+            "space": false,
+            "ctrl+space": false,
+            "shift+space": false,
+            "f2": false,
+            "del": false
+          },
+          "plugins": [ "themes", "json_data", "ui", "crrm", "dnd", "cookies","hotkeys"]
+        }).one("loaded.jstree", function() {
+            getPrimarySelectedNode().removeClass("selected");
+
+            if (location.hash) {
+              var hash_id = location.hash.replace("tree::","");
+              if (AS.tree_data.hasOwnProperty(hash_id.replace("#", ""))) {
+                $(hash_id).addClass("selected");
+              }
+            }
+
+            if (getPrimarySelectedNode().length === 0) {
+              if ($(".selected", $tree).length > 0) {
+                $(".selected:first", $tree).addClass("primary-selected");
+              } else {
+                $("li:first", $tree).addClass("primary-selected").addClass("selected");
+              }
+            }
+
+            $(".selected:not(.primary-selected)", $tree).removeClass("selected");
+
+            $tree.jstree("open_node", getPrimarySelectedNode());
+            $tree.jstree("select_node", getPrimarySelectedNode());
+
+            loadTreeActionsForNode(getPrimarySelectedNode());
+
+            setTimeout(function() {
+              $(".selected a:first", $tree).focus();
+            }, 0);
+
+            if (onTreeLoadCallback) onTreeLoadCallback();
+          }).bind("before.jstree", function (event, data) {
+            // check current form
+            if (data.func === "select_node") {
+              if ($("form", $container).data("form_changed")) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+
+                // don't do anything if node hasn't changed
+                if ($(data.args[0]).attr("href") === location.hash) {
+                  return;
+                }
+
+                confirmChanges($(data.args[0]).parent());
                 return false;
               }
-
-              // can't move to above the root child node
-              if ($(m.np[0]).hasClass("archives-tree")) {
-                return false;
-              }
-
-              return true;
             }
-          }
-        },
-        "core": {
-          "animation": 0,
-          "html_titles": true
-        },
-        "cookies": {
-          "save_selected": false
-        },
-        "hotkeys": {
-          "up": false,
-          "ctrl+up": function() {
-            $(".move-node-up","#archives_tree_toolbar").trigger("click");
-          },
-          "shift+up": false,
-          "down": false,
-          "ctrl+down": function() {
-            $(".move-node-down","#archives_tree_toolbar").trigger("click");
-          },
-          "shift+down": false,
-          "left": false,
-          "ctrl+left": function() {
-            $(".move-node-up-level","#archives_tree_toolbar").trigger("click");
-          },
-          "shift+left": false,
-          "right": false,
-          "ctrl+right": function() {
-            $($(".move-node-down-into","#archives_tree_toolbar")[getPrimarySelectedNode().index()]).trigger("click");
-          },
-          "shift+right": false,
-          "space": false,
-          "ctrl+space": false,
-          "shift+space": false,
-          "f2": false,
-          "del": false
-        },
-        "plugins": [ "themes", "json_data", "ui", "crrm", "dnd", "cookies","hotkeys"]
-      }).one("loaded.jstree", function() {
-          getPrimarySelectedNode().removeClass("selected");
-
-          if (location.hash) {
-            var hash_id = location.hash.replace("tree::","");
-            if (AS.tree_data.hasOwnProperty(hash_id.replace("#", ""))) {
-              $(hash_id).addClass("selected");
-            }
-          }
-
-          if (getPrimarySelectedNode().length === 0) {
-            if ($(".selected", $tree).length > 0) {
-              $(".selected:first", $tree).addClass("primary-selected");
-            } else {
-              $("li:first", $tree).addClass("primary-selected").addClass("selected");
-            }
-          }
-
-          $(".selected:not(.primary-selected)", $tree).removeClass("selected");
-
-          $tree.jstree("open_node", getPrimarySelectedNode());
-          $tree.jstree("select_node", getPrimarySelectedNode());
-
-          loadTreeActionsForNode(getPrimarySelectedNode());
-
-          setTimeout(function() {
-            $(".selected a:first", $tree).focus();
-          }, 0);
-
-          if (onTreeLoadCallback) onTreeLoadCallback();
-        }).bind("before.jstree", function (event, data) {
-          // check current form
-          if (data.func === "select_node") {
-            if ($("form", $container).data("form_changed")) {
-              event.preventDefault();
-              event.stopImmediatePropagation();
-
-              // don't do anything if node hasn't changed
-              if ($(data.args[0]).attr("href") === location.hash) {
-                return;
-              }
-
-              confirmChanges($(data.args[0]).parent());
-              return false;
-            }
-          }
-        }).bind("select_node.jstree", function (event, data) {
+          }).bind("select_node.jstree", function (event, data) {
             $(".selected", $tree).removeClass("selected");
             if ($tree.jstree("get_selected").length > 1) {
               $tree.jstree("get_selected").addClass("selected");
@@ -824,51 +826,52 @@ $(function() {
               }
               $tree.trigger("treesingleselected.aspace");
             }
-        }).bind("deselect_node.jstree", function (event, data) {
-          var $node = $(data.rslt.obj)
-          if ($node.hasClass("primary-selected")) {
-            // we don't want to allow deselection of the primary selected node
-            $tree.jstree("select_node", $node);
-          } else {
-            $node.removeClass("selected");
-          }
-        }).bind("move_node.jstree", function(event, data) {
-          moveNodes(data);
-        }).bind("refreshtreenode.aspace", function(event, data) {
+          }).bind("deselect_node.jstree", function (event, data) {
+            var $node = $(data.rslt.obj)
+            if ($node.hasClass("primary-selected")) {
+              // we don't want to allow deselection of the primary selected node
+              $tree.jstree("select_node", $node);
+            } else {
+              $node.removeClass("selected");
+            }
+          }).bind("move_node.jstree", function(event, data) {
+            moveNodes(data);
+          }).bind("refreshtreenode.aspace", function(event, data) {
 
-          var nodeId = data.jsonmodel_type+"_"+data.id;
+            var nodeId = data.jsonmodel_type+"_"+data.id;
 
-          if (data.replace_new_node) {
-            // drop the 'new' node and replace with a record node
-            var nodeEl = $("#new", $tree);
-            var currentNodeType = nodeEl.attr("rel");
+            if (data.replace_new_node) {
+              // drop the 'new' node and replace with a record node
+              var nodeEl = $("#new", $tree);
+              var currentNodeType = nodeEl.attr("rel");
 
-            var parentNode = nodeEl.parents("li:first");
+              var parentNode = nodeEl.parents("li:first");
 
-            clearSelected(true);
-            nodeEl.remove();
+              clearSelected(true);
+              nodeEl.remove();
 
-            $tree.jstree("create_node", parentNode, "last", {"attr":{"id": nodeId}, "data": data});
+              $tree.jstree("create_node", parentNode, "last", {"attr":{"id": nodeId}, "data": data});
 
-            nodeEl = $("#"+nodeId, $tree);
+              nodeEl = $("#"+nodeId, $tree);
 
-            $("> a", nodeEl).html(AS.renderTemplate("tree_node_"+data['node_type']+"_template", {node: data})).prepend("<ins class='jstree-icon'>&nbsp;</ins>");
+              $("> a", nodeEl).html(AS.renderTemplate("tree_node_"+data['node_type']+"_template", {node: data})).prepend("<ins class='jstree-icon'>&nbsp;</ins>");
 
-            nodeEl.removeClass("new").addClass(currentNodeType).addClass("selected").addClass("primary-selected").attr("rel", currentNodeType).data("id", data.id).data("uri", data.uri);
-            var newHash = "#tree::"+nodeId;
-            nodeEl.find("a").attr("href", newHash).addClass("jstree-clicked").attr("title", data.title);
+              nodeEl.removeClass("new").addClass(currentNodeType).addClass("selected").addClass("primary-selected").attr("rel", currentNodeType).data("id", data.id).data("uri", data.uri);
+              var newHash = "#tree::"+nodeId;
+              nodeEl.find("a").attr("href", newHash).addClass("jstree-clicked").attr("title", data.title);
 
-            changeHashSilently(newHash);
-            $tree.jstree("select_node", nodeEl);
+              changeHashSilently(newHash);
+              $tree.jstree("select_node", nodeEl);
 
-            loadTreeActionsForNode(nodeEl);
-          } else {
-            // rename the existing node
+              loadTreeActionsForNode(nodeEl);
+            } else {
+              // rename the existing node
 
-            var nodeEl = $("#" + nodeId, $tree);
-            $("> a > .tree-node-text", nodeEl).replaceWith(AS.renderTemplate("tree_node_"+data['node_type']+"_template", {node: data}));
-          }
-        });
+              var nodeEl = $("#" + nodeId, $tree);
+              $("> a > .tree-node-text", nodeEl).replaceWith(AS.renderTemplate("tree_node_"+data['node_type']+"_template", {node: data}));
+            }
+          });
+      });
     };
 
     initTree(function() {

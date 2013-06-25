@@ -69,6 +69,7 @@ ArchivesSpace::Application.routes.draw do
   match 'resources/:id/publish' => 'resources#publish', :via => [:post]
   match 'resources/:id/accept_children' => 'resources#accept_children', :via => [:post]
   match 'resources/:id/merge' => 'resources#merge', :via => [:post]
+  match 'resources/:id/tree' => 'resources#tree', :via => [:get]
 
   resources :classifications
   match 'classifications/:id' => 'classifications#update', :via => [:post]
