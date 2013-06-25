@@ -332,6 +332,12 @@ $(function() {
     };
 
 
+    var resizeArchivesTree = function() {
+      var height = $("#archives_tree").parent().height() - $("#archives_tree_toolbar").outerHeight() - 21;
+      $("#archives_tree").height(height);
+    }
+
+
     var enableDisableToolbarActions = function() {
       if (getSelectedNodes().length === 1) {
         $(".move-node.move-node-up, .move-node.move-node-down", "#archives_tree_toolbar").removeAttr("disabled").removeClass("disabled");
@@ -500,11 +506,6 @@ $(function() {
       $(window).hashchange(onHashChange);
 
 
-      var resizeArchivesTree = function() {
-        var height = $("#archives_tree").parent().height() - $("#archives_tree_toolbar").outerHeight() - 21;
-        $("#archives_tree").height(height);
-      }
-
       $("#archives_tree").scroll(function() {
         if ($(this).scrollTop() === 0) {
           $(this).removeClass("overflow");
@@ -518,7 +519,6 @@ $(function() {
       } else {
         $(".archives-tree-container").height(AS.DEFAULT_TREE_PANE_HEIGHT);
       }
-      setTimeout(resizeArchivesTree, 0);
 
       $(".archives-tree-container").resizable({
         handles: "s",
@@ -875,6 +875,7 @@ $(function() {
     };
 
     initTree(function() {
+      resizeArchivesTree();
       loadPaneForNode(getPrimarySelectedNode());
       setTimeout(function(){
         getPrimarySelectedNode().ScrollTo({
