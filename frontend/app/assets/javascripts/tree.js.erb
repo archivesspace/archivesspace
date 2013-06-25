@@ -690,7 +690,7 @@ $(function() {
             progressive_render: true,
             //turn off for now as this behaviour may cause the
             //primary selected node to be unloaded/removed
-            //progressive_unload: true,
+            progressive_unload: true,
             ajax: {
               url: $tree.data("tree-url"),
               success: function(data,arg1, arg2,arg3,arg4) {
@@ -900,7 +900,7 @@ $(function() {
               var nodeEl = $("#" + nodeId, $tree);
               $("> a > .tree-node-text", nodeEl).replaceWith(AS.renderTemplate("tree_node_"+data['node_type']+"_template", {node: data}));
             }
-          }).on("after_close.jstree after_open.jstree", function() {
+          }).on("after_open.jstree", function() {
             loadTreeActionsForNode(getPrimarySelectedNode());
           });
       //});
