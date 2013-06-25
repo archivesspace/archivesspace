@@ -69,16 +69,17 @@ module Trees
       node = nodes_to_check.pop
 
       # Include the node itself
-      ids_of_interest << node.id
+      ids_of_interest << node.id if node != :root
 
       # Plus any of its siblings in this tree
       self.class.node_model.
-           filter(:parent_id => node.parent_id, :root_record_id => node.root_record_id).
+           filter(:parent_id => (node == :root) ? nil : node.parent_id,
+                  :root_record_id => self.id).
            select(:id).all.each do |row|
         ids_of_interest << row[:id]
       end
 
-      if node.parent_id
+      if node != :root && node.parent_id
         parent = self.class.node_model[node.parent_id]
         nodes_to_check << parent
       end
