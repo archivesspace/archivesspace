@@ -141,7 +141,12 @@ ASpaceImport::Importer.importer :ead do
       'geogname' => 'Geographic Name'
     }.each do |k, v|
       with "indexentry/#{k}" do |node|
-        context_obj.items << {:type => v, :value => inner_xml}
+        make :note_index_item, {
+          :type => v,
+          :value => inner_xml
+        } do |item|
+          set ancestor(:note_index), :items, item
+        end
       end
     end
 

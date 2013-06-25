@@ -22,15 +22,8 @@
 
       "items" => {
         "type" => "array",
-        "items" => {
-          "type" => "object",
-          "properties" => {
-            "value" => {"type" => "string", "ifmissing" => "error", "maxLength" => 65000},
-            "type" => {"type" => "string", "ifmissing" => "error", "maxLength" => 65000},
-            "reference" => {"type" => "string", "maxLength" => 65000},
-            "reference_text" => {"type" => "string", "maxLength" => 65000},
-          }}
-      },
+        "items" => {"type" => [{"type" => "JSONModel(:note_index_item) object"}]}
+      }
     },
 
     "additionalProperties" => false,

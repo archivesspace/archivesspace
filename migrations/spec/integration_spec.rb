@@ -51,7 +51,7 @@ describe 'ASpaceImport' do
   end
 
 
-  xit "can import the file at examples/ead/ferris.xml" do
+  it "can import the file at examples/ead/ferris.xml" do
 
     @opts.merge!({
             :input_file => '../examples/ead/ferris.xml',

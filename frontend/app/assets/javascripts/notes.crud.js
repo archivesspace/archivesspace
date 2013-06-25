@@ -122,7 +122,7 @@ $(function() {
 
 
       initialisers.note_index = function($subform) {
-        initNoteType($subform, "template_index_item");
+        initNoteType($subform, "template_note_index_item");
       };
 
 
