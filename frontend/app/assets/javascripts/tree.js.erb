@@ -648,6 +648,8 @@ $(function() {
 
       if (node_json.hasOwnProperty("children") && node_json.children.length > 0) {
         result["children"] = $.makeArray(node_json.children).map(function(child_id) {return formatJSONForJSTree(AS.tree_data[child_id])})
+      } else if (node_json.has_children) {
+        result["children"] = [];
       }
 
       return result;
@@ -686,24 +688,26 @@ $(function() {
         $tree.jstree({
           json_data: {
             progressive_render: true,
+            //turn off for now as this behaviour may cause the
+            //primary selected node to be unloaded/removed
             //progressive_unload: true,
             ajax: {
               url: $tree.data("tree-url"),
               success: function(data,arg1, arg2,arg3,arg4) {
                 $.extend(AS.tree_data, data);
                 if ($tree.data("loading-node")) {
-                  //setTimeout(function() {
-                  //  loadTreeActionsForNode($("#"+$tree.data("loading-node")));
-                  //});
                   return formatJSONForJSTree(AS.tree_data[$tree.data("loading-node")]).children;
                 } else {
-                  return formatJSONForJSTree(AS.tree_data[$tree.data("root-id")]);
+                  return formatJSONForJSTree(AS.tree_data[$tree.data("root")]);
                 }
               },
               "data": function(node) {
                 if (node === -1) {
                   $tree.data("loading-node", null);
-                  return {};
+                  return {
+                    node_uri: "root",
+                    hash: document.location.hash
+                  };
                 } else {
                   $tree.data("loading-node", node.attr("id"));
                   return {
@@ -896,6 +900,8 @@ $(function() {
               var nodeEl = $("#" + nodeId, $tree);
               $("> a > .tree-node-text", nodeEl).replaceWith(AS.renderTemplate("tree_node_"+data['node_type']+"_template", {node: data}));
             }
+          }).on("after_close.jstree after_open.jstree", function() {
+            loadTreeActionsForNode(getPrimarySelectedNode());
           });
       //});
     };

@@ -157,17 +157,27 @@ class ResourcesController < ApplicationController
 
 
   def tree
-    fetch_tree
-
-    render :json => @tree
+    render :json => fetch_tree
   end
 
 
   private
 
   def fetch_tree
-    @tree = {}
-    parse_tree(JSONModel(:resource_tree).find(nil, :resource_id => params[:id]).to_hash(:validated), nil, proc {|node, parent|
+    tree = {}
+
+    limit_to = params[:node_uri] || "root"
+
+    if params[:hash]
+      node_id = params[:hash].sub("#tree::", "")
+      if node_id.starts_with?("resource")
+        limit_to = "root"
+      elsif node_id.starts_with?("archival_object")
+        limit_to = JSONModel(:archival_object).uri_for(node_id.sub("archival_object_", "").to_i)
+      end
+    end
+
+    parse_tree(JSONModel(:resource_tree).find(nil, :resource_id => params[:id], :limit_to => limit_to).to_hash(:validated), nil, proc {|node, parent|
       node['level'] = I18n.t("enumerations.archival_record_level.#{node['level']}", :default => node['level'])
       node['instance_types'] = node['instance_types'].map{|instance_type| I18n.t("enumerations.instance_instance_type.#{instance_type}", :default => instance_type)}
       node['containers'].each{|container|
@@ -176,8 +186,10 @@ class ResourcesController < ApplicationController
         container["type_3"] = I18n.t("enumerations.container_type.#{container["type_3"]}", :default => container["type_3"]) if container["type_3"]
       }
       node['parent'] = "#{parent["node_type"]}_#{parent["id"]}" if parent
-      @tree["#{node["node_type"]}_#{node["id"]}"] = node.merge("children" => node["children"].collect{|child| "#{child["node_type"]}_#{child["id"]}"})
+      tree["#{node["node_type"]}_#{node["id"]}"] = node.merge("children" => node["children"].collect{|child| "#{child["node_type"]}_#{child["id"]}"})
     })
+
+    tree
   end
 
 
