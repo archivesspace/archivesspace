@@ -61,9 +61,9 @@ module Trees
   # A tree that only contains nodes that are needed for displaying 'node'
   #
   # That is: any ancestors of 'node', plus the direct children of any ancestor
-  def partial_tree(node)
+  def partial_tree(node_of_interest)
     ids_of_interest = []
-    nodes_to_check = [node]
+    nodes_to_check = [node_of_interest]
 
     while !nodes_to_check.empty?
       node = nodes_to_check.pop
@@ -84,6 +84,18 @@ module Trees
         nodes_to_check << parent
       end
     end
+
+
+    # Include the children of the node of interest too
+    if node_of_interest != :root
+      self.class.node_model.
+           filter(:parent_id => node_of_interest.id,
+                  :root_record_id => self.id).
+           select(:id).all.each do |row|
+        ids_of_interest << row[:id]
+      end
+    end
+
 
     tree(ids_of_interest)
   end
