@@ -99,7 +99,7 @@ module Trees
 
     # Assumes that the tree's JSONModel type is just the root type with '_tree'
     # stuck on.  Maybe a bit presumptuous?
-    JSONModel("#{self.class.root_type}_tree".intern).from_hash(result)
+    JSONModel("#{self.class.root_type}_tree".intern).from_hash(result, true, true)
   end
 
 
