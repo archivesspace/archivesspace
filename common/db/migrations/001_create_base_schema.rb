@@ -348,7 +348,7 @@ Sequel.migration do
 
       String :identifier
 
-      DynamicEnum :language_id, :null => false
+      DynamicEnum :language_id, :null => true
 
       DynamicEnum :level_id, :null => false
       String :other_level
