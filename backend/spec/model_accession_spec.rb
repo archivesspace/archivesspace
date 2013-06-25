@@ -228,11 +228,13 @@ describe 'Accession model' do
                                                  :user_defined =>
                                                     {
                                                       "integer_1" => "11",
+                                                      "real_1" => "3.14159",
                                                     }
                                                  ),
                                           :repo_id => $repo_id)
 
     Accession[accession[:id]].user_defined.integer_1.should eq("11")
+    Accession[accession[:id]].user_defined.real_1.should eq("3.14159")
   end
 
 
@@ -271,7 +273,7 @@ describe 'Accession model' do
       accession = Accession.create_from_json(build(:json_accession,
                                                    :user_defined =>
                                                    {
-                                                     "real_2" => "real_1 failed because you're only allowed two decimal places",
+                                                     "real_2" => "real_1 failed because you're only allowed five decimal places",
                                                    }
                                                    ),
                                              :repo_id => $repo_id)
