@@ -287,8 +287,8 @@ module JSONModel::Validations
     end
 
     ["real_1", "real_2", "real_3"].each do |k|
-      if !hash[k].nil? and hash[k] !~ /^\-?\d{0,9}\.\d{1,2}$/
-        errors << [k, "must be a number with no more than nine digits and two decimal places"]
+      if !hash[k].nil? and hash[k] !~ /^\-?\d{0,9}\.\d{1,5}$/
+        errors << [k, "must be a number with no more than nine digits and five decimal places"]
       end
     end
 
