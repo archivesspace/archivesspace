@@ -11,6 +11,7 @@ $(function() {
 
     var config = {
       root_object_id: $tree.data("root-id"),
+      root: $tree.data("root"),
       root_node_type: $tree.data("root-node-type"),
       read_only: $(".archives-tree").data("read-only"),
       rules: $(".archives-tree").data("rules")
@@ -623,7 +624,7 @@ $(function() {
       });
     };
 
-    var formatJSONForJSTree = function(node_json) {
+    AS.formatJSONForJSTree = function(node_json) {
       var node_id = node_json.node_type + "_" + node_json.id;
       var result = {
         data: {
@@ -647,7 +648,7 @@ $(function() {
       }
 
       if (node_json.hasOwnProperty("children") && node_json.children.length > 0) {
-        result["children"] = $.makeArray(node_json.children).map(function(child_id) {return formatJSONForJSTree(AS.tree_data[child_id])})
+        result["children"] = $.makeArray(node_json.children).map(function(child_id) {return AS.formatJSONForJSTree(AS.tree_data[child_id])})
       } else if (node_json.has_children) {
         result["children"] = [];
       }
@@ -685,56 +686,86 @@ $(function() {
       //$.getJSON($tree.data("tree-url"), function(tree_data) {
         AS.tree_data = {};
         $tree.jstree({
-          json_data: {
-            progressive_render: true,
-            //turn off for now as this behaviour may cause the
-            //primary selected node to be unloaded/removed
-            progressive_unload: false,
-            ajax: {
-              url: $tree.data("tree-url"),
-              success: function(data,arg1, arg2,arg3,arg4) {
-                $.extend(AS.tree_data, data);
-                if ($tree.data("loading-node")) {
-                  return formatJSONForJSTree(AS.tree_data[$tree.data("loading-node")]).children;
-                } else {
-                  return formatJSONForJSTree(AS.tree_data[$tree.data("root")]);
-                }
-              },
-              "data": function(node) {
-                if (node === -1) {
-                  $tree.data("loading-node", null);
-                  return {
-                    node_uri: "root",
-                    hash: document.location.hash
-                  };
-                } else {
-                  $tree.data("loading-node", node.attr("id"));
-                  return {
-                    node_uri: node.data("uri")
+            html_data: {
+              ajax: {
+                url: $tree.data("tree-url"),
+                dataType: 'json',
+                success: function(data,arg1, arg2,arg3,arg4) {
+                  $.extend(AS.tree_data, data);
+                  if ($tree.data("loading-node")) {
+                    // render the child-node
+                    return AS.renderTemplate("tree_node_children_template", {nodes: AS.tree_data[$tree.data("loading-node")].children});
+                  } else {
+                    // render the entire tree!
+                    return AS.renderTemplate("tree_template", {config: config});
+                  }
+                },
+                data: function(node) {
+                  if (node === -1) {
+                    $tree.data("loading-node", null);
+                    return {
+                      node_uri: "root",
+                      hash: document.location.hash
+                    };
+                  } else {
+                    $tree.data("loading-node", node.attr("id"));
+                    return {
+                      node_uri: node.data("uri")
+                    }
                   }
                 }
               }
-            }
+            },
+//          json_data: {
+//            progressive_render: true,
+//            //turn off for now as this behaviour may cause the
+//            //primary selected node to be unloaded/removed
+//            progressive_unload: false,
+//            ajax: {
+//              url: $tree.data("tree-url"),
+//              success: function(data,arg1, arg2,arg3,arg4) {
+//                $.extend(AS.tree_data, data);
+//                if ($tree.data("loading-node")) {
+//                  return formatJSONForJSTree(AS.tree_data[$tree.data("loading-node")]).children;
+//                } else {
+//                  return formatJSONForJSTree(AS.tree_data[$tree.data("root")]);
+//                }
+//              },
+//              "data": function(node) {
+//                if (node === -1) {
+//                  $tree.data("loading-node", null);
+//                  return {
+//                    node_uri: "root",
+//                    hash: document.location.hash
+//                  };
+//                } else {
+//                  $tree.data("loading-node", node.attr("id"));
+//                  return {
+//                    node_uri: node.data("uri")
+//                  }
+//                }
+//              }
+//            }
+//          },
+          themes: {
+            theme: "default",
+            url: "<%= asset_path('jstree/style.css') %>"
           },
-          "themes": {
-            "theme": "default",
-            "url": "<%= asset_path('jstree/style.css') %>"
+          dnd: {
+            drop_target : false,
+            drag_target : false
           },
-          "dnd": {
-            "drop_target" : false,
-            "drag_target" : false
-          },
-          "ui": {
-            "selected_parent_close": false,
-            "selected_parent_open": true,
-            "select_limit": -1,
+          ui: {
+            selected_parent_close: false,
+            selected_parent_open: true,
+            select_limit: -1,
             // if OS X, use meta for single select (as ctrl used for menu)
-            "select_multiple_modifier": (navigator.appVersion.indexOf("Mac") != -1) ? "meta" : "ctrl",
-            "disable_selecting_children": true
+            select_multiple_modifier: (navigator.appVersion.indexOf("Mac") != -1) ? "meta" : "ctrl",
+            disable_selecting_children: true
           },
-          "crrm" : {
-            "move" : {
-              "check_move" : function (m) {
+          crrm: {
+            move: {
+              check_move: function (m) {
 
                 // can't move top level parent
                 if ($(m.o[0]).hasClass(config.root_node_type)) {
@@ -750,14 +781,14 @@ $(function() {
               }
             }
           },
-          "core": {
-            "animation": 0,
-            "html_titles": true
+          core: {
+            animation: 0,
+            html_titles: true
           },
-          "cookies": {
-            "save_selected": false
+          cookies: {
+            save_selected: false
           },
-          "hotkeys": {
+          hotkeys: {
             "up": false,
             "ctrl+up": function() {
               $(".move-node-up","#archives_tree_toolbar").trigger("click");
@@ -784,7 +815,7 @@ $(function() {
             "f2": false,
             "del": false
           },
-          "plugins": [ "themes", "json_data", "ui", "crrm", "dnd", "cookies","hotkeys"]
+          plugins: [ "themes", "ui", "html_data", "crrm", "dnd", "cookies","hotkeys"]
         }).one("loaded.jstree", function() {
             getPrimarySelectedNode().removeClass("selected");
 

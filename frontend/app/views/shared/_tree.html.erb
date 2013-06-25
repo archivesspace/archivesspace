@@ -170,43 +170,39 @@
       <span class="field-column field-column-2 pull-right" title="">${render_file_version_summary(node)}</span>
     </span>  --></div>
 
+
+   <div id="tree_node_children_template"><!--
+    {if nodes && nodes.length > 0}
+    <ul>
+      {for node_id in nodes}
+      {var node = AS.tree_data[node_id]}
+      <li id="${node.node_type}_${node.id}" class="${node.node_type} {if node.has_children} jstree-closed{/if}" rel="${node.node_type}" data-id="${node.id}" data-uri="${node.record_uri}">
+        {eval}node.tmp = {node: node}{/eval}
+        ${AS.renderTemplate("tree_node_template", node.tmp)}
+      </li>
+      {/for}
+    </ul>
+    {/if}
+  --></div>
+
   <div id="tree_node_template"><!--
-    {eval}node.tmp = {node: node};{/eval}
-    ${AS.renderTemplate("tree_node_"+node.node_type+"_template", node.tmp)}
+    <a href="#tree::${node.node_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">
+      {eval}node.tmp = {node: node}{/eval}
+      ${AS.renderTemplate("tree_node_"+node.node_type+"_template", node.tmp)}
+    </a>
+    {if node.children && node.children.length > 0}
+      {eval}node.tmp = {nodes: node.children}{/eval}
+      ${AS.renderTemplate("tree_node_children_template", node.tmp)}
+    {/if}
   --></div>
 
   <div id="tree_template"><!--
-
-       {macro render_node_link(node)}
-          <a href="#tree::${node.node_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">
-            {eval}node.tmp = {node: node};{/eval}
-            ${AS.renderTemplate("tree_node_"+node.node_type+"_template", node.tmp)}
-          </a>
-       {/macro}
-
-       {macro render_children(nodes)}
-        {if nodes && nodes.length > 0}
-        <ul>
-           {for node in nodes}
-              <li id="${node.node_type}_${node.id}" class="${node.node_type} {if node.has_children} jstree-closed{/if}" rel="${node.node_type}" data-id="${node.id}" data-uri="${node.record_uri}">
-                 ${render_node_link(node)}
-              </li>
-           {/for}
-        </ul>
-        {/if}
-     {/macro}
-
-     {macro render_parent(node)}
-        <li id="${node.node_type}_${node.id}" class="${node.node_type} root" rel="${node.node_type}" data-id="${node.id}">
-           ${render_node_link(node)}
-           {if node.children && node.children.length > 0}
-            ${render_children(node.children)}
-           {/if}
-        </li>
-     {/macro}
-
      <ul class="jstree-classic">
-        ${render_parent(tree)}
+        {var node = AS.tree_data[config.root]}
+        <li id="${node.node_type}_${node.id}" class="${node.node_type} root" rel="${node.node_type}" data-id="${node.id}">
+           {eval}node.tmp = {node: node}{/eval}
+           ${AS.renderTemplate("tree_node_template", node.tmp)}
+        </li>
      </ul>
   --></div>
 
