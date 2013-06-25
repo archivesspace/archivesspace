@@ -86,7 +86,6 @@ class BackendEnumSource
     result = self.cache_entry_for(enum_name)[:value_to_id_map][value]
 
     if !result
-      # skip the cache
       result = self.cache_entry_for(enum_name, true)[:value_to_id_map][value]
     end
 
@@ -95,10 +94,11 @@ class BackendEnumSource
 
 
   def self.value_for_id(enum_name, id)
+    return nil if id.nil?
+
     result = self.cache_entry_for(enum_name)[:id_to_value_map][id]
 
     if !result
-      # skip the cache
       self.cache_entry_for(enum_name, true)[:id_to_value_map][id]
     end
 
