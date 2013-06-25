@@ -7,11 +7,11 @@ $(function() {
   var $tree = $("#archives_tree"),
     $container = $("#object_container");
 
-  if (AS.tree_data && $tree.length) {
+  if ($tree.length > 0) {
 
     var config = {
-      root_object_id: AS.tree_data.id,
-      root_node_type: AS.tree_data.node_type,
+      root_object_id: $tree.data("root-id"),
+      root_node_type: $tree.data("root-node-type"),
       read_only: $(".archives-tree").data("read-only"),
       rules: $(".archives-tree").data("rules")
     };
@@ -683,14 +683,13 @@ $(function() {
 
     var initTree = function(onTreeLoadCallback) {
       //$.getJSON($tree.data("tree-url"), function(tree_data) {
-        //AS.tree_data = tree_data;
         AS.tree_data = {};
         $tree.jstree({
           json_data: {
             progressive_render: true,
             //turn off for now as this behaviour may cause the
             //primary selected node to be unloaded/removed
-            progressive_unload: true,
+            progressive_unload: false,
             ajax: {
               url: $tree.data("tree-url"),
               success: function(data,arg1, arg2,arg3,arg4) {
@@ -716,14 +715,6 @@ $(function() {
                 }
               }
             }
-//            "data": function(node, callback) {
-//              path_to_node = null;
-//              if (node === -1) {
-//                callback(formatJSONForJSTree(AS.tree_data[$tree.data("root-id")]));
-//              } else {
-//                callback(formatJSONForJSTree(AS.tree_data[node.attr("id")]).children);
-//              }
-//            }
           },
           "themes": {
             "theme": "default",

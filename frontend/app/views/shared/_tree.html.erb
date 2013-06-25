@@ -93,6 +93,8 @@
         data-rules="<%= hierarchy_rules.to_json %>"
         data-tree-url="<%= url_for(:action => :tree) %>"
         data-root="resource_<%= @resource.id %>"
+        data-root-id="<%= @resource.id %>"
+        data-root-node-type="resource"
   >
     <div class="alert alert-info"><%= image_tag "jstree/throbber.gif" %> Loading the tree...</div>
   </div>
