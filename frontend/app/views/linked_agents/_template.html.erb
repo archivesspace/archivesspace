@@ -4,8 +4,8 @@
     {:type => :resource, :relator => true},
     {:type => :archival_object, :relator => true},
     {:type => :event, :relator => false},
-    {:type => :digital_object, :relator => false},
-    {:type => :digital_object_component, :relator => false}].each do |defn| %>
+    {:type => :digital_object, :relator => true},
+    {:type => :digital_object_component, :relator => true}].each do |defn| %>
 
   <% define_template "#{defn[:type]}_linked_agent", jsonmodel_definition(defn[:type], "linked_agents") do |form| %>
     <div class="subrecord-form-fields agent_links">

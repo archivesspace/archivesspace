@@ -1047,7 +1047,7 @@ Sequel.migration do
       Integer :json_schema_version, :null => false
 
       LongString :title, :null => false
-      String :location, :null => false
+      LongString :location, :null => false
 
       Integer :publish
 
@@ -1209,7 +1209,7 @@ Sequel.migration do
       DynamicEnum :use_statement_id, :null => true
       DynamicEnum :checksum_method_id, :null => true
 
-      String :file_uri, :null => false
+      LongString :file_uri, :null => false
       Integer :publish
       DynamicEnum :xlink_actuate_attribute_id
       DynamicEnum :xlink_show_attribute_id
