@@ -1,6 +1,6 @@
 class ClassificationsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete, :accept_children]
-  before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete, :accept_children, :tree]
+  before_filter(:only => [:index, :show, :tree]) {|c| user_must_have("view_repository")}
   before_filter(:only => [:new, :edit, :create, :update, :accept_children]) {|c| user_must_have("update_classification_record")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_classification_record")}
 
@@ -13,13 +13,14 @@ class ClassificationsController < ApplicationController
   end
 
   def show
-    @classification = JSONModel(:classification).find(params[:id], FIND_OPTS)
+    flash.keep
 
     if params[:inline]
+      @classification = JSONModel(:classification).find(params[:id], FIND_OPTS)
       return render :partial => "classifications/show_inline"
     end
-    flash.keep
-    fetch_tree
+
+    @classification = JSONModel(:classification).find(params[:id])
   end
 
   def new
@@ -30,11 +31,14 @@ class ClassificationsController < ApplicationController
 
 
   def edit
-    @classification = JSONModel(:classification).find(params[:id], FIND_OPTS)
-
-    fetch_tree
     flash.keep if not flash.empty? # keep the notices so they display on the subsequent ajax call
-    return render :partial => "classifications/edit_inline" if params[:inline]
+
+    if params[:inline]
+      @classification = JSONModel(:classification).find(params[:id], FIND_OPTS)
+      return render :partial => "classifications/edit_inline"
+    end
+
+    @classification = JSONModel(:classification).find(params[:id])
   end
 
 
@@ -84,10 +88,32 @@ class ClassificationsController < ApplicationController
   end
 
 
+  def tree
+    render :json => fetch_tree
+  end
+
+
   private
 
   def fetch_tree
-    @tree = JSONModel(:classification_tree).find(nil, :classification_id => @classification.id)
+    tree = {}
+
+    limit_to = params[:node_uri] || "root"
+
+    if !params[:hash].blank?
+      node_id = params[:hash].sub("#tree::", "")
+      if node_id.starts_with?("classification_term")
+        limit_to = JSONModel(:classification_term).uri_for(node_id.sub("classification_term_", "").to_i)
+      elsif node_id.starts_with?("classification")
+        limit_to = "root"
+      end
+    end
+
+    parse_tree(JSONModel(:classification_tree).find(nil, :classification_id => params[:id], :limit_to => limit_to).to_hash(:validated), nil, proc {|node, parent|
+      tree["#{node["node_type"]}_#{node["id"]}"] = node.merge("children" => node["children"].collect{|child| "#{child["node_type"]}_#{child["id"]}"})
+    })
+
+    tree
   end
 
 end

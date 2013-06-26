@@ -92,16 +92,12 @@
         data-read-only="<%= read_only %>"
         data-rules="<%= hierarchy_rules.to_json %>"
         data-tree-url="<%= url_for(:action => :tree) %>"
-        data-root="resource_<%= @resource.id %>"
-        data-root-id="<%= @resource.id %>"
-        data-root-node-type="resource"
+        data-root="<%= root_record['jsonmodel_type'] %>_<%= root_record.id %>"
+        data-root-id="<%= root_record.id %>"
+        data-root-node-type="<%= root_record['jsonmodel_type'] %>"
   >
     <div class="alert alert-info"><%= image_tag "jstree/throbber.gif" %> Loading the tree...</div>
   </div>
-
-  <script>
-    AS.tree_data = {};
-  </script>
 
   <div id="tree_node_resource_template"><!--
     {macro render_container_summary(node)}
@@ -301,7 +297,7 @@
                 <fieldset>
                   <%= form.hidden_input "current_resource_id", "${root_object_id}" %>
                   <div class="alert alert-error missing-ref-message" style="display: none;"><%= I18n.t "archival_object._frontend.messages.please_select_a_resource_for_transfer" %></div>
-                  <%= render :partial => "resources/linker", :locals => { :form => form, :exclude_ids => [@resource.id] }%>
+                  <%= render :partial => "resources/linker", :locals => { :form => form, :exclude_ids => [root_record.id] }%>
                 </fieldset>
                 <div class="form-actions">
                   <button class="btn btn-primary pull-left"><%= I18n.t("actions.transfer") %></button>

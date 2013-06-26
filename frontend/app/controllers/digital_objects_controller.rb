@@ -1,5 +1,5 @@
 class DigitalObjectsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :tree, :new, :edit, :create, :update, :delete, :publish, :accept_children, :merge]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :tree, :new, :edit, :create, :update, :delete, :publish, :accept_children, :tree, :merge]
   before_filter(:only => [:index, :show, :tree]) {|c| user_must_have("view_repository")}
   before_filter(:only => [:new, :edit, :create, :update, :publish, :accept_children]) {|c| user_must_have("update_archival_record")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
@@ -7,19 +7,24 @@ class DigitalObjectsController < ApplicationController
 
   FIND_OPTS = ["subjects", "linked_agents", "linked_instances"]
 
+
   def index
     @search_data = Search.for_type(session[:repo_id], params[:include_components]==="true" ? ["digital_object", "digital_object_component"] : "digital_object", search_params.merge({"facet[]" => SearchResultData.DIGITAL_OBJECT_FACETS}))
   end
 
+
   def show
-    @digital_object = JSONModel(:digital_object).find(params[:id], "resolve[]" => FIND_OPTS)
+    flash.keep if not flash.empty? # keep the notices so they display on the subsequent ajax call
 
     if params[:inline]
+      # only fetch the fully resolved record when rendering the full form
+      @digital_object = JSONModel(:digital_object).find(params[:id], "resolve[]" => FIND_OPTS)
       return render :partial => "digital_objects/show_inline"
     end
 
-    fetch_tree
+    @digital_object = JSONModel(:digital_object).find(params[:id])
   end
+
 
   def new
     @digital_object = JSONModel(:digital_object).new({:title => I18n.t("digital_object.title_default", :default => "")})._always_valid!
@@ -27,14 +32,17 @@ class DigitalObjectsController < ApplicationController
     return render :partial => "digital_objects/new" if params[:inline]
   end
 
-  def edit
-    @digital_object = JSONModel(:digital_object).find(params[:id], "resolve[]" => FIND_OPTS)
 
+  def edit
     flash.keep if not flash.empty? # keep the notices so they display on the subsequent ajax call
 
-    return render :partial => "digital_objects/edit_inline" if params[:inline]
+    if params[:inline]
+      # only fetch the fully resolved record when rendering the full form
+      @digital_object = JSONModel(:digital_object).find(params[:id], "resolve[]" => FIND_OPTS)
+      return render :partial => "digital_objects/edit_inline"
+    end
 
-    fetch_tree
+    @digital_object = JSONModel(:digital_object).find(params[:id])
   end
 
 
@@ -107,14 +115,35 @@ class DigitalObjectsController < ApplicationController
   end
 
 
+  def tree
+    render :json => fetch_tree
+  end
+
+
   private
 
   def fetch_tree
-    @tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => @digital_object.id)
-    parse_tree(@tree, proc {|node|
+    tree = {}
+
+    limit_to = params[:node_uri] || "root"
+
+    if !params[:hash].blank?
+      node_id = params[:hash].sub("#tree::", "")
+      if node_id.starts_with?("digital_object_component")
+        limit_to = JSONModel(:digital_object_component).uri_for(node_id.sub("digital_object_component_", "").to_i)
+      elsif node_id.starts_with?("digital_object")
+        limit_to = "root"
+      end
+    end
+
+    parse_tree(JSONModel(:digital_object_tree).find(nil, :digital_object_id => params[:id], :limit_to => limit_to).to_hash(:validated), nil, proc {|node|
       node['level'] = I18n.t("enumerations.digital_object_level.#{node['level']}", :default => node['level']) if node['level']
       node['digital_object_type'] = I18n.t("enumerations.digital_object_digital_object_type.#{node['digital_object_type']}", :default => node['digital_object_type']) if node['digital_object_type']
+
+      tree["#{node["node_type"]}_#{node["id"]}"] = node.merge("children" => node["children"].collect{|child| "#{child["node_type"]}_#{child["id"]}"})
     })
+
+    tree
   end
 
 end

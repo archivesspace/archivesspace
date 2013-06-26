@@ -52,6 +52,7 @@ ArchivesSpace::Application.routes.draw do
   match 'digital_objects/:id/publish' => 'digital_objects#publish', :via => [:post]
   match 'digital_objects/:id/accept_children' => 'digital_objects#accept_children', :via => [:post]
   match 'digital_objects/:id/merge' => 'digital_objects#merge', :via => [:post]
+  match 'digital_objects/:id/tree' => 'digital_objects#tree', :via => [:get]
 
   resources :digital_object_components
   match 'digital_object_components/:id' => 'digital_object_components#update', :via => [:post]
@@ -75,6 +76,7 @@ ArchivesSpace::Application.routes.draw do
   match 'classifications/:id' => 'classifications#update', :via => [:post]
   match 'classifications/:id/delete' => 'classifications#delete', :via => [:post]
   match 'classifications/:id/accept_children' => 'classifications#accept_children', :via => [:post]
+  match 'classifications/:id/tree' => 'classifications#tree', :via => [:get]
 
   resources :classification_terms
   match 'classification_terms/:id' => 'classification_terms#update', :via => [:post]

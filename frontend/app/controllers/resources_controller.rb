@@ -44,6 +44,7 @@ class ResourcesController < ApplicationController
     flash.keep if not flash.empty? # keep the notices so they display on the subsequent ajax call
 
     if params[:inline]
+      # only fetch the fully resolved record when rendering the full form
       @resource = fetch_resolved(params[:id])
       return render :partial => "resources/edit_inline"
     end
@@ -168,7 +169,7 @@ class ResourcesController < ApplicationController
 
     limit_to = params[:node_uri] || "root"
 
-    if params[:hash]
+    if !params[:hash].blank?
       node_id = params[:hash].sub("#tree::", "")
       if node_id.starts_with?("resource")
         limit_to = "root"
