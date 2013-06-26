@@ -58,6 +58,12 @@ module NotesHelper
         :value => "index",
         :i18n => I18n.t("enumerations._note_types.index", :default => "index")
       }
+
+      note_types["bioghist"] = {
+        :target => :note_bioghist,
+        :value => "bioghist",
+        :i18n => I18n.t("enumerations._note_types.bioghist", :default => "bioghist")
+      }
     end
 
     note_types
