@@ -10,11 +10,15 @@ module ASConstants
 
   end
 
+
   def self.VERSION
     return @VERSION if @VERSION
 
-    version_file = File.join("..", "common", "VERSION")
-    @VERSION = File.exists?(version_file) ? File.open(version_file).read : "NO VERSION"
+    begin
+      @VERSION = java.lang.ClassLoader.getSystemClassLoader.getResourceAsStream("ARCHIVESSPACE_VERSION").to_io.read
+    rescue
+      @VERSION = "NO VERSION"
+    end
   end
 
 end
