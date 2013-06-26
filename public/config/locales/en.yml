@@ -69,6 +69,10 @@ en:
     backend_down: Unable to Connect to Database
     backend_down_message: ArchivesSpace is currently experiencing technical difficulties. We apologise for the inconvenience. Please try again later.
 
+  boolean:
+    "true": "Yes"
+    "false": "No"
+
   navbar:
     search_placeholder: Search the Archive
     search_all: All Records
@@ -86,6 +90,11 @@ en:
     index_switcher:
       show: Show Advanced Search
       hide: Hide Advanced Search
+
+  accession:
+    _public:
+      section:
+        summary: Summary
 
   archival_object:
     _public:

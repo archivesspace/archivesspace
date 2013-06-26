@@ -16,7 +16,7 @@
     <div class="span3">
       <%= render(:partial => 'navlist',
                  :locals => {
-                   :record_type => 'resource',
+                   :record_type => 'accession',
                    :record => @accession,
                    :entries => [
                      {:property => 'dates', :subrecord_type => 'date', :anchor => 'dates'},
@@ -34,25 +34,22 @@
     <div class="span9">
       <fieldset class="form-horizontal">
         <section id="summary">
-          <h3><%= I18n.t("resource._public.section.summary") %></h3>
+          <h3><%= I18n.t("accession._public.section.summary") %></h3>
           <dl class="dl-horizontal">
-            <dt><%= I18n.t("resource.id_0") %></dt>
+            <dt><%= I18n.t("accession.id_0") %></dt>
             <dd class="identifier-display">
               <% ['id_0','id_1','id_2','id_3'].collect{|prop| @accession[prop]}.each do |id| %>
                 <span class="identifier-display-part"><%= id %></span>
               <% end %>
             </dd>
-            <% if @accession['finding_aid_status'] === "completed" %>
-              <div class="clearfix"></div>
-              <%= label_and_value I18n.t("resource.finding_aid_author"), @accession['finding_aid_author'] %>
-              <%= label_and_value I18n.t("resource.finding_aid_date"), @accession['finding_aid_date'] %>
-              <%= label_and_value I18n.t("resource.finding_aid_description_rules"), i18n_enum(:resource, 'finding_aid_description_rules', @accession['finding_aid_description_rules']) %>
-              <%= label_and_value I18n.t("resource.finding_aid_language"), @accession['finding_aid_language'] %>
-              <%= label_and_value I18n.t("resource.finding_aid_sponsor"), @accession['finding_aid_sponsor'] %>
-              <%= label_and_value I18n.t("resource.finding_aid_edition_statement"), @accession['finding_aid_edition_statement'] %>
-              <%= label_and_value I18n.t("resource.finding_aid_series_statement"), @accession['finding_aid_series_statement'] %>
-              <%= label_and_value I18n.t("resource.finding_aid_note"), @accession['finding_aid_note'] %>
-            <% end %>
+            <div class="clearfix"></div>
+            <%= label_and_value I18n.t("accession.content_description"), @accession['content_description'] %>
+            <%= label_and_value I18n.t("accession.inventory"), @accession['inventory'] %>
+            <%= label_and_value I18n.t("accession.provenance"), @accession['provenance'] %>
+            <%= label_and_value I18n.t("accession.access_restrictions"), @accession['access_restrictions'] ? I18n.t("boolean.true") : I18n.t("boolean.false") %>
+            <%= label_and_value I18n.t("accession.access_restrictions_note"), @accession['access_restrictions_note'] %>
+            <%= label_and_value I18n.t("accession.use_restrictions"), @accession['use_restrictions'] ? I18n.t("boolean.true") : I18n.t("boolean.false") %>
+            <%= label_and_value I18n.t("accession.use_restrictions_note"), @accession['use_restrictions_note'] %>
           </dl>
         </section>
 
@@ -63,10 +60,6 @@
         <%= render :partial => "subjects", :locals => {:subjects => @accession['subjects']} %>
         <%= render :partial => "external_documents", :locals => {:external_documents => @accession.published_external_documents} %>
         <%= render :partial => "instances", :locals => {:digital_objects => @accession.digital_objects} %>
-        <%= render :partial => "components", :locals => {
-              :record_type => "resource",
-              :show_full_component => @show_components
-            } %>
       </fieldset>
 
 

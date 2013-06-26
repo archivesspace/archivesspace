@@ -3,8 +3,13 @@
     <h3><%= I18n.t("extent._plural") %></h3>
     <ul class="results-list">
       <% extents.each do |extent| %>
-        <li class="result">
-          <%= extent['number'] %> <%= i18n_enum(:extent, 'extent_type', extent['extent_type']) %> (<%= i18n_enum(:extent, 'portion', extent['portion']) %>)
+        <li class="result row-fluid">
+          <div class="span4">
+            <%= extent['number'] %> <%= i18n_enum(:extent, 'extent_type', extent['extent_type']) %> (<%= i18n_enum(:extent, 'portion', extent['portion']) %>)
+          </div>
+          <div class="span8">
+            <%= extent['container_summary'] %>
+          </div>
         </li>
       <% end %>
     </ul>
