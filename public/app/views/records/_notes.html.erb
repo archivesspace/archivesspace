@@ -18,12 +18,12 @@
 <% end %>
 
 <% note_renderers['note_orderedlist'] = lambda do | note | %>
-  <div class="note_orderedlist enumeration-<%= note['enumeration'] %>">
-    <ul>
+  <div class="enumeration-<%= note['enumeration'] %>">
+    <ol>
       <% note['items'].each do |item| %>
         <li><%= item %></li>
       <% end %>
-    </ul>
+    </ol>
   </div>
 <% end %>
 
@@ -32,21 +32,27 @@
 
 <% note_renderers['note_multipart'] = lambda do | note | %>
   <% Array(note['subnotes']).each do |subnote| %>
-    <% render_note.call(subnote) %>
+    <div class="<%= subnote['jsonmodel_type'] %>">
+      <% render_note.call(subnote) %>
+    </div>
   <% end %>
 <% end %>
 
 <% note_renderers['note_bibliography'] = lambda do | note | %>
-  <div class="note_bibliography">
-    <ul>
-      <% note['items'].each do |item| %>
-        <li><%= item %></li>
-      <% end %>
-    </ul>
-  </div>
+  <ul>
+    <% note['items'].each do |item| %>
+      <li><%= item %></li>
+    <% end %>
+  </ul>
 <% end %>
 
 <% note_renderers['note_index'] = lambda do | note | %>
+  <dl>
+    <% note['items'].each do |index_item| %>
+      <dt><%= index_item['value'] %></dt>
+      <dd><%= index_item['reference_text'] %></dd>
+    <% end %>
+  </dl>
 <% end %>
 
 <% note_renderers['note_chronology'] = lambda do | note | %>
@@ -77,7 +83,7 @@
     <h3><%= I18n.t("note._plural") %></h3>
     <ul class="results-list">
       <% notes.each do |note| %>
-        <li class="well">
+        <li class="note <%= note['jsonmodel_type'] %>">
           <%
             if note['label']
               label_for_note = note['label']
@@ -87,7 +93,7 @@
               label_for_note = I18n.t("note.#{note['jsonmodel_type']}", :default => note['jsonmodel_type'])
             end
           %>
-          <h4><%= label_for_note %></h4>
+          <h4 class="note-label"><%= label_for_note %></h4>
           <div class="note-contents">
             <% render_note.call(note) %>
           </div>
