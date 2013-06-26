@@ -1046,8 +1046,8 @@ Sequel.migration do
       Integer :lock_version, :default => 0, :null => false
       Integer :json_schema_version, :null => false
 
-      LongString :title, :null => false
-      LongString :location, :null => false
+      HalfLongString :title, :null => false
+      HalfLongString :location, :null => false
 
       Integer :publish
 
