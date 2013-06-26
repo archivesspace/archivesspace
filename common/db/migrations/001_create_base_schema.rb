@@ -1120,8 +1120,6 @@ Sequel.migration do
       Integer :lock_version, :default => 0, :null => false
       Integer :json_schema_version, :null => false
 
-      Integer :repo_id, :null => false
-
       Integer :accession_id, :null => true
       Integer :resource_id, :null => true
       Integer :digital_object_id, :null => true
@@ -1142,8 +1140,6 @@ Sequel.migration do
     end
 
     alter_table(:collection_management) do
-      add_foreign_key([:repo_id], :repository, :key => :id)
-
       add_foreign_key([:accession_id], :accession, :key => :id)
       add_foreign_key([:resource_id], :resource, :key => :id)
       add_foreign_key([:digital_object_id], :digital_object, :key => :id)
@@ -1190,10 +1186,6 @@ Sequel.migration do
       Date :date_3, :null => true
 
       apply_mtime_columns
-    end
-
-    alter_table(:collection_management) do
-      add_foreign_key([:repo_id], :repository, :key => :id)
     end
 
 
