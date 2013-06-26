@@ -818,8 +818,6 @@ Sequel.migration do
     create_table(:deaccession) do
       primary_key :id
 
-      Integer :repo_id, :null => false
-
       Integer :lock_version, :default => 0, :null => false
       Integer :json_schema_version, :null => false
 
@@ -1152,8 +1150,6 @@ Sequel.migration do
       Integer :lock_version, :default => 0, :null => false
       Integer :json_schema_version, :null => false
 
-      Integer :repo_id, :null => false
-
       Integer :accession_id, :null => true
       Integer :resource_id, :null => true
       Integer :digital_object_id, :null => true
@@ -1187,6 +1183,13 @@ Sequel.migration do
 
       apply_mtime_columns
     end
+
+    alter_table(:user_defined) do
+      add_foreign_key([:accession_id], :accession, :key => :id)
+      add_foreign_key([:resource_id], :resource, :key => :id)
+      add_foreign_key([:digital_object_id], :digital_object, :key => :id)
+    end
+
 
 
     create_table(:file_version) do
