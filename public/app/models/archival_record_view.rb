@@ -51,6 +51,19 @@ class ArchivalRecordView
   end
 
 
+  def published_notes
+    notes = Array(@record['notes']).find_all {|doc| doc['publish'] === true}
+
+    notes.each do |note|
+      if note.has_key?('subnotes')
+        note['subnotes'] = Array(note['subnotes']).find_all {|doc| doc['publish'] === true}
+      end
+    end
+
+    notes
+  end
+
+
   def method_missing(method, *args, &block)
     @record.send(method, *args, &block)
   end
