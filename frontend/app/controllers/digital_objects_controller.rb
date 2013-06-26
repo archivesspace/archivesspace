@@ -116,6 +116,8 @@ class DigitalObjectsController < ApplicationController
 
 
   def tree
+    flash.keep # keep the flash... just in case this fires before the form is loaded
+
     render :json => fetch_tree
   end
 

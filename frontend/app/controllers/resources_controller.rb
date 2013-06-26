@@ -165,6 +165,8 @@ class ResourcesController < ApplicationController
   private
 
   def fetch_tree
+    flash.keep # keep the flash... just in case this fires before the form is loaded
+
     tree = {}
 
     limit_to = params[:node_uri] || "root"
