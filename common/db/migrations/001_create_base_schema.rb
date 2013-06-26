@@ -1534,6 +1534,7 @@ Sequel.migration do
       Integer :resource_id
       Integer :archival_object_id
       Integer :digital_object_id
+      Integer :digital_object_component_id
       Integer :agent_person_id
       Integer :agent_family_id
       Integer :agent_corporate_entity_id

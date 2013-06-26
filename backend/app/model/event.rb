@@ -23,7 +23,7 @@ class Event < Sequel::Model(:event)
 
   define_relationship(:name => :event_link,
                       :json_property => 'linked_records',
-                      :contains_references_to_types => proc {[Accession, Resource, ArchivalObject, DigitalObject, AgentPerson, AgentCorporateEntity, AgentFamily, AgentSoftware]},
+                      :contains_references_to_types => proc {[Accession, Resource, ArchivalObject, DigitalObject, AgentPerson, AgentCorporateEntity, AgentFamily, AgentSoftware, DigitalObjectComponent]},
                       :class_callback => proc { |clz|
                         clz.instance_eval do
                           include DynamicEnums
@@ -153,6 +153,32 @@ class Event < Sequel::Model(:event)
     )
 
     Event.create_from_json(event, :system_generated => true)
+  end
+
+
+  def self.for_repository_transfer(old_repo, new_repo, record)
+    event = {
+      :linked_agents => [
+                         {
+                           "role" => "transmitter",
+                           "ref" => JSONModel(:agent_corporate_entity).uri_for(old_repo.agent_representation_id)
+                         },
+                         {
+                           "role" => "recipient",
+                           "ref" => JSONModel(:agent_corporate_entity).uri_for(new_repo.agent_representation_id)
+                         }
+                        ].reject {|l| l['ref'].nil?},
+      :linked_records => [
+                          {
+                            "role" => "transfer",
+                            "ref" => record.uri
+                          }
+                         ],
+      :event_type => 'custody_transfer',
+      :timestamp => Time.now.utc.iso8601,
+    }
+
+    Event.create_from_json(JSONModel(:event).from_hash(event), :system_generated => true)
   end
 
 

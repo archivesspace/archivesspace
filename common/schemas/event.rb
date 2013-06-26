@@ -75,11 +75,12 @@
               "type" => [{"type" => "JSONModel(:agent_person) uri"},
                          {"type" => "JSONModel(:agent_family) uri"},
                          {"type" => "JSONModel(:agent_corporate_entity) uri"},
-                         {"type" => "JSONModel(:agent_software) uri"},                                                  
+                         {"type" => "JSONModel(:agent_software) uri"},
                          {"type" => "JSONModel(:accession) uri"},
                          {"type" => "JSONModel(:resource) uri"},
                          {"type" => "JSONModel(:digital_object) uri"},
-                         {"type" => "JSONModel(:archival_object) uri"}],
+                         {"type" => "JSONModel(:archival_object) uri"},
+                         {"type" => "JSONModel(:digital_object_component) uri"}],
               "ifmissing" => "error"
             },
             "_resolved" => {

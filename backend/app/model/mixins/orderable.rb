@@ -256,4 +256,14 @@ module Orderable
 
   end
 
+
+  def transfer_to_repository(repository, transfer_group = [])
+    # All records under this one will be transferred too
+    children.each do |child|
+      child.transfer_to_repository(repository, transfer_group)
+    end
+
+    super
+  end
+
 end

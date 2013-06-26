@@ -40,6 +40,11 @@ module RESTHelpers
       json_response({:status => 'Suppressed', :id => id, :suppressed_state => state})
     end
 
+
+    def moved_response(id, target)
+      json_response({:status => 'Moved', :id => id, :target => target.id})
+    end
+
   end
 
 

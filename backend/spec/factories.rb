@@ -82,15 +82,35 @@ FactoryGirl.define do
 
   # AS Models
 
+  factory :unselected_repo, class: Repository do
+    json_schema_version { 1 }
+    repo_code { generate(:repo_code) }
+    name { generate(:generic_description) }
+    agent_representation_id { 1 }
+  end
+
   factory :repo, class: Repository do
     json_schema_version { 1 }
     repo_code { generate(:repo_code) }
     name { generate(:generic_description) }
+    agent_representation_id { 1 }
     after(:create) do |r|
       $repo_id = r.id
       $repo = JSONModel(:repository).uri_for(r.id)
       JSONModel::set_repository($repo_id)
       RequestContext.put(:repo_id, $repo_id)
+    end
+  end
+
+  factory :agent_corporate_entity, class: AgentCorporateEntity do
+    json_schema_version { 1 }
+    notes_json_schema_version { 1 }
+    after(:create) do |a|
+      a.add_name_corporate_entity(:rules => generate(:name_rule),
+                                  :primary_name => generate(:generic_name),
+                                  :sort_name => generate(:sort_name),
+                                  :sort_name_auto_generate => 1,
+                                  :json_schema_version => 1)
     end
   end
 
