@@ -278,7 +278,7 @@ $(function() {
             $this.trigger("click");
           });
           openedViaClick = true;
-        }
+        };
 
         // bind event callbacks
         $this.bind("mouseenter", onMouseEnter).click(onClick);
@@ -289,7 +289,7 @@ $(function() {
   $(document).bind("loadedrecordform.aspace", function(event, $container) {
     initTooltips($container);
   });
-  $(document).bind("subrecordcreated.aspace init.tooltips", function(event, object_name, subform) {
+  $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     initTooltips(subform);
   });
 });
