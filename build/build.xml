@@ -487,6 +487,7 @@
     <property name="version" value="Build ${DSTAMP}-${TSTAMP}"/>
     <delete file="../common/ARCHIVESSPACE_VERSION" />
     <echo file="../common/ARCHIVESSPACE_VERSION">${version}</echo>
+    <echo>Building version: ${version}</echo>
 
     <jar jarfile="target/archivesspace/lib/common.jar">
       <fileset dir="../common" excludes="lib/*" />
