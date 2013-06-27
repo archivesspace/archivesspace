@@ -41,4 +41,11 @@ describe 'Agent model' do
       n1.to_hash
      }.to raise_error(JSONModel::ValidationException)
   end
+
+
+  it "maintains a record that represents the ArchivesSpace application itself" do
+    as_json = AgentSoftware.to_jsonmodel(AgentSoftware.archivesspace_record)
+    as_json['names'][0]['version'].should eq ASConstants.VERSION
+  end
+
 end
