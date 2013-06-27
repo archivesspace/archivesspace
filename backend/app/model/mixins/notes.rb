@@ -6,43 +6,51 @@ module Notes
 
 
   def update_from_json(json, opts = {}, apply_linked_records = true)
-    self.class.apply_notes(json, proc { |json, opts|
+    self.class.apply_notes(json.notes, proc { |opts|
                              super(json, opts, apply_linked_records)
-                           }, opts)
+                           },
+                           opts.merge('notes_json_schema_version' => json.class.schema_version))
   end
 
 
   def publish!
-    notes = ASUtils.json_parse(self.notes || "[]")
-    if not notes.empty?
-      notes.each do |note|
+    updated_notes = ASUtils.json_parse(self.notes || "[]")
+    if not updated_notes.empty?
+      updated_notes.each do |note|
         note["publish"] = true
       end
-      self.notes = JSON(notes)
     end
 
-    super
+    self.class.apply_notes(updated_notes, proc { |opts|
+                             old_notes = self.notes
+                             self.notes = opts['notes']
+                             result = super
+                             self.notes = old_notes
+
+                             result
+                           },
+                           {})
   end
 
   module ClassMethods
 
     def create_from_json(json, opts = {})
-      self.apply_notes(json, proc { |json, opts|
+      self.apply_notes(json.notes, proc { |opts|
                          super(json, opts)
-                       }, opts)
+                       },
+                       opts.merge('notes_json_schema_version' => json.class.schema_version))
     end
 
 
-    def apply_notes(json, super_callback, opts)
-      notes_blob = JSON(json.notes)
+    def apply_notes(notes, super_callback, opts)
+      notes_blob = JSON(notes)
 
       if notes_blob.length >= 8000
         # We need to use prepared statement to store the notes blob once it gets
         # large.  This is because Sequel uses string literals and some databases
         # have an upper limit on how long they're allowed to be.
 
-        obj = super_callback.call(json, opts.merge('notes' => nil,
-                                                   'notes_json_schema_version' => json.class.schema_version))
+        obj = super_callback.call(opts.merge('notes' => nil))
 
         ps = self.dataset.where(:id => obj.id).prepare(:update, :update_notes, :notes => :$notes)
         ps.call(:notes => DB.blobify(notes_blob))
@@ -50,8 +58,7 @@ module Notes
         obj
       else
         # Use the standard method for saving the notes (and avoid the extra update)
-        super_callback.call(json, opts.merge('notes' => notes_blob,
-                                             'notes_json_schema_version' => json.class.schema_version))
+        super_callback.call(opts.merge('notes' => notes_blob))
       end
     end
 
