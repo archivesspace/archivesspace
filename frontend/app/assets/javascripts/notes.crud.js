@@ -272,8 +272,8 @@ $(function() {
 
 
   $(document).ready(function() {
-    $(document).ajaxComplete(function() {
-      $("#notes.subrecord-form:not(.initialised)").init_notes_form();
+    $(document).bind("loadedrecordform.aspace", function(event, $container) {
+      $("#notes.subrecord-form:not(.initialised)", $container).init_notes_form();
     });
 
     $("#notes.subrecord-form:not(.initialised)").init_notes_form();

@@ -78,8 +78,8 @@ $(function() {
     });
   };
 
-  $(document).ajaxComplete(function() {
-    $.proxy(initFormChangeDetection, $("form.aspace-record-form"))();
+  $(document).bind("loadedrecordform.aspace", function(event, $container) {
+    $.proxy(initFormChangeDetection, $("form.aspace-record-form", $container))();
   });
 
   $.proxy(initFormChangeDetection, $("form.aspace-record-form"))();

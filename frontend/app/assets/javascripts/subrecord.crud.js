@@ -142,8 +142,8 @@ $(function() {
 
 
   $(document).ready(function() {
-    $(document).ajaxComplete(function() {
-      $(".subrecord-form[data-subrecord-form]:not(.initialised)").init_subrecord_form();
+    $(document).bind("loadedrecordform.aspace", function(event, $container) {
+      $(".subrecord-form[data-subrecord-form]:not(.initialised)", $container).init_subrecord_form();
     });
 
     $(".subrecord-form[data-subrecord-form]:not(.initialised)").init_subrecord_form();

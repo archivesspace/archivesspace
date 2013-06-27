@@ -96,7 +96,7 @@ $(function() {
 
       AS.resetScrollSpy();
 
-      $container.triggerHandler("form.loaded");
+      $(document).triggerHandler("loadedrecordform.aspace", [$container]);
 
       return $form;
     };
@@ -144,7 +144,7 @@ $(function() {
           success: function(html) {
             $container.html(html);
             AS.resetScrollSpy();
-            $(document).trigger("loadedtreenode.aspace", [$container]);
+            $(document).trigger("loadedrecordform.aspace", [$container]);
           },
           error: function(obj, errorText, errorDesc) {
             $container.html("<div class='alert alert-error'><p>An error occurred loading this form.</p><pre>"+errorDesc+"</pre></div>");

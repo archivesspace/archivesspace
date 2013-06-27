@@ -33,8 +33,8 @@ $(function() {
     });
   };
 
-  $(document).ajaxComplete(function() {
-    $("#archival_object_form:not(.initialised)").init_archival_object_form();
+  $(document).bind("loadedrecordform.aspace", function(event, $container) {
+    $("#archival_object_form:not(.initialised)", $container).init_archival_object_form();
   });
 
   $("#archival_object_form:not(.initialised)").init_archival_object_form();

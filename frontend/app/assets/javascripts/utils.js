@@ -38,7 +38,7 @@ $(function() {
       });
     });
   }
-  $(document).ajaxComplete(function() {
+  $(document).bind("loadedrecordform.aspace", function(event, $container) {
     initIdentifierFields();
   });
   initIdentifierFields();
@@ -137,11 +137,11 @@ $(function() {
 
   initSidebar();
 
-  $(document).ajaxComplete(function() {
+  $(document).bind("loadedrecordform.aspace", function(event, $container) {
     initSidebar();
   });
 
-  $(document).bind("subrecordcreated.aspace subrecorddeleted.aspace formErrorsReady", function() {
+  $(document).bind("subrecordcreated.aspace subrecorddeleted.aspace formerrorready.aspace", function() {
     if ($("#archivesSpaceSidebar .nav-list.initialised").length > 0) {
       refreshSidebarSubMenus();
       // refresh scrollspy offsets.. as they are probably wrong now that things have changed in the form
@@ -173,8 +173,8 @@ $(function() {
     });
   };
   initDateFields();
-  $(document).ajaxComplete(function() {
-    initDateFields();
+  $(document).bind("loadedrecordform.aspace", function(event, $container) {
+    initDateFields($container);
   });
   $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     initDateFields(subform)
@@ -194,8 +194,8 @@ $(function() {
   };
   initComboboxFields();
 
-  $(document).ajaxComplete(function() {
-    initComboboxFields();
+  $(document).bind("loadedrecordform.aspace", function(event, $container) {
+    initComboboxFields($container);
   });
   $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     initComboboxFields(subform)
@@ -214,15 +214,15 @@ $(function() {
     $(".has-popover:not(.initialised)", scope)
       .popover(popoverOptions) 
       .click(function(e) {
-        e.preventDefault()
+        e.preventDefault();
       }).addClass("initialised");
   };
   initPopovers();
-  $(document).ajaxComplete(function() {
-    initPopovers();
+  $(document).bind("loadedrecordform.aspace", function(event, $container) {
+    initPopovers($container);
   });
   $(document).bind("subrecordcreated.aspace init.popovers", function(event, object_name, subform) {
-    initPopovers(subform)
+    initPopovers(subform);
   });
 });
 
@@ -286,11 +286,11 @@ $(function() {
     });
   };
   initTooltips();
-  $(document).ajaxComplete(function() {
-    initTooltips();
+  $(document).bind("loadedrecordform.aspace", function(event, $container) {
+    initTooltips($container);
   });
   $(document).bind("subrecordcreated.aspace init.tooltips", function(event, object_name, subform) {
-    initTooltips(subform)
+    initTooltips(subform);
   });
 });
 
@@ -306,8 +306,8 @@ $(function() {
     }).addClass("initialised");
   };
   initSubmenuLink();
-  $(document).ajaxComplete(function() {
-    initSubmenuLink();
+  $(document).bind("loadedrecordform.aspace", function(event, $container) {
+    initSubmenuLink($container);
   });
   $(document).bind("subrecordcreated.aspace init.popovers", function(event, object_name, subform) {
     initSubmenuLink(subform)
@@ -695,8 +695,8 @@ $(function() {
   };
 
   $(document).ready(function() {
-    $(document).ajaxComplete(function() {
-      $(".btn[data-confirmation]:not(.initialised)").initConfirmationAction();
+    $(document).bind("loadedrecordform.aspace", function(event, $container) {
+      $(".btn[data-confirmation]:not(.initialised)", $container).initConfirmationAction();
     });
 
     $(".btn[data-confirmation]:not(.initialised)").initConfirmationAction();

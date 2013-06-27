@@ -141,6 +141,7 @@ $(function() {
             }
           });
           $modal.trigger("resize");
+          $(document).triggerHandler("loadedrecordform.aspace", [$modal]);
           $(":input:visible:first", $modal).focus();
         };
 
@@ -345,8 +346,8 @@ $(function() {
 });
 
 $(document).ready(function() {
-  $(document).ajaxComplete(function() {
-    $(".linker:not(.initialised)").linker();
+  $(document).bind("loadedrecordform.aspace", function(event, $container) {
+    $(".linker:not(.initialised)", $container).linker();
   });
 
   $(".linker:not(.initialised)").linker();

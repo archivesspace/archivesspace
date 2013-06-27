@@ -67,14 +67,14 @@
          }
 
          // unbind the event (only needs to run once)
-         $(document).unbind("ajaxComplete", callback);
+         $(document).unbind("loadedrecordform.aspace", callback);
 
          // tell the world all the errors have been rendered
-         $(document).triggerHandler("formErrorsReady");
+         $(document).triggerHandler("formerrorready.aspace");
        };
 
        $(callback);
-       $(document).ajaxComplete(callback);
+       $(document).on("loadedrecordform.aspace", callback);
      });
    </script>
 

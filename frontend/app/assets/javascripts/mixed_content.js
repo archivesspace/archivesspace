@@ -120,8 +120,8 @@ $(function() {
     $("textarea.mixed-content:not(.initialised)", subform).mixedContent();
   });
 
-  $(document).ajaxComplete(function() {
-    $("textarea.mixed-content:not(.initialised)").mixedContent();
+  $(document).bind("loadedrecordform.aspace", function(event, $container) {
+    $("textarea.mixed-content:not(.initialised)", $container).mixedContent();
   });
 
   $("textarea.mixed-content:not(.initialised)").mixedContent();
