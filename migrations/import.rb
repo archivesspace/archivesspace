@@ -75,13 +75,12 @@ end
 
 if options[:importer]
   ASpaceImport::Importer.create_importer(options).run_safe do |message|
+    puts "Server response: #{message.to_s}"
     if message.has_key?('saved')
       puts "Saved #{message['saved'].length} records."
       message['saved'].each do |logical_uri, uri_and_id|
         puts "#{uri_and_id[0]}\n"
       end
-    else
-      puts "Server response: #{message.to_s}"
     end
   end
 end

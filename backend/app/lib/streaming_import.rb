@@ -87,6 +87,11 @@ class StreamingImport
   end
 
 
+  def created_records
+    @logical_urls.reject {|k, v| v.nil?}
+  end
+
+
   def process
 
     round = 0

@@ -77,13 +77,14 @@ class DB
 
           # Sometimes we'll make it to here.  That means we threw a
           # Sequel::Rollback which has been quietly caught.
-          return
+          return nil
         else
           begin
             return yield @pool
           rescue Sequel::Rollback
             # If we're not in a transaction we can't roll back, but no need to blow up.
             Log.warn("Sequel::Rollback caught but we're not inside of a transaction")
+            return nil
           end
         end
 
@@ -96,7 +97,7 @@ class DB
 
 
       rescue Sequel::DatabaseError => e
-        if is_retriable_exception(e)
+        if is_retriable_exception(e) && transaction
           Log.info("Retrying transaction after retriable exception (#{e})")
           sleep 1
         else
