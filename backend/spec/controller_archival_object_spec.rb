@@ -239,6 +239,20 @@ describe 'Archival Object controller' do
   end
 
 
+  it "can publish records with really long notes" do
+    archival_object = create(:json_archival_object)
+
+    notes = build(:json_note_bibliography, 'content' => ["x" * 40000])
+
+    archival_object.notes = [notes]
+    archival_object.save
+
+    expect {
+      ArchivalObject[archival_object.id].publish!
+    }.to_not raise_error
+  end
+
+
   it "allows some non-alphanumeric characters in ref_ids" do
     ref_id = ':crazy.times:'
     ao = create(:json_archival_object, :ref_id => ref_id)
