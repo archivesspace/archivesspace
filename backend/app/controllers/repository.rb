@@ -109,7 +109,22 @@ class ArchivesSpaceService < Sinatra::Base
              [400, :error],
              [403, :access_denied]) \
   do
-    handle_create(Repository, :repository)
+    # Create a dummy agent for this repository, since none was specified.
+    name = {
+      'primary_name' => params[:repository]['repo_code'],
+      'sort_name' => params[:repository]['repo_code'],
+      'source' => 'local'
+    }
+
+    contact = {
+      'name' => params[:repository]['repo_code']
+    }
+
+    json = JSONModel(:agent_corporate_entity).from_hash('names' => [name],
+                                                        'agent_contacts' => [contact])
+    agent = AgentCorporateEntity.create_from_json(json)
+
+    handle_create(Repository, :repository, :agent_representation_id => agent.id)
   end
 
 

@@ -8,8 +8,8 @@ module CrudHelpers
   end
 
 
-  def handle_create(model, parameter)
-    obj = model.create_from_json(params[parameter])
+  def handle_create(model, parameter, opts = {})
+    obj = model.create_from_json(params[parameter], opts)
 
     created_response(obj, params[parameter])
   end
