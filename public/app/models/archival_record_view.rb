@@ -21,18 +21,18 @@ class ArchivalRecordView
   end
 
 
-  def digital_objects
-    digital_objects = {}
+  def instances
+    instances = []
 
-    if not @record['instances'].blank?
-      @record['instances'].each do |instance|
-        if instance['instance_type'] === "digital_object"
-          digital_objects[instance['digital_object']['ref']] = instance['digital_object']['_resolved']
-        end
+    @record['instances'].each do |instance|
+      if instance['instance_type'] === "digital_object"
+        instances.push(instance) if instance['digital_object']['_resolved']['publish']
+      else
+        instances.push(instance)
       end
     end
 
-    digital_objects
+    instances
   end
 
 

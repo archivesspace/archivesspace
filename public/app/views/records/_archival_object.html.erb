@@ -17,7 +17,7 @@
   <%= render :partial => "subjects", :locals => {:subjects => archival_object['subjects']} %>
   <%= render :partial => "notes", :locals => {:notes => archival_object.published_notes} %>
   <%= render :partial => "external_documents", :locals => {:external_documents => archival_object.published_external_documents} %>
-  <%= render :partial => "instances", :locals => {:digital_objects => archival_object.digital_objects} %>
+  <%= render :partial => "instances", :locals => {:instances => archival_object.instances} %>
 
   <% if show_components %>
     <%= render :partial => "components", :locals => {:record_type => "archival_object"} %>
