@@ -1,8 +1,3 @@
-<%
-   singlepart_note_types = note_types_for(:note_singlepart)
-   multipart_note_types = note_types_for(:note_multipart)
-%>
-
 <% define_template "note_type_selector" do |form, item| %>
   <% if item %>
     <% form.emit_template(item["jsonmodel_type"]) %>
@@ -87,7 +82,7 @@
       <%= form.hidden_input(:jsonmodel_type, "note_singlepart") %>
       <%= form.label_and_textfield("label") %>
       <%= form.label_and_select("type",
-          singlepart_note_types.map {|value, hash| [hash[:i18n], value]},
+          singlepart_notes.sort_by {|value, hash| hash[:i18n]}.map {|value, hash| [hash[:i18n], value]},
           :field_opts => {:class => "note-type"}) %>
       <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
 
@@ -162,7 +157,7 @@
       <%= form.hidden_input(:jsonmodel_type, "note_multipart") %>
       <%= form.label_and_textfield("label") %>
       <%= form.label_and_select("type",
-          multipart_note_types.map {|value, hash| [hash[:i18n], value]},
+          multipart_notes.map {|value, hash| [hash[:i18n], value]},
           :field_opts => {:class => "note-type"}) %>
       <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
 
