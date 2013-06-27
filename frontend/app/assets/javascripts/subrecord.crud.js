@@ -22,6 +22,9 @@ $(function() {
 
       var init = function() {
 
+        // Proxy the event onto the subrecord's form
+        // This is used by utils.js to initialise the asYouGo
+        // behaviour (quick addition of subrecords)
         $(document).on("subrecordcreated.aspace", function(e, object_name, formel) {
           formel.triggerHandler(e);
         });
@@ -62,8 +65,6 @@ $(function() {
           if ($this.data("cardinality") === "zero_to_one") {
             $("> .subrecord-form-heading > .btn", $this).attr("disabled", "disabled");
           }
-
-          $(document).triggerHandler("subrecordcreated.aspace", [$subform.data("object-name") || $this.data("object-name"), $subform]);
         };
 
         var addAndInitForm = function(formHtml, $target_subrecord_list) {
@@ -83,7 +84,7 @@ $(function() {
           $.proxy(init_subform, formEl)();
 
           //init any sub sub record forms
-          $(".subrecord-form:not(.initialised)",formEl).init_subrecord_form();
+          $(".subrecord-form:not(.initialised)", formEl).init_subrecord_form();
 
           $(document).triggerHandler("subrecordcreated.aspace", [$this.data("object-name"), formEl]);
 

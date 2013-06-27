@@ -493,12 +493,12 @@ AS.initAddAsYouGoActions = function($form, $list) {
 
   var bindEvents = function() {
     $form.off("subrecordcreated.aspace").on("subrecordcreated.aspace", function() {
-      $asYouGo.fadeIn()
+      $asYouGo.fadeIn();
     });
 
     $form.off("subrecorddeleted.aspace").on("subrecorddeleted.aspace", function() {
       if (numberOfSubRecords() === 0) {
-        $asYouGo.hide()
+        $asYouGo.hide();
       }
     });
   }
