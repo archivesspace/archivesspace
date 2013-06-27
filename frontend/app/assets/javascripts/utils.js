@@ -25,8 +25,9 @@ $(function() {
 
 // add four part indentifier behaviour
 $(function() {
-  var initIdentifierFields = function() {
-    $("form:not(.navbar-form) .identifier-fields:not(.initialised)").on("keyup", ":input", function(event) {
+  var initIdentifierFields = function(scope) {
+    scope = scope || $(document.body);
+    $("form:not(.navbar-form) .identifier-fields:not(.initialised)", scope).on("keyup", ":input", function(event) {
       $(this).addClass("initialised");
       var currentInputIndex = $(event.target).index();
       $(event.target).parents(".identifier-fields:first").find(":input:eq("+(currentInputIndex+1)+")").each(function() {
@@ -39,7 +40,7 @@ $(function() {
     });
   }
   $(document).bind("loadedrecordform.aspace", function(event, $container) {
-    initIdentifierFields();
+    initIdentifierFields($container);
   });
   initIdentifierFields();
 });
@@ -177,7 +178,7 @@ $(function() {
     initDateFields($container);
   });
   $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
-    initDateFields(subform)
+    initDateFields(subform);
   });
 });
 
@@ -198,7 +199,7 @@ $(function() {
     initComboboxFields($container);
   });
   $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
-    initComboboxFields(subform)
+    initComboboxFields(subform);
   });
 });
 
@@ -218,10 +219,10 @@ $(function() {
       }).addClass("initialised");
   };
   initPopovers();
-  $(document).bind("loadedrecordform.aspace", function(event, $container) {
+  $(document).bind("loadedrecordform.aspace init.popovers", function(event, $container) {
     initPopovers($container);
   });
-  $(document).bind("subrecordcreated.aspace init.popovers", function(event, object_name, subform) {
+  $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     initPopovers(subform);
   });
 });

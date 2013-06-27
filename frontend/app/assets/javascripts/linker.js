@@ -306,7 +306,7 @@ $(function() {
               enableSorting();
             }
             $this.triggerHandler("change");
-            $(document).triggerHandler("init.popovers");
+            $(document).triggerHandler("init.popovers", [$this.parent()]);
           },
           formatQueryParam: function(q, ajax_params) {
             if ($this.tokenInput("get").length || config.exclude_ids.length) {
@@ -335,7 +335,7 @@ $(function() {
           $linkerWrapper.addClass("sortable");
         }
 
-        $(document).triggerHandler("init.popovers");
+        $(document).triggerHandler("init.popovers", [$this.parent()]);
 
         addEventBindings();
       };
