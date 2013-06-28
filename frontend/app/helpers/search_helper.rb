@@ -16,6 +16,18 @@ module SearchHelper
     @show_title_column = false
   end
 
+  def title_column_header(title_header)
+    @title_column_header = title_header
+  end
+
+  def title_column_header_label
+    @title_column_header or I18n.t("search_results.result_title")
+  end
+
+  def title_sort_label
+    @title_column_header or I18n.t("search_sorting.title_sort")
+  end
+
   def add_column(label, block, opts = {})
     @extra_columns ||= []
 

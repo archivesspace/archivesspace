@@ -1,5 +1,7 @@
 <%= setup_context(:title => I18n.t("location._plural")) %>
 
+<% title_column_header(I18n.t("location._singular")) %>
+
 <div class="row-fluid">
   <div class="span3">
     <%= render :partial => "search/filter" %>

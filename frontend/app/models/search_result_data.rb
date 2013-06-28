@@ -150,12 +150,12 @@ class SearchResultData
     return "#{field} #{default === "asc" ? "desc" : "asc"}"
   end
 
-  def sorted_by_label
+  def sorted_by_label(title_label)
     _sorted_by = sorted_by
 
     return I18n.t("search_sorting.relevance") if _sorted_by.nil?
 
-    "#{I18n.t("search_sorting.#{_sorted_by}")} (#{I18n.t("search_sorting.#{current_sort_direction}")})"
+    "#{_sorted_by == 'title_sort' ? title_label : I18n.t("search_sorting.#{_sorted_by}")} (#{I18n.t("search_sorting.#{current_sort_direction}")})"
   end
 
   def query?

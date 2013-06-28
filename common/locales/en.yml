@@ -1146,6 +1146,7 @@ en:
       agent_person: Person
       agent_corporate_entity: Corporate Entity
       agent_software: Software
+    name: Agent Name
     names: Name Forms
     names_tooltip: |
         <p>REQUIRED SUBRECORD: Records different forms of an Agent's name. Each Agent record must have at least one Name Form subrecord.</p>
