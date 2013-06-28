@@ -220,6 +220,11 @@ $(function() {
         $(".linker-browse-btn", $linkerWrapper).on("click", showLinkerBrowseModal);
         $(".linker-create-btn", $linkerWrapper).on("click", showLinkerCreateModal);
         $this.on("tokeninput.enter", showLinkerCreateModal);
+
+        // Initialise popover on demand to improve performance
+        $linkerWrapper.one("mouseenter focus", ".has-popover", function() {
+          $(document).triggerHandler("init.popovers", [$this.parent()]);
+        });
       };
 
 
@@ -324,18 +329,18 @@ $(function() {
         });
 
 
-        $this.tokenInput(config.url, tokenInputConfig);
+        setTimeout(function() {
+          $this.tokenInput(config.url, tokenInputConfig);
 
-        $("> :input[type=text]", $(".token-input-input-token", $this.parent())).attr("placeholder", AS.linker_locales.hintText);
+          $("> :input[type=text]", $(".token-input-input-token", $this.parent())).attr("placeholder", AS.linker_locales.hintText);
 
-        $this.parent().addClass("multiplicity-"+config.multiplicity);
+          $this.parent().addClass("multiplicity-"+config.multiplicity);
 
-        if (config.sortable && config.multiplicity == "many") {
-          enableSorting();
-          $linkerWrapper.addClass("sortable");
-        }
-
-        $(document).triggerHandler("init.popovers", [$this.parent()]);
+          if (config.sortable && config.multiplicity === "many") {
+            enableSorting();
+            $linkerWrapper.addClass("sortable");
+          }
+        });
 
         addEventBindings();
       };
