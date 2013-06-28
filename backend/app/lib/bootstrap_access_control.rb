@@ -61,7 +61,7 @@ class ArchivesSpaceService
       end
     end
 
-    AgentSoftware.create_archivesspace_record
+    AgentSoftware.ensure_correctly_versioned_archivesspace_record
 
 
     # Create the admin user

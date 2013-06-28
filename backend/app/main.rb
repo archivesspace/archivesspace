@@ -349,7 +349,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   get '/' do
-    "Hello, ArchivesSpace!"
+    "Hello, ArchivesSpace (#{ASConstants.VERSION})!"
   end
 
 
