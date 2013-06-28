@@ -7,17 +7,21 @@
     <td class="control-group"><%= form.select "level", form.possible_options_for("level", true) %></td>
     <td class="control-group"><%= form.checkbox "publish", {}, form.default_for("publish") %></td>
     <td class="control-group"><%= form.textfield "title" %></td>
+    <td class="control-group"><%= form.textfield "component_id" %></td>
+    <td class="control-group">
+      <%= form.select "language", jsonmodel_definition(:archival_object).options_for(form, "language", true) %>
+    </td>
+    <td class="control-group">
+      <% form.push(form.set_index("dates[]", 0), begin archival_object["dates"][0] || {} rescue {} end) do %>
+        <%= form.textfield "expression" %>
+      <% end %>
+    </td>
     <td class="control-group">
       <% form.push(form.set_index("dates[]", 0), begin archival_object["dates"][0] || {} rescue {} end) do %>
         <%= form.select "date_type", jsonmodel_definition(:date).options_for(form, "date_type", true) %>
       <% end %>
       <% form.push("dates", begin archival_object["dates"] || [] rescue [] end) do %>
         <span id="<%= form.id_for(nil) %>"></span>
-      <% end %>
-    </td>
-    <td class="control-group">
-      <% form.push(form.set_index("dates[]", 0), begin archival_object["dates"][0] || {} rescue {} end) do %>
-        <%= form.textfield "expression" %>
       <% end %>
     </td>
     <td class="control-group">
@@ -179,12 +183,14 @@
             <col class="fieldset-col" data-default-width='150' />
             <col class="fieldset-col" data-default-width='150' />
             <col class="fieldset-col" data-default-width='150' />
+            <col class="fieldset-col" data-default-width='150' />
+            <col class="fieldset-col" data-default-width='150' />
             <col class="actions" data-default-width='90' />
           </colgroup>
           <thead>
           <tr class="sections">
             <th colspan="1"></th>
-            <th colspan="3"><%= I18n.t("rde.sections.basic_information") %></th>
+            <th colspan="5"><%= I18n.t("rde.sections.basic_information") %></th>
             <th colspan="4"><%= I18n.t("rde.sections.date") %></th>
             <th colspan="8"><%= I18n.t("rde.sections.instance") %></th>
             <th colspan="6"><%= I18n.t("rde.sections.notes") %></th>
@@ -195,8 +201,10 @@
             <th class="fieldset-label sticky"><%= I18n.t("archival_object.level") %></th>
             <th class="fieldset-label sticky"><%= I18n.t("archival_object.publish") %></th>
             <th class="fieldset-label"><%= I18n.t("archival_object.title") %></th>
-            <th class="fieldset-label sticky"><%= I18n.t("rde.date_type") %></th>
+            <th class="fieldset-label"><%= I18n.t("archival_object.component_id") %></th>
+            <th class="fieldset-label sticky"><%= I18n.t("archival_object.language") %></th>
             <th class="fieldset-label sticky"><%= I18n.t("date.expression") %></th>
+            <th class="fieldset-label sticky"><%= I18n.t("rde.date_type") %></th>
             <th class="fieldset-label sticky"><%= I18n.t("date.begin") %></th>
             <th class="fieldset-label sticky"><%= I18n.t("date.end") %></th>
             <th class="fieldset-label sticky"><%= I18n.t("rde.instance_type") %></th>
