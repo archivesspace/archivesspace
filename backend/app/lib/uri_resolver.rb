@@ -109,7 +109,12 @@ module URIResolver
 
       id = jsonmodel.id_for(uri, {}, true)
       if id
-        return model.to_jsonmodel(id).to_json(:mode => :trusted)
+        repo_uri = JSONModel.repository_for(uri)
+        repo_id = repo_uri ? JSONModel::JSONModel(:repository).id_for(repo_uri) : nil
+
+        RequestContext.open(:repo_id => repo_id) do
+          return model.to_jsonmodel(id).to_json(:mode => :trusted)
+        end
       end
     }
 
