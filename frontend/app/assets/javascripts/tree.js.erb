@@ -18,9 +18,7 @@ $(function() {
     };
 
     var initForm = function(html) {
-      // Use innerHTML as benchmarks say this performs
-      // better than .html()
-      $container[0].innerHTML = html;
+      $container.html(html);
 
       var $form = $("form", $container);
 
@@ -144,9 +142,7 @@ $(function() {
           type: 'GET',
           data: params,
           success: function(html) {
-            // Use innerHTML as benchmarks say this performs
-            // better than .html()
-            $container[0].innerHTML = html;
+            $container.html(html);
             AS.resetScrollSpy();
             $(document).trigger("loadedrecordform.aspace", [$container]);
           },
