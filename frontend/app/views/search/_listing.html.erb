@@ -15,7 +15,7 @@
       <% end %>
       <% if show_title_column? %>
         <th class="col title sortable <% if @search_data.sorted_by === "title_sort"%>sort-<%= @search_data.current_sort_direction %><% end %>">
-          <%= link_to I18n.t("search_results.result_title"), params_for_search("sort" => @search_data.sort_filter_for("title_sort")) %>
+          <%= link_to title_column_header_label, params_for_search("sort" => @search_data.sort_filter_for("title_sort")) %>
         </th>
       <% end %>
       <% if extra_columns? %>
