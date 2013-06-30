@@ -16,7 +16,13 @@
      <% end %>
 
     <div class="record-pane">
-      <h2><%= @manage_access ? I18n.t("user._frontend.section.manage_access") : I18n.t("user._plural") %></h2>
+      <% if @manage_access %>
+        <%= link_to_help :topic => "repository_users" %>
+        <h2><%= I18n.t("user._frontend.section.manage_access") %></h2>
+      <% else %>
+        <%= link_to_help :topic => "user" %>
+        <h2><%= I18n.t("user._plural") %></h2>
+      <% end %>
 
       <%= render :partial => "shared/flash_messages" %>
 

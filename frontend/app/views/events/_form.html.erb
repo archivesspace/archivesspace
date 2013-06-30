@@ -2,7 +2,10 @@
 
 <% define_template("event", jsonmodel_definition(:event)) do |form| %>
   <section id="basic_information">
-    <h3><%= I18n.t("event._frontend.section.basic_information") %></h3>
+    <h3>
+      <%= I18n.t("event._frontend.section.basic_information") %>
+      <%= link_to_help :topic => "event_basic_information" %>
+    </h3>
     <fieldset>
       <%= form.label_and_select "event_type", form.possible_options_for("event_type") %>
       <%= form.label_and_select "outcome", form.possible_options_for('outcome', true) %>
@@ -14,7 +17,10 @@
 <% form.emit_template("event") %>
 
 <section id="event_date">
-  <h3><%= I18n.t("event._frontend.section.date") %></h3>
+  <h3>
+    <%= I18n.t("event._frontend.section.date") %>
+    <%= link_to_help :topic => "event_date" %>
+  </h3>
   <%= form.label_and_select "chronotype_label", ['subrecord', 'timestamp'].map{|t| [I18n.t("event.chronotype.#{t}"), t]}, 'required' => true %>
   <div id="chronotype_timestamp" class="chronotype_form">
     <%= form.label_and_textfield "timestamp", :required => true %>

@@ -7,12 +7,12 @@
            }) do |sidebar| %>
 
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'dates_of_existence', :property => 'dates_of_existence',
-                                         :anchor => 'dates_of_existence') %>
-    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_name', :property => 'names', :anchor => 'names') %>
-    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_contact', :property => 'agent_contacts', :anchor => 'contacts') %>
-    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'note', :property => 'notes', :anchor => 'notes') %>
-    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'related_agent', :property => 'related_agents', :anchor => 'related_agents') %>
-    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'external_document', :property => 'external_documents') %>
+                                         :anchor => "#{@agent.agent_type}_dates_of_existence") %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_name', :property => 'names', :anchor => "#{@agent.agent_type}_names") %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_contact', :property => 'agent_contacts', :anchor => "#{@agent.agent_type}_contact_details") %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'note', :property => 'notes', :anchor => "#{@agent.agent_type}_notes") %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'related_agent', :property => 'related_agents', :anchor => "#{@agent.agent_type}_related_agents") %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'external_document', :property => "external_documents", :anchor => "#{@agent.agent_type}_external_documents") %>
 
     <%= sidebar.render_for_view_only(:subrecord_type => 'search_embedded', :property => :none, :anchor => 'search_embedded') %>
 <% end %>

@@ -9,7 +9,8 @@
       <div class="span9">
         <%= render :partial => "shared/toolbar_new_records" %>
         <div class="record-pane">
-          <h2><%= "New #{I18n.t("agent.agent_type.#{@agent.agent_type}")}" %>  <span class="label label-info"><%= I18n.t("agent._singular") %></span></h2>
+          <%= link_to_help :topic => "#{@agent.agent_type}" %>
+          <h2><%= "#{I18n.t("actions.new_prefix")} #{I18n.t("agent.agent_type.#{@agent.agent_type}")}" %>  <span class="label label-info"><%= I18n.t("agent._singular") %></span></h2>
           <%= render :partial => "agents/form", :locals => {:form => form} %>
           <div class="form-actions">
             <div class="btn-group">

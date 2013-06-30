@@ -36,6 +36,8 @@
       </div>
     <% end %>
     <div class="record-pane">
+      <%= link_to_help :topic => "search" %>
+
       <h2><%= I18n.t("agent._plural") %></h2>
 
       <%= render :partial => "shared/flash_messages" %>

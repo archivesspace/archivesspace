@@ -3,6 +3,7 @@
 <div class="row-fluid">
   <div class="span12">
     <div class="record-pane">
+      <%= link_to_help :topic => "repository_users" %>
       <h2><%= I18n.t("user._frontend.section.manage_access") %></h2>
       <%= form_for @user, :as => "update_groups", :url => {:action => :update_groups}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
 

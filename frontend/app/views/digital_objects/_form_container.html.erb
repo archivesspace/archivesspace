@@ -1,12 +1,13 @@
-
-
 <%= render :partial => "shared/form_messages", :locals => {:form => form} %>
 
 <fieldset>
 
   <% define_template "digital_object", jsonmodel_definition(:digital_object) do |form| %>
     <section id="basic_information">
-      <h3><%= I18n.t("digital_object._frontend.section.basic_information") %></h3>
+      <h3>
+        <%= I18n.t("digital_object._frontend.section.basic_information") %>
+        <%= link_to_help :topic => "digital_object_basic_information" %>
+      </h3>
       <%= form.label_and_textarea "title" %>
       <%= form.label_and_textfield "digital_object_id" %>
       <%= form.label_and_boolean "publish", {}, form.default_for("publish") %>

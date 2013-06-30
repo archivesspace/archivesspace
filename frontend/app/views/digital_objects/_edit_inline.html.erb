@@ -7,6 +7,7 @@
       <div class="span9">
         <%= render :partial => "toolbar" %>
         <div class="record-pane">
+          <%= link_to_help :topic => "digital_object" %>
           <h2>
             <%= @digital_object.title.blank? ? I18n.t("digital_object._singular") : @digital_object.title %>
             <span class="label label-info"><%= I18n.t("digital_object._singular") %></span>
