@@ -26,7 +26,7 @@
                      {:property => 'extents', :subrecord_type => 'extent', :anchor => 'extents'},
                      {:property => 'published_agents', :subrecord_type => 'agent', :anchor => 'linked_agents'},
                      {:property => 'subjects', :subrecord_type => 'subject', :anchor => 'subjects'},
-                     {:property => 'notes', :subrecord_type => 'note', :anchor => 'notes'},
+                     {:property => 'published_notes', :subrecord_type => 'note', :anchor => 'notes'},
                      {:property => 'published_external_documents', :subrecord_type => 'external_document', :anchor => 'external_documents'},
                    ]
                  })
@@ -49,7 +49,7 @@
         <%= render :partial => "extents", :locals => {:extents => @digital_object_component['extents']} %>
         <%= render :partial => "agents", :locals => {:linked_agents => @digital_object_component.published_agents} %>
         <%= render :partial => "subjects", :locals => {:subjects => @digital_object_component['subjects']} %>
-        <%= render :partial => "notes", :locals => {:notes => @digital_object_component['notes']} %>
+        <%= render :partial => "notes", :locals => {:notes => @digital_object_component.published_notes} %>
         <%= render :partial => "external_documents", :locals => {:external_documents => @digital_object_component.published_external_documents} %>
         <%= render :partial => "components", :locals => {:record_type => "digital_object_component"} %>
 

@@ -499,3 +499,38 @@ pre {
     margin: 0;
   }
 }
+#notes {
+  .note {
+    margin: 10px 0;
+    border-left: 1px solid #EEE;
+    padding: 1px 10px;
+    background-color: #FCFCFC;
+  }
+
+  .note_outline ul {
+    list-style: disc;
+  }
+
+  .note_orderedlist {
+    margin: 10px 0;
+
+    .enumeration-arabic ol {
+      list-style: decimal;
+    }
+    .enumeration-loweralpha ol {
+      list-style: lower-alpha;
+    }
+    .enumeration-lowerroman ol {
+      list-style: lower-roman;
+    }
+    .enumeration-null ol {
+      list-style: disc;
+    }
+    .enumeration-upperalpha ol {
+      list-style: upper-alpha;
+    }
+    .enumeration-upperroman ol {
+      list-style: upper-roman;
+    }
+  }
+}
