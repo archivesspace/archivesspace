@@ -379,6 +379,7 @@ $(function() {
       initAjaxForm();
 
       $(window).trigger("resize");
+      $(document).triggerHandler("loadedrecordform.aspace", [$this]);
     });
   };
 

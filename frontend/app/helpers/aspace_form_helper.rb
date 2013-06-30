@@ -478,15 +478,27 @@ module AspaceFormHelper
   def form_context(name, values_from = {}, &body)
     context = FormContext.new(name, values_from, self)
 
+    env = self.request.env
+    env['form_context_depth'] ||= 0
+
     # Not feeling great about this, but we render the form twice: the first pass
     # sets up the mapping from form input names to i18n keys, while the second
     # actually uses that map to set the labels correctly.
+    env['form_context_depth'] += 1
     capture(context, &body)
+    env['form_context_depth'] -= 1
 
     s = "<div class=\"form-context\" id=\"form_#{name}\">".html_safe
     s << context.hidden_input("lock_version", values_from["lock_version"])
+
+    env['form_context_depth'] += 1
     s << capture(context, &body)
-    s << templates_for_js(values_from["jsonmodel_type"])
+    env['form_context_depth'] -= 1
+
+    if env['form_context_depth'] == 0
+      # Only emit the JS templates at the top-level
+      s << templates_for_js(values_from["jsonmodel_type"])
+    end
     s << "</div>".html_safe
 
     s

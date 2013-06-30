@@ -2,7 +2,7 @@ module DigitalObjectTrees
 
   def build_node_query
     node_query = super
-    node_query.eager(:file_version).all
+    node_query.eager(:file_version)
   end
 
 

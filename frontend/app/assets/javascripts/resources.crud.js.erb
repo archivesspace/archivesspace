@@ -48,8 +48,8 @@ $(function() {
     });
   };
 
-  $(document).ajaxComplete(function() {
-    $("#resource_form:not(.initialised)").init_resource_form();
+  $(document).bind("loadedrecordform.aspace", function(event, $container) {
+    $("#resource_form:not(.initialised)", $container).init_resource_form();
   });
 
   $("#resource_form:not(.initialised)").init_resource_form();

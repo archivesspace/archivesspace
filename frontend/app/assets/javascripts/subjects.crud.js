@@ -22,8 +22,8 @@ $(function() {
 
 
   $(document).ready(function() {
-    $(document).ajaxComplete(function() {
-      $("#new_subject:not(.initialised)").init_subject_form();
+    $(document).bind("loadedrecordform.aspace", function(event, $container) {
+      $("#new_subject:not(.initialised)", $container).init_subject_form();
     });
 
     $("#new_subject:not(.initialised)").init_subject_form();

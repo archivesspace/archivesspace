@@ -91,11 +91,13 @@
   <div  id="archives_tree" class="archives-tree"
         data-read-only="<%= read_only %>"
         data-rules="<%= hierarchy_rules.to_json %>"
-  ></div>
-
-  <script>
-    AS.tree_data = $.parseJSON('<%= j(@tree.to_json.html_safe) %>');
-  </script>
+        data-tree-url="<%= url_for(:action => :tree) %>"
+        data-root="<%= root_record['jsonmodel_type'] %>_<%= root_record.id %>"
+        data-root-id="<%= root_record.id %>"
+        data-root-node-type="<%= root_record['jsonmodel_type'] %>"
+  >
+    <div class="alert alert-info"><%= image_tag "jstree/throbber.gif" %> Loading the tree...</div>
+  </div>
 
   <div id="tree_node_resource_template"><!--
     {macro render_container_summary(node)}
@@ -164,39 +166,39 @@
       <span class="field-column field-column-2 pull-right" title="">${render_file_version_summary(node)}</span>
     </span>  --></div>
 
+
+   <div id="tree_node_children_template"><!--
+    {if nodes && nodes.length > 0}
+    <ul>
+      {for node_id in nodes}
+      {var node = AS.tree_data[node_id]}
+      <li id="${node.node_type}_${node.id}" class="${node.node_type} {if node.has_children} jstree-closed{/if}" rel="${node.node_type}" data-id="${node.id}" data-uri="${node.record_uri}">
+        {eval}node.tmp = {node: node}{/eval}
+        ${AS.renderTemplate("tree_node_template", node.tmp)}
+      </li>
+      {/for}
+    </ul>
+    {/if}
+  --></div>
+
+  <div id="tree_node_template"><!--
+    <a href="#tree::${node.node_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">
+      {eval}node.tmp = {node: node}{/eval}
+      ${AS.renderTemplate("tree_node_"+node.node_type+"_template", node.tmp)}
+    </a>
+    {if node.children && node.children.length > 0}
+      {eval}node.tmp = {nodes: node.children}{/eval}
+      ${AS.renderTemplate("tree_node_children_template", node.tmp)}
+    {/if}
+  --></div>
+
   <div id="tree_template"><!--
-
-       {macro render_node_link(node)}
-          <a href="#tree::${node.node_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">
-            {eval}node.tmp = {node: node};{/eval}
-            ${AS.renderTemplate("tree_node_"+node.node_type+"_template", node.tmp)}
-          </a>
-       {/macro}
-
-       {macro render_children(nodes)}
-        {if nodes && nodes.length > 0}
-        <ul>
-           {for node in nodes}
-              <li id="${node.node_type}_${node.id}" class="${node.node_type} {if node.has_children} jstree-closed{/if}" rel="${node.node_type}" data-id="${node.id}" data-uri="${node.record_uri}">
-                 ${render_node_link(node)}
-                 ${render_children(node.children)}
-              </li>
-           {/for}
-        </ul>
-        {/if}
-     {/macro}
-
-     {macro render_parent(node)}
-        <li id="${node.node_type}_${node.id}" class="${node.node_type} root" rel="${node.node_type}" data-id="${node.id}">
-           ${render_node_link(node)}
-           {if node.children && node.children.length > 0}
-            ${render_children(node.children)}
-           {/if}
-        </li>
-     {/macro}
-
      <ul class="jstree-classic">
-        ${render_parent(tree)}
+        {var node = AS.tree_data[config.root]}
+        <li id="${node.node_type}_${node.id}" class="${node.node_type} root" rel="${node.node_type}" data-id="${node.id}">
+           {eval}node.tmp = {node: node}{/eval}
+           ${AS.renderTemplate("tree_node_template", node.tmp)}
+        </li>
      </ul>
   --></div>
 
@@ -295,7 +297,7 @@
                 <fieldset>
                   <%= form.hidden_input "current_resource_id", "${root_object_id}" %>
                   <div class="alert alert-error missing-ref-message" style="display: none;"><%= I18n.t "archival_object._frontend.messages.please_select_a_resource_for_transfer" %></div>
-                  <%= render :partial => "resources/linker", :locals => { :form => form, :exclude_ids => [@tree.record_uri] }%>
+                  <%= render :partial => "resources/linker", :locals => { :form => form, :exclude_ids => [root_record.id] }%>
                 </fieldset>
                 <div class="form-actions">
                   <button class="btn btn-primary pull-left"><%= I18n.t("actions.transfer") %></button>

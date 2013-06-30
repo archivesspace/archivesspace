@@ -1,6 +1,6 @@
 class ResourcesController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete, :rde, :add_children, :publish, :accept_children, :merge]
-  before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete, :rde, :add_children, :publish, :accept_children, :tree, :merge]
+  before_filter(:only => [:index, :show, :tree]) {|c| user_must_have("view_repository")}
   before_filter(:only => [:new, :edit, :create, :update, :rde, :add_children, :publish, :accept_children]) {|c| user_must_have("update_archival_record")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
   before_filter(:only => [:merge]) {|c| user_must_have("merge_archival_record")}
@@ -12,14 +12,14 @@ class ResourcesController < ApplicationController
   end
 
   def show
-    @resource = fetch_resolved(params[:id])
+    flash.keep
 
     if params[:inline]
+      @resource = fetch_resolved(params[:id])
       return render :partial => "resources/show_inline"
     end
 
-    flash.keep
-    fetch_tree
+    @resource = JSONModel(:resource).find(params[:id])
   end
 
   def new
@@ -41,11 +41,15 @@ class ResourcesController < ApplicationController
 
 
   def edit
-    @resource = fetch_resolved(params[:id])
-
-    fetch_tree
     flash.keep if not flash.empty? # keep the notices so they display on the subsequent ajax call
-    return render :partial => "resources/edit_inline" if params[:inline]
+
+    if params[:inline]
+      # only fetch the fully resolved record when rendering the full form
+      @resource = fetch_resolved(params[:id])
+      return render :partial => "resources/edit_inline"
+    end
+
+    @resource = JSONModel(:resource).find(params[:id])
   end
 
 
@@ -153,11 +157,30 @@ class ResourcesController < ApplicationController
   end
 
 
+  def tree
+    render :json => fetch_tree
+  end
+
+
   private
 
   def fetch_tree
-    @tree = JSONModel(:resource_tree).find(nil, :resource_id => @resource.id)
-    parse_tree(@tree, proc {|node|
+    flash.keep # keep the flash... just in case this fires before the form is loaded
+
+    tree = {}
+
+    limit_to = params[:node_uri] || "root"
+
+    if !params[:hash].blank?
+      node_id = params[:hash].sub("#tree::", "")
+      if node_id.starts_with?("resource")
+        limit_to = "root"
+      elsif node_id.starts_with?("archival_object")
+        limit_to = JSONModel(:archival_object).uri_for(node_id.sub("archival_object_", "").to_i)
+      end
+    end
+
+    parse_tree(JSONModel(:resource_tree).find(nil, :resource_id => params[:id], :limit_to => limit_to).to_hash(:validated), nil, proc {|node, parent|
       node['level'] = I18n.t("enumerations.archival_record_level.#{node['level']}", :default => node['level'])
       node['instance_types'] = node['instance_types'].map{|instance_type| I18n.t("enumerations.instance_instance_type.#{instance_type}", :default => instance_type)}
       node['containers'].each{|container|
@@ -165,7 +188,11 @@ class ResourcesController < ApplicationController
         container["type_2"] = I18n.t("enumerations.container_type.#{container["type_2"]}", :default => container["type_2"]) if container["type_2"]
         container["type_3"] = I18n.t("enumerations.container_type.#{container["type_3"]}", :default => container["type_3"]) if container["type_3"]
       }
+      node['parent'] = "#{parent["node_type"]}_#{parent["id"]}" if parent
+      tree["#{node["node_type"]}_#{node["id"]}"] = node.merge("children" => node["children"].collect{|child| "#{child["node_type"]}_#{child["id"]}"})
     })
+
+    tree
   end
 
 

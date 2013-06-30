@@ -58,7 +58,50 @@ module Trees
   end
 
 
-  def tree
+  # A tree that only contains nodes that are needed for displaying 'node'
+  #
+  # That is: any ancestors of 'node', plus the direct children of any ancestor
+  def partial_tree(node_of_interest)
+    ids_of_interest = []
+    nodes_to_check = [node_of_interest]
+
+    while !nodes_to_check.empty?
+      node = nodes_to_check.pop
+
+      # Include the node itself
+      ids_of_interest << node.id if node != :root
+
+      # Plus any of its siblings in this tree
+      self.class.node_model.
+           filter(:parent_id => (node == :root) ? nil : node.parent_id,
+                  :root_record_id => self.id).
+           select(:id).all.each do |row|
+        ids_of_interest << row[:id]
+      end
+
+      if node != :root && node.parent_id
+        parent = self.class.node_model[node.parent_id]
+        nodes_to_check << parent
+      end
+    end
+
+
+    # Include the children of the node of interest too
+    if node_of_interest != :root
+      self.class.node_model.
+           filter(:parent_id => node_of_interest.id,
+                  :root_record_id => self.id).
+           select(:id).all.each do |row|
+        ids_of_interest << row[:id]
+      end
+    end
+
+
+    tree(ids_of_interest)
+  end
+
+
+  def tree(ids_of_interest = :all)
     links = {}
     properties = {}
 
@@ -67,7 +110,20 @@ module Trees
 
     top_nodes = []
 
-    build_node_query.each do |node|
+    query = build_node_query
+
+    has_children = {}
+    if ids_of_interest != :all
+      # Further limit our query to only the nodes we want to hear about
+      query = query.filter(:id => ids_of_interest)
+
+      # And check whether those nodes have children as cheaply as possible
+      self.class.node_model.filter(:parent_id => ids_of_interest).distinct.select(:parent_id).all.each do |row|
+        has_children[row[:parent_id]] = true
+      end
+    end
+
+    query.all.each do |node|
       if node.parent_id
         links[node.parent_id] ||= []
         links[node.parent_id] << [node.position, node.id]
@@ -83,6 +139,10 @@ module Trees
         :node_type => node_type.to_s
       }
 
+      if ids_of_interest != :all
+        properties[node.id]['has_children'] = !!has_children[node.id]
+      end
+
       load_node_properties(node, properties)
     end
 
@@ -97,10 +157,9 @@ module Trees
 
     load_root_properties(result)
 
-    # Assumes that the tree's JSONModel type is just the root type with '_tree'
-    # stuck on.  Maybe a bit presumptuous?
-    JSONModel("#{self.class.root_type}_tree".intern).from_hash(result)
+    JSONModel("#{self.class.root_type}_tree".intern).from_hash(result, true, true)
   end
+
 
 
   module ClassMethods
@@ -128,6 +187,10 @@ module Trees
 
     def assemble_tree(node, links, properties)
       result = properties[node].clone
+
+      if !result.has_key?('has_children')
+        result['has_children'] = !!links[node]
+      end
 
       if links[node]
         result['children'] = links[node].sort_by(&:first).map do |position, child_id|

@@ -103,6 +103,21 @@ module URIResolver
 
 
   def self.resolve_uri(uri, env)
+    ASModel.all_models.each {|model|
+      jsonmodel = model.my_jsonmodel(true)
+      next if !jsonmodel
+
+      id = jsonmodel.id_for(uri, {}, true)
+      if id
+        repo_uri = JSONModel.repository_for(uri)
+        repo_id = repo_uri ? JSONModel::JSONModel(:repository).id_for(repo_uri) : nil
+
+        RequestContext.open(:repo_id => repo_id) do
+          return model.to_jsonmodel(id).to_json(:mode => :trusted)
+        end
+      end
+    }
+
     response = forward_rack_request("GET", uri, env)
 
     resolved = ""
