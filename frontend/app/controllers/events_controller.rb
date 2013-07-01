@@ -46,7 +46,7 @@ class EventsController < ApplicationController
                   flash[:success] = I18n.t("event._frontend.messages.created")
                   return redirect_to :controller => :events, :action => :new if params.has_key?(:plus_one)
 
-                  redirect_to :controller => :events, :action => :index, :id => id
+                  redirect_to :controller => :events, :action => :edit, :id => id
                 })
   end
 
@@ -57,7 +57,7 @@ class EventsController < ApplicationController
                 :on_invalid => ->(){ render :action => :edit },
                 :on_valid => ->(id){
                   flash[:success] = I18n.t("event._frontend.messages.updated")
-                  redirect_to :controller => :events, :action => :index
+                  redirect_to :controller => :events, :action => :edit, :id => id
                 })
   end
 

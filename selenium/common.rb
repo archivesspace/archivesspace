@@ -6,6 +6,7 @@ require "digest"
 require "rspec"
 require 'test_utils'
 require 'config/config-distribution'
+require 'securerandom'
 
 $server_pids = []
 $sleep_time = 0.0
@@ -145,7 +146,7 @@ class Selenium::WebDriver::Driver
 
 
   def generate_4part_id
-    Digest::MD5.hexdigest("#{Time.now}#{$$}").scan(/.{6}/)[0...1]
+    Digest::MD5.hexdigest("#{Time.now}#{SecureRandom.uuid}#{$$}").scan(/.{6}/)[0...1]
   end
 
   def complete_4part_id(pattern, accession_id = nil)
