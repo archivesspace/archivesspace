@@ -36,18 +36,12 @@ topics:
   archival_object_basic_information: 201
   archival_object_dates: 202
   archival_object_extents: 203
-  archival_object_finding_aid: 204
-  archival_object_related_accessions: 205
   archival_object_linked_agents: 205
   archival_object_subjects: 206
   archival_object_notes: 207
   archival_object_external_documents: 208
   archival_object_rights_statements: 209
   archival_object_instances: 210
-  archival_object_deaccessions: 211
-  archival_object_collection_management: 212
-  archival_object_classification: 213
-  archival_object_user_defined: 214
   # Digital Object Topics (300-)
   digital_object: 300
   digital_object_basic_information: 301
@@ -72,8 +66,6 @@ topics:
   digital_object_component_notes: 307
   digital_object_component_external_documents: 308
   digital_object_component_rights_statements: 309
-  digital_object_component_collection_management: 310
-  digital_object_component_user_defined: 311
   # Subjects (400-)
   subject: 400
   subject_basic_information: 401

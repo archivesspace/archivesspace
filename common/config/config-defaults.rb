@@ -70,5 +70,5 @@ AppConfig[:allow_user_registration] = true
 
 # Help Configuration
 AppConfig[:help_enabled] = false
-AppConfig[:help_url] = "http://docs.archivesspace.org/Default_CSH.htm"
-AppConfig[:help_topic_prefix] = "#"
+AppConfig[:help_url] = "http://docs.archivesspace.org"
+AppConfig[:help_topic_prefix] = "/Default_CSH.htm#"
