@@ -19,6 +19,7 @@ module ASModel
     base.extend(JSONModel)
 
     base.include(CRUD)
+    base.include(RepositoryTransfers)
     base.include(DatabaseMapping)
     base.include(SequelHooks)
     base.include(ModelScoping)
@@ -101,7 +102,9 @@ module ASModel
 
       if uri
         Tombstone.create(:uri => uri)
-        RealtimeIndexing.record_delete(uri)
+        DB.after_commit do
+          RealtimeIndexing.record_delete(uri)
+        end
       end
     end
 
@@ -498,6 +501,48 @@ module ASModel
       end
 
     end
+  end
+
+
+  # Code for moving records between repositories
+  module RepositoryTransfers
+
+    def transfer_to_repository(repository, transfer_group = [])
+
+      if self.values.has_key?(:repo_id)
+        old_uri = self.uri
+
+        old_repo = Repository[self.repo_id]
+
+        self.repo_id = repository.id
+        self.system_mtime = Time.now
+        save(:repo_id, :system_mtime)
+
+        # Mark the (now changed) URI as deleted
+        if old_uri
+          Tombstone.create(:uri => old_uri)
+          DB.after_commit do
+            RealtimeIndexing.record_delete(old_uri)
+          end
+
+          # Create an event if this is the top-level record being transferred.
+          if transfer_group.empty?
+            RequestContext.open(:repo_id => repository.id) do
+              Event.for_repository_transfer(old_repo, repository, self)
+            end
+          end
+        end
+      end
+
+      # Tell any nested records to transfer themselves too
+      Array(self.class.linked_records[self.class]).each do |linked_record_defn|
+        association = linked_record_defn[:association][:name]
+        Array(self.send(association)).each do |linked_record|
+          linked_record.transfer_to_repository(repository)
+        end
+      end
+    end
+
   end
 
 

@@ -229,6 +229,7 @@ end
 
 DB.open(true) do
   RequestContext.open do
+    create(:agent_corporate_entity)
     create(:repo)
     $default_repo = $repo_id
   end

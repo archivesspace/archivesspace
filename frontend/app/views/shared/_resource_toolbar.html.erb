@@ -52,6 +52,18 @@
           <ul class="dropdown-menu open-aligned-right">
             <%= yield :exports %>
           </ul>
+
+          <% if user_can?('transfer_archival_record') %>
+            <%=
+               render :partial => "shared/transfer_dropdown",
+                      :locals => {:record => record,
+                                  :controller => controller.controller_name,
+                                  :confirmation_title => I18n.t("actions.transfer_confirm_title"),
+                                  :confirmation_msg => I18n.t("actions.transfer_confirm_message",
+                                                              :target => record.title)}
+            %>
+          <% end %>
+
           <% if user_can?('delete_archival_record') %>
             <div class="btn-group">
               <div class="btn btn-inline-form">

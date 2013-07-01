@@ -17,6 +17,7 @@ class Accession < Sequel::Model(:accession)
   include UserDefineds
   include Classifications
   include AutoGenerator
+  include Transferable
 
   agent_relator_enum("linked_agent_archival_record_relators")
 

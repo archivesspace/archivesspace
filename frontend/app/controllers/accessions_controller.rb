@@ -1,7 +1,8 @@
 class AccessionsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :suppress, :unsuppress, :delete]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :suppress, :unsuppress, :delete, :transfer]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
   before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_archival_record")}
+  before_filter(:only => [:transfer]) {|c| user_must_have("transfer_archival_record")}
   before_filter(:only => [:suppress, :unsuppress]) {|c| user_must_have("suppress_archival_record")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
@@ -32,6 +33,11 @@ class AccessionsController < ApplicationController
 
     return render :partial => "accessions/edit_inline" if params[:inline]
   end
+
+  def transfer
+    handle_transfer(Accession)
+  end
+
 
   def create
     handle_crud(:instance => :accession,

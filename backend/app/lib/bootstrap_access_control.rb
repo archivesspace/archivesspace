@@ -124,6 +124,10 @@ class ArchivesSpaceService
                       "The ability to suppress the major archival record types: accessions/resources/digital objects/components/collection management/events",
                       :level => "repository")
 
+    Permission.define("transfer_archival_record",
+                      "The ability to transfer records between different repositories",
+                      :level => "repository")
+
     Permission.define("delete_archival_record",
                       "The ability to delete the major archival record types: accessions/resources/digital objects/components/collection management/events",
                       :level => "repository")

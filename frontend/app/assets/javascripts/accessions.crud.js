@@ -7,3 +7,4 @@
 //= require subrecord.crud
 //= require rights_statements.crud
 //= require form
+//= require transfer_dropdown

@@ -50,7 +50,8 @@ describe 'Corporate entity agent controller' do
     create_corporate_entity
     create_corporate_entity
 
-    JSONModel(:agent_corporate_entity).all(:page => 1)['results'].count.should eq(3)
+    # There's a corporate entity created in the test setup too.
+    JSONModel(:agent_corporate_entity).all(:page => 1)['results'].count.should eq(4)
   end
 
 

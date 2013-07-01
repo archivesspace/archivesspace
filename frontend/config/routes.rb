@@ -34,6 +34,7 @@ ArchivesSpace::Application.routes.draw do
   match 'accessions/:id/suppress' => 'accessions#suppress', :via => [:post]
   match 'accessions/:id/unsuppress' => 'accessions#unsuppress', :via => [:post]
   match 'accessions/:id/delete' => 'accessions#delete', :via => [:post]
+  match 'accessions/:id/transfer' => 'accessions#transfer', :via => [:post]
 
   match 'archival_objects/:id/transfer' => 'archival_objects#transfer', :via => [:post]
   resources :archival_objects
@@ -52,6 +53,7 @@ ArchivesSpace::Application.routes.draw do
   match 'digital_objects/:id/publish' => 'digital_objects#publish', :via => [:post]
   match 'digital_objects/:id/accept_children' => 'digital_objects#accept_children', :via => [:post]
   match 'digital_objects/:id/merge' => 'digital_objects#merge', :via => [:post]
+  match 'digital_objects/:id/transfer' => 'digital_objects#transfer', :via => [:post]
   match 'digital_objects/:id/tree' => 'digital_objects#tree', :via => [:get]
 
   resources :digital_object_components
@@ -70,6 +72,7 @@ ArchivesSpace::Application.routes.draw do
   match 'resources/:id/publish' => 'resources#publish', :via => [:post]
   match 'resources/:id/accept_children' => 'resources#accept_children', :via => [:post]
   match 'resources/:id/merge' => 'resources#merge', :via => [:post]
+  match 'resources/:id/transfer' => 'resources#transfer', :via => [:post]
   match 'resources/:id/tree' => 'resources#tree', :via => [:get]
 
   resources :classifications

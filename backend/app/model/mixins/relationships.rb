@@ -211,6 +211,32 @@ module Relationships
   end
 
 
+  def transfer_to_repository(repository, transfer_group = [])
+    # When a record is being transferred to another repository, any
+    # relationships it has to records within the current repository must be
+    # cleared.
+
+    predicate = proc {|relationship|
+      referent = relationship.other_referent_than(self)
+
+      # Delete the relationship if we're repository-scoped and the referent is
+      # in the old repository.  Don't worry about relationships to any of the
+      # records that are going to be transferred along with us (listed in
+      # transfer_group)
+      (referent.class.model_scope == :repository &&
+       referent.repo_id != repository.id &&
+       !transfer_group.any?{|obj| obj.id == referent.id && obj.model == referent.model})
+    }
+
+
+    ([self.class] + self.class.dependent_models).each do |model|
+      model.delete_existing_relationships(self, false, false, predicate)
+    end
+
+    super
+  end
+
+
   module ClassMethods
 
     # Reset relationship definitions for the current class
@@ -285,11 +311,14 @@ module Relationships
 
 
     # Delete all existing relationships for 'obj'.
-    def delete_existing_relationships(obj, bump_lock_version_on_referent = false, force = false)
+    def delete_existing_relationships(obj, bump_lock_version_on_referent = false, force = false, predicate = nil)
       relationships.each do |relationship_defn|
         next if (!relationship_defn.json_property && !force)
 
         relationship_defn.find_by_participant(obj).each do |relationship|
+
+          # If our predicate says to spare this relationship, leave it alone
+          next if predicate && !predicate.call(relationship)
 
           # If we're deleting a relationship without replacing it, bump the lock
           # version on the referent object so it doesn't accidentally get
