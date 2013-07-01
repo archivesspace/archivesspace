@@ -56,11 +56,11 @@
           <% if user_can?('transfer_archival_record') %>
             <%=
                render :partial => "shared/transfer_dropdown",
-                      :locals => {:record => @resource,
+                      :locals => {:record => record,
                                   :controller => controller.controller_name,
                                   :confirmation_title => I18n.t("actions.transfer_confirm_title"),
                                   :confirmation_msg => I18n.t("actions.transfer_confirm_message",
-                                                              :target => @resource.title)}
+                                                              :target => record.title)}
             %>
           <% end %>
 

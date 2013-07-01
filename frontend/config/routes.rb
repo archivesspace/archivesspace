@@ -53,6 +53,7 @@ ArchivesSpace::Application.routes.draw do
   match 'digital_objects/:id/publish' => 'digital_objects#publish', :via => [:post]
   match 'digital_objects/:id/accept_children' => 'digital_objects#accept_children', :via => [:post]
   match 'digital_objects/:id/merge' => 'digital_objects#merge', :via => [:post]
+  match 'digital_objects/:id/transfer' => 'digital_objects#transfer', :via => [:post]
   match 'digital_objects/:id/tree' => 'digital_objects#tree', :via => [:get]
 
   resources :digital_object_components
