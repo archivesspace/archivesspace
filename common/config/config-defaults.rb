@@ -67,3 +67,8 @@ AppConfig[:report_page_size] = "A4"
 AppConfig[:plugins] = ['local']
 
 AppConfig[:allow_user_registration] = true
+
+# Help Configuration
+AppConfig[:help_enabled] = false
+AppConfig[:help_url] = "http://docs.archivesspace.org/Default_CSH.htm"
+AppConfig[:help_topic_prefix] = "#"

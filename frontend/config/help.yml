@@ -1,6 +1,3 @@
-enabled: true
-base_url: "http://docs.archivesspace.org/Default_CSH.htm"
-topic_prefix: "#"
 topics:
   # Accession Topics (100-)
   accession: 100
