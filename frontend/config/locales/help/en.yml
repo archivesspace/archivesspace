@@ -36,6 +36,23 @@ en:
       resource_collection_management: Help on Collection Management
       resource_classification: Help on Classifications
       resource_user_defined: Help on User Defined
+      # Archival Object help tooltips
+      archival_object: Help on Archival Objects
+      archival_object_basic_information: Help on Basic Information
+      archival_object_dates: Help on Dates
+      archival_object_extents: Help on Extents
+      archival_object_finding_aid: Help on Finding Aid
+      archival_object_related_accessions: Help on Related Accessions
+      archival_object_linked_agents: Help on Agent Links
+      archival_object_subjects: Help on Subjects
+      archival_object_notes: Help on Notes
+      archival_object_external_documents: Help on External Documents
+      archival_object_rights_statements: Help on Rights Statements
+      archival_object_instances: Help on Instances
+      archival_object_deaccessions: Help on Deaccessions
+      archival_object_collection_management: Help on Collection Management
+      archival_object_classification: Help on Classifications
+      archival_object_user_defined: Help on User Defined
       # Digital Object help tooltips
       digital_object: Help on Digital Object
       digital_object_basic_information: Help on Basic Information
@@ -53,6 +70,23 @@ en:
       digital_object_collection_management: Help on Collection Management
       digital_object_classification: Help on Classifications
       digital_object_user_defined: Help on User Defined
+      # Digital Object Component help tooltips
+      digital_object_component: Help on Digital Object Components
+      digital_object_component_basic_information: Help on Basic Information
+      digital_object_component_dates: Help on Dates
+      digital_object_component_extents: Help on Extents
+      digital_object_component_finding_aid: Help on Finding Aid
+      digital_object_component_related_accessions: Help on Related Accessions
+      digital_object_component_linked_agents: Help on Agent Links
+      digital_object_component_subjects: Help on Subjects
+      digital_object_component_notes: Help on Notes
+      digital_object_component_external_documents: Help on External Documents
+      digital_object_component_rights_statements: Help on Rights Statements
+      digital_object_component_instances: Help on Instances
+      digital_object_component_deaccessions: Help on Deaccessions
+      digital_object_component_collection_management: Help on Collection Management
+      digital_object_component_classification: Help on Classifications
+      digital_object_component_user_defined: Help on User Defined
       # Subjects
       subject: Help on Subjects
       subject_basic_information: Help on Basic Information
@@ -100,6 +134,7 @@ en:
       event_linked_records: Help on Record Links
       # Classification
       classification: Help on Classifications
+      classification_term: Help on Classifications
       # Import
       import: Help on Importing Data
       # Search
