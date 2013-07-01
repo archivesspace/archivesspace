@@ -34,6 +34,7 @@ ArchivesSpace::Application.routes.draw do
   match 'accessions/:id/suppress' => 'accessions#suppress', :via => [:post]
   match 'accessions/:id/unsuppress' => 'accessions#unsuppress', :via => [:post]
   match 'accessions/:id/delete' => 'accessions#delete', :via => [:post]
+  match 'accessions/:id/transfer' => 'accessions#transfer', :via => [:post]
 
   match 'archival_objects/:id/transfer' => 'archival_objects#transfer', :via => [:post]
   resources :archival_objects

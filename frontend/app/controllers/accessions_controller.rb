@@ -1,7 +1,8 @@
 class AccessionsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :suppress, :unsuppress, :delete]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :suppress, :unsuppress, :delete, :transfer]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
   before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_archival_record")}
+  before_filter(:only => [:transfer]) {|c| user_must_have("transfer_archival_record")}
   before_filter(:only => [:suppress, :unsuppress]) {|c| user_must_have("suppress_archival_record")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
@@ -31,6 +32,20 @@ class AccessionsController < ApplicationController
     end
 
     return render :partial => "accessions/edit_inline" if params[:inline]
+  end
+
+  def transfer
+    old_uri = Accession.uri_for(params[:id])
+    response = JSONModel::HTTP.post_form(Accession.uri_for(params[:id]) + "/transfer",
+                                         "target_repo" => params[:ref])
+
+    if response.code == '200'
+      flash[:success] = I18n.t("actions.transfer_successful")
+    else
+      flash[:error] = I18n.t("actions.transfer_failed") + ": " + response.body
+    end
+
+    redirect_to(:controller => :accessions, :action => :index, :deleted_uri => old_uri)
   end
 
   def create

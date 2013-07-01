@@ -50,6 +50,16 @@
               </ul>
             </div>
           <% end %>
+          <% if user_can?('transfer_archival_record') %>
+            <%=
+               render :partial => "shared/transfer_dropdown",
+                      :locals => {:record => @accession,
+                                  :controller => controller.controller_name,
+                                  :confirmation_title => I18n.t("actions.transfer_confirm_title"),
+                                  :confirmation_msg => I18n.t("actions.transfer_confirm_message",
+                                                              :target => @accession.title)}
+            %>
+          <% end %>
           <% if user_can?('suppress_archival_record') || user_can?('delete_archival_record') %>
             <div class="btn-group">
               <% if user_can?('suppress_archival_record') %>
