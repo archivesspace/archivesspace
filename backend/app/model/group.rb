@@ -152,4 +152,9 @@ class Group < Sequel::Model(:group)
     self.class.broadcast_changes
   end
 
+
+  def self.transfer_all(source_repository, target_repository)
+    # Groups aren't candidates for being transferred, so we don't call super.
+  end
+
 end

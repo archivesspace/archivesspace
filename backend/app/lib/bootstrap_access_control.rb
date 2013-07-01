@@ -95,6 +95,10 @@ class ArchivesSpaceService
                       "The ability to delete a repository",
                       :level => "global")
 
+    Permission.define("transfer_repository",
+                      "The ability to transfer the contents of a repository",
+                      :level => "repository")
+
     Permission.define("index_system",
                       "The ability to read any record for indexing",
                       :level => "global",

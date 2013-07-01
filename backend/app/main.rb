@@ -214,6 +214,10 @@ class ArchivesSpaceService < Sinatra::Base
     json_response({:error => {"failures" => request.env['sinatra.error'].errors}}, 403)
   end
 
+  error TransferConstraintError do
+    json_response({:error => request.env['sinatra.error'].conflicts}, 409)
+  end
+
   error ValidationException do
     json_response({
                     :error => request.env['sinatra.error'].errors,

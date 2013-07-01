@@ -95,4 +95,12 @@ class Repository < Sequel::Model(:repository)
   end
 
 
+  def assimilate(other_repository)
+    ASModel.all_models.each do |model|
+      if model.model_scope(true) == :repository
+        model.transfer_all(other_repository, self)
+      end
+    end
+  end
+
 end
