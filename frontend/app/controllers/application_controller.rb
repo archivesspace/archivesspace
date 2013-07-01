@@ -402,4 +402,20 @@ class ApplicationController < ActionController::Base
     node['children'].map{|child_node| parse_tree(child_node, node, proc)} if node['children']
     proc.call(node, parent)
   end
+
+
+  def handle_transfer(model)
+    old_uri = model.uri_for(params[:id])
+    response = JSONModel::HTTP.post_form(model.uri_for(params[:id]) + "/transfer",
+                                         "target_repo" => params[:ref])
+
+    if response.code == '200'
+      flash[:success] = I18n.t("actions.transfer_successful")
+    else
+      flash[:error] = I18n.t("actions.transfer_failed") + ": " + response.body
+    end
+
+    redirect_to(:action => :index, :deleted_uri => old_uri)
+  end
+
 end

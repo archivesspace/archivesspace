@@ -590,6 +590,8 @@ en:
         merge_description: Merge this resource into...
         please_select_a_resource_to_merge: Please select a resource
         merged: Resource(s) Merged
+        transfer_description: Transfer this resource to...
+        transfer_target: Select a repository to transfer into
       section:
         basic_information: Basic Information
         finding_aid: Finding Aid Data

@@ -35,18 +35,9 @@ class AccessionsController < ApplicationController
   end
 
   def transfer
-    old_uri = Accession.uri_for(params[:id])
-    response = JSONModel::HTTP.post_form(Accession.uri_for(params[:id]) + "/transfer",
-                                         "target_repo" => params[:ref])
-
-    if response.code == '200'
-      flash[:success] = I18n.t("actions.transfer_successful")
-    else
-      flash[:error] = I18n.t("actions.transfer_failed") + ": " + response.body
-    end
-
-    redirect_to(:controller => :accessions, :action => :index, :deleted_uri => old_uri)
+    handle_transfer(Accession)
   end
+
 
   def create
     handle_crud(:instance => :accession,
