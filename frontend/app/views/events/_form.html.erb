@@ -27,7 +27,41 @@
   </div>
 </section>
 
+<% if form.readonly? %>
+  <h3><%= I18n.t("linked_agent._plural") %></h3>
 
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "event_linked_agent"} %>
+  <div class="control-group">
+    <div class="control-label"><%= I18n.t("linked_agent._plural") %></div>
+    <div class="controls token-list">
+      <% form['linked_agents'].each do |linked_agent| %>
+        <%= render_token :object => linked_agent['_resolved'],
+                         :label => linked_agent['_resolved']['title'],
+                         :type => "location",
+                         :uri => linked_agent["ref"],
+                         :placement => "top" %>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "event_linked_agent"} %>
 
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_records"} %>
+<% end %>
+
+<% if form.readonly? %>
+  <h3><%= I18n.t("linked_record._plural") %></h3>
+
+  <div class="control-group">
+    <div class="control-label"><%= I18n.t("linked_record._plural") %></div>
+    <div class="controls token-list">
+      <% form['linked_records'].each do |linked_record| %>
+        <%= render_token :object => linked_record['_resolved'],
+                         :label => linked_record['_resolved']['title'],
+                         :type => "location",
+                         :uri => linked_record["ref"],
+                         :placement => "top" %>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_records"} %>
+<% end %>

@@ -470,7 +470,7 @@ module AspaceFormHelper
     end
 
     def label_and_date(name, opts = {})
-      label_with_field(name, obj[name].blank? ? "" : Date.strptime(obj[name], "%Y-%m-%d").strftime("%Y-%m-%d"))
+      label_with_field(name, "#{obj[name]}")
     end
   end
 

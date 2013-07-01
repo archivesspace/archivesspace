@@ -11,7 +11,10 @@
 
       <%= render :partial => "shared/flash_messages" %>
 
-      <%= read_only_view(@event.to_hash) %>
+      <%= readonly_context :event, @event do |readonly| %>
+        <%= render :partial => "events/form", :locals => {:form => readonly} %>
+      <% end %>
+      <%# read_only_view(@event.to_hash) %>
     </div>
   </div>
 </div>
