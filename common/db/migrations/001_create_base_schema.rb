@@ -423,6 +423,9 @@ Sequel.migration do
       BlobField :notes, :null => true
 
       Integer :system_generated, :default => 0
+      
+      Integer :restrictions_apply
+      TextField :repository_processing_note
 
       apply_mtime_columns
     end
