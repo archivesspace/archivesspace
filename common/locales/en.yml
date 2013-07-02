@@ -1237,7 +1237,8 @@ en:
     publish: Publish?
     publish_tooltip: |
         <p>Determines whether this Resource will be published to public (patron) interfaces.</p>
-    restrictions_apply: Restrictions?
+    restrictions: Restrictions?
+    restrictions_apply: Restrictions Apply?
     restrictions_tooltip: |
         <p>Indicates whether the materials described are restricted in any way. Additional description of the restriction should be provided in appropriate Notes or Rights Statements for the record where the restriction occurs.</p>
         <p>See DACS 4.1-4.4</p>
