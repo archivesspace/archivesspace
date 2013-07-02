@@ -94,7 +94,12 @@ class RepositoriesController < ApplicationController
 
   def delete
     repository = JSONModel(:repository).find(params[:id])
-    repository.delete
+    begin
+      repository.delete
+    rescue ConflictException => e
+      flash[:error] = I18n.t("repository._frontend.messages.cannot_delete_nonempty")
+      return redirect_to(:controller => :repositories, :action => :show, :id => params[:id])
+    end
 
     MemoryLeak::Resources.refresh(:repository)
 

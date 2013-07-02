@@ -576,6 +576,7 @@ en:
         transfer_failed: Transfer could not complete due to the following errors
         transfer_target: Select a repository to transfer into
         transfer_warning: <strong>Warning:</strong> Transferring this repository will move <strong>all</strong> of its records into the repository you select.  <strong>This action cannot be reversed</strong>
+        cannot_delete_nonempty: Cannot delete - repository not empty
       section:
         all_fields: Repository Fields
         transfer: Transfer Repository
