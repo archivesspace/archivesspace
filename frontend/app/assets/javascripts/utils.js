@@ -528,6 +528,7 @@ AS.initAddAsYouGoActions = function($form, $list) {
 
       $a.click(function(e) {
         e.preventDefault();
+        e.stopPropagation();
 
         $btn.trigger("click");
       });
