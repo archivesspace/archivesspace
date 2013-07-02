@@ -16,22 +16,22 @@ ASpaceImport::Importer.importer :marcxml do
 
     if @flags['subjects_and_agents_only']
       config['//record'][:map].select {|key, val| [
-          "//datafield[@tag='100' or @tag='700'][@ind1='1']",
-          "//datafield[@tag='110' or @tag='710']",
-          "//datafield[@tag='111' or @tag='711']",
-          "//datafield[@tag='600'][@ind1='1']",
-          "//datafield[@tag='600'][@ind1='3']",
-          "//datafield[@tag='610']",
-          "//datafield[@tag='611']",
-          "//datafield[@tag='630']",
-          "//datafield[@tag='650']",
-          "//datafield[@tag='651']",
-          "//datafield[@tag='655']",
-          "//datafield[@tag='656']",
-          "//datafield[@tag='657']",
-          "//datafield[starts-with(@tag, '69')]",
-          "//datafield[@tag='720']['@ind1'='1']",
-          "//datafield[@tag='720']['@ind1'='2']"
+          "datafield[@tag='100' or @tag='700'][@ind1='1']",
+          "datafield[@tag='110' or @tag='710']",
+          "datafield[@tag='111' or @tag='711']",
+          "datafield[@tag='600'][@ind1='1']",
+          "datafield[@tag='600'][@ind1='3']",
+          "datafield[@tag='610']",
+          "datafield[@tag='611']",
+          "datafield[@tag='630']",
+          "datafield[@tag='650']",
+          "datafield[@tag='651']",
+          "datafield[@tag='655']",
+          "datafield[@tag='656']",
+          "datafield[@tag='657']",
+          "datafield[starts-with(@tag, '69')]",
+          "datafield[@tag='720']['@ind1'='1']",
+          "datafield[@tag='720']['@ind1'='2']"
           ].include?(key) }
     else
       config
@@ -74,13 +74,13 @@ ASpaceImport::Importer.importer :marcxml do
           },
 
           # ID_0, ID_1, ID_2, ID_3
-          "child::datafield[@tag='852']" => Proc.new {|resource, node|
+          "datafield[@tag='852']" => Proc.new {|resource, node|
             id = concatenate_subfields(%w(k h i m), node, '_')
             resource.id_0 = id unless id.empty?
           },
 
 
-          "child::datafield[@tag='090']" => Proc.new {|resource, node|
+          "datafield[@tag='090']" => Proc.new {|resource, node|
             if resource.id_0.nil? or resource.id_0.empty?
               id = concatenate_subfields(('a'..'z'), node, '_')
               resource.id_0 = id unless id.empty?
@@ -88,11 +88,11 @@ ASpaceImport::Importer.importer :marcxml do
           },
 
           # 200s
-          "child::datafield[@tag='210']" => mix(multipart_note('odd', "Abbreviated Title", "{$a: }{$b }{($2)}"), is_fallback_resource_title),
+          "datafield[@tag='210']" => mix(multipart_note('odd', "Abbreviated Title", "{$a: }{$b }{($2)}"), is_fallback_resource_title),
 
-          "child::datafield[@tag='222']" => mix(multipart_note('odd', "Abbreviated Title", "{$a: }{$b }{($2)}"), is_fallback_resource_title),
+          "datafield[@tag='222']" => mix(multipart_note('odd', "Abbreviated Title", "{$a: }{$b }{($2)}"), is_fallback_resource_title),
 
-          "child::datafield[@tag='240']" => mix(multipart_note('odd', 'Uniform Title', %q|
+          "datafield[@tag='240']" => mix(multipart_note('odd', 'Uniform Title', %q|
                                                 $a ({Date of treaty signing-$d; }
                                                 {Date of work-$f; }{Medium-$h; }
                                                 {Language-$l; }
@@ -103,10 +103,10 @@ ASpaceImport::Importer.importer :marcxml do
                                                 Version-$s; Form subdivision-$k; Miscellaneous-$g)
                                                 |), is_fallback_resource_title),
 
-          "child::datafield[@tag='242']" => multipart_note('odd',  'Translation of Title', "{$a: }{$b }{[$h] }{$n, }{$p, }{$y}){ / $c}"),
+          "datafield[@tag='242']" => multipart_note('odd',  'Translation of Title', "{$a: }{$b }{[$h] }{$n, }{$p, }{$y}){ / $c}"),
 
           # TITLE
-          "child::datafield[@tag='245']" => Proc.new {|resource, node|
+          "datafield[@tag='245']" => Proc.new {|resource, node|
             resource.title = subfield_template("{$a : }{$b }{[$h] }{$k , }{$n , }{$p , }{$s }{/ $c}", node)
 
             expression = concatenate_subfields(%w(f g), node, '-')
@@ -122,7 +122,7 @@ ASpaceImport::Importer.importer :marcxml do
             end
           },
 
-          "child::datafield[@tag='246'][@ind2='0']" => multipart_note('odd',
+          "datafield[@tag='246'][@ind2='0']" => multipart_note('odd',
                                                         Proc.new{|node|
                                                           {
                                                             '0'=>'Portion of title',
@@ -139,23 +139,23 @@ ASpaceImport::Importer.importer :marcxml do
                                                         "{$a: }{$b }{[$h] }{$f, }{$n }{$p, }{$g})"
                                                         ),
 
-          "child::datafield[@tag='250']" => multipart_note('odd', 'Edition Statement', "$a / $b"),
+          "datafield[@tag='250']" => multipart_note('odd', 'Edition Statement', "$a / $b"),
 
-          "child::datafield[@tag='254']" => multipart_note('odd', 'Musical Presentation Statement', "$a"),
+          "datafield[@tag='254']" => multipart_note('odd', 'Musical Presentation Statement', "$a"),
 
-          "child::datafield[@tag='255']" => multipart_note('odd', 'Mathematical map data', %q|
+          "datafield[@tag='255']" => multipart_note('odd', 'Mathematical map data', %q|
                                             Statement of scale--$a; Statement of projection--$b; Statement of
                                             coordinates--$c; Statement of zone--$d; Statement of equinox--$e;
                                             Ourter G-ring coordinate pairs--$f; ExclusionG-ring coordinate pairs--$g.
                                             |),
 
-          "child::datafield[@tag='256']" => singlepart_note('physdesc', 'Computer file Characteristics', "$a"),
+          "datafield[@tag='256']" => singlepart_note('physdesc', 'Computer file Characteristics', "$a"),
 
-          "child::datafield[@tag='257']" => multipart_note('odd', 'Country of Producing Entity for Archival Films', "$a"),
+          "datafield[@tag='257']" => multipart_note('odd', 'Country of Producing Entity for Archival Films', "$a"),
 
-          "child::datafield[@tag='258']" => multipart_note('odd', 'Stamp description', "$a, $b."),
+          "datafield[@tag='258']" => multipart_note('odd', 'Stamp description', "$a, $b."),
 
-          "child::datafield[@tag='260']" => mix(multipart_note('odd', 'Publication Date', "$c"), {
+          "datafield[@tag='260']" => mix(multipart_note('odd', 'Publication Date', "$c"), {
             "self::datafield" => Proc.new {|resource, node|
               if resource['_needs_date']
                 make(:date) do |date|
@@ -170,7 +170,7 @@ ASpaceImport::Importer.importer :marcxml do
 
           # 300s
           # EXTENTS
-          "child::datafield[@tag='300']" => {
+          "datafield[@tag='300']" => {
             :obj => :extent,
             :rel => :extents,
             :map => {
@@ -181,16 +181,16 @@ ASpaceImport::Importer.importer :marcxml do
             :defaults => {:portion => 'whole', :number => '1', :extent_type => 'linear_feet'}
           },
 
-          "child::datafield[@tag='306']" => singlepart_note('physdesc', 'Playing Time', "{$a}"),
+          "datafield[@tag='306']" => singlepart_note('physdesc', 'Playing Time', "{$a}"),
 
-          "child::datafield[@tag='340']" => multipart_note('phystech', 'Physical Medium', %q|
+          "datafield[@tag='340']" => multipart_note('phystech', 'Physical Medium', %q|
                                             {$3: }{Material base and configuration--$a; }{Dimensions--$b; }
                                             {Materials applied to surface--$c; }{Information recording technique--$d, }
                                             {Support--$e, }{Production rate / ratio--$f, }{Location within medium--$h, }
                                             {Technical specifications of medium--$i}
                                             |),
 
-          "child::datafield[@tag='342']" => multipart_note('odd',
+          "datafield[@tag='342']" => multipart_note('odd',
                                             Proc.new {|node|
                                               label = 'Geospatial Reference Dimension: '
                                               map = {
@@ -238,7 +238,7 @@ ASpaceImport::Importer.importer :marcxml do
                                             |),
 
 
-          "child::datafield[@tag='343']" => singlepart_note('physdesc', 'Planar Surface Coordinate System', %q|
+          "datafield[@tag='343']" => singlepart_note('physdesc', 'Planar Surface Coordinate System', %q|
                                             {Planar coordinate encoding method--$a; }
                                             {Planar distance units--$b; }
                                             {Abscissa resolution--$c; }{Ordinate resolution--$d; }
@@ -247,15 +247,15 @@ ASpaceImport::Importer.importer :marcxml do
                                             {Bearing reference meridian--$i.}
                                             |),
 
-          "child::datafield[@tag='351']" => multipart_note('arrangement', 'Arrangement', "{$3: }{$a. }{$b. }{$c}"),
+          "datafield[@tag='351']" => multipart_note('arrangement', 'Arrangement', "{$3: }{$a. }{$b. }{$c}"),
 
-          "child::datafield[@tag='352']" => multipart_note('phystech', 'Digital Graphic Representation', %q|
+          "datafield[@tag='352']" => multipart_note('phystech', 'Digital Graphic Representation', %q|
                                             {Direct reference method--$a; }{Object type--$b; }
                                             {Object count--$c; }{Row count--$d; }{Column count--$e; }
                                             {Vertical count--$f; }{VPF topology level--$g; }{Indirect reference description--$i; }
                                             {Format of the digital image--$q.}|),
 
-          "child::datafield[@tag='355']" => multipart_note('accessrestrict', 'Security Classification Control',
+          "datafield[@tag='355']" => multipart_note('accessrestrict', 'Security Classification Control',
                                             %q|{@ind1 }
                                             {Security classification--$a; }{Handling instructions--$b; }
                                             {External dissemination information--$c; }{Downgrading or declassification event--$d; }
@@ -271,27 +271,27 @@ ASpaceImport::Importer.importer :marcxml do
                                                 '8'=>'Other element'}
                                               }),
 
-          "child::datafield[@tag='357']" => multipart_note('odd', 'Originator Dissemination Control', %q|
+          "datafield[@tag='357']" => multipart_note('odd', 'Originator Dissemination Control', %q|
                                             {Originator control term--$a; }{Originating agency--$b; }
                                             {Authorized recipients of materials--$c; }{Other restrictions--$g}
                                             |),
 
           # 500s
-          "child::datafield[@tag='500']" => multipart_note('accessrestrict', 'General Note', "{$3: }{$a}"),
+          "datafield[@tag='500']" => multipart_note('accessrestrict', 'General Note', "{$3: }{$a}"),
 
-          "child::datafield[@tag='501']" => multipart_note('odd', 'With Note', "{$a}"),
+          "datafield[@tag='501']" => multipart_note('odd', 'With Note', "{$a}"),
 
-          "child::datafield[@tag='502']" => multipart_note('odd', 'Thesis / Dissertation Note', "{$a}"),
+          "datafield[@tag='502']" => multipart_note('odd', 'Thesis / Dissertation Note', "{$a}"),
 
-          "child::datafield[@tag='504']" => bibliography_note_template('Bibliographic References', "{$a }{$b}"),
+          "datafield[@tag='504']" => bibliography_note_template('Bibliographic References', "{$a }{$b}"),
 
-          "child::datafield[@tag='506']" => multipart_note('accessrestrict', ' Restrictions on Access', "{$3: }{$a, }{$b, }{$c, }{$d, }{$e, }{$u}."),
+          "datafield[@tag='506']" => multipart_note('accessrestrict', ' Restrictions on Access', "{$3: }{$a, }{$b, }{$c, }{$d, }{$e, }{$u}."),
 
-          "child::datafield[@tag='507']" => multipart_note('odd', 'Scale Note for Graphic Material', "{$a : }{$b}"),
+          "datafield[@tag='507']" => multipart_note('odd', 'Scale Note for Graphic Material', "{$a : }{$b}"),
 
-          "child::datafield[@tag='508']" => multipart_note('odd', 'Production Credits', "{$a}"),
+          "datafield[@tag='508']" => multipart_note('odd', 'Production Credits', "{$a}"),
 
-          "child::datafield[@tag='510']" => bibliography_note_template('Bibliographic References',
+          "datafield[@tag='510']" => bibliography_note_template('Bibliographic References',
                                            "Indicator 1 {@ind1} -- {$3: }{$a : }{$b : }{$c }{($x)}",
                                            {'ind1' =>{
                                              '0'=>'Coverage unknown',
@@ -301,11 +301,11 @@ ASpaceImport::Importer.importer :marcxml do
                                              '4'=>'Location in source given',
                                            }}),
 
-          "child::datafield[@tag='511']" => multipart_note('odd', 'Participants / Performers', "{$a}"),
+          "datafield[@tag='511']" => multipart_note('odd', 'Participants / Performers', "{$a}"),
 
-          "child::datafield[@tag='513']" => multipart_note('scopecontent', 'Type of report', "{$a} {($b)}"),
+          "datafield[@tag='513']" => multipart_note('scopecontent', 'Type of report', "{$a} {($b)}"),
 
-          "child::datafield[@tag='514']" => multipart_note('odd', 'Data quality', %q|
+          "datafield[@tag='514']" => multipart_note('odd', 'Data quality', %q|
                                             {$z: }{Attribute accuracy report--$a; }{Attribute accuracy value--$b; }
                                             {Attribute accuracy explanation--$c; }{Logical consistency report--$d; }
                                             {Completeness report--$e; }{Horizontal position accuracy report--$f; }
@@ -315,18 +315,18 @@ ASpaceImport::Importer.importer :marcxml do
                                             {Uniform Resource Identifier--$u}.|),
 
 
-          "child::datafield[@tag='518']" => multipart_note('odd', 'Date and Time of Event', "{$3: }{$a.}"),
+          "datafield[@tag='518']" => multipart_note('odd', 'Date and Time of Event', "{$3: }{$a.}"),
 
-          "child::datafield[@tag='520'][@ind1!='3' and @ind1!='8']" => multipart_note(
+          "datafield[@tag='520'][@ind1!='3' and @ind1!='8']" => multipart_note(
                     'odd',
                     Proc.new{|node|
                       {'0'=>'Subject', '1'=>'Review', '2'=>'Scope and content'}[node.attr('ind1')] || "Summary"
                     },
                     "{$3: }{$a. }{($u) }{\n$b}"),
 
-          "child::datafield[@tag='520'][@ind1='3']" => singlepart_note('abstract', 'Abstract', "{$3: }{$a. }{($u) }{\n$b}"),
+          "datafield[@tag='520'][@ind1='3']" => singlepart_note('abstract', 'Abstract', "{$3: }{$a. }{($u) }{\n$b}"),
 
-          "child::datafield[@tag='521'][@ind1!='8']" => multipart_note(
+          "datafield[@tag='521'][@ind1!='8']" => multipart_note(
                     'odd',
                     Proc.new{|node|
                       {
@@ -341,49 +341,49 @@ ASpaceImport::Importer.importer :marcxml do
                       "{$3: }{$a }{($b)}."),
 
 
-          "child::datafield[@tag='522']" => multipart_note('odd', 'Geographic Coverage', "{$a}"),
+          "datafield[@tag='522']" => multipart_note('odd', 'Geographic Coverage', "{$a}"),
 
-          "child::datafield[@tag='524']" => multipart_note('prefercite', 'Preferred Citation', "{$3: }{$a. }{$2}."),
+          "datafield[@tag='524']" => multipart_note('prefercite', 'Preferred Citation', "{$3: }{$a. }{$2}."),
 
-          "child::datafield[@tag='530']" => multipart_note('altformavail', 'Alternate Form Available', "{$3: }{$a. }{$b. }{$c. }{$d. }{($u)}"),
+          "datafield[@tag='530']" => multipart_note('altformavail', 'Alternate Form Available', "{$3: }{$a. }{$b. }{$c. }{$d. }{($u)}"),
 
-          "child::datafield[@tag='533']" => multipart_note('odd', 'Reproduction Note', %q|
+          "datafield[@tag='533']" => multipart_note('odd', 'Reproduction Note', %q|
                                             {$3: }{Type of reproduction--$a; }{Place of reproduction--$b; }
                                             {Agency responsible for reproduction--$c: }{Date of reproduction--$d. }{Physical description of reproduction--$e. }
                                             {Series statement of reproduction--$f. }{Dates and / or sequential of issues reproduced--$m. }
                                             {Note about reproduction--$n.}|
                                             ),
 
-          "child::datafield[@tag='534']" => multipart_note('odd', 'Original Version Note', %q|
+          "datafield[@tag='534']" => multipart_note('odd', 'Original Version Note', %q|
                                             {$p: }{$a, }{$t, }{$k, }{$c }{($b). }{$f. }{$e, }{$m. }{$n, }{$l. }{($x), }{($z)}.|),
 
-          "child::datafield[@tag='535']" => multipart_note('originalsloc', 'Location of Originals Note', %q|
+          "datafield[@tag='535']" => multipart_note('originalsloc', 'Location of Originals Note', %q|
                                             Indicator 1 {@ind1: } {$3--}{$a. }{$b, }{$c. }{$d }{($g).}|,
                                             {'ind1'=>{'1'=>'Holder of originals', '2'=>'Holder of duplicates'}}),
 
           # FINDING AID SPONSOR
-          "child::datafield[@tag='536']" => Proc.new{|resource, node|
+          "datafield[@tag='536']" => Proc.new{|resource, node|
                                             resource.finding_aid_sponsor=subfield_template(%q|
                                               {Text of note--$a; }{Contract number--$b; }{Grant number--$c; }
                                               {Undifferentiated number--$d; }{Program element number--$f; }{Task number--$g; }
                                               {Work unit number--$h}|, node)
                                             },
 
-          "child::datafield[@tag='538']" => multipart_note('phystech', 'System Details Note', "{$3: }{$a }{($u)}."),
+          "datafield[@tag='538']" => multipart_note('phystech', 'System Details Note', "{$3: }{$a }{($u)}."),
 
-          "child::datafield[@tag='540']" => multipart_note('userestrict', 'Terms Governing Use and Reproduction', "{$3: }{$a. }{$b. }{$c. }{$d }{($u)}."),
+          "datafield[@tag='540']" => multipart_note('userestrict', 'Terms Governing Use and Reproduction', "{$3: }{$a. }{$b. }{$c. }{$d }{($u)}."),
 
-          "child::datafield[@tag='541']" => multipart_note('acqinfo', 'Immediate Source of Acquisition', %q|
+          "datafield[@tag='541']" => multipart_note('acqinfo', 'Immediate Source of Acquisition', %q|
                                             {$3: }{Source of acquisition--$a. }{Address--$b. }{Method of acquisition--$c; }
                                             {Date of acquisition--$d. }{Accession number--$e: }{Extent--$n; }
                                             {Type of unit--$o. }{Owner--$f. }{Purchase price--$h}.|),
 
-          "child::datafield[@tag='544']" => multipart_note('relatedmaterial', 'Related Archival Materials', %q|
+          "datafield[@tag='544']" => multipart_note('relatedmaterial', 'Related Archival Materials', %q|
                                             {Indicator 1 @ind1--}{$3: }{Title--$t. }{Custodian--$a: }
                                             {Address--$b, }{Country--$c. }{Provenance--$e. }{Note--$n}.|,
                                             {'ind1'=>{'1'=>'Associated Materials', '2'=>'Related Materials'}}),
 
-          "child::datafield[@tag='545']" => multipart_note(
+          "datafield[@tag='545']" => multipart_note(
                     'bioghist',
                     Proc.new{|node|
                       {
@@ -394,45 +394,45 @@ ASpaceImport::Importer.importer :marcxml do
                     },
                       "{$a }{($u)}.{\n$b.}"),
 
-          "child::datafield[@tag='546']" => singlepart_note('langmaterial', 'Language of Material', "{$3: }{$a }{($b)}."),
+          "datafield[@tag='546']" => singlepart_note('langmaterial', 'Language of Material', "{$3: }{$a }{($b)}."),
 
-          "child::datafield[@tag='561']" => multipart_note('custodhist', 'Ownership and Custodial History', "{$3: }{$a}."),
+          "datafield[@tag='561']" => multipart_note('custodhist', 'Ownership and Custodial History', "{$3: }{$a}."),
 
-          "child::datafield[@tag='562']" => multipart_note('relatedmaterial', 'Copy and Version Identification', %q|
+          "datafield[@tag='562']" => multipart_note('relatedmaterial', 'Copy and Version Identification', %q|
                                             {$3: }{Identifying markings--$a; }{Copy identification--$b; }{Version identification--$c; }
                                             {Presentation format--$d; }{Number of copies--$e}.|),
 
-          "child::datafield[@tag='563']" => multipart_note('odd', 'Binding Information', "{$3: }{$a }{($u)}."),
+          "datafield[@tag='563']" => multipart_note('odd', 'Binding Information', "{$3: }{$a }{($u)}."),
 
-          "child::datafield[@tag='565']" => singlepart_note('materialspec', 'Case File Characteristics Note', %q|
+          "datafield[@tag='565']" => singlepart_note('materialspec', 'Case File Characteristics Note', %q|
                                             {$3: }{Number of cases / variables--$a; }{name of variable--$b; }
                                             {Unit of analysis--$c; }{Universe of data--$d; }{Filing scheme or code--$e}.|),
 
-          "child::datafield[@tag='581']" => bibliography_note_template('Publications About Described Materials', "{$3: }{$a }{($z)}."),
+          "datafield[@tag='581']" => bibliography_note_template('Publications About Described Materials', "{$3: }{$a }{($z)}."),
 
-          "child::datafield[starts-with(@tag, '59')]" => multipart_note('odd', 'Local Note'),
+          "datafield[starts-with(@tag, '59')]" => multipart_note('odd', 'Local Note'),
 
           # LINKED AGENTS (PERSON)
-          "//datafield[@tag='100' or @tag='700'][@ind1='1']" => mix(person_template, creators_and_sources),
+          "datafield[@tag='100' or @tag='700'][@ind1='1']" => mix(person_template, creators_and_sources),
 
-          "//datafield[@tag='600'][@ind1='1']" => mix(person_template, agent_as_subject),
+          "datafield[@tag='600'][@ind1='1']" => mix(person_template, agent_as_subject),
 
           # LINKED AGENTS (FAMILY)
-          "//datafield[@tag='100' or @tag='700'][@ind1='3']" => mix(family_template, creators_and_sources),
+          "datafield[@tag='100' or @tag='700'][@ind1='3']" => mix(family_template, creators_and_sources),
 
-          "//datafield[@tag='600'][@ind1='3']" => mix(family_template, agent_as_subject),
+          "datafield[@tag='600'][@ind1='3']" => mix(family_template, agent_as_subject),
 
           # LINKED AGENTS (CORPORATE)
-          "//datafield[@tag='110' or @tag='710']" => mix(corp_template, creators_and_sources),
+          "datafield[@tag='110' or @tag='710']" => mix(corp_template, creators_and_sources),
 
-          "//datafield[@tag='111' or @tag='711']" => mix(corp_template, creators_and_sources, corp_variation),
+          "datafield[@tag='111' or @tag='711']" => mix(corp_template, creators_and_sources, corp_variation),
 
-          "//datafield[@tag='610']" => mix(corp_template, agent_as_subject),
+          "datafield[@tag='610']" => mix(corp_template, agent_as_subject),
 
-          "//datafield[@tag='611']" => mix(corp_template, agent_as_subject, corp_variation),
+          "datafield[@tag='611']" => mix(corp_template, agent_as_subject, corp_variation),
 
           #SUBJECTS
-          "//datafield[@tag='630']" => subject_template(
+          "datafield[@tag='630']" => subject_template(
                                         Proc.new{|node|
                                          terms = []
                                          %w(a  d  e  f  g  h  k  l  m  n  o  p  r  s  t).each do |code|
@@ -450,7 +450,7 @@ ASpaceImport::Importer.importer :marcxml do
                                         },
                                         sets_subject_source),
 
-          "//datafield[@tag='650']" => subject_template(
+          "datafield[@tag='650']" => subject_template(
                                         Proc.new{|node|
                                          terms = []
                                          %w(a b x).each do |code|
@@ -470,7 +470,7 @@ ASpaceImport::Importer.importer :marcxml do
                                         },
                                         sets_subject_source),
 
-          "//datafield[@tag='651']" => subject_template(
+          "datafield[@tag='651']" => subject_template(
                                         Proc.new{|node|
                                          terms = []
                                          %w(a).each do |code|
@@ -488,7 +488,7 @@ ASpaceImport::Importer.importer :marcxml do
                                         },
                                         sets_subject_source),
 
-          "//datafield[@tag='655']" => subject_template(
+          "datafield[@tag='655']" => subject_template(
                                         Proc.new{|node|
                                          terms = []
                                          %w(a b).each do |code|
@@ -512,7 +512,7 @@ ASpaceImport::Importer.importer :marcxml do
                                         },
                                         sets_subject_source),
 
-          "//datafield[@tag='656']" => subject_template(
+          "datafield[@tag='656']" => subject_template(
                                         Proc.new{|node|
                                          terms = []
                                          {
@@ -532,7 +532,7 @@ ASpaceImport::Importer.importer :marcxml do
                                           node.attr('ind2') == '7' ? node.xpath("subfield[@code='2']").inner_text : nil
                                         }),
 
-          "//datafield[@tag='657']" => subject_template(
+          "datafield[@tag='657']" => subject_template(
                                         Proc.new{|node|
                                          terms = []
                                          {
@@ -551,7 +551,7 @@ ASpaceImport::Importer.importer :marcxml do
                                           node.attr('ind2') == '7' ? node.xpath("subfield[@code='2']").inner_text : nil
                                         }),
 
-          "//datafield[starts-with(@tag, '69')]" => subject_template(
+          "datafield[starts-with(@tag, '69')]" => subject_template(
                                         Proc.new{|node|
                                           term = ""
                                           hsh = {}
@@ -586,7 +586,7 @@ ASpaceImport::Importer.importer :marcxml do
                                         ),
 
           #700s
-          "//datafield[@tag='720']['@ind1'='1']" => mix(agent_template,
+          "datafield[@tag='720']['@ind1'='1']" => mix(agent_template,
           {
             :obj => :agent_person,
             :map => {
@@ -603,7 +603,7 @@ ASpaceImport::Importer.importer :marcxml do
             }
           }),
 
-          "//datafield[@tag='720']['@ind1'='2']" => mix(agent_template,
+          "datafield[@tag='720']['@ind1'='2']" => mix(agent_template,
           {
             :obj => :agent_corporate_entity,
             :map => {
@@ -620,9 +620,9 @@ ASpaceImport::Importer.importer :marcxml do
             }
           }),
 
-          "//datafield[@tag='740']" => multipart_note('odd', 'Related / Analytical Title', "{$a }{[$h] }{$p, }{$n}."),
+          "datafield[@tag='740']" => multipart_note('odd', 'Related / Analytical Title', "{$a }{[$h] }{$p, }{$n}."),
 
-          "//datafield[@tag='752']" => subject_template(
+          "datafield[@tag='752']" => subject_template(
                                         Proc.new{|node|
                                          terms = []
                                          %w(a b c d f g).each do |code|
@@ -636,7 +636,7 @@ ASpaceImport::Importer.importer :marcxml do
                                           node.xpath("subfield[@code='2']").inner_text
                                         }),
 
-            "//datafield[@tag='754']" => subject_template(
+            "datafield[@tag='754']" => subject_template(
                                           Proc.new{|node|
                                             term = concatenate_subfields(%w(a c d x z), node, '--')
                                             [make_term('topical', term)]
