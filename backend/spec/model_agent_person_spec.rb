@@ -66,6 +66,17 @@ describe 'Agent model' do
   end
 
 
+  it "truncates an auto-generated sort name of more than 255 chars" do
+    name = build(:json_name_person,
+                 :primary_name => (0..200).map{ rand(3)==1?rand(10):(65 + rand(25)).chr }.join,
+                 :rest_of_name => (0..200).map{ rand(3)==1?rand(10):(65 + rand(25)).chr }.join 
+                 )
+    
+    agent = AgentPerson.create_from_json(build(:json_agent_person, :names => [name]))
+    JSONModel(:agent_person).find(agent[:id]).names[0]['sort_name'].length.should eq(255)
+  end
+
+
   it "allows dates_of_existence for an agent, and filters out other labels" do
     n = build(:json_name_person)
 

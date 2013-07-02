@@ -10,16 +10,12 @@ options = {:dry => false,
 optparse = OptionParser.new do|opts|
   opts.banner = "Usage: import.rb [options] IMPORTER_ARGS"
 
-  opts.on( '-a', '--allow-failures', 'Do not stop because an import fails') do
-    options[:relaxed] = true
-  end
   opts.on( '-d', '--debug', 'Debug mode' ) do
     options[:debug] = true
   end
   opts.on( '-f', '--flags FLAG(,FLAG)*', Array, 'Importer-specific flags' ) do|flags|
     options[:importer_flags] = flags
   end
-
   opts.on( '-h', '--help', 'Display this screen' ) do
     puts opts
     exit
@@ -54,7 +50,12 @@ end
 
 optparse.parse!
 
-if options[:dry]
+unless options[:importer] || options[:list]
+  puts "No importer specified; try using the --help option to see script parameters"
+  exit
+end
+
+if options[:dry] || options[:list]
   $dry_mode = true
 end
 

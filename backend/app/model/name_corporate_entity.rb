@@ -19,7 +19,7 @@ class NameCorporateEntity < Sequel::Model(:name_corporate_entity)
 
                   result << " (#{json["qualifier"]})" if json["qualifier"]
 
-                  result
+                  result.length > 255 ? result[0..254] : result
                 },
                 :only_if => proc { |json| json["sort_name_auto_generate"] }
 

@@ -17,7 +17,7 @@ class NameFamily < Sequel::Model(:name_family)
                   result << ", #{json["dates"]}" if json["dates"]
                   result << " (#{json["qualifier"]})" if json["qualifier"]
 
-                  result
+                  result.length > 255 ? result[0..254] : result
                 },
                 :only_if => proc { |json| json["sort_name_auto_generate"] }
 end
