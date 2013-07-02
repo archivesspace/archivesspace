@@ -35,7 +35,9 @@
     <div class="span9">
       <%= render :partial => "archival_object", 
                  :locals => {
-                   :archival_object => @archival_object
+                   :archival_object => @archival_object,
+                   :show_components => true,
+                   :show_full_component => false
                  } %>
 
       <br/>

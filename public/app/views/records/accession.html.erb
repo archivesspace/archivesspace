@@ -60,10 +60,6 @@
         <%= render :partial => "subjects", :locals => {:subjects => @accession['subjects']} %>
         <%= render :partial => "external_documents", :locals => {:external_documents => @accession.published_external_documents} %>
         <%= render :partial => "instances", :locals => {:instances => @accession.instances} %>
-        <%= render :partial => "components", :locals => {
-              :record_type => "resource",
-              :show_full_component => @show_components
-            } %>
       </fieldset>
 
 
