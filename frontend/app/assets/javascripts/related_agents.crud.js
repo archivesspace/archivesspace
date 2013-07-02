@@ -29,7 +29,7 @@ $(function() {
 
         $(".selected-container", $(this).closest(".subrecord-form-fields")).html($subsubform);
 
-        $(document).triggerHandler("subrecordcreated.aspace",["related_agent", $subsubform])
+        $(document).triggerHandler("subrecordcreated.aspace",["related_agent", $subsubform]);
         $(document).triggerHandler("subrecordmonkeypatch.aspace", [$subsubform]);
 
         index++;
@@ -42,7 +42,7 @@ $(function() {
         removeBtn.on("click", function() {
           AS.confirmSubFormDelete($(this), function() {
             if ($subform.parent().hasClass("subrecord-form-wrapper")) {
-              $subform.parent().remove()
+              $subform.parent().remove();
             } else {
               $subform.remove();
             }
@@ -54,8 +54,9 @@ $(function() {
       };
 
 
-      var addRelatedAgentSelector = function() {
+      var addRelatedAgentSelector = function(event) {
         event.preventDefault();
+        event.stopPropagation();
 
         var $target_subrecord_list = $(".subrecord-form-list:first", $this);
         var selected = $("option:selected", $(this).parents(".dropdown-menu"));
@@ -73,13 +74,17 @@ $(function() {
 
         initRemoveActionForSubRecord($subsubform);
 
-        $(document).triggerHandler("subrecordcreated.aspace",["related_agent", $subsubform])
+        $(document).triggerHandler("subrecordcreated.aspace",["related_agent", $subsubform]);
         $(document).triggerHandler("subrecordmonkeypatch.aspace", [$subsubform]);
 
         $("select.related-agent-type", $subsubform).change(changeRelatedAgentForm);
 
+        AS.initSubRecordSorting($target_subrecord_list);
+
+        $(":input:visible:first", $subsubform).focus();
+
         index++;
-      }
+      };
 
 
       $(".add-related-agent-for-type-btn", $this).click(addRelatedAgentSelector);
@@ -94,7 +99,7 @@ $(function() {
       }
 
       AS.initAddAsYouGoActions($this, $list);
-
+      AS.initSubRecordSorting($list);
     });
   };
 
