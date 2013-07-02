@@ -9,15 +9,17 @@
 <% node_id += 1 %>
 <li class="result <% if stripe %>striped<% else %>unstriped<% end %>">
   <h4>
-    <a class="collapsible-toggle" href="#<%= "node#{node_id}" %>">
-      <span class="icon-chevron-right"></span>
-      <span class="icon-chevron-down"></span>
-    </a>
+    <% if show_full_component %>
+      <a class="collapsible-toggle collapsed" href="#<%= "node#{node_id}" %>">
+        <span class="icon-chevron-right"></span>
+        <span class="icon-chevron-down"></span>
+      </a>
+    <% end %>
     <%= icon_for child["node_type"] %>
     <%= link_to child["title"], :controller => :records, :action => child["node_type"] || child["jsonmodel_type"], :id => child['id'] || JSONModel(child["jsonmodel_type"].intern).id_for(child['uri']), :repo_id => @repository.id %>
   </h4>
-  <div id="<%= "node#{node_id}" %>" class="collapsible-panel">
-    <% if record_type == 'resource' %>
+  <div id="<%= "node#{node_id}" %>" class="collapsible-panel collapsed">
+    <% if show_full_component %>
       <div class="component-view">
         <% if child['fullrecord'] %>
           <%= render :partial => "archival_object",
@@ -28,15 +30,21 @@
         <% end %>
       </div>
     <% end %>
-
     <% if !child['children'].blank? %>
-    <ul class="results-list">
-      <%
-         child['children'].each_with_index do |subchild, i|
-           show_node.call(subchild, ((i % 2) == 0) != stripe)
-         end
-      %>
-    </ul>
+      <section>
+        <% if show_full_component %>
+          <div class="component-view">
+            <h4><%= I18n.t("#{child['node_type']}._public.section.components") %></h4>
+          </div>
+        <% end %>
+        <ul class="results-list">
+          <%
+             child['children'].each_with_index do |subchild, i|
+               show_node.call(subchild, ((i % 2) == 0) != stripe)
+             end
+          %>
+        </ul>
+      </section>
     <% end %>
   </div>
 </li>
@@ -47,10 +55,12 @@
     <h3>
       <%= I18n.t("#{record_type}._public.section.components") %>
 
-      <div class="btn-group pull-right">
-        <button id="collapse-all-btn" class="btn btn-mini expand-collapse-btn"><%= I18n.t('components.collapse') %></button>
-        <button id="expand-all-btn" class="btn btn-mini expand-collapse-btn"><%= I18n.t('components.expand') %></button>
-      </div>
+      <% if show_full_component %>
+        <div class="btn-group pull-right">
+          <button id="collapse-all-btn" class="btn btn-mini expand-collapse-btn"><%= I18n.t('components.collapse') %></button>
+          <button id="expand-all-btn" class="btn btn-mini expand-collapse-btn"><%= I18n.t('components.expand') %></button>
+        </div>
+      <% end %>
     </h3>
 
     <ul class="results-list">

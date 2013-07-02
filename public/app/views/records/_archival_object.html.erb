@@ -1,4 +1,7 @@
-<% show_components = defined?(show_components) ? show_components : true %>
+<%
+  show_components = defined?(show_components) ? show_components : true
+  show_full_component = defined?(show_full_component) ? show_full_component : false
+%>
 
 <fieldset class="form-horizontal">
   <section id="summary">
@@ -20,7 +23,7 @@
   <%= render :partial => "instances", :locals => {:instances => archival_object.instances} %>
 
   <% if show_components %>
-    <%= render :partial => "components", :locals => {:record_type => "archival_object"} %>
+    <%= render :partial => "components", :locals => {:record_type => "archival_object", :show_full_component => show_full_component} %>
   <% end %>
 
 </fieldset>

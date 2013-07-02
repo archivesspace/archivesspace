@@ -68,7 +68,7 @@
         <%= render :partial => "instances", :locals => {:instances => @resource.instances} %>
         <%= render :partial => "components", :locals => {
               :record_type => "resource",
-              :show_full_component => @show_components
+              :show_full_component => true
             } %>
       </fieldset>
 
