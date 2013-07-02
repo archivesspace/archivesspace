@@ -55,9 +55,13 @@ changing things like the ports it listens on and where it puts its data.
 
 # Running ArchivesSpace against MySQL
 
-The ArchivesSpace distribution runs against an embedded database by
-default, but it's a good idea to run against MySQL for production
-use.
+Out of the box, the ArchivesSpace distribution runs against an
+embedded database, but this is only suitable for demonstration
+purposes.  When you are ready to starting using ArchivesSpace with
+real users and data, you should switch to using MySQL.  MySQL offers
+significantly better performance when multiple people are using the
+system, and will ensure that your data is kept safe.
+
 
 ## Download MySQL Connector
 
@@ -248,6 +252,19 @@ following configuration settings:
      # Solr snapshots are written to 'data/solr_backups' by default.
      AppConfig[:solr_backup_schedule] = "0 * * * *"
      AppConfig[:solr_backup_number_to_keep] = 1
+
+
+## Resetting passwords
+
+Under the `scripts` directory you will find a script that lets you
+reset a user's password.  You can invoke it as:
+
+    scripts/password-reset.sh theusername newpassword  # or password-reset.bat under Windows
+
+If you are running against MySQL, you can use this command to set a
+password while the system is running.  If you are running against the
+demo database, you will need to shutdown ArchivesSpace before running
+this script.
 
 
 # Further documentation

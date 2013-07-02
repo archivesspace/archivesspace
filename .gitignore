@@ -24,3 +24,5 @@ build/.gem
 backend/tests/ladle-server*
 /migrations/examples/csv/accessions-sample.csv
 webdriver-profile*
+common/ARCHIVESSPACE_VERSION
+migrations/spec/doc.xml

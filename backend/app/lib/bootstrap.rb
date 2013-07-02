@@ -33,5 +33,17 @@ if not Thread.current[:test_mode]
     end
 
     puts "All done."
+
+    puts <<EOF
+
+********************************************************************************************
+***
+*** WARNING: Running against the demo database, which is not intended for production use.
+***
+*** Please see the README.md file for instructions on configuring MySQL.
+***
+********************************************************************************************
+
+EOF
   end
 end
