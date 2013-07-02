@@ -38,7 +38,7 @@ class LocationsController < ApplicationController
                   flash[:success] = I18n.t("location._frontend.messages.created")
                   return redirect_to :controller => :locations, :action => :new if params.has_key?(:plus_one)
 
-                  redirect_to :controller => :locations, :action => :show, :id => id
+                  redirect_to :controller => :locations, :action => :edit, :id => id
                 })
   end
 
@@ -49,7 +49,7 @@ class LocationsController < ApplicationController
                 :on_invalid => ->(){ return render :action => :edit },
                 :on_valid => ->(id){
                   flash[:success] = I18n.t("location._frontend.messages.updated")
-                  redirect_to :controller => :locations, :action => :show, :id => id
+                  redirect_to :controller => :locations, :action => :edit, :id => id
                 })
   end
 

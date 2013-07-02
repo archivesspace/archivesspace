@@ -46,7 +46,7 @@ class AccessionsController < ApplicationController
                 :on_valid => ->(id){
                     flash[:success] = I18n.t("accession._frontend.messages.created", JSONModelI18nWrapper.new(:accession => @accession))
                     redirect_to(:controller => :accessions,
-                                                 :action => :show,
+                                                 :action => :edit,
                                                  :id => id) })
   end
 
@@ -55,13 +55,11 @@ class AccessionsController < ApplicationController
                 :model => Accession,
                 :obj => fetch_resolved(params[:id]),
                 :on_invalid => ->(){
-                  return render :partial => "accessions/edit_inline" if params[:inline]
                   return render action: "edit"
                 },
                 :on_valid => ->(id){
                   flash[:success] = I18n.t("accession._frontend.messages.updated", JSONModelI18nWrapper.new(:accession => @accession))
-                  return render :partial => "accessions/edit_inline" if params[:inline]
-                  redirect_to :controller => :accessions, :action => :show, :id => id
+                  redirect_to :controller => :accessions, :action => :edit, :id => id
                 })
   end
 

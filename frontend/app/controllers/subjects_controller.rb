@@ -35,7 +35,7 @@ class SubjectsController < ApplicationController
                   else
                     flash[:success] = I18n.t("subject._frontend.messages.created")
                     return redirect_to :controller => :subjects, :action => :new if params.has_key?(:plus_one)
-                    redirect_to :controller => :subjects, :action => :show, :id => id
+                    redirect_to :controller => :subjects, :action => :edit, :id => id
                   end
                 })
   end
@@ -47,7 +47,7 @@ class SubjectsController < ApplicationController
                 :on_invalid => ->(){ return render :action => :edit },
                 :on_valid => ->(id){
                   flash[:success] = I18n.t("subject._frontend.messages.updated")
-                  redirect_to :controller => :subjects, :action => :show, :id => id
+                  redirect_to :controller => :subjects, :action => :edit, :id => id
                 })
   end
 
