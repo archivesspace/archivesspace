@@ -15,11 +15,13 @@
 
    all_note_types["Index"] = :note_index
    all_note_types["Bibliography"] = :note_bibliography
+
+   section_id = "notes" if section_id.blank?
 %>
 
 <%= render :partial => "notes/template" %>
 
-<section id="notes" class="subrecord-form">
+<section id="<%= section_id %>" class="subrecord-form">
   <h3 class="subrecord-form-heading"><%= I18n.t("note._plural") %></h3>
   <div class="subrecord-form-container">
     <%= context.list_for(context["notes"], "notes[]") do |note| %>

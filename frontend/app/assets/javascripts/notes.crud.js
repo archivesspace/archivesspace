@@ -22,6 +22,7 @@ $(function() {
 
         $((button_class || ".add-item-btn"), $subform).click(function(event) {
           event.preventDefault();
+          event.stopPropagation();
 
           var template = template_name;
 
@@ -226,6 +227,7 @@ $(function() {
 
       var createTopLevelNote = function(event) {
         event.preventDefault();
+        event.stopPropagation();
 
         var $target_subrecord_list = $(".subrecord-form-list:first", $this);
 
@@ -273,10 +275,10 @@ $(function() {
 
   $(document).ready(function() {
     $(document).bind("loadedrecordform.aspace", function(event, $container) {
-      $("#notes.subrecord-form:not(.initialised)", $container).init_notes_form();
+      $("section.notes-form.subrecord-form:not(.initialised)", $container).init_notes_form();
     });
 
-    $("#notes.subrecord-form:not(.initialised)").init_notes_form();
+    $("section.notes-form.subrecord-form:not(.initialised)").init_notes_form();
   });
 
 });
