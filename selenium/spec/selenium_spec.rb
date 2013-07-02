@@ -473,7 +473,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can add a secondary name and validations match index of name form" do
-      $driver.find_element(:css => '#names .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#agent_person_names .subrecord-form-heading .btn').click
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
 
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Part of Name - Property is required but was missing/)
@@ -485,7 +485,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can save a person and view readonly view of person" do
-      $driver.find_element(:css => '#contacts .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#agent_person_contact_details .subrecord-form-heading .btn').click
 
       $driver.clear_and_send_keys([:id, "agent_agent_contacts__0__name_"], "Email Address")
       $driver.clear_and_send_keys([:id, "agent_agent_contacts__0__email_"], "jimi@rocknrollheaven.com")
@@ -506,8 +506,8 @@ describe "ArchivesSpace user interface" do
 
 
     it "can remove contact details" do
-      $driver.find_element(:css => '#contacts .subrecord-form-remove').click
-      $driver.find_element(:css => '#contacts .confirm-removal').click
+      $driver.find_element(:css => '#agent_person_contact_details .subrecord-form-remove').click
+      $driver.find_element(:css => '#agent_person_contact_details .confirm-removal').click
 
       assert(5) {
         $driver.ensure_no_such_element(:id => "agent_agent_contacts__0__name_")
@@ -520,7 +520,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can add an external document to an Agent" do
-      $driver.find_element(:css => '#agent_external_documents_ .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#agent_person_external_documents .subrecord-form-heading .btn').click
 
       $driver.clear_and_send_keys([:id, "agent_external_documents__0__title_"], "My URI document")
       $driver.clear_and_send_keys([:id, "agent_external_documents__0__location_"], "http://archivesspace.org")
@@ -530,7 +530,7 @@ describe "ArchivesSpace user interface" do
       $driver.click_and_wait_until_gone(:link => "My Custom Sort Name")
 
       # check external documents
-      external_document_sections = $driver.blocking_find_elements(:css => '#agent_external_documents_ .external-document')
+      external_document_sections = $driver.blocking_find_elements(:css => '#agent_person_external_documents .external-document')
       external_document_sections.length.should eq (1)
       external_document_sections[0].find_element(:link => "http://archivesspace.org")
     end
@@ -538,7 +538,7 @@ describe "ArchivesSpace user interface" do
 
     it "can add a date of existence to an Agent" do
       $driver.click_and_wait_until_gone(:link, 'Edit')
-      $driver.find_element(:css => '#dates_of_existence .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#agent_person_dates_of_existence .subrecord-form-heading .btn').click
 
       $driver.find_element(:id => "agent_dates_of_existence__0__date_type_").select_option("single")
       $driver.clear_and_send_keys([:id, "agent_dates_of_existence__0__expression_"], "1973")
@@ -554,8 +554,8 @@ describe "ArchivesSpace user interface" do
 
     it "can add a Biog/Hist note to an Agent" do
       $driver.click_and_wait_until_gone(:link, 'Edit')
-      $driver.find_element(:css => '#notes .subrecord-form-heading .btn').click
-      $driver.blocking_find_elements(:css => '#notes .top-level-note-type')[0].select_option("note_bioghist")
+      $driver.find_element(:css => '#agent_person_notes .subrecord-form-heading .btn').click
+      $driver.blocking_find_elements(:css => '#agent_person_notes .top-level-note-type')[0].select_option("note_bioghist")
 
       # ensure note form displayed
       $driver.find_element(:id, "agent_notes__0__label_")
@@ -576,7 +576,7 @@ describe "ArchivesSpace user interface" do
     it "can add a sub note" do
       $driver.click_and_wait_until_gone(:link, 'Edit')
 
-      notes = $driver.blocking_find_elements(:css => '#notes .subrecord-form-fields')
+      notes = $driver.blocking_find_elements(:css => '#agent_person_notes .subrecord-form-fields')
 
       # Add a sub note
       notes[0].find_element(:css => '.subrecord-form-heading .btn').click

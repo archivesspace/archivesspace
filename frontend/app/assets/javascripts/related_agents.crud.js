@@ -106,10 +106,10 @@ $(function() {
 
   $(document).ready(function() {
     $(document).bind("loadedrecordform.aspace", function(event, $container) {
-      $("#related_agents.subrecord-form:not(.initialised)", $container).init_related_agents_form();
+      $("section.related-agents-form.subrecord-form:not(.initialised)", $container).init_related_agents_form();
     });
 
-    $("#related_agents.subrecord-form:not(.initialised)").init_related_agents_form();
+    $("section.related-agents-form.subrecord-form:not(.initialised)").init_related_agents_form();
   });
 
 

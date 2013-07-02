@@ -30,7 +30,7 @@
         <% end %>
 
         <div class="row-fluid">
-          <section id="names">
+          <section id="<%= @agent.agent_type %>_names">
             <h3><%= I18n.t("agent_name._plural") %></h3>
             <div class="accordion details" id="agent_name_accordion">
               <% @agent.names.each_with_index do | name, index | %>
@@ -63,7 +63,7 @@
           <%= render :partial => "agents/contact_details" %>
 
           <div class="row-fluid">
-            <section id="contacts">
+            <section id="<%= @agent.agent_type %>_contact_details">
               <h3><%= I18n.t("agent_contact._plural") %></h3>
               <div class="accordion details" id="agent_contact_accordion">
                 <% @agent.agent_contacts.each_with_index do | contact, index | %>
@@ -92,7 +92,7 @@
         <% end %>
 
         <% if @agent.notes.length > 0 %>
-          <%= render :partial => "notes/show", :locals => { :notes => @agent.notes, :context => readonly } %>
+          <%= render :partial => "notes/show", :locals => { :notes => @agent.notes, :context => readonly, :section_id => "#{@agent.agent_type}_notes" } %>
         <% end %>
 
         <% if !@agent['related_agents'].blank? %>
@@ -100,7 +100,7 @@
         <% end %>
 
         <% if @agent.external_documents.length > 0 %>
-          <%= render :partial => "external_documents/show", :locals => { :external_documents => @agent.external_documents, :section_id => "agent_external_documents_" } %>
+          <%= render :partial => "external_documents/show", :locals => { :external_documents => @agent.external_documents, :section_id => "#{@agent.agent_type}_external_documents" } %>
         <% end %>
 
         <%= show_plugins_for(@agent, readonly) %>
