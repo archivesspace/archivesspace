@@ -4,7 +4,10 @@
 
 <fieldset>
   <section id="basic_information">
-    <h3><%= I18n.t("agent._frontend.section.basic_information") %></h3>
+    <h3>
+      <%= I18n.t("agent._frontend.section.basic_information") %>
+      <%= link_to_help :topic => "#{@agent.agent_type}_basic_information" %>
+    </h3>
     <div class="control-group">
       <label class="control-label"><%= I18n.t("agent.type") %></label>
       <div class="controls label-only">
@@ -15,12 +18,12 @@
     <%= form.label_and_boolean "publish", {}, form.default_for("publish") %>
   </section>
 
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates_of_existence", :section_id => "dates_of_existence", :template_erb => "dates/template", :template => "existence_date", :heading_text => I18n.t("agent._frontend.section.dates_of_existence"), :template_overrides => {"date_label" => "agents/date_labels"}} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "names", :section_id => "names", :template_erb => "agents/name_forms/#{@agent.agent_type}", :template => "name_#{@agent.agent_type.to_s.gsub("agent_","")}" } %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_contacts", :section_id => "contacts", :template_erb => "agents/contact_details", :template => "agent_contact" } %>
-  <%= render :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type'])} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates_of_existence", :section_id => "#{@agent.agent_type}_dates_of_existence", :template_erb => "dates/template", :template => "existence_date", :heading_text => I18n.t("agent._frontend.section.dates_of_existence"), :template_overrides => {"date_label" => "agents/date_labels"}, :help_topic => "#{@agent.agent_type}_dates_of_existence"} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "names", :section_id => "#{@agent.agent_type}_names", :template_erb => "agents/name_forms/#{@agent.agent_type}", :template => "name_#{@agent.agent_type.to_s.gsub("agent_","")}", :help_topic => "#{@agent.agent_type}_names"} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_contacts", :section_id => "#{@agent.agent_type}_contact_details", :template_erb => "agents/contact_details", :template => "agent_contact", :help_topic => "#{@agent.agent_type}_contact_details"} %>
+  <%= render :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type']), :section_id => "#{@agent.agent_type}_notes"} %>
   <%= render :partial => "related_agents/form", :locals => {:form => form} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents", :section_id => "agent_external_documents_"} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents", :section_id => "#{@agent.agent_type}_external_documents", :help_topic => "#{@agent.agent_type}_external_documents"} %>
 
 <%= form_plugins_for("agent", form) %>
 

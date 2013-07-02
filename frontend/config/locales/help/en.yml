@@ -1,8 +1,151 @@
 en:
   help:
     icon: "<span class='context-help-icon icon-question-sign'></span>"
-    help_center: Help Center
-    default_tooltip: Get Help on using ArchivesSpace
+    help_center: ArchivesSpace Help Center
+    default_tooltip: ArchivesSpace Help Center
     topics:
-      accession: Help for Accessions
-      accession_basic_information: Help for Accession's Basic Information
+      # Accession help tooltips
+      accession: Help on Accessions
+      accession_basic_information: Help on Basic Information
+      accession_extents: Help on Extents
+      accession_dates: Help on Dates
+      accession_related_resources: Help on Related Resources
+      accession_linked_agents: Help on Agent Links
+      accession_subjects: Help on Subjects
+      accession_external_documents: Help on External Documents
+      accession_rights_statements: Help on Rights Statements
+      accession_deaccessions: Help on Deaccessions
+      accession_instances: Help on Instances
+      accession_collection_management: Help on Collection Management
+      accession_classification: Help on Classifications
+      accession_user_defined: Help on User Defined
+      # Resource help tooltips
+      resource: Help on Resources
+      resource_basic_information: Help on Basic Information
+      resource_dates: Help on Dates
+      resource_extents: Help on Extents
+      resource_finding_aid: Help on Finding Aid
+      resource_related_accessions: Help on Related Accessions
+      resource_linked_agents: Help on Agent Links
+      resource_subjects: Help on Subjects
+      resource_notes: Help on Notes
+      resource_external_documents: Help on External Documents
+      resource_rights_statements: Help on Rights Statements
+      resource_instances: Help on Instances
+      resource_deaccessions: Help on Deaccessions
+      resource_collection_management: Help on Collection Management
+      resource_classification: Help on Classifications
+      resource_user_defined: Help on User Defined
+      # Archival Object help tooltips
+      archival_object: Help on Archival Objects
+      archival_object_basic_information: Help on Basic Information
+      archival_object_dates: Help on Dates
+      archival_object_extents: Help on Extents
+      archival_object_finding_aid: Help on Finding Aid
+      archival_object_related_accessions: Help on Related Accessions
+      archival_object_linked_agents: Help on Agent Links
+      archival_object_subjects: Help on Subjects
+      archival_object_notes: Help on Notes
+      archival_object_external_documents: Help on External Documents
+      archival_object_rights_statements: Help on Rights Statements
+      archival_object_instances: Help on Instances
+      archival_object_deaccessions: Help on Deaccessions
+      archival_object_collection_management: Help on Collection Management
+      archival_object_classification: Help on Classifications
+      archival_object_user_defined: Help on User Defined
+      # Digital Object help tooltips
+      digital_object: Help on Digital Object
+      digital_object_basic_information: Help on Basic Information
+      digital_object_dates: Help on Dates
+      digital_object_extents: Help on Extents
+      digital_object_finding_aid: Help on Finding Aid
+      digital_object_related_accessions: Help on Related Accessions
+      digital_object_linked_agents: Help on Agent Links
+      digital_object_subjects: Help on Subjects
+      digital_object_notes: Help on Notes
+      digital_object_external_documents: Help on External Documents
+      digital_object_rights_statements: Help on Rights Statements
+      digital_object_instances: Help on Instances
+      digital_object_deaccessions: Help on Deaccessions
+      digital_object_collection_management: Help on Collection Management
+      digital_object_classification: Help on Classifications
+      digital_object_user_defined: Help on User Defined
+      # Digital Object Component help tooltips
+      digital_object_component: Help on Digital Object Components
+      digital_object_component_basic_information: Help on Basic Information
+      digital_object_component_dates: Help on Dates
+      digital_object_component_extents: Help on Extents
+      digital_object_component_finding_aid: Help on Finding Aid
+      digital_object_component_related_accessions: Help on Related Accessions
+      digital_object_component_linked_agents: Help on Agent Links
+      digital_object_component_subjects: Help on Subjects
+      digital_object_component_notes: Help on Notes
+      digital_object_component_external_documents: Help on External Documents
+      digital_object_component_rights_statements: Help on Rights Statements
+      digital_object_component_instances: Help on Instances
+      digital_object_component_deaccessions: Help on Deaccessions
+      digital_object_component_collection_management: Help on Collection Management
+      digital_object_component_classification: Help on Classifications
+      digital_object_component_user_defined: Help on User Defined
+      # Subjects
+      subject: Help on Subjects
+      subject_basic_information: Help on Basic Information
+      subject_terms: Help on Terms and Subdivisions
+      subject_external_documents: Help on External Documents
+      # Agent Persons
+      agent_person: Help on Persons (Agent)
+      agent_person_dates_of_existence: Help on Dates of Existence
+      agent_person_names: Help on Names
+      agent_person_contact_details: Help on Contact Details
+      agent_person_notes: Help on Notes
+      agent_person_related_agents: Help on Related Agents
+      agent_person_external_documents: Help on External Documents
+      # Agent Family
+      agent_family: Help on Family (Agent)
+      agent_family_dates_of_existence: Help on Dates of Existence
+      agent_family_names: Help on Names
+      agent_family_contact_details: Help on Contact Details
+      agent_family_notes: Help on Notes
+      agent_family_related_agents: Help on Related Agents
+      agent_family_external_documents: Help on External Documents
+      # Agent Corporate Entity
+      agent_corporate_entity: Help on Corporate Entity (Agent)
+      agent_corporate_entity_dates_of_existence: Help on Dates of Existence
+      agent_corporate_entity_names: Help on Names
+      agent_corporate_entity_contact_details: Help on Contact Details
+      agent_corporate_entity_notes: Help on Notes
+      agent_corporate_entity_related_agents: Help on Related Agents
+      agent_corporate_entity_external_documents: Help on External Documents
+      # Agent Software
+      agent_software: Help on Software (Agent)
+      agent_software_dates_of_existence: Help on Dates of Existence
+      agent_software_names: Help on Names
+      agent_software_contact_details: Help on Contact Details
+      agent_software_notes: Help on Notes
+      agent_software_related_agents: Help on Related Agents
+      agent_software_external_documents: Help on External Documents
+      # Location
+      location: Help on Locations
+      # Event
+      event: Help on Events
+      event_basic_information: Help on Basic Information
+      event_date: Help on Event Date/Time
+      event_linked_agents: Help on Agent Links
+      event_linked_records: Help on Record Links
+      # Classification
+      classification: Help on Classifications
+      classification_term: Help on Classifications
+      # Import
+      import: Help on Importing Data
+      # Search
+      search: Help on Searching and Browsing
+      # Manage Groups
+      repository_groups: Help on Managing Groups
+      # Manage User Access
+      repository_users: Help on User Group Assignment
+      # Repositories
+      repository: Help on Managing Repositories
+      # Manage Users
+      user: Help on Managing Users
+      # Controlled Value Lists
+      enumeration: Help on Controlled Value Lists

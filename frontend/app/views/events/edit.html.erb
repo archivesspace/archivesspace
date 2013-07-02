@@ -9,6 +9,7 @@
       <div class="span9">
         <%= render :partial => "toolbar" %>
         <div class="record-pane">
+          <%= link_to_help :topic => "event" %>
           <h2><%= I18n.t("event._singular") %> <%= @event.id %>  <span class="label label-info"><%= I18n.t("event._singular") %></span></h2>
 
           <%= render :partial => "events/form", :locals => {:form => form} %>

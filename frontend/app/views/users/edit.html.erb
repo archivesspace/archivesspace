@@ -5,15 +5,16 @@
      <div class="span12">
        <%= render :partial => "toolbar" %>
        <div class="record-pane">
-       <h2><%= I18n.t("user._frontend.section.edit_account") %></h2>
-       <%= form_context :user, @user do |form| %>
-         <%= render :partial => "users/form", :locals => {:form => form} %>
+         <%= link_to_help :topic => "user" %>
+         <h2><%= I18n.t("user._frontend.section.edit_account") %></h2>
+         <%= form_context :user, @user do |form| %>
+           <%= render :partial => "users/form", :locals => {:form => form} %>
 
-         <div class="form-actions">
-           <button id="create_account" type="submit" class="btn btn-primary"><%= I18n.t("user._frontend.section.edit_account_submit") %></button>
-           <%= link_to I18n.t("actions.cancel"), {:controller => :welcome}, :class => "btn btn-cancel" %>
-         </div>
-       <% end %>
+           <div class="form-actions">
+             <button id="create_account" type="submit" class="btn btn-primary"><%= I18n.t("user._frontend.section.edit_account_submit") %></button>
+             <%= link_to I18n.t("actions.cancel"), {:controller => :welcome}, :class => "btn btn-cancel" %>
+           </div>
+         <% end %>
        </div>
      </div>
   </div>

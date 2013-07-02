@@ -360,19 +360,27 @@ h4 > .context-help {
   float: right;
 }
 /* Tooltip overrides */
-.tooltip-inner {
-  text-align: left;
-  line-height: @baseLineHeight;
-  font-weight: normal;
+.tooltip {
+  .tooltip-inner {
+    text-align: left;
+    line-height: @baseLineHeight;
+    font-weight: normal;
 
-  .tooltip-close {
-    float: right;
-    margin-left: 5px;
-    margin-bottom: 5px;
-    cursor: pointer;
+    .tooltip-close {
+      float: right;
+      margin-left: 5px;
+      margin-bottom: 5px;
+      cursor: pointer;
+    }
   }
 }
-
+.record-pane {
+  .tooltip {
+    &.left {
+      margin-left: -10px !important;
+    }
+  }
+}
 /* inset label */
 .inset-label {
   padding: 0 10px;

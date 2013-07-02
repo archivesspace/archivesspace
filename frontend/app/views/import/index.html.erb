@@ -3,6 +3,7 @@
 <%= form_tag '/import/upload', :multipart => true, :class => 'form-horizontal aspace-record-form', :id => "import" do %>
   <div class="row-fluid">
     <div class="span12 record-pane">
+      <%= link_to_help :topic => "import" %>
       <h2><%= @title %></h2>
       
       <%= render :partial => "streaming_status_script" %>
