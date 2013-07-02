@@ -120,11 +120,16 @@
                       <span class="icon-hdd"></span><span class="current-repository-id"><% if current_repo %><%= current_repo['repo_code'] %><% end %></span>
                     </span>
                 </span>
-                <% if user_can?('manage_repository') %>
+                <% if user_can?('manage_repository') || user_can?('transfer_repository') %>
                   <a class="btn dropdown-toggle last" data-toggle="dropdown" href="#"><span class="icon-cog"></span> <span class="caret"></span></a>
                   <ul class="dropdown-menu pull-right">
-                    <li><%= link_to I18n.t("navbar.manage_groups"), :controller => :groups, :action => :index %></li>
-                    <li><%= link_to I18n.t("user._frontend.section.manage_access"), :controller => :users, :action => :manage_access %></li>
+                    <% if user_can?('manage_repository') %>
+                      <li><%= link_to I18n.t("navbar.manage_groups"), :controller => :groups, :action => :index %></li>
+                      <li><%= link_to I18n.t("user._frontend.section.manage_access"), :controller => :users, :action => :manage_access %></li>
+                    <% end %>
+                    <% if user_can?('transfer_repository') && @repositories.length > 1 %>
+                      <li><%= link_to I18n.t("repository._frontend.section.transfer"), :controller => :repositories, :action => :transfer, :id => session[:repo_id] %></li>
+                    <% end %>
                   </ul>
                 <% end %>
               </div>

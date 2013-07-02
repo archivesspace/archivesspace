@@ -43,7 +43,7 @@ en:
     transfer: Transfer
     transfer_confirm_title: Transfer this record?
     transfer_confirm_message: "The record '%{target}' will be transferred to the repository you selected"
-    transfer_successful: Transfer Successful
+    transfer_successful: Transfer Successful.  Records may take a moment to appear in the target repository while re-indexing takes place.
     transfer_failed: Transfer Failed
     unset_default: Unset Default
     unsuppress: Unsuppress
@@ -572,8 +572,14 @@ en:
         changed: The Repository <strong>%{repository.repo_code}</strong> is now active
         create_first_repository: "To create your first Repository, click the <strong>System</strong> menu above and then <strong>Manage Repositories</strong>."
         no_access_to_repositories: "<p>You do not have access to any Repositories.</p><p>Please contact your System Administrator to request access.</p>"
+        continue_with_transfer: Continue with transfer?
+        transfer_failed: Transfer could not complete due to the following errors
+        transfer_target: Select a repository to transfer into
+        transfer_warning: <strong>Warning:</strong> Transferring this repository will move <strong>all</strong> of its records into the repository you select.  <strong>This action cannot be reversed</strong>
+        cannot_delete_nonempty: Cannot delete - repository not empty
       section:
         all_fields: Repository Fields
+        transfer: Transfer Repository
       action:
         select: Select Repository
         create: Create Repository

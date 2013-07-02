@@ -76,17 +76,8 @@ class Repository < Sequel::Model(:repository)
 
 
   def delete
-    raise AccessDeniedException.new("Repository deletion is currently disabled")
-
-    ASModel.all_models.each do |model|
-      if model.model_scope(true) == :repository
-        model.filter(:repo_id => self.id).select(:id).each do |record|
-          begin
-            record.delete
-          rescue Sequel::NoExistingObject
-          end
-        end
-      end
+    Group.filter(:repo_id => self.id).each do |group|
+      group.delete
     end
 
     super
@@ -94,5 +85,13 @@ class Repository < Sequel::Model(:repository)
     Notifications.notify("REPOSITORY_CHANGED")
   end
 
+
+  def assimilate(other_repository)
+    ASModel.all_models.each do |model|
+      if model.model_scope(true) == :repository
+        model.transfer_all(other_repository, self)
+      end
+    end
+  end
 
 end

@@ -154,7 +154,11 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:delete_repository])
     .returns([200, :deleted]) \
   do
-    handle_delete(Repository, params[:repo_id])
+    begin
+      handle_delete(Repository, params[:repo_id])
+    rescue Sequel::DatabaseError => e
+      json_response({:error => "Repository not empty"}, 409)
+    end
   end
 
 

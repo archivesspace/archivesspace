@@ -36,6 +36,29 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.post('/repositories/:repo_id/transfer')
+    .description("Transfer this record to a different repository")
+    .params(["target_repo", String, "The URI of the target repository"],
+            ["repo_id", :repo_id])
+    .permissions([:transfer_repository])
+    .returns([200, :moved]) \
+  do
+    target_id = JSONModel(:repository).id_for(params[:target_repo])
+
+    # We require :transfer_repository permission in both the source & target
+    # repositories.
+    RequestContext.open(:repo_id => target_id) do
+      if !current_user.can?(:transfer_repository)
+        raise AccessDeniedException.new(:target_repo => ["Permission denied"])
+      end
+    end
+
+    Repository[target_id].assimilate(Repository[params[:repo_id]])
+
+    json_response(:status => "OK")
+  end
+
+
 
   private
 

@@ -33,12 +33,8 @@ class Resource < Sequel::Model(:resource)
                       :contains_references_to_types => proc {[Accession]})
 
 
-  def validate
-    validates_unique([:repo_id, :ead_id], :message => "Must be unique")
-
-    map_validation_to_json_property([:repo_id, :ead_id], :ead_id)
-
-    super
-  end
+  repo_unique_constraint(:ead_id,
+                         :message => "Must be unique",
+                         :json_property => :ead_id)
 
 end

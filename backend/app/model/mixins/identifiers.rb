@@ -8,6 +8,12 @@ module Identifiers
   def id_3=(v); @id_3 = v; self.modified!; end
 
 
+  def self.included(base)
+    base.repo_unique_constraint(:identifier,
+                                :message => "That ID is already in use",
+                                :json_property => :id_0)
+  end
+
   def self.format(identifier)
     identifier.compact.join("--")
   end
@@ -60,13 +66,11 @@ module Identifiers
   def validate
     return super if self.class.table_name === :resource and self.identifier.nil?
 
-    (0...4).each do |i| 
+    (0...4).each do |i|
       val = instance_variable_get("@id_#{i}")
       errors.add("id_#{i}".intern, "Max length is #{MAX_LENGTH} characters") if val && val.length > MAX_LENGTH
     end
 
-    validates_unique([:repo_id, :identifier], :message => "That ID is already in use")
-    map_validation_to_json_property([:repo_id, :identifier], :id_0)
     super
   end
 
