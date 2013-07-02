@@ -128,3 +128,7 @@ en:
   components:
     expand: Expand
     collapse: Collapse
+
+  instance:
+    _public:
+      link_to_digital_object: Link to Record

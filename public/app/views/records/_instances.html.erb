@@ -4,21 +4,22 @@
     <ul class="results-list">
       <% instances.each do |instance| %>
         <li class="result row-fluid">
-          <% if instance['instance_type'] === 'digital_object' %>
-            <h4>
-              <%= icon_for "digital_object" %>
-              <%= link_to instance['digital_object']['_resolved']['title'], {:controller => :records, :action => :digital_object, :id => JSONModel(:digital_object).id_for(instance['digital_object']['ref'])} %>
-            </h4>
-          <% else %>
-            <dl class="dl-horizontal">
-              <%= label_and_value I18n.t("instance.instance_type"), i18n_enum(:instance, 'instance_type', instance['instance_type']) %>
+          <dl class="dl-horizontal">
+            <%= label_and_value I18n.t("instance.instance_type"), i18n_enum(:instance, 'instance_type', instance['instance_type']) %>
+            <% if instance['instance_type'] === 'digital_object' %>
+              <dt><%= I18n.t("instance._public.link_to_digital_object") %></dt>
+              <dd>
+                <%= icon_for "digital_object" %>
+                <%= link_to instance['digital_object']['_resolved']['title'], {:controller => :records, :action => :digital_object, :id => JSONModel(:digital_object).id_for(instance['digital_object']['ref'])} %>
+              </dd>
+            <% else %>
               <%= label_and_value I18n.t("container.type_1"), i18n_enum(:container, 'type_1', instance['container']['type_1']) %>
               <%= label_and_value I18n.t("container.indicator_1"), instance['container']['indicator_1'] %>
               <%= label_and_value I18n.t("container.barcode_1"), instance['container']['barcode_1'] %>
               <%= label_and_value I18n.t("container.type_2"), i18n_enum(:container, 'type_1', instance['container']['type_2']) %>
               <%= label_and_value I18n.t("container.indicator_2"), instance['container']['indicator_2'] %>
-            </dl>
-          <% end %>
+            <% end %>
+          </dl>
         </li>
       <% end %>
     </ul>

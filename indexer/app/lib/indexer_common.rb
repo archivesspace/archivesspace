@@ -22,7 +22,7 @@ class CommonIndexer
   @@records_with_children = []
   @@init_hooks = []
 
-  @@resolved_attributes = ['subjects', 'linked_agents', 'linked_records', 'classification']
+  @@resolved_attributes = ['subjects', 'linked_agents', 'linked_records', 'classification', 'digital_object']
 
 
   def self.add_indexer_initialize_hook(&block)
