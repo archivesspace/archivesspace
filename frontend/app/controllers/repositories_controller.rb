@@ -1,8 +1,9 @@
 class RepositoriesController < ApplicationController
 
-  skip_before_filter :unauthorised_access, :only => [:new, :create, :select, :index, :show, :edit, :update, :delete]
+  skip_before_filter :unauthorised_access, :only => [:new, :create, :select, :index, :show, :edit, :update, :delete, :transfer, :run_transfer]
   before_filter(:only => [:select, :index, :show]) {|c| user_must_have("view_repository")}
   before_filter(:only => [:new, :create, :edit, :update]) {|c| user_must_have("manage_repository")}
+  before_filter(:only => [:transfer, :run_transfer]) {|c| user_must_have("transfer_repository")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_repository")}
 
   before_filter :refresh_repo_list, :only => [:show, :new]
@@ -99,6 +100,28 @@ class RepositoriesController < ApplicationController
 
     flash[:success] = I18n.t("repository._frontend.messages.deleted", JSONModelI18nWrapper.new(:repository => repository))
     redirect_to(:controller => :repositories, :action => :index, :deleted_uri => repository.uri)
+  end
+
+
+  def transfer
+    @repository = JSONModel(:repository_with_agent).find(params[:id])
+    render :transfer
+  end
+
+
+  def run_transfer
+    old_uri = JSONModel(:repository).uri_for(params[:id])
+    response = JSONModel::HTTP.post_form(JSONModel(:repository).uri_for(params[:id]) + "/transfer",
+                                         "target_repo" => params[:ref])
+
+    if response.code == '200'
+      flash[:success] = I18n.t("actions.transfer_successful")
+      redirect_to(:action => :index)
+    else
+      @transfer_errors = ASUtils.json_parse(response.body)['error']
+      return transfer
+    end
+
   end
 
 

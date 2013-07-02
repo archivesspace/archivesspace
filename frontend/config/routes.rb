@@ -9,6 +9,8 @@ ArchivesSpace::Application.routes.draw do
   match 'logout' => "session#logout", :via => :get
 
   match 'repositories/select' => 'repositories#select', :via => [:post]
+  match 'repositories/:id/transfer' => 'repositories#transfer', :via => [:get]
+  match 'repositories/:id/transfer' => 'repositories#run_transfer', :via => [:post]
   resources :repositories
   match 'repositories/:id' => 'repositories#update', :via => [:post]
   match 'repositories/:id/delete' => 'repositories#delete', :via => [:post]

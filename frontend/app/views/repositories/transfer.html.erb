@@ -1,0 +1,64 @@
+<%= setup_context :object => JSONModel(:repository).from_hash(@repository['repository']), :title => @repository.repository['name'] %>
+
+<%
+   other_repositories = @repositories.reject {|r| r['uri'] == session[:repo]}.map {|r| [r['repo_code'], r['uri']]}
+%>
+
+<div class="row-fluid">
+  <div class="span3"> </div>
+  <div class="span9">
+      <h2><%= @repository.repository['name'] %>  <span class="label label-info"><%= I18n.t("repository._singular") %></span></h2>
+
+      <%= render :partial => "shared/flash_messages" %>
+
+      <% if !@transfer_errors.blank? %>
+        <div class="alert alert-error">
+          <h3><%= I18n.t('repository._frontend.messages.transfer_failed') %></h3>
+          <ul>
+            <% @transfer_errors.each do |uri, errors| %>
+              <li>
+                <strong><%= link_to uri, {:controller => :resolver, :action => :resolve_readonly, :uri => uri} %></strong>
+                <ul>
+                  <% errors.each do |error| %>
+                    <li><%= error['json_property'] %> - <%= error['message'] %></li>
+                  <% end %>
+                </ul>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <h3><%= I18n.t('repository._frontend.messages.transfer_target') %></h3>
+
+      <section class="transfer-form">
+        <%= form_tag(url_for({:action => :transfer, :id => @repository.id})) do |f| %>
+          <%= form_context :transfer, {} do |form| %>
+            <%= form.label_and_select "ref", other_repositories %>
+          <% end %>
+
+
+
+          <%= I18n.t('repository._frontend.messages.transfer_warning') %>
+
+          <div class="form-actions">
+            <%=
+               button_confirm_action(I18n.t("actions.transfer"),
+                                     url_for({:action => :transfer, :id => @repository.id}),
+                                     {
+                                       :class => "btn btn-danger pull-left transfer-button",
+                                       :"data-title" => I18n.t('repository._frontend.messages.continue_with_transfer'),
+                                       :"data-message" => I18n.t('repository._frontend.messages.transfer_warning'),
+                                       :"data-confirm-btn-label" => "#{I18n.t("actions.transfer")}",
+                                       :"data-confirm-btn-class" => "btn btn-danger"
+                                     })
+            %>
+
+            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel pull-right" %>
+          </div>
+
+        <% end %>
+      </section>
+    </div>
+  </div>
+</div>
