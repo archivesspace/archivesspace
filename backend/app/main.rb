@@ -34,7 +34,7 @@ class ArchivesSpaceService < Sinatra::Base
   include ImportHelpers
 
   include RESTHelpers::ResponseHelpers
-
+  include Exceptions::ResponseMappings
 
   @loaded_hooks = []
   @archivesspace_loaded = false
@@ -161,96 +161,6 @@ class ArchivesSpaceService < Sinatra::Base
     rescue
       ASUtils.dump_diagnostics($!)
     end
-  end
-
-
-  def handle_exception!(boom)
-    @env['sinatra.error'] = boom
-    status boom.respond_to?(:code) ? Integer(boom.code) : 500
-
-    if not_found?
-      headers['X-Cascade'] = 'pass'
-      body '<h1>Not Found</h1>'
-      return
-    end
-
-    res = error_block!(boom.class, boom) || error_block!(status, boom)
-
-    res or raise boom
-  end
-
-
-  error ImportException do
-    json_response({:error => request.env['sinatra.error'].to_hash}, 400)
-  end
-
-  error RepositoryNotEmpty do
-    json_response({:error => "Repository not empty"}, 409)
-  end
-
-  error NotFoundException do
-    json_response({:error => request.env['sinatra.error']}, 404)
-  end
-
-  error BadParamsException do
-    json_response({:error => request.env['sinatra.error'].params}, 400)
-  end
-
-  error UserNotFoundException do
-    json_response({:error => {"member_usernames" => [request.env['sinatra.error']]}}, 400)
-  end
-
-  error BatchDeleteFailed do
-    json_response({:error => {"failures" => request.env['sinatra.error'].errors}}, 403)
-  end
-
-  error TransferConstraintError do
-    json_response({:error => request.env['sinatra.error'].conflicts}, 409)
-  end
-
-  error ValidationException do
-    json_response({
-                    :error => request.env['sinatra.error'].errors,
-                    :warning => request.env['sinatra.error'].warnings,
-                    :invalid_object => request.env['sinatra.error'].invalid_object.inspect
-                  }, 400)
-  end
-
-  error ConflictException do
-    json_response({:error => request.env['sinatra.error'].conflicts}, 409)
-  end
-
-  error AccessDeniedException do
-    json_response({:error => "Access denied"}, 403)
-  end
-
-  error InvalidUsernameException do
-    json_response({:error => "Invalid username"}, 400)
-  end
-
-  error Sequel::ValidationFailed do
-    json_response({:error => request.env['sinatra.error'].errors}, 400)
-  end
-
-  error ReferenceError do
-    json_response({:error => request.env['sinatra.error']}, 400)
-  end
-
-  error MergeRequestFailed do
-    json_response({:error => request.env['sinatra.error']}, 400)
-  end
-
-  error Sequel::DatabaseError do
-    Log.exception(request.env['sinatra.error'])
-    json_response({:error => {:db_error => ["Database integrity constraint conflict: #{request.env['sinatra.error']}"]}}, 400)
-  end
-
-  error Sequel::Plugins::OptimisticLocking::Error do
-    json_response({:error => "The record you tried to update has been modified since you fetched it."}, 409)
-  end
-
-  error JSON::ParserError do
-    json_response({:error => "Had some trouble parsing your request: #{request.env['sinatra.error']}"}, 400)
   end
 
 
