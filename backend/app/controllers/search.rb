@@ -17,7 +17,7 @@ class ArchivesSpaceService < Sinatra::Base
       [String],
       "The list of the fields to produce facets for",
       :optional => true],
-     ["filter_term", [String], "A json string containing the term/value pairs to be applied to the filter",
+     ["filter_term", [String], "A json string containing the term/value pairs to be applied as filters.  Of the form: {\"fieldname\": \"fieldvalue\"}.",
       :optional => true],
      ["exclude",
       [String],
