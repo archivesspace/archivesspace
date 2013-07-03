@@ -198,6 +198,10 @@ class ArchivesSpaceService < Sinatra::Base
     json_response({:error => request.env['sinatra.error'].to_hash}, 400)
   end
 
+  error RepositoryNotEmpty do
+    json_response({:error => "Repository not empty"}, 409)
+  end
+
   error NotFoundException do
     json_response({:error => request.env['sinatra.error']}, 404)
   end

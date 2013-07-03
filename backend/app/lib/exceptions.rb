@@ -60,3 +60,7 @@ class TransferConstraintError < StandardError
     @conflicts[uri] = property
   end
 end
+
+
+class RepositoryNotEmpty < StandardError
+end
