@@ -112,8 +112,8 @@ class ArchivesSpaceService < Sinatra::Base
     check_admin_access
     params[:user].username = Username.value(params[:user].username)
 
-    obj = User.get_or_die(params[:id])
-    obj.update_from_json(params[:user])
+    user = User.get_or_die(params[:id])
+    user.update_from_json(params[:user])
 
     if params[:password]
       DBAuth.set_password(params[:user].username, params[:password])
@@ -135,10 +135,10 @@ class ArchivesSpaceService < Sinatra::Base
         end
       }
 
-      obj.add_to_groups(groups, params[:repo_id])
+      user.add_to_groups(groups, params[:repo_id])
     end
 
-    updated_response(obj, params[:user])
+    updated_response(user, params[:user])
   end
 
 
