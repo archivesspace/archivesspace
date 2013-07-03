@@ -40,7 +40,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["resolve", :resolve])
     .permissions([])
     .returns([200, "(:agent)"],
-             [404, '{"error":"Agent not found"}']) \
+             [404, "Not found"]) \
   do
     json_response(resolve_references(AgentSoftware.to_jsonmodel(AgentSoftware.get_or_die(params[:id])),
                                      params[:resolve]))

@@ -10,7 +10,7 @@ class ArchivesSpaceService < Sinatra::Base
              :optional => true])
     .returns([303, "A redirect to the URI named by the external ID (if there's only one)"],
              [300, "A JSON-formatted list of URIs if there were multiple matches"],
-             [404, "If there were no matches"]) \
+             [404, "No external ID matched"]) \
   do
     show_suppressed = !RequestContext.get(:enforce_suppression)
     results = Solr.search("{!term f=external_id}#{params[:eid]}", 1, 10, nil, params[:type], show_suppressed)

@@ -43,7 +43,7 @@ class ArchivesSpaceService < Sinatra::Base
             )
     .permissions([:view_repository])
     .returns([200, "(:event)"],
-             [404, '{"error":"Event not found"}']) \
+             [404, "Not found"]) \
   do
     json = Event.to_jsonmodel(params[:id])
 

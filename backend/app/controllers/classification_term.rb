@@ -6,8 +6,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id])
     .permissions([:update_classification_record])
     .returns([200, :created],
-             [400, :error],
-             [409, '{"error":{"[:root_record_id, :ref_id]":["A Classification Term Ref ID must be unique to its resource"]}}']) \
+             [400, :error]) \
   do
     handle_create(ClassificationTerm, params[:classification_term])
   end
@@ -20,8 +19,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id])
     .permissions([:update_classification_record])
     .returns([200, :updated],
-             [400, :error],
-             [409, '{"error":{"[:root_record_id, :ref_id]":["A Classification Term Ref ID must be unique to its resource"]}}']) \
+             [400, :error]) \
   do
     handle_update(ClassificationTerm, params[:id], params[:classification_term])
   end
@@ -51,7 +49,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["resolve", :resolve])
     .permissions([:view_repository])
     .returns([200, "(:classification_term)"],
-             [404, '{"error":"ClassificationTerm not found"}']) \
+             [404, "Not found"]) \
   do
     json = ClassificationTerm.to_jsonmodel(params[:id])
 
@@ -65,7 +63,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id])
     .permissions([:view_repository])
     .returns([200, "a list of classification term references"],
-             [404, '{"error":"ClassificationTerm not found"}']) \
+             [404, "Not found"]) \
   do
     ao = ClassificationTerm.get_or_die(params[:id])
     json_response(ao.children.map {|child|

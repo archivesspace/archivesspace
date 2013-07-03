@@ -7,7 +7,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id])
     .permissions([])
     .returns([200, "(:repository_with_agent)"],
-             [404, '{"error":"Repository not found"}']) \
+             [404, "Not found"]) \
   do
     repo = Repository[params[:id]]
     repo_json = Repository.to_jsonmodel(repo)
@@ -133,7 +133,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id])
     .permissions([])
     .returns([200, "(:repository)"],
-             [404, '{"error":"Repository not found"}']) \
+             [404, "Not found"]) \
   do
     json_response(Repository.to_jsonmodel(Repository.get_or_die(params[:id])))
   end

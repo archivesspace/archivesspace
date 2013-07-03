@@ -6,8 +6,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id])
     .permissions([:update_archival_record])
     .returns([200, :created],
-             [400, :error],
-             [409, '{"error":{"[:root_record_id, :ref_id]":["An Archival Object Ref ID must be unique to its resource"]}}']) \
+             [400, :error]) \
   do
     handle_create(ArchivalObject, params[:archival_object])
   end
@@ -20,8 +19,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id])
     .permissions([:update_archival_record])
     .returns([200, :updated],
-             [400, :error],
-             [409, '{"error":{"[:root_record_id, :ref_id]":["An Archival Object Ref ID must be unique to its resource"]}}']) \
+             [400, :error]) \
   do
     handle_update(ArchivalObject, params[:id], params[:archival_object])
   end
@@ -51,7 +49,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["resolve", :resolve])
     .permissions([:view_repository])
     .returns([200, "(:archival_object)"],
-             [404, '{"error":"ArchivalObject not found"}']) \
+             [404, "Not found"]) \
   do
     json = ArchivalObject.to_jsonmodel(params[:id])
 
@@ -65,7 +63,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id])
     .permissions([:view_repository])
     .returns([200, "a list of archival object references"],
-             [404, '{"error":"ArchivalObject not found"}']) \
+             [404, "Not found"]) \
   do
     ao = ArchivalObject.get_or_die(params[:id])
     json_response(ao.children.map {|child|

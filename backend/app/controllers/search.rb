@@ -75,7 +75,7 @@ class ArchivesSpaceService < Sinatra::Base
   .params(["node_uri", String, "The URI of the archival record to find the tree view for"])
   .permissions([:view_all_records])
   .returns([200, "OK"],
-           [404, '{"error":"Tree for node_uri not found"}']) \
+           [404, "Not found"]) \
   do
 
     show_suppressed = !RequestContext.get(:enforce_suppression)

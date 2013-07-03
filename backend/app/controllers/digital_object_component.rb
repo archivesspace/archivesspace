@@ -49,7 +49,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["resolve", :resolve])
     .permissions([:view_repository])
     .returns([200, "(:digital_object_component)"],
-             [404, '{"error":"DigitalObjectComponent not found"}']) \
+             [404, "Not found"]) \
   do
     json = DigitalObjectComponent.to_jsonmodel(params[:id])
 
@@ -63,7 +63,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id])
     .permissions([:view_repository])
     .returns([200, "[(:digital_object_component)]"],
-             [404, '{"error":"DigitalObjectComponent not found"}']) \
+             [404, "Not found"]) \
   do
     digital_object = DigitalObjectComponent.get_or_die(params[:id])
     json_response(digital_object.children.map {|child|

@@ -42,7 +42,7 @@ class ArchivesSpaceService < Sinatra::Base
              :default => true])
     .permissions([:manage_repository])
     .returns([200, "(:group)"],
-             [404, '{"error":"Group not found"}']) \
+             [404, "Not found"]) \
   do
     json = Group.to_jsonmodel(params[:id],
                               :with_members => params[:with_members])
@@ -57,7 +57,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id])
     .permissions([:manage_repository])
     .returns([200, "(:group)"],
-             [404, '{"error":"Group not found"}']) \
+             [404, "Not found"]) \
   do
     handle_delete(Group, params[:id])
   end
