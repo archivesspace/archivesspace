@@ -84,77 +84,76 @@ class ArchivesSpaceService < Sinatra::Base
       set :show_exceptions, false
       set :logging, false
 
-      if DB.connected?
-
-        require_relative "model/ASModel"
-
-        [File.dirname(__FILE__), *ASUtils.find_local_directories('backend')].each do |prefix|
-          ['model/mixins', 'model', 'model/reports', 'controllers'].each do |path|
-            Dir.glob(File.join(prefix, path, "*.rb")).sort.each do |file|
-              require File.absolute_path(file)
-            end
-          end
-        end
-
-        # Start the notifications background delivery thread
-        Notifications.init if ASpaceEnvironment.environment != :unit_test
-
-
-        if ASpaceEnvironment.environment == :production
-          # Start the job scheduler
-          if !settings.respond_to? :scheduler?
-            Log.info("Starting job scheduler")
-            set :scheduler, Rufus::Scheduler.start_new
-          end
-
-
-          settings.scheduler.cron("0 * * * *", :tags => 'notification_expiry') do
-            Log.info("Expiring old notifications")
-            Notifications.expire_old_notifications
-            Log.info("Done")
-          end
-
-          if AppConfig[:db_url] == AppConfig.demo_db_url &&
-              settings.scheduler.find_by_tag('demo_db_backup').empty?
-
-            Log.info("Enabling backups for the embedded demo database " +
-                     "running at schedule: #{AppConfig[:demo_db_backup_schedule]}")
-
-
-            settings.scheduler.cron(AppConfig[:demo_db_backup_schedule],
-                                    :tags => 'demo_db_backup') do
-              Log.info("Starting backup of embedded demo database")
-              DB.demo_db_backup
-              Log.info("Backup of embedded demo database completed!")
-            end
-          end
-
-          if AppConfig[:solr_backup_schedule] && AppConfig[:solr_backup_number_to_keep] > 0
-            settings.scheduler.cron(AppConfig[:solr_backup_schedule],
-                                    :tags => 'solr_backup') do
-              Log.info("Creating snapshot of Solr index and indexer state")
-              SolrSnapshotter.snapshot
-            end
-          end
-        end
-
-        ANONYMOUS_USER = AnonymousUser.new
-
-        require_relative "lib/bootstrap_access_control"
-
-        @loaded_hooks.each do |hook|
-          hook.call
-        end
-        @archivesspace_loaded = true
-
-        Notifications.notify("BACKEND_STARTED")
-
-      else
+      if !DB.connected?
         Log.error("***** DATABASE CONNECTION FAILED *****\n" +
                   "\n" +
                   "ArchivesSpace could not connect to your specified database URL (#{AppConfig[:db_url]}).\n\n" +
                   "Please check your configuration and try again.")
+        raise "Database connection failed"
       end
+
+      require_relative "model/ASModel"
+
+      [File.dirname(__FILE__), *ASUtils.find_local_directories('backend')].each do |prefix|
+        ['model/mixins', 'model', 'model/reports', 'controllers'].each do |path|
+          Dir.glob(File.join(prefix, path, "*.rb")).sort.each do |file|
+            require File.absolute_path(file)
+          end
+        end
+      end
+
+      # Start the notifications background delivery thread
+      Notifications.init if ASpaceEnvironment.environment != :unit_test
+
+
+      if ASpaceEnvironment.environment == :production
+        # Start the job scheduler
+        if !settings.respond_to? :scheduler?
+          Log.info("Starting job scheduler")
+          set :scheduler, Rufus::Scheduler.start_new
+        end
+
+
+        settings.scheduler.cron("0 * * * *", :tags => 'notification_expiry') do
+          Log.info("Expiring old notifications")
+          Notifications.expire_old_notifications
+          Log.info("Done")
+        end
+
+        if AppConfig[:db_url] == AppConfig.demo_db_url &&
+            settings.scheduler.find_by_tag('demo_db_backup').empty?
+
+          Log.info("Enabling backups for the embedded demo database " +
+                   "running at schedule: #{AppConfig[:demo_db_backup_schedule]}")
+
+
+          settings.scheduler.cron(AppConfig[:demo_db_backup_schedule],
+                                  :tags => 'demo_db_backup') do
+            Log.info("Starting backup of embedded demo database")
+            DB.demo_db_backup
+            Log.info("Backup of embedded demo database completed!")
+          end
+        end
+
+        if AppConfig[:solr_backup_schedule] && AppConfig[:solr_backup_number_to_keep] > 0
+          settings.scheduler.cron(AppConfig[:solr_backup_schedule],
+                                  :tags => 'solr_backup') do
+            Log.info("Creating snapshot of Solr index and indexer state")
+            SolrSnapshotter.snapshot
+          end
+        end
+      end
+
+      ANONYMOUS_USER = AnonymousUser.new
+
+      require_relative "lib/bootstrap_access_control"
+
+      @loaded_hooks.each do |hook|
+        hook.call
+      end
+      @archivesspace_loaded = true
+
+      Notifications.notify("BACKEND_STARTED")
 
       # Setup public static file sharing
       set :public_folder, Proc.new { File.join(File.dirname(__FILE__), "static") }
@@ -219,14 +218,12 @@ class ArchivesSpaceService < Sinatra::Base
       end
 
 
-      if DB.connected?
-        env[:aspace_user] = ANONYMOUS_USER
+      env[:aspace_user] = ANONYMOUS_USER
 
-        if session
-          env[:aspace_session] = session
-          env[:aspace_user] = ((session && session[:user] && User.find(:username => session[:user])) ||
-                               ANONYMOUS_USER)
-        end
+      if session
+        env[:aspace_session] = session
+        env[:aspace_user] = ((session && session[:user] && User.find(:username => session[:user])) ||
+                             ANONYMOUS_USER)
       end
 
       querystring = env['QUERY_STRING'].empty? ? "" : "?#{Log.filter_passwords(env['QUERY_STRING'])}"
