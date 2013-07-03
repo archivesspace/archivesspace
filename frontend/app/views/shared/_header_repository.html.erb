@@ -69,7 +69,9 @@
               <li class="dropdown import-container">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("navbar.import") %> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><%= link_to I18n.t("navbar.import_eac"), :controller => :import, :action => :index, :importer => :eac %></li>
+                  <% if false %>
+                    <li><%= link_to I18n.t("navbar.import_eac"), :controller => :import, :action => :index, :importer => :eac %></li>
+                  <% end %>
                   <li><%= link_to I18n.t("navbar.import_ead"), :controller => :import, :action => :index, :importer => :ead %></li>
                   <li><%= link_to I18n.t("navbar.import_marcxml"), :controller => :import, :action => :index, :importer => :marcxml %></li>
                   <li><%= link_to I18n.t("navbar.import_marcxml_subjects_and_agents"), :controller => :import, :action => :index, :importer => :marcxml_subjects_and_agents %></li>
