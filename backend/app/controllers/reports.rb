@@ -2,9 +2,7 @@ require_relative '../model/reports/report_manager'
 
 class ArchivesSpaceService < Sinatra::Base
 
-  helpers do
-    include ReportHelper::ResponseHelpers
-  end
+  include ReportHelper::ResponseHelpers
 
   ReportManager.registered_reports.each do |uri_suffix, opts|
 

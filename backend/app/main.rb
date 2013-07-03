@@ -31,9 +31,7 @@ class ArchivesSpaceService < Sinatra::Base
   include CrudHelpers
   include ImportHelpers
 
-  helpers do
-    include RESTHelpers::ResponseHelpers
-  end
+  include RESTHelpers::ResponseHelpers
 
 
   @loaded_hooks = []
