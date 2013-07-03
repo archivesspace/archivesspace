@@ -65,10 +65,11 @@ class DB
   end
 
 
-  def self.open(transaction = true)
+  def self.open(transaction = true, opts = {})
     last_err = false
+    retries = opts[:retries] || 10
 
-    5.times do
+    retries.times do |attempt|
       begin
         if transaction
           self.transaction do
@@ -93,13 +94,13 @@ class DB
         # MySQL might have been restarted.
         last_err = e
         Log.info("Connecting to the database failed.  Retrying...")
-        sleep(3)
+        sleep(opts[:db_failed_retry_delay] || 3)
 
 
       rescue Sequel::DatabaseError => e
-        if is_retriable_exception(e) && transaction
+        if (attempt + 1) < retries && is_retriable_exception(e) && transaction
           Log.info("Retrying transaction after retriable exception (#{e})")
-          sleep 1
+          sleep(opts[:retry_delay] || 1)
         else
           raise e
         end
