@@ -2,7 +2,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/repositories/:repo_id/locations/batch')
   .description("Create a Batch of Locations")
-  .params(["dry_run", String, "If true, don't create the locations, just list them", :optional => true],
+  .params(["dry_run", BooleanParam, "If true, don't create the locations, just list them", :optional => true],
           ["location_batch", JSONModel(:location_batch), "The location batch data to generate all locations", :body => true],
           ["repo_id", :repo_id])
   .permissions([:update_location_record])
@@ -10,7 +10,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     batch = params[:location_batch]
 
-    if params[:dry_run] == "true"
+    if params[:dry_run]
       result = Location.titles_for_batch(batch)
     else
       result = Location.create_for_batch(batch).map {|obj| obj.uri}
