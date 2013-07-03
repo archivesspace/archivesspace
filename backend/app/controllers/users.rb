@@ -40,7 +40,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.get('/users')
-    .description("Get a list of system users")
+    .description("Get a list users")
     .params()
     .paginated(true)
     .permissions([:manage_users])
