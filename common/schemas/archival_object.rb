@@ -15,6 +15,9 @@
       "title" => {"type" => "string", "maxLength" => 8192, "ifmissing" => nil},
       "label" => {"type" => "string", "maxLength" => 8192, "readonly" => true},
       
+      "restrictions_apply" => {"type" => "boolean", "default" => false},
+      "repository_processing_note" => {"type" => "string", "maxLength" => 65000},
+      
       "parent" => {
         "type" => "object",
         "subtype" => "ref",
