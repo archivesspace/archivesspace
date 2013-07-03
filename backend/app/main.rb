@@ -7,6 +7,8 @@ if ENV['COVERAGE_REPORTS'] && ENV["ASPACE_INTEGRATION"] == "true"
 end
 
 require_relative 'lib/bootstrap'
+ASpaceEnvironment.init
+
 require_relative 'lib/uri_resolver'
 require_relative 'lib/rest'
 require_relative 'lib/crud_helpers'
@@ -95,10 +97,10 @@ class ArchivesSpaceService < Sinatra::Base
         end
 
         # Start the notifications background delivery thread
-        Notifications.init if !Thread.current[:test_mode]
+        Notifications.init if ASpaceEnvironment.environment != :unit_test
 
 
-        if !Thread.current[:test_mode] && ENV["ASPACE_INTEGRATION"] != "true"
+        if ASpaceEnvironment.environment == :production
           # Start the job scheduler
           if !settings.respond_to? :scheduler?
             Log.info("Starting job scheduler")
