@@ -12,29 +12,29 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/repositories/:repo_id/resources/:resource_id')
+  Endpoint.get('/repositories/:repo_id/resources/:id')
     .description("Get a Resource")
-    .params(["resource_id", Integer, "The ID of the resource to retrieve"],
+    .params(["id", :id],
             ["repo_id", :repo_id],
             ["resolve", :resolve])
     .permissions([:view_repository])
     .returns([200, "(:resource)"]) \
   do
-    json = Resource.to_jsonmodel(params[:resource_id])
+    json = Resource.to_jsonmodel(params[:id])
 
     json_response(resolve_references(json, params[:resolve]))
   end
 
 
-  Endpoint.get('/repositories/:repo_id/resources/:resource_id/tree')
+  Endpoint.get('/repositories/:repo_id/resources/:id/tree')
     .description("Get a Resource tree")
-    .params(["resource_id", Integer, "The ID of the resource to retrieve"],
+    .params(["id", :id],
             ["limit_to", String, "An Archival Object URI or 'root'", :optional => true],
             ["repo_id", :repo_id])
     .permissions([:view_repository])
     .returns([200, "OK"]) \
   do
-    resource = Resource.get_or_die(params[:resource_id])
+    resource = Resource.get_or_die(params[:id])
 
     tree = if params[:limit_to] && !params[:limit_to].empty?
              if params[:limit_to] == "root"
@@ -58,16 +58,16 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.post('/repositories/:repo_id/resources/:resource_id')
+  Endpoint.post('/repositories/:repo_id/resources/:id')
     .description("Update a Resource")
-    .params(["resource_id", Integer, "The ID of the resource to retrieve"],
+    .params(["id", :id],
             ["resource", JSONModel(:resource), "The resource to update", :body => true],
             ["repo_id", :repo_id])
     .permissions([:update_archival_record])
     .returns([200, :updated],
              [400, :error]) \
   do
-    handle_update(Resource, :resource_id, :resource)
+    handle_update(Resource, :id, :resource)
   end
 
 
@@ -82,26 +82,26 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.delete('/repositories/:repo_id/resources/:resource_id')
+  Endpoint.delete('/repositories/:repo_id/resources/:id')
     .description("Delete a Resource")
-    .params(["resource_id", Integer, "The resource ID to delete"],
+    .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:delete_archival_record])
     .returns([200, :deleted]) \
   do
-    handle_delete(Resource, params[:resource_id])
+    handle_delete(Resource, params[:id])
   end
 
 
-  Endpoint.post('/repositories/:repo_id/resources/:resource_id/publish')
+  Endpoint.post('/repositories/:repo_id/resources/:id/publish')
   .description("Publish a resource and all it's sub-records and components")
-  .params(["resource_id", Integer, "The ID of the resource to retrieve"],
+  .params(["id", :id],
                      ["repo_id", :repo_id])
   .permissions([:update_archival_record])
   .returns([200, :updated],
            [400, :error]) \
   do
-    resource = Resource.get_or_die(params[:resource_id])
+    resource = Resource.get_or_die(params[:id])
     resource.publish!
 
     updated_response(resource)

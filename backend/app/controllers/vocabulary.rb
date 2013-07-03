@@ -1,13 +1,13 @@
 class ArchivesSpaceService < Sinatra::Base
 
-  Endpoint.post('/vocabularies/:vocab_id')
+  Endpoint.post('/vocabularies/:id')
     .description("Update a Vocabulary")
-    .params(["vocab_id", Integer, "The vocabulary ID to update"],
+    .params(["id", :id],
             ["vocabulary", JSONModel(:vocabulary), "The vocabulary data to update", :body => true])
     .permissions([:update_vocabulary_record])
     .returns([200, :updated]) \
   do
-    handle_update(Vocabulary, :vocab_id, :vocabulary)
+    handle_update(Vocabulary, :id, :vocabulary)
   end
 
   Endpoint.post('/vocabularies')
@@ -34,22 +34,22 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/vocabularies/:vocab_id/terms')
+  Endpoint.get('/vocabularies/:id/terms')
     .description("Get a list of Terms for a Vocabulary")
-    .params(["vocab_id", Integer, "The vocabulary ID"])
+    .params(["id", :id])
     .permissions([])
     .returns([200, "[(:term)]"]) \
   do
-    handle_unlimited_listing(Term, :vocab_id => params[:vocab_id])
+    handle_unlimited_listing(Term, :vocab_id => params[:id])
   end
 
 
-  Endpoint.get('/vocabularies/:vocab_id')
+  Endpoint.get('/vocabularies/:id')
     .description("Get a Vocabulary by ID")
-    .params(["vocab_id", Integer, "The vocabulary ID"])
+    .params(["id", :id])
     .permissions([])
     .returns([200, "OK"]) \
   do
-    json_response(Vocabulary.to_jsonmodel(params[:vocab_id]))
+    json_response(Vocabulary.to_jsonmodel(params[:id]))
   end
 end

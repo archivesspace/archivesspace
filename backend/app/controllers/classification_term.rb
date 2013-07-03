@@ -13,9 +13,9 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.post('/repositories/:repo_id/classification_terms/:classification_term_id')
+  Endpoint.post('/repositories/:repo_id/classification_terms/:id')
     .description("Update a Classification Term")
-    .params(["classification_term_id", Integer, "The Classification Term ID to update"],
+    .params(["id", :id],
             ["classification_term", JSONModel(:classification_term), "The Classification Term data to update", :body => true],
             ["repo_id", :repo_id])
     .permissions([:update_classification_record])
@@ -23,13 +23,13 @@ class ArchivesSpaceService < Sinatra::Base
              [400, :error],
              [409, '{"error":{"[:root_record_id, :ref_id]":["A Classification Term Ref ID must be unique to its resource"]}}']) \
   do
-    handle_update(ClassificationTerm, :classification_term_id, :classification_term)
+    handle_update(ClassificationTerm, :id, :classification_term)
   end
 
 
-  Endpoint.post('/repositories/:repo_id/classification_terms/:classification_term_id/parent')
+  Endpoint.post('/repositories/:repo_id/classification_terms/:id/parent')
     .description("Set the parent/position of a Classification Term in a tree")
-    .params(["classification_term_id", Integer, "The Classification Term ID to update"],
+    .params(["id", :id],
             ["parent", Integer, "The parent of this node in the tree", :optional => true],
             ["position", Integer, "The position of this node in the tree", :optional => true],
             ["repo_id", :repo_id])
@@ -37,37 +37,37 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :updated],
              [400, :error]) \
   do
-    obj = ClassificationTerm.get_or_die(params[:classification_term_id])
+    obj = ClassificationTerm.get_or_die(params[:id])
     obj.update_position_only(params[:parent], params[:position])
 
     updated_response(obj)
   end
 
 
-  Endpoint.get('/repositories/:repo_id/classification_terms/:classification_term_id')
+  Endpoint.get('/repositories/:repo_id/classification_terms/:id')
     .description("Get a Classification Term by ID")
-    .params(["classification_term_id", Integer, "The Classification Term ID"],
+    .params(["id", :id],
             ["repo_id", :repo_id],
             ["resolve", :resolve])
     .permissions([:view_repository])
     .returns([200, "(:classification_term)"],
              [404, '{"error":"ClassificationTerm not found"}']) \
   do
-    json = ClassificationTerm.to_jsonmodel(params[:classification_term_id])
+    json = ClassificationTerm.to_jsonmodel(params[:id])
 
     json_response(resolve_references(json, params[:resolve]))
   end
 
 
-  Endpoint.get('/repositories/:repo_id/classification_terms/:classification_term_id/children')
+  Endpoint.get('/repositories/:repo_id/classification_terms/:id/children')
     .description("Get the children of a Classification Term")
-    .params(["classification_term_id", Integer, "The Classification Term ID"],
+    .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:view_repository])
     .returns([200, "a list of classification term references"],
              [404, '{"error":"ClassificationTerm not found"}']) \
   do
-    ao = ClassificationTerm.get_or_die(params[:classification_term_id])
+    ao = ClassificationTerm.get_or_die(params[:id])
     json_response(ao.children.map {|child|
       ClassificationTerm.to_jsonmodel(child)})
   end
@@ -84,14 +84,14 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.delete('/repositories/:repo_id/classification_terms/:classification_term_id')
+  Endpoint.delete('/repositories/:repo_id/classification_terms/:id')
     .description("Delete a Classification Term")
-    .params(["classification_term_id", Integer, "The Classification Term to delete"],
+    .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:delete_classification_record])
     .returns([200, :deleted]) \
   do
-    handle_delete(ClassificationTerm, params[:classification_term_id])
+    handle_delete(ClassificationTerm, params[:id])
   end
 
 end

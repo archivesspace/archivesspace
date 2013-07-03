@@ -12,43 +12,43 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/repositories/:repo_id/classifications/:classification_id')
+  Endpoint.get('/repositories/:repo_id/classifications/:id')
     .description("Get a Classification")
-    .params(["classification_id", Integer, "The ID of the classification to retrieve"],
+    .params(["id", :id],
             ["repo_id", :repo_id],
             ["resolve", :resolve])
     .permissions([:view_repository])
     .returns([200, "(:classification)"]) \
   do
-    json = Classification.to_jsonmodel(params[:classification_id])
+    json = Classification.to_jsonmodel(params[:id])
 
     json_response(resolve_references(json, params[:resolve]))
   end
 
 
-  Endpoint.get('/repositories/:repo_id/classifications/:classification_id/tree')
+  Endpoint.get('/repositories/:repo_id/classifications/:id/tree')
     .description("Get a Classification tree")
-    .params(["classification_id", Integer, "The ID of the classification to retrieve"],
+    .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:view_repository])
     .returns([200, "OK"]) \
   do
-    classification = Classification.get_or_die(params[:classification_id])
+    classification = Classification.get_or_die(params[:id])
 
     json_response(classification.tree)
   end
 
 
-  Endpoint.post('/repositories/:repo_id/classifications/:classification_id')
+  Endpoint.post('/repositories/:repo_id/classifications/:id')
     .description("Update a Classification")
-    .params(["classification_id", Integer, "The ID of the classification to retrieve"],
+    .params(["id", :id],
             ["classification", JSONModel(:classification), "The classification to update", :body => true],
             ["repo_id", :repo_id])
     .permissions([:update_classification_record])
     .returns([200, :updated],
              [400, :error]) \
   do
-    handle_update(Classification, :classification_id, :classification)
+    handle_update(Classification, :id, :classification)
   end
 
 
@@ -63,13 +63,13 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.delete('/repositories/:repo_id/classifications/:classification_id')
+  Endpoint.delete('/repositories/:repo_id/classifications/:id')
     .description("Delete a Classification")
-    .params(["classification_id", Integer, "The classification ID to delete"],
+    .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:delete_classification_record])
     .returns([200, :deleted]) \
   do
-    handle_delete(Classification, params[:classification_id])
+    handle_delete(Classification, params[:id])
   end
 end

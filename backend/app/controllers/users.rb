@@ -100,7 +100,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/users/:id')
     .description("Update a user's account")
-    .params(["id", Integer, "The username id to update"],
+    .params(["id", :id],
             ["password", String, "The user's password", :optional => true],
             ["groups", [String], "Array of groups URIs to assign the user to", :optional => true],
             ["repo_id", Integer, "The Repository groups to clear", :optional => true],

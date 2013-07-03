@@ -1,14 +1,14 @@
 class ArchivesSpaceService < Sinatra::Base
 
-  Endpoint.get('/repositories/:repo_id/digital_objects/:digital_object_id')
+  Endpoint.get('/repositories/:repo_id/digital_objects/:id')
     .description("Get a Digital Object")
-    .params(["digital_object_id", Integer, "The ID of the digital object to retrieve"],
+    .params(["id", :id],
             ["repo_id", :repo_id],
             ["resolve", :resolve])
     .permissions([:view_repository])
     .returns([200, "(:digital_object)"]) \
   do
-    json = DigitalObject.to_jsonmodel(params[:digital_object_id])
+    json = DigitalObject.to_jsonmodel(params[:id])
 
     json_response(resolve_references(json, params[:resolve]))
   end
@@ -26,16 +26,16 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.post('/repositories/:repo_id/digital_objects/:digital_object_id')
+  Endpoint.post('/repositories/:repo_id/digital_objects/:id')
     .description("Update a Digital Object")
-    .params(["digital_object_id", Integer, "The ID of the digital object to retrieve"],
+    .params(["id", :id],
             ["digital_object", JSONModel(:digital_object), "The digital object to update", :body => true],
             ["repo_id", :repo_id])
     .permissions([:update_archival_record])
     .returns([200, :updated],
              [400, :error]) \
   do
-    handle_update(DigitalObject, :digital_object_id, :digital_object)
+    handle_update(DigitalObject, :id, :digital_object)
   end
 
 
@@ -50,39 +50,39 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/repositories/:repo_id/digital_objects/:digital_object_id/tree')
+  Endpoint.get('/repositories/:repo_id/digital_objects/:id/tree')
     .description("Get a Digital Object tree")
-    .params(["digital_object_id", Integer, "The ID of the digital object to retrieve"],
+    .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:view_repository])
     .returns([200, "OK"]) \
   do
-    digital_object = DigitalObject.get_or_die(params[:digital_object_id])
+    digital_object = DigitalObject.get_or_die(params[:id])
 
     json_response(digital_object.tree)
   end
 
 
-  Endpoint.delete('/repositories/:repo_id/digital_objects/:digital_object_id')
+  Endpoint.delete('/repositories/:repo_id/digital_objects/:id')
     .description("Delete a Digital Object")
-    .params(["digital_object_id", Integer, "The Digital Object to delete"],
+    .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:delete_archival_record])
     .returns([200, :deleted]) \
   do
-    handle_delete(DigitalObject, params[:digital_object_id])
+    handle_delete(DigitalObject, params[:id])
   end
 
 
-  Endpoint.post('/repositories/:repo_id/digital_objects/:digital_object_id/publish')
+  Endpoint.post('/repositories/:repo_id/digital_objects/:id/publish')
   .description("Publish a digital object and all it's sub-records and components")
-  .params(["digital_object_id", Integer, "The ID of the digital object to retrieve"],
+  .params(["id", :id],
           ["repo_id", :repo_id])
   .permissions([:update_archival_record])
   .returns([200, :updated],
            [400, :error]) \
   do
-    digital_object = DigitalObject.get_or_die(params[:digital_object_id])
+    digital_object = DigitalObject.get_or_die(params[:id])
     digital_object.publish!
 
     updated_response(digital_object)

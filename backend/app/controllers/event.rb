@@ -12,15 +12,15 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.post('/repositories/:repo_id/events/:event_id')
+  Endpoint.post('/repositories/:repo_id/events/:id')
     .description("Update an Event")
-    .params(["event_id", Integer, "The event ID to update"],
+    .params(["id", :id],
             ["event", JSONModel(:event), "The event data to update", :body => true],
             ["repo_id", :repo_id])
     .permissions([:update_event_record])
     .returns([200, :updated]) \
   do
-    handle_update(Event, :event_id, :event)
+    handle_update(Event, :id, :event)
   end
 
 
@@ -35,9 +35,9 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/repositories/:repo_id/events/:event_id')
+  Endpoint.get('/repositories/:repo_id/events/:id')
     .description("Get an Event by ID")
-    .params(["event_id", Integer, "The Event ID"],
+    .params(["id", :id],
             ["repo_id", :repo_id],
             ["resolve", :resolve]
             )
@@ -45,34 +45,34 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "(:event)"],
              [404, '{"error":"Event not found"}']) \
   do
-    json = Event.to_jsonmodel(params[:event_id])
+    json = Event.to_jsonmodel(params[:id])
 
     json_response(resolve_references(json, params[:resolve]))
   end
 
 
-  Endpoint.post('/repositories/:repo_id/events/:event_id/suppressed')
+  Endpoint.post('/repositories/:repo_id/events/:id/suppressed')
     .description("Suppress this record from non-managers")
-    .params(["event_id", Integer, "The event ID to update"],
+    .params(["id", :id],
             ["suppressed", BooleanParam, "Suppression state"],
             ["repo_id", :repo_id])
     .permissions([:suppress_archival_record])
     .returns([200, :suppressed]) \
   do
-    sup_state = Event.get_or_die(params[:event_id]).set_suppressed(params[:suppressed])
+    sup_state = Event.get_or_die(params[:id]).set_suppressed(params[:suppressed])
 
-    suppressed_response(params[:event_id], sup_state)
+    suppressed_response(params[:id], sup_state)
   end
 
 
-  Endpoint.delete('/repositories/:repo_id/events/:event_id')
+  Endpoint.delete('/repositories/:repo_id/events/:id')
     .description("Delete an event record")
-    .params(["event_id", Integer, "The event ID to delete"],
+    .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:delete_event_record])
     .returns([200, :deleted]) \
   do
-    handle_delete(Event, params[:event_id])
+    handle_delete(Event, params[:id])
   end
 
 

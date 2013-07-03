@@ -13,9 +13,9 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.post('/repositories/:repo_id/groups/:group_id')
+  Endpoint.post('/repositories/:repo_id/groups/:id')
     .description("Update a group")
-    .params(["group_id", Integer, "The Group ID to update"],
+    .params(["id", :id],
             ["group", JSONModel(:group), "The Group data to update", :body => true],
             ["repo_id", :repo_id],
             ["with_members",
@@ -27,14 +27,14 @@ class ArchivesSpaceService < Sinatra::Base
              [400, :error],
              [409, :conflict]) \
   do
-    handle_update(Group, :group_id, :group,
+    handle_update(Group, :id, :group,
                   :with_members => params[:with_members])
   end
 
 
-  Endpoint.get('/repositories/:repo_id/groups/:group_id')
+  Endpoint.get('/repositories/:repo_id/groups/:id')
     .description("Get a group by ID")
-    .params(["group_id", Integer, "The group ID"],
+    .params(["id", :id],
             ["repo_id", :repo_id],
             ["with_members",
              BooleanParam,
@@ -44,22 +44,22 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "(:group)"],
              [404, '{"error":"Group not found"}']) \
   do
-    json = Group.to_jsonmodel(params[:group_id],
+    json = Group.to_jsonmodel(params[:id],
                               :with_members => params[:with_members])
 
     json_response(json)
   end
 
 
-  Endpoint.delete('/repositories/:repo_id/groups/:group_id')
+  Endpoint.delete('/repositories/:repo_id/groups/:id')
     .description("Delete a group by ID")
-    .params(["group_id", Integer, "The group ID"],
+    .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:manage_repository])
     .returns([200, "(:group)"],
              [404, '{"error":"Group not found"}']) \
   do
-    handle_delete(Group, params[:group_id])
+    handle_delete(Group, params[:id])
   end
 
 

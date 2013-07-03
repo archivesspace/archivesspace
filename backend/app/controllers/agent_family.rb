@@ -22,15 +22,15 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.post('/agents/families/:agent_id')
+  Endpoint.post('/agents/families/:id')
     .description("Update a family agent")
-    .params(["agent_id", Integer, "The ID of the agent to update"],
+    .params(["id", :id],
             ["agent", JSONModel(:agent_family), "The family to create", :body => true])
     .permissions([:update_agent_record])
     .returns([200, :updated],
              [400, :error]) \
   do
-    handle_update(AgentFamily, :agent_id, :agent)
+    handle_update(AgentFamily, :id, :agent)
   end
 
 

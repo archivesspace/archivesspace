@@ -1,28 +1,28 @@
 class ArchivesSpaceService < Sinatra::Base
 
-  Endpoint.post('/repositories/:repo_id/accessions/:accession_id')
+  Endpoint.post('/repositories/:repo_id/accessions/:id')
     .description("Update an Accession")
-    .params(["accession_id", Integer, "The accession ID to update"],
+    .params(["id", :id],
             ["accession", JSONModel(:accession), "The accession data to update", :body => true],
             ["repo_id", :repo_id])
     .permissions([:update_archival_record])
     .returns([200, :updated]) \
   do
-    handle_update(Accession, :accession_id, :accession)
+    handle_update(Accession, :id, :accession)
   end
 
 
-  Endpoint.post('/repositories/:repo_id/accessions/:accession_id/suppressed')
+  Endpoint.post('/repositories/:repo_id/accessions/:id/suppressed')
     .description("Suppress this record")
-    .params(["accession_id", Integer, "The accession ID to update"],
+    .params(["id", :id],
             ["suppressed", BooleanParam, "Suppression state"],
             ["repo_id", :repo_id])
     .permissions([:suppress_archival_record])
     .returns([200, :suppressed]) \
   do
-    sup_state = Accession.get_or_die(params[:accession_id]).set_suppressed(params[:suppressed])
+    sup_state = Accession.get_or_die(params[:id]).set_suppressed(params[:suppressed])
 
-    suppressed_response(params[:accession_id], sup_state)
+    suppressed_response(params[:id], sup_state)
   end
 
 
@@ -48,28 +48,28 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/repositories/:repo_id/accessions/:accession_id')
+  Endpoint.get('/repositories/:repo_id/accessions/:id')
     .description("Get an Accession by ID")
-    .params(["accession_id", Integer, "The accession ID"],
+    .params(["id", :id],
             ["repo_id", :repo_id],
             ["resolve", :resolve])
     .permissions([:view_repository])
     .returns([200, "(:accession)"]) \
   do
-    json = Accession.to_jsonmodel(params[:accession_id])
+    json = Accession.to_jsonmodel(params[:id])
 
     json_response(resolve_references(json, params[:resolve]))
   end
 
 
-  Endpoint.delete('/repositories/:repo_id/accessions/:accession_id')
+  Endpoint.delete('/repositories/:repo_id/accessions/:id')
     .description("Delete an Accession")
-    .params(["accession_id", Integer, "The accession ID to delete"],
+    .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:delete_archival_record])
     .returns([200, :deleted]) \
   do
-    handle_delete(Accession, params[:accession_id])
+    handle_delete(Accession, params[:id])
   end
 
 end

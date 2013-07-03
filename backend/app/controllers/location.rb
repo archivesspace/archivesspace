@@ -19,15 +19,15 @@ class ArchivesSpaceService < Sinatra::Base
     json_response(result)
   end
 
-  Endpoint.post('/repositories/:repo_id/locations/:location_id')
+  Endpoint.post('/repositories/:repo_id/locations/:id')
   .description("Update a Location")
-  .params(["location_id", Integer, "The ID of the location to update"],
+  .params(["id", :id],
           ["location", JSONModel(:location), "The location data to update", :body => true],
           ["repo_id", :repo_id])
     .permissions([:update_location_record])
   .returns([200, :updated]) \
   do
-    handle_update(Location, :location_id, :location)
+    handle_update(Location, :id, :location)
   end
 
   Endpoint.post('/repositories/:repo_id/locations')
@@ -52,14 +52,14 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/repositories/:repo_id/locations/:location_id')
+  Endpoint.get('/repositories/:repo_id/locations/:id')
     .description("Get a Location by ID")
-    .params(["location_id", Integer, "The Location ID"],
+    .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:view_repository])
     .returns([200, "(:location)"]) \
   do
-    json_response(Location.to_jsonmodel(params[:location_id]))
+    json_response(Location.to_jsonmodel(params[:id]))
   end
 
 end
