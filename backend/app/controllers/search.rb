@@ -98,13 +98,4 @@ class ArchivesSpaceService < Sinatra::Base
 
   end
 
-
-  def advanced_query_string(advanced_query)
-    if advanced_query.has_key?('subqueries')
-      "(#{advanced_query['subqueries'].map{|subq| advanced_query_string(subq)}.join(" #{advanced_query['op']} ")})"
-    else
-      "#{advanced_query['negated']?"-":""}#{advanced_query['field']}:(#{advanced_query['value']})"
-    end
-  end
-
 end
