@@ -205,7 +205,7 @@ module RESTHelpers
             end
           end
 
-          result = DB.open((use_transaction == :unspecified) ? true : use_transaction) do
+          DB.open((use_transaction == :unspecified) ? true : use_transaction) do
 
             RequestContext.put(:current_username, current_user.username)
 
