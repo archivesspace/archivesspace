@@ -28,7 +28,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :updated],
              [400, :error]) \
   do
-    enum_id = Enumeration.parse_reference(params[:migration].enum_uri, {})[:id]
+    enum_id = JSONModel(:enumeration).id_for(params[:migration].enum_uri)
     enum = Enumeration.get_or_die(enum_id)
 
     enum.migrate(params[:migration].from, params[:migration].to)
