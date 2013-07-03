@@ -49,16 +49,10 @@ class ArchivesSpaceService
   def self.set_up_base_permissions
 
     if not Repository[:repo_code => Repository.GLOBAL]
-      # Create the "global" repository
-      Repository.unrestrict_primary_key
-      begin
-        Repository.create(:repo_code => Repository.GLOBAL,
-                          :name => "Global repository",
-                          :json_schema_version => JSONModel(:repository).schema_version,
-                          :hidden => 1)
-      ensure
-        Repository.restrict_primary_key
-      end
+      Repository.create(:repo_code => Repository.GLOBAL,
+                        :name => "Global repository",
+                        :json_schema_version => JSONModel(:repository).schema_version,
+                        :hidden => 1)
     end
 
     AgentSoftware.ensure_correctly_versioned_archivesspace_record
