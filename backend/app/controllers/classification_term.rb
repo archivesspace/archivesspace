@@ -67,7 +67,8 @@ class ArchivesSpaceService < Sinatra::Base
   do
     ao = ClassificationTerm.get_or_die(params[:id])
     json_response(ao.children.map {|child|
-      ClassificationTerm.to_jsonmodel(child)})
+                    ClassificationTerm.to_jsonmodel(child)
+                  })
   end
 
 

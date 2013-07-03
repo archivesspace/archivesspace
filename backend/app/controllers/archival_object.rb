@@ -67,7 +67,8 @@ class ArchivesSpaceService < Sinatra::Base
   do
     ao = ArchivalObject.get_or_die(params[:id])
     json_response(ao.children.map {|child|
-      ArchivalObject.to_jsonmodel(child)})
+                    ArchivalObject.to_jsonmodel(child)
+                  })
   end
 
 
