@@ -4,11 +4,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   include ReportHelper::ResponseHelpers
 
+
   ReportManager.registered_reports.each do |uri_suffix, opts|
 
     Endpoint.get("/repositories/:repo_id/reports/#{uri_suffix}")
     .description(opts[:description])
-    .params(*(opts[:params] << Endpoint.report_formats << ["repo_id", :repo_id]))
+    .params(*(opts[:params] << ReportHelper.report_formats << ["repo_id", :repo_id]))
     .permissions([])
     .returns([200, "report"]) \
     do
@@ -24,8 +25,9 @@ class ArchivesSpaceService < Sinatra::Base
     do
     json_response({
                     :reports => ReportManager.registered_reports,
-                    :formats => Endpoint.allowed_report_formats
+                    :formats => ReportHelper.allowed_report_formats
                   })
   end
+
 
 end
