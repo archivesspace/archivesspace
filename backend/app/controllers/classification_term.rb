@@ -9,7 +9,7 @@ class ArchivesSpaceService < Sinatra::Base
              [400, :error],
              [409, '{"error":{"[:root_record_id, :ref_id]":["A Classification Term Ref ID must be unique to its resource"]}}']) \
   do
-    handle_create(ClassificationTerm, :classification_term)
+    handle_create(ClassificationTerm, params[:classification_term])
   end
 
 
@@ -23,7 +23,7 @@ class ArchivesSpaceService < Sinatra::Base
              [400, :error],
              [409, '{"error":{"[:root_record_id, :ref_id]":["A Classification Term Ref ID must be unique to its resource"]}}']) \
   do
-    handle_update(ClassificationTerm, :id, :classification_term)
+    handle_update(ClassificationTerm, params[:id], params[:classification_term])
   end
 
 

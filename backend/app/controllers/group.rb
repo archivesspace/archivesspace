@@ -9,7 +9,7 @@ class ArchivesSpaceService < Sinatra::Base
              [400, :error],
              [409, :conflict]) \
   do
-    handle_create(Group, :group)
+    handle_create(Group, params[:group])
   end
 
 
@@ -27,7 +27,7 @@ class ArchivesSpaceService < Sinatra::Base
              [400, :error],
              [409, :conflict]) \
   do
-    handle_update(Group, :id, :group,
+    handle_update(Group, params[:id], params[:group],
                   :with_members => params[:with_members])
   end
 

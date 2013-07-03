@@ -8,7 +8,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:update_subject_record])
     .returns([200, :updated]) \
   do
-    handle_update(Subject, :id, :subject)
+    handle_update(Subject, params[:id], params[:subject])
   end
 
 
@@ -18,7 +18,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:update_subject_record])
     .returns([200, :created]) \
   do
-    handle_create(Subject, :subject)
+    handle_create(Subject, params[:subject])
   end
 
 

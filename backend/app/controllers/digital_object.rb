@@ -22,7 +22,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :created],
              [400, :error]) \
   do
-    handle_create(DigitalObject, :digital_object)
+    handle_create(DigitalObject, params[:digital_object])
   end
 
 
@@ -35,7 +35,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :updated],
              [400, :error]) \
   do
-    handle_update(DigitalObject, :id, :digital_object)
+    handle_update(DigitalObject, params[:id], params[:digital_object])
   end
 
 

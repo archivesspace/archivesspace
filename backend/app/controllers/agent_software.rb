@@ -7,7 +7,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :created],
              [400, :error]) \
   do
-    handle_create(AgentSoftware, :agent)
+    handle_create(AgentSoftware, params[:agent])
   end
 
 
@@ -30,7 +30,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :updated],
              [400, :error]) \
   do
-    handle_update(AgentSoftware, :id, :agent)
+    handle_update(AgentSoftware, params[:id], params[:agent])
   end
 
 

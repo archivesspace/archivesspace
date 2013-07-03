@@ -8,7 +8,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :created],
              [400, :error]) \
   do
-    handle_create(Classification, :classification)
+    handle_create(Classification, params[:classification])
   end
 
 
@@ -48,7 +48,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :updated],
              [400, :error]) \
   do
-    handle_update(Classification, :id, :classification)
+    handle_update(Classification, params[:id], params[:classification])
   end
 
 

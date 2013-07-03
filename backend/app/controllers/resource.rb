@@ -8,7 +8,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :created],
              [400, :error]) \
   do
-    handle_create(Resource, :resource)
+    handle_create(Resource, params[:resource])
   end
 
 
@@ -67,7 +67,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :updated],
              [400, :error]) \
   do
-    handle_update(Resource, :id, :resource)
+    handle_update(Resource, params[:id], params[:resource])
   end
 
 

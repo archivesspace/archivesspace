@@ -17,7 +17,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :created],
              [400, :error]) \
   do
-    handle_create(Enumeration, :enumeration)
+    handle_create(Enumeration, params[:enumeration])
   end
 
 
@@ -45,7 +45,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :updated],
              [400, :error]) \
   do
-    handle_update(Enumeration, :enum_id, :enumeration)
+    handle_update(Enumeration, params[:enum_id], params[:enumeration])
   end
 
 

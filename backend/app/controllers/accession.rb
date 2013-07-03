@@ -8,7 +8,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:update_archival_record])
     .returns([200, :updated]) \
   do
-    handle_update(Accession, :id, :accession)
+    handle_update(Accession, params[:id], params[:accession])
   end
 
 
@@ -33,7 +33,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:update_archival_record])
     .returns([200, :created]) \
   do
-    handle_create(Accession, :accession)
+    handle_create(Accession, params[:accession])
   end
 
 

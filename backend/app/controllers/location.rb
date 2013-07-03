@@ -27,7 +27,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:update_location_record])
   .returns([200, :updated]) \
   do
-    handle_update(Location, :id, :location)
+    handle_update(Location, params[:id], params[:location])
   end
 
   Endpoint.post('/repositories/:repo_id/locations')
@@ -37,7 +37,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:update_location_record])
     .returns([200, :created]) \
   do
-    handle_create(Location, :location)
+    handle_create(Location, params[:location])
   end
 
 

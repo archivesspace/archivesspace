@@ -7,7 +7,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:update_vocabulary_record])
     .returns([200, :updated]) \
   do
-    handle_update(Vocabulary, :id, :vocabulary)
+    handle_update(Vocabulary, params[:id], params[:vocabulary])
   end
 
   Endpoint.post('/vocabularies')
@@ -16,7 +16,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:update_vocabulary_record])
     .returns([200, :created]) \
   do
-    handle_create(Vocabulary, :vocabulary)
+    handle_create(Vocabulary, params[:vocabulary])
   end
 
 

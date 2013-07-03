@@ -4,7 +4,7 @@ class ArchivesSpaceService < Sinatra::Base
   # Repositories with their agent representations
   Endpoint.get('/repositories/with_agent/:id')
     .description("Get a Repository by ID, including its agent representation")
-    .params(["id", Integer, "ID of the repository"])
+    .params(["id", :id])
     .permissions([])
     .returns([200, "(:repository_with_agent)"],
              [404, '{"error":"Repository not found"}']) \
@@ -52,7 +52,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/repositories/with_agent/:id')
     .description("Update a repository with an agent representation")
-    .params(["id", Integer, "The ID of the repository to update"],
+    .params(["id", :id],
             ["repository_with_agent",
              JSONModel(:repository_with_agent),
              "The repository with agent to update",
@@ -92,12 +92,12 @@ class ArchivesSpaceService < Sinatra::Base
   # Regular (unadorned) repositories
   Endpoint.post('/repositories/:id')
   .description("Update a repository")
-  .params(["id", Integer, "The ID of the repository to update"],
+  .params(["id", :id],
           ["repository", JSONModel(:repository), "The repository data to update", :body => true])
   .permissions([:create_repository])
   .returns([200, :updated]) \
   do
-    handle_update(Repository, :id, :repository)
+    handle_update(Repository, params[:id], params[:repository])
   end
 
 
@@ -124,13 +124,13 @@ class ArchivesSpaceService < Sinatra::Base
                                                         'agent_contacts' => [contact])
     agent = AgentCorporateEntity.create_from_json(json)
 
-    handle_create(Repository, :repository, :agent_representation_id => agent.id)
+    handle_create(Repository, params[:repository], :agent_representation_id => agent.id)
   end
 
 
   Endpoint.get('/repositories/:id')
     .description("Get a Repository by ID")
-    .params(["id", Integer, "ID of the repository"])
+    .params(["id", :id])
     .permissions([])
     .returns([200, "(:repository)"],
              [404, '{"error":"Repository not found"}']) \

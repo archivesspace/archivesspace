@@ -8,7 +8,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :created],
              [400, :error]) \
   do
-    handle_create(Event, :event)
+    handle_create(Event, params[:event])
   end
 
 
@@ -20,7 +20,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:update_event_record])
     .returns([200, :updated]) \
   do
-    handle_update(Event, :id, :event)
+    handle_update(Event, params[:id], params[:event])
   end
 
 
