@@ -9,11 +9,6 @@ class Group < Sequel::Model(:group)
   many_to_many :permission, :join_table => :group_permission
 
 
-  def self.GLOBAL
-    # The repository code indicating that this group is global to all repositories
-    ASConstants::Group.GLOBAL
-  end
-
   def self.ADMIN_GROUP_CODE
     'administrators'
   end
