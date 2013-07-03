@@ -75,7 +75,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.post('/repositories/:repo_id/digital_objects/:id/publish')
-  .description("Publish a digital object and all it's sub-records and components")
+  .description("Publish a digital object and all its sub-records and components")
   .params(["id", :id],
           ["repo_id", :repo_id])
   .permissions([:update_archival_record])
