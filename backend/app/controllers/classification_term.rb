@@ -48,8 +48,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get a Classification Term by ID")
     .params(["classification_term_id", Integer, "The Classification Term ID"],
             ["repo_id", :repo_id],
-            ["resolve", [String], "A list of references to resolve and embed in the response",
-             :optional => true])
+            ["resolve", :resolve])
     .permissions([:view_repository])
     .returns([200, "(:classification_term)"],
              [404, '{"error":"ClassificationTerm not found"}']) \

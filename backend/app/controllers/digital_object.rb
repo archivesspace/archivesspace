@@ -4,8 +4,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get a Digital Object")
     .params(["digital_object_id", Integer, "The ID of the digital object to retrieve"],
             ["repo_id", :repo_id],
-            ["resolve", [String], "A list of references to resolve and embed in the response",
-             :optional => true])
+            ["resolve", :resolve])
     .permissions([:view_repository])
     .returns([200, "(:digital_object)"]) \
   do

@@ -56,7 +56,9 @@ module RESTHelpers
     @@param_types = {
       :repo_id => [Integer,
                    "The Repository ID",
-                   {:validation => ["The Repository must exist", ->(v){Repository.exists?(v)}]}]
+                   {:validation => ["The Repository must exist", ->(v){Repository.exists?(v)}]}],
+      :resolve => [[String], "A list of references to resolve and embed in the response",
+                   :optional => true]
     }
 
     @@return_types = {

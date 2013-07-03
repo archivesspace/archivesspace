@@ -16,8 +16,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get a Resource")
     .params(["resource_id", Integer, "The ID of the resource to retrieve"],
             ["repo_id", :repo_id],
-            ["resolve", [String], "A list of references to resolve and embed in the response",
-             :optional => true])
+            ["resolve", :resolve])
     .permissions([:view_repository])
     .returns([200, "(:resource)"]) \
   do

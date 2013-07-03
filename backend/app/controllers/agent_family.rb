@@ -37,8 +37,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/agents/families/:id')
     .description("Get a family by ID")
     .params(["id", Integer, "ID of the family agent"],
-            ["resolve", [String], "A list of references to resolve and embed in the response",
-             :optional => true])
+            ["resolve", :resolve])
     .permissions([])
     .returns([200, "(:agent)"],
              [404, '{"error":"Agent not found"}']) \

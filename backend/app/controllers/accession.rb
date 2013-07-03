@@ -52,8 +52,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get an Accession by ID")
     .params(["accession_id", Integer, "The accession ID"],
             ["repo_id", :repo_id],
-            ["resolve", [String], "A list of references to resolve and embed in the response",
-             :optional => true])
+            ["resolve", :resolve])
     .permissions([:view_repository])
     .returns([200, "(:accession)"]) \
   do

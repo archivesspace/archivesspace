@@ -46,8 +46,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get an Digital Object Component by ID")
     .params(["digital_object_component_id", Integer, "The Digital Object Component ID"],
             ["repo_id", :repo_id],
-            ["resolve", [String], "A list of references to resolve and embed in the response",
-             :optional => true])
+            ["resolve", :resolve])
     .permissions([:view_repository])
     .returns([200, "(:digital_object_component)"],
              [404, '{"error":"DigitalObjectComponent not found"}']) \
