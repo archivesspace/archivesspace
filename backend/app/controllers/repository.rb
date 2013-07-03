@@ -28,7 +28,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create a Repository with an agent representation")
     .params(["repository_with_agent",
              JSONModel(:repository_with_agent),
-             "The repository with agent to create",
+             "The record to create",
              :body => true])
     .permissions([:create_repository])
     .returns([200, :created],
@@ -55,7 +55,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
             ["repository_with_agent",
              JSONModel(:repository_with_agent),
-             "The repository with agent to update",
+             "The updated record",
              :body => true])
     .permissions([:create_repository])
     .returns([200, :updated]) \
@@ -93,7 +93,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/repositories/:id')
   .description("Update a repository")
   .params(["id", :id],
-          ["repository", JSONModel(:repository), "The repository data to update", :body => true])
+          ["repository", JSONModel(:repository), "The updated record", :body => true])
   .permissions([:create_repository])
   .returns([200, :updated]) \
   do
@@ -103,7 +103,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/repositories')
     .description("Create a Repository")
-    .params(["repository", JSONModel(:repository), "The repository to create", :body => true])
+    .params(["repository", JSONModel(:repository), "The record to create", :body => true])
     .permissions([:create_repository])
     .returns([200, :created],
              [400, :error],

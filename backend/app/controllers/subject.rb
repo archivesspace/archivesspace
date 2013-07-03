@@ -4,7 +4,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/subjects/:id')
     .description("Update a Subject")
     .params(["id", :id],
-            ["subject", JSONModel(:subject), "The subject data to update", :body => true])
+            ["subject", JSONModel(:subject), "The updated record", :body => true])
     .permissions([:update_subject_record])
     .returns([200, :updated]) \
   do
@@ -14,7 +14,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/subjects')
     .description("Create a Subject")
-    .params(["subject", JSONModel(:subject), "The subject data to create", :body => true])
+    .params(["subject", JSONModel(:subject), "The record to create", :body => true])
     .permissions([:update_subject_record])
     .returns([200, :created]) \
   do

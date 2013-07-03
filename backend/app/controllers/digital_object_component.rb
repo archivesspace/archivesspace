@@ -2,7 +2,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/repositories/:repo_id/digital_object_components')
     .description("Create an Digital Object Component")
-    .params(["digital_object_component", JSONModel(:digital_object_component), "The Digital Object Component to create", :body => true],
+    .params(["digital_object_component", JSONModel(:digital_object_component), "The record to create", :body => true],
             ["repo_id", :repo_id])
     .permissions([:update_archival_record])
     .returns([200, :created],
@@ -15,7 +15,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/repositories/:repo_id/digital_object_components/:id')
     .description("Update an Digital Object Component")
     .params(["id", :id],
-            ["digital_object_component", JSONModel(:digital_object_component), "The Digital Object Component data to update", :body => true],
+            ["digital_object_component", JSONModel(:digital_object_component), "The updated record", :body => true],
             ["repo_id", :repo_id])
     .permissions([:update_archival_record])
     .returns([200, :updated],

@@ -3,7 +3,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/repositories/:repo_id/accessions/:id')
     .description("Update an Accession")
     .params(["id", :id],
-            ["accession", JSONModel(:accession), "The accession data to update", :body => true],
+            ["accession", JSONModel(:accession), "The updated record", :body => true],
             ["repo_id", :repo_id])
     .permissions([:update_archival_record])
     .returns([200, :updated]) \
@@ -28,7 +28,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/repositories/:repo_id/accessions')
     .description("Create an Accession")
-    .params(["accession", JSONModel(:accession), "The accession to create", :body => true],
+    .params(["accession", JSONModel(:accession), "The record to create", :body => true],
             ["repo_id", :repo_id])
     .permissions([:update_archival_record])
     .returns([200, :created]) \

@@ -2,7 +2,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/agents/families')
     .description("Create a family agent")
-    .params(["agent", JSONModel(:agent_family), "The family to create", :body => true])
+    .params(["agent", JSONModel(:agent_family), "The record to create", :body => true])
     .permissions([:update_agent_record])
     .returns([200, :created],
              [400, :error]) \
@@ -25,7 +25,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/agents/families/:id')
     .description("Update a family agent")
     .params(["id", :id],
-            ["agent", JSONModel(:agent_family), "The family to create", :body => true])
+            ["agent", JSONModel(:agent_family), "The updated record", :body => true])
     .permissions([:update_agent_record])
     .returns([200, :updated],
              [400, :error]) \

@@ -2,7 +2,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/repositories/:repo_id/classification_terms')
     .description("Create a Classification Term")
-    .params(["classification_term", JSONModel(:classification_term), "The Classification Term to create", :body => true],
+    .params(["classification_term", JSONModel(:classification_term), "The record to create", :body => true],
             ["repo_id", :repo_id])
     .permissions([:update_classification_record])
     .returns([200, :created],
@@ -15,7 +15,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/repositories/:repo_id/classification_terms/:id')
     .description("Update a Classification Term")
     .params(["id", :id],
-            ["classification_term", JSONModel(:classification_term), "The Classification Term data to update", :body => true],
+            ["classification_term", JSONModel(:classification_term), "The updated record", :body => true],
             ["repo_id", :repo_id])
     .permissions([:update_classification_record])
     .returns([200, :updated],

@@ -22,7 +22,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/repositories/:repo_id/locations/:id')
   .description("Update a Location")
   .params(["id", :id],
-          ["location", JSONModel(:location), "The location data to update", :body => true],
+          ["location", JSONModel(:location), "The updated record", :body => true],
           ["repo_id", :repo_id])
     .permissions([:update_location_record])
   .returns([200, :updated]) \
@@ -32,7 +32,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/repositories/:repo_id/locations')
     .description("Create a Location")
-    .params(["location", JSONModel(:location), "The location data to create", :body => true],
+    .params(["location", JSONModel(:location), "The record to create", :body => true],
             ["repo_id", :repo_id])
     .permissions([:update_location_record])
     .returns([200, :created]) \

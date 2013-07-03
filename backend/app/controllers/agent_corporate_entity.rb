@@ -2,7 +2,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/agents/corporate_entities')
     .description("Create a corporate entity agent")
-    .params(["agent", JSONModel(:agent_corporate_entity), "The corporate entity to create", :body => true])
+    .params(["agent", JSONModel(:agent_corporate_entity), "The record to create", :body => true])
     .permissions([:update_agent_record])
     .returns([200, :created],
              [400, :error]) \
@@ -25,7 +25,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/agents/corporate_entities/:id')
     .description("Update a corporate entity agent")
     .params(["id", :id],
-            ["agent", JSONModel(:agent_corporate_entity), "The corporate entity to create", :body => true])
+            ["agent", JSONModel(:agent_corporate_entity), "The updated record", :body => true])
     .permissions([:update_agent_record])
     .returns([200, :updated],
              [400, :error]) \

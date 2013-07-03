@@ -12,7 +12,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/config/enumerations')
     .description("Create an enumeration")
-    .params(["enumeration", JSONModel(:enumeration), "The enumeration to create", :body => true])
+    .params(["enumeration", JSONModel(:enumeration), "The record to create", :body => true])
     .permissions([:system_config])
     .returns([200, :created],
              [400, :error]) \

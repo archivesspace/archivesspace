@@ -16,7 +16,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/repositories/:repo_id/digital_objects')
     .description("Create a Digital Object")
-    .params(["digital_object", JSONModel(:digital_object), "The digital object to create", :body => true],
+    .params(["digital_object", JSONModel(:digital_object), "The record to create", :body => true],
             ["repo_id", :repo_id])
     .permissions([:update_archival_record])
     .returns([200, :created],
@@ -29,7 +29,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/repositories/:repo_id/digital_objects/:id')
     .description("Update a Digital Object")
     .params(["id", :id],
-            ["digital_object", JSONModel(:digital_object), "The digital object to update", :body => true],
+            ["digital_object", JSONModel(:digital_object), "The updated record", :body => true],
             ["repo_id", :repo_id])
     .permissions([:update_archival_record])
     .returns([200, :updated],

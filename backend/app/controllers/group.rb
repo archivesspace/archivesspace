@@ -2,7 +2,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/repositories/:repo_id/groups')
     .description("Create a group within a repository")
-    .params(["group", JSONModel(:group), "The group to create", :body => true],
+    .params(["group", JSONModel(:group), "The record to create", :body => true],
             ["repo_id", :repo_id])
     .permissions([:manage_repository])
     .returns([200, :created],
@@ -16,7 +16,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/repositories/:repo_id/groups/:id')
     .description("Update a group")
     .params(["id", :id],
-            ["group", JSONModel(:group), "The Group data to update", :body => true],
+            ["group", JSONModel(:group), "The updated record", :body => true],
             ["repo_id", :repo_id],
             ["with_members",
              BooleanParam,

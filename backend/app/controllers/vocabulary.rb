@@ -3,7 +3,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/vocabularies/:id')
     .description("Update a Vocabulary")
     .params(["id", :id],
-            ["vocabulary", JSONModel(:vocabulary), "The vocabulary data to update", :body => true])
+            ["vocabulary", JSONModel(:vocabulary), "The updated record", :body => true])
     .permissions([:update_vocabulary_record])
     .returns([200, :updated]) \
   do
@@ -12,7 +12,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/vocabularies')
     .description("Create a Vocabulary")
-    .params(["vocabulary", JSONModel(:vocabulary), "The vocabulary data to create", :body => true])
+    .params(["vocabulary", JSONModel(:vocabulary), "The record to create", :body => true])
     .permissions([:update_vocabulary_record])
     .returns([200, :created]) \
   do

@@ -9,7 +9,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create a local user")
     .params(["password", String, "The user's password"],
             ["groups", [String], "Array of groups URIs to assign the user to", :optional => true],
-            ["user", JSONModel(:user), "The user to create", :body => true])
+            ["user", JSONModel(:user), "The record to create", :body => true])
     .permissions([])
     .returns([200, :created],
              [400, :error]) \
@@ -104,7 +104,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["password", String, "The user's password", :optional => true],
             ["groups", [String], "Array of groups URIs to assign the user to", :optional => true],
             ["repo_id", Integer, "The Repository groups to clear", :optional => true],
-            ["user", JSONModel(:user), "The user to create", :body => true])
+            ["user", JSONModel(:user), "The updated record", :body => true])
     .permissions([:manage_users])
     .returns([200, :updated],
              [400, :error]) \
