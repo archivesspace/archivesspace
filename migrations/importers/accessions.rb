@@ -38,6 +38,16 @@ ASpaceImport::Importer.importer :accessions do
       'accession_use_restrictions' => 'accession.use_restrictions',
       'accession_use_restrictions_note' => 'accession.use_restrictions_note',
 
+      'accession_cataloged_note' => 'collection_management.cataloged_note',
+      'accession_processing_hours_total' => 'collection_management.processing_hours_total',
+      'accession_processing_plan' => 'collection_management.processing_plan',
+      'accession_processing_priority' => 'collection_management.processing_priority',
+      'accession_processing_status' => 'collection_management.processing_status',
+      'accession_processing_total_extent' => 'collection_management.processing_total_extent',
+      'accession_processing_total_extent_type' => 'collection_management.processing_total_extent_type',
+      'accession_processors' => 'collection_management.processors',
+      'accession_rights_determined' => 'collection_management.rights_determined',
+
       'date_1_label' => 'date_1.label',
       'date_1_expression' => 'date_1.expression',
       'date_1_begin' => 'date_1.begin',
@@ -68,6 +78,28 @@ ASpaceImport::Importer.importer :accessions do
 
       'accession_processed' => [normalize_boolean, 'processed_event_date.boolean'],
       'accession_processed_date' => [date_flip, 'processed_event_date.expression'],
+
+      'user_defined_boolean_1' => 'user_defined.boolean_1',
+      'user_defined_boolean_2' => 'user_defined.boolean_2',
+      'user_defined_boolean_3' => 'user_defined.boolean_3',
+      'user_defined_integer_1' => 'user_defined.integer_1',
+      'user_defined_integer_2' => 'user_defined.integer_2',
+      'user_defined_integer_3' => 'user_defined.integer_3',
+      'user_defined_real_1' => 'user_defined.real_1',
+      'user_defined_real_2' => 'user_defined.real_2',
+      'user_defined_real_3' => 'user_defined.real_3',
+      'user_defined_string_1' => 'user_defined.string_1',
+      'user_defined_string_2' => 'user_defined.string_2',
+      'user_defined_string_3' => 'user_defined.string_3',
+      'user_defined_string_4' => 'user_defined.string_4',
+      'user_defined_text_1' => 'user_defined.text_1',
+      'user_defined_text_2' => 'user_defined.text_2',
+      'user_defined_text_3' => 'user_defined.text_3',
+      'user_defined_text_4' => 'user_defined.text_4',
+      'user_defined_text_5' => 'user_defined.text_5',
+      'user_defined_date_1' => 'user_defined.date_1',
+      'user_defined_date_2' => 'user_defined.date_2',
+      'user_defined_date_3' => 'user_defined.date_3',
 
 
       # 2. Define data handlers
@@ -125,6 +157,23 @@ ASpaceImport::Importer.importer :accessions do
           end
         }
       },
+
+      :collection_management => {
+        :on_row_complete => Proc.new { |queue, cm|
+          queue.select {|obj| obj.class.record_type == 'accession'}.each do |accession|
+            accession.collection_management = cm
+          end
+        }
+      },
+
+      :user_defined => {
+        :on_row_complete => Proc.new { |queue, user_defined|
+          queue.select {|obj| obj.class.record_type == 'accession'}.each do |accession|
+            accession.user_defined = user_defined
+          end
+        }
+      },
+
 
       :acknowledgement_sent_event_date => event_template('acknowledgement_sent'),
       :cataloging_event_date => event_template('cataloging'),
