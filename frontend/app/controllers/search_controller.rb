@@ -1,6 +1,7 @@
 class SearchController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:do_search]
-  before_filter(:only => [:do_search]) {|c| user_must_have("view_repository")}
+
+  set_access_control  "view_repository" => :do_search
+
 
   def do_search
     @search_data = Search.all(session[:repo_id], search_params.merge({"facet[]" => SearchResultData.BASE_FACETS.concat(params[:facets]||[]).uniq}))

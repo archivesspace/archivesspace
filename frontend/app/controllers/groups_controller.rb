@@ -1,7 +1,6 @@
 class GroupsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:new, :index, :edit, :create, :update, :show, :delete]
-  before_filter(:only => [:new, :index, :edit, :create, :update, :show]) {|c| user_must_have("manage_repository")}
-  before_filter(:only => [:delete]) {|c| user_must_have("manage_repository")}
+
+  set_access_control  "manage_repository" => [:new, :index, :edit, :create, :update, :show, :delete]
 
 
   def new

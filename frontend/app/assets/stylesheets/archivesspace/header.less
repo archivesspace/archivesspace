@@ -16,6 +16,16 @@
   margin-bottom: 0;
 }
 
+.navbar .brand {
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .1), 0 0 30px rgba(255, 255, 255, .125);
+  color: black;
+  font-weight: bold;
+}
+
+.navbar .brand:hover {
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5), 0 0 30px rgba(255, 255, 255, 0.125);
+}
+
 // support input appended to navbar search field
 .navbar .input-append, 
 .navbar .input-prepend {
@@ -158,3 +168,43 @@ header .inset-label {
     }
   }
 }
+
+/* inset label */
+.inset-label {
+  padding: 0 10px;
+  height: 30px;
+  display: inline-block;
+  margin: 5px 0 -5px !important;
+  .box-shadow(~"inset 0 1px 2px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.15)");
+  #font > .sans-serif(13px, normal, 30px);
+  margin-bottom: 0;
+  background-color: #e9e9e9;
+  overflow: hidden;
+  max-width: 200px;
+  .border-radius(4px);
+}
+
+.input-append {
+  .inset-label {
+    .box-shadow("inset -2px 0px 3px #CCC");
+    .border-radius(4px 0 0 4px);
+  }
+}
+
+.record-pane .inset-label {
+  margin: 0 !important;
+  height: 22px;
+  line-height: 22px;
+  font-size: 12px;
+}
+
+
+// Browser Warning
+.browser-warning {
+  margin-bottom: 0;
+
+  .container {
+    text-align: center;
+  }
+}
+

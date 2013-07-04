@@ -1,5 +1,12 @@
 @import "variables";
 
+.form-horizontal {
+  // Increase spacing between groups
+  .control-group {
+    margin-bottom: 8px;
+  }
+}
+
 fieldset {
   width: 100%;
 }
@@ -186,125 +193,6 @@ section h3 {
 .inputs-fill-it-up input,
 .inputs-fill-it-up select {
   width: 100%;
-}
-
-/* Form sidebar navigation */
-
-.as-nav-list {
-  width: 228px;
-  margin: 0;
-  padding: 0;
-  background-color: #fff;
-  -webkit-border-radius: 6px;
-     -moz-border-radius: 6px;
-          border-radius: 6px;
-  -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.065);
-     -moz-box-shadow: 0 1px 4px rgba(0,0,0,.065);
-          box-shadow: 0 1px 4px rgba(0,0,0,.065);
-}
-.as-nav-list > li > a {
-  display: block;
-  *width: 190px;
-  margin: 0 0 -1px;
-  padding: 8px 13px;
-  border: 1px solid #e5e5e5;
-}
-.as-nav-list > li:first-child > a {
-  .border-radius(6px 6px 0 0);
-}
-.as-nav-list > li:last-child > a {
-  .border-radius(0 0 6px 6px);
-}
-.as-nav-list > li:first-child:last-child > a {
-  .border-radius(6px)
-}
-.as-nav-list > .active > a {
-  position: relative;
-  z-index: 2;
-  padding: 10px 14px;
-  border: 1px solid transparent;
-  text-shadow: 0 1px 0 rgba(0,0,0,.15);
-  -webkit-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
-     -moz-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
-          box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
-}
-.as-nav-list .icon-chevron-right {
-  float: right;
-  margin-top: 2px;
-  margin-right: -6px;
-  .opacity(25);
-}
-.as-nav-list > li > a:hover {
-  background-color: #f5f5f5;
-}
-.as-nav-list a:hover .icon-chevron-right {
-  .opacity(50);
-}
-.as-nav-list .active .icon-chevron-right,
-.as-nav-list .active a:hover .icon-chevron-right {
-  .opacity(100);
-}
-.as-nav-list.affix {
-  //top: 40px;
-}
-.as-nav-list.affix-bottom {
-  position: absolute !important;
-  top: auto;
-  bottom: 0px;
-}
-
-.as-nav-list {
-  .btn-group {
-    width: 100%;
-  }
-  .btn-submit-group {
-    width: 100%;
-    button:first-child {
-      width: 80%;
-    }
-    .createPlusOneBtn {
-      width: 20%;
-    }
-  }
-}
-
-/* Desktop large
-------------------------- */
-@media (min-width: 1200px) {
-  .as-nav-list {
-    width: 258px;
-  }
-}
-
-/* Desktop
-------------------------- */
-@media (max-width: 980px) {
-  .as-nav-list {
-    margin-right: 0;
-  }
-}
-
-/* Tablet to desktop
-------------------------- */
-@media (min-width: 768px) and (max-width: 980px) {
-  /* Adjust sidenav width */
-  .as-nav-list {
-    width: 166px;
-  }
-}
-
-/* Tablet
-------------------------- */
-@media (max-width: 767px) {
-  .as-nav-list {
-    width: auto;
-    margin-bottom: 20px;
-  }
-  .as-nav-list.affix {
-    position: static;
-    width: auto;
-    top: 0;
-  }
 }
 
 
@@ -760,4 +648,69 @@ ul.subrecord-form-list {
 
 .help-inline {
   color: #888;
+}
+
+.identifier-display {
+  .identifier-display-part {
+    border: 1px solid #F6F6F6;
+    background-color: #FCFCFC;
+    padding: 4px;
+    margin-right: 4px;
+    min-width: 60px;
+    float: left;
+    height: @baseLineHeight;
+    line-height: @baseLineHeight;
+  }
+}
+
+.label-and-value .span3 {
+}
+
+.label-only .identifier-display-part {
+  margin-top: -6px;
+}
+
+.audit-display-compact {
+  padding: 4px;
+  margin-right: 4px;
+  min-width: 60px;
+  float: left;
+}
+
+.audit-display-wide {
+  border: 1px solid #F6F6F6;
+  background-color: #F1F1F1;
+  padding: 4px;
+  margin-right: 4px;
+  float: right;
+  line-height: @baseLineHeight;
+}
+
+.transfer-form, .merge-form {
+  padding: 10px;
+
+  .controls {
+    margin-left: 0;
+    clear: both;
+  }
+  .control-label {
+    width: 100%;
+    text-align: left;
+    margin-left: 0;
+  }
+  form {
+    margin: 0;
+  }
+  fieldset {
+    width: 300px;
+    padding: 10px;
+  }
+  .form-actions {
+    margin: 0;
+  }
+}
+
+/* fix typeahead not displaying above modal blockout */
+.typeahead.dropdown-menu {
+  z-index: 1099;
 }

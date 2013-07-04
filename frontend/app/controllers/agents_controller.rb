@@ -1,15 +1,15 @@
 class AgentsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete,
-                                                     :merge]
-  before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update, :merge]) {|c| user_must_have("update_agent_record")}
-  before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
+
+  set_access_control  "view_repository" => [:index, :show],
+                      "update_agent_record" => [:new, :edit, :create, :update, :merge],
+                      "delete_archival_record" => [:delete]
 
   before_filter :assign_types
 
   FIND_OPTS = {
     "resolve[]" => ["related_agents"]
   }
+
 
   def index
     @search_data = Search.for_type(session[:repo_id], "agent", {"sort" => "title_sort asc"}.merge(search_params.merge({"facet[]" => SearchResultData.AGENT_FACETS})))

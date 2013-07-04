@@ -1,6 +1,6 @@
 class UpdateMonitorController < ApplicationController
 
-  skip_before_filter :unauthorised_access
+  set_access_control  :public => [:poll]
 
 
   def poll
