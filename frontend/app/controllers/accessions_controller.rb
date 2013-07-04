@@ -1,14 +1,15 @@
 class AccessionsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :suppress, :unsuppress, :delete, :transfer]
-  before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_archival_record")}
-  before_filter(:only => [:transfer]) {|c| user_must_have("transfer_archival_record")}
-  before_filter(:only => [:suppress, :unsuppress]) {|c| user_must_have("suppress_archival_record")}
-  before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
+
+  set_access_control  "view_repository" => [:index, :show],
+                      "update_archival_record" => [:new, :edit, :create, :update],
+                      "transfer_archival_record" => [:transfer],
+                      "suppress_archival_record" => [:suppress, :unsuppress],
+                      "delete_archival_record" => [:delete]
 
   before_filter :set_event_types,  :only => [:show, :edit, :update]
 
   FIND_OPTS = ["subjects", "related_resources", "linked_agents", "container_locations", "digital_object", "classification"]
+
 
   def index
     @search_data = Search.for_type(session[:repo_id], "accession", search_params.merge({"facet[]" => SearchResultData.ACCESSION_FACETS}))

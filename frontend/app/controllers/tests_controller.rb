@@ -1,6 +1,7 @@
 class TestsController < ApplicationController
 
-  skip_before_filter :unauthorised_access, :only => [:shutdown]
+  set_access_control  :public => [:shutdown]
+
 
   def shutdown
     # Used to cleanly shutdown the devserver when running the coverage tests

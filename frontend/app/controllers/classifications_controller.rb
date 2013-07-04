@@ -1,12 +1,13 @@
 class ClassificationsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete, :accept_children, :tree]
-  before_filter(:only => [:index, :show, :tree]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update, :accept_children]) {|c| user_must_have("update_classification_record")}
-  before_filter(:only => [:delete]) {|c| user_must_have("delete_classification_record")}
+
+  set_access_control  "view_repository" => [:index, :show, :tree],
+                      "update_classification_record" => [:new, :edit, :create, :update, :accept_children],
+                      "delete_classification_record" => [:delete]
 
   FIND_OPTS = {
     "resolve[]" => ["creator"]
   }
+
 
   def index
     @search_data = Search.for_type(session[:repo_id], "classification", search_params.merge({"facet[]" => SearchResultData.CLASSIFICATION_FACETS}))

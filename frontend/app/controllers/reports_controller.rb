@@ -1,7 +1,7 @@
 class ReportsController < ApplicationController
 
-  skip_before_filter :unauthorised_access, :only => [:index, :download]
-  before_filter(:only => [:index, :download]) {|c| user_must_have("view_repository")}
+  set_access_control  "view_repository" => [:index, :download]
+
 
   def index
     @report_data = JSONModel::HTTP::get_json("/reports")

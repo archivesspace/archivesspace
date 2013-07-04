@@ -1,5 +1,5 @@
 class WelcomeController < ApplicationController
-  skip_before_filter :unauthorised_access
+  set_access_control  :public => [:index]
 
   def index
     if session[:user] && @repositories.length === 0

@@ -1,7 +1,8 @@
 class LocationsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :batch, :batch_create]
-  before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update, :batch, :batch_create]) {|c| user_must_have("update_location_record")}
+
+  set_access_control  "view_repository" => [:index, :show],
+                      "update_location_record" => [:new, :edit, :create, :update, :batch, :batch_create]
+
 
   def index
     @search_data = Search.for_type(session[:repo_id], "location", search_params.merge({"facet[]" => SearchResultData.LOCATION_FACETS}))

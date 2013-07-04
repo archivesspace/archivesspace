@@ -3,6 +3,7 @@ class ImportController < ApplicationController
   skip_before_filter :unauthorised_access
   skip_before_filter :verify_authenticity_token
 
+
   def index
     @importer_key = params[:importer]
         

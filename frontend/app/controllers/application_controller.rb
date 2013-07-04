@@ -31,6 +31,14 @@ class ApplicationController < ActionController::Base
 
   before_filter :sanitize_params
 
+  def self.set_access_control(permission_mappings)
+    skip_before_filter :unauthorised_access, :only => Array(permission_mappings.values).flatten.uniq
+
+    permission_mappings.reject{|k, v| k === :public}.each do |permission, actions|
+      before_filter(:only => Array(actions)) {|c| user_must_have(permission)}
+    end
+  end
+
   protected
 
   def inline?

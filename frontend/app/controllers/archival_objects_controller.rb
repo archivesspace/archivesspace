@@ -1,12 +1,13 @@
 class ArchivalObjectsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :transfer, :delete, :rde, :add_children, :accept_children]
-  before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update, :transfer, :rde, :add_children, :accept_children]) {|c| user_must_have("update_archival_record")}
-  before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
+
+  set_access_control  "view_repository" => [:index, :show],
+                      "update_archival_record" => [:new, :edit, :create, :update, :transfer, :rde, :add_children, :accept_children],
+                      "delete_archival_record" => [:delete]
 
   FIND_OPTS = {
     "resolve[]" => ["subjects", "linked_agents", "digital_object", "resource", "parent", "container_locations"]
   }
+
 
   def new
     @archival_object = JSONModel(:archival_object).new._always_valid!

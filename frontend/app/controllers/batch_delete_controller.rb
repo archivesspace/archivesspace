@@ -1,9 +1,9 @@
 class BatchDeleteController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:archival_records, :subjects, :agents, :classifications]
-  before_filter(:only => [:archival_records]) {|c| user_must_have("delete_archival_record")}
-  before_filter(:only => [:subjects]) {|c| user_must_have("delete_subject_record")}
-  before_filter(:only => [:agents]) {|c| user_must_have("delete_agent_record")}
-  before_filter(:only => [:classifications]) {|c| user_must_have("delete_classification_record")}
+
+  set_access_control  "delete_archival_record" => [:archival_records],
+                      "delete_subject_record" => [:subjects],
+                      "delete_agent_record" => [:agents],
+                      "delete_classification_record" => [:classifications]
 
 
   def archival_records
