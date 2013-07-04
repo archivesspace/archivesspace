@@ -33,6 +33,7 @@ class RecordsController < ApplicationController
       raise RecordNotFound.new if not record["publish"] == true
 
       if record["node_type"] === "resource"
+        @resource_uri = record['record_uri']
         @breadcrumbs.push([record["finding_aid_status"] === 'completed' ? record["finding_aid_title"] : record["title"], url_for(:controller => :records, :action => :resource, :id => record["id"], :repo_id => @repository.id), "resource"])
       else
         @breadcrumbs.push([record["title"], url_for(:controller => :records, :action => :archival_object, :id => record["id"], :repo_id => @repository.id), "archival_object"])
@@ -40,6 +41,13 @@ class RecordsController < ApplicationController
     end
 
     @breadcrumbs.push([@archival_object.title, "#", "archival_object"])
+
+
+    uris_to_fetch = {}
+    @tree_view['direct_children'].map{|child_node|
+      uris_to_fetch[child_node['record_uri']] = promise_for(child_node)
+    }
+    fetch_uris(@resource_uri, params[:repo_id], uris_to_fetch)
   end
 
   def digital_object
