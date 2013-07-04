@@ -195,4 +195,17 @@ describe 'ArchivalObject model' do
     ArchivalObject[ao[:id]].label.should eq("#{title}, #{date['expression']}")
   end
 
+
+  it "can re-save a record with long notes" do
+    long_note = build(:json_note_text, :content => "a really long note" * 3000)
+    id = ArchivalObject.create_from_json(build(:json_archival_object,
+                                               'notes' => [build(:json_note_multipart,
+                                                                 'type' => 'accruals',
+                                                                 :subnotes => [long_note])])).id
+
+    expect {
+      ArchivalObject[id].save
+    }.to_not raise_error
+  end
+
 end
