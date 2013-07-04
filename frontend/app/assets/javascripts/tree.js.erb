@@ -276,6 +276,9 @@ $(function() {
 
         // toggle action disabled/enabled based on status of tree
         enableDisableToolbarActions();
+
+        // init any widgets in the newly rendered toolbar
+        $(document).trigger("loadedrecordform.aspace", [$("#archives_tree_toolbar")]);
       }
     };
 
