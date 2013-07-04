@@ -1,6 +1,7 @@
 class ImportController < ApplicationController
 
-  skip_before_filter :unauthorised_access
+  set_access_control "update_archival_record" => [:index, :upload_select, :upload_xhr, :upload]
+
   skip_before_filter :verify_authenticity_token
 
 
