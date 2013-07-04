@@ -2,12 +2,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/agents/software')
     .description("Create a software agent")
-    .params(["agent", JSONModel(:agent_software), "The software to create", :body => true])
+    .params(["agent", JSONModel(:agent_software), "The record to create", :body => true])
     .permissions([:update_agent_record])
     .returns([200, :created],
              [400, :error]) \
   do
-    handle_create(AgentSoftware, :agent)
+    handle_create(AgentSoftware, params[:agent])
   end
 
 
@@ -22,26 +22,25 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.post('/agents/software/:agent_id')
+  Endpoint.post('/agents/software/:id')
     .description("Update a software agent")
-    .params(["agent_id", Integer, "The ID of the software to update"],
-            ["agent", JSONModel(:agent_software), "The software to create", :body => true])
+    .params(["id", :id],
+            ["agent", JSONModel(:agent_software), "The updated record", :body => true])
     .permissions([:update_agent_record])
     .returns([200, :updated],
              [400, :error]) \
   do
-    handle_update(AgentSoftware, :agent_id, :agent)
+    handle_update(AgentSoftware, params[:id], params[:agent])
   end
 
 
   Endpoint.get('/agents/software/:id')
     .description("Get a software agent by ID")
     .params(["id", Integer, "ID of the software agent"],
-            ["resolve", [String], "A list of references to resolve and embed in the response",
-             :optional => true])
+            ["resolve", :resolve])
     .permissions([])
     .returns([200, "(:agent)"],
-             [404, '{"error":"Agent not found"}']) \
+             [404, "Not found"]) \
   do
     json_response(resolve_references(AgentSoftware.to_jsonmodel(AgentSoftware.get_or_die(params[:id])),
                                      params[:resolve]))

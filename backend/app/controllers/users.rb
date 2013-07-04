@@ -9,7 +9,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create a local user")
     .params(["password", String, "The user's password"],
             ["groups", [String], "Array of groups URIs to assign the user to", :optional => true],
-            ["user", JSONModel(:user), "The user to create", :body => true])
+            ["user", JSONModel(:user), "The record to create", :body => true])
     .permissions([])
     .returns([200, :created],
              [400, :error]) \
@@ -40,7 +40,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.get('/users')
-    .description("Get a list of system users")
+    .description("Get a list users")
     .params()
     .paginated(true)
     .permissions([:manage_users])
@@ -100,11 +100,11 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/users/:id')
     .description("Update a user's account")
-    .params(["id", Integer, "The username id to update"],
+    .params(["id", :id],
             ["password", String, "The user's password", :optional => true],
             ["groups", [String], "Array of groups URIs to assign the user to", :optional => true],
             ["repo_id", Integer, "The Repository groups to clear", :optional => true],
-            ["user", JSONModel(:user), "The user to create", :body => true])
+            ["user", JSONModel(:user), "The updated record", :body => true])
     .permissions([:manage_users])
     .returns([200, :updated],
              [400, :error]) \
@@ -112,8 +112,8 @@ class ArchivesSpaceService < Sinatra::Base
     check_admin_access
     params[:user].username = Username.value(params[:user].username)
 
-    obj = User.get_or_die(params[:id])
-    obj.update_from_json(params[:user])
+    user = User.get_or_die(params[:id])
+    user.update_from_json(params[:user])
 
     if params[:password]
       DBAuth.set_password(params[:user].username, params[:password])
@@ -135,10 +135,10 @@ class ArchivesSpaceService < Sinatra::Base
         end
       }
 
-      obj.add_to_groups(groups, params[:repo_id])
+      user.add_to_groups(groups, params[:repo_id])
     end
 
-    updated_response(obj, params[:user])
+    updated_response(user, params[:user])
   end
 
 

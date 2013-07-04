@@ -1,17 +1,17 @@
 module CrudHelpers
 
-  def handle_update(model, id, parameter, opts = {})
-    obj = model.get_or_die(params[id])
-    obj.update_from_json(params[parameter], opts)
+  def handle_update(model, id, json, opts = {})
+    obj = model.get_or_die(id)
+    obj.update_from_json(json, opts)
 
-    updated_response(obj, params[parameter])
+    updated_response(obj, json)
   end
 
 
-  def handle_create(model, parameter, opts = {})
-    obj = model.create_from_json(params[parameter], opts)
+  def handle_create(model, json, opts = {})
+    obj = model.create_from_json(json, opts)
 
-    created_response(obj, params[parameter])
+    created_response(obj, json)
   end
 
 

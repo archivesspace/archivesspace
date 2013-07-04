@@ -4,6 +4,24 @@ require_relative 'xlsx_response'
 require_relative 'pdf_response'
 
 module ReportHelper
+
+  ALLOWED_REPORT_FORMATS = ["json", "csv", "xlsx", "html", "pdf"]
+
+  def self.allowed_report_formats
+    ALLOWED_REPORT_FORMATS
+  end
+
+
+  def self.report_formats
+    ["format",
+     String,
+     "The format to render the report (one of: #{ALLOWED_REPORT_FORMATS.join(", ")})",
+     :validation => ["Must be one of #{ALLOWED_REPORT_FORMATS.join(", ")}",
+                     ->(v){ ALLOWED_REPORT_FORMATS.include?(v) }]]
+  end
+
+
+
   module ResponseHelpers
     def report_response(report, format)
       @base_url = request.base_url

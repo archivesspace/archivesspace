@@ -1,5 +1,3 @@
-require_relative 'user'
-
 class AnonymousUser
 
   def anonymous?

@@ -2,7 +2,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/repositories/:repo_id/locations/batch')
   .description("Create a Batch of Locations")
-  .params(["dry_run", String, "If true, don't create the locations, just list them", :optional => true],
+  .params(["dry_run", BooleanParam, "If true, don't create the locations, just list them", :optional => true],
           ["location_batch", JSONModel(:location_batch), "The location batch data to generate all locations", :body => true],
           ["repo_id", :repo_id])
   .permissions([:update_location_record])
@@ -10,7 +10,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     batch = params[:location_batch]
 
-    if params[:dry_run] == "true"
+    if params[:dry_run]
       result = Location.titles_for_batch(batch)
     else
       result = Location.create_for_batch(batch).map {|obj| obj.uri}
@@ -19,25 +19,25 @@ class ArchivesSpaceService < Sinatra::Base
     json_response(result)
   end
 
-  Endpoint.post('/repositories/:repo_id/locations/:location_id')
+  Endpoint.post('/repositories/:repo_id/locations/:id')
   .description("Update a Location")
-  .params(["location_id", Integer, "The ID of the location to update"],
-          ["location", JSONModel(:location), "The location data to update", :body => true],
+  .params(["id", :id],
+          ["location", JSONModel(:location), "The updated record", :body => true],
           ["repo_id", :repo_id])
     .permissions([:update_location_record])
   .returns([200, :updated]) \
   do
-    handle_update(Location, :location_id, :location)
+    handle_update(Location, params[:id], params[:location])
   end
 
   Endpoint.post('/repositories/:repo_id/locations')
     .description("Create a Location")
-    .params(["location", JSONModel(:location), "The location data to create", :body => true],
+    .params(["location", JSONModel(:location), "The record to create", :body => true],
             ["repo_id", :repo_id])
     .permissions([:update_location_record])
     .returns([200, :created]) \
   do
-    handle_create(Location, :location)
+    handle_create(Location, params[:location])
   end
 
 
@@ -52,14 +52,14 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/repositories/:repo_id/locations/:location_id')
+  Endpoint.get('/repositories/:repo_id/locations/:id')
     .description("Get a Location by ID")
-    .params(["location_id", Integer, "The Location ID"],
+    .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:view_repository])
     .returns([200, "(:location)"]) \
   do
-    json_response(Location.to_jsonmodel(params[:location_id]))
+    json_response(Location.to_jsonmodel(params[:id]))
   end
 
 end

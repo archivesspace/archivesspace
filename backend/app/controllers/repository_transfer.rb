@@ -1,38 +1,38 @@
 class ArchivesSpaceService < Sinatra::Base
 
-  Endpoint.post('/repositories/:repo_id/accessions/:accession_id/transfer')
+  Endpoint.post('/repositories/:repo_id/accessions/:id/transfer')
     .description("Transfer this record to a different repository")
-    .params(["accession_id", Integer, "The accession ID to transfer"],
+    .params(["id", :id],
             ["target_repo", String, "The URI of the target repository"],
             ["repo_id", :repo_id])
     .permissions([:update_archival_record])
     .returns([200, :moved]) \
   do
-    handle_transfer(Accession, params[:accession_id])
+    handle_transfer(Accession, params[:id])
   end
 
 
-  Endpoint.post('/repositories/:repo_id/resources/:resource_id/transfer')
+  Endpoint.post('/repositories/:repo_id/resources/:id/transfer')
     .description("Transfer this record to a different repository")
-    .params(["resource_id", Integer, "The resource ID to transfer"],
+    .params(["id", :id],
             ["target_repo", String, "The URI of the target repository"],
             ["repo_id", :repo_id])
     .permissions([:update_archival_record])
     .returns([200, :moved]) \
   do
-    handle_transfer(Resource, params[:resource_id])
+    handle_transfer(Resource, params[:id])
   end
 
 
-  Endpoint.post('/repositories/:repo_id/digital_objects/:digital_object_id/transfer')
+  Endpoint.post('/repositories/:repo_id/digital_objects/:id/transfer')
     .description("Transfer this record to a different repository")
-    .params(["digital_object_id", Integer, "The digital object ID to transfer"],
+    .params(["id", :id],
             ["target_repo", String, "The URI of the target repository"],
             ["repo_id", :repo_id])
     .permissions([:update_archival_record])
     .returns([200, :moved]) \
   do
-    handle_transfer(DigitalObject, params[:digital_object_id])
+    handle_transfer(DigitalObject, params[:id])
   end
 
 

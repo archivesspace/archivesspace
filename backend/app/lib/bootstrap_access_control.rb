@@ -23,7 +23,7 @@ class ArchivesSpaceService
 
 
   def self.create_group(group_code, description, users_to_add, permissions)
-    global_repo = Repository[:repo_code => Group.GLOBAL]
+    global_repo = Repository[:repo_code => Repository.GLOBAL]
 
     RequestContext.open(:repo_id => global_repo.id) do
       if Group[:group_code => group_code].nil?
@@ -48,17 +48,11 @@ class ArchivesSpaceService
 
   def self.set_up_base_permissions
 
-    if not Repository[:repo_code => Group.GLOBAL]
-      # Create the "global" repository
-      Repository.unrestrict_primary_key
-      begin
-        Repository.create(:repo_code => Group.GLOBAL,
-                          :name => "Global repository",
-                          :json_schema_version => JSONModel(:repository).schema_version,
-                          :hidden => 1)
-      ensure
-        Repository.restrict_primary_key
-      end
+    if not Repository[:repo_code => Repository.GLOBAL]
+      Repository.create(:repo_code => Repository.GLOBAL,
+                        :name => "Global repository",
+                        :json_schema_version => JSONModel(:repository).schema_version,
+                        :hidden => 1)
     end
 
     AgentSoftware.ensure_correctly_versioned_archivesspace_record

@@ -2,7 +2,7 @@ module ASConstants
 
   @VERSION
 
-  module Group
+  module Repository
 
     def self.GLOBAL
       '_archivesspace'

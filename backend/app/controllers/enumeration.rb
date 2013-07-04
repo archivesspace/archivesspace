@@ -12,12 +12,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/config/enumerations')
     .description("Create an enumeration")
-    .params(["enumeration", JSONModel(:enumeration), "The enumeration to create", :body => true])
+    .params(["enumeration", JSONModel(:enumeration), "The record to create", :body => true])
     .permissions([:system_config])
     .returns([200, :created],
              [400, :error]) \
   do
-    handle_create(Enumeration, :enumeration)
+    handle_create(Enumeration, params[:enumeration])
   end
 
 
@@ -28,7 +28,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :updated],
              [400, :error]) \
   do
-    enum_id = Enumeration.parse_reference(params[:migration].enum_uri, {})[:id]
+    enum_id = JSONModel(:enumeration).id_for(params[:migration].enum_uri)
     enum = Enumeration.get_or_die(enum_id)
 
     enum.migrate(params[:migration].from, params[:migration].to)
@@ -45,7 +45,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :updated],
              [400, :error]) \
   do
-    handle_update(Enumeration, :enum_id, :enumeration)
+    handle_update(Enumeration, params[:enum_id], params[:enumeration])
   end
 
 

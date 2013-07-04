@@ -180,8 +180,8 @@ class ApplicationController < ActionController::Base
      (session[:permissions][repository] &&
       session[:permissions][repository].include?(permission) ||
 
-      (session[:permissions][ASConstants::Group.GLOBAL] &&
-       session[:permissions][ASConstants::Group.GLOBAL].include?(permission))))
+      (session[:permissions][ASConstants::Repository.GLOBAL] &&
+       session[:permissions][ASConstants::Repository.GLOBAL].include?(permission))))
   end
 
   helper_method :current_vocabulary

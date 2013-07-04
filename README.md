@@ -39,7 +39,8 @@ To start using the application, log in using the adminstrator account:
 * Username: `admin`
 * Password: `admin`
 
-Once logged in, you can create a new repository by selecting "Create a
+Once logged in, change the admin password to something more secure.
+Then, you can create a new repository by selecting "Create a
 repository" from the drop-down menu at the top right hand side of the
 screen.  Once you have created a repository, you can log out and
 register new user accounts from the link in the log-in form.

@@ -161,7 +161,7 @@ class User < Sequel::Model(:user)
     end
 
     permission = Permission[:permission_code => permission_code.to_s]
-    global_repo = Repository[:repo_code => Group.GLOBAL]
+    global_repo = Repository[:repo_code => Repository.GLOBAL]
 
     raise PermissionNotFound.new("The permission '#{permission_code}' doesn't exist") if permission.nil?
 
@@ -203,13 +203,13 @@ class User < Sequel::Model(:user)
       result[repository_uri] ||= derived.clone
       result[repository_uri] << row[:permission_code]
 
-      if row[:repo_code] == Group.GLOBAL
+      if row[:repo_code] == Repository.GLOBAL
         global_permissions << row[:permission_code]
       end
     end
 
     # Attach permissions in the global repository under the symbolic name too
-    result[Group.GLOBAL] = global_permissions + derived
+    result[Repository.GLOBAL] = global_permissions + derived
 
     result
   end

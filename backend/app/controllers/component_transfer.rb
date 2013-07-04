@@ -1,8 +1,6 @@
 class ArchivesSpaceService < Sinatra::Base
 
-  helpers do
-    include ComponentTransfer::ResponseHelpers
-  end
+  include ComponentTransfer::ResponseHelpers
 
   Endpoint.post('/repositories/:repo_id/component_transfers')
     .description("Transfer components from one resource to another")
