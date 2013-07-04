@@ -57,7 +57,7 @@ ASpaceExport::serializer :ead do
             content = ASpaceExport::Utils.extract_note_text(note)
 
             xml.send(note['type']) {
-              xml.p content
+              xml << "<p>#{content}</p>"
             }
           end
 
