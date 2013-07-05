@@ -128,28 +128,16 @@ class User < Sequel::Model(:user)
 
 
   def derived_permissions
-    derived = {
-      'update_archival_record' => ['update_subject_record',
-                                   'update_agent_record',
-                                   'update_vocabulary_record'],
-      'delete_archival_record' => ['delete_subject_record',
-                                   'delete_agent_record',
-                                   'delete_vocabulary_record'],
-      'merge_agents_and_subjects' => ['merge_subject_record',
-                                      'merge_agent_record']
-    }
-
     actual_permissions =
       self.class.db[:group].
            join(:group_user, :group_id => :id).
            join(:group_permission, :group_id => :group_id).
            join(:permission, :id => :permission_id).
-           filter(:user_id => self.id,
-                  :permission_code => derived.keys).
+           filter(:user_id => self.id).
            select(:permission_code).map {|row| row[:permission_code]}
 
 
-    actual_permissions.map {|p| derived[p]}.flatten
+    actual_permissions.map {|p| Permission.derived_permissions_for(p) }.flatten
   end
 
 

@@ -157,32 +157,32 @@ class ArchivesSpaceService
     # associated with a group within a repository.
     Permission.define("update_subject_record",
                       "The ability to create and modify subject records",
-                      :derived_permission => true,
+                      :implied_by => 'update_archival_record',
                       :level => "repository")
 
     Permission.define("update_agent_record",
                       "The ability to create and modify agent records",
-                      :derived_permission => true,
+                      :implied_by => 'update_archival_record',
                       :level => "repository")
 
     Permission.define("update_vocabulary_record",
                       "The ability to create and modify vocabulary records",
-                      :derived_permission => true,
+                      :implied_by => 'update_archival_record',
                       :level => "repository")
 
     Permission.define("delete_agent_record",
                       "The ability to delete agent records",
-                      :derived_permission => true,
+                      :implied_by => 'delete_archival_record',
                       :level => "repository")
 
     Permission.define("delete_subject_record",
                       "The ability to delete subject records",
-                      :derived_permission => true,
+                      :implied_by => 'delete_archival_record',
                       :level => "repository")
 
     Permission.define("delete_vocabulary_record",
                       "The ability to delete vocabulary records",
-                      :derived_permission => true,
+                      :implied_by => 'delete_archival_record',
                       :level => "repository")
 
 
@@ -195,12 +195,12 @@ class ArchivesSpaceService
 
     Permission.define("merge_subject_record",
                       "The ability to merge subject records",
-                      :derived_permission => true,
+                      :implied_by => 'merge_agents_and_subjects',
                       :level => "repository")
 
     Permission.define("merge_agent_record",
                       "The ability to merge agent records",
-                      :derived_permission => true,
+                      :implied_by => 'merge_agents_and_subjects',
                       :level => "repository")
 
     Permission.define("merge_archival_record",
