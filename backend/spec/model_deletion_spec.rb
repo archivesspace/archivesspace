@@ -127,18 +127,6 @@ describe "Deletion of Archival Records" do
   end
 
 
-  xit "can delete a repository" do
-    acc = Accession.where(:title => "A test accession").first
-    resource = Resource.where(:title => "A test resource").first
-
-    Repository[$repo_id].delete
-
-    Repository[$repo_id].should be(nil)
-    Accession.where(:title => "A test accession").first.should be(nil)
-    Resource.where(:title => "A test resource").first.should be(nil)
-  end
-
-
   it "can delete a group" do
     group = Group.create_from_json(build(:json_group,
                                          :member_usernames => ["admin"]),
