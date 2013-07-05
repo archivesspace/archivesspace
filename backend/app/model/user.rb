@@ -2,6 +2,8 @@ class User < Sequel::Model(:user)
   include ASModel
   corresponds_to JSONModel(:user)
 
+  many_to_many :group, :join_table => "group_user"
+
   set_model_scope :global
 
   @@unlisted_user_ids = nil
@@ -234,6 +236,4 @@ class User < Sequel::Model(:user)
     end
   end
 
-
-  many_to_many :group, :join_table => "group_user"
 end
