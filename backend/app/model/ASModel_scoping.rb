@@ -93,13 +93,13 @@ module ASModel
       def parse_reference(uri, opts)
         ref = JSONModel.parse_reference(uri, opts)
 
+        return nil if !ref
+
         # If the current model is repository scoped, and the reference is a
         # repository-scoped URI, make sure they're talking about the same
         # repository.
-        if ref && self.model_scope == :repository && uri.start_with?("/repositories/")
-          if !uri.start_with?("/repositories/#{active_repository}/")
-            raise ReferenceError.new("Invalid URI reference for this (#{active_repository}) repo: '#{uri}'")
-          end
+        if self.model_scope == :repository && ref[:repository] && ref[:repository] != JSONModel(:repository).uri_for(active_repository)
+          raise ReferenceError.new("Invalid URI reference for this (#{active_repository}) repo: '#{uri}'")
         end
 
         ref
