@@ -7,14 +7,14 @@ module ASModel
     end
 
 
-    def transfer_to_repository(repository, transfer_group = [])
+    def transfer_to_repository(target_repository, transfer_group = [])
 
       if self.values.has_key?(:repo_id)
         old_uri = self.uri
 
-        old_repo = Repository[self.repo_id]
+        source_repository = Repository[self.repo_id]
 
-        self.repo_id = repository.id
+        self.repo_id = target_repository.id
         self.system_mtime = Time.now
         save(:repo_id, :system_mtime)
 
@@ -27,8 +27,8 @@ module ASModel
 
           # Create an event if this is the top-level record being transferred.
           if transfer_group.empty?
-            RequestContext.open(:repo_id => repository.id) do
-              Event.for_repository_transfer(old_repo, repository, self)
+            RequestContext.open(:repo_id => target_repository.id) do
+              Event.for_repository_transfer(source_repository, target_repository, self)
             end
           end
         end
@@ -38,7 +38,7 @@ module ASModel
       self.class.nested_records.each do |nested_record_defn|
         association = nested_record_defn[:association][:name]
         Array(self.send(association)).each do |nested_record|
-          nested_record.transfer_to_repository(repository)
+          nested_record.transfer_to_repository(target_repository)
         end
       end
     end
