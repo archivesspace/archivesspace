@@ -828,7 +828,7 @@ Sequel.migration do
       Integer :resource_id, :null => true
 
       DynamicEnum :scope_id, :null => false
-      String :description, :null => false
+      TextField :description, :null => false
 
       TextField :reason
       TextField :disposition

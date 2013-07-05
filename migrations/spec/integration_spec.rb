@@ -619,9 +619,9 @@ describe 'ASpaceImport' do
     #         <persname>
 
     #         <famname>
-      ref52['items'].find{|i| i['type'] == 'Family Name'}['value'].should eq('Bike 2')
+      ref52['items'].find{|i| i['type'] == 'family'}['value'].should eq('Bike 2')
     #         <corpname>
-      ref52['items'].find{|i| i['type'] == 'Corporate Name'}['value'].should eq('Bike 3')
+      ref52['items'].find{|i| i['type'] == 'corporate_entity'}['value'].should eq('Bike 3')
     #         <subject>
 
     #         <function>
@@ -629,7 +629,7 @@ describe 'ASpaceImport' do
     #         <occupation>
 
     #         <genreform>
-      ref52['items'].find{|i| i['type'] == 'Genre Form'}['value'].should eq('Bike 1')
+      ref52['items'].find{|i| i['type'] == 'genre_form'}['value'].should eq('Bike 1')
     #         <title>
 
     #         <geogname>

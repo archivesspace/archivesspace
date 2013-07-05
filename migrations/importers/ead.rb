@@ -129,16 +129,16 @@ ASpaceImport::Importer.importer :ead do
 
 
     {
-      'name' => 'Name',
-      'persname' => 'Personal Name',
-      'famname' => 'Family Name',
-      'corpname' => 'Corporate Name',
-      'subject' => 'Subject',
-      'function' => 'Function',
-      'occupation' => 'Occupation',
-      'genreform' => 'Genre Form',
-      'title' => 'Title',
-      'geogname' => 'Geographic Name'
+      'name' => 'name',
+      'persname' => 'person',
+      'famname' => 'family',
+      'corpname' => 'corporate_entity',
+      'subject' => 'subject',
+      'function' => 'function',
+      'occupation' => 'occupation',
+      'genreform' => 'genre_form',
+      'title' => 'title',
+      'geogname' => 'geographic_name'
     }.each do |k, v|
       with "indexentry/#{k}" do |node|
         make :note_index_item, {
