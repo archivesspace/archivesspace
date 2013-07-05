@@ -492,7 +492,7 @@ ASpaceImport::Importer.importer :marcxml do
                                         Proc.new{|node|
                                          terms = []
                                          %w(a b).each do |code|
-                                           terms << make_term('genreform', node.xpath("subfield[@code='#{code}']").inner_text)
+                                           terms << make_term('genre_form', node.xpath("subfield[@code='#{code}']").inner_text)
                                          end
 
                                          c = node.xpath("subfield[@code='c']").inner_text
@@ -863,10 +863,10 @@ ASpaceImport::Importer.importer :marcxml do
   def self.agent_as_subject
     {
       :map => {
-        "subfield[@code='v']" => adds_agent_term('genreform'),
+        "subfield[@code='v']" => adds_agent_term('genre_form'),
         "subfield[@code='x']" => adds_agent_term('topical'),
         "subfield[@code='y']" => adds_agent_term('temporal'),
-        "subfield[@code='z']" => adds_agent_term('temporal'),
+        "subfield[@code='z']" => adds_agent_term('geographic'),
         "self::datafield" => {
           :map => {
             "@ind2" => sets_name_source_from_code,
