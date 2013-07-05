@@ -13,10 +13,18 @@ module ASModel
 
 
     def self.set_audit_fields(json, obj)
-      ['created_by', 'last_modified_by', 'system_mtime', 'user_mtime', 'create_time'].each do |field|
+      ['created_by', 'last_modified_by'].each do |field|
         json[field] = obj[field.intern] if obj[field.intern]
       end
+
+      ['system_mtime', 'user_mtime', 'create_time'].each do |field|
+        val = obj[field.intern]
+        next if !val
+
+        json[field] = val.getutc.iso8601
+      end
     end
+
 
     def validate
       # Check uniqueness constraints
