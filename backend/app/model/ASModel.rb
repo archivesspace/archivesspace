@@ -101,7 +101,7 @@ module ASModel
     # Delete the current record using Sequel's delete method, but clean up
     # dependencies first.
     def delete
-      (self.class.nested_records[self.class] or []).each do |nested_record|
+      self.class.nested_records.each do |nested_record|
         self.class.remove_existing_nested_records(self, nested_record)
       end
 
@@ -217,10 +217,8 @@ module ASModel
       end
 
 
-      @@nested_records = {}
-
       def nested_records
-        @@nested_records
+        @nested_records ||= []
       end
 
 
@@ -259,8 +257,7 @@ module ASModel
 
         opts[:is_array] = true if !opts.has_key?(:is_array)
 
-        nested_records[self] ||= []
-        nested_records[self] << opts
+        nested_records << opts
       end
 
 
@@ -281,7 +278,7 @@ module ASModel
       # delete the object once it becomes unreferenced.
       #
       def apply_linked_database_records(obj, json, new_record = false)
-        (nested_records[self] or []).each do |nested_record|
+        nested_records.each do |nested_record|
 
           # Remove the existing nested records
           remove_existing_nested_records(obj, nested_record) if !new_record
@@ -385,7 +382,7 @@ module ASModel
         if [:one_to_one, :one_to_many].include?(record[:association][:type])
 
           # remove all sub records from the object first to avoid an integrity constraints
-          (nested_records[model] or []).each do |nested_record|
+          model.nested_records.each do |nested_record|
             (obj.send(record[:association][:name]) || []).each do |sub_obj|
               remove_existing_nested_records(sub_obj, nested_record)
             end
@@ -458,7 +455,7 @@ module ASModel
         end
 
         # If there are nested records for this class, grab their URI references too
-        (nested_records[self] or []).each do |nested_record|
+        nested_records.each do |nested_record|
           model = Kernel.const_get(nested_record[:association][:class_name])
 
           records = Array(obj.send(nested_record[:association][:name])).map {|linked_obj|
@@ -554,7 +551,7 @@ module ASModel
       end
 
       # Tell any nested records to transfer themselves too
-      Array(self.class.nested_records[self.class]).each do |nested_record_defn|
+      self.class.nested_records.each do |nested_record_defn|
         association = nested_record_defn[:association][:name]
         Array(self.send(association)).each do |nested_record|
           nested_record.transfer_to_repository(repository)
@@ -727,7 +724,7 @@ module ASModel
           end
         end
 
-        (nested_records[self] or []).each do |nested_record|
+        nested_records.each do |nested_record|
           # Nested records will be processed separately by
           # apply_linked_database_records.  Don't include them when saving to the
           # database.
