@@ -11,7 +11,7 @@ class AuthenticationManager
   end
 
   def self.authentication_sources
-    [DBAuth] + prepare_sources(AppConfig[:authentication_sources])
+    prepare_sources(AppConfig[:authentication_sources]) + [DBAuth]
   end
 
 
@@ -21,13 +21,16 @@ class AuthenticationManager
 
     authentication_sources.each do |source|
       begin
+        user = User.find(:username => username)
+
+        # System users are only authenticated locally.
+        next if (user && user.is_system_user == 1 && source != DBAuth)
+
         jsonmodel_user = source.authenticate(username, password)
 
         if !jsonmodel_user
           next
         end
-
-        user = User.find(:username => username)
 
         # Force their admin status based on what they already had
         jsonmodel_user.is_admin = (user && user.can?(:administer_system))
