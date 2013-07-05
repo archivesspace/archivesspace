@@ -30,7 +30,7 @@ class DigitalObject < Sequel::Model(:digital_object)
 
     json["linked_instances"] = []
 
-    obj.linked_records(:instance_do_link).each do |link|
+    obj.related_records(:instance_do_link).each do |link|
       uri = link.resource.uri if link.resource
       uri = link.archival_object.uri if link.archival_object
       uri = link.accession.uri if link.accession

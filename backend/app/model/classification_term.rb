@@ -3,13 +3,13 @@ require 'digest/sha1'
 class ClassificationTerm < Sequel::Model(:classification_term)
   include ASModel
   include Relationships
-  include Orderable
+  include TreeNodes
   include ClassificationIndexing
 
   corresponds_to JSONModel(:classification_term)
   set_model_scope(:repository)
 
-  orderable_root_record_type :classification, :classification_term
+  tree_record_types :classification, :classification_term
 
   define_relationship(:name => :classification_term_creator,
                       :json_property => 'creator',
@@ -27,9 +27,9 @@ class ClassificationTerm < Sequel::Model(:classification_term)
   end
 
 
-  def update_from_json(json, opts = {}, apply_linked_records = true)
+  def update_from_json(json, opts = {}, apply_nested_records = true)
     self.class.set_path_from_root(json)
-    obj = super(json, {:title_sha1 => Digest::SHA1.hexdigest(json.title)}, apply_linked_records)
+    obj = super(json, {:title_sha1 => Digest::SHA1.hexdigest(json.title)}, apply_nested_records)
     obj.reindex_children
     obj
   end

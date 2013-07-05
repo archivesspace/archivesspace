@@ -15,7 +15,6 @@ require_relative 'lib/crud_helpers'
 require_relative 'lib/notifications'
 require_relative 'lib/export'
 require_relative 'lib/request_context.rb'
-require_relative 'lib/import_helpers'
 require_relative 'lib/reports/report_helper'
 require_relative 'lib/component_transfer'
 require_relative 'lib/progress_ticker'
@@ -31,7 +30,6 @@ class ArchivesSpaceService < Sinatra::Base
   include RESTHelpers
 
   include CrudHelpers
-  include ImportHelpers
 
   include RESTHelpers::ResponseHelpers
   include Exceptions::ResponseMappings

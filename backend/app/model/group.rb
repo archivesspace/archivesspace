@@ -92,7 +92,7 @@ class Group < Sequel::Model(:group)
   end
 
 
-  def update_from_json(json, opts = {}, apply_linked_records = true)
+  def update_from_json(json, opts = {}, apply_nested_records = true)
     super
     self.class.set_members(self, json) if opts[:with_members]
     self.class.set_permissions(self, json)

@@ -215,8 +215,8 @@ module Trees
       dataset.select(:id).each do |record|
         node_model.this_repo.filter(:root_record_id => record.id,
                                     :parent_id => nil).
-          select(:id).each do |subrecord|
-          subrecord.delete
+                             select(:id).each do |child|
+          child.delete
         end
       end
 

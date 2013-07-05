@@ -83,8 +83,8 @@ describe "Deletion of Archival Records" do
     event1 = Event.where(:outcome_note => "test event 1").first
     event2 = Event.where(:outcome_note => "test event 2").first
 
-    linked1 = event1.linked_records(:event_link).first
-    linked2 = event2.linked_records(:event_link).first
+    linked1 = event1.related_records(:event_link).first
+    linked2 = event2.related_records(:event_link).first
 
     # We can delete the events
     event1.delete
@@ -124,18 +124,6 @@ describe "Deletion of Archival Records" do
     agent.delete
 
     acc.my_relationships(:linked_agents).count.should eq(0)
-  end
-
-
-  xit "can delete a repository" do
-    acc = Accession.where(:title => "A test accession").first
-    resource = Resource.where(:title => "A test resource").first
-
-    Repository[$repo_id].delete
-
-    Repository[$repo_id].should be(nil)
-    Accession.where(:title => "A test accession").first.should be(nil)
-    Resource.where(:title => "A test resource").first.should be(nil)
   end
 
 

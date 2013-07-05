@@ -46,7 +46,7 @@ end
 
 
 class StreamingImport
-  include ImportHelpers
+
   include JSONModel
 
   def initialize(stream, ticker)

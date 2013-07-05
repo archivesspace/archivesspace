@@ -109,6 +109,16 @@ module RESTHelpers
     def self.delete(uri); self.method(:delete).uri(uri); end
     def self.method(method); Endpoint.new(method); end
 
+    # Helpers
+    def self.is_toplevel_request?(env)
+      env["ASPACE_REENTRANT"].nil?
+    end
+
+    def self.is_potentially_destructive_request?(env)
+      env["REQUEST_METHOD"] != "GET"
+    end
+
+
     def uri(uri); @uri = uri; self; end
     def description(description); @description = description; self; end
     def preconditions(*preconditions); @preconditions += preconditions; self; end
@@ -132,14 +142,18 @@ module RESTHelpers
     end
 
 
-    def _process_params(params)
-      params.map do |p|
-        @@param_types[p[1]] ? [p[0], @@param_types[p[1]]].flatten : p
-      end
-    end
-
     def params(*params)
-      @required_params = _process_params(params)
+      @required_params = params.map do |p|
+        param_name, param_type = p
+
+        if @@param_types[param_type]
+          # This parameter type has a standard definition
+          defn = @@param_types[param_type]
+          [param_name, *defn]
+        else
+          p
+        end
+      end
 
       self
     end
@@ -199,7 +213,7 @@ module RESTHelpers
           RequestContext.put(:repo_id, params[:repo_id])
           RequestContext.put(:is_high_priority, high_priority_request?)
 
-          if env["REQUEST_METHOD"] != "GET" || !env["ASPACE_REENTRANT"]
+          if Endpoint.is_toplevel_request?(env) || Endpoint.is_potentially_destructive_request?(env)
             unless preconditions.all? { |precondition| self.instance_eval &precondition }
               raise AccessDeniedException.new("Access denied")
             end

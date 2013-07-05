@@ -66,6 +66,37 @@ class RepositoryNotEmpty < StandardError
 end
 
 
+class ImportException < StandardError
+  attr_accessor :invalid_object
+  attr_accessor :message
+  attr_accessor :error
+
+  def initialize(opts)
+    @invalid_object = opts[:invalid_object]
+    @error = opts[:error]
+  end
+
+  def to_hash
+    hsh = {'record_title' => nil, 'record_type' => nil, 'error_class' => self.class.name, 'errors' => []}
+    hsh['record_title'] = @invalid_object[:title] ? @invalid_object[:title] : "unknown or untitled"
+    hsh['record_type'] = @invalid_object.jsonmodel_type ? @invalid_object.jsonmodel_type : "unknown type"
+
+    if @error.respond_to?(:errors)
+      @error.errors.each {|e| hsh['errors'] << e}
+    else
+      hsh['errors'] = @error.inspect
+    end
+    hsh
+  end
+
+  def to_s
+    "#<:ImportException: #{{:invalid_object => @invalid_object, :error => @error}.inspect}>"
+  end
+end
+
+
+
+
 module Exceptions
 
   module ResponseMappings
@@ -73,7 +104,7 @@ module Exceptions
     def self.included(base)
       base.instance_eval do
 
-        error ImportHelpers::ImportException do
+        error ImportException do
           json_response({:error => request.env['sinatra.error'].to_hash}, 400)
         end
 

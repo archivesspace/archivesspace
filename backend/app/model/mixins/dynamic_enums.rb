@@ -8,7 +8,7 @@ module DynamicEnums
 
     def uses_enums(*definitions)
       definitions.each do |definition|
-        Enumeration.register_enumeration_user(definition, self)
+        Enumeration.register_enumeration_dependant(definition, self)
       end
 
       self.instance_eval do

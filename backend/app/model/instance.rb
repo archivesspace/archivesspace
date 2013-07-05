@@ -11,8 +11,7 @@ class Instance < Sequel::Model(:instance)
   def_nested_record(:the_property => :container,
                     :is_array => false,
                     :contains_records_of_type => :container,
-                    :corresponding_to_association => :container,
-                    :always_resolve => true)
+                    :corresponding_to_association => :container)
 
   define_relationship(:name => :instance_do_link,
                       :json_property => 'digital_object',

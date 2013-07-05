@@ -56,13 +56,12 @@ module Agents
 
         def_nested_record(:the_property => :terms,
                           :contains_records_of_type => :term,
-                          :corresponding_to_association  => :term,
-                          :always_resolve => true)
+                          :corresponding_to_association  => :term)
 
 
         def self.create(values)
           obj = super
-          apply_linked_database_records(obj, {:terms => values['terms']}, true)
+          obj.apply_nested_records({:terms => values['terms']}, true)
         end
 
 

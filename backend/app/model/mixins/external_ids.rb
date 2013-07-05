@@ -33,9 +33,9 @@ module ExternalIDs
   end
 
 
-  def update_from_json(json, opts = {}, apply_linked_records = true)
+  def update_from_json(json, opts = {}, apply_nested_records = true)
     obj = super
-    if apply_linked_records
+    if apply_nested_records
       self.class.save_external_ids(obj, json, opts) 
     end
     obj

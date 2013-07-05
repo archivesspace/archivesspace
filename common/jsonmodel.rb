@@ -33,12 +33,11 @@ module JSONModel
     def initialize(opts)
       @invalid_object = opts[:invalid_object]
       @errors = opts[:errors]
-      @warnings = opts[:warnings]
       @attribute_types = opts[:attribute_types]
     end
 
     def to_s
-      "#<:ValidationException: #{{:errors => @errors, :warnings => @warnings}.inspect}>"
+      "#<:ValidationException: #{{:errors => @errors}.inspect}>"
     end
   end
 
@@ -48,13 +47,11 @@ module JSONModel
 
 
   def self.JSONModel(source)
-    # Checks if a model exists first; returns the model class
-    # if it exists; returns false if it doesn't exist.
     if !@@models.has_key?(source.to_s)
       load_schema(source.to_s)
     end
 
-    @@models[source.to_s] || false
+    @@models[source.to_s] or raise "JSONModel not found for #{source}"
   end
 
 
@@ -423,7 +420,7 @@ module JSONModel
         if trusted
           # We got this data from a trusted source (such as another JSONModel
           # that had already been validated itself).  No need to double up
-          self.new(hash, [], true)
+          self.new(hash, true)
         else
           cleaned = JSONSchemaUtils.drop_unknown_properties(hash, self.schema, drop_system_properties)
           cleaned = ASUtils.jsonmodels_to_hashes(cleaned)
@@ -541,9 +538,8 @@ module JSONModel
       end
 
 
-      def initialize(params = {}, warnings = [], trusted = false)
+      def initialize(params = {}, trusted = false)
         set_data(params)
-        @warnings = warnings
 
         # a hash to store transient instance data
         @instance_data = {}
@@ -678,7 +674,7 @@ module JSONModel
         return @data if mode == :raw
 
         if @validated and @cleaned_data
-          @cleaned_data
+          return @cleaned_data
         end
 
         cleaned = JSONSchemaUtils.drop_unknown_properties(@data, self.class.schema)

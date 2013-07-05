@@ -23,7 +23,7 @@ module CrudHelpers
   end
 
 
-  def self.dataset(model, where_clause)
+  def self.scoped_dataset(model, where_clause)
     dataset = (model.model_scope == :repository) ? model.this_repo : model
 
     if where_clause.is_a?(Hash) && where_clause.has_key?(:exclude)
@@ -39,7 +39,39 @@ module CrudHelpers
   end
 
 
-  def _listing_response(dataset, model)
+  def handle_unlimited_listing(model, where = {})
+    dataset = CrudHelpers.scoped_dataset(model, where)
+
+    listing_response(dataset, model)
+  end
+
+
+  def handle_listing(model, pagination_data, where = {})
+
+    dataset = CrudHelpers.scoped_dataset(model, where)
+
+    modified_since_time = Time.at(pagination_data[:modified_since])
+    dataset = dataset.where { system_mtime >= modified_since_time }
+
+    if pagination_data[:page]
+      # Classic pagination mode
+      paginated = dataset.paginate(pagination_data[:page], pagination_data[:page_size])
+
+      listing_response(paginated, model)
+
+    elsif pagination_data[:all_ids]
+      # Return a JSON array containing all IDs for the matching records
+      json_response(dataset.select(:id).map {|rec| rec[:id]})
+
+    elsif pagination_data[:id_set]
+      # Return the requested set of IDs
+      listing_response(dataset.filter(:id => pagination_data[:id_set]).all, model)
+    end
+  end
+
+  private
+
+  def listing_response(dataset, model)
     results = dataset.collect {|obj|
       json = model.to_jsonmodel(obj)
 
@@ -62,37 +94,6 @@ module CrudHelpers
     end
 
     json_response(response)
-  end
-
-
-  def handle_unlimited_listing(model, where = {})
-    dataset = CrudHelpers.dataset(model, where)
-
-    _listing_response(dataset, model)
-  end
-
-
-  def handle_listing(model, pagination_data, where = {})
-
-    dataset = CrudHelpers.dataset(model, where)
-
-    modified_since_time = Time.at(pagination_data[:modified_since])
-    dataset = dataset.where { system_mtime >= modified_since_time }
-
-    if pagination_data[:page]
-      # Classic pagination mode
-      paginated = dataset.paginate(pagination_data[:page], pagination_data[:page_size])
-
-      _listing_response(paginated, model)
-
-    elsif pagination_data[:all_ids]
-      # Return a JSON array containing all IDs for the matching records
-      json_response(dataset.select(:id).map {|rec| rec[:id]})
-
-    elsif pagination_data[:id_set]
-      # Return the requested set of IDs
-      _listing_response(dataset.filter(:id => pagination_data[:id_set]).all, model)
-    end
   end
 
 end

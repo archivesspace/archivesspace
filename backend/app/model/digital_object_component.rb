@@ -7,7 +7,7 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
   include Dates
   include ExternalDocuments
   include Agents
-  include Orderable
+  include TreeNodes
   include Notes
   include RightsStatements
   include ExternalIDs
@@ -15,7 +15,7 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
 
   agent_relator_enum("linked_agent_archival_record_relators")
 
-  orderable_root_record_type :digital_object, :digital_object_component
+  tree_record_types :digital_object, :digital_object_component
 
   set_model_scope :repository
 

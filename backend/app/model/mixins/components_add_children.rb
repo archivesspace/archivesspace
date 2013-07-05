@@ -1,9 +1,9 @@
-require_relative 'orderable'
+require_relative 'tree_nodes'
 
 module ComponentsAddChildren
 
   def self.included(base)
-    if not base.included_modules.include?(Orderable)
+    if not base.included_modules.include?(TreeNodes)
       base.extend(ClassMethods)
     end
   end
@@ -38,7 +38,7 @@ module ComponentsAddChildren
 
   module ClassMethods
 
-    def orderable_root_record_type(root, node)
+    def tree_record_types(root, node)
       @root_record_type = root.to_s
       @node_record_type = node.to_s
     end
