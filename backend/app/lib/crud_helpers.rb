@@ -23,7 +23,7 @@ module CrudHelpers
   end
 
 
-  def self.dataset(model, where_clause)
+  def self.scoped_dataset(model, where_clause)
     dataset = (model.model_scope == :repository) ? model.this_repo : model
 
     if where_clause.is_a?(Hash) && where_clause.has_key?(:exclude)
@@ -66,7 +66,7 @@ module CrudHelpers
 
 
   def handle_unlimited_listing(model, where = {})
-    dataset = CrudHelpers.dataset(model, where)
+    dataset = CrudHelpers.scoped_dataset(model, where)
 
     _listing_response(dataset, model)
   end
@@ -74,7 +74,7 @@ module CrudHelpers
 
   def handle_listing(model, pagination_data, where = {})
 
-    dataset = CrudHelpers.dataset(model, where)
+    dataset = CrudHelpers.scoped_dataset(model, where)
 
     modified_since_time = Time.at(pagination_data[:modified_since])
     dataset = dataset.where { system_mtime >= modified_since_time }
