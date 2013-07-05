@@ -61,7 +61,7 @@ module Agents
 
         def self.create(values)
           obj = super
-          apply_linked_database_records(obj, {:terms => values['terms']}, true)
+          obj.apply_nested_records({:terms => values['terms']}, true)
         end
 
 

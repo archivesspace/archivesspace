@@ -58,6 +58,110 @@ module ASModel
     end
 
 
+    # Several JSONModels consist of logical subrecords that are stored as
+    # separate models in the database (in separate tables).
+    #
+    # When we get a JSON blob for a record with subrecords, we want to create a
+    # database record for each subrecords (or, if a URI referencing an existing
+    # subrecord was given, use the existing object), then associate those
+    # subrecords with the main record.
+    def apply_nested_records(json, new_record = false)
+
+      self.remove_nested_records if !new_record
+
+      self.class.nested_records.each do |nested_record|
+        # Read the subrecords from our JSON blob and fetch or create
+        # the corresponding subrecord from the database.
+        model = Kernel.const_get(nested_record[:association][:class_name])
+
+        if nested_record[:association][:type] === :one_to_one
+          add_record_method = nested_record[:association][:name].to_s
+        elsif nested_record[:association][:type] === :many_to_one
+          add_record_method = "#{nested_record[:association][:name].to_s.singularize}="
+        else
+          add_record_method = "add_#{nested_record[:association][:name].to_s.singularize}"
+        end
+
+        records = json[nested_record[:json_property]]
+
+        is_array = true
+        if nested_record[:association][:type] === :one_to_one || nested_record[:is_array] === false
+          is_array = false
+          records = [records]
+        end
+
+        updated_records = []
+        (records or []).each_with_index do |json_or_uri, i|
+          next if json_or_uri.nil?
+
+          db_record = nil
+
+          begin
+            needs_linking = true
+
+            if json_or_uri.kind_of? String
+              # A URI.  Just grab its database ID and look it up.
+                      db_record = model[JSONModel(nested_record[:jsonmodel]).id_for(json_or_uri)]
+              updated_records << json_or_uri
+            else
+              # Create a database record for the JSON blob and return its ID
+              subrecord_json = JSONModel(nested_record[:jsonmodel]).from_hash(json_or_uri, true, true)
+
+              # The value of subrecord_json can be mutated by the various
+              # transformations performed by the model layer.  Make sure we
+              # keep the modified version of the JSON here.
+              updated_records << subrecord_json
+
+              if model.respond_to? :ensure_exists
+                # Give our classes an opportunity to provide their own logic here
+                db_record = model.ensure_exists(subrecord_json, self)
+              else
+                extra_opts = {}
+
+                if nested_record[:association][:key]
+                  extra_opts[nested_record[:association][:key]] = self.id
+
+                  # We'll skip the call to the .add method because this step
+                  # will have already linked the nested record to this one.
+                  needs_linking = false
+                end
+
+                db_record = model.create_from_json(subrecord_json, extra_opts)
+              end
+            end
+
+            if db_record.system_modified?
+              # If the subrecord got changed by the system, mark ourselves as
+              # modified too.
+              self.mark_as_system_modified
+            end
+
+            self.send(add_record_method, db_record) if (db_record && needs_linking)
+          rescue Sequel::ValidationFailed => e
+            # Modify the exception keys by prefixing each with the path up until this point.
+            e.instance_eval do
+              if @errors
+                prefix = nested_record[:json_property]
+                prefix = "#{prefix}/#{i}" if is_array
+
+                new_errors = {}
+                @errors.each do |k, v|
+                  new_errors["#{prefix}/#{k}"] = v
+                end
+
+                @errors = new_errors
+              end
+            end
+
+            raise e
+          end
+        end
+
+        json[nested_record[:json_property]] = is_array ? updated_records : updated_records[0]
+      end
+    end
+
+
     def remove_nested_records
       self.class.nested_records.each do |nested_record_defn|
         if [:one_to_one, :one_to_many].include?(nested_record_defn[:association][:type])
@@ -122,7 +226,7 @@ module ASModel
                         :last_modified_by => RequestContext.get(:current_username)))
 
       if apply_nested_records
-        self.class.apply_linked_database_records(self, json)
+        self.apply_nested_records(json)
       end
 
       self.class.fire_update(json, self)
@@ -213,7 +317,7 @@ module ASModel
         obj = self.create(prepare_for_db(json.class,
                                          json.to_hash.merge(values)))
 
-        self.apply_linked_database_records(obj, json, true)
+        obj.apply_nested_records(json, true)
 
         fire_update(json, obj)
 
@@ -284,119 +388,6 @@ module ASModel
         opts[:is_array] = true if !opts.has_key?(:is_array)
 
         nested_records << opts
-      end
-
-
-      # Several JSONModels consist of logical subrecords that are stored as
-      # separate models in the database (in separate tables).
-      #
-      # When we get a JSON blob for a record with subrecords, we want to create a
-      # database record for each subrecords (or, if a URI referencing an existing
-      # subrecord was given, use the existing object), then associate those
-      # subrecords with the main record.
-      #
-      # If the :foreign_key option is given, any created subrecords will have
-      # their column by that name set to the ID of the referring primary object.
-      #
-      # If the :delete_when_unassociating option is given, associated subrecords
-      # being replaced will be fully deleted from the database.  This only makes
-      # sense for a one-to-one or one-to-many relationship, where we want to
-      # delete the object once it becomes unreferenced.
-      #
-      def apply_linked_database_records(obj, json, new_record = false)
-
-        obj.remove_nested_records if !new_record
-
-        nested_records.each do |nested_record|
-          # Read the subrecords from our JSON blob and fetch or create
-          # the corresponding subrecord from the database.
-          model = Kernel.const_get(nested_record[:association][:class_name])
-
-          if nested_record[:association][:type] === :one_to_one
-            add_record_method = nested_record[:association][:name].to_s
-          elsif nested_record[:association][:type] === :many_to_one
-            add_record_method = "#{nested_record[:association][:name].to_s.singularize}="
-          else
-            add_record_method = "add_#{nested_record[:association][:name].to_s.singularize}"
-          end
-
-          records = json[nested_record[:json_property]]
-
-          is_array = true
-          if nested_record[:association][:type] === :one_to_one || nested_record[:is_array] === false
-            is_array = false
-            records = [records]
-          end
-
-          updated_records = []
-          (records or []).each_with_index do |json_or_uri, i|
-            next if json_or_uri.nil?
-
-            db_record = nil
-
-            begin
-              needs_linking = true
-
-              if json_or_uri.kind_of? String
-                # A URI.  Just grab its database ID and look it up.
-                db_record = model[JSONModel(nested_record[:jsonmodel]).id_for(json_or_uri)]
-                updated_records << json_or_uri
-              else
-                # Create a database record for the JSON blob and return its ID
-                subrecord_json = JSONModel(nested_record[:jsonmodel]).from_hash(json_or_uri, true, true)
-
-                # The value of subrecord_json can be mutated by the various
-                # transformations performed by the model layer.  Make sure we
-                # keep the modified version of the JSON here.
-                updated_records << subrecord_json
-
-                if model.respond_to? :ensure_exists
-                  # Give our classes an opportunity to provide their own logic here
-                  db_record = model.ensure_exists(subrecord_json, obj)
-                else
-                  extra_opts = {}
-
-                  if nested_record[:association][:key]
-                    extra_opts[nested_record[:association][:key]] = obj.id
-
-                    # We'll skip the call to the .add method because this step
-                    # will have already linked the nested record to this one.
-                    needs_linking = false
-                  end
-
-                  db_record = model.create_from_json(subrecord_json, extra_opts)
-                end
-              end
-
-              if db_record.system_modified?
-                # If the subrecord got changed by the system, mark ourselves as
-                # modified too.
-                obj.mark_as_system_modified
-              end
-
-              obj.send(add_record_method, db_record) if (db_record && needs_linking)
-            rescue Sequel::ValidationFailed => e
-              # Modify the exception keys by prefixing each with the path up until this point.
-              e.instance_eval do
-                if @errors
-                  prefix = nested_record[:json_property]
-                  prefix = "#{prefix}/#{i}" if is_array
-
-                  new_errors = {}
-                  @errors.each do |k, v|
-                    new_errors["#{prefix}/#{k}"] = v
-                  end
-
-                  @errors = new_errors
-                end
-              end
-
-              raise e
-            end
-          end
-
-          json[nested_record[:json_property]] = is_array ? updated_records : updated_records[0]
-        end
       end
 
 
@@ -717,9 +708,7 @@ module ASModel
         end
 
         nested_records.each do |nested_record|
-          # Nested records will be processed separately by
-          # apply_linked_database_records.  Don't include them when saving to the
-          # database.
+          # Nested records will be processed separately.
           hash.delete(nested_record[:json_property].to_s)
         end
 
