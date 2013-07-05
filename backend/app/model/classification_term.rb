@@ -27,9 +27,9 @@ class ClassificationTerm < Sequel::Model(:classification_term)
   end
 
 
-  def update_from_json(json, opts = {}, apply_linked_records = true)
+  def update_from_json(json, opts = {}, apply_nested_records = true)
     self.class.set_path_from_root(json)
-    obj = super(json, {:title_sha1 => Digest::SHA1.hexdigest(json.title)}, apply_linked_records)
+    obj = super(json, {:title_sha1 => Digest::SHA1.hexdigest(json.title)}, apply_nested_records)
     obj.reindex_children
     obj
   end

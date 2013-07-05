@@ -75,7 +75,7 @@ class Subject < Sequel::Model(:subject)
   end
 
 
-  def update_from_json(json, opts = {}, apply_linked_records = true)
+  def update_from_json(json, opts = {}, apply_nested_records = true)
     self.class.set_vocabulary(json, opts)
     self[:terms_sha1] = self.class.generate_terms_sha1(json) # add a terms sha1 hash to allow for uniqueness test
     super

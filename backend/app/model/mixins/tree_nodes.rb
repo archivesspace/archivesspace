@@ -80,7 +80,7 @@ module TreeNodes
   end
 
 
-  def update_from_json(json, opts = {}, apply_linked_records = true)
+  def update_from_json(json, opts = {}, apply_nested_records = true)
     sequence = self.class.sequence_for(json)
 
     self.class.set_root_record(json, sequence, opts)

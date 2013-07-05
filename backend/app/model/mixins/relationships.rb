@@ -154,7 +154,7 @@ module Relationships
   end
 
 
-  def update_from_json(json, opts = {}, apply_linked_records = true)
+  def update_from_json(json, opts = {}, apply_nested_records = true)
     obj = super
     self.class.apply_relationships(obj, json, opts)
     trigger_reindex_of_dependants

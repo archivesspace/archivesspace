@@ -5,11 +5,11 @@ module Notes
   end
 
 
-  def update_from_json(json, opts = {}, apply_linked_records = true)
+  def update_from_json(json, opts = {}, apply_nested_records = true)
     super(json,
           opts.merge('notes' => JSON(json.notes),
                      'notes_json_schema_version' => json.class.schema_version),
-          apply_linked_records)
+          apply_nested_records)
   end
 
 

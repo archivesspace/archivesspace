@@ -111,7 +111,7 @@ class Enumeration < Sequel::Model(:enumeration)
   end
 
 
-  def update_from_json(json, opts = {}, apply_linked_records = true)
+  def update_from_json(json, opts = {}, apply_nested_records = true)
     default_value = json['default_value']
     json['default_value'] = nil
 

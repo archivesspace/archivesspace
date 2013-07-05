@@ -52,7 +52,7 @@ module ASModel
     end
 
 
-    def update_from_json(json, extra_values = {}, apply_linked_records = true)
+    def update_from_json(json, extra_values = {}, apply_nested_records = true)
 
       if self.values.has_key?(:suppressed)
         if self[:suppressed] == 1
@@ -88,7 +88,7 @@ module ASModel
                   merge(:user_mtime => Time.now,
                         :last_modified_by => RequestContext.get(:current_username)))
 
-      if apply_linked_records
+      if apply_nested_records
         self.class.apply_linked_database_records(self, json)
       end
 
@@ -101,8 +101,8 @@ module ASModel
     # Delete the current record using Sequel's delete method, but clean up
     # dependencies first.
     def delete
-      (self.class.linked_records[self.class] or []).each do |linked_record|
-        self.class.remove_existing_linked_records(self, linked_record)
+      (self.class.nested_records[self.class] or []).each do |nested_record|
+        self.class.remove_existing_nested_records(self, nested_record)
       end
 
       self.class.prepare_for_deletion(self.class.where(:id => self.id))
@@ -217,10 +217,10 @@ module ASModel
       end
 
 
-      @@linked_records = {}
+      @@nested_records = {}
 
-      def linked_records
-        @@linked_records
+      def nested_records
+        @@nested_records
       end
 
 
@@ -259,8 +259,8 @@ module ASModel
 
         opts[:is_array] = true if !opts.has_key?(:is_array)
 
-        linked_records[self] ||= []
-        linked_records[self] << opts
+        nested_records[self] ||= []
+        nested_records[self] << opts
       end
 
 
@@ -281,27 +281,27 @@ module ASModel
       # delete the object once it becomes unreferenced.
       #
       def apply_linked_database_records(obj, json, new_record = false)
-        (linked_records[self] or []).each do |linked_record|
+        (nested_records[self] or []).each do |nested_record|
 
-          # Remove the existing linked records
-          remove_existing_linked_records(obj, linked_record) if !new_record
+          # Remove the existing nested records
+          remove_existing_nested_records(obj, nested_record) if !new_record
 
           # Read the subrecords from our JSON blob and fetch or create
           # the corresponding subrecord from the database.
-          model = Kernel.const_get(linked_record[:association][:class_name])
+          model = Kernel.const_get(nested_record[:association][:class_name])
 
-          if linked_record[:association][:type] === :one_to_one
-            add_record_method = linked_record[:association][:name].to_s
-          elsif linked_record[:association][:type] === :many_to_one
-            add_record_method = "#{linked_record[:association][:name].to_s.singularize}="
+          if nested_record[:association][:type] === :one_to_one
+            add_record_method = nested_record[:association][:name].to_s
+          elsif nested_record[:association][:type] === :many_to_one
+            add_record_method = "#{nested_record[:association][:name].to_s.singularize}="
           else
-            add_record_method = "add_#{linked_record[:association][:name].to_s.singularize}"
+            add_record_method = "add_#{nested_record[:association][:name].to_s.singularize}"
           end
 
-          records = json[linked_record[:json_property]]
+          records = json[nested_record[:json_property]]
 
           is_array = true
-          if linked_record[:association][:type] === :one_to_one || linked_record[:is_array] === false
+          if nested_record[:association][:type] === :one_to_one || nested_record[:is_array] === false
             is_array = false
             records = [records]
           end
@@ -317,11 +317,11 @@ module ASModel
 
               if json_or_uri.kind_of? String
                 # A URI.  Just grab its database ID and look it up.
-                db_record = model[JSONModel(linked_record[:jsonmodel]).id_for(json_or_uri)]
+                db_record = model[JSONModel(nested_record[:jsonmodel]).id_for(json_or_uri)]
                 updated_records << json_or_uri
               else
                 # Create a database record for the JSON blob and return its ID
-                subrecord_json = JSONModel(linked_record[:jsonmodel]).from_hash(json_or_uri, true, true)
+                subrecord_json = JSONModel(nested_record[:jsonmodel]).from_hash(json_or_uri, true, true)
 
                 # The value of subrecord_json can be mutated by the various
                 # transformations performed by the model layer.  Make sure we
@@ -334,8 +334,8 @@ module ASModel
                 else
                   extra_opts = {}
 
-                  if linked_record[:association][:key]
-                    extra_opts[linked_record[:association][:key]] = obj.id
+                  if nested_record[:association][:key]
+                    extra_opts[nested_record[:association][:key]] = obj.id
 
                     # We'll skip the call to the .add method because this step
                     # will have already linked the nested record to this one.
@@ -357,7 +357,7 @@ module ASModel
               # Modify the exception keys by prefixing each with the path up until this point.
               e.instance_eval do
                 if @errors
-                  prefix = linked_record[:json_property]
+                  prefix = nested_record[:json_property]
                   prefix = "#{prefix}/#{i}" if is_array
 
                   new_errors = {}
@@ -373,21 +373,21 @@ module ASModel
             end
           end
 
-          json[linked_record[:json_property]] = is_array ? updated_records : updated_records[0]
+          json[nested_record[:json_property]] = is_array ? updated_records : updated_records[0]
         end
       end
 
 
-      def remove_existing_linked_records(obj, record)
+      def remove_existing_nested_records(obj, record)
         model = Kernel.const_get(record[:association][:class_name])
 
         # now remove this record from the object
         if [:one_to_one, :one_to_many].include?(record[:association][:type])
 
           # remove all sub records from the object first to avoid an integrity constraints
-          (linked_records[model] or []).each do |linked_record|
+          (nested_records[model] or []).each do |nested_record|
             (obj.send(record[:association][:name]) || []).each do |sub_obj|
-              remove_existing_linked_records(sub_obj, linked_record)
+              remove_existing_nested_records(sub_obj, nested_record)
             end
           end
 
@@ -457,17 +457,17 @@ module ASModel
           json['repository'] = {'ref' => JSONModel(:repository).uri_for(active_repository)}
         end
 
-        # If there are linked records for this class, grab their URI references too
-        (linked_records[self] or []).each do |linked_record|
-          model = Kernel.const_get(linked_record[:association][:class_name])
+        # If there are nested records for this class, grab their URI references too
+        (nested_records[self] or []).each do |nested_record|
+          model = Kernel.const_get(nested_record[:association][:class_name])
 
-          records = Array(obj.send(linked_record[:association][:name])).map {|linked_obj|
+          records = Array(obj.send(nested_record[:association][:name])).map {|linked_obj|
             model.to_jsonmodel(linked_obj).to_hash(:trusted)
           }
 
-          is_array = linked_record[:is_array] && ![:many_to_one, :one_to_one].include?(linked_record[:association][:type])
+          is_array = nested_record[:is_array] && ![:many_to_one, :one_to_one].include?(nested_record[:association][:type])
 
-          json[linked_record[:json_property]] = (is_array ? records : records[0])
+          json[nested_record[:json_property]] = (is_array ? records : records[0])
         end
 
         json["created_by"] = obj[:created_by] if obj[:created_by]
@@ -554,10 +554,10 @@ module ASModel
       end
 
       # Tell any nested records to transfer themselves too
-      Array(self.class.linked_records[self.class]).each do |linked_record_defn|
-        association = linked_record_defn[:association][:name]
-        Array(self.send(association)).each do |linked_record|
-          linked_record.transfer_to_repository(repository)
+      Array(self.class.nested_records[self.class]).each do |nested_record_defn|
+        association = nested_record_defn[:association][:name]
+        Array(self.send(association)).each do |nested_record|
+          nested_record.transfer_to_repository(repository)
         end
       end
     end
@@ -727,11 +727,11 @@ module ASModel
           end
         end
 
-        (linked_records[self] or []).each do |linked_record|
-          # Linked records will be processed separately by
+        (nested_records[self] or []).each do |nested_record|
+          # Nested records will be processed separately by
           # apply_linked_database_records.  Don't include them when saving to the
           # database.
-          hash.delete(linked_record[:json_property].to_s)
+          hash.delete(nested_record[:json_property].to_s)
         end
 
         hash['json_schema_version'] = jsonmodel_class.schema_version

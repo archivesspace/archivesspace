@@ -30,7 +30,7 @@ class Classification < Sequel::Model(:classification)
   end
 
 
-  def update_from_json(json, opts = {}, apply_linked_records = true)
+  def update_from_json(json, opts = {}, apply_nested_records = true)
     self.class.set_path_from_root(json)
     obj = super
     obj.reindex_children
