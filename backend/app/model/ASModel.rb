@@ -84,20 +84,17 @@ module ASModel
 
       self.class.strict_param_setting = false
 
-      self.update(self.class.prepare_for_db(json.class, updated))
-
-      self[:user_mtime] = Time.now
-      self[:last_modified_by] = RequestContext.get(:current_username)
-
-      obj = self.save
+      self.update(self.class.prepare_for_db(json.class, updated).
+                  merge(:user_mtime => Time.now,
+                        :last_modified_by => RequestContext.get(:current_username)))
 
       if apply_linked_records
         self.class.apply_linked_database_records(self, json)
       end
 
-      self.class.fire_update(json, obj)
+      self.class.fire_update(json, self)
 
-      obj
+      self
     end
 
 
