@@ -7,18 +7,18 @@ class Enumeration < Sequel::Model(:enumeration)
 
   one_to_many :enumeration_value
 
-  @enumeration_users = {}
+  @enumeration_dependants = {}
 
   # Record the fact that 'model' uses 'enum_name'.
-  def self.register_enumeration_user(definition, model)
+  def self.register_enumeration_dependant(definition, model)
     enum_name = definition[:uses_enum]
-    @enumeration_users[enum_name] ||= []
-    @enumeration_users[enum_name] << [definition, model]
+    @enumeration_dependants[enum_name] ||= []
+    @enumeration_dependants[enum_name] << [definition, model]
   end
 
 
-  def self.users_of(enum_name)
-    @enumeration_users[enum_name]
+  def self.dependants_of(enum_name)
+    @enumeration_dependants[enum_name]
   end
 
 
@@ -33,7 +33,7 @@ class Enumeration < Sequel::Model(:enumeration)
 
     new_enum_value = self.enumeration_value.find {|val| val[:value] == new_value}
 
-    self.class.users_of(self.name).each do |definition, model|
+    self.class.dependants_of(self.name).each do |definition, model|
       property_id = "#{definition[:property]}_id".intern
       model.filter(property_id => old_enum_value.id).update(property_id => new_enum_value.id,
                                                             :system_mtime => Time.now)
@@ -106,7 +106,7 @@ class Enumeration < Sequel::Model(:enumeration)
   def self.create_from_json(json, opts = {})
     default_value = json['default_value']
     json['default_value'] = nil
-    
+
     self.apply_values(super, json, opts.merge({:default_value => default_value}))
   end
 
