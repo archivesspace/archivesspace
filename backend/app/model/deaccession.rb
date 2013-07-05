@@ -10,6 +10,5 @@ class Deaccession < Sequel::Model(:deaccession)
   def_nested_record(:the_property => :date,
                     :contains_records_of_type => :date,
                     :corresponding_to_association => :date,
-                    :is_array => false,
-                    :always_resolve => true)
+                    :is_array => false)
 end

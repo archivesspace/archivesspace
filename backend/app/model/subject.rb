@@ -15,8 +15,7 @@ class Subject < Sequel::Model(:subject)
 
   def_nested_record(:the_property => :terms,
                     :contains_records_of_type => :term,
-                    :corresponding_to_association  => :term,
-                    :always_resolve => true)
+                    :corresponding_to_association  => :term)
 
   auto_generate :property => :title, 
                 :generator => proc  { |json|

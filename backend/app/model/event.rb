@@ -18,8 +18,7 @@ class Event < Sequel::Model(:event)
   def_nested_record(:the_property => :date,
                     :contains_records_of_type => :date,
                     :corresponding_to_association => :date,
-                    :is_array => false,
-                    :always_resolve => true)
+                    :is_array => false)
 
   define_relationship(:name => :event_link,
                       :json_property => 'linked_records',

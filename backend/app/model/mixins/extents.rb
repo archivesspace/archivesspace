@@ -5,8 +5,7 @@ module Extents
 
     base.def_nested_record(:the_property => :extents,
                            :contains_records_of_type => :extent,
-                           :corresponding_to_association  => :extent,
-                           :always_resolve => true)
+                           :corresponding_to_association  => :extent)
   end
 
 end

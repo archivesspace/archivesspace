@@ -243,8 +243,7 @@ module ASModel
       #
       #   def_nested_record(:the_property => :terms,
       #                     :contains_records_of_type => :term,
-      #                     :corresponding_to_association  => :term,
-      #                     :always_resolve => true)
+      #                     :corresponding_to_association  => :term)
       #
       # Causes an incoming JSONModel(:subject) to have each of the objects in its
       # "terms" array to be coerced into a Sequel model (based on the :terms
@@ -254,9 +253,7 @@ module ASModel
       #
       # The definition also causes Subject.to_jsonmodel(obj) to
       # automatically pull back the list of terms associated with the object and
-      # include them in the response.  Here, the :always_resolve parameter
-      # indicates that we want the actual JSON objects to be included in the
-      # response, not just their URI references.
+      # include them in the response.
 
       def def_nested_record(opts)
         opts[:association] = self.association_reflection(opts[:corresponding_to_association])
@@ -468,12 +465,7 @@ module ASModel
           model = Kernel.const_get(linked_record[:association][:class_name])
 
           records = Array(obj.send(linked_record[:association][:name])).map {|linked_obj|
-            if linked_record[:always_resolve]
-              model.to_jsonmodel(linked_obj).to_hash(:trusted)
-            else
-              JSONModel(linked_record[:jsonmodel]).uri_for(linked_obj.id, :repo_id => active_repository) or
-                raise "Couldn't produce a URI for record type: #{linked_record[:type]}."
-            end
+            model.to_jsonmodel(linked_obj).to_hash(:trusted)
           }
 
           is_array = linked_record[:is_array] && ![:many_to_one, :one_to_one].include?(linked_record[:association][:type])

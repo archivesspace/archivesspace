@@ -23,8 +23,7 @@ module ExternalDocuments
 
     base.def_nested_record(:the_property => :external_documents,
                            :contains_records_of_type => :external_document,
-                           :corresponding_to_association  => :external_document,
-                           :always_resolve => true)
+                           :corresponding_to_association  => :external_document)
   end
 
 end
