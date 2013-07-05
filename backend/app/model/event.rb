@@ -36,7 +36,7 @@ class Event < Sequel::Model(:event)
 
 
   def has_active_linked_records?
-    linked_records(:event_link).each do |linked_record|
+    self.related_records(:event_link).each do |linked_record|
       if linked_record.values.has_key?(:suppressed) && linked_record[:suppressed] == 0
         return true
       end

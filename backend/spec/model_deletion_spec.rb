@@ -83,8 +83,8 @@ describe "Deletion of Archival Records" do
     event1 = Event.where(:outcome_note => "test event 1").first
     event2 = Event.where(:outcome_note => "test event 2").first
 
-    linked1 = event1.linked_records(:event_link).first
-    linked2 = event2.linked_records(:event_link).first
+    linked1 = event1.related_records(:event_link).first
+    linked2 = event2.related_records(:event_link).first
 
     # We can delete the events
     event1.delete

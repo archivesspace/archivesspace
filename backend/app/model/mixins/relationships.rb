@@ -184,7 +184,7 @@ module Relationships
 
   # Return all object instances that are related to the current record by the
   # relationship named by 'name'.
-  def linked_records(name)
+  def related_records(name)
     relationship = self.class.find_relationship(name)
     records = relationship.who_participates_with(self)
 
@@ -282,7 +282,7 @@ module Relationships
         # if the model hasn't been loaded yet.
 
 
-        linked_models = opts[:contains_references_to_types].call
+        related_models = opts[:contains_references_to_types].call
 
         clz = Class.new(AbstractRelationship) do
           table = "#{opts[:name]}_rlshp".intern
@@ -293,7 +293,7 @@ module Relationships
             Log.warn("Table doesn't exist: #{self.table_name}")
           end
 
-          set_participating_models([base, *linked_models].uniq)
+          set_participating_models([base, *related_models].uniq)
           set_json_property(opts[:json_property])
           set_wants_array(opts[:is_array].nil? || opts[:is_array])
         end
@@ -302,7 +302,7 @@ module Relationships
 
         @relationships[opts[:name]] = clz
 
-        linked_models.each do |model|
+        related_models.each do |model|
           model.include(Relationships)
           model.add_relationship_dependency(opts[:name], base)
         end
@@ -359,7 +359,7 @@ module Relationships
           referent = referent_model[record_type[:id]]
 
           if !referent
-            raise ReferenceError.new("Can't link to non-existent record: #{reference['ref']}")
+            raise ReferenceError.new("Can't relate to non-existent record: #{reference['ref']}")
           end
 
           # Create a new relationship instance linking us and them together, and
