@@ -674,7 +674,7 @@ module JSONModel
         return @data if mode == :raw
 
         if @validated and @cleaned_data
-          @cleaned_data
+          return @cleaned_data
         end
 
         cleaned = JSONSchemaUtils.drop_unknown_properties(@data, self.class.schema)
