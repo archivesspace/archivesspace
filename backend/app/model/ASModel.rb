@@ -39,6 +39,12 @@ module ASModel
     Sequel.extension :inflector
 
 
+    def self.set_audit_fields(json, obj)
+      ['created_by', 'last_modified_by', 'system_mtime', 'user_mtime', 'create_time'].each do |field|
+        json[field] = obj[field.intern] if obj[field.intern]
+      end
+    end
+
     def validate
       # Check uniqueness constraints
       self.class.repo_unique_constraints.each do |constraint|
@@ -226,11 +232,7 @@ module ASModel
           sequel_obj.refresh
 
           # Manually set any DB hooked values
-          json["created_by"] = sequel_obj[:created_by]
-          json["last_modified_by"] = sequel_obj[:last_modified_by]
-          json["create_time"] = sequel_obj[:create_time].getutc.iso8601
-          json["system_mtime"] = sequel_obj[:system_mtime].getutc.iso8601
-          json["user_mtime"] = sequel_obj[:user_mtime].getutc.iso8601
+          CRUD.set_audit_fields(json, sequel_obj)
 
           hash = json.to_hash
           uri = sequel_obj.uri
@@ -461,11 +463,7 @@ module ASModel
           json[nested_record[:json_property]] = (is_array ? records : records[0])
         end
 
-        json["created_by"] = obj[:created_by] if obj[:created_by]
-        json["last_modified_by"] = obj[:last_modified_by] if obj[:last_modified_by]
-        json["system_mtime"] = obj[:system_mtime].getutc.iso8601 if obj[:system_mtime]
-        json["user_mtime"] = obj[:user_mtime].getutc.iso8601 if obj[:user_mtime]
-        json["create_time"] = obj[:create_time].getutc.iso8601 if obj[:create_time]
+        CRUD.set_audit_fields(json, obj)
 
         json
       end
