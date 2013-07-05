@@ -181,6 +181,8 @@ module JSONModel
 
     def self.http_conn
       @http ||= Net::HTTP::Persistent.new 'jsonmodel_client'
+      @http.read_timeout = 1200
+      @http
     end
 
 
@@ -488,7 +490,7 @@ module JSONModel
       def values_for(name)
         @enumerations.fetch(name)
       end
-      
+
       def default_value_for
         @enumerations[:defaults].fetch(name)
       end
