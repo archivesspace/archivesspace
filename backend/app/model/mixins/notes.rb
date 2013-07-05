@@ -6,10 +6,10 @@ module Notes
 
 
   def update_from_json(json, opts = {}, apply_linked_records = true)
-    self.class.apply_notes(json.notes, proc { |opts|
-                             super(json, opts, apply_linked_records)
-                           },
-                           opts.merge('notes_json_schema_version' => json.class.schema_version))
+    super(json,
+          opts.merge('notes' => JSON(json.notes),
+                     'notes_json_schema_version' => json.class.schema_version),
+          apply_linked_records)
   end
 
 
@@ -19,47 +19,19 @@ module Notes
       updated_notes.each do |note|
         note["publish"] = true
       end
+
+      self.notes = JSON(updated_notes)
     end
 
-    self.class.apply_notes(updated_notes, proc { |opts|
-                             old_notes = self.notes
-                             self.notes = opts['notes']
-                             result = super
-                             self.notes = old_notes
-
-                             result
-                           },
-                           {})
+    super
   end
+
 
   module ClassMethods
 
     def create_from_json(json, opts = {})
-      self.apply_notes(json.notes, proc { |opts|
-                         super(json, opts)
-                       },
-                       opts.merge('notes_json_schema_version' => json.class.schema_version))
-    end
-
-
-    def apply_notes(notes, super_callback, opts)
-      notes_blob = JSON(notes)
-
-      if notes_blob.length >= 8000
-        # We need to use prepared statement to store the notes blob once it gets
-        # large.  This is because Sequel uses string literals and some databases
-        # have an upper limit on how long they're allowed to be.
-
-        obj = super_callback.call(opts.merge('notes' => nil))
-
-        ps = self.dataset.where(:id => obj.id).prepare(:update, :update_notes, :notes => :$notes)
-        ps.call(:notes => DB.blobify(notes_blob))
-
-        obj
-      else
-        # Use the standard method for saving the notes (and avoid the extra update)
-        super_callback.call(opts.merge('notes' => notes_blob))
-      end
+      super(json, opts.merge('notes' => JSON(json.notes),
+                             'notes_json_schema_version' => json.class.schema_version))
     end
 
 

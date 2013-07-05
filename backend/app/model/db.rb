@@ -280,6 +280,10 @@ eof
   end
 
 
+  def self.needs_blob_hack?
+    (@pool.database_type == :derby)
+  end
+
   def self.blobify(s)
     (@pool.database_type == :derby) ? s.to_sequel_blob : s
   end
