@@ -124,7 +124,7 @@ case "$1" in
         ;;
     "")
         # Run in foreground mode
-        (cd $ASPACE_LAUNCHER_BASE; bash -c "$startup_cmd")
+        (cd $ASPACE_LAUNCHER_BASE; bash -c "$startup_cmd 2>&1 | tee 'logs/archivesspace.out'")
         ;;
     *)
         echo "Usage: $0 [start|stop]"

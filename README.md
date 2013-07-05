@@ -27,8 +27,12 @@ and for Windows:
      cd \path\to\archivesspace
      archivesspace.bat
 
-the system will log to the console as it starts up, and after a minute
-or so, you should be able to point your browser to
+This will start ArchivesSpace running in foreground mode (so it will
+shut down when you close your terminal window).  Log output will be
+written to the file `logs/archivesspace.out`.
+
+The first time it starts, the system will take a minute or so to start
+up.  Once it is ready, you should be able to point your browser to
 http://localhost:8080/ and access the ArchivesSpace application.
 
 
@@ -44,6 +48,32 @@ Then, you can create a new repository by selecting "Create a
 repository" from the drop-down menu at the top right hand side of the
 screen.  Once you have created a repository, you can log out and
 register new user accounts from the link in the log-in form.
+
+
+# Running ArchivesSpace as a Unix daemon
+
+The `archivesspace.sh` startup script doubles as an init script.  If
+you run:
+
+     archivesspace.sh start
+
+ArchivesSpace will run in the background as a daemon (logging to
+`logs/archivesspace.out` as before).  You can shut it down with:
+
+     archivesspace.sh stop
+
+You can even install it as a system-wide init script by creating a
+symbolic link:
+
+     cd /etc/init.d
+     ln -s /path/to/your/archivesspace/archivesspace.sh archivesspace
+
+Then use the appropriate tool for your distribution to set up the
+run-level symbolic links (such as `chkconfig` for RedHat or
+`update-rc.d` for Debian-based distributions).
+
+Note that you may want to edit archivesspace.sh to set the account
+that the system runs under, JVM options, and so on.
 
 
 # Running ArchivesSpace with a custom configuration file
