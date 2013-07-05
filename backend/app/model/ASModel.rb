@@ -52,6 +52,33 @@ module ASModel
     end
 
 
+    def remove_nested_records
+      self.class.nested_records.each do |nested_record_defn|
+        if [:one_to_one, :one_to_many].include?(nested_record_defn[:association][:type])
+          # If the current record "owns" its nested record, delete the nested record.
+          model = Kernel.const_get(nested_record_defn[:association][:class_name])
+
+          # Tell the nested record to clear its own nested records
+          Array(self.send(nested_record_defn[:association][:name])).each do |nested_record|
+            nested_record.remove_nested_records
+          end
+
+          # Now delete all nested objects
+          dataset = self.send("#{nested_record_defn[:association][:name]}_dataset")
+          model.prepare_for_deletion(dataset)
+          dataset.delete
+        elsif nested_record_defn[:association][:type] === :many_to_many
+          # Just remove the links
+          self.send("remove_all_#{nested_record_defn[:association][:name]}".intern)
+        elsif nested_record_defn[:association][:type] === :many_to_one
+          # Just remove the link
+          self.send("#{nested_record_defn[:association][:name].intern}=", nil)
+        end
+      end
+    end
+
+
+
     def update_from_json(json, extra_values = {}, apply_nested_records = true)
 
       if self.values.has_key?(:suppressed)
@@ -101,10 +128,7 @@ module ASModel
     # Delete the current record using Sequel's delete method, but clean up
     # dependencies first.
     def delete
-      self.class.nested_records.each do |nested_record|
-        self.class.remove_existing_nested_records(self, nested_record)
-      end
-
+      self.remove_nested_records
       self.class.prepare_for_deletion(self.class.where(:id => self.id))
 
       super
@@ -278,11 +302,10 @@ module ASModel
       # delete the object once it becomes unreferenced.
       #
       def apply_linked_database_records(obj, json, new_record = false)
+
+        obj.remove_nested_records if !new_record
+
         nested_records.each do |nested_record|
-
-          # Remove the existing nested records
-          remove_existing_nested_records(obj, nested_record) if !new_record
-
           # Read the subrecords from our JSON blob and fetch or create
           # the corresponding subrecord from the database.
           model = Kernel.const_get(nested_record[:association][:class_name])
@@ -371,35 +394,6 @@ module ASModel
           end
 
           json[nested_record[:json_property]] = is_array ? updated_records : updated_records[0]
-        end
-      end
-
-
-      def remove_existing_nested_records(obj, record)
-        model = Kernel.const_get(record[:association][:class_name])
-
-        # now remove this record from the object
-        if [:one_to_one, :one_to_many].include?(record[:association][:type])
-
-          # remove all sub records from the object first to avoid an integrity constraints
-          model.nested_records.each do |nested_record|
-            (obj.send(record[:association][:name]) || []).each do |sub_obj|
-              remove_existing_nested_records(sub_obj, nested_record)
-            end
-          end
-
-          # Delete any relationships involving the objects from the other table (since we're about to delete them)
-          dataset = obj.send("#{record[:association][:name]}_dataset")
-          model.prepare_for_deletion(dataset)
-
-          # Delete the objects from the other table
-          dataset.delete
-        elsif record[:association][:type] === :many_to_many
-          # Just remove the links
-          obj.send("remove_all_#{record[:association][:name]}".intern)
-        elsif record[:association][:type] === :many_to_one
-          # Just remove the link
-          obj.send("#{record[:association][:name].intern}=", nil)
         end
       end
 
