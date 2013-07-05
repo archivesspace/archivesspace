@@ -6,7 +6,7 @@
     "properties" => {
 
       "scope" => {"type" => "string", "dynamic_enum" => "deaccession_scope", "ifmissing" => "error"},
-      "description" => {"type" => "string", "maxLength" => 255, "minLength" => 1, "ifmissing" => "error"},
+      "description" => {"type" => "string", "maxLength" => 65000, "minLength" => 1, "ifmissing" => "error"},
 
       "reason" => {"type" => "string", "maxLength" => 65000},
       "disposition" => {"type" => "string", "maxLength" => 65000},
