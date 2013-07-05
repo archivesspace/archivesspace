@@ -10,13 +10,13 @@ module URIResolver
 
     if value.is_a? Hash
       if value.has_key?('ref') && properties_to_resolve == :all
-        _resolve_reference(value, env)
+        resolve_reference(value, env)
       else
         result = value.clone
 
         value.each do |k, v|
           if properties_to_resolve.is_a?(Array) && properties_to_resolve.include?(k)
-            result[k] = (v.is_a? Array) ? v.map {|elt| _resolve_reference(elt, env)} : _resolve_reference(v, env)
+            result[k] = (v.is_a? Array) ? v.map {|elt| resolve_reference(elt, env)} : resolve_reference(v, env)
           else
             result[k] = resolve_references(v, properties_to_resolve, env)
           end
@@ -133,7 +133,7 @@ module URIResolver
   private
 
 
-  def self._resolve_reference(reference, env)
+  def self.resolve_reference(reference, env)
     if !reference.is_a?(Hash) || !reference.has_key?('ref')
       return reference
     end

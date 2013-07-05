@@ -132,14 +132,18 @@ module RESTHelpers
     end
 
 
-    def _process_params(params)
-      params.map do |p|
-        @@param_types[p[1]] ? [p[0], @@param_types[p[1]]].flatten : p
-      end
-    end
-
     def params(*params)
-      @required_params = _process_params(params)
+      @required_params = params.map do |p|
+        param_name, param_type = p
+
+        if @@param_types[param_type]
+          # This parameter type has a standard definition
+          defn = @@param_types[param_type]
+          [param_name, *defn]
+        else
+          p
+        end
+      end
 
       self
     end
