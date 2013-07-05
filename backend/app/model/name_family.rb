@@ -2,10 +2,7 @@ class NameFamily < Sequel::Model(:name_family)
   include ASModel
   corresponds_to JSONModel(:name_family)
 
-  include NameMixin
-
-
-
+  include AgentNames
   include AutoGenerator
 
   auto_generate :property => :sort_name,

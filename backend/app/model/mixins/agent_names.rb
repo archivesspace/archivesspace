@@ -1,4 +1,4 @@
-module NameMixin
+module AgentNames
 
   def self.included(base)
     base.set_model_scope :global
