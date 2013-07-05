@@ -2,7 +2,7 @@
 # objects, digital object components)
 require 'securerandom'
 
-module Orderable
+module TreeNodes
 
   def self.included(base)
     base.extend(ClassMethods)
@@ -156,7 +156,7 @@ module Orderable
 
   module ClassMethods
 
-    def orderable_root_record_type(root, node)
+    def tree_record_types(root, node)
       @root_record_type = root.to_s
       @node_record_type = node.to_s
     end

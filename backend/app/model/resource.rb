@@ -21,7 +21,7 @@ class Resource < Sequel::Model(:resource)
   include ComponentsAddChildren
   include Classifications
 
-  orderable_root_record_type :resource, :archival_object
+  tree_record_types :resource, :archival_object
 
   agent_relator_enum("linked_agent_archival_record_relators")
 
