@@ -48,13 +48,11 @@ module JSONModel
 
 
   def self.JSONModel(source)
-    # Checks if a model exists first; returns the model class
-    # if it exists; returns false if it doesn't exist.
     if !@@models.has_key?(source.to_s)
       load_schema(source.to_s)
     end
 
-    @@models[source.to_s] || false
+    @@models[source.to_s] or raise "JSONModel not found for #{source}"
   end
 
 

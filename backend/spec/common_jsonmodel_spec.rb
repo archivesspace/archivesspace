@@ -171,27 +171,21 @@ describe 'JSON model' do
 
 
   it "returns false if you ask for a model that doesn't exist" do
-
-    JSONModel(:not_a_real_model).should eq false
-
+    expect { JSONModel(:not_a_real_model) }.to raise_error
   end
 
 
   it "can give a string representation of itself" do
-
     JSONModel(:testschema).to_s.should eq "JSONModel(:testschema)"
-
   end
 
 
   it "can give a string representation of an instance" do
-
     ts = JSONModel(:testschema).from_hash({
                                             "elt_0" => "helloworld",
                                             "elt_1" => "thisisatest"
                                           })
     ts.to_s.should match /\#<JSONModel\(:testschema\).*"elt_0"=>"helloworld".*>/
-
   end
 
 
