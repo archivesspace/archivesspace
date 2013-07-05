@@ -48,16 +48,18 @@ class User < Sequel::Model(:user)
       # fine.
     end
 
-    admins = Group.any_repo[:group_code => Group.ADMIN_GROUP_CODE]
+    RequestContext.in_global_repo do
+      admins_group = Group.this_repo[:group_code => Group.ADMIN_GROUP_CODE]
 
-    if admins
-      if json.is_admin
-        admins.add_user(obj)
-      else
-        admins.remove_user(obj)
+      if admins_group
+        if json.is_admin
+          admins_group.add_user(obj)
+        else
+          admins_group.remove_user(obj)
+        end
+
+        self.broadcast_changes
       end
-
-      self.broadcast_changes
     end
   end
 
