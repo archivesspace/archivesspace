@@ -38,7 +38,7 @@ module ASModel
       self.class.nested_records.each do |nested_record_defn|
         association = nested_record_defn[:association][:name]
         Array(self.send(association)).each do |nested_record|
-          nested_record.transfer_to_repository(target_repository)
+          nested_record.transfer_to_repository(target_repository, transfer_group + [self])
         end
       end
     end
