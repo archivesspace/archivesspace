@@ -9,14 +9,14 @@ module ASModel
 
     def transfer_to_repository(target_repository, transfer_group = [])
 
-      if self.values.has_key?(:repo_id)
+      if self.class.columns.include?(:repo_id)
         old_uri = self.uri
 
         source_repository = Repository[self.repo_id]
 
-        self.repo_id = target_repository.id
-        self.system_mtime = Time.now
-        save(:repo_id, :system_mtime)
+        # Do the update in the cheapest way possible (bypassing save hooks, etc.)
+        self.class.filter(:id => self.id).update(:repo_id => target_repository.id,
+                                                 :system_mtime => Time.now)
 
         # Mark the (now changed) URI as deleted
         if old_uri
