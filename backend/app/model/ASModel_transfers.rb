@@ -37,7 +37,10 @@ module ASModel
       # Tell any nested records to transfer themselves too
       self.class.nested_records.each do |nested_record_defn|
         association = nested_record_defn[:association][:name]
-        Array(self.send(association)).each do |nested_record|
+        association_dataset = self.send("#{association}_dataset".intern)
+        nested_model = Kernel.const_get(nested_record_defn[:association][:class_name])
+
+        association_dataset.select(Sequel.qualify(nested_model.table_name, :id)).all.each do |nested_record|
           nested_record.transfer_to_repository(target_repository, transfer_group + [self])
         end
       end
