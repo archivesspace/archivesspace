@@ -145,20 +145,20 @@ class ApplicationController < ActionController::Base
 
 
   def user_must_have(permission)
-    render_403 if !session['user'] || !user_can?(permission)
+    unauthorised_access if !session['user'] || !user_can?(permission)
   end
 
 
   def user_needs_to_be_a_user
-    render_403 if not session['user']
+    unauthorised_access if not session['user']
   end
   
   def user_needs_to_be_a_user_manager
-    render_403 if not user_can? 'manage_users'
+    unauthorised_access if not user_can? 'manage_users'
   end
   
   def user_needs_to_be_a_user_manager_or_new_user
-    render_403 if session['user'] and not user_can? 'manage_users'
+    unauthorised_access if session['user'] and not user_can? 'manage_users'
   end
 
 
@@ -238,7 +238,7 @@ class ApplicationController < ActionController::Base
 
   def account_self_service
     if !AppConfig[:allow_user_registration] && session[:user].nil?
-      render_403
+      unauthorised_access
     end
   end
 
