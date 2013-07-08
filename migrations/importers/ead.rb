@@ -67,9 +67,12 @@ ASpaceImport::Importer.importer :ead do
       make :date, {
         :date_type => att('type') || 'inclusive',
         :expression => inner_xml,
-        :label => 'other',
-        # :begin => norm_dates[0], 
-        # :end => norm_dates[1]
+        :label => 'creation',
+        :begin => norm_dates[0],
+        :end => norm_dates[1],
+        :calendar => att('calendar'),
+        :era => att('era'),
+        :certainty => att('certainty')
       } do |date|
         set ancestor(:resource, :archival_object), :dates, date
       end
