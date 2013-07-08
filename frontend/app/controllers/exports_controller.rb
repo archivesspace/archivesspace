@@ -53,8 +53,6 @@ class ExportsController < ApplicationController
 
   def download_export(request_uri, file_prefix, file_ext = 'xml')
 
-    request_uri = "#{AppConfig[:backend_url]}#{request_uri}"
-
     mime = case file_ext
              when 'tsv' then 'text/tab-separated-values'
              else
