@@ -29,8 +29,6 @@ class ApplicationController < ActionController::Base
 
   before_filter :unauthorised_access
 
-  before_filter :sanitize_params
-
   def self.set_access_control(permission_mappings)
     skip_before_filter :unauthorised_access, :only => Array(permission_mappings.values).flatten.uniq
 
@@ -230,19 +228,6 @@ class ApplicationController < ActionController::Base
         session[:last_permission_refresh] < MemoryLeak::Resources.get(:acl_system_mtime)
       User.refresh_permissions(session)
     end
-  end
-
-
-  def sanitize_param(hash)
-    hash.clone.each do |k,v|
-      hash[k.sub("_attributes","")] = v if k.end_with?("_attributes")
-      sanitize_param(v) if v.kind_of? Hash
-    end
-  end
-
-
-  def sanitize_params
-    sanitize_param(params)
   end
 
 
