@@ -31,8 +31,6 @@ class AccessionsController < ApplicationController
     if @accession.suppressed
       redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
     end
-
-    return render :partial => "accessions/edit_inline" if params[:inline]
   end
 
   def transfer
