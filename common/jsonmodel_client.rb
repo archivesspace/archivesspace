@@ -53,9 +53,6 @@ module JSONModel
   end
 
 
-  @@protected_fields << "uri"
-
-
   module Notification
     @@notification_handlers = []
 
