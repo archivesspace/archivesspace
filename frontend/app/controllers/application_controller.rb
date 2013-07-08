@@ -18,10 +18,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  before_filter :determine_browser_support
-
   # Note: This should be first!
   before_filter :store_user_session
+
+  before_filter :determine_browser_support
 
   before_filter :refresh_permissions
 
