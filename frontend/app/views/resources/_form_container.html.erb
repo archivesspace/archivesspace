@@ -44,13 +44,13 @@
           <%= form.label_and_textfield "ead_id" %>
           <%= form.label_and_textfield "ead_location" %>
           <hr/>
-          <%= form.label_and_textfield "finding_aid_title" %>
-          <%= form.label_and_textfield "finding_aid_filing_title" %>
+          <%= form.label_and_textarea "finding_aid_title" %>
+          <%= form.label_and_textarea "finding_aid_filing_title" %>
           <%= form.label_and_textfield "finding_aid_date" %>
-          <%= form.label_and_textfield "finding_aid_author" %>
+          <%= form.label_and_textarea "finding_aid_author" %>
           <%= form.label_and_select "finding_aid_description_rules", form.possible_options_for("finding_aid_description_rules", true) %>
           <%= form.label_and_textfield "finding_aid_language" %>
-          <%= form.label_and_textfield "finding_aid_sponsor" %>
+          <%= form.label_and_textarea "finding_aid_sponsor" %>
           <%= form.label_and_textarea "finding_aid_edition_statement" %>
           <%= form.label_and_textarea "finding_aid_series_statement" %>
           <%= form.label_and_textfield "finding_aid_revision_date" %>
