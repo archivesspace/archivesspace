@@ -52,6 +52,8 @@ class ArchivesSpaceBackup
           end
         end
 
+        outfile.close
+
         if $? == 0
           return outfile
         end
