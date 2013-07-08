@@ -146,21 +146,6 @@ class ApplicationController < ActionController::Base
   end
 
 
-  def selected_page
-    if params["page"]
-      page = Integer(params["page"])
-      if page < 0
-        raise "Invalid page value"
-      end
-
-      page
-    else
-      # Default to showing the first page
-      1
-    end
-  end
-
-
   def user_must_have(permission)
     render_403 if !session['user'] || !user_can?(permission)
   end
