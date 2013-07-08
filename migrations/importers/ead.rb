@@ -405,7 +405,7 @@ ASpaceImport::Importer.importer :ead do
           make :subject, {
             :terms => {'term' => inner_xml, 'term_type' => type, 'vocabulary' => '/vocabularies/1'},
             :vocabulary => '/vocabularies/1',
-            :source => att('source')
+            :source => att('source') || 'ingest'
           } do |subject|
             set ancestor(:resource, :archival_object), :subjects, {'ref' => subject.uri}
           end
@@ -446,8 +446,8 @@ ASpaceImport::Importer.importer :ead do
 
     make :name_corporate_entity, {
       :primary_name => inner_xml,
-      :rules => att('rules') || 'local',
-      :source => att('source') || 'local'
+      :rules => att('rules'),
+      :source => att('source') || 'ingest'
     } do |name|
       set ancestor(:agent_corporate_entity), :names, proxy
     end
@@ -463,8 +463,8 @@ ASpaceImport::Importer.importer :ead do
 
     make :name_family, {
       :family_name => inner_xml,
-      :rules => att('rules') || 'local',
-      :source => att('source') || 'local'
+      :rules => att('rules'),
+      :source => att('source') || 'ingest'
     } do |name|
       set ancestor(:agent_family), :names, name
     end
@@ -479,10 +479,10 @@ ASpaceImport::Importer.importer :ead do
     end
 
     make :name_person, {
-      :name_order => 'direct',
+      :name_order => 'inverted',
       :primary_name => inner_xml,
-      :rules => att('rules') || 'local',
-      :source => att('source') || 'local'
+      :rules => att('rules'),
+      :source => att('source') || 'ingest'
     } do |name|
       set ancestor(:agent_person), :names, name
     end
