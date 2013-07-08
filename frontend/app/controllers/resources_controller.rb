@@ -117,7 +117,7 @@ class ResourcesController < ApplicationController
     if params[:archival_record_children].blank? or params[:archival_record_children]["children"].blank?
 
       @archival_record_children = ResourceChildren.new
-      flash.now[:error] = "No rows entered"
+      flash.now[:error] = I18n.t("rde.messages.no_rows")
 
     else
       children_data = cleanup_params_for_schema(params[:archival_record_children], JSONModel(:archival_record_children).schema)
