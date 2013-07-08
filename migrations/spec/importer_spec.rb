@@ -25,13 +25,13 @@ describe "ASpaceImport::Importer" do
 
   describe "ASpaceImport::Importer::EadImporter" do
 
-    it "should be able to manaage empty tags" do
+    it "should be able to manage empty tags" do
 
       doc1_src = <<ANEAD
 
 <c id="1" level="file">
   <unittitle>oh well</unittitle>
-  <container id="cid1" type="Box" label="Text"></container>
+  <container id="cid1" type="Box" label="Text">1</container>
   <container parent="cid2" type="Folder"></container>
   <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
   <c id="2" level="file">
@@ -64,7 +64,7 @@ ANEAD
 
       batch = JSON.parse(b)
       batch.length.should eq(2)
-      batch.find{|r| r['ref_id'] == '1'}['instances'][0]['container']['type_1'].should eq('Box')
+      batch.find{|r| r['ref_id'] == '1'}['instances'][0]['container']['type_2'].should eq('Folder')
     end
   end
 

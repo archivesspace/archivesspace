@@ -366,10 +366,10 @@ Sequel.migration do
       TextField :finding_aid_title
       TextField :finding_aid_filing_title
       String :finding_aid_date
-      String :finding_aid_author
+      TextField :finding_aid_author
       DynamicEnum :finding_aid_description_rules_id
       String :finding_aid_language
-      String :finding_aid_sponsor
+      TextField :finding_aid_sponsor
       TextField :finding_aid_edition_statement
       TextField :finding_aid_series_statement
       String :finding_aid_revision_date
