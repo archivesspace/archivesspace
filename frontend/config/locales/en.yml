@@ -171,6 +171,10 @@ en:
     list_reports: Reports
     global_admin: System
 
+  session:
+    gone: Your backend session was not found
+    expired: Your session expired due to inactivity
+
   batch_delete:
     archival_records:
       success: Records deleted
