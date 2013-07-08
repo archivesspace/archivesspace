@@ -14,7 +14,7 @@
       </ul>
     </li>
   <% end %>
-  <li class="dropdown">
+  <li class="dropdown system-menu">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("navbar.global_admin") %> <b class="caret"></b></a>
     <ul class="dropdown-menu">
       <% if user_can?('create_repository') || user_can?('manage_users') %>
