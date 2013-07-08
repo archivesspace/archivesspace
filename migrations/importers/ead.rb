@@ -155,7 +155,7 @@ ASpaceImport::Importer.importer :ead do
 
 
     with 'indexentry/ref' do
-      context_obj.items << {:refernce_text => inner_xml}
+      context_obj.items << {:reference_text => inner_xml}
     end
 
 
@@ -171,6 +171,7 @@ ASpaceImport::Importer.importer :ead do
           :persistent_id => att('id'),
           :subnotes => {
             'jsonmodel_type' => 'note_text',
+            # TODO: strip first <head/> tag
             'content' => inner_xml
           }
         } do |note|
@@ -185,6 +186,7 @@ ASpaceImport::Importer.importer :ead do
         make :note_singlepart, {
           :type => note,
           :persistent_id => att('id'),
+          # TODO: strip first <head/> tag
           :content => inner_xml
         } do |note|
           set ancestor(:resource, :archival_object), :notes, note
