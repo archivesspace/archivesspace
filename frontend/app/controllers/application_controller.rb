@@ -233,15 +233,6 @@ class ApplicationController < ActionController::Base
   end
 
 
-  def choose_layout
-    if inline?
-      nil
-    else
-      'application'
-    end
-  end
-
-
   def sanitize_param(hash)
     hash.clone.each do |k,v|
       hash[k.sub("_attributes","")] = v if k.end_with?("_attributes")
