@@ -8,7 +8,7 @@ class EventsController < ApplicationController
 
 
   def index
-    @search_data = Search.for_type(session[:repo_id], "event", search_params.merge({"facet[]" => SearchResultData.EVENT_FACETS}))
+    @search_data = Search.for_type(session[:repo_id], "event", params_for_backend_search.merge({"facet[]" => SearchResultData.EVENT_FACETS}))
   end
 
   def show

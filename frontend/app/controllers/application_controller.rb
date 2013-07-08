@@ -346,7 +346,7 @@ class ApplicationController < ActionController::Base
                                           coerce_integers])
   end
 
-  def search_params
+  def params_for_backend_search
     params_for_search = params.select{|k,v| ["page", "q", "type", "sort", "exclude", "filter_term"].include?(k) and not v.blank?}
 
     params_for_search["page"] ||= 1

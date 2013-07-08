@@ -109,32 +109,6 @@ module ApplicationHelper
     params[:inline] === "true"
   end
 
-  def params_for_search(opts = {})
-    search_params = {}
-
-    search_params["filter_term"] = Array(opts["filter_term"] || params["filter_term"]).clone
-    search_params["filter_term"].concat(Array(opts["add_filter_term"])) if opts["add_filter_term"]
-    search_params["filter_term"] = search_params["filter_term"].reject{|f| Array(opts["remove_filter_term"]).include?(f)} if opts["remove_filter_term"]
-
-    search_params["sort"] = opts["sort"] || params["sort"]
-
-    if (opts["format"] || params["format"]).blank?
-      search_params.delete("format")
-    else
-      search_params["format"] =  opts["format"] || params["format"]
-    end
-
-    search_params["linker"] = opts["linker"] || params["linker"] || false
-    search_params["type"] = opts["type"] || params["type"]
-    search_params["facets"] = opts["facets"] || params["facets"]
-    search_params["exclude"] = opts["exclude"] || params["exclude"]
-    search_params["listing_only"] = true if params["listing_only"]
-    search_params["include_components"] = opts.has_key?("include_components") ? opts["include_components"] : params["include_components"]
-
-    search_params["q"] = opts["q"] || params["q"]
-
-    search_params.reject{|k,v| k.blank? or v.blank?}
-  end
 
   def current_repo
     return nil if session[:repo].blank?

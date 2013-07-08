@@ -10,7 +10,7 @@ class ClassificationsController < ApplicationController
 
 
   def index
-    @search_data = Search.for_type(session[:repo_id], "classification", search_params.merge({"facet[]" => SearchResultData.CLASSIFICATION_FACETS}))
+    @search_data = Search.for_type(session[:repo_id], "classification", params_for_backend_search.merge({"facet[]" => SearchResultData.CLASSIFICATION_FACETS}))
   end
 
   def show

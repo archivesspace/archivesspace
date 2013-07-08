@@ -10,19 +10,19 @@
       <% end %>
       <% if show_record_type? %>
         <th class="col record-type sortable <% if @search_data.sorted_by === "primary_type"%>sort-<%= @search_data.current_sort_direction %><% end %>">
-          <%= link_to I18n.t("search_results.result_type"), params_for_search("sort" => @search_data.sort_filter_for("primary_type")) %>
+          <%= link_to I18n.t("search_results.result_type"), build_search_params("sort" => @search_data.sort_filter_for("primary_type")) %>
         </th>
       <% end %>
       <% if show_title_column? %>
         <th class="col title sortable <% if @search_data.sorted_by === "title_sort"%>sort-<%= @search_data.current_sort_direction %><% end %>">
-          <%= link_to title_column_header_label, params_for_search("sort" => @search_data.sort_filter_for("title_sort")) %>
+          <%= link_to title_column_header_label, build_search_params("sort" => @search_data.sort_filter_for("title_sort")) %>
         </th>
       <% end %>
       <% if extra_columns? %>
         <% extra_columns.each do |col| %>
           <th class="<%= col.class %>">
             <% if col.sortable? %>
-              <%= link_to col.label, params_for_search("sort" => @search_data.sort_filter_for(col.sort_by)) %>
+              <%= link_to col.label, build_search_params("sort" => @search_data.sort_filter_for(col.sort_by)) %>
             <% else %>
               <%= col.label %>
             <% end %>
