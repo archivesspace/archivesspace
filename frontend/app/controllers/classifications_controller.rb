@@ -112,9 +112,9 @@ class ClassificationsController < ApplicationController
       end
     end
 
-    parse_tree(JSONModel(:classification_tree).find(nil, :classification_id => params[:id], :limit_to => limit_to).to_hash(:validated), nil, proc {|node, parent|
+    parse_tree(JSONModel(:classification_tree).find(nil, :classification_id => params[:id], :limit_to => limit_to).to_hash(:validated), nil) do |node, parent|
       tree["#{node["node_type"]}_#{node["id"]}"] = node.merge("children" => node["children"].collect{|child| "#{child["node_type"]}_#{child["id"]}"})
-    })
+    end
 
     tree
   end

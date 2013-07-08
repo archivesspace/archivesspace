@@ -187,7 +187,7 @@ class ResourcesController < ApplicationController
       end
     end
 
-    parse_tree(JSONModel(:resource_tree).find(nil, :resource_id => params[:id], :limit_to => limit_to).to_hash(:validated), nil, proc {|node, parent|
+    parse_tree(JSONModel(:resource_tree).find(nil, :resource_id => params[:id], :limit_to => limit_to).to_hash(:validated), nil) do |node, parent|
       node['level'] = I18n.t("enumerations.archival_record_level.#{node['level']}", :default => node['level'])
       node['instance_types'] = node['instance_types'].map{|instance_type| I18n.t("enumerations.instance_instance_type.#{instance_type}", :default => instance_type)}
       node['containers'].each{|container|
@@ -197,7 +197,7 @@ class ResourcesController < ApplicationController
       }
       node['parent'] = "#{parent["node_type"]}_#{parent["id"]}" if parent
       tree["#{node["node_type"]}_#{node["id"]}"] = node.merge("children" => node["children"].collect{|child| "#{child["node_type"]}_#{child["id"]}"})
-    })
+    end
 
     tree
   end

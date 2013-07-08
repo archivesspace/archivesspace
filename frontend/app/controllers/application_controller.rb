@@ -369,9 +369,9 @@ class ApplicationController < ActionController::Base
     params_for_search
   end
 
-  def parse_tree(node, parent, proc)
-    node['children'].map{|child_node| parse_tree(child_node, node, proc)} if node['children']
-    proc.call(node, parent)
+  def parse_tree(node, parent, &block)
+    node['children'].map{|child_node| parse_tree(child_node, node, &block)} if node['children']
+    block.call(node, parent)
   end
 
 
