@@ -301,7 +301,7 @@ ASpaceImport::Importer.importer :ead do
       (1..3).to_a.each do |i|
         next unless cont["type_#{i}"].nil?
         cont["type_#{i}"] = att('type')
-        cont["indicator_#{i}"] = att('id')
+        cont["indicator_#{i}"] = inner_xml
         break
       end
     end

@@ -683,8 +683,8 @@ describe 'ASpaceImport' do
     it "maps '<container>' correctly" do
       i = @archival_objects['02']['instances'][0]
       i['instance_type'].should eq('mixed_materials')
-      i['container']['indicator_1'].should eq('cid2')
-      i['container']['indicator_2'].should be_nil
+      i['container']['indicator_1'].should eq('2')
+      i['container']['indicator_2'].should eq('2')
     #   @type
       i['container']['type_1'].should eq('Box')
       i['container']['type_2'].should eq('Folder')
