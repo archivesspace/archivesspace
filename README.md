@@ -226,7 +226,7 @@ prompted).
 
 If you are using the demo database, your backup `.zip` file will
 contain a directory called `demo_db_backups`.  Each subdirectory of
-`demo\_db\_backups` contains a backup of the demo database.  To
+`demo_db_backups` contains a backup of the demo database.  To
 restore from a backup, copy its `archivesspace_demo_db` directory back
 to your ArchivesSpace data directory.  For example:
 
@@ -258,13 +258,13 @@ To restore these directories from backup:
 
 For example:
 
-  mkdir -p /path/to/archivesspace/data/solr_index
+     mkdir -p /path/to/archivesspace/data/solr_index
 
-  cp -a /unpacked/zip/solr.backup-26475-1373323208/snapshot.20130709084008464 \ 
-        /path/to/archivesspace/data/solr_index/index
+     cp -a /unpacked/zip/solr.backup-26475-1373323208/snapshot.20130709084008464 \ 
+           /path/to/archivesspace/data/solr_index/index
 
-  cp -a /unpacked/zip/solr.backup-26475-1373323208/indexer_state \ 
-        /path/to/archivesspace/data/
+     cp -a /unpacked/zip/solr.backup-26475-1373323208/indexer_state \ 
+           /path/to/archivesspace/data/
 
 
 
