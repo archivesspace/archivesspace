@@ -442,7 +442,7 @@ ASpaceExport::model :marc21 do
     extents.each do |ext|
       e = ext['number']
       # e << " (#{ext['portion']})" if ext['portion']
-      e << " #{I18n.t('enumerations.extent_extent_type.'+ext['extent_type'])}"
+      e << " #{I18n.t('enumerations.extent_extent_type.'+ext['extent_type'], :default => ext['extent_type'])}"
       df('300').with_sfs(['a', e])
     end
   end
