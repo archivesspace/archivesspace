@@ -18,32 +18,8 @@ class SearchController < ApplicationController
         end
       }
       format.html {
-        store_search
       }
     end
-  end
-
-  private
-
-  RECENT_SEARCH_LIMIT = 5
-
-  def store_search
-    session[:recent_searches] ||= {}
-    session[:recent_searches_index] ||= 0
-
-    token = params["search_token"] if params.has_key?("search_token")
-
-    if token.nil?
-      session[:recent_searches_index] = session[:recent_searches_index] + 1
-      token = session[:recent_searches_index]
-    end
-
-    session[:recent_searches][token] = params.clone.merge({ :timestamp => Time.now })
-
-    # expire old searches
-    session[:recent_searches].delete_if {|k, v| k < token - RECENT_SEARCH_LIMIT }
-
-    @search_data["search_token"] = token
   end
 
 end
