@@ -21,7 +21,5 @@
       "email_signature" => {"type" => "string", "maxLength" => 65000},
       "note" => {"type" => "string", "maxLength" => 65000},
     },
-
-    "additionalProperties" => false,
   },
 }

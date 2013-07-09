@@ -9,7 +9,5 @@
       "subqueries" => {"type" => ["JSONModel(:boolean_query) object", "JSONModel(:field_query) object"], "ifmissing" => "error", "minItems" => 1},
 
     },
-
-    "additionalProperties" => false,
   },
 }

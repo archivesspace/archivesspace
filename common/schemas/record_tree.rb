@@ -12,6 +12,5 @@
       "has_children" => {"type" => "boolean", "readonly" => true},
       "node_type" => {"type" => "string", "maxLength" => 255},
     },
-    "additionalProperties" => false,
   },
 }

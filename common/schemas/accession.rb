@@ -151,7 +151,5 @@
       "instances" => {"type" => "array", "items" => {"type" => "JSONModel(:instance) object"}},
 
     },
-
-    "additionalProperties" => false,
   },
 }

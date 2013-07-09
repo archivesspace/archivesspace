@@ -10,7 +10,5 @@
       "from" => {"type" => "string", "ifmissing" => "error"},
       "to" => {"type" => "string", "ifmissing" => "error"},
     },
-
-    "additionalProperties" => false,
   },
 }

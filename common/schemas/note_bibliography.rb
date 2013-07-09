@@ -25,7 +25,5 @@
         "items" => {"type" => "string", "maxLength" => 65000}
       },
     },
-
-    "additionalProperties" => false,
   },
 }

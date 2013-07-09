@@ -11,7 +11,5 @@
       "description" => {"type" => "string", "maxLength" => 65000, "ifmissing" => "error", "minLength" => 1},
       "level" => {"type" => "string", "ifmissing" => "error", "enum" => ["repository", "global"]},
     },
-
-    "additionalProperties" => false,
   },
 }

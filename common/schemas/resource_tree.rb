@@ -15,6 +15,5 @@
         "items" => { "type" => "JSONModel(:resource_tree) object" }
       }
     },
-    "additionalProperties" => false,
   },
 }

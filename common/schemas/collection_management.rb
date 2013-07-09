@@ -31,7 +31,5 @@
       "rights_determined" => {"type" => "boolean", "default" => false},
 
     },
-
-    "additionalProperties" => false
   }
 }

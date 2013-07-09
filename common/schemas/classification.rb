@@ -6,6 +6,5 @@
     "parent" => "abstract_classification",
     "uri" => "/repositories/:repo_id/classifications",
     "properties" => {},
-    "additionalProperties" => false,
   },
 }

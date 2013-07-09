@@ -10,7 +10,5 @@
       "version" => {"type" => "string", "maxLength" => 65000},
       "manufacturer" => {"type" => "string", "maxLength" => 65000},
     },
-
-    "additionalProperties" => false,
   },
 }

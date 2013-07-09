@@ -10,7 +10,5 @@
       "reference" => {"type" => "string", "maxLength" => 65000},
       "reference_text" => {"type" => "string", "maxLength" => 65000},
     },
-     
-    "additionalProperties" => false,
   }
 }

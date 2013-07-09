@@ -15,7 +15,5 @@
         "readonly" => "true"
       }
     },
-
-    "additionalProperties" => false,
   },
 }

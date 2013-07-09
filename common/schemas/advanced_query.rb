@@ -8,7 +8,5 @@
       "query" => {"type" => ["JSONModel(:boolean_query) object", "JSONModel(:field_query) object"]},
 
     },
-
-    "additionalProperties" => false,
   },
 }

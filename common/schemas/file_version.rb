@@ -22,7 +22,5 @@
       "checksum_method" => {"type" => "string", "dynamic_enum" => "file_version_checksum_methods"},
 
     },
-
-    "additionalProperties" => false
   },
 }
