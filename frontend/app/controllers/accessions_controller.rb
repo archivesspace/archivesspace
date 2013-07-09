@@ -12,7 +12,7 @@ class AccessionsController < ApplicationController
 
 
   def index
-    @search_data = Search.for_type(session[:repo_id], "accession", search_params.merge({"facet[]" => SearchResultData.ACCESSION_FACETS}))
+    @search_data = Search.for_type(session[:repo_id], "accession", params_for_backend_search.merge({"facet[]" => SearchResultData.ACCESSION_FACETS}))
   end
 
   def show
@@ -31,8 +31,6 @@ class AccessionsController < ApplicationController
     if @accession.suppressed
       redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
     end
-
-    return render :partial => "accessions/edit_inline" if params[:inline]
   end
 
   def transfer

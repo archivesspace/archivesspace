@@ -10,7 +10,7 @@ class ResourcesController < ApplicationController
 
 
   def index
-    @search_data = Search.for_type(session[:repo_id], params[:include_components]==="true" ? ["resource", "archival_object"] : "resource", search_params.merge({"facet[]" => SearchResultData.RESOURCE_FACETS}))
+    @search_data = Search.for_type(session[:repo_id], params[:include_components]==="true" ? ["resource", "archival_object"] : "resource", params_for_backend_search.merge({"facet[]" => SearchResultData.RESOURCE_FACETS}))
   end
 
   def show
@@ -117,7 +117,7 @@ class ResourcesController < ApplicationController
     if params[:archival_record_children].blank? or params[:archival_record_children]["children"].blank?
 
       @archival_record_children = ResourceChildren.new
-      flash.now[:error] = "No rows entered"
+      flash.now[:error] = I18n.t("rde.messages.no_rows")
 
     else
       children_data = cleanup_params_for_schema(params[:archival_record_children], JSONModel(:archival_record_children).schema)
@@ -187,7 +187,7 @@ class ResourcesController < ApplicationController
       end
     end
 
-    parse_tree(JSONModel(:resource_tree).find(nil, :resource_id => params[:id], :limit_to => limit_to).to_hash(:validated), nil, proc {|node, parent|
+    parse_tree(JSONModel(:resource_tree).find(nil, :resource_id => params[:id], :limit_to => limit_to).to_hash(:validated), nil) do |node, parent|
       node['level'] = I18n.t("enumerations.archival_record_level.#{node['level']}", :default => node['level'])
       node['instance_types'] = node['instance_types'].map{|instance_type| I18n.t("enumerations.instance_instance_type.#{instance_type}", :default => instance_type)}
       node['containers'].each{|container|
@@ -197,7 +197,7 @@ class ResourcesController < ApplicationController
       }
       node['parent'] = "#{parent["node_type"]}_#{parent["id"]}" if parent
       tree["#{node["node_type"]}_#{node["id"]}"] = node.merge("children" => node["children"].collect{|child| "#{child["node_type"]}_#{child["id"]}"})
-    })
+    end
 
     tree
   end

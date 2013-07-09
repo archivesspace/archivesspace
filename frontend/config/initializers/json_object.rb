@@ -37,10 +37,10 @@ JSONModel::init(:client_mode => true,
 if not ENV['DISABLE_STARTUP']
   JSONModel::add_error_handler do |error|
     if error["code"] == "SESSION_GONE"
-      raise ArchivesSpace::SessionGone.new("Your backend session was not found")
+      raise ArchivesSpace::SessionGone.new(I18n.t("session.gone"))
     end
     if error["code"] == "SESSION_EXPIRED"
-      raise ArchivesSpace::SessionExpired.new("Your session expired due to inactivity.")
+      raise ArchivesSpace::SessionExpired.new(I18n.t("session.expired"))
     end
   end
 

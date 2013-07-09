@@ -143,4 +143,13 @@ class UsersController < ApplicationController
                   
                 })
   end
+
+
+  private
+
+
+  def selected_page
+    [Integer(params[:page] || 1), 1].max
+  end
+
 end

@@ -18,18 +18,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  before_filter :determine_browser_support
-
   # Note: This should be first!
   before_filter :store_user_session
+
+  before_filter :determine_browser_support
 
   before_filter :refresh_permissions
 
   before_filter :load_repository_list
 
   before_filter :unauthorised_access
-
-  before_filter :sanitize_params
 
   def self.set_access_control(permission_mappings)
     skip_before_filter :unauthorised_access, :only => Array(permission_mappings.values).flatten.uniq
@@ -146,36 +144,21 @@ class ApplicationController < ActionController::Base
   end
 
 
-  def selected_page
-    if params["page"]
-      page = Integer(params["page"])
-      if page < 0
-        raise "Invalid page value"
-      end
-
-      page
-    else
-      # Default to showing the first page
-      1
-    end
-  end
-
-
   def user_must_have(permission)
-    render_403 if !session['user'] || !user_can?(permission)
+    unauthorised_access if !session['user'] || !user_can?(permission)
   end
 
 
   def user_needs_to_be_a_user
-    render_403 if not session['user']
+    unauthorised_access if not session['user']
   end
   
   def user_needs_to_be_a_user_manager
-    render_403 if not user_can? 'manage_users'
+    unauthorised_access if not user_can? 'manage_users'
   end
   
   def user_needs_to_be_a_user_manager_or_new_user
-    render_403 if session['user'] and not user_can? 'manage_users'
+    unauthorised_access if session['user'] and not user_can? 'manage_users'
   end
 
 
@@ -248,28 +231,6 @@ class ApplicationController < ActionController::Base
   end
 
 
-  def choose_layout
-    if inline?
-      nil
-    else
-      'application'
-    end
-  end
-
-
-  def sanitize_param(hash)
-    hash.clone.each do |k,v|
-      hash[k.sub("_attributes","")] = v if k.end_with?("_attributes")
-      sanitize_param(v) if v.kind_of? Hash
-    end
-  end
-
-
-  def sanitize_params
-    sanitize_param(params)
-  end
-
-
   def unauthorised_access
     render_403
   end
@@ -277,7 +238,7 @@ class ApplicationController < ActionController::Base
 
   def account_self_service
     if !AppConfig[:allow_user_registration] && session[:user].nil?
-      render_403
+      unauthorised_access
     end
   end
 
@@ -385,7 +346,7 @@ class ApplicationController < ActionController::Base
                                           coerce_integers])
   end
 
-  def search_params
+  def params_for_backend_search
     params_for_search = params.select{|k,v| ["page", "q", "type", "sort", "exclude", "filter_term"].include?(k) and not v.blank?}
 
     params_for_search["page"] ||= 1
@@ -408,9 +369,9 @@ class ApplicationController < ActionController::Base
     params_for_search
   end
 
-  def parse_tree(node, parent, proc)
-    node['children'].map{|child_node| parse_tree(child_node, node, proc)} if node['children']
-    proc.call(node, parent)
+  def parse_tree(node, parent, &block)
+    node['children'].map{|child_node| parse_tree(child_node, node, &block)} if node['children']
+    block.call(node, parent)
   end
 
 

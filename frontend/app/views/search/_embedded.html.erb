@@ -1,6 +1,6 @@
 <%
-  ajax_search_url = url_for({:controller => :search, :action => :do_search, :format => :js, :listing_only => true}.merge(params_for_search({"add_filter_term" => filter_term})))
-  html_search_url = url_for({:controller => :search, :action => :do_search}.merge(params_for_search({"add_filter_term" => filter_term})))
+  ajax_search_url = url_for({:controller => :search, :action => :do_search, :format => :js, :listing_only => true}.merge(build_search_params({"add_filter_term" => filter_term})))
+  html_search_url = url_for({:controller => :search, :action => :do_search}.merge(build_search_params({"add_filter_term" => filter_term})))
 
   heading_text = "Linked Records" if heading_text.blank?
 %>
