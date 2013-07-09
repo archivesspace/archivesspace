@@ -298,7 +298,7 @@ Sequel.migration do
       String :identifier, :null => false
 
       HalfLongString :title, :null => true
-      HalfLongString :label, :null => true
+      HalfLongString :display_string, :null => true
       
       Integer :publish
       
@@ -412,7 +412,7 @@ Sequel.migration do
       String :component_id, :null => true
 
       HalfLongString :title, :null => true
-      HalfLongString :label, :null => true
+      HalfLongString :display_string, :null => true
 
       DynamicEnum :level_id, :null => false
       String :other_level

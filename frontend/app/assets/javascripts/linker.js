@@ -129,7 +129,7 @@ $(function() {
 
                 $this.tokenInput("add", {
                   id: response.uri,
-                  name: response.title,
+                  name: response.display_string || response.title,
                   json: response
                 });
                 $this.triggerHandler("change");
@@ -175,7 +175,7 @@ $(function() {
           var item = $(this).data("object");
           $this.tokenInput("add", {
             id: $(this).val(),
-            name: item.title,
+            name: item.display_string || item.title,
             json: item
           });
         });
@@ -206,7 +206,7 @@ $(function() {
 
           if ($.inArray(obj.uri, currentlySelectedIds) === -1) {
             formattedResults.push({
-              name: obj.title,
+              name: obj.display_string || obj.title,
               id: obj.id,
               json: obj
             });
@@ -259,7 +259,7 @@ $(function() {
           }
           return [{
               id: $this.data("selected").uri,
-              name: $this.data("selected").title,
+              name: $this.data("selected").display_string || $this.data("selected").title,
               json: $this.data("selected")
           }];
         } else {
@@ -270,7 +270,7 @@ $(function() {
           return $this.data("selected").map(function(item) {
             return {
               id: item.uri,
-              name: item.title,
+              name: item.display_string || item.title,
               json: item
             };
           });

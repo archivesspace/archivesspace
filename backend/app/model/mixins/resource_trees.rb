@@ -41,7 +41,7 @@ module ResourceTrees
   def load_node_properties(node, properties)
     super
 
-    properties[node.id][:title] = node.label
+    properties[node.id][:title] = node.display_string
 
     set_node_level(node, properties[node.id])
     set_node_instances(node, properties[node.id])

@@ -28,10 +28,10 @@ class ArchivalObject < Sequel::Model(:archival_object)
                   SecureRandom.hex
                 },
                 :only_on_create => true
-                
-  auto_generate :property => :label,
+
+  auto_generate :property => :display_string,
                 :generator => proc { |json|
-                  label = json['title'] || ""
+                  display_string = json['title'] || ""
 
                   date_label = json.has_key?('dates') && json['dates'].length > 0 ?
                                 lambda {|date|
@@ -44,10 +44,10 @@ class ArchivalObject < Sequel::Model(:archival_object)
                                   end
                                 }.call(json['dates'].first) : false
 
-                  label += ", " if json['title'] && date_label
-                  label += date_label if date_label
+                  display_string += ", " if json['title'] && date_label
+                  display_string += date_label if date_label
 
-                  label
+                  display_string
                 }
 
   def validate

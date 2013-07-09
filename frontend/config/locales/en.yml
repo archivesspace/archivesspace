@@ -243,12 +243,12 @@ en:
   accession:
     _frontend:
       messages:
-        created: Accession <strong>%{accession.label}</strong> created
-        unsuppressed: Accession <strong>%{accession.label}</strong> unsuppressed
-        updated: Accession <strong>%{accession.label}</strong> updated
-        suppressed: Accession <strong>%{accession.label}</strong> suppressed
+        created: Accession <strong>%{accession.display_string}</strong> created
+        unsuppressed: Accession <strong>%{accession.display_string}</strong> unsuppressed
+        updated: Accession <strong>%{accession.display_string}</strong> updated
+        suppressed: Accession <strong>%{accession.display_string}</strong> suppressed
         suppressed_info: Accession is suppressed and cannot be edited
-        deleted: Accession <strong>%{accession.label}</strong> deleted
+        deleted: Accession <strong>%{accession.display_string}</strong> deleted
         transfer_description: Transfer this accession to...
         transfer_target: Select a repository to transfer into
       section:
@@ -303,14 +303,14 @@ en:
   archival_object:
     _frontend:
       messages:
-        created: Archival Object <strong>%{archival_object.label}</strong> on Resource <strong>%{resource.title}</strong> created
-        created_with_parent: Archival Object <strong>%{archival_object.label}</strong> created as child of <strong>%{parent.label}</strong> on Resource <strong>%{resource.title}</strong>
-        updated: Archival Object <strong>%{archival_object.label}</strong> updated
-        updated_with_parent: Archival Object <strong>%{archival_object.label}</strong> updated
+        created: Archival Object <strong>%{archival_object.display_string}</strong> on Resource <strong>%{resource.title}</strong> created
+        created_with_parent: Archival Object <strong>%{archival_object.display_string}</strong> created as child of <strong>%{parent.display_string}</strong> on Resource <strong>%{resource.title}</strong>
+        updated: Archival Object <strong>%{archival_object.display_string}</strong> updated
+        updated_with_parent: Archival Object <strong>%{archival_object.display_string}</strong> updated
         please_select_a_resource_for_transfer: Please choose a Resource
-        transfer_success: Successfully transferred Archival Object <strong>%{archival_object.label}</strong> to Resource <strong>%{resource.title}</strong>
+        transfer_success: Successfully transferred Archival Object <strong>%{archival_object.display_string}</strong> to Resource <strong>%{resource.title}</strong>
         transfer_error: "Unable to transfer Archival Object due to an error or conflict: <pre>%{exception}</pre>"
-        deleted: "Archival Object <strong>%{archival_object.title}</strong> deleted"
+        deleted: "Archival Object <strong>%{archival_object.display_string}</strong> deleted"
       section:
         basic_information: Basic Information
       action:
@@ -595,7 +595,7 @@ en:
       messages:
         created: "Resource <strong>%{resource.title}</strong> created"
         updated: "Resource <strong>%{resource.title}</strong> updated"
-        spawned: "A new Resource has been spawned from Accession <strong>%{accession.title}</strong>"
+        spawned: "A new Resource has been spawned from Accession <strong>%{accession.display_string}</strong>"
         deleted: "Resource <strong>%{resource.title}</strong> deleted"
         published: "The Resource <strong>%{resource.title}</strong>, its subrecords and components have been published"
         merge_description: Merge this resource into...
