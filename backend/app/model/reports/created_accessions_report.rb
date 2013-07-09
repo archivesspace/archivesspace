@@ -2,14 +2,14 @@ class CreatedAccessionsReport < AbstractReport
   register_report({
                     :uri_suffix => "created_accessions",
                     :description => "Report on accessions created within a date range",
-                    :params => [["from", DateTime, "The start of report range"],
-                                ["to", DateTime, "The start of report range"]]
+                    :params => [["from", Date, "The start of report range"],
+                                ["to", Date, "The start of report range"]]
                   })
 
   def initialize(params)
     super
-    @from = params[:from]
-    @to = params[:to]
+    @from = DateTime.parse(params[:from].strftime("%Y-%m-%d"))
+    @to = DateTime.parse(params[:to].strftime("%Y-%m-%d"))
   end
 
   def title
