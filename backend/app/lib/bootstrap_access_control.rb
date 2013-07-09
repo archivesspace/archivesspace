@@ -76,6 +76,10 @@ class ArchivesSpaceService
                       "The ability to manage user accounts while logged in",
                       :level => "global")
 
+    Permission.define("become_user",
+                      "The ability to masquerade as another user",
+                      :level => "global")
+
     Permission.define("view_all_records",
                       "The ability to view any record in the system",
                       :level => "global",

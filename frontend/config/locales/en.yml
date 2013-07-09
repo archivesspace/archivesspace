@@ -144,7 +144,13 @@ en:
     event_type: Type
     identifier: Identifier
 
+  become-user:
+    become-user: Become User
+    failed: Failed to switch to the specified user
+    success: Successfully switched users
+
   navbar:
+    become-user: Become User
     brand: ArchivesSpace
     create: Create
     import: Import

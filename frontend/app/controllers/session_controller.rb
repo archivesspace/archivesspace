@@ -1,6 +1,7 @@
 class SessionController < ApplicationController
 
-  set_access_control  :public => [:login, :logout]
+  set_access_control  :public => [:login, :logout],
+                      "become_user" => [:select_user, :become_user]
 
 
   def login
@@ -10,12 +11,24 @@ class SessionController < ApplicationController
       User.establish_session(session, backend_session, params[:username])
     end
 
-    # load the repo into the user's session again 
-    # N.B it may not be the repo the user had last selected (if session expired/lost)!!
-    # NEED TO FIX BY RESTORING LAST SELECTED REPO FROM ELSEWHERE
     load_repository_list
 
     render :json => {:session => backend_session}
+  end
+
+
+  def select_user
+  end
+
+
+  def become_user
+    if User.become_user(session, params[:username])
+      flash[:success] = I18n.t("become-user.success")
+      redirect_to :controller => :welcome, :action => :index
+    else
+      flash[:error] = I18n.t("become-user.failed")
+      redirect_to :controller => :session, :action => :select_user
+    end
   end
 
 
