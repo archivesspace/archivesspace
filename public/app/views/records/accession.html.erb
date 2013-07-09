@@ -1,5 +1,5 @@
 <%
-  set_title(@accession.label)
+  set_title(@accession.display_string)
 %>
 <div class="title-pane">
   <div class="row-fluid">
@@ -7,7 +7,7 @@
 
     </div>
     <div class="span9">
-      <h2><%= @accession.label %></h2>
+      <h2><%= @accession.display_string %></h2>
     </div>
   </div>
 </div>

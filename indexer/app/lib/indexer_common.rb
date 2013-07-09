@@ -99,7 +99,7 @@ class CommonIndexer
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'archival_object'
         doc['resource'] = record['record']['resource']['ref'] if record['record']['resource']
-        doc['title'] = record['record']['label']
+        doc['title'] = record['record']['display_string']
       end
     }
 
@@ -115,7 +115,7 @@ class CommonIndexer
       if doc['primary_type'] == 'accession'
         doc['accession_date_year'] = Date.parse(record['record']['accession_date']).year
         doc['identifier'] = (0...4).map {|i| record['record']["id_#{i}"]}.compact.join("-")
-        doc['title'] = record['record']['label']
+        doc['title'] = record['record']['display_string']
       end
     }
 
@@ -144,6 +144,7 @@ class CommonIndexer
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'digital_object_component'
         doc['digital_object'] = record['record']['digital_object']['ref']
+        doc['title'] = record['record']['display_string']
       end
     }
 

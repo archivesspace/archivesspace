@@ -6,7 +6,7 @@
     <%= render :partial => "toolbar" %>
     <div class="record-pane">
       <% define_template "archival_object", jsonmodel_definition(:archival_object) do |readonly, archival_object| %>
-        <h2><%= archival_object.label %> <span class="label label-info"><%= I18n.t("archival_object._singular") %></span></h2>
+        <h2><%= archival_object.display_string %> <span class="label label-info"><%= I18n.t("archival_object._singular") %></span></h2>
         <%= render :partial => "shared/flash_messages" %>
         <section id="basic_information">
           <h3><%= I18n.t("archival_object._frontend.section.basic_information") %></h3>

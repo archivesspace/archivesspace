@@ -298,7 +298,7 @@ Sequel.migration do
       String :identifier, :null => false
 
       HalfLongString :title, :null => true
-      HalfLongString :label, :null => true
+      TextField :display_string, :null => true
       
       Integer :publish
       
@@ -344,7 +344,7 @@ Sequel.migration do
 
       Integer :repo_id, :null => false
       Integer :accession_id, :null => true
-      LongString :title, :null => false
+      HalfLongString :title, :null => false
 
       String :identifier
 
@@ -412,7 +412,7 @@ Sequel.migration do
       String :component_id, :null => true
 
       HalfLongString :title, :null => true
-      HalfLongString :label, :null => true
+      TextField :display_string, :null => true
 
       DynamicEnum :level_id, :null => false
       String :other_level
@@ -452,7 +452,7 @@ Sequel.migration do
 
       Integer :repo_id, :null => false
       String :digital_object_id, :null => false
-      LongString :title
+      HalfLongString :title
       DynamicEnum :level_id
       DynamicEnum :digital_object_type_id
       DynamicEnum :language_id
@@ -488,8 +488,9 @@ Sequel.migration do
 
       Integer :publish
 
-      String :component_id, :null => false
-      LongString :title
+      String :component_id
+      HalfLongString :title
+      TextField :display_string, :null => true
       String :label
       DynamicEnum :language_id
 
@@ -503,11 +504,11 @@ Sequel.migration do
 
     alter_table(:digital_object_component) do
       add_foreign_key([:repo_id], :repository, :key => :id)
-      add_index([:repo_id, :component_id], :unique => true)
       add_foreign_key([:root_record_id], :digital_object, :key => :id)
       add_foreign_key([:parent_id], :digital_object_component, :key => :id)
 
       add_index([:parent_name, :position], :unique => true, :name => "uniq_do_pos")
+      add_unique_constraint([:repo_id, :component_id], :name => "doc_unique_identifier")
     end
 
 
@@ -599,7 +600,7 @@ Sequel.migration do
 
       Integer :vocab_id, :null => false
 
-      LongString :title
+      HalfLongString :title
       String :terms_sha1, :index => true, :null => false
       String :authority_id
       TextField :scope_note
@@ -690,7 +691,7 @@ Sequel.migration do
       String :primary_name, :null => false
       DynamicEnum :name_order_id, :null => false
 
-      LongString :title, :null => true
+      HalfLongString :title, :null => true
       TextField :prefix, :null => true
       TextField :rest_of_name, :null => true
       TextField :suffix, :null => true
@@ -1092,7 +1093,7 @@ Sequel.migration do
 
       String :building, :null => false
 
-      LongString :title
+      HalfLongString :title
 
       String :floor
       String :room

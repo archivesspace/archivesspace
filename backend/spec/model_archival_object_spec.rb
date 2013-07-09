@@ -90,7 +90,7 @@ describe 'ArchivalObject model' do
     ao = ArchivalObject.create_from_json(build(:json_archival_object, opts),
                                          :repo_id => $repo_id)
 
-    ArchivalObject[ao[:id]].label.should_not be_nil
+    ArchivalObject[ao[:id]].display_string.should_not be_nil
   end
 
 
@@ -154,7 +154,7 @@ describe 'ArchivalObject model' do
           }),
           :repo_id => $repo_id)
 
-    ArchivalObject[ao[:id]].label.should eq(title)
+    ArchivalObject[ao[:id]].display_string.should eq(title)
   end
 
   it "auto generates a 'label' based on the date (when no title)" do
@@ -167,7 +167,7 @@ describe 'ArchivalObject model' do
       }),
       :repo_id => $repo_id)
 
-    ArchivalObject[ao[:id]].label.should eq(date['expression'])
+    ArchivalObject[ao[:id]].display_string.should eq(date['expression'])
 
     # try with begin and end
     date = build(:json_date, :expression => nil)
@@ -178,7 +178,7 @@ describe 'ArchivalObject model' do
       }),
       :repo_id => $repo_id)
 
-    ArchivalObject[ao[:id]].label.should eq("#{date['begin']} - #{date['end']}")
+    ArchivalObject[ao[:id]].display_string.should eq("#{date['begin']} - #{date['end']}")
   end
 
   it "auto generates a 'label' based on the date and title when both are present" do
@@ -192,7 +192,7 @@ describe 'ArchivalObject model' do
       }),
       :repo_id => $repo_id)
 
-    ArchivalObject[ao[:id]].label.should eq("#{title}, #{date['expression']}")
+    ArchivalObject[ao[:id]].display_string.should eq("#{title}, #{date['expression']}")
   end
 
 

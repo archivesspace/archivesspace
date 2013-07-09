@@ -344,6 +344,26 @@ module JSONModel::Validations
   end
 
 
+  def self.check_digital_object_component(hash)
+    errors = []
+
+    fields = ["dates", "title", "label"]
+
+    if fields.all? {|field| !hash.has_key?(field) || hash[field].empty?}
+      fields.each do |field|
+        errors << [field, "you must provide a label, title or date"]
+      end
+    end
+
+    errors
+  end
+
+
+  JSONModel(:digital_object_component).add_validation("check_digital_object_component") do |hash|
+    check_digital_object_component(hash)
+  end
+
+
   JSONModel(:event).add_validation("check_event") do |hash|
     errors = []
 
