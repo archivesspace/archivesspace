@@ -25,7 +25,5 @@
         "items" => {"type" => [{"type" => "JSONModel(:note_index_item) object"}]}
       }
     },
-
-    "additionalProperties" => false,
   },
 }

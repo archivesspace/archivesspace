@@ -8,7 +8,5 @@
       "location" => {"type" => "string", "maxLength" => 16384, "ifmissing" => "error", "default" => ""},
       "publish" => {"type" => "boolean", "default" => true},
     },
-
-    "additionalProperties" => false,
   },
 }

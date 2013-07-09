@@ -105,7 +105,5 @@
       },
 
     },
-
-    "additionalProperties" => false,
   },
 }

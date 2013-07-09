@@ -13,7 +13,5 @@
       "member_usernames" => {"type" => "array", "items" => {"type" => "string", "minLength" => 1}},
       "grants_permissions" => {"type" => "array", "items" => {"type" => "string", "minLength" => 1}},
     },
-
-    "additionalProperties" => false,
   },
 }

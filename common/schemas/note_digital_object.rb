@@ -19,7 +19,5 @@
         "dynamic_enum" => "note_digital_object_type"
       },
     },
-
-    "additionalProperties" => false,
   },
 }

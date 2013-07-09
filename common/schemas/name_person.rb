@@ -15,7 +15,5 @@
       "fuller_form" => {"type" => "string", "maxLength" => 65000},
       "number" => {"type" => "string", "maxLength" => 255},
     },
-
-    "additionalProperties" => false,
   },
 }

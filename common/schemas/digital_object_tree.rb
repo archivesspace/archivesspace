@@ -15,6 +15,5 @@
         "items" => { "type" => "JSONModel(:digital_object_tree) object" }
       }
     },
-    "additionalProperties" => false,
   },
 }

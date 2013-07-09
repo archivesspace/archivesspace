@@ -15,7 +15,5 @@
       "era" => {"type" => "string", "dynamic_enum" => "date_era"},
       "calendar" => {"type" => "string", "dynamic_enum" => "date_calendar"},
     },
-
-    "additionalProperties" => false,
   },
 }

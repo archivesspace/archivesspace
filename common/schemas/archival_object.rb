@@ -54,9 +54,5 @@
                                {"type" => "JSONModel(:note_singlepart) object"}]},
       },
     },
-
-
-
-    "additionalProperties" => false,
   },
 }

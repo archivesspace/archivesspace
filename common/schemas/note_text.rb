@@ -13,7 +13,5 @@
 
       "publish" => {"type" => "boolean", "default" => true},
     },
-
-    "additionalProperties" => false,
   },
 }

@@ -16,7 +16,5 @@
 
       "extents" => {"type" => "array", "items" => {"type" => "JSONModel(:extent) object"}},
     },
-
-    "additionalProperties" => false,
   },
 }

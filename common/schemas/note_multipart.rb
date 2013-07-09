@@ -21,7 +21,5 @@
                                {"type" => "JSONModel(:note_text) object"}]},
       },
     },
-
-    "additionalProperties" => false,
   },
 }

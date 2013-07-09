@@ -33,7 +33,5 @@
       "date_2" => {"type" => "date", "required" => false},
       "date_3" => {"type" => "date", "required" => false},
     },
-
-    "additionalProperties" => false,
   },
 }

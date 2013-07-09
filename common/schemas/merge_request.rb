@@ -44,7 +44,5 @@ MERGEABLE_TYPES = [
         }
       },
     },
-
-    "additionalProperties" => false,
   },
 }

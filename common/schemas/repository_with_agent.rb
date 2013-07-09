@@ -10,7 +10,5 @@
       "repository" => {"type" => "JSONModel(:repository) object", "ifmissing" => "error"},
       "agent_representation" => {"type" => "JSONModel(:agent_corporate_entity) object"},
     },
-
-    "additionalProperties" => false,
   },
 }

@@ -60,7 +60,5 @@
         },
       },
     },
-
-    "additionalProperties" => false
   },
 }

@@ -18,7 +18,5 @@
                                {"type" => "JSONModel(:note_outline) object"}]},
       },
     },
-
-    "additionalProperties" => false,
   },
 }

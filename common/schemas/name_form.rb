@@ -11,7 +11,5 @@
 
       "sort_name" => {"type" => "string", "ifmissing" => "error"}
     },
-
-    "additionalProperties" => false,
   },
 }

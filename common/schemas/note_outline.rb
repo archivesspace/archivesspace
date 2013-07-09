@@ -16,7 +16,5 @@
       },
 
     },
-
-    "additionalProperties" => false,
   },
 }
