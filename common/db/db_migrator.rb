@@ -54,6 +54,19 @@ module Sequel
       end
 
 
+      def MediumBlobField(field, opts = {})
+        if $db_type == :postgres
+          Bytea field, opts
+        elsif $db_type == :h2
+          String field, opts.merge(:size => 128000)
+        elsif $db_type == :mysql
+          MediumBlob field, opts
+        else
+          Blob field, opts
+        end
+      end
+
+
       def DynamicEnum(field, opts = {})
         Integer field, opts
         foreign_key([field], :enumeration_value, :key => :id)

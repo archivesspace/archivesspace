@@ -103,7 +103,7 @@ Sequel.migration do
       Integer :json_schema_version, :null => false
 
       Integer :notes_json_schema_version, :null => false
-      BlobField :notes, :null => true
+      MediumBlobField :notes, :null => true
 
       Integer :publish
 
@@ -118,7 +118,7 @@ Sequel.migration do
       Integer :json_schema_version, :null => false
 
       Integer :notes_json_schema_version, :null => false
-      BlobField :notes, :null => true
+      MediumBlobField :notes, :null => true
 
       Integer :publish
 
@@ -133,7 +133,7 @@ Sequel.migration do
       Integer :json_schema_version, :null => false
 
       Integer :notes_json_schema_version, :null => false
-      BlobField :notes, :null => true
+      MediumBlobField :notes, :null => true
 
       Integer :publish
 
@@ -149,7 +149,7 @@ Sequel.migration do
       Integer :json_schema_version, :null => false
 
       Integer :notes_json_schema_version, :null => false
-      BlobField :notes, :null => true
+      MediumBlobField :notes, :null => true
 
       Integer :publish
 
@@ -378,7 +378,7 @@ Sequel.migration do
       TextField :finding_aid_note
 
       Integer :notes_json_schema_version, :null => false
-      BlobField :notes, :null => true
+      MediumBlobField :notes, :null => true
 
       Integer :system_generated, :default => 0
 
@@ -420,7 +420,7 @@ Sequel.migration do
       DynamicEnum :language_id, :null => true
 
       Integer :notes_json_schema_version, :null => false
-      BlobField :notes, :null => true
+      MediumBlobField :notes, :null => true
 
       Integer :system_generated, :default => 0
       
@@ -461,7 +461,7 @@ Sequel.migration do
       Integer :restrictions
 
       Integer :notes_json_schema_version, :null => false
-      BlobField :notes, :null => true
+      MediumBlobField :notes, :null => true
 
       Integer :system_generated, :default => 0
 
@@ -495,7 +495,7 @@ Sequel.migration do
       DynamicEnum :language_id
 
       Integer :notes_json_schema_version, :null => false
-      BlobField :notes, :null => true
+      MediumBlobField :notes, :null => true
 
       Integer :system_generated, :default => 0
 
