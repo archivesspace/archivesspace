@@ -4,10 +4,6 @@ class DigitalObjectComponentsController < ApplicationController
                       "update_archival_record" => [:new, :edit, :create, :update, :accept_children],
                       "delete_archival_record" => [:delete]
 
-  FIND_OPTS = {
-    "resolve[]" => ["subjects", "linked_agents", "digital_object", "parent"]
-  }
-
 
   def new
     @digital_object_component = JSONModel(:digital_object_component).new._always_valid!
@@ -22,20 +18,20 @@ class DigitalObjectComponentsController < ApplicationController
   end
 
   def edit
-    @digital_object_component = JSONModel(:digital_object_component).find(params[:id], FIND_OPTS)
+    @digital_object_component = JSONModel(:digital_object_component).find(params[:id], find_opts)
     render :partial => "digital_object_components/edit_inline" if inline?
   end
 
 
   def create
     handle_crud(:instance => :digital_object_component,
-                :find_opts => FIND_OPTS,
+                :find_opts => find_opts,
                 :on_invalid => ->(){ render :partial => "new_inline" },
                 :on_valid => ->(id){
                   # Refetch the record to ensure all sub records are resolved
                   # (this object isn't marked as stale upon create like Archival Objects,
                   # so need to do it manually)
-                  @digital_object_component = JSONModel(:digital_object_component).find(id, FIND_OPTS)
+                  @digital_object_component = JSONModel(:digital_object_component).find(id, find_opts)
 
                   success_message = @digital_object_component.parent ?
                     I18n.t("digital_object_component._frontend.messages.created_with_parent", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => @digital_object_component['digital_object']['_resolved'], :parent => @digital_object_component['parent']['_resolved'])) :
@@ -57,7 +53,7 @@ class DigitalObjectComponentsController < ApplicationController
   def update
     params['digital_object_component']['position'] = params['digital_object_component']['position'].to_i if params['digital_object_component']['position']
 
-    @digital_object_component = JSONModel(:digital_object_component).find(params[:id], FIND_OPTS)
+    @digital_object_component = JSONModel(:digital_object_component).find(params[:id], find_opts)
     digital_object = @digital_object_component['digital_object']['_resolved']
     parent = @digital_object_component['parent'] ? @digital_object_component['parent']['_resolved'] : false
 
@@ -79,7 +75,7 @@ class DigitalObjectComponentsController < ApplicationController
 
   def show
     @digital_object_id = params['digital_object_id']
-    @digital_object_component = JSONModel(:digital_object_component).find(params[:id], FIND_OPTS)
+    @digital_object_component = JSONModel(:digital_object_component).find(params[:id], find_opts)
     render :partial => "digital_object_components/show_inline" if inline?
   end
 

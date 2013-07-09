@@ -4,10 +4,6 @@ class ClassificationTermsController < ApplicationController
                       "update_classification_record" => [:new, :edit, :create, :update, :accept_children, :transfer],
                       "delete_classification_record" => [:delete]
 
-  FIND_OPTS = {
-    "resolve[]" => ["creator"]
-  }
-
 
   def new
     @classification_term = JSONModel(:classification_term).new._always_valid!
@@ -19,14 +15,14 @@ class ClassificationTermsController < ApplicationController
 
 
   def edit
-    @classification_term = JSONModel(:classification_term).find(params[:id], FIND_OPTS)
+    @classification_term = JSONModel(:classification_term).find(params[:id], find_opts)
     render :partial => "classification_terms/edit_inline" if inline?
   end
 
 
   def create
     handle_crud(:instance => :classification_term,
-                :find_opts => FIND_OPTS,
+                :find_opts => find_opts,
                 :on_invalid => ->(){ render :partial => "new_inline" },
                 :on_valid => ->(id){
 
@@ -51,7 +47,7 @@ class ClassificationTermsController < ApplicationController
   def update
     params['classification_term']['position'] = params['classification_term']['position'].to_i if params['classification_term']['position']
 
-    @classification_term = JSONModel(:classification_term).find(params[:id], FIND_OPTS)
+    @classification_term = JSONModel(:classification_term).find(params[:id], find_opts)
     parent = @classification_term['parent'] ? @classification_term['parent']['_resolved'] : false
 
     handle_crud(:instance => :classification_term,
@@ -72,7 +68,7 @@ class ClassificationTermsController < ApplicationController
 
   def show
     @classification_id = params['classification_id']
-    @classification_term = JSONModel(:classification_term).find(params[:id], FIND_OPTS)
+    @classification_term = JSONModel(:classification_term).find(params[:id], find_opts)
     render :partial => "classification_terms/show_inline" if inline?
   end
 

@@ -8,8 +8,6 @@ class AccessionsController < ApplicationController
 
   before_filter :set_event_types,  :only => [:show, :edit, :update]
 
-  FIND_OPTS = ["subjects", "related_resources", "linked_agents", "container_locations", "digital_object", "classification"]
-
 
   def index
     @search_data = Search.for_type(session[:repo_id], "accession", params_for_backend_search.merge({"facet[]" => SearchResultData.ACCESSION_FACETS}))
@@ -93,7 +91,7 @@ class AccessionsController < ApplicationController
 
   # refactoring note: suspiciously similar to resources_controller.rb
   def fetch_resolved(id)
-    accession = Accession.find(id, "resolve[]" => FIND_OPTS)
+    accession = Accession.find(id, find_opts)
 
     if accession['classification'] && accession['classification']['_resolved']
       resolved = accession['classification']['_resolved']

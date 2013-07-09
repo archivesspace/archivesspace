@@ -144,6 +144,16 @@ class ApplicationController < ActionController::Base
   end
 
 
+  def find_opts
+    {
+      "resolve[]" => ["subjects", "related_resources", "linked_agents",
+                      "container_locations", "digital_object", "classification",
+                      "related_agents", "resource", "parent", "creator",
+                      "linked_instances", "linked_records", "related_accessions"]
+    }
+  end
+
+
   def user_must_have(permission)
     unauthorised_access if !session['user'] || !user_can?(permission)
   end

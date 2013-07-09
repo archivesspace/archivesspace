@@ -4,9 +4,6 @@ class ArchivalObjectsController < ApplicationController
                       "update_archival_record" => [:new, :edit, :create, :update, :transfer, :rde, :add_children, :accept_children],
                       "delete_archival_record" => [:delete]
 
-  FIND_OPTS = {
-    "resolve[]" => ["subjects", "linked_agents", "digital_object", "resource", "parent", "container_locations"]
-  }
 
 
   def new
@@ -21,14 +18,14 @@ class ArchivalObjectsController < ApplicationController
   end
 
   def edit
-    @archival_object = JSONModel(:archival_object).find(params[:id], FIND_OPTS)
+    @archival_object = JSONModel(:archival_object).find(params[:id], find_opts)
     render :partial => "archival_objects/edit_inline" if inline?
   end
 
 
   def create
     handle_crud(:instance => :archival_object,
-                :find_opts => FIND_OPTS,
+                :find_opts => find_opts,
                 :on_invalid => ->(){ render :partial => "new_inline" },
                 :on_valid => ->(id){
 
@@ -53,7 +50,7 @@ class ArchivalObjectsController < ApplicationController
   def update
     params['archival_object']['position'] = params['archival_object']['position'].to_i if params['archival_object']['position']
 
-    @archival_object = JSONModel(:archival_object).find(params[:id], FIND_OPTS)
+    @archival_object = JSONModel(:archival_object).find(params[:id], find_opts)
     resource = @archival_object['resource']['_resolved']
     parent = @archival_object['parent'] ? @archival_object['parent']['_resolved'] : false
 
@@ -75,7 +72,7 @@ class ArchivalObjectsController < ApplicationController
 
   def show
     @resource_id = params['resource_id']
-    @archival_object = JSONModel(:archival_object).find(params[:id], FIND_OPTS)
+    @archival_object = JSONModel(:archival_object).find(params[:id], find_opts)
     render :partial => "archival_objects/show_inline" if inline?
   end
 
@@ -95,7 +92,7 @@ class ArchivalObjectsController < ApplicationController
       response = JSONModel::HTTP.post_form("/repositories/#{session[:repo_id]}/component_transfers", post_data)
 
       if response.code == '200'
-        @archival_object = JSONModel(:archival_object).find(params[:id], FIND_OPTS)
+        @archival_object = JSONModel(:archival_object).find(params[:id], find_opts)
 
         flash[:success] = I18n.t("archival_object._frontend.messages.transfer_success", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']))
         redirect_to :controller => :resources, :action => :edit, :id => JSONModel(:resource).id_for(params["transfer"]["ref"]), :anchor => "tree::archival_object_#{params[:id]}"

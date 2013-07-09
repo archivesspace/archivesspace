@@ -6,8 +6,6 @@ class DigitalObjectsController < ApplicationController
                       "merge_archival_record" => [:merge],
                       "transfer_archival_record" => [:transfer]
 
-  FIND_OPTS = ["subjects", "linked_agents", "linked_instances"]
-
 
   def index
     @search_data = Search.for_type(session[:repo_id], params[:include_components]==="true" ? ["digital_object", "digital_object_component"] : "digital_object", params_for_backend_search.merge({"facet[]" => SearchResultData.DIGITAL_OBJECT_FACETS}))
@@ -19,7 +17,7 @@ class DigitalObjectsController < ApplicationController
 
     if params[:inline]
       # only fetch the fully resolved record when rendering the full form
-      @digital_object = JSONModel(:digital_object).find(params[:id], "resolve[]" => FIND_OPTS)
+      @digital_object = JSONModel(:digital_object).find(params[:id], find_opts)
       return render :partial => "digital_objects/show_inline"
     end
 
@@ -44,7 +42,7 @@ class DigitalObjectsController < ApplicationController
 
     if params[:inline]
       # only fetch the fully resolved record when rendering the full form
-      @digital_object = JSONModel(:digital_object).find(params[:id], "resolve[]" => FIND_OPTS)
+      @digital_object = JSONModel(:digital_object).find(params[:id], find_opts)
       return render :partial => "digital_objects/edit_inline"
     end
 
@@ -72,8 +70,7 @@ class DigitalObjectsController < ApplicationController
 
   def update
     handle_crud(:instance => :digital_object,
-                :obj => JSONModel(:digital_object).find(params[:id],
-                                                  "resolve[]" => FIND_OPTS),
+                :obj => JSONModel(:digital_object).find(params[:id], find_opts),
                 :on_invalid => ->(){
                   render :partial => "edit_inline"
                 },

@@ -6,8 +6,6 @@ class ResourcesController < ApplicationController
                       "merge_archival_record" => [:merge],
                       "transfer_archival_record" => [:transfer]
 
-  FIND_OPTS = ["subjects", "container_locations", "related_accessions", "linked_agents", "digital_object", "classification"]
-
 
   def index
     @search_data = Search.for_type(session[:repo_id], params[:include_components]==="true" ? ["resource", "archival_object"] : "resource", params_for_backend_search.merge({"facet[]" => SearchResultData.RESOURCE_FACETS}))
@@ -28,8 +26,7 @@ class ResourcesController < ApplicationController
     @resource = Resource.new(:title => I18n.t("resource.title_default", :default => ""))._always_valid!
 
     if params[:accession_id]
-      acc = Accession.find(params[:accession_id],
-                           "resolve[]" => FIND_OPTS)
+      acc = Accession.find(params[:accession_id], find_opts)
 
       if acc
         @resource.populate_from_accession(acc)
@@ -205,7 +202,7 @@ class ResourcesController < ApplicationController
 
   # refactoring note: suspiciously similar to accessions_controller.rb
   def fetch_resolved(id)
-    resource = JSONModel(:resource).find(id, "resolve[]" => FIND_OPTS)
+    resource = JSONModel(:resource).find(id, find_opts)
 
     if resource['classification'] && resource['classification']['_resolved']
       resolved = resource['classification']['_resolved']
