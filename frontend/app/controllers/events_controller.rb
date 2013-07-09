@@ -4,15 +4,13 @@ class EventsController < ApplicationController
                       "update_archival_record" => [:new, :edit, :create, :update],
                       "delete_archival_record" => [:delete]
 
-  FIND_OPTS = ["linked_agents", "linked_records"]
-
 
   def index
     @search_data = Search.for_type(session[:repo_id], "event", params_for_backend_search.merge({"facet[]" => SearchResultData.EVENT_FACETS}))
   end
 
   def show
-    @event = JSONModel(:event).find(params[:id], "resolve[]" => FIND_OPTS)
+    @event = JSONModel(:event).find(params[:id], find_opts)
   end
 
   def new
@@ -34,7 +32,7 @@ class EventsController < ApplicationController
   end
 
   def edit
-    @event = JSONModel(:event).find(params[:id], "resolve[]" => FIND_OPTS)
+    @event = JSONModel(:event).find(params[:id], find_opts)
   end
 
   def create
