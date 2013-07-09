@@ -40,7 +40,7 @@ class RecordsController < ApplicationController
       end
     end
 
-    @breadcrumbs.push([@archival_object.title, "#", "archival_object"])
+    @breadcrumbs.push([@archival_object.display_string, "#", "archival_object"])
 
 
     uris_to_fetch = {}
