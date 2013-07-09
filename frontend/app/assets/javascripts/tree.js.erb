@@ -758,9 +758,6 @@ $(function() {
           animation: 0,
           html_titles: true
         },
-        cookies: {
-          save_selected: false
-        },
         hotkeys: {
           "up": false,
           "ctrl+up": function() {
@@ -788,7 +785,7 @@ $(function() {
           "f2": false,
           "del": false
         },
-        plugins: [ "themes", "ui", "html_data", "crrm", "dnd", "cookies","hotkeys"]
+        plugins: [ "themes", "ui", "html_data", "crrm", "dnd", "hotkeys"]
       }).one("loaded.jstree", function() {
         getPrimarySelectedNode().removeClass("selected");
 
