@@ -34,4 +34,21 @@ class User < JSONModel(:user)
     end
   end
 
+
+  def self.become_user(session, username)
+    uri = JSONModel(:user).uri_for("#{username}/become-user")
+
+    response = JSONModel::HTTP.post_form(uri)
+
+    if response.code == '200'
+      backend_session = ASUtils.json_parse(response.body)
+
+      self.establish_session(session, backend_session, username)
+
+      true
+    else
+      false
+    end
+  end
+
 end

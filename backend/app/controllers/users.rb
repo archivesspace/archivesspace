@@ -167,6 +167,28 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.post('/users/:username/become-user')
+    .description("Become a different user")
+    .params(["username", Username, "The username to become"])
+    .permissions([:become_user])
+    .returns([200, "Accepted"],
+             [404, "User not found"]) \
+  do
+    username = params[:username]
+    user = User.find(:username => username)
+
+    raise NotFoundException.new if !user
+
+    session[:user] = username
+    session.save
+
+    json_user = User.to_jsonmodel(user)
+    json_user.permissions = user.permissions
+
+    json_response({:session => session.id, :user => json_user})
+  end
+
+
   Endpoint.get('/repositories/:repo_id/users/:id')
   .description("Get a user's details including their groups for the current repository")
   .params(["id", Integer, "The username id to fetch"],
