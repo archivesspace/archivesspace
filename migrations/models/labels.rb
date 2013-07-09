@@ -100,10 +100,8 @@ ASpaceExport::model :labels do
         c = i['container']
         next unless c
 
-        [1,2,3].each do |n|
-          if c["type_#{n}"]
-            rows << [c["type_#{n}"] + ' ' + c["indicator_#{n}"], '(' + c["barcode_#{n}"] + ')']
-          end
+        if c['type_1'] && c['indicator_1'] && c['barcode_1']
+          rows << ["#{c['type_1']} #{c['indicator_1']}", c['barcode_1']]
         end
       end
       rows.push(*generate_label_rows(obj.children))
