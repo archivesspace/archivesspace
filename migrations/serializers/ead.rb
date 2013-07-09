@@ -1,5 +1,3 @@
-require 'nokogiri'
-
 ASpaceExport::serializer :ead do
   
 

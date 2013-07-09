@@ -109,31 +109,17 @@ ASpaceExport::model :marc21 do
 
 
   def self.assemble_controlfield_string(obj)
+    date = obj.dates[0] || {}
     string = obj['system_mtime'].scan(/\d{2}/)[1..3].join('')
-    string += obj.level == 'item' && obj.dates[0]['date_type'] == 'single' ? 's' : 'i'
-    string += obj.dates[0]['begin'] ? obj.dates[0]['begin'][0..3] : "    "
-    string += obj.dates[0]['end'] ? obj.dates[0]['end'][0..3] : "    "
+    string += obj.level == 'item' && date['date_type'] == 'single' ? 's' : 'i'
+    string += date['begin'] ? date['begin'][0..3] : "    "
+    string += date['end'] ? date['end'][0..3] : "    "
     string += "xx"
     18.times { string += ' ' }
     string += obj.language
     string += ' d'
 
     string
-  end
-
-  # typical mapping of source codes to marc @ind2 attribute
-  def self.source_to_code(source)
-    code =  case source
-            when 'naf', 'lcsh'; 0
-            when 'lcshac'; 1
-            when 'mesh'; 2
-            when 'nal'; 3
-            when nil; 4
-            when 'cash'; 5
-            when 'rvm'; 6
-            else; 7
-            end
-    code.to_s
   end
 
 
@@ -159,6 +145,8 @@ ASpaceExport::model :marc21 do
 
   def handle_dates(dates)
     d0 = dates[0]
+    return false unless d0
+
     code = d0['date_type'] == 'bulk' ? 'g' : 'f'
     val = nil
     if d0['expression']
@@ -174,6 +162,8 @@ ASpaceExport::model :marc21 do
 
   def handle_repo_code(repository)
     repo = repository['_resolved']
+    return false unless repo
+    
     df('852', ' ', ' ').with_sfs(
                         ['a', "Repository: #{repo['repo_code']}"],
                         ['a', repo['org_code']],
@@ -183,7 +173,7 @@ ASpaceExport::model :marc21 do
   end
 
   def source_to_code(source)
-    self.class.source_to_code(source)
+    ASpaceMappings::MARC21.get_marc_source_code(source)
   end
 
   def handle_subjects(subjects)
@@ -228,50 +218,57 @@ ASpaceExport::model :marc21 do
   end
 
 
-  def handle_agents(linked_agents)
+  def handle_primary_creator(linked_agents)
+    link = linked_agents.find{|a| a['role'] == 'creator'}
+    return nil unless link
 
-    creator_1_link = linked_agents.find{|a| a['role'] == 'creator'}
-    creator_1 = creator_1_link['_resolved']
-    cname = creator_1['names'][0]
+    creator = link['_resolved']
+    name = creator['names'][0]
 
-    role_info = creator_1_link['relator'] ? ['4', creator_1_link['relator']] : ['e', 'creator']
+    role_info = link['relator'] ? ['4', link['relator']] : ['e', 'creator']
 
-    case creator_1['agent_type']
+    case creator['agent_type']
 
     when 'agent_corporate_entity'
       df('110', '2', ' ').with_sfs(
-                                  ['a', cname['primary_name']],
-                                  ['b', cname['subordinate_name_1']],
-                                  ['b', cname['subordinate_name_2']],
-                                  ['n', cname['number']],
-                                  ['d', cname['dates']],
-                                  ['g', cname['qualifier']],
+                                  ['a', name['primary_name']],
+                                  ['b', name['subordinate_name_1']],
+                                  ['b', name['subordinate_name_2']],
+                                  ['n', name['number']],
+                                  ['d', name['dates']],
+                                  ['g', name['qualifier']],
                                   role_info
                                   )
     when 'agent_person'
-      joint, ind1 = cname['name_order'] == 'direct' ? [' ', '0'] : [', ', '1']
-      name_parts = [cname['primary_name'], cname['rest_of_name']].reject{|i| i.nil? || i.empty?}.join(joint)
+      joint, ind1 = name['name_order'] == 'direct' ? [' ', '0'] : [', ', '1']
+      name_parts = [name['primary_name'], name['rest_of_name']].reject{|i| i.nil? || i.empty?}.join(joint)
 
       df('100', ind1, ' ').with_sfs(
                                   ['a', name_parts],
-                                  ['b', cname['number']],
-                                  ['c', %w(prefix, title, suffix).map {|prt| cname[prt]}.join(', ')],
-                                  ['q', cname['fuller_form']],
-                                  ['d', cname['dates']],
-                                  ['g', cname['qualifier']],
+                                  ['b', name['number']],
+                                  ['c', %w(prefix, title, suffix).map {|prt| name[prt]}.join(', ')],
+                                  ['q', name['fuller_form']],
+                                  ['d', name['dates']],
+                                  ['g', name['qualifier']],
                                   role_info
                                   )
 
     when 'agent_family'
       df('100', '3', ' ').with_sfs(
-                                  ['a', cname['family_name']],
-                                  ['c', cname['prefix']],
-                                  ['d', cname['dates']],
-                                  ['g', cname['qualifier']],
+                                  ['a', name['family_name']],
+                                  ['c', name['prefix']],
+                                  ['d', name['dates']],
+                                  ['g', name['qualifier']],
                                   role_info
                                   )
 
     end
+  end
+
+
+  def handle_agents(linked_agents)
+
+    handle_primary_creator(linked_agents)
 
     subjects = linked_agents.select{|a| a['role'] == 'subject'}
 
@@ -280,21 +277,12 @@ ASpaceExport::model :marc21 do
       name = subject['names'][0]
       relator = link['relator']
       terms = link['terms']
-      ind2 =  case subject['source']
-              when 'naf', 'lcsh'; 0
-              when 'lcshac'; 1
-              when 'mesh'; 2
-              when 'nal'; 3
-              when nil; 4
-              when 'cash'; 5
-              when 'rvm'; 6
-              else; 7
-              end
+      ind2 = source_to_code(subject['source'])
 
       case subject['agent_type']
 
       when 'agent_corporate_entity'
-        df('610', '2', ind2.to_s).with_sfs(
+        df('610', '2', ind2).with_sfs(
                                           ['a', name['primary_name']],
                                           ['b', name['subordinate_name_1']],
                                           ['b', name['subordinate_name_2']],
@@ -306,7 +294,7 @@ ASpaceExport::model :marc21 do
         name_parts = [name['primary_name'], name['rest_of_name']].reject{|i| i.nil? || i.empty?}.join(joint)
         ind1 = name['name_order'] == 'direct' ? '0' : '1'
 
-        df('600', ind1, ind2.to_s).with_sfs(
+        df('600', ind1, ind2).with_sfs(
                                           ['a', name_parts],
                                           ['b', name['number']],
                                           ['c', %w(prefix title suffix).map {|prt| name[prt]}.compact.join(', ')],
@@ -316,7 +304,7 @@ ASpaceExport::model :marc21 do
                                           )
 
       when 'agent_family'
-        df('600', '3', ind2.to_s).with_sfs(
+        df('600', '3', ind2).with_sfs(
                                           ['a', name['family_name']],
                                           ['c', name['prefix']],
                                           ['d', name['dates']],
@@ -324,11 +312,10 @@ ASpaceExport::model :marc21 do
                                           )
 
       end
-
     end
 
 
-    creators = linked_agents.select{|a| a['role'] == 'creator'}[1..-1]
+    creators = linked_agents.select{|a| a['role'] == 'creator'}[1..-1] || []
     creators = creators + linked_agents.select{|a| a['role'] == 'source'}
 
     creators.each do |link|

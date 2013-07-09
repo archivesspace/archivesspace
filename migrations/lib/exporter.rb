@@ -1,6 +1,6 @@
 require 'jsonmodel'
 require 'nokogiri'
-require 'I18n'
+require 'i18n'
 require_relative 'utils'
 
 module ASpaceExport
@@ -18,9 +18,11 @@ module ASpaceExport
     @@initialized = true
   end
 
+
   def self.initialized?
     @@initialized
   end
+
 
   # Define or get a serializer
   def self.serializer(name, superclass = ASpaceExport::Serializer, &block)
@@ -74,13 +76,14 @@ module ASpaceExport
       @builder = Nokogiri::XML::Builder.new
     end
 
+
     def repo_id=(id)
       @repo_id = id
     end
 
     # Serializes an ASModel object
-
     def serialize(object) end
+
 
     def insert(meth)
 
@@ -112,16 +115,12 @@ module ASpaceExport
 
       @kontext = old_kontext
     end
-
-
   end
 
   # Abstract Export Model class
   class ExportModel
-
     def initialize
     end
-
 
     def apply_map(obj, map)
       map.each do |as_field, handler|
@@ -131,30 +130,22 @@ module ASpaceExport
         next if fieldable.empty? # probably a relationship
 
         handler_args = fieldable.map {|f| obj.send(f) }
-
-
         [handler].flatten.each {|h| self.send(h, *handler_args)  }
-
       end
     end
-
   end
 
+  # Contrive Nokogiri to remember namespaces
   class Nokogiri::XML::Builder
     alias :old_method_missing :method_missing
 
     def method_missing(m, *args, &block)
-
       @sticky_ns ||= nil
       @ns = @sticky_ns if @sticky_ns
 
-
       old_method_missing(m, *args, &block)
-
     end
   end
-
-
 end
 
 

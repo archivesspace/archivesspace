@@ -959,16 +959,7 @@ ASpaceImport::Importer.importer :marcxml do
 
   def self.sets_name_source_from_code
     Proc.new {|name, node|
-      src = case node.value
-        when '0'; 'lcsh'
-        when '1'; 'lcshac'
-        when '2'; 'mesh'
-        when '3'; 'nal'
-        when '4'; 'ingest'
-        when '5'; 'cash'
-        when '6'; 'rvm'
-        else; nil
-        end
+      src = ASpaceMappings::MARC21.get_aspace_source_code(node.value)
       name.source = src if src
     }
   end

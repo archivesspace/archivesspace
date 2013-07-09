@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'Exports controller' do
 
-  it "lets you export an Agent as EAC, even when it is linked to be records from another repo" do
+  it "lets you export an Agent as EAC, even when it is linked to records from another repo" do
 
     accession = create(:json_accession)
 
