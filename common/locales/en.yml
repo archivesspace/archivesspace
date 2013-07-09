@@ -94,6 +94,7 @@ en:
     component_id: Identifier
     component_id_tooltip: |
         <p>A unique identifier for the Digital Object Component.</p>
+    dates: Dates
     _singular: Digital Object Component
     _plural: Digital Object Components
 

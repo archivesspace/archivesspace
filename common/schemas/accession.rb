@@ -18,7 +18,7 @@
         }
       },
 
-      "title" => {"type" => "string", "maxLength" => 8192, "minLength" => 1},
+      "title" => {"type" => "string", "maxLength" => 8192, "ifmissing" => nil},
       "display_string" => {"type" => "string", "maxLength" => 8192, "readonly" => true},
 
       "id_0" => {"type" => "string", "ifmissing" => "error", "maxLength" => 255},

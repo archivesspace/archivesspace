@@ -84,7 +84,7 @@ class RecordsController < ApplicationController
       end
     end
 
-    @breadcrumbs.push([@digital_object_component.title, "#", "digital_object_component"])
+    @breadcrumbs.push([@digital_object_component.display_string, "#", "digital_object_component"])
   end
 
   def classification

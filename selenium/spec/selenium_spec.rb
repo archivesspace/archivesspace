@@ -1820,7 +1820,7 @@ describe "ArchivesSpace user interface" do
       # False start: create an object without filling it out
       $driver.click_and_wait_until_gone(:id => "createPlusOne")
 
-      $driver.find_element_with_text('//div[contains(@class, "error")]', /Identifier - Property is required but was missing/)
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /you must provide/)
     end
 
 

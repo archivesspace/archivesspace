@@ -488,8 +488,9 @@ Sequel.migration do
 
       Integer :publish
 
-      String :component_id, :null => false
+      String :component_id
       LongString :title
+      HalfLongString :display_string, :null => true
       String :label
       DynamicEnum :language_id
 
@@ -503,11 +504,11 @@ Sequel.migration do
 
     alter_table(:digital_object_component) do
       add_foreign_key([:repo_id], :repository, :key => :id)
-      add_index([:repo_id, :component_id], :unique => true)
       add_foreign_key([:root_record_id], :digital_object, :key => :id)
       add_foreign_key([:parent_id], :digital_object_component, :key => :id)
 
       add_index([:parent_name, :position], :unique => true, :name => "uniq_do_pos")
+      add_unique_constraint([:repo_id, :component_id], :name => "doc_unique_identifier")
     end
 
 

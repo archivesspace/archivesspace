@@ -401,11 +401,11 @@ en:
   digital_object_component:
     _frontend:
       messages:
-        created_with_parent: Digital Object Component <strong>%{digital_object_component.title}</strong> created as child of <strong>%{parent.title}</strong> on Digital Object <strong>%{digital_object.title}</strong>
-        created: Digital Object Component <strong>%{digital_object_component.title}</strong> created on Digital Object <strong>%{digital_object.title}</strong>
-        updated_with_parent: Digital Object Component <strong>%{digital_object_component.title}</strong> updated
-        updated: Digital Object Component <strong>%{digital_object_component.title}</strong> updated
-        deleted: Digital Object Component <strong>%{digital_object_component.title}</strong> deleted
+        created_with_parent: Digital Object Component <strong>%{digital_object_component.display_string}</strong> created as child of <strong>%{parent.display_string}</strong> on Digital Object <strong>%{digital_object.title}</strong>
+        created: Digital Object Component <strong>%{digital_object_component.display_string}</strong> created on Digital Object <strong>%{digital_object.title}</strong>
+        updated_with_parent: Digital Object Component <strong>%{digital_object_component.display_string}</strong> updated
+        updated: Digital Object Component <strong>%{digital_object_component.display_string}</strong> updated
+        deleted: Digital Object Component <strong>%{digital_object_component.display_string}</strong> deleted
       section:
         basic_information: Basic Information
       action:
