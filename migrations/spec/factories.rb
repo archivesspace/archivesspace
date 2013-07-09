@@ -4,7 +4,7 @@ def sample(enum, exclude = [])
   values = if enum.has_key?('enum')
              enum['enum']
            elsif enum.has_key?('dynamic_enum')
-             BackendEnumSource.values_for(enum['dynamic_enum'])
+             JSONModel.enum_values(enum['dynamic_enum'])
            else
              raise "Not sure how to sample this: #{enum.inspect}"
            end
@@ -55,6 +55,10 @@ FactoryGirl.define do
   sequence(:date_lable) { sample(JSONModel(:date).schema['properties']['label']) }
 
   sequence(:multipart_note_type) { sample(JSONModel(:note_multipart).schema['properties']['type'])}
+  sequence(:singlepart_note_type) { sample(JSONModel(:note_singlepart).schema['properties']['type'])}
+  sequence(:note_index_type) { sample(JSONModel(:note_index).schema['properties']['type'])}
+  sequence(:note_index_item_type) { sample(JSONModel(:note_index_item).schema['properties']['type'])}
+  # sequence(:note_index_item_type) { "foo" }
 
   sequence(:event_type) { sample(JSONModel(:event).schema['properties']['event_type']) }
   sequence(:extent_type) { sample(JSONModel(:extent).schema['properties']['extent_type']) }
@@ -73,7 +77,11 @@ FactoryGirl.define do
   sequence(:xlink_actuate_attribute) { sample(JSONModel(:file_version).schema['properties']['xlink_actuate_attribute']) }
   sequence(:xlink_show_attribute) { sample(JSONModel(:file_version).schema['properties']['xlink_show_attribute']) }
 
+  sequence(:archival_record_level) { sample(JSONModel(:resource).schema['properties']['level'], ['otherlevel']) }
+  sequence(:finding_aid_description_rules) { sample(JSONModel(:resource).schema['properties']['finding_aid_description_rules']) }
 
+  sequence(:relator) { sample(JSONModel(:abstract_archival_object).schema['properties']['linked_agents']['items']['properties']['relator']) }
+  sequence(:subject_source) { sample(JSONModel(:subject).schema['properties']['source']) }
 
   # JSON Models:
 
@@ -225,8 +233,13 @@ FactoryGirl.define do
   factory :json_name_corporate_entity, class: JSONModel(:name_corporate_entity) do
     rules { generate(:name_rule) }
     primary_name { generate(:generic_name) }
+    subordinate_name_1 { generate(:alphanumstr) }
+    subordinate_name_2 { generate(:alphanumstr) }
+    number { generate(:alphanumstr) }
     sort_name { generate(:sort_name) }
     sort_name_auto_generate true
+    dates { generate(:alphanumstr) }
+    qualifier { generate(:alphanumstr) }
   end
 
   factory :json_name_family, class: JSONModel(:name_family) do
@@ -234,14 +247,24 @@ FactoryGirl.define do
     family_name { generate(:generic_name) }
     sort_name { generate(:sort_name) }
     sort_name_auto_generate true
+    dates { generate(:alphanumstr) }
+    qualifier { generate(:alphanumstr) }
+    prefix { generate(:alphanumstr) }
   end
 
   factory :json_name_person, class: JSONModel(:name_person) do
     rules { generate(:name_rule) }
     primary_name { generate(:generic_name) }
     sort_name { generate(:sort_name) }
-    name_order 'direct'
+    name_order { %w(direct inverted).sample }
+    number { generate(:alphanumstr) }
     sort_name_auto_generate true
+    dates { generate(:alphanumstr) }
+    qualifier { generate(:alphanumstr) }
+    fuller_form { generate(:alphanumstr) }
+    prefix { [nil, generate(:alphanumstr)].sample }
+    title { [nil, generate(:alphanumstr)].sample }
+    suffix { [nil, generate(:alphanumstr)].sample }
   end
 
   factory :json_name_software, class: JSONModel(:name_software) do
@@ -256,17 +279,42 @@ FactoryGirl.define do
     subnotes { [ build(:json_note_text) ] }
   end
 
+  factory :json_note_singlepart, class: JSONModel(:note_singlepart) do
+    type { generate(:singlepart_note_type)}
+    content { [ generate(:alphanumstr), generate(:alphanumstr) ] }
+  end
+
+  factory :json_note_index, class: JSONModel(:note_index) do
+    type { generate(:note_index_type)}
+    content { [ generate(:alphanumstr), generate(:alphanumstr) ] }
+    items { [ build(:json_note_index_item), build(:json_note_index_item) ] }
+  end
+
+  factory :json_note_index_item, class: JSONModel(:note_index_item) do
+    value { generate(:alphanumstr) }
+    reference { generate(:alphanumstr) }
+    reference_text { generate(:alphanumstr) }
+    type { generate(:note_index_item_type) }
+  end
+
   factory :json_resource, class: JSONModel(:resource) do
     title { "Resource #{generate(:generic_title)}" }
     id_0 { generate(:alphanumstr) }
-    extents { [build(:json_extent)] }
-    level 'collection'
+    id_1 { generate(:alphanumstr) }
+    id_2 { generate(:alphanumstr) }
+    id_3 { generate(:alphanumstr) }
+    extents { [build(:json_extent)]+(rand(2) == 1 ? [build(:json_extent)] : []) }
+    level { generate(:archival_record_level) }
     language 'eng'
+    dates { [build(:json_date)] }
+    finding_aid_description_rules { generate(:finding_aid_description_rules) }
+    ead_location { generate(:alphanumstr) }
   end
 
   factory :json_repo, class: JSONModel(:repository) do
     repo_code { generate(:repo_code) }
     name { generate(:generic_description) }
+    org_code { generate(:alphanumstr) }
   end
 
   # may need factories for each rights type
@@ -281,6 +329,7 @@ FactoryGirl.define do
     terms { [build(:json_term)] }
     vocabulary { create(:json_vocab).uri }
     authority_id { generate(:url) }
+    source { generate(:subject_source) }
     scope_note { generate(:alphanumstr) }
   end
 
@@ -303,5 +352,4 @@ FactoryGirl.define do
 
   factory :json_collection_management, class: JSONModel(:collection_management) do
   end
-
 end
