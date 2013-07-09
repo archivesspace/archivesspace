@@ -169,12 +169,8 @@ class ApplicationController < ActionController::Base
     (session &&
      session[:user] &&
      session[:permissions] &&
-
-     (session[:permissions][repository] &&
-      session[:permissions][repository].include?(permission) ||
-
-      (session[:permissions][ASConstants::Repository.GLOBAL] &&
-       session[:permissions][ASConstants::Repository.GLOBAL].include?(permission))))
+     (Permissions.user_can?(session[:permissions], repository, permission) ||
+      Permissions.user_can?(session[:permissions], ASConstants::Repository.GLOBAL, permission)))
   end
 
   helper_method :current_vocabulary

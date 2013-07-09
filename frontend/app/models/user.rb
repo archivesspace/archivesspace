@@ -5,7 +5,7 @@ class User < JSONModel(:user)
 
   def self.establish_session(session, backend_session, username)
     session[:session] = backend_session["session"]
-    session[:permissions] = backend_session["user"]["permissions"]
+    session[:permissions] = Permissions.pack(backend_session["user"]["permissions"])
     session[:last_permission_refresh] = Time.now.to_i
     session[:user_uri] = backend_session["user"]["uri"]
     session[:user] = username
@@ -16,7 +16,7 @@ class User < JSONModel(:user)
     user = self.find('current-user')
 
     if user
-      session[:permissions] = user.permissions
+      session[:permissions] = Permissions.pack(user.permissions)
       session[:last_permission_refresh] = Time.now.to_i
     end
   end
