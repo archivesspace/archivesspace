@@ -133,7 +133,7 @@ class DigitalObjectsController < ApplicationController
     limit_to = params[:node_uri] || "root"
 
     if !params[:hash].blank?
-      node_id = params[:hash].sub("#tree::", "")
+      node_id = params[:hash].sub("tree::", "").sub("#", "")
       if node_id.starts_with?("digital_object_component")
         limit_to = JSONModel(:digital_object_component).uri_for(node_id.sub("digital_object_component_", "").to_i)
       elsif node_id.starts_with?("digital_object")

@@ -709,7 +709,7 @@ $(function() {
                   $tree.data("loading-node", null);
                   return {
                     node_uri: "root",
-                    hash: document.location.hash
+                    hash: location.hash
                   };
                 } else {
                   $tree.data("loading-node", node.attr("id"));
