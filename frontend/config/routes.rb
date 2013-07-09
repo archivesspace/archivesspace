@@ -7,6 +7,8 @@ ArchivesSpace::Application.routes.draw do
 
   match 'login' => "session#login", :via => :post
   match 'logout' => "session#logout", :via => :get
+  match 'select_user' => "session#select_user", :via => :get
+  match 'become_user' => "session#become_user", :via => :post
 
   match 'repositories/select' => 'repositories#select', :via => [:post]
   match 'repositories/:id/transfer' => 'repositories#transfer', :via => [:get]
