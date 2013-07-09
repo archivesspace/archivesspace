@@ -5,8 +5,7 @@ module HelloWorlds
 
     base.def_nested_record(:the_property => :hello_worlds,
                            :contains_records_of_type => :hello_world,
-                           :corresponding_to_association  => :who_said_hello,
-                           :always_resolve => true)
+                           :corresponding_to_association  => :who_said_hello)
   end
 
 end

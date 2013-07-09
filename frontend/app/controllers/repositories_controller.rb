@@ -1,15 +1,15 @@
 class RepositoriesController < ApplicationController
 
-  skip_before_filter :unauthorised_access, :only => [:new, :create, :select, :index, :show, :edit, :update, :delete, :transfer, :run_transfer]
-  before_filter(:only => [:select, :index, :show]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :create, :edit, :update]) {|c| user_must_have("manage_repository")}
-  before_filter(:only => [:transfer, :run_transfer]) {|c| user_must_have("transfer_repository")}
-  before_filter(:only => [:delete]) {|c| user_must_have("delete_repository")}
+  set_access_control  "view_repository" => [:select, :index, :show],
+                      "manage_repository" => [:new, :create, :edit, :update],
+                      "transfer_repository" => [:transfer, :run_transfer],
+                      "delete_repository" => [:delete]
 
   before_filter :refresh_repo_list, :only => [:show, :new]
 
+
   def index
-    @search_data = Search.global(search_params.merge({"facet[]" => []}),
+    @search_data = Search.global(params_for_backend_search.merge({"facet[]" => []}),
                                  "repositories")
   end
 

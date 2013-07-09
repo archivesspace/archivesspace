@@ -12,9 +12,6 @@ end
 require_relative "../app/model/db"
 
 
-Thread.current[:test_mode] = true
-
-
 # Use an in-memory Derby DB for the test suite
 class DB
   def self.connect
@@ -55,6 +52,8 @@ end
 
 require 'rack/test'
 require_relative "../app/lib/bootstrap"
+ASpaceEnvironment.init(:unit_test)
+
 AppConfig[:search_user_secret] = "abc123"
 
 DB.connect

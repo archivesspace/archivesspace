@@ -13,7 +13,5 @@
       "physical_details" => {"type" => "string", "maxLength" => 65000, "required" => false},
       "dimensions" => {"type" => "string", "maxLength" => 255, "required" => false},
     },
-
-    "additionalProperties" => false,
   },
 }

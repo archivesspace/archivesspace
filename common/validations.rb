@@ -287,7 +287,7 @@ module JSONModel::Validations
     end
 
     ["real_1", "real_2", "real_3"].each do |k|
-      if !hash[k].nil? and hash[k] !~ /^\-?\d{0,9}\.\d{1,5}$/
+      if !hash[k].nil? and hash[k] !~ /^\-?\d{0,9}(\.\d{1,5})?$/
         errors << [k, "must be a number with no more than nine digits and five decimal places"]
       end
     end
@@ -341,6 +341,26 @@ module JSONModel::Validations
       check_otherlevel(hash);
     end
 
+  end
+
+
+  def self.check_digital_object_component(hash)
+    errors = []
+
+    fields = ["dates", "title", "label"]
+
+    if fields.all? {|field| !hash.has_key?(field) || hash[field].empty?}
+      fields.each do |field|
+        errors << [field, "you must provide a label, title or date"]
+      end
+    end
+
+    errors
+  end
+
+
+  JSONModel(:digital_object_component).add_validation("check_digital_object_component") do |hash|
+    check_digital_object_component(hash)
   end
 
 

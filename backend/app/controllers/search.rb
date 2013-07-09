@@ -17,7 +17,7 @@ class ArchivesSpaceService < Sinatra::Base
       [String],
       "The list of the fields to produce facets for",
       :optional => true],
-     ["filter_term", [String], "A json string containing the term/value pairs to be applied to the filter",
+     ["filter_term", [String], "A json string containing the term/value pairs to be applied as filters.  Of the form: {\"fieldname\": \"fieldvalue\"}.",
       :optional => true],
      ["exclude",
       [String],
@@ -75,7 +75,7 @@ class ArchivesSpaceService < Sinatra::Base
   .params(["node_uri", String, "The URI of the archival record to find the tree view for"])
   .permissions([:view_all_records])
   .returns([200, "OK"],
-           [404, '{"error":"Tree for node_uri not found"}']) \
+           [404, "Not found"]) \
   do
 
     show_suppressed = !RequestContext.get(:enforce_suppression)
@@ -96,15 +96,6 @@ class ArchivesSpaceService < Sinatra::Base
 
     json_response(search_data["results"][0])
 
-  end
-
-
-  def advanced_query_string(advanced_query)
-    if advanced_query.has_key?('subqueries')
-      "(#{advanced_query['subqueries'].map{|subq| advanced_query_string(subq)}.join(" #{advanced_query['op']} ")})"
-    else
-      "#{advanced_query['negated']?"-":""}#{advanced_query['field']}:(#{advanced_query['value']})"
-    end
   end
 
 end

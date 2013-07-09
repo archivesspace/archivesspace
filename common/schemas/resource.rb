@@ -44,10 +44,10 @@
       "finding_aid_title" => {"type" => "string", "maxLength" => 65000},
       "finding_aid_filing_title" => {"type" => "string", "maxLength" => 65000},
       "finding_aid_date" => {"type" => "string", "maxLength" => 255},
-      "finding_aid_author" => {"type" => "string", "maxLength" => 255},
+      "finding_aid_author" => {"type" => "string", "maxLength" => 65000},
       "finding_aid_description_rules" => {"type" => "string", "dynamic_enum" => "resource_finding_aid_description_rules"},
       "finding_aid_language" => {"type" => "string", "maxLength" => 255},
-      "finding_aid_sponsor" => {"type" => "string", "maxLength" => 255},
+      "finding_aid_sponsor" => {"type" => "string", "maxLength" => 65000},
       "finding_aid_edition_statement" => {"type" => "string", "maxLength" => 65000},
       "finding_aid_series_statement" => {"type" => "string", "maxLength" => 65000},
       "finding_aid_revision_date" => {"type" => "string", "maxLength" => 255},
@@ -105,7 +105,5 @@
       },
 
     },
-
-    "additionalProperties" => false,
   },
 }

@@ -13,6 +13,5 @@
         "items" => { "type" => "JSONModel(:classification_tree) object" }
       }
     },
-    "additionalProperties" => false,
   },
 }

@@ -403,15 +403,11 @@ provides a declaration to handle this automatically.  For example, the
 
      base.def_nested_record(:the_property => :dates,
                             :contains_records_of_type => :date,
-                            :corresponding_to_association  => :date,
-                            :always_resolve => true)
+                            :corresponding_to_association  => :date)
 
 which instructs the `Accession` model to look for a property in the
 JSONModel instance called 'dates' and save them to the database in the
-manner described above.  The `always_resolve` parameter tells it how
-to handle these records when turning them back into JSONModel
-instances: when `true`, the full record is inlined into the parent
-document, and then `false`, just a URI reference is included.
+manner described above.
 
 
 ### Relationships

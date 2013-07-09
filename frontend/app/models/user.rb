@@ -5,7 +5,7 @@ class User < JSONModel(:user)
 
   def self.establish_session(session, backend_session, username)
     session[:session] = backend_session["session"]
-    session[:permissions] = backend_session["user"]["permissions"]
+    session[:permissions] = Permissions.pack(backend_session["user"]["permissions"])
     session[:last_permission_refresh] = Time.now.to_i
     session[:user_uri] = backend_session["user"]["uri"]
     session[:user] = username
@@ -16,7 +16,7 @@ class User < JSONModel(:user)
     user = self.find('current-user')
 
     if user
-      session[:permissions] = user.permissions
+      session[:permissions] = Permissions.pack(user.permissions)
       session[:last_permission_refresh] = Time.now.to_i
     end
   end
@@ -31,6 +31,23 @@ class User < JSONModel(:user)
       ASUtils.json_parse(response.body)
     else
       nil
+    end
+  end
+
+
+  def self.become_user(session, username)
+    uri = JSONModel(:user).uri_for("#{username}/become-user")
+
+    response = JSONModel::HTTP.post_form(uri)
+
+    if response.code == '200'
+      backend_session = ASUtils.json_parse(response.body)
+
+      self.establish_session(session, backend_session, username)
+
+      true
+    else
+      false
     end
   end
 

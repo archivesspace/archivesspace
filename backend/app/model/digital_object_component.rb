@@ -7,7 +7,8 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
   include Dates
   include ExternalDocuments
   include Agents
-  include Orderable
+  include TreeNodes
+  include AutoGenerator
   include Notes
   include RightsStatements
   include ExternalIDs
@@ -15,9 +16,29 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
 
   agent_relator_enum("linked_agent_archival_record_relators")
 
-  orderable_root_record_type :digital_object, :digital_object_component
+  tree_record_types :digital_object, :digital_object_component
 
   set_model_scope :repository
+
+
+  auto_generate :property => :display_string,
+                :generator => proc { |json|
+                  display_string = json['title'] || json['label'] || nil
+
+                  date_label = json.has_key?('dates') && json['dates'].length > 0 ?
+                                lambda {|date|
+                                  if date['expression']
+                                    date['expression']
+                                  elsif date['begin'] and date['end']
+                                    "#{date['begin']} - #{date['end']}"
+                                  else
+                                    date['begin']
+                                  end
+                                }.call(json['dates'].first) : nil
+
+                  "#{[display_string, date_label].compact.join(", ")}"
+                }
+
 
   def validate
     validates_unique([:root_record_id, :component_id],

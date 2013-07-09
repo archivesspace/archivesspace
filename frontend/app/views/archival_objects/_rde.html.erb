@@ -191,16 +191,16 @@
           <tr class="sections">
             <th colspan="1"></th>
             <th colspan="5"><%= I18n.t("rde.sections.basic_information") %></th>
-            <th colspan="4"><%= I18n.t("rde.sections.date") %></th>
+            <th colspan="4" class="conditionally-required"><%= I18n.t("rde.sections.date") %></th>
             <th colspan="8"><%= I18n.t("rde.sections.instance") %></th>
             <th colspan="6"><%= I18n.t("rde.sections.notes") %></th>
             <th colspan="1"></th>
           </tr>
           <tr class="fieldset-labels">
             <th/>
-            <th class="fieldset-label sticky"><%= I18n.t("archival_object.level") %></th>
+            <th class="fieldset-label required sticky"><%= I18n.t("archival_object.level") %></th>
             <th class="fieldset-label sticky"><%= I18n.t("archival_object.publish") %></th>
-            <th class="fieldset-label"><%= I18n.t("archival_object.title") %></th>
+            <th class="fieldset-label conditionally-required"><%= I18n.t("archival_object.title") %></th>
             <th class="fieldset-label"><%= I18n.t("archival_object.component_id") %></th>
             <th class="fieldset-label sticky"><%= I18n.t("archival_object.language") %></th>
             <th class="fieldset-label sticky"><%= I18n.t("date.expression") %></th>

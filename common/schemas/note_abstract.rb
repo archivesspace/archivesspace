@@ -13,7 +13,5 @@
         "ifmissing" => "error",
       },
     },
-
-    "additionalProperties" => false,
   },
 }

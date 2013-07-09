@@ -1,16 +1,16 @@
 class ArchivesSpaceService < Sinatra::Base
 
-  Endpoint.post('/repositories/:repo_id/resources/:resource_id/children')
-  .description("Add children to a Resource")
+  Endpoint.post('/repositories/:repo_id/resources/:id/children')
+  .description("Batch create several Archival Objects as children of an existing Resource")
   .params(["children", JSONModel(:archival_record_children), "The children to add to the resource", :body => true],
-          ["resource_id", Integer, "The ID of the resource to add children to"],
+          ["id", :id],
           ["repo_id", :repo_id])
   .permissions([:update_archival_record])
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
   do
-    resource = Resource.get_or_die(params[:resource_id])
+    resource = Resource.get_or_die(params[:id])
 
     resource.add_children(params[:children])
 
@@ -19,7 +19,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.post('/repositories/:repo_id/archival_objects/:id/children')
-  .description("Add children to an Archival Object")
+  .description("Batch create several Archival Objects as children of an existing Archival Object")
   .params(["children", JSONModel(:archival_record_children), "The children to add to the archival object", :body => true],
           ["id", Integer, "The ID of the archival object to add children to"],
           ["repo_id", :repo_id])
@@ -37,9 +37,9 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.post('/repositories/:repo_id/archival_objects/:id/accept_children')
-  .description("Move existing archival objects to become children of an Archival Object")
-  .params(["children", [String], "The children to move to the archival object",:optional => true],
-          ["id", Integer, "The ID of the archival object to move children to"],
+  .description("Move existing Archival Objects to become children of an Archival Object")
+  .params(["children", [String], "The children to move to the Archival Object", :optional => true],
+          ["id", Integer, "The ID of the Archival Object to move children to"],
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
   .permissions([:update_archival_record])
@@ -52,9 +52,9 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.post('/repositories/:repo_id/resources/:id/accept_children')
-  .description("Move existing archival objects to become children of a Resource")
-  .params(["children", [String], "The children to move to the resource",:optional => true],
-          ["id", Integer, "The ID of the resource to move children to"],
+  .description("Move existing Archival Objects to become children of a Resource")
+  .params(["children", [String], "The children to move to the Resource", :optional => true],
+          ["id", Integer, "The ID of the Resource to move children to"],
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
   .permissions([:update_archival_record])
@@ -67,9 +67,9 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.post('/repositories/:repo_id/digital_objects/:id/accept_children')
-  .description("Move existing digital object components to become children of a digital object")
-  .params(["children", [String], "The children to move to the digital object",:optional => true],
-          ["id", Integer, "The ID of the digital object to move children to"],
+  .description("Move existing Digital Object components to become children of a Digital Object")
+  .params(["children", [String], "The children to move to the Digital Object", :optional => true],
+          ["id", Integer, "The ID of the Digital Object to move children to"],
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
   .permissions([:update_archival_record])
@@ -82,9 +82,9 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.post('/repositories/:repo_id/digital_object_components/:id/accept_children')
-  .description("Move existing digital object components to become children of a digital object component")
-  .params(["children", [String], "The children to move to the digital object component",:optional => true],
-          ["id", Integer, "The ID of the digital object component to move children to"],
+  .description("Move existing Digital Object Components to become children of a Digital Object Component")
+  .params(["children", [String], "The children to move to the Digital Object Component", :optional => true],
+          ["id", Integer, "The ID of the Digital Object Component to move children to"],
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
   .permissions([:update_archival_record])
@@ -97,9 +97,9 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.post('/repositories/:repo_id/classifications/:id/accept_children')
-  .description("Move existing terms to become children of a classification")
-  .params(["children", [String], "The children to move to the classification",:optional => true],
-          ["id", Integer, "The ID of the classification to move children to"],
+  .description("Move existing Classification Terms to become children of a Classification")
+  .params(["children", [String], "The children to move to the Classification", :optional => true],
+          ["id", Integer, "The ID of the Classification to move children to"],
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
   .permissions([:update_classification_record])
@@ -112,9 +112,9 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.post('/repositories/:repo_id/classification_terms/:id/accept_children')
-  .description("Move existing terms to become children of another classification term")
-  .params(["children", [String], "The children to move to the classification term",:optional => true],
-          ["id", Integer, "The ID of the classification term to move children to"],
+  .description("Move existing Classification Terms to become children of another Classification Term")
+  .params(["children", [String], "The children to move to the Classification Term", :optional => true],
+          ["id", Integer, "The ID of the Classification Term to move children to"],
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
   .permissions([:update_classification_record])

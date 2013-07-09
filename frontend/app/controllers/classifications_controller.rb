@@ -1,22 +1,19 @@
 class ClassificationsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete, :accept_children, :tree]
-  before_filter(:only => [:index, :show, :tree]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update, :accept_children]) {|c| user_must_have("update_classification_record")}
-  before_filter(:only => [:delete]) {|c| user_must_have("delete_classification_record")}
 
-  FIND_OPTS = {
-    "resolve[]" => ["creator"]
-  }
+  set_access_control  "view_repository" => [:index, :show, :tree],
+                      "update_classification_record" => [:new, :edit, :create, :update, :accept_children],
+                      "delete_classification_record" => [:delete]
+
 
   def index
-    @search_data = Search.for_type(session[:repo_id], "classification", search_params.merge({"facet[]" => SearchResultData.CLASSIFICATION_FACETS}))
+    @search_data = Search.for_type(session[:repo_id], "classification", params_for_backend_search.merge({"facet[]" => SearchResultData.CLASSIFICATION_FACETS}))
   end
 
   def show
     flash.keep
 
     if params[:inline]
-      @classification = JSONModel(:classification).find(params[:id], FIND_OPTS)
+      @classification = JSONModel(:classification).find(params[:id], find_opts)
       return render :partial => "classifications/show_inline"
     end
 
@@ -34,7 +31,7 @@ class ClassificationsController < ApplicationController
     flash.keep if not flash.empty? # keep the notices so they display on the subsequent ajax call
 
     if params[:inline]
-      @classification = JSONModel(:classification).find(params[:id], FIND_OPTS)
+      @classification = JSONModel(:classification).find(params[:id], find_opts)
       return render :partial => "classifications/edit_inline"
     end
 
@@ -62,7 +59,7 @@ class ClassificationsController < ApplicationController
 
   def update
     handle_crud(:instance => :classification,
-                :obj => JSONModel(:classification).find(params[:id], FIND_OPTS),
+                :obj => JSONModel(:classification).find(params[:id], find_opts),
                 :on_invalid => ->(){
       render :partial => "edit_inline"
     },
@@ -103,7 +100,7 @@ class ClassificationsController < ApplicationController
     limit_to = params[:node_uri] || "root"
 
     if !params[:hash].blank?
-      node_id = params[:hash].sub("#tree::", "")
+      node_id = params[:hash].sub("tree::", "").sub("#", "")
       if node_id.starts_with?("classification_term")
         limit_to = JSONModel(:classification_term).uri_for(node_id.sub("classification_term_", "").to_i)
       elsif node_id.starts_with?("classification")
@@ -111,9 +108,9 @@ class ClassificationsController < ApplicationController
       end
     end
 
-    parse_tree(JSONModel(:classification_tree).find(nil, :classification_id => params[:id], :limit_to => limit_to).to_hash(:validated), nil, proc {|node, parent|
+    parse_tree(JSONModel(:classification_tree).find(nil, :classification_id => params[:id], :limit_to => limit_to).to_hash(:validated), nil) do |node, parent|
       tree["#{node["node_type"]}_#{node["id"]}"] = node.merge("children" => node["children"].collect{|child| "#{child["node_type"]}_#{child["id"]}"})
-    })
+    end
 
     tree
   end

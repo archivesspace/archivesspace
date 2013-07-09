@@ -131,7 +131,7 @@ describe 'Resource model' do
     classification = Classification.create_from_json(classification)
     resource = create_resource(:classification => {'ref' => classification.uri})
 
-    resource.linked_records(:classification).title.should eq("top-level classification")
+    resource.related_records(:classification).title.should eq("top-level classification")
   end
 
 end

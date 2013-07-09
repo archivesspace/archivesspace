@@ -137,6 +137,29 @@ describe 'Repository controller' do
       end
     end
 
+
+    it "can delete an empty repository and all of its groups" do
+      victim_repo = create(:json_repo, {:repo_code => "TARGET_REPO"})
+
+      victim_repo.delete
+
+      Repository[:id => victim_repo.id].should be(nil)
+      Group.filter(:repo_id => victim_repo.id).count.should be(0)
+    end
+
+
+    it "will refuse to delete a repository with records" do
+      victim_repo = make_test_repo("TARGET_REPO")
+
+      create(:json_accession)
+
+      expect {
+        JSONModel(:repository).find(victim_repo).delete
+      }.to raise_error(ConflictException)
+
+      Repository[:id => victim_repo].should_not be(nil)
+    end
+
   end
 
 end

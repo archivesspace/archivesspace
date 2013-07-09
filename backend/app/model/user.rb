@@ -2,6 +2,8 @@ class User < Sequel::Model(:user)
   include ASModel
   corresponds_to JSONModel(:user)
 
+  many_to_many :group, :join_table => "group_user"
+
   set_model_scope :global
 
   @@unlisted_user_ids = nil
@@ -30,7 +32,7 @@ class User < Sequel::Model(:user)
   end
 
 
-  def update_from_json(json, opts = {}, apply_linked_records = true)
+  def update_from_json(json, opts = {}, apply_nested_records = true)
     self.class.make_admin_if_requested(self, json)
     super
   end
@@ -48,16 +50,18 @@ class User < Sequel::Model(:user)
       # fine.
     end
 
-    admins = Group.any_repo[:group_code => Group.ADMIN_GROUP_CODE]
+    RequestContext.in_global_repo do
+      admins_group = Group.this_repo[:group_code => Group.ADMIN_GROUP_CODE]
 
-    if admins
-      if json.is_admin
-        admins.add_user(obj)
-      else
-        admins.remove_user(obj)
+      if admins_group
+        if json.is_admin
+          admins_group.add_user(obj)
+        else
+          admins_group.remove_user(obj)
+        end
+
+        self.broadcast_changes
       end
-
-      self.broadcast_changes
     end
   end
 
@@ -126,28 +130,16 @@ class User < Sequel::Model(:user)
 
 
   def derived_permissions
-    derived = {
-      'update_archival_record' => ['update_subject_record',
-                                   'update_agent_record',
-                                   'update_vocabulary_record'],
-      'delete_archival_record' => ['delete_subject_record',
-                                   'delete_agent_record',
-                                   'delete_vocabulary_record'],
-      'merge_agents_and_subjects' => ['merge_subject_record',
-                                      'merge_agent_record']
-    }
-
     actual_permissions =
       self.class.db[:group].
            join(:group_user, :group_id => :id).
            join(:group_permission, :group_id => :group_id).
            join(:permission, :id => :permission_id).
-           filter(:user_id => self.id,
-                  :permission_code => derived.keys).
+           filter(:user_id => self.id).
            select(:permission_code).map {|row| row[:permission_code]}
 
 
-    actual_permissions.map {|p| derived[p]}.flatten
+    actual_permissions.map {|p| Permission.derived_permissions_for(p) }.flatten
   end
 
 
@@ -161,7 +153,7 @@ class User < Sequel::Model(:user)
     end
 
     permission = Permission[:permission_code => permission_code.to_s]
-    global_repo = Repository[:repo_code => Group.GLOBAL]
+    global_repo = Repository[:repo_code => Repository.GLOBAL]
 
     raise PermissionNotFound.new("The permission '#{permission_code}' doesn't exist") if permission.nil?
 
@@ -203,13 +195,13 @@ class User < Sequel::Model(:user)
       result[repository_uri] ||= derived.clone
       result[repository_uri] << row[:permission_code]
 
-      if row[:repo_code] == Group.GLOBAL
+      if row[:repo_code] == Repository.GLOBAL
         global_permissions << row[:permission_code]
       end
     end
 
     # Attach permissions in the global repository under the symbolic name too
-    result[Group.GLOBAL] = global_permissions + derived
+    result[Repository.GLOBAL] = global_permissions + derived
 
     result
   end
@@ -244,6 +236,4 @@ class User < Sequel::Model(:user)
     end
   end
 
-
-  many_to_many :group, :join_table => "group_user"
 end

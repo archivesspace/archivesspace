@@ -2,21 +2,21 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/repositories/:repo_id/groups')
     .description("Create a group within a repository")
-    .params(["group", JSONModel(:group), "The group to create", :body => true],
+    .params(["group", JSONModel(:group), "The record to create", :body => true],
             ["repo_id", :repo_id])
     .permissions([:manage_repository])
     .returns([200, :created],
              [400, :error],
              [409, :conflict]) \
   do
-    handle_create(Group, :group)
+    handle_create(Group, params[:group])
   end
 
 
-  Endpoint.post('/repositories/:repo_id/groups/:group_id')
+  Endpoint.post('/repositories/:repo_id/groups/:id')
     .description("Update a group")
-    .params(["group_id", Integer, "The Group ID to update"],
-            ["group", JSONModel(:group), "The Group data to update", :body => true],
+    .params(["id", :id],
+            ["group", JSONModel(:group), "The updated record", :body => true],
             ["repo_id", :repo_id],
             ["with_members",
              BooleanParam,
@@ -27,14 +27,14 @@ class ArchivesSpaceService < Sinatra::Base
              [400, :error],
              [409, :conflict]) \
   do
-    handle_update(Group, :group_id, :group,
+    handle_update(Group, params[:id], params[:group],
                   :with_members => params[:with_members])
   end
 
 
-  Endpoint.get('/repositories/:repo_id/groups/:group_id')
+  Endpoint.get('/repositories/:repo_id/groups/:id')
     .description("Get a group by ID")
-    .params(["group_id", Integer, "The group ID"],
+    .params(["id", :id],
             ["repo_id", :repo_id],
             ["with_members",
              BooleanParam,
@@ -42,24 +42,24 @@ class ArchivesSpaceService < Sinatra::Base
              :default => true])
     .permissions([:manage_repository])
     .returns([200, "(:group)"],
-             [404, '{"error":"Group not found"}']) \
+             [404, "Not found"]) \
   do
-    json = Group.to_jsonmodel(params[:group_id],
+    json = Group.to_jsonmodel(params[:id],
                               :with_members => params[:with_members])
 
     json_response(json)
   end
 
 
-  Endpoint.delete('/repositories/:repo_id/groups/:group_id')
+  Endpoint.delete('/repositories/:repo_id/groups/:id')
     .description("Delete a group by ID")
-    .params(["group_id", Integer, "The group ID"],
+    .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:manage_repository])
     .returns([200, "(:group)"],
-             [404, '{"error":"Group not found"}']) \
+             [404, "Not found"]) \
   do
-    handle_delete(Group, params[:group_id])
+    handle_delete(Group, params[:id])
   end
 
 

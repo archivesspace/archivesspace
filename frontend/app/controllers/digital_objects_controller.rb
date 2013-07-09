@@ -1,16 +1,14 @@
 class DigitalObjectsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :tree, :new, :edit, :create, :update, :delete, :publish, :accept_children, :tree, :merge, :transfer]
-  before_filter(:only => [:index, :show, :tree]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update, :publish, :accept_children]) {|c| user_must_have("update_archival_record")}
-  before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
-  before_filter(:only => [:merge]) {|c| user_must_have("merge_archival_record")}
-  before_filter(:only => [:transfer]) {|c| user_must_have("transfer_archival_record")}
 
-  FIND_OPTS = ["subjects", "linked_agents", "linked_instances"]
+  set_access_control  "view_repository" => [:index, :show, :tree],
+                      "update_archival_record" => [:new, :edit, :create, :update, :publish, :accept_children],
+                      "delete_archival_record" => [:delete],
+                      "merge_archival_record" => [:merge],
+                      "transfer_archival_record" => [:transfer]
 
 
   def index
-    @search_data = Search.for_type(session[:repo_id], params[:include_components]==="true" ? ["digital_object", "digital_object_component"] : "digital_object", search_params.merge({"facet[]" => SearchResultData.DIGITAL_OBJECT_FACETS}))
+    @search_data = Search.for_type(session[:repo_id], params[:include_components]==="true" ? ["digital_object", "digital_object_component"] : "digital_object", params_for_backend_search.merge({"facet[]" => SearchResultData.DIGITAL_OBJECT_FACETS}))
   end
 
 
@@ -19,7 +17,7 @@ class DigitalObjectsController < ApplicationController
 
     if params[:inline]
       # only fetch the fully resolved record when rendering the full form
-      @digital_object = JSONModel(:digital_object).find(params[:id], "resolve[]" => FIND_OPTS)
+      @digital_object = JSONModel(:digital_object).find(params[:id], find_opts)
       return render :partial => "digital_objects/show_inline"
     end
 
@@ -44,7 +42,7 @@ class DigitalObjectsController < ApplicationController
 
     if params[:inline]
       # only fetch the fully resolved record when rendering the full form
-      @digital_object = JSONModel(:digital_object).find(params[:id], "resolve[]" => FIND_OPTS)
+      @digital_object = JSONModel(:digital_object).find(params[:id], find_opts)
       return render :partial => "digital_objects/edit_inline"
     end
 
@@ -72,8 +70,7 @@ class DigitalObjectsController < ApplicationController
 
   def update
     handle_crud(:instance => :digital_object,
-                :obj => JSONModel(:digital_object).find(params[:id],
-                                                  "resolve[]" => FIND_OPTS),
+                :obj => JSONModel(:digital_object).find(params[:id], find_opts),
                 :on_invalid => ->(){
                   render :partial => "edit_inline"
                 },
@@ -136,7 +133,7 @@ class DigitalObjectsController < ApplicationController
     limit_to = params[:node_uri] || "root"
 
     if !params[:hash].blank?
-      node_id = params[:hash].sub("#tree::", "")
+      node_id = params[:hash].sub("tree::", "").sub("#", "")
       if node_id.starts_with?("digital_object_component")
         limit_to = JSONModel(:digital_object_component).uri_for(node_id.sub("digital_object_component_", "").to_i)
       elsif node_id.starts_with?("digital_object")
@@ -144,12 +141,12 @@ class DigitalObjectsController < ApplicationController
       end
     end
 
-    parse_tree(JSONModel(:digital_object_tree).find(nil, :digital_object_id => params[:id], :limit_to => limit_to).to_hash(:validated), nil, proc {|node|
+    parse_tree(JSONModel(:digital_object_tree).find(nil, :digital_object_id => params[:id], :limit_to => limit_to).to_hash(:validated), nil) do |node, parent|
       node['level'] = I18n.t("enumerations.digital_object_level.#{node['level']}", :default => node['level']) if node['level']
       node['digital_object_type'] = I18n.t("enumerations.digital_object_digital_object_type.#{node['digital_object_type']}", :default => node['digital_object_type']) if node['digital_object_type']
 
       tree["#{node["node_type"]}_#{node["id"]}"] = node.merge("children" => node["children"].collect{|child| "#{child["node_type"]}_#{child["id"]}"})
-    })
+    end
 
     tree
   end

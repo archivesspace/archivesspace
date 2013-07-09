@@ -5,8 +5,7 @@ module Deaccessions
 
     base.def_nested_record(:the_property => :deaccessions,
                            :contains_records_of_type => :deaccession,
-                           :corresponding_to_association  => :deaccession,
-                           :always_resolve => true)
+                           :corresponding_to_association  => :deaccession)
   end
 
 end

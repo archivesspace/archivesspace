@@ -273,10 +273,10 @@ describe 'Relationships' do
     apple = Apple.create_from_json(JSONModel(:apple).new(:name => "granny smith"))
     banana = Banana.create_from_json(JSONModel(:banana).new(:friends => [{:ref => apple.uri}]))
 
-    banana.linked_records(:friends).count.should eq(1)
+    banana.related_records(:friends).count.should eq(1)
     apple.delete
     banana.reload
-    banana.linked_records(:friends).count.should eq(0)
+    banana.related_records(:friends).count.should eq(0)
   end
 
 
@@ -285,7 +285,7 @@ describe 'Relationships' do
     banana2 = Banana.create_from_json(JSONModel(:banana).new(:friends => [{:ref => banana1.uri}]))
     banana1.refresh
 
-    banana2.linked_records(:friends)[0].should eq(banana1)
+    banana2.related_records(:friends)[0].should eq(banana1)
   end
 
 

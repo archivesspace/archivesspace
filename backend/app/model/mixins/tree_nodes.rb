@@ -2,7 +2,7 @@
 # objects, digital object components)
 require 'securerandom'
 
-module Orderable
+module TreeNodes
 
   def self.included(base)
     base.extend(ClassMethods)
@@ -80,7 +80,7 @@ module Orderable
   end
 
 
-  def update_from_json(json, opts = {}, apply_linked_records = true)
+  def update_from_json(json, opts = {}, apply_nested_records = true)
     sequence = self.class.sequence_for(json)
 
     self.class.set_root_record(json, sequence, opts)
@@ -156,7 +156,7 @@ module Orderable
 
   module ClassMethods
 
-    def orderable_root_record_type(root, node)
+    def tree_record_types(root, node)
       @root_record_type = root.to_s
       @node_record_type = node.to_s
     end
@@ -259,8 +259,8 @@ module Orderable
 
   def transfer_to_repository(repository, transfer_group = [])
     # All records under this one will be transferred too
-    children.each do |child|
-      child.transfer_to_repository(repository, transfer_group)
+    children.select(:id).each do |child|
+      child.transfer_to_repository(repository, transfer_group + [self])
     end
 
     super

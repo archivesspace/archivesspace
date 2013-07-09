@@ -1,17 +1,16 @@
 class EventsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete]
-  before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_archival_record")}
-  before_filter(:only => [:delete]) {|c| user_must_have("delete_event_record")}
 
-  FIND_OPTS = ["linked_agents", "linked_records"]
+  set_access_control  "view_repository" => [:index, :show],
+                      "update_archival_record" => [:new, :edit, :create, :update],
+                      "delete_archival_record" => [:delete]
+
 
   def index
-    @search_data = Search.for_type(session[:repo_id], "event", search_params.merge({"facet[]" => SearchResultData.EVENT_FACETS}))
+    @search_data = Search.for_type(session[:repo_id], "event", params_for_backend_search.merge({"facet[]" => SearchResultData.EVENT_FACETS}))
   end
 
   def show
-    @event = JSONModel(:event).find(params[:id], "resolve[]" => FIND_OPTS)
+    @event = JSONModel(:event).find(params[:id], find_opts)
   end
 
   def new
@@ -33,7 +32,7 @@ class EventsController < ApplicationController
   end
 
   def edit
-    @event = JSONModel(:event).find(params[:id], "resolve[]" => FIND_OPTS)
+    @event = JSONModel(:event).find(params[:id], find_opts)
   end
 
   def create

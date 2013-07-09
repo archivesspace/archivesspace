@@ -7,13 +7,14 @@ if ENV['COVERAGE_REPORTS'] && ENV["ASPACE_INTEGRATION"] == "true"
 end
 
 require_relative 'lib/bootstrap'
+ASpaceEnvironment.init
+
 require_relative 'lib/uri_resolver'
 require_relative 'lib/rest'
 require_relative 'lib/crud_helpers'
 require_relative 'lib/notifications'
 require_relative 'lib/export'
 require_relative 'lib/request_context.rb'
-require_relative 'lib/import_helpers'
 require_relative 'lib/reports/report_helper'
 require_relative 'lib/component_transfer'
 require_relative 'lib/progress_ticker'
@@ -29,12 +30,9 @@ class ArchivesSpaceService < Sinatra::Base
   include RESTHelpers
 
   include CrudHelpers
-  include ImportHelpers
 
-  helpers do
-    include RESTHelpers::ResponseHelpers
-  end
-
+  include RESTHelpers::ResponseHelpers
+  include Exceptions::ResponseMappings
 
   @loaded_hooks = []
   @archivesspace_loaded = false
@@ -84,183 +82,82 @@ class ArchivesSpaceService < Sinatra::Base
       set :show_exceptions, false
       set :logging, false
 
-      if DB.connected?
-
-        require_relative "model/ASModel"
-
-        [File.dirname(__FILE__), *ASUtils.find_local_directories('backend')].each do |prefix|
-          # Load all mixins
-          Dir.glob(File.join(prefix, "model", "mixins", "*.rb")).sort.each do |mixin|
-            require File.absolute_path(mixin)
-          end
-
-          # Load all models
-          Dir.glob(File.join(prefix, "model", "*.rb")).sort.each do |model|
-            require File.absolute_path(model)
-          end
-
-          # Load all reports
-          Dir.glob(File.join(prefix, "model", "reports", "*.rb")).sort.each do |report|
-            require File.absolute_path(report)
-          end
-
-          # Load all controllers
-          Dir.glob(File.join(prefix, "controllers", "*.rb")).sort.each do |controller|
-            require File.absolute_path(controller)
-          end
-        end
-
-        # Start the notifications background delivery thread
-        Notifications.init if !Thread.current[:test_mode]
-
-
-        if !Thread.current[:test_mode] && ENV["ASPACE_INTEGRATION"] != "true"
-          # Start the job scheduler
-          if !settings.respond_to? :scheduler?
-            Log.info("Starting job scheduler")
-            set :scheduler, Rufus::Scheduler.start_new
-          end
-
-
-          settings.scheduler.cron("0 * * * *", :tags => 'notification_expiry') do
-            Log.info("Expiring old notifications")
-            Notifications.expire_old_notifications
-            Log.info("Done")
-          end
-
-          if AppConfig[:db_url] == AppConfig.demo_db_url &&
-              settings.scheduler.find_by_tag('demo_db_backup').empty?
-
-            Log.info("Enabling backups for the embedded demo database " +
-                     "running at schedule: #{AppConfig[:demo_db_backup_schedule]}")
-
-
-            settings.scheduler.cron(AppConfig[:demo_db_backup_schedule],
-                                    :tags => 'demo_db_backup') do
-              Log.info("Starting backup of embedded demo database")
-              DB.demo_db_backup
-              Log.info("Backup of embedded demo database completed!")
-            end
-          end
-
-          if AppConfig[:solr_backup_schedule] && AppConfig[:solr_backup_number_to_keep] > 0
-            settings.scheduler.cron(AppConfig[:solr_backup_schedule],
-                                    :tags => 'solr_backup') do
-              Log.info("Creating snapshot of Solr index and indexer state")
-              SolrSnapshotter.snapshot
-            end
-          end
-        end
-
-        ANONYMOUS_USER = AnonymousUser.new
-
-        require_relative "lib/bootstrap_access_control"
-
-        @loaded_hooks.each do |hook|
-          hook.call
-        end
-        @archivesspace_loaded = true
-
-        Notifications.notify("BACKEND_STARTED")
-
-      else
+      if !DB.connected?
         Log.error("***** DATABASE CONNECTION FAILED *****\n" +
                   "\n" +
                   "ArchivesSpace could not connect to your specified database URL (#{AppConfig[:db_url]}).\n\n" +
                   "Please check your configuration and try again.")
+        raise "Database connection failed"
       end
+
+      require_relative "model/ASModel"
+
+      [File.dirname(__FILE__), *ASUtils.find_local_directories('backend')].each do |prefix|
+        ['model/mixins', 'model', 'model/reports', 'controllers'].each do |path|
+          Dir.glob(File.join(prefix, path, "*.rb")).sort.each do |file|
+            require File.absolute_path(file)
+          end
+        end
+      end
+
+      # Start the notifications background delivery thread
+      Notifications.init if ASpaceEnvironment.environment != :unit_test
+
+
+      if ASpaceEnvironment.environment == :production
+        # Start the job scheduler
+        if !settings.respond_to? :scheduler?
+          Log.info("Starting job scheduler")
+          set :scheduler, Rufus::Scheduler.start_new
+        end
+
+
+        settings.scheduler.cron("0 * * * *", :tags => 'notification_expiry') do
+          Log.info("Expiring old notifications")
+          Notifications.expire_old_notifications
+          Log.info("Done")
+        end
+
+        if AppConfig[:db_url] == AppConfig.demo_db_url &&
+            settings.scheduler.find_by_tag('demo_db_backup').empty?
+
+          Log.info("Enabling backups for the embedded demo database " +
+                   "running at schedule: #{AppConfig[:demo_db_backup_schedule]}")
+
+
+          settings.scheduler.cron(AppConfig[:demo_db_backup_schedule],
+                                  :tags => 'demo_db_backup') do
+            Log.info("Starting backup of embedded demo database")
+            DB.demo_db_backup
+            Log.info("Backup of embedded demo database completed!")
+          end
+        end
+
+        if AppConfig[:solr_backup_schedule] && AppConfig[:solr_backup_number_to_keep] > 0
+          settings.scheduler.cron(AppConfig[:solr_backup_schedule],
+                                  :tags => 'solr_backup') do
+            Log.info("Creating snapshot of Solr index and indexer state")
+            SolrSnapshotter.snapshot
+          end
+        end
+      end
+
+      ANONYMOUS_USER = AnonymousUser.new
+
+      require_relative "lib/bootstrap_access_control"
+
+      @loaded_hooks.each do |hook|
+        hook.call
+      end
+      @archivesspace_loaded = true
+
+      Notifications.notify("BACKEND_STARTED")
 
       # Setup public static file sharing
       set :public_folder, Proc.new { File.join(File.dirname(__FILE__), "static") }
     rescue
       ASUtils.dump_diagnostics($!)
     end
-  end
-
-
-  def handle_exception!(boom)
-    @env['sinatra.error'] = boom
-    status boom.respond_to?(:code) ? Integer(boom.code) : 500
-
-    if not_found?
-      headers['X-Cascade'] = 'pass'
-      body '<h1>Not Found</h1>'
-      return
-    end
-
-    res = error_block!(boom.class, boom) || error_block!(status, boom)
-
-    res or raise boom
-  end
-
-
-  error ImportException do
-    json_response({:error => request.env['sinatra.error'].to_hash}, 400)
-  end
-
-  error NotFoundException do
-    json_response({:error => request.env['sinatra.error']}, 404)
-  end
-
-  error BadParamsException do
-    json_response({:error => request.env['sinatra.error'].params}, 400)
-  end
-
-  error UserNotFoundException do
-    json_response({:error => {"member_usernames" => [request.env['sinatra.error']]}}, 400)
-  end
-
-  error BatchDeleteFailed do
-    json_response({:error => {"failures" => request.env['sinatra.error'].errors}}, 403)
-  end
-
-  error TransferConstraintError do
-    json_response({:error => request.env['sinatra.error'].conflicts}, 409)
-  end
-
-  error ValidationException do
-    json_response({
-                    :error => request.env['sinatra.error'].errors,
-                    :warning => request.env['sinatra.error'].warnings,
-                    :invalid_object => request.env['sinatra.error'].invalid_object.inspect
-                  }, 400)
-  end
-
-  error ConflictException do
-    json_response({:error => request.env['sinatra.error'].conflicts}, 409)
-  end
-
-  error AccessDeniedException do
-    json_response({:error => "Access denied"}, 403)
-  end
-
-  error InvalidUsernameException do
-    json_response({:error => "Invalid username"}, 400)
-  end
-
-  error Sequel::ValidationFailed do
-    json_response({:error => request.env['sinatra.error'].errors}, 400)
-  end
-
-  error ReferenceError do
-    json_response({:error => request.env['sinatra.error']}, 400)
-  end
-
-  error MergeRequestFailed do
-    json_response({:error => request.env['sinatra.error']}, 400)
-  end
-
-  error Sequel::DatabaseError do
-    Log.exception(request.env['sinatra.error'])
-    json_response({:error => {:db_error => ["Database integrity constraint conflict: #{request.env['sinatra.error']}"]}}, 400)
-  end
-
-  error Sequel::Plugins::OptimisticLocking::Error do
-    json_response({:error => "The record you tried to update has been modified since you fetched it."}, 409)
-  end
-
-  error JSON::ParserError do
-    json_response({:error => "Had some trouble parsing your request: #{request.env['sinatra.error']}"}, 400)
   end
 
 
@@ -319,14 +216,12 @@ class ArchivesSpaceService < Sinatra::Base
       end
 
 
-      if DB.connected?
-        env[:aspace_user] = ANONYMOUS_USER
+      env[:aspace_user] = ANONYMOUS_USER
 
-        if session
-          env[:aspace_session] = session
-          env[:aspace_user] = ((session && session[:user] && User.find(:username => session[:user])) ||
-                               ANONYMOUS_USER)
-        end
+      if session
+        env[:aspace_session] = session
+        env[:aspace_user] = ((session && session[:user] && User.find(:username => session[:user])) ||
+                             ANONYMOUS_USER)
       end
 
       querystring = env['QUERY_STRING'].empty? ? "" : "?#{Log.filter_passwords(env['QUERY_STRING'])}"

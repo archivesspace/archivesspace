@@ -23,7 +23,5 @@
         }
       },
     },
-
-    "additionalProperties" => false,
   },
 }

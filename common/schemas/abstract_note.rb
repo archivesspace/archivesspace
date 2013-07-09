@@ -9,7 +9,5 @@
       "persistent_id" => {"type" => "string", "maxLength" => 255},
       "ingest_problem" => {"type" => "string", "maxLength" => 65000},
     },
-
-    "additionalProperties" => false,
   },
 }

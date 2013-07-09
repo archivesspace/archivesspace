@@ -1,37 +1,14 @@
 <%
   section_id = "user_defined" if section_id.blank?
-
-  collapsed_vals = []
-  ["integer_1", "integer_2", "integer_3", "real_1", "real_2", "real_3", "string_1", "string_2", "string_3", "string_4", "text_1", "text_2", "text_3", "text_4", "text_5"].each do |k|
-    if collapsed_vals.size < 3
-      if !user_defined[k].nil?
-        collapsed_vals << I18n.t("user_defined.#{k}") + ": #{user_defined[k].size > 17 ? (user_defined[k][0,15]+'...') : user_defined[k]}"
-      end
-    end
-  end
  
 %>
 
-<section id="<%= section_id %>">
+<section id="<%= section_id %>" class="subrecord-form-dummy">
   <h3><%= I18n.t("user_defined._singular") %></h3>
-  <div class="accordion details" id="<%= section_id %>_accordian">
-    <div class="accordion-group">
-      <div class="accordion-heading">
-        <div class="row-fluid accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_user_defined">
-          <div class="span1">
-            <span class="icon-chevron-right"></span>
-            <span class="icon-chevron-down"></span>
-          </div>
-          <% collapsed_vals.each do |cval| %>
-            <div class="span3">
-              <%= cval.html_safe %>
-            </div>
-          <% end %>
-        </div>
-      </div>
-      <div id="<%= section_id %>_user_defined" class="accordion-body collapse">
-        <%= read_only_view(user_defined) %>
-      </div>
+
+  <div class="subrecord-form-container">
+    <div class="subrecord-form-fields">
+      <%= read_only_view(user_defined) %>
     </div>
   </div>
 </section>

@@ -5,12 +5,12 @@ class IndexState
 
   def initialize
     @state_dir = File.join(AppConfig[:data_directory], "indexer_state")
-
-    FileUtils.mkdir_p(@state_dir)
   end
 
 
   def path_for(repository_id, record_type)
+    FileUtils.mkdir_p(@state_dir)
+
     File.join(@state_dir, "#{repository_id}_#{record_type}")
   end
 

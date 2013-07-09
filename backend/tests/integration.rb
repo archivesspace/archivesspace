@@ -51,6 +51,15 @@ def do_get(url, raw = false)
 end
 
 
+def do_delete(url)
+  Net::HTTP.start(url.host, url.port) do |http|
+    req = Net::HTTP::Delete.new(url.request_uri)
+    req["X-ARCHIVESSPACE-SESSION"] = @session if @session
+    http.request(req)
+  end
+end
+
+
 
 def fail(msg, response)
   raise "FAILURE: #{msg} (#{response.inspect})"
@@ -308,6 +317,13 @@ def run_tests(opts)
     r = do_get(url("/repositories/#{repo_id}/reports/unprocessed_accessions?format=#{fmt}"), true)
     r.code == '200' or fail("Accession report (#{fmt})", r)
   end
+
+
+  puts "It refuses to delete a non-empty repository"
+  r = do_delete(url("/repositories/#{repo_id}"))
+  r.code == '409' or fail("Delete should not have succeeded", r)
+  r = do_get(url("/repositories/#{repo_id}/groups"))
+  (r[:body].count > 0) or fail("Groups should not be gone", r)
 
   puts "Create an expiring admin session"
   r = do_post(URI.encode_www_form(:password => "admin"),

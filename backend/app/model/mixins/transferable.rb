@@ -4,7 +4,7 @@ module Transferable
     events_to_clone = []
 
     Event.find_relationship(:event_link).who_participates_with(self).each do |event|
-      linked_records = event.linked_records(:event_link)
+      linked_records = event.related_records(:event_link)
 
       if linked_records.length == 1
         # Events whose linked_records list contains only the record being

@@ -1,11 +1,12 @@
 class SubjectsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :terms_complete, :delete, :merge]
-  before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update, :merge]) {|c| user_must_have("update_subject_record")}
-  before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
+
+  set_access_control  "view_repository" => [:index, :show],
+                      "update_subject_record" => [:new, :edit, :create, :update, :merge],
+                      "delete_archival_record" => [:delete]
+
 
   def index
-    @search_data = Search.global({"sort" => "title_sort asc"}.merge(search_params.merge({"facet[]" => SearchResultData.SUBJECT_FACETS})),
+    @search_data = Search.global({"sort" => "title_sort asc"}.merge(params_for_backend_search.merge({"facet[]" => SearchResultData.SUBJECT_FACETS})),
                                  "subjects")
   end
 

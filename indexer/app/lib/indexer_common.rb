@@ -74,11 +74,9 @@ class CommonIndexer
 
 
   def add_audit_info(doc, record)
-    doc['created_by'] = record['record']['created_by'] if record['record'].has_key? 'created_by'
-    doc['last_modified_by'] = record['record']['last_modified_by'] if record['record'].has_key? 'last_modified_by'
-    doc['user_mtime'] = record['record']['user_mtime'] if record['record'].has_key? 'user_mtime'
-    doc['system_mtime'] = record['record']['system_mtime'] if record['record'].has_key? 'system_mtime'
-    doc['create_time'] = record['record']['create_time'] if record['record'].has_key? 'create_time'
+    ['created_by', 'last_modified_by', 'user_mtime', 'system_mtime', 'create_time'].each do |f|
+      doc[f] = record['record'][f] if record['record'].has_key?(f)
+    end
   end
 
 
@@ -101,7 +99,7 @@ class CommonIndexer
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'archival_object'
         doc['resource'] = record['record']['resource']['ref'] if record['record']['resource']
-        doc['title'] = record['record']['label']
+        doc['title'] = record['record']['display_string']
       end
     }
 
@@ -117,7 +115,7 @@ class CommonIndexer
       if doc['primary_type'] == 'accession'
         doc['accession_date_year'] = Date.parse(record['record']['accession_date']).year
         doc['identifier'] = (0...4).map {|i| record['record']["id_#{i}"]}.compact.join("-")
-        doc['title'] = record['record']['label']
+        doc['title'] = record['record']['display_string']
       end
     }
 
@@ -146,6 +144,7 @@ class CommonIndexer
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'digital_object_component'
         doc['digital_object'] = record['record']['digital_object']['ref']
+        doc['title'] = record['record']['display_string']
       end
     }
 

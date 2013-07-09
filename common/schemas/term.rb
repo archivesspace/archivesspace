@@ -12,7 +12,5 @@
 
       "vocabulary" => {"type" => "JSONModel(:vocabulary) uri", "ifmissing" => "error"}
     },
-
-    "additionalProperties" => false,
   },
 }

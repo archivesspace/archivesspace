@@ -97,4 +97,10 @@ module ApplicationHelper
     set_title(title)
   end
 
+  def truncate(string, length = 50, trailing = '&hellip;')
+    return string if string.length < length
+
+    "#{string[0..50]}#{trailing}".html_safe
+  end
+
 end

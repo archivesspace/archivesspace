@@ -11,7 +11,5 @@
 
       "terms" => {"type" => "array", "items" => {"type" => "JSONModel(:term) uri"}, "readonly" => true},
     },
-
-    "additionalProperties" => false,
   },
 }

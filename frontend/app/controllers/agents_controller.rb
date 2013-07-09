@@ -1,22 +1,17 @@
 class AgentsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete,
-                                                     :merge]
-  before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update, :merge]) {|c| user_must_have("update_agent_record")}
-  before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
+
+  set_access_control  "view_repository" => [:index, :show],
+                      "update_agent_record" => [:new, :edit, :create, :update, :merge],
+                      "delete_archival_record" => [:delete]
 
   before_filter :assign_types
 
-  FIND_OPTS = {
-    "resolve[]" => ["related_agents"]
-  }
-
   def index
-    @search_data = Search.for_type(session[:repo_id], "agent", {"sort" => "title_sort asc"}.merge(search_params.merge({"facet[]" => SearchResultData.AGENT_FACETS})))
+    @search_data = Search.for_type(session[:repo_id], "agent", {"sort" => "title_sort asc"}.merge(params_for_backend_search.merge({"facet[]" => SearchResultData.AGENT_FACETS})))
   end
 
   def show
-    @agent = JSONModel(@agent_type).find(params[:id], FIND_OPTS)
+    @agent = JSONModel(@agent_type).find(params[:id], find_opts)
   end
 
   def new
@@ -27,13 +22,13 @@ class AgentsController < ApplicationController
   end
 
   def edit
-    @agent = JSONModel(@agent_type).find(params[:id], FIND_OPTS)
+    @agent = JSONModel(@agent_type).find(params[:id], find_opts)
   end
 
   def create
     handle_crud(:instance => :agent,
                 :model => JSONModel(@agent_type),
-                :find_opts => FIND_OPTS,
+                :find_opts => find_opts,
                 :on_invalid => ->(){
                   return render :partial => "agents/new" if inline?
                   return render :action => :new
@@ -48,7 +43,7 @@ class AgentsController < ApplicationController
   def update
     handle_crud(:instance => :agent,
                 :model => JSONModel(@agent_type),
-                :obj => JSONModel(@agent_type).find(params[:id], FIND_OPTS),
+                :obj => JSONModel(@agent_type).find(params[:id], find_opts),
                 :on_invalid => ->(){
 
                   if @agent.names.empty?

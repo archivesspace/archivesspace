@@ -15,8 +15,23 @@
 
     th {
       border-top-color: darken(@navbarBackgroundHighlight, 6%);
-      &:hover {
-        background-color: @tableBackgroundHover;
+    }
+  }
+
+  .sections, .fieldset-labels {
+    th {
+      &.required {
+        background-image: asset-url('archivesspace/required_loud.png');
+        background-repeat: no-repeat;
+        background-position: 2px center;
+        padding-left: 16px;
+      }
+
+      &.conditionally-required {
+        background-image: asset-url('archivesspace/conditionally_required.png');
+        background-repeat: no-repeat;
+        background-position: 2px center;
+        padding-left: 16px;
       }
     }
   }

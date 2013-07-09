@@ -52,7 +52,5 @@
         "default" => false
       }
     },
-
-    "additionalProperties" => false,
   },
 }

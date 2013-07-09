@@ -10,7 +10,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     target, victims = parse_references(params[:merge_request])
 
-    ensure_type('subject', target, victims)
+    ensure_type(target, victims, 'subject')
 
     Subject.get_or_die(target[:id]).assimilate(victims.map {|v| Subject.get_or_die(v[:id])})
 
@@ -54,7 +54,7 @@ class ArchivesSpaceService < Sinatra::Base
     repo_uri = JSONModel(:repository).uri_for(params[:repo_id])
 
     check_repository(target, victims, params[:repo_id])
-    ensure_type('resource', target, victims)
+    ensure_type(target, victims, 'resource')
 
     Resource.get_or_die(target[:id]).assimilate(victims.map {|v| Resource.get_or_die(v[:id])})
 
@@ -75,7 +75,7 @@ class ArchivesSpaceService < Sinatra::Base
     repo_uri = JSONModel(:repository).uri_for(params[:repo_id])
 
     check_repository(target, victims, params[:repo_id])
-    ensure_type('digital_object', target, victims)
+    ensure_type(target, victims, 'digital_object')
 
     DigitalObject.get_or_die(target[:id]).assimilate(victims.map {|v| DigitalObject.get_or_die(v[:id])})
 
@@ -101,7 +101,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  def ensure_type(type, target, victims)
+  def ensure_type(target, victims, type)
     if (victims.map {|r| r[:type]} + [target[:type]]).any? {|t| t != type}
       raise BadParamsException.new(:merge_request => ["This merge request can only merge #{type} records"])
     end

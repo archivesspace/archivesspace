@@ -1,7 +1,8 @@
 class CollectionManagementRecordsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update]
-  before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_archival_record")}
+
+  set_access_control  "view_repository" => [:index, :show],
+                      "update_archival_record" => [:new, :edit, :create, :update]
+
 
   def index
     @search_data = JSONModel(:collection_management).all(:page => 1)

@@ -41,7 +41,5 @@
       "temporary" => {"type" => "string", "dynamic_enum" => "location_temporary"},
 
     },
-
-    "additionalProperties" => false,
   },
 }

@@ -23,7 +23,7 @@ class ArchivesSpaceService
 
 
   def self.create_group(group_code, description, users_to_add, permissions)
-    global_repo = Repository[:repo_code => Group.GLOBAL]
+    global_repo = Repository[:repo_code => Repository.GLOBAL]
 
     RequestContext.open(:repo_id => global_repo.id) do
       if Group[:group_code => group_code].nil?
@@ -48,17 +48,11 @@ class ArchivesSpaceService
 
   def self.set_up_base_permissions
 
-    if not Repository[:repo_code => Group.GLOBAL]
-      # Create the "global" repository
-      Repository.unrestrict_primary_key
-      begin
-        Repository.create(:repo_code => Group.GLOBAL,
-                          :name => "Global repository",
-                          :json_schema_version => JSONModel(:repository).schema_version,
-                          :hidden => 1)
-      ensure
-        Repository.restrict_primary_key
-      end
+    if not Repository[:repo_code => Repository.GLOBAL]
+      Repository.create(:repo_code => Repository.GLOBAL,
+                        :name => "Global repository",
+                        :json_schema_version => JSONModel(:repository).schema_version,
+                        :hidden => 1)
     end
 
     AgentSoftware.ensure_correctly_versioned_archivesspace_record
@@ -80,6 +74,10 @@ class ArchivesSpaceService
 
     Permission.define("manage_users",
                       "The ability to manage user accounts while logged in",
+                      :level => "global")
+
+    Permission.define("become_user",
+                      "The ability to masquerade as another user",
                       :level => "global")
 
     Permission.define("view_all_records",
@@ -163,32 +161,32 @@ class ArchivesSpaceService
     # associated with a group within a repository.
     Permission.define("update_subject_record",
                       "The ability to create and modify subject records",
-                      :derived_permission => true,
+                      :implied_by => 'update_archival_record',
                       :level => "repository")
 
     Permission.define("update_agent_record",
                       "The ability to create and modify agent records",
-                      :derived_permission => true,
+                      :implied_by => 'update_archival_record',
                       :level => "repository")
 
     Permission.define("update_vocabulary_record",
                       "The ability to create and modify vocabulary records",
-                      :derived_permission => true,
+                      :implied_by => 'update_archival_record',
                       :level => "repository")
 
     Permission.define("delete_agent_record",
                       "The ability to delete agent records",
-                      :derived_permission => true,
+                      :implied_by => 'delete_archival_record',
                       :level => "repository")
 
     Permission.define("delete_subject_record",
                       "The ability to delete subject records",
-                      :derived_permission => true,
+                      :implied_by => 'delete_archival_record',
                       :level => "repository")
 
     Permission.define("delete_vocabulary_record",
                       "The ability to delete vocabulary records",
-                      :derived_permission => true,
+                      :implied_by => 'delete_archival_record',
                       :level => "repository")
 
 
@@ -201,12 +199,12 @@ class ArchivesSpaceService
 
     Permission.define("merge_subject_record",
                       "The ability to merge subject records",
-                      :derived_permission => true,
+                      :implied_by => 'merge_agents_and_subjects',
                       :level => "repository")
 
     Permission.define("merge_agent_record",
                       "The ability to merge agent records",
-                      :derived_permission => true,
+                      :implied_by => 'merge_agents_and_subjects',
                       :level => "repository")
 
     Permission.define("merge_archival_record",

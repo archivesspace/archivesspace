@@ -16,25 +16,55 @@ require 'config/config-distribution'
 require_relative 'username'
 
 
-if ENV["ASPACE_INTEGRATION"] == "true" && AppConfig[:db_url] =~ /aspacedemo=true/
-  AppConfig[:db_url] = "jdbc:derby:memory:integrationdb;create=true;aspacedemo=true"
-end
+class ASpaceEnvironment
+
+  def self.environment
+    @environment
+  end
 
 
-if not Thread.current[:test_mode]
-  FileUtils.mkdir_p(AppConfig[:data_directory])
+  def self.init(environment = :auto)
+    return if @environment      # Already initialised
 
-  if AppConfig[:db_url] =~ /aspacedemo=true/
-    java.lang.System.set_property("derby.locks.escalationThreshold", "2147483647")
-    puts "Running database migrations for demo database"
-
-    Sequel.connect(AppConfig[:db_url]) do |db|
-      DBMigrator.setup_database(db)
+    if environment != :auto
+      @environment = environment
+    else
+      if ENV["ASPACE_INTEGRATION"] == "true"
+        @environment = :integration
+      else
+        @environment = :production
+      end
     end
 
-    puts "All done."
+    prepare_database
+  end
 
-    puts <<EOF
+
+  def self.demo_db?
+    AppConfig[:db_url] =~ /aspacedemo=true/
+  end
+
+
+  def self.prepare_database
+    if @environment == :integration && demo_db?
+      # For integration, use an in-memory database instead.
+      AppConfig[:db_url] = "jdbc:derby:memory:integrationdb;create=true;aspacedemo=true"
+    end
+
+    if @environment != :unit_test
+      FileUtils.mkdir_p(AppConfig[:data_directory])
+
+      if demo_db?
+        # Try to discourage Derby from locking whole tables.
+        java.lang.System.set_property("derby.locks.escalationThreshold", "2147483647")
+
+        Sequel.connect(AppConfig[:db_url]) do |db|
+          puts "Running database migrations for demo database"
+          DBMigrator.setup_database(db)
+          puts "All done."
+        end
+
+        puts <<EOF
 
 ********************************************************************************************
 ***
@@ -45,5 +75,8 @@ if not Thread.current[:test_mode]
 ********************************************************************************************
 
 EOF
+      end
+    end
   end
+
 end

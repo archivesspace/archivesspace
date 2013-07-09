@@ -26,6 +26,11 @@ describe JSONModel do
       def body
         { 'id' => '999' }.to_json
       end
+
+      def method_missing(*args)
+        # I don't care
+      end
+
     end
 
     class Klass

@@ -9,11 +9,6 @@ class Group < Sequel::Model(:group)
   many_to_many :permission, :join_table => :group_permission
 
 
-  def self.GLOBAL
-    # The repository code indicating that this group is global to all repositories
-    ASConstants::Group.GLOBAL
-  end
-
   def self.ADMIN_GROUP_CODE
     'administrators'
   end
@@ -97,7 +92,7 @@ class Group < Sequel::Model(:group)
   end
 
 
-  def update_from_json(json, opts = {}, apply_linked_records = true)
+  def update_from_json(json, opts = {}, apply_nested_records = true)
     super
     self.class.set_members(self, json) if opts[:with_members]
     self.class.set_permissions(self, json)

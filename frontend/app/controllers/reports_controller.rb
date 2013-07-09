@@ -1,21 +1,24 @@
 class ReportsController < ApplicationController
 
-  skip_before_filter :unauthorised_access, :only => [:index, :download]
-  before_filter(:only => [:index, :download]) {|c| user_must_have("view_repository")}
+  set_access_control  "view_repository" => [:index, :download]
+
 
   def index
     @report_data = JSONModel::HTTP::get_json("/reports")
+    @report_params = {}
   end
 
   def download
     @report_data = JSONModel::HTTP::get_json("/reports")
     report = @report_data['reports'][params['report_key']]
 
+    @report_params = params['report_params']
+
     queue = Queue.new
 
     Thread.new do
       begin
-        JSONModel::HTTP::stream("/repositories/#{session[:repo_id]}/reports/#{report['uri_suffix']}", params['report_params']) do |report_response|
+        JSONModel::HTTP::stream("/repositories/#{session[:repo_id]}/reports/#{report['uri_suffix']}", @report_params) do |report_response|
           response.headers['Content-Disposition'] = report_response['Content-Disposition']
           response.headers['Content-Type'] = report_response['Content-Type']
           queue << :ok

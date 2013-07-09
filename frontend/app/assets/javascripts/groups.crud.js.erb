@@ -25,6 +25,8 @@ $(function() {
     if ($(e.target).attr("id") == "new-member") {
       if (((e.keyCode || e.which) != 13) || $(".typeahead.dropdown-menu", ".member-toolbar").length) {
         return;
+      } else if ((e.keyCode || e.which) == 13 && $(".typeahead.dropdown-menu:visible", ".member-toolbar").length == 0) {
+        e.stopPropagation();
       }
     }
 

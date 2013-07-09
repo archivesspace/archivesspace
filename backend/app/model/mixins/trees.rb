@@ -215,8 +215,8 @@ module Trees
       dataset.select(:id).each do |record|
         node_model.this_repo.filter(:root_record_id => record.id,
                                     :parent_id => nil).
-          select(:id).each do |subrecord|
-          subrecord.delete
+                             select(:id).each do |child|
+          child.delete
         end
       end
 
@@ -227,8 +227,8 @@ module Trees
 
   def transfer_to_repository(repository, transfer_group = [])
     # All records under this one will be transferred too
-    children.each do |child|
-      child.transfer_to_repository(repository, transfer_group)
+    children.select(:id).each do |child|
+      child.transfer_to_repository(repository, transfer_group + [self])
     end
 
     super

@@ -1,8 +1,36 @@
+require 'nokogiri'
+require 'securerandom'
+
+class RawXMLHandler
+
+  def initialize
+    @fragments = {}
+  end
+
+  def <<(s)
+    id = SecureRandom.hex
+    @fragments[id] = s
+
+    ":aspace_fragment_#{id}"
+  end
+
+  def substitute_fragments(xml)
+    @fragments.each do |id, fragment|
+      xml = xml.gsub!(/:aspace_fragment_#{id}/, fragment)
+    end
+
+    xml
+  end
+
+end
+
+
 ASpaceExport::serializer :ead do
   
-
   def serialize(ead, opts = {})
     
+    fragments = RawXMLHandler.new
+
     builder = Nokogiri::XML::Builder.new do |xml|
     
       xml.ead('xmlns' => 'urn:isbn:1-931666-22-9', 
@@ -55,7 +83,7 @@ ASpaceExport::serializer :ead do
             content = ASpaceExport::Utils.extract_note_text(note)
 
             xml.send(note['type']) {
-              xml.p content
+              xml.p (fragments << content)
             }
           end
 
@@ -103,7 +131,7 @@ ASpaceExport::serializer :ead do
     
     end
     
-    builder.to_xml
+    fragments.substitute_fragments(builder.to_xml)
   end
 
   

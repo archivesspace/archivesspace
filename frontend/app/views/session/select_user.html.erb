@@ -1,0 +1,18 @@
+<div class="row-fluid">
+   <div class="span3">
+   </div>
+
+   <div class="span9">
+    <div class="record-pane">
+      <h2><%= I18n.t("navbar.become-user") %></h2>
+
+      <%= render :partial => "shared/flash_messages" %>
+
+      <%= form_for @become_user, :as => "become_user", :url => {:action => :become_user}, :html => {:class => 'form-horizontal'} do |f| %>
+        <input id="select-user" name="username" class="input-medium" type="text" autocomplete="off" placeholder="Username" />
+        <input class="btn btn-primary" type="submit" value="<%= I18n.t("become-user.become-user") %>"/>
+      <% end %>
+    </div>
+   </div>
+</div>
+

@@ -19,7 +19,5 @@
         }
       }
     },
-
-    "additionalProperties" => false,
   },
 }

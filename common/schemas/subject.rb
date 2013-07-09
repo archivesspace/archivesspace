@@ -31,7 +31,5 @@
 
       "external_documents" => {"type" => "array", "items" => {"type" => "JSONModel(:external_document) object"}},
     },
-
-    "additionalProperties" => false,
   },
 }

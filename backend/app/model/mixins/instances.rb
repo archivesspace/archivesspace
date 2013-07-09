@@ -8,8 +8,7 @@ module Instances
 
     base.def_nested_record(:the_property => :instances,
                            :contains_records_of_type => :instance,
-                           :corresponding_to_association => :instance,
-                           :always_resolve => true)
+                           :corresponding_to_association => :instance)
   end
 
 end

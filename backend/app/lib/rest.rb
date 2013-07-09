@@ -56,7 +56,10 @@ module RESTHelpers
     @@param_types = {
       :repo_id => [Integer,
                    "The Repository ID",
-                   {:validation => ["The Repository must exist", ->(v){Repository.exists?(v)}]}]
+                   {:validation => ["The Repository must exist", ->(v){Repository.exists?(v)}]}],
+      :resolve => [[String], "A list of references to resolve and embed in the response",
+                   :optional => true],
+      :id => [Integer, "The ID of the record"]
     }
 
     @@return_types = {
@@ -85,19 +88,6 @@ module RESTHelpers
       end
     end
 
-    ALLOWED_REPORT_FORMATS = ["json", "csv", "xlsx", "html", "pdf"]
-
-    def self.allowed_report_formats
-      ALLOWED_REPORT_FORMATS
-    end
-
-    def self.report_formats
-      ["format",
-       String,
-       "The format to render the report (one of: #{ALLOWED_REPORT_FORMATS.join(", ")})",
-       :validation => ["Must be one of #{ALLOWED_REPORT_FORMATS.join(", ")}",
-                       ->(v){ ALLOWED_REPORT_FORMATS.include?(v) }]]
-    end
 
     def self.all
       @@endpoints.map do |e|
@@ -118,6 +108,16 @@ module RESTHelpers
     def self.post(uri); self.method(:post).uri(uri); end
     def self.delete(uri); self.method(:delete).uri(uri); end
     def self.method(method); Endpoint.new(method); end
+
+    # Helpers
+    def self.is_toplevel_request?(env)
+      env["ASPACE_REENTRANT"].nil?
+    end
+
+    def self.is_potentially_destructive_request?(env)
+      env["REQUEST_METHOD"] != "GET"
+    end
+
 
     def uri(uri); @uri = uri; self; end
     def description(description); @description = description; self; end
@@ -142,14 +142,18 @@ module RESTHelpers
     end
 
 
-    def _process_params(params)
-      params.map do |p|
-        @@param_types[p[1]] ? [p[0], @@param_types[p[1]]].flatten : p
-      end
-    end
-
     def params(*params)
-      @required_params = _process_params(params)
+      @required_params = params.map do |p|
+        param_name, param_type = p
+
+        if @@param_types[param_type]
+          # This parameter type has a standard definition
+          defn = @@param_types[param_type]
+          [param_name, *defn]
+        else
+          p
+        end
+      end
 
       self
     end
@@ -209,13 +213,13 @@ module RESTHelpers
           RequestContext.put(:repo_id, params[:repo_id])
           RequestContext.put(:is_high_priority, high_priority_request?)
 
-          if env["REQUEST_METHOD"] != "GET" || !env["ASPACE_REENTRANT"]
+          if Endpoint.is_toplevel_request?(env) || Endpoint.is_potentially_destructive_request?(env)
             unless preconditions.all? { |precondition| self.instance_eval &precondition }
               raise AccessDeniedException.new("Access denied")
             end
           end
 
-          result = DB.open((use_transaction == :unspecified) ? true : use_transaction) do
+          DB.open((use_transaction == :unspecified) ? true : use_transaction) do
 
             RequestContext.put(:current_username, current_user.username)
 
@@ -310,6 +314,8 @@ module RESTHelpers
           Integer(value)
         elsif type == DateTime
           DateTime.parse(value)
+        elsif type == Date
+          Date.parse(value)
         elsif type.respond_to? :from_json
 
           # Allow the request to specify how the incoming JSON is encoded, but

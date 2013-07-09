@@ -7,8 +7,10 @@
     "uri" => "/repositories/:repo_id/digital_object_components",
     "properties" => {
 
-      "component_id" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error"},
+      "component_id" => {"type" => "string", "maxLength" => 255},
       "label" => {"type" => "string", "maxLength" => 255},
+      "title" => {"type" => "string", "maxLength" => 16384, "ifmissing" => nil},
+      "display_string" => {"type" => "string", "maxLength" => 8192, "readonly" => true},
 
       "file_versions" => {"type" => "array", "items" => {"type" => "JSONModel(:file_version) object"}},
 
@@ -45,7 +47,5 @@
           },
 
     },
-
-    "additionalProperties" => false
   },
 }

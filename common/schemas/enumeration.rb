@@ -25,7 +25,5 @@
         }
       }
     },
-
-    "additionalProperties" => false,
   },
 }

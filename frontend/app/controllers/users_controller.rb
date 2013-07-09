@@ -1,10 +1,13 @@
 class UsersController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:new, :complete, :edit, :index, :create, :update, :show, :manage_access, :edit_groups, :update_groups, :delete]
-  before_filter(:account_self_service, :only => [:new, :create])
-  before_filter(:only => [:index, :edit, :update, :delete]) {|c| user_must_have("manage_users")}
-  before_filter(:only => [:manage_access, :edit_groups, :update_groups, :complete]) {|c| user_must_have("manage_repository")}
+
+  set_access_control  "manage_users" => [:index, :edit, :update, :delete],
+                      "manage_repository" => [:manage_access, :edit_groups, :update_groups, :complete],
+                      :public => [:new, :create]
+
+  before_filter :account_self_service, :only => [:new, :create]
   before_filter :user_needs_to_be_a_user_manager_or_new_user, :only => [:new, :create]
   before_filter :user_needs_to_be_a_user, :only => [:show]
+
 
   def index
     @search_data = JSONModel(:user).all(:page => selected_page)
@@ -140,4 +143,13 @@ class UsersController < ApplicationController
                   
                 })
   end
+
+
+  private
+
+
+  def selected_page
+    [Integer(params[:page] || 1), 1].max
+  end
+
 end

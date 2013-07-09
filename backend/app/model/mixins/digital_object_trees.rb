@@ -16,6 +16,8 @@ module DigitalObjectTrees
   def load_node_properties(node, properties)
     super
 
+    properties[node.id][:title] = node.display_string
+
     set_file_version(node, properties[node.id])
   end
 

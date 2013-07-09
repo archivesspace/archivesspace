@@ -1,6 +1,7 @@
 class EnumerationsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:new, :create, :index, :delete, :destroy, :merge, :set_default]
-  before_filter(:only => [:new, :create, :index, :delete, :destroy, :merge, :set_default]) {|c| user_must_have("manage_repository")}
+
+  set_access_control  "manage_repository" => [:new, :create, :index, :delete, :destroy, :merge, :set_default]
+
 
   def new
     @enumeration = JSONModel(:enumeration).find(params[:id])

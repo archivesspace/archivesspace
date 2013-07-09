@@ -7,9 +7,9 @@ AbstractRelationship = Class.new(Sequel::Model) do
       # columns here anyway
       raise ReferenceError.new("Can't relate an object to itself") if obj1.id == obj2.id
 
-      self._reference_columns_for(obj1.class)
+      self.reference_columns_for(obj1.class)
     else
-      [self._reference_columns_for(obj1.class).first, self._reference_columns_for(obj2.class).first]
+      [self.reference_columns_for(obj1.class).first, self.reference_columns_for(obj2.class).first]
     end
 
     if columns.include?(nil)
@@ -24,7 +24,7 @@ AbstractRelationship = Class.new(Sequel::Model) do
   # Find any relationship instances that reference 'victims' and modify them to
   # refer to 'target' instead.
   def self.transfer(target, victims)
-    target_columns = self._reference_columns_for(target.class)
+    target_columns = self.reference_columns_for(target.class)
 
     victims_by_model = victims.reject {|v| (v.class == target.class) && (v.id == target.id)}.group_by(&:class)
 
@@ -34,7 +34,7 @@ AbstractRelationship = Class.new(Sequel::Model) do
         raise ReferenceError.new("This class doesn't belong to relationship #{self}: #{victim.class}")
       end
 
-      victim_columns = self._reference_columns_for(victim_model)
+      victim_columns = self.reference_columns_for(victim_model)
 
       victim_columns.each do |victim_col|
 
@@ -97,7 +97,7 @@ AbstractRelationship = Class.new(Sequel::Model) do
   def self.find_by_participant(obj)
     # Find all columns in our relationship's table that are named after obj's table
     # These will contain references to instances of obj's class
-    reference_columns = self._reference_columns_for(obj.class)
+    reference_columns = self.reference_columns_for(obj.class)
     matching_relationships = reference_columns.map {|col| self.filter(col => obj.id).all}.flatten(1)
     matching_relationships.sort_by {|relationship| relationship[:aspace_relationship_position]}
   end
@@ -115,7 +115,7 @@ AbstractRelationship = Class.new(Sequel::Model) do
   end
 
 
-  def self._reference_columns_for(model)
+  def self.reference_columns_for(model)
     self.db_schema.keys.select { |column_name|
       column_name.to_s.downcase =~ /\A#{model.table_name.downcase}_id(_[0-9]+)?\z/
     }
@@ -129,7 +129,7 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
   def other_referent_than(obj)
     self.class.participating_models.each {|model|
-      self.class._reference_columns_for(model).each {|column|
+      self.class.reference_columns_for(model).each {|column|
         if self[column] && (model != obj.class || self[column] != obj.id)
           return model.respond_to?(:any_repo) ? model.any_repo[self[column]] : model[self[column]]
         end
@@ -154,7 +154,7 @@ module Relationships
   end
 
 
-  def update_from_json(json, opts = {}, apply_linked_records = true)
+  def update_from_json(json, opts = {}, apply_nested_records = true)
     obj = super
     self.class.apply_relationships(obj, json, opts)
     trigger_reindex_of_dependants
@@ -184,7 +184,7 @@ module Relationships
 
   # Return all object instances that are related to the current record by the
   # relationship named by 'name'.
-  def linked_records(name)
+  def related_records(name)
     relationship = self.class.find_relationship(name)
     records = relationship.who_participates_with(self)
 
@@ -282,7 +282,7 @@ module Relationships
         # if the model hasn't been loaded yet.
 
 
-        linked_models = opts[:contains_references_to_types].call
+        related_models = opts[:contains_references_to_types].call
 
         clz = Class.new(AbstractRelationship) do
           table = "#{opts[:name]}_rlshp".intern
@@ -293,7 +293,7 @@ module Relationships
             Log.warn("Table doesn't exist: #{self.table_name}")
           end
 
-          set_participating_models([base, *linked_models].uniq)
+          set_participating_models([base, *related_models].uniq)
           set_json_property(opts[:json_property])
           set_wants_array(opts[:is_array].nil? || opts[:is_array])
         end
@@ -302,7 +302,7 @@ module Relationships
 
         @relationships[opts[:name]] = clz
 
-        linked_models.each do |model|
+        related_models.each do |model|
           model.include(Relationships)
           model.add_relationship_dependency(opts[:name], base)
         end
@@ -359,7 +359,7 @@ module Relationships
           referent = referent_model[record_type[:id]]
 
           if !referent
-            raise ReferenceError.new("Can't link to non-existent record: #{reference['ref']}")
+            raise ReferenceError.new("Can't relate to non-existent record: #{reference['ref']}")
           end
 
           # Create a new relationship instance linking us and them together, and
@@ -466,7 +466,7 @@ module Relationships
         models = relationship_defn.participating_models
 
         if models.include?(obj.class)
-          ref_columns = relationship_defn._reference_columns_for(self)
+          ref_columns = relationship_defn.reference_columns_for(self)
 
           ref_columns.each do |col|
             self.filter(:id => relationship_defn.select(col)).

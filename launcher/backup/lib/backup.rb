@@ -52,6 +52,8 @@ class ArchivesSpaceBackup
           end
         end
 
+        outfile.close
+
         if $? == 0
           return outfile
         end
@@ -84,7 +86,7 @@ class ArchivesSpaceBackup
 
     demo_db_backups = AppConfig[:backup_directory]
     solr_backups = AppConfig[:solr_backup_directory]
-    config_dir = File.dirname(AppConfig.find_user_config)
+    config_dir = File.dirname(AppConfig.find_user_config) if AppConfig.find_user_config
 
     solr_snapshot_id = "backup-#{$$}-#{Time.now.to_i}"
     begin
@@ -105,7 +107,7 @@ class ArchivesSpaceBackup
       Zip::ZipFile.open(output_file, Zip::ZipFile::CREATE) do |zipfile|
         add_whole_directory(solr_snapshot, zipfile)
         add_whole_directory(demo_db_backups, zipfile) if Dir.exists?(demo_db_backups)
-        add_whole_directory(config_dir, zipfile)
+        add_whole_directory(config_dir, zipfile) if config_dir
         zipfile.add("mysqldump.sql", mysql_dump) if mysql_dump
       end
     ensure

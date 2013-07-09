@@ -18,13 +18,19 @@ class Repository < Sequel::Model(:repository)
 
 
   def self.global_repo_id
-    self[:repo_code => Group.GLOBAL].id
+    self[:repo_code => Repository.GLOBAL].id
+  end
+
+
+  def self.GLOBAL
+    # The repository code indicating that this group is global to all repositories
+    ASConstants::Repository.GLOBAL
   end
 
 
   def after_create
 
-    if self.repo_code == Group.GLOBAL
+    if self.repo_code == Repository.GLOBAL
       # No need for standard groups on this one.
       return
     end

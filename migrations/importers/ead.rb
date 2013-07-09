@@ -67,9 +67,12 @@ ASpaceImport::Importer.importer :ead do
       make :date, {
         :date_type => att('type') || 'inclusive',
         :expression => inner_xml,
-        :label => 'other',
-        # :begin => norm_dates[0], 
-        # :end => norm_dates[1]
+        :label => 'creation',
+        :begin => norm_dates[0],
+        :end => norm_dates[1],
+        :calendar => att('calendar'),
+        :era => att('era'),
+        :certainty => att('certainty')
       } do |date|
         set ancestor(:resource, :archival_object), :dates, date
       end
@@ -129,16 +132,16 @@ ASpaceImport::Importer.importer :ead do
 
 
     {
-      'name' => 'Name',
-      'persname' => 'Personal Name',
-      'famname' => 'Family Name',
-      'corpname' => 'Corporate Name',
-      'subject' => 'Subject',
-      'function' => 'Function',
-      'occupation' => 'Occupation',
-      'genreform' => 'Genre Form',
-      'title' => 'Title',
-      'geogname' => 'Geographic Name'
+      'name' => 'name',
+      'persname' => 'person',
+      'famname' => 'family',
+      'corpname' => 'corporate_entity',
+      'subject' => 'subject',
+      'function' => 'function',
+      'occupation' => 'occupation',
+      'genreform' => 'genre_form',
+      'title' => 'title',
+      'geogname' => 'geographic_name'
     }.each do |k, v|
       with "indexentry/#{k}" do |node|
         make :note_index_item, {
@@ -152,7 +155,7 @@ ASpaceImport::Importer.importer :ead do
 
 
     with 'indexentry/ref' do
-      context_obj.items << {:refernce_text => inner_xml}
+      context_obj.items << {:reference_text => inner_xml}
     end
 
 
@@ -168,6 +171,7 @@ ASpaceImport::Importer.importer :ead do
           :persistent_id => att('id'),
           :subnotes => {
             'jsonmodel_type' => 'note_text',
+            # TODO: strip first <head/> tag
             'content' => inner_xml
           }
         } do |note|
@@ -182,6 +186,7 @@ ASpaceImport::Importer.importer :ead do
         make :note_singlepart, {
           :type => note,
           :persistent_id => att('id'),
+          # TODO: strip first <head/> tag
           :content => inner_xml
         } do |note|
           set ancestor(:resource, :archival_object), :notes, note
@@ -301,7 +306,7 @@ ASpaceImport::Importer.importer :ead do
       (1..3).to_a.each do |i|
         next unless cont["type_#{i}"].nil?
         cont["type_#{i}"] = att('type')
-        cont["indicator_#{i}"] = att('id')
+        cont["indicator_#{i}"] = inner_xml
         break
       end
     end
@@ -400,7 +405,7 @@ ASpaceImport::Importer.importer :ead do
           make :subject, {
             :terms => {'term' => inner_xml, 'term_type' => type, 'vocabulary' => '/vocabularies/1'},
             :vocabulary => '/vocabularies/1',
-            :source => att('source')
+            :source => att('source') || 'ingest'
           } do |subject|
             set ancestor(:resource, :archival_object), :subjects, {'ref' => subject.uri}
           end
@@ -441,8 +446,8 @@ ASpaceImport::Importer.importer :ead do
 
     make :name_corporate_entity, {
       :primary_name => inner_xml,
-      :rules => att('rules') || 'local',
-      :source => att('source') || 'local'
+      :rules => att('rules'),
+      :source => att('source') || 'ingest'
     } do |name|
       set ancestor(:agent_corporate_entity), :names, proxy
     end
@@ -458,8 +463,8 @@ ASpaceImport::Importer.importer :ead do
 
     make :name_family, {
       :family_name => inner_xml,
-      :rules => att('rules') || 'local',
-      :source => att('source') || 'local'
+      :rules => att('rules'),
+      :source => att('source') || 'ingest'
     } do |name|
       set ancestor(:agent_family), :names, name
     end
@@ -474,10 +479,10 @@ ASpaceImport::Importer.importer :ead do
     end
 
     make :name_person, {
-      :name_order => 'direct',
+      :name_order => 'inverted',
       :primary_name => inner_xml,
-      :rules => att('rules') || 'local',
-      :source => att('source') || 'local'
+      :rules => att('rules'),
+      :source => att('source') || 'ingest'
     } do |name|
       set ancestor(:agent_person), :names, name
     end

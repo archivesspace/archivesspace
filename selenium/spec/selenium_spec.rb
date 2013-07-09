@@ -690,14 +690,13 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => '#accession_extents_ .subrecord-form-heading .btn').click
 
       $driver.clear_and_send_keys([:id, 'accession_extents__0__number_'], "5")
-      event_type_select = $driver.find_element(:id => "accession_extents__0__extent_type_")
-      event_type_select.find_elements( :tag_name => "option" ).each do |option|
-        option.click if option.attribute("value") === "volumes"
-      end
+      $driver.find_element(:id => "accession_extents__0__extent_type_").select_option("volumes")
 
       # add the second extent
       $driver.find_element(:css => '#accession_extents_ .subrecord-form-heading .btn').click
       $driver.clear_and_send_keys([:id, 'accession_extents__1__number_'], "10")
+      $driver.find_element(:id => "accession_extents__1__extent_type_").select_option("files")
+
 
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
@@ -713,7 +712,7 @@ describe "ArchivesSpace user interface" do
       extent_headings.length.should eq (2)
 
       assert(5) { extent_headings[0].text.should eq ("5 Volumes") }
-      assert(5) { extent_headings[1].text.should eq ("10 Cassettes") }
+      assert(5) { extent_headings[1].text.should eq ("10 Files") }
     end
 
 
@@ -728,7 +727,7 @@ describe "ArchivesSpace user interface" do
 
       extent_headings = $driver.blocking_find_elements(:css => '#accession_extents_ .accordion-heading')
       extent_headings.length.should eq (1)
-      assert(5) { extent_headings[0].text.should eq ("10 Cassettes") }
+      assert(5) { extent_headings[0].text.should eq ("10 Files") }
     end
 
 
@@ -1258,6 +1257,7 @@ describe "ArchivesSpace user interface" do
 
 
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
+      $driver.find_element(:id => "resource_extents__0__extent_type_").select_option("files")
 
       $driver.find_element(:css => "form#resource_form button[type='submit']").click
 
@@ -1293,6 +1293,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "resource_language__combobox"], ["eng", :return])
       $driver.find_element(:id, "resource_level_").select_option("collection")
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
+      $driver.find_element(:id => "resource_extents__0__extent_type_").select_option("files")
       $driver.find_element(:css => "form#resource_form button[type='submit']").click
 
       # The new Resource shows up on the tree
@@ -1489,10 +1490,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => '#resource_extents_ .subrecord-form-heading .btn').click
 
       $driver.clear_and_send_keys([:id, 'resource_extents__1__number_'], "5")
-      event_type_select = $driver.find_element(:id => "resource_extents__1__extent_type_")
-      event_type_select.find_elements( :tag_name => "option" ).each do |option|
-        option.click if option.attribute("value") === "volumes"
-      end
+      $driver.find_element(:id => "resource_extents__1__extent_type_").select_option("volumes")
 
       $driver.find_element(:css => "form#resource_form button[type='submit']").click
 
@@ -1506,7 +1504,7 @@ describe "ArchivesSpace user interface" do
       extent_headings = $driver.blocking_find_elements(:css => '#resource_extents_ .accordion-heading')
 
       extent_headings.length.should eq (2)
-      assert(5) { extent_headings[0].text.should eq ("10 Cassettes") }
+      assert(5) { extent_headings[0].text.should eq ("10 Files") }
       assert(5) { extent_headings[1].text.should eq ("5 Volumes") }
     end
 
@@ -1523,7 +1521,7 @@ describe "ArchivesSpace user interface" do
       extent_headings = $driver.blocking_find_elements(:css => '#resource_extents_ .accordion-heading')
 
       extent_headings.length.should eq (1)
-      assert(5) { extent_headings[0].text.should eq ("10 Cassettes") }
+      assert(5) { extent_headings[0].text.should eq ("10 Files") }
     end
   end
 
@@ -1548,6 +1546,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "resource_language__combobox"], ["eng", :return])
       $driver.find_element(:id, "resource_level_").select_option("collection")
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
+      $driver.find_element(:id => "resource_extents__0__extent_type_").select_option("files")
 
       add_note = proc do |type|
         $driver.find_element(:css => '#notes .subrecord-form-heading .btn').click
@@ -1714,6 +1713,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "resource_language__combobox"], ["eng", :return])
       $driver.find_element(:id, "resource_level_").select_option("collection")
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
+      $driver.find_element(:id => "resource_extents__0__extent_type_").select_option("files")
 
       $driver.find_element(:css => "form#resource_form button[type='submit']").click
 
@@ -1820,7 +1820,7 @@ describe "ArchivesSpace user interface" do
       # False start: create an object without filling it out
       $driver.click_and_wait_until_gone(:id => "createPlusOne")
 
-      $driver.find_element_with_text('//div[contains(@class, "error")]', /Identifier - Property is required but was missing/)
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /you must provide/)
     end
 
 
@@ -2328,6 +2328,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "resource_language__combobox"], ["eng", :return])
       $driver.find_element(:id, "resource_level_").select_option("collection")
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
+      $driver.find_element(:id => "resource_extents__0__extent_type_").select_option("files")
 
       # Now add a classification
       $driver.find_element(:css => '#resource_classification_ .subrecord-form-heading .btn').click

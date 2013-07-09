@@ -5,8 +5,7 @@ module RightsStatements
 
     base.def_nested_record(:the_property => :rights_statements,
                            :contains_records_of_type => :rights_statement,
-                           :corresponding_to_association  => :rights_statement,
-                           :always_resolve => true)
+                           :corresponding_to_association  => :rights_statement)
   end
 
 end

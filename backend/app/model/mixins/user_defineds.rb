@@ -6,8 +6,7 @@ module UserDefineds
     base.def_nested_record(:the_property => :user_defined,
                            :contains_records_of_type => :user_defined,
                            :corresponding_to_association  => :user_defined,
-                           :is_array => false,
-                           :always_resolve => true)
+                           :is_array => false)
   end
 
 end

@@ -15,8 +15,7 @@ class Subject < Sequel::Model(:subject)
 
   def_nested_record(:the_property => :terms,
                     :contains_records_of_type => :term,
-                    :corresponding_to_association  => :term,
-                    :always_resolve => true)
+                    :corresponding_to_association  => :term)
 
   auto_generate :property => :title, 
                 :generator => proc  { |json|
@@ -76,7 +75,7 @@ class Subject < Sequel::Model(:subject)
   end
 
 
-  def update_from_json(json, opts = {}, apply_linked_records = true)
+  def update_from_json(json, opts = {}, apply_nested_records = true)
     self.class.set_vocabulary(json, opts)
     self[:terms_sha1] = self.class.generate_terms_sha1(json) # add a terms sha1 hash to allow for uniqueness test
     super

@@ -32,16 +32,16 @@ topics:
   resource_classification: 213
   resource_user_defined: 214
   # Archival Objects
-  archival_object: 200
-  archival_object_basic_information: 201
-  archival_object_dates: 202
-  archival_object_extents: 203
-  archival_object_linked_agents: 205
-  archival_object_subjects: 206
-  archival_object_notes: 207
-  archival_object_external_documents: 208
-  archival_object_rights_statements: 209
-  archival_object_instances: 210
+  archival_object: 215
+  archival_object_basic_information: 216
+  archival_object_dates: 217
+  archival_object_extents: 218
+  archival_object_linked_agents: 219
+  archival_object_subjects: 220
+  archival_object_notes: 221
+  archival_object_external_documents: 222
+  archival_object_rights_statements: 223
+  archival_object_instances: 224
   # Digital Object Topics (300-)
   digital_object: 300
   digital_object_basic_information: 301
@@ -56,16 +56,16 @@ topics:
   digital_object_collection_management: 310
   digital_object_user_defined: 311
   # Digital Object Components
-  digital_object_component: 300
-  digital_object_component_basic_information: 301
-  digital_object_component_file_versions: 302
-  digital_object_component_dates: 303
-  digital_object_component_extents: 304
-  digital_object_component_linked_agents: 305
-  digital_object_component_subjects: 306
-  digital_object_component_notes: 307
-  digital_object_component_external_documents: 308
-  digital_object_component_rights_statements: 309
+  digital_object_component: 312
+  digital_object_component_basic_information: 313
+  digital_object_component_file_versions: 314
+  digital_object_component_dates: 315
+  digital_object_component_extents: 316
+  digital_object_component_linked_agents: 317
+  digital_object_component_subjects: 318
+  digital_object_component_notes: 319
+  digital_object_component_external_documents: 320
+  digital_object_component_rights_statements: 321
   # Subjects (400-)
   subject: 400
   subject_basic_information: 401

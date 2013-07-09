@@ -1,15 +1,14 @@
 class ResourcesController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete, :rde, :add_children, :publish, :accept_children, :tree, :merge, :transfer]
-  before_filter(:only => [:index, :show, :tree]) {|c| user_must_have("view_repository")}
-  before_filter(:only => [:new, :edit, :create, :update, :rde, :add_children, :publish, :accept_children]) {|c| user_must_have("update_archival_record")}
-  before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
-  before_filter(:only => [:merge]) {|c| user_must_have("merge_archival_record")}
-  before_filter(:only => [:transfer]) {|c| user_must_have("transfer_archival_record")}
 
-  FIND_OPTS = ["subjects", "container_locations", "related_accessions", "linked_agents", "digital_object", "classification"]
+  set_access_control  "view_repository" => [:index, :show, :tree],
+                      "update_archival_record" => [:new, :edit, :create, :update, :rde, :add_children, :publish, :accept_children],
+                      "delete_archival_record" => [:delete],
+                      "merge_archival_record" => [:merge],
+                      "transfer_archival_record" => [:transfer]
+
 
   def index
-    @search_data = Search.for_type(session[:repo_id], params[:include_components]==="true" ? ["resource", "archival_object"] : "resource", search_params.merge({"facet[]" => SearchResultData.RESOURCE_FACETS}))
+    @search_data = Search.for_type(session[:repo_id], params[:include_components]==="true" ? ["resource", "archival_object"] : "resource", params_for_backend_search.merge({"facet[]" => SearchResultData.RESOURCE_FACETS}))
   end
 
   def show
@@ -27,8 +26,7 @@ class ResourcesController < ApplicationController
     @resource = Resource.new(:title => I18n.t("resource.title_default", :default => ""))._always_valid!
 
     if params[:accession_id]
-      acc = Accession.find(params[:accession_id],
-                           "resolve[]" => FIND_OPTS)
+      acc = Accession.find(params[:accession_id], find_opts)
 
       if acc
         @resource.populate_from_accession(acc)
@@ -116,7 +114,7 @@ class ResourcesController < ApplicationController
     if params[:archival_record_children].blank? or params[:archival_record_children]["children"].blank?
 
       @archival_record_children = ResourceChildren.new
-      flash.now[:error] = "No rows entered"
+      flash.now[:error] = I18n.t("rde.messages.no_rows")
 
     else
       children_data = cleanup_params_for_schema(params[:archival_record_children], JSONModel(:archival_record_children).schema)
@@ -178,7 +176,7 @@ class ResourcesController < ApplicationController
     limit_to = params[:node_uri] || "root"
 
     if !params[:hash].blank?
-      node_id = params[:hash].sub("#tree::", "")
+      node_id = params[:hash].sub("tree::", "").sub("#", "")
       if node_id.starts_with?("resource")
         limit_to = "root"
       elsif node_id.starts_with?("archival_object")
@@ -186,7 +184,7 @@ class ResourcesController < ApplicationController
       end
     end
 
-    parse_tree(JSONModel(:resource_tree).find(nil, :resource_id => params[:id], :limit_to => limit_to).to_hash(:validated), nil, proc {|node, parent|
+    parse_tree(JSONModel(:resource_tree).find(nil, :resource_id => params[:id], :limit_to => limit_to).to_hash(:validated), nil) do |node, parent|
       node['level'] = I18n.t("enumerations.archival_record_level.#{node['level']}", :default => node['level'])
       node['instance_types'] = node['instance_types'].map{|instance_type| I18n.t("enumerations.instance_instance_type.#{instance_type}", :default => instance_type)}
       node['containers'].each{|container|
@@ -196,7 +194,7 @@ class ResourcesController < ApplicationController
       }
       node['parent'] = "#{parent["node_type"]}_#{parent["id"]}" if parent
       tree["#{node["node_type"]}_#{node["id"]}"] = node.merge("children" => node["children"].collect{|child| "#{child["node_type"]}_#{child["id"]}"})
-    })
+    end
 
     tree
   end
@@ -204,7 +202,7 @@ class ResourcesController < ApplicationController
 
   # refactoring note: suspiciously similar to accessions_controller.rb
   def fetch_resolved(id)
-    resource = JSONModel(:resource).find(id, "resolve[]" => FIND_OPTS)
+    resource = JSONModel(:resource).find(id, find_opts)
 
     if resource['classification'] && resource['classification']['_resolved']
       resolved = resource['classification']['_resolved']
