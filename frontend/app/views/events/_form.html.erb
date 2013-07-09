@@ -21,53 +21,68 @@
     <%= I18n.t("event._frontend.section.date") %>
     <%= link_to_help :topic => "event_date" %>
   </h3>
-  <%= form.label_and_select "chronotype_label", ['subrecord', 'timestamp'].map{|t| [I18n.t("event.chronotype.#{t}"), t]}, 'required' => true %>
-  <div id="chronotype_timestamp" class="chronotype_form">
-    <%= form.label_and_textfield "timestamp", :required => true %>
-  </div>
-  <div id="chronotype_subrecord" class="chronotype_form">
-    <%= form.fields_for(@event.date || {}, "date") do | date | %>
-      <% render :partial => "dates/template", :locals => {:form => form} %>
-      <% form.emit_template("date") %>
+  <% if form.readonly? %>
+    <% if form["timestamp"] %>
+      <%= form.label_and_textfield "timestamp" %>
+    <% else %>
+      <%= form.fields_for(@event.date || {}, "date") do | date | %>
+        <% render :partial => "dates/template", :locals => {:form => form} %>
+        <% form.emit_template("date") %>
+      <% end %>
     <% end %>
-  </div>
+  <% else %>
+    <%= form.label_and_select "chronotype_label", ['subrecord', 'timestamp'].map{|t| [I18n.t("event.chronotype.#{t}"), t]}, 'required' => true %>
+    <div id="chronotype_timestamp" class="chronotype_form">
+      <%= form.label_and_textfield "timestamp", :required => true %>
+    </div>
+    <div id="chronotype_subrecord" class="chronotype_form">
+      <%= form.fields_for(@event.date || {}, "date") do | date | %>
+        <% render :partial => "dates/template", :locals => {:form => form} %>
+        <% form.emit_template("date") %>
+      <% end %>
+    </div>
+  <% end %>
 </section>
 
 <% if form.readonly? %>
-  <h3><%= I18n.t("linked_agent._plural") %></h3>
+  <section id="event_linked_agents_">
+    <h3><%= I18n.t("linked_agent._plural") %></h3>
 
-  <div class="control-group">
-    <div class="control-label"><%= I18n.t("linked_agent._plural") %></div>
-    <div class="controls token-list">
-      <% form['linked_agents'].each do |linked_agent| %>
-        <%= render_token :object => linked_agent['_resolved'],
-                         :label => linked_agent['_resolved']['title'],
-                         :type => "location",
-                         :uri => linked_agent["ref"],
-                         :placement => "top" %>
-      <% end %>
+    <div class="control-group">
+      <div class="control-label"><%= I18n.t("linked_agent._plural") %></div>
+      <div class="controls token-list">
+        <% form['linked_agents'].each do |linked_agent| %>
+          <%= render_token :object => linked_agent['_resolved'],
+                           :label => linked_agent['_resolved']['title'],
+                           :type => "location",
+                           :uri => linked_agent["ref"],
+                           :placement => "top" %>
+        <% end %>
+      </div>
     </div>
-  </div>
+  </section>
 <% else %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "event_linked_agent"} %>
 
 <% end %>
 
 <% if form.readonly? %>
-  <h3><%= I18n.t("linked_record._plural") %></h3>
+  <section id="event_linked_records_">
+    <h3><%= I18n.t("linked_record._plural") %></h3>
 
-  <div class="control-group">
-    <div class="control-label"><%= I18n.t("linked_record._plural") %></div>
-    <div class="controls token-list">
-      <% form['linked_records'].each do |linked_record| %>
-        <%= render_token :object => linked_record['_resolved'],
-                         :label => linked_record['_resolved']['title'],
-                         :type => "location",
-                         :uri => linked_record["ref"],
-                         :placement => "top" %>
-      <% end %>
+    <div class="control-group">
+      <div class="control-label"><%= I18n.t("linked_record._plural") %></div>
+      <div class="controls token-list">
+        <% form['linked_records'].each do |linked_record| %>
+          <%= render_token :object => linked_record['_resolved'],
+                           :label => linked_record['_resolved']['title'],
+                           :type => "location",
+                           :uri => linked_record["ref"],
+                           :placement => "top" %>
+        <% end %>
+      </div>
     </div>
-  </div>
+  </section>
 <% else %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_records"} %>
 <% end %>

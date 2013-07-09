@@ -176,7 +176,7 @@ class ResourcesController < ApplicationController
     limit_to = params[:node_uri] || "root"
 
     if !params[:hash].blank?
-      node_id = params[:hash].sub("#tree::", "")
+      node_id = params[:hash].sub("tree::", "").sub("#", "")
       if node_id.starts_with?("resource")
         limit_to = "root"
       elsif node_id.starts_with?("archival_object")

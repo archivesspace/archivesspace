@@ -314,6 +314,8 @@ module RESTHelpers
           Integer(value)
         elsif type == DateTime
           DateTime.parse(value)
+        elsif type == Date
+          Date.parse(value)
         elsif type.respond_to? :from_json
 
           # Allow the request to specify how the incoming JSON is encoded, but

@@ -37,6 +37,12 @@
 </div>
 
 <div class="form-actions">
-  <button type="submit" class="btn btn-primary"><%= I18n.t("group._frontend.action.create") %></button>
+  <button type="submit" class="btn btn-primary">
+    <% if @group.id.blank? %>
+      <%= I18n.t("group._frontend.action.create") %>
+    <% else %>
+      <%= I18n.t("group._frontend.action.save") %>
+    <% end %>
+  </button>
   <%= link_to I18n.t("actions.cancel"), {:controller => :groups, :action => :index}, :class => "btn btn-secondary btn-cancel" %>
 </div>

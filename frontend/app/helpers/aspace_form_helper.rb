@@ -726,7 +726,6 @@ module AspaceFormHelper
 
     end
 
-    html << display_audit_info(hash, :format => 'wide')
     html << "</div>"
 
     html.html_safe

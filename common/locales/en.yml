@@ -1285,6 +1285,8 @@ en:
       delete_classification_record: delete classifications and classification terms
       merge_agents_and_subjects: merge agent/subject records
       merge_archival_record: merge the major record types in this repository
+      transfer_repository: transfer the entire contents of a repository
+      transfer_archival_record: transfer major record types between repositories
     _singular: Group
     _plural: Groups
 

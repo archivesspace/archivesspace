@@ -100,7 +100,7 @@ class ClassificationsController < ApplicationController
     limit_to = params[:node_uri] || "root"
 
     if !params[:hash].blank?
-      node_id = params[:hash].sub("#tree::", "")
+      node_id = params[:hash].sub("tree::", "").sub("#", "")
       if node_id.starts_with?("classification_term")
         limit_to = JSONModel(:classification_term).uri_for(node_id.sub("classification_term_", "").to_i)
       elsif node_id.starts_with?("classification")

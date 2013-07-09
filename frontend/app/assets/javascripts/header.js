@@ -95,4 +95,10 @@ $(function() {
     event.stopPropagation();
   });
 
+
+  // if System menu is empty, then remove it
+  if ($(".nav .system-menu ul li").length === 0) {
+    $(".nav .system-menu").remove();
+  }
+
 });

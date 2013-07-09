@@ -26,7 +26,7 @@
               <% end %>
               <%= form_tag({:action => :download}, {:class => 'form-horizontal form-report'}) do |f| %>
                 <%= hidden_field_tag "report_key", report["uri_suffix"] %>
-                  <%= fields_for 'report_params' do | report_params_form | %>
+                  <%= form_context "report_params", @report_params do |form| %>
                     <%
                        report_params = report["params"].reject{|p| ["format", "repo_id"].include?(p[0])}
 
@@ -36,10 +36,10 @@
                         <div class="control-group <% if @report_errors &&  @report["uri_suffix"] === report["uri_suffix"] && @report_errors['error'].has_key?(param[0]) %>error<% end %>">
                           <label class="control-label"><%= I18n.t("reports.parameters.#{param[0]}", :default => param[0]) %></label>
                           <div class="controls">
-                            <% if param[1] === "DateTime" %>
-                              <%= report_params_form.text_field param[0].intern, :class => 'date-field', :'data-date-format' => 'yyyy-mm-dd' %>
+                            <% if param[1] === "Date" %>
+                              <%= form.textfield param[0].intern, @report_params[param[0]],  :class => 'date-field', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd' %>
                             <% else %>
-                              <%= report_params_form.text_field param[0].intern %>
+                              <%= form.textfield param[0].intern, @report_params[param[0]] %>
                             <% end %>
                           </div>
                         </div>
@@ -49,13 +49,14 @@
                     <div class="control-group">
                       <label class="control-label">Format</label>
                       <div class="controls">
-                        <%= report_params_form.select :format, options_for_select(@report_data["formats"].map{|format| [I18n.t("reports.formats.#{format}", :default => format), format]}, params[:report_params]?params[:report_params][:format]:nil) %>
+                        <%= form.select("format", options_for_select(@report_data["formats"].map{|format| [I18n.t("reports.formats.#{format}", :default => format), format]}, @report_params["format"])) %>
                       </div>
                     </div>
-                    <div class="form-actions">
-                      <button type="submit" class="btn btn-small btn-primary">Download Report</button>
-                    </div>
                   <% end %>
+
+                  <div class="form-actions">
+                    <button type="submit" class="btn btn-small btn-primary">Download Report</button>
+                  </div>
                 <% end %>
               </div>
             </div>

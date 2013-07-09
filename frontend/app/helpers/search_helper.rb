@@ -63,6 +63,17 @@ module SearchHelper
   end
 
 
+  def can_edit_search_result?(record)
+    return user_can?('manage_repository', record['id']) if record['primary_type'] === "repository"
+    return user_can?('update_location_record') if record['primary_type'] === "location"
+    return user_can?('update_subject_record') if record['primary_type'] === "subject"
+    return user_can?('update_classification_record') if ["classification", "classification_term"].include?(record['primary_type'])
+    return user_can?('update_agent_record') if Array(record['types']).include?("agent")
+
+    user_can?('update_archival_record')
+  end
+
+
   def add_column(label, block, opts = {})
     @extra_columns ||= []
 

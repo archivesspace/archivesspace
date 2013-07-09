@@ -11,6 +11,20 @@ table {
       &.highlighted {
         #gradient > .vertical(#f0f7fa, #dcf1fa);
       }
+
+      &.required {
+        background-image: asset-url('archivesspace/required_loud.png');
+        background-repeat: no-repeat;
+        background-position: 2px center;
+        padding-left: 16px;
+      }
+
+      &.conditionally-required {
+        background-image: asset-url('archivesspace/conditionally_required.png');
+        background-repeat: no-repeat;
+        background-position: 2px center;
+        padding-left: 16px;
+      }
     }
     .col {
       &.primary-type {

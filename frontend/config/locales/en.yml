@@ -123,6 +123,7 @@ en:
       first_term_type: Term Type (First)
       classification_uri: Classification
       location_uris: Location
+      agents: Agent
 
   search_sorting:
     sort_by: "Sort by:"
