@@ -1,6 +1,6 @@
 require 'test_utils'
 require 'config/config-distribution'
-require 'I18n'
+require 'i18n'
 
 $test_mode = true
 
