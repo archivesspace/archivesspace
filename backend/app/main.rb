@@ -112,11 +112,16 @@ class ArchivesSpaceService < Sinatra::Base
         end
 
 
-        settings.scheduler.cron("0 * * * *", :tags => 'notification_expiry') do
+        settings.scheduler.cron("0 * * * *", :tags => 'expiry') do
           Log.info("Expiring old notifications")
           Notifications.expire_old_notifications
           Log.info("Done")
+
+          Log.info("Expiring old sessions")
+          Session.expire_old_sessions
+          Log.info("Done")
         end
+
 
         if AppConfig[:db_url] == AppConfig.demo_db_url &&
             settings.scheduler.find_by_tag('demo_db_backup').empty?
