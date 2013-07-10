@@ -1,9 +1,10 @@
-Running ArchivesSpace with load balancing
-=========================================
+Running ArchivesSpace with load balancing and multiple tenants
+==============================================================
 
-ArchivesSpace can be run in a load-balanced configuration, allowing
-requests to be spread across multiple machines, and providing
-fault-tolerance against server outages.
+This document describes two aspects of running ArchivesSpace in a
+clustered environment: for load-balancing purposes, and for supporting
+multiple tenants (isolated installations of the system in a common
+deployment environment).
 
 The configuration described in this document is one possible approach,
 but it is not intended to be prescriptive: the application layer of
@@ -11,7 +12,7 @@ ArchivesSpace is stateless, so any mechanism you prefer for load
 balancing across web applications should work just as well as the one
 described here.
 
-Unless otherwise stated, it's assumed that you have root access on
+Unless otherwise stated, it is assumed that you have root access on
 your machines, and all commands are to be run as root (or with sudo).
 
 
@@ -81,9 +82,9 @@ We'll assume you already have the following ready to go:
 
   * Three newly installed machines, each running RedHat (or CentOS)
     Linux (we'll refer to these as `loadbalancer`, `apps1` and
-    `apps2`)
+    `apps2`).
     
-  * A MySQL server
+  * A MySQL server.
   
   * An NFS volume that has been mounted as `/aspace` on each machine.
     All machines should have full read/write access to this area.
@@ -92,17 +93,17 @@ We'll assume you already have the following ready to go:
     files (such as log files and Solr indexes).  Ideally this is just
     a directory on local disk.
 
-  * Java 1.6 (or above) installed on each machine
+  * Java 1.6 (or above) installed on each machine.
 
 
-## Populate your /aspace directory
+## Populate your /aspace/ directory
 
 Start by copying the directory structure from `files/` into your
 `/aspace` volume.  This will contain all of the configuration files
 shared between servers:
 
-     mkdir /var/tmp/aspace
-     cd /var/tmp/aspace
+     mkdir /var/tmp/aspace/
+     cd /var/tmp/aspace/
      unzip -x /path/to/archivesspace.zip
      cp -av archivesspace/clustering/files/* /aspace/
 
@@ -131,7 +132,7 @@ your platform is fine.  At the time of writing, the process for CentOS
 is simply:
 
      wget http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm
-     rpm -i nginx-release-centos-6-0.el6.ngx.noarch.rpm 
+     rpm -i nginx-release-centos-6-0.el6.ngx.noarch.rpm
      yum install nginx
 
 Nginx will place its configuration files under `/etc/nginx/`.  For
@@ -191,8 +192,8 @@ instances, but we'll set those up afterwards.
 To complete the remainder of this process, there are a few bits of
 information you will need.  In particular, you will need to know:
 
-  * The identifier you'll use for the tenant you'll be creating.  In
-    this example we use `exampletenant`.
+  * The identifier you will use for the tenant you will be creating.
+    In this example we use `exampletenant`.
 
   * Which port numbers you will use for the application's backend,
     Solr instance, staff and public interfaces.  These must be free on
@@ -213,8 +214,8 @@ Although not strictly required, for security and ease of system
 monitoring it's a good idea to have each tenant instance running under
 a dedicated Unix account.
 
-We'll call our new tenant `exampletenant`, so let's create a user and
-group for them now.  You will need to run these commands on *both*
+We will call our new tenant `exampletenant`, so let's create a user
+and group for them now.  You will need to run these commands on *both*
 application servers (`apps1` and `apps2`):
 
      groupadd --gid 2000 exampletenant
@@ -265,8 +266,8 @@ our case is just:
 
      jdbc:mysql://db.example.com:3306/exampletenant?user=example&password=example123&useUnicode=true&characterEncoding=UTF-8
 
-and the other for this tenant's search and public user secrets, which
-should be random, hard to guess passwords.
+and the other for this tenant's search, staff and public user secrets,
+which should be random, hard to guess passwords.
 
 
 
@@ -306,7 +307,7 @@ Note that the filename is important here: it must be:
 
      instance_[server hostname].rb
 
-These URLs will determine what ports the application listens on when
+These URLs will determine which ports the application listens on when
 it starts up, and are also used by the ArchivesSpace indexing system
 to track updates across the cluster.
 
@@ -326,8 +327,9 @@ start them up on each server:
      /etc/init.d/aspace-cluster start-tenant exampletenant
 
 and you can monitor each instance's log file under
-`/aspace.local/tenants/exampletenant/logs/`, and once they're started,
-you should be able to connect to each instance with your web browser.
+`/aspace.local/tenants/exampletenant/logs/`.  Once they're started,
+you should be able to connect to each instance with your web browser
+at the configured URLs.
 
 
 # Configuring the load balancer
@@ -363,5 +365,3 @@ If Nginx reports that all is well, reload the configurations with:
 And, finally, browse to `http://public.example.com/` to verify that Nginx
 is now accepting requests and forwarding them to your app servers.
 We're done!
-
-
