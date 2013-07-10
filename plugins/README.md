@@ -53,12 +53,12 @@ branding of the staff interface, add your own template at:
 
     plugins/local/frontend/views/site/_branding.html.erb
 
-Files such as images, stylesheets and PDFs can be made available as a static resources by
+Files such as images, stylesheets and PDFs can be made available as static resources by
 placing them in an `assets` directory under an enabled plug-in. For example, the following file:
 
     plugins/local/frontend/assets/my_logo.png
 
-Will be availble via the following URL:
+Will be available via the following URL:
 
     http://your.frontend.domain.and:port/assets/my_logo.png
 
@@ -92,9 +92,9 @@ example is:
 
     http://your.frontend.domain.and:port/plugins/hello_world
 
-Also note that the translation for the plug-in's name in the `Plug-ins` dropdown menus is specified
+Also note that the translation for the plug-in's name in the `Plug-ins` dropdown menu is specified
 in a locale file in the `frontend/locales` directory in the plug-in. For example, in the `hello_world`
-example there is an english locale file at:
+example there is an English locale file at:
 
     plugins/hello_world/frontend/locales/en.yml
 
