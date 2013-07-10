@@ -16,6 +16,9 @@ namespace :doc do
     require_relative '../backend/app/lib/username.rb'
     require_relative '../backend/app/model/backend_enum_source.rb'
     require_relative '../backend/app/lib/logging.rb'
+    require_relative '../backend/app/lib/streaming_import.rb'
+    require_relative '../backend/app/lib/component_transfer.rb'
+    require_relative '../backend/app/lib/reports/report_helper.rb'
 
 
     class ArchivesSpaceService < Sinatra::Base

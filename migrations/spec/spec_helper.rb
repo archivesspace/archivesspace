@@ -1,5 +1,6 @@
 require 'test_utils'
 require 'config/config-distribution'
+require 'I18n'
 
 $test_mode = true
 
@@ -16,6 +17,8 @@ $backend_start_fn = proc {
 }
 
 AppConfig[:backend_url] = $backend_url
+
+I18n.load_path += [File.join(File.dirname(__FILE__), "../", "../", "common", "locales", "enums", "#{AppConfig[:locale]}.yml")]
 
 def start_backend
   $backend_pid = $backend_start_fn.call
