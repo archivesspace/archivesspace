@@ -98,7 +98,7 @@ class DB
 
 
       rescue Sequel::DatabaseError => e
-        if (attempt + 1) < retries && is_retriable_exception(e) && transaction
+        if (attempt + 1) < retries && is_retriable_exception(e, opts) && transaction
           Log.info("Retrying transaction after retriable exception (#{e})")
           sleep(opts[:retry_delay] || 1)
         else
@@ -162,9 +162,11 @@ class DB
   end
 
 
-  def self.is_retriable_exception(exception)
+  def self.is_retriable_exception(exception, opts = {})
     # Transaction was rolled back, but we can retry
     (exception.instance_of?(RetryTransaction) ||
+     (opts[:retry_on_optimistic_locking_fail] &&
+      exception.instance_of?(Sequel::Plugins::OptimisticLocking::Error)) ||
      (exception.wrapped_exception.cause or exception.wrapped_exception).getSQLState() =~ /^(40|41)/)
   end
 
