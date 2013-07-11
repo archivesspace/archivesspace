@@ -1,3 +1,4 @@
+require 'json'
 require 'net/http'
 
 class SolrSnapshotter
@@ -40,12 +41,52 @@ class SolrSnapshotter
   end
 
 
-  def self.snapshot_locked?(snapshot)
-    !Dir.glob(File.join(snapshot, "*.lock")).empty?
+  def self.last_snapshot_status
+    response = Net::HTTP.get_response(URI.join(AppConfig[:solr_url],
+                                               "/replication?command=details&wt=json"))
+
+    if response.code != '200'
+      raise "Problem when getting snapshot details: #{response.body}"
+    end
+
+    status = JSON.parse(response.body)
+
+    Hash[Array(status.fetch('details', {})['backup']).each_slice(2).to_a]
   end
 
 
   def self.snapshot(identifier = nil)
+    retries = 5
+
+    retries.times do |i|
+      begin
+        SolrSnapshotter.do_snapshot
+        break
+      rescue
+        log(:error, "Solr snapshot failed (#{$!}) - attempt #{i}")
+
+        if (i + 1) == retries
+          raise "Solr snapshot failed after #{retries} retries: #{$!}"
+        end
+      end
+    end
+  end
+
+
+  def self.wait_for_snapshot_to_finish(starting_status, starting_snapshot)
+    while true
+      raise "Concurrent snapshot detected.  Bailing out!" if self.latest_snapshot != starting_snapshot
+
+      status = self.last_snapshot_status
+      break if status != starting_status
+
+      # Wait for the backup status to be updated
+      sleep 5
+    end
+  end
+
+
+  def self.do_snapshot(identifier = nil)
     identifier ||= Time.now.to_i
 
     target = File.join(AppConfig[:solr_backup_directory], "solr.#{identifier}")
@@ -55,38 +96,41 @@ class SolrSnapshotter
     FileUtils.cp_r(File.join(AppConfig[:data_directory], "indexer_state"),
                    target)
 
-    most_recent = self.latest_snapshot
+    begin
+      most_recent_status = self.last_snapshot_status
+      most_recent_snapshot = self.latest_snapshot
+      log(:info, "Previous snapshot status: #{most_recent_status}; snapshot: #{most_recent_snapshot}")
 
-    response = Net::HTTP.get_response(URI.join(AppConfig[:solr_url],
-                                               "/replication?command=backup&numberToKeep=1"))
 
-    if response.code == '200'
-      10.times do
-        break if self.latest_snapshot != most_recent
-        log(:info, "waiting for new Solr snapshot to be created")
-        sleep 5
+      response = Net::HTTP.get_response(URI.join(AppConfig[:solr_url],
+                                                 "/replication?command=backup&numberToKeep=1"))
+
+
+      raise "Error from Solr: #{response.body}" if response.code != '200'
+
+
+      # Wait for a new snapshot directory to turn up
+      60.times do
+        break if most_recent_snapshot != self.latest_snapshot
+        log(:info, "Waiting for new snapshot directory")
+        sleep 1
       end
 
-      raise "Snapshot wasn't created" if self.latest_snapshot == most_recent
-
-      snapshot = self.latest_snapshot
-      max_wait_time = 1 * 60 * 60
-      started_waiting_at = Time.now.to_i
-
-      while (snapshot_locked?(snapshot) &&
-             (Time.now.to_i - started_waiting_at) < max_wait_time)
-        log(:info, "waiting for snapshot to finish writing")
-        sleep 5
+      if most_recent_snapshot == self.latest_snapshot
+        raise "No new snapshot directory appeared"
       end
 
-      raise "Snapshot is still locked!" if snapshot_locked?(snapshot)
+      wait_for_snapshot_to_finish(most_recent_status, self.latest_snapshot)
+      new_snapshot = self.latest_snapshot
 
-      FileUtils.mv(snapshot, target)
-
+      FileUtils.mv(new_snapshot, target).inspect
       self.expire_snapshots
-    else
-      FileUtils.rm_rf(target)
-      raise "Solr snapshot failed: #{response.body}"
+    rescue
+      raise "Solr snapshot failed: #{$!}: #{$@}"
+      begin
+        FileUtils.rm_rf(target)
+      rescue
+      end
     end
   end
 
