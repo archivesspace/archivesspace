@@ -65,6 +65,8 @@ $(function() {
           if ($this.data("cardinality") === "zero_to_one") {
             $("> .subrecord-form-heading > .btn", $this).attr("disabled", "disabled");
           }
+
+          $(document).triggerHandler("subrecordcreated.aspace", [$subform.data("object-name") || $this.data("object-name"), $subform]);
         };
 
         var addAndInitForm = function(formHtml, $target_subrecord_list) {
