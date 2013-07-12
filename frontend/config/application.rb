@@ -119,6 +119,15 @@ end
 
 
 
+# Load plugin init.rb files (if present)
+ASUtils.find_local_directories('frontend').each do |dir|
+  init_file = File.join(dir, "plugin_init.rb")
+  if File.exists?(init_file)
+    load init_file
+  end
+end
+
+
 if ENV['COVERAGE_REPORTS'] == 'true'
   require 'aspace_coverage'
   ASpaceCoverage.start('frontend:test', 'rails')
