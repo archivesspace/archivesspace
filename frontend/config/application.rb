@@ -31,9 +31,7 @@ module ArchivesSpace
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
 
-    Array(AppConfig[:plugins]).each do |plugin|
-      config.paths["app/controllers"] << "../plugins/#{plugin}/frontend/controllers"
-    end
+    config.paths["app/controllers"].concat(ASUtils.find_local_directories("frontend/controllers"))
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
