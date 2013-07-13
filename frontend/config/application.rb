@@ -33,8 +33,6 @@ module ArchivesSpace
 
     Array(AppConfig[:plugins]).each do |plugin|
       config.paths["app/controllers"] << "../plugins/#{plugin}/frontend/controllers"
-      # seems this line isn't required
-      # config.paths["app/views"] << "../plugins/#{plugin}/frontend/views"
     end
 
     # Only load the plugins named here, in the order given (default is alphabetical).
