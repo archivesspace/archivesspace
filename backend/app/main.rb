@@ -156,6 +156,16 @@ class ArchivesSpaceService < Sinatra::Base
       end
       @archivesspace_loaded = true
 
+
+      # Load plugin init.rb files (if present)
+      ASUtils.find_local_directories('backend').each do |dir|
+        init_file = File.join(dir, "plugin_init.rb")
+        if File.exists?(init_file)
+          load init_file
+        end
+      end
+
+
       Notifications.notify("BACKEND_STARTED")
 
       # Setup public static file sharing

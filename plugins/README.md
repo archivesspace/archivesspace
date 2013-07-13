@@ -28,16 +28,19 @@ be used to override or extend the behavior of the core application.
     backend
       controllers .... backend endpoints
       model .......... database mapping models
+      plugin_init.rb . if present, loaded when the backend first starts
     frontend
       assets ......... static assets (such as images, javascript) in the staff interface
       controllers .... controllers for the staff interface
       locales ........ locale translations for the staff interface
       views .......... templates for the staff interface
+      plugin_init.rb . if present, loaded when the staff interface first starts
     public
       assets ......... static assets (such as images, javascript) in the public interface
       controllers .... controllers for the public interface
       locales ........ locale translations for the public interface
       views .......... templates for the public interface
+      plugin_init.rb . if present, loaded when the public interface first starts
     migrations ....... database migrations
     schemas .......... JSONModel schema definitions
 
