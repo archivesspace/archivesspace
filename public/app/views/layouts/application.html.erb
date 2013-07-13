@@ -10,7 +10,16 @@
   <%= include_theme_css %>
 
   <%= csrf_meta_tags %>
+
+  <% AppConfig[:plugins].each do |plugin| %>
+    <% if controller.template_exists?("#{plugin}/layout_head", [], true) %>
+      <!-- Begin layout_head from plugin <%= plugin %> -->
+      <%= render "#{plugin}/layout_head" %>
+      <!-- End layout_head from plugin <%= plugin %> -->
+    <% end %>
+  <% end %>
 </head>
+
 <body data-spy="scroll" data-target="#archivesSpaceSidebar" data-offset="20">
 
   <header>
