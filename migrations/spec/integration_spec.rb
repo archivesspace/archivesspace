@@ -89,8 +89,8 @@ def term_type_code(term)
   case term['term_type']
   when 'genre_form', 'style_period'; 'v'
   when 'topical', 'cultural_context'; 'x'
-  when 'temporal', 'y'
-  when 'geographic', 'z'
+  when 'temporal'; 'y'
+  when 'geographic'; 'z'
   end
 end
 
@@ -1306,10 +1306,18 @@ describe 'ASpaceImport' do
       notes.map{|n| note_content(n)}.join('').should eq(xml_content)
     end
 
-    it "maps notes of type 'abstract' | 'scopecontent' to df 520 ('1', '3'), sf a" do
-      notes = @resource.notes.select{|n| %w(abstract scopecontent).include?(n['type'])}
+    it "maps notes of type 'abstract' to df 520 ('3', ' '), sf a" do
+      notes = @resource.notes.select{|n| %w(abstract).include?(n['type'])}
       pending "a different sample" unless notes.count > 0
-      xml_content = @doc.df('520', '1', '3').sf_t('a')
+      xml_content = @doc.df('520', '3', ' ').sf_t('a')
+      xml_content.should_not be_empty
+      notes.map{|n| note_content(n)}.join('').should eq(xml_content)
+    end
+
+    it "maps notes of type 'scopecontent' to df 520 ('2', ' '), sf a" do
+      notes = @resource.notes.select{|n| %w(scopecontent).include?(n['type'])}
+      pending "a different sample" unless notes.count > 0
+      xml_content = @doc.df('520', '2', ' ').sf_t('a')
       xml_content.should_not be_empty
       notes.map{|n| note_content(n)}.join('').should eq(xml_content)
     end
@@ -1322,10 +1330,18 @@ describe 'ASpaceImport' do
       notes.map{|n| note_content(n)}.join('').should eq(xml_content)
     end
 
-    it "maps notes of type 'altformavail' | 'originalsloc' to df 535 ('2', '1'), sf a" do
-      notes = @resource.notes.select{|n| %w(altformavail originalsloc).include?(n['type'])}
+    it "maps notes of type 'altformavail' to df 535 ('2', ' '), sf a" do
+      notes = @resource.notes.select{|n| %w(altformavail).include?(n['type'])}
       pending "a different sample" unless notes.count > 0
-      xml_content = @doc.df('535', '2', '1').sf_t('a')
+      xml_content = @doc.df('535', '2', ' ').sf_t('a')
+      xml_content.should_not be_empty
+      notes.map{|n| note_content(n)}.join('').should eq(xml_content)
+    end
+
+    it "maps notes of type 'originalsloc' to df 535 ('1', ' '), sf a" do
+      notes = @resource.notes.select{|n| %w(originalsloc).include?(n['type'])}
+      pending "a different sample" unless notes.count > 0
+      xml_content = @doc.df('535', '1', ' ').sf_t('a')
       xml_content.should_not be_empty
       notes.map{|n| note_content(n)}.join('').should eq(xml_content)
     end
@@ -1338,18 +1354,18 @@ describe 'ASpaceImport' do
       notes.map{|n| note_content(n)}.join('').should eq(xml_content)
     end
 
-    it "maps public notes of type 'acqinfo' to df 541 ('0', ' '), sf a" do
+    it "maps public notes of type 'acqinfo' to df 541 ('1', ' '), sf a" do
       notes = @resource.notes.select{|n| %w(acqinfo).include?(n['type']) && n['publish']}
       pending "a different sample" unless notes.count > 0
-      xml_content = @doc.df('541', '0', ' ').sf_t('a')
+      xml_content = @doc.df('541', '1', ' ').sf_t('a')
       xml_content.should_not be_empty
       notes.map{|n| note_content(n)}.join('').should eq(xml_content)
     end
 
-    it "maps private notes of type 'acqinfo' to df 541 ('1', ' '), sf a" do
+    it "maps private notes of type 'acqinfo' to df 541 ('0', ' '), sf a" do
       notes = @resource.notes.select{|n| %w(acqinfo).include?(n['type']) && !n['publish']}
       pending "a different sample" unless notes.count > 0
-      xml_content = @doc.df('541', '1', ' ').sf_t('a')
+      xml_content = @doc.df('541', '0', ' ').sf_t('a')
       xml_content.should_not be_empty
       notes.map{|n| note_content(n)}.join('').should eq(xml_content)
     end
@@ -1380,38 +1396,38 @@ describe 'ASpaceImport' do
 
     it "maps resource.ead_location to df 555 (' ', ' '), sf a" do
       df = @doc.df('555', ' ', ' ')
-      df.sf_t('u').should eq('ead_location')
-      df.sf_t('a').should eq(@resource.ead_location)
+      df.sf_t('u').should eq(@resource.ead_location)
+      df.sf_t('a').should eq("Finding aid online:")
     end
 
-    it "maps public notes of type 'custodhist' to df 561 ('0', ' '), sf a" do
+    it "maps public notes of type 'custodhist' to df 561 ('1', ' '), sf a" do
       notes = @resource.notes.select{|n| %w(custodhist).include?(n['type']) && n['publish']}
-      pending "a different sample" unless notes.count > 0
-      xml_content = @doc.df('561', '0', ' ').sf_t('a')
-      xml_content.should_not be_empty
-      notes.map{|n| note_content(n)}.join('').should eq(xml_content)
-    end
-
-    it "maps private notes of type 'custodhist' to df 561 ('1', ' '), sf a" do
-      notes = @resource.notes.select{|n| %w(custodhist).include?(n['type']) && !n['publish']}
       pending "a different sample" unless notes.count > 0
       xml_content = @doc.df('561', '1', ' ').sf_t('a')
       xml_content.should_not be_empty
       notes.map{|n| note_content(n)}.join('').should eq(xml_content)
     end
 
-    it "maps public notes of type 'appraisal' to df 583 ('0', ' '), sf a" do
-      notes = @resource.notes.select{|n| %w(appraisal).include?(n['type']) && n['publish']}
+    it "maps private notes of type 'custodhist' to df 561 ('0', ' '), sf a" do
+      notes = @resource.notes.select{|n| %w(custodhist).include?(n['type']) && !n['publish']}
       pending "a different sample" unless notes.count > 0
-      xml_content = @doc.df('583', '0', ' ').sf_t('a')
+      xml_content = @doc.df('561', '0', ' ').sf_t('a')
       xml_content.should_not be_empty
       notes.map{|n| note_content(n)}.join('').should eq(xml_content)
     end
 
-    it "maps private notes of type 'appraisal' to df 583 ('1', ' '), sf a" do
-      notes = @resource.notes.select{|n| %w(appraisal).include?(n['type']) && !n['publish']}
+    it "maps public notes of type 'appraisal' to df 583 ('1', ' '), sf a" do
+      notes = @resource.notes.select{|n| %w(appraisal).include?(n['type']) && n['publish']}
       pending "a different sample" unless notes.count > 0
       xml_content = @doc.df('583', '1', ' ').sf_t('a')
+      xml_content.should_not be_empty
+      notes.map{|n| note_content(n)}.join('').should eq(xml_content)
+    end
+
+    it "maps private notes of type 'appraisal' to df 583 ('0', ' '), sf a" do
+      notes = @resource.notes.select{|n| %w(appraisal).include?(n['type']) && !n['publish']}
+      pending "a different sample" unless notes.count > 0
+      xml_content = @doc.df('583', '0', ' ').sf_t('a')
       xml_content.should_not be_empty
       notes.map{|n| note_content(n)}.join('').should eq(xml_content)
     end

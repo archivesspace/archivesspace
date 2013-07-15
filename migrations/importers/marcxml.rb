@@ -55,7 +55,7 @@ ASpaceImport::Importer.importer :marcxml do
 
             if %w(i k s).include?(control[6])
               make(:date) do |date|
-                date.label = 'other'
+                date.label = 'creation'
                 date.date_type = {'i' => 'inclusive',
                                   'k' => 'bulk',
                                   's' => 'single'}[control[6]]
@@ -109,11 +109,12 @@ ASpaceImport::Importer.importer :marcxml do
           "datafield[@tag='245']" => Proc.new {|resource, node|
             resource.title = subfield_template("{$a : }{$b }{[$h] }{$k , }{$n , }{$p , }{$s }{/ $c}", node)
 
+            # FIXME: separate dates for $f (inclusive) and $g (bulk)
             expression = concatenate_subfields(%w(f g), node, '-')
             unless expression.empty?
               make(:date)  do |date|
-                date.label = 'other'
-                date.date_type = 'single'
+                date.label = 'creation'
+                date.date_type = 'inclusive'
                 date.expression = expression
                 resource.dates << date
               end
@@ -159,7 +160,7 @@ ASpaceImport::Importer.importer :marcxml do
             "self::datafield" => Proc.new {|resource, node|
               if resource['_needs_date']
                 make(:date) do |date|
-                  date.label = 'other'
+                  date.label = 'publication'
                   date.date_type = 'single'
                   date.expression = node.xpath("subfield[@code='c']")
                   resource.dates << date
@@ -175,7 +176,7 @@ ASpaceImport::Importer.importer :marcxml do
             :rel => :extents,
             :map => {
               "self::datafield" => Proc.new {|extent, node|
-                extent.container_summary = subfield_template("{$3: }{$a ; }{$b, }{$c }({$e, }{$f, }{$g})", node)
+                extent.container_summary = subfield_template("{$3: }{$a }{$b, }{$c }({$e, }{$f, }{$g})", node)
               }
             },
             :defaults => {:portion => 'whole', :number => '1', :extent_type => 'linear_feet'}
@@ -434,99 +435,92 @@ ASpaceImport::Importer.importer :marcxml do
           #SUBJECTS
           "datafield[@tag='630']" => subject_template(
                                         Proc.new{|node|
-                                         terms = []
-                                         %w(a  d  e  f  g  h  k  l  m  n  o  p  r  s  t).each do |code|
-                                           terms << make_term('uniform_title', node.xpath("subfield[@code='#{code}']").inner_text)
-                                         end
-                                         {
-                                           'v'=>'genre_form',
-                                           'x'=>'topical',
-                                           'y'=>'temporal',
-                                           'z'=>'geographic'}.each do |k,v|
-                                             terms << make_term(v, node.xpath("subfield[@code='#{k}']").inner_text)
-                                           end
-
-                                         terms
+                                          terms = []
+                                          terms << make_term('uniform_title', concatenate_subfields(%w(a d e f g h k l m n o p r s t), node, ' '))
+                                          node.xpath("subfield").each do |sf|
+                                              terms << make_term(
+                                              {
+                                                'v' => 'genre_form',
+                                                'x' => 'topical',
+                                                'y' => 'temporal',
+                                                'z' => 'geographic'
+                                              }[sf.attr('code')], sf.inner_text)
+                                          end
+                                          terms
                                         },
                                         sets_subject_source),
 
           "datafield[@tag='650']" => subject_template(
                                         Proc.new{|node|
-                                         terms = []
-                                         %w(a b x).each do |code|
-                                           terms << make_term('topical', node.xpath("subfield[@code='#{code}']").inner_text)
-                                         end
-                                         cd = %w(c d).map {|code| node.xpath("subfield[@code='#{code}']").inner_text}.join(' ')
-                                         terms << make_term('topical', cd.strip)
-                                         {
-                                           'v'=>'genre_form',
-                                           'x'=>'topical',
-                                           'y'=>'temporal',
-                                           'z'=>'geographic'}.each do |k,v|
-                                             terms << make_term(v, node.xpath("subfield[@code='#{k}']").inner_text)
-                                           end
-
-                                         terms
+                                          terms = []
+                                          node.xpath("subfield").each do |sf|
+                                            terms << make_term(
+                                              {
+                                                'a' => 'topical',
+                                                'b' => 'topical',
+                                                'c' => 'topical',
+                                                'd' => 'topical',
+                                                'v' => 'genre_form',
+                                                'x' => 'topical',
+                                                'y' => 'temporal',
+                                                'z' => 'geographic'
+                                              }[sf.attr('code')], sf.inner_text)
+                                          end
+                                          terms
                                         },
                                         sets_subject_source),
 
           "datafield[@tag='651']" => subject_template(
                                         Proc.new{|node|
-                                         terms = []
-                                         %w(a).each do |code|
-                                           terms << make_term('topical', node.xpath("subfield[@code='#{code}']").inner_text)
-                                         end
-                                         {
-                                           'v'=>'genre_form',
-                                           'x'=>'topical',
-                                           'y'=>'temporal',
-                                           'z'=>'geographic'}.each do |k,v|
-                                             terms << make_term(v, node.xpath("subfield[@code='#{k}']").inner_text)
-                                           end
-
-                                         terms
+                                          terms = []
+                                          node.xpath("subfield").each do |sf|
+                                            terms << make_term(
+                                              {
+                                                'a' => 'geographic',
+                                                'v' => 'genre_form',
+                                                'x' => 'topical',
+                                                'y' => 'temporal',
+                                                'z' => 'geographic'
+                                              }[sf.attr('code')], sf.inner_text)
+                                          end
+                                          terms
                                         },
                                         sets_subject_source),
 
           "datafield[@tag='655']" => subject_template(
                                         Proc.new{|node|
-                                         terms = []
-                                         %w(a b).each do |code|
-                                           terms << make_term('genre_form', node.xpath("subfield[@code='#{code}']").inner_text)
-                                         end
-
-                                         c = node.xpath("subfield[@code='c']").inner_text
-                                         floating_suffix = c ? [" (#{c})"] : []
-
-                                         {
-                                           'v'=>'genre_form',
-                                           'x'=>'topical',
-                                           'y'=>'temporal',
-                                           'z'=>'geographic'}.each do |k,v|
-                                             val = node.xpath("subfield[@code='#{k}']").inner_text
-                                             val += (floating_suffix.shift || "") unless val.empty?
-                                             terms << make_term(v, val)
-                                           end
-
-                                         terms
+                                          terms = []
+                                          # FIXME: subfield `c` not handled
+                                          node.xpath("subfield").each do |sf|
+                                            terms << make_term(
+                                              {
+                                                'a' => 'genre_form',
+                                                'b' => 'genre_form',
+                                                'v' => 'genre_form',
+                                                'x' => 'topical',
+                                                'y' => 'temporal',
+                                                'z' => 'geographic'
+                                              }[sf.attr('code')], sf.inner_text)
+                                          end
+                                          terms
                                         },
                                         sets_subject_source),
 
           "datafield[@tag='656']" => subject_template(
                                         Proc.new{|node|
-                                         terms = []
-                                         {
-                                           'a'=>'occupation',
-                                           'k'=>'genre_form',
-                                           'v'=>'genre_form',
-                                           'x'=>'topical',
-                                           'y'=>'temporal',
-                                           'z'=>'geographic'}.each do |k,v|
-                                             val = node.xpath("subfield[@code='#{k}']").inner_text || ""
-                                             terms << make_term(v, val) unless val.empty?
-                                           end
-
-                                         terms
+                                          terms = []
+                                          node.xpath("subfield").each do |sf|
+                                            terms << make_term(
+                                              {
+                                                'a' => 'occupation',
+                                                'k' => 'genre_form',
+                                                'v' => 'genre_form',
+                                                'x' => 'topical',
+                                                'y' => 'temporal',
+                                                'z' => 'geographic'
+                                              }[sf.attr('code')], sf.inner_text)
+                                          end
+                                          terms
                                         },
                                         Proc.new{|node|
                                           node.attr('ind2') == '7' ? node.xpath("subfield[@code='2']").inner_text : nil
@@ -534,18 +528,18 @@ ASpaceImport::Importer.importer :marcxml do
 
           "datafield[@tag='657']" => subject_template(
                                         Proc.new{|node|
-                                         terms = []
-                                         {
-                                           'a'=>'occupation',
-                                           'v'=>'genre_form',
-                                           'x'=>'topical',
-                                           'y'=>'temporal',
-                                           'z'=>'geographic'}.each do |k,v|
-                                             val = node.xpath("subfield[@code='#{k}']").inner_text || ""
-                                             terms << make_term(v, val) unless val.empty?
-                                           end
-
-                                         terms
+                                          terms = []
+                                          node.xpath("subfield").each do |sf|
+                                            terms << make_term(
+                                              {
+                                                'a' => 'function',
+                                                'v' => 'genre_form',
+                                                'x' => 'topical',
+                                                'y' => 'temporal',
+                                                'z' => 'geographic'
+                                              }[sf.attr('code')], sf.inner_text)
+                                          end
+                                          terms
                                         },
                                         Proc.new{|node|
                                           node.attr('ind2') == '7' ? node.xpath("subfield[@code='2']").inner_text : nil
@@ -678,7 +672,7 @@ ASpaceImport::Importer.importer :marcxml do
 
 
   def self.make_term(term_type, term)
-    unless term.empty?
+    if !term.empty? && !term_type.nil?
       {:term_type => term_type, :term => term, :vocabulary => '/vocabularies/1'}
     end
   end

@@ -164,9 +164,10 @@ ASpaceExport::model :marc21 do
     repo = repository['_resolved']
     return false unless repo
     
+    sfa = repo['org_code'] ? repo['org_code'] : "Repository: #{repo['repo_code']}"
+
     df('852', ' ', ' ').with_sfs(
-                        ['a', "Repository: #{repo['repo_code']}"],
-                        ['a', repo['org_code']],
+                        ['a', sfa],
                         ['b', repo['name']]
                       )
     df('040', ' ', ' ').with_sfs(['a', repo['org_code']], ['c', repo['org_code']])
@@ -449,7 +450,10 @@ ASpaceExport::model :marc21 do
 
 
   def handle_ead_loc(ead_loc)
-    df('555', ' ', ' ').with_sfs(['a', ead_loc], ['u', 'ead_location'])
+    df('555', ' ', ' ').with_sfs(
+                                  ['a', "Finding aid online:"],
+                                  ['u', ead_loc]
+                                )
     df('856', '4', '2').with_sfs(
                                   ['z', "Finding aid online:"],
                                   ['u', ead_loc]
