@@ -164,9 +164,10 @@ ASpaceExport::model :marc21 do
     repo = repository['_resolved']
     return false unless repo
     
+    sfa = repo['org_code'] ? repo['org_code'] : "Repository: #{repo['repo_code']}"
+
     df('852', ' ', ' ').with_sfs(
-                        ['a', "Repository: #{repo['repo_code']}"],
-                        ['a', repo['org_code']],
+                        ['a', sfa],
                         ['b', repo['name']]
                       )
     df('040', ' ', ' ').with_sfs(['a', repo['org_code']], ['c', repo['org_code']])
@@ -179,8 +180,7 @@ ASpaceExport::model :marc21 do
   def handle_subjects(subjects)
     subjects.each do |link|
       subject = link['_resolved']
-      term = subject['terms'][0]
-      terms = subject['terms'][1..-1]
+      term, *terms = subject['terms']
       code, ind2 =  case term['term_type']
                     when 'uniform_title'
                       ['630', source_to_code(subject['source'])]
@@ -199,18 +199,18 @@ ASpaceExport::model :marc21 do
                     end
       sfs = [['a', term['term']]]
 
-      if ind2 == '7'
-        sfs << ['2', subject['source']]
-      end
-
       terms.each do |t|
         tag = case t['term_type']
               when 'genre_form', 'style_period'; 'v'
               when 'topical', 'cultural_context'; 'x'
-              when 'temporal', 'y'
-              when 'geographic', 'z'
+              when 'temporal'; 'y'
+              when 'geographic'; 'z'
               end
         sfs << [(tag), t['term']]
+      end
+
+      if ind2 == '7'
+        sfs << ['2', subject['source']]
       end
 
       df(code, ' ', ind2).with_sfs(*sfs)
@@ -224,45 +224,49 @@ ASpaceExport::model :marc21 do
 
     creator = link['_resolved']
     name = creator['names'][0]
-
+    ind2 = ' '
     role_info = link['relator'] ? ['4', link['relator']] : ['e', 'creator']
 
     case creator['agent_type']
 
     when 'agent_corporate_entity'
-      df('110', '2', ' ').with_sfs(
-                                  ['a', name['primary_name']],
-                                  ['b', name['subordinate_name_1']],
-                                  ['b', name['subordinate_name_2']],
-                                  ['n', name['number']],
-                                  ['d', name['dates']],
-                                  ['g', name['qualifier']],
-                                  role_info
-                                  )
+      code = '110'
+      ind1 = '2'
+      sfs = [
+              ['a', name['primary_name']],
+              ['b', name['subordinate_name_1']],
+              ['b', name['subordinate_name_2']],
+              ['n', name['number']],
+              ['d', name['dates']],
+              ['g', name['qualifier']],
+            ]
+
     when 'agent_person'
       joint, ind1 = name['name_order'] == 'direct' ? [' ', '0'] : [', ', '1']
       name_parts = [name['primary_name'], name['rest_of_name']].reject{|i| i.nil? || i.empty?}.join(joint)
-
-      df('100', ind1, ' ').with_sfs(
-                                  ['a', name_parts],
-                                  ['b', name['number']],
-                                  ['c', %w(prefix, title, suffix).map {|prt| name[prt]}.join(', ')],
-                                  ['q', name['fuller_form']],
-                                  ['d', name['dates']],
-                                  ['g', name['qualifier']],
-                                  role_info
-                                  )
+      code = '100'
+      sfs = [
+              ['a', name_parts],
+              ['b', name['number']],
+              ['c', %w(prefix, title, suffix).map {|prt| name[prt]}.compact.join(', ')],
+              ['q', name['fuller_form']],
+              ['d', name['dates']],
+              ['g', name['qualifier']],
+            ]
 
     when 'agent_family'
-      df('100', '3', ' ').with_sfs(
-                                  ['a', name['family_name']],
-                                  ['c', name['prefix']],
-                                  ['d', name['dates']],
-                                  ['g', name['qualifier']],
-                                  role_info
-                                  )
-
+      code = '100'
+      ind1 = '3'
+      sfs = [
+              ['a', name['family_name']],
+              ['c', name['prefix']],
+              ['d', name['dates']],
+              ['g', name['qualifier']],
+            ]
     end
+
+    sfs << role_info
+    df(code, ind1, ind2).with_sfs(*sfs)
   end
 
 
@@ -277,41 +281,63 @@ ASpaceExport::model :marc21 do
       name = subject['names'][0]
       relator = link['relator']
       terms = link['terms']
-      ind2 = source_to_code(subject['source'])
+      ind2 = source_to_code(name['source'])
 
       case subject['agent_type']
 
       when 'agent_corporate_entity'
-        df('610', '2', ind2).with_sfs(
-                                          ['a', name['primary_name']],
-                                          ['b', name['subordinate_name_1']],
-                                          ['b', name['subordinate_name_2']],
-                                          ['n', name['number']],
-                                          ['g', name['qualifier']],
-                                          )
+        code = '610'
+        ind1 = '2'
+        sfs = [
+                ['a', name['primary_name']],
+                ['b', name['subordinate_name_1']],
+                ['b', name['subordinate_name_2']],
+                ['n', name['number']],
+                ['g', name['qualifier']],
+              ]
+
       when 'agent_person'
         joint, ind1 = name['name_order'] == 'direct' ? [' ', '0'] : [', ', '1']
         name_parts = [name['primary_name'], name['rest_of_name']].reject{|i| i.nil? || i.empty?}.join(joint)
         ind1 = name['name_order'] == 'direct' ? '0' : '1'
-
-        df('600', ind1, ind2).with_sfs(
-                                          ['a', name_parts],
-                                          ['b', name['number']],
-                                          ['c', %w(prefix title suffix).map {|prt| name[prt]}.compact.join(', ')],
-                                          ['q', name['fuller_form']],
-                                          ['d', name['dates']],
-                                          ['g', name['qualifier']],
-                                          )
+        code = '600'
+        sfs = [
+                ['a', name_parts],
+                ['b', name['number']],
+                ['c', %w(prefix title suffix).map {|prt| name[prt]}.compact.join(', ')],
+                ['q', name['fuller_form']],
+                ['d', name['dates']],
+                ['g', name['qualifier']],
+              ]
 
       when 'agent_family'
-        df('600', '3', ind2).with_sfs(
-                                          ['a', name['family_name']],
-                                          ['c', name['prefix']],
-                                          ['d', name['dates']],
-                                          ['g', name['qualifier']],
-                                          )
+        code = '600'
+        ind1 = '3'
+        sfs = [
+                ['a', name['family_name']],
+                ['c', name['prefix']],
+                ['d', name['dates']],
+                ['g', name['qualifier']],
+              ]
 
       end
+
+      terms.each do |t|
+        tag = case t['term_type']
+          when 'uniform_title'; 't'
+          when 'genre_form', 'style_period'; 'v'
+          when 'topical', 'cultural_context'; 'x'
+          when 'temporal', 'y'
+          when 'geographic', 'z'
+          end
+        sfs << [(tag), t['term']]
+      end
+
+      if ind2 == '7'
+        sfs << ['2', subject['source']]
+      end
+
+      df(code, ind1, ind2).with_sfs(*sfs)
     end
 
 
@@ -333,41 +359,48 @@ ASpaceExport::model :marc21 do
         relator_sf = ['e', 'creator']
       end
 
+      ind2 = ' '
+
       case creator['agent_type']
 
       when 'agent_corporate_entity'
-        df('710', '2', ' ').with_sfs(
-                                          ['a', name['primary_name']],
-                                          ['b', name['subordinate_name_1']],
-                                          ['b', name['subordinate_name_2']],
-                                          ['n', name['number']],
-                                          ['g', name['qualifier']],
-                                          relator_sf
-                                          )
+        code = '710'
+        ind1 = '2'
+        sfs = [
+                ['a', name['primary_name']],
+                ['b', name['subordinate_name_1']],
+                ['b', name['subordinate_name_2']],
+                ['n', name['number']],
+                ['g', name['qualifier']],
+              ]
+
       when 'agent_person'
         joint, ind1 = name['name_order'] == 'direct' ? [' ', '0'] : [', ', '1']
         name_parts = [name['primary_name'], name['rest_of_name']].reject{|i| i.nil? || i.empty?}.join(joint)
         ind1 = name['name_order'] == 'direct' ? '0' : '1'
-
-        df('700', ind1, ' ').with_sfs(
-                                          ['a', name_parts],
-                                          ['b', name['number']],
-                                          ['c', %w(prefix title suffix).map {|prt| name[prt]}.compact.join(', ')],
-                                          ['q', name['fuller_form']],
-                                          ['d', name['dates']],
-                                          ['g', name['qualifier']],
-                                          relator_sf
-                                          )
+        code = '700'
+        sfs = [
+                ['a', name_parts],
+                ['b', name['number']],
+                ['c', %w(prefix title suffix).map {|prt| name[prt]}.compact.join(', ')],
+                ['q', name['fuller_form']],
+                ['d', name['dates']],
+                ['g', name['qualifier']],
+              ]
 
       when 'agent_family'
-        df('700', '3', ' ').with_sfs(
-                                          ['a', name['family_name']],
-                                          ['c', name['prefix']],
-                                          ['d', name['dates']],
-                                          ['g', name['qualifier']],
-                                          relator_sf
-                                          )
+        ind = '3'
+        code = '700'
+        sfs = [
+                ['a', name['family_name']],
+                ['c', name['prefix']],
+                ['d', name['dates']],
+                ['g', name['qualifier']],
+              ]
       end
+
+      sfs << relator_sf
+      df(code, ind1, ind2).with_sfs(*sfs)
     end
 
   end
@@ -393,33 +426,35 @@ ASpaceExport::model :marc21 do
 
                   when 'arrangement', 'fileplan'
                     ['351','b']
-                  when 'fileplan'
-                    ['351', 'b']
                   when 'odd', 'dimensions', 'physdesc', 'materialspec', 'physloc', 'phystech', 'physfacet', 'processinfo', 'separatedmaterial'
                     ['500','a']
                   when 'accessrestrict'
                     ['506','a']
-                  when 'scopecontent', 'abstract'
-                    ['520', '1', '3', 'a']
+                  when 'scopecontent'
+                    ['520', '2', ' ', 'a']
+                  when 'abstract'
+                    ['520', '3', ' ', 'a']
                   when 'prefercite'
                     ['534', '8', ' ', 'a']
                   when 'acqinfo'
-                    ind1 = note['publish'] ? '0' : '1'
+                    ind1 = note['publish'] ? '1' : '0'
                     ['541', ind1, ' ', 'a']
                   when 'relatedmaterial'
                     ['544','a']
                   when 'bioghist'
                     ['545','a']
                   when 'custodhist'
-                    ind1 = note['publish'] ? '0' : '1'
+                    ind1 = note['publish'] ? '1' : '0'
                     ['561', ind1, ' ', 'a']
                   when 'appraisal'
-                    ind1 = note['publish'] ? '0' : '1'
+                    ind1 = note['publish'] ? '1' : '0'
                     ['583', ind1, ' ', 'a']
                   when 'accruals'
                     ['584', 'a']
-                  when 'altformavail', 'originalsloc'
-                    ['535', '2', '1', 'a']
+                  when 'altformavail'
+                    ['535', '2', ' ', 'a']
+                  when 'originalsloc'
+                    ['535', '1', ' ', 'a']
                   when 'userestrict', 'legalstatus'
                     ['540', 'a']
                   when 'langmaterial'
@@ -443,13 +478,22 @@ ASpaceExport::model :marc21 do
       e = ext['number']
       # e << " (#{ext['portion']})" if ext['portion']
       e << " #{I18n.t('enumerations.extent_extent_type.'+ext['extent_type'], :default => ext['extent_type'])}"
+
+      if ext['container_summary']
+        e << " (#{ext['container_summary']})"
+      end
+
       df('300').with_sfs(['a', e])
+
     end
   end
 
 
   def handle_ead_loc(ead_loc)
-    df('555', ' ', ' ').with_sfs(['a', ead_loc], ['u', 'ead_location'])
+    df('555', ' ', ' ').with_sfs(
+                                  ['a', "Finding aid online:"],
+                                  ['u', ead_loc]
+                                )
     df('856', '4', '2').with_sfs(
                                   ['z', "Finding aid online:"],
                                   ['u', ead_loc]
