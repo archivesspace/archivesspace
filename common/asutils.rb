@@ -1,4 +1,5 @@
 require 'java'
+require 'json'
 require 'tmpdir'
 require 'config/config-distribution'
 

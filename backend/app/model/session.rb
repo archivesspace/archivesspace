@@ -59,6 +59,15 @@ class Session
   end
 
 
+  def self.expire_old_sessions
+    max_age = AppConfig[:session_expire_after_seconds] || (7 * 24 * 60 * 60)
+
+    DB.open do |db|
+      db[:session].where {system_mtime < (Time.now - max_age)}.filter(:expirable => 1).delete
+    end
+  end
+
+
   def []=(key, val)
     @store[key] = val
   end
@@ -74,6 +83,7 @@ class Session
       db[:session]
         .filter(:session_id => Digest::SHA1.hexdigest(@id))
         .update(:session_data => [Marshal.dump(@store)].pack("m*"),
+                :expirable => @store[:expirable] ? 1 : 0,
                 :system_mtime => Time.now)
     end
   end

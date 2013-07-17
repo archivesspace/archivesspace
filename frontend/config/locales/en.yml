@@ -508,6 +508,7 @@ en:
         create: Create Location
         batch: Batch Locations
         save: Save Location
+        single: Single Location
 
   location_batch:
     _frontend:

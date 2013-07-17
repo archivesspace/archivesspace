@@ -1059,20 +1059,30 @@ describe "Import / Export Behavior >> " do
       it "maps notes of type 'accessrestrict' to df 506, sf a" do
         note_test(%w(accessrestrict), ['506', ' ', ' '], 'a')
       end
+      
+      
+      it "maps notes of type 'abstract' to df 520 ('3', ' '), sf a" do
+        note_test(%w(abstract), ['520', '3', ' '], 'a')
+      end
+      
 
-
-      it "maps notes of type 'abstract' | 'scopecontent' to df 520 ('1', '3'), sf a" do
-        note_test(%w(abstract scopecontent), ['520', '1', '3'], 'a')
+      it "maps notes of type 'scopecontent' to df 520 ('2', ' '), sf a" do
+        note_test(%w(scopecontent), ['520', '2', ' '], 'a')
       end
 
 
       it "maps notes of type 'prefercite' to df 534 ('8', ' '), sf a" do
         note_test(%w(prefercite), ['534', '8', ' '], 'a')
       end
+      
+      
+      it "maps notes of type 'altformavail' to df 535 ('2', ' '), sf a" do
+        note_test(%w(altformavail originalsloc), ['535', '2', ' '], 'a')
+      end
 
 
-      it "maps notes of type 'altformavail' | 'originalsloc' to df 535 ('2', '1'), sf a" do
-        note_test(%w(altformavail originalsloc), ['535', '2', '1'], 'a')
+      it "maps notes of type 'originalsloc' to df 535 ('1', ' '), sf a" do
+        note_test(%w(originalsloc), ['535', '1', ' '], 'a')
       end
 
 
@@ -1081,12 +1091,12 @@ describe "Import / Export Behavior >> " do
       end
 
 
-      it "maps public notes of type 'acqinfo' to df 541 ('0', ' '), sf a" do
-        note_test(%w(acqinfo), ['541', '0', ' '], 'a', {'publish' => true})
+      it "maps public notes of type 'acqinfo' to df 541 ('1', ' '), sf a" do
+        note_test(%w(acqinfo), ['541', '1', ' '], 'a', {'publish' => true})
       end
 
 
-      it "maps private notes of type 'acqinfo' to df 541 ('1', ' '), sf a" do
+      it "maps private notes of type 'acqinfo' to df 541 ('0', ' '), sf a" do
         note_test(%w(acqinfo), ['541', '1', ' '], 'a', {'publish' => false})
       end
 
@@ -1113,22 +1123,22 @@ describe "Import / Export Behavior >> " do
       end
 
 
-      it "maps public notes of type 'custodhist' to df 561 ('0', ' '), sf a" do
+      it "maps public notes of type 'custodhist' to df 561 ('1', ' '), sf a" do
         note_test(%w(custodhist), ['561', '0', ' '], 'a', {'publish' => true})
       end
 
 
-      it "maps private notes of type 'custodhist' to df 561 ('1', ' '), sf a" do
+      it "maps private notes of type 'custodhist' to df 561 ('0', ' '), sf a" do
         note_test(%w(custodhist), ['561', '1', ' '], 'a', {'publish' => false})
       end
 
 
-      it "maps public notes of type 'appraisal' to df 583 ('0', ' '), sf a" do
+      it "maps public notes of type 'appraisal' to df 583 ('1', ' '), sf a" do
         note_test(%w(appraisal), ['583', '0', ' '], 'a', {'publish' => true})
       end
 
 
-      it "maps private notes of type 'appraisal' to df 583 ('1', ' '), sf a" do
+      it "maps private notes of type 'appraisal' to df 583 ('0', ' '), sf a" do
         note_test(%w(appraisal), ['583', '1', ' '], 'a', {'publish' => false})
       end
 

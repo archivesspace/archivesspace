@@ -473,15 +473,15 @@
     <mkdir dir="target/archivesspace/logs" />
     <mkdir dir="target/archivesspace/launcher" />
     <mkdir dir="target/archivesspace/scripts/rb" />
-    <mkdir dir="target/archivesspace/local/indexer" />
-    <mkdir dir="target/archivesspace/local/schemas" />
-    <mkdir dir="target/archivesspace/local/backend/model/mixins" />
-    <mkdir dir="target/archivesspace/local/backend/model/reports" />
-    <mkdir dir="target/archivesspace/local/backend/controllers" />
-    <mkdir dir="target/archivesspace/local/frontend/views" />
-    <mkdir dir="target/archivesspace/local/frontend/locales" />
-    <mkdir dir="target/archivesspace/local/public/views" />
-    <mkdir dir="target/archivesspace/local/public/locales" />
+    <mkdir dir="target/archivesspace/plugins/local/indexer" />
+    <mkdir dir="target/archivesspace/plugins/local/schemas" />
+    <mkdir dir="target/archivesspace/plugins/local/backend/model/mixins" />
+    <mkdir dir="target/archivesspace/plugins/local/backend/model/reports" />
+    <mkdir dir="target/archivesspace/plugins/local/backend/controllers" />
+    <mkdir dir="target/archivesspace/plugins/local/frontend/views" />
+    <mkdir dir="target/archivesspace/plugins/local/frontend/locales" />
+    <mkdir dir="target/archivesspace/plugins/local/public/views" />
+    <mkdir dir="target/archivesspace/plugins/local/public/locales" />
     <mkdir dir="target/archivesspace/locales" />
 
     <tstamp />

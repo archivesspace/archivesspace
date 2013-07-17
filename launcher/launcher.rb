@@ -16,7 +16,7 @@ $server_prepare_hooks = []
 # Nothing uses this feature by default, but you could use it for performing
 # further configuration on the Jetty server object (such as sizing thread pools)
 # by adding a hook from code in your ASPACE_LAUNCHER_BASE/launcher_rc.rb file.
-#
+                                                                      #
 def add_server_prepare_hook(callback)
   $server_prepare_hooks << callback
 end
@@ -38,12 +38,18 @@ def start_server(port, *webapps)
       context.class_loader = org.eclipse.jetty.webapp.WebAppClassLoader.new(JRuby.runtime.jruby_class_loader, context)
 
       context
-    elsif webapp[:static_dir]
-      handler = org.eclipse.jetty.server.handler.ResourceHandler.new
-      handler.set_resource_base(webapp[:static_dir])
+    elsif webapp[:static_dirs]
+      handlers = org.eclipse.jetty.server.handler.HandlerList.new
+
+      Array(webapp[:static_dirs]).each do |static_dir|
+        handler = org.eclipse.jetty.server.handler.ResourceHandler.new
+        handler.set_resource_base(static_dir)
+
+        handlers.add_handler(handler)
+      end
 
       ctx = org.eclipse.jetty.server.handler.ContextHandler.new(webapp[:path])
-      ctx.set_handler(handler)
+      ctx.set_handler(handlers)
 
       ctx
     else
@@ -119,18 +125,11 @@ def main
                  {:war => File.join('wars', 'indexer.war'), :path => '/aspace-indexer'})
     start_server(URI(AppConfig[:frontend_url]).port,
                  {:war => File.join('wars', 'frontend.war'), :path => '/'},
-                 {:static_dir => File.join(java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
-                                           "local",
-                                           "frontend",
-                                           "assets"),
-                   :path => '/assets'}
-                 )
+                 {:static_dirs => ASUtils.find_local_directories("frontend/assets"),
+                   :path => '/assets'})
     start_server(URI(AppConfig[:public_url]).port,
                  {:war => File.join('wars', 'public.war'), :path => '/'},
-                 {:static_dir => File.join(java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
-                                           "local",
-                                           "public",
-                                           "assets"),
+                 {:static_dirs => ASUtils.find_local_directories("public/assets"),
                    :path => '/assets'})
   rescue
     # If anything fails on startup, dump a diagnostic file.

@@ -16,6 +16,14 @@
   <!--[if lt IE 9]>
   <%= javascript_include_tag "html5shiv" %>
   <![endif]-->
+
+  <% ASUtils.find_local_directories('frontend/views/layout_head.html.erb').each do |layout| %>
+    <% if File.exists?(layout) %>
+      <!-- Begin plugin layout -->
+      <%= render :file => layout %>
+      <!-- End plugin layout -->
+    <% end %>
+  <% end %>
 </head>
 <body data-spy="scroll" data-target="#archivesSpaceSidebar" data-offset="20" class="action-<%= controller.action_name %>">
 

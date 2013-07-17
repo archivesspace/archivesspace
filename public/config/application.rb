@@ -26,6 +26,8 @@ module ArchivesSpacePublic
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
 
+    config.paths["app/controllers"].concat(ASUtils.find_local_directories("public/controllers"))
+
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
@@ -100,4 +102,13 @@ module ArchivesSpacePublic
   class SessionExpired < StandardError
   end
 
+end
+
+
+# Load plugin init.rb files (if present)
+ASUtils.find_local_directories('public').each do |dir|
+  init_file = File.join(dir, "plugin_init.rb")
+  if File.exists?(init_file)
+    load init_file
+  end
 end

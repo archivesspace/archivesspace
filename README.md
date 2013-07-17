@@ -5,17 +5,16 @@ ArchivesSpace README
 # Getting started
 
 The quickest way to get ArchivesSpace up and running is to download
-the latest distribution .zip file from the following URL:
+the latest distribution `.zip` file from the following URL:
 
   https://github.com/archivesspace/archivesspace/wiki/Downloads
 
-You will need to have Java 1.6 (or newer) installed on your machine,
-but everything else you need is included in the .zip file.  You can
-check your Java version by running the command:
+You will need to have Java 1.6 (or newer) installed on your machine.
+You can check your Java version by running the command:
 
      java -version
 
-When you extract the .zip file, it will create a directory called
+When you extract the `.zip` file, it will create a directory called
 `archivesspace`.  To run the system, just execute the appropriate
 startup script for your platform.  On Linux and OSX:
 
@@ -33,21 +32,18 @@ written to the file `logs/archivesspace.out`.
 
 The first time it starts, the system will take a minute or so to start
 up.  Once it is ready, you should be able to point your browser to
-http://localhost:8080/ and access the ArchivesSpace application.
-
-
-# First steps
+http://localhost:8080/ and access the ArchivesSpace staff interface.
 
 To start using the application, log in using the adminstrator account:
 
 * Username: `admin`
 * Password: `admin`
 
-Once logged in, change the admin password to something more secure.
-Then, you can create a new repository by selecting "Create a
-repository" from the drop-down menu at the top right hand side of the
-screen.  Once you have created a repository, you can log out and
-register new user accounts from the link in the log-in form.
+Then, you can create a new repository by selecting "System" -> "Manage
+repositories" at the top right hand side of the screen.  From the
+"System" menu, you can perform a variety of administrative tasks, such
+as creating and modifying user accounts.  **Be sure to change the
+"admin" user's password at this time.**
 
 
 # Running ArchivesSpace as a Unix daemon
@@ -102,9 +98,12 @@ which must be downloaded separately because of its licensing agreement.
 Download the Connector and place it in a location where ArchivesSpace can
 find it on its classpath:
 
+         $ cd lib
          $ curl -Oq http://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.24/mysql-connector-java-5.1.24.jar
 
-         $ mv mysql-connector-java-5.1.24.jar lib
+Note that the version of the MySQL connector may be different by the
+time you read this.
+
 
 ## Set up your MySQL database
 
@@ -135,10 +134,18 @@ ArchivesSpace requires.  Run this with:
 Once your database is configured, start the application using
 `archivesspace.sh` (or `archivesspace.bat` under Windows).
 
+Confirm that ArchivesSpace is running correctly by accessing the
+following URLs in your browser:
 
-# Creating backups
+  - http://localhost:8089/ -- the backend
+  - http://localhost:8080/ -- the staff interface
+  - http://localhost:8081/ -- the public interface
+  - http://localhost:8090/ -- the Solr admin console
 
-## Using the provided script
+
+# Backup and recovery
+
+## Creating backups using the provided script
 
 ArchivesSpace provides some simple scripts for backing up a single
 instance to a `.zip` file.  You can run:
@@ -147,29 +154,30 @@ instance to a `.zip` file.  You can run:
 
 and the script will generate a file containing:
 
-  * A snapshot of the Solr index and related indexer files
   * A snapshot of the demo database (if you're using the demo
     database)
 
-If you're running against MySQL and have `mysqldump` installed, you
+  * A snapshot of the Solr index and related indexer files
+
+If you are running against MySQL and have `mysqldump` installed, you
 can also provide the `--mysqldump` option.  This will read the
 database settings from your configuration file and add a dump of your
-database to the resulting `.zip` file.
+MySQL database to the resulting `.zip` file.
 
 
 ## Managing your own backups
 
-If you want more control over your backups, there's nothing stopping
-you from developing your own scripts.  ArchivesSpace stores all
-persistent data in the database, so as long as you have backups of
-your database then you can always recover.
+If you want more control over your backups, you can develop your own
+scripts.  ArchivesSpace stores all persistent data in the database, so
+as long as you have backups of your database then you can always
+recover.
 
-If you're running MySQL, the `mysqldump` utility can dump the database
+If you are running MySQL, the `mysqldump` utility can dump the database
 schema and data to a file.  It's a good idea to run this with the
 `--single-transaction` option to avoid locking your database tables
 while your backups run.
 
-If you're running with the demo database, you can create periodic
+If you are running with the demo database, you can create periodic
 database snapshots using the following configuration settings:
 
      # In this example, we create a snapshot at 4am each day and keep
@@ -208,10 +216,10 @@ from scratch if necessary.
 
 ### Recovering your database
 
-If you are using MySQL (recommended), recovering your database just
-requires loading your `mysqldump` backup into an empty database.  If
-you are using the `scripts/backup.sh` script (described above), this
-dump file is named "mysqldump.sql" in your backup `.zip` file.
+If you are using MySQL, recovering your database just requires loading
+your `mysqldump` backup into an empty database.  If you are using the
+`scripts/backup.sh` script (described above), this dump file is named
+`mysqldump.sql` in your backup `.zip` file.
 
 To load a MySQL dump file, follow the directions in *Set up your MySQL
 database* to create an empty database with the appropriate
@@ -237,9 +245,9 @@ to your ArchivesSpace data directory.  For example:
 
 ### Recovering the search indexes and related indexer files
 
-Technically, this step is optional since indexes can be rebuilt from
-the contents of the database.  However, recovering your search indexes
-can reduce the time needed to get your system running again.
+This step is optional since indexes can be rebuilt from the contents
+of the database.  However, recovering your search indexes can reduce
+the time needed to get your system running again.
 
 The backup `.zip` file contains two directories used by the
 ArchivesSpace indexer:
@@ -280,14 +288,28 @@ indexing process is cumulative, there's no harm in indexing the same
 document multiple times.
 
 
+# Resetting passwords
+
+Under the `scripts` directory you will find a script that lets you
+reset a user's password.  You can invoke it as:
+
+    scripts/password-reset.sh theusername newpassword  # or password-reset.bat under Windows
+
+If you are running against MySQL, you can use this command to set a
+password while the system is running.  If you are running against the
+demo database, you will need to shutdown ArchivesSpace before running
+this script.
+
+
 # Configuring LDAP authentication
 
-ArchivesSpace can be configured to authenticate against one or more
-LDAP directories by specifying them in the application's configuration
-file.  When a user logs in, each authentication source is tried in
-order until one matches or all sources are exhausted.
+ArchivesSpace can manage its own user directory, but can also be
+configured to authenticate against one or more LDAP directories by
+specifying them in the application's configuration file.  When a user
+attempts to log in, each authentication source is tried until one
+matches.
 
-Here's a minimal example of LDAP authentication:
+Here is a minimal example of an LDAP configuration:
 
      AppConfig[:authentication_sources] = [{
                                              :model => 'LDAPAuth',
@@ -354,13 +376,13 @@ is empty - this is a place to put any local customizations or extensions to Arch
 without having to change the core codebase.
 
 Plug-ins are enabled by listing them in the configuration file. You will see the following line in
-`common/config/config-defaults.rb`:
+`config/config.rb`:
 
-    AppConfig[:plugins] = ['local']
+     # AppConfig[:plugins] = ['local']
 
 This states that by default the `local` plug-in is enabled and any files contained there will be
 loaded and available to the application. In order to enable other plug-ins simply override this
-configuration in `common/config/config.rb`. For example, to enable the `hello_world` plug-in,
+configuration in `config/config.rb`. For example, to enable the `hello_world` plug-in,
 add a line like this:
 
     AppConfig[:plugins] = ['local', 'hello_world']
@@ -373,23 +395,13 @@ For more information about plug-ins and how to use them to override and customiz
 please see the README in the `plugins` directory.
 
 
-## Resetting passwords
-
-Under the `scripts` directory you will find a script that lets you
-reset a user's password.  You can invoke it as:
-
-    scripts/password-reset.sh theusername newpassword  # or password-reset.bat under Windows
-
-If you are running against MySQL, you can use this command to set a
-password while the system is running.  If you are running against the
-demo database, you will need to shutdown ArchivesSpace before running
-this script.
-
-
 # Further documentation
 
 Additional deployment documentation can be found on the ArchivesSpace
 wiki at [https://github.com/archivesspace/archivesspace/wiki](https://github.com/archivesspace/archivesspace/wiki).
+
+A document describing the architecture of ArchivesSpace is published
+at [https://github.com/archivesspace/archivesspace/blob/master/ARCHITECTURE.md](https://github.com/archivesspace/archivesspace/blob/master/ARCHITECTURE.md).
 
 The latest technical documentation, including API documentation and
 architecture notes, is published at
