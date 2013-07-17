@@ -14,6 +14,15 @@ def sample(enum, exclude = [])
   values.reject{|i| exclude.include?(i) }.sample
 end
 
+def nil_or_whatever
+  [nil, generate(:whatever)].sample
+end
+
+def few_or_none(key)
+  arr = []
+  rand(4).times { arr << build(key) }
+  arr
+end
 
 def JSONModel(key)
   JSONModel::JSONModel(key)
@@ -24,10 +33,11 @@ FactoryGirl.define do
 
   to_create{|instance| instance.save}
 
-  sequence(:repo_code) {|n| "ASPACE REPO #{n}"}
+  sequence(:repo_code) {|n| "ASPACE REPO #{n} -- #{rand(100000)}"}
   sequence(:username) {|n| "username_#{n}"}
 
   sequence(:alphanumstr) { (0..4).map{ rand(3)==1?rand(10):(65 + rand(25)).chr }.join }
+  sequence(:whatever) { generate(:alphanumstr) }
   sequence(:generic_title) { |n| "Title: #{n}"}
   sequence(:generic_description) {|n| "Description: #{n}"}
   sequence(:generic_name) {|n| "Name Number #{n}"}
@@ -45,7 +55,7 @@ FactoryGirl.define do
 
   sequence(:name_rule) { sample(JSONModel(:abstract_name).schema['properties']['rules']) }
   sequence(:level) { %w(series subseries item)[rand(3)] }
-  sequence(:term) { |n| "Term #{n}" }
+  sequence(:term) { |n| "Term #{n}.#{rand(1000)}" }
   sequence(:term_type) { sample(JSONModel(:term).schema['properties']['term_type']) }
 
   sequence(:agent_role) { sample(JSONModel(:event).schema['properties']['linked_agents']['items']['properties']['role']) }
@@ -58,7 +68,11 @@ FactoryGirl.define do
   sequence(:singlepart_note_type) { sample(JSONModel(:note_singlepart).schema['properties']['type'])}
   sequence(:note_index_type) { sample(JSONModel(:note_index).schema['properties']['type'])}
   sequence(:note_index_item_type) { sample(JSONModel(:note_index_item).schema['properties']['type'])}
-  # sequence(:note_index_item_type) { "foo" }
+  sequence(:note_bibliography_type) { sample(JSONModel(:note_bibliography).schema['properties']['type'])}
+
+  sequence(:orderedlist_enumeration) { sample(JSONModel(:note_orderedlist).schema['properties']['enumeration']) }
+
+  sequence(:chronology_item) { {'event_date' => nil_or_whatever, 'events' => (0..rand(3)).map { generate(:whatever) } } }
 
   sequence(:event_type) { sample(JSONModel(:event).schema['properties']['event_type']) }
   sequence(:extent_type) { sample(JSONModel(:extent).schema['properties']['extent_type']) }
@@ -76,6 +90,8 @@ FactoryGirl.define do
   sequence(:checksum_method) { sample(JSONModel(:file_version).schema['properties']['checksum_method']) }
   sequence(:xlink_actuate_attribute) { sample(JSONModel(:file_version).schema['properties']['xlink_actuate_attribute']) }
   sequence(:xlink_show_attribute) { sample(JSONModel(:file_version).schema['properties']['xlink_show_attribute']) }
+
+  sequence(:file_format_name) { sample(JSONModel(:file_version).schema['properties']['file_format_name']) }
 
   sequence(:archival_record_level) { sample(JSONModel(:resource).schema['properties']['level'], ['otherlevel']) }
   sequence(:finding_aid_description_rules) { sample(JSONModel(:resource).schema['properties']['finding_aid_description_rules']) }
@@ -99,11 +115,24 @@ FactoryGirl.define do
   factory :json_agent_contact, class: JSONModel(:agent_contact) do
     name { generate(:generic_name) }
     telephone { generate(:phone_number) }
+    address_1 { [nil, generate(:whatever)].sample }
+    address_2 { [nil, generate(:whatever)].sample }
+    address_3 { [nil, generate(:whatever)].sample }
+    city { [nil, generate(:whatever)].sample }
+    region { [nil, generate(:whatever)].sample }
+    country { [nil, generate(:whatever)].sample }
+    post_code { [nil, generate(:whatever)].sample }
+    telephone_ext { [nil, generate(:whatever)].sample }
+    fax { [nil, generate(:whatever)].sample }
+    email { [nil, generate(:whatever)].sample }
+    email_signature { [nil, generate(:whatever)].sample }
+    note { [nil, generate(:whatever)].sample }
   end
 
   factory :json_agent_corporate_entity, class: JSONModel(:agent_corporate_entity) do
     agent_type 'agent_corporate_entity'
     names { [build(:json_name_corporate_entity)] }
+    agent_contacts { [build(:json_agent_contact)] }
   end
 
   factory :json_agent_family, class: JSONModel(:agent_family) do
@@ -127,27 +156,12 @@ FactoryGirl.define do
     title { "Archival Object #{generate(:generic_title)}" }
   end
 
-  factory :json_note_bibliography, class: JSONModel(:note_bibliography) do
-    label { generate(:alphanumstr) }
-    content { [generate(:alphanumstr)] }
-    items { [generate(:alphanumstr)] }
-  end
-
-  factory :json_note_bioghist, class: JSONModel(:note_bioghist) do
-    label { generate(:alphanumstr) }
-    subnotes { [ build(:json_note_outline), build(:json_note_text) ] }
-  end
-
-  factory :json_note_outline, class: JSONModel(:note_outline) do
-    levels { [ build(:json_note_outline_level) ] }
-  end
-
-  factory :json_note_text, class: JSONModel(:note_text) do
-    content { generate(:alphanumstr) }
-  end
-
-  factory :json_note_outline_level, class: JSONModel(:note_outline_level) do
-    items { [ generate(:alphanumstr) ] }
+  factory :json_archival_object_normal, class: JSONModel(:archival_object) do
+    ref_id { generate(:alphanumstr) }
+    level { generate(:level) }
+    title { "Archival Object #{generate(:generic_title)}" }
+    extents { few_or_none(:json_extent) }
+    dates { few_or_none(:json_date) }
   end
 
   factory :json_container, class: JSONModel(:container) do
@@ -175,6 +189,8 @@ FactoryGirl.define do
     language { generate(:archival_object_language) }
     digital_object_id { generate(:alphanumstr) }
     extents { [build(:json_extent)] }
+    file_versions { few_or_none(:json_file_version) }
+    dates { few_or_none(:json_date) }
   end
 
   factory :json_digital_object_component, class: JSONModel(:digital_object_component) do
@@ -200,7 +216,7 @@ FactoryGirl.define do
     use_statement { generate(:use_statement) }
     xlink_actuate_attribute { generate(:xlink_actuate_attribute) }
     xlink_show_attribute { generate(:xlink_show_attribute) }
-    file_format_name { generate(:alphanumstr) }
+    file_format_name { generate(:file_format_name) }
     file_format_version { generate(:alphanumstr) }
     file_size_bytes { generate(:number).to_i }
     checksum { generate(:alphanumstr) }
@@ -274,29 +290,6 @@ FactoryGirl.define do
     sort_name_auto_generate true
   end
 
-  factory :json_note_multipart, class: JSONModel(:note_multipart) do
-    type { generate(:multipart_note_type)}
-    subnotes { [ build(:json_note_text) ] }
-  end
-
-  factory :json_note_singlepart, class: JSONModel(:note_singlepart) do
-    type { generate(:singlepart_note_type)}
-    content { [ generate(:alphanumstr), generate(:alphanumstr) ] }
-  end
-
-  factory :json_note_index, class: JSONModel(:note_index) do
-    type { generate(:note_index_type)}
-    content { [ generate(:alphanumstr), generate(:alphanumstr) ] }
-    items { [ build(:json_note_index_item), build(:json_note_index_item) ] }
-  end
-
-  factory :json_note_index_item, class: JSONModel(:note_index_item) do
-    value { generate(:alphanumstr) }
-    reference { generate(:alphanumstr) }
-    reference_text { generate(:alphanumstr) }
-    type { generate(:note_index_item_type) }
-  end
-
   factory :json_resource, class: JSONModel(:resource) do
     title { "Resource #{generate(:generic_title)}" }
     id_0 { generate(:alphanumstr) }
@@ -305,19 +298,30 @@ FactoryGirl.define do
     id_3 { generate(:alphanumstr) }
     extents { [build(:json_extent)]+(rand(2) == 1 ? [build(:json_extent)] : []) }
     level { generate(:archival_record_level) }
+    other_level { nil_or_whatever }
     language 'eng'
     dates { [build(:json_date)] }
-    finding_aid_description_rules { generate(:finding_aid_description_rules) }
+    finding_aid_description_rules { [nil, generate(:finding_aid_description_rules)].sample }
+    ead_id { nil_or_whatever }
+    finding_aid_language { nil_or_whatever }
+    finding_aid_revision_date { nil_or_whatever }
+    finding_aid_revision_description { nil_or_whatever }
     ead_location { generate(:alphanumstr) }
+    instances { [build(:json_instance), build(:json_instance)] }
   end
 
   factory :json_repo, class: JSONModel(:repository) do
     repo_code { generate(:repo_code) }
     name { generate(:generic_description) }
     org_code { generate(:alphanumstr) }
+    image_url { generate(:url) }
   end
 
-  # may need factories for each rights type
+  factory :json_repo_with_agent, class: JSONModel(:repository_with_agent) do
+    repository { build(:json_repo) }
+    agent_representation { build(:json_agent_corporate_entity) }
+  end
+
   factory :json_rights_statement, class: JSONModel(:rights_statement) do
     rights_type 'intellectual_property'
     ip_status { generate(:ip_status) }
@@ -326,7 +330,7 @@ FactoryGirl.define do
   end
 
   factory :json_subject, class: JSONModel(:subject) do
-    terms { [build(:json_term)] }
+    terms { (0..rand(4)).map{ build(:json_term) } }
     vocabulary { create(:json_vocab).uri }
     authority_id { generate(:url) }
     source { generate(:subject_source) }
@@ -352,4 +356,68 @@ FactoryGirl.define do
 
   factory :json_collection_management, class: JSONModel(:collection_management) do
   end
+
+  factory :json_note_multipart, class: JSONModel(:note_multipart) do
+    type { generate(:multipart_note_type)}
+    subnotes { (0..rand(3)).map { build("json_note_#{%w(chronology orderedlist definedlist text).sample}".intern) } << build(:json_note_text) }
+  end
+
+  factory :json_note_singlepart, class: JSONModel(:note_singlepart) do
+    type { generate(:singlepart_note_type)}
+    content { [ generate(:alphanumstr), generate(:alphanumstr) ] }
+  end
+
+  factory :json_note_index, class: JSONModel(:note_index) do
+    type { generate(:note_index_type)}
+    content { [ generate(:alphanumstr), generate(:alphanumstr) ] }
+    items { [ build(:json_note_index_item), build(:json_note_index_item) ] }
+  end
+
+  factory :json_note_index_item, class: JSONModel(:note_index_item) do
+    value { generate(:alphanumstr) }
+    reference { generate(:alphanumstr) }
+    reference_text { generate(:alphanumstr) }
+    type { generate(:note_index_item_type) }
+  end
+
+  factory :json_note_bibliography, class: JSONModel(:note_bibliography) do
+    label { generate(:alphanumstr) }
+    content { [generate(:alphanumstr)] }
+    items { [generate(:alphanumstr)] }
+    type { generate(:note_bibliography_type) }
+  end
+
+  factory :json_note_bioghist, class: JSONModel(:note_bioghist) do
+    label { generate(:alphanumstr) }
+    subnotes { [ build(:json_note_outline), build(:json_note_text) ] }
+  end
+
+  factory :json_note_outline, class: JSONModel(:note_outline) do
+    levels { [ build(:json_note_outline_level) ] }
+  end
+
+  factory :json_note_text, class: JSONModel(:note_text) do
+    content { generate(:alphanumstr) }
+  end
+
+  factory :json_note_orderedlist, class: JSONModel(:note_orderedlist) do
+    title { nil_or_whatever }
+    enumeration { generate(:orderedlist_enumeration) }
+    items { (0..rand(3)).map { generate(:whatever) } }
+  end
+
+  factory :json_note_definedlist, class: JSONModel(:note_definedlist) do
+    title { nil_or_whatever }
+    items { (0..rand(3)).map { {:label => generate(:whatever), :value => generate(:whatever) } } }
+  end
+
+  factory :json_note_chronology, class: JSONModel(:note_chronology) do
+    title { nil_or_whatever }
+    items { (0..rand(3)).map { generate(:chronology_item) } }
+  end
+
+  factory :json_note_outline_level, class: JSONModel(:note_outline_level) do
+    items { [ generate(:alphanumstr) ] }
+  end
+
 end

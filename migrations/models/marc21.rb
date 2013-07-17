@@ -163,7 +163,7 @@ ASpaceExport::model :marc21 do
   def handle_repo_code(repository)
     repo = repository['_resolved']
     return false unless repo
-    
+
     df('852', ' ', ' ').with_sfs(
                         ['a', "Repository: #{repo['repo_code']}"],
                         ['a', repo['org_code']],
@@ -242,11 +242,12 @@ ASpaceExport::model :marc21 do
     when 'agent_person'
       joint, ind1 = name['name_order'] == 'direct' ? [' ', '0'] : [', ', '1']
       name_parts = [name['primary_name'], name['rest_of_name']].reject{|i| i.nil? || i.empty?}.join(joint)
+      prefix_etc = %w(prefix title suffix).map {|prt| name[prt]}.reject{|i| i.nil? || i.empty?}.join(', ')
 
       df('100', ind1, ' ').with_sfs(
                                   ['a', name_parts],
                                   ['b', name['number']],
-                                  ['c', %w(prefix, title, suffix).map {|prt| name[prt]}.join(', ')],
+                                  ['c', prefix_etc],
                                   ['q', name['fuller_form']],
                                   ['d', name['dates']],
                                   ['g', name['qualifier']],
