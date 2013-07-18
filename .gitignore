@@ -26,3 +26,5 @@ backend/tests/ladle-server*
 webdriver-profile*
 common/ARCHIVESSPACE_VERSION
 migrations/spec/doc.xml
+.yardoc
+API.md
