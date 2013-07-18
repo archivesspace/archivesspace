@@ -163,7 +163,7 @@ ASpaceExport::model :marc21 do
   def handle_repo_code(repository)
     repo = repository['_resolved']
     return false unless repo
-    
+
     sfa = repo['org_code'] ? repo['org_code'] : "Repository: #{repo['repo_code']}"
 
     df('852', ' ', ' ').with_sfs(
@@ -201,12 +201,13 @@ ASpaceExport::model :marc21 do
 
       terms.each do |t|
         tag = case t['term_type']
+              when 'uniform_title'; 't'
               when 'genre_form', 'style_period'; 'v'
               when 'topical', 'cultural_context'; 'x'
               when 'temporal'; 'y'
               when 'geographic'; 'z'
               end
-        sfs << [(tag), t['term']]
+        sfs << [tag, t['term']]
       end
 
       if ind2 == '7'
@@ -249,7 +250,7 @@ ASpaceExport::model :marc21 do
       sfs = [
               ['a', name_parts],
               ['b', name['number']],
-              ['c', %w(prefix, title, suffix).map {|prt| name[prt]}.compact.join(', ')],
+              ['c', %w(prefix title suffix).map {|prt| name[prt]}.compact.join(', ')],
               ['q', name['fuller_form']],
               ['d', name['dates']],
               ['g', name['qualifier']],
@@ -277,7 +278,7 @@ ASpaceExport::model :marc21 do
 
     subjects = linked_agents.select{|a| a['role'] == 'subject'}
 
-    subjects.each do |link|
+    subjects.each_with_index do |link, i|
       subject = link['_resolved']
       name = subject['names'][0]
       relator = link['relator']
@@ -328,8 +329,8 @@ ASpaceExport::model :marc21 do
           when 'uniform_title'; 't'
           when 'genre_form', 'style_period'; 'v'
           when 'topical', 'cultural_context'; 'x'
-          when 'temporal', 'y'
-          when 'geographic', 'z'
+          when 'temporal'; 'y'
+          when 'geographic'; 'z'
           end
         sfs << [(tag), t['term']]
       end
@@ -338,7 +339,7 @@ ASpaceExport::model :marc21 do
         sfs << ['2', subject['source']]
       end
 
-      df(code, ind1, ind2).with_sfs(*sfs)
+      df(code, ind1, ind2, i).with_sfs(*sfs)
     end
 
 
@@ -390,7 +391,7 @@ ASpaceExport::model :marc21 do
               ]
 
       when 'agent_family'
-        ind = '3'
+        ind1 = '3'
         code = '700'
         sfs = [
                 ['a', name['family_name']],

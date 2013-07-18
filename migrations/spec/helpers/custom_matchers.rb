@@ -77,10 +77,12 @@ RSpec::Matchers.define :have_inner_text do |expected|
 
   failure_message_for_should do |node|
     infinitive = regex_mode ? "match /#{expected}/" : "contain '#{expected}'"
-    "Expected node '#{node.name}' to #{infinitive}. Found string: '#{node.inner_text}'."
+    name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map{|n| n.name}.uniq.join(' | ') : node.name
+    "Expected node '#{name}' to #{infinitive}. Found string: '#{node.inner_text}'."
   end
 
   failure_message_for_should_not do |node|
-    "Expected node '#{node.name}' to contain something other than '#{txt}'."
+    name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map{|n| n.name}.uniq.join(' | ') : node.name
+    "Expected node '#{name}' to contain something other than '#{txt}'."
   end
 end

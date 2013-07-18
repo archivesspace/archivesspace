@@ -19,10 +19,11 @@ module MARCExportSpecHelpers
   # typical marc subfield codes contingent upon term type
   def term_type_code(term)
     case term['term_type']
+    when 'uniform_title'; 't'
     when 'genre_form', 'style_period'; 'v'
     when 'topical', 'cultural_context'; 'x'
-    when 'temporal', 'y'
-    when 'geographic', 'z'
+    when 'temporal'; 'y'
+    when 'geographic'; 'z'
     end
   end
 
@@ -31,25 +32,42 @@ module MARCExportSpecHelpers
     name_string = %w(primary_ rest_of_).map{|p| name["#{p}name"]}.reject{|n| n.nil? || n.empty?}\
                                                                  .join(name['name_order'] == 'direct' ? ' ' : ', ')
 
-    df.sf_t('a').should include(name_string)
-    df.sf_t('b').should include(name['number'])
-    df.sf_t('c').should include(%w(prefix title suffix).map{|p| name[p]}.compact.join(', '))
-    df.sf_t('d').should include(name['dates'])
-    df.sf_t('q').should include(name['fuller_form'])
+    agent_test_template(df, {
+                              'a' => name_string,
+                              'b' => name['number'],
+                              'c' => %w(prefix title suffix).map{|p| name[p]}.compact.join(', '),
+                              'd' => name['dates'],
+                              'q' => name['fuller_form']
+                            })
   end
 
 
   def test_family_name(df, name)
-    df.sf_t('a').should include(name['family_name'])
-    df.sf_t('c').should include(name['prefix'])
-    df.sf_t('d').should include(name['dates'])
+    agent_test_template(df, {
+                              'a' => name['family_name'],
+                              'c' => name['prefix'],
+                              'd' => name['dates'],
+                            })
   end
 
 
   def test_corporate_name(df, name)
-    df.sf_t('a').should include(name['primary_name'])
-    df.sf_t('b').should include(name['subordinate_name_1']+name['subordinate_name_2'])
-    df.sf_t('n').should include(name['number'])
+    agent_test_template(df, {
+                              'a' => name['primary_name'],
+                              'b' => [name['subordinate_name_1'], name['subordinate_name_2']],
+                              'n' => name['number'],
+                            })
+  end
+
+
+  def agent_test_template(df, code_hash)
+    code_hash.each do |code, value|
+      test_values = value.is_a?(Array) ? value : [value]
+      test_values.each do |tv|
+        next if tv.nil? || tv.empty?
+        df.should have_node("subfield[@code='#{code}'][text()='#{tv}']")
+      end
+    end
   end
 
 

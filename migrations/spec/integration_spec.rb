@@ -1077,7 +1077,7 @@ describe "Import / Export Behavior >> " do
       
       
       it "maps notes of type 'altformavail' to df 535 ('2', ' '), sf a" do
-        note_test(%w(altformavail originalsloc), ['535', '2', ' '], 'a')
+        note_test(%w(altformavail), ['535', '2', ' '], 'a')
       end
 
 
@@ -1097,7 +1097,7 @@ describe "Import / Export Behavior >> " do
 
 
       it "maps private notes of type 'acqinfo' to df 541 ('0', ' '), sf a" do
-        note_test(%w(acqinfo), ['541', '1', ' '], 'a', {'publish' => false})
+        note_test(%w(acqinfo), ['541', '0', ' '], 'a', {'publish' => false})
       end
 
 
@@ -1118,28 +1118,28 @@ describe "Import / Export Behavior >> " do
 
       it "maps resource.ead_location to df 555 (' ', ' '), sf a" do
         df = @doc.df('555', ' ', ' ')
-        df.sf_t('u').should eq('ead_location')
-        df.sf_t('a').should eq(@resource.ead_location || '')
+        df.sf_t('u').should eq(@resource.ead_location)
+        df.sf_t('a').should eq("Finding aid online:")
       end
 
 
       it "maps public notes of type 'custodhist' to df 561 ('1', ' '), sf a" do
-        note_test(%w(custodhist), ['561', '0', ' '], 'a', {'publish' => true})
+        note_test(%w(custodhist), ['561', '1', ' '], 'a', {'publish' => true})
       end
 
 
       it "maps private notes of type 'custodhist' to df 561 ('0', ' '), sf a" do
-        note_test(%w(custodhist), ['561', '1', ' '], 'a', {'publish' => false})
+        note_test(%w(custodhist), ['561', '0', ' '], 'a', {'publish' => false})
       end
 
 
       it "maps public notes of type 'appraisal' to df 583 ('1', ' '), sf a" do
-        note_test(%w(appraisal), ['583', '0', ' '], 'a', {'publish' => true})
+        note_test(%w(appraisal), ['583', '1', ' '], 'a', {'publish' => true})
       end
 
 
       it "maps private notes of type 'appraisal' to df 583 ('0', ' '), sf a" do
-        note_test(%w(appraisal), ['583', '1', ' '], 'a', {'publish' => false})
+        note_test(%w(appraisal), ['583', '0', ' '], 'a', {'publish' => false})
       end
 
 
@@ -1441,7 +1441,7 @@ describe "Import / Export Behavior >> " do
           end
 
 
-          it "maps notes of type 'dimensions' did/physdesc/dimensions" do
+          it "maps notes of type 'dimensions' to did/physdesc/dimensions" do
             notes.select {|n| n['type'] == 'dimensions'}.each_with_index do |note, i|
               path = "#{desc_path}/did/physdesc[dimensions][#{i+1}]/dimensions"
               mt(note_content(note), path)
@@ -1450,7 +1450,7 @@ describe "Import / Export Behavior >> " do
           end
 
 
-          it "maps notes of type 'physdesc' did/physdesc" do
+          it "maps notes of type 'physdesc' to did/physdesc" do
             notes.select {|n| n['type'] == 'physdesc'}.each do |note|
               content = note_content(note)
               path = "#{desc_path}/did/physdesc[text()='#{content}']"
@@ -1459,7 +1459,7 @@ describe "Import / Export Behavior >> " do
           end
 
 
-          it "maps notes of type 'langmaterial' did/langmaterial" do
+          it "maps notes of type 'langmaterial' to did/langmaterial" do
             notes.select {|n| n['type'] == 'langmaterial'}.each_with_index do |note, i|
               content = note_content(note)
               path = "#{desc_path}/did/langmaterial[text()='#{content}']"
@@ -1468,7 +1468,7 @@ describe "Import / Export Behavior >> " do
           end
 
 
-          it "maps notes of type 'physloc' did/physloc" do
+          it "maps notes of type 'physloc' to did/physloc" do
             notes.select {|n| n['type'] == 'physloc'}.each_with_index do |note, i|
               path = "#{desc_path}/did/physloc[#{i+1}]"
               mt(note_content(note), path)
@@ -1477,7 +1477,7 @@ describe "Import / Export Behavior >> " do
           end
 
 
-          it "maps notes of type 'materialspec' did/materialspec" do
+          it "maps notes of type 'materialspec' to did/materialspec" do
             notes.select {|n| n['type'] == 'materialspec'}.each_with_index do |note, i|
               path = "#{desc_path}/did/materialspec[#{i+1}]"
               mt(note_content(note), path)
@@ -1486,7 +1486,7 @@ describe "Import / Export Behavior >> " do
           end
 
 
-          it "maps notes of type 'physfacet' did/physdesc" do
+          it "maps notes of type 'physfacet' to did/physdesc" do
             notes.select {|n| n['type'] == 'physfacet'}.each_with_index do |note, i|
               path = "#{desc_path}/did/physfacet[#{i+1}]"
               mt(note_content(note), path)
@@ -1624,6 +1624,7 @@ describe "Import / Export Behavior >> " do
           mt(repo.name, "eadheader/filedesc/publicationstmt/publisher")
         end
 
+
         describe "repository.agent.agent_contacts[0] to filedesc/publicationstmt/address/ mappings" do
           let(:path) { "eadheader/filedesc/publicationstmt/address/" }
           let(:contact) { @repo_agent.agent_contacts[0] }
@@ -1641,8 +1642,7 @@ describe "Import / Export Behavior >> " do
           end
 
           it "maps city, region, post_code to addressline" do
-            line = ""
-            line += %w(city region).map{|k| contact[k] }.compact.join(', ')
+            line = %w(city region).map{|k| contact[k] }.compact.join(', ')
             line += " #{contact['post_code']}"
             line.strip!
 
@@ -1756,7 +1756,6 @@ describe "Import / Export Behavior >> " do
             mt(role, path_1, 'role')
             mt(rules, path_2, 'rules')
             mt(source, path_2, 'source')
-            #nugatory:
             mt(sort_name, path_2)
           end
         end
@@ -1975,12 +1974,12 @@ describe "Import / Export Behavior >> " do
           let(:path) { "//c[@id='#{archival_object.ref_id}']" }
 
           it "maps archival_object.ref_id to //c[@id]" do
-            doc.should have_node(path(archival_object))
+            doc.should have_node(path)
           end
 
           it_behaves_like "archival object desc mappings" do
             let(:object) { archival_object }
-            let(:desc_path) { path(archival_object) }
+            let(:desc_path) { path }
             let(:unitid_src) { object.component_id }
           end
         end
