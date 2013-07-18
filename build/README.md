@@ -19,7 +19,7 @@ Will bootstrap your development environment by downloading all
 dependencies--JRuby, Gems, Solr, etc..
 
 
-# Running a developing environment
+# Running a development environment
 
 To run a development instance of all ArchivesSpace components:
 
@@ -75,3 +75,11 @@ To build an ArchivesSpace release, use the `build_release` script from
 your project directory:
 
      scripts/build_release
+
+# Generating API documentation
+
+To generate documentation for backend endpoints:
+
+    build/run doc:yard
+
+The generated HTML will be placed in the `doc` directory in your archivesspace root.
