@@ -17,6 +17,14 @@ module ASpaceExport
     I18n.load_path += [File.join(File.dirname(__FILE__), "../", "../", "common", "locales", "enums", "#{AppConfig[:locale]}.yml")]
     @@initialized = true
   end
+  
+  
+  def self.reload(exporter_key)
+    @@serializers[exporter_key] = nil
+    @@models[exporter_key] = nil
+    Dir.glob(File.dirname(__FILE__) + "/../serializers/#{exporter_key.to_s}.rb", &method(:load))
+    Dir.glob(File.dirname(__FILE__) + "/../models/#{exporter_key.to_s}.rb", &method(:load))
+  end
 
 
   def self.initialized?

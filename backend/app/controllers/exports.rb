@@ -59,9 +59,9 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "(:resource)"]) \
   do
-    ead = generate_ead(params[:id])
+    ead_stream = generate_ead(params[:id])
 
-    xml_response(ead)
+    stream_response(ead_stream)
   end
 
   Endpoint.get('/repositories/:repo_id/resource_labels/:id.tsv')
@@ -119,6 +119,4 @@ class ArchivesSpaceService < Sinatra::Base
 
     xml_response(eac)
   end
-
-
 end

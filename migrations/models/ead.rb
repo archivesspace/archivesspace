@@ -102,7 +102,8 @@ module ASpaceExport
         dates = self.dates || []
         dates.each do |date|
           normal = "#{date['begin']}/"
-          normal += (date['date_type'] == 'single' || date['end'].nil? || date['end'] == date['begin']) ? date['begin'] : date['end']
+          normal_suffix = (date['date_type'] == 'single' || date['end'].nil? || date['end'] == date['begin']) ? date['begin'] : date['end']
+          normal += normal_suffix ? normal_suffix : ""
           type = %w(single inclusive).include?(date['date_type']) ? 'inclusive' : 'bulk'
           content = if date['expression']
                     date['expression']
@@ -158,11 +159,17 @@ ASpaceExport::model :ead do
   @ao = Class.new do
     include ASpaceExport::ArchivalObjectDescriptionHelpers
 
-    def initialize(tree)
-      rec = URIResolver.resolve_references(ArchivalObject.to_jsonmodel(tree['id']), ['subjects', 'linked_agents'], {'ASPACE_REENTRANT' => false})
-      @json = JSONModel::JSONModel(:archival_object).new(rec)
+
+    def initialize(tree, repo_id)
+      @repo_id = repo_id
       @tree = tree
+      @json = nil
+      RequestContext.open(:repo_id => repo_id) do
+        rec = URIResolver.resolve_references(ArchivalObject.to_jsonmodel(tree['id']), ['subjects', 'linked_agents'], {'ASPACE_REENTRANT' => false})
+        @json = JSONModel::JSONModel(:archival_object).new(rec)
+      end
     end
+
 
     def method_missing(meth, *args)
       if @json.respond_to?(meth)
@@ -172,9 +179,10 @@ ASpaceExport::model :ead do
       end
     end
 
+
     def children
       return nil unless @tree['children']
-      @tree['children'].map { |subtree| self.class.new(subtree) }
+      @tree['children'].map { |subtree| self.class.new(subtree, @repo_id) }
     end
   end
 
@@ -182,8 +190,8 @@ ASpaceExport::model :ead do
   def initialize(obj)
     @json = obj
     repo_ref = obj.repository['ref']
-    repo_id = JSONModel::JSONModel(:repository).id_for(repo_ref)
-    @repo = Repository.to_jsonmodel(repo_id)
+    @repo_id = JSONModel::JSONModel(:repository).id_for(repo_ref)
+    @repo = Repository.to_jsonmodel(@repo_id)
   end
 
 
@@ -248,7 +256,7 @@ ASpaceExport::model :ead do
 
     ao_class = self.class.instance_variable_get(:@ao)
 
-    children = @json.tree['_resolved']['children'].map { |subtree| ao_class.new(subtree) }
+    children = @json.tree['_resolved']['children'].map { |subtree| ao_class.new(subtree, @repo_id) }
 
     children
   end
