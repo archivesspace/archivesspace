@@ -9,12 +9,14 @@ ASpaceExport::serializer :marc21 do
     builder
   end
 
+
   def serialize(marc, opts = {})
 
     builder = build(marc, opts)
 
     builder.to_xml
   end
+
 
   private
 
@@ -50,8 +52,6 @@ ASpaceExport::serializer :marc21 do
           }
         end
       }
-
     }
-
   end
 end

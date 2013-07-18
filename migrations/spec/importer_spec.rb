@@ -171,7 +171,7 @@ MARC
     end
 
     it "maps field 630 to resource['subjects']" do
-      @subjects[1]['terms'].map {|t| t['term_type']}.sort.should eq(%w(uniform_title  topical).sort)
+      @subjects[1]['terms'].map {|t| t['term_type']}.sort.should eq(%w(uniform_title topical).sort)
     end
 
     it "maps field 69* to resource['subjects']" do
