@@ -62,7 +62,6 @@ describe 'Exports controller' do
     get "/repositories/#{$repo_id}/resource_descriptions/#{res.id}.xml"
     resp = last_response.body
     resp.should match(/<ead/)
-    resp.should match(/<eadid>#{res.id_0}/)
   end
 
 

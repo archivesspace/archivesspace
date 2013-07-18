@@ -272,7 +272,7 @@ ASpaceExport::model :ead do
 
   def addresslines
     agent = self.agent_representation
-    return [] unless agent
+    return [] unless agent && agent.agent_contacts[0]
 
     contact = agent.agent_contacts[0]
 
