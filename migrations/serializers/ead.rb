@@ -85,7 +85,11 @@ ASpaceExport::serializer :ead do
 
             if (val = data.finding_aid_series_statement)
               xml.seriesstmt {
-                xml.p val
+                if val.strip.start_with?('<')
+                  xml.text (@fragments << val)
+                else
+                  xml.p (@fragments << val)
+                end
               }
             end
           }
@@ -105,10 +109,14 @@ ASpaceExport::serializer :ead do
 
           if data.finding_aid_revision_date || data.finding_aid_revision_description
             xml.revisiondesc {
-              xml.change {
-                xml.date data.finding_aid_revision_date if data.finding_aid_revision_date
-                xml.item data.finding_aid_revision_description if data.finding_aid_revision_description
-              }
+              if data.finding_aid_revision_description.strip.start_with?('<')
+                xml.text (@fragments << data.finding_aid_revision_description)
+              else
+                xml.change {
+                  xml.date (@fragments << data.finding_aid_revision_date) if data.finding_aid_revision_date
+                  xml.item (@fragments << data.finding_aid_revision_description) if data.finding_aid_revision_description
+                }
+              end
             }
           end
 
@@ -194,8 +202,12 @@ ASpaceExport::serializer :ead do
             atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
 
             xml.send(note['type'], atts) {
-              xml.head head_text
-              xml.p (@fragments << content)
+              xml.head head_text unless content.strip.start_with?('<head')
+              if content.strip.start_with?('<')
+                xml.text (@fragments << content)
+              else
+                xml.p (@fragments << content)
+              end
 
               if note['subnotes']
                 serialize_subnotes(note['subnotes'], xml)
@@ -211,8 +223,12 @@ ASpaceExport::serializer :ead do
             atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
 
             xml.bibliography(atts) {
-              xml.head head_text
-              xml.p (@fragments << content)
+              xml.head head_text unless content.strip.start_with?('<head')
+              if content.strip.start_with?('<')
+                xml.text (@fragments << content)
+              else
+                xml.p (@fragments << content)
+              end
               note['items'].each do |item|
                 xml.bibref item unless item.empty?
               end
@@ -233,8 +249,12 @@ ASpaceExport::serializer :ead do
             atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
 
             xml.index(atts) {
-              xml.head head_text if head_text
-              xml.p (@fragments << content)
+              xml.head head_text unless content.strip.start_with?('<head')
+              if content.strip.start_with?('<')
+                xml.text (@fragments << content)
+              else
+                xml.p (@fragments << content)
+              end
               note['items'].each do |item|
                 next unless (node_name = data.index_item_type_map[item['type']])
                 xml.indexentry {

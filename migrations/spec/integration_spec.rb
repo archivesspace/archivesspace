@@ -1684,8 +1684,8 @@ describe "Import / Export Behavior >> " do
           mt(resource.finding_aid_date, "eadheader/filedesc/publicationstmt/p/date")
         end
 
-        it "maps resource.finding_aid_series_statement to filedesc/seriesstmt/p" do
-          mt(resource.finding_aid_series_statement, "eadheader/filedesc/seriesstmt/p")
+        it "maps resource.finding_aid_series_statement to filedesc/seriesstmt" do
+          mt(resource.finding_aid_series_statement, "eadheader/filedesc/seriesstmt")
         end
 
         it "maps resource.finding_aid_note to filedesc/notestmt/note/p" do
