@@ -1948,7 +1948,7 @@ describe "Import / Export Behavior >> " do
 
         it "maps each resource.instances[].instance.digital_object to archdesc/dao" do
           digital_objects.each do |obj|
-            path = "/xmlns:ead/xmlns:archdesc/xmlns:dao[@href='#{obj.digital_object_id}']"
+            path = "/xmlns:ead/xmlns:archdesc/xmlns:dao[@xlink:href='#{obj.digital_object_id}']"
             content = description_content(obj)
 
             if (fv = obj.file_versions[0])

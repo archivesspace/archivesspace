@@ -34,7 +34,8 @@ ASpaceExport::serializer :ead do
 
       xml.ead('xmlns' => 'urn:isbn:1-931666-22-9',
                  'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-                 'xsi:schemaLocation' => 'http://www.loc.gov/ead/ead.xsd'){
+                 'xsi:schemaLocation' => 'urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd',
+                 'xmlns:xlink' => 'http://www.w3.org/1999/xlink'){
 
         xml.eadheader(:findaidstatus => data.finding_aid_status,
                       :repositoryencoding => "iso15511",
