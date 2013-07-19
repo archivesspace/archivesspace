@@ -363,8 +363,10 @@ ASpaceExport::serializer :ead do
           xml.head title if title
 
           sn['items'].each do |item|
-            xml.label item['label'] if item['label']
-            xml.item item['value'] if item['value']
+            xml.defitem {
+              xml.label item['label'] if item['label']
+              xml.item item['value'] if item['value']
+            } 
           end
         }
       end
