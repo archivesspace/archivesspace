@@ -440,9 +440,9 @@ ASpaceExport::serializer :ead do
       att = id ? {:id => id} : {}
 
       case note['type']
-      when 'dimensions'
+      when 'dimensions', 'physfacet'
         xml.physdesc {
-          xml.dimensions(att) {
+          xml.send(note['type'], att) {
             xml.text (@fragments << content)
           }
         }

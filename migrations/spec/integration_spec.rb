@@ -1486,9 +1486,9 @@ describe "Import / Export Behavior >> " do
           end
 
 
-          it "maps notes of type 'physfacet' to did/physdesc" do
+          it "maps notes of type 'physfacet' to did/physdesc/physfacet" do
             notes.select {|n| n['type'] == 'physfacet'}.each_with_index do |note, i|
-              path = "#{desc_path}/did/physfacet[#{i+1}]"
+              path = "#{desc_path}/did/physdesc[physfacet][#{i+1}]/physfacet"
               mt(note_content(note), path)
               mt(note['persistent_id'], path, "id")
             end
