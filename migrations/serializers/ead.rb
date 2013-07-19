@@ -70,7 +70,7 @@ ASpaceExport::serializer :ead do
   def stream(data)
 
     @stream_handler = StreamHandler.new
-    fragments = RawXMLHandler.new
+    @fragments = RawXMLHandler.new
 
     doc = Nokogiri::XML::Builder.new do |xml|
 
@@ -80,14 +80,14 @@ ASpaceExport::serializer :ead do
 
 
         xml.text (
-          @stream_handler.buffer { |xml, fragments|
-            serialize_eadheader(data, xml, fragments)
+          @stream_handler.buffer { |xml, new_fragments|
+            serialize_eadheader(data, xml, new_fragments)
           })
 
         xml.archdesc(:level => data.level) {
 
           data.digital_objects.each do |dob|
-            serialize_digital_object(dob, xml, fragments)
+            serialize_digital_object(dob, xml, @fragments)
           end
 
           xml.did {
@@ -132,11 +132,11 @@ ASpaceExport::serializer :ead do
 
             xml.unitid (0..3).map{|i| data.send("id_#{i}")}.compact.join('.')
 
-            serialize_extents(data, xml, fragments)
+            serialize_extents(data, xml, @fragments)
 
-            serialize_dates(data, xml, fragments)
+            serialize_dates(data, xml, @fragments)
 
-            serialize_did_notes(data.notes, xml, fragments)
+            serialize_did_notes(data.notes, xml, @fragments)
 
             data.ead_containers.each do |container|
               att = container[:label] ? {:label => container[:label]} : {}
@@ -153,17 +153,17 @@ ASpaceExport::serializer :ead do
             next unless data.archdesc_note_types.include?(note['type'])
 
             xml.text(
-              @stream_handler.buffer { |xml, fragments|
+              @stream_handler.buffer { |xml, new_fragments|
                 content = ASpaceExport::Utils.extract_note_text(note)
                 head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note['type']}", :default => note['type'])
                 atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
 
                 xml.send(note['type'], atts) {
                   xml.head head_text
-                  xml.p (fragments << content)
+                  xml.p (new_fragments << content)
 
                   if note['subnotes']
-                    serialize_subnotes(note['subnotes'], xml, fragments)
+                    serialize_subnotes(note['subnotes'], xml, new_fragments)
                   end
                 }
               }
@@ -178,7 +178,7 @@ ASpaceExport::serializer :ead do
 
             xml.bibliography(atts) {
               xml.head head_text
-              xml.p (fragments << content)
+              xml.p (@fragments << content)
               note['items'].each do |item|
                 xml.bibref item unless item.empty?
               end
@@ -199,7 +199,7 @@ ASpaceExport::serializer :ead do
 
             xml.index(atts) {
               xml.head head_text if head_text
-              xml.p (fragments << content)
+              xml.p (@fragments << content)
               note['items'].each do |item|
                 next unless (node_name = data.index_item_type_map[item['type']])
                 xml.indexentry {
@@ -235,8 +235,8 @@ ASpaceExport::serializer :ead do
 
             data.children_indexes.each do |i|
               xml.text(
-                @stream_handler.buffer {|xml, fragements|
-                  serialize_child(data.get_child(i), xml, fragments)
+                @stream_handler.buffer {|xml, new_fragments|
+                  serialize_child(data.get_child(i), xml, new_fragments)
                 }
               )
             end
@@ -246,7 +246,7 @@ ASpaceExport::serializer :ead do
     end
 
     Enumerator.new do |y|
-      @stream_handler.stream_out(doc, fragments, y)
+      @stream_handler.stream_out(doc, @fragments, y)
     end
   end
 
@@ -287,8 +287,8 @@ ASpaceExport::serializer :ead do
 
       obj.children_indexes.each do |i|
         xml.text(
-          @stream_handler.buffer {|xml, fragements|
-            serialize_child(obj.get_child(i), xml, fragments)
+          @stream_handler.buffer {|xml, new_fragments|
+            serialize_child(obj.get_child(i), xml, new_fragments)
           }
         )
       end
