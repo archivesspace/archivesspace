@@ -271,22 +271,24 @@ ASpaceExport::serializer :ead do
           end
 
 
-          xml.controlaccess {
+          if (data.controlaccess_subjects.length + data.controlaccess_linked_agents.length) > 0
+            xml.controlaccess {
 
-            data.controlaccess_subjects.each do |node_data|
-              xml.send(node_data[:node_name], node_data[:atts]) {
-                xml.text node_data[:content]
-              }
-            end
+              data.controlaccess_subjects.each do |node_data|
+                xml.send(node_data[:node_name], node_data[:atts]) {
+                  xml.text node_data[:content]
+                }
+              end
 
 
-            data.controlaccess_linked_agents.each do |node_data|
-              xml.send(node_data[:node_name], node_data[:atts]) {
-                xml.text node_data[:content]
-              }
-            end
+              data.controlaccess_linked_agents.each do |node_data|
+                xml.send(node_data[:node_name], node_data[:atts]) {
+                  xml.text node_data[:content]
+                }
+              end
 
-          } #</controlaccess>
+            } #</controlaccess>
+          end
 
           xml.dsc {
             data.children.each do |child|
