@@ -1319,7 +1319,7 @@ describe "Import / Export Behavior >> " do
           code = object.language
 
           mt(data, "#{desc_path}/did/langmaterial/language")
-          mt(code, "#{desc_path}/did/langmaterial", 'langcode')
+          mt(code, "#{desc_path}/did/langmaterial/language", 'langcode')
         end
 
 

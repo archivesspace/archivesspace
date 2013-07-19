@@ -122,8 +122,10 @@ ASpaceExport::serializer :ead do
           xml.did {
 
             if (val = data.language)
-              xml.langmaterial(:langcode => val) {
-                xml.language I18n.t("enumerations.language_iso639_2.#{val}", :default => val)
+              xml.langmaterial {
+                xml.language(:langcode => val) {
+                  xml.text I18n.t("enumerations.language_iso639_2.#{val}", :default => val)
+                }
               }
             end
 
