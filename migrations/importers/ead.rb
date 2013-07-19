@@ -155,7 +155,7 @@ ASpaceImport::Importer.importer :ead do
 
 
     with 'indexentry/ref' do
-      context_obj.items << {:reference_text => inner_xml}
+      context_obj.items << {:reference_text => inner_xml, :reference => att('target')}
     end
 
 
