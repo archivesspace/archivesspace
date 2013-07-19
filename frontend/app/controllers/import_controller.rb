@@ -7,11 +7,6 @@ class ImportController < ApplicationController
 
   def index
     @importer_key = params[:importer]
-        
-    unless session[:repo_id] and session[:repo_id] > 1
-      flash.now[:notice] = I18n.t("import.messages.missing_repo")
-    end
-
   end
   
   # Index as iframe for IE 9 and lower
