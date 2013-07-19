@@ -1587,8 +1587,8 @@ describe "Import / Export Behavior >> " do
           mt(data, "eadheader/eadid", 'mainagencycode')
         end
 
-        it "maps resource.ead_location to eadid/@ead_location" do
-          mt(resource.ead_location, "eadheader/eadid", 'ead_location')
+        it "maps resource.ead_location to eadid/@url" do
+          mt(resource.ead_location, "eadheader/eadid", 'url')
         end
 
         it "maps resource.ead_id to eadid" do

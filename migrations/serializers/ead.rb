@@ -44,7 +44,7 @@ ASpaceExport::serializer :ead do
                       :langencoding => "iso639-2b") {
 
           eadid_atts = {:countrycode => data.repo.country,
-                  :ead_location => data.ead_location,
+                  :url => data.ead_location,
                   :mainagencycode => data.mainagencycode}.reject{|k,v| v.nil?}
 
           xml.eadid(eadid_atts) {
