@@ -14,109 +14,81 @@ class RawXMLHandler
     ":aspace_fragment_#{id}"
   end
 
-  def substitute_fragments(xml)
+  def substitute_fragments(xml_string)
     @fragments.each do |id, fragment|
-      xml = xml.gsub!(/:aspace_fragment_#{id}/, fragment)
+      xml_string.gsub!(/:aspace_fragment_#{id}/, fragment)
+      xml_string.gsub!(/[&]([^a])/, '&amp;\1')
     end
 
-    xml
+    xml_string
+  end
+end
+
+
+class StreamHandler
+
+  def initialize
+    @sections = {}
+    @depth = 0
+  end
+
+
+  def buffer(&block)
+    id = SecureRandom.hex
+    @sections[id] = block
+    ":aspace_section_#{id}_"
+  end
+
+
+  def stream_out(doc, fragments, y, depth=0)
+    xml_text = doc.to_xml
+    xml_text.force_encoding('utf-8')
+    queue = xml_text.split(":aspace_section")
+
+    y << fragments.substitute_fragments(queue.shift)
+
+    while queue.length > 0
+      next_section = queue.shift
+      next_id = next_section.slice!(/^_(\w+)_/).gsub(/_/, '')
+      next_fragments = RawXMLHandler.new
+      doc_frag = Nokogiri::XML::DocumentFragment.parse ""
+      Nokogiri::XML::Builder.with(doc_frag) do |xml|
+        @sections[next_id].call(xml, next_fragments)
+      end
+      stream_out(doc_frag, next_fragments, y, depth + 1)
+
+      if next_section && !next_section.empty?
+        y << fragments.substitute_fragments(next_section)
+      end
+    end
   end
 end
 
 
 ASpaceExport::serializer :ead do
 
-  def serialize(data, opts = {})
+  def stream(data)
 
-    @fragments ||= RawXMLHandler.new
+    @stream_handler = StreamHandler.new
+    @fragments = RawXMLHandler.new
 
-    builder = Nokogiri::XML::Builder.new do |xml|
+    doc = Nokogiri::XML::Builder.new do |xml|
 
       xml.ead('xmlns' => 'urn:isbn:1-931666-22-9',
-                 'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-                 'xsi:schemaLocation' => 'http://www.loc.gov/ead/ead.xsd'){
+              'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+              'xsi:schemaLocation' => 'http://www.loc.gov/ead/ead.xsd') {
 
-        xml.eadheader(:findaidstatus => data.finding_aid_status,
-                      :repositoryencoding => "iso15511",
-                      :countryencoding => "iso3166-1",
-                      :dateencoding => "iso8601",
-                      :langencoding => "iso639-2b") {
 
-          eadid_atts = {:countrycode => data.repo.country,
-                  :ead_location => data.ead_location,
-                  :mainagencycode => data.mainagencycode}.reject{|k,v| v.nil?}
-
-          xml.eadid(eadid_atts) {
-            xml.text data.ead_id
-          }
-
-          xml.filedesc {
-
-            xml.titlestmt {
-
-              titleproper = ""
-              titleproper += "#{data.title} " if data.title
-              titleproper += "<num>#{(0..3).map{|i| data.send("id_#{i}")}.compact.join('.')}</num>"
-              xml.titleproper (@fragments << titleproper)
-
-            }
-
-            xml.publicationstmt {
-              xml.publisher data.repo.name
-
-              if data.repo.image_url
-                xml.p {
-                  xml.extref ({"xlink:href" => data.repo.image_url,
-                              "xlink:actuate" => "onLoad",
-                              "xlink:show" => "embed",
-                              "xlink:linktype" => "simple"})
-                }
-              end
-
-              xml.address {
-                data.addresslines.each do |line|
-                  xml.addressline line
-                end
-              }
-            }
-
-            if (val = data.finding_aid_series_statement)
-              xml.seriesstmt {
-                xml.p val
-              }
-            end
-          }
-
-          xml.profiledesc {
-            creation = "This finding aid was produced using ArchivesSpace on <date>#{Time.now}</date>."
-            xml.creation (@fragments << creation)
-
-            if (val = data.finding_aid_language)
-              xml.langusage val
-            end
-
-            if (val = data.descrules)
-              xml.descrules val
-            end
-          }
-
-          if data.finding_aid_revision_date || data.finding_aid_revision_description
-            xml.revisiondesc {
-              xml.change {
-                xml.date data.finding_aid_revision_date if data.finding_aid_revision_date
-                xml.item data.finding_aid_revision_description if data.finding_aid_revision_description
-              }
-            }
-          end
-
-        }
+        xml.text (
+          @stream_handler.buffer { |xml, new_fragments|
+            serialize_eadheader(data, xml, new_fragments)
+          })
 
         xml.archdesc(:level => data.level) {
 
           data.digital_objects.each do |dob|
-            serialize_digital_object(dob, xml)
+            serialize_digital_object(dob, xml, @fragments)
           end
-
 
           xml.did {
 
@@ -149,24 +121,22 @@ ASpaceExport::serializer :ead do
                           when 'agent_corporate_entity'; 'corpname'
                           end
               xml.origination(:role => role) {
-               atts = {:relator => relator, :source => source, :rules => rules}
-               atts.reject! {|k, v| v.nil?}
+                atts = {:relator => relator, :source => source, :rules => rules}
+                atts.reject! {|k, v| v.nil?}
 
-               xml.send(node_name, atts) {
-                 xml.text sort_name
+                xml.send(node_name, atts) {
+                  xml.text sort_name
                 }
-
               }
             end
 
-
             xml.unitid (0..3).map{|i| data.send("id_#{i}")}.compact.join('.')
 
-            serialize_extents(data, xml)
+            serialize_extents(data, xml, @fragments)
 
-            serialize_dates(data, xml)
+            serialize_dates(data, xml, @fragments)
 
-            serialize_did_notes(data.notes, xml)
+            serialize_did_notes(data.notes, xml, @fragments)
 
             data.ead_containers.each do |container|
               att = container[:label] ? {:label => container[:label]} : {}
@@ -176,28 +146,29 @@ ASpaceExport::serializer :ead do
               }
             end
 
-
           }# </did>
 
           data.notes.each do |note|
-
             next if note['internal']
             next unless data.archdesc_note_types.include?(note['type'])
 
-            content = ASpaceExport::Utils.extract_note_text(note)
-            head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note['type']}", :default => note['type'])
-            atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
+            xml.text(
+              @stream_handler.buffer { |xml, new_fragments|
+                content = ASpaceExport::Utils.extract_note_text(note)
+                head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note['type']}", :default => note['type'])
+                atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
 
-            xml.send(note['type'], atts) {
-              xml.head head_text
-              xml.p (@fragments << content)
+                xml.send(note['type'], atts) {
+                  xml.head head_text
+                  xml.p (new_fragments << content)
 
-              if note['subnotes']
-                serialize_subnotes(note['subnotes'], xml)
-              end
-            }
+                  if note['subnotes']
+                    serialize_subnotes(note['subnotes'], xml, new_fragments)
+                  end
+                }
+              }
+            )
           end
-
 
           data.bibliographies.each do |note|
 
@@ -213,7 +184,6 @@ ASpaceExport::serializer :ead do
               end
             }
           end
-
 
           data.indexes.each do |note|
 
@@ -245,7 +215,6 @@ ASpaceExport::serializer :ead do
             }
           end
 
-
           xml.controlaccess {
 
             data.controlaccess_subjects.each do |node_data|
@@ -253,7 +222,6 @@ ASpaceExport::serializer :ead do
                 xml.text node_data[:content]
               }
             end
-
 
             data.controlaccess_linked_agents.each do |node_data|
               xml.send(node_data[:node_name], node_data[:atts]) {
@@ -264,19 +232,26 @@ ASpaceExport::serializer :ead do
           } #</controlaccess>
 
           xml.dsc {
-            data.children.each do |child|
-              serialize_child(child, xml)
+
+            data.children_indexes.each do |i|
+              xml.text(
+                @stream_handler.buffer {|xml, new_fragments|
+                  serialize_child(data.get_child(i), xml, new_fragments)
+                }
+              )
             end
           }
         }
       }
     end
 
-    @fragments.substitute_fragments(builder.to_xml)
+    Enumerator.new do |y|
+      @stream_handler.stream_out(doc, @fragments, y)
+    end
   end
 
 
-  def serialize_child(obj, xml)
+  def serialize_child(obj, xml, fragments)
     xml.c(:level => obj.level, :id => obj.ref_id) {
 
       xml.did {
@@ -286,12 +261,9 @@ ASpaceExport::serializer :ead do
           xml.unitid val
         end
 
-        serialize_extents(obj, xml)
-
-        serialize_dates(obj, xml)
-
-        serialize_did_notes(obj.notes, xml)
-
+        serialize_extents(obj, xml, fragments)
+        serialize_dates(obj, xml, fragments)
+        serialize_did_notes(obj.notes, xml, fragments)
       }
 
       if (obj.controlaccess_subjects.length + obj.controlaccess_linked_agents.length) > 0
@@ -313,16 +285,18 @@ ASpaceExport::serializer :ead do
         } #</controlaccess>
       end
 
-      obj.children.each do |child|
-        serialize_child(child, xml)
+      obj.children_indexes.each do |i|
+        xml.text(
+          @stream_handler.buffer {|xml, new_fragments|
+            serialize_child(obj.get_child(i), xml, new_fragments)
+          }
+        )
       end
-
-
     }
   end
 
 
-  def serialize_subnotes(subnotes, xml)
+  def serialize_subnotes(subnotes, xml, fragments)
     subnotes.each do |sn|
 
       title = sn['title']
@@ -369,7 +343,7 @@ ASpaceExport::serializer :ead do
   end
 
 
-  def serialize_digital_object(digital_object, xml)
+  def serialize_digital_object(digital_object, xml, fragments)
     file_version = digital_object['file_versions'][0] || {}
     title = digital_object['title']
     date = digital_object['dates'][0] || {}
@@ -406,7 +380,7 @@ ASpaceExport::serializer :ead do
   end
 
 
-  def serialize_extents(obj, xml)
+  def serialize_extents(obj, xml, fragments)
     if obj.ead_extents.length
       xml.physdesc {
         obj.ead_extents.each do |e|
@@ -417,7 +391,7 @@ ASpaceExport::serializer :ead do
   end
 
 
-  def serialize_dates(obj, xml)
+  def serialize_dates(obj, xml, fragments)
     obj.archdesc_dates.each do |node_data|
       xml.unitdate(node_data[:atts]){
         xml.text node_data[:content]
@@ -426,7 +400,7 @@ ASpaceExport::serializer :ead do
   end
 
 
-  def serialize_did_notes(notes, xml)
+  def serialize_did_notes(notes, xml, fragments)
     notes.each do |note|
       next unless %w(abstract dimensions physdesc langmaterial physloc materialspec physfacet).include?(note['type'])
 
@@ -438,14 +412,91 @@ ASpaceExport::serializer :ead do
       when 'dimensions'
         xml.physdesc {
           xml.dimensions(att) {
-            xml.text (@fragments << content)
+            xml.text (fragments << content)
           }
         }
       else
         xml.send(note['type'], att) {
-          xml.text (@fragments << content)
+          xml.text (fragments << content)
         }
       end
     end
+  end
+
+
+  def serialize_eadheader(data, xml, fragments)
+    xml.eadheader(:findaidstatus => data.finding_aid_status,
+                  :repositoryencoding => "iso15511",
+                  :countryencoding => "iso3166-1",
+                  :dateencoding => "iso8601",
+                  :langencoding => "iso639-2b") {
+
+      eadid_atts = {:countrycode => data.repo.country,
+              :ead_location => data.ead_location,
+              :mainagencycode => data.mainagencycode}.reject{|k,v| v.nil?}
+
+      xml.eadid(eadid_atts) {
+        xml.text data.ead_id
+      }
+
+      xml.filedesc {
+
+        xml.titlestmt {
+
+          titleproper = ""
+          titleproper += "#{data.title} " if data.title
+          titleproper += "<num>#{(0..3).map{|i| data.send("id_#{i}")}.compact.join('.')}</num>"
+          xml.titleproper (fragments << titleproper)
+
+        }
+
+        xml.publicationstmt {
+          xml.publisher data.repo.name
+
+          if data.repo.image_url
+            xml.p {
+              xml.extref ({"xlink:href" => data.repo.image_url,
+                          "xlink:actuate" => "onLoad",
+                          "xlink:show" => "embed",
+                          "xlink:linktype" => "simple"})
+            }
+          end
+
+          xml.address {
+            data.addresslines.each do |line|
+              xml.addressline line
+            end
+          }
+        }
+
+        if (val = data.finding_aid_series_statement)
+          xml.seriesstmt {
+            xml.p val
+          }
+        end
+      }
+
+      xml.profiledesc {
+        creation = "This finding aid was produced using ArchivesSpace on <date>#{Time.now}</date>."
+        xml.creation (fragments << creation)
+
+        if (val = data.finding_aid_language)
+          xml.langusage (fragments << val)
+        end
+
+        if (val = data.descrules)
+          xml.descrules val
+        end
+      }
+
+      if data.finding_aid_revision_date || data.finding_aid_revision_description
+        xml.revisiondesc {
+          xml.change {
+            xml.date data.finding_aid_revision_date if data.finding_aid_revision_date
+            xml.item data.finding_aid_revision_description if data.finding_aid_revision_description
+          }
+        }
+      end
+    }
   end
 end

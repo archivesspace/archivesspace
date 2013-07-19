@@ -9,6 +9,11 @@ module ExportHelpers
   end
 
 
+  def stream_response(streamer)
+    [status, {"Content-Type" => "application/xml"}, streamer]
+  end
+
+
   def tsv_response(tsv)
     [status, {"Content-Type" => "text/tab-separated-values"}, [tsv + "\n"]]
   end
@@ -48,11 +53,11 @@ module ExportHelpers
     ASpaceExport.serializer(:marc21).serialize(marc)
   end
 
-
+  # streamin'
   def generate_ead(id)
     obj = resolve_references(Resource.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects', 'tree', 'digital_object'])
     ead = ASpaceExport.model(:ead).from_resource(JSONModel(:resource).new(obj))
-    ASpaceExport.serializer(:ead).serialize(ead)
+    ASpaceExport.serializer(:ead).stream(ead)
   end
 
 
