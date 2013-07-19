@@ -1893,7 +1893,7 @@ describe "Import / Export Behavior >> " do
             orderedlists.each_with_index do |ol, i|
               ol_path = "#{path}/list[@type='ordered'][#{i+1}]"
 
-              mt('enumeration', ol_path, 'numeration')
+              mt(ol['enumeration'], ol_path, 'numeration')
               mt(ol['title'], "#{ol_path}/head")
 
               ol['items'].each_with_index do |item, j|

@@ -228,7 +228,7 @@ ASpaceImport::Importer.importer :ead do
         end
       else
         make :note_orderedlist, {
-          :enumeration => att('numeration') || 'null'
+          :enumeration => att('numeration')
         } do |note|
           set ancestor(:note_multipart), :subnotes, note
         end

@@ -37,15 +37,17 @@ ASpaceExport::serializer :ead do
                  'xsi:schemaLocation' => 'urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd',
                  'xmlns:xlink' => 'http://www.w3.org/1999/xlink'){
 
-        xml.eadheader(:findaidstatus => data.finding_aid_status,
+        eadheader_atts = {:findaidstatus => data.finding_aid_status,
                       :repositoryencoding => "iso15511",
                       :countryencoding => "iso3166-1",
                       :dateencoding => "iso8601",
-                      :langencoding => "iso639-2b") {
+                      :langencoding => "iso639-2b"}.reject{|k,v| v.nil? || v.empty?}
+
+        xml.eadheader(eadheader_atts) {
 
           eadid_atts = {:countrycode => data.repo.country,
                   :url => data.ead_location,
-                  :mainagencycode => data.mainagencycode}.reject{|k,v| v.nil?}
+                  :mainagencycode => data.mainagencycode}.reject{|k,v| v.nil? || v.empty?}
 
           xml.eadid(eadid_atts) {
             xml.text data.ead_id
@@ -351,7 +353,8 @@ ASpaceExport::serializer :ead do
           end
         }
       when 'note_orderedlist'
-        xml.list(:type => 'ordered', :numeration => 'enumeration') {
+        atts = {:type => 'ordered', :numeration => sn['enumeration']}.reject{|k,v| v.nil? || v.empty?}
+        xml.list(atts) {
           xml.head title if title
 
           sn['items'].each do |item|

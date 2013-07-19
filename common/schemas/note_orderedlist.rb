@@ -12,7 +12,6 @@
 
       "enumeration" => {
         "type" => "string",
-        "ifmissing" => "error",
         "dynamic_enum" => "note_orderedlist_enumeration"
       },
 
