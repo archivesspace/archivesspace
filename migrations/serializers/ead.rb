@@ -151,7 +151,7 @@ ASpaceExport::serializer :ead do
                           when 'agent_family'; 'famname'
                           when 'agent_corporate_entity'; 'corpname'
                           end
-              xml.origination(:role => role) {
+              xml.origination(:label => role) {
                atts = {:relator => relator, :source => source, :rules => rules}
                atts.reject! {|k, v| v.nil?}
 

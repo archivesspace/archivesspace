@@ -1540,7 +1540,7 @@ describe "Import / Export Behavior >> " do
 
               mt(rules, path, 'rules')
               mt(source, path, 'source')
-              mt(role, path, 'role')
+              mt(role, path, 'label')
               mt(content, path)
             end
           end
@@ -1753,7 +1753,7 @@ describe "Import / Export Behavior >> " do
             path_1 = "archdesc/did/origination[#{node_name}[contains(text(), '#{sort_name}')]]"
             path_2 = "archdesc/did/origination/#{node_name}[text()='#{sort_name}']"
 
-            mt(role, path_1, 'role')
+            mt(role, path_1, 'label')
             mt(rules, path_2, 'rules')
             mt(source, path_2, 'source')
             mt(sort_name, path_2)
