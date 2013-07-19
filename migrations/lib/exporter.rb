@@ -13,8 +13,7 @@ module ASpaceExport
     Dir.glob(File.dirname(__FILE__) + '/../serializers/*', &method(:load))
     Dir.glob(File.dirname(__FILE__) + '/../models/*', &method(:load))
 
-    # there's probably a better way to do this:
-    I18n.load_path += [File.join(File.dirname(__FILE__), "../", "../", "common", "locales", "enums", "#{AppConfig[:locale]}.yml")]
+    I18n.load_path += ASUtils.find_locales_directories(File.join("enums", "#{AppConfig[:locale]}.yml"))
     @@initialized = true
   end
 
