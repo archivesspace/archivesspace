@@ -1693,7 +1693,7 @@ describe "Import / Export Behavior >> " do
         end
 
         it "produces a creation statement and timestamp at profiledesc/creation" do
-          date_regex = '\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s?-?\d*'
+          date_regex = '\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s?[-+]?\d*'
           full_regex = 'This finding aid was produced using ArchivesSpace on '+date_regex+'\.'
           mt(Regexp.new(full_regex), "//profiledesc/creation")
           mt(Regexp.new(date_regex), "//profiledesc/creation/date")
