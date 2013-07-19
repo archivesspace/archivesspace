@@ -16,7 +16,8 @@ class RawXMLHandler
 
   def substitute_fragments(xml_string)
     @fragments.each do |id, fragment|
-      xml_string = xml_string.gsub(/:aspace_fragment_#{id}/, fragment)
+      xml_string.gsub!(/:aspace_fragment_#{id}/, fragment)
+      xml_string.gsub!(/[&]([^a])/, '&amp;\1')
     end
 
     xml_string
@@ -26,23 +27,25 @@ end
 
 class StreamHandler
 
-  def initialize(client)
-    @client = client
+  def initialize
     @sections = {}
-    yield self, RawXMLHandler.new
+    @depth = 0
   end
 
 
-  def with(doc, &block)
+  def buffer(&block)
     id = SecureRandom.hex
     @sections[id] = block
-    doc.text(":aspace_section_#{id}_")
+    ":aspace_section_#{id}_"
   end
 
 
-  def stream_out(doc, fragments)
-    queue = doc.to_xml.split(":aspace_section")
-    @client << fragments.substitute_fragments(queue.shift)
+  def stream_out(doc, fragments, y, depth=0)
+    xml_text = doc.to_xml
+    xml_text.force_encoding('utf-8')
+    queue = xml_text.split(":aspace_section")
+
+    y << fragments.substitute_fragments(queue.shift)
 
     while queue.length > 0
       next_section = queue.shift
@@ -52,11 +55,10 @@ class StreamHandler
       Nokogiri::XML::Builder.with(doc_frag) do |xml|
         @sections[next_id].call(xml, next_fragments)
       end
-      stream_out(doc_frag, next_fragments)
+      stream_out(doc_frag, next_fragments, y, depth + 1)
 
-      # Close the tag
       if next_section && !next_section.empty?
-        @client << fragments.substitute_fragments(next_section)
+        y << fragments.substitute_fragments(next_section)
       end
     end
   end
@@ -67,190 +69,189 @@ ASpaceExport::serializer :ead do
 
   def stream(data)
 
-    response = Enumerator.new do |client|
+    @stream_handler = StreamHandler.new
+    fragments = RawXMLHandler.new
 
-      StreamHandler.new(client) do |buffer, fragments|
+    doc = Nokogiri::XML::Builder.new do |xml|
 
-        doc = Nokogiri::XML::Builder.new do |xml|
+      xml.ead('xmlns' => 'urn:isbn:1-931666-22-9',
+              'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+              'xsi:schemaLocation' => 'http://www.loc.gov/ead/ead.xsd') {
 
-          xml.ead('xmlns' => 'urn:isbn:1-931666-22-9',
-                  'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-                  'xsi:schemaLocation' => 'http://www.loc.gov/ead/ead.xsd') {
 
-            buffer.with(xml) do |xml, fragments|
-              serialize_eadheader(data, xml, fragments)
+        xml.text (
+          @stream_handler.buffer { |xml, fragments|
+            serialize_eadheader(data, xml, fragments)
+          })
+
+        xml.archdesc(:level => data.level) {
+
+          data.digital_objects.each do |dob|
+            serialize_digital_object(dob, xml, fragments)
+          end
+
+          xml.did {
+
+            if (val = data.language)
+              xml.langmaterial(:langcode => val) {
+                xml.language I18n.t("enumerations.language_iso639_2.#{val}", :default => val)
+              }
             end
 
-            buffer.with(xml) do |xml, fragments|
-              xml.archdesc(:level => data.level) {
+            if (val = data.repo.name)
+              xml.repository {
+                xml.corpname val
+              }
+            end
 
-                data.digital_objects.each do |dob|
-                  serialize_digital_object(dob, xml, fragments)
-                end
+            if (val = data.title)
+              xml.unittitle val
+            end
 
-                xml.did {
+            data.creators_and_sources.each do |link|
+              agent = link['_resolved']
+              role = link['role']
+              relator = link['relator']
+              sort_name = agent['names'][0]['sort_name']
+              rules = agent['names'][0]['rules']
+              source = agent['names'][0]['source']
+              node_name = case agent['agent_type']
+                          when 'agent_person'; 'persname'
+                          when 'agent_family'; 'famname'
+                          when 'agent_corporate_entity'; 'corpname'
+                          end
+              xml.origination(:role => role) {
+                atts = {:relator => relator, :source => source, :rules => rules}
+                atts.reject! {|k, v| v.nil?}
 
-                  if (val = data.language)
-                    xml.langmaterial(:langcode => val) {
-                      xml.language I18n.t("enumerations.language_iso639_2.#{val}", :default => val)
-                    }
-                  end
-
-                  if (val = data.repo.name)
-                    xml.repository {
-                      xml.corpname val
-                    }
-                  end
-
-                  if (val = data.title)
-                    xml.unittitle val
-                  end
-
-                  data.creators_and_sources.each do |link|
-                    agent = link['_resolved']
-                    role = link['role']
-                    relator = link['relator']
-                    sort_name = agent['names'][0]['sort_name']
-                    rules = agent['names'][0]['rules']
-                    source = agent['names'][0]['source']
-                    node_name = case agent['agent_type']
-                                when 'agent_person'; 'persname'
-                                when 'agent_family'; 'famname'
-                                when 'agent_corporate_entity'; 'corpname'
-                                end
-                    xml.origination(:role => role) {
-                      atts = {:relator => relator, :source => source, :rules => rules}
-                      atts.reject! {|k, v| v.nil?}
-
-                      xml.send(node_name, atts) {
-                        xml.text sort_name
-                      }
-                    }
-                  end
-
-                  xml.unitid (0..3).map{|i| data.send("id_#{i}")}.compact.join('.')
-
-                  serialize_extents(data, xml, fragments)
-
-                  serialize_dates(data, xml, fragments)
-
-                  serialize_did_notes(data.notes, xml, fragments)
-
-                  data.ead_containers.each do |container|
-                    att = container[:label] ? {:label => container[:label]} : {}
-                    att[:type] = container[:type] if container[:type]
-                    xml.container(att) {
-                      xml.text container[:text]
-                    }
-                  end
-
-                }# </did>
-
-                data.notes.each do |note|
-
-                  next if note['internal']
-                  next unless data.archdesc_note_types.include?(note['type'])
-
-                  content = ASpaceExport::Utils.extract_note_text(note)
-                  head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note['type']}", :default => note['type'])
-                  atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
-
-                  xml.send(note['type'], atts) {
-                    xml.head head_text
-                    xml.p (fragments << content)
-
-                    if note['subnotes']
-                      serialize_subnotes(note['subnotes'], xml, fragments)
-                    end
-                  }
-                end
-
-
-                data.bibliographies.each do |note|
-
-                  content = ASpaceExport::Utils.extract_note_text(note)
-                  head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note['type']}")
-                  atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
-
-                  xml.bibliography(atts) {
-                    xml.head head_text
-                    xml.p (fragments << content)
-                    note['items'].each do |item|
-                      xml.bibref item unless item.empty?
-                    end
-                  }
-                end
-
-
-                data.indexes.each do |note|
-
-                  content = ASpaceExport::Utils.extract_note_text(note)
-                  head_text = nil
-                  if note['label']
-                    head_text = note['label']
-                  elsif note['type']
-                    head_text = I18n.t("enumerations._note_types.#{note['type']}", :default => note['type'])
-                  end
-
-                  atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
-
-                  xml.index(atts) {
-                    xml.head head_text if head_text
-                    xml.p (fragments << content)
-                    note['items'].each do |item|
-                      next unless (node_name = data.index_item_type_map[item['type']])
-                      xml.indexentry {
-                        atts = item['reference'] ? {:target => item['reference']} : {}
-                        xml.ref(atts) {
-                          xml.text item['reference_text']
-                        }
-                        if (val = item['value'])
-                          xml.send(node_name, val)
-                        end
-                      }
-                    end
-                  }
-                end
-
-
-                xml.controlaccess {
-
-                  data.controlaccess_subjects.each do |node_data|
-                    xml.send(node_data[:node_name], node_data[:atts]) {
-                      xml.text node_data[:content]
-                    }
-                  end
-
-
-                  data.controlaccess_linked_agents.each do |node_data|
-                    xml.send(node_data[:node_name], node_data[:atts]) {
-                      xml.text node_data[:content]
-                    }
-                  end
-
-                } #</controlaccess>
-
-                xml.dsc {
-                  data.children.each do |child|
-                    buffer.with(xml) do |xml, fragments|
-                      serialize_child(child, xml, fragments, buffer)
-                    end
-                  end
+                xml.send(node_name, atts) {
+                  xml.text sort_name
                 }
               }
             end
-          }
-        end
 
-        buffer.stream_out(doc, fragments)
-      end
+            xml.unitid (0..3).map{|i| data.send("id_#{i}")}.compact.join('.')
+
+            serialize_extents(data, xml, fragments)
+
+            serialize_dates(data, xml, fragments)
+
+            serialize_did_notes(data.notes, xml, fragments)
+
+            data.ead_containers.each do |container|
+              att = container[:label] ? {:label => container[:label]} : {}
+              att[:type] = container[:type] if container[:type]
+              xml.container(att) {
+                xml.text container[:text]
+              }
+            end
+
+          }# </did>
+
+          data.notes.each do |note|
+            next if note['internal']
+            next unless data.archdesc_note_types.include?(note['type'])
+
+            xml.text(
+              @stream_handler.buffer { |xml, fragments|
+                content = ASpaceExport::Utils.extract_note_text(note)
+                head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note['type']}", :default => note['type'])
+                atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
+
+                xml.send(note['type'], atts) {
+                  xml.head head_text
+                  xml.p (fragments << content)
+
+                  if note['subnotes']
+                    serialize_subnotes(note['subnotes'], xml, fragments)
+                  end
+                }
+              }
+            )
+          end
+
+          data.bibliographies.each do |note|
+
+            content = ASpaceExport::Utils.extract_note_text(note)
+            head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note['type']}")
+            atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
+
+            xml.bibliography(atts) {
+              xml.head head_text
+              xml.p (fragments << content)
+              note['items'].each do |item|
+                xml.bibref item unless item.empty?
+              end
+            }
+          end
+
+          data.indexes.each do |note|
+
+            content = ASpaceExport::Utils.extract_note_text(note)
+            head_text = nil
+            if note['label']
+              head_text = note['label']
+            elsif note['type']
+              head_text = I18n.t("enumerations._note_types.#{note['type']}", :default => note['type'])
+            end
+
+            atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
+
+            xml.index(atts) {
+              xml.head head_text if head_text
+              xml.p (fragments << content)
+              note['items'].each do |item|
+                next unless (node_name = data.index_item_type_map[item['type']])
+                xml.indexentry {
+                  atts = item['reference'] ? {:target => item['reference']} : {}
+                  xml.ref(atts) {
+                    xml.text item['reference_text']
+                  }
+                  if (val = item['value'])
+                    xml.send(node_name, val)
+                  end
+                }
+              end
+            }
+          end
+
+          xml.controlaccess {
+
+            data.controlaccess_subjects.each do |node_data|
+              xml.send(node_data[:node_name], node_data[:atts]) {
+                xml.text node_data[:content]
+              }
+            end
+
+            data.controlaccess_linked_agents.each do |node_data|
+              xml.send(node_data[:node_name], node_data[:atts]) {
+                xml.text node_data[:content]
+              }
+            end
+
+          } #</controlaccess>
+
+          xml.dsc {
+
+            data.children_indexes.each do |i|
+              xml.text(
+                @stream_handler.buffer {|xml, fragements|
+                  serialize_child(data.get_child(i), xml, fragments)
+                }
+              )
+            end
+          }
+        }
+      }
     end
 
-    response
+    Enumerator.new do |y|
+      @stream_handler.stream_out(doc, fragments, y)
+    end
   end
 
 
-  def serialize_child(obj, xml, fragments, buffer)
+  def serialize_child(obj, xml, fragments)
     xml.c(:level => obj.level, :id => obj.ref_id) {
 
       xml.did {
@@ -284,13 +285,13 @@ ASpaceExport::serializer :ead do
         } #</controlaccess>
       end
 
-      obj.children.each do |child|
-        buffer.with(xml) do |xml, fragments|
-          serialize_child(child, xml, fragments, buffer)
-        end
+      obj.children_indexes.each do |i|
+        xml.text(
+          @stream_handler.buffer {|xml, fragements|
+            serialize_child(obj.get_child(i), xml, fragments)
+          }
+        )
       end
-
-
     }
   end
 
