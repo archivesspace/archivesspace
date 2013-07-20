@@ -1319,7 +1319,7 @@ describe "Import / Export Behavior >> " do
           code = object.language
 
           mt(data, "#{desc_path}/did/langmaterial/language")
-          mt(code, "#{desc_path}/did/langmaterial", 'langcode')
+          mt(code, "#{desc_path}/did/langmaterial/language", 'langcode')
         end
 
 
@@ -1486,9 +1486,9 @@ describe "Import / Export Behavior >> " do
           end
 
 
-          it "maps notes of type 'physfacet' to did/physdesc" do
+          it "maps notes of type 'physfacet' to did/physdesc/physfacet" do
             notes.select {|n| n['type'] == 'physfacet'}.each_with_index do |note, i|
-              path = "#{desc_path}/did/physfacet[#{i+1}]"
+              path = "#{desc_path}/did/physdesc[physfacet][#{i+1}]/physfacet"
               mt(note_content(note), path)
               mt(note['persistent_id'], path, "id")
             end
@@ -1540,7 +1540,7 @@ describe "Import / Export Behavior >> " do
 
               mt(rules, path, 'rules')
               mt(source, path, 'source')
-              mt(role, path, 'role')
+              mt(role, path, 'label')
               mt(content, path)
             end
           end
@@ -1587,8 +1587,8 @@ describe "Import / Export Behavior >> " do
           mt(data, "eadheader/eadid", 'mainagencycode')
         end
 
-        it "maps resource.ead_location to eadid/@ead_location" do
-          mt(resource.ead_location, "eadheader/eadid", 'ead_location')
+        it "maps resource.ead_location to eadid/@url" do
+          mt(resource.ead_location, "eadheader/eadid", 'url')
         end
 
         it "maps resource.ead_id to eadid" do
@@ -1684,8 +1684,8 @@ describe "Import / Export Behavior >> " do
           mt(resource.finding_aid_date, "eadheader/filedesc/publicationstmt/p/date")
         end
 
-        it "maps resource.finding_aid_series_statement to filedesc/seriesstmt/p" do
-          mt(resource.finding_aid_series_statement, "eadheader/filedesc/seriesstmt/p")
+        it "maps resource.finding_aid_series_statement to filedesc/seriesstmt" do
+          mt(resource.finding_aid_series_statement, "eadheader/filedesc/seriesstmt")
         end
 
         it "maps resource.finding_aid_note to filedesc/notestmt/note/p" do
@@ -1753,7 +1753,7 @@ describe "Import / Export Behavior >> " do
             path_1 = "archdesc/did/origination[#{node_name}[contains(text(), '#{sort_name}')]]"
             path_2 = "archdesc/did/origination/#{node_name}[text()='#{sort_name}']"
 
-            mt(role, path_1, 'role')
+            mt(role, path_1, 'label')
             mt(rules, path_2, 'rules')
             mt(source, path_2, 'source')
             mt(sort_name, path_2)
@@ -1893,7 +1893,7 @@ describe "Import / Export Behavior >> " do
             orderedlists.each_with_index do |ol, i|
               ol_path = "#{path}/list[@type='ordered'][#{i+1}]"
 
-              mt('enumeration', ol_path, 'numeration')
+              mt(ol['enumeration'], ol_path, 'numeration')
               mt(ol['title'], "#{ol_path}/head")
 
               ol['items'].each_with_index do |item, j|
@@ -1948,7 +1948,7 @@ describe "Import / Export Behavior >> " do
 
         it "maps each resource.instances[].instance.digital_object to archdesc/dao" do
           digital_objects.each do |obj|
-            path = "/xmlns:ead/xmlns:archdesc/xmlns:dao[@href='#{obj.digital_object_id}']"
+            path = "/xmlns:ead/xmlns:archdesc/xmlns:dao[@xlink:href='#{obj.digital_object_id}']"
             content = description_content(obj)
 
             if (fv = obj.file_versions[0])

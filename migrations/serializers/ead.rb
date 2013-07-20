@@ -75,9 +75,9 @@ ASpaceExport::serializer :ead do
     doc = Nokogiri::XML::Builder.new do |xml|
 
       xml.ead('xmlns' => 'urn:isbn:1-931666-22-9',
-              'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-              'xsi:schemaLocation' => 'http://www.loc.gov/ead/ead.xsd') {
-
+                 'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+                 'xsi:schemaLocation' => 'urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd',
+                 'xmlns:xlink' => 'http://www.w3.org/1999/xlink') {
 
         xml.text (
           @stream_handler.buffer { |xml, new_fragments|
@@ -93,8 +93,10 @@ ASpaceExport::serializer :ead do
           xml.did {
 
             if (val = data.language)
-              xml.langmaterial(:langcode => val) {
-                xml.language I18n.t("enumerations.language_iso639_2.#{val}", :default => val)
+              xml.langmaterial {
+                xml.language(:langcode => val) {
+                  xml.text I18n.t("enumerations.language_iso639_2.#{val}", :default => val)
+                }
               }
             end
 
@@ -120,9 +122,9 @@ ASpaceExport::serializer :ead do
                           when 'agent_family'; 'famname'
                           when 'agent_corporate_entity'; 'corpname'
                           end
-              xml.origination(:role => role) {
-                atts = {:relator => relator, :source => source, :rules => rules}
-                atts.reject! {|k, v| v.nil?}
+              xml.origination(:label => role) {
+               atts = {:relator => relator, :source => source, :rules => rules}
+               atts.reject! {|k, v| v.nil?}
 
                 xml.send(node_name, atts) {
                   xml.text sort_name
@@ -159,8 +161,12 @@ ASpaceExport::serializer :ead do
                 atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
 
                 xml.send(note['type'], atts) {
-                  xml.head head_text
-                  xml.p (new_fragments << content)
+                  xml.head head_text unless content.strip.start_with?('<head')
+                  if content.strip.start_with?('<')
+                    xml.text (new_fragments << content)
+                  else
+                    xml.p (new_fragments << content)
+                  end
 
                   if note['subnotes']
                     serialize_subnotes(note['subnotes'], xml, new_fragments)
@@ -177,8 +183,12 @@ ASpaceExport::serializer :ead do
             atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
 
             xml.bibliography(atts) {
-              xml.head head_text
-              xml.p (@fragments << content)
+              xml.head head_text unless content.strip.start_with?('<head')
+              if content.strip.start_with?('<')
+                xml.text (@fragments << content)
+              else
+                xml.p (@fragments << content)
+              end
               note['items'].each do |item|
                 xml.bibref item unless item.empty?
               end
@@ -198,8 +208,12 @@ ASpaceExport::serializer :ead do
             atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
 
             xml.index(atts) {
-              xml.head head_text if head_text
-              xml.p (@fragments << content)
+              xml.head head_text unless content.strip.start_with?('<head')
+              if content.strip.start_with?('<')
+                xml.text (@fragments << content)
+              else
+                xml.p (@fragments << content)
+              end
               note['items'].each do |item|
                 next unless (node_name = data.index_item_type_map[item['type']])
                 xml.indexentry {
@@ -215,21 +229,25 @@ ASpaceExport::serializer :ead do
             }
           end
 
-          xml.controlaccess {
 
-            data.controlaccess_subjects.each do |node_data|
-              xml.send(node_data[:node_name], node_data[:atts]) {
-                xml.text node_data[:content]
-              }
-            end
+          if (data.controlaccess_subjects.length + data.controlaccess_linked_agents.length) > 0
+            xml.controlaccess {
 
-            data.controlaccess_linked_agents.each do |node_data|
-              xml.send(node_data[:node_name], node_data[:atts]) {
-                xml.text node_data[:content]
-              }
-            end
+              data.controlaccess_subjects.each do |node_data|
+                xml.send(node_data[:node_name], node_data[:atts]) {
+                  xml.text node_data[:content]
+                }
+              end
 
-          } #</controlaccess>
+
+              data.controlaccess_linked_agents.each do |node_data|
+                xml.send(node_data[:node_name], node_data[:atts]) {
+                  xml.text node_data[:content]
+                }
+              end
+
+            } #</controlaccess>
+          end
 
           xml.dsc {
 
@@ -322,7 +340,8 @@ ASpaceExport::serializer :ead do
           end
         }
       when 'note_orderedlist'
-        xml.list(:type => 'ordered', :numeration => 'enumeration') {
+        atts = {:type => 'ordered', :numeration => sn['enumeration']}.reject{|k,v| v.nil? || v.empty?}
+        xml.list(atts) {
           xml.head title if title
 
           sn['items'].each do |item|
@@ -334,8 +353,10 @@ ASpaceExport::serializer :ead do
           xml.head title if title
 
           sn['items'].each do |item|
-            xml.label item['label'] if item['label']
-            xml.item item['value'] if item['value']
+            xml.defitem {
+              xml.label item['label'] if item['label']
+              xml.item item['value'] if item['value']
+            } 
           end
         }
       end
@@ -409,9 +430,9 @@ ASpaceExport::serializer :ead do
       att = id ? {:id => id} : {}
 
       case note['type']
-      when 'dimensions'
+      when 'dimensions', 'physfacet'
         xml.physdesc {
-          xml.dimensions(att) {
+          xml.send(note['type'], att) {
             xml.text (fragments << content)
           }
         }
@@ -425,15 +446,17 @@ ASpaceExport::serializer :ead do
 
 
   def serialize_eadheader(data, xml, fragments)
-    xml.eadheader(:findaidstatus => data.finding_aid_status,
-                  :repositoryencoding => "iso15511",
-                  :countryencoding => "iso3166-1",
-                  :dateencoding => "iso8601",
-                  :langencoding => "iso639-2b") {
+    eadheader_atts = {:findaidstatus => data.finding_aid_status,
+                      :repositoryencoding => "iso15511",
+                      :countryencoding => "iso3166-1",
+                      :dateencoding => "iso8601",
+                      :langencoding => "iso639-2b"}.reject{|k,v| v.nil? || v.empty?}
+
+    xml.eadheader(eadheader_atts) {
 
       eadid_atts = {:countrycode => data.repo.country,
-              :ead_location => data.ead_location,
-              :mainagencycode => data.mainagencycode}.reject{|k,v| v.nil?}
+              :url => data.ead_location,
+              :mainagencycode => data.mainagencycode}.reject{|k,v| v.nil? || v.empty?}
 
       xml.eadid(eadid_atts) {
         xml.text data.ead_id
@@ -471,7 +494,11 @@ ASpaceExport::serializer :ead do
 
         if (val = data.finding_aid_series_statement)
           xml.seriesstmt {
-            xml.p val
+            if val.strip.start_with?('<')
+              xml.text (fragments << val)
+            else
+              xml.p (fragments << val)
+            end
           }
         end
       }
@@ -491,10 +518,14 @@ ASpaceExport::serializer :ead do
 
       if data.finding_aid_revision_date || data.finding_aid_revision_description
         xml.revisiondesc {
-          xml.change {
-            xml.date data.finding_aid_revision_date if data.finding_aid_revision_date
-            xml.item data.finding_aid_revision_description if data.finding_aid_revision_description
-          }
+          if data.finding_aid_revision_description.strip.start_with?('<')
+            xml.text (fragments << data.finding_aid_revision_description)
+          else
+            xml.change {
+              xml.date (fragments << data.finding_aid_revision_date) if data.finding_aid_revision_date
+              xml.item (fragments << data.finding_aid_revision_description) if data.finding_aid_revision_description
+            }
+          end
         }
       end
     }

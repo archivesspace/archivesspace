@@ -101,9 +101,12 @@ module ASpaceExport
         results = []
         dates = self.dates || []
         dates.each do |date|
-          normal = "#{date['begin']}/"
-          normal_suffix = (date['date_type'] == 'single' || date['end'].nil? || date['end'] == date['begin']) ? date['begin'] : date['end']
-          normal += normal_suffix ? normal_suffix : ""
+          normal = ""
+          unless date['begin'].nil?
+            normal = "#{date['begin']}/"
+            normal_suffix = (date['date_type'] == 'single' || date['end'].nil? || date['end'] == date['begin']) ? date['begin'] : date['end']
+            normal += normal_suffix ? normal_suffix : ""
+          end
           type = %w(single inclusive).include?(date['date_type']) ? 'inclusive' : 'bulk'
           content = if date['expression']
                     date['expression']

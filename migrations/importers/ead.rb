@@ -155,7 +155,7 @@ ASpaceImport::Importer.importer :ead do
 
 
     with 'indexentry/ref' do
-      context_obj.items << {:reference_text => inner_xml}
+      context_obj.items << {:reference_text => inner_xml, :reference => att('target')}
     end
 
 
@@ -228,7 +228,7 @@ ASpaceImport::Importer.importer :ead do
         end
       else
         make :note_orderedlist, {
-          :enumeration => "PLACEHOLDER"
+          :enumeration => att('numeration')
         } do |note|
           set ancestor(:note_multipart), :subnotes, note
         end
