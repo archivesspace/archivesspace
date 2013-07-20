@@ -1,56 +1,60 @@
 <%= setup_context :title => I18n.t("import.#{@importer_key}_title") %>
 
-<%= form_tag '/import/upload', :multipart => true, :class => 'form-horizontal aspace-record-form', :id => "import" do %>
-  <div class="row-fluid">
-    <div class="span12 record-pane">
-      <%= link_to_help :topic => "import" %>
-      <h2><%= @title %></h2>
-      
-      <%= render :partial => "streaming_status_script" %>
-      
-      
-      <!--[if lt IE 10]>
-        <script>
-          $(document).ready(function(){
-            $('div#import-index').remove();
-          });
-        </script>
-        <div class="alert">For a more seamless and scalable upload experience, consider upgrading to Internet Explorer 10, Firefox, Chrome, or Safari.</div>
-				<span class="btn-label"><a href="?importer=<%= @importer_key %>">Start Over</a></span>
-        <iframe class="import-iframe" src="/import/upload_select?importer=<%= @importer_key %>"> </iframe>
-      <![endif]-->
-      
-      
-      <div id="import-index" class="content-pane">
-        <%= form_tag '/import/upload', :multipart => true, :class => 'form-horizontal aspace-record-form', :id => "import" do %>
-        <fieldset>
-          <div class="control-group ">
-            <%= label_tag :upload, I18n.t('import.file_select'), :class=>"control-label" %>
-            <div class="controls">
-              <%= file_field :upload, :import_file %>
-              <%= hidden_field_tag :importer, @importer_key %>
-            </div>
-          </div>
-          <br/>
-        </fieldset>
+<% if session[:repo_id] and session[:repo_id] > 1 %>
+  <%= form_tag '/import/upload', :multipart => true, :class => 'form-horizontal aspace-record-form', :id => "import" do %>
+    <div class="row-fluid">
+      <div class="span12 record-pane">
+        <%= link_to_help :topic => "import" %>
+        <h2><%= @title %></h2>
 
-        <div class="form-actions">
-          <button type="submit" class="btn btn-primary">
-            <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %> 
-            <span class="btn-label"><%= I18n.t("import.submit") %></span>
-            <span class="btn-busy-label"><%= I18n.t("import.submit_busy_message") %></span>
-          </button>
-          <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
+        <%= render :partial => "streaming_status_script" %>
+
+
+        <!--[if lt IE 10]>
+          <script>
+            $(document).ready(function(){
+              $('div#import-index').remove();
+            });
+          </script>
+          <div class="alert">For a more seamless and scalable upload experience, consider upgrading to Internet Explorer 10, Firefox, Chrome, or Safari.</div>
+                                  <span class="btn-label"><a href="?importer=<%= @importer_key %>">Start Over</a></span>
+          <iframe class="import-iframe" src="/import/upload_select?importer=<%= @importer_key %>"> </iframe>
+        <![endif]-->
+
+
+        <div id="import-index" class="content-pane">
+          <%= form_tag '/import/upload', :multipart => true, :class => 'form-horizontal aspace-record-form', :id => "import" do %>
+          <fieldset>
+            <div class="control-group ">
+              <%= label_tag :upload, I18n.t('import.file_select'), :class=>"control-label" %>
+              <div class="controls">
+                <%= file_field :upload, :import_file %>
+                <%= hidden_field_tag :importer, @importer_key %>
+              </div>
+            </div>
+            <br/>
+          </fieldset>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+              <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %> 
+              <span class="btn-label"><%= I18n.t("import.submit") %></span>
+              <span class="btn-busy-label"><%= I18n.t("import.submit_busy_message") %></span>
+            </button>
+            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
+          </div>
+
+          <div id="import-results"></div>
+
+          <% end %>
         </div>
 
-        <div id="import-results"></div>
 
-        <% end %>
+
+
       </div>
-      
-
-      
-      
     </div>
-  </div>
+  <% end %>
+<% else %>
+  <%= I18n.t("import.messages.missing_repo") %>
 <% end %>
