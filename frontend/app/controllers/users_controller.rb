@@ -53,10 +53,10 @@ class UsersController < ApplicationController
 
   def edit_groups
     @user = JSONModel(:user).from_hash(JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/users/#{params[:id]}"))
-    @groups = JSONModel(:group).all if user_can?('manage_users')
+    @groups = JSONModel(:group).all
     render action: "edit_groups"
   end
-  
+
   def delete
     user = JSONModel(:user).find(params[:id])
     user.delete
@@ -112,7 +112,6 @@ class UsersController < ApplicationController
 
     handle_crud(:instance => :user,
                 :params_check => ->(obj, params){
-                  
                   ['password', 'confirm_password'].each do |field|
                     if params['user'][field].blank?
                       obj.add_error(field, "Can't be empty")
@@ -127,7 +126,6 @@ class UsersController < ApplicationController
                   render :action => "new"
                 },
                 :on_valid => ->(id){
-                  
                   if session[:user]
                     flash[:success] = "#{I18n.t("user._frontend.messages.created")}: #{params['user']['username']}"
                     redirect_to :controller => :users, :action => :index
@@ -140,7 +138,6 @@ class UsersController < ApplicationController
                     redirect_to :controller => :welcome, :action => :index
 
                   end
-                  
                 })
   end
 

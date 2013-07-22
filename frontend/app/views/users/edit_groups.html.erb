@@ -13,7 +13,7 @@
         <% end %>
 
         <%= form_context :user, @user do |form| %>
-          <% if user_can?('manage_users') %>
+          <% if user_can?('manage_repository') %>
             <section id="groups" class="subrecord-form-dummy">
               <h3><%= I18n.t("group._plural") %></h3>
               <div class="subrecord-form-container">
