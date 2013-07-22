@@ -40,19 +40,19 @@ describe 'User controller' do
 
 
   it "allows admin users to update existing usernames" do
-    new_username = generate(:username) 
-    
+    new_username = generate(:username)
+
     otheruser = build(:json_user)
-    otheruser.save(:password => '123')
+    otheruser.save(:password => '123', :repo_id => nil)
     otheruser.username.should_not eq(new_username)
-    
+
     updated = build(:json_user, {:username => new_username})
     otheruser.update(updated.to_hash)
     otheruser.username.should eq(new_username)
-    otheruser.save(:password => '456')
+    otheruser.save(:password => '456', :repo_id => nil)
     user = JSONModel(:user).find(otheruser.id)
     user.username.should eq(new_username)
-  end 
+  end
 
 
   it "allows usernames with hyphens" do
