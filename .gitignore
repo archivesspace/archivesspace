@@ -28,3 +28,6 @@ common/ARCHIVESSPACE_VERSION
 migrations/spec/doc.xml
 .yardoc
 API.md
+
+# Gemnasium gem configuration file
+config/gemnasium.yml
