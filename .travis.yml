@@ -25,8 +25,10 @@ before_script:
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'create database archivesspace default character set utf8;'; fi"
 
 branches:
-  only:
-    - master
+  # only:
+  #   - master
+  except:
+    - gh-pages
 
 script:
   - build/run bootstrap
