@@ -189,7 +189,7 @@ ASpaceExport::model :ead do
       @child_class = self.class
       @json = nil
       RequestContext.open(:repo_id => repo_id) do
-        rec = URIResolver.resolve_references(ArchivalObject.to_jsonmodel(tree['id']), ['subjects', 'linked_agents'], {'ASPACE_REENTRANT' => false})
+        rec = URIResolver.resolve_references(ArchivalObject.to_jsonmodel(tree['id']), ['subjects', 'linked_agents', 'digital_object'], {'ASPACE_REENTRANT' => false})
         @json = JSONModel::JSONModel(:archival_object).new(rec)
       end
     end
@@ -322,23 +322,8 @@ ASpaceExport::model :ead do
   end
 
 
-  def ead_containers
-    unless @ead_containers
-      data = []
-      self.instances.each do |inst|
-        cont = inst['container']
-        (1..3).each do |i|
-          next unless cont.has_key?("type_#{i}") && cont.has_key?("indicator_#{i}")
-          data << {:type => cont["type_#{i}"], :text => cont["indicator_#{1}"]}
-          if i == 1 && inst['instance_type']
-            data.last[:label] = I18n.t("enumerations.instance_instance_type.#{inst['instance_type']}",:default => inst['instance_type'])
-          end
-        end
-      end
-      @ead_containers = data
-    end
-
-    @ead_containers
+  def instances_with_containers
+    self.instances.select{|inst| inst['container']}.compact
   end
 
 
