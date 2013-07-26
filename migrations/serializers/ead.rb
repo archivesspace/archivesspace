@@ -140,12 +140,8 @@ ASpaceExport::serializer :ead do
 
             serialize_did_notes(data.notes, xml, @fragments)
 
-            data.ead_containers.each do |container|
-              att = container[:label] ? {:label => container[:label]} : {}
-              att[:type] = container[:type] if container[:type]
-              xml.container(att) {
-                xml.text container[:text]
-              }
+            data.instances_with_containers.each do |instance|
+              serialize_container(instance, xml, @fragments)
             end
 
           }# </did>
@@ -282,6 +278,20 @@ ASpaceExport::serializer :ead do
         serialize_extents(obj, xml, fragments)
         serialize_dates(obj, xml, fragments)
         serialize_did_notes(obj.notes, xml, fragments)
+
+        # TODO: Clean this up more; there's probably a better way to do this.
+        # For whatever reason, the old ead_containers method was not working
+        # on archival_objects (see migrations/models/ead.rb).
+
+        obj.instances.each do |inst|
+          case 
+          when inst.has_key?('container') && !inst['container'].nil?
+            serialize_container(inst, xml, fragments)
+          when inst.has_key?('digital_object') && !inst['digital_object']['_resolved'].nil?
+            serialize_digital_object(inst['digital_object']['_resolved'], xml, fragments)
+          end
+        end
+
       }
 
       if (obj.controlaccess_subjects.length + obj.controlaccess_linked_agents.length) > 0
@@ -363,6 +373,21 @@ ASpaceExport::serializer :ead do
     end
   end
 
+  def serialize_container(inst, xml, fragments)
+    containers = []
+    (1..3).each do |n|
+      atts = {}
+      next unless inst['container'].has_key?("type_#{n}") && inst['container'].has_key?("indicator_#{n}")
+      atts[:type] = inst['container']["type_#{n}"]
+      text = inst['container']["indicator_#{n}"]
+      if n == 1 && inst['instance_type']
+        atts[:label] = I18n.t("enumerations.instance_instance_type.#{inst['instance_type']}", :default => inst['instance_type'])
+      end
+      xml.container(atts) {
+        xml.text text
+      }
+    end
+  end
 
   def serialize_digital_object(digital_object, xml, fragments)
     file_version = digital_object['file_versions'][0] || {}
