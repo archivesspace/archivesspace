@@ -97,7 +97,7 @@ module ExportSpecHelpers
                                                 :parent => parent ? {:ref => parent} : nil,
                                                 :notes => build_archival_object_notes(5),
                                                 :linked_agents => build_linked_agents(@agents),
-                                                :instances => instances,
+                                                :instances => [build(:json_instance_digital), build(:json_instance)],
                                                 :subjects => @subjects.map{|ref, s| {:ref => ref}}.shuffle
 
 

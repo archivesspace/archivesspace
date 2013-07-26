@@ -1723,6 +1723,7 @@ describe "Import / Export Behavior >> " do
         it_behaves_like "archival object desc mappings" do
           let(:object) { @resource }
           let(:desc_path) { "/ead/archdesc" }
+          let(:desc_nspath) { "/xmlns:ead/xmlns:archdesc" }
           let(:unitid_src) { (0..3).map{|i| object.send("id_#{i}")}.compact.join('.') }
         end
 
@@ -1972,6 +1973,7 @@ describe "Import / Export Behavior >> " do
         (0...10).each do |i|
           let(:archival_object) { @archival_objects.values[i] || @archival_objects.values.sample }
           let(:path) { "//c[@id='#{archival_object.ref_id}']" }
+          let(:nspath) { "//xmlns:c[@id='#{archival_object.ref_id}']"}
 
           it "maps archival_object.ref_id to //c[@id]" do
             doc.should have_node(path)
@@ -1980,8 +1982,54 @@ describe "Import / Export Behavior >> " do
           it_behaves_like "archival object desc mappings" do
             let(:object) { archival_object }
             let(:desc_path) { path }
+            let(:desc_nspath) { nspath }
             let(:unitid_src) { object.component_id }
           end
+
+          describe "How {archival_object}.instances[].digital_object data is mapped." do
+            let(:instances) { archival_object.instances.reject {|i| i['digital_object'].nil? } }
+
+            def description_content(obj)
+              date = obj['dates'].nil? ? {} : obj['dates'][0]
+              content = ""
+              content << "#{obj['title']}" if obj['title']
+              unless date.nil?
+                content << ": " if date['expression'] || date['begin']
+                if date['expression']
+                  content << ": #{date['expression']}"
+                elsif date['begin']
+                  content << ": #{date['begin']}"
+                  if date['end'] != date['begin']
+                    content << "-#{date['end']}"
+                  end
+                end
+              end
+              content
+            end
+            
+            it "maps {archival_object}.instances[].digital_object to {desc_path}/did/dao" do
+              instances.each do |inst|
+                dobj = JSONModel::HTTP.get_json(inst['digital_object']['ref'])
+                fv = dobj['file_versions'].nil? ? {} : dobj['file_versions'][0]
+
+                title = dobj['title']
+                href = dobj['digital_object_id']
+                path = "#{nspath}/xmlns:did/xmlns:dao[@xlink:href='#{href}']"
+                xlink_actuate = fv['xlink_actuate_attribute'] || 'onRequest'
+                xlink_show = fv['xlink_show_attribute'] || 'new'
+
+                content = description_content(dobj)
+
+                mt(title, path, "xlink:title")
+                mt(href, path, "xlink:href")
+                mt(xlink_actuate, path, "xlink:actuate")
+                mt(xlink_show, path, "xlink:show")
+                mt(content, "#{path}/xmlns:daodesc/xmlns:p")
+              end
+            end
+          end
+
+
         end
       end
     end

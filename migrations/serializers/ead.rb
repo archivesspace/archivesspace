@@ -395,14 +395,6 @@ ASpaceExport::serializer :ead do
     date = digital_object['dates'][0] || {}
     atts = {}
 
-    content = if digital_object['title']
-              digital_object['title']
-            elsif date['expression']
-              date['expression']
-            elsif date['begin'] || date['end']
-              ['begin', 'end'].map {|e| date[e]}.join('/')
-            end
-
     content = ""
     content << title if title
     content << ": " if date['expression'] || date['begin']
