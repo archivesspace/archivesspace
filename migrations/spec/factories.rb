@@ -238,6 +238,11 @@ FactoryGirl.define do
     container { build(:json_container) }
   end
 
+  factory :json_instance_digital, class: JSONModel(:instance) do
+    instance_type 'digital_object'
+    digital_object { {'ref' => create(:json_digital_object).uri } }
+  end
+
   factory :json_location, class: JSONModel(:location) do
     building '129 West 81st Street'
     floor '5'
