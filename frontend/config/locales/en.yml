@@ -692,7 +692,7 @@ en:
       notes: Notes
     actions:
       add_row: Add Row
-      submit: Add Children
+      submit: Save Rows
       reset: Reset
       showhide_prefix: "Columns:"
       showhide_suffix: visible
