@@ -460,7 +460,36 @@
     </exec>
   </target>
 
+  <!-- Travis -->
+  <target name="travis:checkdb">
+    <condition property="travis.mysql">
+      <and>
+        <equals arg1="${env.DB}" arg2="mysql"/>
+        <equals arg1="${env.TRAVIS}" arg2="true"/>
+      </and>
+    </condition>
+  </target>
 
+  <target name="travis:db:nuke" if="travis.mysql" depends="travis:checkdb">
+    <antcall target="db:nuke"/>
+  </target>
+
+  <target name="travis:test" depends="set-classpath">
+    <antcall target="db:migrate" />
+    <antcall target="backend:test" />
+    <antcall target="frontend:test"/>
+    <antcall target="backend:integration" />
+    <antcall target="common:test" />
+    <antcall target="migrations:test" />
+    <antcall target="travis:db:nuke" />
+    <antcall target="selenium:test" />
+    <antcall target="travis:db:nuke" />
+    <antcall target="selenium:public:test" />
+  </target>
+
+  <target name="travis" depends="bootstrap, dist, travis:test"/> 
+
+  <!-- Dist build -->
   <target name="build-zip" depends="set-classpath"
           description="Bundle everything up into a zip file">
     <delete failonerror="false" dir="target" />
@@ -550,6 +579,7 @@
           description="Build a standalone distribution zip of all components" />
 
 
+  <!-- Coverage -->
   <target name="backend:coverage" depends="set-classpath, backend:test" description="Generate coverage reports for the backend">
   </target>
 

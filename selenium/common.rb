@@ -338,7 +338,7 @@ def selenium_init(backend_fn, frontend_fn)
   @user = "testuser#{Time.now.to_i}_#{$$}"
 
 
-  if ENV['TRAVIS']
+  if ENV['TRAVIS'] && ENV['WITH_FIREFOX']
     puts "Loading stable version of Firefox and nodejs"
     Dir.chdir('/var/tmp') do
       firefox_archive = "firefox-16.0.tar.bz2"

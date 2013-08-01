@@ -31,13 +31,7 @@ branches:
     - gh-pages
 
 script:
-  - build/run bootstrap
-  - build/run db:migrate
-  - build/run backend:test
-  - build/run backend:integration
-# - build/run common:test  # https://github.com/hudmol/archivesspace/commit/193fe9a3990da74e37e98140c9eaa264ec801643#L0R106
-  - SCREENSHOT_ON_ERROR=1 build/run selenium:test
-  - WITH_NODEJS=1 build/run dist
+  - SCREENSHOT_ON_ERROR=1 build/run travis
 
 after_failure:
   - build/run dump-file -Ddump.file=/var/tmp/aspace-integration.log
