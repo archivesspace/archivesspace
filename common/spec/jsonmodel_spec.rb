@@ -175,7 +175,7 @@ describe JSONModel do
 
 
   it "should support streaming" do
-    JSONModel::HTTP::stream('/anything', {}) do |response|
+    JSONModel::HTTP::stream('/', {}) do |response|
       # response
       response.should_not be(nil)
     end
