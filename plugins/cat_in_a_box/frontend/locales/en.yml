@@ -1,0 +1,6 @@
+en:
+  plugins:
+    cat_in_a_box:
+      title: Cat in a Box!
+      label: Cat in a Box
+      source: "The source URI of your cat from the <a href='http://thecatapi.com/'>The Cat API</a> is:"

@@ -1,0 +1,13 @@
+<div class="row-fluid">
+   <div class="span12">
+     <div class="record-pane">
+       <h2><%= I18n.t("plugins.cat_in_a_box.title") %></h2>
+
+       <p class="alert alert-info">
+        <%= I18n.t("plugins.cat_in_a_box.source") %>
+        <strong><%= link_to @cat[:source_url], @cat[:source_url] %></strong>
+       </p>
+       <%= image_tag(@cat[:url]) %>
+    </div>
+  </div>
+</div>
