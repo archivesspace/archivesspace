@@ -1,6 +1,7 @@
 require 'sequel'
 require 'sequel/adapters/shared/mysql'
 require 'config/config-distribution'
+require 'asutils'
 
 Sequel::MySQL.default_engine = 'InnoDB'
 Sequel::MySQL.default_charset = 'utf8'
@@ -83,9 +84,8 @@ class DBMigrator
   PLUGIN_MIGRATIONS = []
   PLUGIN_MIGRATION_DIRS = {}
   AppConfig[:plugins].each do |plugin|
-    mig_dir = File.join(File.dirname(__FILE__), "..", "..",
-                        "plugins", plugin, "migrations")
-    if Dir.exists?(mig_dir)
+    mig_dir = ASUtils.find_local_directories("migrations", plugin).shift
+    if mig_dir && Dir.exists?(mig_dir)
       PLUGIN_MIGRATIONS << plugin
       PLUGIN_MIGRATION_DIRS[plugin] = mig_dir
     end
