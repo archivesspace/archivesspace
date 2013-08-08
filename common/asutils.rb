@@ -52,12 +52,13 @@ module ASUtils
   end
 
 
-  def self.find_local_directories(base = nil)
+  def self.find_local_directories(base = nil, *plugins)
+    plugins = AppConfig[:plugins] if plugins.empty?
     [File.join(File.dirname(__FILE__), ".."),
      java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
      java.lang.System.get_property("catalina.base")].
       reject { |dir| !Dir.exists?(dir) }.
-      map { |dir| Array(AppConfig[:plugins]).map { |plugin| File.join(*[dir, "plugins", plugin, base].compact) } }.flatten
+      map { |dir| Array(plugins).map { |plugin| File.join(*[dir, "plugins", plugin, base].compact) } }.flatten
   end
 
 
