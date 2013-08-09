@@ -99,6 +99,12 @@ module ArchivesSpace
       end
     end
 
+    if not ASUtils.find_local_directories.blank?
+      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'assets')}.reject { |dir| !Dir.exists?(dir) }.each do |static_directory|
+        config.assets.paths.unshift(static_directory)
+      end
+    end
+
     # ArchivesSpace Configuration
     AppConfig.load_into(config)
   end

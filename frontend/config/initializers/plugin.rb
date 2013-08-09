@@ -1,4 +1,5 @@
 # Be sure to restart your server when you modify this file.
+require 'asutils'
 
 module Plugins
 
@@ -7,8 +8,8 @@ module Plugins
     Array(AppConfig[:plugins]).each do |plugin|
       # config.yml is optional, so defaults go here
       @config[:plugin][plugin] = {'parents' => []}
-
-      Dir.glob(Rails.root.join('..', 'plugins', plugin, 'config.yml')).each do |config|
+      plugin_dir = ASUtils.find_local_directories(nil, plugin).shift
+      Dir.glob(File.join(plugin_dir, 'config.yml')).each do |config|
         @config[:plugin][plugin] = cfg = YAML.load_file File.absolute_path(config)
         @config[:system_menu_items] << cfg['system_menu_controller'] if cfg['system_menu_controller']
         @config[:repository_menu_items] << cfg['repository_menu_controller'] if cfg['repository_menu_controller']
