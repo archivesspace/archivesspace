@@ -1949,22 +1949,19 @@ describe "Import / Export Behavior >> " do
 
         it "maps each resource.instances[].instance.digital_object to archdesc/dao" do
           digital_objects.each do |obj|
-            path = "/xmlns:ead/xmlns:archdesc/xmlns:dao[@xlink:href='#{obj.digital_object_id}']"
+            fv = obj['file_versions'][0] || {}
+            href = fv["file_uri"] || obj.digital_object_id
+            path = "/xmlns:ead/xmlns:archdesc/xmlns:dao[@xlink:href='#{href}']"
             content = description_content(obj)
-
-            if (fv = obj.file_versions[0])
-              xlink_actuate_attribute = fv['xlink_actuate_attribute'] || 'onRequest'
-              mt(xlink_actuate_attribute, path, 'xlink:actuate')
-
-              xlink_show_attribute = fv['xlink_show_attribute'] || 'new'
-              mt(xlink_show_attribute, path, 'xlink:show')
-            end
-
+            xlink_actuate_attribute = fv['xlink_actuate_attribute'] || 'onRequest'
+            mt(xlink_actuate_attribute, path, 'xlink:actuate')
+            xlink_show_attribute = fv['xlink_show_attribute'] || 'new'
+            mt(xlink_show_attribute, path, 'xlink:show')
             mt(obj.title, path, 'xlink:title')
             mt(content, "#{path}/xmlns:daodesc/xmlns:p")
-
           end
         end
+
       end
 
 
@@ -2013,7 +2010,7 @@ describe "Import / Export Behavior >> " do
                 fv = dobj['file_versions'].nil? ? {} : dobj['file_versions'][0]
 
                 title = dobj['title']
-                href = dobj['digital_object_id']
+                href = fv['file_uri'] || dobj['digital_object_id']
                 path = "#{nspath}/xmlns:did/xmlns:dao[@xlink:href='#{href}']"
                 xlink_actuate = fv['xlink_actuate_attribute'] || 'onRequest'
                 xlink_show = fv['xlink_show_attribute'] || 'new'
