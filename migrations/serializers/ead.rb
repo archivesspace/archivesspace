@@ -1,5 +1,6 @@
 require 'nokogiri'
 require 'securerandom'
+require 'uri'
 
 class RawXMLHandler
 
@@ -407,7 +408,7 @@ ASpaceExport::serializer :ead do
       end
     end
 
-    atts['xlink:href'] = digital_object['digital_object_id']
+    atts['xlink:href'] = file_version['file_uri'] || digital_object['digital_object_id']
     atts['xlink:title'] = digital_object['title'] if digital_object['title']
     atts['xlink:actuate'] = file_version['xlink_actuate_attribute'] || 'onRequest'
     atts['xlink:show'] = file_version['xlink_show_attribute'] || 'new'
