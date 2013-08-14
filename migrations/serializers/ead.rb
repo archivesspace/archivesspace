@@ -1,6 +1,5 @@
 require 'nokogiri'
 require 'securerandom'
-require 'uri'
 
 class RawXMLHandler
 
