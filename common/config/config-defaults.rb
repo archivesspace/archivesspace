@@ -61,11 +61,14 @@ AppConfig[:demodb_snapshot_flag] = proc { File.join(AppConfig[:data_directory], 
 AppConfig[:locale] = :en
 
 # Report Configuration
-AppConfig[:report_page_size] = "A4"
+# :report_page_layout uses valid values for the  CSS3 @page directive's
+# size property: http://www.w3.org/TR/css3-page/#page-size-prop
+AppConfig[:report_page_layout] = "letter landscape"
 
 # Plug-ins to load. They will load in the order specified
 AppConfig[:plugins] = ['local']
 
+# Allow an unauthenticated user to create an account
 AppConfig[:allow_user_registration] = true
 
 # Help Configuration
