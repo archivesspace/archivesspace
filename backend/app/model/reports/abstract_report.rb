@@ -15,8 +15,8 @@ class AbstractReport
     :'reports/_listing'
   end
 
-  def orientation
-    'landscape'
+  def layout
+    AppConfig[:report_page_layout]
   end
 
   def processor
