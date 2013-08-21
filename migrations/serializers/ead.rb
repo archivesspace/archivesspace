@@ -503,11 +503,13 @@ ASpaceExport::serializer :ead do
             }
           end
 
-          xml.address {
-            data.addresslines.each do |line|
-              xml.addressline line
-            end
-          }
+          unless data.addresslines.empty?
+            xml.address {
+              data.addresslines.each do |line|
+                xml.addressline line
+              end
+            }
+          end
         }
 
         if (val = data.finding_aid_series_statement)
