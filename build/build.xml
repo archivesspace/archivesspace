@@ -474,20 +474,21 @@
     <antcall target="db:nuke"/>
   </target>
 
-  <target name="travis:test" depends="set-classpath">
+  <target name="travis:selenium" depends="set-classpath, bootstrap">
+    <antcall target="db:migrate" />
+    <antcall target="selenium:test" />
+    <antcall target="travis:db:nuke" />
+    <antcall target="selenium:public:test" />    
+  </target>
+
+  <target name="travis:test" depends="set-classpath, bootstrap">
     <antcall target="db:migrate" />
     <antcall target="backend:test" />
     <antcall target="frontend:test"/>
     <antcall target="backend:integration" />
     <antcall target="common:test" />
     <antcall target="migrations:test" />
-    <antcall target="travis:db:nuke" />
-    <antcall target="selenium:test" />
-    <antcall target="travis:db:nuke" />
-    <antcall target="selenium:public:test" />
   </target>
-
-  <target name="travis" depends="bootstrap, dist, travis:test"/> 
 
   <!-- Dist build -->
   <target name="build-zip" depends="set-classpath"
