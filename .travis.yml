@@ -10,19 +10,25 @@ jdk:
   - openjdk6
 
 env:
-  # These two sets of environment variables determine which database the
-  # tests will run against. The build script should honor any ArchivesSpace
-  # options set in JAVA_OPTS, so we don't need an additional configuration
-  # file for now. 
-  - DB=derby INTEGRATION_LOGFILE=/var/tmp/aspace-integration.log
-  - DB=mysql INTEGRATION_LOGFILE=/var/tmp/aspace-integration.log JAVA_OPTS="-Daspace.config.db_url=jdbc:mysql://localhost:3306/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=root"
+  # These sets of environment variables determine which tasks to run and
+  # which database the tests will run against. The build script honors any 
+  # ArchivesSpace options set in JAVA_OPTS, so we don't need an additional
+  # configuration file for now.
+  - DB=mysql TASK=travis:test
+  - DB=derby TASK=travis:test
+  - DB=mysql TASK=travis:selenium
+  - DB=derby TASK=travis:selenium
+  - TASK=dist
 
 before_script:
+  - "export INTEGRATION_LOGFILE=/var/tmp/aspace-integration.log"
   # http://about.travis-ci.org/docs/user/gui-and-headless-browsers/
   - "export DISPLAY=:99.0"
+  - "export SCREENSHOT_ON_ERROR=1"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 
-  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'create database archivesspace default character set utf8;'; fi"
+  - if [[ "$DB" == "mysql" ]]; then export JAVA_OPTS="-Daspace.config.db_url=jdbc:mysql://localhost:3306/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=root"; fi
+  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database archivesspace default character set utf8;"; fi
 
 branches:
   # only:
@@ -31,7 +37,7 @@ branches:
     - gh-pages
 
 script:
-  - SCREENSHOT_ON_ERROR=1 build/run travis
+  - build/run $TASK
 
 after_failure:
   - build/run dump-file -Ddump.file=/var/tmp/aspace-integration.log
