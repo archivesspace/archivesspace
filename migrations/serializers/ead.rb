@@ -214,9 +214,11 @@ ASpaceExport::serializer :ead do
                 next unless (node_name = data.index_item_type_map[item['type']])
                 xml.indexentry {
                   atts = item['reference'] ? {:target => item['reference']} : {}
-                  xml.ref(atts) {
-                    xml.text item['reference_text']
-                  }
+                  if (val = item['reference_text'])
+                    xml.ref(atts) {
+                      xml.text val
+                    }
+                  end
                   if (val = item['value'])
                     xml.send(node_name, val)
                   end
