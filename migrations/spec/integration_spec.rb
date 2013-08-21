@@ -1969,8 +1969,9 @@ describe "Import / Export Behavior >> " do
 
         (0...10).each do |i|
           let(:archival_object) { @archival_objects.values[i] || @archival_objects.values.sample }
-          let(:path) { "//c[@id='#{archival_object.ref_id}']" }
-          let(:nspath) { "//xmlns:c[@id='#{archival_object.ref_id}']"}
+          let(:ref_id) { "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{archival_object.ref_id}" }
+          let(:path) { "//c[@id='#{ref_id}']" }
+          let(:nspath) { "//xmlns:c[@id='#{ref_id}']"}
 
           it "maps archival_object.ref_id to //c[@id]" do
             doc.should have_node(path)

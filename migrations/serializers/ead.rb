@@ -266,7 +266,8 @@ ASpaceExport::serializer :ead do
 
 
   def serialize_child(obj, xml, fragments)
-    xml.c(:level => obj.level, :id => obj.ref_id) {
+    prefixed_ref_id = "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{obj.ref_id}"
+    xml.c(:level => obj.level, :id => prefixed_ref_id) {
 
       xml.did {
         xml.unittitle obj.title
