@@ -1310,7 +1310,9 @@ describe "Import / Export Behavior >> " do
 
 
         it "maps {archival_object}.(id_[0-3]|component_id) to {desc_path}/did/unitid" do
-          mt(unitid_src, "#{desc_path}/did/unitid")
+          if !unitid_src.nil? && !unitid_src.empty?
+            mt(unitid_src, "#{desc_path}/did/unitid")
+          end
         end
 
 
@@ -1374,31 +1376,23 @@ describe "Import / Export Behavior >> " do
         end
 
 
-        it "maps {archival_object}.extent.container_summary to {desc_path}/did/physdesc/extent" do
+        it "maps {archival_object}.extent to {desc_path}/did/physdesc" do
           count = 1
           object.extents.each do |ext|
-            if ext['container_summary']
-              mt(ext['container_summary'], "#{desc_path}/did/physdesc/extent[#{count}]")
-              count += 1
-            end
             if ext['number'] && ext['extent_type']
-              count += 1
+              data = "#{ext['number']} #{translate('enumerations.extent_extent_type', ext['extent_type'])}"
+              mt(data, "#{desc_path}/did/physdesc[#{count}]/extent[@altrender='materialtype spaceoccupied']")
             end
-          end
-        end
-
-
-        it "maps {archival_object}.extent.number and {archival_object}.extent.extent_type to {desc_path}/did/physdesc/extent" do
-          count = 1
-          object.extents.each do |e|
-            if e['container_summary']
-              count += 1
+            if ext['container_summary']
+              mt(ext['container_summary'], "#{desc_path}/did/physdesc[#{count}]/extent[@altrender='carrier']")
             end
-            if e['number'] && e['extent_type']
-              data = "#{e['number']} #{translate('enumerations.extent_extent_type', e['extent_type'])}"
-              mt(data, "#{desc_path}/did/physdesc/extent[#{count}]")
-              count += 1
+            if ext['dimensions']
+              mt(ext['dimensions'], "#{desc_path}/did/physdesc[#{count}]/dimensions")
             end
+            if ext['physical_details']
+              mt(ext['physical_details'], "#{desc_path}/did/physdesc[#{count}]/physfacet")
+            end
+            count += 1
           end
         end
 

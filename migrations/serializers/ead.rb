@@ -272,8 +272,8 @@ ASpaceExport::serializer :ead do
       xml.did {
         xml.unittitle obj.title
 
-        if (val = obj.component_id)
-          xml.unitid val
+        if !obj.component_id.nil? && !obj.component_id.empty?
+          xml.unitid obj.component_id
         end
 
         serialize_extents(obj, xml, fragments)
@@ -420,12 +420,23 @@ ASpaceExport::serializer :ead do
 
 
   def serialize_extents(obj, xml, fragments)
-    if obj.ead_extents.length
-      xml.physdesc {
-        obj.ead_extents.each do |e|
-          xml.extent e
-        end
-      }
+    if obj.extents.length
+      obj.extents.each do |e|
+        xml.physdesc({:altrender => e['portion']}) {
+          if e['number'] && e['extent_type']
+            xml.extent({:altrender => 'materialtype spaceoccupied'}) {
+              xml.text "#{e['number']} #{I18n.t('enumerations.extent_extent_type.'+e['extent_type'], :default => e['extent_type'])}"
+            }
+          end
+          if e['container_summary']
+            xml.extent({:altrender => 'carrier'}) {
+              xml.text e['container_summary']
+            }
+          end
+          xml.physfacet e['physical_details'] if e['physical_details']
+          xml.dimensions e['dimensions'] if e['dimensions']
+        }
+      end
     end
   end
 
