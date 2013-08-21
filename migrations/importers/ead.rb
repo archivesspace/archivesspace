@@ -100,6 +100,18 @@ ASpaceImport::Importer.importer :ead do
       end
     end
 
+    with 'physdesc/dimensions' do
+      ancestor(:resource, :archival_object) do |obj|
+        append obj.extents.last, :dimensions, inner_xml
+      end
+    end
+
+    with 'physdesc/physfacet' do
+      ancestor(:resource, :archival_object) do |obj|
+        append obj.extents.last, :physical_details, inner_xml
+      end
+    end
+
 
     with 'bibliography' do
       make :note_bibliography
@@ -161,7 +173,7 @@ ASpaceImport::Importer.importer :ead do
 
     %w(accessrestrict accessrestrict/legalstatus \
        accruals acqinfo altformavail appraisal arrangement \
-       bioghist custodhist dimensions \
+       bioghist custodhist \
        fileplan odd otherfindaid originalsloc phystech \
        prefercite processinfo relatedmaterial scopecontent \
        separatedmaterial userestrict).each do |note|
@@ -181,7 +193,7 @@ ASpaceImport::Importer.importer :ead do
     end
 
 
-    %w(abstract langmaterial materialspec physdesc physfacet physloc).each do |note|
+    %w(abstract langmaterial materialspec physloc).each do |note|
       with note do
         make :note_singlepart, {
           :type => note,

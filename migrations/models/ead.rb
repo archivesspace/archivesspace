@@ -2,24 +2,6 @@ module ASpaceExport
   # Convenience methods that will work for resource
   # or archival_object models during serialization
   module ArchivalObjectDescriptionHelpers
-    def ead_extents
-      unless @ead_extents
-        array = []
-        extents = self.extents || []
-        extents.each do |e|
-          if e['container_summary']
-            array << e['container_summary']
-          end
-          if e['number'] && e['extent_type']
-            array << "#{e['number']} #{I18n.t('enumerations.extent_extent_type.'+e['extent_type'], :default => e['extent_type'])}"
-          end
-        end
-        @ead_extents = array
-      end
-
-      @ead_extents
-    end
-
 
     def controlaccess_linked_agents
       unless @controlaccess_linked_agents

@@ -110,6 +110,8 @@ describe "Import / Export Behavior >> " do
 
       # 	ELSE
         @resource['extents'][0]['container_summary'].should eq("Resource-ContainerSummary-AT")
+        @resource['extents'][0]['dimensions'].should eq("Resource-Dimensions-AT")
+        @resource['extents'][0]['physical_details'].should eq("Resource-PhysicalFacet-AT")
       end
 
 
@@ -356,9 +358,6 @@ describe "Import / Export Behavior >> " do
         note_content(get_note_by_type(@resource, 'custodhist')).should eq("<head>Resource--CustodialHistory-AT</head>\n<p>Resource--CustodialHistory-AT</p>")
       end
 
-      it "maps '<dimensions>' correctly" do
-        note_content(get_note_by_type(@resource, 'dimensions')).should eq("Resource-Dimensions-AT")
-      end
 
       it "maps '<fileplan>' correctly" do
         note_content(get_note_by_type(@resource, 'fileplan')).should eq("<head>Resource-FilePlan-AT</head>\n<p>Resource-FilePlan-AT</p>")
@@ -394,15 +393,6 @@ describe "Import / Export Behavior >> " do
 
       it "maps '<otherfindaid>' correctly" do
         get_note_by_type(@resource, 'otherfindaid')['persistent_id'].should eq("ref23")
-      end
-
-      it "maps '<physdesc>' correctly" do
-        @resource['notes'].find{|n| n['persistent_id'] == 'ref25'}['type'].should eq('physdesc')
-        @archival_objects['02']['notes'].find{|n| n['type'] == 'physdesc'}['content'][0].should eq("<extent>1.0 Linear feet</extent>\n<extent>Resource-C02-ContainerSummary-AT</extent>")
-      end
-
-      it "maps '<physfacet>' correctly" do
-        note_content(get_note_by_type(@resource, 'physfacet')).should eq("Resource-PhysicalFacet-AT")
       end
 
       it "maps '<physloc>' correctly" do
@@ -1310,7 +1300,9 @@ describe "Import / Export Behavior >> " do
 
 
         it "maps {archival_object}.(id_[0-3]|component_id) to {desc_path}/did/unitid" do
-          mt(unitid_src, "#{desc_path}/did/unitid")
+          if !unitid_src.nil? && !unitid_src.empty?
+            mt(unitid_src, "#{desc_path}/did/unitid")
+          end
         end
 
 
@@ -1374,31 +1366,23 @@ describe "Import / Export Behavior >> " do
         end
 
 
-        it "maps {archival_object}.extent.container_summary to {desc_path}/did/physdesc/extent" do
+        it "maps {archival_object}.extent to {desc_path}/did/physdesc" do
           count = 1
           object.extents.each do |ext|
-            if ext['container_summary']
-              mt(ext['container_summary'], "#{desc_path}/did/physdesc/extent[#{count}]")
-              count += 1
-            end
             if ext['number'] && ext['extent_type']
-              count += 1
+              data = "#{ext['number']} #{translate('enumerations.extent_extent_type', ext['extent_type'])}"
+              mt(data, "#{desc_path}/did/physdesc[#{count}]/extent[@altrender='materialtype spaceoccupied']")
             end
-          end
-        end
-
-
-        it "maps {archival_object}.extent.number and {archival_object}.extent.extent_type to {desc_path}/did/physdesc/extent" do
-          count = 1
-          object.extents.each do |e|
-            if e['container_summary']
-              count += 1
+            if ext['container_summary']
+              mt(ext['container_summary'], "#{desc_path}/did/physdesc[#{count}]/extent[@altrender='carrier']")
             end
-            if e['number'] && e['extent_type']
-              data = "#{e['number']} #{translate('enumerations.extent_extent_type', e['extent_type'])}"
-              mt(data, "#{desc_path}/did/physdesc/extent[#{count}]")
-              count += 1
+            if ext['dimensions']
+              mt(ext['dimensions'], "#{desc_path}/did/physdesc[#{count}]/dimensions")
             end
+            if ext['physical_details']
+              mt(ext['physical_details'], "#{desc_path}/did/physdesc[#{count}]/physfacet")
+            end
+            count += 1
           end
         end
 
@@ -1969,8 +1953,9 @@ describe "Import / Export Behavior >> " do
 
         (0...10).each do |i|
           let(:archival_object) { @archival_objects.values[i] || @archival_objects.values.sample }
-          let(:path) { "//c[@id='#{archival_object.ref_id}']" }
-          let(:nspath) { "//xmlns:c[@id='#{archival_object.ref_id}']"}
+          let(:ref_id) { "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{archival_object.ref_id}" }
+          let(:path) { "//c[@id='#{ref_id}']" }
+          let(:nspath) { "//xmlns:c[@id='#{ref_id}']"}
 
           it "maps archival_object.ref_id to //c[@id]" do
             doc.should have_node(path)
