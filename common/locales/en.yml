@@ -1203,6 +1203,7 @@ en:
     ref_id: Ref ID
     ref_id_tooltip: |
         <p>An automatically provided and updatable reference ID, which can be used as a target for linking, etc. The Ref ID is intended to be generated automatically or imported from an existing system and to remain persistent.</p>
+    ref_id_export_prefix: aspace_
     dates: Dates
     dates_tooltip: |
         <p>CONDITIONALLY REQUIRED SUBRECORD. An Archival Object must have either a Title or a Date subrecord.</p> 

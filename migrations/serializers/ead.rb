@@ -214,9 +214,11 @@ ASpaceExport::serializer :ead do
                 next unless (node_name = data.index_item_type_map[item['type']])
                 xml.indexentry {
                   atts = item['reference'] ? {:target => item['reference']} : {}
-                  xml.ref(atts) {
-                    xml.text item['reference_text']
-                  }
+                  if (val = item['reference_text'])
+                    xml.ref(atts) {
+                      xml.text val
+                    }
+                  end
                   if (val = item['value'])
                     xml.send(node_name, val)
                   end
@@ -266,13 +268,14 @@ ASpaceExport::serializer :ead do
 
 
   def serialize_child(obj, xml, fragments)
-    xml.c(:level => obj.level, :id => obj.ref_id) {
+    prefixed_ref_id = "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{obj.ref_id}"
+    xml.c(:level => obj.level, :id => prefixed_ref_id) {
 
       xml.did {
         xml.unittitle obj.title
 
-        if (val = obj.component_id)
-          xml.unitid val
+        if !obj.component_id.nil? && !obj.component_id.empty?
+          xml.unitid obj.component_id
         end
 
         serialize_extents(obj, xml, fragments)
@@ -419,12 +422,23 @@ ASpaceExport::serializer :ead do
 
 
   def serialize_extents(obj, xml, fragments)
-    if obj.ead_extents.length
-      xml.physdesc {
-        obj.ead_extents.each do |e|
-          xml.extent e
-        end
-      }
+    if obj.extents.length
+      obj.extents.each do |e|
+        xml.physdesc({:altrender => e['portion']}) {
+          if e['number'] && e['extent_type']
+            xml.extent({:altrender => 'materialtype spaceoccupied'}) {
+              xml.text "#{e['number']} #{I18n.t('enumerations.extent_extent_type.'+e['extent_type'], :default => e['extent_type'])}"
+            }
+          end
+          if e['container_summary']
+            xml.extent({:altrender => 'carrier'}) {
+              xml.text e['container_summary']
+            }
+          end
+          xml.physfacet e['physical_details'] if e['physical_details']
+          xml.dimensions e['dimensions'] if e['dimensions']
+        }
+      end
     end
   end
 
@@ -502,11 +516,13 @@ ASpaceExport::serializer :ead do
             }
           end
 
-          xml.address {
-            data.addresslines.each do |line|
-              xml.addressline line
-            end
-          }
+          unless data.addresslines.empty?
+            xml.address {
+              data.addresslines.each do |line|
+                xml.addressline line
+              end
+            }
+          end
         }
 
         if (val = data.finding_aid_series_statement)
