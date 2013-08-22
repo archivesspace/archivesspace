@@ -27,7 +27,8 @@ ASpaceImport::Importer.importer :ead do
     (0..12).to_a.map {|i| "c" + (i+100).to_s[1..-1]}.push('c').each do |c|
       with c do
         make :archival_object, {
-          :level => att('level'),
+          :level => att('level') || 'otherlevel',
+          :other_level => att('otherlevel'),
           :ref_id => att('id'),
           :resource => ancestor(:resource),
           :parent => ancestor(:archival_object)
