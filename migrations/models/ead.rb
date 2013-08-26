@@ -3,6 +3,41 @@ module ASpaceExport
   # or archival_object models during serialization
   module ArchivalObjectDescriptionHelpers
 
+    def archdesc_note_types
+      %w(accruals appraisal arrangement bioghist accessrestirct userestrict custodhist altformavail originalsloc fileplan odd acqinfo otherfindaid phystech prefercite processinfo relatedmaterial scopecontent separatedmaterial)
+    end
+
+
+    def did_note_types
+      %w(abstract dimensions physdesc langmaterial physloc materialspec physfacet)
+    end
+
+
+    def bibliographies
+      self.notes.select{|n| n['jsonmodel_type'] == 'note_bibliography'}
+    end
+
+
+    def indexes
+      self.notes.select{|n| n['jsonmodel_type'] == 'note_index'}
+    end
+
+
+    def index_item_type_map
+      {
+        'corporate_entity'=> 'corpname',
+        'genre_form'=> 'genreform',
+        'name'=> 'name',
+        'occupation'=> 'occupation',
+        'person'=> 'persname',
+        'subject'=> 'subject',
+        'family'=> 'famname',
+        'function'=> 'function',
+        'geographic_name'=> 'geogname',
+        'title'=> 'title'
+      }
+    end
+
     def controlaccess_linked_agents
       unless @controlaccess_linked_agents
         results = []
@@ -194,37 +229,6 @@ ASpaceExport::model :ead do
     @repo = Repository.to_jsonmodel(@repo_id)
     @children = @json.tree['_resolved']['children']
     @child_class = self.class.instance_variable_get(:@ao)
-  end
-
-
-  def archdesc_note_types
-    %w(accruals appraisal arrangement bioghist accessrestirct userestrict custodhist altformavail originalsloc fileplan odd acqinfo otherfindaid phystech prefercite processinfo relatedmaterial scopecontent separatedmaterial)
-  end
-
-
-  def bibliographies
-    self.notes.select{|n| n['jsonmodel_type'] == 'note_bibliography'}
-  end
-
-
-  def indexes
-    self.notes.select{|n| n['jsonmodel_type'] == 'note_index'}
-  end
-
-
-  def index_item_type_map
-    {
-      'corporate_entity'=> 'corpname',
-      'genre_form'=> 'genreform',
-      'name'=> 'name',
-      'occupation'=> 'occupation',
-      'person'=> 'persname',
-      'subject'=> 'subject',
-      'family'=> 'famname',
-      'function'=> 'function',
-      'geographic_name'=> 'geogname',
-      'title'=> 'title'
-    }
   end
 
 
