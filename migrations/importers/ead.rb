@@ -195,7 +195,7 @@ ASpaceImport::Importer.importer :ead do
 
 
     %w(abstract langmaterial materialspec physloc).each do |note|
-      with note do
+      with note do |node|
         make :note_singlepart, {
           :type => note,
           :persistent_id => att('id'),
