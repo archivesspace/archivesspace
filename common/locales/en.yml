@@ -1367,7 +1367,7 @@ en:
     finding_aid_description_rules_tooltip: |
         <p>Indicates the descriptive rules used to guide description of the Resource.</p>
         <p>Values in this Controlled Value List may be modified.</p>
-    finding_aid_language: Language
+    finding_aid_language: Language of Description
     finding_aid_language_tooltip: |
         <p>Indicates all the languages present in the finding aid generated from the resource description.</p>
     finding_aid_sponsor: Sponsor
