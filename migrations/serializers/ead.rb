@@ -110,27 +110,7 @@ ASpaceExport::serializer :ead do
               xml.unittitle val
             end
 
-            data.creators_and_sources.each do |link|
-              agent = link['_resolved']
-              role = link['role']
-              relator = link['relator']
-              sort_name = agent['names'][0]['sort_name']
-              rules = agent['names'][0]['rules']
-              source = agent['names'][0]['source']
-              node_name = case agent['agent_type']
-                          when 'agent_person'; 'persname'
-                          when 'agent_family'; 'famname'
-                          when 'agent_corporate_entity'; 'corpname'
-                          end
-              xml.origination(:label => role) {
-               atts = {:relator => relator, :source => source, :rules => rules}
-               atts.reject! {|k, v| v.nil?}
-
-                xml.send(node_name, atts) {
-                  xml.text sort_name
-                }
-              }
-            end
+            serialize_origination(data, xml, @fragments)
 
             xml.unitid (0..3).map{|i| data.send("id_#{i}")}.compact.join('.')
 
@@ -138,7 +118,7 @@ ASpaceExport::serializer :ead do
 
             serialize_dates(data, xml, @fragments)
 
-            serialize_did_notes(data.notes, xml, @fragments)
+            serialize_did_notes(data, xml, @fragments)
 
             data.instances_with_containers.each do |instance|
               serialize_container(instance, xml, @fragments)
@@ -146,106 +126,13 @@ ASpaceExport::serializer :ead do
 
           }# </did>
 
-          data.notes.each do |note|
-            next if note['internal']
-            next unless data.archdesc_note_types.include?(note['type'])
+          serialize_nondid_notes(data, xml, @fragments)
 
-            xml.text(
-              @stream_handler.buffer { |xml, new_fragments|
-                content = ASpaceExport::Utils.extract_note_text(note)
-                head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note['type']}", :default => note['type'])
-                atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
+          serialize_bibliographies(data, xml, @fragments)
 
-                xml.send(note['type'], atts) {
-                  xml.head head_text unless content.strip.start_with?('<head')
-                  if content.strip.start_with?('<')
-                    xml.text (new_fragments << content)
-                  else
-                    xml.p (new_fragments << content)
-                  end
+          serialize_indexes(data, xml, @fragments)
 
-                  if note['subnotes']
-                    serialize_subnotes(note['subnotes'], xml, new_fragments)
-                  end
-                }
-              }
-            )
-          end
-
-          data.bibliographies.each do |note|
-
-            content = ASpaceExport::Utils.extract_note_text(note)
-            head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note['type']}")
-            atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
-
-            xml.bibliography(atts) {
-              xml.head head_text unless content.strip.start_with?('<head')
-              if content.strip.start_with?('<')
-                xml.text (@fragments << content)
-              else
-                xml.p (@fragments << content)
-              end
-              note['items'].each do |item|
-                xml.bibref item unless item.empty?
-              end
-            }
-          end
-
-          data.indexes.each do |note|
-
-            content = ASpaceExport::Utils.extract_note_text(note)
-            head_text = nil
-            if note['label']
-              head_text = note['label']
-            elsif note['type']
-              head_text = I18n.t("enumerations._note_types.#{note['type']}", :default => note['type'])
-            end
-
-            atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
-
-            xml.index(atts) {
-              xml.head head_text unless content.strip.start_with?('<head')
-              if content.strip.start_with?('<')
-                xml.text (@fragments << content)
-              else
-                xml.p (@fragments << content)
-              end
-              note['items'].each do |item|
-                next unless (node_name = data.index_item_type_map[item['type']])
-                xml.indexentry {
-                  atts = item['reference'] ? {:target => item['reference']} : {}
-                  if (val = item['reference_text'])
-                    xml.ref(atts) {
-                      xml.text val
-                    }
-                  end
-                  if (val = item['value'])
-                    xml.send(node_name, val)
-                  end
-                }
-              end
-            }
-          end
-
-
-          if (data.controlaccess_subjects.length + data.controlaccess_linked_agents.length) > 0
-            xml.controlaccess {
-
-              data.controlaccess_subjects.each do |node_data|
-                xml.send(node_data[:node_name], node_data[:atts]) {
-                  xml.text node_data[:content]
-                }
-              end
-
-
-              data.controlaccess_linked_agents.each do |node_data|
-                xml.send(node_data[:node_name], node_data[:atts]) {
-                  xml.text node_data[:content]
-                }
-              end
-
-            } #</controlaccess>
-          end
+          serialize_controlaccess(data, xml, @fragments)
 
           xml.dsc {
 
@@ -267,26 +154,29 @@ ASpaceExport::serializer :ead do
   end
 
 
-  def serialize_child(obj, xml, fragments)
-    prefixed_ref_id = "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{obj.ref_id}"
-    xml.c(:level => obj.level, :id => prefixed_ref_id) {
+  def serialize_child(data, xml, fragments)
+    prefixed_ref_id = "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{data.ref_id}"
+    xml.c(:level => data.level, :id => prefixed_ref_id) {
 
       xml.did {
-        xml.unittitle obj.title
-
-        if !obj.component_id.nil? && !obj.component_id.empty?
-          xml.unitid obj.component_id
+        if (val = data.title)
+          xml.unittitle val
         end
 
-        serialize_extents(obj, xml, fragments)
-        serialize_dates(obj, xml, fragments)
-        serialize_did_notes(obj.notes, xml, fragments)
+        if !data.component_id.nil? && !data.component_id.empty?
+          xml.unitid data.component_id
+        end
+
+        serialize_origination(data, xml, fragments)
+        serialize_extents(data, xml, fragments)
+        serialize_dates(data, xml, fragments)
+        serialize_did_notes(data, xml, fragments)
 
         # TODO: Clean this up more; there's probably a better way to do this.
         # For whatever reason, the old ead_containers method was not working
         # on archival_objects (see migrations/models/ead.rb).
 
-        obj.instances.each do |inst|
+        data.instances.each do |inst|
           case 
           when inst.has_key?('container') && !inst['container'].nil?
             serialize_container(inst, xml, fragments)
@@ -297,35 +187,71 @@ ASpaceExport::serializer :ead do
 
       }
 
-      if (obj.controlaccess_subjects.length + obj.controlaccess_linked_agents.length) > 0
-        xml.controlaccess {
+      serialize_nondid_notes(data, xml, fragments)
 
-          obj.controlaccess_subjects.each do |node_data|
-            xml.send(node_data[:node_name], node_data[:atts]) {
-              xml.text node_data[:content]
-            }
-          end
+      serialize_bibliographies(data, xml, fragments)
 
+      serialize_indexes(data, xml, fragments)
 
-          obj.controlaccess_linked_agents.each do |node_data|
-            xml.send(node_data[:node_name], node_data[:atts]) {
-              xml.text node_data[:content]
-            }
-          end
+      serialize_controlaccess(data, xml, fragments)
 
-        } #</controlaccess>
-      end
-
-      obj.children_indexes.each do |i|
+      data.children_indexes.each do |i|
         xml.text(
           @stream_handler.buffer {|xml, new_fragments|
-            serialize_child(obj.get_child(i), xml, new_fragments)
+            serialize_child(data.get_child(i), xml, new_fragments)
           }
         )
       end
     }
   end
 
+
+  def serialize_origination(data, xml, fragments)
+    unless data.creators_and_sources.nil?
+      data.creators_and_sources.each do |link|
+        agent = link['_resolved']
+        role = link['role']
+        relator = link['relator']
+        sort_name = agent['names'][0]['sort_name']
+        rules = agent['names'][0]['rules']
+        source = agent['names'][0]['source']
+        node_name = case agent['agent_type']
+                    when 'agent_person'; 'persname'
+                    when 'agent_family'; 'famname'
+                    when 'agent_corporate_entity'; 'corpname'
+                    end
+        xml.origination(:label => role) {
+         atts = {:relator => relator, :source => source, :rules => rules}
+         atts.reject! {|k, v| v.nil?}
+
+          xml.send(node_name, atts) {
+            xml.text sort_name
+          }
+        }
+      end
+    end
+  end
+
+  def serialize_controlaccess(data, xml, fragments)
+    if (data.controlaccess_subjects.length + data.controlaccess_linked_agents.length) > 0
+      xml.controlaccess {
+
+        data.controlaccess_subjects.each do |node_data|
+          xml.send(node_data[:node_name], node_data[:atts]) {
+            xml.text node_data[:content]
+          }
+        end
+
+
+        data.controlaccess_linked_agents.each do |node_data|
+          xml.send(node_data[:node_name], node_data[:atts]) {
+            xml.text node_data[:content]
+          }
+        end
+
+      } #</controlaccess>
+    end
+  end
 
   def serialize_subnotes(subnotes, xml, fragments)
     subnotes.each do |sn|
@@ -452,9 +378,9 @@ ASpaceExport::serializer :ead do
   end
 
 
-  def serialize_did_notes(notes, xml, fragments)
-    notes.each do |note|
-      next unless %w(abstract dimensions physdesc langmaterial physloc materialspec physfacet).include?(note['type'])
+  def serialize_did_notes(data, xml, fragments)
+    data.notes.each do |note|
+      next unless data.did_note_types.include?(note['type'])
 
       content = ASpaceExport::Utils.extract_note_text(note)
       id = note['persistent_id']
@@ -472,6 +398,98 @@ ASpaceExport::serializer :ead do
           xml.text (fragments << content)
         }
       end
+    end
+  end
+
+  def serialize_note_content(note, xml, fragments)
+    content = ASpaceExport::Utils.extract_note_text(note)
+    atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
+    head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note['type']}", :default => note['type'])
+    xml.send(note['type'], atts) {
+      xml.head head_text unless content.strip.start_with?('<head')
+      if content.strip.start_with?('<')
+        xml.text (fragments << content)
+      else
+        xml.p (fragments << content)
+      end
+      if note['subnotes']
+        serialize_subnotes(note['subnotes'], xml, fragments)
+      end
+    }
+  end
+
+
+  def serialize_nondid_notes(data, xml, fragments)
+    data.notes.each do |note|
+      next if note['internal']
+      next if note['type'].nil?
+      next unless data.archdesc_note_types.include?(note['type'])
+      if note['type'] == 'legalstatus'
+        xml.accessrestrict {
+          serialize_note_content(note, xml, fragments) 
+        }
+      else
+        serialize_note_content(note, xml, fragments)
+      end
+    end
+  end
+
+
+  def serialize_bibliographies(data, xml, fragments)
+    data.bibliographies.each do |note|
+      content = ASpaceExport::Utils.extract_note_text(note)
+      head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note['type']}")
+      atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
+
+      xml.bibliography(atts) {
+        xml.head head_text unless content.strip.start_with?('<head')
+        if content.strip.start_with?('<')
+          xml.text (fragments << content)
+        else
+          xml.p (fragments << content)
+        end
+        note['items'].each do |item|
+          xml.bibref item unless item.empty?
+        end
+      }
+    end
+  end
+
+
+  def serialize_indexes(data, xml, fragments)
+    data.indexes.each do |note|
+      content = ASpaceExport::Utils.extract_note_text(note)
+      head_text = nil
+      if note['label']
+        head_text = note['label']
+      elsif note['type']
+        head_text = I18n.t("enumerations._note_types.#{note['type']}", :default => note['type'])
+      end
+
+      atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
+
+      xml.index(atts) {
+        xml.head head_text unless content.strip.start_with?('<head')
+        if content.strip.start_with?('<')
+          xml.text (@fragments << content)
+        else
+          xml.p (@fragments << content)
+        end
+        note['items'].each do |item|
+          next unless (node_name = data.index_item_type_map[item['type']])
+          xml.indexentry {
+            atts = item['reference'] ? {:target => item['reference']} : {}
+            if (val = item['reference_text'])
+              xml.ref(atts) {
+                xml.text val
+              }
+            end
+            if (val = item['value'])
+              xml.send(node_name, val)
+            end
+          }
+        end
+      }
     end
   end
 

@@ -1315,6 +1315,169 @@ describe "Import / Export Behavior >> " do
         end
 
 
+        describe "archdesc or component notes section: " do
+          let(:archdesc_note_types) {
+            %w(accruals appraisal arrangement bioghist accessrestirct userestrict custodhist altformavail originalsloc fileplan odd acqinfo otherfindaid phystech prefercite processinfo relatedmaterial scopecontent separatedmaterial)
+          }
+
+          it "maps note content to {desc_path}/NOTE_TAG" do
+            object.notes.select{|n| archdesc_note_types.include?(n['type'])}.each do |note|
+
+              head_text = note['label'] ? note['label'] : translate('enumerations._note_types', note['type'])
+              id = note['persistent_id']
+              content = note_content(note)
+              path = "#{desc_path}/#{note['type']}"
+              path += id ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
+
+              mt(id, path, 'id')
+              mt(head_text, "#{path}/head")
+              mt(content, "#{path}/p")
+            end
+          end
+        end
+
+
+        describe "bibliography and index notes section: " do
+          let(:bibliographies) { object.notes.select {|n| n['type'] == 'bibliography'} }
+          let(:indexes) { object.notes.select {|n| n['type'] == 'index'} }
+          let(:index_item_type_map) {  {
+                                        'corporate_entity'=> 'corpname',
+                                        'genre_form'=> 'genreform',
+                                        'name'=> 'name',
+                                        'occupation'=> 'occupation',
+                                        'person'=> 'persname',
+                                        'subject'=> 'subject',
+                                        'family'=> 'famname',
+                                        'function'=> 'function',
+                                        'geographic_name'=> 'geogname',
+                                        'title'=> 'title'
+                                        }
+                                    }
+
+          it "maps notes[].note_bibliography to {desc_path}/bibliography" do
+            bibliographies.each do |note|
+              head_text = note['label']
+              id = note['persistent_id']
+              content = note_content(note)
+              path = "#{desc_path}/bibliography"
+              path += id ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
+
+              mt(id, path, 'id')
+              mt(head_text, "#{path}/head")
+              mt(content, "#{path}/p")
+
+              note['items'].each_with_index do |item, i|
+                mt(item, "#{path}/bibref[#{i+1}]")
+              end
+            end
+          end
+
+
+          it "maps notes[].note_index to {desc_path}/index" do
+            indexes.each do |note|
+              head_text = note['label']
+              id = note['persistent_id']
+              content = note_content(note)
+              path = "#{desc_path}/index"
+              path += id ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
+
+              mt(id, path, 'id')
+              mt(head_text, "#{path}/head")
+              mt(content, "#{path}/p")
+
+              note['items'].each_with_index do |item, i|
+                index_item_type_map.keys.should include(item['type'])
+                item_path = "#{path}/indexentry[#{i+1}]"
+                mt(item['value'], "#{item_path}/#{index_item_type_map[item['type']]}")
+                mt(item['reference'], "#{item_path}/ref", 'target')
+                mt(item['reference_text'], "#{item_path}/ref")
+              end
+            end
+          end
+        end
+
+
+        describe "How mixed content notes are mapped >> " do
+          let(:archdesc_note_types) {
+            %w(accruals appraisal arrangement bioghist accessrestirct userestrict custodhist altformavail originalsloc fileplan odd acqinfo otherfindaid phystech prefercite processinfo relatedmaterial scopecontent separatedmaterial)
+          }
+          let(:multis) { object.notes.select{|n| n['subnotes'] && (archdesc_note_types).include?(n['type']) } }
+
+          let(:build_path) { Proc.new {|note|
+              content = note_content(note)
+              id = note['persistent_id']
+              path = "#{desc_path}/#{note['type']}"
+              path += id ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
+            }
+          }
+
+          it "maps subnotes[].note_chronology to NOTE_PATH/chronlist" do
+            multis.each do |note|
+              chron_notes = get_subnotes_by_type(note, 'note_chronology')
+              next if chron_notes.empty?
+
+              path = build_path.call(note)
+
+              chron_notes.each_with_index do |chron, i|
+                chron_path = "#{path}/chronlist[#{i+1}]"
+                mt(chron['title'], "#{chron_path}/head")
+
+                chron['items'].each_with_index do |item, j|
+                  item_path = "#{chron_path}/chronitem[#{j+1}]"
+                  mt(item['event_date'], "#{item_path}/date")
+
+                  next unless item.has_key?('events')
+                  item['events'].each_with_index do |event, k|
+                    event_path = "#{item_path}/eventgrp/event[#{k+1}]"
+                    mt(event, event_path)
+                  end
+                end
+              end
+            end
+          end
+
+
+          it "maps subnotes[].note_orderedlist to NOTE_PATH/list[@type='ordered']" do
+            multis.each do |note|
+              orderedlists = get_subnotes_by_type(note, 'note_orderedlist')
+              next if orderedlists.empty?
+
+              ppath = build_path.call(note)
+
+              orderedlists.each_with_index do |ol, i|
+                ol_path = "#{ppath}/list[@type='ordered'][#{i+1}]"
+
+                mt(ol['enumeration'], ol_path, 'numeration')
+                mt(ol['title'], "#{ol_path}/head")
+
+                ol['items'].each_with_index do |item, j|
+                  mt(item, "#{ol_path}/item[#{j+1}]")
+                end
+              end
+            end
+          end
+
+
+          it "maps subnotes[].note_definedlist to NOTE_PATH/list[@type='deflist']" do
+            multis.each do |note|
+              definedlists = get_subnotes_by_type(note, 'note_definedlist')
+              next if definedlists.empty?
+
+              ppath = build_path.call(note)
+
+              definedlists.each_with_index do |dl, i|
+                dl_path = "#{ppath}/list[@type='deflist'][#{i+1}]"
+
+                mt(dl['title'], "#{dl_path}/head")
+                dl['items'].each_with_index do |item, j|
+                  mt(item['label'], "#{dl_path}/defitem[#{j+1}]/label")
+                  mt(item['value'], "#{dl_path}/defitem[#{j+1}]/item")
+                end
+              end
+            end
+          end
+        end
+
         describe "How {archival_object}.instances[].container data is mapped." do
           let(:containers) { object.instances.map {|i| i['container'] } }
           let(:instances) { object.instances.reject {|i| i['container'].nil? } }
@@ -1747,169 +1910,6 @@ describe "Import / Export Behavior >> " do
       end
 
 
-      describe "/archdesc notes section: " do
-        let(:archdesc_note_types) {
-          %w(accruals appraisal arrangement bioghist accessrestirct userestrict custodhist altformavail originalsloc fileplan odd acqinfo otherfindaid phystech prefercite processinfo relatedmaterial scopecontent separatedmaterial)
-        }
-
-        it "maps note content to archdesc/NOTE_TAG" do
-          resource.notes.select{|n| archdesc_note_types.include?(n['type'])}.each do |note|
-
-            head_text = note['label'] ? note['label'] : translate('enumerations._note_types', note['type'])
-            id = note['persistent_id']
-            content = note_content(note)
-            path = "/ead/archdesc/#{note['type']}"
-            path += id ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
-
-            mt(id, path, 'id')
-            mt(head_text, "#{path}/head")
-            mt(content, "#{path}/p")
-          end
-        end
-      end
-
-
-      describe "/archdesc structured notes section: " do
-        let(:bibliographies) { @resource.notes.select {|n| n['type'] == 'bibliography'} }
-        let(:indexes) { @resource.notes.select {|n| n['type'] == 'index'} }
-        let(:index_item_type_map) {  {
-                                      'corporate_entity'=> 'corpname',
-                                      'genre_form'=> 'genreform',
-                                      'name'=> 'name',
-                                      'occupation'=> 'occupation',
-                                      'person'=> 'persname',
-                                      'subject'=> 'subject',
-                                      'family'=> 'famname',
-                                      'function'=> 'function',
-                                      'geographic_name'=> 'geogname',
-                                      'title'=> 'title'
-                                      }
-                                  }
-
-        it "maps resource.notes[].note_bibliography to /archdesc/bibliography" do
-          bibliographies.each do |note|
-            head_text = note['label']
-            id = note['persistent_id']
-            content = note_content(note)
-            path = "archdesc/bibliography"
-            path += id ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
-
-            mt(id, path, 'id')
-            mt(head_text, "#{path}/head")
-            mt(content, "#{path}/p")
-
-            note['items'].each_with_index do |item, i|
-              mt(item, "#{path}/bibref[#{i+1}]")
-            end
-          end
-        end
-
-
-        it "maps resource.notes[].note_index to /archdesc/index" do
-          indexes.each do |note|
-            head_text = note['label']
-            id = note['persistent_id']
-            content = note_content(note)
-            path = "archdesc/index"
-            path += id ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
-
-            mt(id, path, 'id')
-            mt(head_text, "#{path}/head")
-            mt(content, "#{path}/p")
-
-            note['items'].each_with_index do |item, i|
-              index_item_type_map.keys.should include(item['type'])
-              item_path = "#{path}/indexentry[#{i+1}]"
-              mt(item['value'], "#{item_path}/#{index_item_type_map[item['type']]}")
-              mt(item['reference'], "#{item_path}/ref", 'target')
-              mt(item['reference_text'], "#{item_path}/ref")
-            end
-          end
-        end
-      end
-
-
-      describe "How mixed content notes are mapped >> " do
-        let(:archdesc_note_types) {
-          %w(accruals appraisal arrangement bioghist accessrestirct userestrict custodhist altformavail originalsloc fileplan odd acqinfo otherfindaid phystech prefercite processinfo relatedmaterial scopecontent separatedmaterial)
-        }
-        let(:multis) { @resource.notes.select{|n| n['subnotes'] && (archdesc_note_types).include?(n['type']) } }
-
-        let(:build_path) { Proc.new {|note|
-            content = note_content(note)
-            path = "/ead/archdesc"
-            path += "/#{note['type']}[p[text()='#{content}']]"
-          }
-        }
-
-        it "maps subnotes[].note_chronology to NOTE_PATH/chronlist" do
-          multis.each do |note|
-            chron_notes = get_subnotes_by_type(note, 'note_chronology')
-            next if chron_notes.empty?
-
-            path = build_path.call(note)
-
-            chron_notes.each_with_index do |chron, i|
-              chron_path = "#{path}/chronlist[#{i+1}]"
-              mt(chron['title'], "#{chron_path}/head")
-
-              chron['items'].each_with_index do |item, j|
-                item_path = "#{chron_path}/chronitem[#{j+1}]"
-                mt(item['event_date'], "#{item_path}/date")
-
-                next unless item.has_key?('events')
-                item['events'].each_with_index do |event, k|
-                  event_path = "#{item_path}/eventgrp/event[#{k+1}]"
-                  mt(event, event_path)
-                end
-              end
-            end
-          end
-        end
-
-
-        it "maps subnotes[].note_orderedlist to NOTE_PATH/list[@type='ordered']" do
-          multis.each do |note|
-            orderedlists = get_subnotes_by_type(note, 'note_orderedlist')
-            next if orderedlists.empty?
-
-            path = build_path.call(note)
-
-            orderedlists.each_with_index do |ol, i|
-              ol_path = "#{path}/list[@type='ordered'][#{i+1}]"
-
-              mt(ol['enumeration'], ol_path, 'numeration')
-              mt(ol['title'], "#{ol_path}/head")
-
-              ol['items'].each_with_index do |item, j|
-                mt(item, "#{ol_path}/item[#{j+1}]")
-              end
-            end
-          end
-        end
-
-
-        it "maps subnotes[].note_definedlist to NOTE_PATH/list[@type='deflist']" do
-          multis.each do |note|
-            definedlists = get_subnotes_by_type(note, 'note_definedlist')
-            next if definedlists.empty?
-
-            path = build_path.call(note)
-
-            definedlists.each_with_index do |dl, i|
-              dl_path = "#{path}/list[@type='deflist'][#{i+1}]"
-
-              mt(dl['title'], "#{dl_path}/head")
-              dl['items'].each_with_index do |item, j|
-                mt(item['label'], "#{dl_path}/defitem[#{j+1}]/label")
-                mt(item['value'], "#{dl_path}/defitem[#{j+1}]/item")
-              end
-            end
-          end
-        end
-      end
-
-
       describe "How digital_objects are mapped to <dao> nodes >> " do
         let(:digital_objects) { @digital_objects.values }
 
@@ -1978,9 +1978,9 @@ describe "Import / Export Behavior >> " do
               unless date.nil?
                 content << ": " if date['expression'] || date['begin']
                 if date['expression']
-                  content << ": #{date['expression']}"
+                  content << "#{date['expression']}"
                 elsif date['begin']
-                  content << ": #{date['begin']}"
+                  content << "#{date['begin']}"
                   if date['end'] != date['begin']
                     content << "-#{date['end']}"
                   end
