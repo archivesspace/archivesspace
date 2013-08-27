@@ -251,7 +251,7 @@ en:
     name_rule:
       local: Local rules
       aacr: Anglo-American Cataloging Rules
-      dacs: Describing Archives: A Content Standard
+      dacs: "Describing Archives: A Content Standard"
       rda: Resource Description and Access
     extent_extent_type:
       cassettes: Cassettes
@@ -335,7 +335,7 @@ en:
     resource_finding_aid_description_rules:
       aacr: Anglo-American Cataloguing Rules
       cco: Cataloging Cultural Objects
-      dacs: Describing Archives: A Content Standard
+      dacs: "Describing Archives: A Content Standard"
       rad: Rules for Archival Description
       isadg: International Standard for Archival Description - General
     resource_finding_aid_status:
@@ -377,7 +377,7 @@ en:
       local: Local sources
       mesh: Medical Subject Headings
       nal: National Agricultural Library subject headings
-      rbgenr: Genre Terms: A Thesaurus for Use in Rare Book and Special Collections Cataloguing
+      rbgenr: "Genre Terms: A Thesaurus for Use in Rare Book and Special Collections Cataloguing"
       rvm: Répertoire de vedettes-matière
       tgn: Getty Thesaurus of Geographic Names
     event_outcome:
