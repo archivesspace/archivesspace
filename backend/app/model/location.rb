@@ -5,7 +5,7 @@ class Location < Sequel::Model(:location)
   include ExternalIDs
   include AutoGenerator
 
-  set_model_scope :repository
+  set_model_scope :global
 
   def self.generate_title(json)
     title = ""

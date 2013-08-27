@@ -45,7 +45,7 @@ class Repository < Sequel::Model(:repository)
                        {
                          :group_code => "repository-archivists",
                          :description => "Archivists of the #{repo_code} repository",
-                         :grants_permissions => ["update_location_record", "update_subject_record", "update_agent_record", "update_archival_record", "update_event_record", "view_repository"]
+                         :grants_permissions => ["update_subject_record", "update_agent_record", "update_archival_record", "update_event_record", "view_repository"]
                        },
                        {
                          :group_code => "repository-project-managers",
