@@ -5,232 +5,232 @@ en:
       outcome: Outcome
       transfer: Transfer
     linked_agent_archival_record_relators:
-      act: Actor (act)
-      adp: Adapter (adp)
-      anl: Analyst (anl)
-      anm: Animator (anm)
-      ann: Annotator (ann)
-      app: Applicant (app)
-      arc: Architect (arc)
-      arr: Arranger (arr)
-      acp: Art copyist (acp)
-      art: Artist (art)
-      ard: Artistic director (ard)
-      asg: Assignee (asg)
-      asn: Associated name (asn)
-      att: Attributed name (att)
-      auc: Auctioneer (auc)
-      aut: Author (aut)
-      aqt: Author in quotations or text extracts (aqt)
-      aft: Author of afterword, colophon, etc. (aft)
-      aud: Author of dialog (aud)
-      aui: Author of introduction, etc. (aui)
-      aus: Author of screenplay, etc. (aus)
-      ant: Bibliographic antecedent (ant)
-      bnd: Binder (bnd)
-      bdd: Binding designer (bdd)
-      blw: Blurb writer (blw)
-      bkd: Book designer (bkd)
-      bkp: Book producer (bkp)
-      bjd: Bookjacket designer (bjd)
-      bpd: Bookplate designer (bpd)
-      bsl: Bookseller (bsl)
-      cll: Calligrapher (cll)
-      ctg: Cartographer (ctg)
-      cns: Censor (cns)
-      chr: Choreographer (chr)
-      cng: Cinematographer (cng)
-      cli: Client (cli)
-      clb: Collaborator (clb)
-      col: Collector (col)
-      clt: Collotyper (clt)
-      clr: Colorist (clr)
-      cmm: Commentator (cmm)
-      cwt: Commentator for written text (cwt)
-      com: Compiler (com)
-      cpl: Complainant (cpl)
-      cpt: Complainant-appellant (cpt)
-      cpe: Complainant-appellee (cpe)
-      cmp: Composer (cmp)
-      cmt: Compositor (cmt)
-      ccp: Conceptor (ccp)
-      cnd: Conductor (cnd)
-      con: Conservator (con)
-      csl: Consultant (csl)
-      csp: Consultant to a project (csp)
-      cos: Contestant (cos)
-      cot: Contestant-appellant (cot)
-      coe: Contestant-appellee (coe)
-      cts: Contestee (cts)
-      ctt: Contestee-appellant (ctt)
-      cte: Contestee-appellee (cte)
-      ctr: Contractor (ctr)
-      ctb: Contributor (ctb)
-      cpc: Copyright claimant (cpc)
-      cph: Copyright holder (cph)
-      crr: Corrector (crr)
-      crp: Correspondent (crp)
-      cst: Costume designer (cst)
-      cov: Cover designer (cov)
-      cre: Creator (cre)
-      cur: Curator of an exhibition (cur)
-      dnc: Dancer (dnc)
-      dtc: Data contributor (dtc)
-      dtm: Data manager (dtm)
-      dte: Dedicatee (dte)
-      dto: Dedicator (dto)
-      dfd: Defendant (dfd)
-      dft: Defendant-appellant (dft)
-      dfe: Defendant-appellee (dfe)
-      dgg: Degree grantor (dgg)
-      dln: Delineator (dln)
-      dpc: Depicted (dpc)
-      dpt: Depositor (dpt)
-      dsr: Designer (dsr)
-      drt: Director (drt)
-      dis: Dissertant (dis)
-      dbp: Distribution place (dbp)
-      dst: Distributor (dst)
-      dnr: Donor (dnr)
-      drm: Draftsman (drm)
-      dub: Dubious author (dub)
-      edt: Editor (edt)
-      elg: Electrician (elg)
-      elt: Electrotyper (elt)
-      eng: Engineer (eng)
-      egr: Engraver (egr)
-      etr: Etcher (etr)
-      evp: Event place (evp)
-      exp: Expert (exp)
-      fac: Facsimilist (fac)
-      fld: Field director (fld)
-      flm: Film editor (flm)
-      fpy: First party (fpy)
-      frg: Forger (frg)
-      fmo: Former owner (fmo)
-      fnd: Funder (fnd)
-      gis: Geographic information specialist (gis)
-      grt: Graphic technician (grt)
-      hnr: Honoree (hnr)
-      hst: Host (hst)
-      ilu: Illuminator (ilu)
-      ill: Illustrator (ill)
-      ins: Inscriber (ins)
-      itr: Instrumentalist (itr)
-      ive: Interviewee (ive)
-      ivr: Interviewer (ivr)
-      inv: Inventor (inv)
-      lbr: Laboratory (lbr)
-      ldr: Laboratory director (ldr)
-      lsa: Landscape architect (lsa)
-      led: Lead (led)
-      len: Lender (len)
-      lil: Libelant (lil)
-      lit: Libelant-appellant (lit)
-      lie: Libelant-appellee (lie)
-      lel: Libelee (lel)
-      let: Libelee-appellant (let)
-      lee: Libelee-appellee (lee)
-      lbt: Librettist (lbt)
-      lse: Licensee (lse)
-      lso: Licensor (lso)
-      lgd: Lighting designer (lgd)
-      ltg: Lithographer (ltg)
-      lyr: Lyricist (lyr)
-      mfp: Manufacture place (mfp)
-      mfr: Manufacturer (mfr)
-      mrb: Marbler (mrb)
-      mrk: Markup editor (mrk)
-      mdc: Metadata contact (mdc)
-      mte: Metal-engraver (mte)
-      mod: Moderator (mod)
-      mon: Monitor (mon)
-      mcp: Music copyist (mcp)
-      msd: Musical director (msd)
-      mus: Musician (mus)
-      nrt: Narrator (nrt)
-      opn: Opponent (opn)
-      orm: Organizer of meeting (orm)
-      org: Originator (org)
-      oth: Other (oth)
-      own: Owner (own)
-      ppm: Papermaker (ppm)
-      pta: Patent applicant (pta)
-      pth: Patent holder (pth)
-      pat: Patron (pat)
-      prf: Performer (prf)
-      pma: Permitting agency (pma)
-      pht: Photographer (pht)
-      ptf: Plaintiff (ptf)
-      ptt: Plaintiff-appellant (ptt)
-      pte: Plaintiff-appellee (pte)
-      plt: Platemaker (plt)
-      prt: Printer (prt)
-      pop: Printer of plates (pop)
-      prm: Printmaker (prm)
-      prc: Process contact (prc)
-      pro: Producer (pro)
-      pmn: Production manager (pmn)
-      prd: Production personnel (prd)
-      prp: Production place (prp)
-      prg: Programmer (prg)
-      pdr: Project director (pdr)
-      pfr: Proofreader (pfr)
-      prv: Provider (prv)
-      pup: Publication place (pup)
-      pbl: Publisher (pbl)
-      pbd: Publishing director (pbd)
-      ppt: Puppeteer (ppt)
-      rcp: Recipient (rcp)
-      rce: Recording engineer (rce)
-      rcd: Recordist (rcd)
-      red: Redactor (red)
-      ren: Renderer (ren)
-      rpt: Reporter (rpt)
-      rps: Repository (rps)
-      rth: Research team head (rth)
-      rtm: Research team member (rtm)
-      res: Researcher (res)
-      rsp: Respondent (rsp)
-      rst: Respondent-appellant (rst)
-      rse: Respondent-appellee (rse)
-      rpy: Responsible party (rpy)
-      rsg: Restager (rsg)
-      rev: Reviewer (rev)
-      rbr: Rubricator (rbr)
-      sce: Scenarist (sce)
-      sad: Scientific advisor (sad)
-      scr: Scribe (scr)
-      scl: Sculptor (scl)
-      spy: Second party (spy)
-      sec: Secretary (sec)
-      std: Set designer (std)
-      stg: Setting (stg)
-      sgn: Signer (sgn)
-      sng: Singer (sng)
-      sds: Sound designer (sds)
-      spk: Speaker (spk)
-      spn: Sponsor (spn)
-      stm: Stage manager (stm)
-      stn: Standards body (stn)
-      str: Stereotyper (str)
-      stl: Storyteller (stl)
-      sht: Supporting host (sht)
-      srv: Surveyor (srv)
-      tch: Teacher (tch)
-      tcd: Technical director (tcd)
-      ths: Thesis advisor (ths)
-      trc: Transcriber (trc)
-      trl: Translator (trl)
-      tyd: Type designer (tyd)
-      tyg: Typographer (tyg)
-      uvp: University place (uvp)
-      vdg: Videographer (vdg)
-      voc: Vocalist (voc)
-      wit: Witness (wit)
-      wde: Wood-engraver (wde)
-      wdc: Woodcutter (wdc)
-      wam: Writer of accompanying material (wam)
+      act: Actor
+      adp: Adapter
+      anl: Analyst
+      anm: Animator
+      ann: Annotator
+      app: Applicant
+      arc: Architect
+      arr: Arranger
+      acp: Art copyist
+      art: Artist
+      ard: Artistic director
+      asg: Assignee
+      asn: Associated name
+      att: Attributed name
+      auc: Auctioneer
+      aut: Author
+      aqt: Author in quotations or text extracts
+      aft: Author of afterword, colophon, etc.
+      aud: Author of dialog
+      aui: Author of introduction, etc.
+      aus: Author of screenplay, etc.
+      ant: Bibliographic antecedent
+      bnd: Binder
+      bdd: Binding designer
+      blw: Blurb writer
+      bkd: Book designer
+      bkp: Book producer
+      bjd: Bookjacket designer
+      bpd: Bookplate designer
+      bsl: Bookseller
+      cll: Calligrapher
+      ctg: Cartographer
+      cns: Censor
+      chr: Choreographer
+      cng: Cinematographer
+      cli: Client
+      clb: Collaborator
+      col: Collector
+      clt: Collotyper
+      clr: Colorist
+      cmm: Commentator
+      cwt: Commentator for written text
+      com: Compiler
+      cpl: Complainant
+      cpt: Complainant-appellant
+      cpe: Complainant-appellee
+      cmp: Composer
+      cmt: Compositor
+      ccp: Conceptor
+      cnd: Conductor
+      con: Conservator
+      csl: Consultant
+      csp: Consultant to a project
+      cos: Contestant
+      cot: Contestant-appellant
+      coe: Contestant-appellee
+      cts: Contestee
+      ctt: Contestee-appellant
+      cte: Contestee-appellee
+      ctr: Contractor
+      ctb: Contributor
+      cpc: Copyright claimant
+      cph: Copyright holder
+      crr: Corrector
+      crp: Correspondent
+      cst: Costume designer
+      cov: Cover designer
+      cre: Creator
+      cur: Curator of an exhibition
+      dnc: Dancer
+      dtc: Data contributor
+      dtm: Data manager
+      dte: Dedicatee
+      dto: Dedicator
+      dfd: Defendant
+      dft: Defendant-appellant
+      dfe: Defendant-appellee
+      dgg: Degree grantor
+      dln: Delineator
+      dpc: Depicted
+      dpt: Depositor
+      dsr: Designer
+      drt: Director
+      dis: Dissertant
+      dbp: Distribution place
+      dst: Distributor
+      dnr: Donor
+      drm: Draftsman
+      dub: Dubious author
+      edt: Editor
+      elg: Electrician
+      elt: Electrotyper
+      eng: Engineer
+      egr: Engraver
+      etr: Etcher
+      evp: Event place
+      exp: Expert
+      fac: Facsimilist
+      fld: Field director
+      flm: Film editor
+      fpy: First party
+      frg: Forger
+      fmo: Former owner
+      fnd: Funder
+      gis: Geographic information specialist
+      grt: Graphic technician
+      hnr: Honoree
+      hst: Host
+      ilu: Illuminator
+      ill: Illustrator
+      ins: Inscriber
+      itr: Instrumentalist
+      ive: Interviewee
+      ivr: Interviewer
+      inv: Inventor
+      lbr: Laboratory
+      ldr: Laboratory director
+      lsa: Landscape architect
+      led: Lead
+      len: Lender
+      lil: Libelant
+      lit: Libelant-appellant
+      lie: Libelant-appellee
+      lel: Libelee
+      let: Libelee-appellant
+      lee: Libelee-appellee
+      lbt: Librettist
+      lse: Licensee
+      lso: Licensor
+      lgd: Lighting designer
+      ltg: Lithographer
+      lyr: Lyricist
+      mfp: Manufacture place
+      mfr: Manufacturer
+      mrb: Marbler
+      mrk: Markup editor
+      mdc: Metadata contact
+      mte: Metal-engraver
+      mod: Moderator
+      mon: Monitor
+      mcp: Music copyist
+      msd: Musical director
+      mus: Musician
+      nrt: Narrator
+      opn: Opponent
+      orm: Organizer of meeting
+      org: Originator
+      oth: Other
+      own: Owner
+      ppm: Papermaker
+      pta: Patent applicant
+      pth: Patent holder
+      pat: Patron
+      prf: Performer
+      pma: Permitting agency
+      pht: Photographer
+      ptf: Plaintiff
+      ptt: Plaintiff-appellant
+      pte: Plaintiff-appellee
+      plt: Platemaker
+      prt: Printer
+      pop: Printer of plates
+      prm: Printmaker
+      prc: Process contact
+      pro: Producer
+      pmn: Production manager
+      prd: Production personnel
+      prp: Production place
+      prg: Programmer
+      pdr: Project director
+      pfr: Proofreader
+      prv: Provider
+      pup: Publication place
+      pbl: Publisher
+      pbd: Publishing director
+      ppt: Puppeteer
+      rcp: Recipient
+      rce: Recording engineer
+      rcd: Recordist
+      red: Redactor
+      ren: Renderer
+      rpt: Reporter
+      rps: Repository
+      rth: Research team head
+      rtm: Research team member
+      res: Researcher
+      rsp: Respondent
+      rst: Respondent-appellant
+      rse: Respondent-appellee
+      rpy: Responsible party
+      rsg: Restager
+      rev: Reviewer
+      rbr: Rubricator
+      sce: Scenarist
+      sad: Scientific advisor
+      scr: Scribe
+      scl: Sculptor
+      spy: Second party
+      sec: Secretary
+      std: Set designer
+      stg: Setting
+      sgn: Signer
+      sng: Singer
+      sds: Sound designer
+      spk: Speaker
+      spn: Sponsor
+      stm: Stage manager
+      stn: Standards body
+      str: Stereotyper
+      stl: Storyteller
+      sht: Supporting host
+      srv: Surveyor
+      tch: Teacher
+      tcd: Technical director
+      ths: Thesis advisor
+      trc: Transcriber
+      trl: Translator
+      tyd: Type designer
+      tyg: Typographer
+      uvp: University place
+      vdg: Videographer
+      voc: Vocalist
+      wit: Witness
+      wde: Wood-engraver
+      wdc: Woodcutter
+      wam: Writer of accompanying material
     linked_agent_event_roles:
       authorizer: Authorizer
       executing_program: Executing Program
@@ -239,20 +239,20 @@ en:
       transmitter: Transmitter
       validator: Validator
     name_source:
-      cash: "Canadian Subject Headings (cash)"
-      ingest: Unspecified ingested source (ingest)
-      lcshac: Library of Congress Children's Subject Headings (lcshac)
-      local: Local sources (local)
-      naf: NACO Authority File (naf)
-      nad: "NAD / ARK II Name Authority Database (nad)"
-      nal: National Agricultural Library subject headings (nal)
-      rvm: "Répertoire de vedettes-matière (rvm)"
-      ulan: Union List of Artist Names (ulan)
+      cash: Canadian Subject Headings
+      ingest: Unspecified ingested source
+      lcshac: Library of Congress Children's Subject Headings
+      local: Local sources
+      naf: NACO Authority File
+      nad: NAD / ARK II Name Authority Database
+      nal: National Agricultural Library subject headings
+      rvm: Répertoire de vedettes-matière
+      ulan: Union List of Artist Names
     name_rule:
-      local: Local rules (local)
-      aacr: Anglo-American Cataloging Rules (aacr)
-      dacs: "Describing Archives: A Content Standard (dacs)"
-      rda: "Resource Description and Access (rda)"
+      local: Local rules
+      aacr: Anglo-American Cataloging Rules
+      dacs: Describing Archives: A Content Standard
+      rda: Resource Description and Access
     extent_extent_type:
       cassettes: Cassettes
       cubic_feet: Cubic Feet
@@ -333,11 +333,11 @@ en:
       papers: Papers
       records: Records
     resource_finding_aid_description_rules:
-      aacr: Anglo-American Cataloguing Rules (aacr)
-      cco: Cataloging Cultural Objects (cco)
-      dacs: "Describing Archives: A Content Standard (dacs)"
-      rad: Rules for Archival Description (rad)
-      isadg: International Standard for Archival Description - General (isadg)
+      aacr: Anglo-American Cataloguing Rules
+      cco: Cataloging Cultural Objects
+      dacs: Describing Archives: A Content Standard
+      rad: Rules for Archival Description
+      isadg: International Standard for Archival Description - General
     resource_finding_aid_status:
       completed: Completed
       in_progress: In Progress
@@ -368,18 +368,18 @@ en:
       papers: Papers
       records: Records
     subject_source:
-      aat: "Art & Architecture Thesaurus (aat)"
-      cash: "Canadian Subject Headings (cash)"
-      gmgpc: "TGM II, Genre and physical characteristic terms (gmgpc)"
-      ingest: Unspecified ingested source (ingest)
-      lcsh: Library of Congress Subject Headings (lcsh)
-      lcshac: Library of Congress Children's Subject Headings (lcshac)
-      local: Local sources (local)
-      mesh: Medical Subject Headings (mesh)
-      nal: National Agricultural Library subject headings (nal)
-      rbgenr: "Genre Terms: A Thesaurus for Use in Rare Book and Special Collections Cataloguing (rbgenr)"
-      rvm: "Répertoire de vedettes-matière (rvm)"
-      tgn: "Getty Thesaurus of Geographic Names (tgn)"
+      aat: "Art & Architecture Thesaurus"
+      cash: Canadian Subject Headings
+      gmgpc: "TGM II, Genre and physical characteristic terms"
+      ingest: Unspecified ingested source
+      lcsh: Library of Congress Subject Headings
+      lcshac: Library of Congress Children's Subject Headings
+      local: Local sources
+      mesh: Medical Subject Headings
+      nal: National Agricultural Library subject headings
+      rbgenr: Genre Terms: A Thesaurus for Use in Rare Book and Special Collections Cataloguing
+      rvm: Répertoire de vedettes-matière
+      tgn: Getty Thesaurus of Geographic Names
     event_outcome:
       pass: Pass
       partial pass: Partial Pass
@@ -431,491 +431,491 @@ en:
       sha-384: SHA-384
       sha-512: SHA-512
     language_iso639_2:
-      aar: Afar (aar)
-      abk: Abkhazian (abk)
-      ace: Achinese (ace)
-      ach: Acoli (ach)
-      ada: Adangme (ada)
-      ady: Adyghe; Adygei (ady)
-      afa: Afro-Asiatic languages (afa)
-      afh: Afrihili (afh)
-      afr: Afrikaans (afr)
-      ain: Ainu (ain)
-      aka: Akan (aka)
-      akk: Akkadian (akk)
-      alb: Albanian (alb)
-      ale: Aleut (ale)
-      alg: Algonquian languages (alg)
-      alt: Southern Altai (alt)
-      amh: Amharic (amh)
-      ang: English, Old (ca.450-1100) (ang)
-      anp: Angika (anp)
-      apa: Apache languages (apa)
-      ara: Arabic (ara)
-      arc: Official Aramaic (700-300 BCE); Imperial Aramaic (700-300 BCE) (arc)
-      arg: Aragonese (arg)
-      arm: Armenian (arm)
-      arn: Mapudungun; Mapuche (arn)
-      arp: Arapaho (arp)
-      art: Artificial languages (art)
-      arw: Arawak (arw)
-      asm: Assamese (asm)
-      ast: Asturian; Bable; Leonese; Asturleonese (ast)
-      ath: Athapascan languages (ath)
-      aus: Australian languages (aus)
-      ava: Avaric (ava)
-      ave: Avestan (ave)
-      awa: Awadhi (awa)
-      aym: Aymara (aym)
-      aze: Azerbaijani (aze)
-      bad: Banda languages (bad)
-      bai: Bamileke languages (bai)
-      bak: Bashkir (bak)
-      bal: Baluchi (bal)
-      bam: Bambara (bam)
-      ban: Balinese (ban)
-      baq: Basque (baq)
-      bas: Basa (bas)
-      bat: Baltic languages (bat)
-      bej: Beja; Bedawiyet (bej)
-      bel: Belarusian (bel)
-      bem: Bemba (bem)
-      ben: Bengali (ben)
-      ber: Berber languages (ber)
-      bho: Bhojpuri (bho)
-      bih: Bihari languages (bih)
-      bik: Bikol (bik)
-      bin: Bini; Edo (bin)
-      bis: Bislama (bis)
-      bla: Siksika (bla)
-      bnt: Bantu (Other) (bnt)
-      bos: Bosnian (bos)
-      bra: Braj (bra)
-      bre: Breton (bre)
-      btk: Batak languages (btk)
-      bua: Buriat (bua)
-      bug: Buginese (bug)
-      bul: Bulgarian (bul)
-      bur: Burmese (bur)
-      byn: Blin; Bilin (byn)
-      cad: Caddo (cad)
-      cai: Central American Indian languages (cai)
-      car: Galibi Carib (car)
-      cat: Catalan; Valencian (cat)
-      cau: Caucasian languages (cau)
-      ceb: Cebuano (ceb)
-      cel: Celtic languages (cel)
-      cha: Chamorro (cha)
-      chb: Chibcha (chb)
-      che: Chechen (che)
-      chg: Chagatai (chg)
-      chi: Chinese (chi)
-      chk: Chuukese (chk)
-      chm: Mari (chm)
-      chn: Chinook jargon (chn)
-      cho: Choctaw (cho)
-      chp: Chipewyan; Dene Suline (chp)
-      chr: Cherokee (chr)
-      chu: Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic (chu)
-      chv: Chuvash (chv)
-      chy: Cheyenne (chy)
-      cmc: Chamic languages (cmc)
-      cop: Coptic (cop)
-      cor: Cornish (cor)
-      cos: Corsican (cos)
-      cpe: Creoles and pidgins, English based (cpe)
-      cpf: Creoles and pidgins, French-based (cpf)
-      cpp: Creoles and pidgins, Portuguese-based (cpp)
-      cre: Cree (cre)
-      crh: Crimean Tatar; Crimean Turkish (crh)
-      crp: Creoles and pidgins (crp)
-      csb: Kashubian (csb)
-      cus: Cushitic languages (cus)
-      cze: Czech (cze)
-      dak: Dakota (dak)
-      dan: Danish (dan)
-      dar: Dargwa (dar)
-      day: Land Dayak languages (day)
-      del: Delaware (del)
-      den: Slave (Athapascan) (den)
-      dgr: Dogrib (dgr)
-      din: Dinka (din)
-      div: Divehi; Dhivehi; Maldivian (div)
-      doi: Dogri (doi)
-      dra: Dravidian languages (dra)
-      dsb: Lower Sorbian (dsb)
-      dua: Duala (dua)
-      dum: Dutch, Middle (ca.1050-1350) (dum)
-      dut: Dutch; Flemish (dut)
-      dyu: Dyula (dyu)
-      dzo: Dzongkha (dzo)
-      efi: Efik (efi)
-      egy: Egyptian (Ancient) (egy)
-      eka: Ekajuk (eka)
-      elx: Elamite (elx)
-      eng: English (eng)
-      enm: English, Middle (1100-1500) (enm)
-      epo: Esperanto (epo)
-      est: Estonian (est)
-      ewe: Ewe (ewe)
-      ewo: Ewondo (ewo)
-      fan: Fang (fan)
-      fao: Faroese (fao)
-      fat: Fanti (fat)
-      fij: Fijian (fij)
-      fil: Filipino; Pilipino (fil)
-      fin: Finnish (fin)
-      fiu: Finno-Ugrian languages (fiu)
-      fon: Fon (fon)
-      fre: French (fre)
-      frm: French, Middle (ca.1400-1600) (frm)
-      fro: French, Old (842-ca.1400) (fro)
-      frr: Northern Frisian (frr)
-      frs: Eastern Frisian (frs)
-      fry: Western Frisian (fry)
-      ful: Fulah (ful)
-      fur: Friulian (fur)
-      gaa: Ga (gaa)
-      gay: Gayo (gay)
-      gba: Gbaya (gba)
-      gem: Germanic languages (gem)
-      geo: Georgian (geo)
-      ger: German (ger)
-      gez: Geez (gez)
-      gil: Gilbertese (gil)
-      gla: Gaelic; Scottish Gaelic (gla)
-      gle: Irish (gle)
-      glg: Galician (glg)
-      glv: Manx (glv)
-      gmh: German, Middle High (ca.1050-1500) (gmh)
-      goh: German, Old High (ca.750-1050) (goh)
-      gon: Gondi (gon)
-      gor: Gorontalo (gor)
-      got: Gothic (got)
-      grb: Grebo (grb)
-      grc: Greek, Ancient (to 1453) (grc)
-      gre: Greek, Modern (1453-) (gre)
-      grn: Guarani (grn)
-      gsw: Swiss German; Alemannic; Alsatian (gsw)
-      guj: Gujarati (guj)
-      gwi: Gwich'in (gwi)
-      hai: Haida (hai)
-      hat: Haitian; Haitian Creole (hat)
-      hau: Hausa (hau)
-      haw: Hawaiian (haw)
-      heb: Hebrew (heb)
-      her: Herero (her)
-      hil: Hiligaynon (hil)
-      him: Himachali languages; Western Pahari languages (him)
-      hin: Hindi (hin)
-      hit: Hittite (hit)
-      hmn: Hmong; Mong (hmn)
-      hmo: Hiri Motu (hmo)
-      hrv: Croatian (hrv)
-      hsb: Upper Sorbian (hsb)
-      hun: Hungarian (hun)
-      hup: Hupa (hup)
-      iba: Iban (iba)
-      ibo: Igbo (ibo)
-      ice: Icelandic (ice)
-      ido: Ido (ido)
-      iii: Sichuan Yi; Nuosu (iii)
-      ijo: Ijo languages (ijo)
-      iku: Inuktitut (iku)
-      ile: Interlingue; Occidental (ile)
-      ilo: Iloko (ilo)
-      ina: Interlingua (International Auxiliary Language Association) (ina)
-      inc: Indic languages (inc)
-      ind: Indonesian (ind)
-      ine: Indo-European languages (ine)
-      inh: Ingush (inh)
-      ipk: Inupiaq (ipk)
-      ira: Iranian languages (ira)
-      iro: Iroquoian languages (iro)
-      ita: Italian (ita)
-      jav: Javanese (jav)
-      jbo: Lojban (jbo)
-      jpn: Japanese (jpn)
-      jpr: Judeo-Persian (jpr)
-      jrb: Judeo-Arabic (jrb)
-      kaa: Kara-Kalpak (kaa)
-      kab: Kabyle (kab)
-      kac: Kachin; Jingpho (kac)
-      kal: Kalaallisut; Greenlandic (kal)
-      kam: Kamba (kam)
-      kan: Kannada (kan)
-      kar: Karen languages (kar)
-      kas: Kashmiri (kas)
-      kau: Kanuri (kau)
-      kaw: Kawi (kaw)
-      kaz: Kazakh (kaz)
-      kbd: Kabardian (kbd)
-      kha: Khasi (kha)
-      khi: Khoisan languages (khi)
-      khm: Central Khmer (khm)
-      kho: Khotanese; Sakan (kho)
-      kik: Kikuyu; Gikuyu (kik)
-      kin: Kinyarwanda (kin)
-      kir: Kirghiz; Kyrgyz (kir)
-      kmb: Kimbundu (kmb)
-      kok: Konkani (kok)
-      kom: Komi (kom)
-      kon: Kongo (kon)
-      kor: Korean (kor)
-      kos: Kosraean (kos)
-      kpe: Kpelle (kpe)
-      krc: Karachay-Balkar (krc)
-      krl: Karelian (krl)
-      kro: Kru languages (kro)
-      kru: Kurukh (kru)
-      kua: Kuanyama; Kwanyama (kua)
-      kum: Kumyk (kum)
-      kur: Kurdish (kur)
-      kut: Kutenai (kut)
-      lad: Ladino (lad)
-      lah: Lahnda (lah)
-      lam: Lamba (lam)
-      lao: Lao (lao)
-      lat: Latin (lat)
-      lav: Latvian (lav)
-      lez: Lezghian (lez)
-      lim: Limburgan; Limburger; Limburgish (lim)
-      lin: Lingala (lin)
-      lit: Lithuanian (lit)
-      lol: Mongo (lol)
-      loz: Lozi (loz)
-      ltz: Luxembourgish; Letzeburgesch (ltz)
-      lua: Luba-Lulua (lua)
-      lub: Luba-Katanga (lub)
-      lug: Ganda (lug)
-      lui: Luiseno (lui)
-      lun: Lunda (lun)
-      luo: Luo (Kenya and Tanzania) (luo)
-      lus: Lushai (lus)
-      mac: Macedonian (mac)
-      mad: Madurese (mad)
-      mag: Magahi (mag)
-      mah: Marshallese (mah)
-      mai: Maithili (mai)
-      mak: Makasar (mak)
-      mal: Malayalam (mal)
-      man: Mandingo (man)
-      mao: Maori (mao)
-      map: Austronesian languages (map)
-      mar: Marathi (mar)
-      mas: Masai (mas)
-      may: Malay (may)
-      mdf: Moksha (mdf)
-      mdr: Mandar (mdr)
-      men: Mende (men)
-      mga: Irish, Middle (900-1200) (mga)
-      mic: Mi'kmaq; Micmac (mic)
-      min: Minangkabau (min)
-      mis: Uncoded languages (mis)
-      mkh: Mon-Khmer languages (mkh)
-      mlg: Malagasy (mlg)
-      mlt: Maltese (mlt)
-      mnc: Manchu (mnc)
-      mni: Manipuri (mni)
-      mno: Manobo languages (mno)
-      moh: Mohawk (moh)
-      mon: Mongolian (mon)
-      mos: Mossi (mos)
-      mul: Multiple languages (mul)
-      mun: Munda languages (mun)
-      mus: Creek (mus)
-      mwl: Mirandese (mwl)
-      mwr: Marwari (mwr)
-      myn: Mayan languages (myn)
-      myv: Erzya (myv)
-      nah: Nahuatl languages (nah)
-      nai: North American Indian languages (nai)
-      nap: Neapolitan (nap)
-      nau: Nauru (nau)
-      nav: Navajo; Navaho (nav)
-      nbl: Ndebele, South; South Ndebele (nbl)
-      nde: Ndebele, North; North Ndebele (nde)
-      ndo: Ndonga (ndo)
-      nds: Low German; Low Saxon; German, Low; Saxon, Low (nds)
-      nep: Nepali (nep)
-      new: Nepal Bhasa; Newari (new)
-      nia: Nias (nia)
-      nic: Niger-Kordofanian languages (nic)
-      niu: Niuean (niu)
-      nno: Norwegian Nynorsk; Nynorsk, Norwegian (nno)
-      nob: Bokmål, Norwegian; Norwegian Bokmål (nob)
-      nog: Nogai (nog)
-      non: Norse, Old (non)
-      nor: Norwegian (nor)
-      nqo: N'Ko (nqo)
-      nso: Pedi; Sepedi; Northern Sotho (nso)
-      nub: Nubian languages (nub)
-      nwc: Classical Newari; Old Newari; Classical Nepal Bhasa (nwc)
-      nya: Chichewa; Chewa; Nyanja (nya)
-      nym: Nyamwezi (nym)
-      nyn: Nyankole (nyn)
-      nyo: Nyoro (nyo)
-      nzi: Nzima (nzi)
-      oci: Occitan (post 1500); Provençal (oci)
-      oji: Ojibwa (oji)
-      ori: Oriya (ori)
-      orm: Oromo (orm)
-      osa: Osage (osa)
-      oss: Ossetian; Ossetic (oss)
-      ota: Turkish, Ottoman (1500-1928) (ota)
-      oto: Otomian languages (oto)
-      paa: Papuan languages (paa)
-      pag: Pangasinan (pag)
-      pal: Pahlavi (pal)
-      pam: Pampanga; Kapampangan (pam)
-      pan: Panjabi; Punjabi (pan)
-      pap: Papiamento (pap)
-      pau: Palauan (pau)
-      peo: Persian, Old (ca.600-400 B.C.) (peo)
-      per: Persian (per)
-      phi: Philippine languages (phi)
-      phn: Phoenician (phn)
-      pli: Pali (pli)
-      pol: Polish (pol)
-      pon: Pohnpeian (pon)
-      por: Portuguese (por)
-      pra: Prakrit languages (pra)
-      pro: Provençal, Old (to 1500) (pro)
-      pus: Pushto; Pashto (pus)
-      qaa-qtz: Reserved for local use (qtz)
-      que: Quechua (que)
-      raj: Rajasthani (raj)
-      rap: Rapanui (rap)
-      rar: Rarotongan; Cook Islands Maori (rar)
-      roa: Romance languages (roa)
-      roh: Romansh (roh)
-      rom: Romany (rom)
-      rum: Romanian; Moldavian; Moldovan (rum)
-      run: Rundi (run)
-      rup: Aromanian; Arumanian; Macedo-Romanian (rup)
-      rus: Russian (rus)
-      sad: Sandawe (sad)
-      sag: Sango (sag)
-      sah: Yakut (sah)
-      sai: South American Indian (Other) (sai)
-      sal: Salishan languages (sal)
-      sam: Samaritan Aramaic (sam)
-      san: Sanskrit (san)
-      sas: Sasak (sas)
-      sat: Santali (sat)
-      scn: Sicilian (scn)
-      sco: Scots (sco)
-      sel: Selkup (sel)
-      sem: Semitic languages (sem)
-      sga: Irish, Old (to 900) (sga)
-      sgn: Sign Languages (sgn)
-      shn: Shan (shn)
-      sid: Sidamo (sid)
-      sin: Sinhala; Sinhalese (sin)
-      sio: Siouan languages (sio)
-      sit: Sino-Tibetan languages (sit)
-      sla: Slavic languages (sla)
-      slo: Slovak (slo)
-      slv: Slovenian (slv)
-      sma: Southern Sami (sma)
-      sme: Northern Sami (sme)
-      smi: Sami languages (smi)
-      smj: Lule Sami (smj)
-      smn: Inari Sami (smn)
-      smo: Samoan (smo)
-      sms: Skolt Sami (sms)
-      sna: Shona (sna)
-      snd: Sindhi (snd)
-      snk: Soninke (snk)
-      sog: Sogdian (sog)
-      som: Somali (som)
-      son: Songhai languages (son)
-      sot: Sotho, Southern (sot)
-      spa: Spanish; Castilian (spa)
-      srd: Sardinian (srd)
-      srn: Sranan Tongo (srn)
-      srp: Serbian (srp)
-      srr: Serer (srr)
-      ssa: Nilo-Saharan languages (ssa)
-      ssw: Swati (ssw)
-      suk: Sukuma (suk)
-      sun: Sundanese (sun)
-      sus: Susu (sus)
-      sux: Sumerian (sux)
-      swa: Swahili (swa)
-      swe: Swedish (swe)
-      syc: Classical Syriac (syc)
-      syr: Syriac (syr)
-      tah: Tahitian (tah)
-      tai: Tai languages (tai)
-      tam: Tamil (tam)
-      tat: Tatar (tat)
-      tel: Telugu (tel)
-      tem: Timne (tem)
-      ter: Tereno (ter)
-      tet: Tetum (tet)
-      tgk: Tajik (tgk)
-      tgl: Tagalog (tgl)
-      tha: Thai (tha)
-      tib: Tibetan (tib)
-      tig: Tigre (tig)
-      tir: Tigrinya (tir)
-      tiv: Tiv (tiv)
-      tkl: Tokelau (tkl)
-      tlh: Klingon; tlhIngan-Hol (tlh)
-      tli: Tlingit (tli)
-      tmh: Tamashek (tmh)
-      tog: Tonga (Nyasa) (tog)
-      ton: Tonga (Tonga Islands) (ton)
-      tpi: Tok Pisin (tpi)
-      tsi: Tsimshian (tsi)
-      tsn: Tswana (tsn)
-      tso: Tsonga (tso)
-      tuk: Turkmen (tuk)
-      tum: Tumbuka (tum)
-      tup: Tupi languages (tup)
-      tur: Turkish (tur)
-      tut: Altaic languages (tut)
-      tvl: Tuvalu (tvl)
-      twi: Twi (twi)
-      tyv: Tuvinian (tyv)
-      udm: Udmurt (udm)
-      uga: Ugaritic (uga)
-      uig: Uighur; Uyghur (uig)
-      ukr: Ukrainian (ukr)
-      umb: Umbundu (umb)
-      und: Undetermined (und)
-      urd: Urdu (urd)
-      uzb: Uzbek (uzb)
-      vai: Vai (vai)
-      ven: Venda (ven)
-      vie: Vietnamese (vie)
-      vol: Volap'fck (vol)
-      vot: Votic (vot)
-      wak: Wakashan languages (wak)
-      wal: Walamo (wal)
-      war: Waray (war)
-      was: Washo (was)
-      wel: Welsh (wel)
-      wen: Sorbian languages (wen)
-      wln: Walloon (wln)
-      wol: Wolof (wol)
-      xal: Kalmyk; Oirat (xal)
-      xho: Xhosa (xho)
-      yao: Yao (yao)
-      yap: Yapese (yap)
-      yid: Yiddish (yid)
-      yor: Yoruba (yor)
-      ypk: Yupik languages (ypk)
-      zap: Zapotec (zap)
-      zbl: Blissymbols; Blissymbolics; Bliss (zbl)
-      zen: Zenaga (zen)
-      zha: Zhuang; Chuang (zha)
-      znd: Zande languages (znd)
-      zul: Zulu (zul)
-      zun: Zuni (zun)
-      zxx: No linguistic content; Not applicable (zxx)
-      zza: Zaza; Dimili; Dimli; Kirdki; Kirmanjki; Zazaki (zza)
+      aar: Afar
+      abk: Abkhazian
+      ace: Achinese
+      ach: Acoli
+      ada: Adangme
+      ady: Adyghe; Adygei
+      afa: Afro-Asiatic languages
+      afh: Afrihili
+      afr: Afrikaans
+      ain: Ainu
+      aka: Akan
+      akk: Akkadian
+      alb: Albanian
+      ale: Aleut
+      alg: Algonquian languages
+      alt: Southern Altai
+      amh: Amharic
+      ang: "English, Old (ca.450-1100)"
+      anp: Angika
+      apa: Apache languages
+      ara: Arabic
+      arc: Official Aramaic (700-300 BCE); Imperial Aramaic (700-300 BCE)
+      arg: Aragonese
+      arm: Armenian
+      arn: Mapudungun; Mapuche
+      arp: Arapaho
+      art: Artificial languages
+      arw: Arawak
+      asm: Assamese
+      ast: Asturian; Bable; Leonese; Asturleonese
+      ath: Athapascan languages
+      aus: Australian languages
+      ava: Avaric
+      ave: Avestan
+      awa: Awadhi
+      aym: Aymara
+      aze: Azerbaijani
+      bad: Banda languages
+      bai: Bamileke languages
+      bak: Bashkir
+      bal: Baluchi
+      bam: Bambara
+      ban: Balinese
+      baq: Basque
+      bas: Basa
+      bat: Baltic languages
+      bej: Beja; Bedawiyet
+      bel: Belarusian
+      bem: Bemba
+      ben: Bengali
+      ber: Berber languages
+      bho: Bhojpuri
+      bih: Bihari languages
+      bik: Bikol
+      bin: Bini; Edo
+      bis: Bislama
+      bla: Siksika
+      bnt: Bantu (Other)
+      bos: Bosnian
+      bra: Braj
+      bre: Breton
+      btk: Batak languages
+      bua: Buriat
+      bug: Buginese
+      bul: Bulgarian
+      bur: Burmese
+      byn: Blin; Bilin
+      cad: Caddo
+      cai: Central American Indian languages
+      car: Galibi Carib
+      cat: Catalan; Valencian
+      cau: Caucasian languages
+      ceb: Cebuano
+      cel: Celtic languages
+      cha: Chamorro
+      chb: Chibcha
+      che: Chechen
+      chg: Chagatai
+      chi: Chinese
+      chk: Chuukese
+      chm: Mari
+      chn: Chinook jargon
+      cho: Choctaw
+      chp: Chipewyan; Dene Suline
+      chr: Cherokee
+      chu: Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic
+      chv: Chuvash
+      chy: Cheyenne
+      cmc: Chamic languages
+      cop: Coptic
+      cor: Cornish
+      cos: Corsican
+      cpe: "Creoles and pidgins, English-based"
+      cpf: "Creoles and pidgins, French-based"
+      cpp: "Creoles and pidgins, Portuguese-based"
+      cre: Cree
+      crh: Crimean Tatar; Crimean Turkish
+      crp: Creoles and pidgins
+      csb: Kashubian
+      cus: Cushitic languages
+      cze: Czech
+      dak: Dakota
+      dan: Danish
+      dar: Dargwa
+      day: Land Dayak languages
+      del: Delaware
+      den: Slave (Athapascan)
+      dgr: Dogrib
+      din: Dinka
+      div: Divehi; Dhivehi; Maldivian
+      doi: Dogri
+      dra: Dravidian languages
+      dsb: Lower Sorbian
+      dua: Duala
+      dum: "Dutch, Middle (ca.1050-1350)"
+      dut: Dutch; Flemish
+      dyu: Dyula
+      dzo: Dzongkha
+      efi: Efik
+      egy: Egyptian (Ancient)
+      eka: Ekajuk
+      elx: Elamite
+      eng: English
+      enm: "English, Middle (1100-1500)"
+      epo: Esperanto
+      est: Estonian
+      ewe: Ewe
+      ewo: Ewondo
+      fan: Fang
+      fao: Faroese
+      fat: Fanti
+      fij: Fijian
+      fil: Filipino; Pilipino
+      fin: Finnish
+      fiu: Finno-Ugrian languages
+      fon: Fon
+      fre: French
+      frm: "French, Middle (ca.1400-1600)"
+      fro: "French, Old (842-ca.1400)"
+      frr: Northern Frisian
+      frs: Eastern Frisian
+      fry: Western Frisian
+      ful: Fulah
+      fur: Friulian
+      gaa: Ga
+      gay: Gayo
+      gba: Gbaya
+      gem: Germanic languages
+      geo: Georgian
+      ger: German
+      gez: Geez
+      gil: Gilbertese
+      gla: Gaelic; Scottish Gaelic
+      gle: Irish
+      glg: Galician
+      glv: Manx
+      gmh: "German, Middle High (ca.1050-1500)"
+      goh: "German, Old High (ca.750-1050)"
+      gon: Gondi
+      gor: Gorontalo
+      got: Gothic
+      grb: Grebo
+      grc: "Greek, Ancient (to 1453)"
+      gre: "Greek, Modern (1453-)"
+      grn: Guarani
+      gsw: Swiss German; Alemannic; Alsatian
+      guj: Gujarati
+      gwi: Gwich'in
+      hai: Haida
+      hat: Haitian; Haitian Creole
+      hau: Hausa
+      haw: Hawaiian
+      heb: Hebrew
+      her: Herero
+      hil: Hiligaynon
+      him: Himachali languages; Western Pahari languages
+      hin: Hindi
+      hit: Hittite
+      hmn: Hmong; Mong
+      hmo: Hiri Motu
+      hrv: Croatian
+      hsb: Upper Sorbian
+      hun: Hungarian
+      hup: Hupa
+      iba: Iban
+      ibo: Igbo
+      ice: Icelandic
+      ido: Ido
+      iii: Sichuan Yi; Nuosu
+      ijo: Ijo languages
+      iku: Inuktitut
+      ile: Interlingue; Occidental
+      ilo: Iloko
+      ina: Interlingua (International Auxiliary Language Association)
+      inc: Indic languages
+      ind: Indonesian
+      ine: Indo-European languages
+      inh: Ingush
+      ipk: Inupiaq
+      ira: Iranian languages
+      iro: Iroquoian languages
+      ita: Italian
+      jav: Javanese
+      jbo: Lojban
+      jpn: Japanese
+      jpr: Judeo-Persian
+      jrb: Judeo-Arabic
+      kaa: Kara-Kalpak
+      kab: Kabyle
+      kac: Kachin; Jingpho
+      kal: Kalaallisut; Greenlandic
+      kam: Kamba
+      kan: Kannada
+      kar: Karen languages
+      kas: Kashmiri
+      kau: Kanuri
+      kaw: Kawi
+      kaz: Kazakh
+      kbd: Kabardian
+      kha: Khasi
+      khi: Khoisan languages
+      khm: Central Khmer
+      kho: Khotanese; Sakan
+      kik: Kikuyu; Gikuyu
+      kin: Kinyarwanda
+      kir: Kirghiz; Kyrgyz
+      kmb: Kimbundu
+      kok: Konkani
+      kom: Komi
+      kon: Kongo
+      kor: Korean
+      kos: Kosraean
+      kpe: Kpelle
+      krc: Karachay-Balkar
+      krl: Karelian
+      kro: Kru languages
+      kru: Kurukh
+      kua: Kuanyama; Kwanyama
+      kum: Kumyk
+      kur: Kurdish
+      kut: Kutenai
+      lad: Ladino
+      lah: Lahnda
+      lam: Lamba
+      lao: Lao
+      lat: Latin
+      lav: Latvian
+      lez: Lezghian
+      lim: Limburgan; Limburger; Limburgish
+      lin: Lingala
+      lit: Lithuanian
+      lol: Mongo
+      loz: Lozi
+      ltz: Luxembourgish; Letzeburgesch
+      lua: Luba-Lulua
+      lub: Luba-Katanga
+      lug: Ganda
+      lui: Luiseno
+      lun: Lunda
+      luo: Luo (Kenya and Tanzania)
+      lus: Lushai
+      mac: Macedonian
+      mad: Madurese
+      mag: Magahi
+      mah: Marshallese
+      mai: Maithili
+      mak: Makasar
+      mal: Malayalam
+      man: Mandingo
+      mao: Maori
+      map: Austronesian languages
+      mar: Marathi
+      mas: Masai
+      may: Malay
+      mdf: Moksha
+      mdr: Mandar
+      men: Mende
+      mga: "Irish, Middle (900-1200)"
+      mic: Mi'kmaq; Micmac
+      min: Minangkabau
+      mis: Uncoded languages
+      mkh: Mon-Khmer languages
+      mlg: Malagasy
+      mlt: Maltese
+      mnc: Manchu
+      mni: Manipuri
+      mno: Manobo languages
+      moh: Mohawk
+      mon: Mongolian
+      mos: Mossi
+      mul: Multiple languages
+      mun: Munda languages
+      mus: Creek
+      mwl: Mirandese
+      mwr: Marwari
+      myn: Mayan languages
+      myv: Erzya
+      nah: Nahuatl languages
+      nai: North American Indian languages
+      nap: Neapolitan
+      nau: Nauru
+      nav: Navajo; Navaho
+      nbl: "Ndebele, South; South Ndebele"
+      nde: "Ndebele, North; North Ndebele"
+      ndo: Ndonga
+      nds: "Low German; Low Saxon; German, Low; Saxon, Low"
+      nep: Nepali
+      new: Nepal Bhasa; Newari
+      nia: Nias
+      nic: Niger-Kordofanian languages
+      niu: Niuean
+      nno: "Norwegian Nynorsk; Nynorsk, Norwegian"
+      nob: "Norwegian Bokmål; Bokmål, Norwegian"
+      nog: Nogai
+      non: "Norse, Old"
+      nor: Norwegian
+      nqo: N'Ko
+      nso: Pedi; Sepedi; Northern Sotho
+      nub: Nubian languages
+      nwc: Classical Newari; Old Newari; Classical Nepal Bhasa
+      nya: Chichewa; Chewa; Nyanja
+      nym: Nyamwezi
+      nyn: Nyankole
+      nyo: Nyoro
+      nzi: Nzima
+      oci: Occitan (post 1500); Provençal
+      oji: Ojibwa
+      ori: Oriya
+      orm: Oromo
+      osa: Osage
+      oss: Ossetian; Ossetic
+      ota: "Turkish, Ottoman (1500-1928)"
+      oto: Otomian languages
+      paa: Papuan languages
+      pag: Pangasinan
+      pal: Pahlavi
+      pam: Pampanga; Kapampangan
+      pan: Panjabi; Punjabi
+      pap: Papiamento
+      pau: Palauan
+      peo: "Persian, Old (ca.600-400 B.C.)"
+      per: Persian
+      phi: Philippine languages
+      phn: Phoenician
+      pli: Pali
+      pol: Polish
+      pon: Pohnpeian
+      por: Portuguese
+      pra: Prakrit languages
+      pro: "Provençal, Old (to 1500)"
+      pus: Pushto; Pashto
+      qaa-qtz: "Reserved for local use"
+      que: Quechua
+      raj: Rajasthani
+      rap: Rapanui
+      rar: Rarotongan; Cook Islands Maori
+      roa: Romance languages
+      roh: Romansh
+      rom: Romany
+      rum: Romanian; Moldavian; Moldovan
+      run: Rundi
+      rup: Aromanian; Arumanian; Macedo-Romanian
+      rus: Russian
+      sad: Sandawe
+      sag: Sango
+      sah: Yakut
+      sai: South American Indian (Other)
+      sal: Salishan languages
+      sam: Samaritan Aramaic
+      san: Sanskrit
+      sas: Sasak
+      sat: Santali
+      scn: Sicilian
+      sco: Scots
+      sel: Selkup
+      sem: Semitic languages
+      sga: "Irish, Old (to 900)"
+      sgn: Sign Languages
+      shn: Shan
+      sid: Sidamo
+      sin: Sinhala; Sinhalese
+      sio: Siouan languages
+      sit: Sino-Tibetan languages
+      sla: Slavic languages
+      slo: Slovak
+      slv: Slovenian
+      sma: Southern Sami
+      sme: Northern Sami
+      smi: Sami languages
+      smj: Lule Sami
+      smn: Inari Sami
+      smo: Samoan
+      sms: Skolt Sami
+      sna: Shona
+      snd: Sindhi
+      snk: Soninke
+      sog: Sogdian
+      som: Somali
+      son: Songhai languages
+      sot: "Sotho, Southern"
+      spa: Spanish; Castilian
+      srd: Sardinian
+      srn: Sranan Tongo
+      srp: Serbian
+      srr: Serer
+      ssa: Nilo-Saharan languages
+      ssw: Swati
+      suk: Sukuma
+      sun: Sundanese
+      sus: Susu
+      sux: Sumerian
+      swa: Swahili
+      swe: Swedish
+      syc: Classical Syriac
+      syr: Syriac
+      tah: Tahitian
+      tai: Tai languages
+      tam: Tamil
+      tat: Tatar
+      tel: Telugu
+      tem: Timne
+      ter: Tereno
+      tet: Tetum
+      tgk: Tajik
+      tgl: Tagalog
+      tha: Thai
+      tib: Tibetan
+      tig: Tigre
+      tir: Tigrinya
+      tiv: Tiv
+      tkl: Tokelau
+      tlh: Klingon; tlhIngan-Hol
+      tli: Tlingit
+      tmh: Tamashek
+      tog: Tonga (Nyasa)
+      ton: Tonga (Tonga Islands)
+      tpi: Tok Pisin
+      tsi: Tsimshian
+      tsn: Tswana
+      tso: Tsonga
+      tuk: Turkmen
+      tum: Tumbuka
+      tup: Tupi languages
+      tur: Turkish
+      tut: Altaic languages
+      tvl: Tuvalu
+      twi: Twi
+      tyv: Tuvinian
+      udm: Udmurt
+      uga: Ugaritic
+      uig: Uighur; Uyghur
+      ukr: Ukrainian
+      umb: Umbundu
+      und: Undetermined
+      urd: Urdu
+      uzb: Uzbek
+      vai: Vai
+      ven: Venda
+      vie: Vietnamese
+      vol: Volapük
+      vot: Votic
+      wak: Wakashan languages
+      wal: Walamo
+      war: Waray
+      was: Washo
+      wel: Welsh
+      wen: Sorbian languages
+      wln: Walloon
+      wol: Wolof
+      xal: Kalmyk; Oirat
+      xho: Xhosa
+      yao: Yao
+      yap: Yapese
+      yid: Yiddish
+      yor: Yoruba
+      ypk: Yupik languages
+      zap: Zapotec
+      zbl: Blissymbols; Blissymbolics; Bliss
+      zen: Zenaga
+      zha: Zhuang; Chuang
+      znd: Zande languages
+      zul: Zulu
+      zun: Zuni
+      zxx: No linguistic content; Not applicable
+      zza: Zaza; Dimili; Dimli; Kirdki; Kirmanjki; Zazaki
     archival_record_level:
       class: Class
       collection: Collection
@@ -989,255 +989,255 @@ en:
       direct: Direct
       inverted: Inverted
     country_iso_3166:
-      AF: Afghanistan (AF)
-      AX: Åland Islands (AX)
-      AL: Albania (AL)
-      DZ: Algeria (DZ)
-      AS: American Samoa (AS)
-      AD: Andorra (AD)
-      AO: Angola (AO)
-      AI: Anguilla (AI)
-      AQ: Antarctica (AQ)
-      AG: Antigua and Barbuda (AG)
-      AR: Argentina (AR)
-      AM: Armenia (AM)
-      AW: Aruba (AW)
-      AU: Australia (AU)
-      AT: Austria (AT)
-      AZ: Azerbaijan (AZ)
-      BS: Bahamas (BS)
-      BH: Bahrain (BH)
-      BD: Bangladesh (BD)
-      BB: Barbados (BB)
-      BY: Belarus (BY)
-      BE: Belgium (BE)
-      BZ: Belize (BZ)
-      BJ: Benin (BJ)
-      BM: Bermuda (BM)
-      BT: Bhutan (BT)
-      BO: Bolivia (BO)
-      BQ: Bonaire, Sint eustatius and Saba (BQ)
-      BA: Bosnia and Herzegovina (BA)
-      BW: Botswana (BW)
-      BV: Bouvet Island (BV)
-      BR: Brazil (BR)
-      IO: British Indian Ocean Territory (IO)
-      BN: Brunei Darussalam (BN)
-      BG: Bulgaria (BG)
-      BF: Burkina Faso (BF)
-      BI: Burundi (BI)
-      KH: Cambodia (KH)
-      CM: Cameroon (CM)
-      CA: Canada (CA)
-      CV: Cape Verde (CV)
-      KY: Cayman Islands (KY)
-      CF: Central African Republic (CF)
-      TD: Chad (TD)
-      CL: Chile (CL)
-      CN: China (CN)
-      CX: Christmas island (CX)
-      CC: Cocos (Keeling) Islands (CC)
-      CO: Colombia (CO)
-      KM: Comoros (KM)
-      CG: Congo (CG)
-      CD: Democratic Republic of the Congo (CD)
-      CK: Cook Islands (CK)
-      CR: Costa Rica (CR)
-      CI: Côte d'Ivoire (CI)
-      HR: Croatia (HR)
-      CU: Cuba (CU)
-      CW: Curaçao (CW)
-      CY: Cyprus (CY)
-      CZ: Czech Republic (CZ)
-      DK: Denmark (DK)
-      DJ: Djibouti (DJ)
-      DM: Dominica (DM)
-      DO: Dominican Republic (DO)
-      EC: Ecuador (EC)
-      EG: Egypt (EG)
-      SV: El Salvador (SV)
-      GQ: Equatorial guinea (GQ)
-      ER: Eritrea (ER)
-      EE: Estonia (EE)
-      ET: Ethiopia (ET)
-      FK: Falkland Islands (Malvinas) (FK)
-      FO: Faroe Islands (FO)
-      FJ: Fiji (FJ)
-      FI: Finland (FI)
-      FR: France (FR)
-      GF: French Guiana (GF)
-      PF: French Polynesia (PF)
-      TF: French Southern Territories (TF)
-      GA: Gabon (GA)
-      GM: Gambia (GM)
-      GE: Georgia (GE)
-      DE: Germany (DE)
-      GH: Ghana (GH)
-      GI: Gibraltar (GI)
-      GR: Greece (GR)
-      GL: Greenland (GL)
-      GD: Grenada (GD)
-      GP: Guadeloupe (GP)
-      GU: Guam (GU)
-      GT: Guatemala (GT)
-      GG: Guernsey (GG)
-      GN: Guinea (GN)
-      GW: Guinea-bissau (GW)
-      GY: Guyana (GY)
-      HT: Haiti (HT)
-      HM: Heard Island and Mcdonald Islands (HM)
-      VA: Holy See (Vatican City State) (VA)
-      HN: Honduras (HN)
-      HK: Hong Kong (HK)
-      HU: Hungary (HU)
-      IS: Iceland (IS)
-      IN: India (IN)
-      ID: Indonesia (ID)
-      IR: Iran, Islamic Republic of (IR)
-      IQ: Iraq (IQ)
-      IE: Ireland (IE)
-      IM: Isle of man (IM)
-      IL: Israel (IL)
-      IT: Italy (IT)
-      JM: Jamaica (JM)
-      JP: Japan (JP)
-      JE: Jersey (JE)
-      JO: Jordan (JO)
-      KZ: Kazakhstan (KZ)
-      KE: Kenya (KE)
-      KI: Kiribati (KI)
-      KP: Korea, Democratic People's Republic of (KP)
-      KR: Korea, Republic of (KR)
-      KW: Kuwait (KW)
-      KG: Kyrgyzstan (KG)
-      LA: Lao People's Democratic Republic (LA)
-      LV: Latvia (LV)
-      LB: Lebanon (LB)
-      LS: Lesotho (LS)
-      LR: Liberia (LR)
-      LY: Libya (LY)
-      LI: Liechtenstein (LI)
-      LT: Lithuania (LT)
-      LU: Luxembourg (LU)
-      MO: Macao (MO)
-      MK: Macedonia, Former Yugoslav Republic of (MK)
-      MG: Madagascar (MG)
-      MW: Malawi (MW)
-      MY: Malaysia (MY)
-      MV: Maldives (MV)
-      ML: Mali (ML)
-      MT: Malta (MT)
-      MH: Marshall Islands (MH)
-      MQ: Martinique (MQ)
-      MR: Mauritania (MR)
-      MU: Mauritius (MU)
-      YT: Mayotte (YT)
-      MX: Mexico (MX)
-      FM: Micronesia, Federated States of (FM)
-      MD: Moldova, Republic of (MD)
-      MC: Monaco (MC)
-      MN: Mongolia (MN)
-      ME: Montenegro (ME)
-      MS: Montserrat (MS)
-      MA: Morocco (MA)
-      MZ: Mozambique (MZ)
-      MM: Myanmar (MM)
-      NA: Namibia (NA)
-      NR: Nauru (NR)
-      NP: Nepal (NP)
-      NL: Netherlands (NL)
-      NC: New Caledonia (NC)
-      NZ: New Zealand (NZ)
-      NI: Nicaragua (NI)
-      NE: Niger (NE)
-      NG: Nigeria (NG)
-      NU: Niue (NU)
-      NF: Norfolk Island (NF)
-      MP: Northern Mariana Islands (MP)
-      NO: Norway (NO)
-      OM: Oman (OM)
-      PK: Pakistan (PK)
-      PW: Palau (PW)
-      PS: Palestinian Territory, Occupied (PS)
-      PA: Panama (PA)
-      PG: Papua New Guinea (PG)
-      PY: Paraguay (PY)
-      PE: Peru (PE)
-      PH: Philippines (PH)
-      PN: Pitcairn (PN)
-      PL: Poland (PL)
-      PT: Portugal (PT)
-      PR: Puerto rico (PR)
-      QA: Qatar (QA)
-      RE: Réunion (RE)
-      RO: Romania (RO)
-      RU: Russian Federation (RU)
-      RW: Rwanda (RW)
-      BL: Saint Barthélemy (BL)
-      SH: Saint Helena, Ascension and Tristan da Cunha (SH)
-      KN: Saint Kitts and Nevis (KN)
-      LC: Saint Lucia (LC)
-      MF: Saint Martin (French Part) (MF)
-      PM: Saint Pierre and Miquelon (PM)
-      VC: Saint Vincent and the Grenadines (VC)
-      WS: Samoa (WS)
-      SM: San Marino (SM)
-      ST: Sao Tome and Principe (ST)
-      SA: Saudi Arabia (SA)
-      SN: Senegal (SN)
-      RS: Serbia (RS)
-      SC: Seychelles (SC)
-      SL: Sierra Leone (SL)
-      SG: Singapore (SG)
-      SX: Sint Maarten (Dutch Part) (SX)
-      SK: Slovakia (SK)
-      SI: Slovenia (SI)
-      SB: Solomon Islands (SB)
-      SO: Somalia (SO)
-      ZA: South Africa (ZA)
-      GS: South Georgia and the South Sandwich Islands (GS)
-      SS: South Sudan (SS)
-      ES: Spain (ES)
-      LK: Sri Lanka (LK)
-      SD: Sudan (SD)
-      SR: Suriname (SR)
-      SJ: Svalbard and Jan Mayen (SJ)
-      SZ: Swaziland (SZ)
-      SE: Sweden (SE)
-      CH: Switzerland (CH)
-      SY: Syrian Arab Republic (SY)
-      TW: Taiwan, Province of China (TW)
-      TJ: Tajikistan (TJ)
-      TZ: Tanzania, United Republic of (TZ)
-      TH: Thailand (TH)
-      TL: Timor-Leste (TL)
-      TG: Togo (TG)
-      TK: Tokelau (TK)
-      TO: Tonga (TO)
-      TT: Trinidad and Tobago (TT)
-      TN: Tunisia (TN)
-      TR: Turkey (TR)
-      TM: Turkmenistan (TM)
-      TC: Turks and caicos Islands (TC)
-      TV: Tuvalu (TV)
-      UG: Uganda (UG)
-      UA: Ukraine (UA)
-      AE: United Arab Emirates (AE)
-      GB: United Kingdom (GB)
-      US: United States (US)
-      UM: United States Minor Outlying Islands (UM)
-      UY: Uruguay (UY)
-      UZ: Uzbekistan (UZ)
-      VU: Vanuatu (VU)
-      VE: Venezuela (VE)
-      VN: Viet Nam (VN)
-      VG: Virgin Islands, British (VG)
-      VI: Virgin Islands, U.S. (VI)
-      WF: Wallis and Futuna (WF)
-      EH: Western Sahara (EH)
-      YE: Yemen (YE)
-      ZM: Zambia (ZM)
-      ZW: Zimbabwe (ZW)
+      AF: Afghanistan
+      AX: Åland Islands
+      AL: Albania
+      DZ: Algeria
+      AS: American Samoa
+      AD: Andorra
+      AO: Angola
+      AI: Anguilla
+      AQ: Antarctica
+      AG: Antigua and Barbuda
+      AR: Argentina
+      AM: Armenia
+      AW: Aruba
+      AU: Australia
+      AT: Austria
+      AZ: Azerbaijan
+      BS: Bahamas
+      BH: Bahrain
+      BD: Bangladesh
+      BB: Barbados
+      BY: Belarus
+      BE: Belgium
+      BZ: Belize
+      BJ: Benin
+      BM: Bermuda
+      BT: Bhutan
+      BO: Bolivia
+      BQ: "Bonaire, Sint Eustatius and Saba"
+      BA: Bosnia and Herzegovina
+      BW: Botswana
+      BV: Bouvet Island
+      BR: Brazil
+      IO: British Indian Ocean Territory
+      BN: Brunei Darussalam
+      BG: Bulgaria
+      BF: Burkina Faso
+      BI: Burundi
+      KH: Cambodia
+      CM: Cameroon
+      CA: Canada
+      CV: Cape Verde
+      KY: Cayman Islands
+      CF: Central African Republic
+      TD: Chad
+      CL: Chile
+      CN: China
+      CX: Christmas island
+      CC: Cocos (Keeling) Islands
+      CO: Colombia
+      KM: Comoros
+      CG: Congo
+      CD: Democratic Republic of the Congo
+      CK: Cook Islands
+      CR: Costa Rica
+      CI: Côte d'Ivoire
+      HR: Croatia
+      CU: Cuba
+      CW: Curaçao
+      CY: Cyprus
+      CZ: Czech Republic
+      DK: Denmark
+      DJ: Djibouti
+      DM: Dominica
+      DO: Dominican Republic
+      EC: Ecuador
+      EG: Egypt
+      SV: El Salvador
+      GQ: Equatorial Guinea
+      ER: Eritrea
+      EE: Estonia
+      ET: Ethiopia
+      FK: Falkland Islands (Malvinas)
+      FO: Faroe Islands
+      FJ: Fiji
+      FI: Finland
+      FR: France
+      GF: French Guiana
+      PF: French Polynesia
+      TF: French Southern Territories
+      GA: Gabon
+      GM: Gambia
+      GE: Georgia
+      DE: Germany
+      GH: Ghana
+      GI: Gibraltar
+      GR: Greece
+      GL: Greenland
+      GD: Grenada
+      GP: Guadeloupe
+      GU: Guam
+      GT: Guatemala
+      GG: Guernsey
+      GN: Guinea
+      GW: Guinea-Bissau
+      GY: Guyana
+      HT: Haiti
+      HM: Heard Island and Mcdonald Islands
+      VA: Holy See (Vatican City State)
+      HN: Honduras
+      HK: Hong Kong
+      HU: Hungary
+      IS: Iceland
+      IN: India
+      ID: Indonesia
+      IR: "Iran, Islamic Republic of"
+      IQ: Iraq
+      IE: Ireland
+      IM: Isle of Man
+      IL: Israel
+      IT: Italy
+      JM: Jamaica
+      JP: Japan
+      JE: Jersey
+      JO: Jordan
+      KZ: Kazakhstan
+      KE: Kenya
+      KI: Kiribati
+      KP: "Korea, Democratic People's Republic of"
+      KR: "Korea, Republic of"
+      KW: Kuwait
+      KG: Kyrgyzstan
+      LA: "Lao People's Democratic Republic"
+      LV: Latvia
+      LB: Lebanon
+      LS: Lesotho
+      LR: Liberia
+      LY: Libya
+      LI: Liechtenstein
+      LT: Lithuania
+      LU: Luxembourg
+      MO: Macao
+      MK: "Macedonia, Former Yugoslav Republic of"
+      MG: Madagascar
+      MW: Malawi
+      MY: Malaysia
+      MV: Maldives
+      ML: Mali
+      MT: Malta
+      MH: Marshall Islands
+      MQ: Martinique
+      MR: Mauritania
+      MU: Mauritius
+      YT: Mayotte
+      MX: Mexico
+      FM: "Micronesia, Federated States of"
+      MD: "Moldova, Republic of"
+      MC: Monaco
+      MN: Mongolia
+      ME: Montenegro
+      MS: Montserrat
+      MA: Morocco
+      MZ: Mozambique
+      MM: Myanmar
+      NA: Namibia
+      NR: Nauru
+      NP: Nepal
+      NL: Netherlands
+      NC: New Caledonia
+      NZ: New Zealand
+      NI: Nicaragua
+      NE: Niger
+      NG: Nigeria
+      NU: Niue
+      NF: Norfolk Island
+      MP: Northern Mariana Islands
+      NO: Norway
+      OM: Oman
+      PK: Pakistan
+      PW: Palau
+      PS: "Palestinian Territory, Occupied"
+      PA: Panama
+      PG: Papua New Guinea
+      PY: Paraguay
+      PE: Peru
+      PH: Philippines
+      PN: Pitcairn
+      PL: Poland
+      PT: Portugal
+      PR: Puerto rico
+      QA: Qatar
+      RE: Réunion
+      RO: Romania
+      RU: Russian Federation
+      RW: Rwanda
+      BL: Saint Barthélemy
+      SH: "Saint Helena, Ascension and Tristan da Cunha"
+      KN: Saint Kitts and Nevis
+      LC: Saint Lucia
+      MF: Saint Martin (French Part)
+      PM: Saint Pierre and Miquelon
+      VC: Saint Vincent and the Grenadines
+      WS: Samoa
+      SM: San Marino
+      ST: Sao Tome and Principe
+      SA: Saudi Arabia
+      SN: Senegal
+      RS: Serbia
+      SC: Seychelles
+      SL: Sierra Leone
+      SG: Singapore
+      SX: Sint Maarten (Dutch Part)
+      SK: Slovakia
+      SI: Slovenia
+      SB: Solomon Islands
+      SO: Somalia
+      ZA: South Africa
+      GS: South Georgia and the South Sandwich Islands
+      SS: South Sudan
+      ES: Spain
+      LK: Sri Lanka
+      SD: Sudan
+      SR: Suriname
+      SJ: Svalbard and Jan Mayen
+      SZ: Swaziland
+      SE: Sweden
+      CH: Switzerland
+      SY: Syrian Arab Republic
+      TW: "Taiwan, Province of China"
+      TJ: Tajikistan
+      TZ: "Tanzania, United Republic of"
+      TH: Thailand
+      TL: Timor-Leste
+      TG: Togo
+      TK: Tokelau
+      TO: Tonga
+      TT: Trinidad and Tobago
+      TN: Tunisia
+      TR: Turkey
+      TM: Turkmenistan
+      TC: Turks and Caicos Islands
+      TV: Tuvalu
+      UG: Uganda
+      UA: Ukraine
+      AE: United Arab Emirates
+      GB: United Kingdom
+      US: United States
+      UM: United States Minor Outlying Islands
+      UY: Uruguay
+      UZ: Uzbekistan
+      VU: Vanuatu
+      VE: Venezuela
+      VN: Viet Nam
+      VG: "Virgin Islands, British"
+      VI: "Virgin Islands, U.S."
+      WF: Wallis and Futuna
+      EH: Western Sahara
+      YE: Yemen
+      ZM: Zambia
+      ZW: Zimbabwe
     rights_statement_rights_type:
       intellectual_property: Intellectual Property
       license: License
