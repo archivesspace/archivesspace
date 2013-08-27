@@ -503,6 +503,8 @@
     <mkdir dir="target/archivesspace/logs" />
     <mkdir dir="target/archivesspace/launcher" />
     <mkdir dir="target/archivesspace/scripts/rb" />
+    <mkdir dir="target/archivesspace/stylesheets" />
+    <mkdir dir="target/archivesspace/plugins/cat_in_a_box" />
     <mkdir dir="target/archivesspace/plugins/local/indexer" />
     <mkdir dir="target/archivesspace/plugins/local/schemas" />
     <mkdir dir="target/archivesspace/plugins/local/backend/model/mixins" />
@@ -546,6 +548,14 @@
 
     <copy todir="target/archivesspace/locales">
       <fileset dir="../common/locales" />
+    </copy>
+
+    <copy todir="target/archivesspace/plugins/cat_in_a_box">
+      <fileset dir="../plugins/cat_in_a_box"/>
+    </copy>
+
+    <copy todir="target/archivesspace/stylesheets">
+      <fileset dir="../stylesheets"/>
     </copy>
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
