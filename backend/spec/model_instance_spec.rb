@@ -43,6 +43,18 @@ describe 'Instance model' do
   end
 
 
+  it "throws an error if a container has a container extent that lacks a type" do
+    opts = {:instance_type => "mixed_materials",
+            :container => build(:json_container, {:container_extent => "1.0",
+                                                  :container_extent_type => nil
+                                                 })
+    }
+
+    expect {
+      Instance.create_from_json(build(:json_instance, opts))
+    }.to raise_error(ValidationException)
+  end
+
   it "throws an error if no digital object is provided" do
     opts = {"instance_type" => "digital_object",
             "digital_object" => nil
