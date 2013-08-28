@@ -16,8 +16,11 @@
               <%= label_and_value I18n.t("container.type_1"), i18n_enum(:container, 'type_1', instance['container']['type_1']) %>
               <%= label_and_value I18n.t("container.indicator_1"), instance['container']['indicator_1'] %>
               <%= label_and_value I18n.t("container.barcode_1"), instance['container']['barcode_1'] %>
-              <%= label_and_value I18n.t("container.type_2"), i18n_enum(:container, 'type_1', instance['container']['type_2']) %>
+              <%= label_and_value I18n.t("container.type_2"), i18n_enum(:container, 'type_2', instance['container']['type_2']) %>
               <%= label_and_value I18n.t("container.indicator_2"), instance['container']['indicator_2'] %>
+              <%= label_and_value I18n.t("container.type_3"), i18n_enum(:container, 'type_3', instance['container']['type_3']) %>
+              <%= label_and_value I18n.t("container.indicator_3"), instance['container']['indicator_3'] %>
+              <%= label_and_value I18n.t("container.container_extent"), "#{instance['container']['container_extent']} #{i18n_enum(:container, 'container_extent_type', instance['container']['container_extent_type'])}" %>
             <% end %>
           </dl>
         </li>

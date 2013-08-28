@@ -262,6 +262,8 @@ FactoryGirl.define do
     type_1 { generate(:container_type) }
     indicator_1 { generate(:indicator) }
     barcode_1 { generate(:barcode) }
+    container_extent { generate (:number) }
+    container_extent_type { sample(JSONModel(:container).schema['properties']['container_extent_type']) }
   end
 
   factory :json_date, class: JSONModel(:date) do

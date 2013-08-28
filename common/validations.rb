@@ -217,6 +217,12 @@ module JSONModel::Validations
     errors = []
     got_current = false
 
+    if !hash["container_extent_number"].nil? and hash["container_extent_number"] !~ /^\-?\d{0,9}(\.\d{1,5})?$/
+      errors << ["container_extent", "must be a number with no more than nine digits and five decimal places"]
+    elsif !hash["container_extent"].nil? and hash["container_extent_type"].nil?
+      errors << ["container_extent_type", "is required if container extent is specified "]
+    end
+
     Array(hash["container_locations"]).each do |loc|
       if loc["status"] == "current"
         if got_current
