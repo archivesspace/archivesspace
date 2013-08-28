@@ -567,6 +567,9 @@ Sequel.migration do
       DynamicEnum :type_3_id
       String :indicator_3
 
+      String :container_extent
+      DynamicEnum :container_extent_type_id
+
       apply_mtime_columns
     end
 

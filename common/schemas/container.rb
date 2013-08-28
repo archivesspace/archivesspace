@@ -15,6 +15,9 @@
       "type_3" => {"type" => "string", "dynamic_enum" => "container_type"},
       "indicator_3" => {"type" => "string", "maxLength" => 255},
 
+      "container_extent" => {"type" => "string", "maxLength" => 255, "required" => false},
+      "container_extent_type" => {"type" => "string", "required" => false, "dynamic_enum" => "extent_extent_type"},
+
       "container_locations" => {
         "type" => "array",
         "items" => {
