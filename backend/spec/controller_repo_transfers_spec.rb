@@ -23,7 +23,7 @@ describe 'Record transfers' do
 
     it "ensures that the requesting user has the right permissions in both repositories" do
       archivist = make_test_user("archivist")
-      Group[:group_code => 'repository-archivists', :repo_id => $repo_id].add_user(archivist)
+      Group[:group_code => 'repository-advanced-data-entry', :repo_id => $repo_id].add_user(archivist)
 
       as_test_user('archivist') do
         # No permission in @target_repo
@@ -33,7 +33,7 @@ describe 'Record transfers' do
 
       # Grant permission
       RequestContext.open(:repo_id => @target_repo.id) do
-        Group[:group_code => 'repository-archivists', :repo_id => @target_repo.id].add_user(archivist)
+        Group[:group_code => 'repository-advanced-data-entry', :repo_id => @target_repo.id].add_user(archivist)
       end
 
       as_test_user('archivist') do
@@ -66,7 +66,7 @@ describe 'Record transfers' do
       end
 
       # Grant transfer permission in the source repo but not the target one
-      Group[:group_code => 'repository-archivists', :repo_id => $repo_id].tap do |group|
+      Group[:group_code => 'repository-advanced-data-entry', :repo_id => $repo_id].tap do |group|
         group.add_user(archivist)
         group.grant('transfer_repository')
       end
@@ -79,7 +79,7 @@ describe 'Record transfers' do
 
 
       RequestContext.open(:repo_id => @target_repo.id) do
-        Group[:group_code => 'repository-archivists', :repo_id => @target_repo.id].tap do |group|
+        Group[:group_code => 'repository-advanced-data-entry', :repo_id => @target_repo.id].tap do |group|
           group.add_user(archivist)
           group.grant('transfer_repository')
         end

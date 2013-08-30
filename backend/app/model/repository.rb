@@ -36,15 +36,15 @@ class Repository < Sequel::Model(:repository)
     end
 
     standard_groups = [{
-                         :group_code => "repository-managers",
-                         :description => "Managers of the #{repo_code} repository",
+                         :group_code => "repository-repository-managers",
+                         :description => "Repository managers of the #{repo_code} repository",
                          :grants_permissions => ["manage_repository", "update_location_record", "update_subject_record",
                                                  "update_agent_record", "update_archival_record", "update_event_record", "view_repository",
                                                  "delete_archival_record", "suppress_archival_record"]
                        },
                        {
-                         :group_code => "repository-archivists",
-                         :description => "Archivists of the #{repo_code} repository",
+                         :group_code => "repository-advanced-data-entry",
+                         :description => "Advanced Data Entry users of the #{repo_code} repository",
                          :grants_permissions => ["update_subject_record", "update_agent_record", "update_archival_record", "update_event_record", "view_repository"]
                        },
                        {
@@ -53,11 +53,6 @@ class Repository < Sequel::Model(:repository)
                          :grants_permissions => ["view_repository", "update_archival_record", "update_event_record", "update_subject_record", "update_agent_record",
                                                  "delete_archival_record", "suppress_archival_record",
                                                  'merge_agents_and_subjects']
-                       },
-                       {
-                         :group_code => "repository-advanced-data-entry",
-                         :description => "Advanced Data Entry users of the #{repo_code} repository",
-                         :grants_permissions => ["view_repository", "update_archival_record", "update_event_record", "update_subject_record", "update_agent_record"]
                        },
                        {
                          :group_code => "repository-basic-data-entry",

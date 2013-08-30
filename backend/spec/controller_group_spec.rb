@@ -93,9 +93,9 @@ describe 'Group controller' do
   end
 
 
-  it "restricts group-related activities to repository-managers" do
+  it "restricts group-related activities to repository-repository-managers" do
     create(:user, {:username => 'archivist'})
-    archivists = JSONModel(:group).all(:group_code => "repository-archivists").first
+    archivists = JSONModel(:group).all(:group_code => "repository-advanced-data-entry").first
     archivists.member_usernames = ["archivist"]
     archivists.save
 
@@ -138,7 +138,7 @@ describe 'Group controller' do
     create(:user, {:username => 'newmanager'})
     create(:user, {:username => 'underling'})
     
-    managers = JSONModel(:group).all(:group_code => "repository-managers").first
+    managers = JSONModel(:group).all(:group_code => "repository-repository-managers").first
     managers.member_usernames = ["newmanager"]
     managers.save
 
