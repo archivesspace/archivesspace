@@ -12,7 +12,7 @@ describe 'REST interface' do
     create(:user, :username => 'mrkrabs')
 
     viewers = JSONModel(:group).all(:group_code => "repository-viewers").first
-    archivists = JSONModel(:group).all(:group_code => "repository-archivists").first
+    archivists = JSONModel(:group).all(:group_code => "repository-advanced-data-entry").first
 
     viewers.member_usernames = ["spongebob"]
     archivists.member_usernames = ["mrkrabs"]

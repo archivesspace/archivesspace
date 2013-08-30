@@ -225,7 +225,7 @@ describe 'Accession controller' do
     test_accession = create(:json_accession)
 
     create_nobody_user
-    archivists = JSONModel(:group).all(:group_code => "repository-archivists").first
+    archivists = JSONModel(:group).all(:group_code => "repository-advanced-data-entry").first
     archivists.member_usernames = ['nobody']
     archivists.save
 

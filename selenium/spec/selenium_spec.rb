@@ -161,7 +161,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
       $driver.find_element(:link, "Manage Groups").click
 
-      row = $driver.find_element_with_text('//tr', /repository-archivists/)
+      row = $driver.find_element_with_text('//tr', /repository-advanced-data-entry/)
       row.find_element(:css, '.btn').click
 
       $driver.clear_and_send_keys([:id, 'new-member'],(@user))

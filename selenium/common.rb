@@ -442,12 +442,12 @@ end
 
 
 def add_user_to_archivists(user, repo)
-  add_user_to_group(user, repo, 'repository-archivists')
+  add_user_to_group(user, repo, 'repository-advanced-data-entry')
 end
 
 
 def add_user_to_managers(user, repo)
-  add_user_to_group(user, repo, 'repository-managers')
+  add_user_to_group(user, repo, 'repository-repository-managers')
 end
 
 
