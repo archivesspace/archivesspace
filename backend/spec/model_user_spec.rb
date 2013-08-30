@@ -26,7 +26,7 @@ describe 'User model' do
       group.add_user(user)
     end
 
-    user.permissions[@repo_uri].sort.should eq(["create_repository", "manage_repository"])
+    user.permissions[@repo_uri].sort.should eq(["create_repository", "manage_repository", "update_location_record"])
   end
   
   
@@ -100,6 +100,28 @@ describe 'User model' do
     new_user.add_to_groups(group)
 
     Notifications.last_notification.should_not eq(old_notification)
+  end
+
+
+  it "correctly applies derived permissions" do
+    user = make_test_user("mark")
+
+    repo_a = create(:repo, :repo_code => 'FIRST_REPO')
+    repo_b = create(:repo, :repo_code => 'SECOND_REPO')
+
+    # set the user as repo manager in repo A
+    group = Group.create_from_json(build(:json_group, {:group_code => "testgroup-1"}), :repo_id => repo_a.id)
+    group.grant("manage_repository")
+    group.add_user(user)
+
+    # set the user as archivist in repo B
+    group = Group.create_from_json(build(:json_group, {:group_code => "testgroup-2"}), :repo_id => repo_b.id)
+    group.grant("view_repository")
+    group.add_user(user)
+
+    user.permissions[repo_a.uri].sort.should eq(["manage_repository", "update_location_record"])
+    user.permissions[repo_b.uri].sort.should eq(["update_location_record", "view_repository"])
+    user.permissions[Repository.GLOBAL].sort.should eq(["update_location_record"])
   end
 
 end

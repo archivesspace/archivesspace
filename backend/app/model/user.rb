@@ -139,7 +139,7 @@ class User < Sequel::Model(:user)
            select(:permission_code).map {|row| row[:permission_code]}
 
 
-    actual_permissions.map {|p| Permission.derived_permissions_for(p) }.flatten
+    actual_permissions.map {|p| Permission.derived_permissions_for(p) }.flatten.uniq
   end
 
 
@@ -155,14 +155,15 @@ class User < Sequel::Model(:user)
     permission = Permission[:permission_code => permission_code.to_s]
     global_repo = Repository[:repo_code => Repository.GLOBAL]
 
-    raise PermissionNotFound.new("The permission '#{permission_code}' doesn't exist") if permission.nil?
+    # False if the permission does not exist (or the derived permission is not assigned to this user)
+    return false if permission.nil?
 
     if permission[:level] == "repository" && self.class.active_repository.nil?
       raise("Problem when checking permission: #{permission.permission_code} " +
             "is a repository-level permission, but no repository was set")
     end
 
-    !permission.nil? && ((self.class.db[:group].
+    ((self.class.db[:group].
                           join(:group_user, :group_id => :id).
                           join(:group_permission, :group_id => :group_id).
                           filter(:user_id => self.id,

@@ -2223,10 +2223,112 @@ describe "ArchivesSpace user interface" do
   end
 
 
+  describe "Locations" do
+
+    before(:all) do
+      login_as_repo_manager
+    end
+
+
+    after(:all) do
+      logout
+    end
+
+    it "allows access to the single location form" do
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Location").click
+      $driver.find_element(:link, "Single Location").click
+    end
+
+    it "displays error messages upon invalid location" do
+      $driver.click_and_wait_until_gone(:css => "form#new_location .btn-primary")
+
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /Building - Property is required but was missing/)
+
+      $driver.clear_and_send_keys([:id, "location_building_"], "129 W. 81st St")
+      $driver.click_and_wait_until_gone(:css => "form#new_location .btn-primary")
+
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /You must either specify a barcode, a classification, or both a coordinate 1 label and coordinate 1 indicator/)
+    end
+
+    it "saves a valid location" do
+      $driver.clear_and_send_keys([:id, "location_floor_"], "5")
+      $driver.clear_and_send_keys([:id, "location_room_"], "5 MOO")
+
+      $driver.clear_and_send_keys([:id, "location_coordinate_1_label_"], "Box XYZ")
+      $driver.clear_and_send_keys([:id, "location_coordinate_1_indicator_"], "XYZ0001")
+
+      $driver.click_and_wait_until_gone(:css => "form#new_location .btn-primary")
+
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Location Created/)
+    end
+
+    it "allows locations to be edited" do
+      $driver.clear_and_send_keys([:id, "location_room_"], "5A")
+      $driver.click_and_wait_until_gone(:css => "form#new_location .btn-primary")
+
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Location Saved/)
+    end
+
+    it "lists the new location in the browse list" do
+      run_index_round
+
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Locations").click
+
+      $driver.find_element_with_text('//td', /129 W\. 81st St\, 5\, 5A \[Box XYZ\: XYZ0001\]/)
+    end
+
+    it "lists the new location for an archivist" do
+      logout
+      login_as_archivist
+
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Locations").click
+
+      $driver.find_element_with_text('//td', /129 W\. 81st St\, 5\, 5A \[Box XYZ\: XYZ0001\]/)
+    end
+
+    it "doesn't offer location edit actions to an archivist" do
+      assert(100) {
+        $driver.ensure_no_such_element(:link, "Create Location")
+        $driver.ensure_no_such_element(:link, "Batch Locations")
+        $driver.ensure_no_such_element(:link, "Edit")
+      }
+
+      $driver.find_element(:link, "View").click
+
+      assert(100) {
+        $driver.ensure_no_such_element(:link, "Edit")
+      }
+    end
+
+    it "lists the location in different repositories" do
+      logout
+      login_as_admin
+
+      new_repo_code = "locationtest#{Time.now.to_i}_#{$$}"
+      new_repo_name = "locationtest repository - #{Time.now}"
+
+      create_test_repo(new_repo_code, new_repo_name)
+
+      $driver.navigate.refresh
+
+      select_repo(new_repo_code)
+
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Locations").click
+
+      $driver.find_element_with_text('//td', /129 W\. 81st St\, 5\, 5A \[Box XYZ\: XYZ0001\]/)
+    end
+
+  end
+
+
   describe "Location batch" do
 
     before(:all) do
-      login_as_archivist
+      login_as_repo_manager
     end
 
 

@@ -287,20 +287,13 @@ describe 'Resources controller' do
 
   it "correctly substitutes the repo_id in nested URIs" do
 
-    location = create(:json_location)
+    accession = create(:json_accession)
 
     resource = create(:json_resource, {
                         :extents => [build(:json_extent)],
-                        :instances => [build(:json_instance, {
-                          :container => build(:json_container, {
-                            :container_locations => [{
-                              :start_date => generate(:yyyy_mm_dd),
-                              :end_date => generate(:yyyy_mm_dd),
-                              :status => 'current',
-                              :ref => "/repositories/#{$repo_id}/locations/#{location.id}"
-                            }]
-                          })
-                        })]
+                        :related_accessions => [{
+                          :ref => "/repositories/#{$repo_id}/accessions/#{accession.id}"
+                        }]
     })
 
     # Set our default repository to nil here since we're really testing the fact
@@ -308,8 +301,8 @@ describe 'Resources controller' do
     # setting would otherwise mask the error.
     #
     JSONModel.with_repository(nil) do
-      container_location = JSONModel(:resource).find(resource.id, :repo_id => $repo_id)["instances"][0]["container"]["container_locations"][0]
-      container_location["ref"].should eq("/repositories/#{$repo_id}/locations/#{location.id}")
+      accession_ref = JSONModel(:resource).find(resource.id, :repo_id => $repo_id)["related_accessions"][0]
+      accession_ref["ref"].should eq("/repositories/#{$repo_id}/accessions/#{accession.id}")
     end
   end
 

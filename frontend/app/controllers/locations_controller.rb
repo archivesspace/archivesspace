@@ -64,7 +64,7 @@ class LocationsController < ApplicationController
 
       @location_batch = JSONModel(:location_batch).from_hash(batch, false)
 
-      uri = "#{JSONModel::HTTP.backend_url}/repositories/#{session[:repo_id]}/locations/batch"
+      uri = "#{JSONModel::HTTP.backend_url}/locations/batch"
       if params["dry_run"]
         uri += "?dry_run=true"
       end

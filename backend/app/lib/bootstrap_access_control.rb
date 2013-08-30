@@ -106,10 +106,6 @@ class ArchivesSpaceService
                       "The ability to manage a given repository",
                       :level => "repository")
 
-    Permission.define("update_location_record",
-                      "The ability to create and modify location records in a given repository",
-                      :level => "repository")
-
     Permission.define("update_archival_record",
                       "The ability to create and modify the major archival record types: accessions/resources/digital objects/components/collection management",
                       :level => "repository")
@@ -156,39 +152,43 @@ class ArchivesSpaceService
                       :level => "global",
                       :system => true)
 
-    # Updates and deletes to subjects and agents are a bit funny: they're global
-    # objects, but users are granted permission to modify them by being
+    # Updates and deletes to locations, subjects and agents are a bit funny: they're
+    # global objects, but users are granted permission to modify them by being
     # associated with a group within a repository.
     Permission.define("update_subject_record",
                       "The ability to create and modify subject records",
                       :implied_by => 'update_archival_record',
-                      :level => "repository")
+                      :level => "global")
 
     Permission.define("update_agent_record",
                       "The ability to create and modify agent records",
                       :implied_by => 'update_archival_record',
-                      :level => "repository")
+                      :level => "global")
 
     Permission.define("update_vocabulary_record",
                       "The ability to create and modify vocabulary records",
                       :implied_by => 'update_archival_record',
-                      :level => "repository")
+                      :level => "global")
+
+    Permission.define("update_location_record",
+                      "The ability to create and modify location records",
+                      :implied_by => 'manage_repository',
+                      :level => "global")
 
     Permission.define("delete_agent_record",
                       "The ability to delete agent records",
                       :implied_by => 'delete_archival_record',
-                      :level => "repository")
+                      :level => "global")
 
     Permission.define("delete_subject_record",
                       "The ability to delete subject records",
                       :implied_by => 'delete_archival_record',
-                      :level => "repository")
+                      :level => "global")
 
     Permission.define("delete_vocabulary_record",
                       "The ability to delete vocabulary records",
                       :implied_by => 'delete_archival_record',
-                      :level => "repository")
-
+                      :level => "global")
 
     # Merge permissions are special too.  A user with merge_agents_and_subjects
     # in any repository is granted merge_agent_record and merge_subject_record
@@ -200,12 +200,12 @@ class ArchivesSpaceService
     Permission.define("merge_subject_record",
                       "The ability to merge subject records",
                       :implied_by => 'merge_agents_and_subjects',
-                      :level => "repository")
+                      :level => "global")
 
     Permission.define("merge_agent_record",
                       "The ability to merge agent records",
                       :implied_by => 'merge_agents_and_subjects',
-                      :level => "repository")
+                      :level => "global")
 
     Permission.define("merge_archival_record",
                       "The ability to merge archival records records",

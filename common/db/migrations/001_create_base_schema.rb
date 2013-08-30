@@ -1092,8 +1092,6 @@ Sequel.migration do
       Integer :lock_version, :default => 0, :null => false
       Integer :json_schema_version, :null => false
 
-      Integer :repo_id, :null => false
-
       String :building, :null => false
 
       HalfLongString :title
@@ -1112,10 +1110,6 @@ Sequel.migration do
       DynamicEnum :temporary_id
 
       apply_mtime_columns
-    end
-
-    alter_table(:location) do
-      add_foreign_key([:repo_id], :repository, :key => :id)
     end
 
 
