@@ -13,7 +13,7 @@ def schema
   @schema[:properties].each do |p, defn|    
 
     next unless defn["type"]
-    if defn["type"] == 'array' and defn["items"]["type"] == 'object'
+    if defn["type"] == 'array' and defn["items"]["type"] == 'object' and !defn["items"]["properties"].nil?
       defn["type"] += " (Object (#{defn["items"]["properties"].keys.join(', ')}))"
     elsif defn["type"] == 'array' and defn["items"]["type"]
       defn["type"] += " (#{defn["items"]["type"]})"
