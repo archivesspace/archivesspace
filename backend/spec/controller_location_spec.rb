@@ -38,7 +38,7 @@ describe 'Location controller' do
                                                  }))
 
 
-    response = JSONModel::HTTP.post_json(URI("#{JSONModel::HTTP.backend_url}/repositories/#{$repo_id}/locations/batch?dry_run=true"),
+    response = JSONModel::HTTP.post_json(URI("#{JSONModel::HTTP.backend_url}/locations/batch?dry_run=true"),
                               batch.to_json)
 
     batch_response = ASUtils.json_parse(response.body)
@@ -68,7 +68,7 @@ describe 'Location controller' do
                                                  }))
 
 
-    response = JSONModel::HTTP.post_json(URI("#{JSONModel::HTTP.backend_url}/repositories/#{$repo_id}/locations/batch"),
+    response = JSONModel::HTTP.post_json(URI("#{JSONModel::HTTP.backend_url}/locations/batch"),
                                          batch.to_json)
 
     batch_response = ASUtils.json_parse(response.body)
@@ -76,4 +76,20 @@ describe 'Location controller' do
     batch_response.length.should eq(910)
     JSONModel.parse_reference(batch_response[0])[:type].should eq("location")
   end
+
+
+  it "shows all locations from all repositories" do
+    create(:json_location)
+    JSONModel(:location).all(:page => 1)['results'].count.should eq(1)
+
+    make_test_repo('Next1');
+    JSONModel(:location).all(:page => 1)['results'].count.should eq(1)
+    create(:json_location)
+    create(:json_location)
+
+    make_test_repo('Next2');
+    create(:json_location)
+    JSONModel(:location).all(:page => 1)['results'].count.should eq(4)
+  end
+
 end

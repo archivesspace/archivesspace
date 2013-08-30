@@ -120,7 +120,7 @@ describe 'User controller' do
 
     group = JSONModel(:group).from_hash("group_code" => "newgroup",
                                         "description" => "A test group")
-    group.grants_permissions = ["manage_repository"]
+    group.grants_permissions = ["transfer_repository"]
     group.member_usernames = ["test1"]
     id = group.save
 
@@ -128,11 +128,11 @@ describe 'User controller' do
     post '/users/test1/login', params = { "password" => "password"}
     last_response.should be_ok
     auth_response = JSON(last_response.body)
-    auth_response["user"]["permissions"][repo.uri].should eq(["manage_repository"])
+    auth_response["user"]["permissions"][repo.uri].should eq(["transfer_repository"])
 
     # But also with the user
     user = JSONModel(:user).find_by_uri(auth_response["user"]["uri"])
-    user.permissions[repo.uri].should eq(["manage_repository"])
+    user.permissions[repo.uri].should eq(["transfer_repository"])
   end
 
 

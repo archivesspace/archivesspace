@@ -1,10 +1,9 @@
 class ArchivesSpaceService < Sinatra::Base
 
-  Endpoint.post('/repositories/:repo_id/locations/batch')
+  Endpoint.post('/locations/batch')
   .description("Create a Batch of Locations")
   .params(["dry_run", BooleanParam, "If true, don't create the locations, just list them", :optional => true],
-          ["location_batch", JSONModel(:location_batch), "The location batch data to generate all locations", :body => true],
-          ["repo_id", :repo_id])
+          ["location_batch", JSONModel(:location_batch), "The location batch data to generate all locations", :body => true])
   .permissions([:update_location_record])
   .returns([200, :updated]) \
   do
@@ -19,21 +18,19 @@ class ArchivesSpaceService < Sinatra::Base
     json_response(result)
   end
 
-  Endpoint.post('/repositories/:repo_id/locations/:id')
+  Endpoint.post('/locations/:id')
   .description("Update a Location")
   .params(["id", :id],
-          ["location", JSONModel(:location), "The updated record", :body => true],
-          ["repo_id", :repo_id])
+          ["location", JSONModel(:location), "The updated record", :body => true])
     .permissions([:update_location_record])
   .returns([200, :updated]) \
   do
     handle_update(Location, params[:id], params[:location])
   end
 
-  Endpoint.post('/repositories/:repo_id/locations')
+  Endpoint.post('/locations')
     .description("Create a Location")
-    .params(["location", JSONModel(:location), "The record to create", :body => true],
-            ["repo_id", :repo_id])
+    .params(["location", JSONModel(:location), "The record to create", :body => true])
     .permissions([:update_location_record])
     .returns([200, :created]) \
   do
@@ -41,22 +38,21 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/repositories/:repo_id/locations')
+  Endpoint.get('/locations')
     .description("Get a list of locations")
-    .params(["repo_id", :repo_id])
+    .params()
     .paginated(true)
-    .permissions([:view_repository])
+    .permissions([])
     .returns([200, "[(:location)]"]) \
   do
     handle_listing(Location, params)
   end
 
 
-  Endpoint.get('/repositories/:repo_id/locations/:id')
+  Endpoint.get('/locations/:id')
     .description("Get a Location by ID")
-    .params(["id", :id],
-            ["repo_id", :repo_id])
-    .permissions([:view_repository])
+    .params(["id", :id])
+    .permissions([])
     .returns([200, "(:location)"]) \
   do
     json_response(Location.to_jsonmodel(params[:id]))
