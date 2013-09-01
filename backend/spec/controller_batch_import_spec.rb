@@ -200,5 +200,40 @@ describe "Batch Import Controller" do
   end
 
 
+  it "creates a well-ordered resource tree" do
+    
+    resource = build(:json_resource)
+    resource.uri = resource.class.uri_for(rand(100000), {:repo_id => $repo_id})
 
+    a1 = build(:json_archival_object)
+    a2 = build(:json_archival_object)
+    a3 = build(:json_archival_object)
+
+    a1.position = 1
+    a2.position = 2
+    a3.position = 3
+
+    batch_array = [resource.to_hash(:raw)]
+    [a3, a1, a2].each do |ao|
+      ao.uri = ao.class.uri_for(rand(100000), {:repo_id => $repo_id})
+      ao.resource = {:ref => resource.uri}
+      batch_array << ao.to_hash(:raw)
+    end
+
+    uri = "/repositories/#{$repo_id}/batch_imports"
+    url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
+    url.query = URI.encode_www_form({:use_transaction => true})
+
+    response = JSONModel::HTTP.post_json(url, batch_array.to_json)
+    response.code.should eq('200')
+
+    results = ASUtils.json_parse(response.body)
+    results.last['saved'].length.should eq(4)
+    r_id = results.last['saved'][resource.uri][1]
+
+    r = JSONModel.JSONModel(:resource).find(r_id, "resolve[]" => ['tree'])
+    children = r['tree']['_resolved']['children']
+
+    children.map {|child| child['title']}.should eq [a1, a2, a3].map {|a| a.title}
+  end
 end
