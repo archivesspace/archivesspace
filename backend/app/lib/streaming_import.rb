@@ -177,10 +177,30 @@ class StreamingImport
 
     @ticker.tick_estimate = @jstream.count
 
+    position_maps = {}
+
     @jstream.each do |rec|
       dependencies[rec['uri']] = extract_logical_urls(rec, @logical_urls) - [rec['uri']]
       check_for_invalid_external_references(rec, @logical_urls)
+
+      if rec['position']
+        pos = rec['position']
+
+        set_key = (rec['parent'] || rec['resource'] || rec['digital_object'])['ref']
+        position_maps[set_key] ||= []
+        position_maps[set_key][pos] = rec['uri']
+
+      end
+
       @ticker.tick
+    end
+
+    position_maps.each do |set_key, positions|
+      positions.compact!
+      while !positions.empty?
+        last = positions.pop
+        dependencies[last] << positions[-1] unless positions.empty?
+      end
     end
 
     dependencies
