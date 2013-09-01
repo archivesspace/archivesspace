@@ -110,8 +110,6 @@ describe "Import / Export Behavior >> " do
 
       # 	ELSE
         @resource['extents'][0]['container_summary'].should eq("Resource-ContainerSummary-AT")
-        @resource['extents'][0]['dimensions'].should eq("Resource-Dimensions-AT")
-        @resource['extents'][0]['physical_details'].should eq("Resource-PhysicalFacet-AT")
       end
 
 
@@ -358,6 +356,9 @@ describe "Import / Export Behavior >> " do
         note_content(get_note_by_type(@resource, 'custodhist')).should eq("<head>Resource--CustodialHistory-AT</head>\n<p>Resource--CustodialHistory-AT</p>")
       end
 
+      it "maps '<dimensions>' correctly" do
+        note_content(get_note_by_type(@resource, 'dimensions')).should eq("Resource-Dimensions-AT")
+      end
 
       it "maps '<fileplan>' correctly" do
         note_content(get_note_by_type(@resource, 'fileplan')).should eq("<head>Resource-FilePlan-AT</head>\n<p>Resource-FilePlan-AT</p>")
@@ -393,6 +394,15 @@ describe "Import / Export Behavior >> " do
 
       it "maps '<otherfindaid>' correctly" do
         get_note_by_type(@resource, 'otherfindaid')['persistent_id'].should eq("ref23")
+      end
+
+      it "maps '<physdesc>' correctly" do
+        @resource['notes'].find{|n| n['persistent_id'] == 'ref25'}['type'].should eq('physdesc')
+        @archival_objects['02']['notes'].find{|n| n['type'] == 'physdesc'}['content'][0].should eq("<extent>1.0 Linear feet</extent>\n<extent>Resource-C02-ContainerSummary-AT</extent>")
+      end
+
+      it "maps '<physfacet>' correctly" do
+        note_content(get_note_by_type(@resource, 'physfacet')).should eq("Resource-PhysicalFacet-AT")
       end
 
       it "maps '<physloc>' correctly" do
@@ -1289,8 +1299,7 @@ describe "Import / Export Behavior >> " do
 
 
         it "maps {archival_object}.other_level to {desc_path}@otherlevel" do
-          ol = object.level == 'otherlevel' ? object.other_level : nil
-          mt(ol, desc_path, "otherlevel")
+          mt(object.other_level, desc_path, "otherlevel")
         end
 
 
