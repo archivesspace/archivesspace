@@ -84,7 +84,10 @@ ASpaceExport::serializer :ead do
             serialize_eadheader(data, xml, new_fragments)
           })
 
-        xml.archdesc(:level => data.level) {
+        atts = {:level => data.level, :otherlevel => data.other_level}
+        atts.reject! {|k, v| v.nil?}
+
+        xml.archdesc(atts) {
 
           data.digital_objects.each do |dob|
             serialize_digital_object(dob, xml, @fragments)
@@ -156,7 +159,9 @@ ASpaceExport::serializer :ead do
 
   def serialize_child(data, xml, fragments)
     prefixed_ref_id = "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{data.ref_id}"
-    xml.c(:level => data.level, :id => prefixed_ref_id) {
+    atts = {:level => data.level, :otherlevel => data.other_level, :id => prefixed_ref_id}
+    atts.reject! {|k, v| v.nil?}
+    xml.c(atts) {
 
       xml.did {
         if (val = data.title)
@@ -520,7 +525,15 @@ ASpaceExport::serializer :ead do
           titleproper += "<num>#{(0..3).map{|i| data.send("id_#{i}")}.compact.join('.')}</num>"
           xml.titleproper (fragments << titleproper)
 
+          xml.author data.finding_aid_author unless data.finding_aid_author.nil?
+          xml.sponsor data.finding_aid_sponsor unless data.finding_aid_sponsor.nil?
         }
+
+        unless data.finding_aid_edition_statement.nil?
+          xml.editionstmt {
+            xml.p data.finding_aid_edition_statement
+          }
+        end
 
         xml.publicationstmt {
           xml.publisher data.repo.name
