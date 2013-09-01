@@ -80,7 +80,7 @@ class StreamingImport
 
     with_status("Evaluating record relationships") do
 
-      @dependencies = load_dependencies
+      @dependencies, @position_offsets = load_dependencies
     end
 
     @limbs_for_reattaching = {}
@@ -174,6 +174,7 @@ class StreamingImport
 
   def load_dependencies
     dependencies = {}
+    position_offsets = {}
 
     @ticker.tick_estimate = @jstream.count
 
@@ -188,7 +189,8 @@ class StreamingImport
 
         set_key = (rec['parent'] || rec['resource'] || rec['digital_object'])['ref']
         position_maps[set_key] ||= []
-        position_maps[set_key][pos] = rec['uri']
+        position_maps[set_key][pos] ||= []
+        position_maps[set_key][pos] << rec['uri']
 
       end
 
@@ -196,14 +198,25 @@ class StreamingImport
     end
 
     position_maps.each do |set_key, positions|
+      offset = 0
       positions.compact!
       while !positions.empty?
-        last = positions.pop
-        dependencies[last] << positions[-1] unless positions.empty?
+        first = positions.shift
+        while first.length > 1
+          offset += 1
+          first_last = first.pop
+          position_offsets[first_last] = offset
+          dependencies[first_last] << first[0]
+        end
+
+        unless positions.empty?
+          dependencies[positions[0][0]] << first[0] 
+          position_offsets[positions[0][0]] = offset
+        end
       end
     end
 
-    dependencies
+    return dependencies, position_offsets
   end
 
 
@@ -214,7 +227,12 @@ class StreamingImport
 
   def do_create(record, noerror = false)
     begin
+      if record['position'] && @position_offsets[record['uri']]
+        record['position'] += @position_offsets[record['uri']]
+      end
+
       json = to_jsonmodel(record, true)
+
       model = model_for(record['jsonmodel_type'])
 
       obj = if model.respond_to?(:ensure_exists)
