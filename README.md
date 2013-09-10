@@ -7,7 +7,7 @@ ArchivesSpace README
 The quickest way to get ArchivesSpace up and running is to download
 the latest distribution `.zip` file from the following URL:
 
-  https://github.com/archivesspace/archivesspace/wiki/Downloads
+  https://github.com/archivesspace/archivesspace/releases
 
 You will need to have Java 1.6 (or newer) installed on your machine.
 You can check your Java version by running the command:
