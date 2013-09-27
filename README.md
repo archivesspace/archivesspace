@@ -107,9 +107,14 @@ time you read this.
 
 ## Set up your MySQL database
 
-Next, create an empty database in MySQL and grant access
-to a dedicated ArchivesSpace user (this example uses username `as` and
-password `as123`):
+Next, create an empty database in MySQL and grant access to a dedicated
+ArchivesSpace user. The following example uses username `as`
+and password `as123`.
+
+**NOTE: WHEN CREATING THE DATABASE, YOU MUST SET THE DEFAULT CHARACTER
+ENCODING FOR THE DATABASE TO BE `utf8`.** This is particularly important
+if you use a MySQL client to create the database (e.g. Navicat, MySQL
+Workbench, phpMyAdmin, etc.).
 
          $ mysql -uroot -p
 
@@ -120,7 +125,9 @@ password `as123`):
          Query OK, 0 rows affected (0.21 sec)
 
 Then, modify your `config/config.rb` file to refer to your MySQL
-database:
+database. When you modify your configuration file, **MAKE SURE THAT YOU
+SPECIFY THAT THE CHARACTER ENCODING FOR THE DATABASE TO BE `UTF-8`** as shown
+below:
 
      AppConfig[:db_url] = "jdbc:mysql://localhost:3306/archivesspace?user=as&password=as123&useUnicode=true&characterEncoding=UTF-8"
 
