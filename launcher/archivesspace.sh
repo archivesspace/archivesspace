@@ -55,7 +55,7 @@ export JAVA_OPTS="-Darchivesspace-daemon=yes $JAVA_OPTS"
 export JAVA_OPTS="`echo $JAVA_OPTS | sed 's/\([#&;\`|*?~<>^(){}$\,]\)/\\\\\1/g'`"
 
 if [ "$ASPACE_JAVA_XMX" = "" ]; then
-    ASPACE_JAVA_XMX="-Xmx512m"
+    ASPACE_JAVA_XMX="-Xmx1024m"
 fi
 
 if [ "$ASPACE_JAVA_XSS" = "" ]; then
