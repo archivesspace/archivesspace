@@ -2,6 +2,17 @@ ArchivesSpace README
 --------------------
 <http://archivesspace.org>
 
+# System requirements
+
+* Java 1.6 or higher; Java 1.7+ recommended
+* At least 1024 MB RAM allocated to the application
+* A [supported browser](https://github.com/archivesspace/archivesspace/wiki/Supported-browsers)
+
+ArchivesSpace has been tested on Linux (Red Hat and Ubuntu), Mac OS X, and
+Windows (XP, Windows 7, and Windows 8).
+
+MySQL is not required, but is **strongly** recommended for production use.
+
 # Getting started
 
 The quickest way to get ArchivesSpace up and running is to download
@@ -376,30 +387,32 @@ appropriate and specify the `encryption` option:
 # Plug-ins and local customizations
 
 Under your `archivesspace` directory there is a directory called `plugins`.
-Each directory under the `plugins` directory contains a plug-in. In the standard
-distribution there are two plug-in directories - `hello_world` and `local`.
-The `hello_world` directory contains a simple exemplar plug-in. The `local` directory
-is empty - this is a place to put any local customizations or extensions to ArchivesSpace
-without having to change the core codebase.
+Each directory under the `plugins` directory contains a plug-in. In the
+standard distribution there are several plug-in directories, including
+`hello_world` and `local`. The `hello_world` directory contains a simple
+exemplar plug-in. The `local` directory is empty - this is a place to put
+any local customizations or extensions to ArchivesSpace without having to
+change the core codebase.
 
 Plug-ins are enabled by listing them in the configuration file. You will see the following line in
 `config/config.rb`:
 
      # AppConfig[:plugins] = ['local']
 
-This states that by default the `local` plug-in is enabled and any files contained there will be
-loaded and available to the application. In order to enable other plug-ins simply override this
-configuration in `config/config.rb`. For example, to enable the `hello_world` plug-in,
-add a line like this:
+This states that by default the `local` plug-in is enabled and any files
+contained there will be loaded and available to the application. In order
+to enable other plug-ins simply override this configuration in
+`config/config.rb`. For example, to enable the `hello_world` plug-in, add
+a line like this (ensuring you remove the `#` at the beginning of the line):
 
     AppConfig[:plugins] = ['local', 'hello_world']
 
-Note that the string must be identical to the name of the directory under the `plugins` directory.
-Also note that the ordering of plug-ins in the list determines the order that the plug-ins will
-be loaded.
+Note that the string must be identical to the name of the directory under the
+`plugins` directory. Also note that the ordering of plug-ins in the list
+determines the order that the plug-ins will be loaded.
 
-For more information about plug-ins and how to use them to override and customize ArchivesSpace,
-please see the README in the `plugins` directory.
+For more information about plug-ins and how to use them to override and
+customize ArchivesSpace, please see the README in the `plugins` directory.
 
 
 # Further documentation
@@ -419,3 +432,11 @@ architecture notes, is published at
 ArchivesSpace is released under the [Educational Community License,
 version 2.0](http://opensource.org/licenses/ecl2.php). See the
 [COPYING](COPYING) file for more information.
+
+# Credits
+
+ArchivesSpace 1.0 has been developed by [Hudson Molonglo](http://www.hudsonmolonglo.com)
+in partnership with the New York University Libraries, UC San Diego
+Libraries, and University of Illinois Urbana-Champaign Library and with
+funding from the Andrew W. Mellon Foundation, organizational support from
+LYRASIS, and contributions from diverse persons in the archives community.
