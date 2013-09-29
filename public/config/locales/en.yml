@@ -1,6 +1,6 @@
 en:
   brand:
-    title: Archives Space Public
+    title: ArchivesSpace Public Interface
     home: Home
     welcome_message: Welcome to ArchivesSpace.
     welcome_search_label: "Find what you're looking for:"
@@ -74,7 +74,7 @@ en:
     "false": "No"
 
   navbar:
-    search_placeholder: Search the Archive
+    search_placeholder: Enter your search terms
     search_all: All Records
 
   advanced_search:
