@@ -66,7 +66,7 @@ AppConfig[:locale] = :en
 AppConfig[:report_page_layout] = "letter landscape"
 
 # Plug-ins to load. They will load in the order specified
-AppConfig[:plugins] = ['local']
+AppConfig[:plugins] = ['local', 'aspace_feedback']
 
 # Allow an unauthenticated user to create an account
 AppConfig[:allow_user_registration] = true
