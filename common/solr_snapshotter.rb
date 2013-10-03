@@ -60,7 +60,7 @@ class SolrSnapshotter
 
     retries.times do |i|
       begin
-        SolrSnapshotter.do_snapshot
+        SolrSnapshotter.do_snapshot(identifier)
         break
       rescue
         log(:error, "Solr snapshot failed (#{$!}) - attempt #{i}")
