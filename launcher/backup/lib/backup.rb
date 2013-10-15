@@ -37,14 +37,17 @@ class ArchivesSpaceBackup
       password = params['password'].first
       database = db_uri.path.gsub('/', '')
 
-
+      mysqldump_cmd = [
+        "mysqldump",
+        "--user=#{username}",
+        "--password=#{password}",
+        "--single-transaction",
+        "--quick",
+      ]
+      mysqldump_cmd << "--master-data=2" if AppConfig[:mysql_binlog]
+      mysqldump_cmd << database
       begin
-        IO.popen(["mysqldump",
-                  "--user=#{username}",
-                  "--password=#{password}",
-                  "--single-transaction",
-                  "--quick",
-                  database]) do |io|
+        IO.popen(mysqldump_cmd) do |io|
           while true
             chunk = io.read(4096)
             break if chunk.nil?
