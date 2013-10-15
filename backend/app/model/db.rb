@@ -34,11 +34,51 @@ class DB
         # Test if any tables exist
         pool[:schema_info].all
 
+        if pool.database_type == :mysql && AppConfig[:allow_non_utf8_mysql_database] != "true"
+          ensure_tables_are_utf8(pool)
+        end
+
         @pool = pool
       rescue
         Log.error("DB connection failed: #{$!}")
       end
     end
+  end
+
+
+  def self.ensure_tables_are_utf8(db)
+
+    non_utf8_tables = db[:information_schema__tables].
+      join(:information_schema__collation_character_set_applicability, :collation_name => :table_collation).
+      filter(:table_schema => Sequel.function(:database)).
+      filter(Sequel.~(:character_set_name => 'utf8')).all
+
+    unless (non_utf8_tables.empty?)
+      msg = <<EOF
+
+The following MySQL database tables are not set to use UTF-8 for their character
+encoding:
+
+#{non_utf8_tables.map {|t| "  * " + t[:TABLE_NAME]}.join("\n")}
+
+Please refer to README.md for instructions on configuring your database to use
+UTF-8.
+
+If you want to override this restriction (not recommended!) you can set the
+following option in your config.rb file:
+
+  AppConfig[:allow_non_utf8_mysql_database] = "true"
+
+But note that ArchivesSpace largely assumes that your data will be UTF-8
+encoded.  Running in a non-UTF-8 configuration is not supported.
+
+EOF
+
+      Log.warn(msg)
+      raise msg
+    end
+
+    Log.info("All tables checked and confirmed set to UTF-8.  Nice job!")
   end
 
 
