@@ -13,6 +13,7 @@ AppConfig[:db_url] = proc { AppConfig.demo_db_url }
 AppConfig[:db_max_connections] = 10
 
 AppConfig[:allow_unsupported_database] = false
+AppConfig[:allow_non_utf8_mysql_database] = false
 
 AppConfig[:demo_db_backup_schedule] = "0 4 * * *"
 AppConfig[:demo_db_backup_number_to_keep] = 7
