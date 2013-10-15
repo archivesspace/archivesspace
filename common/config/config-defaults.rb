@@ -11,6 +11,8 @@ AppConfig[:allow_other_unmapped] = false
 
 AppConfig[:db_url] = proc { AppConfig.demo_db_url }
 AppConfig[:db_max_connections] = 10
+# Set to true if you have enabled MySQL binary logging
+AppConfig[:mysql_binlog] = false
 
 AppConfig[:allow_unsupported_database] = false
 AppConfig[:allow_non_utf8_mysql_database] = false
