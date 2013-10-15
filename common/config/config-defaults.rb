@@ -75,6 +75,6 @@ AppConfig[:plugins] = ['local', 'aspace_feedback']
 AppConfig[:allow_user_registration] = true
 
 # Help Configuration
-AppConfig[:help_enabled] = false
+AppConfig[:help_enabled] = true
 AppConfig[:help_url] = "http://docs.archivesspace.org"
 AppConfig[:help_topic_prefix] = "/Default_CSH.htm#"
