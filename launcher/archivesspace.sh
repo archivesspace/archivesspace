@@ -18,6 +18,43 @@
 # Description:       Start the ArchivesSpace archival management system
 ### END INIT INFO
 
+
+# http://stackoverflow.com/questions/1055671/how-can-i-get-the-behavior-of-gnus-readlink-f-on-a-mac
+function readlink_dash_f {
+    max_iterations=32
+
+    target_file=$1
+
+    cd "`dirname "$target_file"`"
+    target_file="`basename "$target_file"`"
+
+    # iterate down a (possible) chain of symlinks
+    i=0
+    while [ -L "$target_file" ]
+    do
+        target_file="`readlink "$target_file"`"
+        cd "`dirname "$target_file"`"
+        target_file="`basename "$target_file"`"
+
+        if [ $i -gt $max_iterations ]; then
+            echo "ERROR: maximum iteration count reached ($max_iterations)" > /dev/stderr
+            return 1
+        fi
+
+        i=$[i + 1]
+    done
+
+    # Compute the canonicalized name by finding the physical path 
+    # for the directory we're in and appending the target file.
+    result="`pwd -P`/$target_file"
+
+    echo $result
+    return 0
+}
+
+
+
+
 cd "`dirname $0`"
 
 # Check for Java
@@ -30,7 +67,7 @@ if [ "$?" != "0" ]; then
 fi
 
 if [ ! -e "scripts/find-base.sh" ]; then
-    cd "$(dirname `readlink $0`)"
+    cd "$(dirname `readlink_dash_f $0`)"
 fi
 
 export ASPACE_LAUNCHER_BASE="$(scripts/find-base.sh)"
