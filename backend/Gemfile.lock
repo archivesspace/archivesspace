@@ -21,7 +21,7 @@ GEM
     i18n (0.6.1)
     jdbc-derby (10.6.2.1-java)
     jdbc-mysql (5.1.13)
-    jruby-jars (1.7.4)
+    jruby-jars (1.7.6)
     jruby-openssl (0.8.8)
       bouncy-castle-java (>= 1.5.0147)
     jruby-rack (1.1.12)
@@ -93,7 +93,7 @@ DEPENDENCIES
   flying_saucer
   jdbc-derby
   jdbc-mysql
-  jruby-jars (= 1.7.4)
+  jruby-jars (= 1.7.6)
   jruby-openssl
   json
   json-schema
