@@ -120,17 +120,23 @@ def main
 
   begin
     start_server(URI(AppConfig[:backend_url]).port, {:war => File.join('wars', 'backend.war'), :path => '/'})
-    start_server(URI(AppConfig[:solr_url]).port,
-                 {:war => File.join('wars', 'solr.war'), :path => '/'},
-                 {:war => File.join('wars', 'indexer.war'), :path => '/aspace-indexer'})
-    start_server(URI(AppConfig[:frontend_url]).port,
-                 {:war => File.join('wars', 'frontend.war'), :path => '/'},
-                 {:static_dirs => ASUtils.find_local_directories("frontend/assets"),
-                   :path => '/assets'})
-    start_server(URI(AppConfig[:public_url]).port,
-                 {:war => File.join('wars', 'public.war'), :path => '/'},
-                 {:static_dirs => ASUtils.find_local_directories("public/assets"),
-                   :path => '/assets'})
+
+    unless ENV['ASPACE_BACKEND_ONLY'] == 'true'
+      start_server(URI(AppConfig[:solr_url]).port,
+                   {:war => File.join('wars', 'solr.war'), :path => '/'},
+                   {:war => File.join('wars', 'indexer.war'), :path => '/aspace-indexer'})
+    end
+
+    unless (ENV['ASPACE_BACKEND_ONLY'] == 'true') || (ENV['ASPACE_INDEXER_ONLY'] == 'true')
+      start_server(URI(AppConfig[:frontend_url]).port,
+                   {:war => File.join('wars', 'frontend.war'), :path => '/'},
+                   {:static_dirs => ASUtils.find_local_directories("frontend/assets"),
+                     :path => '/assets'})
+      start_server(URI(AppConfig[:public_url]).port,
+                   {:war => File.join('wars', 'public.war'), :path => '/'},
+                   {:static_dirs => ASUtils.find_local_directories("public/assets"),
+                     :path => '/assets'})
+      end
   rescue
     # If anything fails on startup, dump a diagnostic file.
     ASUtils.dump_diagnostics($!)
