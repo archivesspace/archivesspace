@@ -29,6 +29,16 @@ AppConfig[:frontend_url] = "http://localhost:8080"
 AppConfig[:solr_url] = "http://localhost:8090"
 AppConfig[:public_url] = "http://localhost:8081"
 
+# Setting any of the four keys below to false will prevent the associated
+# applications from starting. Temporarily disabling the frontend and public
+# UIs and/or the indexer may help users who are running into memory-related
+# issues during migration.
+
+AppConfig[:enable_backend] = true
+AppConfig[:enable_frontend] = true
+AppConfig[:enable_public] = true
+AppConfig[:enable_indexer] = true
+
 # If you have multiple instances of the backend running behind a load
 # balancer, list the URL of each backend instance here.  This is used by the
 # real-time indexing, which needs to connect directly to each running
