@@ -119,18 +119,18 @@ def main
   end
 
   begin
-    start_server(URI(AppConfig[:backend_url]).port, {:war => File.join('wars', 'backend.war'), :path => '/'})
+    start_server(URI(AppConfig[:backend_url]).port, {:war => File.join('wars', 'backend.war'), :path => '/'}) if AppConfig[:enable_backend]
     start_server(URI(AppConfig[:solr_url]).port,
                  {:war => File.join('wars', 'solr.war'), :path => '/'},
-                 {:war => File.join('wars', 'indexer.war'), :path => '/aspace-indexer'})
+                 {:war => File.join('wars', 'indexer.war'), :path => '/aspace-indexer'}) if AppConfig[:enable_indexer]
     start_server(URI(AppConfig[:frontend_url]).port,
                  {:war => File.join('wars', 'frontend.war'), :path => '/'},
                  {:static_dirs => ASUtils.find_local_directories("frontend/assets"),
-                   :path => '/assets'})
+                   :path => '/assets'}) if AppConfig[:enable_frontend]
     start_server(URI(AppConfig[:public_url]).port,
                  {:war => File.join('wars', 'public.war'), :path => '/'},
                  {:static_dirs => ASUtils.find_local_directories("public/assets"),
-                   :path => '/assets'})
+                   :path => '/assets'}) if AppConfig[:enable_public]
   rescue
     # If anything fails on startup, dump a diagnostic file.
     ASUtils.dump_diagnostics($!)
