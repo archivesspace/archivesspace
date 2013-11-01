@@ -540,7 +540,7 @@
     <copy file="scripts/migrate_db.rb" todir="target/archivesspace/scripts/rb" />
 
     <copy todir="target/archivesspace/gems">
-      <fileset dir="gems" excludes="cache/*,doc/*" />
+      <fileset dir="gems" excludes="cache/*,doc/*,gems/jruby-jars-1.7.6/lib/*.dev.jar" />
     </copy>
 
     <copy todir="target/archivesspace/launcher">
