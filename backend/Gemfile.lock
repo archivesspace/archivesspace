@@ -11,7 +11,6 @@ GEM
       rubyzip
     backports (2.6.5)
     bcrypt-ruby (3.0.1-java)
-    bouncy-castle-java (1.5.0147)
     diff-lcs (1.1.3)
     eventmachine (1.0.0-java)
     factory_girl (4.1.0)
@@ -21,9 +20,7 @@ GEM
     i18n (0.6.1)
     jdbc-derby (10.6.2.1-java)
     jdbc-mysql (5.1.13)
-    jruby-jars (1.7.4)
-    jruby-openssl (0.8.8)
-      bouncy-castle-java (>= 1.5.0147)
+    jruby-jars (1.7.6)
     jruby-rack (1.1.12)
     json (1.7.7-java)
     json-schema (1.0.10)
@@ -76,7 +73,7 @@ GEM
       sinatra-contrib
     tilt (1.3.6)
     tzinfo (0.3.37)
-    warbler (1.3.6)
+    warbler (1.4.0.beta2)
       jruby-jars (>= 1.4.0)
       jruby-rack (>= 1.0.0)
       rake (>= 0.8.7)
@@ -93,8 +90,7 @@ DEPENDENCIES
   flying_saucer
   jdbc-derby
   jdbc-mysql
-  jruby-jars (= 1.7.4)
-  jruby-openssl
+  jruby-jars (= 1.7.6)
   json
   json-schema
   ladle
