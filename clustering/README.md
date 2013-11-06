@@ -142,6 +142,9 @@ tenants' configuration files.  To do this, edit
 
      include /aspace/nginx/conf/tenants/*.conf;
 
+*Note:* the location of Nginx's main config file might vary between
+systems.  Another likely candidate is `/etc/nginx/nginx.conf`.
+
 
 ## Download the ArchivesSpace distribution
 
