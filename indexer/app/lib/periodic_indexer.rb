@@ -1,5 +1,6 @@
 require_relative 'indexer_common'
 require 'time'
+require 'thread'
 
 class IndexState
 
@@ -49,7 +50,8 @@ class PeriodicIndexer < CommonIndexer
   # prior to the check.
   WINDOW_SECONDS = 30
 
-  PAGE_SIZE = 100
+  THREAD_COUNT = AppConfig[:indexer_thread_count].to_i
+  RECORDS_PER_THREAD = AppConfig[:indexer_records_per_thread].to_i
 
   def load_tree_docs(tree, result, root_uri, path_to_root = [])
     this_node = tree.reject {|k, v| k == 'children'}
@@ -76,6 +78,7 @@ class PeriodicIndexer < CommonIndexer
     end
 
     result << doc
+    doc = nil
 
     tree['children'].each do |child|
       load_tree_docs(child, result, root_uri, path_to_root + [this_node])
@@ -106,7 +109,7 @@ class PeriodicIndexer < CommonIndexer
   def configure_doc_rules
     super
 
-    @processed_trees = []
+    @processed_trees = java.util.concurrent.ConcurrentHashMap.new
 
     add_batch_hook {|batch|
       records = batch.map {|rec|
@@ -124,26 +127,21 @@ class PeriodicIndexer < CommonIndexer
       }.compact.uniq
 
       # Don't reprocess trees we've already covered during previous batches
-      records -= @processed_trees
+      records -= @processed_trees.keySet
 
       ## Each record needs its tree indexed
 
       # Delete any existing versions
       delete_trees_for(records)
 
-      # Add the updated versions
-      tree_docs = []
-
       records.each do |record_uri|
         record_data = JSONModel.parse_reference(record_uri)
 
         tree = JSONModel("#{record_data[:type]}_tree".intern).find(nil, "#{record_data[:type]}_id".intern => record_data[:id])
 
-        load_tree_docs(tree.to_hash(:trusted), tree_docs, record_uri)
-        @processed_trees << record_uri
+        load_tree_docs(tree.to_hash(:trusted), batch, record_uri)
+        @processed_trees.put(record_uri, true)
       end
-
-      batch.concat(tree_docs)
     }
   end
 
@@ -161,7 +159,7 @@ class PeriodicIndexer < CommonIndexer
 
     page = 1
     while true
-      deletes = JSONModel::HTTP.get_json("/delete-feed", :modified_since => [last_mtime - WINDOW_SECONDS, 0].max, :page => page, :page_size => PAGE_SIZE)
+      deletes = JSONModel::HTTP.get_json("/delete-feed", :modified_since => [last_mtime - WINDOW_SECONDS, 0].max, :page => page, :page_size => RECORDS_PER_THREAD)
 
       if !deletes['results'].empty?
         did_something = true
@@ -180,8 +178,49 @@ class PeriodicIndexer < CommonIndexer
   end
 
 
+  def start_worker_thread(queue, record_type)
+    repo_id = JSONModel.repository
+    session = JSONModel::HTTP.current_backend_session
+
+    Thread.new do
+      begin
+        # Inherit the repo_id and user session from the parent thread
+        JSONModel.set_repository(repo_id)
+        JSONModel::HTTP.current_backend_session = session
+
+        did_something = false
+
+        while true
+          id_subset = queue.pop
+          break if id_subset == :finished
+
+          hash = Digest::SHA1.hexdigest(id_subset.to_json)
+
+          records = JSONModel(record_type).all(:id_set => id_subset.join(","),
+                                               'resolve[]' => @@resolved_attributes)
+
+          if !records.empty?
+            did_something = true
+            index_records(records.map {|record|
+                            {
+                              'record' => record.to_hash(:trusted),
+                              'uri' => record.uri
+                            }
+                          })
+          end
+        end
+
+        did_something
+      rescue
+        $stderr.puts("Failure in periodic indexer worker thread: #{$!}")
+        $stderr.puts($!.backtrace)
+        raise $!
+      end
+    end
+  end
+
   def run_index_round
-    puts "#{Time.now}: Running index round"
+    $stderr.puts "#{Time.now}: Running index round"
 
     login
 
@@ -205,38 +244,50 @@ class PeriodicIndexer < CommonIndexer
     @state.set_last_mtime('repositories', 'repositories', start)
 
     # Set the list of tree URIs back to empty to start over again
-    @processed_trees = []
+    @processed_trees.clear
 
     # And any records in any repositories
     repositories.each do |repository|
       JSONModel.set_repository(repository.id)
 
-      did_something = false
       checkpoints = []
+
+      did_something = false
 
       @@record_types.each do |type|
         start = Time.now
 
         modified_since = [@state.get_last_mtime(repository.id, type) - WINDOW_SECONDS, 0].max
+
         id_set = JSONModel::HTTP.get_json(JSONModel(type).uri_for, :all_ids => true, :modified_since => modified_since)
 
-        id_set.each_slice(PAGE_SIZE) do |id_subset|
+        next if id_set.empty?
 
-          records = JSONModel(type).all(:id_set => id_subset.join(","),
-                                        'resolve[]' => @@resolved_attributes)
+        indexed_count = 0
+        work_queue = SizedQueue.new(THREAD_COUNT)
 
-          if !records.empty?
-            did_something = true
-            index_records(records.map {|record|
-                            {
-                              'record' => record.to_hash(:trusted),
-                              'uri' => record.uri
-                            }
-                          })
-          end
+        workers = (0...THREAD_COUNT).map {|thread_idx|
+          start_worker_thread(work_queue, type)
+        }
+
+        # Feed our worker threads subsets of IDs to process
+        id_set.each_slice(RECORDS_PER_THREAD) do |id_subset|
+          # This will block if all threads are currently busy.
+          work_queue.push(id_subset)
+
+          indexed_count += id_subset.length
+          $stderr.puts("Indexed #{indexed_count} of #{id_set.length} #{type} records in repository #{repository.repo_code}")
         end
 
+        # And once we're done, instruct them to finish up and wait for them.  If
+        # any of the threads reported that they indexed some records, we'll send
+        # a commit.
+        THREAD_COUNT.times { work_queue.push(:finished) }
+        did_something ||= workers.map(&:join).any? {|status| status}
+
         checkpoints << [repository, type, start]
+
+        $stderr.puts("Indexed #{id_set.length} records in #{Time.now.to_i - start.to_i} seconds")
       end
 
       send_commit if did_something
@@ -269,4 +320,3 @@ class PeriodicIndexer < CommonIndexer
   end
 
 end
-

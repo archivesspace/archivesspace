@@ -7,6 +7,16 @@ AppConfig[:solr_indexing_frequency_seconds] = 30
 AppConfig[:default_page_size] = 10
 AppConfig[:max_page_size] = 250
 
+
+# The periodic indexer can run using multiple threads to take advantage of
+# multiple CPU cores.
+#
+# By setting the next two options, you can control how many CPU cores are used,
+# and the amount of memory that will be consumed by the indexing process (more
+# cores and/or more records per thread means more memory used).
+AppConfig[:indexer_records_per_thread] = 25
+AppConfig[:indexer_thread_count] = 4
+
 AppConfig[:allow_other_unmapped] = false
 
 AppConfig[:db_url] = proc { AppConfig.demo_db_url }

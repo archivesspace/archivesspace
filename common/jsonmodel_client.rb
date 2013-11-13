@@ -11,6 +11,12 @@ module JSONModel
   end
 
 
+  # The currently selected repository (if any)
+  def self.repository
+    Thread.current[:selected_repo_id]
+  end
+
+
   # Grab an array of JSON objects from 'uri' and use the 'type_descriptor'
   # property of each object to cast it into a JSONModel.
   def self.all(uri, type_descriptor)

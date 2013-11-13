@@ -8,6 +8,8 @@ require 'jsonmodel'
 require 'jsonmodel_client'
 require 'config/config-distribution'
 
+require_relative 'index_batch'
+
 
 class CommonIndexer
 
@@ -246,7 +248,7 @@ class CommonIndexer
           'title' => record['record']['title'],
           'types' => ['collection_management'],
           'primary_type' => 'collection_management',
-          'fullrecord' => cm.to_json(:max_nesting => false),
+          'json' => cm.to_json(:max_nesting => false),
           'processing_priority' => cm['processing_priority'],
           'processing_status' => cm['processing_status'],
           'processing_hours_total' => cm['processing_hours_total'],
@@ -363,7 +365,7 @@ class CommonIndexer
     req.body = delete_request.to_json
 
     response = do_http_request(solr_url, req)
-    puts "Deleted #{records.length} documents: #{response}"
+    $stderr.puts "Deleted #{records.length} documents: #{response}"
 
     if response.code != '200'
       raise "Error when deleting records: #{response.body}"
@@ -388,20 +390,20 @@ class CommonIndexer
 
 
   def clean_whitespace(doc)
-    if doc.is_a?(String)
-      doc.strip
+    if doc.is_a?(String) && !doc.frozen?
+      doc.strip!
     elsif doc.is_a?(Hash)
-      Hash[doc.map {|k, v| [k, clean_whitespace(v)]}]
+      doc.values.each {|v| clean_whitespace(v)}
     elsif doc.is_a?(Array)
-      doc.map{|elt| clean_whitespace(elt)}
-    else
-      doc
+      doc.each {|v| clean_whitespace(v)}
     end
+
+    doc
   end
 
 
   def index_records(records)
-    batch = []
+    batch = IndexBatch.new
 
     records = dedupe_by_uri(records)
 
@@ -421,7 +423,7 @@ class CommonIndexer
       doc['title'] = values['title']
       doc['primary_type'] = record_type
       doc['types'] = [record_type]
-      doc['fullrecord'] = doc['json'] = ASUtils.to_json(values)
+      doc['json'] = ASUtils.to_json(values)
       doc['suppressed'] = values['suppressed'].to_s
       doc['publish'] = values.has_key?('publish') ? values['publish'].to_s : 'false'
       doc['system_generated'] = values.has_key?('system_generated') ? values['system_generated'].to_s : 'false'
@@ -442,7 +444,7 @@ class CommonIndexer
 
     # Allow hooks to operate on the entire batch if desired
     @batch_hooks.each_with_index do |hook|
-      batch = hook.call(batch)
+      hook.call(batch)
     end
 
 
@@ -464,10 +466,14 @@ class CommonIndexer
       # Now apply the updates
       req = Net::HTTP::Post.new("/update")
       req['Content-Type'] = 'application/json'
-      req.body = {:add => batch}.to_json
+
+      batch.close
+      req['Content-Length'] = batch.content_length
+      req.body_stream = batch.to_json_stream
 
       response = do_http_request(solr_url, req)
-      puts "Indexed #{batch.length} documents: #{response}"
+
+      batch.destroy
 
       if response.code != '200'
         raise "Error when indexing records: #{response.body}"
@@ -486,7 +492,7 @@ class CommonIndexer
 
     if response.code != '200'
       if response.body =~ /exceeded limit of maxWarmingSearchers/
-        puts "INFO: #{response.body}"
+        $stderr.puts "INFO: #{response.body}"
       else
         raise "Error when committing: #{response.body}"
       end
