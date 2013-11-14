@@ -3,7 +3,7 @@
 $(function() {
   $("button.preview-locations").on("click", function() {
     var $form = $(this).closest("form");
-    AS.openCustomModal("batchPreviewModal", $(this).text(), "<div class='alert alert-info'>Loading...</div>", "container");
+    AS.openCustomModal("batchPreviewModal", $(this).text(), "<div class='alert alert-info'>Loading...</div>", "container", {}, this);
     $.ajax({
       url: $form.attr("action") + "?dry_run=true",
       type: "POST",
