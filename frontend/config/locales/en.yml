@@ -685,6 +685,7 @@ en:
   rde:
     date_type: Date Type
     instance_type: Instance Type
+    column_label: Column
     sections:
       basic_information: Basic Information
       date: Date
@@ -692,11 +693,28 @@ en:
       notes: Notes
     actions:
       add_row: Add Row
+      add_rows: Add Rows
       submit: Save Rows
       reset: Reset
       showhide_prefix: "Columns:"
       showhide_suffix: visible
       showhide_none: All Columns Filtered
+      fill_toggle: Fill Column
+      reorder_toggle: Reorder Columns
+    fill_column:
+      basic: Basic
+      sequence: Sequence
+      fill_value: Fill Value
+      select_a_column: Please select a column
+      apply_basic_fill: Apply Fill
+      apply_sequence_fill: Apply Sequence
+      sequence_count_warning: There are more rows than there are items in the sequence.
+      preview_sequence: Preview Sequence Values
+      sequence_summary: "%{count} items in the sequence:"
+      sequence_from_required: From is required
+      sequence_to_required: To is required
+    reorder_columns:
+      apply_order: Apply Column Order
     messages:
       error_prefix: Row
       success: "<div class='alert alert-success'>Children Created. Refreshing page...</div>"

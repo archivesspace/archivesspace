@@ -8,17 +8,23 @@ $(function() {
   $.fn.init_rapid_data_entry_form = function($modal, $node) {
     $(this).each(function() {
       var $this = $(this);
-      var $table = $("table", $this);
+      var $table = $("table#rdeTable", $this);
 
       if ($this.hasClass("initialised")) {
         return;
       }
 
       // Config from Cookies
-      var VISIBLE_COLUMN_INDEXES =  AS.prefixed_cookie("rde.visible") ? JSON.parse(AS.prefixed_cookie("rde.visible")) : null;
-      var STICKY_COLUMN_INDEXES =  AS.prefixed_cookie("rde.sticky") ? JSON.parse(AS.prefixed_cookie("rde.sticky")) : null;
+      var VISIBLE_COLUMN_IDS =  AS.prefixed_cookie("rde.visible") ? JSON.parse(AS.prefixed_cookie("rde.visible")) : null;
+      var STICKY_COLUMN_IDS =  AS.prefixed_cookie("rde.sticky") ? JSON.parse(AS.prefixed_cookie("rde.sticky")) : null;
       var COLUMN_WIDTHS =  AS.prefixed_cookie("rde.widths") ? JSON.parse(AS.prefixed_cookie("rde.widths")) : null;
+      var COLUMN_ORDER =  AS.prefixed_cookie("rde.order") ? JSON.parse(AS.prefixed_cookie("rde.order")) : null;
 
+      // store section data
+      var SECTION_DATA = {};
+      $(".sections th", $table).each(function() {
+        SECTION_DATA[$(this).data("id")] = $(this).text();
+      });
 
       var index = 0;
 
@@ -50,9 +56,11 @@ $(function() {
         AS.prefixed_cookie("rde.visible", null);
         AS.prefixed_cookie("rde.widths", null);
         AS.prefixed_cookie("rde.sticky", null);
-        VISIBLE_COLUMN_INDEXES = null;
-        STICKY_COLUMN_INDEXES = null;
+        AS.prefixed_cookie("rde.order", null);
+        VISIBLE_COLUMN_IDS = null;
+        STICKY_COLUMN_IDS = null;
         COLUMN_WIDTHS = null;
+        COLUMN_ORDER = null;
 
         // reload the form
         $(document).triggerHandler("rdeload.aspace", [$node, $modal]);
@@ -62,6 +70,12 @@ $(function() {
         event.preventDefault();
         event.stopPropagation();
 
+        var $row = addRow();
+
+        $(":input:visible:first", $row).focus();
+      });
+
+      var addRow = function() {
         var $currentRow = $(event.target).closest("tr");
         if ($currentRow.length === 0) {
           $currentRow = $("table tbody tr:last", $this);
@@ -98,14 +112,14 @@ $(function() {
           }
 
           // Apply hidden columns
-          if ($th.hasClass("fieldset-label") && !isVisible(i)) {
+          if ($th.hasClass("fieldset-label") && !isVisible($th.attr("id"))) {
             $($("td", $row).get(i)).hide();
           }
         });
 
         $currentRow.after($row);
-        $(":input:visible:first", $row).focus();
-      });
+        return $row;
+      };
 
       $modal.off("keydown").on("keydown", function(event) {
         if (event.keyCode === 27) { //esc
@@ -162,10 +176,10 @@ $(function() {
         $(this).toggleClass("sticky");
         var sticky = [];
         $("table th.sticky", $this).each(function() {
-          sticky.push($(this).index());
+          sticky.push($(this).attr("id"));
         });
-        STICKY_COLUMN_INDEXES = sticky;
-        AS.prefixed_cookie("rde.sticky", JSON.stringify(STICKY_COLUMN_INDEXES));
+        STICKY_COLUMN_IDS = sticky;
+        AS.prefixed_cookie("rde.sticky", JSON.stringify(STICKY_COLUMN_IDS));
       });
 
       $modal.on("click", "[data-dismiss]", function(event) {
@@ -214,7 +228,7 @@ $(function() {
           }
         });
 
-        // add sorting
+        // add ability to resize columns
         $table.kiketable_colsizable({
           dragCells: "tr.fieldset-labels th.fieldset-label",
           dragMove: true
@@ -224,18 +238,331 @@ $(function() {
         // add show/hide
         $table.columnManager();
 
+        // give the columns an id
+        $("table thead .fieldset-labels th").each(function(i, col) {
+          if (!$(col).attr("id")) {
+            $(col).attr("id", "rdecol"+i);
+          }
+          $($("table colgroup col").get(i)).data("id", $(col).attr("id"));
+        });
+
+        applyColumnOrder();
+        initColumnReorderFeature();
         applyPersistentStickyColumns();
         initColumnShowHideWidget();
+        initFillFeature();
+      };
+
+      var initFillFeature = function() {
+        var $fillFormsContainer = $(".fill-column-form", $modal);
+        var $btnFillFormToggle = $("button.fill-column", $modal);
+
+        var $sourceRow = $("table tbody tr:first", $this);
+
+        // Setup global events
+        $btnFillFormToggle.click(function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          // toggle other panel if it is active
+          if (!$(this).hasClass("active")) {
+            $(".active", $(this).closest(".btn-group")).trigger("click");
+          }
+
+          $btnFillFormToggle.toggleClass("active");
+          $fillFormsContainer.slideToggle();
+        });
+
+        // Setup Basic Fill form
+        var setupBasicFillForm = function() {
+          var $form = $("#fill_basic", $fillFormsContainer);
+          var $inputTargetColumn = $("#basicFillTargetColumn", $form);
+          var $btnFill = $("button", $form);
+
+          // populate the column selectors
+          populateColumnSelector($inputTargetColumn);
+
+          $inputTargetColumn.change(function() {
+            $(".empty", this).remove();
+
+            var colIndex = parseInt($("#"+$(this).val()).index());
+
+            var $input = $(":input:first", $("td", $sourceRow).get(colIndex)).clone();
+            $input.attr("name", "").attr("id", "basicFillValue");
+            $(".fill-value-container", $form).html($input);
+            $btnFill.removeAttr("disabled").removeClass("disabled");
+          });
+
+          $btnFill.click(function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            var colIndex = parseInt($("#"+$inputTargetColumn.val()).index())+1;
+
+            var $targetCells = $("table tbody tr td:nth-child("+colIndex+")", $this);
+
+            if ($("#basicFillValue",$form).is(":checkbox")) {
+              var fillValue = $("#basicFillValue",$form).is(":checked");
+              if (fillValue) {
+                $(":input:first", $targetCells).attr("checked", "checked");
+              } else {
+                $(":input:first", $targetCells).removeAttr("checked");
+              }
+            } else {
+              var fillValue = $("#basicFillValue",$form).val();
+              $(":input:first", $targetCells).val(fillValue);
+            }
+
+            $btnFillFormToggle.toggleClass("active");
+            $fillFormsContainer.slideToggle();
+          });
+        };
+
+        // Setup Sequence Fill form
+        var setupSequenceFillForm = function() {
+          var $form = $("#fill_sequence", $fillFormsContainer);
+          var $inputTargetColumn = $("#sequenceFillTargetColumn", $form);
+          var $btnFill = $("button.btn-primary", $form);
+          var $sequencePreview = $(".sequence-preview", $form);
+
+          // populate the column selectors
+          populateColumnSelector($inputTargetColumn, null, function($colHeader) {
+            var $td = $("td", $sourceRow).get($colHeader.index());
+            return $(":input:first", $td).is(":text");
+          });
+
+          $inputTargetColumn.change(function() {
+            $(".empty", this).remove();
+            $btnFill.removeAttr("disabled").removeClass("disabled");
+          });
+
+          $("button.preview-sequence", $form).click(function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            $.getJSON($form.data("sequence-generator-url"),
+                      {
+                        prefix: $("#sequenceFillPrefix", $form).val(),
+                        from: $("#sequenceFillFrom", $form).val(),
+                        to: $("#sequenceFillTo", $form).val(),
+                        suffix: $("#sequenceFillSuffix", $form).val()
+                      },
+                      function(json) {
+                        $sequencePreview.html("");
+                        if (json.errors) {
+                          $.each(json.errors, function(i, error) {
+                            var $error = $("<div>").html(error).addClass("text-error");
+                            $sequencePreview.append($error);
+                          });
+                        } else {
+                          $sequencePreview.html($("<p class='values'>").html(json.values.join(", ")));
+                          $sequencePreview.prepend($("<p class='summary'>").html(json.summary));
+                        }
+                      }
+            );
+          });
+
+          var applySequenceFill = function(force) {
+            $("#sequenceTooSmallMsg", $form).hide();
+
+            $.getJSON($form.data("sequence-generator-url"),
+                {
+                  prefix: $("#sequenceFillPrefix", $form).val(),
+                  from: $("#sequenceFillFrom", $form).val(),
+                  to: $("#sequenceFillTo", $form).val(),
+                  suffix: $("#sequenceFillSuffix", $form).val()
+                },
+                function(json) {
+                  $sequencePreview.html("");
+                  if (json.errors) {
+                    $.each(json.errors, function(i, error) {
+                      var $error = $("<div>").html(error).addClass("text-error");
+                      $sequencePreview.append($error);
+                    });
+                    return;
+                  }
+
+                  // check if less items in sequence than rows
+                  if (!force && json.values.length < $("tbody tr", $modal).length) {
+                    $("#sequenceTooSmallMsg", $form).show();
+                    return;
+                  }
+
+                  // Good to go. Apply values.
+                  var targetIndex = $("#"+$inputTargetColumn.val()).index();
+                  var $targetCells = $("table tbody tr td:nth-child("+(targetIndex+1)+")", $this);
+                  $.each(json.values, function(i, val) {
+                    if (i > $targetCells.length) {
+                      return;
+                    }
+                    $(":input:first", $targetCells[i]).val(val);
+                  });
+
+                  $btnFillFormToggle.toggleClass("active");
+                  $fillFormsContainer.slideToggle();
+                }
+            );
+          }
+
+          $btnFill.click(function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            applySequenceFill(false);
+          });
+
+          $(".btn-continue-sequence-fill", $form).click(function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            applySequenceFill(true);
+          });
+        };
+
+        setupBasicFillForm();
+        setupSequenceFillForm();
+      };
+
+      var persistColumnOrder = function() {
+        var column_ids = [];
+        $("table .fieldset-labels th", $this).each(function() {
+          column_ids.push($(this).attr("id"));
+        });
+        COLUMN_ORDER = column_ids;
+        $.cookie("rde.order", JSON.stringify(COLUMN_ORDER));
+      };
+
+      var applyColumnOrder = function() {
+        if (COLUMN_ORDER === null) {
+          persistColumnOrder();
+        } else {
+          // apply order from cookie
+          var $row = $("tr.fieldset-labels", $table);
+          var $sectionRow = $("tr.sections", $table);
+          var $colgroup = $("colgroup", $table);
+
+          $sectionRow.html("");
+
+          $.each(COLUMN_ORDER, function(targetIndex, colId) {
+            var $th = $("#" + colId, $row);
+            var currentIndex = $th.index();
+            var $col = $($("col", $colgroup).get(currentIndex));
+
+            if (targetIndex !== currentIndex) {
+                $th.insertBefore($("th", $row).get(targetIndex));
+                $col.insertBefore($("col", $colgroup).get(targetIndex));
+                $("tbody tr", $table).each(function(i, $tr) {
+                  $($("td", $tr).get(currentIndex)).insertBefore($("td", $tr).get(targetIndex));
+                });
+            }
+
+            // build the section row cells
+            if (targetIndex === 0) {
+              $sectionRow.append($("<th>").data("id", "empty").attr("colspan", "1"));
+            } else if ($("th", $sectionRow).last().data("id") === $th.data("section")) {
+              var $lastTh = $("th", $sectionRow).last();
+              $lastTh.attr("colspan", parseInt($lastTh.attr("colspan"))+1);
+            } else {
+              $sectionRow.append($("<th>").data("id", $th.data("section")).attr("colspan", "1").text(SECTION_DATA[$th.data("section")]));
+            }
+          });
+        }
+      };
+
+      var initColumnReorderFeature = function() {
+        var $reorderContainer = $("#columnReorderForm", $modal);
+        var $btnReorderToggle = $("button.reorder-columns", $modal);
+        var $select = $("#columnOrder", $reorderContainer);
+        var $btnApplyOrder = $(".btn-primary", $reorderContainer);
+
+
+        // Setup global events
+        $btnReorderToggle.click(function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          // toggle other panel if it is active
+          if (!$(this).hasClass("active")) {
+            $(".active", $(this).closest(".btn-group")).trigger("click");
+          }
+
+          $btnReorderToggle.toggleClass("active");
+          $reorderContainer.slideToggle();
+        });
+
+        populateColumnSelector($select);
+        $select.attr("size", $("option", $select).length / 2);
+
+        var handleMove = function(direction) {
+          var $options = $("option:selected", $select);
+          if ($options.length) {
+            if (direction === "up") {
+              $options.first().prev().before($options);
+            } else {
+              $options.last().next().after($options);
+            }
+          }
+          $btnApplyOrder.removeAttr("disabled").removeClass("disabled");
+        };
+
+        var resetForm = function() {
+          $btnReorderToggle.toggleClass("active");
+          $reorderContainer.slideToggle(function() {
+            $btnApplyOrder.addClass("disabled").attr("disabled", "disabled");
+            // reset the select
+            $select.html("");
+            populateColumnSelector($select);
+          });
+        }
+
+        $('#columnOrderUp', $reorderContainer).bind('click', function() {
+          handleMove("up");
+        });
+        $('#columnOrderDown', $reorderContainer).bind('click', function() {
+          handleMove("down");
+        });
+        $(".btn-cancel", $reorderContainer).click(function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          resetForm();
+        });
+        $btnApplyOrder.click(function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          COLUMN_ORDER = ["colStatus"];
+          $("option", $select).each(function() {
+            COLUMN_ORDER.push($(this).val());
+          });
+          COLUMN_ORDER.push("colActions");
+
+          applyColumnOrder();
+          resetForm();
+          persistColumnOrder();
+        });
+      };
+
+      var populateColumnSelector = function($select, select_func, filter_func) {
+        filter_func = filter_func || function() {return true;};
+        select_func = select_func || function() {return false;};
+        $(".fieldset-labels th", $this).each(function() {
+          var $colHeader = $(this);
+          if ($colHeader.hasClass("fieldset-label") && filter_func($colHeader)) {
+            var $option = $("<option>");
+            $option.val($colHeader.attr("id")).text($colHeader.text());
+            if (select_func($colHeader)) {
+              $option.attr("selected", "selected");
+            }
+            $select.append($option);
+          }
+        });
       };
 
       var initColumnShowHideWidget = function() {
         var $select = $("#rde_hidden_columns");
-        $(".fieldset-labels th", $this).each(function() {
-          if ($(this).hasClass("fieldset-label")) {
-            var $option = $("<option>");
-            $option.val($(this).index()).text($(this).text()).attr("selected", "selected");
-            $select.append($option);
-          }
+        populateColumnSelector($select, function($colHeader) {
+          return isVisible($colHeader.attr("id"));
         });
         $select.multiselect({
           buttonClass: 'btn btn-small',
@@ -259,7 +586,8 @@ $(function() {
           },
           onChange: function($option, checked) {
             var widths = persistColumnWidths();
-            var index = parseInt($option.val());
+            var colId = $option.val();
+            var index = $("#" + colId).index();
 
             if (checked) {
               $table.showColumns(index+1);
@@ -270,8 +598,8 @@ $(function() {
               hideColumn(index);
             }
 
-            VISIBLE_COLUMN_INDEXES = $select.val();
-            AS.prefixed_cookie("rde.visible", JSON.stringify(VISIBLE_COLUMN_INDEXES));
+            VISIBLE_COLUMN_IDS = $select.val();
+            AS.prefixed_cookie("rde.visible", JSON.stringify(VISIBLE_COLUMN_IDS));
           }
         });
 
@@ -279,12 +607,12 @@ $(function() {
       };
 
       var persistColumnWidths = function() {
-        var widths = [];
-        $("table colgroup col", $this).each(function() {
-          if ($(this).width() === 0) {
-            $(this).width($(this).data("default-width"));
+        var widths = {};
+        $("table colgroup col", $this).each(function(i, col) {
+          if ($(col).width() === 0) {
+            $(col).width($(col).data("default-width"));
           }
-          widths.push($(this).width());
+          widths[$(col).data("id")] = $(col).width();
         });
 
         COLUMN_WIDTHS = widths;
@@ -293,20 +621,22 @@ $(function() {
         return COLUMN_WIDTHS;
       };
 
-      var setColumnWidth = function(index) {
-        var width = getColumnWidth(index);
+      var setColumnWidth = function(colId) {
+        var width = getColumnWidth(colId);
+        var index = $("#"+colId).index();
 
+        // set width of corresponding col element
         $($("table colgroup col", $this).get(index)).width(width);
 
         return width;
       };
 
-      var getColumnWidth = function(index) {
+      var getColumnWidth = function(colId) {
         if ( COLUMN_WIDTHS ) {
-          return COLUMN_WIDTHS[index];
+          return COLUMN_WIDTHS[colId];
         } else {
           persistColumnWidths();
-          return getColumnWidth(index);
+          return getColumnWidth(colId);
         }
       };
 
@@ -314,7 +644,7 @@ $(function() {
         var total_width = 0;
 
         $("table colgroup col", $this).each(function(i, el) {
-          var colW = getColumnWidth(i);
+          var colW = getColumnWidth($(el).data("id"));
           $(el).width(colW);
           total_width += colW;
         });
@@ -323,37 +653,38 @@ $(function() {
       };
 
       var applyPersistentStickyColumns = function() {
-        if ( STICKY_COLUMN_INDEXES ) {
+        if ( STICKY_COLUMN_IDS ) {
           $("th.sticky", $this).removeClass("sticky");
-          $.each(STICKY_COLUMN_INDEXES, function() {
-            $($(".fieldset-labels th", $this).get(this)).addClass("sticky");
+          $.each(STICKY_COLUMN_IDS, function() {
+            $("#" + this).addClass("sticky");
           });
         }
       };
 
-      var isVisible = function(index) {
-        if ( VISIBLE_COLUMN_INDEXES ) {
-          return  $.inArray(index+"", VISIBLE_COLUMN_INDEXES) >= 0
+      var isVisible = function(colId) {
+        if ( VISIBLE_COLUMN_IDS ) {
+          return  $.inArray(colId, VISIBLE_COLUMN_IDS) >= 0
         } else {
           return true;
         }
       };
 
       var applyPersistentVisibleColumns = function() {
-        if ( VISIBLE_COLUMN_INDEXES ) {
+        if ( VISIBLE_COLUMN_IDS ) {
           var total_width = 0;
 
           $.each($(".fieldset-labels th", $this), function() {
+            var colId = $(this).attr("id");
             var index = $(this).index();
 
             if ($(this).hasClass("fieldset-label")) {
-              if (isVisible(index)) {
-                total_width += setColumnWidth(index);
+              if (isVisible(colId)) {
+                total_width += setColumnWidth(colId);
               } else {
                 hideColumn(index);
               }
             } else {
-              total_width += setColumnWidth(index);
+              total_width += setColumnWidth(colId);
             }
           });
           $table.width(total_width);
@@ -371,9 +702,25 @@ $(function() {
       };
 
       // Connect up the $modal form submit button
-      $($modal).on("click", ".btn-primary", function() {
+      $($modal).on("click", ".modal-footer .btn-primary", function() {
         $(this).attr("disabled","disabled");
         $this.submit();
+      });
+
+      // enable form within the add row dropdown menu
+      $(".add-rows-form input", $modal).click(function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+      });
+      $(".add-rows-form button", $modal).click(function() {
+        try {
+          var numberOfRows = parseInt($("input", $(this).closest('.add-rows-form')).val(), 10);
+          for (var i=1; i<=numberOfRows; i++) {
+            addRow();
+          }
+        } catch(e) {
+          // if the field cannot parse the form value to an integer.. just quietly judge the user
+        }
       });
 
       initAjaxForm();
