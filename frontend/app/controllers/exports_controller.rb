@@ -38,8 +38,15 @@ class ExportsController < ApplicationController
   
 
   def download_ead
+
+    res = JSONModel(:resource).find(params[:id])
+
+    resid = [res[:id_0], res[:id_1], res[:id_2], res[:id_3]].compact.join("-")
+
+    puts "resid: #{resid}"
+
     download_export( 
-      "/repositories/#{Thread.current[:selected_repo_id]}/resource_descriptions/#{params[:id]}.xml", "EAD")
+                    "/repositories/#{Thread.current[:selected_repo_id]}/resource_descriptions/#{params[:id]}.xml", "EAD_#{resid}")
   end
   
   

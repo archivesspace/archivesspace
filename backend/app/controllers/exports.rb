@@ -59,9 +59,9 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "(:resource)"]) \
   do
-    ead_stream = generate_ead(params[:id])
+    resp = generate_ead(params[:id])
 
-    stream_response(ead_stream)
+    stream_response(resp[:stream], resp[:filename])
   end
 
   Endpoint.get('/repositories/:repo_id/resource_labels/:id.tsv')
