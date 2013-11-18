@@ -27,6 +27,12 @@ module ExternalIDs
       define_method(:add_external_id) {|hash|
         send("add_#{table_name}".intern, clz.new(hash))
       }
+
+      define_method("_remove_all_#{table_name}".intern) {
+        ds = self.send("#{table_name}_dataset")
+        ds.delete
+      }
+      
     end
 
     base.extend(ClassMethods)
