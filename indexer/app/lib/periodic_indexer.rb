@@ -283,7 +283,8 @@ class PeriodicIndexer < CommonIndexer
         # any of the threads reported that they indexed some records, we'll send
         # a commit.
         THREAD_COUNT.times { work_queue.push(:finished) }
-        did_something ||= workers.map(&:join).any? {|status| status}
+        results = workers.map {|thread| thread.join; thread.value}
+        did_something ||= results.any? {|status| status}
 
         checkpoints << [repository, type, start]
 
