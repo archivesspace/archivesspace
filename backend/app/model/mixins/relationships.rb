@@ -103,6 +103,30 @@ AbstractRelationship = Class.new(Sequel::Model) do
   end
 
 
+  def self.find_by_participants(objs)
+    result = {}
+
+    return result if objs.empty?
+    reference_columns = self.reference_columns_for(objs.first.class)
+
+    objects_by_id = objs.group_by {|obj| obj.id}
+
+    reference_columns.each do |col|
+      self.filter(col => objects_by_id.keys).all.each do |relationship|
+        obj = objects_by_id[relationship[col]].first
+        result[obj] ||= []
+        result[obj] << relationship
+      end
+    end
+
+    result.each do |obj, relationships|
+      relationships.sort_by! {|relationship| relationship[:aspace_relationship_position]}
+    end
+
+    result
+  end
+
+
   # Return a list of the objects that are related to 'obj' via one of our
   # relationships
   def self.who_participates_with(obj)
@@ -139,6 +163,18 @@ AbstractRelationship = Class.new(Sequel::Model) do
     nil
   end
 
+
+  def uri_for_referent_to(obj)
+    self.class.participating_models.each {|model|
+      self.class.reference_columns_for(model).each {|column|
+        if self[column] && (model != obj.class || self[column] != obj.id)
+          return model.my_jsonmodel.uri_for(self[column],
+                                            :repo_id => RequestContext.get(:repo_id))
+        end
+      }
+    }
+  end
+
 end
 
 
@@ -160,6 +196,14 @@ module Relationships
     trigger_reindex_of_dependants
 
     obj
+  end
+
+
+  attr_reader :cached_relationships
+
+  def cache_relationships(relationship_defn, relationship_objects)
+    @cached_relationships ||= {}
+    @cached_relationships[relationship_defn] = relationship_objects
   end
 
 
@@ -386,6 +430,18 @@ module Relationships
     end
 
 
+    def eager_load_relationships(objects)
+      relationships.each do |relationship_defn|
+        # For each defined relationship
+        relationships_map = relationship_defn.find_by_participants(objects)
+
+        objects.each do |obj|
+          obj.cache_relationships(relationship_defn, relationships_map[obj])
+        end
+      end
+    end
+
+
     def create_from_json(json, opts = {})
       obj = super
       apply_relationships(obj, json, opts, true)
@@ -402,13 +458,18 @@ module Relationships
         property_name = relationship_defn.json_property
 
         # For each defined relationship
-        relationships = relationship_defn.find_by_participant(obj)
+        relationships = if obj.cached_relationships
+                          # Use the eagerly fetched relationships if we have them
+                          Array(obj.cached_relationships[relationship_defn])
+                        else
+                          relationship_defn.find_by_participant(obj)
+                        end
 
         json[property_name] = relationships.map {|relationship|
           # Return the relationship properties, plus the URI reference of the
           # related object
           values = ASUtils.keys_as_strings(relationship.properties)
-          values['ref'] = relationship.other_referent_than(obj).uri
+          values['ref'] = relationship.uri_for_referent_to(obj)
 
           values
         }

@@ -39,6 +39,15 @@ module ASModel
     end
 
 
+    # Do whatever is necessary to eaglerly load this object from the database.
+    #
+    # This is designed to give mixins the options of eagerly loading an entire
+    # record and its components.
+    def eagerly_load!
+      # Do nothing by default
+    end
+
+
     # Several JSONModels consist of logical subrecords that are stored as
     # separate models in the database (in separate tables).
     #
@@ -372,6 +381,16 @@ module ASModel
       end
 
 
+      def get_nested_graph
+        Hash[nested_records.map {|nested_record|
+               model = Kernel.const_get(nested_record[:association][:class_name])
+               association = nested_record[:corresponding_to_association]
+
+               [association, model.get_nested_graph]
+             }]
+      end
+
+
       def get_or_die(id)
         obj = if self.model_scope == :repository
                 self.this_repo[:id => id]
@@ -444,7 +463,16 @@ module ASModel
       def to_jsonmodel(obj, opts = {})
         if obj.is_a? Integer
           # An ID.  Get the Sequel row for it.
-                  obj = get_or_die(obj)
+          ds = if self.model_scope == :repository
+                 self.this_repo
+               else
+                 self
+               end
+
+          obj = ds.eager(get_nested_graph).filter(:id => obj).all[0]
+          raise NotFoundException.new("#{self} not found") unless obj
+
+          obj.eagerly_load!
         end
 
         sequel_to_jsonmodel(obj, opts)
