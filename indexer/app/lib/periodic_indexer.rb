@@ -194,8 +194,6 @@ class PeriodicIndexer < CommonIndexer
           id_subset = queue.pop
           break if id_subset == :finished
 
-          hash = Digest::SHA1.hexdigest(id_subset.to_json)
-
           records = JSONModel(record_type).all(:id_set => id_subset.join(","),
                                                'resolve[]' => @@resolved_attributes)
 
