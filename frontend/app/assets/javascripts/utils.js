@@ -363,14 +363,19 @@ AS.openQuickModal = function(title, message) {
  *  contents : String/HTML - the contents of the modal
  *  fillScreen : String/false - 'full'-98% of screen, 'container'-match the container width, false-standard modal size
  *  modalOpts : object - any twitter bootstrap options to pass on the modal dialog upon init.
+ *  initiatedBy : Element - the link/button that initiated the modal. This element will be focused again upon close.
  */
-AS.openCustomModal = function(id, title, contents, fillScreen, modalOpts) {
+AS.openCustomModal = function(id, title, contents, fillScreen, modalOpts, initiatedBy) {
   $("body").append(AS.renderTemplate("modal_custom_template", {id:id,title:title,content: "", fill: fillScreen||false}));
   var $modal = $("#"+id);
   $modal.append(contents);
   $modal.on("hidden", function() {
     $modal.remove();
     $(window).unbind("resize", resizeModal);
+
+    if (initiatedBy) {
+      $(initiatedBy).focus();
+    }
   });
 
   var resizeModal = function() {
@@ -395,6 +400,9 @@ AS.openCustomModal = function(id, title, contents, fillScreen, modalOpts) {
   if (modalOpts) {
     $modal.modal(modalOpts);
   }
+
+  // reset the tab index within the modal
+  $modal.attr("tabindex", 0).focus();
 
   $modal.modal('show');
 
@@ -455,8 +463,9 @@ AS.confirmSubFormDelete = function(subformRemoveButtonEl, onConfirmCallback) {
   confirmationEl.hide();
   subformRemoveButtonEl.hide();
   subformRemoveButtonEl.before(confirmationEl);
-  confirmationEl.fadeIn();
-  $(".confirm-removal", confirmationEl).focus();
+  confirmationEl.fadeIn(function() {
+    $(".confirm-removal", confirmationEl).focus();
+  });
 
   $(".cancel-removal", confirmationEl).click(function(event) {
     confirmationEl.remove();
@@ -655,7 +664,7 @@ $(function() {
         event.preventDefault();
         event.stopImmediatePropagation();
 
-        AS.openCustomModal("confirmChangesModal", template_data.title , AS.renderTemplate("confirmation_modal_template", template_data));
+        AS.openCustomModal("confirmChangesModal", template_data.title , AS.renderTemplate("confirmation_modal_template", template_data), null, {}, $this);
         $("#confirmButton", "#confirmChangesModal").click(function() {
           $(".btn", "#confirmChangesModal").attr("disabled", "disabled");
 
