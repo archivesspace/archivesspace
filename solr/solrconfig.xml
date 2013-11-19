@@ -41,7 +41,9 @@
 
   <!-- The default high-performance update handler -->
   <updateHandler class="solr.DirectUpdateHandler2">
+    <maxPendingDeletes>1000</maxPendingDeletes>
     <autoCommit> 
+      <maxDocs>1000</maxDocs>
       <maxTime>60000</maxTime> 
       <openSearcher>false</openSearcher> 
     </autoCommit>

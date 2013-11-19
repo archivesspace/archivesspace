@@ -270,4 +270,5 @@
 
   <!-- Copy fields ... perhaps for sort fields -->
   <copyField source="title" dest="title_sort"/>
+  <copyField source="json" dest="fullrecord"/>
 </schema>
