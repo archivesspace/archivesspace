@@ -1,6 +1,48 @@
+# A relationship is a one-to-one/one-to-many/many-to-many link between two
+# records, where the link can have properties of its own.
+#
+# Each relationship generates a dynamic model class that represents the
+# relationship and stores its properties in the database.  This code takes care
+# of managing those relationship instances.  It:
+#
+#   * Generates classes in response to a 'define_relationship' definition
+#
+#   * Creates relationship instances for incoming JSON records (and linking up
+#     the related objects
+#
+#   * Turns those relationships back into JSON when sequel_to_json is called
+#
+# Some bits of terminology used here:
+#
+#   * Referents -- the objects that an instance of a relationship refers to.
+#     For example, if the relationship is "linked agent", the two referents will
+#     be agent records.
+#
+#     Note that a relationship can refer to two objects of the same type.  This
+#     leads to some awkwardness when trying to distinguish between the two.  As
+#     a result, there's a common pattern of using "other_referent_than(obj)" to
+#     mean "the referred record that isn't this one".
+#
+#   * Reference columns -- In the DB, each relationship is a row in a table.
+#     The row contains columns for the relationship's properties, plus several
+#     "reference columns".  These columns are foreign key references to records
+#     in other tables.
+#
+#     Relationships between records of the same type create some awkwardness
+#     here too, since links between two resource records (for example) require
+#     two foreign key columns like 'resource_id_0' and 'resource_id_1'.  Now to
+#     answer the question "Which resources involve the resource whose ID is 5?"
+#     we need to check in both reference columns.
+#
+#     So, you'll see the "reference_columns_for(someclass)" helper used here.
+#     This returns a list of the columns that might contain references to a
+#     given record type.
+#
+
 # We'll create a concrete instance of this class for each defined relationship.
 AbstractRelationship = Class.new(Sequel::Model) do
 
+  # Create a relationship instance between two objects with a defined set of properties.
   def self.relate(obj1, obj2, properties)
     columns = if obj1.class == obj2.class
       # If our two related objects are of the same type, we'll get back multiple
@@ -81,6 +123,7 @@ AbstractRelationship = Class.new(Sequel::Model) do
     "<#Relationship #{table_name}>"
   end
 
+  # Methods for defining relationships
   def self.set_json_property(property); @json_property = property; end
   def self.json_property; @json_property; end
 
@@ -93,7 +136,7 @@ AbstractRelationship = Class.new(Sequel::Model) do
   def self.wants_array?; @wants_array; end
 
 
-  # Return a list of the relationship instances involving 'obj'.
+  # Return a list of the relationship instances that refer to 'obj'.
   def self.find_by_participant(obj)
     # Find all columns in our relationship's table that are named after obj's table
     # These will contain references to instances of obj's class
@@ -139,6 +182,8 @@ AbstractRelationship = Class.new(Sequel::Model) do
   end
 
 
+  # A list of all DB columns that might contain a foreign key reference to a
+  # record of type 'model'.
   def self.reference_columns_for(model)
     self.db_schema.keys.select { |column_name|
       column_name.to_s.downcase =~ /\A#{model.table_name.downcase}_id(_[0-9]+)?\z/
@@ -146,11 +191,13 @@ AbstractRelationship = Class.new(Sequel::Model) do
   end
 
 
+  # The properties for this relationship instance
   def properties
     self.values
   end
 
 
+  # The record referred to by the current relationship that isn't 'obj'.
   def other_referent_than(obj)
     self.class.participating_models.each {|model|
       self.class.reference_columns_for(model).each {|column|
@@ -236,6 +283,8 @@ module Relationships
   end
 
 
+  # Find all relationships involving the records in 'victims' and rewrite them
+  # to refer to us instead.
   def assimilate(victims)
     victims = victims.reject {|v| (v.class == self.class) && (v.id == self.id)}
 
