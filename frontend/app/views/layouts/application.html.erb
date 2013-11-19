@@ -7,7 +7,8 @@
   <%= include_theme_css %>
   <%= csrf_meta_tags %>
   <script>
-    APP_PATH = "<%= root_path %>";
+    APP_PATH = "<%= j(root_path) %>";
+    COOKIE_PREFIX = "<%= j(AppConfig[:cookie_prefix]) %>";
   </script>
 
   <%= javascript_include_tag "application" %>

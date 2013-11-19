@@ -4,6 +4,7 @@
 
 // initialise ajax modal
 
+
 $(function() {
   var openAjaxModal = function(href) {
     $("body").append('<div class="modal hide" id="tempAjaxModal"></div>');
@@ -595,6 +596,14 @@ AS.delayedTypeAhead = function (source, delay) {
     };
   }());
 };
+
+
+AS.prefixed_cookie = function(cookie_name, value) {
+    var args = Array.prototype.slice.call(arguments, 0);
+    args[0] = COOKIE_PREFIX + '_' + args[0];
+    return $.cookie.apply(this, args);
+};
+
 
 
 

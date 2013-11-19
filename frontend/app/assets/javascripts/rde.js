@@ -15,9 +15,9 @@ $(function() {
       }
 
       // Config from Cookies
-      var VISIBLE_COLUMN_INDEXES =  $.cookie("rde.visible") ? JSON.parse($.cookie("rde.visible")) : null;
-      var STICKY_COLUMN_INDEXES =  $.cookie("rde.sticky") ? JSON.parse($.cookie("rde.sticky")) : null;
-      var COLUMN_WIDTHS =  $.cookie("rde.widths") ? JSON.parse($.cookie("rde.widths")) : null;
+      var VISIBLE_COLUMN_INDEXES =  AS.prefixed_cookie("rde.visible") ? JSON.parse(AS.prefixed_cookie("rde.visible")) : null;
+      var STICKY_COLUMN_INDEXES =  AS.prefixed_cookie("rde.sticky") ? JSON.parse(AS.prefixed_cookie("rde.sticky")) : null;
+      var COLUMN_WIDTHS =  AS.prefixed_cookie("rde.widths") ? JSON.parse(AS.prefixed_cookie("rde.widths")) : null;
 
 
       var index = 0;
@@ -47,9 +47,9 @@ $(function() {
         $(":input, .btn", $this).attr("disabled", "disabled");
 
         // reset cookies
-        $.cookie("rde.visible", null);
-        $.cookie("rde.widths", null);
-        $.cookie("rde.sticky", null);
+        AS.prefixed_cookie("rde.visible", null);
+        AS.prefixed_cookie("rde.widths", null);
+        AS.prefixed_cookie("rde.sticky", null);
         VISIBLE_COLUMN_INDEXES = null;
         STICKY_COLUMN_INDEXES = null;
         COLUMN_WIDTHS = null;
@@ -165,7 +165,7 @@ $(function() {
           sticky.push($(this).index());
         });
         STICKY_COLUMN_INDEXES = sticky;
-        $.cookie("rde.sticky", JSON.stringify(STICKY_COLUMN_INDEXES));
+        AS.prefixed_cookie("rde.sticky", JSON.stringify(STICKY_COLUMN_INDEXES));
       });
 
       $modal.on("click", "[data-dismiss]", function(event) {
@@ -271,7 +271,7 @@ $(function() {
             }
 
             VISIBLE_COLUMN_INDEXES = $select.val();
-            $.cookie("rde.visible", JSON.stringify(VISIBLE_COLUMN_INDEXES));
+            AS.prefixed_cookie("rde.visible", JSON.stringify(VISIBLE_COLUMN_INDEXES));
           }
         });
 
@@ -288,7 +288,7 @@ $(function() {
         });
 
         COLUMN_WIDTHS = widths;
-        $.cookie("rde.widths", JSON.stringify(COLUMN_WIDTHS));
+        AS.prefixed_cookie("rde.widths", JSON.stringify(COLUMN_WIDTHS));
 
         return COLUMN_WIDTHS;
       };
