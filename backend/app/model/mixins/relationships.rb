@@ -146,6 +146,17 @@ AbstractRelationship = Class.new(Sequel::Model) do
   end
 
 
+  # Return a mapping of records and the relationships they participate in.
+  # Input is a list like:
+  #
+  #  [rec1, rec2, ...]
+  #
+  # and the result is:
+  #
+  #  { rec1 => [relationship1, relationship2, ...],
+  #    rec2 => [relationship3, ...],
+  #    ...}
+  #
   def self.find_by_participants(objs)
     result = {}
 
@@ -211,7 +222,10 @@ AbstractRelationship = Class.new(Sequel::Model) do
   end
 
 
-  def uri_for_referent_to(obj)
+
+  # The URI of the record referred to by the current relationship that isn't
+  # 'obj'.
+  def uri_for_other_referent_than(obj)
     self.class.participating_models.each {|model|
       self.class.reference_columns_for(model).each {|column|
         if self[column] && (model != obj.class || self[column] != obj.id)
@@ -246,8 +260,9 @@ module Relationships
   end
 
 
+  # Store a list of the relationships that this object participates in.  Saves
+  # looking up the DB for each one.
   attr_reader :cached_relationships
-
   def cache_relationships(relationship_defn, relationship_objects)
     @cached_relationships ||= {}
     @cached_relationships[relationship_defn] = relationship_objects
@@ -479,6 +494,10 @@ module Relationships
     end
 
 
+    # Find all of the relationships involving 'objects' and tell each object to
+    # cache its relationships.  This is an optimisation: avoids the need for one
+    # SELECT for every relationship lookup by pulling back all relationships at
+    # once.
     def eager_load_relationships(objects)
       relationships.each do |relationship_defn|
         # For each defined relationship
@@ -518,7 +537,7 @@ module Relationships
           # Return the relationship properties, plus the URI reference of the
           # related object
           values = ASUtils.keys_as_strings(relationship.properties)
-          values['ref'] = relationship.uri_for_referent_to(obj)
+          values['ref'] = relationship.uri_for_other_referent_than(obj)
 
           values
         }
