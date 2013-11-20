@@ -8,7 +8,7 @@ fi
 
 base="$self"
 while [ "$base" != "/" ]; do
-  base="`dirname $base`"
+  base="`dirname "$base"`"
   if [ -e "$base/archivesspace.sh" ]; then
     break
   fi
