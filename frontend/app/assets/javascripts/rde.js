@@ -70,12 +70,12 @@ $(function() {
         event.preventDefault();
         event.stopPropagation();
 
-        var $row = addRow();
+        var $row = addRow(event);
 
         $(":input:visible:first", $row).focus();
       });
 
-      var addRow = function() {
+      var addRow = function(event) {
         var $currentRow = $(event.target).closest("tr");
         if ($currentRow.length === 0) {
           $currentRow = $("table tbody tr:last", $this);
@@ -712,11 +712,11 @@ $(function() {
         event.preventDefault();
         event.stopPropagation();
       });
-      $(".add-rows-form button", $modal).click(function() {
+      $(".add-rows-form button", $modal).click(function(event) {
         try {
           var numberOfRows = parseInt($("input", $(this).closest('.add-rows-form')).val(), 10);
           for (var i=1; i<=numberOfRows; i++) {
-            addRow();
+            addRow(event);
           }
         } catch(e) {
           // if the field cannot parse the form value to an integer.. just quietly judge the user
