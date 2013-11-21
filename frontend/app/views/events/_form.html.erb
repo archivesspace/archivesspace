@@ -85,4 +85,5 @@
   </section>
 <% else %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_records"} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>
 <% end %>

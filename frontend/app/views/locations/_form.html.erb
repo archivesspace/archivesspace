@@ -20,5 +20,5 @@
     </section>
   </fieldset>
 <% end %>
-
 <% form.emit_template("location") %>
+<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>

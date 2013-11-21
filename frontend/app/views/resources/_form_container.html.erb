@@ -72,6 +72,7 @@
 <%# render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "notes", :template => "note_form_selector", :section_id => "notes"} %>
 <%= render :partial => "notes/form", :locals => {:form => form} %>
 <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
+<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>
 <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>
 <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "instances", :custom_action_template => "instances/subrecord_form_action"} %>
 <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "deaccessions"} %>
