@@ -15,6 +15,18 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.get('/repositories/:repo_id/digital_objects/dublin_core/:id.:fmt/metadata')
+    .description("Get metadata for a Dublin Core export")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .returns([200, "The export metadata"]) \
+  do
+    json_response({"filename" => "#{DigitalObject[params[:id]].digital_object_id}_dc.xml",
+                   "mimetype" => "application/xml"})
+  end
+
+
   Endpoint.get('/repositories/:repo_id/digital_objects/mets/:id.xml')
     .description("Get a METS representation of a Digital Object ")
     .params(["id", :id],
@@ -26,6 +38,19 @@ class ArchivesSpaceService < Sinatra::Base
 
     xml_response(mets)
   end
+
+
+  Endpoint.get('/repositories/:repo_id/digital_objects/mets/:id.:fmt/metadata')
+    .description("Get metadata for a METS export")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .returns([200, "The export metadata"]) \
+  do
+    json_response({"filename" => "#{DigitalObject[params[:id]].digital_object_id}_mets.xml",
+                   "mimetype" => "application/xml"})
+  end
+
 
   Endpoint.get('/repositories/:repo_id/digital_objects/mods/:id.xml')
     .description("Get a MODS representation of a Digital Object ")
@@ -39,6 +64,19 @@ class ArchivesSpaceService < Sinatra::Base
     xml_response(mods)
   end
 
+
+  Endpoint.get('/repositories/:repo_id/digital_objects/mods/:id.:fmt/metadata')
+    .description("Get metadata for a MODS export")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .returns([200, "The export metadata"]) \
+  do
+    json_response({"filename" => "#{DigitalObject[params[:id]].digital_object_id}_mods.xml",
+                   "mimetype" => "application/xml"})
+  end
+
+
   Endpoint.get('/repositories/:repo_id/resources/marc21/:id.xml')
     .description("Get a MARC 21 representation of a Resource")
     .params(["id", :id],
@@ -49,6 +87,18 @@ class ArchivesSpaceService < Sinatra::Base
     marc = generate_marc(params[:id])
 
     xml_response(marc)
+  end
+
+
+  Endpoint.get('/repositories/:repo_id/resources/marc21/:id.:fmt/metadata')
+    .description("Get metadata for a MARC21 export")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .returns([200, "The export metadata"]) \
+  do
+    json_response({"filename" => "#{Resource.id_to_identifier(params[:id])}_marc21.xml",
+                   "mimetype" => "application/xml"})
   end
 
 
@@ -64,6 +114,19 @@ class ArchivesSpaceService < Sinatra::Base
     stream_response(resp[:stream], resp[:filename])
   end
 
+
+  Endpoint.get('/repositories/:repo_id/resource_descriptions/:id.:fmt/metadata')
+    .description("Get export metadata for a Resource Description")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .returns([200, "The export metadata"]) \
+  do
+    json_response({"filename" => "#{Resource.id_to_identifier(params[:id])}_ead.xml",
+                   "mimetype" => "application/xml"})
+  end
+
+
   Endpoint.get('/repositories/:repo_id/resource_labels/:id.tsv')
     .description("Get a tsv list of printable labels for a Resource")
     .params(["id", :id],
@@ -76,6 +139,19 @@ class ArchivesSpaceService < Sinatra::Base
     tsv_response(tsv)
   end
 
+
+  Endpoint.get('/repositories/:repo_id/resource_labels/:id.:fmt/metadata')
+    .description("Get export metadata for Resource labels")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .returns([200, "The export metadata"]) \
+  do
+    json_response({"filename" => "#{Resource.id_to_identifier(params[:id])}_labels.tsv",
+                    "mimetype" => 'text/tab-separated-values'})
+  end
+
+
   Endpoint.get('/archival_contexts/people/:id.xml')
     .description("Get an EAC-CPF representation of an Agent")
     .params(["id", :id])
@@ -86,6 +162,18 @@ class ArchivesSpaceService < Sinatra::Base
 
     xml_response(eac)
   end
+
+
+  Endpoint.get('/archival_contexts/people/:id.:fmt/metadata')
+    .description("Get metadata for an EAC-CPF export of a person")
+    .params(["id", :id])
+    .permissions([])
+    .returns([200, "The export metadata"]) \
+  do
+    json_response({"filename" => "#{AgentPerson[params[:id]].name_person[0].primary_name}_eac.xml",
+                   "mimetype" => "application/xml"})
+  end
+
 
   Endpoint.get('/archival_contexts/corporate_entities/:id.xml')
     .description("Get an EAC-CPF representation of a Corporate Entity")
@@ -98,6 +186,18 @@ class ArchivesSpaceService < Sinatra::Base
     xml_response(eac)
   end
 
+
+  Endpoint.get('/archival_contexts/corporate_entities/:id.:fmt/metadata')
+    .description("Get metadata for an EAC-CPF export of a corporate entity")
+    .params(["id", :id])
+    .permissions([])
+    .returns([200, "The export metadata"]) \
+  do
+    json_response({"filename" => "#{AgentCorporateEntity[params[:id]].name_corporate_entity[0].primary_name}_eac.xml",
+                   "mimetype" => "application/xml"})
+  end
+
+
   Endpoint.get('/archival_contexts/families/:id.xml')
     .description("Get an EAC-CPF representation of a Family")
     .params(["id", :id])
@@ -109,6 +209,18 @@ class ArchivesSpaceService < Sinatra::Base
     xml_response(eac)
   end
 
+
+  Endpoint.get('/archival_contexts/families/:id.:fmt/metadata')
+    .description("Get metadata for an EAC-CPF export of a family")
+    .params(["id", :id])
+    .permissions([])
+    .returns([200, "The export metadata"]) \
+  do
+    json_response({"filename" => "#{AgentFamily[params[:id]].name_family[0].family_name}_eac.xml",
+                   "mimetype" => "application/xml"})
+  end
+
+
   Endpoint.get('/archival_contexts/softwares/:id.xml')
     .description("Get an EAC-CPF representation of a Software agent")
     .params(["id", :id])
@@ -119,4 +231,17 @@ class ArchivesSpaceService < Sinatra::Base
 
     xml_response(eac)
   end
+
+
+  Endpoint.get('/archival_contexts/softwares/:id.:fmt/metadata')
+    .description("Get metadata for an EAC-CPF export of a software")
+    .params(["id", :id])
+    .permissions([])
+    .returns([200, "The export metadata"]) \
+  do
+    json_response({"filename" => "#{AgentSoftware[params[:id]].name_software[0].software_name}_eac.xml",
+                   "mimetype" => "application/xml"})
+  end
+
+
 end
