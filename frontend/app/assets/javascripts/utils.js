@@ -730,3 +730,15 @@ $(document).bind("subrecordcreated.aspace", function(event, object_name, newForm
 $(document).bind("subrecorddeleted.aspace", function(event, formEl) {
   formEl.triggerHandler("subrecorddeleted.aspace");
 });
+
+// Global AJAX setup
+$(function() {
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      // if it's a POST, lets make sure the CSRF token is passed through
+      if (settings.type === "POST") {
+        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
+      }
+    }
+  });
+});
