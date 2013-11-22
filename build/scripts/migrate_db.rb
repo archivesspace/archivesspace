@@ -1,3 +1,5 @@
+require 'logger'
+
 if $0 =~ /scripts[\/\\]rb[\/\\]migrate_db.rb$/
   # This script runs in two contexts: build/run as a part of development, and
   # setup-database.(sh|bat) from the distribution zip file.  Allow for both.
@@ -25,7 +27,7 @@ end
 begin
   Sequel.connect(AppConfig[:db_url],
                  :max_connections => AppConfig[:db_max_connections],
-                 # :loggers => [Logger.new($stderr)]
+                 #:loggers => [Logger.new($stderr)]
                  ) do |db|
     if ARGV.length > 0 and ARGV[0] == "nuke"
       DBMigrator.nuke_database(db)
