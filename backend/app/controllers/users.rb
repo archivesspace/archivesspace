@@ -113,7 +113,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     user = User.get_or_die(params[:id])
 
-    if params[:repo_id]
+    if params[:repo_id] && params[:groups]
       # Low security: if a repo_id is provided, we're just running in "set
       # groups for this repo" mode.
       groups = Array(params[:groups]).map {|uri|
@@ -132,8 +132,9 @@ class ArchivesSpaceService < Sinatra::Base
       }
 
       user.add_to_groups(groups, params[:repo_id])
+    end
 
-    else
+    if params[:user]
       # High security: update the user themselves.
       raise AccessDeniedException.new if !current_user.can?(:manage_users)
 
