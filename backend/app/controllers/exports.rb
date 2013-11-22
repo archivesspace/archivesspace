@@ -22,7 +22,8 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "The export metadata"]) \
   do
-    json_response({"filename" => "#{DigitalObject[params[:id]].digital_object_id}_dc.xml",
+    json_response({"filename" =>
+                    "#{DigitalObject[params[:id]].digital_object_id}_dc.xml".gsub(/\s+/, '_'),
                    "mimetype" => "application/xml"})
   end
 
@@ -47,7 +48,8 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "The export metadata"]) \
   do
-    json_response({"filename" => "#{DigitalObject[params[:id]].digital_object_id}_mets.xml",
+    json_response({"filename" =>
+                    "#{DigitalObject[params[:id]].digital_object_id}_mets.xml".gsub(/\s+/, '_'),
                    "mimetype" => "application/xml"})
   end
 
@@ -72,7 +74,8 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "The export metadata"]) \
   do
-    json_response({"filename" => "#{DigitalObject[params[:id]].digital_object_id}_mods.xml",
+    json_response({"filename" =>
+                    "#{DigitalObject[params[:id]].digital_object_id}_mods.xml".gsub(/\s+/, '_'),
                    "mimetype" => "application/xml"})
   end
 
@@ -97,7 +100,8 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "The export metadata"]) \
   do
-    json_response({"filename" => "#{Resource.id_to_identifier(params[:id])}_marc21.xml",
+    json_response({"filename" =>
+                    "#{Resource.id_to_identifier(params[:id])}_marc21.xml".gsub(/\s+/, '_'),
                    "mimetype" => "application/xml"})
   end
 
@@ -122,7 +126,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "The export metadata"]) \
   do
-    json_response({"filename" => "#{Resource.id_to_identifier(params[:id])}_ead.xml",
+    json_response({"filename" => "#{Resource.id_to_identifier(params[:id])}_ead.xml".gsub(/\s+/, '_'),
                    "mimetype" => "application/xml"})
   end
 
@@ -147,7 +151,8 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "The export metadata"]) \
   do
-    json_response({"filename" => "#{Resource.id_to_identifier(params[:id])}_labels.tsv",
+    json_response({"filename" =>
+                    "#{Resource.id_to_identifier(params[:id])}_labels.tsv".gsub(/\s+/, '_'),
                     "mimetype" => 'text/tab-separated-values'})
   end
 
@@ -170,7 +175,9 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([])
     .returns([200, "The export metadata"]) \
   do
-    json_response({"filename" => "#{AgentPerson[params[:id]].name_person[0].primary_name}_eac.xml",
+    aname = AgentPerson[params[:id]].name_person[0]
+    fn = [aname.authority_id, aname.primary_name].compact.join("_")
+    json_response({"filename" => "#{fn}_eac.xml".gsub(/\s+/, '_'),
                    "mimetype" => "application/xml"})
   end
 
@@ -193,7 +200,9 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([])
     .returns([200, "The export metadata"]) \
   do
-    json_response({"filename" => "#{AgentCorporateEntity[params[:id]].name_corporate_entity[0].primary_name}_eac.xml",
+    aname = AgentCorporateEntity[params[:id]].name_corporate_entity[0]
+    fn = [aname.authority_id, aname.primary_name].compact.join("_")
+    json_response({"filename" => "#{fn}_eac.xml".gsub(/\s+/, '_'),
                    "mimetype" => "application/xml"})
   end
 
@@ -216,7 +225,9 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([])
     .returns([200, "The export metadata"]) \
   do
-    json_response({"filename" => "#{AgentFamily[params[:id]].name_family[0].family_name}_eac.xml",
+    aname = AgentFamily[params[:id]].name_family[0]
+    fn = [aname.authority_id, aname.family_name].compact.join("_")
+    json_response({"filename" => "#{fn}_eac.xml".gsub(/\s+/, '_'),
                    "mimetype" => "application/xml"})
   end
 
@@ -239,7 +250,9 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([])
     .returns([200, "The export metadata"]) \
   do
-    json_response({"filename" => "#{AgentSoftware[params[:id]].name_software[0].software_name}_eac.xml",
+    aname = AgentSoftware[params[:id]].name_software[0]
+    fn = [aname.authority_id, aname.software_name].compact.join("_")
+    json_response({"filename" => "#{fn}_eac.xml".gsub(/\s+/, '_'),
                    "mimetype" => "application/xml"})
   end
 
