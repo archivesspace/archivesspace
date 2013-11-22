@@ -345,7 +345,8 @@ $(function() {
                         prefix: $("#sequenceFillPrefix", $form).val(),
                         from: $("#sequenceFillFrom", $form).val(),
                         to: $("#sequenceFillTo", $form).val(),
-                        suffix: $("#sequenceFillSuffix", $form).val()
+                        suffix: $("#sequenceFillSuffix", $form).val(),
+                        limit: $("tbody tr", $table).length
                       },
                       function(json) {
                         $sequencePreview.html("");
@@ -370,7 +371,8 @@ $(function() {
                   prefix: $("#sequenceFillPrefix", $form).val(),
                   from: $("#sequenceFillFrom", $form).val(),
                   to: $("#sequenceFillTo", $form).val(),
-                  suffix: $("#sequenceFillSuffix", $form).val()
+                  suffix: $("#sequenceFillSuffix", $form).val(),
+                  limit: $("tbody tr", $table).length
                 },
                 function(json) {
                   $sequencePreview.html("");

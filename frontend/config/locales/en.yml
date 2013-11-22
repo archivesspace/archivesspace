@@ -711,6 +711,7 @@ en:
       sequence_count_warning: There are more rows than there are items in the sequence.
       preview_sequence: Preview Sequence Values
       sequence_summary: "%{count} items in the sequence:"
+      sequence_summary_with_maxsize: "For your %{limit} rows, the %{count} sequence values are:"
       sequence_from_required: From is required
       sequence_to_required: To is required
     reorder_columns:

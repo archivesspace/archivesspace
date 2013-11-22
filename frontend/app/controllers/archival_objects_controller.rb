@@ -157,13 +157,21 @@ class ArchivalObjectsController < ApplicationController
     errors.push(I18n.t("rde.fill_column.sequence_from_required")) if params[:from].blank?
     errors.push(I18n.t("rde.fill_column.sequence_to_required")) if params[:to].blank?
 
+    # limit the range to 1000 entries, unless the number of rows is provided
+    limit = (params["limit"] || 1000).to_i;
+
     return render :json => {"errors" => errors} if errors.length > 0
 
-    values = (params["from"]..params["to"]).map{|i| "#{params["prefix"]}#{i}#{params["suffix"]}"}
+    range = (params["from"]..params["to"])
+    values = range.take(limit).map{|i| "#{params["prefix"]}#{i}#{params["suffix"]}"}
 
     render :json => {
+      "size" => values.length,
+      "limit" => limit,
       "values" => values,
-      "summary" => I18n.t("rde.fill_column.sequence_summary", :count => values.count)
+      "summary" => params["limit"] ?
+                      I18n.t("rde.fill_column.sequence_summary_with_maxsize", :limit => limit, :count => values.length) :
+                      I18n.t("rde.fill_column.sequence_summary", :count => values.length)
     }
   end
 
