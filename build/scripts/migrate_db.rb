@@ -41,14 +41,14 @@ begin
     DBMigrator.setup_database(db)
     puts "All done."
   end
-rescue NameError
+rescue NameError => e
   if AppConfig[:db_url] =~ /mysql/
     libdir = File.expand_path(File.join(File.dirname($0), "..", "..", "lib"))
 
     puts <<EOF
 
 You have configured ArchivesSpace to use MySQL but seem to be missing the MySQL
-JDBC driver.
+JDBC driver (#{e}).
 
 Please download the latest version of 'mysql-connector-java-X.Y.Z.jar' and place
 it in the following directory:
