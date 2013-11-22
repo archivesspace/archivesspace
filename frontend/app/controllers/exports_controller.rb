@@ -8,62 +8,56 @@ class ExportsController < ApplicationController
 
   def container_labels
      download_export(
-       "/repositories/#{Thread.current[:selected_repo_id]}/resource_labels/#{params[:id]}.tsv", "CONTAINERLABELS", 'tsv')
+       "/repositories/#{Thread.current[:selected_repo_id]}/resource_labels/#{params[:id]}.tsv")
    end
   
   
   def download_marc
     download_export(
-      "/repositories/#{Thread.current[:selected_repo_id]}/resources/marc21/#{params[:id]}.xml", "MARC21")
+      "/repositories/#{Thread.current[:selected_repo_id]}/resources/marc21/#{params[:id]}.xml")
   end
 
 
   def download_dc
     download_export(
-      "/repositories/#{Thread.current[:selected_repo_id]}/digital_objects/dublin_core/#{params[:id]}.xml", "DC")
+      "/repositories/#{Thread.current[:selected_repo_id]}/digital_objects/dublin_core/#{params[:id]}.xml")
   end
 
   
   def download_mods
     download_export(
-      "/repositories/#{Thread.current[:selected_repo_id]}/digital_objects/mods/#{params[:id]}.xml", "MODS")
+      "/repositories/#{Thread.current[:selected_repo_id]}/digital_objects/mods/#{params[:id]}.xml")
   end
 
 
     
   def download_mets
     download_export( 
-      "/repositories/#{Thread.current[:selected_repo_id]}/digital_objects/mets/#{params[:id]}.xml", "METS")
+      "/repositories/#{Thread.current[:selected_repo_id]}/digital_objects/mets/#{params[:id]}.xml")
   end  
   
 
   def download_ead
-    download_export( 
-      "/repositories/#{Thread.current[:selected_repo_id]}/resource_descriptions/#{params[:id]}.xml", "EAD")
+    download_export("/repositories/#{Thread.current[:selected_repo_id]}/resource_descriptions/#{params[:id]}.xml")
   end
   
   
   def download_eac
     download_export(
-      "/archival_contexts/#{params[:type].sub(/^agent_/, '').pluralize}/#{params[:id]}.xml", "EAC")
+      "/archival_contexts/#{params[:type].sub(/^agent_/, '').pluralize}/#{params[:id]}.xml")
   end
 
 
   private
 
-  def download_export(request_uri, file_prefix, file_ext = 'xml')
+  def download_export(request_uri)
 
-    mime = case file_ext
-             when 'tsv' then 'text/tab-separated-values'
-             else
-               'application/xml'
-           end
+    meta = JSONModel::HTTP::get_json("#{request_uri}/metadata")
 
     respond_to do |format|
       format.html {
-        @filename = "#{file_prefix}-#{Time.now}.#{file_ext}"
-        self.response.headers["Content-Type"] ||= mime
-        self.response.headers["Content-Disposition"] = "attachment; filename=#{@filename}"
+        self.response.headers["Content-Type"] ||= meta['mimetype']
+        self.response.headers["Content-Disposition"] = "attachment; filename=#{meta['filename']}"
         self.response.headers['Last-Modified'] = Time.now.ctime.to_s
 
         self.response_body = Enumerator.new do |y|

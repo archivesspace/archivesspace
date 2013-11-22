@@ -37,4 +37,10 @@ class Resource < Sequel::Model(:resource)
                          :message => "Must be unique",
                          :json_property => :ead_id)
 
+
+  def self.id_to_identifier(id)
+    res = Resource[id]
+    [res[:id_0], res[:id_1], res[:id_2], res[:id_3]].compact.join(".")
+  end
+
 end
