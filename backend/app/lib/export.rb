@@ -9,8 +9,8 @@ module ExportHelpers
   end
 
 
-  def stream_response(streamer, filename)
-    [status, {"Content-Type" => "application/xml", "Content-Disposition" => "attachment; filename=#{filename}"}, streamer]
+  def stream_response(streamer)
+    [status, {"Content-Type" => "application/xml"}, streamer]
   end
 
 
@@ -57,10 +57,7 @@ module ExportHelpers
   def generate_ead(id)
     obj = resolve_references(Resource.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects', 'tree', 'digital_object'])
     ead = ASpaceExport.model(:ead).from_resource(JSONModel(:resource).new(obj))
-    {
-      :stream => ASpaceExport.serializer(:ead).stream(ead),
-      :filename => "EAD_#{obj['id_0']}.xml"
-    }
+    ASpaceExport.serializer(:ead).stream(ead)
   end
 
 

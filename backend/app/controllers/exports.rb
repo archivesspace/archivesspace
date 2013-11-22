@@ -113,9 +113,9 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "(:resource)"]) \
   do
-    resp = generate_ead(params[:id])
+    ead_stream = generate_ead(params[:id])
 
-    stream_response(resp[:stream], resp[:filename])
+    stream_response(ead_stream)
   end
 
 
