@@ -10,6 +10,11 @@ describe 'ASpaceExport' do
 
     obj = JSONModel(:resource).find(r.id, "resolve[]" => ['repository', 'linked_agents', 'subjects', 'tree'])
 
+    meta = JSONModel::HTTP::get_json("/repositories/#{Thread.current[:selected_repo_id]}/resource_descriptions/#{r.id}.xml/metadata")
+
+    meta["filename"].should eq "#{[obj['id_0'], obj['id_1'], obj['id_2'], obj['id_3']].compact.join('.')}_ead.xml".gsub(/\s+/, "_")
+    meta["mimetype"].should eq "application/xml"
+
     ead = ASpaceExport::model(:ead).from_resource(obj)
 
     serializer = ASpaceExport::serializer :ead
