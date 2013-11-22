@@ -68,8 +68,12 @@ class ImportController < ApplicationController
         importer = get_importer(source_file, params[:importer], repo_id)
       
         importer.run_safe do |status|
+
           if status.has_key?('saved')
-            # status['saved'] = status['saved'].map {|k,v| v[0]}
+            links = status['saved'].map {|k,v| v[0]}
+            links = frontend_links(links)
+
+            status['links'] = links
             status['saved'] = status['saved'].length
           end
       
@@ -123,6 +127,33 @@ class ImportController < ApplicationController
                
     ASpaceImport::Importer.create_importer(options)    
 
+  end
+
+
+  def frontend_links(links)
+    result = []
+    resource = nil
+    links.reverse.each do |l|      
+      l.sub!(/^\/repositories\/[0-9]+/, '')
+      if l =~ /^\/resources\/[0-9]+$/
+        resource = l 
+        tree = l.sub(/^\//, '').sub(/s\//, '_')
+        result << "#{resource}#tree::#{tree}"
+      elsif l =~ /^\/archival_objects\//
+        tree = l.sub(/^\//, '').sub(/s\//, '_')
+        result << "#{resource}#tree::#{tree}"
+      else
+        result << l.
+          sub(/\/people\//, '/agent_person/').
+          sub(/\/corporate_entities\//, '/agent_corporate_entity/').
+          sub(/\/software\//, '/agent_software/').
+          sub(/\/families\//, '/agent_family/')
+
+      end
+    end
+    root = root_url.sub(/\/$/, '')
+
+    result.map {|l| "<a target='_blank' href='#{root}#{l}'>#{root}#{l}</a>"}
   end
 end
 
