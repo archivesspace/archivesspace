@@ -86,6 +86,10 @@ as administrator" or, in recent versions of Windows, by selecting
 "Open command prompt as administrator" from the "File" menu of any
 explorer window.
 
+![Run as admin](docs/images/console_run_as_admin.png)
+
+![Run as admin (from Explorer)](docs/images/console_run_as_admin_win8.png)
+
 From the command prompt, switch to your Tomcat directory.  I'm using
 Tomcat8 to ensure compatibility with Windows 8, but Tomcat7 should be
 fine.
@@ -97,6 +101,9 @@ service with a nice name:
 
      > bin\service.bat install ArchivesSpace
 
+![Service created](docs/images/console_installed_service.png)
+
+
 Before we can start the service, we will need to configure its memory
 allocations.  To do this, run the Tomcat monitor program:
 
@@ -106,17 +113,17 @@ allocations.  To do this, run the Tomcat monitor program:
 That command won't print anything, but you'll notice a small icon
 appear in your taskbar:
 
-[img]
+![Tomcat configuration taskbar icon](docs/images/tomcat_icon.png)
 
 Right-click that icon and select `Configure...`.  A window will appear
 that looks something like this:
 
-[img]
+![The Tomcat configuration window](docs/images/tomcat_window.png)
 
 Click the `Java` tab and you'll see three settings for memory pools.
 Set them as follows:
 
-  * **Initial memory pool*: 1024
+  * **Initial memory pool**: 1024
   * **Maximum memory pool**: 1024
   * **Thread stack size**: 2048
 
@@ -125,15 +132,15 @@ stick.  Lovers of small text boxes will have already noticed the `Java
 Options` box, so let's add the equivalent Java options to the bottom
 of that (one option per line):
 
-  -Xms1024m
-  -Xmx1024m
-  -Xss2m
-  -verbose:gc
-  -XX:MaxPermSize=256m
+     -Xms1024m
+     -Xmx1024m
+     -Xss2m
+     -verbose:gc
+     -XX:MaxPermSize=256m
 
 The resulting settings should look like this:
 
-[img]
+![Tomcat memory settings](docs/images/tomcat_settings.png)
 
 Click `OK` to confirm everything and close the window.  Time to start
 it up!
@@ -144,7 +151,7 @@ Tomcat ArchivesSpace`.  Here you can change the service properties to
 have it automatically start on boot, or just start the service
 manually:
 
-[img]
+![Our new Windows service](docs/images/aspace_service.png)
 
 You'll find some log files written to the `logs` directory of your
 Tomcat directory.  Generally the ones starting with `archivesspace`
