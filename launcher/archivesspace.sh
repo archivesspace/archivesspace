@@ -83,9 +83,6 @@ if [ "$ARCHIVESSPACE_USER" = "" ]; then
     ARCHIVESSPACE_USER=
 fi
 
-export GEM_HOME="$ASPACE_LAUNCHER_BASE/gems"
-export GEM_PATH=
-
 export JAVA_OPTS="-Darchivesspace-daemon=yes $JAVA_OPTS"
 
 # Wow.  Not proud of this!
@@ -104,7 +101,7 @@ if [ "$ASPACE_JAVA_MAXPERMSIZE" = "" ]; then
 fi
 
 export JRUBY=
-for dir in "$GEM_HOME"/gems/jruby-*; do
+for dir in "$ASPACE_LAUNCHER_BASE"/gems/gems/jruby-*; do
     JRUBY="$JRUBY:$dir/lib/*"
 done
 
