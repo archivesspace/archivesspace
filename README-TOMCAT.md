@@ -71,3 +71,81 @@ If you left the ports as default in your config/config.rb file, you
 should be able to connect to ArchivesSpace on http://localhost:8080/ at
 this point (and the logs/catalina.out file will confirm that everything
 started up)
+
+
+## Running ArchivesSpace under Tomcat as a Windows service
+
+You can also use Tomcat to run ArchivesSpace as a Windows service.
+Start by following the steps above to install ArchivesSpace into your
+Tomcat directory (using `scripts\configure-tomcat.bat` instead of
+`scripts/configure-tomcat.sh`).
+
+Once Tomcat is ready, open a command prompt as the administrator
+user.  You can do that by right-clicking on cmd.exe and selecting "Run
+as administrator" or, in recent versions of Windows, by selecting
+"Open command prompt as administrator" from the "File" menu of any
+explorer window.
+
+From the command prompt, switch to your Tomcat directory.  I'm using
+Tomcat8 to ensure compatibility with Windows 8, but Tomcat7 should be
+fine.
+
+     > cd c:\aspace\apache-tomcat-8.0.0-RC5
+
+Now use Tomcat's `service.bat` script to install Tomcat as a Windows
+service with a nice name:
+
+     > bin\service.bat install ArchivesSpace
+
+Before we can start the service, we will need to configure its memory
+allocations.  To do this, run the Tomcat monitor program:
+
+     # Use tomcat7w.exe if you're using Tomcat 7
+     > bin\tomcat8w.exe //MS//ArchivesSpace
+
+That command won't print anything, but you'll notice a small icon
+appear in your taskbar:
+
+[img]
+
+Right-click that icon and select `Configure...`.  A window will appear
+that looks something like this:
+
+[img]
+
+Click the `Java` tab and you'll see three settings for memory pools.
+Set them as follows:
+
+  * **Initial memory pool*: 1024
+  * **Maximum memory pool**: 1024
+  * **Thread stack size**: 2048
+
+I've occasionally had some trouble getting these pool settings to
+stick.  Lovers of small text boxes will have already noticed the `Java
+Options` box, so let's add the equivalent Java options to the bottom
+of that (one option per line):
+
+  -Xms1024m
+  -Xmx1024m
+  -Xss2m
+  -verbose:gc
+  -XX:MaxPermSize=256m
+
+The resulting settings should look like this:
+
+[img]
+
+Click `OK` to confirm everything and close the window.  Time to start
+it up!
+
+From the `Control Panel`, find your way to `Administrative Tools`, and
+then to `Services`.  Near the top of the list you should see `Apache
+Tomcat ArchivesSpace`.  Here you can change the service properties to
+have it automatically start on boot, or just start the service
+manually:
+
+[img]
+
+You'll find some log files written to the `logs` directory of your
+Tomcat directory.  Generally the ones starting with `archivesspace`
+are the most useful.
