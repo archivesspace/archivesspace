@@ -135,7 +135,6 @@ module JSONModel
 
       Net::HTTP.start(uri.host, uri.port) do |http|
         http.request(req, nil) do |response|
-          puts "=================== resp: #{response.to_hash}"
           if response.code =~ /^4/
             JSONModel::handle_error(ASUtils.json_parse(response.body))
             raise response.body

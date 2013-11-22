@@ -56,10 +56,7 @@ module ExportHelpers
   # streamin'
   def generate_ead(id)
     obj = resolve_references(Resource.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects', 'tree', 'digital_object'])
-    puts "============= ID: #{obj["id_0"]}"
     ead = ASpaceExport.model(:ead).from_resource(JSONModel(:resource).new(obj))
-    # jjj so this needs to return a filename along with the stream ... a hash i guess
-#    ASpaceExport.serializer(:ead).stream(ead)
     {
       :stream => ASpaceExport.serializer(:ead).stream(ead),
       :filename => "EAD_#{obj['id_0']}.xml"
