@@ -4,6 +4,7 @@
 
 // initialise ajax modal
 
+
 $(function() {
   var openAjaxModal = function(href) {
     $("body").append('<div class="modal hide" id="tempAjaxModal"></div>');
@@ -597,6 +598,14 @@ AS.delayedTypeAhead = function (source, delay) {
 };
 
 
+AS.prefixed_cookie = function(cookie_name, value) {
+    var args = Array.prototype.slice.call(arguments, 0);
+    args[0] = COOKIE_PREFIX + '_' + args[0];
+    return $.cookie.apply(this, args);
+};
+
+
+
 
 // Sub Record Sorting
 AS.initSubRecordSorting = function($list) {
@@ -720,4 +729,16 @@ $(document).bind("subrecordcreated.aspace", function(event, object_name, newForm
 });
 $(document).bind("subrecorddeleted.aspace", function(event, formEl) {
   formEl.triggerHandler("subrecorddeleted.aspace");
+});
+
+// Global AJAX setup
+$(function() {
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      // if it's a POST, lets make sure the CSRF token is passed through
+      if (settings.type === "POST") {
+        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
+      }
+    }
+  });
 });

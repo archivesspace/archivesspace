@@ -128,6 +128,12 @@ module AspaceFormHelper
       form_top
     end
 
+
+    def current_context
+      @context.last
+    end
+
+
     def obj
       @context.last.second
     end

@@ -518,8 +518,8 @@ $(function() {
         }
       });
 
-      if ($.cookie("archives-tree-container::height")) {
-        $(".archives-tree-container").height($.cookie("archives-tree-container::height"));
+      if (AS.prefixed_cookie("archives-tree-container::height")) {
+        $(".archives-tree-container").height(AS.prefixed_cookie("archives-tree-container::height"));
       } else {
         $(".archives-tree-container").height(AS.DEFAULT_TREE_PANE_HEIGHT);
       }
@@ -528,7 +528,7 @@ $(function() {
         handles: "s",
         minHeight: 80,
         resize: function(event, ui) {
-          $.cookie("archives-tree-container::height", ui.size.height);
+          AS.prefixed_cookie("archives-tree-container::height", ui.size.height);
           resizeArchivesTree();
           $(window).triggerHandler("resize.tree");
         }

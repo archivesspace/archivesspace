@@ -2220,6 +2220,123 @@ describe "ArchivesSpace user interface" do
         $driver.find_element_with_text("//div[@id='archives_tree']//li//span", /Child 2, 2013/)
       }
     end
+
+    it "can add multiple rows in one action" do
+      $driver.find_element(:link, "Rapid Data Entry").click
+      @modal = $driver.find_element(:id => "rapidDataEntryModal")
+
+      @modal.find_element(:id, "archival_record_children_children__0__level_").select_option("fonds")
+
+      @modal.find_element(:css, ".btn.add-rows-dropdown").click
+      $driver.clear_and_send_keys([:css, ".add-rows-form input"], "9")
+      @modal.find_element(:css, ".add-rows-form .btn.btn-primary").click
+
+      # there should be 10 rows now :)
+      @modal.find_elements(:css, "table tbody tr").length.should eq(10)
+
+      # all should have fonds as the level
+      @modal.find_element(:id, "archival_record_children_children__1__level_").get_select_value.should eq("fonds")
+      @modal.find_element(:id, "archival_record_children_children__2__level_").get_select_value.should eq("fonds")
+      @modal.find_element(:id, "archival_record_children_children__3__level_").get_select_value.should eq("fonds")
+      @modal.find_element(:id, "archival_record_children_children__4__level_").get_select_value.should eq("fonds")
+      @modal.find_element(:id, "archival_record_children_children__5__level_").get_select_value.should eq("fonds")
+      @modal.find_element(:id, "archival_record_children_children__6__level_").get_select_value.should eq("fonds")
+      @modal.find_element(:id, "archival_record_children_children__7__level_").get_select_value.should eq("fonds")
+      @modal.find_element(:id, "archival_record_children_children__8__level_").get_select_value.should eq("fonds")
+      @modal.find_element(:id, "archival_record_children_children__9__level_").get_select_value.should eq("fonds")
+    end
+
+    it "can perform a basic fill" do
+      @modal = $driver.find_element(:id => "rapidDataEntryModal")
+
+      @modal.find_element(:css, ".btn.fill-column").click
+      @modal.find_element(:id, "basicFillTargetColumn").select_option("colLevel")
+      @modal.find_element(:id, "basicFillValue").select_option("item")
+      $driver.click_and_wait_until_gone(:css, "#fill_basic .btn-primary")
+
+      # all should have item as the level
+      @modal.find_element(:id, "archival_record_children_children__0__level_").get_select_value.should eq("item")
+      @modal.find_element(:id, "archival_record_children_children__1__level_").get_select_value.should eq("item")
+      @modal.find_element(:id, "archival_record_children_children__2__level_").get_select_value.should eq("item")
+      @modal.find_element(:id, "archival_record_children_children__3__level_").get_select_value.should eq("item")
+      @modal.find_element(:id, "archival_record_children_children__4__level_").get_select_value.should eq("item")
+      @modal.find_element(:id, "archival_record_children_children__5__level_").get_select_value.should eq("item")
+      @modal.find_element(:id, "archival_record_children_children__6__level_").get_select_value.should eq("item")
+      @modal.find_element(:id, "archival_record_children_children__7__level_").get_select_value.should eq("item")
+      @modal.find_element(:id, "archival_record_children_children__8__level_").get_select_value.should eq("item")
+      @modal.find_element(:id, "archival_record_children_children__9__level_").get_select_value.should eq("item")
+    end
+
+    it "can perform a sequence fill" do
+      @modal = $driver.find_element(:id => "rapidDataEntryModal")
+
+      @modal.find_element(:css, ".btn.fill-column").click
+      @modal.find_element(:link, "Sequence").click
+
+      @modal.find_element(:id, "sequenceFillTargetColumn").select_option("colCompId")
+      $driver.clear_and_send_keys([:id, "sequenceFillPrefix"], "ABC")
+      $driver.clear_and_send_keys([:id, "sequenceFillFrom"], "1")
+      $driver.clear_and_send_keys([:id, "sequenceFillTo"], "5")
+      $driver.click_and_wait_until_gone(:css, "#fill_sequence .btn-primary")
+
+      # message should be displayed "not enough in the sequence" or thereabouts..
+      @modal.find_element(:id, "sequenceTooSmallMsg")
+
+      $driver.clear_and_send_keys([:id, "sequenceFillTo"], "10")
+      $driver.click_and_wait_until_gone(:css, "#fill_sequence .btn-primary")
+
+      # check the component id for each row matches the sequence
+      @modal.find_element(:id, "archival_record_children_children__0__component_id_").attribute("value").should eq("ABC1")
+      @modal.find_element(:id, "archival_record_children_children__1__component_id_").attribute("value").should eq("ABC2")
+      @modal.find_element(:id, "archival_record_children_children__2__component_id_").attribute("value").should eq("ABC3")
+      @modal.find_element(:id, "archival_record_children_children__3__component_id_").attribute("value").should eq("ABC4")
+      @modal.find_element(:id, "archival_record_children_children__4__component_id_").attribute("value").should eq("ABC5")
+      @modal.find_element(:id, "archival_record_children_children__5__component_id_").attribute("value").should eq("ABC6")
+      @modal.find_element(:id, "archival_record_children_children__6__component_id_").attribute("value").should eq("ABC7")
+      @modal.find_element(:id, "archival_record_children_children__7__component_id_").attribute("value").should eq("ABC8")
+      @modal.find_element(:id, "archival_record_children_children__8__component_id_").attribute("value").should eq("ABC9")
+      @modal.find_element(:id, "archival_record_children_children__9__component_id_").attribute("value").should eq("ABC10")
+    end
+
+    it "can perform a column reorder" do
+      @modal = $driver.find_element(:id => "rapidDataEntryModal")
+
+      @modal.find_element(:css, ".btn.reorder-columns").click
+
+      # move Note Type 1 to the first position
+      @modal.find_element(:id, "columnOrder").select_option("colNType1")
+      17.times { @modal.find_element(:id, "columnOrderUp").click }
+
+      # move Instance Type to the second position
+      @modal.find_element(:id, "columnOrder").select_option("colNType1") # deselect Note Type 1
+      @modal.find_element(:id, "columnOrder").select_option("colIType")
+      9.times { @modal.find_element(:id, "columnOrderUp").click }
+
+      # apply the new order
+      $driver.click_and_wait_until_gone(:css, "#columnReorderForm .btn-primary")
+
+      # check the first few headers now match the new order
+      cells = @modal.find_elements(:css, "table .fieldset-labels th")
+      cells[1].attribute("id").should eq("colNType1")
+      cells[2].attribute("id").should eq("colIType")
+      cells[3].attribute("id").should eq("colLevel")
+
+      # check the section headers are correct
+      cells = @modal.find_elements(:css, "table .sections th")
+      cells[1].text.should eq("Notes")
+      cells[1].attribute("colspan").should eq("1")
+      cells[2].text.should eq("Instance")
+      cells[2].attribute("colspan").should eq("1")
+      cells[3].text.should eq("Basic Information")
+      cells[3].attribute("colspan").should eq("5")
+
+      # check the form fields match the headers
+      cells = @modal.find_elements(:css, "table tbody tr:first-child td")
+      cells[1].find_element(:id, "archival_record_children_children__0__notes__0__type_")
+      cells[2].find_element(:id, "archival_record_children_children__0__instances__0__instance_type_")
+      cells[3].find_element(:id, "archival_record_children_children__0__level_")
+    end
+
   end
 
 

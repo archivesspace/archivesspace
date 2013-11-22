@@ -1,6 +1,6 @@
 class ArchivalObjectsController < ApplicationController
 
-  set_access_control  "view_repository" => [:index, :show],
+  set_access_control  "view_repository" => [:index, :show, :generate_sequence],
                       "update_archival_record" => [:new, :edit, :create, :update, :transfer, :rde, :add_children, :accept_children],
                       "delete_archival_record" => [:delete]
 
@@ -132,7 +132,7 @@ class ArchivalObjectsController < ApplicationController
     if params[:archival_record_children].blank? or params[:archival_record_children]["children"].blank?
 
       @archival_record_children = ArchivalObjectChildren.new
-      flash.now[:error] = "No rows entered"
+      flash.now[:error] = I18n.t("rde.messages.no_rows")
 
     else
       children_data = cleanup_params_for_schema(params[:archival_record_children], JSONModel(:archival_record_children).schema)
@@ -151,5 +151,28 @@ class ArchivalObjectsController < ApplicationController
     render :partial => "archival_objects/rde"
   end
 
+
+  def generate_sequence
+    errors = []
+    errors.push(I18n.t("rde.fill_column.sequence_from_required")) if params[:from].blank?
+    errors.push(I18n.t("rde.fill_column.sequence_to_required")) if params[:to].blank?
+
+    # limit the range to 1000 entries, unless the number of rows is provided
+    limit = (params["limit"] || 1000).to_i;
+
+    return render :json => {"errors" => errors} if errors.length > 0
+
+    range = (params["from"]..params["to"])
+    values = range.take(limit).map{|i| "#{params["prefix"]}#{i}#{params["suffix"]}"}
+
+    render :json => {
+      "size" => values.length,
+      "limit" => limit,
+      "values" => values,
+      "summary" => params["limit"] ?
+                      I18n.t("rde.fill_column.sequence_summary_with_maxsize", :limit => limit, :count => values.length) :
+                      I18n.t("rde.fill_column.sequence_summary", :count => values.length)
+    }
+  end
 
 end

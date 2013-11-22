@@ -8,6 +8,12 @@ AppConfig[:default_page_size] = 10
 AppConfig[:max_page_size] = 250
 
 
+# A prefix added to cookies used by the application.
+#
+# Change this if you're running more than one instance of ArchivesSpace on the
+# same hostname (i.e. multiple instances on different ports)
+AppConfig[:cookie_prefix] = "archivesspace"
+
 # The periodic indexer can run using multiple threads to take advantage of
 # multiple CPU cores.
 #

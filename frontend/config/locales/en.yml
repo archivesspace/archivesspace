@@ -685,6 +685,7 @@ en:
   rde:
     date_type: Date Type
     instance_type: Instance Type
+    column_label: Column
     sections:
       basic_information: Basic Information
       date: Date
@@ -692,11 +693,29 @@ en:
       notes: Notes
     actions:
       add_row: Add Row
+      add_rows: Add Rows
       submit: Save Rows
       reset: Reset
       showhide_prefix: "Columns:"
       showhide_suffix: visible
       showhide_none: All Columns Filtered
+      fill_toggle: Fill Column
+      reorder_toggle: Reorder Columns
+    fill_column:
+      basic: Basic
+      sequence: Sequence
+      fill_value: Fill Value
+      select_a_column: Please select a column
+      apply_basic_fill: Apply Fill
+      apply_sequence_fill: Apply Sequence
+      sequence_count_warning: There are more rows than there are items in the sequence.
+      preview_sequence: Preview Sequence Values
+      sequence_summary: "%{count} items in the sequence:"
+      sequence_summary_with_maxsize: "For your %{limit} rows, the %{count} sequence values are:"
+      sequence_from_required: From is required
+      sequence_to_required: To is required
+    reorder_columns:
+      apply_order: Apply Column Order
     messages:
       error_prefix: Row
       success: "<div class='alert alert-success'>Children Created. Refreshing page...</div>"
@@ -704,12 +723,24 @@ en:
     help:
       keyboard_shortcuts: |
                   <div><strong>Keyboard Shortcuts</strong></div>
-                  <div><small><span class="span2">Jump from cell to cell:</span>SHIFT + Arrow Keys</small></div>
-                  <div><small><span class="span2">Create a new row (from last row):</span> SHIFT + Return</small></div>
+                  <div class="row"><small><span class="span3">Jump from cell to cell:</span>SHIFT + Arrow Keys</small></div>
+                  <div class="row"><small><span class="span3">Create a new row (from last row):</span> SHIFT + Return</small></div>
       sticky_columns: |
                   <div><strong>Sticky Columns</strong></div>
                   <div><small>Highlighted columns are sticky and will be replicated when new rows are added. Toggle 'sticky' by clicking the corresponding table heading.</small></div>
-                  <div><small>Clicking 'Add Row' will copy values from the last row; The row's '+' button will copy values from the currently focused row.</small></div>
+                  <div><small>Clicking <strong>Add Row</strong> will copy values from the last row; The row's <strong>+</strong> button will copy values from the currently focused row.</small></div>
+      fill_column: |
+                  <div><strong>Fill Column - Basic</strong></div>
+                  <div><small>To fill a column with a single value, click <strong>Fill Column</strong> and under the <strong>Basic</strong> tab select the target <strong>Column</strong>, enter the desired <strong>Fill Value</strong> and click <strong>Apply Fill</strong>.</small></div>
+                  <br/>
+                  <div><strong>Fill Column - Sequence</strong></div>
+                  <div><small>To apply a sequence to a column, click <strong>Fill Column</strong> and under the <strong>Sequence</strong> tab select the target <strong>Column</strong> and complete the <strong>Fill Value</strong> fields to generate the sequence you desire.  A warning will be displayed if the sequence generated will not fulfil the number of rows in the form.</small></div>
+      resize_and_reorder_columns: |
+                  <div><strong>Reorder Columns</strong></div>
+                  <div><small>Click <strong>Reorder columns</strong>, select the row(s) you wish to reorder and use the up/down arrow buttons to change their position in the list. When happy with your new ordering, click <strong>Apply Column Order</strong></small></div>
+      reset: |
+                  <div><strong>Reset Form</strong></div>
+                  <div><small>Click <strong>Reset</strong> to clear the form and revert the sticky, visible and order of the columns to the default values.</small></div>
 
   update_monitor:
     save_failed: <strong>Failed to save your changes</strong>

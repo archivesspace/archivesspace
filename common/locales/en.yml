@@ -821,11 +821,11 @@ en:
         <p>A barcode for identifying the primary container.  May be used instead of or in supplement to the Container 1 Type.</p>
     type_2: Container 2 Type
     type_2_tooltip: *container_type_tooltip
-    indicator_2: Indicator 2
+    indicator_2: Container 2 Indicator
     indicator_2_tooltip: *container_indicator_tooltip
     type_3: Container 3 Type
     type_3_tooltip: *container_type_tooltip
-    indicator_3: Indicator 3
+    indicator_3: Container 3 Indicator
     indicator_3_tooltip: *container_indicator_tooltip
     container_extent: Container Extent
     container_extent_tooltip: |
