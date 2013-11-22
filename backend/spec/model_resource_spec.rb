@@ -134,4 +134,27 @@ describe 'Resource model' do
     resource.related_records(:classification).title.should eq("top-level classification")
   end
 
+  # See https://gist.github.com/anarchivist/7477913
+  it "can update records that have external ids" do
+    opts = {
+      :id_0 => "test",
+      :id_1 => "4444",
+      :ead_id => "test000",
+      :finding_aid_title => "Test"
+    }
+    
+    json = build(:json_resource, opts)
+
+    json[:external_ids] = 
+      [{
+         :source => "Archivists Toolkit Database::RESOURCE",
+         :external_id => "1"
+       }]
+
+    resource = Resource.create_from_json(json, :repo_id => $repo_id)
+
+    json[:lock_version] = 0
+    
+    expect { resource.update_from_json(json) }.to_not raise_error
+  end
 end
