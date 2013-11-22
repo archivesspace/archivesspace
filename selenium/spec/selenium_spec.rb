@@ -952,6 +952,7 @@ describe "ArchivesSpace user interface" do
       # check the show page
       $driver.click_and_wait_until_gone(:link => "#{@exdocs_accession_title}, #{@exdocs_4partid.join(", ")}")
       $driver.find_element(:id, "accession_rights_statements_")
+      $driver.find_element(:css, "#accession_rights_statements_ .accordion-toggle").click
       $driver.find_element(:id, "rights_statement_0")
     end
 
@@ -1462,13 +1463,13 @@ describe "ArchivesSpace user interface" do
       $driver.wait_for_ajax
 
       target = $driver.find_element_with_text("//div[@id='archives_tree']//li", /Pony Express/)
-      target.find_element_with_text("./ul/li/a", /Christmas cards/)
+      target.find_element_with_text(".//a", /Christmas cards/)
 
       # refresh the page and verify that the change really stuck
       $driver.navigate.refresh
 
       target = $driver.find_element_with_text("//div[@id='archives_tree']//li", /Pony Express/)
-      target.find_element_with_text("./ul/li/a", /Christmas cards/)
+      target.find_element_with_text(".//a", /Christmas cards/)
     end
 
 
@@ -1883,13 +1884,13 @@ describe "ArchivesSpace user interface" do
       $driver.wait_for_ajax
 
       target = $driver.find_element_with_text("//div[@id='archives_tree']//li", /Pony Express Digital Image/)
-      target.find_element_with_text("./ul/li/a", /ICO/)
+      target.find_element_with_text(".//a", /ICO/)
 
       # refresh the page and verify that the change really stuck
       $driver.navigate.refresh
 
       target = $driver.find_element_with_text("//div[@id='archives_tree']//li", /Pony Express Digital Image/)
-      target.find_element_with_text("./ul/li/a", /ICO/)
+      target.find_element_with_text(".//a", /ICO/)
 
       $driver.click_and_wait_until_gone(:link, "Close Record")
       $driver.find_element(:xpath, "//a[@title='#{digital_object_title}']").click
