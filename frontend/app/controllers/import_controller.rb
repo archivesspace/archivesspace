@@ -18,13 +18,12 @@ class ImportController < ApplicationController
   end
   
   
-  # Handle POST requests from browsers that support XKR2 
-   
+  # Handle POST requests from browsers that support XKR2    
   def upload_xhr
     
     self.response_body = Enumerator.new do |y|
-      run_importer(y) do |json_status|
-        json_status + "---\n"
+      run_importer do |status|
+        y << "#{ASUtils.to_json(status)}---\n"
       end
     end
 
@@ -43,8 +42,8 @@ class ImportController < ApplicationController
       # Emit the template up to the </body> straight away
       y << (leader + "\r\n")
 
-      run_importer(y) do |json_status|
-        "<script>update_status(#{json_status});</script>".html_safe + "\r\n"
+      run_importer do |status|
+        y << "<script>update_status(#{ASUtils.to_json(status)});</script>".html_safe + "\r\n"
       end 
 
       y << trailer
@@ -55,10 +54,10 @@ class ImportController < ApplicationController
 
   protected
   
-  def run_importer(y, &block)
+  def run_importer
     
     if params[:upload].blank?
-      y << block.call(ASUtils.to_json({'errors' => ["No file uploaded"]}))
+      yield({'errors' => ["No file uploaded"]})
     else  
       source_file = ImportFile.new(params[:upload])    
 
@@ -69,28 +68,24 @@ class ImportController < ApplicationController
         importer = get_importer(source_file, params[:importer], repo_id)
       
         importer.run_safe do |status|
-          
           if status.has_key?('saved')
             # status['saved'] = status['saved'].map {|k,v| v[0]}
             status['saved'] = status['saved'].length
           end
       
-          y << block.call(ASUtils.to_json(status))
-          
+          yield status          
         end
         
         source_file.delete
         
       rescue ValidationException => e
         errors = e.errors.collect.map{|attr, err| "#{e.invalid_object.class.record_type}/#{attr} #{err.join(', ')}"}
-        y << block.call(ASUtils.to_json({"errors" => errors}))
+        yield({"errors" => errors})
   
       rescue Exception => e
         Rails.logger.debug("Import Exception #{e.to_s}")
-        y << block.call(ASUtils.to_json({"errors" => [e.to_s]}))
+        yield({"errors" => [e.to_s]})
       end
-
-    
     end
   end
   
