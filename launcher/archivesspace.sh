@@ -67,7 +67,7 @@ if [ "$?" != "0" ]; then
 fi
 
 if [ ! -e "scripts/find-base.sh" ]; then
-    cd "$(dirname `readlink_dash_f $0`)"
+    cd "$(dirname `readlink_dash_f "$0"`)"
 fi
 
 export ASPACE_LAUNCHER_BASE="$(scripts/find-base.sh)"
@@ -104,10 +104,9 @@ if [ "$ASPACE_JAVA_MAXPERMSIZE" = "" ]; then
 fi
 
 export JRUBY=
-for dir in $GEM_HOME/gems/jruby-*; do
+for dir in "$GEM_HOME"/gems/jruby-*; do
     JRUBY="$JRUBY:$dir/lib/*"
 done
-
 
 startup_cmd="java "$JAVA_OPTS"  \
         $ASPACE_JAVA_XMX $ASPACE_JAVA_XSS $ASPACE_JAVA_MAXPERMSIZE -Dfile.encoding=UTF-8 \
@@ -115,7 +114,7 @@ startup_cmd="java "$JAVA_OPTS"  \
         org.jruby.Main --1.9 \"launcher/launcher.rb\""
 
 
-export PIDFILE=$ASPACE_LAUNCHER_BASE/data/.archivesspace.pid
+export PIDFILE="$ASPACE_LAUNCHER_BASE/data/.archivesspace.pid"
 
 
 case "$1" in
@@ -161,7 +160,7 @@ case "$1" in
         ;;
     "")
         # Run in foreground mode
-        (cd $ASPACE_LAUNCHER_BASE; bash -c "$startup_cmd 2>&1 | tee 'logs/archivesspace.out'")
+        (cd "$ASPACE_LAUNCHER_BASE"; bash -c "$startup_cmd 2>&1 | tee 'logs/archivesspace.out'")
         ;;
     *)
         echo "Usage: $0 [start|stop]"
