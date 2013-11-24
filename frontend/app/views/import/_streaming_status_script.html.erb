@@ -29,7 +29,10 @@ function handleUpdate(update, emitter) {
   if (update.saved) {
     var saved = update.saved;
     emitter.show_saved(update.saved);
+  }
 
+  if (update.links) {
+    emitter.show_links(update.links);
   }
 }
 

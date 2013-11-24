@@ -8,10 +8,47 @@ module ASpaceImport
   end
 
 
+  class ResponseReader
+    def initialize
+      @fragments = ""
+    end
+
+
+    def read_response(response)
+      response.read_body do |chunk|
+        read(chunk) do |message|
+          yield message
+        end
+      end
+    end
+
+
+    def read(chunk)
+      begin 
+        if chunk =~ /\A\[\n\Z/
+          # do nothing because we're treating the response as a stream
+        elsif chunk =~ /\A\n\]\Z/
+          # the last message doesn't have a comma, so it's a fragment
+          s = @fragments.sub(/\n\Z/, '')
+          @fragments = ""
+          yield ASUtils.json_parse(s)
+        elsif chunk =~ /.*,\n\Z/
+          s = @fragments + chunk.sub(/,\n\Z/, '')
+          @fragments = ""
+          yield ASUtils.json_parse(s)
+        else
+          @fragments << chunk
+        end
+      rescue JSON::ParserError => e
+        yield({:error => e.to_s})
+      end
+    end
+  end
+
+
   class Importer
 
     @@importers = {}
-
 
     def self.list
       list = "\nThe following importers are available\n"
@@ -122,26 +159,10 @@ module ASpaceImport
 
     def handle_save_response(response)
       if response.code.to_s == '200'
-        fragments = ""
-        response.read_body do |message|
-          begin
-            if message =~ /\A\[\n\Z/
-              # do nothing because we're treating the response as a stream
-            elsif message =~ /\A\n\]\Z/
-              # the last message doesn't have a comma, so it's a fragment
-              message = ASUtils.json_parse(fragments.sub(/\n\Z/, ''))
-              send_to_client(message)
-            elsif message =~ /.*,\n\Z/
-              message = ASUtils.json_parse(fragments + message.sub(/,\n\Z/, ''))
-              send_to_client(message)
-            else
-              fragments << message
-            end
-          rescue JSON::ParserError => e
-            send_to_client({'error' => e.to_s})
-          end
+        reader = ResponseReader.new
+        reader.read_response(response) do |message|
+          send_to_client(message)
         end
-
       else
         send_to_client({"error" => "Server Error #{response.code}"})
       end

@@ -18,13 +18,12 @@ class ImportController < ApplicationController
   end
   
   
-  # Handle POST requests from browsers that support XKR2 
-   
+  # Handle POST requests from browsers that support XKR2    
   def upload_xhr
     
     self.response_body = Enumerator.new do |y|
-      run_importer(y) do |json_status|
-        json_status + "---\n"
+      run_importer do |status|
+        y << "#{ASUtils.to_json(status)}---\n"
       end
     end
 
@@ -43,8 +42,8 @@ class ImportController < ApplicationController
       # Emit the template up to the </body> straight away
       y << (leader + "\r\n")
 
-      run_importer(y) do |json_status|
-        "<script>update_status(#{json_status});</script>".html_safe + "\r\n"
+      run_importer do |status|
+        y << "<script>update_status(#{ASUtils.to_json(status)});</script>".html_safe + "\r\n"
       end 
 
       y << trailer
@@ -55,10 +54,10 @@ class ImportController < ApplicationController
 
   protected
   
-  def run_importer(y, &block)
+  def run_importer
     
     if params[:upload].blank?
-      y << block.call(ASUtils.to_json({'errors' => ["No file uploaded"]}))
+      yield({'errors' => ["No file uploaded"]})
     else  
       source_file = ImportFile.new(params[:upload])    
 
@@ -69,28 +68,28 @@ class ImportController < ApplicationController
         importer = get_importer(source_file, params[:importer], repo_id)
       
         importer.run_safe do |status|
-          
+
           if status.has_key?('saved')
-            # status['saved'] = status['saved'].map {|k,v| v[0]}
+            links = status['saved'].map {|k,v| v[0]}
+            links = frontend_links(links)
+
+            status['links'] = links
             status['saved'] = status['saved'].length
           end
       
-          y << block.call(ASUtils.to_json(status))
-          
+          yield status          
         end
         
         source_file.delete
         
       rescue ValidationException => e
         errors = e.errors.collect.map{|attr, err| "#{e.invalid_object.class.record_type}/#{attr} #{err.join(', ')}"}
-        y << block.call(ASUtils.to_json({"errors" => errors}))
+        yield({"errors" => errors})
   
       rescue Exception => e
         Rails.logger.debug("Import Exception #{e.to_s}")
-        y << block.call(ASUtils.to_json({"errors" => [e.to_s]}))
+        yield({"errors" => [e.to_s]})
       end
-
-    
     end
   end
   
@@ -128,6 +127,33 @@ class ImportController < ApplicationController
                
     ASpaceImport::Importer.create_importer(options)    
 
+  end
+
+
+  def frontend_links(links)
+    result = []
+    resource = nil
+    links.reverse.each do |l|      
+      l.sub!(/^\/repositories\/[0-9]+/, '')
+      if l =~ /^\/resources\/[0-9]+$/
+        resource = l 
+        tree = l.sub(/^\//, '').sub(/s\//, '_')
+        result << "#{resource}#tree::#{tree}"
+      elsif l =~ /^\/archival_objects\//
+        tree = l.sub(/^\//, '').sub(/s\//, '_')
+        result << "#{resource}#tree::#{tree}"
+      else
+        result << l.
+          sub(/\/people\//, '/agent_person/').
+          sub(/\/corporate_entities\//, '/agent_corporate_entity/').
+          sub(/\/software\//, '/agent_software/').
+          sub(/\/families\//, '/agent_family/')
+
+      end
+    end
+    root = root_url.sub(/\/$/, '')
+
+    result.map {|l| "<a target='_blank' href='#{root}#{l}'>#{root}#{l}</a>"}
   end
 end
 
