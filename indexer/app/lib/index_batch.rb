@@ -27,7 +27,7 @@ class IndexBatch
 
 
   def write(s)
-    @bytes += s.length
+    @bytes += s.bytes.count
     @filestore.write(s)
     @filestore.flush
   end
