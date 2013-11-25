@@ -78,7 +78,9 @@ started up)
 You can also use Tomcat to run ArchivesSpace as a Windows service.
 Start by following the steps above to install ArchivesSpace into your
 Tomcat directory (using `scripts\configure-tomcat.bat` instead of
-`scripts/configure-tomcat.sh`).
+`scripts/configure-tomcat.sh`).  Make sure you get the release
+specifically for Windows (marked with something like "64-bit Windows
+zip").
 
 Once Tomcat is ready, open a command prompt as the administrator
 user.  You can do that by right-clicking on cmd.exe and selecting "Run
@@ -99,6 +101,8 @@ fine.
 Now use Tomcat's `service.bat` script to install Tomcat as a Windows
 service with a nice name:
 
+     # If you don't have a service.bat file, check that you got the
+     # Windows release of Tomcat.
      > bin\service.bat install ArchivesSpace
 
 ![Service created](docs/images/console_installed_service.png)
