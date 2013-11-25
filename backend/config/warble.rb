@@ -139,7 +139,7 @@ Warbler::Config.new do |config|
   config.webxml.jruby.min.runtimes = 1
   config.webxml.jruby.max.runtimes = 1
 
-  config.override_gem_home = false
+  config.override_gem_home = true
 
   # JNDI data source name
   # config.webxml.jndi = 'jdbc/rails'
