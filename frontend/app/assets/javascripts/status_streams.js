@@ -69,7 +69,7 @@ function StandardResultEmitter() {
 	}
 
   this.show_links = function(links) {
-    $("#import-results").append("<div class='import-results-row alert alert-success'><ul class='import-record-links'></ul></div>'");
+    $("#import-results").append("<div class='import-results-row alert alert-success'><p>Imported Records: <p><ul class='import-record-links'></ul></div>'");
     var $linkList = $('ul.import-record-links');
     $.each(links, function(i, val) {
       $linkList.append("<li>" + val + "</li>");
