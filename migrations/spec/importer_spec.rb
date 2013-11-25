@@ -177,6 +177,10 @@ MARC
     it "maps field 69* to resource['subjects']" do
       @subjects[0]['terms'][0]['term'].should eq("SF 3--SF A--SF D--SF X")
     end
+
+    it "maps field 040 subfield e to resource.finding_aid_description_rules" do
+      @resource['finding_aid_description_rules'].should eq("dacs")
+    end
   end
 end
 
