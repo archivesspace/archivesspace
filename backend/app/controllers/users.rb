@@ -103,6 +103,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
             ["password", String, "The user's password", :optional => true],
             ["groups", [String], "Array of groups URIs to assign the user to", :optional => true],
+            ["remove_groups", BooleanParam, "Remove all groups from the user for the current repo_id if true", :optional => true],
             ["repo_id", Integer, "The Repository groups to clear", :optional => true],
             ["user", JSONModel(:user), "The updated record", :body => true])
     .permissions([])            # permissions are enforced in the body for this one
@@ -113,7 +114,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     user = User.get_or_die(params[:id])
 
-    if params[:repo_id]
+    if params[:repo_id] && (params[:groups] || params[:remove_groups])
       # Low security: if a repo_id is provided, we're just running in "set
       # groups for this repo" mode.
       groups = Array(params[:groups]).map {|uri|
@@ -132,8 +133,9 @@ class ArchivesSpaceService < Sinatra::Base
       }
 
       user.add_to_groups(groups, params[:repo_id])
+    end
 
-    else
+    if params[:user]
       # High security: update the user themselves.
       raise AccessDeniedException.new if !current_user.can?(:manage_users)
 

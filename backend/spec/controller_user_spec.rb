@@ -184,4 +184,18 @@ describe 'User controller' do
     end
   end
 
+
+  it "can update an existing user" do
+    user_id = build(:json_user, :is_admin => true).save('password' => '123')
+    user = JSONModel(:user).find(user_id)
+
+    user.is_admin = true
+    user.name = "A New Name"
+    user.save
+
+    user = JSONModel(:user).find(user_id)
+    user.is_admin.should eq(true)
+    user.name.should eq("A New Name")
+  end
+
 end

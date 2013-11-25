@@ -88,10 +88,13 @@ class UsersController < ApplicationController
 
   def update_groups
 
+    groups = Array(params[:groups])
+
     handle_crud(:instance => :user,
                 :obj => JSONModel(:user).from_hash(JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/users/#{params[:id]}")),
                 :save_opts => {
-                  "groups[]" => Array(params[:groups]),
+                  "groups[]" => groups,
+                  :remove_groups => groups.empty?,
                   :repo_id => session[:repo_id]
                 },
                 :replace => false,
