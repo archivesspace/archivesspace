@@ -88,10 +88,7 @@ ASpaceImport::Importer.importer :marcxml do
           },
 
           # description rules
-          "datafield[@tag='040']" => Proc.new {|resource, node|
-            rules = node.xpath("subfield[@code='e']").first.inner_text
-            resource.finding_aid_description_rules = rules unless rules.empty?
-          },
+          "datafield[@tag='040']/subfield[@code='e']" => :finding_aid_description_rules,
 
           # 200s
           "datafield[@tag='210']" => mix(multipart_note('odd', "Abbreviated Title", "{$a: }{$b }{($2)}"), is_fallback_resource_title),
