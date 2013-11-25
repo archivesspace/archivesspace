@@ -1,3 +1,6 @@
+require 'aspace_gems'
+ASpaceGems.setup
+
 require_relative 'launcher_init'
 require 'asutils'
 require 'fileutils'
