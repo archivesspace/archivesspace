@@ -467,12 +467,14 @@ class CommonIndexer
       req = Net::HTTP::Post.new("/update")
       req['Content-Type'] = 'application/json'
 
-      batch.close
-      req['Content-Length'] = batch.content_length
-      req.body_stream = batch.to_json_stream
+      stream = batch.to_json_stream
+      req['Content-Length'] = batch.byte_count
+
+      req.body_stream = stream
 
       response = do_http_request(solr_url, req)
 
+      stream.close
       batch.destroy
 
       if response.code != '200'

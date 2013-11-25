@@ -9,6 +9,7 @@ class IndexBatch
   SEPARATORS = [",\n", "]\n"]
 
   def initialize
+    @bytes = 0
     @record_count = 0
     @closed = false
 
@@ -26,6 +27,7 @@ class IndexBatch
 
 
   def write(s)
+    @bytes += s.length
     @filestore.write(s)
     @filestore.flush
   end
@@ -75,10 +77,14 @@ class IndexBatch
 
   def to_json_stream
     self.close
-    @filestore.rewind
-    @filestore
+    @filestore.close
+    File.open(@filestore.path, "r")
   end
 
+
+  def byte_count
+    @bytes
+  end
 
   def concat(docs)
     docs.each do |doc|
@@ -96,10 +102,6 @@ class IndexBatch
     @record_count
   end
 
-
-  def content_length
-    @filestore.size
-  end
 
   def destroy
     self.close
