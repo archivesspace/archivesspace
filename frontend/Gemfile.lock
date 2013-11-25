@@ -115,7 +115,7 @@ GEM
       rspec-core (~> 2.12.0)
       rspec-expectations (~> 2.12.0)
       rspec-mocks (~> 2.12.0)
-    rubyzip (0.9.9)
+    rubyzip (1.0.0)
     rufus-lru (1.0.5)
     sass (3.2.3)
     sass-rails (3.2.5)
@@ -149,6 +149,8 @@ GEM
       jruby-rack (>= 1.0.0)
       rake (>= 0.8.7)
       rubyzip (>= 0.9.4)
+    zip-zip (0.2)
+      rubyzip (>= 1.0.0)
 
 PLATFORMS
   java
@@ -167,6 +169,7 @@ DEPENDENCIES
   puma
   rails (= 3.2.13)
   rspec-rails
+  rubyzip (= 1.0.0)
   rufus-lru
   sass-rails (~> 3.2.3)
   simplecov
@@ -174,3 +177,4 @@ DEPENDENCIES
   uglifier (>= 1.0.3)
   useragent
   warbler
+  zip-zip

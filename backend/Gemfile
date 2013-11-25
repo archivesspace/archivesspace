@@ -30,3 +30,7 @@ end
 
 gem "net-http-persistent"
 gem "rjack-jackson"
+
+
+gem "rubyzip", "1.0.0"
+gem "zip-zip"

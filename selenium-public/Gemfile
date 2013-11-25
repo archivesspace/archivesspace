@@ -3,3 +3,6 @@ source "http://rubygems.org"
 
 gem "selenium-webdriver"
 gem "rspec"
+
+gem "rubyzip", "1.0.0"
+gem "zip-zip"
