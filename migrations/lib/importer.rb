@@ -58,9 +58,6 @@ module ASpaceImport
       list
     end
 
-    # @param options [Hash] runtime options passed into the importer
-    # @return [Object] an instance of the selected importer
-    # @raise [StandardError] if the class of the selected importer doesn't pass the usability test
 
     def self.create_importer(opts)
       i = @@importers[opts[:importer].to_sym]
@@ -71,6 +68,7 @@ module ASpaceImport
       end
     end
 
+
     def self.destroy_importers
       @@importers.each do |key, klass|
         Object.send(:remove_const, klass.name)
@@ -78,10 +76,6 @@ module ASpaceImport
       @@importers = {}
     end
 
-    # @param name [Symbol] the key declared by importer being loaded
-    # @param superclass [Const] a superfluous param in all likelihood
-    # @param block [Block] the data-processing and self-describing methods defined by the importer, the meat of the importer
-    # @return [Boolean]
 
     def self.importer(name, superclass = ASpaceImport::Importer, &block)
       if @@importers.has_key? name
@@ -139,8 +133,16 @@ module ASpaceImport
 
       begin
         emit_status({'type' => 'started', 'label' => 'Beginning Import', 'id' => 'xml'})
-        cache = self.run
-        cache.save! do |response|
+        @batch = ASpaceImport::RecordBatch.new({ 
+                                                :log => @log, 
+                                                :dry => @dry, 
+                                                :batch_path => @batch_path, 
+                                                :client_block => @block  })
+        # implemented by importers
+        # to fill the batch
+        self.run
+
+        @batch.save! do |response|
           handle_save_response(response)
         end
       rescue JSONModel::ValidationException => e
@@ -151,11 +153,6 @@ module ASpaceImport
 
 
     private
-
-    def run
-      ASpaceImport::ImportCache.new({:log => @log, :dry => @dry, :batch_path => @batch_path, :client_block => @block})
-    end
-
 
     def handle_save_response(response)
       if response.code.to_s == '200'

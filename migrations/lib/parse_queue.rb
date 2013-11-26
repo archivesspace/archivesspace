@@ -2,10 +2,8 @@ require 'tempfile'
 
 module ASpaceImport
 
-
   # Manages the JSON object batch set
-
-  class Batch
+  class RecordBatch
     attr_accessor :repo_id
 
     def initialize(opts = {})
@@ -21,6 +19,7 @@ module ASpaceImport
       @seen_records = {}
 
       @working_file = Tempfile.new("import_batch")
+      @working_area = []
 
       if @dry
         @dry_response = Class.new do
@@ -45,7 +44,61 @@ module ASpaceImport
     end
 
 
-    def push(obj)
+    def working_area
+      @working_area
+    end
+
+
+    def inspect
+      @working_file.close
+      str = "["
+      File.open(@working_file.path).each do |line|
+        puts "Reading line #{line}"
+        str << "#{line.gsub(/\n/,'')},"
+      end
+      str << "]"
+      str.sub!(/,\]\Z/, "]")
+
+      @working_file.open
+
+      arr = ASUtils.json_parse(str)
+      "Working Area: " << @working_area.inspect <<  " --- Serialized Batch: " << arr.inspect
+    end
+
+
+    def <<(obj)
+      @working_area.push(obj)
+    end
+
+
+    def flush
+      while !@working_area.empty?
+        flush_last
+      end
+    end
+
+
+    def flush_last
+      last = @working_area.pop
+      if last.class.method_defined? :uri and !last.uri.nil?
+        _push(last)
+      end
+    end       
+
+
+    def save!
+      unless @working_area.empty?
+        flush
+      end
+      _save do |response|
+        yield response
+      end
+    end
+
+
+    private 
+
+    def _push(obj)
       begin
         hash = obj.to_hash
       rescue JSONModel::ValidationException => e
@@ -69,7 +122,7 @@ module ASpaceImport
     end
 
 
-    def save(&block)
+    def _save(&block)
 
       close
 
@@ -79,8 +132,6 @@ module ASpaceImport
             FileUtils.copy_file(@batch_file.path, @batch_path)
           end
           batch = ASUtils.json_parse(File.open(@batch_file).read)
-
-          # @log.debug("Posted file contents: #{batch.inspect}")
 
           mapping = {:saved => Hash[batch.map {|rec| [rec['uri'], [rec['uri'], JSONModel.parse_reference(rec['uri'])[:id]]] }] }
           response = @dry_response.new(mapping)
@@ -100,8 +151,6 @@ module ASpaceImport
       end
     end
 
-
-    private
 
     def close
 
@@ -129,59 +178,4 @@ module ASpaceImport
       @batch_file.close
     end
   end
-
-
-  class ImportCache < Array
-
-    def initialize(opts)
-      @batch = Batch.new(opts)
-      opts.each do |k,v|
-        instance_variable_set("@#{k}", v)
-      end
-      @counter = 0
-    end
-
-
-    def pop
-      if self.last.class.method_defined? :uri and !self.last.uri.nil?
-        @batch.push(self.last) 
-        @counter += 1
-        @client_block.call({'status' => [{'type' => 'refresh', 'label' => "About #{@counter} records generated.", 'id' => 'xml'}]}) if (@counter % 500) == 0
-      end
-
-      super
-    end
-
-
-    def clear!
-      self.write!
-    end
-
-
-    def write!
-      while !self.empty?
-        self.pop
-      end
-
-      self
-    end
-
-
-    def save!(&block)
-      unless self.empty?
-        @log.warn("Saving objects that were not explicitly cleared from the cache")
-        self.clear!
-      end
-      @batch.save(&block)
-    end
-
-
-    def inspect
-      "Import Cache: " << super <<  " --- Batch: " << @batch.inspect
-    end
-
-  end
 end
-
-
-

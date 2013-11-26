@@ -45,7 +45,6 @@ module ASpaceImport
 
 
     def run
-      @cache = super
 
       @cell_handlers = []
       @proxies = ASpaceImport::RecordProxyMgr.new
@@ -65,8 +64,6 @@ module ASpaceImport
       @proxies.undischarged.each do |prox|
         @log.warn("Undischarged: #{prox.to_s}")
       end
-
-      @cache
     end
 
 
@@ -74,14 +71,13 @@ module ASpaceImport
       row.each_with_index { |cell, i| parse_cell(@cell_handlers[i], cell) }
 
       # swap out proxy objects for real JSONModel objects
-      @cache.map! {|proxy| proxy.spawn }.compact!
+      @batch.working_area.map! {|proxy| proxy.spawn }.compact!
 
       # run linking jobs and set defaults
-      @cache.each { |obj| @proxies.discharge_proxy(obj.key, obj) }
+      @batch.working_area.each { |obj| @proxies.discharge_proxy(obj.key, obj) }
 
       # empty the working area of the cache
-      # @log.debug(@cache.inspect)
-      @cache.clear!
+      @batch.flush
     end
 
 
@@ -101,11 +97,11 @@ module ASpaceImport
 
 
     def get_queued_or_new(key)
-      if (prox = @cache.find {|j| j.key == key })
+      if (prox = @batch.working_area.find {|j| j.key == key })
         yield  prox
       elsif (prox = get_new(key))
         yield prox
-        @cache.push(prox)
+        @batch << prox
       end
     end
 
@@ -131,7 +127,7 @@ module ASpaceImport
 
       # Set links before batching the record
       if conf[:on_row_complete]
-        proxy.on_discharge(conf[:on_row_complete], :call, @cache)
+        proxy.on_discharge(conf[:on_row_complete], :call, @batch.working_area)
       end
 
       proxy
