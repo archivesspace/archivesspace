@@ -422,7 +422,7 @@ customize ArchivesSpace, please see the README in the `plugins` directory.
 
 # Running ArchivesSpace under Tomcat
 
-[Instructions for running under Tomcat](https://github.com/archivesspace/archivesspace/blob/master/README-TOMCAT.md).
+[Instructions for running under Tomcat](https://github.com/archivesspace/archivesspace/blob/master/README_TOMCAT.md).
 
 
 # Further documentation
