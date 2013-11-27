@@ -146,7 +146,15 @@ module ASpaceImport
           handle_save_response(response)
         end
       rescue JSONModel::ValidationException => e
-        errors = e.errors.map{|attr, err| "#{e.invalid_object ? e.invalid_object.class.record_type : ''}/#{attr} #{err.join(', ')}"}
+        errors = e.errors.map{|attr, err| 
+          str = "#{e.invalid_object ? e.invalid_object.class.record_type : ''}/#{attr} #{err.join(', ')}"
+          if e.invalid_object.respond_to?(:title) 
+            str << "\nRecord title: #{e.invalid_object.title}"
+          else
+            str << "\nInvalid record: #{e.invalid_object.inspect}"
+          end
+          str
+        }
         @block.call({"errors" => errors})
       end
     end

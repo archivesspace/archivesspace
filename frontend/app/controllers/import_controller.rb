@@ -18,9 +18,8 @@ class ImportController < ApplicationController
   end
   
   
-  # Handle POST requests from browsers that support XKR2    
+  # Handle POST requests from browsers that support XHR2    
   def upload_xhr
-    
     self.response_body = Enumerator.new do |y|
       run_importer do |status|
         y << "#{ASUtils.to_json(status)}---\n"
@@ -29,9 +28,9 @@ class ImportController < ApplicationController
 
     self.response.headers['Last-Modified'] = Time.now.to_s
   end
-  
-  # Handle POST requests from IE 9 and worse
 
+
+  # Handle POST requests from IE 9 and worse
   def upload
     # no-cache required for streaming to work
     headers['Cache-Control'] = 'no-cache'
@@ -68,7 +67,6 @@ class ImportController < ApplicationController
         importer = get_importer(source_file, params[:importer], repo_id)
       
         importer.run_safe do |status|
-
           if status.has_key?('saved')
             links = status['saved'].map {|k,v| v[0]}
             links = frontend_links(links)
@@ -81,14 +79,9 @@ class ImportController < ApplicationController
         end
         
         source_file.delete
-        
-      rescue ValidationException => e
-        errors = e.errors.collect.map{|attr, err| "#{e.invalid_object.class.record_type}/#{attr} #{err.join(', ')}"}
-        yield({"errors" => errors})
   
       rescue Exception => e
-        Rails.logger.debug("Import Exception #{e.to_s}")
-        yield({"errors" => [e.to_s]})
+        yield({"errors" => ["#{e.to_s}\n#{e.backtrace}"]})
       end
     end
   end

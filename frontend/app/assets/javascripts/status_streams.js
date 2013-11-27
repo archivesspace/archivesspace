@@ -61,7 +61,7 @@ function StandardResultEmitter() {
 	}
 	
 	this.add_error_row = function(error) {
-		$("#import-results").append("<div class='import-results-row alert alert-error'><p>Error: "+error+"</p>");
+		$("#import-results").append("<div class='import-results-row alert alert-error'><p>Error: <pre>"+error+"</pre></p>");
 	}
 	
 	this.show_saved = function(save_count) {

@@ -102,7 +102,6 @@ module ASpaceImport
       begin
         hash = obj.to_hash
       rescue JSONModel::ValidationException => e
-        @log.debug("Invalid Object: #{obj.inspect}")
         raise e
       end
 
