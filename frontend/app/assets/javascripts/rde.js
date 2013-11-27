@@ -705,6 +705,36 @@ $(function() {
         $col.hide();
       };
 
+      var validateRow = function($row) {
+        var row_data = $row.serializeObject();
+
+        row_data["validate_only"] = "true";
+
+        $(".error", $row).removeClass("error");
+
+        $.ajax({
+          url: $this.data("validate-row-uri"),
+          type: "POST",
+          data: row_data,
+          dataType: "json",
+          success: function(data) {
+
+            var row_result = data[0];
+
+            if (row_result.hasOwnProperty("errors") && !$.isEmptyObject(row_result.errors)) {
+              $row.removeClass("valid").addClass("invalid");
+              $.each(row_result.errors, function(name, error) {
+                console.log(name);
+                console.log(error);
+                $(":input[id*='"+name.replace(/\//g, "__")+"']", $row).closest(".control-group").addClass("error");
+              });
+            } else {
+              $row.removeClass("invalid").addClass("valid");
+            }
+          }
+        });
+      };
+
       // Connect up the $modal form submit button
       $($modal).on("click", ".modal-footer .btn-primary", function() {
         $(this).attr("disabled","disabled");
@@ -712,11 +742,20 @@ $(function() {
       });
 
       // Connect up the $modal form validate button
-      $($modal).on("click", "#validateButton", function() {
+      $($modal).on("click", "#validateButton", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
         validateSubmissionOnly = true;
         $(this).attr("disabled","disabled");
         $this.append("<input type='hidden' name='validate_only' value='true'>");
         $this.submit();
+      });
+
+      // Validate row upon input change
+      $($table).on("change", ":input:visible", function() {
+        var $row = $(this).closest("tr");
+        validateRow($row);
       });
 
       // enable form within the add row dropdown menu

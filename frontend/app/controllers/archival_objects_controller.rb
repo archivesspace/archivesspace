@@ -1,7 +1,7 @@
 class ArchivalObjectsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show, :generate_sequence],
-                      "update_archival_record" => [:new, :edit, :create, :update, :transfer, :rde, :add_children, :accept_children],
+                      "update_archival_record" => [:new, :edit, :create, :update, :transfer, :rde, :add_children, :accept_children, :validate_rows],
                       "delete_archival_record" => [:delete]
 
 
@@ -156,6 +156,17 @@ class ArchivalObjectsController < ApplicationController
     end
 
     render :partial => "archival_objects/rde"
+  end
+
+
+  def validate_rows
+    row_data = cleanup_params_for_schema(params[:archival_record_children], JSONModel(:archival_record_children).schema)
+
+    # build the AOC record but don't bother validating it yet...
+    aoc = ArchivalObjectChildren.from_hash(row_data, false, true)
+
+    # validate each row individually (to avoid weird indexes in the error paths)
+    render :json => aoc.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
   end
 
 
