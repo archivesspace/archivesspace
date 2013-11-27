@@ -224,6 +224,7 @@ ASpaceExport::model :ead do
 
   def initialize(obj)
     @json = obj
+    @include_unpublished = false
     repo_ref = obj.repository['ref']
     @repo_id = JSONModel::JSONModel(:repository).id_for(repo_ref)
     @repo = Repository.to_jsonmodel(@repo_id)
@@ -254,6 +255,16 @@ ASpaceExport::model :ead do
     else
       nil
     end
+  end
+
+
+  def include_unpublished(incl)
+    @include_unpublished = incl
+  end
+
+
+  def include_unpublished?
+    @include_unpublished
   end
 
 

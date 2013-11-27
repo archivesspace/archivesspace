@@ -71,6 +71,7 @@ ASpaceExport::serializer :ead do
 
     @stream_handler = StreamHandler.new
     @fragments = RawXMLHandler.new
+    @include_unpublished = data.include_unpublished?
 
     doc = Nokogiri::XML::Builder.new do |xml|
 
@@ -85,6 +86,15 @@ ASpaceExport::serializer :ead do
           })
 
         atts = {:level => data.level, :otherlevel => data.other_level}
+
+        if !data.publish
+          if @include_unpublished
+            atts[:audience] = 'internal'
+          else
+            return
+          end
+        end
+
         atts.reject! {|k, v| v.nil?}
 
         xml.archdesc(atts) {
@@ -140,11 +150,13 @@ ASpaceExport::serializer :ead do
           xml.dsc {
 
             data.children_indexes.each do |i|
-              xml.text(
-                @stream_handler.buffer {|xml, new_fragments|
-                  serialize_child(data.get_child(i), xml, new_fragments)
-                }
-              )
+              if data.get_child(i)["publish"] || @include_unpublished
+                xml.text(
+                         @stream_handler.buffer {|xml, new_fragments|
+                           serialize_child(data.get_child(i), xml, new_fragments)
+                         }
+                         )
+              end
             end
           }
         }
@@ -160,6 +172,11 @@ ASpaceExport::serializer :ead do
   def serialize_child(data, xml, fragments)
     prefixed_ref_id = "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{data.ref_id}"
     atts = {:level => data.level, :otherlevel => data.other_level, :id => prefixed_ref_id}
+
+    if !data.publish
+      atts[:audience] = 'internal'
+    end
+
     atts.reject! {|k, v| v.nil?}
     xml.c(atts) {
 
@@ -201,11 +218,13 @@ ASpaceExport::serializer :ead do
       serialize_controlaccess(data, xml, fragments)
 
       data.children_indexes.each do |i|
-        xml.text(
-          @stream_handler.buffer {|xml, new_fragments|
-            serialize_child(data.get_child(i), xml, new_fragments)
-          }
-        )
+        if data.get_child(i)["publish"] || @include_unpublished
+          xml.text(
+                   @stream_handler.buffer {|xml, new_fragments|
+                     serialize_child(data.get_child(i), xml, new_fragments)
+                   }
+                   )
+        end
       end
     }
   end

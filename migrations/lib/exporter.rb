@@ -10,8 +10,8 @@ module ASpaceExport
   def self.init
     @@serializers = {}
     @@models = {}
-    Dir.glob(File.dirname(__FILE__) + '/../serializers/*', &method(:load))
-    Dir.glob(File.dirname(__FILE__) + '/../models/*', &method(:load))
+    Dir.glob(File.dirname(__FILE__) + '/../serializers/*.rb', &method(:load))
+    Dir.glob(File.dirname(__FILE__) + '/../models/*.rb', &method(:load))
 
     I18n.load_path += ASUtils.find_locales_directories(File.join("enums", "#{AppConfig[:locale]}.yml"))
     @@initialized = true

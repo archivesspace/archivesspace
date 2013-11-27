@@ -54,9 +54,10 @@ module ExportHelpers
   end
 
   # streamin'
-  def generate_ead(id)
+  def generate_ead(id, unpublished)
     obj = resolve_references(Resource.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects', 'tree', 'digital_object'])
     ead = ASpaceExport.model(:ead).from_resource(JSONModel(:resource).new(obj))
+    ead.include_unpublished(unpublished)
     ASpaceExport.serializer(:ead).stream(ead)
   end
 
