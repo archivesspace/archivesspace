@@ -28,6 +28,8 @@ $(function() {
 
       var index = 0;
 
+      var validateSubmissionOnly = false;
+
       $modal.off("click").on("click", ".remove-row", function(event) {
         event.preventDefault();
         event.stopPropagation();
@@ -706,6 +708,14 @@ $(function() {
       // Connect up the $modal form submit button
       $($modal).on("click", ".modal-footer .btn-primary", function() {
         $(this).attr("disabled","disabled");
+        $this.submit();
+      });
+
+      // Connect up the $modal form validate button
+      $($modal).on("click", "#validateButton", function() {
+        validateSubmissionOnly = true;
+        $(this).attr("disabled","disabled");
+        $this.append("<input type='hidden' name='validate_only' value='true'>");
         $this.submit();
       });
 

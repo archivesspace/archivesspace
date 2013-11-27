@@ -120,8 +120,15 @@ class ResourcesController < ApplicationController
       children_data = cleanup_params_for_schema(params[:archival_record_children], JSONModel(:archival_record_children).schema)
 
       begin
-        @archival_record_children = ResourceChildren.from_hash(children_data, false, true)
-        @archival_record_children.save(:resource_id => @parent.id)
+        @archival_record_children = ResourceChildren.from_hash(children_data, false)
+
+        if params["validate_only"] == "true"
+          @exceptions = @archival_record_children._exceptions
+
+          return render :partial => "archival_objects/rde"
+        else
+          @archival_record_children.save(:resource_id => @parent.id)
+        end
 
         return render :text => I18n.t("rde.messages.success")
       rescue JSONModel::ValidationException => e
