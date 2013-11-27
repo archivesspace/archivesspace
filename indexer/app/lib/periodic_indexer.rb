@@ -135,6 +135,11 @@ class PeriodicIndexer < CommonIndexer
       delete_trees_for(records)
 
       records.each do |record_uri|
+        # To avoid all of the indexing threads hitting the same tree at the same
+        # moment, use @processed_trees to ensure that only one of them handles
+        # it.
+        next if @processed_trees.putIfAbsent(record_uri, true)
+
         record_data = JSONModel.parse_reference(record_uri)
 
         tree = JSONModel("#{record_data[:type]}_tree".intern).find(nil, "#{record_data[:type]}_id".intern => record_data[:id])
