@@ -103,6 +103,9 @@
         <% form.push("content", begin archival_object["content"] || [] rescue [] end) do %>
           <span id="<%= form.id_for(nil) %>"></span>
         <% end %>
+        <% form.push(form.set_index("subnotes[]", 0), []) do %>
+          <span id="<%= form.id_for("content") %>"></span>
+        <% end %>
       <% end %>
     </td>
     <td class="control-group">
@@ -119,6 +122,9 @@
         <% form.push("content", begin archival_object["content"] || [] rescue [] end) do %>
           <span id="<%= form.id_for(nil) %>"></span>
         <% end %>
+        <% form.push(form.set_index("subnotes[]", 0), []) do %>
+          <span id="<%= form.id_for("content") %>"></span>
+        <% end %>
       <% end %>
     </td>
     <td class="control-group">
@@ -134,6 +140,9 @@
         <% end %>
         <% form.push("content", begin archival_object["content"] || [] rescue [] end) do %>
           <span id="<%= form.id_for(nil) %>"></span>
+        <% end %>
+        <% form.push(form.set_index("subnotes[]", 0), []) do %>
+          <span id="<%= form.id_for("content") %>"></span>
         <% end %>
       <% end %>
     </td>

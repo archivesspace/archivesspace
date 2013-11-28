@@ -769,7 +769,7 @@ $(function() {
                 $row.removeClass("valid").addClass("invalid");
                 var $errorSummary = $("<div>").addClass("error-summary alert alert-error");
                 $.each(row_result.errors, function(name, error) {
-                  var $input = $(":input[id*='"+name.replace(/\//g, "__")+"']", $row);
+                  var $input = $("[id$='_"+name.replace(/\//g, "__")+"_']", $row);
                   var $header = $($(".fieldset-labels th", $table).get($input.first().closest("td").index()));
 
                   $input.closest(".control-group").addClass("error");
@@ -842,6 +842,13 @@ $(function() {
 
         $(this).toggleClass("active");
         $table.toggleClass("show-inline-errors");
+      });
+
+      $modal.on("keyup", "button", function(event) {
+        // pass on Return key hits as a click
+        if (event.keyCode === 13) {
+          $(this).trigger("click");
+        }
       });
 
       initAjaxForm();
