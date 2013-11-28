@@ -75,6 +75,8 @@ $(function() {
         var $row = addRow(event);
 
         $(":input:visible:first", $row).focus();
+
+        validateRows($row);
       });
 
       var addRow = function(event) {
@@ -254,7 +256,18 @@ $(function() {
         applyPersistentStickyColumns();
         initColumnShowHideWidget();
         initFillFeature();
+        initShowInlineErrors();
       };
+
+
+      var initShowInlineErrors = function() {
+        if ($("button.toggle-inline-errors").hasClass("active")) {
+          $table.addClass("show-inline-errors");
+        } else {
+          $table.removeClass("show-inline-errors");
+        }
+      };
+
 
       var initAutoValidateFeature = function() {
         // Validate row upon input change
@@ -271,6 +284,7 @@ $(function() {
         $table.on("click", ".error-summary .error", function() {
           var $target = $("#"+$(this).data("target"));
           $target.closest("td").ScrollTo({
+            axis: 'x',
             callback: function() {
               $target.focus();
             }
@@ -763,7 +777,7 @@ $(function() {
                   var $error = $("<div class='error'>");
 
                   if ($input.length > 1) {
-                    $error.text($(".sections th[data-id='"+$header.data("section")+"']", $table).text());
+                    $error.text(SECTION_DATA[$header.data("section")]);
                   } else {
                     $error.text($($(".fieldset-labels th", $table).get($input.closest("td").index())).text());
                   }
@@ -809,17 +823,31 @@ $(function() {
         event.stopPropagation();
       });
       $(".add-rows-form button", $modal).click(function(event) {
+        var rows = [];
         try {
           var numberOfRows = parseInt($("input", $(this).closest('.add-rows-form')).val(), 10);
           for (var i=1; i<=numberOfRows; i++) {
-            addRow(event);
+            rows.push(addRow(event));
           }
         } catch(e) {
           // if the field cannot parse the form value to an integer.. just quietly judge the user
         }
+        validateRows($(rows));
+      });
+
+      // Connect the Inline Errors toggle
+      $modal.on("click", "button.toggle-inline-errors", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        $(this).toggleClass("active");
+        $table.toggleClass("show-inline-errors");
       });
 
       initAjaxForm();
+
+      // auto-validate the first row
+      validateRows($("tbody tr", $table));
 
       $(window).trigger("resize");
       $(document).triggerHandler("loadedrecordform.aspace", [$this]);

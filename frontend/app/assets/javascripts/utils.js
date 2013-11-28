@@ -412,7 +412,9 @@ AS.openCustomModal = function(id, title, contents, fillScreen, modalOpts, initia
 
 
 $.fn.serializeObject = function() {
-    var o = {};
+  var o = {};
+
+  $(this).each(function() {
 
     if ($(this).is("form")) {
       var a = this.serializeArray();
@@ -433,7 +435,9 @@ $.fn.serializeObject = function() {
       });
     }
 
-    return o;
+  });
+
+  return o;
 };
 
 $.fn.setValuesFromObject = function(obj) {

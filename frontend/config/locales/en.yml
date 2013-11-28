@@ -702,6 +702,7 @@ en:
       fill_toggle: Fill Column
       reorder_toggle: Reorder Columns
       validate_rows: Validate Rows
+      inline_errors_toggle: View Inline Errors
     fill_column:
       basic: Basic
       sequence: Sequence
