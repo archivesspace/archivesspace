@@ -248,11 +248,37 @@ $(function() {
           $($("table colgroup col").get(i)).data("id", $(col).attr("id"));
         });
 
+        initAutoValidateFeature();
         applyColumnOrder();
         initColumnReorderFeature();
         applyPersistentStickyColumns();
         initColumnShowHideWidget();
         initFillFeature();
+      };
+
+      var initAutoValidateFeature = function() {
+        // Validate row upon input change
+        $table.on("change", ":input:visible", function() {
+          var $row = $(this).closest("tr");
+          validateRows($row);
+        });
+        $(".modal-body", $modal).on("scroll", function(event) {
+          $(".error-summary", $table).css("left", $(this)[0].scrollLeft + 5);
+        });
+        $table.on("focusin click", ":input", function() {
+          $(this).closest("tr").addClass("last-focused").siblings().removeClass("last-focused");
+        });
+        $table.on("click", ".error-summary .error", function() {
+          var $target = $("#"+$(this).data("target"));
+          $target.closest("td").ScrollTo({
+            callback: function() {
+              $target.focus();
+            }
+          });
+        });
+        $table.on("click", "td.status", function() {
+          $(this).closest("tr").toggleClass("last-focused").siblings().removeClass("last-focused");
+        });
       };
 
       var initFillFeature = function() {
@@ -705,12 +731,12 @@ $(function() {
         $col.hide();
       };
 
-      var validateRow = function($row) {
-        var row_data = $row.serializeObject();
+      var validateRows = function($rows) {
+        var row_data = $rows.serializeObject();
 
         row_data["validate_only"] = "true";
 
-        $(".error", $row).removeClass("error");
+        $(".error", $rows).removeClass("error");
 
         $.ajax({
           url: $this.data("validate-row-uri"),
@@ -719,18 +745,43 @@ $(function() {
           dataType: "json",
           success: function(data) {
 
-            var row_result = data[0];
+            $rows.each(function(i, row) {
+              var $row = $(row);
+              var row_result = data[i];
 
-            if (row_result.hasOwnProperty("errors") && !$.isEmptyObject(row_result.errors)) {
-              $row.removeClass("valid").addClass("invalid");
-              $.each(row_result.errors, function(name, error) {
-                console.log(name);
-                console.log(error);
-                $(":input[id*='"+name.replace(/\//g, "__")+"']", $row).closest(".control-group").addClass("error");
-              });
-            } else {
-              $row.removeClass("invalid").addClass("valid");
-            }
+              $(".error-summary", $row).remove();
+
+              if (row_result.hasOwnProperty("errors") && !$.isEmptyObject(row_result.errors)) {
+                $row.removeClass("valid").addClass("invalid");
+                var $errorSummary = $("<div>").addClass("error-summary alert alert-error");
+                $.each(row_result.errors, function(name, error) {
+                  var $input = $(":input[id*='"+name.replace(/\//g, "__")+"']", $row);
+                  var $header = $($(".fieldset-labels th", $table).get($input.first().closest("td").index()));
+
+                  $input.closest(".control-group").addClass("error");
+
+                  var $error = $("<div class='error'>");
+
+                  if ($input.length > 1) {
+                    $error.text($(".sections th[data-id='"+$header.data("section")+"']", $table).text());
+                  } else {
+                    $error.text($($(".fieldset-labels th", $table).get($input.closest("td").index())).text());
+                  }
+                  $error.append(" - ").append(error);
+                  $error.append("<span class='icon icon-chevron-right'>");
+                  $errorSummary.append($error);
+
+                  $error.data("target", $input.first().attr("id"));
+                });
+                $(".error-summary", $row).remove();
+                $row.find("td:first").append($errorSummary);
+
+                // force a reposition of the error summary
+                $(".modal-body", $modal).trigger("scroll");
+              } else {
+                $row.removeClass("invalid").addClass("valid");
+              }
+            });
           }
         });
       };
@@ -750,12 +801,6 @@ $(function() {
         $(this).attr("disabled","disabled");
         $this.append("<input type='hidden' name='validate_only' value='true'>");
         $this.submit();
-      });
-
-      // Validate row upon input change
-      $($table).on("change", ":input:visible", function() {
-        var $row = $(this).closest("tr");
-        validateRow($row);
       });
 
       // enable form within the add row dropdown menu

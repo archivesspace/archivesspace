@@ -75,6 +75,7 @@
     td.status {
       .valid, .invalid {
         display: none;
+        margin-top: 0.5em;
       }
     }
     &.valid {
@@ -137,5 +138,52 @@
     position: absolute;
     top: 100px;
     margin-left: 10px;
+  }
+
+  .error-summary {
+    position: absolute;
+    padding: 10px;
+    .opacity(90);
+    z-index: 1;
+    box-shadow: 1px 1px 3px;
+    margin-top: 1em;
+    margin-left: -5px;
+    display: none;
+    border-top: none;
+    .border-radius(0 0 4px 4px);
+
+    padding-right: 14px;
+
+    .error {
+      position: relative;
+      padding-right: 20px;
+      cursor: pointer;
+
+      .icon {
+        position: absolute;
+        right: 0;
+        .opacity(60);
+      }
+
+      &:hover {
+        .icon {
+          .opacity(100);
+        }
+      }
+    }
+  }
+  tbody tr {
+    .opacity(80);
+  }
+  .last-focused {
+    .opacity(100);
+
+    td {
+      background-color: #d5effa;
+    }
+
+    .error-summary {
+      display: block;
+    }
   }
 }
