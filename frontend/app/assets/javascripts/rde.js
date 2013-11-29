@@ -190,6 +190,46 @@ $(function() {
         $modal.modal("hide");
       });
 
+      var renderInlineErrors = function($rows, exception_data) {
+        $rows.each(function(i, row) {
+          var $row = $(row);
+          var row_result = exception_data[i];
+
+          $(".error-summary", $row).remove();
+
+          if (row_result.hasOwnProperty("errors") && !$.isEmptyObject(row_result.errors)) {
+            $row.removeClass("valid").addClass("invalid");
+            var $errorSummary = $("<div>").addClass("error-summary alert alert-error");
+            $.each(row_result.errors, function(name, error) {
+              var $input = $("[id$='_"+name.replace(/\//g, "__")+"_']", $row);
+              var $header = $($(".fieldset-labels th", $table).get($input.first().closest("td").index()));
+
+              $input.closest(".control-group").addClass("error");
+
+              var $error = $("<div class='error'>");
+
+              if ($input.length > 1) {
+                $error.text(SECTION_DATA[$header.data("section")]);
+              } else {
+                $error.text($($(".fieldset-labels th", $table).get($input.closest("td").index())).text());
+              }
+              $error.append(" - ").append(error);
+              $error.append("<span class='icon icon-chevron-right'>");
+              $errorSummary.append($error);
+
+              $error.data("target", $input.first().attr("id"));
+            });
+            $(".error-summary", $row).remove();
+            $row.find("td:first").append($errorSummary);
+
+            // force a reposition of the error summary
+            $(".modal-body", $modal).trigger("scroll");
+          } else {
+            $row.removeClass("invalid").addClass("valid");
+          }
+        });
+      };
+
       var initAjaxForm = function() {
         $this.ajaxForm({
           target: $(".rde-wrapper", $modal),
@@ -199,28 +239,7 @@ $(function() {
             $table = $("table", $this);
 
             if ($this.length) {
-              $("tbody tr", $this).each(function() {
-                var $row = $(this);
-                if ($("td.error", $row).length > 0) {
-                  $row.addClass("invalid");
-                } else {
-                  $row.addClass("valid");
-                }
-              });
-
-              $("#form_messages .error[data-target]", $this).each(function() {
-                // tweak the error message to match the column heading
-                var $input = $("#"+$(this).data("target"));
-                var $cell = $input.closest("td");
-                var $row = $cell.closest("tr");
-                var headerText = $($(".fieldset-labels th", $table).get($cell.index())).text();
-                var newMessageText = $this.data("error-prefix") + " " + ($row.index()+1) + ": " + headerText + " - " + $(this).data("message");
-
-                $(this).html(newMessageText);
-                if ($(this).hasClass("linked-to-field")) {
-                  $(this).append("<span class='icon-chevron-down'></span>");
-                }
-              });
+              renderInlineErrors($("tbody tr", $this), $this.data("exceptions"));
 
               initAjaxForm();
             } else {
@@ -758,44 +777,7 @@ $(function() {
           data: row_data,
           dataType: "json",
           success: function(data) {
-
-            $rows.each(function(i, row) {
-              var $row = $(row);
-              var row_result = data[i];
-
-              $(".error-summary", $row).remove();
-
-              if (row_result.hasOwnProperty("errors") && !$.isEmptyObject(row_result.errors)) {
-                $row.removeClass("valid").addClass("invalid");
-                var $errorSummary = $("<div>").addClass("error-summary alert alert-error");
-                $.each(row_result.errors, function(name, error) {
-                  var $input = $("[id$='_"+name.replace(/\//g, "__")+"_']", $row);
-                  var $header = $($(".fieldset-labels th", $table).get($input.first().closest("td").index()));
-
-                  $input.closest(".control-group").addClass("error");
-
-                  var $error = $("<div class='error'>");
-
-                  if ($input.length > 1) {
-                    $error.text(SECTION_DATA[$header.data("section")]);
-                  } else {
-                    $error.text($($(".fieldset-labels th", $table).get($input.closest("td").index())).text());
-                  }
-                  $error.append(" - ").append(error);
-                  $error.append("<span class='icon icon-chevron-right'>");
-                  $errorSummary.append($error);
-
-                  $error.data("target", $input.first().attr("id"));
-                });
-                $(".error-summary", $row).remove();
-                $row.find("td:first").append($errorSummary);
-
-                // force a reposition of the error summary
-                $(".modal-body", $modal).trigger("scroll");
-              } else {
-                $row.removeClass("invalid").addClass("valid");
-              }
-            });
+            renderInlineErrors($rows, data);
           }
         });
       };

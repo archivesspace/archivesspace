@@ -158,10 +158,10 @@
 <%= stylesheet_link_tag "archivesspace/rde" %>
 <div class="rde-wrapper">
   <div class="modal-body">
-    <%= form_for @archival_record_children, :as => :archival_record_children, :url => {:controller => @parent.jsonmodel_type.pluralize, :action => :add_children, :id => @parent.id}, :html => {:class => 'form-horizontal aspace-record-form', :id => 'rde_form', "data-error-prefix" => I18n.t("rde.messages.error_prefix"), "data-validate-row-uri" => url_for(:controller => :archival_objects, :action => :validate_rows)} do |f| %>
+    <%= form_for @archival_record_children, :as => :archival_record_children, :url => {:controller => @parent.jsonmodel_type.pluralize, :action => :add_children, :id => @parent.id}, :html => {:class => 'form-horizontal aspace-record-form', :id => 'rde_form', "data-error-prefix" => I18n.t("rde.messages.error_prefix"), "data-validate-row-uri" => url_for(:controller => :archival_objects, :action => :validate_rows), "data-exceptions" => @exceptions.to_json} do |f| %>
       <%= form_context :archival_record_children, @archival_record_children do |form| %>
 
-        <%= render :partial => "shared/form_messages", :locals => {:form => form} %>
+        <%= render :partial => "shared/flash_messages", :locals => {:form => form} %>
 
         <p>
           <div class="btn-group">

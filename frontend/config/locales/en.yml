@@ -722,6 +722,7 @@ en:
       error_prefix: Row
       success: "<div class='alert alert-success'>Children Created. Refreshing page...</div>"
       no_rows: Please enter values for at least one row
+      rows_with_errors: "%{count} row(s) have errors - click a row field to view the errors for that row"
     help:
       keyboard_shortcuts: |
                   <div><strong>Keyboard Shortcuts</strong></div>
