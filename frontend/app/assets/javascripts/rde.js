@@ -302,6 +302,13 @@ $(function() {
         });
         $table.on("click", ".error-summary .error", function() {
           var $target = $("#"+$(this).data("target"));
+
+          // if column is hidden, then show the column first
+          if (!$target.is("visible")) {
+            var colId = COLUMN_ORDER[$target.closest("td").index()];
+            $("#rde_hidden_columns").multiselect("select", colId);
+          }
+
           $target.closest("td").ScrollTo({
             axis: 'x',
             callback: function() {
@@ -759,7 +766,6 @@ $(function() {
       };
 
       var hideColumn = function(index) {
-        $("#rde_hidden_columns").multiselect('deselect', index+"");
         $table.hideColumns(index+1);
         var $col = $($("table colgroup col").get(index));
         $table.width($table.width() - $col.width());
