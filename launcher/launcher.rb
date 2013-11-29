@@ -1,6 +1,5 @@
 # Drop all environment variables so they don't interfere with our war file gem loading.
 java.lang.System.set_property("aspace.launcher.base", ENV['ASPACE_LAUNCHER_BASE'])
-java.lang.System.set_property("jruby.runtime.env", "false")
 
 require 'aspace_gems'
 ASpaceGems.setup

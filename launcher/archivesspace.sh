@@ -79,6 +79,12 @@ fi
 
 echo "ArchivesSpace base directory: $ASPACE_LAUNCHER_BASE"
 
+
+# We'll provide our own values for these
+unset GEM_HOME
+unset GEM_PATH
+
+
 if [ "$ARCHIVESSPACE_USER" = "" ]; then
     ARCHIVESSPACE_USER=
 fi
