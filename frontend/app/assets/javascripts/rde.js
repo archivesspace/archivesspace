@@ -376,6 +376,7 @@ $(function() {
 
             $btnFillFormToggle.toggleClass("active");
             $fillFormsContainer.slideToggle();
+            validateAllRows();
           });
         };
 
@@ -463,6 +464,7 @@ $(function() {
 
                   $btnFillFormToggle.toggleClass("active");
                   $fillFormsContainer.slideToggle();
+                  validateAllRows();
                 }
             );
           }
@@ -764,6 +766,10 @@ $(function() {
         $col.hide();
       };
 
+      var validateAllRows = function() {
+        validateRows($("tbody tr", $table));
+      };
+
       var validateRows = function($rows) {
         var row_data = $rows.serializeObject();
 
@@ -835,11 +841,13 @@ $(function() {
 
       initAjaxForm();
 
-      // auto-validate the first row
-      validateRows($("tbody tr", $table));
-
       $(window).trigger("resize");
       $(document).triggerHandler("loadedrecordform.aspace", [$this]);
+
+      // auto-validate the first row
+      setTimeout(function() {
+        validateAllRows();
+      });
     });
   };
 
