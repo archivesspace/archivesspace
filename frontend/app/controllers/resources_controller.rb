@@ -136,6 +136,8 @@ class ResourcesController < ApplicationController
         return render :text => I18n.t("rde.messages.success")
       rescue JSONModel::ValidationException => e
         @exceptions = @archival_record_children.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
+
+        flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select{|e| !e.empty?}.length)
       end
 
     end

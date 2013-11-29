@@ -2130,7 +2130,7 @@ describe "ArchivesSpace user interface" do
   end
 
 
-  describe "RDE" do
+  describe  "RDE" do
 
     before(:all) do
       login_as_archivist
@@ -2159,12 +2159,30 @@ describe "ArchivesSpace user interface" do
       @modal = $driver.find_element(:id => "rapidDataEntryModal")
 
       @modal.find_element(:css, ".modal-footer .btn-primary").click
-      @modal.find_element_with_text('//div[contains(@class, "error")]', /Row 1: Level of Description - Property is required but was missing/)
+
+      # general message at the top
+      @modal.find_element_with_text('//div[contains(@class, "alert-error")]', /1 row\(s\) with an error \- click a row field to view the errors for that row/)
+
+      # check for inline errors - first focus the row
+      $driver.execute_script("$('#archival_record_children_children__0__title_').focus()")
+      @modal.find_element_with_text('//div[contains(@class, "error")]', /Level of Description - Property is required but was missing/)
+
 
       @modal.find_element(:id, "archival_record_children_children__0__dates__0__date_type_").select_option("single")
       @modal.find_element(:css, ".modal-footer .btn-primary").click
-      @modal.find_element_with_text('//div[contains(@class, "error")]', /Row 1: Level of Description - Property is required but was missing/)
-      @modal.find_element_with_text('//div[contains(@class, "error")]', /Row 1: Begin - is required/)
+
+      # general message at the top
+      @modal.find_element_with_text('//div[contains(@class, "alert-error")]', /1 row\(s\) with an error \- click a row field to view the errors for that row/)
+
+      # check for inline errors - first focus the row
+      $driver.execute_script("$('#archival_record_children_children__0__title_').focus()")
+      @modal.find_element_with_text('//div[contains(@class, "error")]', /Level of Description \- Property is required but was missing/)
+      $driver.execute_script("$('#archival_record_children_children__0__title_').focus()")
+      @modal.find_element_with_text('//div[contains(@class, "error")]', /Expression \- is required unless a begin or end date is given/)
+      $driver.execute_script("$('#archival_record_children_children__0__title_').focus()")
+      @modal.find_element_with_text('//div[contains(@class, "error")]', /Begin \- is required unless an expression or an end date is given/)
+      $driver.execute_script("$('#archival_record_children_children__0__title_').focus()")
+      @modal.find_element_with_text('//div[contains(@class, "error")]', /End \- is required unless an expression or a begin date is given/)
     end
 
     it "can add a child via the RDE form" do
