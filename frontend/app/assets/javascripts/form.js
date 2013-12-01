@@ -21,20 +21,20 @@ $(function() {
           $this.trigger("formchanged.aspace");
         }
       };
-      $(":input", $this).live("change keyup", function(event) {
+      $this.on("change keyup", ":input", function(event) {
         if ($(this).data("original_value") && ($(this).data("original_value") !== $(this).val())) {
           onFormElementChange(event);
         } else if ($.inArray(event.keyCode, ignoredKeycodes) === -1) {
           onFormElementChange(event);
         }
       });
-      $this.live("focusin", ":input", function(event) {
+      $this.on("focusin", ":input", function(event) {
         $(event.target).parents(".subrecord-form").addClass("focus");
       });
-      $this.live("focusout", ":input", function(event) {
+      $this.on("focusout", ":input", function(event) {
         $(event.target).parents(".subrecord-form").removeClass("focus");
       });
-      $(":radio, :checkbox", $this).live("click", onFormElementChange);
+      $this.on("click", ":radio, :checkbox", onFormElementChange);
 
 
       $this.bind("formchanged.aspace", function(event) {
