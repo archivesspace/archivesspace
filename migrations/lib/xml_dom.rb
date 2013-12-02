@@ -46,7 +46,6 @@ module ASpaceImport
 
 
       def run
-        @cache = super
 
         @doc = Nokogiri::XML::Document.parse(IO.read(@input_file))
         @doc.remove_namespaces!
@@ -54,8 +53,6 @@ module ASpaceImport
         configuration.each do |path, defn|
           object(path, defn)
         end
-
-        @cache
       end
 
 
@@ -64,7 +61,7 @@ module ASpaceImport
         @context.last.xpath(path).each do |node|
           @context << node
           obj = ASpaceImport::JSONModel(defn[:obj]).new
-          @cache << obj
+          @batch << obj
           defn[:map].each do |key, defn|
             process_field(obj, key, defn)
           end

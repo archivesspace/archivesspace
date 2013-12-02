@@ -56,7 +56,6 @@ module ASpaceImport
 
 
       def run
-        @cache = super
         @reader = Nokogiri::XML::Reader(IO.read(@input_file))
         node_queue = node_queue_for(@reader)
         @contexts = []
@@ -91,12 +90,6 @@ module ASpaceImport
         end
 
         emit_status({'type' => 'done', 'id' => 'xml'})
-
-        # with_undischarged_proxies do |prox|
-        #   @log.debug("Undischarged: #{prox.to_s}")
-        # end
-
-        @cache
       end
 
 
@@ -142,7 +135,7 @@ module ASpaceImport
       def open_context(type, properties = {})
         obj = ASpaceImport::JSONModel(type).new
         @contexts.push(type)
-        @cache.push(obj)
+        @batch << obj
         @context_nodes[@node_name] ||= []
         @context_nodes[@node_name][@node_depth] ||= []
         @context_nodes[@node_name][@node_depth] << type
@@ -158,14 +151,14 @@ module ASpaceImport
 
 
       def close_context(type)
-        if @cache.last.jsonmodel_type != type.to_s
-          @log.debug(@cache.last.inspect)
-          raise "Unexpected Object Type in Queue: Expected #{type} got #{@cache.last.jsonmodel_type}"
+        if @batch.working_area.last.jsonmodel_type != type.to_s
+          @log.debug(@batch.working_area.last.inspect)
+          raise "Unexpected Object Type in Queue: Expected #{type} got #{@batch.working_area.last.jsonmodel_type}"
         end
 
-        @proxies.discharge_proxy("#{@cache.last.jsonmodel_type}-#{@contexts.length}", @cache.last)
+        @proxies.discharge_proxy("#{@batch.working_area.last.jsonmodel_type}-#{@contexts.length}", @batch.working_area.last)
         @contexts.pop
-        @cache.pop
+        @batch.flush_last
       end
 
 
@@ -253,7 +246,7 @@ module ASpaceImport
       def ancestor(*types)
         queue_offset = (@context_nodes.has_key?(@node_name) && @context_nodes[@node_name][@node_depth]) ? -2 : -1
 
-        obj = @cache[0..queue_offset].reverse.find { |o| types.map {|t| t.to_s }.include?(o.class.record_type)}
+        obj = @batch.working_area[0..queue_offset].reverse.find { |o| types.map {|t| t.to_s }.include?(o.class.record_type)}
         block_given? ? yield(obj) : obj
       end
 
@@ -279,7 +272,7 @@ module ASpaceImport
 
 
       def context_obj
-        @cache.last
+        @batch.working_area.last
       end
 
 
