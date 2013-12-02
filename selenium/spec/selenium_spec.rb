@@ -162,7 +162,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Manage Groups").click
 
       row = $driver.find_element_with_text('//tr', /repository-archivists/)
-      row.find_element(:css, '.btn').click
+      row.find_element(:link, 'Edit').click
 
       $driver.clear_and_send_keys([:id, 'new-member'],(@user))
       $driver.find_element(:id, 'add-new-member').click
@@ -400,7 +400,7 @@ describe "ArchivesSpace user interface" do
 
     it "reports errors and warnings when creating an invalid Person Agent" do
       $driver.find_element(:link, 'Create').click
-      $driver.execute_script("$('.nav .dropdown-submenu a:contains(Agent)').focus()")
+      $driver.find_element(:link, 'Agent').click
       $driver.find_element(:link, 'Person').click
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Part of Name - Property is required but was missing/)
