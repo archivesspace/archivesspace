@@ -11,7 +11,7 @@ module ASpaceImport
         instance_variable_set("@#{k}", v)
       end
 
-      @repo_id = Thread.current[:selected_repo_id]
+      @repo_id = JSONModel::repository
 
       @must_be_unique = ['subject']
 
