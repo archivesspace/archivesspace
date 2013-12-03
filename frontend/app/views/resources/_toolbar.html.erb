@@ -3,6 +3,7 @@
   <% unless content_for?(:exports) %>
     <% content_for :exports do %>
       <li><%= link_to I18n.t("actions.export_ead"), {:controller => :exports, :action => :download_ead, :id => @resource.id} %></li>
+      <li><%= link_to I18n.t("actions.export_ead_unpub"), {:controller => :exports, :action => :download_ead, :id => @resource.id, :include_unpublished => "true"} %></li>
       <li><%= link_to I18n.t("actions.export_marc"), {:controller => :exports, :action => :download_marc, :id => @resource.id} %></li>
       <li><%= link_to I18n.t("actions.container_labels"), {:controller => :exports, :action => :container_labels, :id => @resource.id} %></li>
     <% end %>

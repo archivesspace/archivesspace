@@ -38,7 +38,8 @@ class ExportsController < ApplicationController
   
 
   def download_ead
-    download_export("/repositories/#{Thread.current[:selected_repo_id]}/resource_descriptions/#{params[:id]}.xml")
+    download_export("/repositories/#{Thread.current[:selected_repo_id]}/resource_descriptions/#{params[:id]}.xml",
+                    :include_unpublished => params[:include_unpublished])
   end
   
   
@@ -50,7 +51,7 @@ class ExportsController < ApplicationController
 
   private
 
-  def download_export(request_uri)
+  def download_export(request_uri, params = {})
 
     meta = JSONModel::HTTP::get_json("#{request_uri}/metadata")
 
@@ -61,7 +62,7 @@ class ExportsController < ApplicationController
         self.response.headers['Last-Modified'] = Time.now.ctime.to_s
 
         self.response_body = Enumerator.new do |y|
-          xml_response(request_uri) do |chunk, percent|
+          xml_response(request_uri, params) do |chunk, percent|
             Rails.logger.debug("#{percent} complete")
             y << chunk if !chunk.blank?
           end
