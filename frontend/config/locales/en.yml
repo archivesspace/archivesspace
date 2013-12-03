@@ -701,6 +701,8 @@ en:
       showhide_none: All Columns Filtered
       fill_toggle: Fill Column
       reorder_toggle: Reorder Columns
+      validate_rows: Validate Rows
+      inline_errors_toggle: View Inline Errors
     fill_column:
       basic: Basic
       sequence: Sequence
@@ -720,6 +722,7 @@ en:
       error_prefix: Row
       success: "<div class='alert alert-success'>Children Created. Refreshing page...</div>"
       no_rows: Please enter values for at least one row
+      rows_with_errors: "%{count} row(s) with an error - click a row field to view the errors for that row"
     help:
       keyboard_shortcuts: |
                   <div><strong>Keyboard Shortcuts</strong></div>

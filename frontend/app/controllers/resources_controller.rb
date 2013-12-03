@@ -103,6 +103,7 @@ class ResourcesController < ApplicationController
 
     @parent = Resource.find(params[:id])
     @archival_record_children = ResourceChildren.new
+    @exceptions = []
 
     render :partial => "archival_objects/rde"
   end
@@ -120,12 +121,23 @@ class ResourcesController < ApplicationController
       children_data = cleanup_params_for_schema(params[:archival_record_children], JSONModel(:archival_record_children).schema)
 
       begin
-        @archival_record_children = ResourceChildren.from_hash(children_data, false, true)
-        @archival_record_children.save(:resource_id => @parent.id)
+        @archival_record_children = ResourceChildren.from_hash(children_data, false)
+
+        if params["validate_only"] == "true"
+          @exceptions = @archival_record_children.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
+
+          flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select{|e| !e.empty?}.length)
+
+          return render :partial => "archival_objects/rde"
+        else
+          @archival_record_children.save(:resource_id => @parent.id)
+        end
 
         return render :text => I18n.t("rde.messages.success")
       rescue JSONModel::ValidationException => e
-        @exceptions = @archival_record_children._exceptions
+        @exceptions = @archival_record_children.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
+
+        flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select{|e| !e.empty?}.length)
       end
 
     end

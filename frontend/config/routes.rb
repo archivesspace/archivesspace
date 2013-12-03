@@ -42,6 +42,7 @@ ArchivesSpace::Application.routes.draw do
 
   match 'archival_objects/:id/transfer' => 'archival_objects#transfer', :via => [:post]
   match 'archival_objects/generate_sequence' => 'archival_objects#generate_sequence', :via => [:get]
+  match 'archival_objects/validate_rows' => 'archival_objects#validate_rows', :via => [:post]
   resources :archival_objects
   match 'archival_objects/:id' => 'archival_objects#update', :via => [:post]
   match 'archival_objects/:id/delete' => 'archival_objects#delete', :via => [:post]

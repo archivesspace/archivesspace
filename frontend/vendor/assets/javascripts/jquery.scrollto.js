@@ -32,7 +32,8 @@
 			callback: undefined,
 			durationMode: 'each',
 			offsetTop: 0,
-			offsetLeft: 0
+			offsetLeft: 0,
+			axis: 'xy'
 		},
 
 		/**
@@ -131,10 +132,10 @@
 
 			// Determine the scroll options
 			scrollOptions = {};
-			if ( targetOffsetTopAdjusted !== containerScrollTop ) {
+			if ((config.axis === "xy" || config.axis === "y") && targetOffsetTopAdjusted !== containerScrollTop ) {
 				scrollOptions.scrollTop = targetOffsetTopAdjusted+'px';
 			}
-			if ( targetOffsetLeftAdjusted !== containerScrollLeft ) {
+			if ((config.axis === "xy" || config.axis === "x") && targetOffsetLeftAdjusted !== containerScrollLeft ) {
 				scrollOptions.scrollLeft = targetOffsetLeftAdjusted+'px';
 			}
 

@@ -1,7 +1,7 @@
 class ArchivalObjectsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show, :generate_sequence],
-                      "update_archival_record" => [:new, :edit, :create, :update, :transfer, :rde, :add_children, :accept_children],
+                      "update_archival_record" => [:new, :edit, :create, :update, :transfer, :rde, :add_children, :accept_children, :validate_rows],
                       "delete_archival_record" => [:delete]
 
 
@@ -121,6 +121,7 @@ class ArchivalObjectsController < ApplicationController
   def rde
     @parent = JSONModel(:archival_object).find(params[:id])
     @archival_record_children = ArchivalObjectChildren.new
+    @exceptions = []
 
     render :partial => "archival_objects/rde"
   end
@@ -138,17 +139,39 @@ class ArchivalObjectsController < ApplicationController
       children_data = cleanup_params_for_schema(params[:archival_record_children], JSONModel(:archival_record_children).schema)
 
       begin
-        @archival_record_children = ArchivalObjectChildren.from_hash(children_data, false, true)
-        @archival_record_children.save(:archival_object_id => @parent.id)
+        @archival_record_children = ArchivalObjectChildren.from_hash(children_data, false)
+
+        if params["validate_only"] == "true"
+          @exceptions = @archival_record_children.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
+
+          flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select{|e| !e.empty?}.length)
+
+          return render :partial => "archival_objects/rde"
+        else
+          @archival_record_children.save(:archival_object_id => @parent.id)
+        end
 
         return render :text => I18n.t("rde.messages.success")
       rescue JSONModel::ValidationException => e
-        @exceptions = @archival_record_children._exceptions
+        @exceptions = @archival_record_children.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
+
+        flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select{|e| !e.empty?}.length)
       end
 
     end
 
     render :partial => "archival_objects/rde"
+  end
+
+
+  def validate_rows
+    row_data = cleanup_params_for_schema(params[:archival_record_children], JSONModel(:archival_record_children).schema)
+
+    # build the AOC record but don't bother validating it yet...
+    aoc = ArchivalObjectChildren.from_hash(row_data, false, true)
+
+    # validate each row individually (to avoid weird indexes in the error paths)
+    render :json => aoc.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
   end
 
 

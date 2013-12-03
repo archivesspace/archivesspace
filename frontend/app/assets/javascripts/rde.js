@@ -28,6 +28,8 @@ $(function() {
 
       var index = 0;
 
+      var validateSubmissionOnly = false;
+
       $modal.off("click").on("click", ".remove-row", function(event) {
         event.preventDefault();
         event.stopPropagation();
@@ -73,6 +75,8 @@ $(function() {
         var $row = addRow(event);
 
         $(":input:visible:first", $row).focus();
+
+        validateRows($row);
       });
 
       var addRow = function(event) {
@@ -186,6 +190,46 @@ $(function() {
         $modal.modal("hide");
       });
 
+      var renderInlineErrors = function($rows, exception_data) {
+        $rows.each(function(i, row) {
+          var $row = $(row);
+          var row_result = exception_data[i];
+
+          $(".error-summary", $row).remove();
+
+          if (row_result.hasOwnProperty("errors") && !$.isEmptyObject(row_result.errors)) {
+            $row.removeClass("valid").addClass("invalid");
+            var $errorSummary = $("<div>").addClass("error-summary alert alert-error");
+            $.each(row_result.errors, function(name, error) {
+              var $input = $("[id$='_"+name.replace(/\//g, "__")+"_']", $row);
+              var $header = $($(".fieldset-labels th", $table).get($input.first().closest("td").index()));
+
+              $input.closest(".control-group").addClass("error");
+
+              var $error = $("<div class='error'>");
+
+              if ($input.length > 1) {
+                $error.text(SECTION_DATA[$header.data("section")]);
+              } else {
+                $error.text($($(".fieldset-labels th", $table).get($input.closest("td").index())).text());
+              }
+              $error.append(" - ").append(error);
+              $error.append("<span class='icon icon-chevron-right'>");
+              $errorSummary.append($error);
+
+              $error.data("target", $input.first().attr("id"));
+            });
+            $(".error-summary", $row).remove();
+            $row.find("td:first").append($errorSummary);
+
+            // force a reposition of the error summary
+            $(".modal-body", $modal).trigger("scroll");
+          } else {
+            $row.removeClass("invalid").addClass("valid");
+          }
+        });
+      };
+
       var initAjaxForm = function() {
         $this.ajaxForm({
           target: $(".rde-wrapper", $modal),
@@ -195,28 +239,7 @@ $(function() {
             $table = $("table", $this);
 
             if ($this.length) {
-              $("tbody tr", $this).each(function() {
-                var $row = $(this);
-                if ($("td.error", $row).length > 0) {
-                  $row.addClass("invalid");
-                } else {
-                  $row.addClass("valid");
-                }
-              });
-
-              $("#form_messages .error[data-target]", $this).each(function() {
-                // tweak the error message to match the column heading
-                var $input = $("#"+$(this).data("target"));
-                var $cell = $input.closest("td");
-                var $row = $cell.closest("tr");
-                var headerText = $($(".fieldset-labels th", $table).get($cell.index())).text();
-                var newMessageText = $this.data("error-prefix") + " " + ($row.index()+1) + ": " + headerText + " - " + $(this).data("message");
-
-                $(this).html(newMessageText);
-                if ($(this).hasClass("linked-to-field")) {
-                  $(this).append("<span class='icon-chevron-down'></span>");
-                }
-              });
+              renderInlineErrors($("tbody tr", $this), $this.data("exceptions"));
 
               initAjaxForm();
             } else {
@@ -246,11 +269,56 @@ $(function() {
           $($("table colgroup col").get(i)).data("id", $(col).attr("id"));
         });
 
+        initAutoValidateFeature();
         applyColumnOrder();
         initColumnReorderFeature();
         applyPersistentStickyColumns();
         initColumnShowHideWidget();
         initFillFeature();
+        initShowInlineErrors();
+      };
+
+
+      var initShowInlineErrors = function() {
+        if ($("button.toggle-inline-errors").hasClass("active")) {
+          $table.addClass("show-inline-errors");
+        } else {
+          $table.removeClass("show-inline-errors");
+        }
+      };
+
+
+      var initAutoValidateFeature = function() {
+        // Validate row upon input change
+        $table.on("change", ":input:visible", function() {
+          var $row = $(this).closest("tr");
+          validateRows($row);
+        });
+        $(".modal-body", $modal).on("scroll", function(event) {
+          $(".error-summary", $table).css("left", $(this)[0].scrollLeft + 5);
+        });
+        $table.on("focusin click", ":input", function() {
+          $(this).closest("tr").addClass("last-focused").siblings().removeClass("last-focused");
+        });
+        $table.on("click", ".error-summary .error", function() {
+          var $target = $("#"+$(this).data("target"));
+
+          // if column is hidden, then show the column first
+          if (!$target.is("visible")) {
+            var colId = COLUMN_ORDER[$target.closest("td").index()];
+            $("#rde_hidden_columns").multiselect("select", colId);
+          }
+
+          $target.closest("td").ScrollTo({
+            axis: 'x',
+            callback: function() {
+              $target.focus();
+            }
+          });
+        });
+        $table.on("click", "td.status", function() {
+          $(this).closest("tr").toggleClass("last-focused").siblings().removeClass("last-focused");
+        });
       };
 
       var initFillFeature = function() {
@@ -315,6 +383,7 @@ $(function() {
 
             $btnFillFormToggle.toggleClass("active");
             $fillFormsContainer.slideToggle();
+            validateAllRows();
           });
         };
 
@@ -402,6 +471,7 @@ $(function() {
 
                   $btnFillFormToggle.toggleClass("active");
                   $fillFormsContainer.slideToggle();
+                  validateAllRows();
                 }
             );
           }
@@ -696,16 +766,48 @@ $(function() {
       };
 
       var hideColumn = function(index) {
-        $("#rde_hidden_columns").multiselect('deselect', index+"");
         $table.hideColumns(index+1);
         var $col = $($("table colgroup col").get(index));
         $table.width($table.width() - $col.width());
         $col.hide();
       };
 
+      var validateAllRows = function() {
+        validateRows($("tbody tr", $table));
+      };
+
+      var validateRows = function($rows) {
+        var row_data = $rows.serializeObject();
+
+        row_data["validate_only"] = "true";
+
+        $(".error", $rows).removeClass("error");
+
+        $.ajax({
+          url: $this.data("validate-row-uri"),
+          type: "POST",
+          data: row_data,
+          dataType: "json",
+          success: function(data) {
+            renderInlineErrors($rows, data);
+          }
+        });
+      };
+
       // Connect up the $modal form submit button
       $($modal).on("click", ".modal-footer .btn-primary", function() {
         $(this).attr("disabled","disabled");
+        $this.submit();
+      });
+
+      // Connect up the $modal form validate button
+      $($modal).on("click", "#validateButton", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        validateSubmissionOnly = true;
+        $(this).attr("disabled","disabled");
+        $this.append("<input type='hidden' name='validate_only' value='true'>");
         $this.submit();
       });
 
@@ -715,13 +817,31 @@ $(function() {
         event.stopPropagation();
       });
       $(".add-rows-form button", $modal).click(function(event) {
+        var rows = [];
         try {
           var numberOfRows = parseInt($("input", $(this).closest('.add-rows-form')).val(), 10);
           for (var i=1; i<=numberOfRows; i++) {
-            addRow(event);
+            rows.push(addRow(event));
           }
         } catch(e) {
           // if the field cannot parse the form value to an integer.. just quietly judge the user
+        }
+        validateRows($(rows));
+      });
+
+      // Connect the Inline Errors toggle
+      $modal.on("click", "button.toggle-inline-errors", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        $(this).toggleClass("active");
+        $table.toggleClass("show-inline-errors");
+      });
+
+      $modal.on("keyup", "button", function(event) {
+        // pass on Return key hits as a click
+        if (event.keyCode === 13) {
+          $(this).trigger("click");
         }
       });
 
@@ -729,6 +849,11 @@ $(function() {
 
       $(window).trigger("resize");
       $(document).triggerHandler("loadedrecordform.aspace", [$this]);
+
+      // auto-validate the first row
+      setTimeout(function() {
+        validateAllRows();
+      });
     });
   };
 
