@@ -45,7 +45,7 @@ class StreamHandler
     xml_text.force_encoding('utf-8')
     queue = xml_text.split(":aspace_section")
 
-    y << fragments.substitute_fragments(queue.shift)
+    y << fragments.substitute_fragments(queue.shift) if queue.length > 0
 
     while queue.length > 0
       next_section = queue.shift
@@ -150,13 +150,11 @@ ASpaceExport::serializer :ead do
           xml.dsc {
 
             data.children_indexes.each do |i|
-              if data.get_child(i)["publish"] || @include_unpublished
-                xml.text(
-                         @stream_handler.buffer {|xml, new_fragments|
-                           serialize_child(data.get_child(i), xml, new_fragments)
-                         }
-                         )
-              end
+              xml.text(
+                       @stream_handler.buffer {|xml, new_fragments|
+                         serialize_child(data.get_child(i), xml, new_fragments)
+                       }
+                       )
             end
           }
         }
@@ -170,6 +168,8 @@ ASpaceExport::serializer :ead do
 
 
   def serialize_child(data, xml, fragments)
+    return if !data["publish"] && !@include_unpublished
+
     prefixed_ref_id = "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{data.ref_id}"
     atts = {:level => data.level, :otherlevel => data.other_level, :id => prefixed_ref_id}
 
@@ -218,13 +218,11 @@ ASpaceExport::serializer :ead do
       serialize_controlaccess(data, xml, fragments)
 
       data.children_indexes.each do |i|
-        if data.get_child(i)["publish"] || @include_unpublished
-          xml.text(
-                   @stream_handler.buffer {|xml, new_fragments|
-                     serialize_child(data.get_child(i), xml, new_fragments)
-                   }
-                   )
-        end
+        xml.text(
+                 @stream_handler.buffer {|xml, new_fragments|
+                   serialize_child(data.get_child(i), xml, new_fragments)
+                 }
+                 )
       end
     }
   end
