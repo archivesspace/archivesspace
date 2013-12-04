@@ -58,8 +58,8 @@ migrations.  This will apply any schema changes and data migrations
 that need to happen as a part of the upgrade.  To do this, use the
 `setup-database` script for your platform:
 
-  $ cd archivesspace-1.0.3/archivesspace
-  $ scripts/setup-database.sh
+    $ cd archivesspace-1.0.3/archivesspace
+    $ scripts/setup-database.sh
 
 
 ## That's it!
