@@ -42,10 +42,11 @@ class StreamHandler
 
   def stream_out(doc, fragments, y, depth=0)
     xml_text = doc.to_xml
+    return if xml_text.empty?
     xml_text.force_encoding('utf-8')
     queue = xml_text.split(":aspace_section")
 
-    y << fragments.substitute_fragments(queue.shift) if queue.length > 0
+    y << fragments.substitute_fragments(queue.shift)
 
     while queue.length > 0
       next_section = queue.shift
