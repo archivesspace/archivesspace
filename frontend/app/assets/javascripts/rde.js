@@ -199,7 +199,12 @@ $(function() {
 
           if (row_result.hasOwnProperty("errors") && !$.isEmptyObject(row_result.errors)) {
             $row.removeClass("valid").addClass("invalid");
-            var $errorSummary = $("<div>").addClass("error-summary alert alert-error");
+            var $errorSummary = $("<div>").addClass("error-summary popover bottom");
+            $errorSummary.append("<div class='arrow'>");
+
+            var $close = $("<a>").attr("href","javascript:void(0);").html("<span class='icon icon-chevron-up'>").addClass("hide-error-summary");
+            var $show = $("<a>").attr("href","javascript:void(0);").html("<span class='icon icon-chevron-down'>").addClass("show-error-summary");
+
             $.each(row_result.errors, function(name, error) {
               var $input = $("[id$='_"+name.replace(/\//g, "__")+"_']", $row);
               var $header = $($(".fieldset-labels th", $table).get($input.first().closest("td").index()));
@@ -219,6 +224,9 @@ $(function() {
 
               $error.data("target", $input.first().attr("id"));
             });
+
+            $errorSummary.append($close).prepend($show);
+
             $(".error-summary", $row).remove();
             $row.find("td:first").append($errorSummary);
 
@@ -316,8 +324,21 @@ $(function() {
             }
           });
         });
-        $table.on("click", "td.status", function() {
-          $(this).closest("tr").toggleClass("last-focused").siblings().removeClass("last-focused");
+        $table.on("click", "td.status", function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          if ($(this).closest("tr").hasClass("last-focused")) {
+            $("button.toggle-inline-errors").trigger("click");
+          } else {
+            $(this).closest("tr").addClass("last-focused").siblings().removeClass("last-focused");
+          }
+        });
+        $table.on("click", ".hide-error-summary, .show-error-summary", function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          $("button.toggle-inline-errors").trigger("click");
         });
       };
 

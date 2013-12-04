@@ -2164,7 +2164,10 @@ describe "ArchivesSpace user interface" do
       @modal.find_element_with_text('//div[contains(@class, "alert-error")]', /1 row\(s\) with an error \- click a row field to view the errors for that row/)
 
       # check for inline errors - first focus the row
-      $driver.execute_script("$('#archival_record_children_children__0__title_').focus()")
+      assert(5) {
+        $driver.execute_script("$('#archival_record_children_children__0__title_').focus()")
+        @modal.find_element(:css, ".last-focused")
+      }
       @modal.find_element_with_text('//div[contains(@class, "error")]', /Level of Description - Property is required but was missing/)
 
 
@@ -2175,13 +2178,25 @@ describe "ArchivesSpace user interface" do
       @modal.find_element_with_text('//div[contains(@class, "alert-error")]', /1 row\(s\) with an error \- click a row field to view the errors for that row/)
 
       # check for inline errors - first focus the row
-      $driver.execute_script("$('#archival_record_children_children__0__title_').focus()")
+      assert(5) {
+        $driver.execute_script("$('#archival_record_children_children__0__title_').focus()")
+        @modal.find_element(:css, ".last-focused")
+      }
       @modal.find_element_with_text('//div[contains(@class, "error")]', /Level of Description \- Property is required but was missing/)
-      $driver.execute_script("$('#archival_record_children_children__0__title_').focus()")
+      assert(5) {
+        $driver.execute_script("$('#archival_record_children_children__0__title_').focus()")
+        @modal.find_element(:css, ".last-focused")
+      }
       @modal.find_element_with_text('//div[contains(@class, "error")]', /Expression \- is required unless a begin or end date is given/)
-      $driver.execute_script("$('#archival_record_children_children__0__title_').focus()")
+      assert(5) {
+        $driver.execute_script("$('#archival_record_children_children__0__title_').focus()")
+        @modal.find_element(:css, ".last-focused")
+      }
       @modal.find_element_with_text('//div[contains(@class, "error")]', /Begin \- is required unless an expression or an end date is given/)
-      $driver.execute_script("$('#archival_record_children_children__0__title_').focus()")
+      assert(5) {
+        $driver.execute_script("$('#archival_record_children_children__0__title_').focus()")
+        @modal.find_element(:css, ".last-focused")
+      }
       @modal.find_element_with_text('//div[contains(@class, "error")]', /End \- is required unless an expression or a begin date is given/)
     end
 
