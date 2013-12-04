@@ -281,6 +281,9 @@ class PeriodicIndexer < CommonIndexer
         # any of the threads reported that they indexed some records, we'll send
         # a commit.
         THREAD_COUNT.times { work_queue.push(:finished) }
+
+        # The call to thread.value here will rethrow any exceptions thrown by
+        # the worker threads, so if they fail the whole batch fails.
         results = workers.map {|thread| thread.join; thread.value}
         did_something ||= results.any? {|status| status}
 
