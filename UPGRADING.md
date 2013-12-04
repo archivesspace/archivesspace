@@ -1,0 +1,67 @@
+# Upgrading to a new release of ArchivesSpace
+
+## Create a backup of your ArchivesSpace instance
+
+You should make sure you have a working backup of your ArchivesSpace
+installation before attempting an upgrade.  Follow the steps
+under the *Backup and recovery* section in [README.md] to do this.
+
+
+## Unpack the new version
+
+It's a good idea to unpack a fresh copy of the version of
+ArchivesSpace you are upgrading to.  This will ensure that you are
+running the latest versions of all files.  For example:
+
+     $ mkdir archivesspace-1.0.3
+     $ cd archivesspace-1.0.3
+     $ unzip -x archivesspace-v1.0.3.zip
+
+
+## Shut down your ArchivesSpace instance
+
+To ensure you get a consistent copy, you will need to shut down your
+running ArchivesSpace instance now.
+
+
+## Copy your configuration and data files
+
+You will need to bring across the following files and directories from
+your original ArchivesSpace installation:
+
+  * the `data` directory
+
+  * the `config` directory
+
+  * your `lib/mysql-connector*.jar` file (if using MySQL)
+
+  * any plugins and local modifications you have installed in your `plugins` directory
+
+For example:
+
+     $ cd archivesspace-1.0.3/archivesspace
+     $ cp -a /path/to/archivesspace-1.0.2/archivesspace/data/* data/
+     $ cp -a /path/to/archivesspace-1.0.2/archivesspace/config/* config/
+     $ cp -a /path/to/archivesspace-1.0.2/archivesspace/lib/mysql-connector* lib/
+     $ cp -a /path/to/archivesspace-1.0.2/archivesspace/plugins/local plugins/
+     $ cp -a /path/to/archivesspace-1.0.2/archivesspace/plugins/wonderful_plugin plugins/
+
+Note that you may want to preserve the `logs/archivesspace.out` file
+from your previous installation--just in case you need to refer to it
+later.
+
+
+## Run the database migrations
+
+With everything copied, the final step is to run the database
+migrations.  This will apply any schema changes and data migrations
+that need to happen as a part of the upgrade.  To do this, use the
+`setup-database` script for your platform:
+
+  $ cd archivesspace-1.0.3/archivesspace
+  $ scripts/setup-database.sh
+
+
+## That's it!
+
+You can now start your new ArchivesSpace version as normal.
