@@ -65,6 +65,57 @@ describe 'Exports controller' do
   end
 
 
+  it "excludes unpublished records in EAD exports by default" do
+
+    resource = create(:json_resource)
+    id = resource.id
+
+    aos = []
+    ["earth", "australia", "canberra"].each do |name|
+      ao = create(:json_archival_object, {:title => "archival object: #{name}"})
+      if not aos.empty?
+        ao.parent = {:ref => aos.last.uri}
+        ao.publish = false
+      end
+
+      ao.resource = {:ref => resource.uri}
+
+      ao.save
+      aos << ao
+    end
+
+    get "/repositories/#{$repo_id}/resource_descriptions/#{id}.xml"
+    resp = last_response.body
+    resp.should_not match(/australia/)
+  end
+
+
+  it "includes unpublished records in EAD exports upon request" do
+
+    resource = create(:json_resource)
+    id = resource.id
+
+    aos = []
+    ["earth", "australia", "canberra"].each do |name|
+      ao = create(:json_archival_object, {:title => "archival object: #{name}"})
+      if not aos.empty?
+        ao.parent = {:ref => aos.last.uri}
+        ao.publish = false
+      end
+
+      ao.resource = {:ref => resource.uri}
+
+      ao.save
+      aos << ao
+    end
+
+    get "/repositories/#{$repo_id}/resource_descriptions/#{id}.xml?include_unpublished=true"
+    resp = last_response.body
+    resp.should match(/australia/)
+    resp.should match(/audience=\"internal\"/)
+  end
+
+
   it "lets you export a resource in MARC 21" do
     res = create(:json_resource)
     get "/repositories/#{$repo_id}/resources/marc21/#{res.id}.xml"

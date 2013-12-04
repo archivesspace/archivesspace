@@ -109,11 +109,13 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/repositories/:repo_id/resource_descriptions/:id.xml')
     .description("Get an EAD representation of a Resource")
     .params(["id", :id],
+            ["include_unpublished", BooleanParam,
+             "Include unpublished records", :optional => true],
             ["repo_id", :repo_id])
     .permissions([:view_repository])
     .returns([200, "(:resource)"]) \
   do
-    ead_stream = generate_ead(params[:id])
+    ead_stream = generate_ead(params[:id], params[:include_unpublished] || false)
 
     stream_response(ead_stream)
   end
