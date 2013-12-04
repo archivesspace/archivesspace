@@ -4,7 +4,7 @@
 
 You should make sure you have a working backup of your ArchivesSpace
 installation before attempting an upgrade.  Follow the steps
-under the *Backup and recovery* section in [README.md] to do this.
+under the *Backup and recovery* section in [README.md](https://github.com/archivesspace/archivesspace/blob/master/README.md) to do this.
 
 
 ## Unpack the new version
