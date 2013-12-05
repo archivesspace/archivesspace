@@ -211,7 +211,11 @@ class PeriodicIndexer < CommonIndexer
         did_something
       rescue
         $stderr.puts("Failure in periodic indexer worker thread: #{$!}")
-        $stderr.puts($!.backtrace)
+
+        # In the case of an error, clear the queue to ensure that the parent
+        # thread unblocks and notices the error.  Then rethrow the original
+        # exception to cause the whole batch to abort.
+        queue.clear
         raise $!
       end
     end
@@ -270,7 +274,10 @@ class PeriodicIndexer < CommonIndexer
 
         # Feed our worker threads subsets of IDs to process
         id_set.each_slice(RECORDS_PER_THREAD) do |id_subset|
-          # This will block if all threads are currently busy.
+          # If any of the workers have caught an exception, stop immediately.
+          break if workers.any? { |thread| thread.status.nil? }
+
+          # This will block if all threads are currently busy indexing.
           work_queue.push(id_subset)
 
           indexed_count += id_subset.length
