@@ -1,5 +1,7 @@
 module Trees
 
+  NODE_PAGE_SIZE = 2000
+
   def self.included(base)
     base.extend(ClassMethods)
   end
@@ -123,28 +125,40 @@ module Trees
       end
     end
 
-    query.all.each do |node|
-      if node.parent_id
-        links[node.parent_id] ||= []
-        links[node.parent_id] << [node.position, node.id]
+    offset = 0
+    while true
+      nodes = query.limit(NODE_PAGE_SIZE, offset).all
+
+      nodes.each do |node|
+        if node.parent_id
+          links[node.parent_id] ||= []
+          links[node.parent_id] << [node.position, node.id]
+        else
+          top_nodes << [node.position, node.id]
+        end
+
+        properties[node.id] = {
+          :title => node[:title],
+          :id => node.id,
+          :record_uri => self.class.uri_for(node_type, node.id),
+          :publish => node.respond_to?(:publish) ? node.publish===1 : true,
+          :node_type => node_type.to_s
+        }
+
+        if ids_of_interest != :all
+          properties[node.id]['has_children'] = !!has_children[node.id]
+        end
+
+        load_node_properties(node, properties)
+      end
+
+      if nodes.empty?
+        break
       else
-        top_nodes << [node.position, node.id]
+        offset += NODE_PAGE_SIZE
       end
-
-      properties[node.id] = {
-        :title => node[:title],
-        :id => node.id,
-        :record_uri => self.class.uri_for(node_type, node.id),
-        :publish => node.respond_to?(:publish) ? node.publish===1 : true,
-        :node_type => node_type.to_s
-      }
-
-      if ids_of_interest != :all
-        properties[node.id]['has_children'] = !!has_children[node.id]
-      end
-
-      load_node_properties(node, properties)
     end
+
 
     result = {
       :title => self.title,
