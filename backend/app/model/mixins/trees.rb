@@ -1,5 +1,7 @@
 module Trees
 
+  NODE_PAGE_SIZE = 2000
+
   def self.included(base)
     base.extend(ClassMethods)
   end
@@ -46,13 +48,13 @@ module Trees
   end
 
 
-  def load_node_properties(node, properties)
+  def load_node_properties(node, properties, ids_of_interest = :all)
     # Does nothing by default, but classes that use this mixin add their own
     # behaviour here.
   end
 
 
-  def load_root_properties(properties)
+  def load_root_properties(properties, ids_of_interest = :all)
     # Does nothing by default, but classes that use this mixin add their own
     # behaviour here.
   end
@@ -123,28 +125,40 @@ module Trees
       end
     end
 
-    query.all.each do |node|
-      if node.parent_id
-        links[node.parent_id] ||= []
-        links[node.parent_id] << [node.position, node.id]
+    offset = 0
+    while true
+      nodes = query.limit(NODE_PAGE_SIZE, offset).all
+
+      nodes.each do |node|
+        if node.parent_id
+          links[node.parent_id] ||= []
+          links[node.parent_id] << [node.position, node.id]
+        else
+          top_nodes << [node.position, node.id]
+        end
+
+        properties[node.id] = {
+          :title => node[:title],
+          :id => node.id,
+          :record_uri => self.class.uri_for(node_type, node.id),
+          :publish => node.respond_to?(:publish) ? node.publish===1 : true,
+          :node_type => node_type.to_s
+        }
+
+        if ids_of_interest != :all
+          properties[node.id]['has_children'] = !!has_children[node.id]
+        end
+
+        load_node_properties(node, properties, ids_of_interest)
+      end
+
+      if nodes.empty?
+        break
       else
-        top_nodes << [node.position, node.id]
+        offset += NODE_PAGE_SIZE
       end
-
-      properties[node.id] = {
-        :title => node[:title],
-        :id => node.id,
-        :record_uri => self.class.uri_for(node_type, node.id),
-        :publish => node.respond_to?(:publish) ? node.publish===1 : true,
-        :node_type => node_type.to_s
-      }
-
-      if ids_of_interest != :all
-        properties[node.id]['has_children'] = !!has_children[node.id]
-      end
-
-      load_node_properties(node, properties)
     end
+
 
     result = {
       :title => self.title,
@@ -155,7 +169,7 @@ module Trees
       :record_uri => self.class.uri_for(root_type, self.id)
     }
 
-    load_root_properties(result)
+    load_root_properties(result, ids_of_interest)
 
     JSONModel("#{self.class.root_type}_tree".intern).from_hash(result, true, true)
   end

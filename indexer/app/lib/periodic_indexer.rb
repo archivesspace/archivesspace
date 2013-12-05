@@ -135,6 +135,11 @@ class PeriodicIndexer < CommonIndexer
       delete_trees_for(records)
 
       records.each do |record_uri|
+        # To avoid all of the indexing threads hitting the same tree at the same
+        # moment, use @processed_trees to ensure that only one of them handles
+        # it.
+        next if @processed_trees.putIfAbsent(record_uri, true)
+
         record_data = JSONModel.parse_reference(record_uri)
 
         tree = JSONModel("#{record_data[:type]}_tree".intern).find(nil, "#{record_data[:type]}_id".intern => record_data[:id])
@@ -211,7 +216,11 @@ class PeriodicIndexer < CommonIndexer
         did_something
       rescue
         $stderr.puts("Failure in periodic indexer worker thread: #{$!}")
-        $stderr.puts($!.backtrace)
+
+        # In the case of an error, clear the queue to ensure that the parent
+        # thread unblocks and notices the error.  Then rethrow the original
+        # exception to cause the whole batch to abort.
+        queue.clear
         raise $!
       end
     end
@@ -270,7 +279,10 @@ class PeriodicIndexer < CommonIndexer
 
         # Feed our worker threads subsets of IDs to process
         id_set.each_slice(RECORDS_PER_THREAD) do |id_subset|
-          # This will block if all threads are currently busy.
+          # If any of the workers have caught an exception, stop immediately.
+          break if workers.any? { |thread| thread.status.nil? }
+
+          # This will block if all threads are currently busy indexing.
           work_queue.push(id_subset)
 
           indexed_count += id_subset.length
@@ -281,6 +293,9 @@ class PeriodicIndexer < CommonIndexer
         # any of the threads reported that they indexed some records, we'll send
         # a commit.
         THREAD_COUNT.times { work_queue.push(:finished) }
+
+        # The call to thread.value here will rethrow any exceptions thrown by
+        # the worker threads, so if they fail the whole batch fails.
         results = workers.map {|thread| thread.join; thread.value}
         did_something ||= results.any? {|status| status}
 

@@ -45,7 +45,7 @@ class CommonIndexer
         JSONModel::init(:client_mode => true, :url => @backend_url)
         break
       rescue
-        $stderr.puts "Connection to backend failed.  Retrying..."
+        $stderr.puts "Connection to backend failed (#{$!}).  Retrying..."
         sleep(5)
       end
     end
