@@ -48,13 +48,13 @@ module Trees
   end
 
 
-  def load_node_properties(node, properties)
+  def load_node_properties(node, properties, ids_of_interest = :all)
     # Does nothing by default, but classes that use this mixin add their own
     # behaviour here.
   end
 
 
-  def load_root_properties(properties)
+  def load_root_properties(properties, ids_of_interest = :all)
     # Does nothing by default, but classes that use this mixin add their own
     # behaviour here.
   end
@@ -149,7 +149,7 @@ module Trees
           properties[node.id]['has_children'] = !!has_children[node.id]
         end
 
-        load_node_properties(node, properties)
+        load_node_properties(node, properties, ids_of_interest)
       end
 
       if nodes.empty?
@@ -169,7 +169,7 @@ module Trees
       :record_uri => self.class.uri_for(root_type, self.id)
     }
 
-    load_root_properties(result)
+    load_root_properties(result, ids_of_interest)
 
     JSONModel("#{self.class.root_type}_tree".intern).from_hash(result, true, true)
   end

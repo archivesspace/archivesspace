@@ -45,13 +45,13 @@ class Classification < Sequel::Model(:classification)
   end
 
 
-  def load_node_properties(node, properties)
+  def load_node_properties(node, properties, ids_of_interest = :all)
     super
     properties[node.id][:identifier] = node.identifier
   end
 
 
-  def load_root_properties(properties)
+  def load_root_properties(properties, ids_of_interest = :all)
     super
     properties[:identifier] = self.identifier
   end
