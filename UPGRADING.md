@@ -4,7 +4,7 @@
 
 You should make sure you have a working backup of your ArchivesSpace
 installation before attempting an upgrade.  Follow the steps
-under the *Backup and recovery* section in [README.md] to do this.
+under the *Backup and recovery* section in [README.md](https://github.com/archivesspace/archivesspace/blob/master/README.md) to do this.
 
 
 ## Unpack the new version
@@ -58,8 +58,8 @@ migrations.  This will apply any schema changes and data migrations
 that need to happen as a part of the upgrade.  To do this, use the
 `setup-database` script for your platform:
 
-  $ cd archivesspace-1.0.3/archivesspace
-  $ scripts/setup-database.sh
+    $ cd archivesspace-1.0.3/archivesspace
+    $ scripts/setup-database.sh
 
 
 ## That's it!
