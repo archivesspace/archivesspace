@@ -114,6 +114,16 @@ class RecordsController < ApplicationController
   end
 
 
+  def agent
+    agent = JSONModel(params[:agent_type]).find(params[:id], "resolve[]" => ["related_agents"])
+    raise RecordNotFound.new if (!agent)
+
+    @agent = AgentRecordView.new(agent)
+
+    render :agent
+  end
+
+
   private
 
   def get_repository
