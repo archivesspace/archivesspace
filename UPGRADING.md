@@ -52,11 +52,11 @@ For example, on Mac OS X or Linux:
 Or on Windows:
 
      $ cd archivesspace-1.0.3\archivesspace
-     $ xcopy \path\to\archivesspace-1.0.2\archivesspace\data\* data /i /k /h /s /x /y
-     $ xcopy \path\to\archivesspace-1.0.2\archivesspace\config\* config /i /k /h /s /x /y
-     $ xcopy \path\to\archivesspace-1.0.2\archivesspace\lib\mysql-connector* lib /i /k /h /s /x /y
-     $ xcopy \path\to\archivesspace-1.0.2\archivesspace\plugins\local plugins\local /i /k /h /s /x /y
-     $ xcopy \path\to\archivesspace-1.0.2\archivesspace\plugins\wonderful_plugin plugins\wonderful_plugin /i /k /h /s /x /y
+     $ xcopy \path\to\archivesspace-1.0.2\archivesspace\data\* data /i /k /h /s /e /o /x /y
+     $ xcopy \path\to\archivesspace-1.0.2\archivesspace\config\* config /i /k /h /s /e /o /x /y
+     $ xcopy \path\to\archivesspace-1.0.2\archivesspace\lib\mysql-connector* lib /i /k /h /s /e /o /x /y
+     $ xcopy \path\to\archivesspace-1.0.2\archivesspace\plugins\local plugins\local /i /k /h /s /e /o /x /y
+     $ xcopy \path\to\archivesspace-1.0.2\archivesspace\plugins\wonderful_plugin plugins\wonderful_plugin /i /k /h /s /e /o /x /y
 
 
 Note that you may want to preserve the `logs/archivesspace.out` file
