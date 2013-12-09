@@ -194,16 +194,13 @@ $(function() {
         $rows.each(function(i, row) {
           var $row = $(row);
           var row_result = exception_data[i];
+          var $errorSummary = $(".error-summary", $row);
+          var $errorSummaryList = $(".error-summary-list", $errorSummary)
 
-          $(".error-summary", $row).remove();
+          $errorSummaryList.empty();
 
           if (row_result.hasOwnProperty("errors") && !$.isEmptyObject(row_result.errors)) {
             $row.removeClass("valid").addClass("invalid");
-            var $errorSummary = $("<div>").addClass("error-summary popover bottom");
-            $errorSummary.append("<div class='arrow'>");
-
-            var $close = $("<a>").attr("href","javascript:void(0);").html("<span class='icon icon-chevron-up'>").addClass("hide-error-summary");
-            var $show = $("<a>").attr("href","javascript:void(0);").html("<span class='icon icon-chevron-down'>").addClass("show-error-summary");
 
             $.each(row_result.errors, function(name, error) {
               var $input = $("[id$='_"+name.replace(/\//g, "__")+"_']", $row);
@@ -220,15 +217,10 @@ $(function() {
               }
               $error.append(" - ").append(error);
               $error.append("<span class='icon icon-chevron-right'>");
-              $errorSummary.append($error);
+              $errorSummaryList.append($error);
 
               $error.data("target", $input.first().attr("id"));
             });
-
-            $errorSummary.append($close).prepend($show);
-
-            $(".error-summary", $row).remove();
-            $row.find("td:first").append($errorSummary);
 
             // force a reposition of the error summary
             $(".modal-body", $modal).trigger("scroll");
@@ -327,6 +319,12 @@ $(function() {
         $table.on("click", "td.status", function(event) {
           event.preventDefault();
           event.stopPropagation();
+
+          if ($(event.target).closest(".error-summary")) {
+            // don't propagate to the status cell
+            // if clicking on an error
+            return;
+          }
 
           if ($(this).closest("tr").hasClass("last-focused")) {
             $("button.toggle-inline-errors").trigger("click");

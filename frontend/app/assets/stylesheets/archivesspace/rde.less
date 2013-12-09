@@ -145,21 +145,27 @@
     position: absolute;
     .opacity(90);
     z-index: 1;
-    box-shadow: 1px 1px 3px @errorBorder;
+    .box-shadow(1px 1px 3px #AAA);
     margin-left: -5px;
     border-top: none;
     background-color: @errorBackground;
     color: @errorText;
-    padding-right: 14px;
     max-width: none;
     top: initial !important;
 
+    .error-summary-header {
+      overflow: hidden;
+
+      .error-summary-header-text {
+        display: none;
+        float: left;
+        color: #444;
+      }
+    }
+
     .hide-error-summary {
-      width: 100%;
-      text-align: center;
+      float: right;
       display: block;
-      margin-top: 5px;
-      border-top: 1px dotted #AAA;
       .opacity(60);
 
       &:hover {
@@ -167,16 +173,8 @@
       }
     }
 
-    .arrow, .hide-error-summary, .error {
+    .hide-error-summary, .error {
       display: none;
-    }
-
-    .arrow {
-      border-bottom-color: @errorBackground;
-
-      &:before, &:after {
-        border-bottom-color: @errorBackground;
-      }
     }
 
     .error {
@@ -210,23 +208,37 @@
   .last-focused {
     .error-summary {
       display: block;
-      padding: 0 4px;
-      margin-top: 1.1em;
+      margin-top: 0.9em;
       .border-radius(0 0 4px 4px);
+
+      .show-error-summary {
+        padding: 4px;
+        display: block;
+        text-align: center;
+      }
     }
   }
   .show-inline-errors {
     .last-focused {
       .error-summary {
-        padding: 10px;
-        margin-top: 1.75em;
+        padding: 5px 10px;
+        margin-top: 1.1em;
         .border-radius(4px);
 
-        .arrow, .hide-error-summary, .error {
+        .hide-error-summary, .error {
           display: block;
         }
         .show-error-summary {
           display: none;
+        }
+        .error-summary-header {
+          border-bottom: 1px dotted #AAA;
+          margin-bottom: 10px;
+          padding-bottom: 5px;
+
+          .error-summary-header-text {
+            display: block;
+          }
         }
       }
     }
