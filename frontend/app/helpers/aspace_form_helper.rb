@@ -604,6 +604,9 @@ module AspaceFormHelper
     def jsonmodel_enum_for(property)
       defn = jsonmodel_schema_definition(property)
 
+      puts ""
+      puts "*** #{defn.inspect}"
+
       if defn.has_key?('enum')
         defn["enum"]
       elsif defn.has_key?('dynamic_enum')

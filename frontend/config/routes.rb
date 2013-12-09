@@ -7,6 +7,8 @@ ArchivesSpace::Application.routes.draw do
     post "import/upload"
     post "import/upload_xhr"
 
+    resources :jobs
+
     match 'login' => "session#login", :via => :post
     match 'logout' => "session#logout", :via => :get
     match 'select_user' => "session#select_user", :via => :get
@@ -135,7 +137,7 @@ ArchivesSpace::Application.routes.draw do
 
     match 'enumerations/list' => 'enumerations#list', :via => [:get]
     match 'enumerations/delete' => 'enumerations#delete', :via => [:get]
-    match 'enumerations/set_default/:id' => 'enumerations#set_default', :via => [:post]
+    match 'enumerations/set_default/:id' => 'enumerations#set_default', :via => [:post] 
     match 'enumerations/destroy/:id' => 'enumerations#destroy', :via => [:post]
     match 'enumerations/merge/:id' => 'enumerations#merge', :via => [:post]
     resources :enumerations

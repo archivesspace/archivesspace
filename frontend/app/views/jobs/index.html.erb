@@ -1,0 +1,79 @@
+<%= setup_context(:title => I18n.t("job._plural")) %>
+
+<div class="row-fluid">
+  <div class="span3">
+    Filter?
+  </div>
+  <div class="span9">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="record-toolbar">
+          <div class="pull-right">
+            <%= link_to I18n.t("job._frontend.actions.create"), {:controller => :jobs, :action => :new}, :class => "btn btn-small" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="record-pane">
+      <h2><%= I18n.t("job._plural") %></h2>
+
+      <%= render :partial => "shared/flash_messages" %>
+
+      <table id="tabledSearchResults" class="table table-bordered table-condensed table-search-results">
+        <thead>
+          <th>Job ID</th>
+          <th>Status</th>
+          <th>Import Type</th>
+          <th>Filename(s)</th>
+          <th>Repo</th>
+          <th>Submitted</th>
+          <th>Started</th>
+          <th>Finished</th>
+          <th>User</th>
+          <th></th>
+        </thead>
+        <tbody>
+        <tr class="queued">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>
+
+          </td>
+        </tr>
+        <tr class="inprogress">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="completed">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

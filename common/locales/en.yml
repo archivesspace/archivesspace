@@ -1720,3 +1720,12 @@ en:
     you_must_provide_a_label__title_or_date: you must provide a Label, Title or Date
     location_fields_error: >
       You must either specify a barcode, a classification, or both a coordinate 1 label and coordinate 1 indicator
+  job:
+    _singular: Job
+    _plural: Jobs
+    import_type: Import Type
+    import_type_ead_xml: EAD
+    import_type_accession_csv: Accession CSV
+    import_type_digital_object_csv: Digital Object CSV
+    import_type_marcxml: MarcXML
+    import_type_marcxml_subjects_and_agents: MarcXML (Subjects and Agents Only)

@@ -1,0 +1,53 @@
+.fileinput-wrapper {
+  height: 100px;
+  border: 2px dashed #EEE;
+}
+
+.fileinput-button {
+  position: relative;
+  overflow: hidden;
+}
+.fileinput-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
+  -ms-filter: 'alpha(opacity=0)';
+  font-size: 200px;
+  direction: ltr;
+  cursor: pointer;
+}
+
+#files {
+  margin-top: 10px;
+  min-height: 100px;
+
+  border: 2px dashed #F3F3F3;
+
+  &.incoming {
+    border: 2px dashed #7DF;
+  }
+
+  &.active {
+    border: 2px solid #7DF;
+  }
+
+  .MultiFile-label {
+    display: block;
+    border-top: 1px solid #F3F3F3;
+    padding: 10px;
+  }
+
+  .MultiFile-label:nth-child(2n-1) {
+    background-color: #FAFAFA;
+  }
+
+  .MultiFile-label:last-child {
+    border-bottom: 1px solid #F3F3F3;
+  }
+
+  .MultiFile-remove {
+    float:right;
+  }
+}

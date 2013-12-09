@@ -753,3 +753,9 @@ en:
     stale_record: This record has been updated by another user. Please refresh the page to access the latest version.
     other_editors: "This record is currently being edited by another user.  Please contact the following users to ensure no conflicts occur: <strong>%{user_ids}</strong>"
     repository_changed: "This record can't be saved, because your active repository has changed. To save this record, open another window and reset your active repository."
+  job:
+    _frontend:
+      actions:
+        create: Create Import Job
+        save: Queue Import Job
+        new: New Import Job
