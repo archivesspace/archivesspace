@@ -13,6 +13,10 @@ class JobsController < ApplicationController
   end
 
   def create
-    render :json => params
+    job = Job.new("ead_xml", Hash[params['files'].map {|file|
+                                [file.original_filename, file.tempfile]
+                              }])
+
+    render :json => job.upload
   end
 end

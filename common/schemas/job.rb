@@ -3,7 +3,7 @@
         "$schema" => "http://www.archivesspace.org/archivesspace.json",
         "version" => 1,
         "type" => "object",
-        "uri" => "/jobs",
+        "uri" => "/repositories/:repo_id/jobs",
         "properties" => {
             "uri" => {"type" => "string", "required" => false},
 

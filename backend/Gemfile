@@ -29,6 +29,7 @@ group :test do
 end
 
 gem "net-http-persistent"
+gem "multipart-post"
 gem "rjack-jackson"
 
 

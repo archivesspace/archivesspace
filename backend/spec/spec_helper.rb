@@ -69,8 +69,13 @@ module JSONModel
     extend Rack::Test::Methods
 
 
+    def self.multipart_request(uri, params)
+      Struct.new(:method, :path, :body).new("POST", uri, params)
+    end
+
+
     def self.do_http_request(url, req)
-      send(req.method.downcase.intern, req.path, params = req.body)
+      send(req.method.downcase.intern, req.path, req.body)
 
       last_response.instance_eval do
         def code; status.to_s; end

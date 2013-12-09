@@ -73,6 +73,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.22)
     multi_json (1.7.2)
+    multipart-post (1.2.0)
     net-http-persistent (2.8)
     nokogiri (1.5.9)
     nokogiri (1.5.9-java)
@@ -167,6 +168,7 @@ DEPENDENCIES
   json
   json-schema
   less-rails (~> 2.3.3)
+  multipart-post
   net-http-persistent
   nokogiri
   puma

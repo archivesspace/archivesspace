@@ -1,4 +1,5 @@
 require 'net/http/persistent'
+require 'net/http/post/multipart'
 require 'json'
 require_relative 'exceptions'
 
@@ -110,12 +111,18 @@ module JSONModel
     end
 
 
+    # We override this in the backend's spec_helper since Rack::Test::Methods
+    # doesn't support multipart requests.
+    def self.multipart_request(uri, params)
+      Net::HTTP::Post::Multipart.new(url.request_uri, params)
+    end
+
+
     # Perform a HTTP POST request against the backend with form parameters
     def self.post_form(uri, params = {})
       url = URI("#{backend_url}#{uri}")
 
-      req = Net::HTTP::Post.new(url.request_uri)
-      req.form_data = params
+      req = self.multipart_request(url.request_uri, params)
 
       do_http_request(url, req)
     end
