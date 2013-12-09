@@ -4,65 +4,26 @@ module ASpaceImport
 
   # Manages the JSON object batch set
   class RecordBatch
-    attr_accessor :repo_id
 
     def initialize(opts = {})
       opts.each do |k,v|
         instance_variable_set("@#{k}", v)
       end
 
-      @repo_id = JSONModel::repository
-
       @must_be_unique = ['subject']
+
+      @record_filter = ->(record) { true }
 
       @uri_remapping = {}
       @seen_records = {}
 
       @working_file = Tempfile.new("import_batch")
       @working_area = []
-
-      if @dry
-        @dry_response = Class.new do
-
-          def initialize(map)
-            @map = map
-          end
-
-          def code
-            200
-          end
-
-          def read_body(&block)
-            block.call("[\n")
-            @map.each do |k, v|
-              block.call(ASUtils.to_json({k => v}))
-            end
-            block.call("\n]")
-          end
-        end
-      end
     end
 
 
     def working_area
       @working_area
-    end
-
-
-    def inspect
-      @working_file.close
-      str = "["
-      File.open(@working_file.path).each do |line|
-        puts "Reading line #{line}"
-        str << "#{line.gsub(/\n/,'')},"
-      end
-      str << "]"
-      str.sub!(/,\]\Z/, "]")
-
-      @working_file.open
-
-      arr = ASUtils.json_parse(str)
-      "Working Area: " << @working_area.inspect <<  " --- Serialized Batch: " << arr.inspect
     end
 
 
@@ -78,27 +39,33 @@ module ASpaceImport
     end
 
 
+    # This URI check stops regular JSONModels from going through.  JSONModelWrap
+    # is what puts that here...
     def flush_last
       last = @working_area.pop
+
       if last.class.method_defined? :uri and !last.uri.nil?
         _push(last)
-      end
-    end       
-
-
-    def save!
-      unless @working_area.empty?
-        flush
-      end
-      _save do |response|
-        yield response
       end
     end
 
 
-    private 
+    def get_output_path
+      close
+      @batch_file.path
+    end
+
+
+    def record_filter=(predicate)
+      @record_filter = predicate
+    end
+
+
+    private
 
     def _push(obj)
+      return unless @record_filter.call(obj)
+
       begin
         hash = obj.to_hash
       rescue JSONModel::ValidationException => e
@@ -121,38 +88,8 @@ module ASpaceImport
     end
 
 
-    def _save(&block)
-
-      close
-
-      begin
-        if @dry
-          if @batch_path
-            FileUtils.copy_file(@batch_file.path, @batch_path)
-          end
-          batch = ASUtils.json_parse(File.open(@batch_file).read)
-
-          mapping = {:saved => Hash[batch.map {|rec| [rec['uri'], [rec['uri'], JSONModel.parse_reference(rec['uri'])[:id]]] }] }
-          response = @dry_response.new(mapping)
-
-          block.call(response)
-        else
-
-          uri = "/repositories/#{@repo_id}/batch_imports"
-          url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
-
-          JSONModel::HTTP.with_request_priority(:low) do
-            JSONModel::HTTP.post_json_file(url, @batch_file.path, &block)
-          end
-        end
-      ensure
-        @batch_file.unlink
-      end
-    end
-
-
     def close
-
+      flush
       @working_file.close
 
       @batch_file = Tempfile.new("import_batch")

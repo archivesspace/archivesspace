@@ -1,6 +1,8 @@
-ASpaceImport::Importer.importer :digital_objects do
+require_relative 'converter'
 
-  require_relative '../lib/csv_importer'
+class DigitalObjectConverter < Converter
+
+  require_relative 'lib/csv_importer'
   include ASpaceImport::CSVImport
 
 

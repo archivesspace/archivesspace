@@ -1,41 +1,30 @@
-#encoding: utf-8
-ASpaceImport::Importer.importer :marcxml do
+require_relative 'converter'
+
+class MarcXMLConverter < Converter
 
   require 'securerandom'
-  require_relative '../lib/xml_dom'
+  require_relative 'lib/xml_dom'
   include ASpaceImport::XML::DOM
 
-  def self.profile
-    "Imports MARC XML To ArchivesSpace\n(Use the 'subjects_and_agents_only' flag to ignore everything but subjects and agents.)"
+  def initialize(input_file)
+    super(input_file)
   end
 
 
-  def configuration
+  def self.for_subjects_and_agents_only(input_file)
+    new(input_file).instance_eval do
+      @batch.record_filter = ->(record) {
+        AgentManager.known_agent_type?(record.class.record_type) ||
+        record.class.record_type == 'subject'
+      }
 
-    config = super
-
-    if @flags['subjects_and_agents_only']
-      config['//record'][:map].select {|key, val| [
-          "datafield[@tag='100' or @tag='700'][@ind1='1']",
-          "datafield[@tag='110' or @tag='710']",
-          "datafield[@tag='111' or @tag='711']",
-          "datafield[@tag='600'][@ind1='1']",
-          "datafield[@tag='600'][@ind1='3']",
-          "datafield[@tag='610']",
-          "datafield[@tag='611']",
-          "datafield[@tag='630']",
-          "datafield[@tag='650']",
-          "datafield[@tag='651']",
-          "datafield[@tag='655']",
-          "datafield[@tag='656']",
-          "datafield[@tag='657']",
-          "datafield[starts-with(@tag, '69')]",
-          "datafield[@tag='720']['@ind1'='1']",
-          "datafield[@tag='720']['@ind1'='2']"
-          ].include?(key) }
-    else
-      config
+      self
     end
+  end
+
+
+  def self.profile
+    "Imports MARC XML To ArchivesSpace\n(Use the 'subjects_and_agents_only' flag to ignore everything but subjects and agents.)"
   end
 
 
@@ -690,7 +679,7 @@ ASpaceImport::Importer.importer :marcxml do
         '3'=>"National Agricultural Library subject authority file",
         '4'=>"Source not specified",
         '5'=>"Canadian Subject Headings",
-        '6'=>"Répertoire de vedettes-matière"
+        '6'=>"R\u00E9pertoire de vedettes-matic\u00E8re"
       }[node.attr('ind2')] || node.xpath("subfield[@code='2']").inner_text
     }
   end

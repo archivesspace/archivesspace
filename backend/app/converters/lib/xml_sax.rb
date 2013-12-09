@@ -1,4 +1,6 @@
 require 'nokogiri'
+require_relative 'jsonmodel_wrap'
+require_relative 'parse_queue'
 require_relative 'record_proxy'
 require_relative 'utils'
 
@@ -88,8 +90,6 @@ module ASpaceImport
           # since otherwise we end up accumulating all nodes in memory.
           node_queue.set(i, nil)
         end
-
-        emit_status({'type' => 'done', 'id' => 'xml'})
       end
 
 
@@ -152,7 +152,7 @@ module ASpaceImport
 
       def close_context(type)
         if @batch.working_area.last.jsonmodel_type != type.to_s
-          @log.debug(@batch.working_area.last.inspect)
+          Log.debug(@batch.working_area.last.inspect)
           raise "Unexpected Object Type in Queue: Expected #{type} got #{@batch.working_area.last.jsonmodel_type}"
         end
 
@@ -193,12 +193,12 @@ module ASpaceImport
 
       def set_property(obj = context_obj, property, value)
         if obj.nil?
-          @log.warn "Tried to set property #{property} on an object that couldn't be found"
+          Log.warn "Tried to set property #{property} on an object that couldn't be found"
           return false
         end
 
         if property.nil?
-          @log.warn("Can't set <#{obj.class.record_type}> <#{property}>: nil value")
+          Log.warn("Can't set <#{obj.class.record_type}> <#{property}>: nil value")
           return false
         end
 
@@ -212,14 +212,14 @@ module ASpaceImport
           value.on_discharge(self, :set_property, obj, property)
         else
           if value.nil?
-            # @log.debug("Given a nil value for <#{obj.class.record_type}><#{property}>")
+            # Log.debug("Given a nil value for <#{obj.class.record_type}><#{property}>")
           else
             filtered_value = ASpaceImport::Utils.value_filter(property_type[0]).call(value)
             if property_type[0].match /list$/
               obj.send("#{property}").push(filtered_value)
             else
               if obj.send("#{property}")
-                @log.warn("Setting a property that has already been set")
+                Log.warn("Setting a property that has already been set")
               end
               obj.send("#{property}=", filtered_value)
             end

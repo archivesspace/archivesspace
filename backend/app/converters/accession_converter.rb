@@ -1,6 +1,7 @@
-ASpaceImport::Importer.importer :accessions do
+require_relative 'converter'
+class AccessionConverter < Converter
 
-  require_relative '../lib/csv_importer'
+  require_relative 'lib/csv_importer'
   include ASpaceImport::CSVImport
 
 
@@ -231,7 +232,3 @@ ASpaceImport::Importer.importer :accessions do
     @normalize_boolean
   end
 end
-
-
-
-

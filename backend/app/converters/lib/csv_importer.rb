@@ -54,7 +54,7 @@ module ASpaceImport
         if @cell_handlers.empty?
           @cell_handlers, bad_headers = self.class.configure_cell_handlers(row)
           unless bad_headers.empty?
-            @log.warn("Data source has headers that aren't defined: #{bad_headers.join(', ')}")
+            Log.warn("Data source has headers that aren't defined: #{bad_headers.join(', ')}")
           end
         else
           parse_row(row)
@@ -62,7 +62,7 @@ module ASpaceImport
       end
 
       @proxies.undischarged.each do |prox|
-        @log.warn("Undischarged: #{prox.to_s}")
+        Log.warn("Undischarged: #{prox.to_s}")
       end
     end
 

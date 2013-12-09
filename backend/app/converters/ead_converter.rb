@@ -1,7 +1,9 @@
-ASpaceImport::Importer.importer :ead do
+require_relative 'converter'
+
+class EADConverter < Converter
 
   require 'securerandom'
-  require_relative '../lib/xml_sax'
+  require_relative 'lib/xml_sax'
   include ASpaceImport::XML::SAX
 
 

@@ -1,6 +1,8 @@
-ASpaceImport::Importer.importer :eac do
-  
-  require_relative '../lib/xml_dom'
+require_relative 'converter'
+
+class EACConverter < Converter
+
+  require_relative 'lib/xml_dom'
   include ASpaceImport::XML::DOM
 
   def self.profile
@@ -8,9 +10,9 @@ ASpaceImport::Importer.importer :eac do
   end
 
 
-  def self.configure 
-    {          
-      
+  def self.configure
+    {
+
       # AGENT PERSON
       "//cpfDescription[child::identity/child::entityType='person']" => {
         :obj => :agent_person,
@@ -25,7 +27,7 @@ ASpaceImport::Importer.importer :eac do
                 val = node.inner_text
                 name[:primary_name] = val
                 name[:dates] = val.scan(/[0-9]{4}-[0-9]{4}/).flatten[0]
-              },              
+              },
             },
             :defaults => {
               :source => 'local',
@@ -51,13 +53,8 @@ ASpaceImport::Importer.importer :eac do
           }
         }
       }
-      
+
     }
   end
-  
-  
 
 end
-
- 
-
