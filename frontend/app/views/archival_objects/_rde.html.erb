@@ -45,6 +45,9 @@
         <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
           <%= form.select "type_1", jsonmodel_definition(:container).options_for(form, 'type_1', true) %>
         <% end %>
+        <% form.push(form.set_index("container", 0), []) do %>
+          <span id="<%= form.id_for(nil) %>"></span>
+        <% end %>
       <% end %>
     </td>
     <td class="control-group">
