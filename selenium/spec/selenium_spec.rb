@@ -2165,16 +2165,21 @@ describe "ArchivesSpace user interface" do
 
       # simulate focusing the row (normally done when the user focuses on an :input within the row)
       $driver.execute_script("$('#archival_record_children_children__0__title_').closest('tr').addClass('last-focused')")
+      $driver.find_element(:css, ".error-summary")
       @modal.find_element_with_text('//div[contains(@class, "error")]', /Level of Description - Property is required but was missing/)
 
       @modal.find_element(:id, "archival_record_children_children__0__dates__0__date_type_").select_option("single")
       @modal.find_element(:css, ".modal-footer .btn-primary").click
+
+      # make sure this form post is done.. then continue..
+      $driver.wait_for_ajax
 
       # general message at the top
       @modal.find_element_with_text('//div[contains(@class, "alert-error")]', /1 row\(s\) with an error \- click a row field to view the errors for that row/)
 
       # simulate focusing the row (normally done when the user focuses on an :input within the row)
       $driver.execute_script("$('#archival_record_children_children__0__title_').closest('tr').addClass('last-focused')")
+      $driver.find_element(:css, ".error-summary")
       @modal.find_element_with_text('//div[contains(@class, "error")]', /Level of Description \- Property is required but was missing/)
       @modal.find_element_with_text('//div[contains(@class, "error")]', /Expression \- is required unless a begin or end date is given/)
       @modal.find_element_with_text('//div[contains(@class, "error")]', /Begin \- is required unless an expression or an end date is given/)

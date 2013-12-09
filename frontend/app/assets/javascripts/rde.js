@@ -320,7 +320,7 @@ $(function() {
           event.preventDefault();
           event.stopPropagation();
 
-          if ($(event.target).closest(".error-summary")) {
+          if ($(event.target).closest(".error-summary").length > 0) {
             // don't propagate to the status cell
             // if clicking on an error
             return;
