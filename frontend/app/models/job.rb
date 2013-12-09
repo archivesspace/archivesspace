@@ -10,9 +10,12 @@ class Job
 
   def upload
     response = JSONModel::HTTP.post_form(JSONModel(:job).uri_for(nil),
-                                         'job' => @job.to_json,
-                                         'files[0]' => UploadIO.new(@files.values.first, "text/plain", @files.keys.first),
-                                         'files[1]' => UploadIO.new(@files.values.second, "text/plain", @files.keys.second))
+                                         {
+                                           'job' => @job.to_json,
+                                           'files[0]' => UploadIO.new(@files.values.first, "text/plain", @files.keys.first),
+                                           'files[1]' => UploadIO.new(@files.values.second, "text/plain", @files.keys.second)
+                                         },
+                                         :multipart_form_data)
 
     ASUtils.json_parse(response.body)
   end

@@ -114,15 +114,31 @@ module JSONModel
     # We override this in the backend's spec_helper since Rack::Test::Methods
     # doesn't support multipart requests.
     def self.multipart_request(uri, params)
-      Net::HTTP::Post::Multipart.new(url.request_uri, params)
+      Net::HTTP::Post::Multipart.new(uri, params)
+    end
+
+
+    def self.form_urlencoded(uri, params)
+      request = Net::HTTP::Post.new(uri)
+      request.form_data = params
+      request
     end
 
 
     # Perform a HTTP POST request against the backend with form parameters
-    def self.post_form(uri, params = {})
+    #
+    # `encoding' is either :x_www_form_urlencoded or :multipart_form_data.  The
+    # latter is useful if you're providing a file upload.
+    def self.post_form(uri, params = {}, encoding = :x_www_form_urlencoded)
       url = URI("#{backend_url}#{uri}")
 
-      req = self.multipart_request(url.request_uri, params)
+      req = if encoding == :x_www_form_urlencoded
+              self.form_urlencoded(url.request_uri, params)
+            elsif encoding == :multipart_form_data
+              self.multipart_request(url.request_uri, params)
+            else
+              raise "Unknown form encoding: #{encoding.inspect}"
+            end
 
       do_http_request(url, req)
     end
