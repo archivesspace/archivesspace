@@ -4,6 +4,14 @@
     <td class="status">
       <span class="icon-exclamation-sign invalid"></span>
       <span class="icon-ok valid"></span>
+      <div class="error-summary hide">
+        <div class="error-summary-header">
+          <span class="error-summary-header-text"><%= I18n.t("rde.messages.error_summary_header") %></span>
+          <a href="javascript:void(0);" class="hide-error-summary"><span class='icon icon-chevron-up'></span></a>
+          <a href="javascript:void(0);" class="show-error-summary"><span class='icon icon-chevron-down'></span></a>
+        </div>
+        <div class="error-summary-list"></div>
+      </div>
     </td>
     <td class="control-group"><%= form.select "level", form.possible_options_for("level", true) %></td>
     <td class="control-group"><%= form.checkbox "publish", {}, form.default_for("publish") %></td>
