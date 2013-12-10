@@ -1,0 +1,58 @@
+require_relative 'utils'
+
+Sequel.migration do
+
+  up do
+
+    create_table(:import_job) do
+      primary_key :id
+
+      String :import_type, :null => false
+      Integer :repo_id, :null => false
+
+      Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
+
+      MediumBlobField :filenames, :null => false
+
+      DateTime :time_submitted, :null => false
+      DateTime :time_started, :null => false
+      DateTime :time_finished, :null => false
+
+      Integer :user_id, :null => false
+
+      String :status, :null => false
+
+      apply_mtime_columns
+    end
+
+
+    alter_table(:import_job) do
+      add_foreign_key([:repo_id], :repository, :key => :id)
+      add_foreign_key([:user_id], :user, :key => :id)
+    end
+
+
+    create_table(:import_job_output) do
+      primary_key :id
+
+      Integer :job_id, :null => false
+
+      MediumBlobField :created_record_uris, :null => false
+      Integer :created_record_count
+    end
+
+    alter_table(:import_job_output) do
+      add_foreign_key([:job_id], :import_job, :key => :id)
+    end
+
+  end
+
+
+  down do
+    drop_table(:import_job_output)
+    drop_table(:import_job)
+  end
+
+end
+
