@@ -3,10 +3,13 @@
     <h3><%= I18n.t("#{relating_property || 'linked_agent'}._plural") %></h3>
     <ul class="results-list">
       <% linked_agents.each do |linked_agent| %>
+      	<% 
+           id = JSONModel(linked_agent['_resolved']['jsonmodel_type']).id_for(linked_agent['_resolved']['uri'])
+         %>
         <li class="result row-fluid">
           <h4 class="span9">
             <%= icon_for linked_agent['_resolved']['jsonmodel_type'] %>
-            <%= link_to(linked_agent['_resolved']['title'], {:controller => :search, :action => :search}.merge(params_for_search({"add_filter_term" => {"agents" => linked_agent['_resolved']['title']}.to_json}))) %>
+            <%= link_to(linked_agent['_resolved']['title'], {:controller => :records, :action => :agent, :id => id, :agent_type => linked_agent['_resolved']['jsonmodel_type']}) %>
           </h4>
           <h4 class="span3">
             <% if linked_agent['relator'] %>&#160;<%= I18n.t("enumerations.#{linked_agent['dynamic_enum'] || 'linked_agent_archival_record_relators'}.#{linked_agent['relator']}") %><% end %>
