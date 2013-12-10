@@ -10,11 +10,10 @@ in place of
 
      selenium:test
 
-and
-
-     ASPACE_PUBLIC_URL
-
-instead of:
+and 
 
      ASPACE_FRONTEND_URL
+
+should be set to the url for the public application (when the tests are not
+running in standalone mode).
 

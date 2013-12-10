@@ -22,7 +22,7 @@
                    :entries => [
                      {:property => 'dates', :subrecord_type => 'date', :anchor => 'dates'},
                      {:property => 'extents', :subrecord_type => 'extent', :anchor => 'extents'},
-                     {:property => 'published_agents', :subrecord_type => 'agent', :anchor => 'linked_agents'},
+                     {:property => 'published_agents', :subrecord_type => 'linked_agent', :anchor => 'linked_agents'},
                      {:property => 'subjects', :subrecord_type => 'subject', :anchor => 'subjects'},
                      {:property => 'published_notes', :subrecord_type => 'note', :anchor => 'notes'},
                      {:property => 'published_external_documents', :subrecord_type => 'external_document', :anchor => 'external_documents'},
@@ -60,7 +60,7 @@
 
         <%= render :partial => "dates", :locals => {:dates => @resource['dates']} %>
         <%= render :partial => "extents", :locals => {:extents => @resource['extents']} %>
-        <%= render :partial => "agents", :locals => {:linked_agents => @resource.published_agents} %>
+        <%= render :partial => "agents", :locals => {:linked_agents => @resource.published_agents, :relating_property => 'linked_agent'} %>
         <%= render :partial => "subjects", :locals => {:subjects => @resource['subjects']} %>
         <%= render :partial => "notes", :locals => {:notes => @resource.published_notes} %>
         <%= render :partial => "external_documents", :locals => {:external_documents => @resource.published_external_documents} %>
