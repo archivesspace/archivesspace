@@ -1,6 +1,13 @@
 <% if linked_agents.length > 0 %>
+<% 
+   if defined?(relating_property)
+   	 relating_property = relating_property
+   else 
+     relating_property = "linked_agent"
+   end
+%>
   <section id="linked_agents">
-    <h3><%= I18n.t("#{relating_property || 'linked_agent'}._plural") %></h3>
+    <h3><%= I18n.t("#{relating_property}._plural") %></h3>
     <ul class="results-list">
       <% linked_agents.each do |linked_agent| %>
       	<% 

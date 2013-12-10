@@ -60,7 +60,7 @@
 
         <%= render :partial => "dates", :locals => {:dates => @resource['dates']} %>
         <%= render :partial => "extents", :locals => {:extents => @resource['extents']} %>
-        <%= render :partial => "agents", :locals => {:linked_agents => @resource.published_agents, :relating_property => :linked_agent} %>
+        <%= render :partial => "agents", :locals => {:linked_agents => @resource.published_agents, :relating_property => 'linked_agent'} %>
         <%= render :partial => "subjects", :locals => {:subjects => @resource['subjects']} %>
         <%= render :partial => "notes", :locals => {:notes => @resource.published_notes} %>
         <%= render :partial => "external_documents", :locals => {:external_documents => @resource.published_external_documents} %>
