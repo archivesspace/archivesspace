@@ -1,37 +1,4 @@
-Sequel.extension :inflector
-
-module MigrationUtils
-  def self.shorten_table(name)
-    name.to_s.split("_").map {|s| s[0...3]}.join("_")
-  end
-end
-
-
-class Sequel::Schema::CreateTableGenerator
-  def apply_name_columns
-    String :authority_id, :null => true
-    String :dates, :null => true
-    TextField :qualifier, :null => true
-    DynamicEnum :source_id, :null => true
-    DynamicEnum :rules_id, :null => true
-    TextField :sort_name, :null => false
-    Integer :sort_name_auto_generate
-  end
-
-
-  def apply_mtime_columns(create_time = true)
-    String :created_by
-    String :last_modified_by
-
-    if create_time
-      DateTime :create_time, :null => false
-    end
-
-    DateTime :system_mtime, :null => false, :index => true
-    DateTime :user_mtime, :null => false, :index => true
-  end
-
-end
+require_relative 'utils'
 
 
 Sequel.migration do
