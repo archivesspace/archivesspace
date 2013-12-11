@@ -117,9 +117,11 @@ module ExportSpecHelpers
     brake = 0
     while !(note_types - notes.map {|note| note['type']}).empty? && brake < max do
       notes << build("json_note_#{['singlepart', 'multipart', 'index', 'bibliography'].sample}".intern, {
-                                                                                                    :publish => [true, false].sample,
-                                                                                                    :persistent_id => [nil, generate(:whatever)].sample
-                                                                                                  })
+                       # TODO: restore this(??) --v 
+                       # :publish => [true, false].sample,
+                       :publish => true,
+                       :persistent_id => [nil, generate(:whatever)].sample
+                     })
       brake += 1
     end
 
