@@ -192,12 +192,11 @@ module ASpaceExport
 
     # Extract a string of a note's content (including the content field and any
     # text subnotes)
-    def self.extract_note_text(note, include_unpublished = false)
+    def self.extract_note_text(note)
       subnotes = note['subnotes'] || []
       (Array(note['content']) +
-       subnotes.map { |sn|
-         sn['content'] if (sn['jsonmodel_type'] == 'note_text' && include_unpublished || sn["publish"])
-       }.compact).join(" ")
+       subnotes.map {|sn| sn['content'] if (sn['jsonmodel_type'] == 'note_text')}.
+                        compact).join(" ")
     end
 
   end

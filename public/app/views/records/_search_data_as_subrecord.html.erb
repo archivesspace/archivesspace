@@ -1,0 +1,8 @@
+<% if not search_data['results'].empty? %>
+  <section id="<%= section_id %>" class="search-data-as-subrecord">
+    <h3><%= I18n.t("#{section_header}._plural") %></h3>
+    <div class="inline-results">
+      <%= render :partial => "search/inline_results", :locals => {:search_data => search_data, :section_header => 'related_resource'} %>
+    </div>
+  </section>
+<% end %>   

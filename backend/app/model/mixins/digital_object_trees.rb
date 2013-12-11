@@ -13,7 +13,7 @@ module DigitalObjectTrees
   end
 
 
-  def load_node_properties(node, properties)
+  def load_node_properties(node, properties, ids_of_interest = :all)
     super
 
     properties[node.id][:title] = node.display_string
@@ -22,7 +22,7 @@ module DigitalObjectTrees
   end
 
 
-  def load_root_properties(properties)
+  def load_root_properties(properties, ids_of_interest = :all)
     super
 
     properties[:level] = self.level

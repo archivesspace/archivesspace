@@ -110,6 +110,10 @@ en:
         components: Components
         summary: Summary
 
+  related_resource:
+    _singular: Related Collection
+    _plural: Related Collections
+
   digital_object: &digital_object_attributes
     _public:
       section:
@@ -124,6 +128,9 @@ en:
   agent:
     _singular: Name
     _plural: Names
+    _public:
+      section:
+        summary: Summary
 
   components:
     expand: Expand

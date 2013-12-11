@@ -91,6 +91,10 @@ class SearchResultData
     @search_data.has_key?('results') and not @search_data['results'].empty?
   end
 
+  def length
+    @search_data.has_key?('total_hits') ? @search_data['total_hits'] : 0
+  end
+
   def single_type?
     @search_data[:criteria].has_key?("type[]") and @search_data[:criteria]["type[]"].length === 1
   end

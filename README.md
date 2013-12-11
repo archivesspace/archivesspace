@@ -424,6 +424,9 @@ customize ArchivesSpace, please see the README in the `plugins` directory.
 
 [Instructions for running under Tomcat](https://github.com/archivesspace/archivesspace/blob/master/README_TOMCAT.md).
 
+# Upgrading ArchivesSpace
+
+[Upgrading to a new release of ArchivesSpace](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING.md)
 
 # Further documentation
 

@@ -12,7 +12,10 @@ class SearchController < ApplicationController
     @search_data = Search.all(@criteria, @repositories)
     @term_map = params[:term_map] ? ASUtils.json_parse(params[:term_map]) : {}
 
-    render "search/results"
+    respond_to do |format|
+      format.html { render "search/results" }
+      format.js { render :partial => "search/inline_results", :content_type => "text/html" }
+    end
   end
 
   def advanced_search

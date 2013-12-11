@@ -1,0 +1,54 @@
+<% if contacts.length > 0 %>
+  <section id="contacts">
+    <h3><%= I18n.t("agent_contact._plural") %></h3>
+    <ul class="results-list">
+      <% contacts.each do |contact| %>
+        <li class="result">
+          <% if contact['salutation'] %>
+          	<%= contact['salutation'] %>&#160;
+          <% end %>
+          <%= contact['name'] %><br />
+          <% if contact['address_1'] %>
+          	<%= contact['address_1'] %><br />
+          <% end %> 
+          <% if contact['address_2'] %>
+          	<%= contact['address_2'] %><br />
+          <% end %> 
+          <% if contact['address_3'] %>
+          	<%= contact['address_3'] %><br />
+          <% end %> 
+          <% if contact['city'] %>
+          	<%= contact['city'] %><br />
+          <% end %> 
+          <% if contact['region'] %>
+          	<%= contact['region'] %><br />
+          <% end %> 
+          <% if contact['country'] %>
+          	<%= contact['country'] %><br />
+          <% end %> 
+          <% if contact['post_code'] %>
+          	<%= contact['post_code'] %><br />
+          <% end %> 
+          <% if contact['telephone'] %>
+          	<%= contact['telephone'] %><br />
+          <% end %> 
+          <% if contact['telephone_ext'] %>
+          	<%= contact['telephone_ext'] %><br />
+          <% end %> 
+          <% if contact['fax'] %>
+          	<%= contact['fax'] %><br />
+          <% end %> 
+          <% if contact['email'] %>
+          	<%= contact['email'] %><br />
+          <% end %> 
+          <% if contact['email_signature'] %>
+          	<%= contact['email_signature'] %><br />
+          <% end %> 
+          <% if contact['note'] %>
+          	<%= contact['note'] %><br />
+          <% end %>           
+        </li>
+      <% end %>
+    </ul>
+  </section>
+<% end %>

@@ -38,21 +38,27 @@ module ResourceTrees
   end
 
 
-  def load_node_properties(node, properties)
+  # If we're being asked to load an entire tree, don't bother loading all of the
+  # instances that go with each node.  This is a performance optimisation, since
+  # there can be tens of thousands of instances.  The only place that pulls down
+  # the entire tree is the indexer, and it doesn't need instance/container
+  # information from the tree anyway.
+
+  def load_node_properties(node, properties, ids_of_interest = :all)
     super
 
     properties[node.id][:title] = node.display_string
 
     set_node_level(node, properties[node.id])
-    set_node_instances(node, properties[node.id])
+    set_node_instances(node, properties[node.id]) if ids_of_interest != :all
   end
 
 
-  def load_root_properties(properties)
+  def load_root_properties(properties, ids_of_interest = :all)
     super
 
     set_node_level(self, properties)
-    set_node_instances(self, properties)
+    set_node_instances(self, properties) if ids_of_interest != :all
   end
 
 end

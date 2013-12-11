@@ -4,19 +4,22 @@
 
 You should make sure you have a working backup of your ArchivesSpace
 installation before attempting an upgrade.  Follow the steps
-under the *Backup and recovery* section in [README.md] to do this.
+under the *Backup and recovery* section in [README.md](https://github.com/archivesspace/archivesspace/blob/master/README.md) to do this.
 
 
 ## Unpack the new version
 
 It's a good idea to unpack a fresh copy of the version of
 ArchivesSpace you are upgrading to.  This will ensure that you are
-running the latest versions of all files.  For example:
+running the latest versions of all files.  For example, on Mac OS X or
+Linux:
 
      $ mkdir archivesspace-1.0.3
      $ cd archivesspace-1.0.3
      $ unzip -x archivesspace-v1.0.3.zip
 
+On Windows, you can do the same by extracting ArchivesSpace into a new
+folder you create in Windows Explorer.
 
 ## Shut down your ArchivesSpace instance
 
@@ -37,7 +40,7 @@ your original ArchivesSpace installation:
 
   * any plugins and local modifications you have installed in your `plugins` directory
 
-For example:
+For example, on Mac OS X or Linux:
 
      $ cd archivesspace-1.0.3/archivesspace
      $ cp -a /path/to/archivesspace-1.0.2/archivesspace/data/* data/
@@ -45,6 +48,16 @@ For example:
      $ cp -a /path/to/archivesspace-1.0.2/archivesspace/lib/mysql-connector* lib/
      $ cp -a /path/to/archivesspace-1.0.2/archivesspace/plugins/local plugins/
      $ cp -a /path/to/archivesspace-1.0.2/archivesspace/plugins/wonderful_plugin plugins/
+
+Or on Windows:
+
+     $ cd archivesspace-1.0.3\archivesspace
+     $ xcopy \path\to\archivesspace-1.0.2\archivesspace\data\* data /i /k /h /s /e /o /x /y
+     $ xcopy \path\to\archivesspace-1.0.2\archivesspace\config\* config /i /k /h /s /e /o /x /y
+     $ xcopy \path\to\archivesspace-1.0.2\archivesspace\lib\mysql-connector* lib /i /k /h /s /e /o /x /y
+     $ xcopy \path\to\archivesspace-1.0.2\archivesspace\plugins\local plugins\local /i /k /h /s /e /o /x /y
+     $ xcopy \path\to\archivesspace-1.0.2\archivesspace\plugins\wonderful_plugin plugins\wonderful_plugin /i /k /h /s /e /o /x /y
+
 
 Note that you may want to preserve the `logs/archivesspace.out` file
 from your previous installation--just in case you need to refer to it
@@ -56,11 +69,16 @@ later.
 With everything copied, the final step is to run the database
 migrations.  This will apply any schema changes and data migrations
 that need to happen as a part of the upgrade.  To do this, use the
-`setup-database` script for your platform:
+`setup-database` script for your platform. For example, on Mac OS X
+or Linux:
 
-  $ cd archivesspace-1.0.3/archivesspace
-  $ scripts/setup-database.sh
+     $ cd archivesspace-1.0.3/archivesspace
+     $ scripts/setup-database.sh
 
+Or on Windows:
+
+     $ cd archivesspace-1.0.3\archivesspace
+     $ scripts\setup-database.bat
 
 ## That's it!
 

@@ -194,12 +194,14 @@ $(function() {
         $rows.each(function(i, row) {
           var $row = $(row);
           var row_result = exception_data[i];
+          var $errorSummary = $(".error-summary", $row);
+          var $errorSummaryList = $(".error-summary-list", $errorSummary)
 
-          $(".error-summary", $row).remove();
+          $errorSummaryList.empty();
 
           if (row_result.hasOwnProperty("errors") && !$.isEmptyObject(row_result.errors)) {
             $row.removeClass("valid").addClass("invalid");
-            var $errorSummary = $("<div>").addClass("error-summary alert alert-error");
+
             $.each(row_result.errors, function(name, error) {
               var $input = $("[id$='_"+name.replace(/\//g, "__")+"_']", $row);
               var $header = $($(".fieldset-labels th", $table).get($input.first().closest("td").index()));
@@ -215,12 +217,10 @@ $(function() {
               }
               $error.append(" - ").append(error);
               $error.append("<span class='icon icon-chevron-right'>");
-              $errorSummary.append($error);
+              $errorSummaryList.append($error);
 
               $error.data("target", $input.first().attr("id"));
             });
-            $(".error-summary", $row).remove();
-            $row.find("td:first").append($errorSummary);
 
             // force a reposition of the error summary
             $(".modal-body", $modal).trigger("scroll");
@@ -316,8 +316,27 @@ $(function() {
             }
           });
         });
-        $table.on("click", "td.status", function() {
-          $(this).closest("tr").toggleClass("last-focused").siblings().removeClass("last-focused");
+        $table.on("click", "td.status", function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          if ($(event.target).closest(".error-summary").length > 0) {
+            // don't propagate to the status cell
+            // if clicking on an error
+            return;
+          }
+
+          if ($(this).closest("tr").hasClass("last-focused")) {
+            $("button.toggle-inline-errors").trigger("click");
+          } else {
+            $(this).closest("tr").addClass("last-focused").siblings().removeClass("last-focused");
+          }
+        });
+        $table.on("click", ".hide-error-summary, .show-error-summary", function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          $("button.toggle-inline-errors").trigger("click");
         });
       };
 
