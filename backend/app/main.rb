@@ -13,8 +13,9 @@ require_relative 'lib/uri_resolver'
 require_relative 'lib/rest'
 require_relative 'lib/crud_helpers'
 require_relative 'lib/notifications'
+require_relative 'lib/batch_importer'
 require_relative 'lib/export'
-require_relative 'lib/request_context.rb'
+require_relative 'lib/request_context'
 require_relative 'lib/reports/report_helper'
 require_relative 'lib/component_transfer'
 require_relative 'lib/progress_ticker'
@@ -102,6 +103,9 @@ class ArchivesSpaceService < Sinatra::Base
 
       # Start the notifications background delivery thread
       Notifications.init if ASpaceEnvironment.environment != :unit_test
+
+
+      BatchImporter.init if ASpaceEnvironment.environment != :unit_test
 
 
       if ASpaceEnvironment.environment == :production
