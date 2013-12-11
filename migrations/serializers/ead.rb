@@ -169,7 +169,7 @@ ASpaceExport::serializer :ead do
 
 
   def serialize_child(data, xml, fragments)
-    return if data["publish"] === false && !@include_unpublished
+    return if !data["publish"] && !@include_unpublished
 
     prefixed_ref_id = "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{data.ref_id}"
     atts = {:level => data.level, :otherlevel => data.other_level, :id => prefixed_ref_id}
@@ -278,7 +278,6 @@ ASpaceExport::serializer :ead do
 
   def serialize_subnotes(subnotes, xml, fragments)
     subnotes.each do |sn|
-      next if sn["publish"] === false && !@include_unpublished
 
       title = sn['title']
 
@@ -343,7 +342,6 @@ ASpaceExport::serializer :ead do
   end
 
   def serialize_digital_object(digital_object, xml, fragments)
-    return if digital_object["publish"] === false && !@include_unpublished
     file_version = digital_object['file_versions'][0] || {}
     title = digital_object['title']
     date = digital_object['dates'][0] || {}
@@ -375,7 +373,6 @@ ASpaceExport::serializer :ead do
   def serialize_extents(obj, xml, fragments)
     if obj.extents.length
       obj.extents.each do |e|
-        next if e["publish"] === false && !@include_unpublished
         xml.physdesc({:altrender => e['portion']}) {
           if e['number'] && e['extent_type']
             xml.extent({:altrender => 'materialtype spaceoccupied'}) {
@@ -397,7 +394,6 @@ ASpaceExport::serializer :ead do
 
   def serialize_dates(obj, xml, fragments)
     obj.archdesc_dates.each do |node_data|
-      next if node_data["publish"] === false && !@include_unpublished
       xml.unitdate(node_data[:atts]){
         xml.text node_data[:content]
       }
@@ -407,10 +403,9 @@ ASpaceExport::serializer :ead do
 
   def serialize_did_notes(data, xml, fragments)
     data.notes.each do |note|
-      next if note["publish"] === false && !@include_unpublished
       next unless data.did_note_types.include?(note['type'])
 
-      content = ASpaceExport::Utils.extract_note_text(note, @include_unpublished)
+      content = ASpaceExport::Utils.extract_note_text(note)
       id = note['persistent_id']
       att = id ? {:id => id} : {}
 
@@ -430,8 +425,7 @@ ASpaceExport::serializer :ead do
   end
 
   def serialize_note_content(note, xml, fragments)
-    return if note["publish"] === false && !@include_unpublished
-    content = ASpaceExport::Utils.extract_note_text(note, @include_unpublished)
+    content = ASpaceExport::Utils.extract_note_text(note)
     atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
     head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note['type']}", :default => note['type'])
     xml.send(note['type'], atts) {
@@ -450,7 +444,6 @@ ASpaceExport::serializer :ead do
 
   def serialize_nondid_notes(data, xml, fragments)
     data.notes.each do |note|
-      next if note["publish"] === false && !@include_unpublished
       next if note['internal']
       next if note['type'].nil?
       next unless data.archdesc_note_types.include?(note['type'])
@@ -467,7 +460,7 @@ ASpaceExport::serializer :ead do
 
   def serialize_bibliographies(data, xml, fragments)
     data.bibliographies.each do |note|
-      content = ASpaceExport::Utils.extract_note_text(note, @include_unpublished)
+      content = ASpaceExport::Utils.extract_note_text(note)
       head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note['type']}")
       atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}
 
@@ -488,8 +481,7 @@ ASpaceExport::serializer :ead do
 
   def serialize_indexes(data, xml, fragments)
     data.indexes.each do |note|
-      next if note["publish"] === false && !@include_unpublished
-      content = ASpaceExport::Utils.extract_note_text(note, @include_unpublished)
+      content = ASpaceExport::Utils.extract_note_text(note)
       head_text = nil
       if note['label']
         head_text = note['label']
