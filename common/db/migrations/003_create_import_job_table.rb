@@ -16,10 +16,10 @@ Sequel.migration do
       MediumBlobField :filenames, :null => false
 
       DateTime :time_submitted, :null => false
-      DateTime :time_started, :null => false
-      DateTime :time_finished, :null => false
+      DateTime :time_started, :null => true
+      DateTime :time_finished, :null => true
 
-      Integer :user_id, :null => false
+      Integer :owner_id, :null => false
 
       String :status, :null => false
 
@@ -29,7 +29,7 @@ Sequel.migration do
 
     alter_table(:import_job) do
       add_foreign_key([:repo_id], :repository, :key => :id)
-      add_foreign_key([:user_id], :user, :key => :id)
+      add_foreign_key([:owner_id], :user, :key => :id)
     end
 
 
@@ -43,6 +43,18 @@ Sequel.migration do
     end
 
     alter_table(:import_job_output) do
+      add_foreign_key([:job_id], :import_job, :key => :id)
+    end
+
+
+    create_table(:import_job_input_file) do
+      primary_key :id
+
+      Integer :job_id, :null => false
+      String :file_path, :null => false
+    end
+
+    alter_table(:import_job_input_file) do
       add_foreign_key([:job_id], :import_job, :key => :id)
     end
 

@@ -9,12 +9,13 @@ class Job
 
 
   def upload
+    upload_files = @files.each_with_index.map {|file, i|
+      (original_filename, stream) = file
+      ["files[#{i}]", UploadIO.new(stream, "text/plain", original_filename)]
+    }
+
     response = JSONModel::HTTP.post_form(JSONModel(:job).uri_for(nil),
-                                         {
-                                           'job' => @job.to_json,
-                                           'files[0]' => UploadIO.new(@files.values.first, "text/plain", @files.keys.first),
-                                           'files[1]' => UploadIO.new(@files.values.second, "text/plain", @files.keys.second)
-                                         },
+                                         Hash[upload_files].merge('job' => @job.to_json),
                                          :multipart_form_data)
 
     ASUtils.json_parse(response.body)

@@ -418,4 +418,9 @@ FactoryGirl.define do
     ref_id { generate(:alphanumstr) }
   end
 
+  factory :json_import_job, class: JSONModel(:job) do
+    import_type { sample(JSONModel(:job).schema['properties']['import_type']) }
+    filenames { (0..3).map { generate(:alphanumstr) } }
+  end
+
 end
