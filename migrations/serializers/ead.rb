@@ -620,7 +620,7 @@ ASpaceExport::serializer :ead do
 
       if data.finding_aid_revision_date || data.finding_aid_revision_description
         xml.revisiondesc {
-          if data.finding_aid_revision_description.strip.start_with?('<')
+          if data.finding_aid_revision_description && data.finding_aid_revision_description.strip.start_with?('<')
             xml.text (fragments << data.finding_aid_revision_description)
           else
             xml.change {
