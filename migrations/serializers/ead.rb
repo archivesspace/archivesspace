@@ -10,7 +10,6 @@ class RawXMLHandler
   def <<(s)
     id = SecureRandom.hex
     @fragments[id] = s
-
     ":aspace_fragment_#{id}"
   end
 
@@ -46,7 +45,9 @@ class StreamHandler
     xml_text.force_encoding('utf-8')
     queue = xml_text.split(":aspace_section")
 
-    y << fragments.substitute_fragments(queue.shift)
+    xml_string = fragments.substitute_fragments(queue.shift)
+    raise "Undereferenced Fragment: #{xml_string}" if xml_string =~ /:aspace_fragment/
+    y << xml_string
 
     while queue.length > 0
       next_section = queue.shift
@@ -513,9 +514,9 @@ ASpaceExport::serializer :ead do
       xml.index(atts) {
         xml.head head_text unless content.strip.start_with?('<head')
         if content.strip.start_with?('<')
-          xml.text (@fragments << content)
+          xml.text (fragments << content)
         else
-          xml.p (@fragments << content)
+          xml.p (fragments << content)
         end
         note['items'].each do |item|
           next unless (node_name = data.index_item_type_map[item['type']])
