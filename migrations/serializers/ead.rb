@@ -170,7 +170,7 @@ ASpaceExport::serializer :ead do
 
 
   def serialize_child(data, xml, fragments)
-    return if !data["publish"] && !@include_unpublished
+    return if data["publish"] === false && !@include_unpublished
 
     prefixed_ref_id = "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{data.ref_id}"
     atts = {:level => data.level, :otherlevel => data.other_level, :id => prefixed_ref_id}
@@ -279,6 +279,7 @@ ASpaceExport::serializer :ead do
 
   def serialize_subnotes(subnotes, xml, fragments)
     subnotes.each do |sn|
+      next if sn["publish"] === false && !@include_unpublished
 
       audatt = sn["publish"] === false ? {:audience => 'internal'} : {}
 
@@ -345,6 +346,7 @@ ASpaceExport::serializer :ead do
   end
 
   def serialize_digital_object(digital_object, xml, fragments)
+    return if digital_object["publish"] === false && !@include_unpublished
     file_version = digital_object['file_versions'][0] || {}
     title = digital_object['title']
     date = digital_object['dates'][0] || {}
@@ -410,10 +412,10 @@ ASpaceExport::serializer :ead do
 
   def serialize_did_notes(data, xml, fragments)
     data.notes.each do |note|
+      next if note["publish"] === false && !@include_unpublished
       next unless data.did_note_types.include?(note['type'])
 
       audatt = note["publish"] === false ? {:audience => 'internal'} : {}
-
       content = ASpaceExport::Utils.extract_note_text(note, @include_unpublished)
       id = note['persistent_id']
       att = id ? {:id => id} : {}
@@ -455,6 +457,7 @@ ASpaceExport::serializer :ead do
 
   def serialize_nondid_notes(data, xml, fragments)
     data.notes.each do |note|
+      next if note["publish"] === false && !@include_unpublished
       next if note['internal']
       next if note['type'].nil?
       next unless data.archdesc_note_types.include?(note['type'])
