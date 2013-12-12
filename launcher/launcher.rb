@@ -132,11 +132,11 @@ def main
     start_server(URI(AppConfig[:frontend_url]).port,
                  {:war => File.join('wars', 'frontend.war'), :path => '/'},
                  {:static_dirs => ASUtils.find_local_directories("frontend/assets"),
-                   :path => '/assets'}) if AppConfig[:enable_frontend]
+                   :path => "#{URI(AppConfig[:frontend_url]).path}/assets"}) if AppConfig[:enable_frontend]
     start_server(URI(AppConfig[:public_url]).port,
                  {:war => File.join('wars', 'public.war'), :path => '/'},
                  {:static_dirs => ASUtils.find_local_directories("public/assets"),
-                   :path => '/assets'}) if AppConfig[:enable_public]
+                   :path => "#{URI(AppConfig[:public_url]).path}/assets"}) if AppConfig[:enable_public]
   rescue
     # If anything fails on startup, dump a diagnostic file.
     ASUtils.dump_diagnostics($!)
