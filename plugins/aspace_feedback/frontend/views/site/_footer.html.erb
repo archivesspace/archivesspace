@@ -1,25 +1,15 @@
-<%= javascript_tag do %>
-var asversion = '<%= "#{ASConstants.VERSION}" %>';
-<% end %>
-<script src="http://max.jotfor.ms/min/g=feedback2" type="text/javascript">
-new JotformFeedback({
-formId:'30224800914141',
-base:'http://jotform.us/',
-iframeParameters: {
-  'archivesspaceVersion': asversion,
-},
-windowTitle:'ArchivesSpace Feedback',
-background:'#FFA500',
-fontColor:'#FFFFFF',
-type:1,
-height:500,
-width:700
-});
-</script>
+<link href="<%= "#{root_path}assets/aspace_feedback.css" %>" media="all" rel="stylesheet" type="text/css">
+
 <div class="container footer">
    <div class="row-fluid">
       <div class="span12">
-         <p>Visit <a href="http://archivesspace.org">ArchivesSpace.org</a> | Version <%= ASConstants.VERSION %> | <a class="lightbox-30224800914141" style="cursor:pointer;color:blue;text-decoration:underline;">Send Feedback</a></p>
+         <p>Visit <a href="http://archivesspace.org">ArchivesSpace.org</a> | Version <%= ASConstants.VERSION %> | <a id="aspaceFeedbackLink" href="javascript:void(0);">Send Feedback</a></p>
       </div>
    </div>
 </div>
+
+<div id="template_feedback_form"><!--
+  <%= render :partial => "site/feedback_form.html" %>
+--></div>
+
+<script src="<%= "#{root_path}assets/aspace_feedback.js" %>"></script>
