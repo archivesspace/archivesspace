@@ -1,7 +1,7 @@
 require 'thread'
 require 'atomic'
 
-class BatchImporter
+class BatchImportJobQueue
 
   JOB_TIMEOUT_SECONDS = 120
 
@@ -115,7 +115,7 @@ class BatchImporter
 
 
   def self.init
-    importer = BatchImporter.new
+    importer = BatchImportJobQueue.new
     importer.start_background_thread
   end
 
