@@ -1,11 +1,14 @@
 require 'fileutils'
-require 'tempfile'
+require 'securerandom'
+
+require_relative 'user'
 
 class ImportJob < Sequel::Model(:import_job)
   include ASModel
   corresponds_to JSONModel(:job)
 
   one_to_many :job_files, :class => "ImportJobFile", :key => :job_id
+  many_to_one :owner, :key => :owner_id, :class => User
 
 
   def self.create_from_json(json, opts = {})
@@ -23,11 +26,11 @@ class ImportJob < Sequel::Model(:import_job)
   def self.store(file)
     FileUtils.mkdir_p(AppConfig[:import_job_path])
 
-    target = Tempfile.new('import_job', AppConfig[:import_job_path])
+    target = File.join(AppConfig[:import_job_path], SecureRandom.hex)
 
-    FileUtils.cp(file.path, target.path)
+    FileUtils.cp(file.path, target)
 
-    target.path
+    target
   end
 
 

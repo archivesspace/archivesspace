@@ -37,14 +37,14 @@
 
       "status" => {
         "type" => "string",
-        "enum" => ["running", "completed", "canceled", "queued"],
+        "enum" => ["running", "completed", "canceled", "queued", "failed"],
         "default" => "queued",
         "readonly" => true
       },
 
       "import_type" => {
         "type" => "string",
-        "enum" => ["ead_xml", "marcxml", "marcxml_subjects_and_agents", "accession_csv", "digital_object_csv"]
+        "enum" => ["ead_xml", "eac_xml", "marcxml", "marcxml_subjects_and_agents", "accession_csv", "digital_object_csv"]
       }
     },
   },

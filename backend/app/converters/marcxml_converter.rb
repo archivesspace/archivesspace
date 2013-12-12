@@ -6,6 +6,18 @@ class MarcXMLConverter < Converter
   require_relative 'lib/xml_dom'
   include ASpaceImport::XML::DOM
 
+
+  def self.instance_for(type, input_file)
+    if type == "marcxml"
+      self.new(input_file)
+    elsif type == "marcxml_subjects_and_agents"
+      self.for_subjects_and_agents_only(input_file)
+    else
+      nil
+    end
+  end
+
+
   def initialize(input_file)
     super(input_file)
   end

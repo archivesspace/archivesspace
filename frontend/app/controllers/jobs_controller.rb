@@ -13,7 +13,7 @@ class JobsController < ApplicationController
   end
 
   def create
-    job = Job.new("ead_xml", Hash[params['files'].map {|file|
+    job = Job.new(params['job']['import_type'], Hash[params['files'].map {|file|
                                 [file.original_filename, file.tempfile]
                               }])
 

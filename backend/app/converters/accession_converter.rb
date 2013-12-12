@@ -5,6 +5,15 @@ class AccessionConverter < Converter
   include ASpaceImport::CSVImport
 
 
+  def self.instance_for(type, input_file)
+    if type == "accession_csv"
+      self.new(input_file)
+    else
+      nil
+    end
+  end
+
+
   def self.profile
     "Import Accession Records from a CSV file"
   end

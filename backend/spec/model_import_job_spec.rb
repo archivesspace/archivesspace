@@ -27,4 +27,10 @@ describe 'Import job model' do
     job.job_files.map(&:file_path).should eq(["stored_path", "stored_path"])
   end
 
+
+  it "can get the owner of a job" do
+    job.owner.username.should eq("nobody")
+  end
+
+
 end

@@ -1,5 +1,7 @@
 require 'thread'
 require 'atomic'
+require_relative 'batch_import_runner'
+
 
 class BatchImportJobQueue
 
@@ -66,8 +68,6 @@ class BatchImportJobQueue
 
     return if !job
 
-    # Do whatever...
-
     finished = Atomic.new(false)
 
     watchdog_thread = Thread.new do
@@ -81,18 +81,27 @@ class BatchImportJobQueue
       end
     end
 
-    20.times do
-      $stderr.puts("Running pretend import")
-      sleep 1
+    begin
+      BatchImportRunner.new(job).run
+
+      finished.value = true
+      watchdog_thread.join
+
+      job.reload
+      job.status = "finished"
+      job.time_finished = Time.now
+      job.save
+    rescue
+      Log.error("Job #{job.id} failed: #{$!} #{$@}")
+      # If anything went wrong, make sure the watchdog thread still stops.
+      finished.value = true
+      watchdog_thread.join
+
+      job.reload
+      job.status = "failed"
+      job.time_finished = Time.now
+      job.save
     end
-
-    finished.value = true
-    watchdog_thread.join
-
-    job.reload
-    job.status = "finished"
-    job.time_finished = Time.now
-    job.save
 
     $stderr.puts("All done!")
   end

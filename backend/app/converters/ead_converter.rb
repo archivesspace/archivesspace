@@ -7,6 +7,15 @@ class EADConverter < Converter
   include ASpaceImport::XML::SAX
 
 
+  def self.instance_for(type, input_file)
+    if type == "ead_xml"
+      self.new(input_file)
+    else
+      nil
+    end
+  end
+
+
   def self.profile
     "Imports EAD To ArchivesSpace"
   end
