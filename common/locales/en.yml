@@ -1733,5 +1733,5 @@ en:
     status_completed: Completed
     status_queued: Queued
     status_running: Running
-    status_errored: Errored
+    status_failed: Failed
     status_canceled: Canceled

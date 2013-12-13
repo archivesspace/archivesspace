@@ -7,7 +7,7 @@ module JobsHelper
       "text-success"
     elsif status === "queued"
       "badge badge-warning"
-    elsif status === "errored"
+    elsif status === "failed"
       "badge badge-important"
     elsif status === "canceled"
       "text-error"
