@@ -104,8 +104,8 @@ class BatchImportRunner
     end
 
     if last_error
-      results[:errors] = ["Server error: #{last_error}"]
-      Log.error(last_error.backtrace.join("\n"))
+      ticker.log("Error: #{last_error}")
+      raise last_error
     end
 
 
