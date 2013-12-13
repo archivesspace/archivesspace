@@ -152,6 +152,11 @@ class ArchivesSpaceService
                       :level => "global",
                       :system => true)
 
+    Permission.define("cancel_importer_job",
+                      "The ability to cancel a queued or running importer job",
+                      :level => "repository")
+
+
     # Updates and deletes to locations, subjects and agents are a bit funny: they're
     # global objects, but users are granted permission to modify them by being
     # associated with a group within a repository.
