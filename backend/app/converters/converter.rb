@@ -13,6 +13,11 @@ class Converter
   end
 
 
+  def remove_files
+    File.unlink(get_output_path)
+  end
+
+
   def self.inherited(subclass)
     @converters ||= []
     @converters << subclass

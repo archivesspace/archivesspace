@@ -95,51 +95,56 @@ class StreamingImport
   def process
 
     round = 0
+    finished = true
 
-    while true
-      round += 1
+    begin
+      while true
+        round += 1
 
-      finished = true
-      progressed = false
+        finished = true
+        progressed = false
 
-      with_status("Saving records: cycle #{round}") do
-        @ticker.tick_estimate = @jstream.count
-        @jstream.each do |rec|
-          uri = rec['uri']
-          dependencies = @dependencies[uri]
+        with_status("Saving records: cycle #{round}") do
+          @ticker.tick_estimate = @jstream.count
+          @jstream.each do |rec|
+            uri = rec['uri']
+            dependencies = @dependencies[uri]
 
-          if !@logical_urls[uri] && dependencies.all? {|d| @logical_urls[d]}
-            # migrate it
-            @logical_urls[uri] = do_create(rewrite(rec, @logical_urls))
+            if !@logical_urls[uri] && dependencies.all? {|d| @logical_urls[d]}
+              # migrate it
+              @logical_urls[uri] = do_create(rewrite(rec, @logical_urls))
 
-            progressed = true
+              progressed = true
+            end
+
+            if !@logical_urls[uri]
+              finished = false
+            end
+
+            @ticker.tick
           end
+        end
 
-          if !@logical_urls[uri]
-            finished = false
+        if finished
+          break
+        end
+
+        with_status("Dealing with circular dependencies: cycle #{round}") do
+          if !progressed
+            run_dependency_breaking_cycle
           end
-
-          @ticker.tick
         end
       end
 
-      if finished
-        break
-      end
-
-      with_status("Dealing with circular dependencies: cycle #{round}") do
-        if !progressed
-          run_dependency_breaking_cycle
+    ensure
+      with_status("Cleaning up") do
+        if finished
+          reattach_severed_limbs
+          touch_toplevel_records
         end
+
+        cleanup
       end
-    end
-
-    with_status("Cleaning up") do
-      reattach_severed_limbs
-
-      touch_toplevel_records
-
-      cleanup
     end
 
     @logical_urls

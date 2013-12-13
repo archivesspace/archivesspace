@@ -89,6 +89,7 @@ module ASpaceImport
 
 
     def close
+      return if @closed
       flush
       @working_file.close
 
@@ -112,6 +113,7 @@ module ASpaceImport
 
       @batch_file.write("]")
       @batch_file.close
+      @closed = true
     end
   end
 end

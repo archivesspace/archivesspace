@@ -33,16 +33,20 @@ class BatchImportRunner
         begin
           @job.job_files.each do |input_file|
             converter = Converter.for(@job.import_type, input_file.file_path)
-            converter.run
+            begin
+              converter.run
 
-            File.open(converter.get_output_path, "r") do |fh|
-              RequestContext.open(:create_enums => true,
-                                  :current_username => @job.owner.username,
-                                  :repo_id => @job.repo_id) do
-                batch = StreamingImport.new(fh, ticker)
-                batch.process
-                success = true
+              File.open(converter.get_output_path, "r") do |fh|
+                RequestContext.open(:create_enums => true,
+                                    :current_username => @job.owner.username,
+                                    :repo_id => @job.repo_id) do
+                  batch = StreamingImport.new(fh, ticker)
+                  batch.process
+                  success = true
+                end
               end
+            ensure
+              converter.remove_files
             end
           end
         rescue JSONModel::ValidationException, ImportException, Sequel::ValidationFailed, ReferenceError => e
@@ -60,6 +64,7 @@ class BatchImportRunner
     ensure
       # If we were running in a transaction, the whole batch will have been
       # rolled back.
+      @job.remove_files
       batch = nil if !success && DB.supports_mvcc?
     end
 
