@@ -5,7 +5,8 @@ require_relative 'batch_import_runner'
 
 class BatchImportJobQueue
 
-  JOB_TIMEOUT_SECONDS = 120
+  JOB_TIMEOUT_SECONDS = AppConfig[:import_timeout_seconds].to_i
+
 
   def find_stale_job
     DB.open do |db|
@@ -77,7 +78,7 @@ class BatchImportJobQueue
           ImportJob.any_repo[job.id].save
         end
 
-        sleep 5
+        sleep JOB_TIMEOUT_SECONDS / 2
       end
     end
 
@@ -110,8 +111,7 @@ class BatchImportJobQueue
           Log.error("Error in batch import thread: #{$!} #{$@}")
         end
 
-        # FIXME: Configurable?
-        sleep 5
+        sleep AppConfig[:import_poll_seconds].to_i
       end
     end
   end

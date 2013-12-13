@@ -1,8 +1,5 @@
 class ArchivesSpaceService < Sinatra::Base
 
-  ######################################################################
-  # FIXME: Need some permissions here
-  ######################################################################
   Endpoint.post('/repositories/:repo_id/jobs')
     .description("Create a new import job")
     .params(["job", JSONModel(:job)],

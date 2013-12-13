@@ -119,4 +119,5 @@ AppConfig[:public_proxy_url] = proc { AppConfig[:public_url] }
 
 AppConfig[:shared_storage] = proc { File.join(AppConfig[:data_directory], "shared") }
 AppConfig[:import_job_path] = proc { File.join(AppConfig[:shared_storage], "import_jobs") }
-AppConfig[:keep_import_files] = "false"
+AppConfig[:import_poll_seconds] = 5
+AppConfig[:import_timeout_seconds] = 300
