@@ -65,8 +65,6 @@ class BatchImportJobQueue
   def run_pending_import
     job = get_next_job
 
-    $stderr.puts("RUNNING JOB: #{job.inspect}")
-
     return if !job
 
     finished = Atomic.new(false)
@@ -74,7 +72,7 @@ class BatchImportJobQueue
     watchdog_thread = Thread.new do
       while !finished.value
         DB.open do
-          $stderr.puts("Setting MTIME")
+          Log.debug("Import running for job #{job.id}")
           ImportJob.any_repo[job.id].save
         end
 
@@ -98,7 +96,7 @@ class BatchImportJobQueue
       job.finish(:failed)
     end
 
-    $stderr.puts("All done!")
+    Log.debug("Import completed for job #{job.id}")
   end
 
 
