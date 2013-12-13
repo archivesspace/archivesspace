@@ -9,6 +9,8 @@ if File.exists?(host_config)
   config.each do |setting, value|
     AppConfig[setting] = value
   end
+else
+  raise "*** ERROR: Host configuration could not be found for hostname: #{$hostname}"
 end
 
 # Find the URL of each backend instance to make them available to the indexer.
