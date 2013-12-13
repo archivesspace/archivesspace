@@ -15,14 +15,32 @@ class ImportJob < Sequel::Model(:import_job)
 
   class JobFileStore
 
-    def store(file)
-      FileUtils.mkdir_p(AppConfig[:import_job_path])
+    def initialize(name)
+      @job_path = File.join(AppConfig[:import_job_path], name)
+      FileUtils.mkdir_p(@job_path)
+      @output = File.open(File.join(@job_path, "output.log"), "w")
+    end
 
-      target = File.join(AppConfig[:import_job_path], SecureRandom.hex)
+
+    def store(file)
+      target = File.join(@job_path, SecureRandom.hex)
 
       FileUtils.cp(file.path, target)
 
       target
+    end
+
+
+    def write_output(s)
+      @output.puts(s)
+    end
+
+
+    def close_output
+      if @output
+        @output.close
+        @output = nil
+      end
     end
 
 
@@ -33,7 +51,6 @@ class ImportJob < Sequel::Model(:import_job)
   end
 
 
-
   def self.create_from_json(json, opts = {})
     super(json, opts.merge(:time_submitted => Time.now,
                            :owner_id => opts.fetch(:user).id,
@@ -41,14 +58,28 @@ class ImportJob < Sequel::Model(:import_job)
   end
 
 
-  def self.get_file_store
-    JobFileStore.new
+  def file_store
+    @file_store ||= JobFileStore.new("import_job_#{id}")
   end
 
 
   def add_file(io)
-    storage = self.class.get_file_store
-    add_job_file(ImportJobFile.new(:file_path => storage.store(io)))
+    add_job_file(ImportJobFile.new(:file_path => file_store.store(io)))
+  end
+
+
+  def write_output(s)
+    file_store.write_output(s)
+  end
+
+
+  def finish(status)
+    file_store.close_output
+
+    self.reload
+    self.status = "#{status}"
+    self.time_finished = Time.now
+    self.save
   end
 
 
@@ -63,9 +94,8 @@ class ImportJob < Sequel::Model(:import_job)
 
 
   def remove_files
-    storage = self.class.get_file_store
     job_files.each do |file|
-      storage.unlink(file.file_path)
+      file_store.unlink(file.file_path)
     end
   end
 

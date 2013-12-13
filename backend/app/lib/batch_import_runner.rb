@@ -5,6 +5,41 @@ end
 require_relative 'streaming_import'
 
 
+class Ticker
+
+  def initialize(job)
+    @job = job
+    @estimate = nil
+    @ticks = 0
+  end
+
+
+  def tick
+    @ticks += 1
+
+    if @estimate && (@ticks % 100) == 0
+      percent = ([@ticks, @estimate].min.to_f / @estimate) * 100
+      @job.write_output("Percent completed: #{percent.round(2)}%")
+    end
+  end
+
+
+  def status_update(status_code, status)
+    @job.write_output("#{status[:id]}. #{status_code.upcase}: #{status[:label]}")
+  end
+
+
+  def log(s)
+    @job.write_output(s)
+  end
+
+
+  def tick_estimate=(n)
+    @estimate = n
+  end
+end
+
+
 class BatchImportRunner
 
   def initialize(job)
@@ -13,13 +48,7 @@ class BatchImportRunner
 
 
   def run
-    ticker = Object.new
-    ticker.instance_eval do
-      def method_missing(*args)
-        puts "Ticker: #{args.inspect}" if args != [:tick]
-      end
-    end
-
+    ticker = Ticker.new(@job)
 
     last_error = nil
     batch = nil
@@ -64,7 +93,6 @@ class BatchImportRunner
     ensure
       # If we were running in a transaction, the whole batch will have been
       # rolled back.
-      @job.remove_files
       batch = nil if !success && DB.supports_mvcc?
     end
 
@@ -81,7 +109,7 @@ class BatchImportRunner
     end
 
 
-    puts "RESULTS: #{results.inspect}"
+    ticker.log("RESULTS: #{results.inspect}")
   end
 
 end

@@ -246,7 +246,7 @@ class StreamingImport
               model_for(record['jsonmodel_type']).create_from_json(json)
             end
 
-      Log.debug("Created: #{record['uri']}")
+      @ticker.log("Created: #{record['uri']}")
 
       obj.uri
     rescue

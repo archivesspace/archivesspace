@@ -87,20 +87,14 @@ class BatchImportJobQueue
       finished.value = true
       watchdog_thread.join
 
-      job.reload
-      job.status = "completed"
-      job.time_finished = Time.now
-      job.save
+      job.finish(:completed)
     rescue
       Log.error("Job #{job.id} failed: #{$!} #{$@}")
       # If anything went wrong, make sure the watchdog thread still stops.
       finished.value = true
       watchdog_thread.join
 
-      job.reload
-      job.status = "failed"
-      job.time_finished = Time.now
-      job.save
+      job.finish(:failed)
     end
 
     $stderr.puts("All done!")

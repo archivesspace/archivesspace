@@ -17,7 +17,7 @@ describe 'Import job model' do
 
 
   it "can attach some input files to a job" do
-    ImportJob.stub(:get_file_store) do
+    job.stub(:file_store) do
       double(:store => "stored_path")
     end
 
