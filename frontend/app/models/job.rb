@@ -21,4 +21,14 @@ class Job
     ASUtils.json_parse(response.body)
   end
 
+
+  def self.active
+    JSONModel::HTTP::get_json(JSONModel(:job).uri_for("active"), "resolve[]" => "repository")
+  end
+
+
+  def self.archived(page)
+    JSONModel::HTTP::get_json(JSONModel(:job).uri_for("archived"), :page => page, "resolve[]" => "repository")
+  end
+
 end

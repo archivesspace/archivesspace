@@ -13,48 +13,16 @@
 
       <%= render :partial => "shared/flash_messages" %>
 
-      <% if @search_data['results'].length %>
-        <table id="tabledSearchResults" class="table table-bordered table-striped table-condensed table-search-results table-import-jobs">
-          <thead>
-            <tr>
-              <th>Status</th>
-              <!-- <th>Repo</th> -->
-              <th>Import Type</th>
-              <th class="filenames">Filename(s)</th>
-              <th class="audit-info">Audit Data</th>
-              <th class="actions"></th>
-            </tr>
-          </thead>
-          <tbody>
-          <% @search_data['results'].each do |job| %>
-            <tr class="<%= job.status %>">
-              <td class="job-status">
-                <span class="<%= badge_class_for_status(job.status) %>">
-                  <%= I18n.t("job.status_#{job.status}", :default => job.status) %>
-                </span>
-              </td>
-              <!-- <td><%= job.repository["_resolved"]["repo_code"] %></td> -->
-              <td><%= I18n.t("job.import_type_#{job.import_type}", :default => job.import_type) %></td>
-              <td><%= job.filenames.join("<br/>").html_safe %></td>
-              <td>
-                <small>
-                  <dl>
-                    <dt>Submitted By</dt><dd><%= job.owner %></dd>
-                    <dt>Time Submitted</dt><dd><%= Time.parse(job.time_submitted).getlocal %></dd>
-                    <% if job.time_started %><dt>Time Started</dt><dd><%= Time.parse(job.time_started).getlocal %></dd><% end %>
-                    <% if job.time_finished %><dt>Time Finished</dt><dd><%= Time.parse(job.time_finished).getlocal %></dd><% end %>
-                  </dl>
-                </small>
-              </td>
-              <td>
-                <div class="btn-group" style="float: right">
-                  <%= link_to I18n.t("actions.view"), {:controller => :jobs, :action => :show, :id => job.id}, :class => "btn btn-mini" %>
-                </div>
-              </td>
-            </tr>
-          <% end %>
-          </tbody>
-        </table>
+      <h3>Active Jobs</h3>
+      <% if @active_jobs.length > 0 %>
+        <%= render :partial => "jobs/listing", :locals => {:jobs => @active_jobs} %>
+      <% else %>
+        <p class="alert alert-info">There are no active import jobs.</p>
+      <% end %>
+
+      <h3>Archived Jobs</h3>
+      <% if @search_data['results'].length > 0 %>
+        <%= render :partial => "jobs/listing", :locals => {:jobs => @search_data['results']} %>
         <%= render :partial => "shared/pagination" %>
       <% else %>
         <p class="alert alert-info">

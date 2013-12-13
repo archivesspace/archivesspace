@@ -41,8 +41,35 @@ class ArchivesSpaceService < Sinatra::Base
     if params[:mtime]
       # return only the jobs that have changed
     else
-      handle_listing(ImportJob, params)
+      handle_listing(ImportJob, params, {}, [:status, :id])
     end
+  end
+
+
+  Endpoint.get('/repositories/:repo_id/jobs/active')
+    .description("Get a list of all active Jobs for a Repository")
+    .params(["resolve", :resolve],
+            ["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .returns([200, "[(:job)]"]) \
+  do
+    running = CrudHelpers.scoped_dataset(ImportJob, :status => "running")
+    queued = CrudHelpers.scoped_dataset(ImportJob, :status => "queued")
+
+    active = (running.all + queued.all).sort{|a,b| b.system_mtime <=> a.system_mtime}
+
+    listing_response(active, ImportJob)
+  end
+
+
+  Endpoint.get('/repositories/:repo_id/jobs/archived')
+    .description("Get a list of all archived Jobs for a Repository")
+    .params(["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .paginated(true)
+    .returns([200, "[(:job)]"]) \
+  do
+    handle_listing(ImportJob, params, Sequel.~(:status => ["running", "queued"]), Sequel.desc(:time_finished))
   end
 
 

@@ -8,7 +8,8 @@ class JobsController < ApplicationController
 
 
   def index
-    @search_data = JSONModel(:job).all(:page => selected_page, "resolve[]" => "repository")
+    @active_jobs = Job.active
+    @search_data = Job.archived(selected_page)
   end
 
   def new

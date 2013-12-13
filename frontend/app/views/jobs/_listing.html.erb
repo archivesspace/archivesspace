@@ -1,0 +1,39 @@
+<table id="tabledSearchResults" class="table table-bordered table-striped table-condensed table-search-results table-import-jobs">
+  <thead>
+  <tr>
+    <th>Status</th>
+    <th>Import Type</th>
+    <th class="filenames">Filename(s)</th>
+    <th class="audit-info">Audit Data</th>
+    <th class="actions"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% jobs.each do |job| %>
+    <tr class="<%= job["status"] %>">
+      <td class="job-status">
+        <span class="<%= badge_class_for_status(job["status"]) %>">
+          <%= I18n.t("job.status_#{job["status"]}", :default => job["status"]) %>
+        </span>
+      </td>
+      <td><%= I18n.t("job.import_type_#{job["import_type"]}", :default => job["import_type"]) %></td>
+      <td><%= job["filenames"].join("<br/>").html_safe %></td>
+      <td>
+        <small>
+          <dl>
+            <dt>Submitted By</dt><dd><%= job["owner"] %></dd>
+            <dt>Time Submitted</dt><dd><%= Time.parse(job["time_submitted"]).getlocal %></dd>
+            <% if job["time_started"] %><dt>Time Started</dt><dd><%= Time.parse(job["time_started"]).getlocal %></dd><% end %>
+            <% if job["time_finished"] %><dt>Time Finished</dt><dd><%= Time.parse(job["time_finished"]).getlocal %></dd><% end %>
+          </dl>
+        </small>
+      </td>
+      <td>
+        <div class="btn-group" style="float: right">
+          <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => job["uri"]}, :class => "btn btn-mini" %>
+        </div>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
