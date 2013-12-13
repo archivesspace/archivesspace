@@ -1729,3 +1729,9 @@ en:
     import_type_digital_object_csv: Digital Object CSV
     import_type_marcxml: MarcXML
     import_type_marcxml_subjects_and_agents: MarcXML (Subjects and Agents Only)
+    status: Status
+    status_completed: Completed
+    status_queued: Queued
+    status_running: Running
+    status_errored: Errored
+    status_canceled: Canceled

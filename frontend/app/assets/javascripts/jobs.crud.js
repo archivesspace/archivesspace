@@ -122,17 +122,17 @@ $(function() {
     success: function(json) {
       var percentVal = '100%';
       $progressBar.width(percentVal)
-      //percent.html(percentVal);
       $progress.removeClass("active").removeClass("progress-striped");
-      console.log(json);
+      $progressBar.addClass("bar-success");
+      $("#successMessage").show();
+      location.href = APP_PATH + "resolve/readonly?uri="+json.uri;
     },
     error: function() {
-      $progressBar.addClass("bar-error");
+      $progressBar.removeClass("active").addClass("bar-error");
       $(".btn, a, :input", $form).removeAttr("disabled", "disabled").removeClass("disabled");
     },
     complete: function(xhr) {
-      $progressBar.addClass("bar-success");
-      console.log(xhr);
+      //console.log(xhr);
     }
   });
 });

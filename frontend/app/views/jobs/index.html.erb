@@ -1,17 +1,10 @@
 <%= setup_context(:title => I18n.t("job._plural")) %>
 
 <div class="row-fluid">
-  <div class="span3">
-    Filter?
-  </div>
-  <div class="span9">
-    <div class="row-fluid">
-      <div class="span12">
-        <div class="record-toolbar">
-          <div class="pull-right">
-            <%= link_to I18n.t("job._frontend.actions.create"), {:controller => :jobs, :action => :new}, :class => "btn btn-small" %>
-          </div>
-        </div>
+  <div class="span12">
+    <div class="record-toolbar">
+      <div class="pull-right">
+        <%= link_to I18n.t("job._frontend.actions.create"), {:controller => :jobs, :action => :new}, :class => "btn btn-small" %>
       </div>
     </div>
 
@@ -21,24 +14,28 @@
       <%= render :partial => "shared/flash_messages" %>
 
       <% if @search_data['results'].length %>
-        <table id="tabledSearchResults" class="table table-bordered table-condensed table-search-results">
+        <table id="tabledSearchResults" class="table table-bordered table-striped table-condensed table-search-results table-import-jobs">
           <thead>
             <tr>
+              <th>Status</th>
               <!-- <th>Repo</th> -->
               <th>Import Type</th>
-              <th>Filename(s)</th>
-              <th>Status</th>
-              <th>Audit Data</th>
-              <th></th>
+              <th class="filenames">Filename(s)</th>
+              <th class="audit-info">Audit Data</th>
+              <th class="actions"></th>
             </tr>
           </thead>
           <tbody>
           <% @search_data['results'].each do |job| %>
             <tr class="<%= job.status %>">
+              <td class="job-status">
+                <span class="<%= badge_class_for_status(job.status) %>">
+                  <%= I18n.t("job.status_#{job.status}", :default => job.status) %>
+                </span>
+              </td>
               <!-- <td><%= job.repository["_resolved"]["repo_code"] %></td> -->
-              <td><%= job.import_type %></td>
+              <td><%= I18n.t("job.import_type_#{job.import_type}", :default => job.import_type) %></td>
               <td><%= job.filenames.join("<br/>").html_safe %></td>
-              <td><%= job.status %></td>
               <td>
                 <small>
                   <dl>
@@ -50,9 +47,8 @@
                 </small>
               </td>
               <td>
-                Actions Go Here
                 <div class="btn-group" style="float: right">
-
+                  <%= link_to I18n.t("actions.view"), {:controller => :jobs, :action => :show, :id => job.id}, :class => "btn btn-mini" %>
                 </div>
               </td>
             </tr>
