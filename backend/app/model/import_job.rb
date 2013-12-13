@@ -10,6 +10,8 @@ class ImportJob < Sequel::Model(:import_job)
   one_to_many :job_files, :class => "ImportJobFile", :key => :job_id
   many_to_one :owner, :key => :owner_id, :class => User
 
+  set_model_scope :repository
+
 
   def self.create_from_json(json, opts = {})
     super(json, opts.merge(:time_submitted => Time.now,
@@ -40,5 +42,12 @@ class ImportJob < Sequel::Model(:import_job)
   end
 
 
-  set_model_scope :repository
+  def self.sequel_to_jsonmodel(obj, opts = {})
+    filenames = ASUtils.json_parse(obj.filenames || "[]")
+    json = super
+    json.filenames = filenames
+
+    json
+  end
+
 end

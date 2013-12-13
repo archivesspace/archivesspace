@@ -88,7 +88,7 @@ class BatchImportJobQueue
       watchdog_thread.join
 
       job.reload
-      job.status = "finished"
+      job.status = "completed"
       job.time_finished = Time.now
       job.save
     rescue
