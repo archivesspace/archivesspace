@@ -6,6 +6,7 @@ class JobsController < ApplicationController
 
 
   def index
+    @search_data = JSONModel(:job).all(:page => selected_page, "resolve[]" => "repository")
   end
 
   def new
@@ -19,4 +20,12 @@ class JobsController < ApplicationController
 
     render :json => job.upload
   end
+
+
+  private
+
+  def selected_page
+    [Integer(params[:page] || 1), 1].max
+  end
+
 end

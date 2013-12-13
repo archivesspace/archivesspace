@@ -20,60 +20,51 @@
 
       <%= render :partial => "shared/flash_messages" %>
 
-      <table id="tabledSearchResults" class="table table-bordered table-condensed table-search-results">
-        <thead>
-          <th>Job ID</th>
-          <th>Status</th>
-          <th>Import Type</th>
-          <th>Filename(s)</th>
-          <th>Repo</th>
-          <th>Submitted</th>
-          <th>Started</th>
-          <th>Finished</th>
-          <th>User</th>
-          <th></th>
-        </thead>
-        <tbody>
-        <tr class="queued">
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>
+      <% if @search_data['results'].length %>
+        <table id="tabledSearchResults" class="table table-bordered table-condensed table-search-results">
+          <thead>
+            <tr>
+              <!-- <th>Repo</th> -->
+              <th>Import Type</th>
+              <th>Filename(s)</th>
+              <th>Status</th>
+              <th>Audit Data</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+          <% @search_data['results'].each do |job| %>
+            <tr class="<%= job.status %>">
+              <!-- <td><%= job.repository["_resolved"]["repo_code"] %></td> -->
+              <td><%= job.import_type %></td>
+              <td><%= job.filenames.join("<br/>").html_safe %></td>
+              <td><%= job.status %></td>
+              <td>
+                <small>
+                  <dl>
+                    <dt>Submitted By</dt><dd><%= job.owner %></dd>
+                    <dt>Time Submitted</dt><dd><%= Time.parse(job.time_submitted).getlocal %></dd>
+                    <% if job.time_started %><dt>Time Started</dt><dd><%= Time.parse(job.time_started).getlocal %></dd><% end %>
+                    <% if job.time_finished %><dt>Time Finished</dt><dd><%= Time.parse(job.time_finished).getlocal %></dd><% end %>
+                  </dl>
+                </small>
+              </td>
+              <td>
+                Actions Go Here
+                <div class="btn-group" style="float: right">
 
-          </td>
-        </tr>
-        <tr class="inprogress">
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr class="completed">
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        </tbody>
-      </table>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+        <%= render :partial => "shared/pagination" %>
+      <% else %>
+        <p class="alert alert-info">
+          No Import Jobs.
+        </p>
+      <% end %>
     </div>
   </div>
 </div>

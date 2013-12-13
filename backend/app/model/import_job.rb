@@ -46,6 +46,7 @@ class ImportJob < Sequel::Model(:import_job)
     filenames = ASUtils.json_parse(obj.filenames || "[]")
     json = super
     json.filenames = filenames
+    json.owner = obj.owner.username
 
     json
   end
