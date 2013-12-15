@@ -17,7 +17,7 @@ module ASpaceImport
       @uri_remapping = {}
       @seen_records = {}
 
-      @working_file = Tempfile.new("import_batch")
+      @working_file = opts[:working_file] || Tempfile.new("import_batch")
       @working_area = []
     end
 
