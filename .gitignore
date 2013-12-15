@@ -31,3 +31,4 @@ migrations/spec/doc.xml
 API.md
 migrations/spec/ead.xml
 config/gemnasium.yml
+build/demo_db_backups
