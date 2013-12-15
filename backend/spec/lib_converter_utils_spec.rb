@@ -1,4 +1,6 @@
 require_relative "spec_helper.rb"
+require_relative '../app/converters/lib/utils'
+
 
 describe ASpaceImport::Utils do
 
@@ -6,10 +8,6 @@ describe ASpaceImport::Utils do
     @dummy_class = Class.new do
       extend(ASpaceImport::Utils)
     end
-
-    @vocab = build(:json_vocab)
-    @vocab.uri = @vocab.class.uri_for(1, :repo_id => 2)
-    JSONModel::set_repository(2)
   end
 
 
@@ -56,4 +54,5 @@ describe ASpaceImport::Utils do
       expect(a2['parent']['ref']).to_not eq(a_parent.uri)
     end
   end
+
 end
