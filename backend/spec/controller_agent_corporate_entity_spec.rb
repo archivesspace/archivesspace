@@ -17,7 +17,7 @@ describe 'Corporate entity agent controller' do
 
 
   it "lets you update a corporate_entity by adding a contact" do
-    id = create_corporate_entity.id
+    id = create_corporate_entity(:agent_contacts => []).id
 
     corporate_entity = JSONModel(:agent_corporate_entity).find(id)
 

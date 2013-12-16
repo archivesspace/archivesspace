@@ -36,7 +36,7 @@ FactoryGirl.define do
 
   to_create{|instance| instance.save}
 
-  sequence(:repo_code) {|n| "ASPACE REPO #{n}"}
+  sequence(:repo_code) {|n| "ASPACE REPO #{n} -- #{rand(1000000)}"}
   sequence(:username) {|n| "username_#{n}"}
 
   sequence(:alphanumstr) { (0..4).map{ rand(3)==1?rand(10):(65 + rand(25)).chr }.join }
@@ -70,6 +70,9 @@ FactoryGirl.define do
   sequence(:singlepart_note_type) { sample(JSONModel(:note_singlepart).schema['properties']['type'])}
   sequence(:note_index_type) { sample(JSONModel(:note_index).schema['properties']['type'])}
   sequence(:note_index_item_type) { sample(JSONModel(:note_index_item).schema['properties']['type'])}
+  sequence(:note_bibliography_type) { sample(JSONModel(:note_bibliography).schema['properties']['type'])}
+  sequence(:orderedlist_enumeration) { sample(JSONModel(:note_orderedlist).schema['properties']['enumeration']) }
+  sequence(:chronology_item) { {'event_date' => nil_or_whatever, 'events' => (0..rand(3)).map { generate(:alphanumstr) } } }
 
   sequence(:event_type) { sample(JSONModel(:event).schema['properties']['event_type']) }
   sequence(:extent_type) { sample(JSONModel(:extent).schema['properties']['extent_type']) }
@@ -80,6 +83,7 @@ FactoryGirl.define do
   sequence(:ip_status) { sample(JSONModel(:rights_statement).schema['properties']['ip_status']) }
   sequence(:jurisdiction) { sample(JSONModel(:rights_statement).schema['properties']['jurisdiction']) }
 
+  sequence(:container_location_status) { sample(JSONModel(:container_location).schema['properties']['status']) }
   sequence(:temporary_location_type) { sample(JSONModel(:location).schema['properties']['temporary']) }
 
   sequence(:use_statement) { sample(JSONModel(:file_version).schema['properties']['use_statement']) }
@@ -94,6 +98,8 @@ FactoryGirl.define do
   sequence(:relator) { sample(JSONModel(:abstract_archival_object).schema['properties']['linked_agents']['items']['properties']['relator']) }
   sequence(:subject_source) { sample(JSONModel(:subject).schema['properties']['source']) }
 
+  sequence(:vocab_name) {|n| "Vocabulary #{generate(:generic_title)} #{n}" }
+  sequence(:vocab_refid) {|n| "vocab_ref_#{n}"}
 
 
   # AS Models
@@ -129,6 +135,21 @@ FactoryGirl.define do
                                   :sort_name => generate(:sort_name),
                                   :sort_name_auto_generate => 1,
                                   :json_schema_version => 1)
+      a.add_agent_contact(:name => generate(:generic_name),
+                          :telephone => generate(:phone_number),
+                          :address_1 => [nil, generate(:alphanumstr)].sample,
+                          :address_2 => [nil, generate(:alphanumstr)].sample,
+                          :address_3 => [nil, generate(:alphanumstr)].sample,
+                          :city => [nil, generate(:alphanumstr)].sample,
+                          :region => [nil, generate(:alphanumstr)].sample,
+                          :country => [nil, generate(:alphanumstr)].sample,
+                          :post_code => [nil, generate(:alphanumstr)].sample,
+                          :telephone => [nil, generate(:alphanumstr)].sample,
+                          :fax => [nil, generate(:alphanumstr)].sample,
+                          :email => [nil, generate(:alphanumstr)].sample,
+                          :email_signature => [nil, generate(:alphanumstr)].sample,
+                          :note => [nil, generate(:alphanumstr)].sample,
+                          :json_schema_version => 1)
     end
   end
 
@@ -201,11 +222,24 @@ FactoryGirl.define do
   factory :json_agent_contact, class: JSONModel(:agent_contact) do
     name { generate(:generic_name) }
     telephone { generate(:phone_number) }
+    address_1 { [nil, generate(:alphanumstr)].sample }
+    address_2 { [nil, generate(:alphanumstr)].sample }
+    address_3 { [nil, generate(:alphanumstr)].sample }
+    city { [nil, generate(:alphanumstr)].sample }
+    region { [nil, generate(:alphanumstr)].sample }
+    country { [nil, generate(:alphanumstr)].sample }
+    post_code { [nil, generate(:alphanumstr)].sample }
+    telephone_ext { [nil, generate(:alphanumstr)].sample }
+    fax { [nil, generate(:alphanumstr)].sample }
+    email { [nil, generate(:alphanumstr)].sample }
+    email_signature { [nil, generate(:alphanumstr)].sample }
+    note { [nil, generate(:alphanumstr)].sample }
   end
 
   factory :json_agent_corporate_entity, class: JSONModel(:agent_corporate_entity) do
     agent_type 'agent_corporate_entity'
     names { [build(:json_name_corporate_entity)] }
+    agent_contacts { [build(:json_agent_contact)] }
   end
 
   factory :json_agent_family, class: JSONModel(:agent_family) do
@@ -251,20 +285,22 @@ FactoryGirl.define do
 
   factory :json_note_index, class: JSONModel(:note_index) do
     type { generate(:note_index_type)}
-    items { [build(:json_note_index_item)] }
+    content { [ generate(:alphanumstr), generate(:alphanumstr) ] }
+    items { [ build(:json_note_index_item), build(:json_note_index_item) ] }
   end
 
   factory :json_note_index_item, class: JSONModel(:note_index_item) do
     value { generate(:alphanumstr) }
-    type { generate(:note_index_item_type) }
     reference { generate(:alphanumstr) }
     reference_text { generate(:alphanumstr) }
+    type { generate(:note_index_item_type) }
   end
 
   factory :json_note_bibliography, class: JSONModel(:note_bibliography) do
     label { generate(:alphanumstr) }
     content { [generate(:alphanumstr)] }
     items { [generate(:alphanumstr)] }
+    type { generate(:note_bibliography_type) }
   end
 
   factory :json_note_bioghist, class: JSONModel(:note_bioghist) do
@@ -278,6 +314,22 @@ FactoryGirl.define do
 
   factory :json_note_text, class: JSONModel(:note_text) do
     content { generate(:alphanumstr) }
+  end
+
+  factory :json_note_orderedlist, class: JSONModel(:note_orderedlist) do
+    title { nil_or_whatever }
+    enumeration { generate(:orderedlist_enumeration) }
+    items { (0..rand(3)).map { generate(:whatever) } }
+  end
+
+  factory :json_note_definedlist, class: JSONModel(:note_definedlist) do
+    title { nil_or_whatever }
+    items { (0..rand(3)).map { {:label => generate(:whatever), :value => generate(:whatever) } } }
+  end
+
+  factory :json_note_chronology, class: JSONModel(:note_chronology) do
+    title { nil_or_whatever }
+    items { (0..rand(3)).map { generate(:chronology_item) } }
   end
 
   factory :json_note_outline_level, class: JSONModel(:note_outline_level) do
@@ -311,6 +363,8 @@ FactoryGirl.define do
     language { generate(:archival_object_language) }
     digital_object_id { generate(:alphanumstr) }
     extents { [build(:json_extent)] }
+    file_versions { few_or_none(:json_file_version) }
+    dates { few_or_none(:json_date) }
   end
 
   factory :json_digital_object_component, class: JSONModel(:digital_object_component) do
@@ -416,6 +470,8 @@ FactoryGirl.define do
     sort_name_auto_generate true
   end
 
+  factory :json_collection_management, class: JSONModel(:collection_management) do
+  end
 
   factory :json_note_singlepart, class: JSONModel(:note_singlepart) do
     type { generate(:singlepart_note_type)}
@@ -477,8 +533,8 @@ FactoryGirl.define do
   end
 
   factory :json_vocab, class: JSONModel(:vocabulary) do
-    name { "Vocabulary #{generate(:generic_title)}" }
-    ref_id { generate(:alphanumstr) }
+    name { generate(:vocab_name) }
+    ref_id { generate(:vocab_refid) }
   end
 
   factory :json_import_job, class: JSONModel(:job) do
