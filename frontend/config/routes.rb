@@ -2,11 +2,7 @@ ArchivesSpace::Application.routes.draw do
 
   scope URI(AppConfig[:frontend_url]).path do
 
-    get "import/index"
-    get "import/upload_select"
-    post "import/upload"
-    post "import/upload_xhr"
-
+    match 'jobs/:id/cancel' => 'jobs#cancel', :via => [:post]
     resources :jobs
 
     match 'login' => "session#login", :via => :post

@@ -759,3 +759,8 @@ en:
         create: Create Import Job
         save: Queue Import Job
         new: New Import Job
+      section:
+        basic_information: Basic Information
+        status: Job Status
+        logs: Logs
+        generated_uris: Imported Records

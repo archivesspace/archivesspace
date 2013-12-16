@@ -1735,3 +1735,8 @@ en:
     status_running: Running
     status_failed: Failed
     status_canceled: Canceled
+    time_submitted: Time Submitted
+    time_started: Time Started
+    time_completed: Time Completed
+    owner: Owner
+    filenames: Import Files

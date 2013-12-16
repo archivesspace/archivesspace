@@ -2,7 +2,7 @@ class JobsController < ApplicationController
 
   set_access_control "view_repository" => [:index, :show]
   set_access_control "update_archival_record" => [:new, :create]
-  set_access_control "cancel_import_job" => [:cancel]
+  set_access_control "cancel_importer_job" => [:cancel]
 
   skip_before_filter :verify_authenticity_token
 
@@ -27,6 +27,15 @@ class JobsController < ApplicationController
 
   def show
     @job = JSONModel(:job).find(params[:id], "resolve[]" => "repository")
+  end
+
+
+  def cancel
+    @job = JSONModel(:job).find(params[:id], "resolve[]" => "repository")
+
+    # TODO: Cancel the @job
+
+    redirect_to :action => :show
   end
 
 

@@ -1,3 +1,44 @@
 <%= setup_context :object => @job, :title => @job.id %>
 
+<%= render :partial => "jobs/show_templates" %>
+
+<div class="row-fluid">
+  <div class="span3">
+    <%= render :partial => "sidebar" %>
+  </div>
+  <div class="span9">
+    <%= render :partial => "toolbar" %>
+    <div class="record-pane">
+      <%= readonly_context :job, @job do |readonly| %>
+        <h2><%= I18n.t("job.import_type_#{@job["import_type"]}", :default => @job["import_type"]) %> [<%= @job.id %>] <span class="label label-info"><%= I18n.t("job._singular") %></span></h2>
+
+        <%= render :partial => "shared/flash_messages" %>
+
+        <%= readonly.emit_template "job_status", @job %>
+        <%= readonly.emit_template "job", @job %>
+
+        <% if !["queued", "canceled"].include?(@job.status) %>
+          <section id="logs">
+            <h3 class="subrecord-form-heading"><%= I18n.t("job._frontend.section.logs") %></h3>
+            <div class="subrecord-form-container">
+              <div class="alert alert-info">TODO</div>
+            </div>
+          </section>
+        <% end %>
+
+        <% if @job.status === "completed" %>
+          <section id="generated_uris">
+            <h3 class="subrecord-form-heading"><%= I18n.t("job._frontend.section.generated_uris") %></h3>
+            <div class="subrecord-form-container">
+              <div class="alert alert-info">TODO</div>
+            </div>
+          </section>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<hr/>
+
 <pre><%= @job.inspect %></pre>
