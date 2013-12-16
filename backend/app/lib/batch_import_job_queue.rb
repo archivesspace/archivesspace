@@ -76,7 +76,7 @@ class BatchImportJobQueue
           ImportJob.any_repo[job.id].save
         end
 
-        sleep JOB_TIMEOUT_SECONDS / 2
+        sleep [5, (JOB_TIMEOUT_SECONDS / 2)].min
       end
     end
 
