@@ -62,6 +62,7 @@ Sequel.migration do
 
 
   down do
+    drop_table(:import_job_input_file)
     drop_table(:import_job_output)
     drop_table(:import_job)
   end
