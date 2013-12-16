@@ -68,12 +68,12 @@ describe 'Corporate entity agent controller' do
 
     agent = JSONModel(:agent_corporate_entity).find(id)
 
-    agent.names.first['sort_name'].should eq("ArchivesSpace")
+    agent.names.first['sort_name'].should match(/\AArchivesSpace/)
 
     agent.names.first['qualifier'] = "Global"
     agent.save
 
-    JSONModel(:agent_corporate_entity).find(id).names.first['sort_name'].should eq("ArchivesSpace (Global)")
+    JSONModel(:agent_corporate_entity).find(id).names.first['sort_name'].should match(/\AArchivesSpace.* \(Global\)/)
   end
 
 

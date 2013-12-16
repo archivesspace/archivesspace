@@ -11,6 +11,7 @@ end
 
 require_relative "../app/model/db"
 require_relative "converter_spec_helper"
+require_relative "custom_matchers"
 
 
 # Use an in-memory Derby DB for the test suite
@@ -148,8 +149,8 @@ require_relative 'factories'
 include FactoryGirl::Syntax::Methods
 
 
-def make_test_repo(code = "ARCHIVESSPACE")
-  repo = create(:repo, {:repo_code => code})
+def make_test_repo(code = "ARCHIVESSPACE", org_code = "test")
+  repo = create(:repo, {:repo_code => code, :org_code => org_code})
 
   @repo_id = repo.id
   @repo = JSONModel(:repository).uri_for(repo.id)
@@ -169,7 +170,7 @@ end
 
 class ArchivesSpaceService
   def current_user
-    Thread.current[:active_test_user]
+    Thread.current[:active_test_user] or raise "Unknown user"
   end
 
   def high_priority_request?
