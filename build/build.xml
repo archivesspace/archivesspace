@@ -96,7 +96,6 @@
     <antcall target="bundler"><param name="gemfile" value="../frontend/Gemfile" /></antcall>
     <antcall target="bundler"><param name="gemfile" value="../selenium/Gemfile" /></antcall>
     <antcall target="bundler"><param name="gemfile" value="../_yard/Gemfile" /></antcall>
-    <antcall target="bundler"><param name="gemfile" value="../migrations/Gemfile" /></antcall>
     <antcall target="bundler"><param name="gemfile" value="../public/Gemfile" /></antcall>
     <antcall target="bundler"><param name="gemfile" value="../selenium-public/Gemfile" /></antcall>
     <antcall target="bundler"><param name="gemfile" value="../indexer/Gemfile" /></antcall>
@@ -334,30 +333,6 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 ../build/gems/bin/warble war" />
-    </java>
-  </target>
-
-
-  <!-- Migrations -->
-  <target name="migrations:import:help" description="Show help for import in the migrations module">
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
-          failonerror="true"
-          dir="../migrations">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
-      <env key="GEM_HOME" value="${gem_home}" />
-      <env key="GEM_PATH" value="" />
-      <arg line="--1.9 ./import.rb --help" />
-    </java>
-  </target>
-
-  <target name="migrations:import:list" description="List available importers in the migrations module">
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
-          failonerror="true"
-          dir="../migrations">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
-      <env key="GEM_HOME" value="${gem_home}" />
-      <env key="GEM_PATH" value="" />
-      <arg line="--1.9 ./import.rb --list-importers" />
     </java>
   </target>
 

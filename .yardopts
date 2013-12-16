@@ -13,9 +13,6 @@
 'common/*.rb'
 'common/db/*.rb'
 'common/schemas/*.rb'
-'migrations/lib/*.rb'
-'migrations/models/*.rb'
-'migrations/serializers/*.rb'
 -
 API.md
 ARCHITECTURE.md

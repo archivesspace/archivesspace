@@ -16,7 +16,6 @@ module ASpaceCoverage
       add_filter "common/spec"
       add_filter "backend/spec"
       add_filter "backend/tests"
-      add_filter "migrations/spec"
       add_filter "frontend/spec"
       add_filter "selenium"
     end

@@ -109,7 +109,7 @@ END
 
 
     def convert_test_file
-      converter = MarcXMLConverter.new(File.expand_path("../../migrations/examples/marc/at-tracer-marc-1.xml", File.dirname(__FILE__)))
+      converter = MarcXMLConverter.new(File.expand_path("../app/migrations/examples/marc/at-tracer-marc-1.xml", File.dirname(__FILE__)))
       converter.run
       parsed = JSON(IO.read(converter.get_output_path))
 
