@@ -362,24 +362,6 @@
   </target>
 
 
-  <target name="migrations:test" depends="set-classpath" description="Run the migrations tests">
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" 
-          failonerror="true"
-          dir="../migrations/spec">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
-      <env key="GEM_HOME" value="${gem_home}" />
-      <env key="GEM_PATH" value="" />
-      <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
-      <arg line="--1.9 --debug -X-C ../../build/gems/bin/rspec -P '*_spec.rb' --order rand:1 ." />
-    </java>
-  </target>
-
-
-  <target name="migrations:test:coverage" depends="set-classpath, migrations:test"
-          description="Generate coverage reports for the migrations">
-  </target>
-
-
   <!-- Selenium -->
   <target name="selenium:test" depends="set-classpath, frontend:clean" description="Run the Selenium tests">
     <property name="spec" value=""/>
@@ -488,7 +470,6 @@
     <antcall target="frontend:test"/>
     <antcall target="backend:integration" />
     <antcall target="common:test" />
-    <antcall target="migrations:test" />
   </target>
 
   <!-- Dist build -->
@@ -611,7 +592,7 @@
   </target>
 
 
-  <target name="test" depends="backend:test, frontend:test, backend:integration, common:test, selenium:test, migrations:test, selenium:public:test"
+  <target name="test" depends="backend:test, frontend:test, backend:integration, common:test, selenium:test, selenium:public:test"
           description="Run the full suite of tests">
   </target>
 
@@ -666,7 +647,7 @@
     <delete dir="../coverage" />
   </target>
 
-  <target name="coverage" depends="clean-coverage, common:test:coverage, backend:coverage, backend:integration:coverage, migrations:test:coverage, frontend:coverage, public:coverage" description="Run all coverage reports">
+  <target name="coverage" depends="clean-coverage, common:test:coverage, backend:coverage, backend:integration:coverage, frontend:coverage, public:coverage" description="Run all coverage reports">
   </target>
 
 </project>
