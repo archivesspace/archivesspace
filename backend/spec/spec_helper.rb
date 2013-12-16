@@ -10,6 +10,7 @@ if ENV['COVERAGE_REPORTS'] == 'true'
 end
 
 require_relative "../app/model/db"
+require_relative "converter_spec_helper"
 
 
 # Use an in-memory Derby DB for the test suite
