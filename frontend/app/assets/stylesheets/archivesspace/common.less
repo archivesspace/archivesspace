@@ -57,3 +57,23 @@ h2 > .label {
     }
   }
 }
+
+.alert {
+  &.with-hide-alert {
+    position: relative;
+  }
+  .hide-alert {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+
+    .icon {
+      .opacity(25);
+    }
+    &:hover {
+      .icon {
+        .opacity(50);
+      }
+    }
+  }
+}
