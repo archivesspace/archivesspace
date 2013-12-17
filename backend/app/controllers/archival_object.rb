@@ -52,8 +52,25 @@ class ArchivesSpaceService < Sinatra::Base
              [404, "Not found"]) \
   do
     json = ArchivalObject.to_jsonmodel(params[:id])
+    json = resolve_references(json, params[:resolve])
 
-    json_response(resolve_references(json, params[:resolve]))
+    root = json["resource"]["ref"].gsub(/.*\//, '')
+    json["notes"].map { |note|
+      if note["jsonmodel_type"] == "note_index"
+        note["items"].map { |item|
+          where = {
+            :root_record_id => root.to_i,
+            :ref_id => item["reference"]
+          }
+          ao = ArchivalObject.filter(where).first
+
+          if !ao.nil?
+            item["reference_uri"] = ao.uri
+          end
+        }
+      end
+    }
+    json_response(json)
   end
 
 

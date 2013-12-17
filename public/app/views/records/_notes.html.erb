@@ -76,7 +76,11 @@
   <dl>
     <% Array(note['items']).each do |index_item| %>
       <dt><%= index_item['value'] %></dt>
-      <dd><%= index_item['reference_text'] %></dd>
+      <% if index_item['reference_uri'] %>
+        <dd><a href="<%= index_item['reference_uri'] %>"><%= index_item['reference_text'] %></a></dd>
+      <% else %>
+        <dd><%= index_item['reference_text'] %></dd>
+      <% end %>
     <% end %>
   </dl>
 <% end %>
