@@ -1,6 +1,6 @@
 class JobsController < ApplicationController
 
-  set_access_control "view_repository" => [:index, :show]
+  set_access_control "view_repository" => [:index, :show, :log]
   set_access_control "update_archival_record" => [:new, :create]
   set_access_control "cancel_importer_job" => [:cancel]
 
@@ -36,6 +36,15 @@ class JobsController < ApplicationController
     # TODO: Cancel the @job
 
     redirect_to :action => :show
+  end
+
+
+  def log
+    self.response_body = Enumerator.new do |y|
+      Job.log(params[:id], params[:offset] || 0) do |response|
+        y << response.body
+      end
+    end
   end
 
 
