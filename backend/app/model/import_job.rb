@@ -43,7 +43,7 @@ class ImportJob < Sequel::Model(:import_job)
       f = File.open(@output_path, "r")
       f.seek(offset, IO::SEEK_SET)
 
-      [f, [(f.size - offset), 0].max]
+      [f, [(f.stat.size - offset), 0].max]
     end
 
 
