@@ -18,12 +18,6 @@ class Ticker
 
 
   def tick
-    @ticks += 1
-
-    if @estimate && (@ticks % 100) == 0
-      percent = ([@ticks, @estimate].min.to_f / @estimate) * 100
-      @job.write_output("Percent completed: #{percent.round(2)}%")
-    end
   end
 
 
