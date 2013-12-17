@@ -35,4 +35,9 @@ class Job
   def self.log(id, offset = 0, &block)
     JSONModel::HTTP::stream("#{JSONModel(:job).uri_for(id)}/log", {:offset => offset}, &block)
   end
+
+
+  def self.records(id, page)
+    JSONModel::HTTP::get_json("#{JSONModel(:job).uri_for(id)}/records", :page => page, "resolve[]" => "record")
+  end
 end

@@ -4,6 +4,7 @@ ArchivesSpace::Application.routes.draw do
     match 'jobs/:id/cancel' => 'jobs#cancel', :via => [:post]
     match 'jobs/:id/log' => 'jobs#log', :via => [:get]
     match 'jobs/:id/status' => 'jobs#status', :via => [:get]
+    match 'jobs/:id/records' => 'jobs#records', :via => [:get]
     resources :jobs
 
     match 'login' => "session#login", :via => :post
@@ -157,7 +158,6 @@ ArchivesSpace::Application.routes.draw do
         end
       end
     end
-
     if Plugins.repository_menu_items?
       scope '/plugins' do
         Plugins.repository_menu_items.each do |plugin|

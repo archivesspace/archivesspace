@@ -60,6 +60,35 @@ $(function() {
     pollLog();
   };
 
+
+  var initCreatedRecods = function() {
+    var $recordsSection = $("#generated_uris");
+    var $recordsSpool = $("#jobRecordsSpool", $recordsSection);
+
+    if ($recordsSection.length === 0) {
+      return;
+    }
+
+    var loadCreatedRecords = function(url) {
+      $.ajax({
+        url: url,
+        type: "GET",
+        success: function(html) {
+          $recordsSpool.html(html);
+        }
+      });
+    };
+
+    $recordsSpool.on("click", ".pagination a", function(event) {
+      event.preventDefault();
+
+      loadCreatedRecords($(this).attr("href"));
+    });
+
+    loadCreatedRecords($recordsSection.data("url"));
+  };
+
+
   var pollStatus = function() {
     $.ajax({
       url: $statusSection.data("poll-url"),
@@ -85,4 +114,5 @@ $(function() {
 
   if ($.inArray(CURRENT_STATUS, ["queued"]) >= 0) pollStatus();
   initLoggingSpool();
+  initCreatedRecods();
 });

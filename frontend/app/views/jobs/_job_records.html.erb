@@ -1,0 +1,10 @@
+<% if @search_data['results'].length > 0 %>
+  <div class="subrecord-form-fields">
+    <% @search_data['results'].each do |result| %>
+      <div>
+        <span class="icon icon-<%= result["record"]["_resolved"]["jsonmodel_type"] %>" title="<%= I18n.t("#{result["record"]["_resolved"]["jsonmodel_type"]}._singular") %>"></span> <%= resolve_readonly_link_to result["record"]["_resolved"]["title"], result["record"]["ref"] %>
+      </div>
+    <% end %>
+  </div>
+  <%= render :partial => "shared/pagination" %>
+<% end %>

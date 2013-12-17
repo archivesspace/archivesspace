@@ -1,6 +1,6 @@
 class JobsController < ApplicationController
 
-  set_access_control "view_repository" => [:index, :show, :log, :status]
+  set_access_control "view_repository" => [:index, :show, :log, :status, :records]
   set_access_control "update_archival_record" => [:new, :create]
   set_access_control "cancel_importer_job" => [:cancel]
 
@@ -54,6 +54,12 @@ class JobsController < ApplicationController
     render :json => {
       :status => job.status
     }
+  end
+
+
+  def records
+    @search_data = Job.records(params[:id], params[:page] || 1)
+    render :partial => "jobs/job_records"
   end
 
   private
