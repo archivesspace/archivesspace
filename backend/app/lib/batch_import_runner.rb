@@ -1,5 +1,8 @@
-Dir.glob(File.expand_path("../converters/*.rb", File.dirname(__FILE__))).sort.each do |converter|
-  require converter
+[File.expand_path("..", File.dirname(__FILE__)),
+ *ASUtils.find_local_directories('backend')].each do |prefix|
+  Dir.glob(File.join(prefix, "converters", "*.rb")).sort.each do |file|
+    require File.absolute_path(file)
+  end
 end
 
 require_relative 'streaming_import'
