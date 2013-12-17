@@ -113,7 +113,11 @@ module URIResolver
         repo_id = repo_uri ? JSONModel::JSONModel(:repository).id_for(repo_uri) : nil
 
         RequestContext.open(:repo_id => repo_id) do
-          return model.to_jsonmodel(id).to_json(:mode => :trusted)
+          begin
+            return model.to_jsonmodel(id).to_json(:mode => :trusted)
+          rescue NotFoundException => e
+            return nil
+          end
         end
       end
     }
@@ -140,12 +144,14 @@ module URIResolver
 
     if JSONModel.parse_reference(reference['ref'])
       record = resolve_uri(reference['ref'], env)
-      reference.clone.merge('_resolved' => ASUtils.json_parse(record))
+      if record
+        reference.clone.merge('_resolved' => ASUtils.json_parse(record))
+      else
+        reference.clone
+      end
     else
       raise "Couldn't parse ref: #{reference.inspect}"
     end
   end
-
-
 
 end
