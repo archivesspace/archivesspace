@@ -1737,6 +1737,6 @@ en:
     status_canceled: Canceled
     time_submitted: Time Submitted
     time_started: Time Started
-    time_completed: Time Completed
+    time_finished: Time Completed
     owner: Owner
     filenames: Import Files
