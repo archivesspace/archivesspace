@@ -4,7 +4,7 @@
 
     <div class="job-status control-group">
       <label class="control-label"><%= I18n.t("job.status") %></label>
-      <div class="controls label-only job-status-<%= job.status %>">
+      <div class="controls label-only">
         <%= I18n.t("job.status_#{job.status}", :default => job.status) %>
       </div>
     </div>

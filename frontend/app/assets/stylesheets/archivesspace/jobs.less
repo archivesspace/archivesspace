@@ -66,27 +66,39 @@
 .job-status {
   font-weight: bold;
   font-size: 1.2em;
-
-  .controls {
-    &.job-status-completed {
+}
+.job-status-completed {
+  .job-status {
+    .controls {
       color: @successText;
     }
-
-    &.job-status-canceled {
-      color: @errorText;
-    }
-
-    &.job-status-queued {
-      color: @warningText;
-    }
-
-    &.job-status-running {
-      color: @infoText;
-    }
-
-    &.job-status-errored {
-      color: @errorText;
+  }
+}
+.job-status-canceled {
+  .job-status {
+    .controls {
+      color: @successText;
     }
   }
-
+}
+.job-status-queued {
+  .job-status {
+    .controls {
+      color: @successText;
+    }
+  }
+}
+.job-status-running {
+  .job-status {
+    .controls {
+      color: @successText;
+    }
+  }
+}
+.job-status-errored {
+  .job-status {
+    .controls {
+      color: @successText;
+    }
+  }
 }

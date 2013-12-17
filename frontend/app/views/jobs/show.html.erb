@@ -2,7 +2,7 @@
 
 <%= render :partial => "jobs/show_templates" %>
 
-<div class="row-fluid">
+<div class="row-fluid job-status-<%= @job.status %>">
   <div class="span3">
     <%= render :partial => "sidebar" %>
   </div>
