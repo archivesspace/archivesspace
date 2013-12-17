@@ -17,6 +17,7 @@ class ArchivesSpaceService < Sinatra::Base
     created_response(job, params[:job])
   end
 
+
   Endpoint.post('/repositories/:repo_id/jobs/:id/cancel')
     .description("Create a new import job")
     .params(["id", :id],
@@ -24,8 +25,13 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:cancel_importer_job])
     .returns([200, :updated]) \
   do
-    # cancel the job!
+    job = ImportJob.get_or_die(params[:id])
+    job.status = "canceled"
+    job.save
+
+    updated_response(job)
   end
+
 
   Endpoint.get('/repositories/:repo_id/jobs')
     .description("Get a list of Jobs for a Repository")

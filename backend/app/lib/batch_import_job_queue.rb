@@ -68,12 +68,21 @@ class BatchImportJobQueue
     return if !job
 
     finished = Atomic.new(false)
+    import_canceled = Atomic.new(false)
 
     watchdog_thread = Thread.new do
       while !finished.value
         DB.open do
           Log.debug("Import running for job #{job.id}")
-          ImportJob.any_repo[job.id].save
+          job = ImportJob.any_repo[job.id]
+
+          if job.status === "canceled"
+            # Notify the running import that we've been manually canceled
+            Log.info("Received cancel request for import job #{job.id}")
+            import_canceled.value = true
+          end
+
+          job.save
         end
 
         sleep [5, (JOB_TIMEOUT_SECONDS / 2)].min
@@ -81,12 +90,16 @@ class BatchImportJobQueue
     end
 
     begin
-      BatchImportRunner.new(job).run
+      BatchImportRunner.new(job, import_canceled).run
 
       finished.value = true
       watchdog_thread.join
 
-      job.finish(:completed)
+      if import_canceled.value
+        job.finish(:canceled)
+      else
+        job.finish(:completed)
+      end
     rescue
       Log.error("Job #{job.id} failed: #{$!} #{$@}")
       # If anything went wrong, make sure the watchdog thread still stops.

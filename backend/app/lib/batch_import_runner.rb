@@ -39,8 +39,9 @@ end
 
 class BatchImportRunner
 
-  def initialize(job)
+  def initialize(job, import_canceled)
     @job = job
+    @import_canceled = import_canceled
   end
 
 
@@ -69,7 +70,7 @@ class BatchImportRunner
                 RequestContext.open(:create_enums => true,
                                     :current_username => @job.owner.username,
                                     :repo_id => @job.repo_id) do
-                  batch = StreamingImport.new(fh, ticker)
+                  batch = StreamingImport.new(fh, ticker, @import_canceled)
                   batch.process
                   success = true
                 end

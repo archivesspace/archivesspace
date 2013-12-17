@@ -37,6 +37,7 @@ class ImportJob < Sequel::Model(:import_job)
     def write_output(s)
       @output ||= File.open(@output_path, "a")
       @output.puts(s)
+      @output.flush
     end
 
 

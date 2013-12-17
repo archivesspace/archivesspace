@@ -1,5 +1,6 @@
 require 'java'
 require 'json'
+require 'atomic'
 require 'tempfile'
 
 class StreamingJsonReader
@@ -49,7 +50,9 @@ class StreamingImport
 
   include JSONModel
 
-  def initialize(stream, ticker)
+  def initialize(stream, ticker, import_canceled = Atomic.new(false))
+
+    @import_canceled = import_canceled
 
     raise StandardError.new("Nothing to stream") unless stream
 
@@ -79,7 +82,6 @@ class StreamingImport
     end
 
     with_status("Evaluating record relationships") do
-
       @dependencies, @position_offsets = load_dependencies
     end
 
@@ -89,6 +91,16 @@ class StreamingImport
 
   def created_records
     @logical_urls.reject {|k, v| v.nil?}
+  end
+
+
+  def import_canceled?
+    if @import_canceled.value
+      @ticker.log("Import canceled!")
+      true
+    else
+      false
+    end
   end
 
 
@@ -107,6 +119,8 @@ class StreamingImport
         with_status("Saving records: cycle #{round}") do
           @ticker.tick_estimate = @jstream.count
           @jstream.each do |rec|
+            return if import_canceled?
+
             uri = rec['uri']
             dependencies = @dependencies[uri]
 
