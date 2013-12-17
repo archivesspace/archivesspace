@@ -1,5 +1,5 @@
 <% define_template "job_status", jsonmodel_definition(:job) do |form, job| %>
-  <section id="job_status">
+  <section id="job_status" data-poll-url="<%= url_for(:controller => :jobs, :action => :status, :id => job.id) %>" data-current-status="<%= @job.status %>">
     <h3><%= I18n.t("job._frontend.section.status") %></h3>
 
     <div class="job-status control-group">
@@ -52,3 +52,31 @@
     <%= display_audit_info(@job) %>
   </section>
 <% end %>
+
+<div id="template_job_running_notice"><!--
+  <div class="alert alert-info">
+    <p>The import job has started running.</p>
+    <button class="btn btn-primary btn-refresh">Refresh Page</button>
+  </div>
+--></div>
+
+<div id="template_job_completed_notice"><!--
+  <div class="alert alert-success">
+    <p>The import job has completed.</p>
+    <button class="btn btn-success btn-refresh">Refresh Page</button>
+  </div>
+--></div>
+
+<div id="template_job_failed_notice"><!--
+  <div class="alert alert-error">
+    <p>The import job has failed.</p>
+    <button class="btn btn-danger btn-refresh">Refresh Page</button>
+  </div>
+--></div>
+
+<div id="template_job_completed_notice"><!--
+  <div class="alert alert-error">
+    <p>The import job has been canceled.</p>
+    <button class="btn btn-danger btn-refresh">Refresh Page</button>
+  </div>
+--></div>

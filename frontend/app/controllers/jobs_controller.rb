@@ -1,6 +1,6 @@
 class JobsController < ApplicationController
 
-  set_access_control "view_repository" => [:index, :show, :log]
+  set_access_control "view_repository" => [:index, :show, :log, :status]
   set_access_control "update_archival_record" => [:new, :create]
   set_access_control "cancel_importer_job" => [:cancel]
 
@@ -47,6 +47,14 @@ class JobsController < ApplicationController
     end
   end
 
+
+  def status
+    job = JSONModel(:job).find(params[:id])
+
+    render :json => {
+      :status => job.status
+    }
+  end
 
   private
 
