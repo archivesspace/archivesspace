@@ -1,5 +1,3 @@
-@import "variables";
-
 #object_container {
   position: relative;
 }
@@ -229,38 +227,32 @@
   background-position: -408px -120px !important;
 }
 
-.archival_object > a > .jstree-icon,
-.icon-archival_object {
-  background-position: -24px  -24px !important;
+.archival_object > a > .jstree-icon {
+  background-position: @iconArchivalObjectBackgroundPosition !important;
 }
 
-.digital_object_component > a > .jstree-icon,
-.icon-digital_object_component {
-  background-position: -456px -24px !important;
+.digital_object_component > a > .jstree-icon {
+  background-position: @iconDigitalObjectComponentBackgroundPosition !important;
 }
 
 .new > a > .jstree-icon {
   background-position: -456px -96px !important;
 }
 
-.resource > a > .jstree-icon,
-.icon-resource  {
-  background-position: -264px -24px !important;
+.resource > a > .jstree-icon {
+  background-position: @iconResourceBackgroundPosition !important;
 }
 
-.accession > a > .jstree-icon,
-.icon-accession {
-  background-position: -168px -24px !important;
+.accession > a > .jstree-icon {
+  background-position: @iconAccessionBackgroundPosition !important;
 }
 
-.classification > a > .jstree-icon,
-.icon-classification {
-  background-position: -25px -48px !important;
+.classification > a > .jstree-icon {
+  background-position: @iconClassificationBackgroundPosition !important;
 }
 
-.classification_term > a > .jstree-icon,
-.icon-classification_term {
-  background-position: 0 -48px !important;
+.classification_term > a > .jstree-icon {
+  background-position: @iconClassificationTermBackgroundPosition !important;
 }
 
 .archives-tree-container.expanded {

@@ -1,5 +1,3 @@
-@import "variables";
-
 ul.token-input-list {
   overflow: visible;
   height: auto !important; 
@@ -266,19 +264,19 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
     .opacity(100);
   }
 
-  .agent_person .icon-token {background-position: -168px 0;}
-  .agent_software .icon-token {background-position: -360px -144px;}
-  .agent_corporate_entity .icon-token {background-position: -432px -144px;}
-  .agent_family .icon-token {background-image: asset-url('archivesspace/icon-family.png'); background-position: 0 0;}
-  .resource .icon-token {background-position: -264px -24px;}
-  .archival_object .icon-token {background-position: -24px -24px;}
-  .digital_object .icon-token {background-position: -384px -120px;}
-  .digital_object_component .icon-token {background-position: -456px -24px;}
-  .accession .icon-token {background-position: -168px -24px;}
-  .subject .icon-token {background-position: 0 -48px;}
-  .classification .icon-token {background-position: -25px -48px;}
-  .classification_term .icon-token {background-position: 0 -48px;}
-  .location .icon-token {background-position: -24px -72px;}
+  .agent_person .icon-token {background-position: @iconAgentPersonBackgroundPosition;}
+  .agent_software .icon-token {background-position: @iconAgentSoftwareBackgroundPosition;}
+  .agent_corporate_entity .icon-token {background-position: @iconAgentCorporateEntityBackgroundPosition;}
+  .agent_family .icon-token {background-image: @iconAgentFamilyBackgroundImage; background-position: @iconAgentFamilyBackgroundPosition;}
+  .resource .icon-token {background-position: @iconResourceBackgroundPosition;}
+  .archival_object .icon-token {background-position: @iconArchivalObjectBackgroundPosition;}
+  .digital_object .icon-token {background-position: @iconDigitalObjectBackgroundPosition;}
+  .digital_object_component .icon-token {background-position: @iconDigitalObjectComponentBackgroundPosition;}
+  .accession .icon-token {background-position: @iconAccessionBackgroundPosition;}
+  .subject .icon-token {background-position: @iconSubjectBackgroundPosition;}
+  .classification .icon-token {background-position: @iconClassificationBackgroundPosition;}
+  .classification_term .icon-token {background-position: @iconClassificationTermBackgroundPosition;}
+  .location .icon-token {background-position: @iconLocationBackgroundPosition;}
 }
 
 .linker-wrapper.sortable {
