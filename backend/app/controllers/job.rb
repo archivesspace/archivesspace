@@ -86,11 +86,31 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/repositories/:repo_id/jobs/:id/log')
     .description("Get a Job's log by ID")
     .params(["id", :id],
-            ["repo_id", :repo_id])
+            ["repo_id", :repo_id],
+            ["offset",
+             NonNegativeInteger,
+             "The byte offset of the log file to show",
+             :default => 0])
     .permissions([:view_repository])
-    .returns([200, "Stream"]) \
+    .returns([200, "The section of the import log between 'offset' and the end of file"]) \
   do
-    # return job's log as a stream
+    job = ImportJob.get_or_die(params[:id])
+    (stream, length) = job.get_output_stream(params[:offset])
+
+    [
+     200,
+     {'Content-Type' => 'text/plain', 'Content-Length' => length.to_s},
+     Enumerator.new do |y|
+       begin
+         while (length > 0 && chunk = stream.read([length, 4096].min))
+           y << chunk
+           length -= chunk.bytesize
+         end
+       ensure
+         stream.close
+       end
+     end
+    ]
   end
 
 

@@ -18,7 +18,7 @@ class ImportJob < Sequel::Model(:import_job)
     def initialize(name)
       @job_path = File.join(AppConfig[:import_job_path], name)
       FileUtils.mkdir_p(@job_path)
-      @output = File.open(File.join(@job_path, "output.log"), "w")
+      @output_path = File.join(@job_path, "output.log")
     end
 
 
@@ -32,7 +32,18 @@ class ImportJob < Sequel::Model(:import_job)
 
 
     def write_output(s)
+      @output ||= File.open(@output_path, "a")
       @output.puts(s)
+    end
+
+
+    def get_output_stream(offset = 0)
+      @output.flush if @output
+
+      f = File.open(@output_path, "r")
+      f.seek(offset, IO::SEEK_SET)
+
+      [f, [(f.size - offset), 0].max]
     end
 
 
@@ -70,6 +81,11 @@ class ImportJob < Sequel::Model(:import_job)
 
   def write_output(s)
     file_store.write_output(s)
+  end
+
+
+  def get_output_stream(offset = 0)
+    file_store.get_output_stream(offset)
   end
 
 
