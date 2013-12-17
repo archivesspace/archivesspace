@@ -2,12 +2,15 @@ require 'fileutils'
 require 'securerandom'
 
 require_relative 'user'
+require_relative 'import_job_files'
+require_relative 'import_job_created_record'
 
 class ImportJob < Sequel::Model(:import_job)
   include ASModel
   corresponds_to JSONModel(:job)
 
-  one_to_many :job_files, :class => "ImportJobFile", :key => :job_id
+  one_to_many :job_files, :class => ImportJobFile, :key => :job_id
+  one_to_many :created_records, :class => ImportJobCreatedRecord, :key => :job_id
   many_to_one :owner, :key => :owner_id, :class => User
 
   set_model_scope :repository
@@ -76,6 +79,13 @@ class ImportJob < Sequel::Model(:import_job)
 
   def add_file(io)
     add_job_file(ImportJobFile.new(:file_path => file_store.store(io)))
+  end
+
+
+  def record_created_uris(uris)
+    uris.each do |uri|
+      add_created_record(:record_uri => uri)
+    end
   end
 
 

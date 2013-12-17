@@ -33,20 +33,6 @@ Sequel.migration do
     end
 
 
-    create_table(:import_job_output) do
-      primary_key :id
-
-      Integer :job_id, :null => false
-
-      MediumBlobField :created_record_uris, :null => false
-      Integer :created_record_count
-    end
-
-    alter_table(:import_job_output) do
-      add_foreign_key([:job_id], :import_job, :key => :id)
-    end
-
-
     create_table(:import_job_input_file) do
       primary_key :id
 
@@ -58,12 +44,27 @@ Sequel.migration do
       add_foreign_key([:job_id], :import_job, :key => :id)
     end
 
+
+    create_table(:import_job_created_record) do
+      primary_key :id
+
+      Integer :job_id, :null => false
+      String :record_uri, :null => false
+
+      apply_mtime_columns
+    end
+
+    alter_table(:import_job_created_record) do
+      add_foreign_key([:job_id], :import_job, :key => :id)
+    end
+
+
   end
 
 
   down do
     drop_table(:import_job_input_file)
-    drop_table(:import_job_output)
+    drop_table(:import_job_created_record)
     drop_table(:import_job)
   end
 

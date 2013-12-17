@@ -33,4 +33,11 @@ describe 'Import job model' do
   end
 
 
+  it "can record created URIs for a job" do
+    job.record_created_uris((1..10).map {|n| "/repositories/#{$repo_id}/accessions/#{n}"})
+
+    job.created_records.count.should eq(10)
+  end
+
+
 end

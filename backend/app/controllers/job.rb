@@ -114,13 +114,17 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/repositories/:repo_id/jobs/:id/uris')
-    .description("Get the URI's created by a Job")
+  Endpoint.get('/repositories/:repo_id/jobs/:id/records')
+    .description("Get a Job's list of created URIs")
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:view_repository])
-    .returns([200, "Stream"]) \
+    .paginated(true)
+    .returns([200, "An array of created records"]) \
   do
-    # return uri's as a stream
+    job = ImportJob.get_or_die(params[:id])
+
+    handle_listing(ImportJobCreatedRecord, params, {:job_id => job.id})
   end
+
 end

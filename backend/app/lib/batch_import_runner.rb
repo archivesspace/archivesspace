@@ -99,20 +99,23 @@ class BatchImportRunner
       batch = nil if !success && DB.supports_mvcc?
     end
 
-    results = {:saved => []}
-
-    if batch && batch.created_records
-      results[:saved] = Hash[batch.created_records.map {|logical, real_uri|
-                               [logical, [real_uri, JSONModel.parse_reference(real_uri)[:id]]]}]
-    end
+    log_created_uris(batch)
 
     if last_error
       ticker.log("Error: #{last_error}")
       raise last_error
     end
+  end
 
 
-    ticker.log("RESULTS: #{results.inspect}")
+  private
+
+  def log_created_uris(batch)
+    if batch && batch.created_records
+      DB.open do |db|
+        @job.record_created_uris(batch.created_records.values)
+      end
+    end
   end
 
 end
