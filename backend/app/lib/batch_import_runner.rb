@@ -57,13 +57,16 @@ class BatchImportRunner
     batch = nil
     success = false
 
+    filenames = ASUtils.json_parse(@job.filenames || "[]")
+
     # Wrap the import in a transaction if the DB supports MVCC
     begin
       DB.open(DB.supports_mvcc?,
               :retry_on_optimistic_locking_fail => true) do
 
         begin
-          @job.job_files.each do |input_file|
+          @job.job_files.each_with_index do |input_file, i|
+            ticker.log(("=" * 50) + "\n#{filenames[i]}\n" + ("=" * 50)) if filenames[i]
             converter = Converter.for(@job.import_type, input_file.file_path)
             begin
               converter.run
