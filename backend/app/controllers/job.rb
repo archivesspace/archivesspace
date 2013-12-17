@@ -61,7 +61,8 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/jobs/archived')
     .description("Get a list of all archived Jobs for a Repository")
-    .params(["repo_id", :repo_id])
+    .params(["resolve", :resolve],
+            ["repo_id", :repo_id])
     .permissions([:view_repository])
     .paginated(true)
     .returns([200, "[(:job)]"]) \
@@ -73,11 +74,12 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/repositories/:repo_id/jobs/:id')
     .description("Get a Job by ID")
     .params(["id", :id],
+            ["resolve", :resolve],
             ["repo_id", :repo_id])
     .permissions([:view_repository])
     .returns([200, "(:job)"]) \
   do
-    json_response(ImportJob.to_jsonmodel(params[:id]))
+    json_response(resolve_references(ImportJob.to_jsonmodel(params[:id]), params[:resolve]))
   end
 
 

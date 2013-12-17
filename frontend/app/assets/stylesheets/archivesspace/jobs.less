@@ -61,3 +61,32 @@
     float:right;
   }
 }
+
+// Details styles
+.job-status {
+  font-weight: bold;
+  font-size: 1.2em;
+
+  .controls {
+    &.job-status-completed {
+      color: @successText;
+    }
+
+    &.job-status-canceled {
+      color: @errorText;
+    }
+
+    &.job-status-queued {
+      color: @warningText;
+    }
+
+    &.job-status-running {
+      color: @infoText;
+    }
+
+    &.job-status-errored {
+      color: @errorText;
+    }
+  }
+
+}

@@ -1,86 +1,29 @@
-<% define_template "job_status_completed", jsonmodel_definition(:job) do |form, job| %>
-  <div class="text text-success">
-    This Import Job has <strong>completed</strong> successfully.
-  </div>
-  <div class="control-group">
-    <label class="control-label"><%= I18n.t("job.time_submitted") %></label>
-    <div class="controls label-only"><%= Time.parse(job.time_submitted).getlocal %></div>
-  </div>
-  <div class="control-group">
-    <label class="control-label"><%= I18n.t("job.time_started") %></label>
-    <div class="controls label-only"><%= Time.parse(job.time_started).getlocal %></div>
-  </div>
-  <div class="control-group">
-    <label class="control-label"><%= I18n.t("job.time_finished") %></label>
-    <div class="controls label-only"><%= Time.parse(job.time_finished).getlocal %></div>
-  </div>
-<% end %>
-
-<% define_template "job_status_running", jsonmodel_definition(:job) do |form, job| %>
-  <div class="alert alert-success">
-    This Import Job is currently <strong>running</strong>.
-  </div>
-  <div class="control-group">
-    <label class="control-label"><%= I18n.t("job.time_submitted") %></label>
-    <div class="controls label-only"><%= Time.parse(job.time_submitted).getlocal %></div>
-  </div>
-  <div class="control-group">
-    <label class="control-label"><%= I18n.t("job.time_started") %></label>
-    <div class="controls label-only"><%= Time.parse(job.time_started).getlocal %></div>
-  </div>
-<% end %>
-
-<% define_template "job_status_queued", jsonmodel_definition(:job) do |form, job| %>
-  <div class="alert alert-warning">
-    This Import Job is currently <strong>queued</strong>.
-  </div>
-  <div class="control-group">
-    <label class="control-label"><%= I18n.t("job.time_submitted") %></label>
-    <div class="controls label-only"><%= Time.parse(job.time_submitted).getlocal %></div>
-  </div>
-<% end %>
-
-<% define_template "job_status_cancelled", jsonmodel_definition(:job) do |form, job| %>
-  <div class="text text-danger">
-    This Import Job was <strong>cancelled</strong>.
-  </div>
-  <div class="control-group">
-    <label class="control-label"><%= I18n.t("job.time_submitted") %></label>
-    <div class="controls label-only"><%= Time.parse(job.time_submitted).getlocal %></div>
-  </div>
-  <div class="control-group">
-    <label class="control-label"><%= I18n.t("job.time_started") %></label>
-    <div class="controls label-only"><%= Time.parse(job.time_started).getlocal %></div>
-  </div>
-  <div class="control-group">
-    <label class="control-label"><%= I18n.t("job.time_finished") %></label>
-    <div class="controls label-only"><%= Time.parse(job.time_finished).getlocal %></div>
-  </div>
-<% end %>
-
-<% define_template "job_status_errored", jsonmodel_definition(:job) do |form, job| %>
-  <div class="alert alert-error">
-    This Import Job has <strong>errored</strong>.
-  </div>
-  <div class="control-group">
-    <label class="control-label"><%= I18n.t("job.time_submitted") %></label>
-    <div class="controls label-only"><%= Time.parse(job.time_submitted).getlocal %></div>
-  </div>
-  <div class="control-group">
-    <label class="control-label"><%= I18n.t("job.time_started") %></label>
-    <div class="controls label-only"><%= Time.parse(job.time_started).getlocal %></div>
-  </div>
-  <div class="control-group">
-    <label class="control-label"><%= I18n.t("job.time_finished") %></label>
-    <div class="controls label-only"><%= Time.parse(job.time_finished).getlocal %></div>
-  </div>
-<% end %>
-
 <% define_template "job_status", jsonmodel_definition(:job) do |form, job| %>
   <section id="job_status">
     <h3><%= I18n.t("job._frontend.section.status") %></h3>
 
-    <% form.emit_template "job_status_#{job.status}", job %>
+    <div class="job-status control-group">
+      <label class="control-label"><%= I18n.t("job.status") %></label>
+      <div class="controls label-only job-status-<%= job.status %>">
+        <%= I18n.t("job.status_#{job.status}", :default => job.status) %>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label"><%= I18n.t("job.time_submitted") %></label>
+      <div class="controls label-only"><%= Time.parse(job.time_submitted).getlocal %></div>
+    </div>
+    <% if job.time_started %>
+      <div class="control-group">
+        <label class="control-label"><%= I18n.t("job.time_started") %></label>
+        <div class="controls label-only"><%= Time.parse(job.time_started).getlocal %></div>
+      </div>
+    <% end %>
+    <% if job.time_finished %>
+      <div class="control-group">
+        <label class="control-label"><%= I18n.t("job.time_finished") %></label>
+        <div class="controls label-only"><%= Time.parse(job.time_finished).getlocal %></div>
+      </div>
+    <% end %>
   </section>
 <% end %>
 
@@ -98,7 +41,7 @@
 
     <div class="control-group">
       <label class="control-label"><%= I18n.t("repository._singular") %></label>
-      <div class="controls label-only"><%= job.repository %></div>
+      <div class="controls label-only"><%= resolve_readonly_link_to job.repository['_resolved']['repo_code'], job.repository['ref'] %></div>
     </div>
 
     <div class="control-group">
