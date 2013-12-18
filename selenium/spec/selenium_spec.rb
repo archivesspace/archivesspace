@@ -685,6 +685,36 @@ describe "ArchivesSpace user interface" do
     end
 
 
+    it "supports adding an event and then returning to the accession" do
+      agent_uri, @agent_name = create_agent("Geddy Lee")
+      run_index_round
+      $driver.find_element(:link, "Add Event").click
+      $driver.find_element(:link, "Processed").click
+
+      $driver.find_element(:id, "event_date__date_type_").select_option("single")
+      $driver.clear_and_send_keys([:id, "event_date__begin_"], ["2000-01-01", :tab])
+
+      agent_subform = $driver.find_element(:id, "event_linked_agents__0__role_").
+                              nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
+
+      $driver.find_element(:id, "event_linked_agents__0__role_").select_option('recipient')
+
+      token_input = agent_subform.find_element(:id, "token-input-event_linked_agents__0__ref_")
+      token_input.clear
+      token_input.click
+      token_input.send_keys("Geddy")
+      $driver.find_element(:css, "li.token-input-dropdown-item2").click
+
+      $driver.find_element(:css => "form#new_event button[type='submit']").click
+
+      # Success!
+      assert(5) {
+        $driver.find_element_with_text('//div', /Event Created/).should_not be_nil
+        $driver.find_element(:css => '.record-pane h2').text.should eq("#{@accession_title}, #{@shared_4partid.join(", ")} Accession")
+      }
+    end
+
+
     it "can edit an Accession and two Extents" do
       # add the first extent
       $driver.find_element(:css => '#accession_extents_ .subrecord-form-heading .btn').click
