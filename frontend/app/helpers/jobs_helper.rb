@@ -2,7 +2,7 @@ module JobsHelper
 
   def badge_class_for_status(status)
     if status === "running"
-      "badge badge-success"
+      "badge badge-info"
     elsif status === "completed"
       "text-success"
     elsif status === "queued"
