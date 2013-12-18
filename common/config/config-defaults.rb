@@ -121,3 +121,6 @@ AppConfig[:shared_storage] = proc { File.join(AppConfig[:data_directory], "share
 AppConfig[:import_job_path] = proc { File.join(AppConfig[:shared_storage], "import_jobs") }
 AppConfig[:import_poll_seconds] = 5
 AppConfig[:import_timeout_seconds] = 300
+
+# By default, only allow jobs to be cancelled if we're running against MySQL (since we can rollback)
+AppConfig[:import_jobs_cancelable] = proc { (AppConfig[:db_url] != AppConfig.demo_db_url).to_s }
