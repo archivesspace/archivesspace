@@ -1,7 +1,8 @@
 class SearchController < ApplicationController
 
   DETAIL_TYPES = ['accession', 'resource', 'archival_object', 'digital_object',
-                  'digital_object_component', 'classification']
+                  'digital_object_component', 'classification',
+                  'agent_person', 'agent_family', 'agent_software', 'agent_corporate_entity']
 
   VIEWABLE_TYPES = ['agent', 'repository', 'subject'] + DETAIL_TYPES
 
