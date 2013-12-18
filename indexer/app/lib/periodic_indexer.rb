@@ -1,6 +1,13 @@
 require_relative 'indexer_common'
 require 'time'
 require 'thread'
+require 'java'
+
+# Eagerly load this constant since we access it from multiple threads.  Having
+# two threads try to load it simultaneously seems to create the possibility for
+# race conditions.
+java.util.concurrent.TimeUnit::MILLISECONDS
+
 
 class IndexState
 
@@ -196,8 +203,12 @@ class PeriodicIndexer < CommonIndexer
         did_something = false
 
         while true
-          id_subset = queue.pop
-          break if id_subset == :finished
+          id_subset = queue.poll(10000, java.util.concurrent.TimeUnit::MILLISECONDS)
+
+          # If the parent thread has finished, it should have pushed a :finished
+          # token.  But if we time out after a reasonable amount of time, assume
+          # it isn't coming back.
+          break if (id_subset == :finished || id_subset.nil?)
 
           records = JSONModel(record_type).all(:id_set => id_subset.join(","),
                                                'resolve[]' => @@resolved_attributes)
@@ -216,11 +227,6 @@ class PeriodicIndexer < CommonIndexer
         did_something
       rescue
         $stderr.puts("Failure in periodic indexer worker thread: #{$!}")
-
-        # In the case of an error, clear the queue to ensure that the parent
-        # thread unblocks and notices the error.  Then rethrow the original
-        # exception to cause the whole batch to abort.
-        queue.clear
         raise $!
       end
     end
@@ -271,31 +277,34 @@ class PeriodicIndexer < CommonIndexer
         next if id_set.empty?
 
         indexed_count = 0
-        work_queue = SizedQueue.new(THREAD_COUNT)
+        work_queue = java.util.concurrent.LinkedBlockingQueue.new(THREAD_COUNT)
 
         workers = (0...THREAD_COUNT).map {|thread_idx|
           start_worker_thread(work_queue, type)
         }
 
-        # Feed our worker threads subsets of IDs to process
-        id_set.each_slice(RECORDS_PER_THREAD) do |id_subset|
-          # If any of the workers have caught an exception, stop immediately.
-          break if workers.any? { |thread| thread.status.nil? }
+        begin
+          # Feed our worker threads subsets of IDs to process
+          id_set.each_slice(RECORDS_PER_THREAD) do |id_subset|
+            # This will block if all threads are currently busy indexing.
+            while !work_queue.offer(id_subset, 5000, java.util.concurrent.TimeUnit::MILLISECONDS)
+              # If any of the workers have caught an exception, rethrow it immediately
+              workers.each do |thread|
+                thread.value if thread.status.nil?
+              end
+            end
 
-          # This will block if all threads are currently busy indexing.
-          work_queue.push(id_subset)
+            indexed_count += id_subset.length
+            $stderr.puts("Indexed #{indexed_count} of #{id_set.length} #{type} records in repository #{repository.repo_code}")
+          end
 
-          indexed_count += id_subset.length
-          $stderr.puts("Indexed #{indexed_count} of #{id_set.length} #{type} records in repository #{repository.repo_code}")
+        ensure
+          # Once we're done, instruct the workers to finish up.
+          THREAD_COUNT.times { work_queue.offer(:finished, 5000, java.util.concurrent.TimeUnit::MILLISECONDS) }
         end
 
-        # And once we're done, instruct them to finish up and wait for them.  If
-        # any of the threads reported that they indexed some records, we'll send
-        # a commit.
-        THREAD_COUNT.times { work_queue.push(:finished) }
-
-        # The call to thread.value here will rethrow any exceptions thrown by
-        # the worker threads, so if they fail the whole batch fails.
+        # If any worker reports that they indexed some records, we'll send a
+        # commit.
         results = workers.map {|thread| thread.join; thread.value}
         did_something ||= results.any? {|status| status}
 
