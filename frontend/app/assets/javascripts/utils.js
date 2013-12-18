@@ -91,7 +91,6 @@ $(function() {
   var bindSidebarEvents = function() {
     $("#archivesSpaceSidebar .nav-list").on("click", "> li > a", function(event) {
       event.preventDefault();
-      event.stopPropagation();
 
       var $target_item = $(this);
       $($target_item.attr("href")).ScrollTo({
@@ -744,5 +743,42 @@ $(function() {
         xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
       }
     }
+  });
+});
+
+// Add close action to all alerts
+$(function() {
+
+  var handleCloseAlert = function(event) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    var $hideAlert = $(this);
+
+    $hideAlert.hide().closest(".alert").slideUp(function() {
+      $hideAlert.show();
+    });
+  };
+
+  $.fn.initCloseAlertAction = function(event, $container) {
+    $(this).each(function() {
+      var $alert = $(this);
+
+      // add a close icon to the alert
+      var $close = $("<a>").attr("href", "javascript:void(0);").addClass("hide-alert");
+      $close.append($("<span>").addClass("icon icon-remove"));
+      $close.click(handleCloseAlert);
+
+      $alert.prepend($close);
+      $alert.addClass("with-hide-alert");
+    });
+  };
+
+  $(document).ready(function() {
+    $(document).bind("loadedrecordform.aspace", function(event, $container) {
+      $(".alert", $container).initCloseAlertAction();
+    });
+
+    $(".alert:not(.with-hide-alert)").initCloseAlertAction();
   });
 });

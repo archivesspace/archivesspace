@@ -75,6 +75,11 @@
 
        $(callback);
        $(document).on("loadedrecordform.aspace", callback);
+       $(document).on("formerrorready.aspace", function() {
+        $("#archivesSpaceSidebar").on("click", "[href='#form_messages']", function(event) {
+          $("#form_messages .alert:hidden").slideDown();
+        });
+       });
      });
    </script>
 
