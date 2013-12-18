@@ -72,6 +72,7 @@ class BatchImportRunner
                                     :repo_id => @job.repo_id) do
                   batch = StreamingImport.new(fh, ticker, @import_canceled)
                   batch.process
+                  log_created_uris(batch)
                   success = true
                 end
               end
@@ -79,6 +80,8 @@ class BatchImportRunner
               converter.remove_files
             end
           end
+        rescue ImportCanceled
+          raise Sequel::Rollback
         rescue JSONModel::ValidationException, ImportException, Sequel::ValidationFailed, ReferenceError => e
           # Note: we deliberately don't catch Sequel::DatabaseError here.  The
           # outer call to DB.open will catch that exception and retry the
@@ -96,8 +99,6 @@ class BatchImportRunner
       # rolled back.
       batch = nil if !success && DB.supports_mvcc?
     end
-
-    log_created_uris(batch)
 
     if last_error
       ticker.log("Error: #{last_error}")

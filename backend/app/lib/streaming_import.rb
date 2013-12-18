@@ -94,12 +94,10 @@ class StreamingImport
   end
 
 
-  def import_canceled?
+  def abort_if_import_canceled
     if @import_canceled.value
       @ticker.log("Import canceled!")
-      true
-    else
-      false
+      raise ImportCanceled.new
     end
   end
 
@@ -119,7 +117,7 @@ class StreamingImport
         with_status("Saving records: cycle #{round}") do
           @ticker.tick_estimate = @jstream.count
           @jstream.each do |rec|
-            return if import_canceled?
+            abort_if_import_canceled
 
             uri = rec['uri']
             dependencies = @dependencies[uri]

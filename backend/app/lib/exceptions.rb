@@ -66,6 +66,12 @@ class RepositoryNotEmpty < StandardError
 end
 
 
+class ImportCanceled < StandardError
+  def to_s
+    "The import was canceled"
+  end
+end
+
 class ImportException < StandardError
   attr_accessor :invalid_object
   attr_accessor :message
