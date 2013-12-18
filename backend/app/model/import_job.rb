@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'securerandom'
+require 'stringio'
 
 require_relative 'user'
 require_relative 'import_job_files'
@@ -96,7 +97,11 @@ class ImportJob < Sequel::Model(:import_job)
 
 
   def get_output_stream(offset = 0)
-    file_store.get_output_stream(offset)
+    begin
+      file_store.get_output_stream(offset)
+    rescue
+      [StringIO.new(""), 0]
+    end
   end
 
 
