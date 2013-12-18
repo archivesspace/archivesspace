@@ -3,7 +3,7 @@
 <% define_template("fileupload") do |form| %>
   <span class="btn btn-success btn-small fileinput-button">
         <i class="icon icon-plus icon-white"></i>
-        <span>Add file</span>
+        <span><%= I18n.t("job._frontend.actions.add_file") %></span>
         <input id="fileupload" type="file" name="files[]">
     </span>
   <div id="files"></div>
@@ -16,7 +16,7 @@
     </fieldset>
   </section>
   <hr/>
-  <div class="alert alert-info" id="noImportTypeSelected">Please select an Import Type</div>
+  <div class="alert alert-info" id="noImportTypeSelected"><%= I18n.t("job._frontend.messages.import_type_missing") %></div>
   <section id="jobFiles">
     <% form.emit_template("fileupload") %>
   </section>
@@ -27,7 +27,6 @@
   <%= form_context :job, @job do |form| %>
     <div class="row-fluid">
       <div class="span12">
-        <%# render :partial => "shared/toolbar_new_records" %>
         <div class="record-pane">
           <%= link_to_help :topic => "job" %>
           <h2><%= I18n.t("job._frontend.actions.new") %></h2>
@@ -39,7 +38,7 @@
           </div>
 
           <div id="successMessage" class="alert alert-success" style="display: none">
-            Upload Successful. Redirecting to Job page...
+            <%= I18n.t("job._frontend.messages.upload_successful") %>
           </div>
 
           <div class="form-actions">

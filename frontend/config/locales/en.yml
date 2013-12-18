@@ -32,6 +32,7 @@ en:
     move_down_into: Down Into...
     paste: Paste
     remove: Remove
+    refresh_page: Refresh Page
     new_prefix: New
     save_prefix: Save
     save_plus_one: "+1"
@@ -755,12 +756,27 @@ en:
     repository_changed: "This record can't be saved, because your active repository has changed. To save this record, open another window and reset your active repository."
   job:
     _frontend:
+      audit_data: Audit Data
       actions:
         create: Create Import Job
         save: Queue Import Job
         new: New Import Job
+        cancel: Cancel Job
+        add_file: Add file
+        follow_log: Follow Log
       section:
         basic_information: Basic Information
         status: Job Status
-        logs: Logs
+        logs: Log
         generated_uris: Imported Records
+        active_jobs: Active Jobs
+        archived_jobs: Archived Jobs
+      messages:
+        status_changed_running: The import job has started running.
+        status_changed_completed: The import job has completed.
+        status_changed_failed: The import job has failed.
+        status_changed_canceled: The import job has been canceled.
+        no_active_jobs: There are no active import jobs.
+        no_archived_jobs: There are no archived import jobs.
+        upload_successful: Upload Successful. Redirecting to Job page...
+        import_type_missing: Please select an Import Type

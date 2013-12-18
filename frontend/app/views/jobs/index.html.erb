@@ -13,20 +13,20 @@
 
       <%= render :partial => "shared/flash_messages" %>
 
-      <h3>Active Jobs</h3>
+      <h3><%= I18n.t("job._frontend.section.active_jobs") %></h3>
       <% if @active_jobs.length > 0 %>
         <%= render :partial => "jobs/listing", :locals => {:jobs => @active_jobs} %>
       <% else %>
-        <p class="alert alert-info">There are no active import jobs.</p>
+        <p class="alert alert-info"><%= I18n.t("job._frontend.messages.no_active_jobs") %></p>
       <% end %>
 
-      <h3>Archived Jobs</h3>
+      <h3><%= I18n.t("job._frontend.section.archived_jobs") %></h3>
       <% if @search_data['results'].length > 0 %>
         <%= render :partial => "jobs/listing", :locals => {:jobs => @search_data['results']} %>
         <%= render :partial => "shared/pagination" %>
       <% else %>
         <p class="alert alert-info">
-          There are no archived import jobs.
+          <%= I18n.t("job._frontend.messages.no_archived_jobs") %>
         </p>
       <% end %>
     </div>
