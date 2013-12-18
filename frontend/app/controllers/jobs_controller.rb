@@ -17,8 +17,6 @@ class JobsController < ApplicationController
   end
 
   def create
-    puts ">>>>>>>>>> #{params.inspect}"
-
     begin
       job = Job.new(params['job']['import_type'], Hash[params['files'].reject(&:blank?).map {|file|
                                   [file.original_filename, file.tempfile]
@@ -58,9 +56,16 @@ class JobsController < ApplicationController
   def status
     job = JSONModel(:job).find(params[:id])
 
-    render :json => {
-      :status => job.status
+    json = {
+        :status => job.status
     }
+
+    if job.status === "queued"
+      json[:queue_position] = job.queue_position
+      json[:queue_position_message] = job.queue_position === 0 ? I18n.t("job._frontend.messages.queue_position_next") : I18n.t("job._frontend.messages.queue_position", :position => (job.queue_position+1).ordinalize)
+    end
+
+    render :json => json
   end
 
 

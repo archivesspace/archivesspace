@@ -780,3 +780,5 @@ en:
         no_archived_jobs: There are no archived import jobs.
         upload_successful: Upload Successful. Redirecting to Job page...
         import_type_missing: Please select an Import Type
+        queue_position_next: This import is next in the queue.
+        queue_position: "This import is %{position} in the queue."

@@ -14,6 +14,9 @@
       <td class="job-status">
         <span class="<%= badge_class_for_status(job["status"]) %>">
           <%= I18n.t("job.status_#{job["status"]}", :default => job["status"]) %>
+          <% if job["status"] === "queued" %>
+            - <%= (job["queue_position"].to_i + 1).ordinalize %>
+          <% end %>
         </span>
       </td>
       <td><%= I18n.t("job.import_type_#{job["import_type"]}", :default => job["import_type"]) %></td>

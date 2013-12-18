@@ -113,6 +113,7 @@ $(function() {
             $(".record-toolbar .btn").addClass("disabled").attr("disabled", "disabled");
           }
         } else if ($.inArray(CURRENT_STATUS, ["queued"]) >= 0) {
+          $("#queueMessage").html(json.queue_position_message);
           STATUS_POLL = setTimeout(pollStatus, STATUS_POLL_INTERVAL);
         }
       }

@@ -14,6 +14,10 @@
 
         <%= render :partial => "shared/flash_messages" %>
 
+        <% if @job.status === "queued" %>
+          <div class="alert alert-warning" id="queueMessage"></div>
+        <% end %>
+
         <%= readonly.emit_template "job_status", @job %>
         <%= readonly.emit_template "job", @job %>
 

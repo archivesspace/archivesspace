@@ -115,11 +115,19 @@ class ImportJob < Sequel::Model(:import_job)
   end
 
 
+  def queue_position
+    DB.open do |db|
+      job_id = self.id
+      db[:import_job].where { id < job_id }.where(:status => "queued").count
+    end
+  end
+
   def self.sequel_to_jsonmodel(obj, opts = {})
     filenames = ASUtils.json_parse(obj.filenames || "[]")
     json = super
     json.filenames = filenames
     json.owner = obj.owner.username
+    json.queue_position = obj.queue_position if obj.status === "queued"
 
     json
   end
