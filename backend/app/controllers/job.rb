@@ -26,8 +26,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :updated]) \
   do
     job = ImportJob.get_or_die(params[:id])
-    job.status = "canceled"
-    job.save
+    job.cancel!
 
     updated_response(job)
   end

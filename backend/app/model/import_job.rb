@@ -131,4 +131,11 @@ class ImportJob < Sequel::Model(:import_job)
     end
   end
 
+
+  def cancel!
+    if ["queued", "running"].include? self.status
+      self.status = "canceled"
+      self.save
+    end
+  end
 end
