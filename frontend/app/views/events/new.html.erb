@@ -4,8 +4,8 @@
   <%= form_context :event, @event do |form| %>
 
     <% if !@event.linked_records.first.nil? %>
-      <%= @event.linked_records.first['ref'].inspect  %>
       <input type="hidden" name="redirect_record" value="<%= @event.linked_records.first['ref'] %>" />
+      <input type="hidden" name="redirect_action" value="<%= @redirect_action %>" />
     <% end %>
 
     <div class="row-fluid">
