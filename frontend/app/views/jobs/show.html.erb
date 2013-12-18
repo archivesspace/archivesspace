@@ -28,7 +28,8 @@
               <% end %>
             </h3>
             <div class="subrecord-form-container">
-              <pre id="logSpool"></pre>
+              <div class="alert alert-info"><%= I18n.t("actions.loading") %></div>
+              <pre id="logSpool" style="display: none"></pre>
             </div>
           </section>
         <% end %>
@@ -37,7 +38,9 @@
           <section id="generated_uris" class="subrecord-form-dummy" data-url="<%= url_for(:controller => :jobs, :action => :records, :id => @job.id, :page => 1) %>">
             <h3 class="subrecord-form-heading"><%= I18n.t("job._frontend.section.generated_uris") %></h3>
             <div class="subrecord-form-container">
-              <div id="jobRecordsSpool"></div>
+              <div id="jobRecordsSpool">
+                <div class="alert alert-info">I18n.t("actions.loading") %></div>
+              </div>
             </div>
           </section>
         <% end %>

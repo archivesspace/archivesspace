@@ -32,6 +32,8 @@ $(function() {
         type: "GET",
         success: function(data) {
           var dataLength = data.length;
+          $(".alert", $logSection).remove();
+          $logSpool.slideDown();
           $logSpool.append(data);
           offset +=dataLength;
 
