@@ -31,9 +31,7 @@ class JobsController < ApplicationController
 
 
   def cancel
-    @job = JSONModel(:job).find(params[:id], "resolve[]" => "repository")
-
-    # TODO: Cancel the @job
+    Job.cancel(params[:id])
 
     redirect_to :action => :show
   end

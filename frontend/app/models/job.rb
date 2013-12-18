@@ -40,4 +40,11 @@ class Job
   def self.records(id, page)
     JSONModel::HTTP::get_json("#{JSONModel(:job).uri_for(id)}/records", :page => page, "resolve[]" => "record")
   end
+
+
+  def self.cancel(id)
+    response = JSONModel::HTTP.post_form("#{JSONModel(:job).uri_for(id)}/cancel")
+
+    ASUtils.json_parse(response.body)
+  end
 end
