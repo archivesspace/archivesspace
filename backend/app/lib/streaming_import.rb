@@ -62,7 +62,7 @@ class StreamingImport
 
       @ticker.tick_estimate = 1000 # this is totally made up, just want to show something
 
-      @tempfile = Tempfile.new('import_stream')
+      @tempfile = ASUtils.tempfile('import_stream')
 
       begin
         while !(buf = stream.read(4096)).nil?

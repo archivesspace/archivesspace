@@ -101,7 +101,7 @@ class ArchivesSpaceBackup
 
     solr_snapshot = File.join(AppConfig[:solr_backup_directory], "solr.#{solr_snapshot_id}")
 
-    mysql_tempfile = Tempfile.new('mysqldump')
+    mysql_tempfile = ASUtils.tempfile('mysqldump')
 
     begin
       mysql_dump = create_mysql_dump(mysql_tempfile) if do_mysqldump

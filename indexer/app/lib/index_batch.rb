@@ -13,7 +13,7 @@ class IndexBatch
     @record_count = 0
     @closed = false
 
-    @filestore = Tempfile.new('index_batch')
+    @filestore = ASUtils.tempfile('index_batch')
     self.write("[\n")
   end
 

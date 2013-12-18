@@ -93,7 +93,7 @@ module ASpaceImport
       flush
       @working_file.close
 
-      @batch_file = Tempfile.new("import_batch_result")
+      @batch_file = ASUtils.tempfile("import_batch_result")
 
       @batch_file.write("[")
 

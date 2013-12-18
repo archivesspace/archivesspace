@@ -17,7 +17,7 @@ describe 'EAD converter' do
 </c>
 ANEAD
 
-    tmp = Tempfile.new("doc1")
+    tmp = ASUtils.tempfile("doc1")
     tmp.write(src)
     tmp.close
     tmp.path

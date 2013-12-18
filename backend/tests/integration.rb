@@ -361,7 +361,7 @@ def main
     ldap = start_ldap
 
     # Configure LDAP auth
-    config = Tempfile.new('aspace_integration_config')
+    config = ASUtils.tempfile('aspace_integration_config')
     config.write <<EOF
 
 AppConfig[:authentication_sources] = [

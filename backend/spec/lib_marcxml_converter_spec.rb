@@ -59,7 +59,7 @@ describe 'MARCXML converter' do
      </collection>
 END
 
-    tmp = Tempfile.new("doc1")
+    tmp = ASUtils.tempfile("doc1")
     tmp.write(src)
     tmp.close
     tmp.path

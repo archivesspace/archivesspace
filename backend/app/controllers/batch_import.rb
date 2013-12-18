@@ -22,7 +22,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     if !env['batch_import_file']
       stream = params[:batch_import]
-      tempfile = Tempfile.new('import_stream')
+      tempfile = ASUtils.tempfile('import_stream')
 
       begin
         while !(buf = stream.read(4096)).nil?
