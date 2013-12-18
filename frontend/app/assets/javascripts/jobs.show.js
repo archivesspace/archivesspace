@@ -96,11 +96,20 @@ $(function() {
       dataType: "json",
       success: function(json) {
         if (CURRENT_STATUS != json.status) {
+          var old_status = CURRENT_STATUS;
           CURRENT_STATUS = json.status;
           var templateName = "template_job_"+json.status + "_notice";
           var $li = $("<li>");
           $li.append(AS.renderTemplate(templateName));
           $("#archivesSpaceSidebar .nav-list").append($li);
+
+          // Auto-reload the page if status changed from 'queued'
+          if (old_status === "queued") {
+            location.reload();
+          }
+          if ($.inArray(CURRENT_STATUS, ["failed", "canceled", "completed"]) >= 0) {
+            $(".record-toolbar .btn").addClass("disabled").attr("disabled", "disabled");
+          }
         } else if ($.inArray(CURRENT_STATUS, ["queued"]) >= 0) {
           STATUS_POLL = setTimeout(pollStatus, STATUS_POLL_INTERVAL);
         }

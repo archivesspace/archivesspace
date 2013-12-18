@@ -772,7 +772,7 @@ en:
         active_jobs: Active Jobs
         archived_jobs: Archived Jobs
       messages:
-        status_changed_running: The import job has started running.
+        status_changed_running: The import job has started running. Refreshing Page...
         status_changed_completed: The import job has completed.
         status_changed_failed: The import job has failed.
         status_changed_canceled: The import job has been canceled.
