@@ -17,9 +17,18 @@ class JobsController < ApplicationController
   end
 
   def create
-    job = Job.new(params['job']['import_type'], Hash[params['files'].reject(&:blank?).map {|file|
-                                [file.original_filename, file.tempfile]
-                              }])
+    puts ">>>>>>>>>> #{params.inspect}"
+
+    begin
+      job = Job.new(params['job']['import_type'], Hash[params['files'].reject(&:blank?).map {|file|
+                                  [file.original_filename, file.tempfile]
+                                }])
+    rescue JSONModel::ValidationException => e
+      @exceptions = e.invalid_object._exceptions
+      @job = e.invalid_object
+
+      return render :partial => "jobs/form", :status => 400
+    end
 
     render :json => job.upload
   end

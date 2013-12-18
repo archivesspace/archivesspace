@@ -1,0 +1,55 @@
+<% define_template("fileupload") do |form| %>
+  <span class="btn btn-success btn-small fileinput-button">
+        <i class="icon icon-plus icon-white"></i>
+        <span><%= I18n.t("job._frontend.actions.add_file") %></span>
+        <input id="fileupload" type="file" name="files[]">
+    </span>
+  <div id="files"></div>
+<% end %>
+
+<% define_template("job", jsonmodel_definition(:job)) do |form| %>
+  <section>
+    <fieldset>
+      <%= form.label_and_select "import_type", form.possible_options_for("import_type", true) %>
+    </fieldset>
+  </section>
+  <hr/>
+  <div class="alert alert-info" id="noImportTypeSelected"><%= I18n.t("job._frontend.messages.import_type_missing") %></div>
+  <section id="job_filenames_">
+    <% form.emit_template("fileupload") %>
+    <% form.path("filenames") %>
+  </section>
+  <hr/>
+<% end %>
+
+<%= form_for @job, :as => "job", :url => {:action => :create}, :html => {:id => "jobfileupload", :class => 'form-horizontal aspace-record-form',  :multipart => true} do |f| %>
+  <%= form_context :job, @job do |form| %>
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="record-pane">
+          <%= link_to_help :topic => "job" %>
+          <h2><%= I18n.t("job._frontend.actions.new") %></h2>
+
+          <%= render :partial => "shared/form_messages", :locals => {:object => @job, :form => form} %>
+
+          <% form.emit_template("job") %>
+
+          <div id="uploadProgress" class="progress progress-striped active" style="display: none;">
+            <div class="bar" style="width: 0;"></div>
+          </div>
+
+          <div id="successMessage" class="alert alert-success" style="display: none">
+            <%= I18n.t("job._frontend.messages.upload_successful") %>
+          </div>
+
+          <div class="form-actions">
+            <div class="btn-group">
+              <button type="submit" class="btn btn-primary"><%= I18n.t("job._frontend.actions.save") %></button>
+            </div>
+            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>
