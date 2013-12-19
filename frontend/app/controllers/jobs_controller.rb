@@ -18,17 +18,25 @@ class JobsController < ApplicationController
 
   def create
     begin
-      job = Job.new(params['job']['import_type'], Hash[params['files'].reject(&:blank?).map {|file|
+      job = Job.new(params['job']['import_type'], Hash[Array(params['files']).reject(&:blank?).map {|file|
                                   [file.original_filename, file.tempfile]
                                 }])
     rescue JSONModel::ValidationException => e
       @exceptions = e.invalid_object._exceptions
       @job = e.invalid_object
 
-      return render :partial => "jobs/form", :status => 400
+      if params[:iframePOST] # IE saviour. Render the form in a textarea for the AjaxPost plugin to pick out.
+        return render :partial => "jobs/form_for_iframepost", :status => 400
+      else
+        return render :partial => "jobs/form", :status => 400
+      end
     end
 
-    render :json => job.upload
+    if params[:iframePOST] # IE saviour. Render the form in a textarea for the AjaxPost plugin to pick out.
+      render :text => "<textarea data-type='json'>#{job.upload.to_json}</textarea>"
+    else
+      render :json => job.upload
+    end
   end
 
 

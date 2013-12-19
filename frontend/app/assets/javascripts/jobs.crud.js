@@ -1,27 +1,37 @@
-//= require jquery.MultiFile
-
 $(function() {
 
   var initImportJobForm = function() {
     var $form = $('#jobfileupload');
 
-    // e.g. fileFormatsAccepted = 'xml|csv';
-    var initFileUploadSection = function(fileFormatsAccepted) {
-      var multiFileWidgetOpts = {
-        list: '#files',
-        STRING: {
-          remove: '<span class="btn btn-mini"><span class="icon icon-trash"></span></span>'
-        }
+    $(".btn:submit", $form).on("click", function(event) {
+      event.stopPropagation();
+      event.preventDefault();
+
+      $form.submit();
+    });
+
+
+    var initFileUploadSection = function() {
+      var $dropContainer = $("#files");
+
+      var handleFileInputChange = function() {
+        var $input = $(this);
+        var filename = $input.val().split("\\").reverse()[0]
+        var $file_html = $(AS.renderTemplate("template_import_file", {filename: filename}));
+
+        $file_html.append($input);
+        var $clone = $input.clone();
+        $clone.on("change", handleFileInputChange);
+        $(".fileinput-button", $form).append($clone);
+
+        $dropContainer.append($file_html);
       };
 
-      // Not sure if we want client side validation yet...
-      //if (fileFormatsAccepted) {
-      //  multiFileWidgetOpts['accept'] = fileFormatsAccepted;
-      //}
+      $(":file", $form).on("change", handleFileInputChange);
 
-      $('#fileupload', $form).MultiFile(multiFileWidgetOpts);
-
-      var $dropContainer = $("#files");
+      $dropContainer.on("click", ".btn-remove-file", function() {
+        $(this).closest(".import-file").remove();
+      });
 
       $dropContainer.on('dragenter', function (e) {
         e.stopPropagation();
@@ -39,13 +49,10 @@ $(function() {
             $(this).removeClass("incoming").removeClass("active");
 
             $.each(event.originalEvent.dataTransfer.files, function(i ,file) {
-              var $file_html = $('<div class="MultiFile-label"><a class="MultiFile-remove" href="#fileupload_wrap"><span class="btn btn-mini"><span class="icon icon-trash"></span></span></a> <span class="MultiFile-title"></span></div>');
+              var $file_html = $(AS.renderTemplate("template_import_file", {filename: file.name}));
               $file_html.data("file", file);
               $file_html.addClass("file-attached");
-              $file_html.find(".MultiFile-title").text(file.name);
-              $file_html.find(".MultiFile-remove").click(function() {
-                $file_html.remove();
-              });
+
               $dropContainer.append($file_html);
             });
           });
@@ -99,16 +106,20 @@ $(function() {
     });
     $("#job_import_type_", $form).trigger("change");
 
-    initFileUploadSection();
+    var handleError = function(errorHTML) {
+      $(".content-pane > .container").html(errorHTML);
+      initImportJobForm();
+    };
 
     var $progress = $("#uploadProgress", $form)
     var $progressBar = $(".bar", $progress)
 
     $form.ajaxForm({
+      type: "POST",
       beforeSubmit: function(arr, $form, options) {
         $(".btn, a, :input", $form).attr("disabled", "disabled").addClass("disabled");
         $progress.show();
-        $(".MultiFile-label.file-attached").each(function() {
+        $(".import-file.file-attached").each(function() {
           var $input = $(this);
           arr.push({
             name: "files[]",
@@ -122,17 +133,41 @@ $(function() {
         $progressBar.width(percentVal)
         //percent.html(percentVal);
       },
-      success: function(json) {
+      success: function(json, status, xhr) {
+        var uri_to_resolve;
+        if (typeof json === "string") {
+          // In IE8 (older browsers), AjaxForm will use an iframe to deliver this POST.
+          // When using an iframe it cannot handle JSON as a response type... so let us
+          // grab the HTML string returned and parse it.
+          var $responseFromIFrame = $(json);
+
+          if ($responseFromIFrame.is("textarea")) {
+            if ($responseFromIFrame.data("type") === "html") {
+              // it must of errored
+              return handleError($responseFromIFrame.val());
+            } else if ($responseFromIFrame.data("type") === "json") {
+              var fooJSON = JSON.parse($responseFromIFrame.val());
+              uri_to_resolve = fooJSON.uri;
+            } else {
+              throw "jobs.crud: textarea.data-type not currently support - " + $responseFromIFrame.data("type");
+            }
+          } else {
+            throw "jobs.crud: the response text should be wrapped in a textarea for the plugin AjaxForm support";
+          }
+        } else {
+          uri_to_resolve = json.uri;
+        }
+
         var percentVal = '100%';
         $progressBar.width(percentVal)
         $progress.removeClass("active").removeClass("progress-striped");
         $progressBar.addClass("bar-success");
         $("#successMessage").show();
-        location.href = APP_PATH + "resolve/readonly?uri="+json.uri;
+
+        location.href = APP_PATH + "resolve/readonly?uri="+uri_to_resolve;
       },
       error: function(xhr) {
-        $(".content-pane > .container").html(xhr.responseText);
-        initImportJobForm();
+        handleError(xhr.responseText);
       },
       complete: function(xhr) {
         //console.log(xhr);
