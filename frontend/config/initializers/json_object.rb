@@ -2,7 +2,7 @@ require "jsonmodel"
 require "asutils"
 require "memoryleak"
 require "frontend_enum_source"
-
+require "jsonmodel_i18n_mixin"
 
 module RailsFormMixin
 
@@ -28,10 +28,12 @@ end
 
 JSONModel::init(:client_mode => true,
                 :priority => :high,
-                :mixins => [RailsFormMixin],
+                :mixins => [RailsFormMixin, 
+                            JSONModelI18nMixin],
                 :url => AppConfig[:backend_url],
                 :enum_source => FrontendEnumSource.new,
-                :allow_other_unmapped => AppConfig[:allow_other_unmapped])
+                :allow_other_unmapped => AppConfig[:allow_other_unmapped],
+                :i18n_source => I18n)
 
 
 if not ENV['DISABLE_STARTUP']

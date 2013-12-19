@@ -86,12 +86,10 @@
                 <div class="error"
                      data-target="<%= form.id_for_javascript(attr) %>"
                      data-message="<%= h(msg) %>">
-                  <% if attr === 'coded_errors' %>
-                    <%# Special errors that we pull from the YML instead of inserting verbatim %>
-                    <%= I18n.t(form.path(msg)) %>
-                  <% else %>
-                    <%= I18n.t(form.path_to_i18n_key(attr)) %> - <%= msg %>
+                  <% unless attr === 'coded_errors' %>
+                  	<%= I18n.t(form.path_to_i18n_key(attr)) %> - 
                   <% end %>
+                  <%= msg %>
                 </div>
               <% end %>
             </div>
