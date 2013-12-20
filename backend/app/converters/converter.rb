@@ -20,7 +20,10 @@ class Converter
 
   def self.inherited(subclass)
     @converters ||= []
-    @converters << subclass
+
+    # Add the most recently created subclass to the beginning of the list so we
+    # give it preference when searching.
+    @converters.unshift(subclass)
   end
 
 
