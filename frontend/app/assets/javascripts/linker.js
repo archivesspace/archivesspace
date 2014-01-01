@@ -322,13 +322,13 @@ $(function() {
             $(document).triggerHandler("init.popovers", [$this.parent()]);
           },
           formatQueryParam: function(q, ajax_params) {
-            if ($this.tokenInput("get").length || config.exclude_ids.length) {
+            if ($this.tokenInput("get").length > 0 || config.exclude_ids.length > 0) {
               var currentlySelectedIds = $.merge([], config.exclude_ids);
-              $.each($this.tokenInput("get"), function(obj) {currentlySelectedIds.push(obj.id);});
+              $.each($this.tokenInput("get"), function(i, obj) {currentlySelectedIds.push(obj.id);});
 
               ajax_params.data["exclude[]"] = currentlySelectedIds;
             }
-            if (config.types && config.types.length) {
+            if (config.types && config.types.length > 0) {
               ajax_params.data["type"] = config.types;
             }
 
