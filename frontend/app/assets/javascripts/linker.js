@@ -29,80 +29,11 @@ $(function() {
         exclude_ids: $this.data("exclude") || []
       };
 
+      config.allow_multiple = config.multiplicity === "many";
+
       if (config.format_template && config.format_template.substring(0,2) != "${") {
         config.format_template = "${" + config.format_template + "}";
       }
-
-      var renderItemsInModal = function(page) {
-        var currentlySelectedIds = [];
-        $.each($this.tokenInput("get"), function() {currentlySelectedIds.push(this.id);});
-
-        $.ajax({
-          url: config.browse_url,
-          data: {
-            page: 1,
-            type: config.types,
-            linker: true,
-            exclude: config.exclude_ids
-          },
-          type: "GET",
-          dataType: "html",
-          success: function(html) {
-            var $modal = $("#"+config.modal_id);
-
-            var $linkerBrowseContainer = $(".linker-container", $modal);
-
-            var initBrowseFormInputs = function() {
-              // add some click handlers to allow clicking of the row
-              $(":input[name=linker-item]", $linkerBrowseContainer).each(function() {
-                var $input = $(this);
-                $input.click(function(event) {
-                  event.stopPropagation();
-
-                  // reset the currentlySelectedIds so pagination stays in sync
-                  currentlySelectedIds = [$input.val()];
-
-                  $("tr.selected", $input.closest("table")).removeClass("selected");
-                  $input.closest("tr").addClass("selected");
-                });
-
-                $("td", $input.closest("tr")).click(function(event) {
-                  event.preventDefault();
-
-                  $input.trigger("click");
-                });
-              });
-
-              // select a radio is it's currently a selected record
-              if (currentlySelectedIds.length > 0) {
-                $.each(currentlySelectedIds, function() {
-                  $(":input[value='"+this+"']", $linkerBrowseContainer).trigger("click");
-                });
-              }
-
-              $modal.trigger("resize");
-            };
-
-            $linkerBrowseContainer.html(html);
-            $($linkerBrowseContainer).on("click", "a", function(event) {
-              event.preventDefault();
-
-              $linkerBrowseContainer.load(event.target.href, initBrowseFormInputs);
-            });
-
-            $($linkerBrowseContainer).on("submit", "form", function(event) {
-              event.preventDefault();
-
-              var $form = $(event.target);
-
-              $linkerBrowseContainer.load($form.attr("action")+".js?" + $(event.target).serialize(), initBrowseFormInputs);
-            });
-
-            initBrowseFormInputs();
-          }
-        });
-      };
-
 
       var renderCreateFormForObject = function(form_uri) {
         var $modal = $("#"+config.modal_id);
@@ -163,25 +94,105 @@ $(function() {
       };
 
 
-      var addSelected = function() {
-        selectedItems  = [];
-        $(".token-input-delete-token", $linkerWrapper).each(function() {
-          $(this).triggerHandler("click");
-        });
-        $(".linker-container :input:checked", "#"+config.modal_id).each(function() {
-          var item = $(this).data("object");
-          $this.tokenInput("add", {
-            id: $(this).val(),
-            name: item.display_string || item.title,
-            json: item
+      var initAndShowLinkerBrowseModal = function() {
+
+        var currentlySelected = {};
+
+        var renderItemsInModal = function(page) {
+          $.each($this.tokenInput("get"), function() {
+            currentlySelected[this.id] = this.json;
           });
-        });
-        $("#"+config.modal_id).modal('hide');
-        $this.triggerHandler("change");
-      };
+
+          $.ajax({
+            url: config.browse_url,
+            data: {
+              page: 1,
+              type: config.types,
+              linker: true,
+              exclude: config.exclude_ids,
+              multiplicity: config.multiplicity
+            },
+            type: "GET",
+            dataType: "html",
+            success: function(html) {
+              var $modal = $("#"+config.modal_id);
+
+              var $linkerBrowseContainer = $(".linker-container", $modal);
+
+              var initBrowseFormInputs = function() {
+                // add some click handlers to allow clicking of the row
+                $(":input[name=linker-item]", $linkerBrowseContainer).each(function() {
+                  var $input = $(this);
+                  $input.click(function(event) {
+                    event.stopPropagation();
+
+                    if (!config.allow_multiple) {
+                      $("tr.selected", $input.closest("table")).removeClass("selected");
+                    }
+
+                    if ($input.is(":checked")) {
+                      // add to the selected list
+                      currentlySelected[$input.val()] = $input.data("object");
+                      $input.closest("tr").addClass("selected");
+                    } else {
+                      // remove from the list
+                      delete currentlySelected[$input.val()];
+                      $input.closest("tr").removeClass("selected");
+                    }
+                  });
+
+                  $("td", $input.closest("tr")).click(function(event) {
+                    event.preventDefault();
+
+                    $input.trigger("click");
+                  });
+                });
+
+                // select a result if it's currently a selected record
+                $.each(currentlySelected, function(uri) {
+                  $(":input[value='"+uri+"']", $linkerBrowseContainer).trigger("click");
+                });
+
+                $modal.trigger("resize");
+              };
+
+              $linkerBrowseContainer.html(html);
+              $($linkerBrowseContainer).on("click", "a", function(event) {
+                event.preventDefault();
+
+                $linkerBrowseContainer.load(event.target.href, initBrowseFormInputs);
+              });
+
+              $($linkerBrowseContainer).on("submit", "form", function(event) {
+                event.preventDefault();
+
+                var $form = $(event.target);
+
+                $linkerBrowseContainer.load($form.attr("action")+".js?" + $(event.target).serialize(), initBrowseFormInputs);
+              });
+
+              initBrowseFormInputs();
+            }
+          });
+        };
 
 
-      var showLinkerBrowseModal = function() {
+        var addSelected = function() {
+          selectedItems  = [];
+          $(".token-input-delete-token", $linkerWrapper).each(function() {
+            $(this).triggerHandler("click");
+          });
+          $.each(currentlySelected, function(uri, object) {
+            $this.tokenInput("add", {
+              id: uri,
+              name: object.display_string || object.title,
+              json: object
+            });
+          });
+          $("#"+config.modal_id).modal('hide');
+          $this.triggerHandler("change");
+        };
+
         AS.openCustomModal(config.modal_id, "Browse "+ config.label_plural, AS.renderTemplate("linker_browsemodal_template",config), 'container', {}, this);
         renderItemsInModal();
         $("#"+config.modal_id).on("click","#addSelectedButton", addSelected);
@@ -214,7 +225,7 @@ $(function() {
 
 
       var addEventBindings = function() {
-        $(".linker-browse-btn", $linkerWrapper).on("click", showLinkerBrowseModal);
+        $(".linker-browse-btn", $linkerWrapper).on("click", initAndShowLinkerBrowseModal);
         $(".linker-create-btn", $linkerWrapper).on("click", showLinkerCreateModal);
         $this.on("tokeninput.enter", showLinkerCreateModal);
 
@@ -304,7 +315,7 @@ $(function() {
             $this.triggerHandler("change");
           },
           onAdd:  function(item) {
-            if (config.sortable && config.multiplicity == "many") {
+            if (config.sortable && config.allow_multiple) {
               enableSorting();
             }
             $this.triggerHandler("change");
@@ -333,7 +344,7 @@ $(function() {
 
           $this.parent().addClass("multiplicity-"+config.multiplicity);
 
-          if (config.sortable && config.multiplicity === "many") {
+          if (config.sortable && config.allow_multiple) {
             enableSorting();
             $linkerWrapper.addClass("sortable");
           }

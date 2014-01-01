@@ -1,8 +1,8 @@
 <%
    if form.obj['ref'].blank?
-     selected_json = "{}"
+     selected_json = "[]"
    else
-     selected_json = form.obj['_resolved'].to_json
+     selected_json = [form.obj['_resolved']].to_json
    end
 
    exclude_ids = [] if exclude_ids.blank?
@@ -14,7 +14,7 @@
   hide_create = false if hide_create.blank?
 %>
 <div class="control-group <% if required %> required <% end %>">
-  <label class="control-label"><%= defined?(linker_label) ? linker_label : I18n.t("agent._singular") %></label>
+  <label class="control-label"><%= defined?(linker_label) ? linker_label : I18n.t("agent._plural") %></label>
   <div class="controls">
     <div class="input-append linker-wrapper">
       <input type="text" class="linker"
@@ -26,9 +26,10 @@
              data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
              data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.AGENT_FACETS, :sort => "title_sort asc" %>"
              data-selected="<%= selected_json %>"
-             data-multiplicity="one"
+             data-multiplicity="many"
              data-types='<%= linkable_types.to_json %>'
              data-exclude='<%= exclude_ids.to_json %>'
+             data-sortable='true'
       />
       <div class="btn-group pull-right">
         <a class="btn dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>

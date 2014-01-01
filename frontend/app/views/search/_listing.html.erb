@@ -47,9 +47,15 @@
           </td>
         <% end %>
         <% if params[:linker] === 'true' %>
-          <td>
-            <%= radio_button_tag "linker-item", result["id"], false, :"data-object" => result.to_json %>
-          </td>
+          <% if params[:multiplicity] === 'many' %>
+            <td>
+              <%= check_box_tag "linker-item", result["id"], false, :"data-object" => result.to_json %>
+            </td>
+          <% else %>
+            <td>
+              <%= radio_button_tag "linker-item", result["id"], false, :"data-object" => result.to_json %>
+            </td>
+          <% end %>
         <% end %>
         <% if show_record_type? %>
           <td>
