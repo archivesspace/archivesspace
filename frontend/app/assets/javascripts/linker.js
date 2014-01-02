@@ -126,18 +126,21 @@ $(function() {
                   $input.click(function(event) {
                     event.stopPropagation();
 
+                    // If one-to-one, currentlySelected should only ever
+                    // contain one record
                     if (!config.allow_multiple) {
+                      currentlySelected = {};
                       $("tr.selected", $input.closest("table")).removeClass("selected");
                     }
 
-                    if ($input.is(":checked")) {
-                      // add to the selected list
-                      currentlySelected[$input.val()] = $input.data("object");
-                      $input.closest("tr").addClass("selected");
-                    } else {
+                    if (currentlySelected.hasOwnProperty($input.val())) {
                       // remove from the list
                       delete currentlySelected[$input.val()];
                       $input.closest("tr").removeClass("selected");
+                    } else {
+                      // add to the selected list
+                      currentlySelected[$input.val()] = $input.data("object");
+                      $input.closest("tr").addClass("selected");
                     }
                   });
 
@@ -150,7 +153,9 @@ $(function() {
 
                 // select a result if it's currently a selected record
                 $.each(currentlySelected, function(uri) {
-                  $(":input[value='"+uri+"']", $linkerBrowseContainer).trigger("click");
+                  $(":input[value='"+uri+"']", $linkerBrowseContainer)
+                    .attr("checked","checked")
+                    .closest("tr").addClass("selected");
                 });
 
                 $modal.trigger("resize");
