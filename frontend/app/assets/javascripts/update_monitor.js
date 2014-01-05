@@ -10,6 +10,7 @@ $(function() {
   var INTERVAL_PERIOD = 10000;
   var STATUS_STALE = "stale";
   var STATUS_OTHER_EDITORS = "opened_for_editing";
+  var STATUS_REPO_CHANGED = "repository_changed";
 
   var setupUpdateMonitor = function($form) {
 
@@ -45,7 +46,11 @@ $(function() {
         var message = AS.renderTemplate("update_monitor_other_editors_message_template", {user_ids: user_ids.join(", ")});
         $("#form_messages", $form).prepend(message);
         $(".record-pane .form-actions", $form).prepend(message);
-      }
+      } else if (status_data.status === STATUS_REPO_CHANGED) {
+        var message = AS.renderTemplate("update_monitor_repository_changed_message_template");
+        $("#form_messages", $form).prepend(message);
+        $(".record-pane .form-actions", $form).prepend(message);
+      }        
 
       // highlight in the sidebar
       if ($(".as-nav-list li.alert-error").length === 0) {
@@ -81,7 +86,7 @@ $(function() {
           uri: uri
         },
         function(json, textStatus, jqXHR) {
-          if (json.status === STATUS_STALE || json.status === STATUS_OTHER_EDITORS) {
+          if (json.status === STATUS_STALE || json.status === STATUS_OTHER_EDITORS || json.status === STATUS_REPO_CHANGED) {
             insertErrorAndHighlightSidebar(json)
           } else {
             // nobody else editing and lock_version still current
