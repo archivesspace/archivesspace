@@ -104,3 +104,10 @@ AppConfig[:allow_user_registration] = true
 AppConfig[:help_enabled] = true
 AppConfig[:help_url] = "http://docs.archivesspace.org"
 AppConfig[:help_topic_prefix] = "/Default_CSH.htm#"
+
+# Proxy URLs 
+# If you are serving user-facing applications via proxy
+# (i.e., another domain or port, or via https) it is 
+# recommended that you record those URLs in your configuration
+AppConfig[:frontend_proxy_url] = proc { AppConfig[:frontend_url] }
+AppConfig[:public_proxy_url] = proc { AppConfig[:public_url] }

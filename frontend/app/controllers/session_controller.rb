@@ -41,7 +41,7 @@ class SessionController < ApplicationController
   # let a trusted app (i.e., public catalog) know if a user 
   # should see links back to this editing interface
   def check_session
-    response.headers['Access-Control-Allow-Origin'] = AppConfig[:public_url]
+    response.headers['Access-Control-Allow-Origin'] = AppConfig[:public_proxy_url]
     response.headers['Access-Control-Allow-Credentials'] = 'true'
 
     if session[:session] && params[:record_type] 
