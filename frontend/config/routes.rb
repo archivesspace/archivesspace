@@ -11,6 +11,7 @@ ArchivesSpace::Application.routes.draw do
     match 'logout' => "session#logout", :via => :get
     match 'select_user' => "session#select_user", :via => :get
     match 'become_user' => "session#become_user", :via => :post
+    match 'check_session' => "session#check_session", :via => :get
 
     match 'repositories/select' => 'repositories#select', :via => [:post]
     match 'repositories/:id/transfer' => 'repositories#transfer', :via => [:get]
