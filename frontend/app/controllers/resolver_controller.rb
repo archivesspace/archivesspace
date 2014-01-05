@@ -6,6 +6,13 @@ class ResolverController < ApplicationController
   def resolve_edit
     if params.has_key? :uri
       resolver = Resolver.new(params[:uri])
+
+      if params.has_key?(:autoselect_repo) && resolver.repository && resolver.repository != session[:repo]
+        session[:repo] = resolver.repository
+        session[:repo_id] = JSONModel(:repository).id_for(resolver.repository)
+        selected = JSONModel(:repository).find(session[:repo_id])
+        flash[:success] = I18n.t("repository._frontend.messages.changed", JSONModelI18nWrapper.new(:repository => selected))
+      end
       redirect_to resolver.edit_uri
     else
       unauthorised_access
@@ -21,6 +28,4 @@ class ResolverController < ApplicationController
       unauthorised_access
     end
   end
-
-
 end

@@ -1,5 +1,5 @@
 class Resolver
-
+  attr_reader :repository
 
   def initialize(uri)
     @uri = uri
@@ -7,7 +7,7 @@ class Resolver
     jsonmodel_properties = JSONModel.parse_reference(@uri)
 
     @id = jsonmodel_properties[:id]
-    @repo_id = jsonmodel_properties[:repo_id]
+    @repository = jsonmodel_properties[:repository]
     @jsonmodel_type = jsonmodel_properties[:type]
   end
 
