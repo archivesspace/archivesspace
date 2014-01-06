@@ -22,3 +22,4 @@ gem 'atomic', '= 1.0.1'
 gem "puma"
 
 gem "net-http-persistent"
+gem "multipart-post"

@@ -41,7 +41,7 @@ module ASModel
       self.class.blob_columns_to_fix.each do |column|
         if self[column]
           values_to_reapply[column] = self[column]
-          self[column] = nil
+          self[column] = "around_save_placeholder"
         end
       end
 

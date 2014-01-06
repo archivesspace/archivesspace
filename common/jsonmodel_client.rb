@@ -1,4 +1,5 @@
 require 'net/http/persistent'
+require 'net/http/post/multipart'
 require 'json'
 require_relative 'exceptions'
 
@@ -110,12 +111,34 @@ module JSONModel
     end
 
 
+    # We override this in the backend's spec_helper since Rack::Test::Methods
+    # doesn't support multipart requests.
+    def self.multipart_request(uri, params)
+      Net::HTTP::Post::Multipart.new(uri, params)
+    end
+
+
+    def self.form_urlencoded(uri, params)
+      request = Net::HTTP::Post.new(uri)
+      request.form_data = params
+      request
+    end
+
+
     # Perform a HTTP POST request against the backend with form parameters
-    def self.post_form(uri, params = {})
+    #
+    # `encoding' is either :x_www_form_urlencoded or :multipart_form_data.  The
+    # latter is useful if you're providing a file upload.
+    def self.post_form(uri, params = {}, encoding = :x_www_form_urlencoded)
       url = URI("#{backend_url}#{uri}")
 
-      req = Net::HTTP::Post.new(url.request_uri)
-      req.form_data = params
+      req = if encoding == :x_www_form_urlencoded
+              self.form_urlencoded(url.request_uri, params)
+            elsif encoding == :multipart_form_data
+              self.multipart_request(url.request_uri, params)
+            else
+              raise "Unknown form encoding: #{encoding.inspect}"
+            end
 
       do_http_request(url, req)
     end
@@ -384,8 +407,8 @@ module JSONModel
 
           def substitute_parameters(uri, opts = {})
             opts = ASUtils.keys_as_strings(opts)
-            if Thread.current[:selected_repo_id]
-              opts = {'repo_id' => Thread.current[:selected_repo_id]}.merge(opts)
+            if JSONModel::repository
+              opts = {'repo_id' => JSONModel::repository}.merge(opts)
             end
 
             _substitute_parameters(uri, opts)

@@ -66,6 +66,7 @@ gem "json"
 gem "puma"
 
 gem "net-http-persistent"
+gem "multipart-post"
 
 gem "rubyzip", "1.0.0"
 gem "zip-zip"

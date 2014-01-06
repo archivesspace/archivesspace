@@ -1,4 +1,4 @@
-require_relative "../../../migrations/lib/exporter"
+require_relative "../migrations/lib/exporter"
 
 module ExportHelpers
 

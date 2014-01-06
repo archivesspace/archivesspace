@@ -11,7 +11,7 @@
           <h2><%= @accession.display_string %> <span class="label label-info"><%= I18n.t("accession._singular") %></span></h2>
   
           <%= render :partial => "shared/flash_messages" %>
-  
+
           <% define_template "accession", jsonmodel_definition(:accession) do |form| %>
           <section id="basic_information">
             <h3><%= I18n.t "accession._frontend.section.basic_information" %></h3>

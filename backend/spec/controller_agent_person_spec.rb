@@ -54,12 +54,12 @@ describe 'Person agent controller' do
 
     agent = JSONModel(:agent_person).find(id)
 
-    agent.names.first['sort_name'].should eq("Jimi Hendrix, Mr")
+    agent.names.first['sort_name'].should match(/\AJimi Hendrix, Mr/)
 
     agent.names.first['name_order'] = "direct"
     agent.save
 
-    JSONModel(:agent_person).find(id).names.first['sort_name'].should eq("Jimi Hendrix, Mr")
+    JSONModel(:agent_person).find(id).names.first['sort_name'].should match(/\AJimi Hendrix, Mr/)
   end
 
 
@@ -90,7 +90,7 @@ describe 'Person agent controller' do
 
     agent = JSONModel(:agent_person).find(id)
 
-    agent.title.should eq("Jimi Hendrix, Mr")
+    agent.title.should match(/Jimi Hendrix,.* Mr/)
   end
 
 

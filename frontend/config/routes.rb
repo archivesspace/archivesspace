@@ -1,11 +1,11 @@
 ArchivesSpace::Application.routes.draw do
 
   scope URI(AppConfig[:frontend_url]).path do
-
-    get "import/index"
-    get "import/upload_select"
-    post "import/upload"
-    post "import/upload_xhr"
+    match 'jobs/:id/cancel' => 'jobs#cancel', :via => [:post]
+    match 'jobs/:id/log' => 'jobs#log', :via => [:get]
+    match 'jobs/:id/status' => 'jobs#status', :via => [:get]
+    match 'jobs/:id/records' => 'jobs#records', :via => [:get]
+    resources :jobs
 
     match 'login' => "session#login", :via => :post
     match 'logout' => "session#logout", :via => :get
@@ -135,7 +135,7 @@ ArchivesSpace::Application.routes.draw do
 
     match 'enumerations/list' => 'enumerations#list', :via => [:get]
     match 'enumerations/delete' => 'enumerations#delete', :via => [:get]
-    match 'enumerations/set_default/:id' => 'enumerations#set_default', :via => [:post]
+    match 'enumerations/set_default/:id' => 'enumerations#set_default', :via => [:post] 
     match 'enumerations/destroy/:id' => 'enumerations#destroy', :via => [:post]
     match 'enumerations/merge/:id' => 'enumerations#merge', :via => [:post]
     resources :enumerations
@@ -158,7 +158,6 @@ ArchivesSpace::Application.routes.draw do
         end
       end
     end
-
     if Plugins.repository_menu_items?
       scope '/plugins' do
         Plugins.repository_menu_items.each do |plugin|

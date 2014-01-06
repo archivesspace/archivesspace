@@ -1,0 +1,34 @@
+<%= setup_context(:title => I18n.t("job._plural")) %>
+
+<div class="row-fluid">
+  <div class="span12">
+    <div class="record-toolbar">
+      <div class="pull-right">
+        <%= link_to I18n.t("job._frontend.actions.create"), {:controller => :jobs, :action => :new}, :class => "btn btn-small" %>
+      </div>
+    </div>
+
+    <div class="record-pane">
+      <h2><%= I18n.t("job._plural") %></h2>
+
+      <%= render :partial => "shared/flash_messages" %>
+
+      <h3><%= I18n.t("job._frontend.section.active_jobs") %></h3>
+      <% if @active_jobs.length > 0 %>
+        <%= render :partial => "jobs/listing", :locals => {:jobs => @active_jobs} %>
+      <% else %>
+        <p class="alert alert-info"><%= I18n.t("job._frontend.messages.no_active_jobs") %></p>
+      <% end %>
+
+      <h3><%= I18n.t("job._frontend.section.archived_jobs") %></h3>
+      <% if @search_data['results'].length > 0 %>
+        <%= render :partial => "jobs/listing", :locals => {:jobs => @search_data['results']} %>
+        <%= render :partial => "shared/pagination" %>
+      <% else %>
+        <p class="alert alert-info">
+          <%= I18n.t("job._frontend.messages.no_archived_jobs") %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+</div>

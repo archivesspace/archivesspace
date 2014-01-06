@@ -10,6 +10,8 @@ if ENV['COVERAGE_REPORTS'] == 'true'
 end
 
 require_relative "../app/model/db"
+require_relative "converter_spec_helper"
+require_relative "custom_matchers"
 
 
 # Use an in-memory Derby DB for the test suite
@@ -69,8 +71,13 @@ module JSONModel
     extend Rack::Test::Methods
 
 
+    def self.multipart_request(uri, params)
+      Struct.new(:method, :path, :body).new("POST", uri, params)
+    end
+
+
     def self.do_http_request(url, req)
-      send(req.method.downcase.intern, req.path, params = req.body)
+      send(req.method.downcase.intern, req.path, req.body)
 
       last_response.instance_eval do
         def code; status.to_s; end
@@ -142,8 +149,8 @@ require_relative 'factories'
 include FactoryGirl::Syntax::Methods
 
 
-def make_test_repo(code = "ARCHIVESSPACE")
-  repo = create(:repo, {:repo_code => code})
+def make_test_repo(code = "ARCHIVESSPACE", org_code = "test")
+  repo = create(:repo, {:repo_code => code, :org_code => org_code})
 
   @repo_id = repo.id
   @repo = JSONModel(:repository).uri_for(repo.id)
@@ -163,7 +170,7 @@ end
 
 class ArchivesSpaceService
   def current_user
-    Thread.current[:active_test_user]
+    Thread.current[:active_test_user] or raise "Unknown user"
   end
 
   def high_priority_request?

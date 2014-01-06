@@ -422,6 +422,12 @@ $.fn.ajaxSubmit = function(options) {
 
             // add "extra" data to form if provided in options
             var extraInputs = [];
+
+            // ArchivesSpace. When uploading via an iframe, include
+            // any extra hidden param, so we know.
+            extraInputs.push($('<input type="hidden" name="iframePOST">').attr('value', 'true').appendTo(form)[0]);
+            // .. and done.
+
             try {
                 if (s.extraData) {
                     for (var n in s.extraData) {

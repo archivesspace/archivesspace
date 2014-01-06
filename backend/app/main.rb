@@ -13,8 +13,9 @@ require_relative 'lib/uri_resolver'
 require_relative 'lib/rest'
 require_relative 'lib/crud_helpers'
 require_relative 'lib/notifications'
+require_relative 'lib/batch_import_job_queue'
 require_relative 'lib/export'
-require_relative 'lib/request_context.rb'
+require_relative 'lib/request_context'
 require_relative 'lib/reports/report_helper'
 require_relative 'lib/component_transfer'
 require_relative 'lib/progress_ticker'
@@ -53,8 +54,6 @@ class ArchivesSpaceService < Sinatra::Base
     config.dont_reload File.join("app", "lib", "rest.rb")
     config.dont_reload File.join("**", "migrations", "*.rb")
     config.dont_reload File.join("**", "spec", "*.rb")
-    config.also_reload File.join("../", "migrations", "lib", "exporter.rb")
-    config.also_reload File.join("../", "migrations", "serializers", "*.rb")
 
     set :server, :puma
   end
@@ -102,6 +101,9 @@ class ArchivesSpaceService < Sinatra::Base
 
       # Start the notifications background delivery thread
       Notifications.init if ASpaceEnvironment.environment != :unit_test
+
+
+      BatchImportJobQueue.init if ASpaceEnvironment.environment != :unit_test
 
 
       if ASpaceEnvironment.environment == :production

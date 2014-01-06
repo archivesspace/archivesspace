@@ -41,7 +41,7 @@ module ASModel
           # Provide a new '.this_repo' method on this model class that only
           # returns records that belong to the current repository.
           def_dataset_method(:this_repo) do
-            filter = {:repo_id => model.active_repository}
+            filter = model.columns.include?(:repo_id) ? {:repo_id => model.active_repository} : {}
 
             if model.suppressible? && model.enforce_suppression?
               filter[:suppressed] = 0

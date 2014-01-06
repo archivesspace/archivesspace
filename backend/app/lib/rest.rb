@@ -303,6 +303,13 @@ module RESTHelpers
   end
 
 
+  class UploadFile
+    def self.value(val)
+      OpenStruct.new(val)
+    end
+  end
+
+
   def self.included(base)
 
     base.extend(JSONModel)
@@ -376,11 +383,22 @@ module RESTHelpers
       end
 
 
+      def process_indexed_params(name, params)
+        if params[name] && params[name].is_a?(Hash)
+          params[name] = params[name].sort_by(&:first).map(&:last)
+        end
+      end
+
+
       def process_declared_params(declared_params, params, known_params, errors)
         declared_params.each do |definition|
 
           (name, type, doc, opts) = definition
           opts ||= {}
+
+          if (type.is_a?(Array))
+            process_indexed_params(name, params)
+          end
 
           known_params[name] = true
 

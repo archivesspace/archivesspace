@@ -8,37 +8,37 @@ class ExportsController < ApplicationController
 
   def container_labels
      download_export(
-       "/repositories/#{Thread.current[:selected_repo_id]}/resource_labels/#{params[:id]}.tsv")
+       "/repositories/#{JSONModel::repository}/resource_labels/#{params[:id]}.tsv")
    end
   
   
   def download_marc
     download_export(
-      "/repositories/#{Thread.current[:selected_repo_id]}/resources/marc21/#{params[:id]}.xml")
+      "/repositories/#{JSONModel::repository}/resources/marc21/#{params[:id]}.xml")
   end
 
 
   def download_dc
     download_export(
-      "/repositories/#{Thread.current[:selected_repo_id]}/digital_objects/dublin_core/#{params[:id]}.xml")
+      "/repositories/#{JSONModel::repository}/digital_objects/dublin_core/#{params[:id]}.xml")
   end
 
   
   def download_mods
     download_export(
-      "/repositories/#{Thread.current[:selected_repo_id]}/digital_objects/mods/#{params[:id]}.xml")
+      "/repositories/#{JSONModel::repository}/digital_objects/mods/#{params[:id]}.xml")
   end
 
 
     
   def download_mets
     download_export( 
-      "/repositories/#{Thread.current[:selected_repo_id]}/digital_objects/mets/#{params[:id]}.xml")
+      "/repositories/#{JSONModel::repository}/digital_objects/mets/#{params[:id]}.xml")
   end  
   
 
   def download_ead
-    download_export("/repositories/#{Thread.current[:selected_repo_id]}/resource_descriptions/#{params[:id]}.xml",
+    download_export("/repositories/#{JSONModel::repository}/resource_descriptions/#{params[:id]}.xml",
                     :include_unpublished => params[:include_unpublished])
   end
   

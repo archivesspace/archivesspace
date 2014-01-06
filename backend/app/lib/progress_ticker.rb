@@ -34,6 +34,10 @@ class ProgressTicker
   end
 
 
+  def log(s)
+    Log.debug(s)
+  end
+
   def status_update(type, status)
     @status_updates.update{|val| val + [status.merge(:type => type)] }
   end

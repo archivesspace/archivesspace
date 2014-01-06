@@ -1,0 +1,15 @@
+<%= render(:layout => '/shared/sidebar',
+           :locals => {
+                   :record_type => 'job',
+                   :record => @job,
+                   :suppress_basic_information => true
+           }) do |sidebar| %>
+  <%= sidebar.render_for_view_only(:subrecord_type => 'status', :property => :none, :anchor => 'job_status') %>
+  <%= sidebar.render_for_view_only(:subrecord_type => 'basic_information', :property => :none, :anchor => 'basic_information') %>
+  <% if !["queued", "canceled"].include?(@job.status) %>
+    <%= sidebar.render_for_view_only(:subrecord_type => 'logs', :property => :none, :anchor => 'logs') %>
+  <% end %>
+  <% if @job.status === "completed" %>
+    <%= sidebar.render_for_view_only(:subrecord_type => 'generated_uris', :property => :none, :anchor => 'generated_uris') %>
+  <% end %>
+<% end %>

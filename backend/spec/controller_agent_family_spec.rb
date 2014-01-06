@@ -41,16 +41,17 @@ describe 'Family agent controller' do
 
 
   it "auto-generates the sort name if one is not provided" do
-    id = create_family({:names => [build(:json_name_family,{:family_name => "Hendrix", :sort_name_auto_generate => true})]}).id
+    id = create_family({:names => [build(:json_name_family,
+                                         {:family_name => "Hendrix", :sort_name_auto_generate => true})]}).id
 
     agent = JSONModel(:agent_family).find(id)
 
-    agent.names.first['sort_name'].should eq("Hendrix")
+    agent.names.first['sort_name'].should match(/\AHendrix/)
 
     agent.names.first['qualifier'] = "FACT123"
     agent.save
 
-    JSONModel(:agent_family).find(id).names.first['sort_name'].should eq("Hendrix (FACT123)")
+    JSONModel(:agent_family).find(id).names.first['sort_name'].should match(/\AHendrix.*\(FACT123\)/)
   end
 
 

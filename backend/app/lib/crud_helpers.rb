@@ -46,12 +46,13 @@ module CrudHelpers
   end
 
 
-  def handle_listing(model, pagination_data, where = {})
+  def handle_listing(model, pagination_data, where = {}, order = nil)
 
     dataset = CrudHelpers.scoped_dataset(model, where)
 
     modified_since_time = Time.at(pagination_data[:modified_since])
     dataset = dataset.where { system_mtime >= modified_since_time }
+    dataset = dataset.order(*order) if order
 
     if pagination_data[:page]
       # Classic pagination mode

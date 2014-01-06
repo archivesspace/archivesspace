@@ -207,7 +207,7 @@ class ApplicationController < ActionController::Base
 
   def store_user_session
     Thread.current[:backend_session] = session[:session]
-    Thread.current[:selected_repo_id] = session[:repo_id]
+    JSONModel::set_repository(session[:repo_id])
   end
 
 

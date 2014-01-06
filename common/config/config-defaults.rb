@@ -111,3 +111,11 @@ AppConfig[:help_topic_prefix] = "/Default_CSH.htm#"
 # recommended that you record those URLs in your configuration
 AppConfig[:frontend_proxy_url] = proc { AppConfig[:frontend_url] }
 AppConfig[:public_proxy_url] = proc { AppConfig[:public_url] }
+
+AppConfig[:shared_storage] = proc { File.join(AppConfig[:data_directory], "shared") }
+AppConfig[:import_job_path] = proc { File.join(AppConfig[:shared_storage], "import_jobs") }
+AppConfig[:import_poll_seconds] = 5
+AppConfig[:import_timeout_seconds] = 300
+
+# By default, only allow jobs to be cancelled if we're running against MySQL (since we can rollback)
+AppConfig[:import_jobs_cancelable] = proc { (AppConfig[:db_url] != AppConfig.demo_db_url).to_s }

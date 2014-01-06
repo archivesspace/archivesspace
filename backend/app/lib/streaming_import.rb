@@ -1,5 +1,6 @@
 require 'java'
 require 'json'
+require 'atomic'
 require 'tempfile'
 
 class StreamingJsonReader
@@ -49,7 +50,9 @@ class StreamingImport
 
   include JSONModel
 
-  def initialize(stream, ticker)
+  def initialize(stream, ticker, import_canceled = Atomic.new(false))
+
+    @import_canceled = import_canceled
 
     raise StandardError.new("Nothing to stream") unless stream
 
@@ -59,7 +62,7 @@ class StreamingImport
 
       @ticker.tick_estimate = 1000 # this is totally made up, just want to show something
 
-      @tempfile = Tempfile.new('import_stream')
+      @tempfile = ASUtils.tempfile('import_stream')
 
       begin
         while !(buf = stream.read(4096)).nil?
@@ -79,7 +82,6 @@ class StreamingImport
     end
 
     with_status("Evaluating record relationships") do
-
       @dependencies, @position_offsets = load_dependencies
     end
 
@@ -92,54 +94,69 @@ class StreamingImport
   end
 
 
+  def abort_if_import_canceled
+    if @import_canceled.value
+      @ticker.log("Import canceled!")
+      raise ImportCanceled.new
+    end
+  end
+
+
   def process
 
     round = 0
+    finished = true
 
-    while true
-      round += 1
+    begin
+      while true
+        round += 1
 
-      finished = true
-      progressed = false
+        finished = true
+        progressed = false
 
-      with_status("Saving records: cycle #{round}") do
-        @ticker.tick_estimate = @jstream.count
-        @jstream.each do |rec|
-          uri = rec['uri']
-          dependencies = @dependencies[uri]
+        with_status("Saving records: cycle #{round}") do
+          @ticker.tick_estimate = @jstream.count
+          @jstream.each do |rec|
+            abort_if_import_canceled
 
-          if !@logical_urls[uri] && dependencies.all? {|d| @logical_urls[d]}
-            # migrate it
-            @logical_urls[uri] = do_create(rewrite(rec, @logical_urls))
+            uri = rec['uri']
+            dependencies = @dependencies[uri]
 
-            progressed = true
+            if !@logical_urls[uri] && dependencies.all? {|d| @logical_urls[d]}
+              # migrate it
+              @logical_urls[uri] = do_create(rewrite(rec, @logical_urls))
+
+              progressed = true
+            end
+
+            if !@logical_urls[uri]
+              finished = false
+            end
+
+            @ticker.tick
           end
+        end
 
-          if !@logical_urls[uri]
-            finished = false
+        if finished
+          break
+        end
+
+        with_status("Dealing with circular dependencies: cycle #{round}") do
+          if !progressed
+            run_dependency_breaking_cycle
           end
-
-          @ticker.tick
         end
       end
 
-      if finished
-        break
-      end
-
-      with_status("Dealing with circular dependencies: cycle #{round}") do
-        if !progressed
-          run_dependency_breaking_cycle
+    ensure
+      with_status("Cleaning up") do
+        if finished
+          reattach_severed_limbs
+          touch_toplevel_records
         end
+
+        cleanup
       end
-    end
-
-    with_status("Cleaning up") do
-      reattach_severed_limbs
-
-      touch_toplevel_records
-
-      cleanup
     end
 
     @logical_urls
@@ -241,7 +258,7 @@ class StreamingImport
               model_for(record['jsonmodel_type']).create_from_json(json)
             end
 
-      Log.debug("Created: #{record['uri']}")
+      @ticker.log("Created: #{record['uri']}")
 
       obj.uri
     rescue

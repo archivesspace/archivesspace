@@ -1,6 +1,7 @@
 require 'java'
 require 'json'
 require 'tmpdir'
+require 'tempfile'
 require 'config/config-distribution'
 
 module ASUtils
@@ -40,6 +41,31 @@ module ASUtils
 
   def self.json_parse(s)
     JSON.parse(s, :max_nesting => false, :create_additions => false)
+  end
+
+
+  # A bit funny to wrap this ourselves, but there's an interesting case when
+  # running under rspec.
+  #
+  # Rspec reseeds the random number generator at the beginning of every suite
+  # run, which means that Tempfile's "random" filenames are often IDENTICAL
+  # between subsequent Tempfile invocations across test runs.
+  #
+  # This shouldn't really matter, except when this happens:
+  #
+  #  * Test1 runs and produces tempfile "somerandomfile", which gets closed and
+  #    unlinked.
+  #
+  #  * Test2 runs and gets given "somerandomfile" too.  It starts working with it.
+  #
+  #  * Then, bam!  Garbage collection runs, and finalizes the object from Test1.
+  #    This unlinks the underlying temp file while Test2 is still using it!
+  #
+  # So yeah, not cool.  We try to inject a little randomness into "base" to
+  # avoid these sort of shenanigans, even though it really shouldn't matter in
+  # production.
+  def self.tempfile(base)
+    Tempfile.new("#{base}_#{java.lang.System.currentTimeMillis}")
   end
 
 
