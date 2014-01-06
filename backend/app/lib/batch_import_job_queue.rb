@@ -1,3 +1,6 @@
+# Work through the list of import jobs in the database and run the next job in
+# the queue.
+
 require 'thread'
 require 'atomic'
 require_relative 'batch_import_runner'
