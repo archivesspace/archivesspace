@@ -53,6 +53,8 @@ class ArchivesSpaceService < Sinatra::Base
     running = CrudHelpers.scoped_dataset(ImportJob, :status => "running")
     queued = CrudHelpers.scoped_dataset(ImportJob, :status => "queued")
 
+    # Sort the running jobs newest to oldest, then show queued jobs oldest to
+    # newest (since the oldest jobs run next)
     active = running.all.sort{|a,b| b.system_mtime <=> a.system_mtime} + queued.all.sort{|a,b| a.system_mtime <=> b.system_mtime}
 
     listing_response(active, ImportJob)
