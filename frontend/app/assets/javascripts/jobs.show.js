@@ -38,7 +38,7 @@ $(function() {
           offset +=dataLength;
 
           if (dataLength === 0) {
-            // Hmm... we may have finished... or failed,,
+            // Hmm... we may have finished... or failed,
             // so let's poll the status to double check.
             pollStatus();
           }
@@ -63,7 +63,7 @@ $(function() {
   };
 
 
-  var initCreatedRecods = function() {
+  var initCreatedRecords = function() {
     var $recordsSection = $("#generated_uris");
     var $recordsSpool = $("#jobRecordsSpool", $recordsSection);
 
@@ -126,5 +126,5 @@ $(function() {
 
   if ($.inArray(CURRENT_STATUS, ["queued"]) >= 0) pollStatus();
   initLoggingSpool();
-  initCreatedRecods();
+  initCreatedRecords();
 });
