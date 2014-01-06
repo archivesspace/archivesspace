@@ -126,7 +126,13 @@ class ArchivesSpaceService < Sinatra::Base
   do
     job = ImportJob.get_or_die(params[:id])
 
-    handle_listing(ImportJobCreatedRecord, params, {:job_id => job.id})
+    # Collection management records aren't true top-level records.  I think they
+    # need a bit of a rethink.  They're really nested records, so they shouldn't
+    # have URIs in the first place.
+    handle_listing(ImportJobCreatedRecord,
+                   params,
+                   Sequel.&(Sequel.~(Sequel.like(:record_uri, "%/collection_management/%")),
+                            {:job_id => job.id}))
   end
 
 end
