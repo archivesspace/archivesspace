@@ -15,8 +15,6 @@ class Ticker
 
   def initialize(job)
     @job = job
-    @estimate = nil
-    @ticks = 0
   end
 
 
@@ -35,7 +33,6 @@ class Ticker
 
 
   def tick_estimate=(n)
-    @estimate = n
   end
 end
 
