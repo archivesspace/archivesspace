@@ -42,6 +42,9 @@ class EventsController < ApplicationController
     handle_crud(:instance => :event,
                 :model => JSONModel(:event),
                 :on_invalid => ->(){
+                  if params.has_key?(:redirect_action)
+                    @redirect_action = params[:redirect_action]
+                  end
                   render :action => :new
                 },
                 :on_valid => ->(id){
