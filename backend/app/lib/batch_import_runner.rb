@@ -94,10 +94,6 @@ class BatchImportRunner
       end
     rescue
       last_error = $!
-    ensure
-      # If we were running in a transaction, the whole batch will have been
-      # rolled back.
-      batch = nil if !success && DB.supports_mvcc?
     end
 
     if last_error
@@ -110,7 +106,7 @@ class BatchImportRunner
   private
 
   def log_created_uris(batch)
-    if batch && batch.created_records
+    if batch.created_records
       DB.open do |db|
         @job.record_created_uris(batch.created_records.values)
       end
