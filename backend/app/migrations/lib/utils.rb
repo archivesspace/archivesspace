@@ -20,19 +20,6 @@ end
 module ASpaceMappings
   module MARC21
 
-    def self.get_aspace_source_code(code)
-      case code.to_s
-      when '0'; 'lcsh'
-      when '1'; 'lcshac'
-      when '2'; 'mesh'
-      when '3'; 'nal'
-      when '4'; 'ingest'
-      when '5'; 'cash'
-      when '6'; 'rvm'
-      else; nil
-      end
-    end
-
     def self.get_marc_source_code(code)
 
       marc_code = case code
