@@ -160,9 +160,6 @@ $(function() {
       },
       error: function(xhr) {
         handleError(xhr.responseText);
-      },
-      complete: function(xhr) {
-        //console.log(xhr);
       }
     });
   };
