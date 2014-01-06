@@ -145,8 +145,6 @@ en:
     coordinate_3_indicator_tooltip: |
         <p>Used to record an indicator such as a number or letter that uniquely identifies a location in combination with the associated coordinate label.</p>
     display_string: Display String
-    location_fields_error: >
-      You must either specify a barcode, a classification, or both a coordinate 1 label and coordinate 1 indicator
     _singular: Location
     _plural: Locations
 
@@ -1692,3 +1690,33 @@ en:
       xlsx: XLSX (Excel)
       pdf: PDF
       html: HTML
+
+  validation_errors:
+    missing_required_property: Property is required but was missing
+    missing_property: Property was missing
+    not_a_valid_date: Not a valid date
+    must_not_be_before_begin: must not be before begin
+    is_required_unless_a_begin_or_end_date_is_given: is required unless a begin or end date is given
+    is_required_unless_an_expression_or_an_end_date_is_given: is required unless an expression or an end date is given
+    is_required_unless_an_expression_or_a_begin_date_is_given: is required unless an expression or a begin date is given
+
+    did_not_match_regular_expression: Did not match regular expression %{regexp}
+    too_few_characters: Must be at least %{min_length} characters
+    too_many_characters: Must be %{max_length} characters or fewer
+    too_few_items: At least %{min_items} item(s) is required
+    invalid_value: Invalid value '%{value}'. Must be one of '%{valid_set}'
+    wrong_type: Must be a %{desired_type} (you provided a %{actual_type})
+    must_be_one_of: Must be one of %{allowed_types} (you provided a %{actual_type})
+    id_already_in_use: That ID is already in use
+    username_already_in_use: Username '%{username}' is already in use
+    cant_be_empty: can't be empty
+    password_did_not_match: Entered value didn't match password
+    group_code_already_in_use: Group code must be unique within a repository
+    one_or_more_required_(or_enter_a_title): one or more required (or enter a Title)
+    must_not_be_an_empty_string_(or_enter_a_date): must not be an empty string (or enter a Date)
+    is_required_when__source__is_blank: is required when 'Source' is blank
+    is_required_when__rules__is_blank: is required when 'Rules' is blank
+    is_required_if_there_is_an_authority_id: is required if there is an 'Authority ID'
+    you_must_provide_a_label__title_or_date: you must provide a Label, Title or Date
+    location_fields_error: >
+      You must either specify a barcode, a classification, or both a coordinate 1 label and coordinate 1 indicator
