@@ -125,7 +125,6 @@ $(function() {
       uploadProgress: function(event, position, total, percentComplete) {
         var percentVal = percentComplete + '%';
         $progressBar.width(percentVal)
-        //percent.html(percentVal);
       },
       success: function(json, status, xhr) {
         var uri_to_resolve;
