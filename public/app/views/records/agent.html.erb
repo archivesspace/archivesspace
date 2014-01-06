@@ -1,16 +1,9 @@
 <%
   set_title(@agent.title)
 %>
-<div class="title-pane">
-  <div class="row-fluid">
-    <div class="span3">
-
-    </div>
-    <div class="span9">
-      <h2><%= @agent.title %></h2>
-    </div>
-  </div>
-</div>
+<%= render(:partial => 'title_pane',
+           :locals => {:record_title => @agent.title}) 
+%>
 <div class="content-pane">
   <div class="row-fluid">
     <div class="span3">

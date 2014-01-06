@@ -1,6 +1,6 @@
 class SessionController < ApplicationController
 
-  set_access_control  :public => [:login, :logout],
+  set_access_control  :public => [:login, :logout, :check_session],
                       "become_user" => [:select_user, :become_user]
 
 
@@ -35,5 +35,35 @@ class SessionController < ApplicationController
   def logout
     reset_session
     redirect_to :root
+  end
+
+
+  # let a trusted app (i.e., public catalog) know if a user 
+  # should see links back to this editing interface
+  def check_session
+    response.headers['Access-Control-Allow-Origin'] = AppConfig[:public_proxy_url]
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+
+    if session[:session] && params[:uri]
+      render json: user_can_edit?(params)
+    else
+      render json: false
+    end
+  end
+
+  private
+
+  def user_can_edit?(params)
+
+    record_info = JSONModel.parse_reference(params[:uri])
+
+    case record_info[:type]
+    when 'accession', 'resource', 'archival_object', 'digital_object', 'digital_object_component'
+      user_can?('update_archival_record', params[:repository])
+    when /^agent/
+      user_can?('update_agent_record')
+    when 'subject'
+      user_can?('update_subject_record')
+    end
   end
 end

@@ -19,6 +19,11 @@
     <% end %>
   <% end %>
 
+  <script>
+    FRONTEND_URL = "<%= j(AppConfig[:frontend_proxy_url]) %>";
+    PUBLIC_URL = "<%= j(AppConfig[:public_proxy_url]) %>";
+  </script>
+
 </head>
 
 <body data-spy="scroll" data-target="#archivesSpaceSidebar" data-offset="20">
