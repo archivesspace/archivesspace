@@ -34,17 +34,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/jobs')
     .description("Get a list of Jobs for a Repository")
-    .params(["mtime", DateTime, "Only return jobs that have changed after a given timestamp", :optional => true],
-            ["repo_id", :repo_id])
+    .params(["repo_id", :repo_id])
     .paginated(true)
     .permissions([:view_repository])
     .returns([200, "[(:job)]"]) \
   do
-    if params[:mtime]
-      # return only the jobs that have changed
-    else
-      handle_listing(ImportJob, params, {}, [:status, :id])
-    end
+    handle_listing(ImportJob, params, {}, [:status, :id])
   end
 
 
