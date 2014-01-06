@@ -94,14 +94,8 @@ $(function() {
             .append(AS.renderTemplate("template_fileupload"))
             .slideDown();
 
-        var fileFormat;
-        if ($(this).val().indexOf("csv") >= 0) {
-          fileFormat = "csv";
-        } else if ($(this).val().indexOf("xml") >= 0) {
-          fileFormat = "xml";
-        }
 
-        initFileUploadSection(fileFormat);
+        initFileUploadSection();
       }
     });
     $("#job_import_type_", $form).trigger("change");
