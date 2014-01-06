@@ -112,11 +112,6 @@ AppConfig[:help_topic_prefix] = "/Default_CSH.htm#"
 AppConfig[:frontend_proxy_url] = proc { AppConfig[:frontend_url] }
 AppConfig[:public_proxy_url] = proc { AppConfig[:public_url] }
 
-######################################################################
-# FIXME: Need something in the release notes to remind clustered users to set a
-# value for :shared_storage
-######################################################################
-
 AppConfig[:shared_storage] = proc { File.join(AppConfig[:data_directory], "shared") }
 AppConfig[:import_job_path] = proc { File.join(AppConfig[:shared_storage], "import_jobs") }
 AppConfig[:import_poll_seconds] = 5
