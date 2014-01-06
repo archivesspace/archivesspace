@@ -19,7 +19,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.post('/repositories/:repo_id/jobs/:id/cancel')
-    .description("Create a new import job")
+    .description("Cancel an import job")
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:cancel_importer_job])
