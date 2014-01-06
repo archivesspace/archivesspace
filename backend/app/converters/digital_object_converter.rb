@@ -2,8 +2,8 @@ require_relative 'converter'
 
 class DigitalObjectConverter < Converter
 
-  require_relative 'lib/csv_importer'
-  include ASpaceImport::CSVImport
+  require_relative 'lib/csv_converter'
+  include ASpaceImport::CSVConvert
 
 
   def self.instance_for(type, input_file)
@@ -16,7 +16,7 @@ class DigitalObjectConverter < Converter
 
 
   def self.profile
-    "Import Digital Object Records from a CSV file"
+    "Convert Digital Object Records from a CSV file"
   end
 
 

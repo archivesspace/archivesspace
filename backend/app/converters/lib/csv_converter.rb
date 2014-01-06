@@ -3,7 +3,7 @@ require_relative 'utils'
 require_relative 'record_proxy'
 
 module ASpaceImport
-  module CSVImport
+  module CSVConvert
 
     module ClassMethods
       def configuration

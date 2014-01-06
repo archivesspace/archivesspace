@@ -17,7 +17,7 @@ class EADConverter < Converter
 
 
   def self.profile
-    "Imports EAD To ArchivesSpace"
+    "Convert EAD To ArchivesSpace JSONModel records"
   end
 
 

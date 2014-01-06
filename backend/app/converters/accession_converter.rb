@@ -1,8 +1,8 @@
 require_relative 'converter'
 class AccessionConverter < Converter
 
-  require_relative 'lib/csv_importer'
-  include ASpaceImport::CSVImport
+  require_relative 'lib/csv_converter'
+  include ASpaceImport::CSVConvert
 
 
   def self.instance_for(type, input_file)
@@ -15,7 +15,7 @@ class AccessionConverter < Converter
 
 
   def self.profile
-    "Import Accession Records from a CSV file"
+    "Convert Accession Records from a CSV file"
   end
 
 

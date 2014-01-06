@@ -36,7 +36,7 @@ class MarcXMLConverter < Converter
 
 
   def self.profile
-    "Imports MARC XML To ArchivesSpace\n(Use the 'subjects_and_agents_only' flag to ignore everything but subjects and agents.)"
+    "Convert MARC XML To ArchivesSpace JSONModel records"
   end
 
 
