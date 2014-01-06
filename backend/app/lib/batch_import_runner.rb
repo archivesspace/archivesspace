@@ -1,3 +1,6 @@
+# Prepare an import job run: orchestrates converting the input file's records,
+# runs the job and gathers its log output, handling any errors.
+
 [File.expand_path("..", File.dirname(__FILE__)),
  *ASUtils.find_local_directories('backend')].each do |prefix|
   Dir.glob(File.join(prefix, "converters", "*.rb")).sort.each do |file|
