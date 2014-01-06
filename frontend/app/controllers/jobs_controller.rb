@@ -4,8 +4,6 @@ class JobsController < ApplicationController
   set_access_control "update_archival_record" => [:new, :create]
   set_access_control "cancel_importer_job" => [:cancel]
 
-  skip_before_filter :verify_authenticity_token
-
 
   def index
     @active_jobs = Job.active
