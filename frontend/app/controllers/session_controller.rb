@@ -44,7 +44,7 @@ class SessionController < ApplicationController
     response.headers['Access-Control-Allow-Origin'] = AppConfig[:public_proxy_url]
     response.headers['Access-Control-Allow-Credentials'] = 'true'
 
-    if session[:session] && params[:record_type] 
+    if session[:session] && params[:uri]
       render json: user_can_edit?(params)
     else
       render json: false
@@ -54,7 +54,10 @@ class SessionController < ApplicationController
   private
 
   def user_can_edit?(params)
-    case params[:record_type]
+
+    record_info = JSONModel.parse_reference(params[:uri])
+
+    case record_info[:type]
     when 'accession', 'resource', 'archival_object', 'digital_object', 'digital_object_component'
       user_can?('update_archival_record', params[:repository])
     when /^agent/
