@@ -1,6 +1,6 @@
 ArchivesSpace::Application.routes.draw do
 
-  scope URI(AppConfig[:frontend_url]).path do
+  scope AppConfig[:frontend_prefix] do
     match 'jobs/:id/cancel' => 'jobs#cancel', :via => [:post]
     match 'jobs/:id/log' => 'jobs#log', :via => [:get]
     match 'jobs/:id/status' => 'jobs#status', :via => [:get]

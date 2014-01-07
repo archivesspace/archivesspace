@@ -1,6 +1,6 @@
 ArchivesSpacePublic::Application.routes.draw do
 
-  scope URI(AppConfig[:public_url]).path do
+  scope AppConfig[:public_prefix] do
 
     match 'search' => 'search#search', :via => [:get]
     match 'advanced_search' => 'search#advanced_search', :via => [:get]
