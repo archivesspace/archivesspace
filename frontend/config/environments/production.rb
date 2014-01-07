@@ -12,7 +12,7 @@ ArchivesSpace::Application.configure do
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
-  config.serve_static_assets = false
+  config.serve_static_assets = true
 
   # Compress JavaScripts and CSS
   config.assets.compress = true
@@ -26,8 +26,9 @@ ArchivesSpace::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
-  # Defaults to nil and saved in location specified by config.assets.prefix
-  # config.assets.manifest = YOUR_PATH
+  # If a prefix has been specified, use it!
+  config.assets.prefix = AppConfig[:frontend_prefix] + "assets"
+  config.assets.manifest = File.join(Rails.public_path, "assets")
 
   # Specifies the header that your server uses for sending files
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
@@ -86,4 +87,21 @@ end
 if defined?(ExecJS) && system('which node >/dev/null 2>/dev/null')
   puts "Using Node ExecJS runtime"
   ExecJS.runtime = ExecJS::Runtimes::Node
+end
+
+
+if AppConfig[:frontend_prefix] != "/"
+  require 'action_dispatch/middleware/static'
+
+  # The default file handler doesn't know about asset prefixes and returns a 404.  Make it strip the prefix before looking for the path on disk.
+  module ActionDispatch
+    class FileHandler
+      alias :match_orig :match?
+      def match?(path)
+        prefix = AppConfig[:frontend_prefix]
+        modified_path = path.gsub(/^#{Regexp.quote(prefix)}/, "/")
+        match_orig(modified_path)
+      end
+    end
+  end
 end
