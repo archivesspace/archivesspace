@@ -6,11 +6,11 @@ It's recommended to run each ArchivesSpace instance with its own host name on ro
 However, if you are required run ArchivesSpace under a prefix e.g. http://example.com/myarchivesspace, then there
 will be a few extra steps to your deployment.
 
-1. For the version you're working with, go to the Github repository http://github.com/archivesspace/archivesspace/tree/v1.0.2
+1. For the version you're working with, go to the Github repository e.g. http://github.com/archivesspace/archivesspace/tree/v1.0.2
 and click the `Download ZIP` button on the right of the screen.  This will download the ArchivesSpace source code to your
 machine.
 
-2. Unzip this file and create a directory called `config` and a file `config.rb`.  Edit this file and add the following
+2. Unzip this file and create a directory called `config` containing a file `config.rb`.  Edit this file and add the following
 line with your desired deployment URL including the prefix:
 
      AppConfig[:frontend_url] = "http://example.com/myarchivesspace"
