@@ -42,10 +42,10 @@ AppConfig[:solr_backup_number_to_keep] = 1
 
 AppConfig[:backend_url] = "http://localhost:8089"
 AppConfig[:frontend_url] = "http://localhost:8080"
-AppConfig[:frontend_prefix] = proc { URI(AppConfig[:frontend_url]).path.gsub("/*$", "/") }
+AppConfig[:frontend_prefix] = proc { "#{URI(AppConfig[:frontend_url]).path}/".gsub(%r{/+$}, "/") }
 AppConfig[:solr_url] = "http://localhost:8090"
 AppConfig[:public_url] = "http://localhost:8081"
-AppConfig[:public_prefix] = proc { URI(AppConfig[:public_url]).path.gsub("/*$", "/") }
+AppConfig[:public_prefix] = proc { "#{URI(AppConfig[:public_url]).path}/".gsub(%r{/+$}, "/") }
 
 # Setting any of the four keys below to false will prevent the associated
 # applications from starting. Temporarily disabling the frontend and public
