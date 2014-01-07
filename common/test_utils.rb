@@ -89,7 +89,7 @@ module TestUtils
     java_opts = "-Xmx256M -XX:MaxPermSize=128M -Daspace.config.backend_url=#{backend_url}"
     java_opts += build_config_string(config)
 
-    pid = Process.spawn({:JAVA_OPTS => java_opts},
+    pid = Process.spawn({:JAVA_OPTS => java_opts, :TEST_MODE => "true"},
                         "#{base}/../build/run", "frontend:devserver:integration",
                         "-Daspace.frontend.port=#{port}")
 
