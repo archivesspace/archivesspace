@@ -13,7 +13,12 @@
             },
             dataType: "json",
             type: "GET",
+            beforeSend: function() {
+              container.append(AS.renderTemplate("template_record_tree_loading"));
+            },
             success: function (json) {
+              container.empty();
+
               if (json == null || json.direct_children.length == 0) {
                 container.replaceWith(AS.renderTemplate("template_record_tree_empty"));
                 return;

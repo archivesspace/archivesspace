@@ -24,6 +24,12 @@ ul.record-tree {
     border-left: 1px solid #EEE;
     padding-left: 12px;
     margin-left: 8px;
+
+    &.loading {
+      > .record-tree-node-toggle > .record-tree-node-toggle-icon {
+        background-image: asset-url("archivesspace/record_tree_loading.gif");
+      }
+    }
   }
 
   .has-children {
