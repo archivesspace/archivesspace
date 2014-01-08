@@ -15,9 +15,13 @@
   linkable_types = defined?(allowed_types) ? allowed_types : ["agent"]
   creatable_types = defined?(allowed_types) ? allowed_types : ["agent_person", "agent_family", "agent_corporate_entity", "agent_software"]
   hide_create = false if hide_create.blank?
+
+  if !defined?(linker_label)
+    linker_label = (multiplicity === "many") ? I18n.t("agent._plural") : I18n.t("agent._singular")
+  end
 %>
 <div class="control-group <% if required %> required <% end %>">
-  <label class="control-label"><%= defined?(linker_label) ? linker_label : I18n.t("agent._plural") %></label>
+  <label class="control-label"><%= linker_label %></label>
   <div class="controls">
     <div class="input-append linker-wrapper">
       <input type="text" class="linker"

@@ -13,10 +13,14 @@
 
   exclude_ids = [] if exclude_ids.blank?
   hide_create = false if hide_create.blank?
+
+  if !defined?(linker_label)
+    linker_label = (multiplicity === "many") ? I18n.t("subject._plural") : I18n.t("subject._singular")
+  end
 %>
 
 <div class="control-group required">
-   <label class="control-label"><%= I18n.t("subject._plural") %></label>
+   <label class="control-label"><%= linker_label %></label>
    <div class="controls">
        <div class="input-append linker-wrapper">
           <input type="text" class="linker"
