@@ -34,10 +34,11 @@
               event.preventDefault();
 
               var $node = $(this).closest("li");
+              var $sublist = $node.find(".record-sub-tree:first");
               if ($node.hasClass("loaded")) {
-                $node.slideToggle();
+                $sublist.toggle();
               } else {
-                tree.add_children($node.data("uri"), $node.find(".record-sub-tree:first"));
+                tree.add_children($node.data("uri"), $sublist);
                 $node.addClass("loaded");
               }
             });
