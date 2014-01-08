@@ -41,10 +41,15 @@
               var $node = $(this).closest("li");
               var $sublist = $node.find(".record-sub-tree:first");
               if ($node.hasClass("loaded")) {
+                if ($sublist.is(":visible")) {
+                  $node.addClass("expanded").removeClass("expanded");
+                } else {
+                  $node.removeClass("expanded").addClass("expanded");
+                }
                 $sublist.toggle();
               } else {
                 tree.add_children($node.data("uri"), $sublist);
-                $node.addClass("loaded");
+                $node.addClass("loaded").addClass("expanded");
               }
             });
         });
