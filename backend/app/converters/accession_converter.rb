@@ -111,6 +111,10 @@ class AccessionConverter < Converter
       'user_defined_date_1' => 'user_defined.date_1',
       'user_defined_date_2' => 'user_defined.date_2',
       'user_defined_date_3' => 'user_defined.date_3',
+      'user_defined_enum_1' => 'user_defined.enum_1',
+      'user_defined_enum_2' => 'user_defined.enum_2',
+      'user_defined_enum_3' => 'user_defined.enum_3',
+      'user_defined_enum_4' => 'user_defined.enum_4',
 
 
       # 2. Define data handlers
