@@ -878,7 +878,7 @@ $(function() {
 
   $(document).bind("rdeload.aspace", function(event, $node, $modal) {
     $.ajax({
-      url: "/"+$node.attr("rel")+"s/"+$node.data("id")+"/rde",
+      url: APP_PATH+$node.attr("rel")+"s/"+$node.data("id")+"/rde",
       success: function(data) {
         $(".rde-wrapper", $modal).replaceWith("<div class='modal-body'></div>");
         $(".modal-body", $modal).replaceWith(data);

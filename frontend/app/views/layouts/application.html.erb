@@ -21,7 +21,7 @@
   <% end %>
 
   <script>
-    APP_PATH = "<%= j(root_path) %>";
+    APP_PATH = "<%= j(AppConfig[:frontend_prefix]) %>";
     COOKIE_PREFIX = "<%= j(AppConfig[:cookie_prefix]) %>";
   </script>
 
