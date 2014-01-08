@@ -7,7 +7,7 @@
     RecordTree.prototype.add_children = function (uri, container) {
         var self = this;
         $.ajax({
-            url: "/tree",
+            url: APP_PATH + "tree",
             data: {
                 uri: uri
             },
