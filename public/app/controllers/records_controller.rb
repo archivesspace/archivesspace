@@ -124,6 +124,15 @@ class RecordsController < ApplicationController
   end
 
 
+  def tree
+    uri = params.fetch(:uri)
+
+    tree_view = Search.tree_view(uri)
+
+    render :json => tree_view
+  end
+
+
   private
 
   def get_repository
@@ -180,5 +189,6 @@ class RecordsController < ApplicationController
 
     fetch_uris(root_uri, repo_id, uris_to_lookup)
   end
+
 
 end
