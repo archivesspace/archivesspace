@@ -60,6 +60,8 @@ class Selenium::WebDriver::Driver
       sleep(0.1)
       try += 1
     end
+
+    raise_javascript_errors
   end
 
   alias :find_element_orig :find_element
@@ -179,6 +181,10 @@ class Selenium::WebDriver::Driver
     end
   end
 
+  def raise_javascript_errors
+    errors = $driver.execute_script("return TEST_ERRORS")
+    raise "Javascript errors present: #{errors.inspect}" if errors.length > 0
+  end
 
 end
 
