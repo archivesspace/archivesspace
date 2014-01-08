@@ -22,6 +22,7 @@ class RecordsController < ApplicationController
     @archival_object = ArchivalObjectView.new(archival_object)
     @tree_view = Search.tree_view(@archival_object.uri)
 
+
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"]
     ]
@@ -38,21 +39,14 @@ class RecordsController < ApplicationController
     end
 
     @breadcrumbs.push([@archival_object.display_string, "#", "archival_object"])
-
-
-    uris_to_fetch = {}
-    @tree_view['direct_children'].map{|child_node|
-      uris_to_fetch[child_node['record_uri']] = promise_for(child_node)
-    }
-    fetch_uris(@resource_uri, params[:repo_id], uris_to_fetch)
   end
+
 
   def digital_object
     digital_object = JSONModel(:digital_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_instances", "linked_agents"])
     raise RecordNotFound.new if (!digital_object || !digital_object.publish)
 
     @digital_object = DigitalObjectView.new(digital_object)
-    @tree_view = Search.tree_view(@digital_object.uri)
 
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"],
@@ -135,57 +129,5 @@ class RecordsController < ApplicationController
   def get_repository
     @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
   end
-
-
-  def fetch_uris(root_uri, repo_id, promises)
-    page = 1
-    while true
-      results = Search.repo(repo_id,
-                            {'filter_term[]' => [{'resource' => root_uri}.to_json],
-                              'page' => page,
-                              'page_size' => AppConfig[:max_page_size].to_i},
-                            @repositories)
-
-      results['results'].each do |r|
-        rec = ASUtils.json_parse(r['json'])
-        begin
-          promises.fetch(rec['uri']).call(rec)
-        rescue KeyError
-        end
-      end
-
-      if results['this_page'] < results['last_page']
-        page += 1
-      else
-        break
-      end
-    end
-  end
-
-
-  def promise_for(node)
-    lambda {|record| node['fullrecord'] = record }
-  end
-
-
-  def load_full_records(root_uri, tree, repo_id)
-    queue = [tree]
-    uris_to_lookup = {}
-    while !queue.empty?
-      node = queue.pop
-
-      # Store a promise to satisfy the record for this URI later on
-      if node['record_uri'] && node['record_uri'] != root_uri
-        uris_to_lookup[node['record_uri']] = promise_for(node)
-      end
-
-      if node['children']
-        queue = queue.concat(node['children'])
-      end
-    end
-
-    fetch_uris(root_uri, repo_id, uris_to_lookup)
-  end
-
 
 end

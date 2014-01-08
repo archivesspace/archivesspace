@@ -22,8 +22,10 @@
   <%= render :partial => "external_documents", :locals => {:external_documents => archival_object.published_external_documents} %>
   <%= render :partial => "instances", :locals => {:instances => archival_object.instances} %>
 
-  <% if show_components %>
-    <%= render :partial => "components", :locals => {:record_type => "archival_object", :show_full_component => show_full_component} %>
-  <% end %>
+  <%= render :partial => "components", :locals => {
+        :record_type => "archival_object",
+        :root_uri => archival_object.uri,
+      }
+  %>
 
 </fieldset>

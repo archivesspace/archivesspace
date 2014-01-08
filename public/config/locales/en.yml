@@ -101,6 +101,8 @@ en:
       section:
         components: Components
         summary: Summary
+      messages:
+        no_components: Archival Object has no components
 
   resource:
     _singular: Collection
@@ -129,6 +131,9 @@ en:
       section:
         components: Components
         summary: Summary
+      messages:
+        no_components: Digital Object Component has no components
+
   agent:
     _singular: Name
     _plural: Names
