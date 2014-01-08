@@ -1,19 +1,26 @@
 <%
-   if form.obj.has_key?('_resolved')
-     selected_json =  form.obj['_resolved'].to_json
-   else
-     selected_json = "{}"
-   end
+  # Allow multiple subjects to be linked if it's an empty linker
+  if form.obj.has_key?('_resolved')
+    selected_json =  form.obj['_resolved'].to_json
+    multiplicity =  "one"
+  else
+    selected_json = "[]"
+    multiplicity =  "many"
+  end
 
   data_path = form.path
   data_name = "ref" # De-referenced by the controller if the schema def calls for an item array
 
   exclude_ids = [] if exclude_ids.blank?
   hide_create = false if hide_create.blank?
+
+  if !defined?(linker_label)
+    linker_label = (multiplicity === "many") ? I18n.t("subject._plural") : I18n.t("subject._singular")
+  end
 %>
 
 <div class="control-group required">
-   <label class="control-label"><%= I18n.t("subject._singular") %></label>
+   <label class="control-label"><%= linker_label %></label>
    <div class="controls">
        <div class="input-append linker-wrapper">
           <input type="text" class="linker"
@@ -26,7 +33,8 @@
             data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.SUBJECT_FACETS, :sort => "title_sort asc", :exclude => exclude_ids %>"
             data-selected="<%= selected_json %>"
             data-format_template="title"
-            data-multiplicity="one"
+            data-multiplicity="<%= multiplicity %>"
+            <% if multiplicity === "many" %>data-sortable="true"<% end %>
             data-types='["subject"]'
             data-exclude='<%= exclude_ids.to_json %>'
           />

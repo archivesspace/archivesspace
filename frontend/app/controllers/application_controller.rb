@@ -331,6 +331,38 @@ class ApplicationController < ActionController::Base
     end
 
 
+    expand_multiple_item_linker_values = proc do |hash, schema|
+      # The linker widget allows multiple items to be selected for some
+      # associations.  In these cases, split up the values and create
+      # separate records to be created.
+
+      associations_to_expand = ['linked_agents', 'subjects']
+
+      associations_to_expand.each do |association|
+        if hash.has_key?(association)
+          all_expanded = []
+
+          hash[association].each do |linked_agent|
+            if linked_agent.has_key?('ref') && linked_agent['ref'].is_a?(Array)
+              linked_agent['ref'].each_with_index do |ref, i|
+                expanded = linked_agent.clone
+                expanded['ref'] = ref
+                expanded['_resolved'] = linked_agent['_resolved'][i]
+                all_expanded.push(expanded)
+              end
+            else
+              all_expanded.push(linked_agent)
+            end
+          end
+
+          hash[association] = all_expanded
+        end
+      end
+
+      hash
+    end
+
+
     deserialise_resolved_json_blobs = proc do |hash, schema|
       # The linker widget sends us the full blob of each record being linked
       # to as a JSON blob.  Make this available as a regular hash by walking
@@ -349,7 +381,8 @@ class ApplicationController < ActionController::Base
                                          [fix_arrays,
                                           set_false_for_checkboxes,
                                           deserialise_resolved_json_blobs,
-                                          coerce_integers])
+                                          coerce_integers,
+                                          expand_multiple_item_linker_values])
   end
 
   def params_for_backend_search
