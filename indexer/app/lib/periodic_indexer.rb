@@ -60,7 +60,7 @@ class PeriodicIndexer < CommonIndexer
   THREAD_COUNT = AppConfig[:indexer_thread_count].to_i
   RECORDS_PER_THREAD = AppConfig[:indexer_records_per_thread].to_i
 
-  def load_tree_docs(tree, result, root_uri, path_to_root = [])
+  def load_tree_docs(tree, result, root_uri, path_to_root = [], index_whole_tree = false)
     this_node = tree.reject {|k, v| k == 'children'}
 
     doc = {
@@ -80,7 +80,7 @@ class PeriodicIndexer < CommonIndexer
     }
 
     # For the root node, store a copy of the whole tree
-    if path_to_root.empty?
+    if index_whole_tree && path_to_root.empty?
       doc['whole_tree_json'] = ASUtils.to_json(tree)
     end
 
@@ -88,7 +88,7 @@ class PeriodicIndexer < CommonIndexer
     doc = nil
 
     tree['children'].each do |child|
-      load_tree_docs(child, result, root_uri, path_to_root + [this_node])
+      load_tree_docs(child, result, root_uri, path_to_root + [this_node], index_whole_tree)
     end
   end
 
@@ -151,7 +151,8 @@ class PeriodicIndexer < CommonIndexer
 
         tree = JSONModel("#{record_data[:type]}_tree".intern).find(nil, "#{record_data[:type]}_id".intern => record_data[:id])
 
-        load_tree_docs(tree.to_hash(:trusted), batch, record_uri)
+        load_tree_docs(tree.to_hash(:trusted), batch, record_uri, [],
+                       ['classification'].include?(record_data[:type]))
         @processed_trees.put(record_uri, true)
       end
     }
