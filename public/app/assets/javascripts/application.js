@@ -4,3 +4,4 @@
 //= require header
 //= require inline_search
 //= require smart_staff_links
+//= require record_tree
