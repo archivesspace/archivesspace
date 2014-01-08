@@ -1,4 +1,12 @@
-
 <ul class="record-tree" data-root-uri="<%= root_uri %>">
 
 </ul>
+
+<div id="template_record_tree_node"><!--
+  <li class="record-tree-node" data-uri="${record_uri}">
+    {if has_children}<a href="#" class="record-tree-node-toggle">Toggle</a>{/if}
+    <span class="icon icon-${node_type}"></span>
+    <span class="record-tree-node-title">${title}</span>
+    {if has_children}<ul class="record-sub-tree"></ul>{/if}
+  </li>
+--></div>

@@ -14,33 +14,33 @@
             dataType: "json",
             type: "GET",
             success: function (json) {
-                var list = $("<ul />");
                 $(json.direct_children).each(function (idx, child) {
+                  var $node = AS.renderTemplate("template_record_tree_node", child);
                     var elt = $("<li>").text(child.title);
-
-                    if (child.has_children) {
-                        var sublist = $("<ul />");
-                        elt.append(sublist)
-
-                        elt.on('click', function (e) {
-                            self.add_children(child.record_uri, sublist);
-                        });
-                    }
-
-                    list.append(elt);
+                    container.append($node);
                 });
-
-                container.append(list)
             }
         });
     };
-
 
     $(document).ready(function () {
         $(".record-tree").each(function (idx, elt) {
             var elt = $(elt);
             var tree = new RecordTree();
             tree.add_children(elt.data("root-uri"), elt);
+
+            elt.on("click", ".record-tree-node-toggle", function(event) {
+              event.stopPropagation();
+              event.preventDefault();
+
+              var $node = $(this).closest("li");
+              if ($node.hasClass("loaded")) {
+                $node.slideToggle();
+              } else {
+                tree.add_children($node.data("uri"), $node.find(".record-sub-tree:first"));
+                $node.addClass("loaded");
+              }
+            });
         });
     });
 
