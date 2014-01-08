@@ -3,13 +3,22 @@
     <li><a href="#summary"><%= I18n.t("#{record_type}._public.section.summary") %> <span class="icon-chevron-right"></span></a></li>
 
     <% entries.each do |entry| %>
-      <% unless record[entry[:property]].blank? %>
+      <% if entry[:property] %>
+        <% unless record[entry[:property]].blank? %>
+          <li>
+            <a href="#<%= entry[:anchor] %>">
+              <%= I18n.t("#{entry[:subrecord_type]}._plural") %>
+              <span class="badge badge-info">
+                <%= record[entry[:property]].length
+                %></span><span class="icon-chevron-right"></span>
+            </a>
+          </li>
+        <% end %>
+      <% else %>
         <li>
           <a href="#<%= entry[:anchor] %>">
-            <%= I18n.t("#{entry[:subrecord_type]}._plural") %>
-            <span class="badge badge-info">
-              <%= record[entry[:property]].length
-              %></span><span class="icon-chevron-right"></span>
+            <%= entry[:label] %>
+            <span class="icon-chevron-right"></span>
           </a>
         </li>
       <% end %>

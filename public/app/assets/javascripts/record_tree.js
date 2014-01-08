@@ -14,11 +14,16 @@
             dataType: "json",
             type: "GET",
             success: function (json) {
-                $(json.direct_children).each(function (idx, child) {
-                  var $node = AS.renderTemplate("template_record_tree_node", child);
-                    var elt = $("<li>").text(child.title);
-                    container.append($node);
-                });
+              if (json == null || json.direct_children.length == 0) {
+                container.replaceWith(AS.renderTemplate("template_record_tree_empty"));
+                return;
+              }
+
+              $(json.direct_children).each(function (idx, child) {
+                var $node = AS.renderTemplate("template_record_tree_node", child);
+                var elt = $("<li>").text(child.title);
+                container.append($node);
+              });
             }
         });
     };

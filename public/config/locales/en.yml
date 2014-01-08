@@ -109,6 +109,8 @@ en:
       section:
         components: Components
         summary: Summary
+      messages:
+        no_components: Resource has no components
 
   related_resource:
     _singular: Related Collection
@@ -119,6 +121,8 @@ en:
       section:
         components: Components
         summary: Summary
+      messages:
+        no_components: Digital Object has no components
 
   digital_object_component:
     _public:

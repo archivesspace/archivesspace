@@ -7,9 +7,6 @@ class RecordsController < ApplicationController
     raise RecordNotFound.new if (!resource || !resource.publish)
 
     @resource = ResourceView.new(resource)
-    @tree_view = Search.tree_view(@resource.uri)
-
-    load_full_records(@resource.uri, @tree_view['whole_tree'], params[:repo_id])
 
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"],
