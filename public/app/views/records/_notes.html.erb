@@ -77,7 +77,7 @@
     <% Array(note['items']).each do |index_item| %>
       <dt><%= index_item['value'] %></dt>
       <% if index_item['reference_uri'] %>
-        <dd><a href="<%= index_item['reference_uri'] %>"><%= index_item['reference_text'] %></a></dd>
+        <dd><a href="<%= AppConfig[:public_prefix].gsub(/\/$/, "") %><%= index_item['reference_uri'] %>"><%= index_item['reference_text'] %></a></dd>
       <% else %>
         <dd><%= index_item['reference_text'] %></dd>
       <% end %>
