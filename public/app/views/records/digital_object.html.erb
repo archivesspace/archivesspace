@@ -21,6 +21,7 @@
                      {:property => 'published_notes', :subrecord_type => 'note', :anchor => 'notes'},
                      {:property => 'published_linked_instances', :subrecord_type => 'instance', :anchor => 'linked_instances'},
                      {:property => 'published_external_documents', :subrecord_type => 'external_document', :anchor => 'external_documents'},
+                     {:anchor => 'components', :label => I18n.t("digital_object._public.section.components")}
                    ]
                  })
        %>
@@ -45,7 +46,11 @@
         <%= render :partial => "notes", :locals => {:notes => @digital_object.published_notes} %>
         <%= render :partial => "external_documents", :locals => {:external_documents => @digital_object.published_external_documents} %>
         <%= render :partial => "linked_instances", :locals => {:records => @digital_object.published_linked_instances} %>
-        <%= render :partial => "components", :locals => {:record_type => "digital_object"} %>
+        <%= render :partial => "components", :locals => {
+              :record_type => "digital_object",
+              :root_uri => @digital_object.uri,
+            } %>
+
       </fieldset>
 
       <br/>

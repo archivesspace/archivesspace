@@ -60,8 +60,20 @@ class PeriodicIndexer < CommonIndexer
   THREAD_COUNT = AppConfig[:indexer_thread_count].to_i
   RECORDS_PER_THREAD = AppConfig[:indexer_records_per_thread].to_i
 
-  def load_tree_docs(tree, result, root_uri, path_to_root = [])
+  def load_tree_docs(tree, result, root_uri, path_to_root = [], index_whole_tree = false)
+    return unless tree['publish']
+
     this_node = tree.reject {|k, v| k == 'children'}
+
+    direct_children = tree['children'].
+                        reject {|child| !child['publish']}.
+                        map {|child|
+                          grand_children = child['children'].reject{|grand_child| !grand_child['publish']}
+                          child['has_children'] = !grand_children.empty?
+                          child.reject {|k, v| k == 'children'}
+                        }
+
+    this_node['has_children'] = !direct_children.empty?
 
     doc = {
       'id' => "tree_view_#{tree['record_uri']}",
@@ -74,13 +86,11 @@ class PeriodicIndexer < CommonIndexer
       'publish' => true,
       'tree_json' => ASUtils.to_json(:self => this_node,
                                      :path_to_root => path_to_root,
-                                     :direct_children => tree['children'].map {|child|
-                                       child.reject {|k, v| k == 'children'}
-                                     })
+                                     :direct_children => direct_children)
     }
 
     # For the root node, store a copy of the whole tree
-    if path_to_root.empty?
+    if index_whole_tree && path_to_root.empty?
       doc['whole_tree_json'] = ASUtils.to_json(tree)
     end
 
@@ -88,7 +98,7 @@ class PeriodicIndexer < CommonIndexer
     doc = nil
 
     tree['children'].each do |child|
-      load_tree_docs(child, result, root_uri, path_to_root + [this_node])
+      load_tree_docs(child, result, root_uri, path_to_root + [this_node], index_whole_tree)
     end
   end
 
@@ -100,7 +110,8 @@ class PeriodicIndexer < CommonIndexer
       req = Net::HTTP::Post.new("/update")
       req['Content-Type'] = 'application/json'
 
-      delete_request = {'delete' => {'query' => "primary_type:tree_view AND root_uri:(#{resource_uris.join(' OR ')})"}}
+      escaped = resource_uris.map {|s| "\"#{s}\""}
+      delete_request = {'delete' => {'query' => "primary_type:tree_view AND root_uri:(#{escaped.join(' OR ')})"}}
 
       req.body = delete_request.to_json
 
@@ -151,7 +162,8 @@ class PeriodicIndexer < CommonIndexer
 
         tree = JSONModel("#{record_data[:type]}_tree".intern).find(nil, "#{record_data[:type]}_id".intern => record_data[:id])
 
-        load_tree_docs(tree.to_hash(:trusted), batch, record_uri)
+        load_tree_docs(tree.to_hash(:trusted), batch, record_uri, [],
+                       ['classification'].include?(record_data[:type]))
         @processed_trees.put(record_uri, true)
       end
     }

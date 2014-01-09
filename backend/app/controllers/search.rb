@@ -70,7 +70,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/search/tree_view')
+  Endpoint.get('/search/published_tree')
   .description("Find the tree view for a particular archival record")
   .params(["node_uri", String, "The URI of the archival record to find the tree view for"])
   .permissions([:view_all_records])
@@ -79,7 +79,6 @@ class ArchivesSpaceService < Sinatra::Base
   do
 
     show_suppressed = !RequestContext.get(:enforce_suppression)
-    show_published_only = current_user.username === User.PUBLIC_USERNAME
 
     node_info = JSONModel.parse_reference(params[:node_uri])
 
@@ -87,7 +86,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     search_data = Solr.search("*:*", 1, 1,
                               JSONModel(:repository).id_for(node_info[:repository]),
-                              ['tree_view'], show_suppressed, show_published_only, true, [],
+                              ['tree_view'], show_suppressed, true, true, [],
                               [{
                                  :node_uri => params[:node_uri]
                                }.to_json])

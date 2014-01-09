@@ -1,8 +1,3 @@
-<%
-  show_components = defined?(show_components) ? show_components : true
-  show_full_component = defined?(show_full_component) ? show_full_component : false
-%>
-
 <fieldset class="form-horizontal">
   <section id="summary">
     <h3><%= I18n.t("archival_object._public.section.summary") %></h3>
@@ -22,8 +17,10 @@
   <%= render :partial => "external_documents", :locals => {:external_documents => archival_object.published_external_documents} %>
   <%= render :partial => "instances", :locals => {:instances => archival_object.instances} %>
 
-  <% if show_components %>
-    <%= render :partial => "components", :locals => {:record_type => "archival_object", :show_full_component => show_full_component} %>
-  <% end %>
+  <%= render :partial => "components", :locals => {
+        :record_type => "archival_object",
+        :root_uri => archival_object.uri,
+      }
+  %>
 
 </fieldset>
