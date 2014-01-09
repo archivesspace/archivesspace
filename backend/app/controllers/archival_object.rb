@@ -55,7 +55,7 @@ class ArchivesSpaceService < Sinatra::Base
     json = resolve_references(json, params[:resolve])
 
     if json.has_key?("resource")
-      root = json["resource"]["ref"].gsub(/.*\//, '')
+      root = JSONModel(:resource).id_for(json['resource']['ref'])
       json["notes"].map { |note|
         if note["jsonmodel_type"] == "note_index"
           note["items"].map { |item|
