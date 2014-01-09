@@ -9,6 +9,7 @@
       "type" => {"type" => "string", "ifmissing" => "error", "dynamic_enum" => "note_index_item_type"},
       "reference" => {"type" => "string", "maxLength" => 65000},
       "reference_text" => {"type" => "string", "maxLength" => 65000},
+      "reference_uri" => {"type" => "string", "required" => false},
     },
   }
 }

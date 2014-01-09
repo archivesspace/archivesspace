@@ -39,6 +39,24 @@ module Notes
       notes = ASUtils.json_parse(obj.notes || "[]")
       obj[:notes] = nil
       json = super
+      if json.has_key?("resource")
+        root = JSONModel(:resource).id_for(json['resource']['ref'])
+        notes.map { |note|
+          if note["jsonmodel_type"] == "note_index"
+            note["items"].map { |item|
+              where = {
+                :root_record_id => root,
+                :ref_id => item["reference"]
+              }
+              ao = ArchivalObject.filter(where).first
+              
+              if !ao.nil?
+                item["reference_uri"] = ao.uri
+              end
+            }
+          end
+        }
+      end
       json.notes = notes
 
       json
