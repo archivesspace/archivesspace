@@ -29,3 +29,4 @@ common/ARCHIVESSPACE_VERSION
 API.md
 config/gemnasium.yml
 build/demo_db_backups
+.bundle
