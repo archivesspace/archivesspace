@@ -103,7 +103,8 @@ class PeriodicIndexer < CommonIndexer
       req = Net::HTTP::Post.new("/update")
       req['Content-Type'] = 'application/json'
 
-      delete_request = {'delete' => {'query' => "primary_type:tree_view AND root_uri:(#{resource_uris.join(' OR ')})"}}
+      escaped = resource_uris.map {|s| "\"#{s}\""}
+      delete_request = {'delete' => {'query' => "primary_type:tree_view AND root_uri:(#{escaped.join(' OR ')})"}}
 
       req.body = delete_request.to_json
 
