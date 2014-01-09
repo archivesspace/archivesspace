@@ -86,9 +86,7 @@ class PeriodicIndexer < CommonIndexer
       'publish' => true,
       'tree_json' => ASUtils.to_json(:self => this_node,
                                      :path_to_root => path_to_root,
-                                     :direct_children => direct_children,
-                                     :has_children => !direct_children.empty?
-                                    )
+                                     :direct_children => direct_children)
     }
 
     # For the root node, store a copy of the whole tree
