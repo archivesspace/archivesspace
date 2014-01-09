@@ -65,6 +65,16 @@ class PeriodicIndexer < CommonIndexer
 
     this_node = tree.reject {|k, v| k == 'children'}
 
+    direct_children = tree['children'].
+                        reject {|child| !child['publish']}.
+                        map {|child|
+                          grand_children = child['children'].reject{|grand_child| !grand_child['publish']}
+                          child['has_children'] = !grand_children.empty?
+                          child.reject {|k, v| k == 'children'}
+                        }
+
+    this_node['has_children'] = !direct_children.empty?
+
     doc = {
       'id' => "tree_view_#{tree['record_uri']}",
       'primary_type' => 'tree_view',
@@ -76,10 +86,9 @@ class PeriodicIndexer < CommonIndexer
       'publish' => true,
       'tree_json' => ASUtils.to_json(:self => this_node,
                                      :path_to_root => path_to_root,
-                                     :direct_children => tree['children'].reject {|child| !child['publish']}.
-                                                                          map {|child|
-                                       child.reject {|k, v| k == 'children'}
-                                     })
+                                     :direct_children => direct_children,
+                                     :has_children => !direct_children.empty?
+                                    )
     }
 
     # For the root node, store a copy of the whole tree
