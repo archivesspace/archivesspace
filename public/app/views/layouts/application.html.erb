@@ -7,6 +7,19 @@
 
   <%= favicon_link_tag %>
 
+  <% if ENV["TEST_MODE"] %>
+    <script>
+      TEST_ERRORS = [];
+      window.onerror = function(errorMsg, url, lineNo) {
+        TEST_ERRORS.push({
+          message: errorMsg,
+          url: url,
+          line: lineNo
+        })
+      }
+    </script>
+  <% end %>
+
   <%= include_theme_css %>
 
   <%= csrf_meta_tags %>

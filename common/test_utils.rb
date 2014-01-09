@@ -107,7 +107,7 @@ module TestUtils
       java_opts += " -Daspace.config.#{key}=#{value}"
     end
 
-    pid = Process.spawn({:JAVA_OPTS => java_opts},
+    pid = Process.spawn({:JAVA_OPTS => java_opts, :TEST_MODE => "true"},
                         "#{base}/../build/run", "public:devserver:integration",
                         "-Daspace.public.port=#{port}")
 
