@@ -23,7 +23,7 @@ class Search
 
 
   def self.tree_view(record_uri)
-    response = JSONModel::HTTP::get_json("/search/tree_view", :node_uri => record_uri)
+    response = JSONModel::HTTP::get_json("/search/published_tree", :node_uri => record_uri)
 
     return nil if not response
 
