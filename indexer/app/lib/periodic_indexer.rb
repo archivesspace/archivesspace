@@ -61,6 +61,8 @@ class PeriodicIndexer < CommonIndexer
   RECORDS_PER_THREAD = AppConfig[:indexer_records_per_thread].to_i
 
   def load_tree_docs(tree, result, root_uri, path_to_root = [], index_whole_tree = false)
+    return unless tree['publish']
+
     this_node = tree.reject {|k, v| k == 'children'}
 
     doc = {
@@ -74,7 +76,8 @@ class PeriodicIndexer < CommonIndexer
       'publish' => true,
       'tree_json' => ASUtils.to_json(:self => this_node,
                                      :path_to_root => path_to_root,
-                                     :direct_children => tree['children'].map {|child|
+                                     :direct_children => tree['children'].reject {|child| !child['publish']}.
+                                                                          map {|child|
                                        child.reject {|k, v| k == 'children'}
                                      })
     }
