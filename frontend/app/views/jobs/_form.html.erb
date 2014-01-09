@@ -5,7 +5,9 @@
       <span><%= I18n.t("job._frontend.actions.add_file") %></span>
       <input type="file" name="files[]">
     </span>
-    <div id="files"></div>
+    <div id="files">
+      <div class="hint"><span class="plus">+</span> <%= I18n.t("job._frontend.messages.drag_and_drop_hint") %></div>
+    </div>
   <% end %>
 
   <% define_template("job", jsonmodel_definition(:job)) do |form| %>

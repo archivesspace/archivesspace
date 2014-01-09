@@ -15,6 +15,8 @@ $(function() {
       var $dropContainer = $("#files");
 
       var handleFileInputChange = function() {
+        $(".hint", $dropContainer).remove();
+
         var $input = $(this);
         var filename = $input.val().split("\\").reverse()[0]
         var $file_html = $(AS.renderTemplate("template_import_file", {filename: filename}));
