@@ -13,7 +13,7 @@
         "type" => "object",
         "subtype" => "ref",
         "properties" => {
-          "ref" => {"type" => "JSONModel(:archival_object) uri", "readonly" => true},
+          "ref" => {"type" => "string", "readonly" => true},
           "_resolved" => {
             "type" => "object",
             "readonly" => "true"
