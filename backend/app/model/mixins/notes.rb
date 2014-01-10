@@ -38,7 +38,25 @@ module Notes
     def sequel_to_jsonmodel(obj, opts = {})
       notes = ASUtils.json_parse(obj.notes || "[]")
       obj[:notes] = nil
+
       json = super
+
+      if obj.respond_to?(:root_record_id)
+        notes.map { |note|
+          if note["jsonmodel_type"] == "note_index"
+            note["items"].map { |item|
+              referenced_record = self.filter(:root_record_id => obj.root_record_id,
+                                              :ref_id => item["reference"]).
+                                       first
+
+              if !referenced_record.nil?
+                item["reference_ref"] = {"ref" => referenced_record.uri}
+              end
+            }
+          end
+        }
+      end
+
       json.notes = notes
 
       json

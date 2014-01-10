@@ -542,4 +542,24 @@ describe 'Resources controller' do
     tree.children[2]["record_uri"].should eq(ao.uri)
   end
 
+
+  it "can resolve a link in an index note" do
+    resource = create(:json_resource)
+    resource.save
+    linked_archival_object = create(:json_archival_object, :resource => {:ref => resource.uri})
+    linked_archival_object.save
+    ref_id = linked_archival_object.ref_id
+    linked_uri = linked_archival_object.uri
+
+    archival_object = create(:json_archival_object, :resource => {:ref => resource.uri})
+
+    notes = build(:json_note_index, 'items' => [build(:json_note_index_item, 'reference' => ref_id)])
+
+    archival_object.notes = [notes]
+    archival_object.save
+
+    ao = JSONModel(:archival_object).find(archival_object.id)
+    ao[:notes].first['items'].first['reference_ref']['ref'].should eq(linked_uri)
+  end
+
 end

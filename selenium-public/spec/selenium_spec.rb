@@ -138,6 +138,28 @@ describe "ArchivesSpace Public interface" do
     end
 
 
+    it "renders index notes as links when they contain ref_ids of other components" do
+      index_link_text = "a sweet link"
+      ref_id = JSONModel::HTTP.get_json($published_archival_object)["ref_id"]
+
+      ao_with_note, au_with_note_title = \
+      create_archival_object(:title => "AO with an index note",
+                             :publish => true,
+                             :resource => {:ref => $published_resource_uri},
+                             :notes => [{:jsonmodel_type => "note_index",
+                                          :items => [{:jsonmodel_type => "note_index_item",
+                                                       :type => "name",
+                                                       :value => "something",
+                                                       :reference => ref_id,
+                                                       :reference_text => index_link_text}]}])
+      @indexer.run_index_round
+
+      $driver.get(URI.join($frontend, ao_with_note))
+      $driver.find_element(:link, index_link_text).click
+      $driver.find_element_with_text('//h2', /#{$published_archival_object_title}/)
+    end
+
+
     it "is visible in the published resource children list and can be viewed" do
       $driver.get(URI.join($frontend, $published_resource_uri))
 
