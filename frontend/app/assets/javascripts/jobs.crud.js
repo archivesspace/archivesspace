@@ -10,21 +10,49 @@ $(function() {
       $form.submit();
     });
 
+    var supportsHTML5MultipleFileInput = function() {
+      var input = document.createElement("input");
+      input.setAttribute("multiple", "true");
+      return input.multiple === true;
+    };
 
     var initFileUploadSection = function() {
       var $dropContainer = $("#files");
 
       var handleFileInputChange = function() {
+        $(".hint", $dropContainer).remove();
+
         var $input = $(this);
-        var filename = $input.val().split("\\").reverse()[0]
-        var $file_html = $(AS.renderTemplate("template_import_file", {filename: filename}));
 
-        $file_html.append($input);
-        var $clone = $input.clone();
-        $clone.on("change", handleFileInputChange);
-        $(".fileinput-button", $form).append($clone);
+        // if browser supports multiple files, then iterate through each
+        // and add them to the list
+        if (supportsHTML5MultipleFileInput()) {
+          $(this.files).each(function (idx, file) {
+            var filename = file.name.split("\\").reverse()[0]
+            var $file_html = $(AS.renderTemplate("template_import_file", {filename: filename}));
 
-        $dropContainer.append($file_html);
+            $file_html.data("file", file);
+            $file_html.addClass("file-attached");
+
+            $input.val("");
+
+            $dropContainer.append($file_html);
+          });
+
+        // Otherwise, there's only one file, so create an cloned input for it
+        // This is for older browsers (like IE8) that don't support the new
+        // HTML5 input#file mulitple feature
+        } else {
+          var filename = $input.val().split("\\").reverse()[0]
+          var $file_html = $(AS.renderTemplate("template_import_file", {filename: filename}));
+
+          $file_html.append($input);
+          var $clone = $input.clone();
+          $clone.on("change", handleFileInputChange);
+          $(".fileinput-button", $form).append($clone);
+
+          $dropContainer.append($file_html);
+        }
       };
 
       $(":file", $form).on("change", handleFileInputChange);

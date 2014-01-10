@@ -782,3 +782,4 @@ en:
         import_type_missing: Please select an Import Type
         queue_position_next: This import is next in the queue.
         queue_position: "This import is %{position} in the queue."
+        drag_and_drop_hint: Drag and drop files here
