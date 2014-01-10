@@ -9,7 +9,17 @@
       "type" => {"type" => "string", "ifmissing" => "error", "dynamic_enum" => "note_index_item_type"},
       "reference" => {"type" => "string", "maxLength" => 65000},
       "reference_text" => {"type" => "string", "maxLength" => 65000},
-      "reference_uri" => {"type" => "string", "required" => false},
+      "reference_ref" => {
+        "type" => "object",
+        "subtype" => "ref",
+        "properties" => {
+          "ref" => {"type" => "JSONModel(:archival_object) uri", "readonly" => true},
+          "_resolved" => {
+            "type" => "object",
+            "readonly" => "true"
+          }
+        }
+      }
     },
   }
 }

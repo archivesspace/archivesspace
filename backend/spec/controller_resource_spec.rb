@@ -559,7 +559,7 @@ describe 'Resources controller' do
     archival_object.save
 
     ao = JSONModel(:archival_object).find(archival_object.id)
-    ao[:notes].first['items'].first['reference_uri'].should eq(linked_uri)
+    ao[:notes].first['items'].first['reference_ref']['ref'].should eq(linked_uri)
   end
 
 end
