@@ -1,11 +1,12 @@
 <%
   # Allow multiple subjects to be linked if it's an empty linker
-  if form.obj.has_key?('_resolved')
-    selected_json =  form.obj['_resolved'].to_json
-    multiplicity =  "one"
+  multiplicity = "many" if multiplicity.blank?
+
+  if form.obj['ref'].blank?
+    selected_json = (multiplicity === "many") ? "[]" : "{}"
   else
-    selected_json = "[]"
-    multiplicity =  "many"
+    multiplicity = "one"
+    selected_json = form.obj['_resolved'].to_json
   end
 
   data_path = form.path

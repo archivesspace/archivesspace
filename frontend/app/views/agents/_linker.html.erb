@@ -1,11 +1,12 @@
 <%
   # Allow multiple subjects to be linked if it's an empty linker
+  multiplicity = "many" if multiplicity.blank?
+
   if form.obj['ref'].blank?
-    selected_json = "[]"
-    multiplicity =  "many"
+    selected_json = (multiplicity === "many") ? "[]" : "{}"
   else
+    multiplicity = "one"
     selected_json = form.obj['_resolved'].to_json
-    multiplicity =  "one"
   end
 
   exclude_ids = [] if exclude_ids.blank?

@@ -14,7 +14,7 @@
         <%= form_context :merge, {} do |form| %>
         <fieldset>
           <div class="alert alert-error missing-ref-message" style="display: none;"><%= I18n.t "#{singular}._frontend.messages.please_select_a_#{singular}_to_merge" %></div>
-          <%= render :partial => "#{controller}/linker", :locals => { :form => form, :exclude_ids => [record.uri], :hide_create => true }%>
+          <%= render :partial => "#{controller}/linker", :locals => { :form => form, :exclude_ids => [record.uri], :hide_create => true, :multiplicity => "one" }%>
         </fieldset>
         <div class="form-actions">
           <%=
