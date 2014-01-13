@@ -13,7 +13,7 @@
             <td class="span2"><%= I18n.t("linked_agent.role") %></td>
             <td class="span2"><%= I18n.t("linked_agent.relator") %></td>
             <td class="span4"><%= I18n.t("linked_agent.ref") %></td>
-            <td class="span4"><%= I18n.t("linked_agent.terms") %></td>
+            <td class="span4"></td>
           </tr>
         </thead>
         <tbody>
@@ -34,9 +34,23 @@
                                  :uri => link["_resolved"]["uri"] %>
               </td>
               <td>
-                <% link['terms'].each do |term| %>
-                  <span class="label label-info" title="<%= I18n.t("enumerations.subject_term_type.#{term["term_type"]}") %>"><%= term['term'] %></span>
-                <% end %>
+                <dl>
+                  <% if !link['terms'].empty? %>
+                    <dt><%= I18n.t("linked_agent.terms") %></dt>
+
+                    <% link['terms'].each do |term| %>
+                      <dd class="label label-info" title="<%= I18n.t("enumerations.subject_term_type.#{term["term_type"]}") %>">
+                        <%= term['term'] %>
+                      </dd>
+                    <% end %>
+                  <% end %>
+
+                  <% if link['title'] %>
+                    <dt><%= I18n.t("linked_agent.title") %></dt>
+                    <dd><%= link['title'] %></dd>
+                  <% end %>
+                </dl>
+
               </td>
             </tr>
           <% end %>

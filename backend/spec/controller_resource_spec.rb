@@ -461,6 +461,22 @@ describe 'Resources controller' do
   end
 
 
+  it "supports a title property on linked agents" do
+
+    agent_a = create(:json_agent_person)
+
+    resource = create(:json_resource, :linked_agents => [
+                                                         {
+                                                           :ref => agent_a.uri,
+                                                           :role => 'creator',
+                                                           :title => 'the title'
+                                                         }
+                                                        ])
+
+    JSONModel(:resource).find(resource.id).linked_agents[0]['title'].should eq('the title')
+  end
+
+
   it "publishes the resource, subrecords and components when /publish is POSTed" do
     resource = create(:json_resource, {
       :publish => false,

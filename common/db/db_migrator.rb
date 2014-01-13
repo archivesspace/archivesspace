@@ -71,9 +71,9 @@ end
 #
 #   HalfLongString :title, :null => true
 #
-# while altering is:
+# while altering is (to add a column):
 #
-#   self.HalfLongString(:title)
+#   HalfLongString :title
 #
 
 module SequelColumnTypes

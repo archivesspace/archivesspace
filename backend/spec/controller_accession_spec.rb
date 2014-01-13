@@ -294,7 +294,8 @@ describe 'Accession controller' do
                                                  :linked_agents => [
                                                                     {
                                                                       "role" => 'creator',
-                                                                      "ref" => agent1.uri
+                                                                      "ref" => agent1.uri,
+                                                                      "title" => "the title"
                                                                     },
                                                                     {
                                                                       "role" => 'creator',
@@ -309,6 +310,8 @@ describe 'Accession controller' do
     acc.linked_agents.length.should eq(2)
     acc.linked_agents[0]['ref'].should eq(agent1.uri)
     acc.linked_agents[1]['ref'].should eq(agent2.uri)
+
+    acc.linked_agents[0]['title'].should eq('the title')
   end
 
 
