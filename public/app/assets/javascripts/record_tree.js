@@ -41,7 +41,8 @@
 
     RecordTree.prototype.init_search = function(container) {
       var $section = container.closest("#components");
-      var $componentsTab = $("#componentsTab", $section)
+      var $componentsTab = $("#componentsTab", $section);
+      var $searchResultsContainer = $("#components_search_results", $section);
 
       $componentsTab.removeClass("hide");
 
@@ -55,8 +56,12 @@
       $("form", $section).ajaxForm({
         type: "GET",
         success: function(responseText, status, xhr) {
-          $("#components_search_results", $section).html(responseText);
+          $searchResultsContainer.html(responseText);
         }
+      });
+
+      $searchResultsContainer.on("click", ".pagination a", function() {
+        $searchResultsContainer.load($(this).attr("href"));
       });
     }
 

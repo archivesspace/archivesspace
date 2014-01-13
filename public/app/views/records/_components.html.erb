@@ -4,8 +4,8 @@
   </h3>
 
   <ul class="nav nav-tabs hide" id="componentsTab">
-    <li class="active"><a href="#components_record_tree">Record Tree</a></li>
-    <li class="components-search"><a href="#components_search"><span class="icon icon-search"></span> Search Components</a></li>
+    <li class="active"><a href="#components_record_tree"><%= I18n.t("record_tree.record_tree_tab") %></a></li>
+    <li class="components-search"><a href="#components_search"><span class="icon icon-search"></span> <%= I18n.t("record_tree.search_tab") %></a></li>
   </ul>
   <div class="tab-content">
     <div id="components_record_tree" class="tab-pane active">
@@ -13,6 +13,7 @@
     </div>
     <div id="components_search" class="tab-pane">
       <%= form_tag url_for(:controller => :search, :action => :search, :format => :js) do %>
+        <%= hidden_field_tag "root_record", root_uri %>
         <div class="input-append">
           <input type="text" name="q"/>
           <button class="btn"><span class="icon icon-search"></span></button>
