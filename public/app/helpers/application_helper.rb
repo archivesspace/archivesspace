@@ -41,7 +41,10 @@ module ApplicationHelper
   end
 
   def params_for_search(opts = {})
-    search_params = {}
+    search_params = {
+      :controller => :search,
+      :action => :search
+    }
 
     search_params["filter_term"] = Array(opts["filter_term"] || params["filter_term"]).clone
     search_params["filter_term"].concat(Array(opts["add_filter_term"])) if opts["add_filter_term"]
@@ -50,6 +53,12 @@ module ApplicationHelper
     search_params["sort"] = opts["sort"] || params["sort"]
 
     search_params["q"] = opts["q"] || params["q"]
+
+    search_params["format"] = params["format"]
+    search_params["root_record"] = params["root_record"]
+    search_params["agent_type"] = params["agent_type"]
+
+    search_params["page"] = opts["page"] || params["page"] || 1
 
     if opts["type"] && opts["type"].kind_of?(Array)
       search_params["type"] = opts["type"]

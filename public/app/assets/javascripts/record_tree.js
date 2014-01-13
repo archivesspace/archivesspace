@@ -60,7 +60,10 @@
         }
       });
 
-      $searchResultsContainer.on("click", ".pagination a", function() {
+      $searchResultsContainer.on("click", ".pagination a, .sort-by-action .dropdown-menu a", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
         $searchResultsContainer.load($(this).attr("href"));
       });
     }

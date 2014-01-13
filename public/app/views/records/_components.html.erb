@@ -14,6 +14,7 @@
     <div id="components_search" class="tab-pane">
       <%= form_tag url_for(:controller => :search, :action => :search, :format => :js) do %>
         <%= hidden_field_tag "root_record", root_uri %>
+
         <div class="input-append">
           <input type="text" name="q"/>
           <button class="btn"><span class="icon icon-search"></span></button>
