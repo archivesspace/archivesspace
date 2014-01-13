@@ -41,6 +41,13 @@
 
     RecordTree.prototype.init_search = function(container) {
       var $section = container.closest("#components");
+
+      if (!$section.data('show-search')) {
+        return;
+      }
+
+      this.search_initialised = true;
+
       var $componentsTab = $("#componentsTab", $section);
       var $searchResultsContainer = $("#components_search_results", $section);
 

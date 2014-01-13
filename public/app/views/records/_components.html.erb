@@ -1,4 +1,6 @@
-<section id="components">
+<% show_search = defined?(:show_search) ? show_search : false %>
+
+<section id="components" data-show-search="<%= show_search %>">
   <h3>
     <%= I18n.t("#{record_type}._public.section.components") %>
   </h3>
