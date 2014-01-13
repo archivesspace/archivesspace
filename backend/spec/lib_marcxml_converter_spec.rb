@@ -340,4 +340,19 @@ END
     end
   end
 
+
+  it "can import an authority record" do
+    john_davis = File.expand_path("../app/migrations/examples/marc/authority_john_davis.xml",
+                                         File.dirname(__FILE__))
+
+    converter = MarcXMLConverter.for_subjects_and_agents_only(john_davis)
+    converter.run
+    parsed = JSON.parse(IO.read(converter.get_output_path))
+
+    new_record = parsed.last
+
+    new_record['names'][0]['primary_name'].should eq("Davis, John W.")
+    new_record['names'][0]['use_dates'][0]['expression'].should eq("1873-1955")
+  end
+
 end

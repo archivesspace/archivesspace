@@ -418,7 +418,7 @@ class MarcXMLConverter < Converter
           "datafield[starts-with(@tag, '59')]" => multipart_note('odd', 'Local Note'),
 
           # LINKED AGENTS (PERSON)
-          "datafield[@tag='100' or @tag='700'][@ind1='1']" => mix(person_template, creators_and_sources),
+          "datafield[@tag='100' or @tag='700'][@ind1='0' or @ind1='1']" => mix(person_template, creators_and_sources),
 
           "datafield[@tag='600'][@ind1='1']" => mix(person_template, agent_as_subject),
 
@@ -645,7 +645,8 @@ class MarcXMLConverter < Converter
 
           # last minute checks for the top-level record
           "self::record" => Proc.new {|resource, node|
-            unless resource.title || resource['_fallback_titles'].empty?
+
+            if !resource.title && resource['_fallback_titles'] && !resource['_fallback_titles'].empty?
               resource.title = resource['_fallback_titles'].shift
             end
 
