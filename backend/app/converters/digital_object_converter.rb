@@ -76,7 +76,7 @@ class DigitalObjectConverter < Converter
 
       'digital_object_processed' => [normalize_boolean, 'processed_event_date.boolean'],
       'digital_object_processed_date' => [date_flip, 'processed_event_date.expression'],
-
+      'digital_object_processing_started_date' => 'collection_management.processing_started_date',
       'digital_object_processing_estimate' => 'collection_management.processing_hours_per_foot_estimate',
       'digital_object_processing_hours_total' => 'collection_management.processing_hours_total',
       'digital_object_processing_plan' => 'collection_management.processing_plan',
