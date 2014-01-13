@@ -10,55 +10,109 @@ Sequel::MySQL.default_charset = 'utf8'
 Sequel.extension :migration
 
 
-module SequelColumnTypes
-  def TextField(field, opts = {})
+module ColumnDefs
+
+  def self.textField(name, opts = {})
     if $db_type == :derby
-      Clob field, opts
+      [name, :clob, opts]
     else
-      Text field, opts
+      [name, :text, opts]
     end
+  end
+
+
+  def self.longString(name, opts = {})
+    [name, String, opts.merge(:size => 17408)]
+  end
+
+  def self.halfLongString(name, opts = {})
+    [name, String, opts.merge(:size => 8704)]
+  end
+
+
+  def self.textBlobField(name, opts = {})
+    if $db_type == :derby
+      [name, :clob, opts]
+    else
+      self.blobField(name, opts)
+    end
+  end
+
+
+  def self.blobField(name, opts = {})
+    if $db_type == :postgres
+      [name, :bytea, opts]
+    elsif $db_type == :h2
+      [name, String, opts.merge(:size => 128000)]
+    else
+      [name, :blob, opts]
+    end
+  end
+
+
+  def self.mediumBlobField(name, opts = {})
+    if $db_type == :postgres
+      [name, :bytea, opts]
+    elsif $db_type == :h2
+      [name, String, opts.merge(:size => 128000)]
+    elsif $db_type == :mysql
+      [name, :mediumblob, opts]
+    else
+      [name, :blob, opts]
+    end
+  end
+
+end
+
+
+# Sequel uses a nice DSL for creating tables but not for altering tables.  The
+# definitions below try to provide a reasonable experience for both cases.
+# Creation is the normal:
+#
+#   HalfLongString :title, :null => true
+#
+# while altering is:
+#
+#   self.HalfLongString(:title)
+#
+
+module SequelColumnTypes
+
+  def create_column(*column_def)
+    if self.respond_to?(:column)
+      column(*column_def)
+    else
+      add_column(*column_def)
+    end
+  end
+
+
+  def TextField(field, opts = {})
+    create_column(*ColumnDefs.textField(field, opts))
   end
 
 
   def LongString(field, opts = {})
-    String field, opts.merge(:size => 17408)
+    create_column(*ColumnDefs.longString(field, opts))
   end
 
   def HalfLongString(field, opts = {})
-    String field, opts.merge(:size => 8704)
+    create_column(*ColumnDefs.halfLongString(field, opts))
   end
 
 
   def TextBlobField(field, opts = {})
-    if $db_type == :derby
-      Clob field, opts
-    else
-      BlobField(field, opts)
-    end
+    create_column(*ColumnDefs.textBlobField(field, opts))
   end
 
 
   def BlobField(field, opts = {})
-    if $db_type == :postgres
-      Bytea field, opts
-    elsif $db_type == :h2
-      String field, opts.merge(:size => 128000)
-    else
-      Blob field, opts
-    end
+    create_column(*ColumnDefs.blobField(field, opts))
   end
 
 
   def MediumBlobField(field, opts = {})
-    if $db_type == :postgres
-      Bytea field, opts
-    elsif $db_type == :h2
-      String field, opts.merge(:size => 128000)
-    elsif $db_type == :mysql
-      MediumBlob field, opts
-    else
-      Blob field, opts
-    end
+    create_column(*ColumnDefs.mediumBlobField(field, opts))
   end
 
 
@@ -105,6 +159,7 @@ module Sequel
       include SequelColumnTypes
     end
   end
+
 end
 
 
