@@ -20,7 +20,7 @@ class Solr
                   show_suppressed = false,
                   show_published_only = false,
                   show_excluded_docs = false,
-                  excluded_ids = [], filter_terms = [],  extra_solr_params = {})
+                  excluded_ids = [], filter_terms = [],  extra_solr_params = {}, root_record = nil)
     url = solr_url
 
     opts = {
@@ -62,6 +62,10 @@ class Solr
     if excluded_ids && !excluded_ids.empty?
       query = excluded_ids.map { |id| "\"#{id}\"" }.join(' OR ')
       opts << [:fq, "-id:(#{query})"]
+    end
+
+    if root_record
+      opts << [:fq, "(resource:\"#{root_record}\" OR digital_object:\"#{root_record}\")"]
     end
 
     if filter_terms && !filter_terms.empty?

@@ -22,6 +22,10 @@ class ArchivesSpaceService < Sinatra::Base
      ["exclude",
       [String],
       "A list of document IDs that should be excluded from results",
+      :optional => true],
+     ["root_record",
+      String,
+      "Search within a collection of records (defined by the record at the root of the tree)",
       :optional => true]]
 
 

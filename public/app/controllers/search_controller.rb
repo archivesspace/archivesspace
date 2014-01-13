@@ -51,7 +51,10 @@ class SearchController < ApplicationController
   private
 
   def set_search_criteria
-    @criteria = params.select{|k,v| ["page", "q", "type", "sort", "filter_term"].include?(k) and not v.blank?}
+    @criteria = params.select{|k,v|
+      ["page", "q", "type", "sort",
+       "filter_term", "root_record"].include?(k) and not v.blank?
+    }
 
     @criteria["page"] ||= 1
 
@@ -70,6 +73,7 @@ class SearchController < ApplicationController
     @criteria['exclude[]'] = params[:exclude] if not params[:exclude].blank?
     @criteria['facet[]'] = ["repository", "primary_type", "subjects", "source"]
   end
+
 
   def set_advanced_search_criteria
     set_search_criteria
