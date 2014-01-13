@@ -10,15 +10,25 @@ describe 'Digital Object converter' do
     converter.run
     JSON(IO.read(converter.get_output_path))
   end
+  
+
+  before(:all) do
+    @records = convert_test_file
+    @digital_objects = @records.select {|r| r['jsonmodel_type'] == 'digital_object' }
+  end
 
 
   it "did something" do
-    record = convert_test_file.find {|rec| rec['jsonmodel_type'] == 'digital_object'}
-    record.should_not be(nil)
+    @digital_objects[0].should_not be(nil)
 
-    record['jsonmodel_type'].should eq('digital_object')
-    record['level'].should eq('image')
-    record['title'].should eq('a new digital object')
+    @digital_objects[0]['jsonmodel_type'].should eq('digital_object')
+    @digital_objects[0]['level'].should eq('image')
+    @digital_objects[0]['title'].should eq('a new digital object')
+  end
+
+
+  it "maps digital_object_processing_started_date to collection_management.processing_started_date" do    
+    @digital_objects[0]['collection_management']['processing_started_date'].should match(/\d{4}-\d{2}-\d{2}/)
   end
 end
 
