@@ -64,11 +64,13 @@
               "dynamic_enum" => "linked_agent_archival_record_relators",
             },
 
-           "ref" => {"type" => [{"type" => "JSONModel(:agent_corporate_entity) uri"},
+            "title" => {"type" => "string"},
+
+            "ref" => {"type" => [{"type" => "JSONModel(:agent_corporate_entity) uri"},
                                  {"type" => "JSONModel(:agent_family) uri"},
                                  {"type" => "JSONModel(:agent_person) uri"},
                                  {"type" => "JSONModel(:agent_software) uri"}],
-                      "ifmissing" => "error"},
+              "ifmissing" => "error"},
             "_resolved" => {
               "type" => "object",
               "readonly" => "true"

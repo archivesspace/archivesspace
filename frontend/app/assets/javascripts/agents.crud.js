@@ -57,6 +57,13 @@ $(function() {
         form.find(':input').attr('disabled', 'disabled');
         form.hide();
       }
+
+      var creator_title = $subform.find('.agent-creator-title').show();
+      if ($(this).val() == 'creator') {
+        creator_title.show().find(':input').removeAttr('disabled');
+      } else {
+        creator_title.hide().find(':input').attr('disabled', 'disabled');
+      }
     });
 
     $(document).triggerHandler("subrecordcreated.aspace", ["term", $("#terms", $subform)]);

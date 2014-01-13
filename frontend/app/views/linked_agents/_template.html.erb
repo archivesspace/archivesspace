@@ -10,6 +10,11 @@
   <% define_template "#{defn[:type]}_linked_agent", jsonmodel_definition(defn[:type], "linked_agents") do |form| %>
     <div class="subrecord-form-fields agent_links">
       <%= form.label_and_select("role", form.possible_options_for("role", true), :field_opts => {:class => "linked_agent_role"}) %>
+        
+      <div class="agent-creator-title" style="display: none">
+        <%= form.label_and_textfield "title" %>
+      </div>
+
       <% if defn[:relator] %>
         <%= form.label_and_select("relator", form.possible_options_for("relator", true)) %>
       <% end %>

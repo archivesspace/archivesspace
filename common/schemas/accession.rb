@@ -130,6 +130,8 @@
 
             "terms" => {"type" => "array", "items" => {"type" => "JSONModel(:term) uri_or_object"}},
 
+            "title" => {"type" => "string"},
+
             "relator" => {
               "type" => "string",
               "dynamic_enum" => "linked_agent_archival_record_relators",
@@ -139,7 +141,7 @@
                                  {"type" => "JSONModel(:agent_family) uri"},
                                  {"type" => "JSONModel(:agent_person) uri"},
                                  {"type" => "JSONModel(:agent_software) uri"}],
-                      "ifmissing" => "error"},
+              "ifmissing" => "error"},
             "_resolved" => {
               "type" => "object",
               "readonly" => "true"

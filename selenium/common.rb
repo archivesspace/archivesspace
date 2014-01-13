@@ -182,7 +182,7 @@ class Selenium::WebDriver::Driver
   end
 
   def raise_javascript_errors
-    errors = $driver.execute_script("return TEST_ERRORS")
+    errors = $driver.execute_script("return window.hasOwnProperty('TEST_ERRORS') ? TEST_ERRORS : []")
     raise "Javascript errors present: #{errors.inspect}" if errors.length > 0
   end
 
