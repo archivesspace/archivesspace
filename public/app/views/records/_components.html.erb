@@ -1,7 +1,23 @@
 <section id="components">
-  <h3><%= I18n.t("#{record_type}._public.section.components") %></h3>
+  <h3>
+    <%= I18n.t("#{record_type}._public.section.components") %>
+  </h3>
 
-  <ul class="record-tree" data-root-uri="<%= root_uri %>"></ul>
+  <ul class="nav nav-tabs" id="componentsTab">
+    <li class="active"><a href="#components_record_tree">Record Tree</a></li>
+    <li><a href="#components_search"><span class="icon icon-search"></span> Search Components</a></li>
+  </ul>
+  <div class="tab-content">
+    <div id="components_record_tree" class="tab-pane active">
+      <ul class="record-tree" data-root-uri="<%= root_uri %>"></ul>
+    </div>
+    <div id="components_search" class="tab-pane">
+      <div class="input-append">
+        <input type="text" name="components_query"/>
+        <button class="btn"><span class="icon icon-search"></span></button>
+      </div>
+    </div>
+  </div>
 </section>
 
 <div id="template_record_tree_node"><!--
