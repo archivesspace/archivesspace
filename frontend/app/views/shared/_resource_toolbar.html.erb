@@ -45,6 +45,11 @@
                           :"data-confirm-btn-class" => "btn-primary",
                         }) %>
           </div>
+          <% if record.publish %>
+          	<div class="btn btn-inline-form">
+              <%= link_to I18n.t("actions.view_published"), URI.join(AppConfig[:public_proxy_url], record.uri).to_s, :target => "_blank", :class => "btn btn-small" %>
+            </div>
+          <% end %>
           <div class="btn btn-inline-form">
             <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
               <%= I18n.t("actions.export") %>

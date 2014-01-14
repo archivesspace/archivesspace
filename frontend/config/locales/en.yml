@@ -75,6 +75,7 @@ en:
     publish_confirm_title: Publish?
     publish_confirm_message: "<p>Performing this action will publish this record, any sub-records (External Documents, Notes, etc) and all components in the hierarchy.</p>"
     view_search_results: Go to Search Results
+    view_published: View Published
 
   states:
     auto_generated: System generates when saved
