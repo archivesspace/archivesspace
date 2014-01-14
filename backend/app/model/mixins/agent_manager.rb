@@ -44,6 +44,22 @@ module AgentManager
 
       base.include(Relationships)
       base.include(RelatedAgents)
+
+      base.define_relationship(:name => :linked_agents,
+                               :contains_references_to_types => proc {[Accession, ArchivalObject,
+                                                                       DigitalObject, DigitalObjectComponent,
+                                                                       Event, Resource]})
+    end
+
+
+    def linked_agent_roles
+      role_ids = self.class.find_relationship(:linked_agents).values_for_property(self, :role_id).uniq
+
+      # Hackish: we only want to return roles corresponding to linked archival
+      # records (not events), so we filter it at this level.
+      valid_enum = BackendEnumSource.values_for("linked_agent_role")
+
+      BackendEnumSource.values_for_ids(role_ids).values.reject {|v| !valid_enum.include?(v) }
     end
 
 
@@ -90,6 +106,8 @@ module AgentManager
         json = super
         json.agent_type = my_agent_type[:jsonmodel].to_s
         json.title = json['names'][0]['sort_name']
+        json.linked_agent_roles = obj.linked_agent_roles
+
         json
       end
     end

@@ -93,6 +93,19 @@ class BackendEnumSource
   end
 
 
+  def self.values_for_ids(ids)
+    result = {}
+
+    DB.open(true) do |db|
+      db[:enumeration_value].filter(:id => ids).each do |row|
+        result[row[:id]] = row[:value]
+      end
+    end
+
+    result
+  end
+
+
   def self.value_for_id(enum_name, id)
     return nil if id.nil?
 

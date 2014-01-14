@@ -158,4 +158,18 @@ describe 'Agent model' do
     victim_agent.exists?.should be(false)
   end
 
+
+  it "can get a list of roles that a given agent participates in" do
+    person_agent = AgentPerson.create_from_json(build(:json_agent_person))
+
+    # A record that uses the victim agent
+    acc = create(:json_accession, 'linked_agents' => [{
+                                                        'ref' => person_agent.uri,
+                                                        'role' => 'source'
+                                                      }])
+
+
+    person_agent.linked_agent_roles.should eq(['source'])
+  end
+
 end
