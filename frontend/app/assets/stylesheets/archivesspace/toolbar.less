@@ -26,12 +26,15 @@
   .btn-inline-form .btn {
     .border-radius(0);
   }
-  &:first-child .btn-inline-form:first-child .btn {
+  &:first-child .btn-inline-form:only-child .btn {
+    .border-radius(4px);
+  }
+  .btn-inline-form:first-child .btn {
     .border-radius(4px 0 0 4px);
   }
   .btn-inline-form:last-child .btn {
     .border-radius(0 4px 4px 0);
-  }
+  }   
 }
 
 .record-toolbar {
