@@ -30,8 +30,12 @@ module Agents
 
 
     def initialize_enum(clz)
-      role_enum = @agent_role_enum
+      role_enum = @agent_role_enum or raise "Missing agent_role_enum in #{self}"
       relator_enum = @agent_relator_enum
+
+      if self.columns.include?(:relator_id) && relator_enum.nil?
+        raise "Missing agent_relator_enum in #{self}"
+      end
 
       clz.instance_eval do
         include DynamicEnums

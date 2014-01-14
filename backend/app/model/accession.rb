@@ -19,6 +19,7 @@ class Accession < Sequel::Model(:accession)
   include AutoGenerator
   include Transferable
 
+  agent_role_enum("linked_agent_role")
   agent_relator_enum("linked_agent_archival_record_relators")
 
   enable_suppression
