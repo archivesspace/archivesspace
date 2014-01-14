@@ -68,7 +68,7 @@ class SearchController < ApplicationController
     end
 
     @criteria['exclude[]'] = params[:exclude] if not params[:exclude].blank?
-    @criteria['facet[]'] = ["repository", "primary_type", "subjects", "source"]
+    @criteria['facet[]'] = ["repository", "primary_type", "subjects", "source", "linked_agent_roles"]
   end
 
   def set_advanced_search_criteria
