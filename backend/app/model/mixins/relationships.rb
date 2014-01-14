@@ -267,6 +267,10 @@ module Relationships
 
   def update_from_json(json, opts = {}, apply_nested_records = true)
     obj = super
+
+    # Call this before and after the change since relationships might have been
+    # removed and the previously linked objects might need reindexing.
+    trigger_reindex_of_dependants
     self.class.apply_relationships(obj, json, opts)
     trigger_reindex_of_dependants
 

@@ -188,6 +188,8 @@ class CommonIndexer
         doc['source'] = record['record']['names'][0]['source']
         doc['rules'] = record['record']['names'][0]['rules']
         doc['publish'] = record['record']['publish']
+        doc['linked_agent_roles'] = record['record']['linked_agent_roles']
+        doc['is_linked_agent'] = !record['record']['linked_agent_roles'].empty?
 
         # Assign the additional type of 'agent'
         doc['types'] << 'agent'
