@@ -18,6 +18,10 @@ ArchivesSpacePublic::Application.routes.draw do
     match 'subjects/:id' => 'search#subject', :via => [:get]
     root :to => "site#index"
 
+    get 'agents/people/:id', to: redirect('/agents/%{id}?agent_type=agent_person')
+    get 'agents/software/:id', to: redirect('/agents/%{id}?agent_type=agent_software')
+    get 'agents/families/:id', to: redirect('/agents/%{id}?agent_type=agent_family')
+    get 'agents/corporate_entities/:id', to: redirect('/agents/%{id}?agent_type=agent_corporate_entity')
   end
 
 end
