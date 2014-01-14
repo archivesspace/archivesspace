@@ -21,8 +21,9 @@
           </div>
         <% end %>
         <div class="btn-toolbar pull-right">
+          <div class="btn-group">
           <% if @accession_event_types && !@accession.suppressed %>
-            <div class="btn-group">
+            <div class="btn btn-inline-form">
               <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
                 <%= I18n.t("actions.add_event") %>
                 <span class="caret"></span>
@@ -34,11 +35,10 @@
                   </li>
                 <% end %>
               </ul>
-            </div>
-          <% end %>
-
+            <% end %>
+          </div>
           <% if not @accession.suppressed %>
-            <div class="btn-group">
+            <div class="btn btn-inline-form">
               <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
                 <%= I18n.t "actions.spawn" %>
                 <span class="caret"></span>
@@ -60,24 +60,23 @@
                                                               :target => @accession.title)}
             %>
           <% end %>
+
           <% if user_can?('suppress_archival_record') || user_can?('delete_archival_record') %>
-            <div class="btn-group">
-              <% if user_can?('suppress_archival_record') %>
+            <% if user_can?('suppress_archival_record') %>
+              <div class="btn btn-inline-form">
                 <% if @accession.suppressed %>
-                  <div class="btn btn-small btn-inline-form">
-                    <%= button_confirm_action I18n.t("actions.unsuppress"),
-                                              url_for(:controller => :accessions, :action => :unsuppress, :id => @accession.id),
-                                              {
-                                                :class => "btn btn-small unsuppress-record",
-                                                :"data-title" => I18n.t("actions.unsuppress_confirm_title"),
-                                                :"data-message" => I18n.t("actions.unsuppress_confirm_message"),
-                                                :"data-confirm-btn-label" => "#{I18n.t("actions.unsuppress")}"
-                                              }
-                    %>
-                  </div>
+
+                  <%= button_confirm_action I18n.t("actions.unsuppress"),
+                                            url_for(:controller => :accessions, :action => :unsuppress, :id => @accession.id),
+                                            {
+                                              :class => "btn btn-small unsuppress-record",
+                                              :"data-title" => I18n.t("actions.unsuppress_confirm_title"),
+                                              :"data-message" => I18n.t("actions.unsuppress_confirm_message"),
+                                              :"data-confirm-btn-label" => "#{I18n.t("actions.unsuppress")}"
+                                            }
+                  %>
                 <% else %>
-                  <div class="btn btn-inline-form">
-                    <%= button_confirm_action I18n.t("actions.suppress"),
+                  <%= button_confirm_action I18n.t("actions.suppress"),
                                               url_for(:controller => :accessions, :action => :suppress, :id => @accession.id),
                                               {
                                                 :class => "btn btn-small btn-warning suppress-record",
@@ -87,14 +86,15 @@
                                                 :"data-confirm-btn-class" => "btn-warning"
                                               }
                     %>
-                  </div>
                 <% end %>
-              <% end %>
-              <% if user_can?('delete_archival_record') %>
-                <div class="btn btn-inline-form">
-                  <%= button_delete_action url_for(:controller => :accessions, :action => :delete, :id => @accession.id) %>
-                </div>
-              <% end %>
+              </div>
+
+            <% end %>
+            <% if user_can?('delete_archival_record') %>
+              <div class="btn btn-inline-form">
+                <%= button_delete_action url_for(:controller => :accessions, :action => :delete, :id => @accession.id) %>
+              </div>
+            <% end %>
             </div>
           <% end %>
         </div>

@@ -45,13 +45,15 @@
                           :"data-confirm-btn-class" => "btn-primary",
                         }) %>
           </div>
-          <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
-            <%= I18n.t("actions.export") %>
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu open-aligned-right">
-            <%= yield :exports %>
-          </ul>
+          <div class="btn btn-inline-form">
+            <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+              <%= I18n.t("actions.export") %>
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu open-aligned-right">
+              <%= yield :exports %>
+            </ul>
+          </div>
 
           <% if user_can?('transfer_archival_record') %>
             <%=
@@ -65,11 +67,9 @@
           <% end %>
 
           <% if user_can?('delete_archival_record') %>
-            <div class="btn-group">
-              <div class="btn btn-inline-form">
-                <%= button_delete_action url_for(:action => :delete, :id => record.id) %>
-              </div>
-            </div>
+          <div class="btn btn-inline-form">
+            <%= button_delete_action url_for(:action => :delete, :id => record.id) %>
+          </div>
           <% end %>
         </div>
       </div>
