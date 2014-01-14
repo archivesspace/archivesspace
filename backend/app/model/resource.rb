@@ -23,6 +23,7 @@ class Resource < Sequel::Model(:resource)
 
   tree_record_types :resource, :archival_object
 
+  agent_role_enum("linked_agent_role")
   agent_relator_enum("linked_agent_archival_record_relators")
 
   tree_of(:resource, :archival_object)

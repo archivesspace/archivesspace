@@ -14,6 +14,7 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
   include ExternalIDs
   include FileVersions
 
+  agent_role_enum("linked_agent_role")
   agent_relator_enum("linked_agent_archival_record_relators")
 
   tree_record_types :digital_object, :digital_object_component
