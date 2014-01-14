@@ -25,6 +25,7 @@
       "processing_hours_total" => {"type" => "string", "maxLength" => 255, "required" => false},
       "processing_plan" => {"type" => "string", "maxLength" => 65000, "required" => false},
       "processing_priority" => {"type" => "string", "required" => false, "dynamic_enum" => "collection_management_processing_priority"},
+      "processing_started_date" => {"type" => "date", "minLength" => 1, "required" => false},
       "processing_status" => {"type" => "string", "required" => false, "dynamic_enum" => "collection_management_processing_status"},
       "processing_funding_source" => {"type" => "string", "maxLength" => 65000, "required" => false},
       "processors" => {"type" => "string", "maxLength" => 65000, "required" => false},
