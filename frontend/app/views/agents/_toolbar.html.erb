@@ -36,19 +36,18 @@
         <% end %>
 
         <div class="btn-toolbar pull-right">
-          <% if user_can?('delete_agent_record') %>
-            <div class="btn-group">
+          <div class="btn-group">
+            <% if @agent.publish %>
+          	  <div class="btn btn-inline-form">
+                <%= link_to I18n.t("actions.view_published"), URI.join(AppConfig[:public_proxy_url], @agent.uri).to_s, :target => "_blank", :class => "btn btn-small" %>
+              </div>
+            <% end %>
+            <% if user_can?('delete_agent_record') %>
               <div class="btn btn-inline-form">
                 <%= button_delete_action url_for(:controller => :agents, :action => :delete, :id => @agent.id) %>
               </div>
-            </div>
-          <% end %>
-
-          <% if false %>
-            <div class="btn-group">
-              <%= link_to I18n.t("actions.export_eac"), {:controller => :exports, :action => :download_eac, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-small" %>
-            </div>
-          <% end %>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>
