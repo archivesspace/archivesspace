@@ -10,7 +10,13 @@
       <%= readonly_context :external_document, document do |readonly| %>
       <div class="subrecord-form-fields external-document">
         <%= readonly.label_and_textfield "title" %>
-        <%= readonly.label_with_field "location", ((document["location"] =~ URI::regexp).nil?) ? document["location"] : link_to(document["location"], document["location"]) %>
+
+        <% loc_uri = (document["location"] || "").slice(URI.regexp) %>
+        <% if loc_uri.nil? %>
+          <%= readonly.label_and_textfield "location" %>
+        <% else %>
+          <%= readonly.label_with_field("location", link_to(document["location"], loc_uri)) %>
+        <% end %>
         <%= readonly.label_and_boolean "publish" %>
       </div>
       <% end %>
