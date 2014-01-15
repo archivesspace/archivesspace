@@ -103,10 +103,15 @@ class Subject < Sequel::Model(:subject)
     self.class.relationship_dependencies[:subject].any? {|related_class|
       relationship_class = related_class.find_relationship(:subject, true)
       reference_columns = relationship_class.reference_columns_for(self.class)
-      referer_columns = relationship_class.reference_columns_for(related_class)
-      matching_relationships = reference_columns.map {|col| relationship_class.filter(col => self.id).all}.flatten(1)
-      matching_relationships.any? {|relationship|
-        related_class.where(:id => relationship[referer_columns[0]]).where(:publish => 1).count > 0
+      referrer_columns = relationship_class.reference_columns_for(related_class)
+
+      referrer_columns.any? {|referrer_column|
+        reference_columns.any? {|reference_column|
+          relationship_class.join(related_class, :id => referrer_column).
+                             filter(:publish => 1).
+                             filter(reference_column => self.id).
+                             any?
+        }
       }
     }
   end
