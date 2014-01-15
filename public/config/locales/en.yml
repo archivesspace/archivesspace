@@ -148,3 +148,7 @@ en:
   instance:
     _public:
       link_to_digital_object: Link to Record
+
+  record_tree:
+    record_tree_tab: Record Tree
+    search_tab: Search Components

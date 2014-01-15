@@ -23,7 +23,8 @@ class Search
                 {
                   "facet.field" => Array(params[:facet]),
                   "sort" => params[:sort]
-                })
+                },
+                params[:root_record])
   end
 
 end

@@ -4,6 +4,8 @@
     var RecordTree = function () {
     };
 
+  RecordTree.prototype.search_initialised = false;
+
     RecordTree.prototype.add_children = function (uri, container) {
         var self = this;
         $.ajax({
@@ -24,6 +26,10 @@
                 return;
               }
 
+              if (!self.search_initialised) {
+                self.init_search(container);
+              }
+
               $(json.direct_children).each(function (idx, child) {
                 var $node = AS.renderTemplate("template_record_tree_node", child);
                 var elt = $("<li>").text(child.title);
@@ -32,6 +38,42 @@
             }
         });
     };
+
+    RecordTree.prototype.init_search = function(container) {
+      var $section = container.closest("#components");
+
+      if (!$section.data('show-search')) {
+        return;
+      }
+
+      this.search_initialised = true;
+
+      var $componentsTab = $("#componentsTab", $section);
+      var $searchResultsContainer = $("#components_search_results", $section);
+
+      $componentsTab.removeClass("hide");
+
+      // Init the components tab
+      $('a', $componentsTab).click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+      });
+
+      // Init the search action
+      $("form", $section).ajaxForm({
+        type: "GET",
+        success: function(responseText, status, xhr) {
+          $searchResultsContainer.html(responseText);
+        }
+      });
+
+      $searchResultsContainer.on("click", ".pagination a, .sort-by-action .dropdown-menu a", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        $searchResultsContainer.load($(this).attr("href"));
+      });
+    }
 
     $(document).ready(function () {
         $(".record-tree").each(function (idx, elt) {

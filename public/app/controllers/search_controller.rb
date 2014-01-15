@@ -15,7 +15,7 @@ class SearchController < ApplicationController
 
     respond_to do |format|
       format.html { render "search/results" }
-      format.js { render :partial => "search/inline_results", :content_type => "text/html" }
+      format.js { render :partial => "search/inline_results", :content_type => "text/html", :locals => {:search_data => @search_data} }
     end
   end
 
@@ -51,7 +51,10 @@ class SearchController < ApplicationController
   private
 
   def set_search_criteria
-    @criteria = params.select{|k,v| ["page", "q", "type", "sort", "filter_term"].include?(k) and not v.blank?}
+    @criteria = params.select{|k,v|
+      ["page", "q", "type", "sort",
+       "filter_term", "root_record", "format"].include?(k) and not v.blank?
+    }
 
     @criteria["page"] ||= 1
 
@@ -70,6 +73,7 @@ class SearchController < ApplicationController
     @criteria['exclude[]'] = params[:exclude] if not params[:exclude].blank?
     @criteria['facet[]'] = ["repository", "primary_type", "subjects", "source"]
   end
+
 
   def set_advanced_search_criteria
     set_search_criteria

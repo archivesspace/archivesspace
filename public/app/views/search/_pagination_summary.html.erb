@@ -1,32 +1,32 @@
-<% if @search_data %>
+<% if search_data %>
   <div class="pull-left">
-    <%= I18n.t "pagination.summary_prefix" %> <strong><%= @search_data["offset_first"] %></strong> <%= I18n.t "pagination.summary_offset_connector" %> <strong><%= @search_data["offset_last"] %></strong> <%= I18n.t "pagination.summary_total_connector" %> <strong><%= @search_data["total_hits"] %></strong> <%= I18n.t "pagination.summary_suffix" %>
+    <%= I18n.t "pagination.summary_prefix" %> <strong><%= search_data["offset_first"] %></strong> <%= I18n.t "pagination.summary_offset_connector" %> <strong><%= search_data["offset_last"] %></strong> <%= I18n.t "pagination.summary_total_connector" %> <strong><%= search_data["total_hits"] %></strong> <%= I18n.t "pagination.summary_suffix" %>
   </div>
-  <div class="pull-right" style="position: relative">
+  <div class="sort-by-action pull-right" style="position: relative">
     <%= I18n.t("search_sorting.sort_by") %>
     <span class="input-append">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        <span class="inset-label"><%= @search_data.sorted_by_label %></span>
+        <span class="inset-label"><%= search_data.sorted_by_label %></span>
         <span class="btn btn-mini last"><span class="caret"></span></span>
       </a>
       <ul class="dropdown-menu pull-right">
         <li><%= link_to I18n.t("search_sorting.relevance"), params_for_search("sort" => "") %></li>
         <li class="dropdown-submenu pull-left">
-          <%= link_to I18n.t("search_sorting.title_sort"), params_for_search("sort" => @search_data.sort_filter_for("title_sort")) %>
+          <%= link_to I18n.t("search_sorting.title_sort"), params_for_search("sort" => search_data.sort_filter_for("title_sort")) %>
           <ul class="dropdown-menu">
             <li><%= link_to I18n.t("search_sorting.asc"), params_for_search("sort" => "title_sort asc") %></li>
             <li><%= link_to I18n.t("search_sorting.desc"), params_for_search("sort" => "title_sort desc") %></li>
           </ul>
         </li>
         <li class="dropdown-submenu pull-left">
-          <%= link_to I18n.t("search_sorting.create_time"), params_for_search("sort" => @search_data.sort_filter_for("create_time", "desc")) %>
+          <%= link_to I18n.t("search_sorting.create_time"), params_for_search("sort" => search_data.sort_filter_for("create_time", "desc")) %>
           <ul class="dropdown-menu">
             <li><%= link_to I18n.t("search_sorting.asc"), params_for_search("sort" => "create_time asc") %></li>
             <li><%= link_to I18n.t("search_sorting.desc"), params_for_search("sort" => "create_time desc") %></li>
           </ul>
         </li>
         <li class="dropdown-submenu pull-left">
-          <%= link_to I18n.t("search_sorting.user_mtime"), params_for_search("sort" => @search_data.sort_filter_for("user_mtime", "desc")) %>
+          <%= link_to I18n.t("search_sorting.user_mtime"), params_for_search("sort" => search_data.sort_filter_for("user_mtime", "desc")) %>
           <ul class="dropdown-menu">
             <li><%= link_to I18n.t("search_sorting.asc"), params_for_search("sort" => "user_mtime asc") %></li>
             <li><%= link_to I18n.t("search_sorting.desc"), params_for_search("sort" => "user_mtime desc") %></li>

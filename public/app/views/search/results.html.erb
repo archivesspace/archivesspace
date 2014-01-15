@@ -10,39 +10,7 @@
     </div>
     <div class="span9">
       <div class="record-pane">
-        <% if @search_data.results? %>
-          <%= render :partial => "search/pagination_summary" %>
-          <ul class="results-list">
-          <% @search_data['results'].each do |result| %>
-            <% 
-              id = JSONModel(result["primary_type"]).id_for(result['uri'])
-              repo_id = JSONModel(:repository).id_for(JSONModel.repository_for(result['uri']),{}, true)
-            %>
-            <li class="result">
-              <h3>
-                <%= icon_for result["primary_type"] %>
-                <% if result["primary_type"] === "subject" %>
-                  <%= link_to result["title"], {"filter_term" => @search_data.facet_query_string("subjects", result["title"])} %>
-                <% elsif ["agent_person", "agent_software", "agent_family", "agent_corporate_entity"].include?(result["primary_type"]) %>
-                  <%= link_to result['title'], :controller => :records, :action => :agent, :id => id, :agent_type => result["primary_type"] %>
-                <% elsif result["primary_type"] === "repository" %>
-                  <%= link_to result['title'], :controller => :search, :action => :repository, :repo_id => id %>
-                <% else %>
-                  <%= link_to result['finding_aid_title'] || result["title"] || result['display_string'], :controller => :records, :action => result["primary_type"], :id => id, :repo_id => repo_id %>
-                <% end %> 
-              </h3>
-              <div class="result-summary">
-                <%= render :partial => "search/result_summary_#{result["primary_type"]}", :locals => {:obj => result} %>
-              </div>
-            </li>
-          <% end %>
-          </ul>
-          <%= render :partial => "search/pagination" %>
-        <% else %>
-          <p class="alert alert-info">
-            <%= I18n.t("search_results.no_results") %></em>.
-          </p>
-        <% end %>
+        <%= render :partial => "inline_results", :locals => {:search_data => @search_data} %>
       </div>
     </div>
   </div>
