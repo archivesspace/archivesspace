@@ -99,6 +99,19 @@ class Subject < Sequel::Model(:subject)
   end
 
 
+  def is_published_by_implication?
+    self.class.relationship_dependencies[:subject].any? {|related_class|
+      relationship_class = related_class.find_relationship(:subject, true)
+      reference_columns = relationship_class.reference_columns_for(self.class)
+      referer_columns = relationship_class.reference_columns_for(related_class)
+      matching_relationships = reference_columns.map {|col| relationship_class.filter(col => self.id).all}.flatten(1)
+      matching_relationships.any? {|relationship|
+        related_class.where(:id => relationship[referer_columns[0]]).where(:publish => 1).count > 0
+      }
+    }
+  end
+
+
   def self.sequel_to_jsonmodel(obj, opts = {})
     json = super
 
