@@ -162,7 +162,6 @@ describe 'Agent model' do
   it "can get a list of roles that a given agent participates in" do
     person_agent = AgentPerson.create_from_json(build(:json_agent_person))
 
-    # A record that uses the victim agent
     acc = create(:json_accession, 'linked_agents' => [{
                                                         'ref' => person_agent.uri,
                                                         'role' => 'source'
