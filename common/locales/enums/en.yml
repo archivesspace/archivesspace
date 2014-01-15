@@ -1325,3 +1325,11 @@ en:
       occupation: Occupation
       title: Title
       geographic_name: Geographic Name
+    user_defined_enum_1:
+      novalue: No value defined
+    user_defined_enum_2:
+      novalue: No value defined
+    user_defined_enum_3:
+      novalue: No value defined
+    user_defined_enum_4:
+      novalue: No value defined

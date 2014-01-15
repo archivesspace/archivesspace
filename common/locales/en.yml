@@ -1644,6 +1644,10 @@ en:
     date_2_inline_help: e.g. YYYY-MM-DD
     date_3: Date 3
     date_3_inline_help: e.g. YYYY-MM-DD
+    enum_1: Controlled Value 1
+    enum_2: Controlled Value 2
+    enum_3: Controlled Value 3
+    enum_4: Controlled Value 4
     _singular: User Defined
     _plural: User Defined
 

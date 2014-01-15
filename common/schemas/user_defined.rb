@@ -32,6 +32,11 @@
       "date_1" => {"type" => "date", "required" => false},
       "date_2" => {"type" => "date", "required" => false},
       "date_3" => {"type" => "date", "required" => false},
+
+      "enum_1" => {"type" => "string", "dynamic_enum" => "user_defined_enum_1"},
+      "enum_2" => {"type" => "string", "dynamic_enum" => "user_defined_enum_2"},
+      "enum_3" => {"type" => "string", "dynamic_enum" => "user_defined_enum_3"},
+      "enum_4" => {"type" => "string", "dynamic_enum" => "user_defined_enum_4"},
     },
   },
 }

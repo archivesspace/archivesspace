@@ -21,5 +21,9 @@
       <%= form.label_and_textarea "text_3" %>
       <%= form.label_and_textarea "text_4" %>
       <%= form.label_and_textarea "text_5" %>
+      <%= form.label_and_select "enum_1", form.possible_options_for("enum_1", true) %>
+      <%= form.label_and_select "enum_2", form.possible_options_for("enum_2", true) %>
+      <%= form.label_and_select "enum_3", form.possible_options_for("enum_3", true) %>
+      <%= form.label_and_select "enum_4", form.possible_options_for("enum_4", true) %>
    </div>
 <% end %>
