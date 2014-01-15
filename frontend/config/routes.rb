@@ -8,10 +8,12 @@ ArchivesSpace::Application.routes.draw do
     resources :jobs
 
     match 'login' => "session#login", :via => :post
+    match 'login' => "session#login_inline", :via => :get
     match 'logout' => "session#logout", :via => :get
     match 'select_user' => "session#select_user", :via => :get
     match 'become_user' => "session#become_user", :via => :post
     match 'check_session' => "session#check_session", :via => :get
+    match 'has_session' => "session#has_session", :via => :get
 
     match 'repositories/select' => 'repositories#select', :via => [:post]
     match 'repositories/:id/transfer' => 'repositories#transfer', :via => [:get]

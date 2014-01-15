@@ -1,4 +1,5 @@
 //= require update_monitor
+//= require login
 
 // add form change detection
 $(function() {
@@ -83,4 +84,54 @@ $(function() {
   });
 
   $.proxy(initFormChangeDetection, $("form.aspace-record-form"))();
+});
+
+// Add session active check upon form submission
+$(function() {
+  var initSessionCheck = function() {
+    $(this).each(function() {
+      var $form = $(this);
+
+      $form.on("submit", function(event) {
+        if ($form.data("sessionValidated")) {
+          // continue to submit!
+          return true;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        $.ajax({
+          url: APP_PATH + "has_session",
+          data_type: "json",
+          success: function(json) {
+            if (json.has_session) {
+              $form.data("sessionValidated", true);
+              $form.submit();
+            } else {
+              $(":input[type='submit'], :input.btn-primary", $form).removeAttr("disabled");
+              var $modal = AS.openAjaxModal(APP_PATH + "login");
+              var $loginForm = $("form", $modal);
+              AS.LoginHelper.init($loginForm);
+              $loginForm.on("loginsuccess.aspace", function(event, data) {
+                $(":input[name=authenticity_token]", $form).val(data.csrf_token);
+                $form.data("sessionValidated", true);
+                $form.submit();
+              });
+            }
+          },
+          error: function() {
+            $(":input[type='submit'], :input.btn-primary", $form).removeAttr("disabled");
+          }
+        });
+
+      });
+    });
+  };
+
+  $(document).bind("loadedrecordform.aspace", function(event, $container) {
+    $.proxy(initSessionCheck, $("form.aspace-record-form", $container))();
+  });
+
+  $.proxy(initSessionCheck, $("form.aspace-record-form"))();
 });

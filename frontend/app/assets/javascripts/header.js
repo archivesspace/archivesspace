@@ -1,3 +1,5 @@
+//= require login
+
 $(function() {
   $('.session-actions').on('click.dropdown', function(e) {
     var $this = $(this);
@@ -6,38 +8,13 @@ $(function() {
     }, 0);
   });
 
+  var $loginForm = $('form.login');
+  AS.LoginHelper.init($loginForm);
 
-  // Login Form Handling
-  var handleLoginError = function() {
-    $('form.login .control-group').addClass("error");
-    $("#login").removeAttr("disabled");
-  };
-
-
-  var handleLoginSuccess = function() {
-    $('form.login .control-group').removeClass("error");
-    $('form.login .alert-success').show();
+  $loginForm.on("loginsuccess.aspace", function() {
     setTimeout(function() {
       document.location.reload(true);
     }, 500);
-  };
-
-
-  $('form.login').ajaxForm({
-    dataType: "json",
-    beforeSubmit: function() {
-      $("#login").attr("disabled","disabled");
-    },
-    success: function(response, status, xhr) {
-      if (response.session) {
-        handleLoginSuccess();
-      } else {
-        handleLoginError();
-      }
-    },
-    error: function(obj, errorText, errorDesc) {         
-      handleLoginError();
-    }
   });
 
 
