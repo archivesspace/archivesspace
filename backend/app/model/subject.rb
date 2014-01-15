@@ -8,6 +8,7 @@ class Subject < Sequel::Model(:subject)
   include ExternalDocuments
   include ExternalIDs
   include AutoGenerator
+  include Relationships
 
   set_model_scope :global
 
@@ -82,10 +83,16 @@ class Subject < Sequel::Model(:subject)
   end
 
 
+  def is_linked?
+    self.has_relationship?(:subject)
+  end
+
+
   def self.sequel_to_jsonmodel(obj, opts = {})
     json = super
 
     json.vocabulary = uri_for(:vocabulary, obj.vocab_id)
+    json.is_linked = obj.is_linked?
 
     json
   end

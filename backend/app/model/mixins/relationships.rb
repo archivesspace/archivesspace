@@ -278,6 +278,15 @@ module Relationships
   end
 
 
+  # True if any object links to this one under relationship 'name'
+  def has_relationship?(name)
+    self.class.relationship_dependencies[name].any? {|related_class|
+      relationship_class = related_class.find_relationship(name, true)
+      relationship_class && !relationship_class.find_by_participant(self).empty?
+    }
+  end
+
+
   # Store a list of the relationships that this object participates in.  Saves
   # looking up the DB for each one.
   attr_reader :cached_relationships

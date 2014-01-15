@@ -21,7 +21,9 @@
       },
 
       "source" => {"type" => "string", "dynamic_enum" => "subject_source"},
-      
+
+      "is_linked" => {"type" => "boolean", "default" => true},
+
       "scope_note" => {"type" => "string"},
 
       "terms" => {"type" => "array", "items" => {"type" => "JSONModel(:term) uri_or_object"}, "ifmissing" => "error", "minItems" => 1},

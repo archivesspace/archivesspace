@@ -137,8 +137,9 @@
    <field name="authority_id" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="source" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="rules" type="string" indexed="true" stored="true" multiValued="false" />
-   <field name="is_linked_agent" type="boolean" indexed="true" stored="true" multiValued="false" />
    <field name="linked_agent_roles" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="is_linked" type="boolean" indexed="true" stored="true" multiValued="false" />
+ 
 
 
    <!-- Audit fields -->
