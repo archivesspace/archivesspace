@@ -33,6 +33,12 @@
         "items" => {"type" => "JSONModel(:agent_contact) object"}
       },
 
+      "linked_agent_roles" => {
+        "type" => "array",
+        "items" => {"type" => "string"},
+        "readonly" => true
+      },
+
       "external_documents" => {"type" => "array", "items" => {"type" => "JSONModel(:external_document) object"}},
 
       "system_generated" => {

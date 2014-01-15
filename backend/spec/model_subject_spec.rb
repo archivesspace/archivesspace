@@ -139,4 +139,12 @@ describe 'Subject model' do
   end
 
 
+  it "knows if it's linked to other records" do
+    subject = Subject.create_from_json(build(:json_subject))
+    acc = create(:json_accession, 'subjects' => [{'ref' => subject.uri}])
+
+    Subject[subject.id].is_linked?.should eq(true)
+  end
+
+
 end

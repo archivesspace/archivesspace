@@ -54,10 +54,9 @@ class AgentSoftware < Sequel::Model(:agent_software)
                                      :system_role => system_role)
     else
       as_sequel = AgentSoftware[:system_role => system_role]
-      as_jsonmodel = AgentSoftware.to_jsonmodel(as_sequel)
-      if as_jsonmodel['names'][0]['version'] != ASConstants.VERSION
-        as_jsonmodel['names'][0]['version'] = ASConstants.VERSION
-        as_sequel.update_from_json(as_jsonmodel)
+      if as_sequel.name_software[0].version != ASConstants.VERSION
+        as_sequel.name_software[0].version = ASConstants.VERSION
+        as_sequel.name_software[0].save
       end
     end
   end

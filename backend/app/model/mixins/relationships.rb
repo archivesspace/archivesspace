@@ -119,6 +119,20 @@ AbstractRelationship = Class.new(Sequel::Model) do
   end
 
 
+  # Return the value of 'property' for any relationship involving 'obj'.
+  def self.values_for_property(obj, property)
+    result = []
+
+    self.reference_columns_for(obj.class).each do |col|
+      self.filter(col => obj.id).select(property).distinct.each do |relationship|
+        result << relationship[property]
+      end
+    end
+
+    result
+  end
+
+
   def self.to_s
     "<#Relationship #{table_name}>"
   end
@@ -253,10 +267,23 @@ module Relationships
 
   def update_from_json(json, opts = {}, apply_nested_records = true)
     obj = super
+
+    # Call this before and after the change since relationships might have been
+    # removed and the previously linked objects might need reindexing.
+    trigger_reindex_of_dependants
     self.class.apply_relationships(obj, json, opts)
     trigger_reindex_of_dependants
 
     obj
+  end
+
+
+  # True if any object links to this one under relationship 'name'
+  def has_relationship?(name)
+    self.class.relationship_dependencies[name].any? {|related_class|
+      relationship_class = related_class.find_relationship(name, true)
+      relationship_class && !relationship_class.find_by_participant(self).empty?
+    }
   end
 
 
@@ -524,6 +551,9 @@ module Relationships
 
       relationships.each do |relationship_defn|
         property_name = relationship_defn.json_property
+
+        # If we don't need this property in our return JSON, skip it.
+        next unless property_name
 
         # For each defined relationship
         relationships = if obj.cached_relationships

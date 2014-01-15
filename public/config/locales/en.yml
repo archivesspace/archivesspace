@@ -53,6 +53,7 @@ en:
       source: Source
       agents: Agents
       classification_uri: Classification
+      linked_agent_roles: Role
 
   search_sorting:
     sort_by: "Sort by:"

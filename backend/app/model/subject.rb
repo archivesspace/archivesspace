@@ -8,8 +8,20 @@ class Subject < Sequel::Model(:subject)
   include ExternalDocuments
   include ExternalIDs
   include AutoGenerator
+  include Relationships
 
   set_model_scope :global
+
+
+  # Once everything is loaded, have the subject model set up a reciprocal
+  # relationship for any model that depends on it.
+  #
+  # This saves us having to duplicate the list of models in both directions.
+  ArchivesSpaceService.loaded_hook do
+    Subject.define_relationship(:name => :subject,
+                                :contains_references_to_types => proc {Subject.relationship_dependencies[:subject]})
+  end
+
 
   many_to_many :term, :join_table => :subject_term, :order => :subject_term__id
 
@@ -82,10 +94,16 @@ class Subject < Sequel::Model(:subject)
   end
 
 
+  def is_linked?
+    self.has_relationship?(:subject)
+  end
+
+
   def self.sequel_to_jsonmodel(obj, opts = {})
     json = super
 
     json.vocabulary = uri_for(:vocabulary, obj.vocab_id)
+    json.is_linked = obj.is_linked?
 
     json
   end
