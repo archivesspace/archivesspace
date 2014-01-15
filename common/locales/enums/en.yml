@@ -1333,3 +1333,62 @@ en:
       novalue: No value defined
     user_defined_enum_4:
       novalue: No value defined
+  enumeration_names:
+    accession_acquisition_type: Accession Acquisition Type
+    accession_resource_type: Accession Resource Type
+    agent_contact_salutation: Agent Contact Salutation
+    agent_relationship_associative_relator: Agent Relationship Associative Relator
+    agent_relationship_earlierlater_relator: Agent Relationship Earlierlater Relator
+    agent_relationship_parentchild_relator: Agent Relationship Parentchild Relator
+    agent_relationship_subordinatesuperior_relator: Agent Relationship Subordinatesuperior Relator
+    archival_record_level: Archival Record Level
+    collection_management_processing_priority: Collection Management Processing Priority
+    collection_management_processing_status: Collection Management Processing Status
+    container_location_status: Container Location Status
+    container_type: Container Type
+    country_iso_3166: Country ISO 3166
+    date_calendar: Date Calendar
+    date_certainty: Date Certainty
+    date_era: Date Era
+    date_label: Date Label
+    date_type: Date Type
+    deaccession_scope: Deaccession Scope
+    digital_object_digital_object_type: Digital Object Digital Object Type
+    digital_object_level: Digital Object Level
+    event_event_type: Event Event Type
+    event_outcome: Event Outcome
+    extent_extent_type: Extent Extent Type
+    extent_portion: Extent Portion
+    file_version_checksum_methods: File Version Checksum Methods
+    file_version_file_format_name: File Version File Format Name
+    file_version_use_statement: File Version Use Statement
+    file_version_xlink_actuate_attribute: File Version Xlink Actuate Attribute
+    file_version_xlink_show_attribute: File Version Xlink Show Attribute
+    instance_instance_type: Instance Instance Type
+    language_iso639_2: Language ISO 639-2
+    linked_agent_archival_record_relators: Linked Agent Archival Record Relators
+    linked_agent_event_roles: Linked Agent Event Roles
+    linked_agent_role: Linked Agent Role
+    linked_event_archival_record_roles: Linked Event Archival Record Roles
+    location_temporary: Location Temporary
+    name_person_name_order: Name Person Name Order
+    name_rule: Name Rule
+    name_source: Name Source
+    note_bibliography_type: Note Bibliography Type
+    note_digital_object_type: Note Digital Object Type
+    note_index_item_type: Note Index Item Type
+    note_index_type: Note Index Type
+    note_multipart_type: Note Multipart Type
+    note_orderedlist_enumeration: Note Orderedlist Enumeration
+    note_singlepart_type: Note Singlepart Type
+    resource_finding_aid_description_rules: Resource Finding Aid Description Rules
+    resource_finding_aid_status: Resource Finding Aid Status
+    resource_resource_type: Resource Resource Type
+    rights_statement_ip_status: Rights Statement IP Status
+    rights_statement_rights_type: Rights Statement Rights Type
+    subject_source: Subject Source
+    subject_term_type: Subject Term Type
+    user_defined_enum_1: User Defined Enum 1
+    user_defined_enum_2: User Defined Enum 2
+    user_defined_enum_3: User Defined Enum 3
+    user_defined_enum_4: User Defined Enum 4
