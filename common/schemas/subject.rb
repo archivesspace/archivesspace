@@ -22,7 +22,7 @@
 
       "source" => {"type" => "string", "dynamic_enum" => "subject_source"},
 
-      "is_linked" => {"type" => "boolean", "default" => true},
+      "is_linked" => {"type" => "boolean", "default" => true, "readonly" => true},
 
       "scope_note" => {"type" => "string"},
 
