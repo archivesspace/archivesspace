@@ -45,10 +45,12 @@ module AgentManager
       base.include(Relationships)
       base.include(RelatedAgents)
 
-      base.define_relationship(:name => :linked_agents,
-                               :contains_references_to_types => proc {[Accession, ArchivalObject,
-                                                                       DigitalObject, DigitalObjectComponent,
-                                                                       Event, Resource]})
+      ArchivesSpaceService.loaded_hook do
+        base.define_relationship(:name => :linked_agents,
+                                 :contains_references_to_types => proc {
+                                   base.relationship_dependencies[:linked_agents]
+                                 })
+      end
     end
 
 

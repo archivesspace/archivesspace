@@ -12,6 +12,17 @@ class Subject < Sequel::Model(:subject)
 
   set_model_scope :global
 
+
+  # Once everything is loaded, have the subject model set up a reciprocal
+  # relationship for any model that depends on it.
+  #
+  # This saves us having to duplicate the list of models in both directions.
+  ArchivesSpaceService.loaded_hook do
+    Subject.define_relationship(:name => :subject,
+                                :contains_references_to_types => proc {Subject.relationship_dependencies[:subject]})
+  end
+
+
   many_to_many :term, :join_table => :subject_term, :order => :subject_term__id
 
   def_nested_record(:the_property => :terms,
