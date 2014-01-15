@@ -2062,7 +2062,7 @@ end
       $driver.find_element(:link, "Manage Controlled Value Lists").click
 
       enum_select = $driver.find_element(:id => "enum_selector")
-      enum_select.select_option_with_text("accession_acquisition_type")
+      enum_select.select_option_with_text("Accession Acquisition Type (accession_acquisition_type)")
 
       # Wait for the table of enumerations to load
       $driver.find_element(:css, '.enumeration-list')
@@ -2094,7 +2094,7 @@ end
       $driver.find_element(:link, "Manage Controlled Value Lists").click
 
       enum_select = $driver.find_element(:id => "enum_selector")
-      enum_select.select_option_with_text("date_type")
+      enum_select.select_option_with_text("Date Type (date_type)")
 
       # Wait for the table of enumerations to load
       $driver.find_element(:css, '.enumeration-list')
