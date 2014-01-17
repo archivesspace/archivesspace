@@ -9,7 +9,7 @@ require 'zip/zip'
 require 'tempfile'
 require 'uri'
 require 'net/http'
-
+require 'asutils'
 
 class ArchivesSpaceBackup
 
