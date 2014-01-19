@@ -153,7 +153,6 @@ class CommonIndexer
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'subject'
         doc['is_linked'] = record['record']['is_linked']
-        doc['publish'] = true
       end
     }
 
