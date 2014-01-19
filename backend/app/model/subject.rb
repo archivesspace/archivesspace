@@ -122,6 +122,8 @@ class Subject < Sequel::Model(:subject)
 
     json.vocabulary = uri_for(:vocabulary, obj.vocab_id)
     json.is_linked = obj.is_linked?
+    # todo: turn this off for clients that don't care?
+    json.publish = json.is_linked && obj.is_published_by_implication?
 
     json
   end
