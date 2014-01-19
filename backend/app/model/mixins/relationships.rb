@@ -625,11 +625,15 @@ module Relationships
         models = relationship_defn.participating_models
 
         if models.include?(obj.class)
-          ref_columns = relationship_defn.reference_columns_for(self)
-
-          ref_columns.each do |col|
-            self.filter(:id => relationship_defn.select(col)).
-                 update(:system_mtime => now)
+          their_ref_columns = relationship_defn.reference_columns_for(self)
+          my_ref_columns = relationship_defn.reference_columns_for(self)
+          their_ref_columns.each do |their_col|
+            my_ref_columns.each do |my_col|
+              ids_to_touch = relationship_defn.filter(their_col => obj.id).
+                             select(my_col)
+              self.filter(:id => ids_to_touch).
+                   update(:system_mtime => now).tap{|s| Log.debug s.inspect}
+            end
           end
         end
       end
