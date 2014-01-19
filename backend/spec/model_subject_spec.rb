@@ -147,4 +147,16 @@ describe 'Subject model' do
   end
 
 
+  it "can derive a subject's publication status from those of its associates" do
+    subject = create(:json_subject)
+    JSONModel(:subject).find(subject.id).publish.should be(false)
+
+
+    acc = create(:json_accession, 'subjects' => [{'ref' => subject.uri}], 'publish' => true)
+    JSONModel(:subject).find(subject.id).publish.should be(true)
+
+    acc.publish = false
+    acc.save
+    JSONModel(:subject).find(subject.id).publish.should be(false)
+  end
 end
