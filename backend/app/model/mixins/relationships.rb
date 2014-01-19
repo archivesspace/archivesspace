@@ -632,7 +632,7 @@ module Relationships
               ids_to_touch = relationship_defn.filter(their_col => obj.id).
                              select(my_col)
               self.filter(:id => ids_to_touch).
-                   update(:system_mtime => now).tap{|s| Log.debug s.inspect}
+                   update(:system_mtime => now)
             end
           end
         end
