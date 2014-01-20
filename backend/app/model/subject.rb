@@ -1,5 +1,6 @@
 require_relative 'term'
 require 'digest/sha1'
+require_relative 'mixins/implied_publication'
 
 class Subject < Sequel::Model(:subject)
   include ASModel
@@ -9,6 +10,7 @@ class Subject < Sequel::Model(:subject)
   include ExternalIDs
   include AutoGenerator
   include Relationships
+  include ImpliedPublication
 
   set_model_scope :global
 
@@ -99,30 +101,12 @@ class Subject < Sequel::Model(:subject)
   end
 
 
-  def is_published_by_implication?
-    self.class.relationship_dependencies[:subject].any? {|related_class|
-      relationship_class = related_class.find_relationship(:subject, true)
-      reference_columns = relationship_class.reference_columns_for(self.class)
-      referrer_columns = relationship_class.reference_columns_for(related_class)
-
-      referrer_columns.any? {|referrer_column|
-        reference_columns.any? {|reference_column|
-          relationship_class.join(related_class, :id => referrer_column).
-                             filter(:publish => 1).
-                             filter(reference_column => self.id).
-                             any?
-        }
-      }
-    }
-  end
-
-
   def self.sequel_to_jsonmodel(obj, opts = {})
     json = super
 
     json.vocabulary = uri_for(:vocabulary, obj.vocab_id)
     json.is_linked = obj.is_linked?
-    # todo: turn this off for clients that don't care?
+
     json.publish = json.is_linked && obj.is_published_by_implication?
 
     json
