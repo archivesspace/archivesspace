@@ -220,4 +220,32 @@ describe "ArchivesSpace Public interface" do
 
   end
 
+
+  describe "Subjects" do
+    before(:all) do
+      linked_subject_uri, $linked_subject_title = create_subject
+      not_linked_subject_uri, $not_linked_subject_title = create_subject
+
+      $published_resource_uri, $published_resource_title = create_resource({
+                                                                             :title => "Published Resource No.4",
+                                                                             :publish => true,
+                                                                             :id_0 => "published4",
+                                                                             :subjects => [
+                                                                               {:ref => linked_subject_uri}
+                                                                             ]
+                                                                           })
+
+      @indexer.run_index_round
+    end
+
+    it "is visible when it is linked to a published resource" do
+      $driver.find_element(:link, "Subjects").click
+      $driver.find_element(:link, $linked_subject_title)
+    end
+
+    it "is not visible when it not linked to a published resource" do
+      $driver.ensure_no_such_element(:link, $not_linked_subject_title)
+    end
+  end
+
 end
