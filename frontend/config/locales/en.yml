@@ -185,6 +185,7 @@ en:
   session:
     gone: Your backend session was not found
     expired: Your session expired due to inactivity
+    inline_login_title: Session Expired
 
   batch_delete:
     archival_records:

@@ -1,6 +1,6 @@
 class SessionController < ApplicationController
 
-  set_access_control  :public => [:login, :logout, :check_session],
+  set_access_control  :public => [:login, :logout, :check_session, :has_session, :login_inline],
                       "become_user" => [:select_user, :become_user]
 
 
@@ -13,7 +13,12 @@ class SessionController < ApplicationController
 
     load_repository_list
 
-    render :json => {:session => backend_session}
+    render :json => {:session => backend_session, :csrf_token => form_authenticity_token}
+  end
+
+
+  def login_inline
+    render :partial => "shared/modal", :locals => {:title => I18n.t("session.inline_login_title"), :partial => "shared/login", :id => "inlineLoginModal"}
   end
 
 
@@ -49,6 +54,11 @@ class SessionController < ApplicationController
     else
       render json: false
     end
+  end
+
+
+  def has_session
+    render :json => {:has_session => !session[:user].nil?}
   end
 
   private

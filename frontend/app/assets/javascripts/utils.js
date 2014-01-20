@@ -2,24 +2,44 @@
 //= require bootstrap-datepicker
 //= require bootstrap-combobox
 
+var AS = {};
+
 // initialise ajax modal
-
-
 $(function() {
-  var openAjaxModal = function(href) {
+  AS.openAjaxModal = function(href) {
     $("body").append('<div class="modal hide" id="tempAjaxModal"></div>');
-    $("#tempAjaxModal").load(href, function() {
-      $("#tempAjaxModal").on("shown",function() {
-        $(this).find("input[type!=hidden]:first").focus();
-      }).on("hidden", function() {
-        $(this).remove();
-      }).modal('show');
+
+    var $modal = $("#tempAjaxModal");
+
+    $.ajax({
+      url: href,
+      async: false,
+      success: function(html) {
+        if ($(html).hasClass("modal")) {
+          $modal.remove();
+          $modal = $(html);
+
+          $("body").append($modal.addClass("hide"));
+        } else {
+          $modal.append(html);
+        }
+
+        $modal.on("shown",function() {
+          $modal.find("input[type!=hidden]:first").focus();
+        }).on("hidden", function() {
+          $modal.remove();
+        });
+
+        $modal.modal('show');
+      }
     });
+
+    return $modal;
   };
 
   $("body").on("click", "[data-toggle=modal-ajax]", function(e) {
     e.preventDefault();
-    openAjaxModal($(this).attr("href"));     
+    AS.openAjaxModal($(this).attr("href"));
   });
 });
 
@@ -314,10 +334,6 @@ $(function() {
     initSubmenuLink(subform)
   });
 });
-
-
-var AS = {};
-
 
 AS.templateCache = [];
 AS.renderTemplate = function(templateId, data) {
