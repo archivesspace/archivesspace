@@ -69,7 +69,12 @@ module ApplicationHelper
     popover = "<div class='btn-group'>"
     link_opts = {:class => "btn btn-mini"}
     link_opts.merge!({:target => "_blank"}) if opts[:inside_token_editor] || opts[:inside_linker_browse]
-    popover += link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => opts[:uri]}, link_opts
+    popover_url = url_for :controller => :resolver, :action => :resolve_readonly
+    # TrimPath templates break if Rails escapes ${VALUE} style tokens:
+    popover_url += "?uri=#{opts[:uri]}"
+    popover += link_to I18n.t("actions.view"), popover_url, link_opts
+    popover += "</div>"
+
     popover_template = "<div class='popover token-popover'><div class='arrow'></div><div class='popover-inner'><div class='popover-content'><p></p></div></div></div>"
 
     html = "<div class='"
