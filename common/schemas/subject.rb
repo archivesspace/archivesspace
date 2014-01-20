@@ -20,6 +20,8 @@
         }
       },
 
+      "is_linked_to_published_record" => {"type" => "boolean", "readonly" => true},
+
       "publish" => {"type" => "boolean", "default" => true, "readonly" => true},
 
       "source" => {"type" => "string", "dynamic_enum" => "subject_source"},

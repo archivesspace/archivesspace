@@ -112,11 +112,6 @@ module AgentManager
         json.title = json['names'][0]['sort_name']
         json.linked_agent_roles = obj.linked_agent_roles
 
-        # Perhaps too messy; it was done in a spirit of uncertainty
-        if json.publish && RequestContext.get(:current_username) == User.SEARCH_USERNAME
-          json.publish = json.linked_agent_roles.length > 0 && obj.is_published_by_implication?
-        end
-
         json
       end
     end

@@ -125,6 +125,7 @@ class CommonIndexer
       if doc['primary_type'] == 'subject'
         doc['source'] = record['record']['source']
         doc['first_term_type'] = record['record']['terms'][0]['term_type']
+        doc['publish'] = record['record']['publish'] && record['record']['is_linked_to_published_record']
       end
     }
 
@@ -181,7 +182,7 @@ class CommonIndexer
         doc['authority_id'] = record['record']['names'][0]['authority_id']
         doc['source'] = record['record']['names'][0]['source']
         doc['rules'] = record['record']['names'][0]['rules']
-        doc['publish'] = record['record']['publish']
+        doc['publish'] = record['record']['publish'] && record['record']['is_linked_to_published_record']
         doc['linked_agent_roles'] = record['record']['linked_agent_roles']
 
         # Assign the additional type of 'agent'

@@ -1,4 +1,10 @@
 module ImpliedPublication
+
+  def self.included(base)
+    base.extend(ClassMethods)
+  end
+
+
   def self.relevant_relationships
     [:subject, :linked_agents]
   end
@@ -23,4 +29,17 @@ module ImpliedPublication
       }
     }
   end
+
+
+  module ClassMethods
+
+    def sequel_to_jsonmodel(obj, opts = {})
+      json = super
+      json.is_linked_to_published_record = obj.is_published_by_implication?
+
+      json
+    end
+
+  end
+
 end

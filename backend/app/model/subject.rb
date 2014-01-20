@@ -98,11 +98,7 @@ class Subject < Sequel::Model(:subject)
 
   def self.sequel_to_jsonmodel(obj, opts = {})
     json = super
-
     json.vocabulary = uri_for(:vocabulary, obj.vocab_id)
-
-    json.publish = json.is_linked && obj.is_published_by_implication?
-
     json
   end
 

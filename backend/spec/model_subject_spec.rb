@@ -139,24 +139,16 @@ describe 'Subject model' do
   end
 
 
-  it "knows if it's linked to other records" do
-    subject = Subject.create_from_json(build(:json_subject))
-    acc = create(:json_accession, 'subjects' => [{'ref' => subject.uri}])
-
-    Subject[subject.id].is_linked?.should eq(true)
-  end
-
-
   it "can derive a subject's publication status from those of its associates" do
     subject = create(:json_subject)
-    JSONModel(:subject).find(subject.id).publish.should be(false)
+    JSONModel(:subject).find(subject.id).is_linked_to_published_record.should be(false)
 
 
     acc = create(:json_accession, 'subjects' => [{'ref' => subject.uri}], 'publish' => true)
-    JSONModel(:subject).find(subject.id).publish.should be(true)
+    JSONModel(:subject).find(subject.id).is_linked_to_published_record.should be(true)
 
     acc.publish = false
     acc.save
-    JSONModel(:subject).find(subject.id).publish.should be(false)
+    JSONModel(:subject).find(subject.id).is_linked_to_published_record.should be(false)
   end
 end
