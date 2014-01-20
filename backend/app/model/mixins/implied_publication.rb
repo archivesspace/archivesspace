@@ -4,12 +4,11 @@ module ImpliedPublication
   end
 
   def is_published_by_implication?
-    self.class.relationship_dependencies.select{|k, v| 
-      ImpliedPublication::relevant_relationships.include? k
-    }.each do |relationship_dependency|
+    self.class.relationship_dependencies.any? {|relationship_name, relationship_dependency|
+      next unless ImpliedPublication::relevant_relationships.include? relationship_name
       relationship_dependency.any? {|related_class|
         next unless related_class.columns.include?(:publish)
-        relationship_class = related_class.find_relationship(:linked_agents, true)
+        relationship_class = related_class.find_relationship(relationship_name, true)
         reference_columns = relationship_class.reference_columns_for(self.class)
         referrer_columns = relationship_class.reference_columns_for(related_class)
 
@@ -22,6 +21,6 @@ module ImpliedPublication
           }
         }
       }
-    end
+    }
   end
 end
