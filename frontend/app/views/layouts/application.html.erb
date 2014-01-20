@@ -9,6 +9,7 @@
 
   <% if ENV["TEST_MODE"] %>
     <script>
+      TEST_MODE = true;
       TEST_ERRORS = [];
       window.onerror = function(errorMsg, url, lineNo) {
         TEST_ERRORS.push({

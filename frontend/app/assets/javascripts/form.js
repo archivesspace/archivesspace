@@ -89,6 +89,13 @@ $(function() {
 // Add session active check upon form submission
 $(function() {
   var initSessionCheck = function() {
+    // don't bother checking for the session when running the
+    // the selenium tests.
+    if (typeof TEST_MODE != "undefined" && TEST_MODE === true) {
+      return;
+    }
+
+
     $(this).each(function() {
       var $form = $(this);
 
