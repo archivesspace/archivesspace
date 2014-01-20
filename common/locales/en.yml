@@ -855,6 +855,7 @@ en:
     publish: Publish?
     publish_tooltip: |
         <p>Determines whether this External Document is published to public (patron) interfaces.</p>
+    document_link: Document Link
     _plural: External Documents
     _singular: External Document
 
