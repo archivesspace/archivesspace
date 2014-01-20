@@ -1,5 +1,6 @@
 require_relative 'term'
 require 'digest/sha1'
+require_relative 'mixins/implied_publication'
 
 class Subject < Sequel::Model(:subject)
   include ASModel
@@ -9,6 +10,7 @@ class Subject < Sequel::Model(:subject)
   include ExternalIDs
   include AutoGenerator
   include Relationships
+  include ImpliedPublication
 
   set_model_scope :global
 
@@ -94,17 +96,9 @@ class Subject < Sequel::Model(:subject)
   end
 
 
-  def is_linked?
-    self.has_relationship?(:subject)
-  end
-
-
   def self.sequel_to_jsonmodel(obj, opts = {})
     json = super
-
     json.vocabulary = uri_for(:vocabulary, obj.vocab_id)
-    json.is_linked = obj.is_linked?
-
     json
   end
 

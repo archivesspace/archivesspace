@@ -22,6 +22,8 @@
         "readonly" => true
       },
 
+      "is_linked_to_published_record" => {"type" => "boolean", "readonly" => true},
+
       "agent_type" => {
         "type" => "string",
         "required" => false,

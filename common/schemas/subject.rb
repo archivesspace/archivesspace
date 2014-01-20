@@ -20,9 +20,11 @@
         }
       },
 
-      "source" => {"type" => "string", "dynamic_enum" => "subject_source"},
+      "is_linked_to_published_record" => {"type" => "boolean", "readonly" => true},
 
-      "is_linked" => {"type" => "boolean", "default" => true, "readonly" => true},
+      "publish" => {"type" => "boolean", "default" => true, "readonly" => true},
+
+      "source" => {"type" => "string", "dynamic_enum" => "subject_source"},
 
       "scope_note" => {"type" => "string"},
 

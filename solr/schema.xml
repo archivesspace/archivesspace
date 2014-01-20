@@ -138,8 +138,6 @@
    <field name="source" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="rules" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="linked_agent_roles" type="string" indexed="true" stored="true" multiValued="true" />
-   <field name="is_linked" type="boolean" indexed="true" stored="true" multiValued="false" />
- 
 
 
    <!-- Audit fields -->

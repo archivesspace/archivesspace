@@ -579,6 +579,27 @@ def create_agent(name, values = {})
 end
 
 
+def create_subject(values = {})
+  subject_hash = {
+    "terms" => [{
+                  "term" => SecureRandom.hex,
+                  "term_type" => "cultural_context",
+                  "vocabulary" => "/vocabularies/1"
+                }],
+    "vocabulary" => "/vocabularies/1"
+  }.merge(values)
+
+  req = Net::HTTP::Post.new("/subjects")
+  req.body = subject_hash.to_json
+
+  response = admin_backend_request(req)
+
+  raise response.body if response.code != '200'
+
+  [JSON.parse(response.body)['uri'], subject_hash["terms"].map{|t| t["term"]}.join(" -- ")]
+end
+
+
 # A few globals here to allow things to be re-used between nested suites.
 def login_as_archivist
   if !$test_repo

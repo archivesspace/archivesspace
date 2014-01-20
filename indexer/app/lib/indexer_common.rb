@@ -125,6 +125,7 @@ class CommonIndexer
       if doc['primary_type'] == 'subject'
         doc['source'] = record['record']['source']
         doc['first_term_type'] = record['record']['terms'][0]['term_type']
+        doc['publish'] = record['record']['publish'] && record['record']['is_linked_to_published_record']
       end
     }
 
@@ -147,13 +148,6 @@ class CommonIndexer
       if doc['primary_type'] == 'digital_object_component'
         doc['digital_object'] = record['record']['digital_object']['ref']
         doc['title'] = record['record']['display_string']
-      end
-    }
-
-    add_document_prepare_hook {|doc, record|
-      if doc['primary_type'] == 'subject'
-        doc['is_linked'] = record['record']['is_linked']
-        doc['publish'] = true
       end
     }
 
@@ -188,9 +182,8 @@ class CommonIndexer
         doc['authority_id'] = record['record']['names'][0]['authority_id']
         doc['source'] = record['record']['names'][0]['source']
         doc['rules'] = record['record']['names'][0]['rules']
-        doc['publish'] = record['record']['publish']
+        doc['publish'] = record['record']['publish'] && record['record']['is_linked_to_published_record']
         doc['linked_agent_roles'] = record['record']['linked_agent_roles']
-        doc['is_linked'] = !record['record']['linked_agent_roles'].empty?
 
         # Assign the additional type of 'agent'
         doc['types'] << 'agent'

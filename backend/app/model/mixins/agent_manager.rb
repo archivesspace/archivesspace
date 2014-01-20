@@ -1,5 +1,6 @@
 require_relative 'relationships'
 require_relative 'related_agents'
+require_relative 'implied_publication'
 
 module AgentManager
 
@@ -44,6 +45,7 @@ module AgentManager
 
       base.include(Relationships)
       base.include(RelatedAgents)
+      base.include(ImpliedPublication)
 
       ArchivesSpaceService.loaded_hook do
         base.define_relationship(:name => :linked_agents,
