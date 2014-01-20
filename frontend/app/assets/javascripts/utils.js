@@ -20,13 +20,15 @@ $(function() {
           $modal = $(html);
 
           $("body").append($modal.addClass("hide"));
+        } else {
+          $modal.append(html);
         }
 
         $modal.on("shown",function() {
           $modal.find("input[type!=hidden]:first").focus();
         }).on("hidden", function() {
-            $modal.remove();
-          });
+          $modal.remove();
+        });
 
         $modal.modal('show');
       }
