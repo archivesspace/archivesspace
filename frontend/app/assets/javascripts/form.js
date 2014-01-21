@@ -24,7 +24,10 @@ $(function() {
               var $loginForm = $("form", $modal);
               AS.LoginHelper.init($loginForm);
               $loginForm.on("loginsuccess.aspace", function(event, data) {
-                $(":input[name=authenticity_token]", $form).val(data.csrf_token);
+                // update all CSRF input fields on the page
+                $(":input[name=authenticity_token]").val(data.csrf_token);
+
+                // unbind the session check and resubmit the form
                 $form.unbind("submit", checkForSession);
                 $form.submit();
                 return false;
