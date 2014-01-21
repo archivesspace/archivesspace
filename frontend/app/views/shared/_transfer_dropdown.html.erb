@@ -13,27 +13,25 @@
     <ul class="dropdown-menu open-aligned-right transfer-form">
       <li>
         <p><%= I18n.t("#{singular}._frontend.messages.transfer_description") %></p>
-        <%= form_tag(url_for({:controller => controller, :action => :transfer, :id => record.id}.merge(extra_params))) do |f| %>
-          <%= form_context :transfer, {} do |form| %>
-          <fieldset>
-            <div class="alert alert-error missing-ref-message" style="display: none;"><%= I18n.t "#{singular}._frontend.messages.transfer_target" %></div>
-            <%= form.label_and_select "ref", other_repositories %>
-          </fieldset>
-          <div class="form-actions">
-            <%=
-               button_confirm_action(I18n.t("actions.transfer"),
-                                     url_for({:controller => controller, :action => :transfer, :id => record.id}.merge(extra_params)),
-                                     {
-                                       :class => "btn pull-left transfer-button",
-                                       :"data-title" => confirmation_title,
-                                       :"data-message" => confirmation_msg,
-                                       :"data-confirm-btn-label" => "#{I18n.t("actions.transfer")}",
-                                       :"data-confirm-btn-class" => "btn"
-                                     })
-            %>
-            <a class="btn pull-right btn-cancel" href="#"><%= I18n.t("actions.cancel") %></a>
-          </div>
-          <% end %>
+        <%= form_context :transfer, {} do |form| %>
+        <fieldset>
+          <div class="alert alert-error missing-ref-message" style="display: none;"><%= I18n.t "#{singular}._frontend.messages.transfer_target" %></div>
+          <%= form.label_and_select "ref", other_repositories %>
+        </fieldset>
+        <div class="form-actions">
+          <%=
+             button_confirm_action(I18n.t("actions.transfer"),
+                                   url_for({:controller => controller, :action => :transfer, :id => record.id}.merge(extra_params)),
+                                   {
+                                     :class => "btn pull-left transfer-button",
+                                     :"data-title" => confirmation_title,
+                                     :"data-message" => confirmation_msg,
+                                     :"data-confirm-btn-label" => "#{I18n.t("actions.transfer")}",
+                                     :"data-confirm-btn-class" => "btn"
+                                   })
+          %>
+          <a class="btn pull-right btn-cancel" href="#"><%= I18n.t("actions.cancel") %></a>
+        </div>
         <% end %>
       </li>
     </ul>
