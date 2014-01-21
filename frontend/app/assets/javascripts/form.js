@@ -20,6 +20,7 @@ $(function() {
               event.stopImmediatePropagation();
 
               $(":input[type='submit']", $form).removeAttr("disabled");
+
               var $modal = AS.openAjaxModal(APP_PATH + "login");
               var $loginForm = $("form", $modal);
               AS.LoginHelper.init($loginForm);
@@ -32,7 +33,12 @@ $(function() {
                 $form.submit();
 
                 // remove the modal, the job is done.
-                $modal.remove();
+                $modal.on("hidden", function() {
+                  $modal.remove();
+                });
+                setTimeout(function() {
+                  $modal.modal("hide");
+                }, 1000);
 
                 return false;
               });
