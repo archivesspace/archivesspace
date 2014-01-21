@@ -30,6 +30,10 @@ $(function() {
                 // unbind the session check and resubmit the form
                 $form.unbind("submit", checkForSession);
                 $form.submit();
+
+                // remove the modal, the job is done.
+                $modal.remove();
+
                 return false;
               });
 
@@ -48,7 +52,7 @@ $(function() {
   };
 
   $(document).bind("loadedrecordform.aspace", function(event, $container) {
-    $.proxy(initSessionCheck, $("form.aspace-record-form:not(.public-form)", $container))();
+    $.proxy(initSessionCheck, $container.find("form.aspace-record-form:not(.public-form)").andSelf().filter("form.aspace-record-form:not(.public-form)"))();
   });
 
   $.proxy(initSessionCheck, $("form.aspace-record-form:not(.public-form)"))();

@@ -864,10 +864,11 @@ $(function() {
         }
       });
 
+      $(document).triggerHandler("loadedrecordform.aspace", [$this]);
+
       initAjaxForm();
 
       $(window).trigger("resize");
-      $(document).triggerHandler("loadedrecordform.aspace", [$this]);
 
       // auto-validate the first row
       setTimeout(function() {
