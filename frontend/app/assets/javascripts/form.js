@@ -46,10 +46,10 @@ $(function() {
   };
 
   $(document).bind("loadedrecordform.aspace", function(event, $container) {
-    $.proxy(initSessionCheck, $("form.aspace-record-form", $container))();
+    $.proxy(initSessionCheck, $("form.aspace-record-form:not(.public-form)", $container))();
   });
 
-  $.proxy(initSessionCheck, $("form.aspace-record-form"))();
+  $.proxy(initSessionCheck, $("form.aspace-record-form:not(.public-form)"))();
 });
 
 
