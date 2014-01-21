@@ -1610,11 +1610,11 @@ end
       $driver.find_elements(:css => '.subrecord-form-removal-confirmation').length.should be < 2
 
       # Confirm
-      $driver.find_element(:css => '.subrecord-form-removal-confirmation .btn-primary').click
+      $driver.click_and_wait_until_gone(:css => '.subrecord-form-removal-confirmation .btn-primary')
 
       # Take out the first note too
       notes[0].find_element(:css => '.subrecord-form-remove').click
-      $driver.find_element(:css => '.subrecord-form-removal-confirmation .btn-primary').click
+      $driver.click_and_wait_until_gone(:css => '.subrecord-form-removal-confirmation .btn-primary')
 
       # One left!
       $driver.blocking_find_elements(:css => '#notes > .subrecord-form-container > .subrecord-form-list > li').length.should eq(1)
@@ -1628,7 +1628,8 @@ end
 
 
       # Save the resource
-      $driver.find_element(:css => "form#resource_form button[type='submit']").click
+      $driver.click_and_wait_until_gone(:css => "form#resource_form button[type='submit']")
+
       $driver.find_element(:link, 'Close Record').click
     end
 

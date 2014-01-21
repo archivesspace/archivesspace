@@ -55,6 +55,11 @@ $(function() {
         $("header").ScrollTo();
       });
 
+      // Move the loadedrecordform.aspace event to be before
+      // the ajaxForm is attached, so events (like the session check)
+      // can be bound to the form first.
+      $(document).triggerHandler("loadedrecordform.aspace", [$container]);
+
       $form.ajaxForm({
         data: {
           inline: true
@@ -95,8 +100,6 @@ $(function() {
       });
 
       AS.resetScrollSpy();
-
-      $(document).triggerHandler("loadedrecordform.aspace", [$container]);
 
       return $form;
     };

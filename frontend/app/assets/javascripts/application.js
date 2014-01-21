@@ -15,6 +15,7 @@
 //= require jquery_ujs
 //= require jquery.browser
 //= require twitter/bootstrap
+//= require bootstrap_overrides
 //= require jquery.form
 //= require jquery.scrollto
 //= require utils

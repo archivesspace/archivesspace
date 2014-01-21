@@ -1,6 +1,70 @@
 //= require update_monitor
 //= require login
 
+// Add session active check upon form submission
+$(function() {
+  var initSessionCheck = function() {
+    $(this).each(function() {
+      var $form = $(this);
+
+      var checkForSession = function(event) {
+        $.ajax({
+          url: APP_PATH + "has_session",
+          async: false,
+          data_type: "json",
+          success: function(json) {
+            if (json.has_session) {
+              return true;
+            } else {
+              event.preventDefault();
+              event.stopImmediatePropagation();
+
+              $(":input[type='submit']", $form).removeAttr("disabled");
+
+              var $modal = AS.openAjaxModal(APP_PATH + "login");
+              var $loginForm = $("form", $modal);
+              AS.LoginHelper.init($loginForm);
+              $loginForm.on("loginsuccess.aspace", function(event, data) {
+                // update all CSRF input fields on the page
+                $(":input[name=authenticity_token]").val(data.csrf_token);
+
+                // unbind the session check and resubmit the form
+                $form.unbind("submit", checkForSession);
+                $form.submit();
+
+                // remove the modal, the job is done.
+                $modal.on("hidden", function() {
+                  $modal.remove();
+                });
+                setTimeout(function() {
+                  $modal.modal("hide");
+                }, 1000);
+
+                return false;
+              });
+
+              return false;
+            }
+          },
+          error: function() {
+            $(":input[type='submit']", $form).removeAttr("disabled");
+            return true;
+          }
+        });
+      };
+
+      $form.on("submit", checkForSession);
+    });
+  };
+
+  $(document).bind("loadedrecordform.aspace", function(event, $container) {
+    $.proxy(initSessionCheck, $container.find("form.aspace-record-form:not(.public-form)").andSelf().filter("form.aspace-record-form:not(.public-form)"))();
+  });
+
+  $.proxy(initSessionCheck, $("form.aspace-record-form:not(.public-form)"))();
+});
+
+
 // add form change detection
 $(function() {
   var ignoredKeycodes = [37,39,9];
@@ -38,7 +102,7 @@ $(function() {
       $this.on("click", ":radio, :checkbox", onFormElementChange);
 
 
-      $this.bind("formchanged.aspace", function(event) {
+      $this.on("formchanged.aspace", function(event) {
         $this.data("form_changed", true);
         $(".record-toolbar", $this).addClass("formchanged");
         $(".record-toolbar .btn-toolbar .btn", $this).addClass("disabled").attr("disabled","disabled");
@@ -50,11 +114,14 @@ $(function() {
 
       $this.bind("submit", function(event) {
         $this.data("form_changed", false);
+        $this.off("change keyup formchanged.aspace");
         $(":input[type='submit'], :input.btn-primary", $this).attr("disabled","disabled");
         if ($(this).data("createPlusOne")) {
           var $input = $("<input>").attr("type", "hidden").attr("name", "plus_one").val("true");
           $($this).append($input);
         }
+
+        return true;
       });
 
       $(".record-toolbar .revert-changes .btn", $this).click(function() {
@@ -84,61 +151,4 @@ $(function() {
   });
 
   $.proxy(initFormChangeDetection, $("form.aspace-record-form"))();
-});
-
-// Add session active check upon form submission
-$(function() {
-  var initSessionCheck = function() {
-    // don't bother checking for the session when running the
-    // the selenium tests.
-    if (typeof TEST_MODE != "undefined" && TEST_MODE === true) {
-      return;
-    }
-
-
-    $(this).each(function() {
-      var $form = $(this);
-
-      $form.on("submit", function(event) {
-        if ($form.data("sessionValidated")) {
-          // continue to submit!
-          return true;
-        }
-
-        event.preventDefault();
-        event.stopPropagation();
-
-        $.ajax({
-          url: APP_PATH + "has_session",
-          data_type: "json",
-          success: function(json) {
-            if (json.has_session) {
-              $form.data("sessionValidated", true);
-              $form.submit();
-            } else {
-              $(":input[type='submit'], :input.btn-primary", $form).removeAttr("disabled");
-              var $modal = AS.openAjaxModal(APP_PATH + "login");
-              var $loginForm = $("form", $modal);
-              AS.LoginHelper.init($loginForm);
-              $loginForm.on("loginsuccess.aspace", function(event, data) {
-                $(":input[name=authenticity_token]", $form).val(data.csrf_token);
-                $form.data("sessionValidated", true);
-                $form.submit();
-              });
-            }
-          },
-          error: function() {
-            $(":input[type='submit'], :input.btn-primary", $form).removeAttr("disabled");
-          }
-        });
-
-      });
-    });
-  };
-
-  $(document).bind("loadedrecordform.aspace", function(event, $container) {
-    $.proxy(initSessionCheck, $("form.aspace-record-form", $container))();
-  });
-
-  $.proxy(initSessionCheck, $("form.aspace-record-form"))();
 });
