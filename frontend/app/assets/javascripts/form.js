@@ -13,7 +13,6 @@ $(function() {
           async: false,
           data_type: "json",
           success: function(json) {
-            debugger;
             if (json.has_session) {
               return true;
             } else {
