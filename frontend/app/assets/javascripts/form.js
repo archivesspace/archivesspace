@@ -96,7 +96,7 @@ $(function() {
       $this.on("click", ":radio, :checkbox", onFormElementChange);
 
 
-      $this.bind("formchanged.aspace", function(event) {
+      $this.on("formchanged.aspace", function(event) {
         $this.data("form_changed", true);
         $(".record-toolbar", $this).addClass("formchanged");
         $(".record-toolbar .btn-toolbar .btn", $this).addClass("disabled").attr("disabled","disabled");
@@ -108,6 +108,7 @@ $(function() {
 
       $this.bind("submit", function(event) {
         $this.data("form_changed", false);
+        $this.off("change keyup formchanged.aspace");
         $(":input[type='submit'], :input.btn-primary", $this).attr("disabled","disabled");
         if ($(this).data("createPlusOne")) {
           var $input = $("<input>").attr("type", "hidden").attr("name", "plus_one").val("true");
