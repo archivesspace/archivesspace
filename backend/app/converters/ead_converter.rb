@@ -185,8 +185,7 @@ class EADConverter < Converter
           :persistent_id => att('id'),
           :subnotes => {
             'jsonmodel_type' => 'note_text',
-            # TODO: strip first <head/> tag
-            'content' => inner_xml
+            'content' => inner_xml.sub(/<head>.*?<\/head>/, '').strip
           }
         } do |note|
           set ancestor(:resource, :archival_object), :notes, note
@@ -203,8 +202,7 @@ class EADConverter < Converter
         make :note_singlepart, {
           :type => note,
           :persistent_id => att('id'),
-          # TODO: strip first <head/> tag
-          :content => content
+          :content => content.sub(/<head>.*?<\/head>/, '').strip
         } do |note|
           set ancestor(:resource, :archival_object), :notes, note
         end

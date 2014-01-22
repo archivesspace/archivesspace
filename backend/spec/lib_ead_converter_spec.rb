@@ -316,28 +316,28 @@ ANEAD
         note_content(note)
       }.flatten
 
-      nc[0].should eq("<head>Resource-ConditionsGoverningAccess-AT</head>\n<p>Resource-ConditionsGoverningAccess-AT</p>")
-      nc[1].should eq("<head>Resource-LegalStatus-AT</head>\n<legalstatus>Resource-LegalStatus-AT</legalstatus>")
+      nc[0].should eq("<p>Resource-ConditionsGoverningAccess-AT</p>")
+      nc[1].should eq("<legalstatus>Resource-LegalStatus-AT</legalstatus>")
     end
 
     it "maps '<accruals>' correctly" do
-      note_content(get_note_by_type(@resource, 'accruals')).should eq("<head>Resource-Accruals-AT</head>\n<p>Resource-Accruals-AT</p>")
+      note_content(get_note_by_type(@resource, 'accruals')).should eq("<p>Resource-Accruals-AT</p>")
     end
 
     it "maps '<acqinfo>' correctly" do
-      note_content(get_note_by_type(@resource, 'acqinfo')).should eq("<head>Resource-ImmediateSourceAcquisition</head>\n<p>Resource-ImmediateSourceAcquisition</p>")
+      note_content(get_note_by_type(@resource, 'acqinfo')).should eq("<p>Resource-ImmediateSourceAcquisition</p>")
     end
 
     it "maps '<altformavail>' correctly" do
-      note_content(get_note_by_type(@resource, 'altformavail')).should eq("<head>Resource-ExistenceLocationCopies-AT</head>\n<p>Resource-ExistenceLocationCopies-AT</p>")
+      note_content(get_note_by_type(@resource, 'altformavail')).should eq("<p>Resource-ExistenceLocationCopies-AT</p>")
     end
 
     it "maps '<appraisal>' correctly" do
-      note_content(get_note_by_type(@resource, 'appraisal')).should eq("<head>Resource-Appraisal-AT</head>\n<p>Resource-Appraisal-AT</p>")
+      note_content(get_note_by_type(@resource, 'appraisal')).should eq("<p>Resource-Appraisal-AT</p>")
     end
 
     it "maps '<arrangement>' correctly" do
-      note_content(get_note_by_type(@resource, 'arrangement')).should eq("<head>Resource-Arrangement-Note</head>\n<p>Resource-Arrangement-Note</p>")
+      note_content(get_note_by_type(@resource, 'arrangement')).should eq("<p>Resource-Arrangement-Note</p>")
     end
 
     it "maps '<bioghist>' correctly" do
@@ -347,7 +347,7 @@ ANEAD
     end
 
     it "maps '<custodhist>' correctly" do
-      note_content(get_note_by_type(@resource, 'custodhist')).should eq("<head>Resource--CustodialHistory-AT</head>\n<p>Resource--CustodialHistory-AT</p>")
+      note_content(get_note_by_type(@resource, 'custodhist')).should eq("<p>Resource--CustodialHistory-AT</p>")
     end
 
     it "maps '<dimensions>' correctly" do
@@ -355,7 +355,7 @@ ANEAD
     end
 
     it "maps '<fileplan>' correctly" do
-      note_content(get_note_by_type(@resource, 'fileplan')).should eq("<head>Resource-FilePlan-AT</head>\n<p>Resource-FilePlan-AT</p>")
+      note_content(get_note_by_type(@resource, 'fileplan')).should eq("<p>Resource-FilePlan-AT</p>")
     end
 
     it "maps '<langmaterial>' correctly" do
@@ -637,6 +637,10 @@ ANEAD
         <language langcode="eng"/>
       </langmaterial>
     </did>
+    <accruals id="ref2">
+       <head>foo</head>
+       <p>bar</p>
+    </accruals>
     <dsc>
     <c id="1" level="file" audience="internal">
       <did>
@@ -672,6 +676,13 @@ ANEAD
 
       @component['language'].should eq 'eng'
       get_note_by_type(@component, 'langmaterial').should be_nil
+    end
+
+
+    it "maps <head> tag to note label, but not to note content" do
+      n = get_note_by_type(@resource, 'accruals')
+      n['label'].should eq('foo')
+      note_content(n).should_not match(/foo/)
     end
   end
 end
