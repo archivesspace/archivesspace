@@ -197,11 +197,14 @@ class EADConverter < Converter
 
     %w(abstract langmaterial materialspec physdesc physfacet physloc).each do |note|
       with note do |node|
+        content = inner_xml
+        next if content =~ /\A<language langcode=\"[a-z]+\"\/>\Z/
+        
         make :note_singlepart, {
           :type => note,
           :persistent_id => att('id'),
           # TODO: strip first <head/> tag
-          :content => inner_xml
+          :content => content
         } do |note|
           set ancestor(:resource, :archival_object), :notes, note
         end

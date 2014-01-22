@@ -1,5 +1,4 @@
 require 'spec_helper'
-require_relative '../app/converters/ead_converter'
 
 describe 'EAD converter' do
 
@@ -360,7 +359,7 @@ ANEAD
     end
 
     it "maps '<langmaterial>' correctly" do
-      note_content(get_note_by_type(@archival_objects['06'], 'langmaterial')).should eq("<language langcode=\"eng\"/>")
+      @archival_objects['06']['language'].should eq('eng')
     end
 
     it "maps '<legalstatus>' correctly" do
@@ -620,6 +619,59 @@ ANEAD
       @components[0]['publish'].should be false
       @components[1]['publish'].should be true
     end
+  end
 
+  describe "Non redundant mapping" do
+    let (:test_doc) {
+          src = <<ANEAD
+<ead>
+  <archdesc level="collection">
+    <did>
+      <unittitle>Resource--Title-AT</unittitle>
+      <unitid>Resource.ID.AT</unitid>
+      <physdesc>
+        <extent>5.0 Linear feet</extent>
+        <extent>Resource-ContainerSummary-AT</extent>
+      </physdesc>
+      <langmaterial>
+        <language langcode="eng"/>
+      </langmaterial>
+    </did>
+    <dsc>
+    <c id="1" level="file" audience="internal">
+      <did>
+        <unittitle>oh well</unittitle>
+        <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
+        <langmaterial>
+          <language langcode="eng"/>
+        </langmaterial>
+      </did>
+    </c>
+    </dsc>
+  </archdesc>
+</ead>
+ANEAD
+
+      tmp = ASUtils.tempfile("doc1")
+      tmp.write(src)
+      tmp.close
+      tmp.path
+    }
+
+    before do
+      converter = EADConverter.new(test_doc)
+      converter.run
+      parsed = JSON(IO.read(converter.get_output_path))
+      @resource = parsed.find{|r| r['jsonmodel_type'] == 'resource'}
+      @component = parsed.find{|r| r['jsonmodel_type'] == 'archival_object'}
+    end
+
+    it "should only map <language> content to one place" do
+      @resource['language'].should eq 'eng'
+      get_note_by_type(@resource, 'langmaterial').should be_nil
+
+      @component['language'].should eq 'eng'
+      get_note_by_type(@component, 'langmaterial').should be_nil
+    end
   end
 end
