@@ -77,13 +77,17 @@ $(function() {
   $importForm.ajaxForm({
     dataType: "json",
     type: "POST",
+    beforeSubmit: function() {
+      $("#import-selected").attr("disabled", "disabled");
+    },
     success: function(json) {
         if (json.job_uri) {
-            AS.openQuickModal("Import job created", "Redirecting to job status page");
+            AS.openQuickModal(AS.renderTemplate("template_lcnaf_import_success_title"), AS.renderTemplate("template_lcnaf_import_success_message"));
             window.location = json.job_uri;
         } else {
             // error
-            AS.openQuickModal("Error while importing from LCNAF", json.error);
+            $("#import-selected").removeAttr("disabled");
+            AS.openQuickModal(AS.renderTemplate("template_lcnaf_import_error_title"), json.error);
         }
     }
   });

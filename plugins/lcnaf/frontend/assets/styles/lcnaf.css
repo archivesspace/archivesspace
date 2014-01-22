@@ -15,12 +15,7 @@
     min-height: 120px;
 }
 
-.form-search {
-    background-color: #F3F3F3;
-    padding: 10px;
-    border-bottom: 1px solid #EEE;
-}
-
+.form-search,
 .selected-container {
     border: 1px solid #DDD;
     border-radius: 5px;

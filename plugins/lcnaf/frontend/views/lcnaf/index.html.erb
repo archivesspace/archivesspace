@@ -5,13 +5,13 @@
     <div class="record-pane">
       <div class="row-fluid">
         <div class="span8">
-          <h2>LCNAF Search and Import</h2>
+          <h2><%= I18n.t("plugins.lcnaf.label") %></h2>
 
           <%= render :partial => "shared/flash_messages" %>
 
-          <%= form_tag({:controller => :lcnaf, :action => :search}, {:id => "lcnaf_search", :class => "form-search"}) do |form| %>
+          <%= form_tag({:controller => :lcnaf, :action => :search}, {:id => "lcnaf_search", :class => "form-search", :method => "GET"}) do |form| %>
             <input type="text" name="query" class="input-large">
-            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="submit" class="btn btn-primary"><%= I18n.t("plugins.lcnaf.actions.search") %></button>
             <%= hidden_field_tag "page", @page %>
             <%= hidden_field_tag "records_per_page", @records_per_page %>
           <% end %>
@@ -21,9 +21,9 @@
         <div class="span4">
           <%= form_tag({:controller => :lcnaf, :action => :import}, {:id => "lcnaf_import"}) do |form| %>
           <div class="selected-container" data-spy="affix">
-            <div class="alert alert-info">No Results Selected</div>
+            <div class="alert alert-info"><%= I18n.t("plugins.lcnaf.messages.none_selected") %></div>
             <div id="selected"></div>
-            <button id="import-selected" class="btn btn-primary" disabled="disabled">Import Selected</button>
+            <button id="import-selected" class="btn btn-primary" disabled="disabled"><%= I18n.t("plugins.lcnaf.actions.import") %></button>
           </div>
           <% end %>
         </div>
@@ -43,8 +43,8 @@
   <div class="lcnaf-result">
     <div class="row-fluid">
       <div class="span2">
-          <span class="pull-left alert alert-success hide">Selected</span>
-          <button class="btn hide" data-lccn="${record.lccn}">Select</button>
+          <span class="pull-left alert alert-success hide"><%= I18n.t("plugins.lcnaf.messages.selected") %></span>
+          <button class="btn hide" data-lccn="${record.lccn}"><%= I18n.t("plugins.lcnaf.actions.select") %></button>
       </div>
       <div class="span10 lcnaf-marc">
         <pre><code>${record.xml|h}</code></pre>
@@ -56,7 +56,7 @@
 <div id="template_lcnaf_result_summary"><!--
   <div class="row-fluid">
     <div class="pull-right text-info">
-      Page ${page} - Showing results ${first_record_index} to ${last_record_index} of ${hit_count} matches
+      <%= I18n.t("plugins.lcnaf.result_summary", :page => "${page}", :first_record_index => "${first_record_index}", :last_record_index => "${last_record_index}", :hit_count => "${hit_count}") %>
     </div>
     <hr/>
   </div>
@@ -66,8 +66,8 @@
   <div class="row-fluid">
     <hr/>
     <div class="lcnaf-pagination text-center">
-      {if !at_start}<a href='<%= url_for :controller => :lcnaf, :action => :search %>?query=${query}&page=${page - 1}&records_per_page=${records_per_page}' class="btn btn-small">Prev</a>{/if}
-      {if !at_end}<a href='<%= url_for :controller => :lcnaf, :action => :search %>?query=${query}&page=${page + 1}&records_per_page=${records_per_page}' class="btn btn-small">Next</a>{/if}
+      {if !at_start}<a href='<%= url_for :controller => :lcnaf, :action => :search %>?query=${query}&page=${page - 1}&records_per_page=${records_per_page}' class="btn btn-small"><%= I18n.t("pagination.previous") %> <%= I18n.t("pagination.previous_label") %></a>{/if}
+      {if !at_end}<a href='<%= url_for :controller => :lcnaf, :action => :search %>?query=${query}&page=${page + 1}&records_per_page=${records_per_page}' class="btn btn-small"><%= I18n.t("pagination.next_label") %> <%= I18n.t("pagination.next") %></a>{/if}
     </div>
   </div>
 --></div>
@@ -78,4 +78,16 @@
     <input type="hidden" name="lccn[]" value="${lccn}"/>
     <button class="btn btn-mini remove-selected pull-right"><span class="icon icon-trash"></span></button>
   </div>
+--></div>
+
+<div id="template_lcnaf_import_error_title"><!--
+  <%= I18n.t("plugins.lcnaf.messages.import_error") %>
+--></div>
+
+<div id="template_lcnaf_import_success_title"><!--
+  <%= I18n.t("plugins.lcnaf.messages.import_success") %>
+--></div>
+
+<div id="template_lcnaf_import_success_message"><!--
+  <div class="alert alert-success"><%= I18n.t("plugins.lcnaf.messages.import_success_message") %></div>
 --></div>
