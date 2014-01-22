@@ -21,7 +21,7 @@ class LcnafController < ApplicationController
     marcxml_file = searcher.results_to_marcxml_file(SRUQuery.lccn_search(params[:lccn]))
 
     begin
-      job = Job.new("marcxml_subjects_and_agents",
+      job = Job.new("marcxml_lcnaf_subjects_and_agents",
                     {"lcnaf_import_#{SecureRandom.uuid}" => marcxml_file})
 
       response = job.upload
