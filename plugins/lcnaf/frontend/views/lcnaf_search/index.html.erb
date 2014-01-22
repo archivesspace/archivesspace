@@ -5,16 +5,23 @@
     <div class="record-pane">
       <%= render :partial => "shared/flash_messages" %>
 
-      <div class="text-center">
-        <%= form_tag({:controller => :lcnaf_search, :action => :search}, {:id => "lcnaf_search", :class => "form-search"}) do |form| %>
-          <input type="text" name="query" class="input-large">
-          <button type="submit" class="btn btn-primary">Search</button>
-          <%= hidden_field_tag "page", @page %>
-          <%= hidden_field_tag "records_per_page", @records_per_page %>
-        <% end %>
-      </div>
+      <div class="row-fluid">
+        <div class="span8">
+          <div class="text-center">
+            <%= form_tag({:controller => :lcnaf_search, :action => :search}, {:id => "lcnaf_search", :class => "form-search"}) do |form| %>
+              <input type="text" name="query" class="input-large">
+              <button type="submit" class="btn btn-primary">Search</button>
+              <%= hidden_field_tag "page", @page %>
+              <%= hidden_field_tag "records_per_page", @records_per_page %>
+            <% end %>
+          </div>
 
-      <div id="results"></div>
+          <div id="results"></div>
+        </div>
+        <div class="span4">
+          <div id="selected" data-spy="affix"></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -29,11 +36,12 @@
 <div id="template_lcnaf_result"><!--
   <div class="lcnaf-result">
     <div class="row-fluid">
-      <div class="span1">
-        <input type="checkbox" name="lccn" value="${lccn}"/>
+      <div class="span2">
+          <span class="pull-left alert alert-success hide">Selected</span>
+          <button class="btn hide" data-lccn="${record.lccn}">Select</button>
       </div>
-      <div class="span11 lcnaf-marc">
-        <pre><code>${xml|h}</code></pre>
+      <div class="span10 lcnaf-marc">
+        <pre><code>${record.xml|h}</code></pre>
       </div>
     </div>
   </div>
@@ -55,5 +63,12 @@
       {if !at_start}<a href='<%= url_for :controller => :lcnaf_search, :action => :search %>?query=${query}&page=${page - 1}&records_per_page=${records_per_page}' class="btn btn-small">Prev</a>{/if}
       {if !at_end}<a href='<%= url_for :controller => :lcnaf_search, :action => :search %>?query=${query}&page=${page + 1}&records_per_page=${records_per_page}' class="btn btn-small">Next</a>{/if}
     </div>
+  </div>
+--></div>
+
+<div id="template_lcnaf_selected"><!--
+  <div data-lccn="${lccn}">
+    ${lccn}
+    <button class="btn btn-mini remove-selected"><span class="icon icon-trash"></span></button>
   </div>
 --></div>
