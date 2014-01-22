@@ -10,3 +10,19 @@
     background-color: #fff;
     border: none;
 }
+
+.record-pane {
+    min-height: 120px;
+}
+
+.selected-container {
+    border: 1px solid #DDD;
+    border-radius: 5px;
+    background-color: #F1F1F1;
+    padding: 10px;
+}
+
+#selected {
+    margin: 10px 0 20px;
+    max-height: 200px;
+}

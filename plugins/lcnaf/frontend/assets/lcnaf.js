@@ -22,6 +22,15 @@ $(function() {
     $('pre code', $results).each(function(i, e) {hljs.highlightBlock(e)});
   };
 
+
+  var selectedLCCNs = function() {
+    var result = [];
+    $("[data-lccn]", $selected).each(function() {
+      result.push($(this).data("lccn"));
+    })
+    return result;
+  };
+
   var removeSelected = function(lccn) {
     selected_lccns[lccn] = false;
     $("[data-lccn="+lccn+"]", $selected).remove();
@@ -29,6 +38,11 @@ $(function() {
     if ($result.length > 0) {
       $result.removeClass("hide");
       $result.siblings(".alert").addClass("hide");
+    }
+
+    if (selectedLCCNs().length === 0) {
+      $selected.siblings(".alert-info").removeClass("hide");
+      $("#import-selected").attr("disabled", "disabled");
     }
   };
 
@@ -38,6 +52,9 @@ $(function() {
 
     $(".alert-success", $result).removeClass("hide");
     $("button", $result).addClass("hide");
+
+    $selected.siblings(".alert-info").addClass("hide");
+    $("#import-selected").removeAttr("disabled", "disabled");
   }
 
   $form.ajaxForm({
