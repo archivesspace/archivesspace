@@ -13,7 +13,12 @@ class SRUResultSet
     @at_end = doc.xpath("//nextRecordPosition").empty?
 
     @hit_count = doc.xpath("//searchRetrieveResponse/numberOfRecords").text().to_i
-    @records = doc.xpath("//recordData/record").map {|record| record.to_xml}
+    @records = doc.xpath("//recordData/record").map {|record|
+      {
+        :xml => record.to_xml,
+        :lccn => record.xpath("./datafield[@tag='010']/subfield[@code='a']").text().gsub(' ', '')
+      }
+    }
   end
 
 
