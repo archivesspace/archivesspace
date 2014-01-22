@@ -57,7 +57,13 @@ $(function() {
 
     $selected.siblings(".alert-info").addClass("hide");
     $("#import-selected").removeAttr("disabled", "disabled");
-  }
+  };
+
+
+  var resizeSelectedBox = function() {
+    $selected.closest(".selected-container").width($selected.closest(".span4").width() - 30);
+  };
+
 
   $searchForm.ajaxForm({
     dataType: "json",
@@ -98,4 +104,7 @@ $(function() {
     removeSelected(lccn);
   });
 
+
+  $(window).resize(resizeSelectedBox);
+  resizeSelectedBox();
 })

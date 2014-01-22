@@ -22,7 +22,22 @@
     padding: 10px;
 }
 
+#import-selected {
+    width: 100%;
+}
+
 #selected {
     margin: 10px 0 20px;
     max-height: 200px;
+    overflow: auto;
+}
+
+.lcnaf-result .alert-success {
+    width: 34px;
+}
+
+.lcnaf-selected {
+    margin: 5px 0;
+    border-bottom: 1px solid #Fafafa;
+    padding: 5px 0;
 }

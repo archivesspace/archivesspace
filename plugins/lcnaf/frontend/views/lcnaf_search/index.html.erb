@@ -3,18 +3,18 @@
 <div class="row-fluid">
   <div class="span12">
     <div class="record-pane">
-      <%= render :partial => "shared/flash_messages" %>
-
       <div class="row-fluid">
         <div class="span8">
-          <div class="text-center">
-            <%= form_tag({:controller => :lcnaf_search, :action => :search}, {:id => "lcnaf_search", :class => "form-search"}) do |form| %>
-              <input type="text" name="query" class="input-large">
-              <button type="submit" class="btn btn-primary">Search</button>
-              <%= hidden_field_tag "page", @page %>
-              <%= hidden_field_tag "records_per_page", @records_per_page %>
-            <% end %>
-          </div>
+          <h2>LCNAF Search and Import</h2>
+
+          <%= render :partial => "shared/flash_messages" %>
+
+          <%= form_tag({:controller => :lcnaf_search, :action => :search}, {:id => "lcnaf_search", :class => "form-search"}) do |form| %>
+            <input type="text" name="query" class="input-large">
+            <button type="submit" class="btn btn-primary">Search</button>
+            <%= hidden_field_tag "page", @page %>
+            <%= hidden_field_tag "records_per_page", @records_per_page %>
+          <% end %>
 
           <div id="results"></div>
         </div>
@@ -73,9 +73,9 @@
 --></div>
 
 <div id="template_lcnaf_selected"><!--
-  <div data-lccn="${lccn}">
+  <div data-lccn="${lccn}" class="lcnaf-selected">
     ${lccn}
     <input type="hidden" name="lccn[]" value="${lccn}"/>
-    <button class="btn btn-mini remove-selected"><span class="icon icon-trash"></span></button>
+    <button class="btn btn-mini remove-selected pull-right"><span class="icon icon-trash"></span></button>
   </div>
 --></div>
