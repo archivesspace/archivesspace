@@ -9,7 +9,7 @@
 
           <%= render :partial => "shared/flash_messages" %>
 
-          <%= form_tag({:controller => :lcnaf_search, :action => :search}, {:id => "lcnaf_search", :class => "form-search"}) do |form| %>
+          <%= form_tag({:controller => :lcnaf, :action => :search}, {:id => "lcnaf_search", :class => "form-search"}) do |form| %>
             <input type="text" name="query" class="input-large">
             <button type="submit" class="btn btn-primary">Search</button>
             <%= hidden_field_tag "page", @page %>
@@ -19,7 +19,7 @@
           <div id="results"></div>
         </div>
         <div class="span4">
-          <%= form_tag({:controller => :lcnaf_search, :action => :import}, {:id => "lcnaf_import"}) do |form| %>
+          <%= form_tag({:controller => :lcnaf, :action => :import}, {:id => "lcnaf_import"}) do |form| %>
           <div class="selected-container" data-spy="affix">
             <div class="alert alert-info">No Results Selected</div>
             <div id="selected"></div>
@@ -66,8 +66,8 @@
   <div class="row-fluid">
     <hr/>
     <div class="lcnaf-pagination text-center">
-      {if !at_start}<a href='<%= url_for :controller => :lcnaf_search, :action => :search %>?query=${query}&page=${page - 1}&records_per_page=${records_per_page}' class="btn btn-small">Prev</a>{/if}
-      {if !at_end}<a href='<%= url_for :controller => :lcnaf_search, :action => :search %>?query=${query}&page=${page + 1}&records_per_page=${records_per_page}' class="btn btn-small">Next</a>{/if}
+      {if !at_start}<a href='<%= url_for :controller => :lcnaf, :action => :search %>?query=${query}&page=${page - 1}&records_per_page=${records_per_page}' class="btn btn-small">Prev</a>{/if}
+      {if !at_end}<a href='<%= url_for :controller => :lcnaf, :action => :search %>?query=${query}&page=${page + 1}&records_per_page=${records_per_page}' class="btn btn-small">Next</a>{/if}
     </div>
   </div>
 --></div>

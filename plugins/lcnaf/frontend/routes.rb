@@ -1,7 +1,7 @@
 ArchivesSpace::Application.routes.draw do
 
-  match('/plugins/lcnaf' => 'lcnaf_search#index', :via => [:get])
-  match('/plugins/lcnaf/search' => 'lcnaf_search#search', :via => [:get])
-  match('/plugins/lcnaf/import' => 'lcnaf_search#import', :via => [:post])
+  match('/plugins/lcnaf' => 'lcnaf#index', :via => [:get])
+  match('/plugins/lcnaf/search' => 'lcnaf#search', :via => [:get])
+  match('/plugins/lcnaf/import' => 'lcnaf#import', :via => [:post])
 
 end

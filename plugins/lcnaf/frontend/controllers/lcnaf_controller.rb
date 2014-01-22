@@ -1,6 +1,6 @@
 require 'srusearcher'
 
-class LcnafSearchController < ApplicationController
+class LcnafController < ApplicationController
 
   set_access_control "update_agent_record" => [:search, :index, :import]
 
