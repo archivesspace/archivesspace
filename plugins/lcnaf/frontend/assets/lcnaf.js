@@ -78,7 +78,13 @@ $(function() {
     dataType: "json",
     type: "POST",
     success: function(json) {
-      console.log(json);
+        if (json.job_uri) {
+            AS.openQuickModal("Import job created", "Redirecting to job status page");
+            window.location = json.job_uri;
+        } else {
+            // error
+            AS.openQuickModal("Error while importing from LCNAF", json.error);
+        }
     }
   });
 
