@@ -11,7 +11,10 @@
 
           <%= form_tag({:controller => :lcnaf, :action => :search}, {:id => "lcnaf_search", :class => "form-search", :method => "GET"}) do |form| %>
             <input type="text" name="query" class="input-large">
-            <button type="submit" class="btn btn-primary"><%= I18n.t("plugins.lcnaf.actions.search") %></button>
+            <button type="submit" class="btn btn-primary">
+              <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %>
+              <%= I18n.t("plugins.lcnaf.actions.search") %>
+            </button>
             <%= hidden_field_tag "page", @page %>
             <%= hidden_field_tag "records_per_page", @records_per_page %>
           <% end %>
@@ -23,7 +26,10 @@
           <div class="selected-container" data-spy="affix">
             <div class="alert alert-info"><%= I18n.t("plugins.lcnaf.messages.none_selected") %></div>
             <div id="selected"></div>
-            <button id="import-selected" class="btn btn-primary" disabled="disabled"><%= I18n.t("plugins.lcnaf.actions.import") %></button>
+            <button id="import-selected" class="btn btn-primary" disabled="disabled">
+              <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %>
+              <%= I18n.t("plugins.lcnaf.actions.import") %>
+            </button>
           </div>
           <% end %>
         </div>

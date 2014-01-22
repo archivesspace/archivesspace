@@ -68,7 +68,11 @@ $(function() {
   $searchForm.ajaxForm({
     dataType: "json",
     type: "GET",
+    beforeSubmit: function() {
+      $(".btn", $searchForm).attr("disabled", "disabled").addClass("disabled").addClass("busy");
+    },
     success: function(json) {
+      $(".btn", $searchForm).removeAttr("disabled").removeClass("disabled").removeClass("busy");
       renderResults(json);
     }
   });
@@ -78,15 +82,18 @@ $(function() {
     dataType: "json",
     type: "POST",
     beforeSubmit: function() {
-      $("#import-selected").attr("disabled", "disabled");
+      $("#import-selected").attr("disabled", "disabled").addClass("disabled").addClass("busy");
     },
     success: function(json) {
+        $("#import-selected").removeClass("busy");
         if (json.job_uri) {
             AS.openQuickModal(AS.renderTemplate("template_lcnaf_import_success_title"), AS.renderTemplate("template_lcnaf_import_success_message"));
-            window.location = json.job_uri;
+            setTimeout(function() {
+              window.location = json.job_uri;
+            }, 2000);
         } else {
             // error
-            $("#import-selected").removeAttr("disabled");
+            $("#import-selected").removeAttr("disabled").removeClass("disabled");
             AS.openQuickModal(AS.renderTemplate("template_lcnaf_import_error_title"), json.error);
         }
     }
