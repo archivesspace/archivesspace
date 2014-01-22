@@ -29,8 +29,12 @@ class ApplicationController < ActionController::Base
 
   before_filter :unauthorised_access
 
+  def self.permission_mappings
+    Array(@permission_mappings)
+  end
+
   def self.can_access?(session, method)
-    @permission_mappings.each do |permission, actions|
+    permission_mappings.each do |permission, actions|
       if actions.include?(method) && !session_can?(session, permission)
         return false
       end
