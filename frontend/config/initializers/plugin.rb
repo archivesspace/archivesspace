@@ -51,7 +51,7 @@ module Plugins
 
 
   def self.config_for(plugin)
-    @config[:plugin][plugin]
+    @config[:plugin][plugin] || {}
   end
 
 

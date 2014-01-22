@@ -211,4 +211,12 @@ module ApplicationHelper
     html.html_safe
   end
 
+
+  def has_permission_for_controller?(session, name)
+    controller_class_name = "#{name}_controller".classify
+    controller_class = Kernel.const_get(controller_class_name)
+
+    controller_class.can_access?(session, :index)
+  end
+
 end
