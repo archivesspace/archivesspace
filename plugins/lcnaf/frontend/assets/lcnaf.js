@@ -10,6 +10,8 @@ $(function() {
       $.each(json.records, function(i, record) {
         $results.append(AS.renderTemplate("template_lcnaf_result", record));
       });
+
+      $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
     }
   })
 

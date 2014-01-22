@@ -6,7 +6,10 @@ class SRUResultSet
 
 
   def initialize(response_body)
-    doc = Nokogiri::XML.parse(response_body)
+    doc = Nokogiri::XML.parse(response_body) do |config|
+      config.default_xml.noblanks
+    end
+
     doc.remove_namespaces!
 
     @at_start = doc.xpath("//startRecord").text() == "1"
