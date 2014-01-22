@@ -180,17 +180,23 @@ class EADConverter < Converter
        prefercite processinfo relatedmaterial scopecontent \
        separatedmaterial userestrict).each do |note|
       with note do |node|
+        content = inner_xml.tap {|xml|
+          xml.sub!(/<head>.*?<\/head>/m, '')
+          # xml.sub!(/<list [^>]*>.*?<\/list>/m, '')
+          # xml.sub!(/<chronlist [^>]*>.*<\/chronlist>/m, '')
+        }
+
         make :note_multipart, {
           :type => node.name,
           :persistent_id => att('id'),
           :subnotes => {
             'jsonmodel_type' => 'note_text',
-            'content' => inner_xml.sub(/<head>.*?<\/head>/, '').strip
+            'content' => content.strip
           }
         } do |note|
           set ancestor(:resource, :archival_object), :notes, note
         end
-      end
+      end      
     end
 
 

@@ -641,6 +641,14 @@ ANEAD
        <head>foo</head>
        <p>bar</p>
     </accruals>
+    <odd id="ref44">
+      <head>Resource-GeneralNoteMULTIPARTLISTLabel-AT</head>
+      <list numeration="loweralpha" type="ordered">
+        <head>Resource-GeneralNoteMULTIPARTLISTTitle-AT</head>
+        <item>Resource-GeneralNoteMULTIPARTLISTItem1-AT</item>
+        <item>Resource-GeneralNoteMULTIPARTLISTItem2-AT</item>
+      </list>
+    </odd>
     <dsc>
     <c id="1" level="file" audience="internal">
       <did>
@@ -670,7 +678,7 @@ ANEAD
       @component = parsed.find{|r| r['jsonmodel_type'] == 'archival_object'}
     end
 
-    it "should only map <language> content to one place" do
+    it "only maps <language> content to one place" do
       @resource['language'].should eq 'eng'
       get_note_by_type(@resource, 'langmaterial').should be_nil
 
@@ -678,11 +686,17 @@ ANEAD
       get_note_by_type(@component, 'langmaterial').should be_nil
     end
 
-
     it "maps <head> tag to note label, but not to note content" do
       n = get_note_by_type(@resource, 'accruals')
       n['label'].should eq('foo')
       note_content(n).should_not match(/foo/)
     end
+
+    # See: https://www.pivotaltracker.com/story/show/54942792
+    # it "maps lists to a list subnote, and not a text subnote" do
+    #   n = get_note_by_type(@resource, 'odd')
+    #   get_subnotes_by_type(n, 'note_orderedlist').count.should eq(1)
+    #   get_subnotes_by_type(n, 'note_text').should be_empty
+    # end
   end
 end
