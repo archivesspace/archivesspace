@@ -99,7 +99,7 @@
 
             <li><%= link_to I18n.t("navbar.list_reports"), :controller => :reports, :action => :index %></li>
 
-            <% if Plugins.repository_menu_items.any? {|plugin| has_permission_for_controller(session, plugin)} %>
+            <% if Plugins.repository_menu_items.any? {|plugin| has_permission_for_controller?(session, plugin)} %>
               <li class="dropdown plugin-container">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("navbar.plugins") %> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
