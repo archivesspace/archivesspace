@@ -24,6 +24,7 @@
 <script src="<%= "#{AppConfig[:frontend_prefix]}assets/lcnaf.js" %>"></script>
 <script src="<%= "#{AppConfig[:frontend_prefix]}assets/highlight.js/highlight.pack.js" %>"></script>
 
+<link href="<%= "#{AppConfig[:frontend_prefix]}assets/styles/lcnaf.css" %>" media="all" rel="stylesheet" type="text/css">
 <link href="<%= "#{AppConfig[:frontend_prefix]}assets/highlight.js/styles/tomorrow.css" %>" media="all" rel="stylesheet" type="text/css">
 
 
@@ -33,7 +34,7 @@
       <div class="span1">
         <input type="checkbox" name="lccn" value="${lccn}"/>
       </div>
-      <div class="span11">
+      <div class="span11 lcnaf-marc">
         <pre><code>${xml|h}</code></pre>
       </div>
     </div>

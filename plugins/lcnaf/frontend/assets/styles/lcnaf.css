@@ -1,0 +1,12 @@
+.lcnaf-marc {
+    height: 200px;
+    overflow: auto;
+    margin-bottom: 1em;
+    border: 1px solid #ccc; // fallback for IE7-8
+    border: 1px solid rgba(0,0,0,.15);
+}
+
+.lcnaf-marc pre {
+    background-color: #fff;
+    border: none;
+}
