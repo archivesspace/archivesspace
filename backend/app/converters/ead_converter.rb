@@ -31,6 +31,7 @@ class EADConverter < Converter
     with 'archdesc' do
       set :level, att('level') || 'otherlevel'
       set :other_level, att('otherlevel')
+      set :publish, att('audience') != 'internal'
     end
 
 
@@ -42,7 +43,8 @@ class EADConverter < Converter
           :other_level => att('otherlevel'),
           :ref_id => att('id'),
           :resource => ancestor(:resource),
-          :parent => ancestor(:archival_object)
+          :parent => ancestor(:archival_object),
+          :publish => att('audience') != 'internal'
         }
       end
     end
