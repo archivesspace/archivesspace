@@ -2,11 +2,19 @@ require 'srusearcher'
 
 class LcnafSearchController < ApplicationController
 
-  set_access_control "update_agent_record" => [:search]
+  set_access_control "update_agent_record" => [:search, :index, :import]
+
+  def index
+    @page = 1
+    @records_per_page = 10
+  end
 
   def search
     searcher = SRUSearcher.new('http://alcme.oclc.org/srw/search/lcnaf')
-    render :json => searcher.search(SRUQuery.name_search("Giles"), 2, 10).to_json
+    query = SRUQuery.name_search(params[:query])
+    render :json => searcher.search(query, params[:page].to_i, params[:records_per_page].to_i).to_json
   end
 
+  def import
+  end
 end

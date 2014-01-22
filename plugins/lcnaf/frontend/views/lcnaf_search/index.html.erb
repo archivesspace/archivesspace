@@ -1,0 +1,37 @@
+<%= setup_context :title => "LCNAF Search" %>
+
+<div class="row-fluid">
+  <div class="span12">
+    <div class="record-pane">
+      <%= render :partial => "shared/flash_messages" %>
+
+      <div class="text-center">
+        <%= form_tag({:controller => :lcnaf_search, :action => :search}, {:id => "lcnaf_search", :class => "form-search"}) do |form| %>
+          <input type="text" name="query" class="input-large">
+          <button type="submit" class="btn btn-primary">Search</button>
+          <%= hidden_field_tag "page", @page %>
+          <%= hidden_field_tag "records_per_page", @records_per_page %>
+        <% end %>
+      </div>
+
+      <hr/>
+
+      <div id="results"></div>
+    </div>
+  </div>
+</div>
+
+<script src="<%= "#{AppConfig[:frontend_prefix]}assets/lcnaf.js" %>"></script>
+
+<div id="template_lcnaf_result"><!--
+  <div class="lcnaf-result">
+    <div class="row-fluid">
+      <div class="span1">
+        <input type="checkbox" name="lccn" value="${lccn}"/>
+      </div>
+      <div class="span11">
+        <pre>${xml|h}</pre>
+      </div>
+    </div>
+  </div>
+--></div>
