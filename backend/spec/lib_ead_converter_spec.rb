@@ -1,4 +1,5 @@
 require 'spec_helper'
+require_relative '../app/converters/ead_converter'
 
 describe 'EAD converter' do
 
