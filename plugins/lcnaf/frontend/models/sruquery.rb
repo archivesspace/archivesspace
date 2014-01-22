@@ -13,6 +13,11 @@ class SRUQuery
   end
 
 
+  def query_string
+    @query
+  end
+
+
   def clean(query)
     query.gsub('"', '')
   end

@@ -14,8 +14,6 @@
         <% end %>
       </div>
 
-      <hr/>
-
       <div id="results"></div>
     </div>
   </div>
@@ -37,6 +35,25 @@
       <div class="span11 lcnaf-marc">
         <pre><code>${xml|h}</code></pre>
       </div>
+    </div>
+  </div>
+--></div>
+
+<div id="template_lcnaf_result_summary"><!--
+  <div class="row-fluid">
+    <div class="pull-right text-info">
+      Page ${page} - Showing results ${first_record_index} to ${last_record_index} of ${hit_count} matches
+    </div>
+    <hr/>
+  </div>
+--></div>
+
+<div id="template_lcnaf_pagination"><!--
+  <div class="row-fluid">
+    <hr/>
+    <div class="lcnaf-pagination text-center">
+      {if !at_start}<a href='<%= url_for :controller => :lcnaf_search, :action => :search %>?query=${query}&page=${page - 1}&records_per_page=${records_per_page}' class="btn btn-small">Prev</a>{/if}
+      {if !at_end}<a href='<%= url_for :controller => :lcnaf_search, :action => :search %>?query=${query}&page=${page + 1}&records_per_page=${records_per_page}' class="btn btn-small">Next</a>{/if}
     </div>
   </div>
 --></div>

@@ -44,7 +44,7 @@ class SRUSearcher
       raise SRUSearchException.new("Error during SRU search: #{response.body}")
     end
 
-    SRUResultSet.new(response.body)
+    SRUResultSet.new(response.body, sru_query.query_string, page, records_per_page)
   end
 
 end
