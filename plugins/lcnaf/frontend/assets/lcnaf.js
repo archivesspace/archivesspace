@@ -1,5 +1,7 @@
 $(function() {
-  var $form = $("#lcnaf_search");
+  var $searchForm = $("#lcnaf_search");
+  var $importForm = $("#lcnaf_import");
+
   var $results = $("#results");
   var $selected = $("#selected");
 
@@ -57,13 +59,23 @@ $(function() {
     $("#import-selected").removeAttr("disabled", "disabled");
   }
 
-  $form.ajaxForm({
+  $searchForm.ajaxForm({
     dataType: "json",
     type: "GET",
     success: function(json) {
       renderResults(json);
     }
   });
+
+
+  $importForm.ajaxForm({
+    dataType: "json",
+    type: "POST",
+    success: function(json) {
+      console.log(json);
+    }
+  });
+
 
   $results.on("click", ".lcnaf-pagination a", function(event) {
     event.preventDefault();

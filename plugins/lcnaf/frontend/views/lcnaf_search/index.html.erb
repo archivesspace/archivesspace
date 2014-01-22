@@ -19,11 +19,13 @@
           <div id="results"></div>
         </div>
         <div class="span4">
+          <%= form_tag({:controller => :lcnaf_search, :action => :import}, {:id => "lcnaf_import"}) do |form| %>
           <div class="selected-container" data-spy="affix">
             <div class="alert alert-info">No Results Selected</div>
             <div id="selected"></div>
             <button id="import-selected" class="btn btn-primary" disabled="disabled">Import Selected</button>
           </div>
+          <% end %>
         </div>
       </div>
     </div>
@@ -73,6 +75,7 @@
 <div id="template_lcnaf_selected"><!--
   <div data-lccn="${lccn}">
     ${lccn}
+    <input type="hidden" name="lccn[]" value="${lccn}"/>
     <button class="btn btn-mini remove-selected"><span class="icon icon-trash"></span></button>
   </div>
 --></div>

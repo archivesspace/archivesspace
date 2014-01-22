@@ -16,5 +16,6 @@ class LcnafSearchController < ApplicationController
   end
 
   def import
+    render :json => params.to_json
   end
 end
