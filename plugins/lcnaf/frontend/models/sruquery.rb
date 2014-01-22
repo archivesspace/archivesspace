@@ -5,6 +5,11 @@ class SRUQuery
   end
 
 
+  def self.lccn_search(lccns)
+    new(lccns.join(" "), ['local.LCCN'])
+  end
+
+
   def initialize(query, fields, relation = 'any')
     @query = clean(query)
     @fields = fields

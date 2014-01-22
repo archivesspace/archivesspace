@@ -47,4 +47,31 @@ class SRUSearcher
     SRUResultSet.new(response.body, sru_query.query_string, page, records_per_page)
   end
 
+
+  def results_to_marcxml_file(query)
+    page = 1
+    tempfile = ASUtils.tempfile('lcnaf_import')
+
+    tempfile.write("<collection>\n")
+
+    while true
+      results = search(query, page, 10)
+
+      results.each do |xml|
+        tempfile.write(xml)
+      end
+
+      break if results.at_end?
+
+      page += 1
+    end
+
+    tempfile.write("\n</collection>")
+
+    tempfile.flush
+    tempfile.rewind
+
+    return tempfile
+  end
+
 end

@@ -29,6 +29,13 @@ class SRUResultSet
   end
 
 
+  def each(&block)
+    @records.each do |record|
+      yield(record[:xml])
+    end
+  end
+
+
   def at_start?
     @at_start
   end
