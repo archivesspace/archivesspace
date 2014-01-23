@@ -6,6 +6,9 @@ require 'asutils'
 Sequel::MySQL.default_engine = 'InnoDB'
 Sequel::MySQL.default_charset = 'utf8'
 
+Sequel.database_timezone = :utc
+Sequel.typecast_timezone = :utc
+
 
 Sequel.extension :migration
 
