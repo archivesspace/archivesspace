@@ -2,7 +2,7 @@
 class DigitalObjectView < ArchivalRecordView
 
   def published_file_versions
-    Array(@record['file_versions']).find_all {|doc| doc['publish'] === true}
+    Array(@record['file_versions']).find_all {|doc| doc['publish'] === true}.map {|doc| FileVersionView.new(doc)}
   end
 
   def published_linked_instances

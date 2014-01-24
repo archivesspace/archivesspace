@@ -3,14 +3,13 @@
     <h3><%= I18n.t("file_version._plural") %></h3>
     <ul class="results-list">
       <% file_versions.each do |file| %>
-        <%
-           uri = URI(file['file_uri'])
-        %>
         <li class="result">
-          <% if uri.scheme === "http" %>
-            <%= link_to file['file_uri'], file['file_uri'] %>
+          <% if file.embed %>
+            <%= render :partial => "file_version_embed/#{file.embed_type}", :locals => {:file => file} %>
+          <% elsif file.uri.scheme === "http" %>
+            <%= link_to file.uri.to_s, file.uri.to_s %>
           <% else %>
-            <%= file['file_uri'] %>
+            <%= file.uri %>
           <% end %>
         </li>
       <% end %>
