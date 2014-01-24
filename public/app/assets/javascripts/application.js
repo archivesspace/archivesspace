@@ -7,3 +7,4 @@
 //= require smart_staff_links
 //= require record_tree
 //= require jquery.form
+//= require image_resize
