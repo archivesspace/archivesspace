@@ -1,7 +1,7 @@
 class DigitalObjectsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show, :tree],
-                      "update_archival_record" => [:new, :edit, :create, :update, :publish, :accept_children],
+                      "update_archival_record" => [:new, :edit, :create, :update, :publish, :accept_children, :rde, :add_children],
                       "delete_archival_record" => [:delete],
                       "merge_archival_record" => [:merge],
                       "transfer_archival_record" => [:transfer]
@@ -122,6 +122,17 @@ class DigitalObjectsController < ApplicationController
     flash.keep # keep the flash... just in case this fires before the form is loaded
 
     render :json => fetch_tree
+  end
+
+
+  def rde
+    flash.clear
+
+    @parent = JSONModel(:digital_object).find(params[:id])
+    @archival_record_children = DigitalObjectChildren.new
+    @exceptions = []
+
+    render :partial => "digital_object_components/rde"
   end
 
 

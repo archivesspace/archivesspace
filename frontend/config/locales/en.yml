@@ -409,6 +409,7 @@ en:
         add_child: Add Child
         create: Create Digital Object
         save: Save Digital Object
+        rapid_data_entry: Rapid Data Entry
 
   digital_object_component:
     _frontend:

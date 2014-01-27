@@ -15,6 +15,8 @@ ArchivesSpace::Application.routes.draw do
     match 'check_session' => "session#check_session", :via => :get
     match 'has_session' => "session#has_session", :via => :get
 
+    match 'generate_sequence' => 'application_controller#generate_sequence', :via => [:get]
+
     match 'repositories/select' => 'repositories#select', :via => [:post]
     match 'repositories/:id/transfer' => 'repositories#transfer', :via => [:get]
     match 'repositories/:id/transfer' => 'repositories#run_transfer', :via => [:post]
@@ -46,7 +48,6 @@ ArchivesSpace::Application.routes.draw do
     match 'accessions/:id/transfer' => 'accessions#transfer', :via => [:post]
 
     match 'archival_objects/:id/transfer' => 'archival_objects#transfer', :via => [:post]
-    match 'archival_objects/generate_sequence' => 'archival_objects#generate_sequence', :via => [:get]
     match 'archival_objects/validate_rows' => 'archival_objects#validate_rows', :via => [:post]
     resources :archival_objects
     match 'archival_objects/:id' => 'archival_objects#update', :via => [:post]
@@ -66,11 +67,16 @@ ArchivesSpace::Application.routes.draw do
     match 'digital_objects/:id/merge' => 'digital_objects#merge', :via => [:post]
     match 'digital_objects/:id/transfer' => 'digital_objects#transfer', :via => [:post]
     match 'digital_objects/:id/tree' => 'digital_objects#tree', :via => [:get]
+    match 'digital_objects/:id/rde' => 'digital_objects#rde', :via => [:get]
+    match 'digital_objects/:id/add_children' => 'digital_objects#add_children', :via => [:post]
 
     resources :digital_object_components
     match 'digital_object_components/:id' => 'digital_object_components#update', :via => [:post]
     match 'digital_object_components/:id/delete' => 'digital_object_components#delete', :via => [:post]
     match 'digital_object_components/:id/accept_children' => 'digital_object_components#accept_children', :via => [:post]
+    match 'digital_object_components/:id/rde' => 'digital_object_components#rde', :via => [:get]
+    match 'digital_object_components/:id/add_children' => 'digital_object_components#add_children', :via => [:post]
+    match 'digital_object_components/validate_rows' => 'digital_object_components#validate_rows', :via => [:post]
 
     resources :resources
     match 'resources/:id/container_labels' => 'exports#container_labels', :via => [:get]

@@ -1,7 +1,7 @@
 class DigitalObjectComponentsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show],
-                      "update_archival_record" => [:new, :edit, :create, :update, :accept_children],
+                      "update_archival_record" => [:new, :edit, :create, :update, :accept_children, :rde, :add_children, :validate_rows],
                       "delete_archival_record" => [:delete]
 
 
@@ -93,6 +93,28 @@ class DigitalObjectComponentsController < ApplicationController
 
   def accept_children
     handle_accept_children(JSONModel(:digital_object_component))
+  end
+
+
+  def rde
+    flash.clear
+
+    @parent = JSONModel(:digital_object_component).find(params[:id])
+    @archival_record_children = ArchivalObjectChildren.new
+    @exceptions = []
+
+    render :partial => "digital_object_components/rde"
+  end
+
+
+  def validate_rows
+    row_data = cleanup_params_for_schema(params[:archival_record_children], JSONModel(:archival_record_children).schema)
+
+    # build the AOC record but don't bother validating it yet...
+    aoc = ArchivalObjectChildren.from_hash(row_data, false, true)
+
+    # validate each row individually (to avoid weird indexes in the error paths)
+    render :json => aoc.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
   end
 
 end
