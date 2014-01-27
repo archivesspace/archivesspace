@@ -124,7 +124,7 @@ class SearchResultData
   end
 
   def has_titles?
-    if @search_data[:criteria].has_key?("type[]") and (@search_data[:criteria]["type[]"] - self.class.UNTITLED_TYPES).empty?
+    if @search_data[:criteria].has_key?("type[]") and (types - self.class.UNTITLED_TYPES).empty?
       false
     else
       true
@@ -140,8 +140,8 @@ class SearchResultData
   end
 
   def sort_fields
-    @extra_sort_fields ||= []
-    @extra_sort_fields.concat(self.class.BASE_SORT_FIELDS)
+    @extra_sort_fields ||= [].concat(self.class.BASE_SORT_FIELDS)
+    @extra_sort_fields
   end
 
   def sorted?
@@ -206,7 +206,7 @@ class SearchResultData
   end
 
   def self.BASE_SORT_FIELDS
-    %w(title_sort create_time user_mtime)
+    %w(create_time user_mtime)
   end
 
   def self.BASE_FACETS
