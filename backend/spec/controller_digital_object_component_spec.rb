@@ -108,4 +108,23 @@ describe 'Digital Object Component controller' do
     children[1]["digital_object"]["ref"].should eq(digital_object.uri)
   end
 
+
+  it "lets you create archival object with a parent" do
+
+    digital_object = create(:json_digital_object)
+
+    parent = create(:json_digital_object_component, :digital_object => {:ref => digital_object.uri})
+
+    child = create(:json_digital_object_component, {
+      :title => 'Child',
+      :parent => {:ref => parent.uri},
+      :digital_object => {:ref => digital_object.uri}
+    })
+
+    get "#{$repo}/digital_object_components/#{parent.id}/children"
+    last_response.should be_ok
+
+    children = JSON(last_response.body)
+    children[0]['title'].should eq('Child')
+  end
 end
