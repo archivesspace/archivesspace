@@ -223,7 +223,7 @@
                 </div>
               </fieldset>
             </div>
-            <div class="tab-pane" id="fill_sequence" data-sequence-generator-url="<%= url_for :controller => :application_controller, :action => :generate_sequence %>">
+            <div class="tab-pane" id="fill_sequence" data-sequence-generator-url="<%= url_for :controller => :resolver, :action => :generate_sequence %>">
               <div class="alert alert-warning" id="sequenceTooSmallMsg" style="display: none;">
                 <p><%= I18n.t("rde.fill_column.sequence_count_warning") %></p>
                 <button class="btn btn-warning btn-small btn-continue-sequence-fill"><%= I18n.t("actions.continue") %></button>

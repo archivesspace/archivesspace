@@ -189,12 +189,6 @@ class ApplicationController < ActionController::Base
   end
 
 
-  def generate_sequence
-    render :json => SequenceGenerator.from_params(params)
-  end
-
-
-
   private
 
   def destroy_user_session(exception)

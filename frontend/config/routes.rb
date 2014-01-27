@@ -15,8 +15,6 @@ ArchivesSpace::Application.routes.draw do
     match 'check_session' => "session#check_session", :via => :get
     match 'has_session' => "session#has_session", :via => :get
 
-    match 'generate_sequence' => 'application_controller#generate_sequence', :via => [:get]
-
     match 'repositories/select' => 'repositories#select', :via => [:post]
     match 'repositories/:id/transfer' => 'repositories#transfer', :via => [:get]
     match 'repositories/:id/transfer' => 'repositories#run_transfer', :via => [:post]
@@ -140,6 +138,7 @@ ArchivesSpace::Application.routes.draw do
 
     match 'resolve/edit' => 'resolver#resolve_edit', :via => [:get]
     match 'resolve/readonly' => 'resolver#resolve_readonly', :via => [:get]
+    match 'generate_sequence' => 'resolver#generate_sequence', :via => [:get]
 
     match 'enumerations/list' => 'enumerations#list', :via => [:get]
     match 'enumerations/delete' => 'enumerations#delete', :via => [:get]

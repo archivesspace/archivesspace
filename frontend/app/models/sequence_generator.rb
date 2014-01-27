@@ -37,6 +37,6 @@ class SequenceGenerator
 
     return {"errors" => errors} if errors.length > 0
 
-    self.new(params[:form], params[:to], params[:prefix], params[:suffix], params[:limit]).generate_range
+    self.new(params[:from], params[:to], params[:prefix], params[:suffix], params[:limit]).generate_range
   end
 end
