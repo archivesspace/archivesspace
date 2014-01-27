@@ -140,8 +140,8 @@ class SearchResultData
   end
 
   def sort_fields
-    @extra_sort_fields ||= [].concat(self.class.BASE_SORT_FIELDS)
-    @extra_sort_fields
+    @sort_fields ||= [].concat(self.class.BASE_SORT_FIELDS)
+    @sort_fields
   end
 
   def sorted?

@@ -83,6 +83,10 @@ module SearchHelper
   def add_column(label, block, opts = {})
     @extra_columns ||= []
 
+    if opts[:sortable] && opts[:sort_by]
+      @search_data.sort_fields << opts[:sort_by]
+    end
+
     col = ExtraColumn.new(label, block, opts, @search_data)
     @extra_columns.push(col)
   end
