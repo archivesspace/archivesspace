@@ -50,12 +50,7 @@ module SearchHelper
 
 
   def show_title_column?
-    @show_title_column === nil or @show_title_column
-  end
-
-
-  def remove_title_column
-    @show_title_column = false
+    @search_data.has_titles?
   end
 
 

@@ -9,6 +9,7 @@ class SearchResultData
     init_sorts
   end
 
+
   def init_facets
     @search_data['facets']['facet_fields'].each {|facet_group, facets|
       @facet_data[facet_group] = {}
@@ -24,6 +25,7 @@ class SearchResultData
       }
     }
   end
+
 
   def init_sorts
     if sorted?
@@ -121,12 +123,25 @@ class SearchResultData
     @search_data.has_key?('results') and not @search_data['results'].empty?
   end
 
+  def has_titles?
+    if @search_data[:criteria].has_key?("type[]") and (@search_data[:criteria]["type[]"] - self.class.UNTITLED_TYPES).empty?
+      false
+    else
+      true
+    end
+  end
+
   def single_type?
     @search_data[:criteria].has_key?("type[]") and @search_data[:criteria]["type[]"].length === 1
   end
 
   def types
     @search_data[:criteria]["type[]"]
+  end
+
+  def sort_fields
+    @extra_sort_fields ||= []
+    @extra_sort_fields.concat(self.class.BASE_SORT_FIELDS)
   end
 
   def sorted?
@@ -190,6 +205,9 @@ class SearchResultData
     "#{I18n.t("search_results.filter.query")}: #{@search_data[:criteria]["q"]}"
   end
 
+  def self.BASE_SORT_FIELDS
+    %w(title_sort create_time user_mtime)
+  end
 
   def self.BASE_FACETS
     ["primary_type","creators","subjects"]
@@ -221,6 +239,10 @@ class SearchResultData
 
   def self.EVENT_FACETS
     ["event_type", "outcome"]
+  end
+
+  def self.UNTITLED_TYPES
+    ["event"]
   end
 
   def self.CLASSIFICATION_FACETS
