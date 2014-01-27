@@ -11,7 +11,7 @@ module NotesHelper
       }
     }
 
-    if jsonmodel_type =~ /digital_object/
+    if !(jsonmodel_type =~ /digital_object/).nil?
 
       # Digital object/digital object component
       JSONModel.enum_values(JSONModel(:note_digital_object).schema['properties']['type']['dynamic_enum']).each do |type|
@@ -23,7 +23,7 @@ module NotesHelper
         }
       end
 
-    elsif jsonmodel_type =~ /agent/
+    elsif !(jsonmodel_type =~ /agent/).nil?
 
       note_types = {"bioghist" => {
           :target => :note_bioghist,
@@ -43,6 +43,9 @@ module NotesHelper
         :i18n => I18n.t("enumerations._note_types.index", :default => "index")
       }
     end
+
+    puts "******* jsonmodel_type: #{jsonmodel_type.inspect}"
+    puts "******* note_types: #{note_types.inspect}"
 
     note_types
   end

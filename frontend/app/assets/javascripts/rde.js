@@ -14,11 +14,17 @@ $(function() {
         return;
       }
 
+      // Cookie Names
+      var COOKIE_NAME_VISIBLE_COLUMN = "rde."+$this.data("cookie-prefix")+".visible";
+      var COOKIE_NAME_STICKY_COLUMN = "rde."+$this.data("cookie-prefix")+".sticky";
+      var COOKIE_NAME_COLUMN_WIDTHS = "rde."+$this.data("cookie-prefix")+".widths";
+      var COOKIE_NAME_COLUMN_ORDER = "rde."+$this.data("cookie-prefix")+".order";
+
       // Config from Cookies
-      var VISIBLE_COLUMN_IDS =  AS.prefixed_cookie("rde.visible") ? JSON.parse(AS.prefixed_cookie("rde.visible")) : null;
-      var STICKY_COLUMN_IDS =  AS.prefixed_cookie("rde.sticky") ? JSON.parse(AS.prefixed_cookie("rde.sticky")) : null;
-      var COLUMN_WIDTHS =  AS.prefixed_cookie("rde.widths") ? JSON.parse(AS.prefixed_cookie("rde.widths")) : null;
-      var COLUMN_ORDER =  AS.prefixed_cookie("rde.order") ? JSON.parse(AS.prefixed_cookie("rde.order")) : null;
+      var VISIBLE_COLUMN_IDS =  AS.prefixed_cookie(COOKIE_NAME_VISIBLE_COLUMN) ? JSON.parse(AS.prefixed_cookie(COOKIE_NAME_VISIBLE_COLUMN)) : null;
+      var STICKY_COLUMN_IDS =  AS.prefixed_cookie(COOKIE_NAME_STICKY_COLUMN) ? JSON.parse(AS.prefixed_cookie(COOKIE_NAME_STICKY_COLUMN)) : null;
+      var COLUMN_WIDTHS =  AS.prefixed_cookie(COOKIE_NAME_COLUMN_WIDTHS) ? JSON.parse(AS.prefixed_cookie(COOKIE_NAME_COLUMN_WIDTHS)) : null;
+      var COLUMN_ORDER =  AS.prefixed_cookie(COOKIE_NAME_COLUMN_ORDER) ? JSON.parse(AS.prefixed_cookie(COOKIE_NAME_COLUMN_ORDER)) : null;
 
       // store section data
       var SECTION_DATA = {};
@@ -55,10 +61,10 @@ $(function() {
         $(":input, .btn", $this).attr("disabled", "disabled");
 
         // reset cookies
-        AS.prefixed_cookie("rde.visible", null);
-        AS.prefixed_cookie("rde.widths", null);
-        AS.prefixed_cookie("rde.sticky", null);
-        AS.prefixed_cookie("rde.order", null);
+        AS.prefixed_cookie(COOKIE_NAME_VISIBLE_COLUMN, null);
+        AS.prefixed_cookie(COOKIE_NAME_COLUMN_WIDTHS, null);
+        AS.prefixed_cookie(COOKIE_NAME_STICKY_COLUMN, null);
+        AS.prefixed_cookie(COOKIE_NAME_COLUMN_ORDER, null);
         VISIBLE_COLUMN_IDS = null;
         STICKY_COLUMN_IDS = null;
         COLUMN_WIDTHS = null;
@@ -183,7 +189,7 @@ $(function() {
           sticky.push($(this).attr("id"));
         });
         STICKY_COLUMN_IDS = sticky;
-        AS.prefixed_cookie("rde.sticky", JSON.stringify(STICKY_COLUMN_IDS));
+        AS.prefixed_cookie(COOKIE_NAME_STICKY_COLUMN, JSON.stringify(STICKY_COLUMN_IDS));
       });
 
       $modal.on("click", "[data-dismiss]", function(event) {
@@ -520,7 +526,7 @@ $(function() {
           column_ids.push($(this).attr("id"));
         });
         COLUMN_ORDER = column_ids;
-        $.cookie("rde.order", JSON.stringify(COLUMN_ORDER));
+        AS.prefixed_cookie(COOKIE_NAME_COLUMN_ORDER, JSON.stringify(COLUMN_ORDER));
       };
 
       var applyColumnOrder = function() {
@@ -690,7 +696,7 @@ $(function() {
             }
 
             VISIBLE_COLUMN_IDS = $select.val();
-            AS.prefixed_cookie("rde.visible", JSON.stringify(VISIBLE_COLUMN_IDS));
+            AS.prefixed_cookie(COOKIE_NAME_VISIBLE_COLUMN, JSON.stringify(VISIBLE_COLUMN_IDS));
           }
         });
 
@@ -707,7 +713,7 @@ $(function() {
         });
 
         COLUMN_WIDTHS = widths;
-        AS.prefixed_cookie("rde.widths", JSON.stringify(COLUMN_WIDTHS));
+        AS.prefixed_cookie(COOKIE_NAME_COLUMN_WIDTHS, JSON.stringify(COLUMN_WIDTHS));
 
         return COLUMN_WIDTHS;
       };

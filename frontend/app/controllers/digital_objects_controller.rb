@@ -129,12 +129,48 @@ class DigitalObjectsController < ApplicationController
     flash.clear
 
     @parent = JSONModel(:digital_object).find(params[:id])
-    @archival_record_children = DigitalObjectChildren.new
+    @children = DigitalObjectChildren.new
     @exceptions = []
 
     render :partial => "digital_object_components/rde"
   end
 
+
+  def add_children
+    @parent = JSONModel(:digital_object).find(params[:id])
+
+    if params[:digital_record_children].blank? or params[:digital_record_children]["children"].blank?
+
+      @children = DigitalObjectChildren.new
+      flash.now[:error] = I18n.t("rde.messages.no_rows")
+
+    else
+      children_data = cleanup_params_for_schema(params[:digital_record_children], JSONModel(:digital_record_children).schema)
+
+      begin
+        @children = DigitalObjectChildren.from_hash(children_data, false)
+
+        if params["validate_only"] == "true"
+          @exceptions = @children.children.collect{|c| JSONModel(:digital_object_component).from_hash(c, false)._exceptions}
+
+          flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select{|e| !e.empty?}.length)
+
+          return render :partial => "digital_object_components/rde"
+        else
+          @children.save(:digital_object_id => @parent.id)
+        end
+
+        return render :text => I18n.t("rde.messages.success")
+      rescue JSONModel::ValidationException => e
+        @exceptions = @children.children.collect{|c| JSONModel(:digital_object_component).from_hash(c, false)._exceptions}
+
+        flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select{|e| !e.empty?}.length)
+      end
+
+    end
+
+    render :partial => "archival_objects/rde"
+  end
 
   private
 
