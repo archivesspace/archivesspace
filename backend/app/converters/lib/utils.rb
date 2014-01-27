@@ -108,11 +108,13 @@ module ASpaceImport
 
       when :boolean
         lambda {|val|
-          if val.to_s == '0'
+          if [false, true].include? val
+            val
+          elsif val.to_s == '0'
             false
           elsif val.to_s == '1'
             true
-            end
+          end
         }
 
       when :dynamic_enum

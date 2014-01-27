@@ -31,6 +31,7 @@ class EADConverter < Converter
     with 'archdesc' do
       set :level, att('level') || 'otherlevel'
       set :other_level, att('otherlevel')
+      set :publish, att('audience') != 'internal'
     end
 
 
@@ -42,7 +43,8 @@ class EADConverter < Converter
           :other_level => att('otherlevel'),
           :ref_id => att('id'),
           :resource => ancestor(:resource),
-          :parent => ancestor(:archival_object)
+          :parent => ancestor(:archival_object),
+          :publish => att('audience') != 'internal'
         }
       end
     end
@@ -178,28 +180,35 @@ class EADConverter < Converter
        prefercite processinfo relatedmaterial scopecontent \
        separatedmaterial userestrict).each do |note|
       with note do |node|
+        content = inner_xml.tap {|xml|
+          xml.sub!(/<head>.*?<\/head>/m, '')
+          # xml.sub!(/<list [^>]*>.*?<\/list>/m, '')
+          # xml.sub!(/<chronlist [^>]*>.*<\/chronlist>/m, '')
+        }
+
         make :note_multipart, {
           :type => node.name,
           :persistent_id => att('id'),
           :subnotes => {
             'jsonmodel_type' => 'note_text',
-            # TODO: strip first <head/> tag
-            'content' => inner_xml
+            'content' => content.strip
           }
         } do |note|
           set ancestor(:resource, :archival_object), :notes, note
         end
-      end
+      end      
     end
 
 
     %w(abstract langmaterial materialspec physdesc physfacet physloc).each do |note|
       with note do |node|
+        content = inner_xml
+        next if content =~ /\A<language langcode=\"[a-z]+\"\/>\Z/
+        
         make :note_singlepart, {
           :type => note,
           :persistent_id => att('id'),
-          # TODO: strip first <head/> tag
-          :content => inner_xml
+          :content => content.sub(/<head>.*?<\/head>/, '').strip
         } do |note|
           set ancestor(:resource, :archival_object), :notes, note
         end
