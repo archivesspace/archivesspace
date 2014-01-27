@@ -560,7 +560,7 @@ $(function() {
               var $lastTh = $("th", $sectionRow).last();
               $lastTh.attr("colspan", parseInt($lastTh.attr("colspan"))+1);
             } else {
-              $sectionRow.append($("<th>").data("id", $th.data("section")).attr("colspan", "1").text(SECTION_DATA[$th.data("section")]));
+              $sectionRow.append($("<th>").data("id", $th.data("section")).addClass("section-"+$th.data("section")).attr("colspan", "1").text(SECTION_DATA[$th.data("section")]));
             }
           });
         }
@@ -647,7 +647,12 @@ $(function() {
           var $colHeader = $(this);
           if ($colHeader.hasClass("fieldset-label") && filter_func($colHeader)) {
             var $option = $("<option>");
-            $option.val($colHeader.attr("id")).text($colHeader.text());
+            var option_text = "";
+            option_text += $(".section-"+$colHeader.data("section")).text();
+            option_text += " - ";
+            option_text += $colHeader.text();
+
+            $option.val($colHeader.attr("id")).text(option_text);
             if (select_func($colHeader)) {
               $option.attr("selected", "selected");
             }

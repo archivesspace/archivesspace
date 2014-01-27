@@ -53,6 +53,69 @@
       <% end %>
     </td>
 
+    <!-- FILE VERSION
+    <%# form.label_and_textarea("file_uri") %>
+    <%# form.label_and_boolean("publish", {}, form.default_for("publish")) %>
+    <%# form.label_and_select("use_statement", form.possible_options_for("use_statement", true)) %>
+    <%# form.label_and_select("xlink_actuate_attribute", form.possible_options_for("xlink_actuate_attribute", true)) %>
+    <%# form.label_and_select("xlink_show_attribute", form.possible_options_for("xlink_show_attribute", true)) %>
+    <%# form.label_and_select("file_format_name", form.possible_options_for("file_format_name", true)) %>
+    <%# form.label_and_textfield("file_format_version") %>
+    <%# form.label_and_textfield("file_size_bytes") %>
+    <%# form.label_and_textfield("checksum") %>
+    <%# form.label_and_select("checksum_method", form.possible_options_for("checksum_method", true)) %>
+    -->
+    <td class="control-group">
+      <% form.push(form.set_index("file_versions[]", 0), begin digital_object_component["file_versions"][0] || {} rescue {} end) do %>
+        <%= form.textfield("file_uri") %>
+      <% end %>
+    </td>
+    <td class="control-group">
+      <% form.push(form.set_index("file_versions[]", 0), begin digital_object_component["file_versions"][0] || {} rescue {} end) do %>
+        <%= form.checkbox "publish", {}, form.default_for("publish") %>
+      <% end %>
+    </td>
+    <td class="control-group">
+      <% form.push(form.set_index("file_versions[]", 0), begin digital_object_component["file_versions"][0] || {} rescue {} end) do %>
+        <%= form.select("use_statement", jsonmodel_definition(:file_version).options_for(form, "use_statement", true)) %>
+      <% end %>
+    </td>
+    <td class="control-group">
+      <% form.push(form.set_index("file_versions[]", 0), begin digital_object_component["file_versions"][0] || {} rescue {} end) do %>
+        <%= form.select("xlink_actuate_attribute", jsonmodel_definition(:file_version).options_for(form, "xlink_actuate_attribute", true)) %>
+      <% end %>
+    </td>
+    <td class="control-group">
+      <% form.push(form.set_index("file_versions[]", 0), begin digital_object_component["file_versions"][0] || {} rescue {} end) do %>
+        <%= form.select("xlink_show_attribute", jsonmodel_definition(:file_version).options_for(form, "xlink_show_attribute", true)) %>
+      <% end %>
+    </td>
+    <td class="control-group">
+      <% form.push(form.set_index("file_versions[]", 0), begin digital_object_component["file_versions"][0] || {} rescue {} end) do %>
+        <%= form.select("file_format_name", jsonmodel_definition(:file_version).options_for(form, "file_format_name", true)) %>
+      <% end %>
+    </td>
+    <td class="control-group">
+      <% form.push(form.set_index("file_versions[]", 0), begin digital_object_component["file_versions"][0] || {} rescue {} end) do %>
+        <%= form.textfield("file_format_version") %>
+      <% end %>
+    </td>
+    <td class="control-group">
+      <% form.push(form.set_index("file_versions[]", 0), begin digital_object_component["file_versions"][0] || {} rescue {} end) do %>
+        <%= form.textfield("file_size_bytes") %>
+      <% end %>
+    </td>
+    <td class="control-group">
+      <% form.push(form.set_index("file_versions[]", 0), begin digital_object_component["file_versions"][0] || {} rescue {} end) do %>
+        <%= form.textfield("checksum") %>
+      <% end %>
+    </td>
+    <td class="control-group">
+      <% form.push(form.set_index("file_versions[]", 0), begin digital_object_component["file_versions"][0] || {} rescue {} end) do %>
+        <%= form.select("checksum_method", jsonmodel_definition(:file_version).options_for(form, "checksum_method", true)) %>
+      <% end %>
+    </td>
+
     <!-- NOTES -->
     <td class="control-group">
       <% form.push(form.set_index("notes[]", 0), begin digital_object_component["notes"][0] || {} rescue {} end) do %>
@@ -236,14 +299,16 @@
             <col class="fieldset-col" data-default-width='150' />
             <col class="fieldset-col" data-default-width='150' />
             <col class="fieldset-col" data-default-width='150' />
-            <!--
+            <col class="fieldset-col" data-default-width='150' />
+            <col class="fieldset-col" data-default-width='70' />
             <col class="fieldset-col" data-default-width='150' />
             <col class="fieldset-col" data-default-width='150' />
             <col class="fieldset-col" data-default-width='150' />
             <col class="fieldset-col" data-default-width='150' />
             <col class="fieldset-col" data-default-width='150' />
             <col class="fieldset-col" data-default-width='150' />
-            <col class="fieldset-col" data-default-width='150' />            -->
+            <col class="fieldset-col" data-default-width='150' />
+            <col class="fieldset-col" data-default-width='150' />
             <col class="fieldset-col" data-default-width='150' />
             <col class="fieldset-col" data-default-width='150' />
             <col class="fieldset-col" data-default-width='150' />
@@ -255,29 +320,45 @@
           <thead>
           <tr class="sections">
             <th data-id="empty" colspan="1"></th>
-            <th data-id="basic" colspan="5"><%= I18n.t("rde.sections.basic_information") %></th>
-            <th data-id="date" colspan="5" class="conditionally-required"><%= I18n.t("rde.sections.date") %></th>
-            <th data-id="note" colspan="6"><%= I18n.t("rde.sections.notes") %></th>
+            <th data-id="basic" class="section-basic" colspan="5"><%= I18n.t("rde.sections.basic_information") %></th>
+            <th data-id="date" class="section-date" colspan="5" class="conditionally-required"><%= I18n.t("rde.sections.date") %></th>
+            <th data-id="file" class="section-file" colspan="10"><%= I18n.t("rde.sections.file_version") %></th>
+            <th data-id="note" class="section-note" colspan="6"><%= I18n.t("rde.sections.notes") %></th>
             <th data-id="empty" colspan="1"></th>
           </tr>
           <tr class="fieldset-labels">
             <th id="colStatus" data-section="empty" />
+
             <th id="colLabel" class="fieldset-label conditionally-required sticky" data-section="basic"><%= I18n.t("digital_object_component.label") %></th>
             <th id="colTitle" class="fieldset-label conditionally-required sticky" data-section="basic"><%= I18n.t("digital_object_component.title") %></th>
             <th id="colCompId" class="fieldset-label sticky" data-section="basic"><%= I18n.t("digital_object_component.component_id") %></th>
             <th id="colPublish" class="fieldset-label sticky" data-section="basic"><%= I18n.t("digital_object_component.publish") %></th>
             <th id="colLang" class="fieldset-label sticky" data-section="basic"><%= I18n.t("digital_object_component.language") %></th>
+
             <th id="colDLabel" class="fieldset-label sticky" data-section="date"><%= I18n.t("date.label") %></th>
             <th id="colExpr" class="fieldset-label sticky" data-section="date"><%= I18n.t("date.expression") %></th>
             <th id="colDType" class="fieldset-label sticky" data-section="date"><%= I18n.t("rde.date_type") %></th>
             <th id="colDBegin" class="fieldset-label sticky" data-section="date"><%= I18n.t("date.begin") %></th>
             <th id="colDEnd" class="fieldset-label sticky" data-section="date"><%= I18n.t("date.end") %></th>
+
+            <th id="colFUri" class="fieldset-label" data-section="file"><%= I18n.t("file_version.file_uri") %></th>
+            <th id="colFPublish" class="fieldset-label sticky" data-section="file"><%= I18n.t("file_version.publish") %></th>
+            <th id="colFUse" class="fieldset-label sticky" data-section="file"><%= I18n.t("file_version.use_statement") %></th>
+            <th id="colFActuate" class="fieldset-label sticky" data-section="file"><%= I18n.t("file_version.xlink_actuate_attribute") %></th>
+            <th id="colFShow" class="fieldset-label sticky" data-section="file"><%= I18n.t("file_version.xlink_show_attribute") %></th>
+            <th id="colFFormat" class="fieldset-label sticky" data-section="file"><%= I18n.t("file_version.file_format_name") %></th>
+            <th id="colFVersion" class="fieldset-label sticky" data-section="file"><%= I18n.t("file_version.file_format_version") %></th>
+            <th id="colFSize" class="fieldset-label sticky" data-section="file"><%= I18n.t("file_version.file_size_bytes") %></th>
+            <th id="colFCSum" class="fieldset-label" data-section="file"><%= I18n.t("file_version.checksum") %></th>
+            <th id="colFCSumM" class="fieldset-label" data-section="file"><%= I18n.t("file_version.checksum_method") %></th>
+
             <th id="colNType1" class="fieldset-label" data-section="note"><%= I18n.t("note._singular") %> 1</th>
             <th id="colNCont1" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.content") %> 1</th>
             <th id="colNType2" class="fieldset-label" data-section="note"><%= I18n.t("note._singular") %> 2</th>
             <th id="colNCont2" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.content") %> 2</th>
             <th id="colNType3" class="fieldset-label" data-section="note"><%= I18n.t("note._singular") %> 3</th>
             <th id="colNCont3" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.content") %> 3</th>
+
             <th id="colActions" data-section="empty"></th>
           </tr>
           </thead>

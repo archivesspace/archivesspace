@@ -697,6 +697,7 @@ en:
       date: Date
       instance: Instance
       notes: Notes
+      file_version: File Version
     actions:
       add_row: Add Row
       add_rows: Add Rows
