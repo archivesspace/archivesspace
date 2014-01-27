@@ -64,7 +64,7 @@ class ArchivesSpaceService < Sinatra::Base
            [400, :error],
            [409, :error]) \
   do
-    ao = DigtalObjectComponent.get_or_die(params[:id])
+    ao = DigitalObjectComponent.get_or_die(params[:id])
 
     ao.add_children(params[:children])
 

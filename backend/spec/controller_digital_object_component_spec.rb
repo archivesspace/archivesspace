@@ -127,4 +127,36 @@ describe 'Digital Object Component controller' do
     children = JSON(last_response.body)
     children[0]['title'].should eq('Child')
   end
+
+
+  it "allows posting of array of children" do
+    digital_object = create(:json_digital_object)
+    parent_component = create(:json_digital_object_component, :digital_object => {:ref => digital_object.uri})
+
+    doc_1 = build(:json_digital_object_component)
+    doc_2 = build(:json_digital_object_component)
+
+    children = JSONModel(:digital_record_children).from_hash({
+                                                                "children" => [doc_1, doc_2]
+                                                              })
+
+    url = URI("#{JSONModel::HTTP.backend_url}#{parent_component.uri}/children")
+    response = JSONModel::HTTP.post_json(url, children.to_json)
+    json_response = ASUtils.json_parse(response.body)
+
+    json_response["status"].should eq("Updated")
+    get "#{$repo}/digital_object_components/#{json_response["id"]}/children"
+    last_response.should be_ok
+
+    children = JSON(last_response.body)
+
+    children.length.should eq(2)
+    children[0]["title"].should eq(doc_1["title"])
+    children[0]["parent"]["ref"].should eq(parent_component.uri)
+    children[0]["digital_object"]["ref"].should eq(digital_object.uri)
+
+    children[1]["title"].should eq(doc_2["title"])
+    children[1]["parent"]["ref"].should eq(parent_component.uri)
+    children[1]["digital_object"]["ref"].should eq(digital_object.uri)
+  end
 end
