@@ -15,6 +15,16 @@ class EACConverter < Converter
   end
 
 
+  def self.import_types(show_hidden = false)
+    [
+     {
+       :name => "eac_xml",
+       :description => "Import EAC-CPF records from an XML file"
+     }
+    ]
+  end
+
+
   def self.profile
     "Convert EAC-CPF To ArchivesSpace JSONModel records"
   end

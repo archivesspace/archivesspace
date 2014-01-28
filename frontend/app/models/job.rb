@@ -47,4 +47,10 @@ class Job
 
     ASUtils.json_parse(response.body)
   end
+
+
+  def self.available_types
+    JSONModel::HTTP.get_json(JSONModel(:job).uri_for("types"))
+  end
+
 end

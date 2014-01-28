@@ -45,7 +45,6 @@
 
       "import_type" => {
         "type" => "string",
-        "enum" => ["ead_xml", "eac_xml", "marcxml", "marcxml_subjects_and_agents", "marcxml_lcnaf_subjects_and_agents", "accession_csv", "digital_object_csv"],
         "ifmissing" => "error"
       },
 

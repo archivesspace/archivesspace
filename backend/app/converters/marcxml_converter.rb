@@ -7,47 +7,28 @@ class MarcXMLConverter < Converter
   include ASpaceImport::XML::DOM
 
 
+  def self.import_types(show_hidden = false)
+    [
+     {
+       :name => "marcxml",
+       :description => "Import all record types from a MARC XML file"
+     },
+     {
+       :name => "marcxml_subjects_and_agents",
+       :description => "Import only subjects and agents from a MARC XML file"
+     }
+    ]
+  end
+
+
   def self.instance_for(type, input_file)
     if type == "marcxml"
       self.new(input_file)
     elsif type == "marcxml_subjects_and_agents"
       self.for_subjects_and_agents_only(input_file)
-    elsif type == "marcxml_lcnaf_subjects_and_agents"
-      self.for_subjects_and_agents_only(input_file).tap {|instance|
-        instance.instance_eval do
-          def configuration
-            naf_config = proc {|map| 
-              {
-                "//record" => {
-                  :map => {
-                    "datafield[@tag='720']['@ind1'='1']" => map,
-                    "datafield[@tag='720']['@ind1'='2']" => map,
-                    "datafield[@tag='100' or @tag='700'][@ind1='0' or @ind1='1']" => map
-                  }
-                }
-              }
-            }.call({
-                     :map => {
-                       "self::datafield" => {
-                         :defaults => {
-                           :source => 'naf'
-                         }
-                       }
-                     }
-                   })
-
-            JSONModel.deep_merge(self.class.configuration, naf_config)
-          end
-        end
-      }
     else
       nil
     end
-  end
-
-
-  def initialize(input_file)
-    super(input_file)
   end
 
 
