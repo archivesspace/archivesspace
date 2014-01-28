@@ -437,7 +437,7 @@ class MarcXMLConverter < Converter
           "datafield[@tag='611']" => mix(corp_template, agent_as_subject, corp_variation),
 
           #SUBJECTS
-          "datafield[@tag='630']" => subject_template(
+          "datafield[@tag='630' or @tag='130' or @tag='430']" => subject_template(
                                         Proc.new{|node|
                                           terms = []
                                           terms << make_term('uniform_title', concatenate_subfields(%w(a d e f g h k l m n o p r s t), node, ' '))
@@ -454,7 +454,7 @@ class MarcXMLConverter < Converter
                                         },
                                         sets_subject_source),
 
-          "datafield[@tag='650']" => subject_template(
+          "datafield[@tag='650' or @tag='150' or @tag='450']" => subject_template(
                                         Proc.new{|node|
                                           terms = []
                                           node.xpath("subfield").each do |sf|
@@ -474,7 +474,7 @@ class MarcXMLConverter < Converter
                                         },
                                         sets_subject_source),
 
-          "datafield[@tag='651']" => subject_template(
+          "datafield[@tag='651' or @tag='151' or @tag='451']" => subject_template(
                                         Proc.new{|node|
                                           terms = []
                                           node.xpath("subfield").each do |sf|
@@ -491,7 +491,7 @@ class MarcXMLConverter < Converter
                                         },
                                         sets_subject_source),
 
-          "datafield[@tag='655']" => subject_template(
+          "datafield[@tag='655' or @tag='155' or @tag = '455']" => subject_template(
                                         Proc.new{|node|
                                           terms = []
                                           # FIXME: subfield `c` not handled
