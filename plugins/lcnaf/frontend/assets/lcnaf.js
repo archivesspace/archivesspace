@@ -69,6 +69,10 @@ $(function() {
     dataType: "json",
     type: "GET",
     beforeSubmit: function() {
+      if (!$("#search-query", $searchForm).val()) {
+          return false;
+      }
+
       $(".btn", $searchForm).attr("disabled", "disabled").addClass("disabled").addClass("busy");
     },
     success: function(json) {
