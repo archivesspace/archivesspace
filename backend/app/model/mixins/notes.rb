@@ -40,15 +40,14 @@ module Notes
       obj[:notes] = nil
 
       json = super
-
-      if obj.respond_to?(:root_record_id)
+      if obj.respond_to?(:root_record_id) || obj.instance_of?(Resource)
+        klass = obj.instance_of?(Resource) ? ArchivalObject : self
+        root_id = obj.instance_of?(Resource) ? obj.id : obj.root_record_id
         notes.map { |note|
           if note["jsonmodel_type"] == "note_index"
             note["items"].map { |item|
-              referenced_record = self.filter(:root_record_id => obj.root_record_id,
-                                              :ref_id => item["reference"]).
-                                       first
-
+              referenced_record = klass.filter(:root_record_id => root_id,
+                                              :ref_id => item["reference"]).first
               if !referenced_record.nil?
                 item["reference_ref"] = {"ref" => referenced_record.uri}
               end
