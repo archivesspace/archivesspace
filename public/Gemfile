@@ -23,3 +23,8 @@ gem "puma"
 
 gem "net-http-persistent"
 gem "multipart-post"
+
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'factory_girl'
+end
