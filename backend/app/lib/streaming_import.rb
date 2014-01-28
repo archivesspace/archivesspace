@@ -12,7 +12,14 @@ class StreamingJsonReader
   end
 
 
+  def empty?
+    File.size(@filename) <= 2
+  end
+
+
   def each(determine_count = false)
+    return if empty?
+
     stream = java.io.FileReader.new(@filename)
     @count = 0 if determine_count
 
@@ -76,6 +83,10 @@ class StreamingImport
     end
 
     @jstream = StreamingJsonReader.new(@tempfile.path)
+
+    if @jstream.empty?
+      @ticker.log("No records were found in the input file!")
+    end
 
     with_status("Validating records and checking links") do
       @logical_urls = load_logical_urls
