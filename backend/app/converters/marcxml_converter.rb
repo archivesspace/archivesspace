@@ -726,6 +726,32 @@ class MarcXMLConverter < Converter
   end
 
 
+  def self.name_person_map
+    {
+      "subfield[@code='a']" => :primary_name,
+      "subfield[@code='b']" => :number,
+      "subfield[@code='c']" => :title,
+
+      "subfield[@code='d']" => sets_use_date_from_code_d,
+      "subfield[@code='f']" => adds_prefixed_qualifier('Date of work'),
+      "subfield[@code='g']" => adds_prefixed_qualifier('Miscellaneous information'),
+      "subfield[@code='h']" => adds_prefixed_qualifier('Medium'),
+      "subfield[@code='j']" => adds_prefixed_qualifier('Attribution qualifier', ' -- '),
+      "subfield[@code='k']" => adds_prefixed_qualifier('Form subheading'),
+      "subfield[@code='l']" => adds_prefixed_qualifier('Language of a work'),
+      "subfield[@code='m']" => adds_prefixed_qualifier('Medium of performance for music'),
+      "subfield[@code='n']" => adds_prefixed_qualifier('Number of part/section of a work'),
+      "subfield[@code='o']" => adds_prefixed_qualifier('Arranged statement for music'),
+      "subfield[@code='p']" => adds_prefixed_qualifier('Name of a part/section of a work'),
+      "subfield[@code='r']" => adds_prefixed_qualifier('Key for music'),
+      "subfield[@code='s']" => adds_prefixed_qualifier('Version'),
+      "subfield[@code='t']" => adds_prefixed_qualifier('Title of work'),
+      "subfield[@code='u']" => adds_prefixed_qualifier('Affiliation'),
+      "subfield[@code='q']" => :fuller_form,
+    }
+  end
+
+
   def self.person_template
     mix(agent_template, {
       :obj => :agent_person,
@@ -734,32 +760,35 @@ class MarcXMLConverter < Converter
         "self::datafield" => {
           :obj => :name_person,
           :rel => :names,
-          :map => {
-            "subfield[@code='a']" => :primary_name,
-            "subfield[@code='b']" => :number,
-            "subfield[@code='c']" => :title,
-
-            "subfield[@code='d']" => sets_use_date_from_code_d,
-            "subfield[@code='f']" => adds_prefixed_qualifier('Date of work'),
-            "subfield[@code='g']" => adds_prefixed_qualifier('Miscellaneous information'),
-            "subfield[@code='h']" => adds_prefixed_qualifier('Medium'),
-            "subfield[@code='j']" => adds_prefixed_qualifier('Attribution qualifier', ' -- '),
-            "subfield[@code='k']" => adds_prefixed_qualifier('Form subheading'),
-            "subfield[@code='l']" => adds_prefixed_qualifier('Language of a work'),
-            "subfield[@code='m']" => adds_prefixed_qualifier('Medium of performance for music'),
-            "subfield[@code='n']" => adds_prefixed_qualifier('Number of part/section of a work'),
-            "subfield[@code='o']" => adds_prefixed_qualifier('Arranged statement for music'),
-            "subfield[@code='p']" => adds_prefixed_qualifier('Name of a part/section of a work'),
-            "subfield[@code='r']" => adds_prefixed_qualifier('Key for music'),
-            "subfield[@code='s']" => adds_prefixed_qualifier('Version'),
-            "subfield[@code='t']" => adds_prefixed_qualifier('Title of work'),
-            "subfield[@code='u']" => adds_prefixed_qualifier('Affiliation'),
-            "subfield[@code='q']" => :fuller_form,
-
+          :map => name_person_map
+        },
+        "//datafield[@tag='400'][@ind1='0' or @ind1='1']" => {
+          :obj => :name_person,
+          :rel => :names,
+          :map => name_person_map,
+          :defaults => {
+            :name_order => 'direct',
+            :source => 'ingest'
           }
         }
       }
     })
+  end
+
+
+  def self.name_family_map
+    {
+      "subfield[@code='a']" => :family_name,
+      "subfield[@code='c']" => :qualifier,
+      "subfield[@code='d']" => sets_use_date_from_code_d,
+      "subfield[@code='f']" => adds_prefixed_qualifier('Date of work'),
+      "subfield[@code='g']" => adds_prefixed_qualifier('Miscellaneous information'),
+      "subfield[@code='q']" => adds_prefixed_qualifier('', ''),
+      "subfield[@code='r']" => adds_prefixed_qualifier('Key for music'),
+      "subfield[@code='s']" => adds_prefixed_qualifier('Version'),
+      "subfield[@code='t']" => adds_prefixed_qualifier('Title of work'),
+      "subfield[@code='u']" => adds_prefixed_qualifier('Affiliation'),
+    }
   end
 
 
@@ -771,21 +800,44 @@ class MarcXMLConverter < Converter
         "self::datafield" => {
           :obj => :name_family,
           :rel => :names,
-          :map => {
-            "subfield[@code='a']" => :family_name,
-            "subfield[@code='c']" => :qualifier,
-            "subfield[@code='d']" => sets_use_date_from_code_d,
-            "subfield[@code='f']" => adds_prefixed_qualifier('Date of work'),
-            "subfield[@code='g']" => adds_prefixed_qualifier('Miscellaneous information'),
-            "subfield[@code='q']" => adds_prefixed_qualifier('', ''),
-            "subfield[@code='r']" => adds_prefixed_qualifier('Key for music'),
-            "subfield[@code='s']" => adds_prefixed_qualifier('Version'),
-            "subfield[@code='t']" => adds_prefixed_qualifier('Title of work'),
-            "subfield[@code='u']" => adds_prefixed_qualifier('Affiliation'),
-          },
+          :map => name_family_map,
+        },
+        "//datafield[@tag='400'][@ind1='3']" => {
+          :obj => :name_family,
+          :rel => :names,
+          :map => name_family_map,
+          :defaults => {
+            :name_order => 'direct',
+            :source => 'ingest'
+          }
         }
       }
     })
+  end
+
+
+  def self.name_corp_map
+    {
+      "subfield[@code='a']" => :primary_name,
+      "subfield[@code='b'][1]" => :subordinate_name_1,
+      "subfield[@code='b'][2]" => :subordinate_name_2,
+      "subfield[@code='b'][3]" => appends_subordinate_name_2,
+      "subfield[@code='b'][4]" => appends_subordinate_name_2,
+      "subfield[@code='c']" => adds_prefixed_qualifier('Location of meeting'),
+      "subfield[@code='d']" => adds_prefixed_qualifier('Date of meeting or treaty signing'),
+      "subfield[@code='f']" => adds_prefixed_qualifier('Date of work'),
+      "subfield[@code='n']" => :number,
+      "subfield[@code='g']" => adds_prefixed_qualifier('Miscellaneous information'),
+      "subfield[@code='h']" => adds_prefixed_qualifier('Medium'),
+      "subfield[@code='k']" => adds_prefixed_qualifier('Form subheading'),
+      "subfield[@code='l']" => adds_prefixed_qualifier('Language of a work'),
+      "subfield[@code='o']" => adds_prefixed_qualifier('Arranged statement for music'),
+      "subfield[@code='p']" => adds_prefixed_qualifier('Name of a part/section of a work'),
+      "subfield[@code='r']" => adds_prefixed_qualifier('Key for music'),
+      "subfield[@code='s']" => adds_prefixed_qualifier('Version'),
+      "subfield[@code='t']" => adds_prefixed_qualifier('Title of work'),
+      "subfield[@code='u']" => adds_prefixed_qualifier('Affiliation'),
+    }
   end
 
 
@@ -797,27 +849,25 @@ class MarcXMLConverter < Converter
         "self::datafield" => {
           :obj => :name_corporate_entity,
           :rel => :names,
-          :map => {
-            "subfield[@code='a']" => :primary_name,
-            "subfield[@code='b'][1]" => :subordinate_name_1,
-            "subfield[@code='b'][2]" => :subordinate_name_2,
-            "subfield[@code='b'][3]" => appends_subordinate_name_2,
-            "subfield[@code='b'][4]" => appends_subordinate_name_2,
-            "subfield[@code='c']" => adds_prefixed_qualifier('Location of meeting'),
-            "subfield[@code='d']" => adds_prefixed_qualifier('Date of meeting or treaty signing'),
-            "subfield[@code='f']" => adds_prefixed_qualifier('Date of work'),
-            "subfield[@code='n']" => :number,
-            "subfield[@code='g']" => adds_prefixed_qualifier('Miscellaneous information'),
-            "subfield[@code='h']" => adds_prefixed_qualifier('Medium'),
-            "subfield[@code='k']" => adds_prefixed_qualifier('Form subheading'),
-            "subfield[@code='l']" => adds_prefixed_qualifier('Language of a work'),
-            "subfield[@code='o']" => adds_prefixed_qualifier('Arranged statement for music'),
-            "subfield[@code='p']" => adds_prefixed_qualifier('Name of a part/section of a work'),
-            "subfield[@code='r']" => adds_prefixed_qualifier('Key for music'),
-            "subfield[@code='s']" => adds_prefixed_qualifier('Version'),
-            "subfield[@code='t']" => adds_prefixed_qualifier('Title of work'),
-            "subfield[@code='u']" => adds_prefixed_qualifier('Affiliation'),
-          },
+          :map => name_corp_map,
+        },
+        "//datafield[@tag='410']" => {
+          :obj => :name_corporate_entity,
+          :rel => :names,
+          :map => name_corp_map,
+          :defaults => {
+            :name_order => 'direct',
+            :source => 'ingest'
+          }
+        },
+        "//datafield[@tag='411']" => {
+          :obj => :name_corporate_entity,
+          :rel => :names,
+          :map => name_corp_map,
+          :defaults => {
+            :name_order => 'direct',
+            :source => 'ingest'
+          }
         }
       }
     })
