@@ -40,9 +40,12 @@ module Notes
       obj[:notes] = nil
 
       json = super
-      if obj.respond_to?(:root_record_id) || obj.instance_of?(Resource)
-        klass = obj.instance_of?(Resource) ? ArchivalObject : self
-        root_id = obj.instance_of?(Resource) ? obj.id : obj.root_record_id
+
+      if obj.class.respond_to?(:node_record_type)
+        klass = Kernel.const_get(obj.class.node_record_type.camelize)
+        # If the object doesn't have a root record, it IS a root record.
+        root_id = obj.respond_to?(:root_record_id) ? obj.root_record_id : obj.id
+
         notes.map { |note|
           if note["jsonmodel_type"] == "note_index"
             note["items"].map { |item|
