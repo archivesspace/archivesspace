@@ -53,7 +53,7 @@ class LCNAFConverter < MarcXMLConverter
       }
     }
 
-    JSONModel.deep_merge(super_configure, naf_config)
+    ASUtils.deep_merge(super_configure, naf_config)
   end
 
 end
