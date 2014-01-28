@@ -132,7 +132,13 @@ class SearchResultData
   end
 
   def single_type?
-    @search_data[:criteria].has_key?("type[]") and @search_data[:criteria]["type[]"].length === 1
+    if @search_data[:criteria].has_key?("type[]")
+      @search_data[:criteria]["type[]"].length === 1
+    elsif @search_data[:type]
+      true
+    else
+      false
+    end
   end
 
   def types
@@ -141,7 +147,8 @@ class SearchResultData
 
   def sort_fields
     @sort_fields ||= [].concat(self.class.BASE_SORT_FIELDS)
-    @sort_fields
+
+    single_type? ? @sort_fields : @sort_fields + ['primary_type']
   end
 
   def sorted?
