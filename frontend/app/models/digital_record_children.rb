@@ -1,4 +1,8 @@
+require_relative "mixins/record_children"
+
 class DigitalRecordChildren < JSONModel(:digital_record_children)
+
+  include RecordChildren
 
   attr_accessor :uri
 
@@ -6,48 +10,15 @@ class DigitalRecordChildren < JSONModel(:digital_record_children)
     nil
   end
 
-  def self.from_hash(hash, raise_errors = true, trusted = false)
-
-    hash["children"].each do |child|
-
-      # clean up dates
-      if child["dates"]
-        if child["dates"][0].reject{|k,v| v.blank?}.empty?
-          child.delete("dates")
-        else
-          child["dates"][0]["label"] = "other"
-        end
-      end
-
-      # clean up file version
-      if child["file_versions"][0].reject{|k,v| (k == "publish" && v == true) || v.blank?}.empty?
-        child.delete("file_versions")
-      end
-
-      # clean up notes
-      (0..2).each do |i|
-        if not child["notes"][i]["type"].blank?
-          [:note_bibliography, :note_digital_object].each do |notetype|
-            if JSONModel.enum_values(JSONModel(notetype).schema['properties']['type']['dynamic_enum']).include?(child["notes"][i]["type"])
-              child["notes"][i]["jsonmodel_type"] = notetype.to_s
-            end
-          end
-
-          child["notes"][i]["publish"] = true
-
-          # Multipart and biog/hist notes use a 'text' subnote type for their content.
-          if ['note_multipart', 'note_bioghist'].include?(child["notes"][i]["jsonmodel_type"])
-            child["notes"][i]["subnotes"] = [{"jsonmodel_type" => "note_text",
-                                               "content" => child["notes"][i]["content"].join(" ")}]
-          end
-
-        elsif child["notes"][i]["type"].blank? and child["notes"][i]["content"][0].blank?
-          child["notes"][i] = nil
-        end
-      end
-      child["notes"].compact!
-    end
-
+  def self.clean(child)
     super
+    clean_file_versions(child)
   end
+
+  def self.clean_file_versions(child)
+    if child["file_versions"][0].reject{|k,v| (k == "publish" && v == true) || v.blank?}.empty?
+      child.delete("file_versions")
+    end
+  end
+
 end

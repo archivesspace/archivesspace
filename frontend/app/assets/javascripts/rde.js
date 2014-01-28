@@ -7,18 +7,18 @@ $(function() {
 
   $.fn.init_rapid_data_entry_form = function($modal, $node) {
     $(this).each(function() {
-      var $this = $(this);
-      var $table = $("table#rdeTable", $this);
+      var $rde_form = $(this);
+      var $table = $("table#rdeTable", $rde_form);
 
-      if ($this.hasClass("initialised")) {
+      if ($rde_form.hasClass("initialised")) {
         return;
       }
 
       // Cookie Names
-      var COOKIE_NAME_VISIBLE_COLUMN = "rde."+$this.data("cookie-prefix")+".visible";
-      var COOKIE_NAME_STICKY_COLUMN = "rde."+$this.data("cookie-prefix")+".sticky";
-      var COOKIE_NAME_COLUMN_WIDTHS = "rde."+$this.data("cookie-prefix")+".widths";
-      var COOKIE_NAME_COLUMN_ORDER = "rde."+$this.data("cookie-prefix")+".order";
+      var COOKIE_NAME_VISIBLE_COLUMN = "rde."+$rde_form.data("cookie-prefix")+".visible";
+      var COOKIE_NAME_STICKY_COLUMN = "rde."+$rde_form.data("cookie-prefix")+".sticky";
+      var COOKIE_NAME_COLUMN_WIDTHS = "rde."+$rde_form.data("cookie-prefix")+".widths";
+      var COOKIE_NAME_COLUMN_ORDER = "rde."+$rde_form.data("cookie-prefix")+".order";
 
       // Config from Cookies
       var VISIBLE_COLUMN_IDS =  AS.prefixed_cookie(COOKIE_NAME_VISIBLE_COLUMN) ? JSON.parse(AS.prefixed_cookie(COOKIE_NAME_VISIBLE_COLUMN)) : null;
@@ -58,7 +58,7 @@ $(function() {
         event.preventDefault();
         event.stopPropagation();
 
-        $(":input, .btn", $this).attr("disabled", "disabled");
+        $(":input, .btn", $rde_form).attr("disabled", "disabled");
 
         // reset cookies
         AS.prefixed_cookie(COOKIE_NAME_VISIBLE_COLUMN, null);
@@ -88,18 +88,18 @@ $(function() {
       var addRow = function(event) {
         var $currentRow = $(event.target).closest("tr");
         if ($currentRow.length === 0) {
-          $currentRow = $("table tbody tr:last", $this);
+          $currentRow = $("table tbody tr:last", $rde_form);
         }
 
         index = index+1;
 
-        var $row = $(AS.renderTemplate("template_rde_row", {
-          path: "archival_record_children[children]["+index+"]",
-          id_path: "archival_record_children_children__"+index+"_",
+        var $row = $(AS.renderTemplate("template_rde_"+$rde_form.data("child-type")+"_row", {
+          path: $rde_form.data("jsonmodel-type") + "[children]["+index+"]",
+          id_path: $rde_form.data("jsonmodel-type") + "_children__"+index+"_",
           index: index
         }));
 
-        $(".fieldset-labels th", $this).each(function(i, th) {
+        $(".fieldset-labels th", $rde_form).each(function(i, th) {
           var $th = $(th);
 
           // Apply any sticky columns
@@ -185,7 +185,7 @@ $(function() {
       $modal.on("click", "th.fieldset-label", function(event) {
         $(this).toggleClass("sticky");
         var sticky = [];
-        $("table th.sticky", $this).each(function() {
+        $("table th.sticky", $rde_form).each(function() {
           sticky.push($(this).attr("id"));
         });
         STICKY_COLUMN_IDS = sticky;
@@ -237,15 +237,15 @@ $(function() {
       };
 
       var initAjaxForm = function() {
-        $this.ajaxForm({
+        $rde_form.ajaxForm({
           target: $(".rde-wrapper", $modal),
           success: function() {
             $(window).trigger("resize");
-            $this = $("form", "#rapidDataEntryModal");
-            $table = $("table", $this);
+            $rde_form = $("form", "#rapidDataEntryModal");
+            $table = $("table", $rde_form);
 
-            if ($this.length) {
-              renderInlineErrors($("tbody tr", $this), $this.data("exceptions"));
+            if ($rde_form.length) {
+              renderInlineErrors($("tbody tr", $rde_form), $rde_form.data("exceptions"));
 
               initAjaxForm();
             } else {
@@ -350,7 +350,7 @@ $(function() {
         var $fillFormsContainer = $(".fill-column-form", $modal);
         var $btnFillFormToggle = $("button.fill-column", $modal);
 
-        var $sourceRow = $("table tbody tr:first", $this);
+        var $sourceRow = $("table tbody tr:first", $rde_form);
 
         // Setup global events
         $btnFillFormToggle.click(function(event) {
@@ -392,7 +392,7 @@ $(function() {
 
             var colIndex = parseInt($("#"+$inputTargetColumn.val()).index())+1;
 
-            var $targetCells = $("table tbody tr td:nth-child("+colIndex+")", $this);
+            var $targetCells = $("table tbody tr td:nth-child("+colIndex+")", $rde_form);
 
             if ($("#basicFillValue",$form).is(":checkbox")) {
               var fillValue = $("#basicFillValue",$form).is(":checked");
@@ -486,7 +486,7 @@ $(function() {
 
                   // Good to go. Apply values.
                   var targetIndex = $("#"+$inputTargetColumn.val()).index();
-                  var $targetCells = $("table tbody tr td:nth-child("+(targetIndex+1)+")", $this);
+                  var $targetCells = $("table tbody tr td:nth-child("+(targetIndex+1)+")", $rde_form);
                   $.each(json.values, function(i, val) {
                     if (i > $targetCells.length) {
                       return;
@@ -522,7 +522,7 @@ $(function() {
 
       var persistColumnOrder = function() {
         var column_ids = [];
-        $("table .fieldset-labels th", $this).each(function() {
+        $("table .fieldset-labels th", $rde_form).each(function() {
           column_ids.push($(this).attr("id"));
         });
         COLUMN_ORDER = column_ids;
@@ -643,7 +643,7 @@ $(function() {
       var populateColumnSelector = function($select, select_func, filter_func) {
         filter_func = filter_func || function() {return true;};
         select_func = select_func || function() {return false;};
-        $(".fieldset-labels th", $this).each(function() {
+        $(".fieldset-labels th", $rde_form).each(function() {
           var $colHeader = $(this);
           if ($colHeader.hasClass("fieldset-label") && filter_func($colHeader)) {
             var $option = $("<option>");
@@ -710,7 +710,7 @@ $(function() {
 
       var persistColumnWidths = function() {
         var widths = {};
-        $("table colgroup col", $this).each(function(i, col) {
+        $("table colgroup col", $rde_form).each(function(i, col) {
           if ($(col).width() === 0) {
             $(col).width($(col).data("default-width"));
           }
@@ -728,7 +728,7 @@ $(function() {
         var index = $("#"+colId).index();
 
         // set width of corresponding col element
-        $($("table colgroup col", $this).get(index)).width(width);
+        $($("table colgroup col", $rde_form).get(index)).width(width);
 
         return width;
       };
@@ -745,7 +745,7 @@ $(function() {
       var applyPersistentColumnWidths = function() {
         var total_width = 0;
 
-        $("table colgroup col", $this).each(function(i, el) {
+        $("table colgroup col", $rde_form).each(function(i, el) {
           var colW = getColumnWidth($(el).data("id"));
           $(el).width(colW);
           total_width += colW;
@@ -756,7 +756,7 @@ $(function() {
 
       var applyPersistentStickyColumns = function() {
         if ( STICKY_COLUMN_IDS ) {
-          $("th.sticky", $this).removeClass("sticky");
+          $("th.sticky", $rde_form).removeClass("sticky");
           $.each(STICKY_COLUMN_IDS, function() {
             $("#" + this).addClass("sticky");
           });
@@ -775,7 +775,7 @@ $(function() {
         if ( VISIBLE_COLUMN_IDS ) {
           var total_width = 0;
 
-          $.each($(".fieldset-labels th", $this), function() {
+          $.each($(".fieldset-labels th", $rde_form), function() {
             var colId = $(this).attr("id");
             var index = $(this).index();
 
@@ -814,7 +814,7 @@ $(function() {
         $(".error", $rows).removeClass("error");
 
         $.ajax({
-          url: $this.data("validate-row-uri"),
+          url: $rde_form.data("validate-row-uri"),
           type: "POST",
           data: row_data,
           dataType: "json",
@@ -827,7 +827,7 @@ $(function() {
       // Connect up the $modal form submit button
       $($modal).on("click", ".modal-footer .btn-primary", function() {
         $(this).attr("disabled","disabled");
-        $this.submit();
+        $rde_form.submit();
       });
 
       // Connect up the $modal form validate button
@@ -837,8 +837,8 @@ $(function() {
 
         validateSubmissionOnly = true;
         $(this).attr("disabled","disabled");
-        $this.append("<input type='hidden' name='validate_only' value='true'>");
-        $this.submit();
+        $rde_form.append("<input type='hidden' name='validate_only' value='true'>");
+        $rde_form.submit();
       });
 
       // enable form within the add row dropdown menu
@@ -875,7 +875,7 @@ $(function() {
         }
       });
 
-      $(document).triggerHandler("loadedrecordform.aspace", [$this]);
+      $(document).triggerHandler("loadedrecordform.aspace", [$rde_form]);
 
       initAjaxForm();
 

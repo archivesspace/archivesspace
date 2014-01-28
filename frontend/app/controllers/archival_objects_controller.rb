@@ -120,10 +120,10 @@ class ArchivalObjectsController < ApplicationController
 
   def rde
     @parent = JSONModel(:archival_object).find(params[:id])
-    @archival_record_children = ArchivalObjectChildren.new
+    @children = ArchivalObjectChildren.new
     @exceptions = []
 
-    render :partial => "archival_objects/rde"
+    render :partial => "shared/rde"
   end
 
 
@@ -132,35 +132,40 @@ class ArchivalObjectsController < ApplicationController
 
     if params[:archival_record_children].blank? or params[:archival_record_children]["children"].blank?
 
-      @archival_record_children = ArchivalObjectChildren.new
+      @children = ArchivalObjectChildren.new
       flash.now[:error] = I18n.t("rde.messages.no_rows")
 
     else
       children_data = cleanup_params_for_schema(params[:archival_record_children], JSONModel(:archival_record_children).schema)
 
       begin
-        @archival_record_children = ArchivalObjectChildren.from_hash(children_data, false)
+        @children = ArchivalObjectChildren.from_hash(children_data, false)
 
         if params["validate_only"] == "true"
-          @exceptions = @archival_record_children.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
+          @exceptions = @children.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
 
-          flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select{|e| !e.empty?}.length)
+          error_count = @exceptions.select{|e| !e.empty?}.length
+          if error_count > 0
+            flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => error_count)
+          else
+            flash.now[:success] = I18n.t("rde.messages.rows_no_errors")
+          end
 
-          return render :partial => "archival_objects/rde"
+          return render :partial => "shared/rde"
         else
-          @archival_record_children.save(:archival_object_id => @parent.id)
+          @children.save(:archival_object_id => @parent.id)
         end
 
         return render :text => I18n.t("rde.messages.success")
       rescue JSONModel::ValidationException => e
-        @exceptions = @archival_record_children.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
+        @exceptions = @children.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
 
         flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select{|e| !e.empty?}.length)
       end
 
     end
 
-    render :partial => "archival_objects/rde"
+    render :partial => "shared/rde"
   end
 
 

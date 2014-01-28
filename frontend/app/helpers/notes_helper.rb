@@ -44,9 +44,6 @@ module NotesHelper
       }
     end
 
-    puts "******* jsonmodel_type: #{jsonmodel_type.inspect}"
-    puts "******* note_types: #{note_types.inspect}"
-
     note_types
   end
 

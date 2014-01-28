@@ -1,0 +1,186 @@
+<%= render :partial => "#{@children.child_type.to_s.pluralize}/rde_templates" %>
+
+<%= stylesheet_link_tag "jquery.kiketable.colsizable.css" %>
+<%= stylesheet_link_tag "archivesspace/rde" %>
+<div class="rde-wrapper">
+  <div class="modal-body">
+    <%= form_for @children,
+                 :as => @children.class.record_type,
+                 :url => {:controller => @parent.jsonmodel_type.to_s.pluralize, :action => :add_children, :id => @parent.id},
+                 :html => {
+                   :class => 'form-horizontal aspace-record-form',
+                   :id => 'rde_form',
+                   "data-error-prefix" => I18n.t("rde.messages.error_prefix"),
+                   "data-validate-row-uri" => url_for(:controller => @children.child_type.to_s.pluralize, :action => :validate_rows),
+                   "data-exceptions" => @exceptions.to_json,
+                   "data-child-type" => @children.child_type.to_s,
+                   "data-jsonmodel-type" => @children.jsonmodel_type.to_s,
+                   "data-cookie-prefix" => @children.child_type.to_s.split("_").collect{|s| s.first}.join} do |f| %>
+
+      <%= form_context @children.class.record_type, @children do |form| %>
+
+        <%= render :partial => "shared/flash_messages", :locals => {:form => form} %>
+
+        <p>
+        <div class="btn-group">
+          <button class="btn btn-small btn-success add-row"><%= I18n.t("rde.actions.add_row") %></button>
+          <button class="btn btn-small btn-success dropdown-toggle add-rows-dropdown" data-toggle="dropdown">
+            <span class="caret"></span>
+          </button>
+          <div class="dropdown-menu add-rows-form">
+            <div><input type="number" class="input-medium" value="1" /></div>
+            <button class="btn btn-small input-medium btn-primary" type="button"><%= I18n.t("rde.actions.add_rows") %></button>
+          </div>
+        </div>
+        <select id="rde_hidden_columns" multiple="multiple" data-i18n-prefix="<%= I18n.t("rde.actions.showhide_prefix") %>" data-i18n-suffix="<%= I18n.t("rde.actions.showhide_suffix") %>" data-i18n-none="<%= I18n.t("rde.actions.showhide_none") %>"></select>
+        <div class="btn-group">
+          <button class="btn btn-small fill-column"><%= I18n.t("rde.actions.fill_toggle") %></button>
+          <button class="btn btn-small reorder-columns"><%= I18n.t("rde.actions.reorder_toggle") %></button>
+        </div>
+
+        <button class="btn btn-small toggle-inline-errors active"><%= I18n.t("rde.actions.inline_errors_toggle") %></button>
+
+        <a href="#" id="rde_reset" class="btn btn-small"><%= I18n.t("rde.actions.reset") %></a>
+        </p>
+
+        <div class="fill-column-form rde-inline-form" style="display: none;">
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#fill_basic" data-toggle="tab"><%= I18n.t("rde.fill_column.basic") %></a></li>
+            <li><a href="#fill_sequence" data-toggle="tab"><%= I18n.t("rde.fill_column.sequence") %></a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="fill_basic">
+              <fieldset>
+                <div class="control-group">
+                  <label class="control-label" for="basicFillTargetColumn"><%= I18n.t("rde.column_label") %></label>
+                  <div class="controls">
+                    <select id="basicFillTargetColumn"><option selected="selected" class="empty"></option></select>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="basicFillTargetColumn"><%= I18n.t("rde.fill_column.fill_value") %></label>
+                  <div class="controls fill-value-container">
+                    <div class="alert alert-info"><%= I18n.t("rde.fill_column.select_a_column") %></div>
+                  </div>
+                </div>
+                <div class="form-actions">
+                  <button class="btn btn-primary btn-small disabled" disabled="disabled"><%= I18n.t("rde.fill_column.apply_basic_fill") %></button>
+                  <button class="btn btn-small btn-cancel"><%= I18n.t("actions.cancel") %></button>
+                </div>
+              </fieldset>
+            </div>
+            <div class="tab-pane" id="fill_sequence" data-sequence-generator-url="<%= url_for :controller => :resolver, :action => :generate_sequence %>">
+              <div class="alert alert-warning" id="sequenceTooSmallMsg" style="display: none;">
+                <p><%= I18n.t("rde.fill_column.sequence_count_warning") %></p>
+                <button class="btn btn-warning btn-small btn-continue-sequence-fill"><%= I18n.t("actions.continue") %></button>
+              </div>
+              <fieldset>
+                <div class="control-group">
+                  <label class="control-label" for="sequenceFillTargetColumn"><%= I18n.t("rde.column_label") %></label>
+                  <div class="controls">
+                    <select id="sequenceFillTargetColumn"><option selected="selected" class="empty"></option></select>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label"><%= I18n.t("rde.fill_column.fill_value") %></label>
+                  <div class="controls fill-value-container">
+                    <input id="sequenceFillPrefix" class="input-mini" type="text" placeholder="Prefix"/>
+                    <input id="sequenceFillFrom" class="input-mini" type="text" placeholder="From"/> -
+                    <input id="sequenceFillTo" class="input-mini" type="text" placeholder="To"/>
+                    <input id="sequenceFillSuffix" class="input-mini" type="text" placeholder="Suffix"/>
+                    <button class="btn btn-small preview-sequence"><%= I18n.t("rde.fill_column.preview_sequence") %></button>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <div class="controls sequence-preview"></div>
+                </div>
+                <div class="form-actions">
+                  <button class="btn btn-primary btn-small disabled" disabled="disabled"><%= I18n.t("rde.fill_column.apply_sequence_fill") %></button>
+                  <button class="btn btn-small btn-cancel"><%= I18n.t("actions.cancel") %></button>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+
+        <div id="columnReorderForm" class="rde-inline-form" style="display: none;">
+          <select id="columnOrder" multiple="multiple"></select>
+          <a href="JavaScript:void(0);" id="columnOrderUp" class="btn btn-mini"><span class="icon icon-arrow-up"></span></a>
+          <a href="JavaScript:void(0);" id="columnOrderDown" class="btn btn-mini"><span class="icon icon-arrow-down"></span></a>
+          <div class="form-actions">
+            <button class="btn btn-primary btn-small disabled" disabled="disabled"><%= I18n.t("rde.reorder_columns.apply_order") %></button>
+            <button class="btn btn-small btn-cancel"><%= I18n.t("actions.cancel") %></button>
+          </div>
+        </div>
+
+        <table id="rdeTable" class="table table-striped table-bordered table-condensed" style="width: auto; margin-right: 20px;">
+          <colgroup>
+            <col class="status" data-default-width='24' />
+            <%= form.emit_template "rde_#{@children.child_type}_cols" %>
+            <col class="actions" data-default-width='90' />
+          </colgroup>
+          <thead>
+          <tr class="sections">
+            <th data-id="empty" colspan="1"></th>
+            <%= form.emit_template "rde_#{@children.child_type}_sections" %>
+            <th data-id="empty" colspan="1"></th>
+          </tr>
+          <tr class="fieldset-labels">
+            <th id="colStatus" data-section="empty" />
+            <%= form.emit_template "rde_#{@children.child_type}_headers" %>
+            <th id="colActions" data-section="empty"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <% if @children.children.length > 0 %>
+            <% @children.children.each_with_index do |child, idx|
+              form.push(form.set_index("children[]", idx), child) do %>
+                <%= form.emit_template("rde_#{@children.child_type}_row", child) %>
+              <% end
+                 end %>
+          <% else %>
+            <% form.push(form.set_index("children[]", 0), {}) do %>
+              <%= form.emit_template("rde_#{@children.child_type}_row") %>
+            <% end %>
+          <% end %>
+          </tbody>
+        </table>
+        <br/>
+        <div>
+          <div class="btn-group">
+            <button class="btn btn-small btn-success add-row"><%= I18n.t("rde.actions.add_row") %></button>
+            <button class="btn btn-small btn-success dropdown-toggle add-rows-dropdown" data-toggle="dropdown">
+              <span class="caret"></span>
+            </button>
+            <div class="dropdown-menu add-rows-form">
+              <div><input type="number" class="input-medium" value="1" /></div>
+              <button class="btn btn-small input-medium btn-primary" type="button"><%= I18n.t("rde.actions.add_rows") %></button>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div class="well">
+          <div class="row">
+            <div class="span6">
+              <%= I18n.t("rde.help.keyboard_shortcuts") %>
+              <br/>
+              <%= I18n.t("rde.help.fill_column") %>
+            </div>
+            <div class="span6">
+              <%= I18n.t("rde.help.sticky_columns") %>
+              <br/>
+              <%= I18n.t("rde.help.resize_and_reorder_columns") %>
+              <br/>
+              <%= I18n.t("rde.help.reset") %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button id="saveChangesButton" class="btn btn-primary"><%= I18n.t("rde.actions.submit") %></button>
+    <button id="validateButton" class="btn"><%= I18n.t("rde.actions.validate_rows") %></button>
+    <button class="btn btn-cancel" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
+  </div>
+</div>

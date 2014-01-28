@@ -103,7 +103,7 @@ class DigitalObjectComponentsController < ApplicationController
     @children = DigitalObjectComponentChildren.new
     @exceptions = []
 
-    render :partial => "digital_object_components/rde"
+    render :partial => "shared/rde"
   end
 
 
@@ -135,14 +135,13 @@ class DigitalObjectComponentsController < ApplicationController
           @exceptions = @children.children.collect{|c| JSONModel(:digital_object_component).from_hash(c, false)._exceptions}
 
           error_count = @exceptions.select{|e| !e.empty?}.length
-
           if error_count > 0
             flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => error_count)
           else
             flash.now[:success] = I18n.t("rde.messages.rows_no_errors")
           end
 
-          return render :partial => "digital_object_components/rde"
+          return render :partial => "shared/rde"
         else
           @children.save(:digital_object_component_id => @parent.id)
         end
@@ -156,7 +155,7 @@ class DigitalObjectComponentsController < ApplicationController
 
     end
 
-    render :partial => "archival_objects/rde"
+    render :partial => "shared/rde"
   end
 
 end
