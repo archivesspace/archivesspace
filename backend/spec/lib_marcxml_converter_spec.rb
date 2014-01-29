@@ -353,6 +353,9 @@ END
 
     new_record['names'][0]['primary_name'].should eq("Davis, John W.")
     new_record['names'][0]['use_dates'][0]['expression'].should eq("1873-1955")
+
+    # Unauthorized names are added too
+    new_record['names'][1]['primary_name'].should eq("Davis, John William,")
   end
 
 end
