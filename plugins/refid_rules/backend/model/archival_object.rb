@@ -1,6 +1,6 @@
 require "erb"
 
-if AppConfig[:refid_rule]
+if AppConfig.has_key?(:refid_rule) && AppConfig[:refid_rule]
   rule_template = ERB.new(AppConfig[:refid_rule])
   ArchivalObject.auto_generate(:property => :ref_id,
                                :generator => proc {|json|
