@@ -6,7 +6,6 @@ module Events
                                :json_property => 'linked_events',
                                :contains_references_to_types => proc {[Event]})
     end
-
   end
 
 end
