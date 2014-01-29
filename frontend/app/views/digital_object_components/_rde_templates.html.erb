@@ -68,7 +68,7 @@
 
 <% define_template "rde_digital_object_component_row", jsonmodel_definition(:digital_object_component) do |form, digital_object_component| %>
   <% first_row = form.current_context.first == "children[0]" %>
-  <tr>
+  <tr data-index="">
     <td class="status">
       <span class="icon-exclamation-sign invalid"></span>
       <span class="icon-ok valid"></span>
@@ -105,7 +105,7 @@
         <%= form.select "date_type", jsonmodel_definition(:date).options_for(form, "date_type", true) %>
       <% end %>
       <% form.push("dates", begin digital_object_component["dates"] || [] rescue [] end) do %>
-        <span id="<%= form.id_for(nil) %>"></span>
+        <span class="defer-to-section" id="<%= form.id_for(nil) %>"></span>
       <% end %>
     </td>
     <td class="control-group">

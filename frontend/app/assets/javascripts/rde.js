@@ -32,8 +32,6 @@ $(function() {
         SECTION_DATA[$(this).data("id")] = $(this).text();
       });
 
-      var index = 0;
-
       var validateSubmissionOnly = false;
 
       $modal.off("click").on("click", ".remove-row", function(event) {
@@ -85,19 +83,32 @@ $(function() {
         validateRows($row);
       });
 
+
+      var setRowIndex = function() {
+        current_row_index = Math.max($("tbody tr", $table).length-1, 0);
+        $("tbody tr", $table).each(function(i, row) {
+          $(row).data("index", i);
+        });
+      };
+      var current_row_index = 0;
+      setRowIndex();
+
+
       var addRow = function(event) {
         var $currentRow = $(event.target).closest("tr");
         if ($currentRow.length === 0) {
           $currentRow = $("table tbody tr:last", $rde_form);
         }
 
-        index = index+1;
+        current_row_index = current_row_index+1;
 
         var $row = $(AS.renderTemplate("template_rde_"+$rde_form.data("child-type")+"_row", {
-          path: $rde_form.data("jsonmodel-type") + "[children]["+index+"]",
-          id_path: $rde_form.data("jsonmodel-type") + "_children__"+index+"_",
-          index: index
+          path: $rde_form.data("jsonmodel-type") + "[children]["+current_row_index+"]",
+          id_path: $rde_form.data("jsonmodel-type") + "_children__"+current_row_index+"_",
+          index: current_row_index
         }));
+
+        $row.data("index", current_row_index);
 
         $(".fieldset-labels th", $rde_form).each(function(i, th) {
           var $th = $(th);
@@ -209,14 +220,14 @@ $(function() {
             $row.removeClass("valid").addClass("invalid");
 
             $.each(row_result.errors, function(name, error) {
-              var $input = $("[id$='_"+name.replace(/\//g, "__")+"_']", $row);
+              var $input = $("[id='"+$rde_form.data("jsonmodel-type")+"_children__"+$row.data("index")+"__"+name.replace(/\//g, "__")+"_']", $row);
               var $header = $($(".fieldset-labels th", $table).get($input.first().closest("td").index()));
 
               $input.closest(".control-group").addClass("error");
 
               var $error = $("<div class='error'>");
 
-              if ($input.length > 1) {
+              if ($input.length > 1 || $input.hasClass("defer-to-section")) {
                 $error.text(SECTION_DATA[$header.data("section")]);
               } else {
                 $error.text($($(".fieldset-labels th", $table).get($input.closest("td").index())).text());
@@ -243,6 +254,8 @@ $(function() {
             $(window).trigger("resize");
             $rde_form = $("form", "#rapidDataEntryModal");
             $table = $("table", $rde_form);
+
+            setRowIndex();
 
             if ($rde_form.length) {
               renderInlineErrors($("tbody tr", $rde_form), $rde_form.data("exceptions"));

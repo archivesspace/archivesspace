@@ -2394,6 +2394,227 @@ end
   end
 
 
+  describe  "Digital Object RDE" do
+
+    before(:all) do
+      login_as_archivist
+      @digital_object_title = create_digital_object("Test Digital Object #{Time.now.to_i}#{$$}")
+      run_index_round
+    end
+
+
+    after(:all) do
+      logout
+    end
+
+    it "can view the RDE form when editing a digital object" do
+      # navigate to the edit resource page
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Digital Objects").click
+      resource_row = $driver.find_element_with_text('//tr', /#{@digital_object_title}/, true, true)
+      resource_row.find_element(:link, "Edit").click
+
+      $driver.find_element(:link, "Rapid Data Entry").click
+      @modal = $driver.find_element(:id => "rapidDataEntryModal")
+      @modal.find_element(:id, "digital_record_children_children__0__title_")
+    end
+
+    it "can review error messages on an invalid entry" do
+      @modal = $driver.find_element(:id => "rapidDataEntryModal")
+
+      @modal.find_element(:css, ".modal-footer .btn-primary").click
+
+      # general message at the top
+      @modal.find_element_with_text('//div[contains(@class, "alert-error")]', /1 row\(s\) with an error \- click a row field to view the errors for that row/)
+
+      # simulate focusing the row (normally done when the user focuses on an :input within the row)
+      $driver.execute_script("$('#digital_record_children_children__0__title_').closest('tr').addClass('last-focused')")
+      $driver.find_element(:css, ".error-summary")
+      @modal.find_element_with_text('//div[contains(@class, "error")]', /Date - you must provide a Label, Title or Date/)
+      @modal.find_element_with_text('//div[contains(@class, "error")]', /Title - you must provide a Label, Title or Date/)
+      @modal.find_element_with_text('//div[contains(@class, "error")]', /Label - you must provide a Label, Title or Date/)
+
+      @modal.find_element(:id, "digital_record_children_children__0__dates__0__date_type_").select_option("single")
+      @modal.find_element(:css, ".modal-footer .btn-primary").click
+
+      # make sure this form post is done.. then continue..
+      $driver.wait_for_ajax
+
+      # general message at the top
+      @modal.find_element_with_text('//div[contains(@class, "alert-error")]', /1 row\(s\) with an error \- click a row field to view the errors for that row/)
+
+      # simulate focusing the row (normally done when the user focuses on an :input within the row)
+      $driver.execute_script("$('#digital_record_children_children__0__title_').closest('tr').addClass('last-focused')")
+      $driver.find_element(:css, ".error-summary")
+      @modal.find_element_with_text('//div[contains(@class, "error")]', /Expression \- is required unless a begin or end date is given/)
+      @modal.find_element_with_text('//div[contains(@class, "error")]', /Begin \- is required unless an expression or an end date is given/)
+      @modal.find_element_with_text('//div[contains(@class, "error")]', /End \- is required unless an expression or a begin date is given/)
+    end
+
+    it "can add a child via the RDE form" do
+      $driver.clear_and_send_keys([:id, "digital_record_children_children__0__title_"], "My DO")
+      $driver.execute_script("$('#digital_record_children_children__0__dates__0__label_').val('')")
+      $driver.execute_script("$('#digital_record_children_children__0__dates__0__date_type_').val('')")
+
+      $driver.click_and_wait_until_gone(:css => ".modal-footer .btn-primary")
+
+      $driver.wait_for_ajax
+
+      assert(5) {
+        $driver.find_element_with_text("//div[@id='archives_tree']//li//span", /My DO/)
+      }
+    end
+
+    it "can access the RDE form when editing an digital object" do
+      $driver.find_element(:css, "#archives_tree_toolbar .icon-arrow-right").click
+      $driver.wait_for_ajax
+
+      $driver.find_element(:id, "digital_object_component_title_")
+
+      $driver.find_element(:link, "Rapid Data Entry").click
+      $driver.find_element(:id => "rapidDataEntryModal")
+    end
+
+
+    it "can add multiple children and sticky columns stick" do
+      @modal = $driver.find_element(:id => "rapidDataEntryModal")
+
+      $driver.clear_and_send_keys([:id, "digital_record_children_children__0__title_"], "Child 1")
+      @modal.find_element(:css, ".btn.add-row").click
+
+      @modal.find_element(:id, "digital_record_children_children__1__title_").attribute("value").should eq("Child 1")
+
+      $driver.clear_and_send_keys([:id, "digital_record_children_children__1__title_"], "Child 2")
+
+      $driver.click_and_wait_until_gone(:css => ".modal-footer .btn-primary")
+      $driver.wait_for_ajax
+
+      assert(5) {
+        $driver.find_element_with_text("//div[@id='archives_tree']//li//span", /Child 1/)
+        $driver.find_element_with_text("//div[@id='archives_tree']//li//span", /Child 2/)
+      }
+    end
+
+    it "can add multiple rows in one action" do
+      $driver.find_element(:link, "Rapid Data Entry").click
+      @modal = $driver.find_element(:id => "rapidDataEntryModal")
+
+      $driver.clear_and_send_keys([:id, "digital_record_children_children__0__label_"], "DO_LABEL")
+
+      @modal.find_element(:css, ".btn.add-rows-dropdown").click
+      $driver.clear_and_send_keys([:css, ".add-rows-form input"], "9")
+      @modal.find_element(:css, ".add-rows-form .btn.btn-primary").click
+
+      # there should be 10 rows now :)
+      @modal.find_elements(:css, "table tbody tr").length.should eq(10)
+
+      # all should have level "DO_LABEL"
+      @modal.find_element(:id, "digital_record_children_children__1__label_").attribute("value").should eq("DO_LABEL")
+      @modal.find_element(:id, "digital_record_children_children__2__label_").attribute("value").should eq("DO_LABEL")
+      @modal.find_element(:id, "digital_record_children_children__3__label_").attribute("value").should eq("DO_LABEL")
+      @modal.find_element(:id, "digital_record_children_children__4__label_").attribute("value").should eq("DO_LABEL")
+      @modal.find_element(:id, "digital_record_children_children__5__label_").attribute("value").should eq("DO_LABEL")
+      @modal.find_element(:id, "digital_record_children_children__6__label_").attribute("value").should eq("DO_LABEL")
+      @modal.find_element(:id, "digital_record_children_children__7__label_").attribute("value").should eq("DO_LABEL")
+      @modal.find_element(:id, "digital_record_children_children__8__label_").attribute("value").should eq("DO_LABEL")
+      @modal.find_element(:id, "digital_record_children_children__9__label_").attribute("value").should eq("DO_LABEL")
+    end
+
+    it "can perform a basic fill" do
+      @modal = $driver.find_element(:id => "rapidDataEntryModal")
+
+      @modal.find_element(:css, ".btn.fill-column").click
+      @modal.find_element(:id, "basicFillTargetColumn").select_option("colLabel")
+      $driver.clear_and_send_keys([:id, "basicFillValue"], "NEW_LABEL")
+      $driver.click_and_wait_until_gone(:css, "#fill_basic .btn-primary")
+
+      # all should have item as the level
+      @modal.find_element(:id, "digital_record_children_children__0__label_").attribute("value").should eq("NEW_LABEL")
+      @modal.find_element(:id, "digital_record_children_children__1__label_").attribute("value").should eq("NEW_LABEL")
+      @modal.find_element(:id, "digital_record_children_children__2__label_").attribute("value").should eq("NEW_LABEL")
+      @modal.find_element(:id, "digital_record_children_children__3__label_").attribute("value").should eq("NEW_LABEL")
+      @modal.find_element(:id, "digital_record_children_children__4__label_").attribute("value").should eq("NEW_LABEL")
+      @modal.find_element(:id, "digital_record_children_children__5__label_").attribute("value").should eq("NEW_LABEL")
+      @modal.find_element(:id, "digital_record_children_children__6__label_").attribute("value").should eq("NEW_LABEL")
+      @modal.find_element(:id, "digital_record_children_children__7__label_").attribute("value").should eq("NEW_LABEL")
+      @modal.find_element(:id, "digital_record_children_children__8__label_").attribute("value").should eq("NEW_LABEL")
+      @modal.find_element(:id, "digital_record_children_children__9__label_").attribute("value").should eq("NEW_LABEL")
+    end
+
+    it "can perform a sequence fill" do
+      @modal = $driver.find_element(:id => "rapidDataEntryModal")
+
+      @modal.find_element(:css, ".btn.fill-column").click
+      @modal.find_element(:link, "Sequence").click
+
+      @modal.find_element(:id, "sequenceFillTargetColumn").select_option("colTitle")
+      $driver.clear_and_send_keys([:id, "sequenceFillPrefix"], "ABC")
+      $driver.clear_and_send_keys([:id, "sequenceFillFrom"], "1")
+      $driver.clear_and_send_keys([:id, "sequenceFillTo"], "5")
+      $driver.click_and_wait_until_gone(:css, "#fill_sequence .btn-primary")
+
+      # message should be displayed "not enough in the sequence" or thereabouts..
+      @modal.find_element(:id, "sequenceTooSmallMsg")
+
+      $driver.clear_and_send_keys([:id, "sequenceFillTo"], "10")
+      $driver.click_and_wait_until_gone(:css, "#fill_sequence .btn-primary")
+
+      # check the component id for each row matches the sequence
+      @modal.find_element(:id, "digital_record_children_children__0__title_").attribute("value").should eq("ABC1")
+      @modal.find_element(:id, "digital_record_children_children__1__title_").attribute("value").should eq("ABC2")
+      @modal.find_element(:id, "digital_record_children_children__2__title_").attribute("value").should eq("ABC3")
+      @modal.find_element(:id, "digital_record_children_children__3__title_").attribute("value").should eq("ABC4")
+      @modal.find_element(:id, "digital_record_children_children__4__title_").attribute("value").should eq("ABC5")
+      @modal.find_element(:id, "digital_record_children_children__5__title_").attribute("value").should eq("ABC6")
+      @modal.find_element(:id, "digital_record_children_children__6__title_").attribute("value").should eq("ABC7")
+      @modal.find_element(:id, "digital_record_children_children__7__title_").attribute("value").should eq("ABC8")
+      @modal.find_element(:id, "digital_record_children_children__8__title_").attribute("value").should eq("ABC9")
+      @modal.find_element(:id, "digital_record_children_children__9__title_").attribute("value").should eq("ABC10")
+    end
+
+    it "can perform a column reorder" do
+      @modal = $driver.find_element(:id => "rapidDataEntryModal")
+
+      @modal.find_element(:css, ".btn.reorder-columns").click
+
+      # move Note Type 1 to the first position
+      @modal.find_element(:id, "columnOrder").select_option("colNType1")
+      20.times { @modal.find_element(:id, "columnOrderUp").click }
+
+      # move Instance Type to the second position
+      @modal.find_element(:id, "columnOrder").select_option("colNType1") # deselect Note Type 1
+      @modal.find_element(:id, "columnOrder").select_option("colFUri")
+      10.times { @modal.find_element(:id, "columnOrderUp").click }
+
+      # apply the new order
+      $driver.click_and_wait_until_gone(:css, "#columnReorderForm .btn-primary")
+
+      # check the first few headers now match the new order
+      cells = @modal.find_elements(:css, "table .fieldset-labels th")
+      cells[1].attribute("id").should eq("colNType1")
+      cells[2].attribute("id").should eq("colFUri")
+      cells[3].attribute("id").should eq("colLabel")
+
+      # check the section headers are correct
+      cells = @modal.find_elements(:css, "table .sections th")
+      cells[1].text.should eq("Notes")
+      cells[1].attribute("colspan").should eq("1")
+      cells[2].text.should eq("File Version")
+      cells[2].attribute("colspan").should eq("1")
+      cells[3].text.should eq("Basic Information")
+      cells[3].attribute("colspan").should eq("5")
+
+      # check the form fields match the headers
+      cells = @modal.find_elements(:css, "table tbody tr:first-child td")
+      cells[1].find_element(:id, "digital_record_children_children__0__notes__0__type_")
+      cells[2].find_element(:id, "digital_record_children_children__0__file_versions__0__file_uri_")
+      cells[3].find_element(:id, "digital_record_children_children__0__label_")
+    end
+
+  end
+
+
+
   describe "Locations" do
 
     before(:all) do
