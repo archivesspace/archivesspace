@@ -571,4 +571,8 @@ FactoryGirl.define do
     filenames { (0..3).map { generate(:alphanumstr) } }
   end
 
+  factory :json_preference, class: JSONModel(:preference) do
+    defaults { "{}" }
+  end
+
 end
