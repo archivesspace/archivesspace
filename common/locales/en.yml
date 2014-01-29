@@ -1595,6 +1595,7 @@ en:
         <li>Medium</li>
         <li>Low</li>
         </ul>
+    processing_started_date: Processing Started Date
     processing_status: Processing Status
     processing_status_tooltip: |
         <p>For indicating the current status of processing for an archival unit (accession, resource, or digital object).</p>

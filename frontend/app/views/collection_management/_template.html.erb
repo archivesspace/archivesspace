@@ -6,6 +6,7 @@
       <%= form.label_and_select "processing_total_extent_type", form.possible_options_for("processing_total_extent_type", true), :required => :conditionally %>
       <%= form.label_and_textfield "processing_hours_total" %>
       <%= form.label_and_textarea "processing_plan" %>
+      <%= form.label_and_date "processing_started_date" %>
       <%= form.label_and_select "processing_priority", form.possible_options_for("processing_priority", true) %>
       <%= form.label_and_select "processing_status", form.possible_options_for("processing_status", true) %>
       <%= form.label_and_textarea "processing_funding_source" %>
