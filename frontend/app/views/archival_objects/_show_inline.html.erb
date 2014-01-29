@@ -54,6 +54,9 @@
           <%= render :partial => "instances/show", :locals => { :instances => archival_object.instances, :section_id => "archival_object_instances_"  } %>
         <% end %>
 
+        <%= render :partial => "linked_events/show", :locals => { :linked_events => archival_object.linked_events, :context => readonly, :section_id => "archival_object_linked_events_" } %>
+
+
         <%= show_plugins_for(@archival_object, readonly) %>
       <% end %>
 

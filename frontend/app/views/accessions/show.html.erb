@@ -87,7 +87,7 @@
           <%= render :partial => "classification/show", :locals => { :classification => @accession.classification, :context => readonly, :section_id => "resource_classification_" } %>
         <% end %>
 
-           <%= render :partial => "linked_events/show", :locals => { :linked_events => @accession.linked_events, :context => readonly, :section_id => "accession_linked_events_" } %>
+        <%= render :partial => "linked_events/show", :locals => { :linked_events => @accession.linked_events, :context => readonly, :section_id => "accession_linked_events_" } %>
 
          <% if @accession.user_defined %>
            <%= render :partial => "user_defined/show", :locals => { :user_defined => @accession.user_defined, :context => readonly, :section_id => "accession_user_defined_" } %>
