@@ -12,6 +12,7 @@ Sequel.migration do
 
       Integer :repo_id, :null => false
       Integer :user_id, :null => true
+      String :user_uniq, :null => false
 
       MediumBlobField :defaults, :null => false
 
@@ -22,7 +23,7 @@ Sequel.migration do
     alter_table(:preference) do
       add_foreign_key([:repo_id], :repository, :key => :id)
       add_foreign_key([:user_id], :user, :key => :id)
-      add_unique_constraint([:repo_id, :user_id], :name => "preference_uniq")
+      add_unique_constraint([:repo_id, :user_uniq], :name => "preference_uniq")
     end
 
   end
@@ -30,7 +31,7 @@ Sequel.migration do
 
   down do
 
-    # down not supported
+    drop_table(:preference)
 
   end
 
