@@ -16,6 +16,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include Notes
   include ExternalIDs
   include ComponentsAddChildren
+  include Events
 
   agent_role_enum("linked_agent_role")
   agent_relator_enum("linked_agent_archival_record_relators")

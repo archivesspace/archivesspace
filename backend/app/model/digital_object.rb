@@ -16,6 +16,7 @@ class DigitalObject < Sequel::Model(:digital_object)
   include CollectionManagements
   include UserDefineds
   include ComponentsAddChildren
+  include Events
 
   agent_role_enum("linked_agent_role")
   agent_relator_enum("linked_agent_archival_record_relators")
