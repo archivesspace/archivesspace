@@ -32,7 +32,7 @@
   <section id="basic_information">
     <h3><%= I18n.t("job._frontend.section.basic_information") %></h3>
 
-    <%= form.label_and_select "import_type", form.possible_options_for("import_type", true) %>
+    <%= form.label_with_field "import_type", job['import_type'] %>
 
     <div class="control-group">
       <label class="control-label"><%= I18n.t("job.filenames") %></label>
