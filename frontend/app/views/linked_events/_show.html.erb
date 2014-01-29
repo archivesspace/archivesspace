@@ -1,0 +1,26 @@
+<section id="<%= section_id %>" class="subrecord-form-dummy">
+  <h3><%= I18n.t("event._plural") %></h3>
+
+  <div class="subrecord-form-container">
+    <div class="subrecord-form-fields">
+
+      <table class="table table-striped table-bordered table-condensed">
+        <tr>
+          <th><%= I18n.t("event.event_type") %></th>
+          <th><%= I18n.t("event.outcome") %></th>
+          <th></th>
+        </tr>
+        <% linked_events.each do |event| %>
+          <% record = event['_resolved'] %>
+          <tr>
+            <td><%= I18n.t("enumerations.event_event_type.#{record['event_type']}", :default => record['event_type']) %></td>
+            <td><%= I18n.t("enumerations.event_outcome.#{record['outcome']}", :default => record['outcome']) %></td>
+            <td><%= display_audit_info(record, :format => 'compact') %></td>
+          </tr>
+        <% end %>
+      </table>
+
+    </div>
+  </div>
+</section>
+

@@ -91,6 +91,9 @@
            <%= render :partial => "user_defined/show", :locals => { :user_defined => @accession.user_defined, :context => readonly, :section_id => "accession_user_defined_" } %>
          <% end %>
 
+           <%= render :partial => "linked_events/show", :locals => { :linked_events => @accession.linked_events, :context => readonly, :section_id => "accession_linked_events_" } %>
+
+
          <%= show_plugins_for(@accession, readonly) %>
 
        <% end %>
