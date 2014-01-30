@@ -8,8 +8,15 @@ module ASpaceImport
     module DOM
 
       module ClassMethods
+        def configure
+          raise "Already configured" if @configuration
+          @configuration = Config.new
+          yield @configuration
+        end
+
+
         def configuration
-          @configuration ||= self.configure
+          @configuration
         end
 
 
@@ -52,7 +59,7 @@ module ASpaceImport
         @doc = Nokogiri::XML::Document.parse(IO.read(@input_file))
         @doc.remove_namespaces!
 
-        configuration.each do |path, defn|
+        configuration.mappings.each do |path, defn|
           object(path, defn)
         end
       end
@@ -76,6 +83,8 @@ module ASpaceImport
           end
           yield obj if block_given?
           @context.pop
+          # dump batch when running in hybrid sax mode
+          @batch.flush if @context.empty?
         end
       end
 
@@ -118,6 +127,27 @@ module ASpaceImport
           raise "Don't know how to handle a (#{key.class.name}) => (#{value.class.name}) situation"
         end
       end
+
+      class Config
+        attr_reader :mappings
+
+        def initialize
+        end
+
+        def init_map(hash)
+          @mappings = hash
+        end
+
+        def [](arg)
+          @mappings[arg]
+        end
+
+        def []=(arg, val)
+          @mappings ||= {}
+          @mappings[arg] = val
+        end
+      end
+
     end
   end
 end

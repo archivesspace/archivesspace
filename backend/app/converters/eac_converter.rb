@@ -1,9 +1,13 @@
 require_relative 'converter'
+require_relative 'lib/eac_base_map'
 
 class EACConverter < Converter
+  extend EACBaseMap
 
   require_relative 'lib/xml_dom'
   include ASpaceImport::XML::DOM
+
+
 
 
   def self.instance_for(type, input_file)
@@ -29,52 +33,8 @@ class EACConverter < Converter
     "Convert EAC-CPF To ArchivesSpace JSONModel records"
   end
 
+end
 
-  def self.configure
-    {
-
-      # AGENT PERSON
-      "//cpfDescription[child::identity/child::entityType='person']" => {
-        :obj => :agent_person,
-
-        :map => {
-          # NAMES (PERSON)
-          "descendant::nameEntry" => {
-            :obj => :name_person,
-            :rel => :names,
-            :map => {
-              "descendant::part" => Proc.new {|name, node|
-                val = node.inner_text
-                name[:primary_name] = val
-                name[:dates] = val.scan(/[0-9]{4}-[0-9]{4}/).flatten[0]
-              },
-            },
-            :defaults => {
-              :source => 'local',
-              :rules => 'local',
-              :primary_name => 'primary name',
-              :name_order => 'direct',
-            }
-          },
-          "descendant::biogHist" => {
-            :obj => :note_bioghist,
-            :rel => :notes,
-            :map => {
-              "self::biogHist" => Proc.new {|note, node|
-                note['subnotes'] << {
-                  'jsonmodel_type' => 'note_text',
-                  'content' => node.inner_text
-                }
-              }
-            },
-            :defaults => {
-              :label => 'default label'
-            }
-          }
-        }
-      }
-
-    }
-  end
-
+EACConverter.configure do |config|
+  config.init_map(EACConverter.EAC_BASE_MAP)
 end
