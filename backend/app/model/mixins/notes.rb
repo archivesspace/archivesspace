@@ -41,14 +41,16 @@ module Notes
 
       json = super
 
-      if obj.respond_to?(:root_record_id)
+      if obj.class.respond_to?(:node_record_type)
+        klass = Kernel.const_get(obj.class.node_record_type.camelize)
+        # If the object doesn't have a root record, it IS a root record.
+        root_id = obj.respond_to?(:root_record_id) ? obj.root_record_id : obj.id
+
         notes.map { |note|
           if note["jsonmodel_type"] == "note_index"
             note["items"].map { |item|
-              referenced_record = self.filter(:root_record_id => obj.root_record_id,
-                                              :ref_id => item["reference"]).
-                                       first
-
+              referenced_record = klass.filter(:root_record_id => root_id,
+                                              :ref_id => item["reference"]).first
               if !referenced_record.nil?
                 item["reference_ref"] = {"ref" => referenced_record.uri}
               end
