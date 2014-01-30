@@ -109,7 +109,7 @@ describe 'Digital Object Component controller' do
   end
 
 
-  it "lets you create archival object with a parent" do
+  it "lets you create digital object component with a parent" do
 
     digital_object = create(:json_digital_object)
 

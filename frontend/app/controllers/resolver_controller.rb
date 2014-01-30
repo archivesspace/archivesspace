@@ -1,6 +1,6 @@
 class ResolverController < ApplicationController
 
-  set_access_control  :public => [:resolve_edit, :resolve_readonly, :generate_sequence]
+  set_access_control  :public => [:resolve_edit, :resolve_readonly]
 
 
   def resolve_edit
@@ -28,10 +28,4 @@ class ResolverController < ApplicationController
       unauthorised_access
     end
   end
-
-
-  def generate_sequence
-    render :json => SequenceGenerator.from_params(params)
-  end
-
 end

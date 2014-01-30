@@ -2181,10 +2181,27 @@ end
       # navigate to the edit resource page
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Resources").click
-      resource_row = $driver.find_element_with_text('//tr', /#{@resource_title}/, true, true)
-      resource_row.find_element(:link, "Edit").click
+      while true
+        resource_row = $driver.find_element_with_text('//tr', /#{@resource_title}/, true, true)
+
+        if resource_row
+          resource_row.find_element(:link, "Edit").click
+          break
+        end
+
+        # Try the next page of resources
+        nextpage = $driver.find_elements(:xpath, '//a[@title="Next"]')
+        if nextpage[0]
+          nextpage[0].click
+        else
+          break
+        end
+      end
+
 
       $driver.find_element(:link, "Rapid Data Entry").click
+      $driver.wait_for_ajax
+
       @modal = $driver.find_element(:id => "rapidDataEntryModal")
       @modal.find_element(:id, "archival_record_children_children__0__level_")
     end
@@ -2411,10 +2428,28 @@ end
       # navigate to the edit resource page
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Digital Objects").click
-      resource_row = $driver.find_element_with_text('//tr', /#{@digital_object_title}/, true, true)
-      resource_row.find_element(:link, "Edit").click
+
+      while true
+        row = $driver.find_element_with_text('//tr', /#{@digital_object_title}/, true, true)
+
+        if row
+          row.find_element(:link, "Edit").click
+          break
+        end
+
+        # Try the next page of digital objects
+        nextpage = $driver.find_elements(:xpath, '//a[@title="Next"]')
+        if nextpage[0]
+          nextpage[0].click
+        else
+          break
+        end
+      end
+
 
       $driver.find_element(:link, "Rapid Data Entry").click
+      $driver.wait_for_ajax
+
       @modal = $driver.find_element(:id => "rapidDataEntryModal")
       @modal.find_element(:id, "digital_record_children_children__0__title_")
     end

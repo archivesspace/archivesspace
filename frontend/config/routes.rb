@@ -138,7 +138,6 @@ ArchivesSpace::Application.routes.draw do
 
     match 'resolve/edit' => 'resolver#resolve_edit', :via => [:get]
     match 'resolve/readonly' => 'resolver#resolve_readonly', :via => [:get]
-    match 'generate_sequence' => 'resolver#generate_sequence', :via => [:get]
 
     match 'enumerations/list' => 'enumerations#list', :via => [:get]
     match 'enumerations/delete' => 'enumerations#delete', :via => [:get]
@@ -157,6 +156,7 @@ ArchivesSpace::Application.routes.draw do
     match 'batch_delete/agents' => 'batch_delete#agents', :via => [:post]
     match 'batch_delete/classifications' => 'batch_delete#classifications', :via => [:post]
 
+    match 'generate_sequence' => 'utils#generate_sequence', :via => [:get]
 
     if Plugins.system_menu_items?
       scope '/plugins' do
