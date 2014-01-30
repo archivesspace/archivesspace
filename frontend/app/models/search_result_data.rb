@@ -6,7 +6,9 @@ class SearchResultData
 
     self.class.run_result_hooks(search_data)
     init_facets
+    init_sorts
   end
+
 
   def init_facets
     @search_data['facets']['facet_fields'].each {|facet_group, facets|
@@ -23,6 +25,17 @@ class SearchResultData
       }
     }
   end
+
+
+  def init_sorts
+    if sorted?
+      @sort_data = @search_data[:criteria]["sort"].split(", ").map {|s|
+        matches = s.match(/(\S+)\s(asc|desc)/)
+        {:field => matches[1], :direction => matches[2]}
+      }
+    end
+  end
+
 
   def facet_query_string(facet_group, facet)
     {facet_group => facet}.to_json
@@ -110,37 +123,66 @@ class SearchResultData
     @search_data.has_key?('results') and not @search_data['results'].empty?
   end
 
+  def has_titles?
+    if @search_data[:criteria].has_key?("type[]") and (types - self.class.UNTITLED_TYPES).empty?
+      false
+    else
+      true
+    end
+  end
+
   def single_type?
-    @search_data[:criteria].has_key?("type[]") and @search_data[:criteria]["type[]"].length === 1
+    if @search_data[:criteria].has_key?("type[]")
+      @search_data[:criteria]["type[]"].length === 1
+    elsif @search_data[:type]
+      true
+    else
+      false
+    end
   end
 
   def types
     @search_data[:criteria]["type[]"]
   end
 
+  def sort_fields
+    @sort_fields ||= [].concat(self.class.BASE_SORT_FIELDS)
+
+    single_type? ? @sort_fields : @sort_fields + ['primary_type']
+  end
+
   def sorted?
     @search_data[:criteria].has_key?("sort")
   end
 
-  def sorted_by
-    return nil if not sorted?
-
-    matches = @search_data[:criteria]["sort"].match(/(\S*[^\s])\s(asc|desc)?/)
-
-    return matches[1] if matches.length > 1
-
-    @search_data[:criteria]["sort"]
+  def weightable?
+    @search_data[:criteria].has_key?("q")
   end
 
-  def current_sort_direction
-    return "desc" if not sorted?
-
-    matches = @search_data[:criteria]["sort"].match(/(\S*[^\s])\s(asc|desc)?/)
-
-    return matches[2] if matches.length > 1
-
-    "desc"
+  def sorted_by(index = 0)
+    if sorted? && @sort_data[index]
+      @sort_data[index][:field]
+    else
+      nil
+    end
   end
+
+
+  def sorted_by?(field)
+    @sort_data.each do |entry|
+      return true if entry[:field] == field
+    end
+
+    false
+  end
+
+
+  def current_sort_direction(index = 0)
+    return "desc" unless sorted?
+
+    @sort_data[index][:direction]
+  end
+
 
   def sort_filter_for(field, default = "asc")
     return "#{field} #{default}" if field != sorted_by
@@ -150,12 +192,16 @@ class SearchResultData
     return "#{field} #{default === "asc" ? "desc" : "asc"}"
   end
 
-  def sorted_by_label(title_label)
-    _sorted_by = sorted_by
+  def sorted_by_label(title_label, index = 0)
+    _sorted_by = sorted_by(index)
 
-    return I18n.t("search_sorting.relevance") if _sorted_by.nil?
+    if _sorted_by.nil?
+      return weightable? ? I18n.t("search_sorting.relevance") : I18n.t("search_sorting.select")
+    end
 
-    "#{_sorted_by == 'title_sort' ? title_label : I18n.t("search_sorting.#{_sorted_by}")} (#{I18n.t("search_sorting.#{current_sort_direction}")})"
+    label = _sorted_by == 'title_sort' ? title_label : I18n.t("search_sorting.#{_sorted_by}")
+    direction = I18n.t("search_sorting.#{current_sort_direction(index)}")
+    "#{label} #{direction}"
   end
 
   def query?
@@ -166,6 +212,9 @@ class SearchResultData
     "#{I18n.t("search_results.filter.query")}: #{@search_data[:criteria]["q"]}"
   end
 
+  def self.BASE_SORT_FIELDS
+    %w(create_time user_mtime)
+  end
 
   def self.BASE_FACETS
     ["primary_type","creators","subjects"]
@@ -199,6 +248,10 @@ class SearchResultData
     ["event_type", "outcome"]
   end
 
+  def self.UNTITLED_TYPES
+    ["event"]
+  end
+
   def self.CLASSIFICATION_FACETS
     []
   end
@@ -211,6 +264,7 @@ class SearchResultData
 
 
   def self.run_result_hooks(results)
+    @result_hooks ||= []
     Array(@result_hooks).each do |hook|
       hook.call(results)
     end

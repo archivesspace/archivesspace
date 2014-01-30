@@ -24,7 +24,7 @@ class Search
 
     search_data = JSONModel::HTTP::get_json("/search/#{type}", criteria)
     search_data[:criteria] = criteria
-
+    search_data[:type] = type
     SearchResultData.new(search_data)
   end
 end

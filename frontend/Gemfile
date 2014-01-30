@@ -47,11 +47,6 @@ gem 'warbler'
 
 gem 'atomic', '= 1.0.1'
 
-# Importing requirements
-
-gem 'nokogiri'
-gem "rufus-lru"
-
 # For queuing batch import jobs
 
 #gem 'delayed_job_active_record'

@@ -131,6 +131,7 @@ en:
 
   search_sorting:
     sort_by: "Sort by:"
+    and: "and:"
     asc: Ascending
     desc: Descending
     relevance: Relevance
@@ -147,6 +148,7 @@ en:
     outcome: Outcome
     event_type: Type
     identifier: Identifier
+    select: Select
 
   become-user:
     become-user: Become User

@@ -1,7 +1,6 @@
 <%= setup_context(:title => I18n.t("event._plural")) %>
 
 <%
-   remove_title_column
    add_column(I18n.t("event.event_type"), proc {|record| I18n.t("enumerations.event_event_type.#{record['event_type']}", :default => record['event_type'])}, :sortable => true, :sort_by => "event_type")
    add_column(I18n.t("event.outcome"), proc {|record| I18n.t("enumerations.event_outcome.#{record['outcome']}", :default => record['outcome'])}, :sortable => true, :sort_by => "outcome")
    add_column(I18n.t("linked_agent._plural"),
