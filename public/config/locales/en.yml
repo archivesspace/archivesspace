@@ -46,6 +46,7 @@ en:
       repository: Repository
       creators: Creator
       fullrecord: Keyword
+      subjects: Subject
       title: Title
       creator: Creator
       scope: Scope

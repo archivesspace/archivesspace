@@ -6,7 +6,7 @@
     "properties" => {
 
       "negated" => {"type" => "boolean", "default" => false},
-      "field" => {"type" => "string", "enum" => ["fullrecord", "title", "creator", "notes"], "ifmissing" => "error"},
+      "field" => {"type" => "string", "enum" => ["fullrecord", "title", "creator", "notes", "subjects"], "ifmissing" => "error"},
       "value" => {"type" => "string", "ifmissing" => "error"},
 
     },
