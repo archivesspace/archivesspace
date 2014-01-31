@@ -425,4 +425,72 @@ MARC
       @resource['title'].should_not be_nil
     end
   end
+
+  describe "Subclassing and reconfiguring" do
+
+    def test_doc
+      src = <<MARC
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+  <record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <datafield tag="245" ind2=" " ind1="1">
+      <subfield code="a">SF A</subfield>
+    </datafield>
+  </record>
+MARC
+      tmp = ASUtils.tempfile("test_doc")
+      tmp.write(src)
+      tmp.close
+      tmp.path
+    end
+
+    let (:subclass) {
+      class CramXMLConverter < MarcXMLConverter
+        def self.import_types(*args)
+          {:name => 'cramxml', :description => "cram records in"}
+        end
+
+
+        def self.instance_for(type, input_file)
+          if type == 'cramxml'
+            self.new(input_file)
+          end
+        end
+      end
+
+      CramXMLConverter.configure do |config|
+        puts config['/record'].keys
+        puts config['/record'][:map].keys
+        config['/record'][:map]['self::record'] = Proc.new {|resource, node|
+          if !resource.title
+            resource.title = "TITLE"
+          end
+
+          if resource.extents.nil? || resource.extents.empty?
+            resource.extents << ASpaceImport::JSONModel(:extent).from_hash({:portion => 'whole', :number => '1', :extent_type => 'linear_feet'})
+          end
+
+          if resource.id_0.nil? or resource.id.empty?
+            resource.id_0 = "ID"
+          end
+        }
+      end
+
+      CramXMLConverter
+    }
+
+    it "lets itself be subclassed and reconfigured" do
+
+      # regular converter should produce an invalid record
+      converter = MarcXMLConverter.new(test_doc)
+      expect { converter.run }.to raise_error(JSONModel::ValidationException)
+
+      # our cram converter should produce a valid record
+      subconverter = subclass.new(test_doc)
+      expect { subconverter.run }.to_not raise_error
+
+      # regular converter should still produce an invalid record
+      converter = MarcXMLConverter.new(test_doc)
+      expect { converter.run }.to raise_error(JSONModel::ValidationException)
+    end
+  end
 end
