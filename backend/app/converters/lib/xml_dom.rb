@@ -1,7 +1,7 @@
 require 'nokogiri'
 require_relative 'parse_queue'
 require_relative 'utils'
-
+require_relative 'jsonmodel_wrap'
 
 module ASpaceImport
   module XML
@@ -9,14 +9,13 @@ module ASpaceImport
 
       module ClassMethods
         def configure
-          raise "Already configured" if @configuration
-          @configuration = Config.new
-          yield @configuration
+          @config ||= Config.new
+          yield @config
         end
 
 
-        def configuration
-          @configuration
+        def config
+          @config
         end
 
 
@@ -49,18 +48,47 @@ module ASpaceImport
       end
 
 
-      def configuration
-        self.class.configuration
+      def config
+        self.class.config
+      end
+
+
+      def node_queue_for(reader)
+        obj = reader.to_java
+        nodeQueueField = obj.get_class.get_declared_field("nodeQueue")
+        nodeQueueField.setAccessible(true)
+        nodeQueueField.get(obj)
       end
 
 
       def run
 
-        @doc = Nokogiri::XML::Document.parse(IO.read(@input_file))
-        @doc.remove_namespaces!
+        if config.doc_frag_nodes.empty?
+          @doc = Nokogiri::XML::Document.parse(IO.read(@input_file))
+          @doc.remove_namespaces!
 
-        configuration.mappings.each do |path, defn|
-          object(path, defn)
+          config.mappings.each do |path, defn|
+            object(path, defn)
+          end
+        else
+          reader = Nokogiri::XML::Reader(IO.read(@input_file))
+          node_queue = node_queue_for(reader)
+          reader.each_with_index do |node, i|
+            if node.node_type == 1 && config.doc_frag_nodes.include?(node.local_name)
+
+              # it is futile to try to manage namespace
+              # with DocumentFragment.
+              xml = node.outer_xml.gsub(/xmlns[^"]+"[^"]+"/, '')
+
+              @doc = Nokogiri::XML::DocumentFragment.parse(xml)
+              @context = [@doc]
+              config.mappings.each do |path, defn|
+                object(path, defn)
+              end
+            end
+
+            node_queue.set(i, nil)
+          end
         end
       end
 
@@ -83,8 +111,9 @@ module ASpaceImport
           end
           yield obj if block_given?
           @context.pop
-          # dump batch when running in hybrid sax mode
-          @batch.flush if @context.empty?
+        end
+        if @context.length == 1
+          @batch.flush 
         end
       end
 
@@ -128,10 +157,13 @@ module ASpaceImport
         end
       end
 
+
       class Config
         attr_reader :mappings
+        attr_accessor :doc_frag_nodes
 
         def initialize
+          @doc_frag_nodes = []
         end
 
         def init_map(hash)
@@ -147,7 +179,6 @@ module ASpaceImport
           @mappings[arg] = val
         end
       end
-
     end
   end
 end

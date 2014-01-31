@@ -53,7 +53,6 @@ end
 
 
 MarcXMLConverter.configure do |config|
-  config["//record"] = MarcXMLConverter.BASE_RECORD_MAP
+  config.doc_frag_nodes << 'record'
+  config["/record"] = MarcXMLConverter.BASE_RECORD_MAP
 end
-
-
