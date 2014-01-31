@@ -405,8 +405,6 @@ MARC
       tmp.path
     }
 
-    # We pretty much have to ignore namespace because
-    # Nokogiri sucks at this.
     it "ignores namespaces declared at the record node" do
       converter = MarcXMLConverter.new(record_doc)
       converter.run
@@ -458,8 +456,6 @@ MARC
       end
 
       CramXMLConverter.configure do |config|
-        puts config['/record'].keys
-        puts config['/record'][:map].keys
         config['/record'][:map]['self::record'] = Proc.new {|resource, node|
           if !resource.title
             resource.title = "TITLE"
