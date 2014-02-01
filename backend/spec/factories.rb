@@ -110,6 +110,8 @@ FactoryGirl.define do
   sequence(:vocab_name) {|n| "Vocabulary #{generate(:generic_title)} #{n}" }
   sequence(:vocab_refid) {|n| "vocab_ref_#{n}"}
 
+  sequence(:downtown_address) { "#{rand(200)} #{%w(E W).sample} #{(4..9).to_a.sample}th Street" }
+
 
   # AS Models
   if defined? ASModel
@@ -428,9 +430,10 @@ FactoryGirl.define do
 
 
   factory :json_location, class: JSONModel(:location) do
-    building '129 West 81st Street'
-    floor '5'
-    room '5A'
+    building { generate(:downtown_address) }
+    floor { "#{rand(13)}" }
+    room { "#{rand(20)}" }
+    area { %w(Back Front).sample }
     barcode { generate(:barcode) }
     temporary { generate(:temporary_location_type) }
   end
