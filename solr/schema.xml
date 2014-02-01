@@ -91,6 +91,12 @@
 
    <!-- Location properties required for facets -->
    <field name="temporary" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="building" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="floor" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="room" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="area" type="string" indexed="true" stored="true" multiValued="false" />
+
+
 
    <!-- Trees store the URI of their root record -->
    <field name="root_uri" type="string" indexed="true" stored="true" multiValued="false" />
