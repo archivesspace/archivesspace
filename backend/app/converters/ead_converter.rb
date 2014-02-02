@@ -7,6 +7,16 @@ class EADConverter < Converter
   include ASpaceImport::XML::SAX
 
 
+  def self.import_types(show_hidden = false)
+    [
+     {
+       :name => "ead_xml",
+       :description => "Import EAD records from an XML file"
+     }
+    ]
+  end
+
+
   def self.instance_for(type, input_file)
     if type == "ead_xml"
       self.new(input_file)

@@ -156,14 +156,18 @@ ArchivesSpace::Application.routes.draw do
     if Plugins.system_menu_items?
       scope '/plugins' do
         Plugins.system_menu_items.each do |plugin|
-          resources plugin.intern
+          unless Plugins.config_for(plugin)['no_automatic_routes']
+            resources plugin.intern
+          end
         end
       end
     end
     if Plugins.repository_menu_items?
       scope '/plugins' do
         Plugins.repository_menu_items.each do |plugin|
-          resources plugin.intern
+          unless Plugins.config_for(plugin)['no_automatic_routes']
+            resources plugin.intern
+          end
         end
       end
     end

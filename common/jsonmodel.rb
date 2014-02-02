@@ -147,7 +147,7 @@ module JSONModel
         load_schema(parent)
 
         base = @@models[parent].schema["properties"].clone
-        properties = self.deep_merge(base, entry[:schema]["properties"])
+        properties = ASUtils.deep_merge(base, entry[:schema]["properties"])
 
         # Maybe we'll eventually want the version of a schema to be
         # automatically set to max(my_version, parent_version), but for now...
@@ -198,8 +198,8 @@ module JSONModel
 
       AppConfig[:plugins].each do |plugin|
         Dir.glob(File.join('..', 'plugins', plugin, 'schemas', "#{schema_name}_ext.rb")).each do |ext|
-          entry[:schema]['properties'] = self.deep_merge(entry[:schema]['properties'],
-                                                         eval(File.open(ext).read))
+          entry[:schema]['properties'] = ASUtils.deep_merge(entry[:schema]['properties'],
+                                                            eval(File.open(ext).read))
         end
       end
 
@@ -296,18 +296,6 @@ module JSONModel
     end
   end
 
-  # Recursively overlays hash2 onto hash 1
-  def self.deep_merge(hash1, hash2)
-    target = hash1.dup
-    hash2.keys.each do |key|
-      if hash2[key].is_a? Hash and hash1[key].is_a? Hash
-        target[key] = self.deep_merge(target[key], hash2[key])
-        next
-      end
-      target[key] = hash2[key]
-    end
-    target
-  end
 
   protected
 

@@ -29,7 +29,24 @@ class ApplicationController < ActionController::Base
 
   before_filter :unauthorised_access
 
+  def self.permission_mappings
+    Array(@permission_mappings)
+  end
+
+  def self.can_access?(session, method)
+    permission_mappings.each do |permission, actions|
+      if actions.include?(method) && !session_can?(session, permission)
+        return false
+      end
+    end
+
+    return true
+  end
+
+
   def self.set_access_control(permission_mappings)
+    @permission_mappings = permission_mappings
+
     skip_before_filter :unauthorised_access, :only => Array(permission_mappings.values).flatten.uniq
 
     permission_mappings.each do |permission, actions|
@@ -174,6 +191,11 @@ class ApplicationController < ActionController::Base
 
   helper_method :user_can?
   def user_can?(permission, repository = nil)
+    self.class.session_can?(session, permission, repository)
+  end
+
+
+  def self.session_can?(session, permission, repository = nil)
     repository ||= session[:repo]
 
     (session &&
@@ -182,6 +204,7 @@ class ApplicationController < ActionController::Base
      (Permissions.user_can?(session[:permissions], repository, permission) ||
       Permissions.user_can?(session[:permissions], ASConstants::Repository.GLOBAL, permission)))
   end
+
 
   helper_method :current_vocabulary
   def current_vocabulary

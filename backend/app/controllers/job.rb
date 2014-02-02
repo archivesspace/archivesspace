@@ -18,6 +18,17 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.get('/repositories/:repo_id/jobs/types')
+    .description("List all supported import job types")
+    .params(["repo_id", :repo_id])
+    .permissions([])
+    .returns([200, "A list of supported job types"]) \
+  do
+    show_hidden = false
+    json_response(Converter.list_import_types(show_hidden))
+  end
+
+
   Endpoint.post('/repositories/:repo_id/jobs/:id/cancel')
     .description("Cancel an import job")
     .params(["id", :id],

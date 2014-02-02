@@ -145,4 +145,19 @@ EOF
     raise exception if exception
   end
 
+
+  # Recursively overlays hash2 onto hash 1
+  def self.deep_merge(hash1, hash2)
+    target = hash1.dup
+    hash2.keys.each do |key|
+      if hash2[key].is_a? Hash and hash1[key].is_a? Hash
+        target[key] = self.deep_merge(target[key], hash2[key])
+        next
+      end
+      target[key] = hash2[key]
+    end
+    target
+  end
+
+
 end

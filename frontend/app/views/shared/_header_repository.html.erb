@@ -99,12 +99,14 @@
 
             <li><%= link_to I18n.t("navbar.list_reports"), :controller => :reports, :action => :index %></li>
 
-            <% if Plugins.repository_menu_items? %>
+            <% if Plugins.repository_menu_items.any? {|plugin| has_permission_for_controller?(session, plugin)} %>
               <li class="dropdown plugin-container">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("navbar.plugins") %> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <% Plugins.repository_menu_items.each do |plugin| %>
-                    <li><%= link_to I18n.t("plugins.#{plugin}.label"), :controller => plugin.intern, :action => :index %></li>
+                    <% if has_permission_for_controller?(session, plugin) %>
+                      <li><%= link_to I18n.t("plugins.#{plugin}.label"), :controller => plugin.intern, :action => :index %></li>
+                    <% end %>
                   <% end %>
                 </ul>
               </li>

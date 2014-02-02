@@ -32,6 +32,8 @@ module ArchivesSpace
     # config.autoload_paths += %W(#{config.root}/extras)
 
     config.paths["app/controllers"].concat(ASUtils.find_local_directories("frontend/controllers"))
+    config.paths["app/models"].concat(ASUtils.find_local_directories("frontend/models"))
+
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.

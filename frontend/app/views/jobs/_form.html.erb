@@ -13,7 +13,7 @@
   <% define_template("job", jsonmodel_definition(:job)) do |form| %>
     <section>
       <fieldset>
-        <%= form.label_and_select "import_type", form.possible_options_for("import_type", true) %>
+        <%= form.label_and_select "import_type", @job_types %>
       </fieldset>
     </section>
     <hr/>

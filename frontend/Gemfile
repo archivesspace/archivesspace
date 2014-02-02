@@ -65,3 +65,7 @@ gem "multipart-post"
 
 gem "rubyzip", "1.0.0"
 gem "zip-zip"
+
+# The frontend doesn't specifically depend on Nokogiri at the moment, but
+# several plugins use it.
+gem "nokogiri"

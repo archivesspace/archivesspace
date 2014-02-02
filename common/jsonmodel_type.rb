@@ -276,7 +276,7 @@ class JSONModelType
   # 'params', validating before accepting the update.
   def update(params)
     @validated = false
-    replace(JSONModel.deep_merge(@data, params))
+    replace(ASUtils.deep_merge(@data, params))
   end
 
 

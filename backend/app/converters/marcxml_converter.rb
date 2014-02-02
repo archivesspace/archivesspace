@@ -7,6 +7,20 @@ class MarcXMLConverter < Converter
   include ASpaceImport::XML::DOM
 
 
+  def self.import_types(show_hidden = false)
+    [
+     {
+       :name => "marcxml",
+       :description => "Import all record types from a MARC XML file"
+     },
+     {
+       :name => "marcxml_subjects_and_agents",
+       :description => "Import only subjects and agents from a MARC XML file"
+     }
+    ]
+  end
+
+
   def self.instance_for(type, input_file)
     if type == "marcxml"
       self.new(input_file)
@@ -15,11 +29,6 @@ class MarcXMLConverter < Converter
     else
       nil
     end
-  end
-
-
-  def initialize(input_file)
-    super(input_file)
   end
 
 

@@ -1,4 +1,5 @@
 require 'nokogiri'
+require_relative 'parse_queue'
 require_relative 'utils'
 
 

@@ -539,7 +539,7 @@ FactoryGirl.define do
   end
 
   factory :json_import_job, class: JSONModel(:job) do
-    import_type { sample(JSONModel(:job).schema['properties']['import_type']) }
+    import_type { ['marcxml', 'ead_xml', 'eac_xml'].sample }
     filenames { (0..3).map { generate(:alphanumstr) } }
   end
 

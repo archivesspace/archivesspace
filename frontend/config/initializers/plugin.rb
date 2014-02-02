@@ -31,7 +31,7 @@ module Plugins
 
 
   def self.system_menu_items
-    @config[:system_menu_items]
+    Array(@config[:system_menu_items])
   end
 
 
@@ -41,7 +41,7 @@ module Plugins
 
 
   def self.repository_menu_items
-    @config[:repository_menu_items]
+    Array(@config[:repository_menu_items])
   end
 
 
@@ -51,7 +51,7 @@ module Plugins
 
 
   def self.config_for(plugin)
-    @config[:plugin][plugin]
+    @config[:plugin][plugin] || {}
   end
 
 

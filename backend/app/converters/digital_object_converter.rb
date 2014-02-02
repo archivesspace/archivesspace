@@ -6,6 +6,16 @@ class DigitalObjectConverter < Converter
   include ASpaceImport::CSVConvert
 
 
+  def self.import_types(show_hidden = false)
+    [
+     {
+       :name => "digital_object_csv",
+       :description => "Import Digital Object records from a CSV file"
+     }
+    ]
+  end
+
+
   def self.instance_for(type, input_file)
     if type == "digital_object_csv"
       self.new(input_file)

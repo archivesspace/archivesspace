@@ -12,6 +12,7 @@ class JobsController < ApplicationController
 
   def new
     @job = JSONModel(:job).new._always_valid!
+    @job_types = Job.available_types.map {|e| [I18n.t("job.import_type_#{e['name']}"), e['name']]}
   end
 
   def create
