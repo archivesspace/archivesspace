@@ -64,11 +64,11 @@ class ArchivesSpaceService < Sinatra::Base
            [400, :error],
            [409, :error]) \
   do
-    ao = DigitalObjectComponent.get_or_die(params[:id])
+    doc = DigitalObjectComponent.get_or_die(params[:id])
 
-    ao.add_children(params[:children])
+    doc.add_children(params[:children])
 
-    updated_response(ao)
+    updated_response(doc)
   end
 
   Endpoint.post('/repositories/:repo_id/archival_objects/:id/accept_children')

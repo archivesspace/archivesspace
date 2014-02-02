@@ -13,7 +13,7 @@ class DigitalObjectComponentsController < ApplicationController
 
     return render :partial => "digital_object_components/new_inline" if inline?
 
-    # render the full AO form
+    # render the full DOC form
 
   end
 
@@ -110,11 +110,11 @@ class DigitalObjectComponentsController < ApplicationController
   def validate_rows
     row_data = cleanup_params_for_schema(params[:digital_record_children], JSONModel(:digital_record_children).schema)
 
-    # build the AOC record but don't bother validating it yet...
-    aoc = DigitalObjectComponentChildren.from_hash(row_data, false, true)
+    # build the DOC record but don't bother validating it yet...
+    do_children = DigitalObjectComponentChildren.from_hash(row_data, false, true)
 
     # validate each row individually (to avoid weird indexes in the error paths)
-    render :json => aoc.children.collect{|c| JSONModel(:digital_object_component).from_hash(c, false)._exceptions}
+    render :json => do_children.children.collect{|c| JSONModel(:digital_object_component).from_hash(c, false)._exceptions}
   end
 
   def add_children
