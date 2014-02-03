@@ -11,7 +11,7 @@ module NotesHelper
       }
     }
 
-    if !(jsonmodel_type =~ /digital_object/).nil?
+    if jsonmodel_type =~ /digital_object/
 
       # Digital object/digital object component
       JSONModel.enum_values(JSONModel(:note_digital_object).schema['properties']['type']['dynamic_enum']).each do |type|
@@ -23,7 +23,7 @@ module NotesHelper
         }
       end
 
-    elsif !(jsonmodel_type =~ /agent/).nil?
+    elsif jsonmodel_type =~ /agent/
 
       note_types = {"bioghist" => {
           :target => :note_bioghist,
