@@ -88,17 +88,23 @@ class ArchivesSpaceService < Sinatra::Base
 
     raise RecordNotFound.new if node_info.nil?
 
-    search_data = Solr.search("*:*", 1, 1,
-                              JSONModel(:repository).id_for(node_info[:repository]),
-                              ['tree_view'], show_suppressed, true, true, [],
-                              [{
-                                 :node_uri => params[:node_uri]
-                               }.to_json])
+    query = Solr::Query.create_match_all_query.
+                        pagination(1, 1).
+                        set_repo_id(JSONModel(:repository).id_for(node_info[:repository])).
+                        set_record_types(['tree_view']).
+                        show_suppressed(show_suppressed).
+                        show_excluded_docs(true).
+                        set_filter_terms([
+                                          {
+                                            :node_uri => params[:node_uri]
+                                          }.to_json
+                                         ])
+
+    search_data = Solr.search(query)
 
     raise RecordNotFound.new if search_data["total_hits"] === 0
 
     json_response(search_data["results"][0])
-
   end
 
 end

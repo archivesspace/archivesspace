@@ -13,7 +13,14 @@ class ArchivesSpaceService < Sinatra::Base
              [404, "No external ID matched"]) \
   do
     show_suppressed = !RequestContext.get(:enforce_suppression)
-    results = Solr.search("{!term f=external_id}#{params[:eid]}", 1, 10, nil, params[:type], show_suppressed)
+
+    query = Solr::Query.create_keyword_search("{!term f=external_id}#{params[:eid]}").
+                        pagination(1, 10).
+                        set_record_types(params[:type]).
+                        show_suppressed(show_suppressed).
+                        use_standard_query_type
+
+    results = Solr.search(query)
 
     if results['total_hits'] == 0
       [404, {}, "[]"]

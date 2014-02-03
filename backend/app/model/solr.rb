@@ -6,83 +6,242 @@ class Solr
 
   @@opts_hooks ||= []
 
-  def self.solr_url
-    URI.parse(AppConfig[:solr_url])
-  end
-
 
   def self.add_search_hook(&block)
     @@opts_hooks << block
   end
 
-  def self.search(query, page, page_size, repo_id,
-                  record_types = nil,
-                  show_suppressed = false,
-                  show_published_only = false,
-                  show_excluded_docs = false,
-                  excluded_ids = [], filter_terms = [],  extra_solr_params = {}, root_record = nil)
-    url = solr_url
+  def self.search_hooks
+    @@opts_hooks
+  end
 
-    opts = {
-      :q => query,
-      :wt => "json",
-      :defType => "edismax",
-      :qf => "title^2 fullrecord",
-      :start => (page - 1) * page_size,
-      :rows => page_size,
-    }.to_a
 
-    extra_solr_params.each { |k,v|
-      Array(v).each {|val| opts << [k, val]}
-    }
 
-    opts << ["facet", true] if extra_solr_params.has_key?("facet.field")
 
-    if repo_id
-      opts << [:fq, "repository:\"/repositories/#{repo_id}\" OR repository:global"]
+  class Query
+
+    def self.create_match_all_query
+      new("*:*")
     end
 
-    if record_types
-      query = record_types.map { |type| "\"#{type}\"" }.join(' OR ')
-      opts << [:fq, "types:(#{query})"]
+
+    def self.create_keyword_search(query)
+      new(query)
     end
 
-    if !show_suppressed
-      opts << [:fq, "suppressed:false"]
+
+    def self.create_advanced_search(advanced_query_json)
+      new(construct_advanced_query(advanced_query_json['query'])).
+        use_standard_query_type
     end
 
-    if !show_excluded_docs
-      opts << [:fq, "-exclude_by_default:true"]
+
+    def construct_advanced_query_string(advanced_query)
+      if advanced_query.has_key?('subqueries')
+        subqueries = advanced_query['subqueries'].map {|subq|
+          construct_advanced_query_string(subq)
+        }.join(" #{advanced_query['op']} ")
+
+        "(#{subqueries})"
+      else
+        prefix = advanced_query['negated'] ? "-" : ""
+
+        field = advanced_query['field']
+        value = advanced_query['value']
+
+        "#{prefix}#{field}:(#{value})"
+      end
     end
 
-    if show_published_only
-      opts << [:fq, "publish:true"]
+
+    def initialize(query_string)
+      @solr_url = URI.parse(AppConfig[:solr_url])
+
+      @query_string = query_string
+      @writer_type = "json"
+      @query_type = :edismax
+      @pagination = nil
+      @solr_params = []
+      @facet_fields = []
+
+      @show_suppressed = false
+      @show_published_only = false
     end
 
-    if excluded_ids && !excluded_ids.empty?
-      query = excluded_ids.map { |id| "\"#{id}\"" }.join(' OR ')
-      opts << [:fq, "-id:(#{query})"]
+
+    def set_solr_url(solr_url)
+      @solr_url = solr_url
+      self
     end
 
-    if root_record
-      opts << [:fq, "(resource:\"#{root_record}\" OR digital_object:\"#{root_record}\")"]
+
+    def use_standard_query_type
+      @query_type = :standard
+      self
     end
 
-    if filter_terms && !filter_terms.empty?
-      filter_terms.map{|str| JSON.parse(str)}.each{|json|
-        json.each {|facet, term|
-          opts << [:fq, "{!term f=#{facet.strip}}#{term.kind_of?(String) ? term.strip : term}"]
+
+    def pagination(page, page_size)
+      @pagination = {:page => page, :page_size => page_size}
+      self
+    end
+
+
+    def page_size
+      @pagination[:page_size]
+    end
+
+
+    def set_repo_id(repo_id)
+      if repo_id
+        add_solr_param(:fq, "repository:\"/repositories/#{repo_id}\" OR repository:global")
+      end
+
+      self
+    end
+
+
+    def set_root_record(root_record)
+      if root_record
+        add_solr_param(:fq, "(resource:\"#{root_record}\" OR digital_object:\"#{root_record}\")")
+      end
+
+      self
+    end
+
+
+    def set_record_types(record_types)
+      if record_types
+        query =  Array(record_types).map { |type| "\"#{type}\"" }.join(' OR ')
+        add_solr_param(:fq, "types:(#{query})")
+      end
+
+      self
+    end
+
+
+    def set_excluded_ids(ids)
+      if ids
+        query = excluded_ids.map { |id| "\"#{id}\"" }.join(' OR ')
+        add_solr_param(:fq, "-id:(#{query})")
+      end
+
+      self
+    end
+
+
+    def set_filter_terms(filter_terms)
+      unless Array(filter_terms).empty?
+        filter_terms.map{|str| ASUtils.json_parse(str)}.each{|json|
+          json.each {|facet, term|
+            add_solr_param(:fq, "{!term f=#{facet.strip}}#{term.to_s.strip}")
+          }
         }
-      }
+      end
 
+      self
     end
 
-    @@opts_hooks.each do |hook|
-      hook.call(opts)
+
+    def show_suppressed(value)
+      @show_suppressed = value
+      self
     end
 
-    url.path = "/select"
-    url.query = URI.encode_www_form(opts)
+
+    def set_facets(fields)
+      if fields
+        @facet_fields = fields
+      end
+
+      self
+    end
+
+
+    def set_sort(sort)
+      add_solr_param(:sort, sort)
+    end
+
+
+    def show_excluded_docs(value)
+      @show_excluded_docs = value
+      self
+    end
+
+
+    def show_published_only(value)
+      @show_published_only = value
+      self
+    end
+
+
+    def add_solr_param(param, value)
+      @solr_params << [param, value]
+      self
+    end
+
+
+    def set_writer_type(type)
+      @writer_type = type
+    end
+
+
+    def to_solr_url
+      raise "Missing pagination settings" unless @pagination
+
+      unless @show_excluded_docs
+        add_solr_param(:fq, "-exclude_by_default:true")
+      end
+
+      if @show_published_only
+        add_solr_param(:fq, "publish:true")
+      end
+
+      unless @show_suppressed
+        add_solr_param(:fq, "suppressed:false")
+      end
+
+      add_solr_param(:facet, "true")
+      unless @facet_fields.empty?
+        add_solr_param(:"facet.field", @facet_fields)
+      end
+
+      if @query_type == :edismax
+        add_solr_param(:defType, "edismax")
+        add_solr_param(:qf, "title^2 fullrecord")
+      end
+
+      Solr.search_hooks.each do |hook|
+        hook.call(self)
+      end
+
+      opts = {
+        :q => @query_string,
+        :wt => "json",
+        :start => (@pagination[:page] - 1) * @pagination[:page_size],
+        :rows => @pagination[:page_size],
+      }.to_a
+
+
+      url = @solr_url
+      url.path = "/select"
+      url.query = URI.encode_www_form([[:q, @query_string],
+                                       [:wt, @writer_type],
+                                       [:start, (@pagination[:page] - 1) * @pagination[:page_size]],
+                                       [:rows, @pagination[:page_size]]] +
+                                      @solr_params)
+
+
+      url
+    end
+
+  end
+
+
+
+  def self.search(query)
+
+    url = query.to_solr_url
 
     req = Net::HTTP::Get.new(url.request_uri)
 
@@ -93,6 +252,8 @@ class Solr
         json = ASUtils.json_parse(solr_response.body)
 
         result = {}
+
+        page_size = query.page_size
 
         result['first_page'] = 1
         result['last_page'] = (json['response']['numFound'] / page_size.to_f).ceil
