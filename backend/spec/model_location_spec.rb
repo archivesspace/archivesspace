@@ -3,7 +3,8 @@ require 'spec_helper'
 describe 'Location model' do
 
   it "can be created from a JSON module" do
-    location = Location.create_from_json(build(:json_location), :repo_id => $repo_id)
+    location = Location.create_from_json(build(:json_location, :building => "129 West 81st Street"),
+                                         :repo_id => $repo_id)
 
     Location[location[:id]].building.should eq("129 West 81st Street")
     Location[location[:id]].barcode.should match(/[0,1]?/)
@@ -18,7 +19,6 @@ describe 'Location model' do
     
     location = Location.create_from_json(build(:json_location, opts), :repo_id => $repo_id)
 
-    Location[location[:id]].building.should eq("129 West 81st Street")
     Location[location[:id]].coordinate_1_label.should eq("Position XYZ")
     Location[location[:id]].coordinate_2_indicator.should eq("Z55")
   end
@@ -29,7 +29,6 @@ describe 'Location model' do
     
     location = Location.create_from_json(build(:json_location, opts), :repo_id => $repo_id)
 
-    Location[location[:id]].building.should eq("129 West 81st Street")
     Location[location[:id]].classification.should eq("Foo Foo Foo Foo")
   end
 
@@ -38,10 +37,11 @@ describe 'Location model' do
 
     building = "1 Testing Street"
     barcode = "011011001"
+    area = "Area"
 
-    location = Location.create_from_json(build(:json_location, {:building => building, :barcode => barcode, :floor => nil, :room => nil}), :repo_id => $repo_id)
+    location = Location.create_from_json(build(:json_location, {:building => building, :barcode => barcode, :floor => nil, :room => nil, :area => area}), :repo_id => $repo_id)
 
-    Location[location[:id]].title.should eq("#{building} [#{barcode}]")
+    Location[location[:id]].title.should eq("#{building}, #{area} [#{barcode}]")
   end
 
 
