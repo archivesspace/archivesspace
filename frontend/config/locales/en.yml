@@ -149,6 +149,10 @@ en:
     event_type: Type
     identifier: Identifier
     select: Select
+    building: Building
+    floor: Floor
+    room: Room
+    area: Area
 
   become-user:
     become-user: Become User

@@ -141,6 +141,10 @@ class CommonIndexer
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'location' and record['record'].has_key? 'temporary'
         doc['temporary'] = record['record']['temporary']
+        doc['building'] = record['record']['building']
+        doc['floor'] = record['record']['floor']
+        doc['room'] = record['record']['room']
+        doc['area'] = record['record']['area']
       end
     }
 

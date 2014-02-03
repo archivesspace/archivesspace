@@ -4,7 +4,7 @@ def sample(enum, exclude = [])
   values = if enum.has_key?('enum')
              enum['enum']
            elsif enum.has_key?('dynamic_enum')
-             BackendEnumSource.values_for(enum['dynamic_enum'])
+             enum_source.values_for(enum['dynamic_enum'])
            else
              raise "Not sure how to sample this: #{enum.inspect}"
            end
@@ -12,6 +12,15 @@ def sample(enum, exclude = [])
   exclude += ['other_unmapped']
 
   values.reject{|i| exclude.include?(i) }.sample
+end
+
+
+def enum_source
+  if defined? BackendEnumSource
+    BackendEnumSource
+  else
+    JSONModel.init_args[:enum_source]
+  end
 end
 
 
@@ -101,111 +110,113 @@ FactoryGirl.define do
   sequence(:vocab_name) {|n| "Vocabulary #{generate(:generic_title)} #{n}" }
   sequence(:vocab_refid) {|n| "vocab_ref_#{n}"}
 
+  sequence(:downtown_address) { "#{rand(200)} #{%w(E W).sample} #{(4..9).to_a.sample}th Street" }
+
 
   # AS Models
+  if defined? ASModel
+    factory :unselected_repo, class: Repository do
+      json_schema_version { 1 }
+      repo_code { generate(:repo_code) }
+      name { generate(:generic_description) }
+      agent_representation_id { 1 }
+    end
 
-  factory :unselected_repo, class: Repository do
-    json_schema_version { 1 }
-    repo_code { generate(:repo_code) }
-    name { generate(:generic_description) }
-    agent_representation_id { 1 }
-  end
+    factory :repo, class: Repository do
+      json_schema_version { 1 }
+      repo_code { generate(:repo_code) }
+      name { generate(:generic_description) }
+      agent_representation_id { 1 }
+      org_code { generate(:alphanumstr) }
+      image_url { generate(:url) }
+      after(:create) do |r|
+        $repo_id = r.id
+        $repo = JSONModel(:repository).uri_for(r.id)
+        JSONModel::set_repository($repo_id)
+        RequestContext.put(:repo_id, $repo_id)
+      end
+    end
 
-  factory :repo, class: Repository do
-    json_schema_version { 1 }
-    repo_code { generate(:repo_code) }
-    name { generate(:generic_description) }
-    agent_representation_id { 1 }
-    org_code { generate(:alphanumstr) }
-    image_url { generate(:url) }
-    after(:create) do |r|
-      $repo_id = r.id
-      $repo = JSONModel(:repository).uri_for(r.id)
-      JSONModel::set_repository($repo_id)
-      RequestContext.put(:repo_id, $repo_id)
+    factory :agent_corporate_entity, class: AgentCorporateEntity do
+      json_schema_version { 1 }
+      notes_json_schema_version { 1 }
+      after(:create) do |a|
+        a.add_name_corporate_entity(:rules => generate(:name_rule),
+                                    :primary_name => generate(:generic_name),
+                                    :sort_name => generate(:sort_name),
+                                    :sort_name_auto_generate => 1,
+                                    :json_schema_version => 1)
+        a.add_agent_contact(:name => generate(:generic_name),
+                            :telephone => generate(:phone_number),
+                            :address_1 => [nil, generate(:alphanumstr)].sample,
+                            :address_2 => [nil, generate(:alphanumstr)].sample,
+                            :address_3 => [nil, generate(:alphanumstr)].sample,
+                            :city => [nil, generate(:alphanumstr)].sample,
+                            :region => [nil, generate(:alphanumstr)].sample,
+                            :country => [nil, generate(:alphanumstr)].sample,
+                            :post_code => [nil, generate(:alphanumstr)].sample,
+                            :telephone => [nil, generate(:alphanumstr)].sample,
+                            :fax => [nil, generate(:alphanumstr)].sample,
+                            :email => [nil, generate(:alphanumstr)].sample,
+                            :email_signature => [nil, generate(:alphanumstr)].sample,
+                            :note => [nil, generate(:alphanumstr)].sample,
+                            :json_schema_version => 1)
+      end
+    end
+
+    factory :user, class: User do
+      json_schema_version { 1 }
+      # before(:create) { agent = create(:json_agent_person) }
+
+      username { generate(:username) }
+      name { generate(:generic_name) }
+      agent_record_type :agent_person
+      agent_record_id {JSONModel(:agent_person).id_for(create(:json_agent_person).uri)}
+      source 'local'
+    end
+
+    factory :accession do
+      json_schema_version { 1 }
+      id_0 { generate(:alphanumstr) }
+      id_1 { generate(:alphanumstr) }
+      id_2 { generate(:alphanumstr) }
+      id_3 { generate(:alphanumstr) }
+      title { "Accession " + generate(:generic_title) }
+      content_description { generate(:generic_description) }
+      condition_description { generate(:generic_description) }
+      accession_date { generate(:yyyy_mm_dd) }
+    end
+
+    factory :resource do
+      json_schema_version { 1 }
+      notes_json_schema_version { 1 }
+      title { generate(:generic_title) }
+      id_0 { generate(:alphanumstr) }
+      id_1 { generate(:alphanumstr) }
+      level { generate(:archival_record_level) }
+      language { generate(:language) }
+    end
+
+    factory :extent do
+      json_schema_version { 1 }
+      portion { generate(:portion) }
+      number { generate(:number) }
+      extent_type { generate(:extent_type) }
+      resource_id nil
+      archival_object_id nil
+    end
+
+    factory :archival_object do
+      json_schema_version { 1 }
+      notes_json_schema_version { 1 }
+      title { generate(:generic_title) }
+      repo_id nil
+      ref_id { generate(:alphanumstr) }
+      level { generate(:archival_record_level) }
+      root_record_id nil
+      parent_id nil
     end
   end
-
-  factory :agent_corporate_entity, class: AgentCorporateEntity do
-    json_schema_version { 1 }
-    notes_json_schema_version { 1 }
-    after(:create) do |a|
-      a.add_name_corporate_entity(:rules => generate(:name_rule),
-                                  :primary_name => generate(:generic_name),
-                                  :sort_name => generate(:sort_name),
-                                  :sort_name_auto_generate => 1,
-                                  :json_schema_version => 1)
-      a.add_agent_contact(:name => generate(:generic_name),
-                          :telephone => generate(:phone_number),
-                          :address_1 => [nil, generate(:alphanumstr)].sample,
-                          :address_2 => [nil, generate(:alphanumstr)].sample,
-                          :address_3 => [nil, generate(:alphanumstr)].sample,
-                          :city => [nil, generate(:alphanumstr)].sample,
-                          :region => [nil, generate(:alphanumstr)].sample,
-                          :country => [nil, generate(:alphanumstr)].sample,
-                          :post_code => [nil, generate(:alphanumstr)].sample,
-                          :telephone => [nil, generate(:alphanumstr)].sample,
-                          :fax => [nil, generate(:alphanumstr)].sample,
-                          :email => [nil, generate(:alphanumstr)].sample,
-                          :email_signature => [nil, generate(:alphanumstr)].sample,
-                          :note => [nil, generate(:alphanumstr)].sample,
-                          :json_schema_version => 1)
-    end
-  end
-
-  factory :user, class: User do
-    json_schema_version { 1 }
-    # before(:create) { agent = create(:json_agent_person) }
-
-    username { generate(:username) }
-    name { generate(:generic_name) }
-    agent_record_type :agent_person
-    agent_record_id {JSONModel(:agent_person).id_for(create(:json_agent_person).uri)}
-    source 'local'
-  end
-
-  factory :accession do
-    json_schema_version { 1 }
-    id_0 { generate(:alphanumstr) }
-    id_1 { generate(:alphanumstr) }
-    id_2 { generate(:alphanumstr) }
-    id_3 { generate(:alphanumstr) }
-    title { "Accession " + generate(:generic_title) }
-    content_description { generate(:generic_description) }
-    condition_description { generate(:generic_description) }
-    accession_date { generate(:yyyy_mm_dd) }
-  end
-
-  factory :resource do
-    json_schema_version { 1 }
-    notes_json_schema_version { 1 }
-    title { generate(:generic_title) }
-    id_0 { generate(:alphanumstr) }
-    id_1 { generate(:alphanumstr) }
-    level { generate(:archival_record_level) }
-    language { generate(:language) }
-  end
-
-  factory :extent do
-    json_schema_version { 1 }
-    portion { generate(:portion) }
-    number { generate(:number) }
-    extent_type { generate(:extent_type) }
-    resource_id nil
-    archival_object_id nil
-  end
-
-  factory :archival_object do
-    json_schema_version { 1 }
-    notes_json_schema_version { 1 }
-    title { generate(:generic_title) }
-    repo_id nil
-    ref_id { generate(:alphanumstr) }
-    level { generate(:archival_record_level) }
-    root_record_id nil
-    parent_id nil
-  end
-
   # JSON Models:
 
   factory :json_accession, class: JSONModel(:accession) do
@@ -419,9 +430,10 @@ FactoryGirl.define do
 
 
   factory :json_location, class: JSONModel(:location) do
-    building '129 West 81st Street'
-    floor '5'
-    room '5A'
+    building { generate(:downtown_address) }
+    floor { "#{rand(13)}" }
+    room { "#{rand(20)}" }
+    area { %w(Back Front).sample }
     barcode { generate(:barcode) }
     temporary { generate(:temporary_location_type) }
   end
