@@ -7,26 +7,30 @@ $(function() {
 
   $.fn.init_rapid_data_entry_form = function($modal, $node) {
     $(this).each(function() {
-      var $this = $(this);
-      var $table = $("table#rdeTable", $this);
+      var $rde_form = $(this);
+      var $table = $("table#rdeTable", $rde_form);
 
-      if ($this.hasClass("initialised")) {
+      if ($rde_form.hasClass("initialised")) {
         return;
       }
 
+      // Cookie Names
+      var COOKIE_NAME_VISIBLE_COLUMN = "rde."+$rde_form.data("cookie-prefix")+".visible";
+      var COOKIE_NAME_STICKY_COLUMN = "rde."+$rde_form.data("cookie-prefix")+".sticky";
+      var COOKIE_NAME_COLUMN_WIDTHS = "rde."+$rde_form.data("cookie-prefix")+".widths";
+      var COOKIE_NAME_COLUMN_ORDER = "rde."+$rde_form.data("cookie-prefix")+".order";
+
       // Config from Cookies
-      var VISIBLE_COLUMN_IDS =  AS.prefixed_cookie("rde.visible") ? JSON.parse(AS.prefixed_cookie("rde.visible")) : null;
-      var STICKY_COLUMN_IDS =  AS.prefixed_cookie("rde.sticky") ? JSON.parse(AS.prefixed_cookie("rde.sticky")) : null;
-      var COLUMN_WIDTHS =  AS.prefixed_cookie("rde.widths") ? JSON.parse(AS.prefixed_cookie("rde.widths")) : null;
-      var COLUMN_ORDER =  AS.prefixed_cookie("rde.order") ? JSON.parse(AS.prefixed_cookie("rde.order")) : null;
+      var VISIBLE_COLUMN_IDS =  AS.prefixed_cookie(COOKIE_NAME_VISIBLE_COLUMN) ? JSON.parse(AS.prefixed_cookie(COOKIE_NAME_VISIBLE_COLUMN)) : null;
+      var STICKY_COLUMN_IDS =  AS.prefixed_cookie(COOKIE_NAME_STICKY_COLUMN) ? JSON.parse(AS.prefixed_cookie(COOKIE_NAME_STICKY_COLUMN)) : null;
+      var COLUMN_WIDTHS =  AS.prefixed_cookie(COOKIE_NAME_COLUMN_WIDTHS) ? JSON.parse(AS.prefixed_cookie(COOKIE_NAME_COLUMN_WIDTHS)) : null;
+      var COLUMN_ORDER =  AS.prefixed_cookie(COOKIE_NAME_COLUMN_ORDER) ? JSON.parse(AS.prefixed_cookie(COOKIE_NAME_COLUMN_ORDER)) : null;
 
       // store section data
       var SECTION_DATA = {};
       $(".sections th", $table).each(function() {
         SECTION_DATA[$(this).data("id")] = $(this).text();
       });
-
-      var index = 0;
 
       var validateSubmissionOnly = false;
 
@@ -52,13 +56,13 @@ $(function() {
         event.preventDefault();
         event.stopPropagation();
 
-        $(":input, .btn", $this).attr("disabled", "disabled");
+        $(":input, .btn", $rde_form).attr("disabled", "disabled");
 
         // reset cookies
-        AS.prefixed_cookie("rde.visible", null);
-        AS.prefixed_cookie("rde.widths", null);
-        AS.prefixed_cookie("rde.sticky", null);
-        AS.prefixed_cookie("rde.order", null);
+        AS.prefixed_cookie(COOKIE_NAME_VISIBLE_COLUMN, null);
+        AS.prefixed_cookie(COOKIE_NAME_COLUMN_WIDTHS, null);
+        AS.prefixed_cookie(COOKIE_NAME_STICKY_COLUMN, null);
+        AS.prefixed_cookie(COOKIE_NAME_COLUMN_ORDER, null);
         VISIBLE_COLUMN_IDS = null;
         STICKY_COLUMN_IDS = null;
         COLUMN_WIDTHS = null;
@@ -79,21 +83,34 @@ $(function() {
         validateRows($row);
       });
 
+
+      var setRowIndex = function() {
+        current_row_index = Math.max($("tbody tr", $table).length-1, 0);
+        $("tbody tr", $table).each(function(i, row) {
+          $(row).data("index", i);
+        });
+      };
+      var current_row_index = 0;
+      setRowIndex();
+
+
       var addRow = function(event) {
         var $currentRow = $(event.target).closest("tr");
         if ($currentRow.length === 0) {
-          $currentRow = $("table tbody tr:last", $this);
+          $currentRow = $("table tbody tr:last", $rde_form);
         }
 
-        index = index+1;
+        current_row_index = current_row_index+1;
 
-        var $row = $(AS.renderTemplate("template_rde_row", {
-          path: "archival_record_children[children]["+index+"]",
-          id_path: "archival_record_children_children__"+index+"_",
-          index: index
+        var $row = $(AS.renderTemplate("template_rde_"+$rde_form.data("child-type")+"_row", {
+          path: $rde_form.data("jsonmodel-type") + "[children]["+current_row_index+"]",
+          id_path: $rde_form.data("jsonmodel-type") + "_children__"+current_row_index+"_",
+          index: current_row_index
         }));
 
-        $(".fieldset-labels th", $this).each(function(i, th) {
+        $row.data("index", current_row_index);
+
+        $(".fieldset-labels th", $rde_form).each(function(i, th) {
           var $th = $(th);
 
           // Apply any sticky columns
@@ -179,11 +196,11 @@ $(function() {
       $modal.on("click", "th.fieldset-label", function(event) {
         $(this).toggleClass("sticky");
         var sticky = [];
-        $("table th.sticky", $this).each(function() {
+        $("table th.sticky", $rde_form).each(function() {
           sticky.push($(this).attr("id"));
         });
         STICKY_COLUMN_IDS = sticky;
-        AS.prefixed_cookie("rde.sticky", JSON.stringify(STICKY_COLUMN_IDS));
+        AS.prefixed_cookie(COOKIE_NAME_STICKY_COLUMN, JSON.stringify(STICKY_COLUMN_IDS));
       });
 
       $modal.on("click", "[data-dismiss]", function(event) {
@@ -203,14 +220,14 @@ $(function() {
             $row.removeClass("valid").addClass("invalid");
 
             $.each(row_result.errors, function(name, error) {
-              var $input = $("[id$='_"+name.replace(/\//g, "__")+"_']", $row);
+              var $input = $("[id='"+$rde_form.data("jsonmodel-type")+"_children__"+$row.data("index")+"__"+name.replace(/\//g, "__")+"_']", $row);
               var $header = $($(".fieldset-labels th", $table).get($input.first().closest("td").index()));
 
               $input.closest(".control-group").addClass("error");
 
               var $error = $("<div class='error'>");
 
-              if ($input.length > 1) {
+              if ($input.length > 1 || $input.hasClass("defer-to-section")) {
                 $error.text(SECTION_DATA[$header.data("section")]);
               } else {
                 $error.text($($(".fieldset-labels th", $table).get($input.closest("td").index())).text());
@@ -231,15 +248,17 @@ $(function() {
       };
 
       var initAjaxForm = function() {
-        $this.ajaxForm({
+        $rde_form.ajaxForm({
           target: $(".rde-wrapper", $modal),
           success: function() {
             $(window).trigger("resize");
-            $this = $("form", "#rapidDataEntryModal");
-            $table = $("table", $this);
+            $rde_form = $("form", "#rapidDataEntryModal");
+            $table = $("table", $rde_form);
 
-            if ($this.length) {
-              renderInlineErrors($("tbody tr", $this), $this.data("exceptions"));
+            setRowIndex();
+
+            if ($rde_form.length) {
+              renderInlineErrors($("tbody tr", $rde_form), $rde_form.data("exceptions"));
 
               initAjaxForm();
             } else {
@@ -344,7 +363,7 @@ $(function() {
         var $fillFormsContainer = $(".fill-column-form", $modal);
         var $btnFillFormToggle = $("button.fill-column", $modal);
 
-        var $sourceRow = $("table tbody tr:first", $this);
+        var $sourceRow = $("table tbody tr:first", $rde_form);
 
         // Setup global events
         $btnFillFormToggle.click(function(event) {
@@ -386,7 +405,7 @@ $(function() {
 
             var colIndex = parseInt($("#"+$inputTargetColumn.val()).index())+1;
 
-            var $targetCells = $("table tbody tr td:nth-child("+colIndex+")", $this);
+            var $targetCells = $("table tbody tr td:nth-child("+colIndex+")", $rde_form);
 
             if ($("#basicFillValue",$form).is(":checkbox")) {
               var fillValue = $("#basicFillValue",$form).is(":checked");
@@ -480,7 +499,7 @@ $(function() {
 
                   // Good to go. Apply values.
                   var targetIndex = $("#"+$inputTargetColumn.val()).index();
-                  var $targetCells = $("table tbody tr td:nth-child("+(targetIndex+1)+")", $this);
+                  var $targetCells = $("table tbody tr td:nth-child("+(targetIndex+1)+")", $rde_form);
                   $.each(json.values, function(i, val) {
                     if (i > $targetCells.length) {
                       return;
@@ -516,11 +535,11 @@ $(function() {
 
       var persistColumnOrder = function() {
         var column_ids = [];
-        $("table .fieldset-labels th", $this).each(function() {
+        $("table .fieldset-labels th", $rde_form).each(function() {
           column_ids.push($(this).attr("id"));
         });
         COLUMN_ORDER = column_ids;
-        $.cookie("rde.order", JSON.stringify(COLUMN_ORDER));
+        AS.prefixed_cookie(COOKIE_NAME_COLUMN_ORDER, JSON.stringify(COLUMN_ORDER));
       };
 
       var applyColumnOrder = function() {
@@ -554,7 +573,7 @@ $(function() {
               var $lastTh = $("th", $sectionRow).last();
               $lastTh.attr("colspan", parseInt($lastTh.attr("colspan"))+1);
             } else {
-              $sectionRow.append($("<th>").data("id", $th.data("section")).attr("colspan", "1").text(SECTION_DATA[$th.data("section")]));
+              $sectionRow.append($("<th>").data("id", $th.data("section")).addClass("section-"+$th.data("section")).attr("colspan", "1").text(SECTION_DATA[$th.data("section")]));
             }
           });
         }
@@ -637,11 +656,16 @@ $(function() {
       var populateColumnSelector = function($select, select_func, filter_func) {
         filter_func = filter_func || function() {return true;};
         select_func = select_func || function() {return false;};
-        $(".fieldset-labels th", $this).each(function() {
+        $(".fieldset-labels th", $rde_form).each(function() {
           var $colHeader = $(this);
           if ($colHeader.hasClass("fieldset-label") && filter_func($colHeader)) {
             var $option = $("<option>");
-            $option.val($colHeader.attr("id")).text($colHeader.text());
+            var option_text = "";
+            option_text += $(".section-"+$colHeader.data("section")).text();
+            option_text += " - ";
+            option_text += $colHeader.text();
+
+            $option.val($colHeader.attr("id")).text(option_text);
             if (select_func($colHeader)) {
               $option.attr("selected", "selected");
             }
@@ -690,7 +714,7 @@ $(function() {
             }
 
             VISIBLE_COLUMN_IDS = $select.val();
-            AS.prefixed_cookie("rde.visible", JSON.stringify(VISIBLE_COLUMN_IDS));
+            AS.prefixed_cookie(COOKIE_NAME_VISIBLE_COLUMN, JSON.stringify(VISIBLE_COLUMN_IDS));
           }
         });
 
@@ -699,7 +723,7 @@ $(function() {
 
       var persistColumnWidths = function() {
         var widths = {};
-        $("table colgroup col", $this).each(function(i, col) {
+        $("table colgroup col", $rde_form).each(function(i, col) {
           if ($(col).width() === 0) {
             $(col).width($(col).data("default-width"));
           }
@@ -707,7 +731,7 @@ $(function() {
         });
 
         COLUMN_WIDTHS = widths;
-        AS.prefixed_cookie("rde.widths", JSON.stringify(COLUMN_WIDTHS));
+        AS.prefixed_cookie(COOKIE_NAME_COLUMN_WIDTHS, JSON.stringify(COLUMN_WIDTHS));
 
         return COLUMN_WIDTHS;
       };
@@ -717,7 +741,7 @@ $(function() {
         var index = $("#"+colId).index();
 
         // set width of corresponding col element
-        $($("table colgroup col", $this).get(index)).width(width);
+        $($("table colgroup col", $rde_form).get(index)).width(width);
 
         return width;
       };
@@ -734,7 +758,7 @@ $(function() {
       var applyPersistentColumnWidths = function() {
         var total_width = 0;
 
-        $("table colgroup col", $this).each(function(i, el) {
+        $("table colgroup col", $rde_form).each(function(i, el) {
           var colW = getColumnWidth($(el).data("id"));
           $(el).width(colW);
           total_width += colW;
@@ -745,7 +769,7 @@ $(function() {
 
       var applyPersistentStickyColumns = function() {
         if ( STICKY_COLUMN_IDS ) {
-          $("th.sticky", $this).removeClass("sticky");
+          $("th.sticky", $rde_form).removeClass("sticky");
           $.each(STICKY_COLUMN_IDS, function() {
             $("#" + this).addClass("sticky");
           });
@@ -764,7 +788,7 @@ $(function() {
         if ( VISIBLE_COLUMN_IDS ) {
           var total_width = 0;
 
-          $.each($(".fieldset-labels th", $this), function() {
+          $.each($(".fieldset-labels th", $rde_form), function() {
             var colId = $(this).attr("id");
             var index = $(this).index();
 
@@ -803,7 +827,7 @@ $(function() {
         $(".error", $rows).removeClass("error");
 
         $.ajax({
-          url: $this.data("validate-row-uri"),
+          url: $rde_form.data("validate-row-uri"),
           type: "POST",
           data: row_data,
           dataType: "json",
@@ -816,7 +840,7 @@ $(function() {
       // Connect up the $modal form submit button
       $($modal).on("click", ".modal-footer .btn-primary", function() {
         $(this).attr("disabled","disabled");
-        $this.submit();
+        $rde_form.submit();
       });
 
       // Connect up the $modal form validate button
@@ -826,8 +850,8 @@ $(function() {
 
         validateSubmissionOnly = true;
         $(this).attr("disabled","disabled");
-        $this.append("<input type='hidden' name='validate_only' value='true'>");
-        $this.submit();
+        $rde_form.append("<input type='hidden' name='validate_only' value='true'>");
+        $rde_form.submit();
       });
 
       // enable form within the add row dropdown menu
@@ -864,7 +888,7 @@ $(function() {
         }
       });
 
-      $(document).triggerHandler("loadedrecordform.aspace", [$this]);
+      $(document).triggerHandler("loadedrecordform.aspace", [$rde_form]);
 
       initAjaxForm();
 

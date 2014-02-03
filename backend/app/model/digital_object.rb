@@ -15,11 +15,14 @@ class DigitalObject < Sequel::Model(:digital_object)
   include FileVersions
   include CollectionManagements
   include UserDefineds
+  include ComponentsAddChildren
 
   agent_role_enum("linked_agent_role")
   agent_relator_enum("linked_agent_archival_record_relators")
 
+  tree_record_types :digital_object, :digital_object_component
   tree_of(:digital_object, :digital_object_component)
+
   set_model_scope :repository
 
   define_relationship(:name => :instance_do_link,

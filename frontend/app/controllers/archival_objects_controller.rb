@@ -120,10 +120,10 @@ class ArchivalObjectsController < ApplicationController
 
   def rde
     @parent = JSONModel(:archival_object).find(params[:id])
-    @archival_record_children = ArchivalObjectChildren.new
+    @children = ArchivalObjectChildren.new
     @exceptions = []
 
-    render :partial => "archival_objects/rde"
+    render :partial => "shared/rde"
   end
 
 
@@ -132,35 +132,40 @@ class ArchivalObjectsController < ApplicationController
 
     if params[:archival_record_children].blank? or params[:archival_record_children]["children"].blank?
 
-      @archival_record_children = ArchivalObjectChildren.new
+      @children = ArchivalObjectChildren.new
       flash.now[:error] = I18n.t("rde.messages.no_rows")
 
     else
       children_data = cleanup_params_for_schema(params[:archival_record_children], JSONModel(:archival_record_children).schema)
 
       begin
-        @archival_record_children = ArchivalObjectChildren.from_hash(children_data, false)
+        @children = ArchivalObjectChildren.from_hash(children_data, false)
 
         if params["validate_only"] == "true"
-          @exceptions = @archival_record_children.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
+          @exceptions = @children.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
 
-          flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select{|e| !e.empty?}.length)
+          error_count = @exceptions.select{|e| !e.empty?}.length
+          if error_count > 0
+            flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => error_count)
+          else
+            flash.now[:success] = I18n.t("rde.messages.rows_no_errors")
+          end
 
-          return render :partial => "archival_objects/rde"
+          return render :partial => "shared/rde"
         else
-          @archival_record_children.save(:archival_object_id => @parent.id)
+          @children.save(:archival_object_id => @parent.id)
         end
 
         return render :text => I18n.t("rde.messages.success")
       rescue JSONModel::ValidationException => e
-        @exceptions = @archival_record_children.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
+        @exceptions = @children.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
 
         flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select{|e| !e.empty?}.length)
       end
 
     end
 
-    render :partial => "archival_objects/rde"
+    render :partial => "shared/rde"
   end
 
 
@@ -174,28 +179,5 @@ class ArchivalObjectsController < ApplicationController
     render :json => aoc.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
   end
 
-
-  def generate_sequence
-    errors = []
-    errors.push(I18n.t("rde.fill_column.sequence_from_required")) if params[:from].blank?
-    errors.push(I18n.t("rde.fill_column.sequence_to_required")) if params[:to].blank?
-
-    # limit the range to 1000 entries, unless the number of rows is provided
-    limit = (params["limit"] || 1000).to_i;
-
-    return render :json => {"errors" => errors} if errors.length > 0
-
-    range = (params["from"]..params["to"])
-    values = range.take(limit).map{|i| "#{params["prefix"]}#{i}#{params["suffix"]}"}
-
-    render :json => {
-      "size" => values.length,
-      "limit" => limit,
-      "values" => values,
-      "summary" => params["limit"] ?
-                      I18n.t("rde.fill_column.sequence_summary_with_maxsize", :limit => limit, :count => values.length) :
-                      I18n.t("rde.fill_column.sequence_summary", :count => values.length)
-    }
-  end
 
 end

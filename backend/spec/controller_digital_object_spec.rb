@@ -168,4 +168,28 @@ describe 'Digital Objects controller' do
     tree.children[2]["title"].should eq(doc["title"])
     tree.children[2]["record_uri"].should eq(doc.uri)
   end
+
+
+  it "allows posting of array of children" do
+    digital_object = create(:json_digital_object)
+
+    doc_1 = build(:json_digital_object_component)
+    doc_2 = build(:json_digital_object_component)
+
+    children = JSONModel(:digital_record_children).from_hash({
+                                                                "children" => [doc_1, doc_2]
+                                                              })
+
+    url = URI("#{JSONModel::HTTP.backend_url}#{digital_object.uri}/children")
+    response = JSONModel::HTTP.post_json(url, children.to_json)
+    json_response = ASUtils.json_parse(response.body)
+
+    json_response["status"].should eq("Updated")
+
+    tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
+    tree.children.length.should eq(2)
+
+    tree.children[0]["title"].should eq(doc_1["title"])
+    tree.children[1]["title"].should eq(doc_2["title"])
+  end
 end

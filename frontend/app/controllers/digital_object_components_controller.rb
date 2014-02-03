@@ -1,7 +1,7 @@
 class DigitalObjectComponentsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show],
-                      "update_archival_record" => [:new, :edit, :create, :update, :accept_children],
+                      "update_archival_record" => [:new, :edit, :create, :update, :accept_children, :rde, :add_children, :validate_rows],
                       "delete_archival_record" => [:delete]
 
 
@@ -13,7 +13,7 @@ class DigitalObjectComponentsController < ApplicationController
 
     return render :partial => "digital_object_components/new_inline" if inline?
 
-    # render the full AO form
+    # render the full DOC form
 
   end
 
@@ -93,6 +93,69 @@ class DigitalObjectComponentsController < ApplicationController
 
   def accept_children
     handle_accept_children(JSONModel(:digital_object_component))
+  end
+
+
+  def rde
+    flash.clear
+
+    @parent = JSONModel(:digital_object_component).find(params[:id])
+    @children = DigitalObjectComponentChildren.new
+    @exceptions = []
+
+    render :partial => "shared/rde"
+  end
+
+
+  def validate_rows
+    row_data = cleanup_params_for_schema(params[:digital_record_children], JSONModel(:digital_record_children).schema)
+
+    # build the DOC record but don't bother validating it yet...
+    do_children = DigitalObjectComponentChildren.from_hash(row_data, false, true)
+
+    # validate each row individually (to avoid weird indexes in the error paths)
+    render :json => do_children.children.collect{|c| JSONModel(:digital_object_component).from_hash(c, false)._exceptions}
+  end
+
+  def add_children
+    @parent = JSONModel(:digital_object_component).find(params[:id])
+
+    if params[:digital_record_children].blank? or params[:digital_record_children]["children"].blank?
+
+      @children = DigitalObjectComponentChildren.new
+      flash.now[:error] = I18n.t("rde.messages.no_rows")
+
+    else
+      children_data = cleanup_params_for_schema(params[:digital_record_children], JSONModel(:digital_record_children).schema)
+
+      begin
+        @children = DigitalObjectComponentChildren.from_hash(children_data, false)
+
+        if params["validate_only"] == "true"
+          @exceptions = @children.children.collect{|c| JSONModel(:digital_object_component).from_hash(c, false)._exceptions}
+
+          error_count = @exceptions.select{|e| !e.empty?}.length
+          if error_count > 0
+            flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => error_count)
+          else
+            flash.now[:success] = I18n.t("rde.messages.rows_no_errors")
+          end
+
+          return render :partial => "shared/rde"
+        else
+          @children.save(:digital_object_component_id => @parent.id)
+        end
+
+        return render :text => I18n.t("rde.messages.success")
+      rescue JSONModel::ValidationException => e
+        @exceptions = @children.children.collect{|c| JSONModel(:digital_object_component).from_hash(c, false)._exceptions}
+
+        flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select{|e| !e.empty?}.length)
+      end
+
+    end
+
+    render :partial => "shared/rde"
   end
 
 end

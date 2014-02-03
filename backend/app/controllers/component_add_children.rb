@@ -36,6 +36,41 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.post('/repositories/:repo_id/digital_objects/:id/children')
+  .description("Batch create several Digital Object Components as children of an existing Digital Object")
+  .params(["children", JSONModel(:digital_record_children), "The component children to add to the digital object", :body => true],
+          ["id", :id],
+          ["repo_id", :repo_id])
+  .permissions([:update_archival_record])
+  .returns([200, :created],
+           [400, :error],
+           [409, :error]) \
+  do
+    digital_object = DigitalObject.get_or_die(params[:id])
+
+    digital_object.add_children(params[:children])
+
+    updated_response(digital_object)
+  end
+
+
+  Endpoint.post('/repositories/:repo_id/digital_object_components/:id/children')
+  .description("Batch create several Digital Object Components as children of an existing Digital Object Component")
+  .params(["children", JSONModel(:digital_record_children), "The children to add to the digital object component", :body => true],
+          ["id", Integer, "The ID of the digital object component to add children to"],
+          ["repo_id", :repo_id])
+  .permissions([:update_archival_record])
+  .returns([200, :created],
+           [400, :error],
+           [409, :error]) \
+  do
+    doc = DigitalObjectComponent.get_or_die(params[:id])
+
+    doc.add_children(params[:children])
+
+    updated_response(doc)
+  end
+
   Endpoint.post('/repositories/:repo_id/archival_objects/:id/accept_children')
   .description("Move existing Archival Objects to become children of an Archival Object")
   .params(["children", [String], "The children to move to the Archival Object", :optional => true],
