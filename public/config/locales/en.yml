@@ -46,13 +46,14 @@ en:
       repository: Repository
       creators: Creator
       fullrecord: Keyword
-      subjects: Subject
+      subjects_text: Subject
       title: Title
-      creator: Creator
+      creators_text: Creator
       scope: Scope
       notes: Notes
       source: Source
       agents: Agents
+      agents_text: Agents
       classification_uri: Classification
       linked_agent_roles: Role
 
