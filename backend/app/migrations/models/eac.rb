@@ -85,6 +85,41 @@ ASpaceExport::model :eac do
       nil
     end
   end
-  
-  
+
+  # maps name.{field} => EAC @localType attribute
+  def name_part_fields
+    case @json.jsonmodel_type
+    when 'agent_person'
+      {
+        "primary_name" => "surname",
+        "title" => nil,
+        "prefix" => nil,
+        "rest_of_name" => "forename",
+        "suffix" => nil,
+        "fuller_form" => "fullerForm",
+        "number" => nil,
+        "qualifier" => nil,
+      }
+    when 'agent_family'
+      {
+        "family_name" => nil,
+        "prefix" => nil
+      }
+    when 'agent_software'
+      {
+        "software_name" => nil,
+        "version" => nil,
+        "manufacturer" => nil
+      }
+    when 'agent_corporate_entity'
+      {
+        "primary_name" => "primaryPart", 
+        "subordinate_name_1" => "secondaryPart", 
+        "subordinate_name_2" => "tertiaryPart", 
+        "number" => nil,
+        "qualifier" => nil
+      }
+    end
+  end
+
 end
