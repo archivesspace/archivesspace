@@ -65,6 +65,7 @@ FactoryGirl.define do
   sequence(:indicator) { (2+rand(3)).times.map { (2+rand(3)).times.map {rand(9)}.join }.join('-') }
 
   sequence(:name_rule) { sample(JSONModel(:abstract_name).schema['properties']['rules']) }
+  sequence(:name_source) { sample(JSONModel(:abstract_name).schema['properties']['source']) }
   sequence(:level) { %w(series subseries item)[rand(3)] }
   sequence(:term) { |n| "Term #{n}" }
   sequence(:term_type) { sample(JSONModel(:term).schema['properties']['term_type']) }
@@ -462,6 +463,7 @@ FactoryGirl.define do
 
   factory :json_name_person, class: JSONModel(:name_person) do
     rules { generate(:name_rule) }
+    source { generate(:name_source) }
     primary_name { generate(:generic_name) }
     sort_name { generate(:sort_name) }
     name_order { %w(direct inverted).sample }
