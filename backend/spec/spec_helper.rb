@@ -167,6 +167,13 @@ def make_test_user(username, name = "A test user", source = "local")
 end
 
 
+def create_accession(opts = {})
+  Accession.create_from_json(build(:json_accession,
+                                   {:title => "Papers of Mark Triggs"}.merge(opts)),
+                             :repo_id => $repo_id)
+end
+
+
 
 class ArchivesSpaceService
   def current_user
