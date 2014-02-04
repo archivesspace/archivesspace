@@ -14,7 +14,12 @@ ASpaceExport::serializer :eac do
   private
   
   def _eac(json, xml)  
-    xml.send("eac-cpf", 'xmlns' => 'urn:isbn:1-931666-33-4') {
+    xml.send("eac-cpf", {'xmlns' => 'urn:isbn:1-931666-33-4',
+               "xmlns:html" => "http://www.w3.org/1999/xhtml",
+               "xmlns:xlink" => "http://www.w3.org/1999/xlink",
+               "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
+               "xsi:schemaLocation" => "urn:isbn:1-931666-33-4 http://eac.staatsbibliothek-berlin.de/schema/cpf.xsd",
+               "xml:lang" => "eng"}) {
       _control(json, xml)
       _cpfdesc(json, xml)
     }
@@ -87,20 +92,18 @@ ASpaceExport::serializer :eac do
         
         xml.entityType entity_type
 
-        # TODO: It might be nice to flag these attributes on the schema 
-        # so they can be pulled out automatically
-        json.names.each do |n|
+        json.names.each do |name|
           xml.nameEntry {
-            case json.jsonmodel_type
-            when 'agent_person'
-              _name_parts(n, xml, ["primary_name", "title", "prefix", "rest_of_name", "suffix", "fuller_form", "number"])
-            when 'agent_family'
-              _name_parts(n, xml, ["family_name", "prefix"])
-            when 'agent_software'
-              _name_parts(n, xml, ["software_name", "version", "manufacturer"])
-            when 'agent_corporate_entity'
-              _name_parts(n, xml, ["primary_name", "subordinate_name_1", "subordinate_name_2", "number"])
-            end   
+            xml.authorizedForm name['rules'] if name['rules']
+            xml.authorizedForm name['source'] if name['source']
+
+            json.name_part_fields.each do |field, localType|
+              localType = localType.nil? ? field : localType
+              next unless name[field]
+              xml.part(:localType => localType) {
+                xml.text name[field]
+              }
+            end
           }
         end
       }
@@ -118,15 +121,4 @@ ASpaceExport::serializer :eac do
       
     }
   end
-  
-  def _name_parts(name, xml, types)
-    types << 'sort_name'
-    types.each do |t|
-      next unless name[t]
-      xml.part(:localType => t) {
-        xml.text name[t]
-      }
-    end
-  end
-
 end
