@@ -86,3 +86,62 @@ RSpec::Matchers.define :have_inner_text do |expected|
     "Expected node '#{name}' to contain something other than '#{txt}'."
   end
 end
+
+
+RSpec::Matchers.define :have_tag do |expected|
+  tag = expected.is_a?(Hash) ? expected.keys[0] : expected
+  nodeset = nil
+
+  match do |doc|
+    nodeset = if doc.namespaces.empty?
+                doc.xpath("//#{tag}")
+              else
+                tag = "xmlns:#{tag.split('/').join('/xmlns:')}"
+                doc.xpath("//#{tag}", doc.namespaces)
+              end
+    
+    if nodeset.empty?
+      false
+    elsif expected.is_a?(Hash)
+      nodeset.find {|node|
+        node.inner_text == expected.values[0]
+      }.nil? ? false : true
+    else
+      true
+    end
+  end
+
+  failure_message_for_should do |doc|
+    if nodeset.nil? || nodeset.empty?
+      "Could find no #{tag} in #{doc.to_xml}"
+    else
+      "Could not find text '#{expected.values[0]}' in #{nodeset.to_xml}"
+    end
+  end
+
+  failure_message_for_should_not do |doc|
+    "Did not expect to find #{tag} in #{doc.to_xml}"
+  end
+end
+
+ 
+RSpec::Matchers.define :have_namespaces do |expected|
+
+  match do |doc|
+    actual = doc.namespaces
+    if actual.size > expected.size
+      difference = actual.to_a - expected.to_a
+    else
+      difference = expected.to_a - actual.to_a
+    end
+
+    diff = Hash[*difference.flatten]
+
+    diff.empty?
+  end
+
+  failure_message_for_should do |doc|
+    "Expected document to have namespaces #{expected.inspect}, not #{doc.namespaces.inspect}"
+  end
+end
+
