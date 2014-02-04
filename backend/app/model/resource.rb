@@ -20,6 +20,7 @@ class Resource < Sequel::Model(:resource)
   include UserDefineds
   include ComponentsAddChildren
   include Classifications
+  include Events
 
   tree_record_types :resource, :archival_object
 

@@ -2,7 +2,27 @@ module URIResolver
 
   include JSONModel
 
+  # Resolve any references of the form {'ref' => '/my/uri'} in any property of
+  # 'value' contained in 'properties_to_resolve'.
+  #
+  # The elements in 'properties_to_resolve' can be simple string properties, or
+  # structured properties like:
+  #
+  #  one::two::three
+  #
+  # This syntax will cause the "one" ref to be resolved, then the "two" ref to
+  # be resolved within its resolved document, followed by the "three" ref.
+  #
   def self.resolve_references(value, properties_to_resolve, env)
+    if properties_to_resolve.is_a?(Array)
+      properties = properties_to_resolve.map {|p| p.split(/::/)}
+    end
+
+    resolve_references_helper(value, properties, env)
+  end
+
+
+  def self.resolve_references_helper(value, properties_to_resolve, env)
     value = value.to_hash(:trusted) if value.is_a?(JSONModelType)
 
     # If ASPACE_REENTRANT is set, don't resolve anything or we risk creating loops.
@@ -15,10 +35,22 @@ module URIResolver
         result = value.clone
 
         value.each do |k, v|
-          if properties_to_resolve.is_a?(Array) && properties_to_resolve.include?(k)
-            result[k] = (v.is_a? Array) ? v.map {|elt| resolve_reference(elt, env)} : resolve_reference(v, env)
+          if properties_to_resolve.is_a?(Array) && properties_to_resolve.any? {|p| p.first == k}
+            wants_array = v.is_a? Array
+
+            subproperties = properties_to_resolve.map {|p|
+              (p.first == k) ? p.drop(1) : nil
+            }.compact
+
+            resolved = (v.is_a?(Array) ? v : [v]).map {|elt|
+              resolve_reference(elt, env).tap do |r|
+                r['_resolved'] = resolve_references_helper(r['_resolved'], subproperties, env)
+              end
+            }
+
+            result[k] = wants_array ? resolved : resolved.first
           else
-            result[k] = resolve_references(v, properties_to_resolve, env)
+            result[k] = resolve_references_helper(v, properties_to_resolve, env)
           end
         end
 
@@ -27,7 +59,7 @@ module URIResolver
 
 
     elsif value.is_a? Array
-      value.map {|elt| resolve_references(elt, properties_to_resolve, env)}
+      value.map {|elt| resolve_references_helper(elt, properties_to_resolve, env)}
     else
       value
     end

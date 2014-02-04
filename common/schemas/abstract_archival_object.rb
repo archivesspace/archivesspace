@@ -41,6 +41,26 @@
         }
       },
 
+      "linked_events" => {
+        "type" => "array",
+        "readonly" => "true",
+        "items" => {
+          "type" => "object",
+          "subtype" => "ref",
+          "properties" => {
+            "ref" => {
+              "type" => "JSONModel(:event) uri",
+              "ifmissing" => "error"
+            },
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
+          }
+        }
+      },
+
+
       "extents" => {"type" => "array", "items" => {"type" => "JSONModel(:extent) object"}},
       "dates" => {"type" => "array", "items" => {"type" => "JSONModel(:date) object"}},
       "external_documents" => {"type" => "array", "items" => {"type" => "JSONModel(:external_document) object"}},
