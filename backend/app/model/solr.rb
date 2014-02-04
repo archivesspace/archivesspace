@@ -30,6 +30,11 @@ class Solr
     end
 
 
+    def self.create_term_query(field, term)
+      new(term_query(field, term)).use_standard_query_type
+    end
+
+
     def self.create_advanced_search(advanced_query_json)
       new(construct_advanced_query(advanced_query_json['query'])).
         use_standard_query_type
@@ -134,7 +139,7 @@ class Solr
       unless Array(filter_terms).empty?
         filter_terms.map{|str| ASUtils.json_parse(str)}.each{|json|
           json.each {|facet, term|
-            add_solr_param(:fq, "{!term f=#{facet.strip}}#{term.to_s.strip}")
+            add_solr_param(:fq, self.class.term_query(facet.strip, term.to_s.strip))
           }
         }
       end
@@ -234,6 +239,14 @@ class Solr
 
       url
     end
+
+
+    private
+
+    def self.term_query(field, term)
+      "{!term f=#{field}}#{term}"
+    end
+
 
   end
 

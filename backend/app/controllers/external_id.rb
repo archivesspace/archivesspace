@@ -14,11 +14,10 @@ class ArchivesSpaceService < Sinatra::Base
   do
     show_suppressed = !RequestContext.get(:enforce_suppression)
 
-    query = Solr::Query.create_keyword_search("{!term f=external_id}#{params[:eid]}").
+    query = Solr::Query.create_term_query("external_id", params[:eid]).
                         pagination(1, 10).
                         set_record_types(params[:type]).
-                        show_suppressed(show_suppressed).
-                        use_standard_query_type
+                        show_suppressed(show_suppressed)
 
     results = Solr.search(query)
 
