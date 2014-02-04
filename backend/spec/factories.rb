@@ -475,6 +475,7 @@ FactoryGirl.define do
     prefix { [nil, generate(:alphanumstr)].sample }
     title { [nil, generate(:alphanumstr)].sample }
     suffix { [nil, generate(:alphanumstr)].sample }
+    rest_of_name { [nil, generate(:alphanumstr)].sample }
   end
 
   factory :json_name_software, class: JSONModel(:name_software) do
