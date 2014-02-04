@@ -234,6 +234,16 @@ class CommonIndexer
     }
 
 
+    # Index four-part IDs separately
+    add_document_prepare_hook {|doc, record|
+      four_part_id = (0..3).map {|n| record['record']["id_#{n}"]}.compact.join(" ")
+
+      unless four_part_id.empty?
+        doc['four_part_id'] = four_part_id
+      end
+    }
+
+
     record_has_children('collection_management')
     add_extra_documents_hook {|record|
       docs = []
