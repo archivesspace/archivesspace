@@ -13,6 +13,24 @@ module ASModel
     end
 
 
+    def set_suppressed(val)
+      unless self.class.suppressible?
+        raise "Suppression not supported for this class: #{self.class.inspect}"
+      end
+
+      self.suppressed = val ? 1 : 0
+      obj = save
+
+      Event.handle_suppressed(self)
+
+      RequestContext.open(:enforce_suppression => false) do
+        self.class.fire_update(self.class.to_jsonmodel(self.id), self)
+      end
+
+      val
+    end
+
+
     module ClassMethods
 
       def enable_suppression
