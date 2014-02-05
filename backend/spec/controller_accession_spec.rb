@@ -155,6 +155,27 @@ describe 'Accession controller' do
   end
 
 
+  it "does show suppressed accessions to the right people if they choose to see them" do
+    3.times do
+      create(:json_accession)
+    end
+
+    accession = create(:json_accession)
+    accession.suppress
+
+    as_test_user("admin") do
+      JSONModel(:accession).all(:page => 1)['results'].count.should eq(3)
+    end
+
+    create(:json_preference, {:defaults => JSON.generate({'show_suppressed' => true})})
+
+    as_test_user("admin") do
+      JSONModel(:accession).all(:page => 1)['results'].count.should eq(4)
+    end
+
+  end
+
+
   it "doesn't give you any schtick if you request a suppressed accession as a manager" do
     accession = create(:json_accession)
     accession.suppress
