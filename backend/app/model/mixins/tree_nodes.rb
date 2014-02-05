@@ -140,6 +140,15 @@ module TreeNodes
   end
 
 
+  def set_suppressed(val)
+    children.each do |child|
+      child.set_suppressed(val)
+    end
+
+    super
+  end
+
+
   def publish!
     children.each do |child|
       child.publish!
