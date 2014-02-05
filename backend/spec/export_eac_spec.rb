@@ -38,6 +38,19 @@ else
   end  
 end
 
+def get_eac(rec)
+  case rec.jsonmodel_type
+  when 'agent_person'
+    get_xml("/archival_contexts/people/#{rec.id}.xml")
+  when 'agent_corporate_entity'
+    get_xml("/archival_contexts/corporate_entities/#{rec.id}.xml")
+  when 'agent_family'
+    get_xml("/archival_contexts/families/#{rec.id}.xml")
+  when 'agent_software'
+    get_xml("/archival_contexts/softwares/#{rec.id}.xml")
+  end
+end
+
 
 describe 'EAC Export' do
 
@@ -53,7 +66,7 @@ describe 'EAC Export' do
                                build(:json_name_family)
                               ]
                     )
-      eac = get_xml("/archival_contexts/families/#{rec.id}.xml")
+      eac = get_eac(rec)
 
       eac.should have_tag("identity/nameEntryParallel")
       eac.should_not have_tag("identity/nameEntry")
@@ -66,7 +79,7 @@ describe 'EAC Export' do
                                build(:json_name_family),
                               ]
                     )
-      eac = get_xml("/archival_contexts/families/#{rec.id}.xml")
+      eac = get_eac(rec)
 
       eac.should have_tag("identity/nameEntry")
       eac.should_not have_tag("identity/nameEntryParallel")
@@ -85,7 +98,7 @@ describe 'EAC Export' do
                               ]
                     )
 
-      @eac = get_xml("/archival_contexts/people/#{@rec.id}.xml")
+      @eac = get_eac(@rec)
 
       puts "SOURCE: #{@rec.inspect}\n"
       puts "RESULT: #{@eac.to_xml}\n"
@@ -228,7 +241,7 @@ describe 'EAC Export' do
                               ]
                     )
 
-      @eac = get_xml("/archival_contexts/corporate_entities/#{@rec.id}.xml")
+      @eac = get_eac(@rec)
 
       puts "SOURCE: #{@rec.inspect}\n"
       puts "RESULT: #{@eac.to_xml}\n"
@@ -279,8 +292,8 @@ describe 'EAC Export' do
       from = @rec.names[0]['use_dates'][0]['begin']
       to = @rec.names[0]['use_dates'][0]['end']
 
-      @eac.should have_tag("nameEntry[1]/useDates[1]/dateRange/fromDate[@standardDate=\"#{from}\"]", "#{from}")
-      @eac.should have_tag("nameEntry[1]/useDates[1]/dateRange/toDate[@standardDate=\"#{to}\"]", "#{to}")
+      @eac.should have_tag("nameEntry[1]/useDates[1]/dateRange/fromDate[@standardDate=\"#{from}\"]" => "#{from}")
+      @eac.should have_tag("nameEntry[1]/useDates[1]/dateRange/toDate[@standardDate=\"#{to}\"]" => "#{to}")
     end
 
 
@@ -288,8 +301,8 @@ describe 'EAC Export' do
       from = @rec.names[0]['use_dates'][1]['begin']
       to = @rec.names[0]['use_dates'][1]['end']
 
-      @eac.should have_tag("nameEntry[1]/useDates[2]/dateRange/fromDate[@standardDate=\"#{from}\"]", "#{from}")
-      @eac.should have_tag("nameEntry[1]/useDates[2]/dateRange/toDate[@standardDate=\"#{to}\"]", "#{to}")
+      @eac.should have_tag("nameEntry[1]/useDates[2]/dateRange/fromDate[@standardDate=\"#{from}\"]" => "#{from}")
+      @eac.should have_tag("nameEntry[1]/useDates[2]/dateRange/toDate[@standardDate=\"#{to}\"]" => "#{to}")
     end
 
 
@@ -300,7 +313,7 @@ describe 'EAC Export' do
 
 
     it "creates a date tag for 'single' dates" do
-      @eac.should have_tag("nameEntry[1]/useDates[3]/dateRange/date", @rec.names[0]['use_dates'][2]['begin'])
+      @eac.should have_tag("nameEntry[1]/useDates[3]/dateRange/date" => @rec.names[0]['use_dates'][2]['begin'])
     end
 
   end
@@ -315,7 +328,7 @@ describe 'EAC Export' do
                               ]
                     )
 
-      @eac = get_xml("/archival_contexts/families/#{@rec.id}.xml")
+      @eac = get_eac(@rec)
 
       puts "SOURCE: #{@rec.inspect}\n"
       puts "RESULT: #{@eac.to_xml}\n"
@@ -349,11 +362,14 @@ describe 'EAC Export' do
     before(:all) do
       @rec = create(:json_agent_person,
                     :dates_of_existence => [
-                                            build(:json_date),
-                                            build(:json_date)
+                                            build(:json_date,
+                                                  :date_type => 'bulk',
+                                                  :label => 'existence'),
+                                            build(:json_date,
+                                                  :label => 'existence')
                                             ]
                     )
-      @eac = get_xml("/archival_contexts/people/#{@rec.id}.xml")
+      @eac = get_eac(@rec)
     end
 
 
@@ -364,21 +380,47 @@ describe 'EAC Export' do
 
 
     it "maps date.expression to dateRange" do
-      @eac.should have_tag("description/existDates/dateRange", 
+      @eac.should have_tag("description/existDates/dateRange" =>
                            @rec.dates_of_existence[0]['expression'])
     end
 
 
     it "maps date.begin to fromDate" do
-      @eac.should have_tag("existDates/dateRange[2]/fromDate[@standardDate=\"#{@rec.dates_of_existence[0]['begin']}\"]", 
+      @eac.should have_tag("existDates/dateRange[2]/fromDate[@standardDate=\"#{@rec.dates_of_existence[0]['begin']}\"]" =>
                            @rec.dates_of_existence[0]['begin'])
     end
 
 
     it "maps date.end to toDate" do
-      @eac.should have_tag("existDates/dateRange[2]/toDate[@standardDate=\"#{@rec.dates_of_existence[0]['end']}\"]", 
+      @eac.should have_tag("existDates/dateRange[2]/toDate[@standardDate=\"#{@rec.dates_of_existence[0]['end']}\"]" =>
                            @rec.dates_of_existence[0]['end'])
     end
 
   end
+
+
+  describe "miscellaneous" do
+
+    it "doesn't create any empty tags for dates missing expression" do
+      rec = create(:json_agent_person,
+                   :names => [build(:json_name_person,
+                                    :use_dates => [
+                                                   build(:json_date,
+                                                         :expression => nil
+                                                         )
+                                                   ]
+                                    )
+                             ],
+                   :dates_of_existence => [build(:json_date,
+                                                 :label => 'existence',
+                                                 :expression => nil
+                                                 )
+                                          ]
+                   )
+      eac = get_eac(rec)
+
+      eac.should_not have_tag("dateRange" => "")
+    end
+  end
+
 end

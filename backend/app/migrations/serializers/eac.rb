@@ -102,6 +102,15 @@ ASpaceExport::serializer :eac do
       }
 
       xml.description {
+        if json.dates_of_existence[0]
+          date = json.dates_of_existence[0]
+          xml.existDates(:localType =>  date['certainty']) {            
+            _build_date_ranges(date, xml)
+
+          }
+        end
+
+            
         json.notes.reject {|n| n['jsonmodel_type'] != 'note_bioghist'}.each do |n|
           xml.biogHist {
             n['content'].each do |c|
@@ -114,6 +123,37 @@ ASpaceExport::serializer :eac do
       
     }
   end
+
+
+  def _build_date_ranges(date, xml)
+    if date['expression']
+      xml.dateRange date['expression']
+    end
+    if date['begin'] || date['end']
+      xml.dateRange {
+        if date['date_type'] == 'single' && date['begin']
+          xml.date(:standardDate => date['begin']) {
+            xml.text date['begin']
+          }
+        else
+
+          if date['begin']
+            xml.fromDate(:standardDate => date['begin']) {
+              xml.text date['begin']
+            }
+          end
+
+          if date['end']
+            xml.toDate(:standardDate => date['end']) {
+              xml.text date['end']
+            }
+          end
+        end
+      }
+    end
+  end
+
+
 
 
   def _build_name_entries(json, xml)
@@ -132,25 +172,7 @@ ASpaceExport::serializer :eac do
 
         name['use_dates'].each do |date|
           xml.useDates {
-            xml.dateRange date['expression']
-            xml.dateRange date['expression']
-            case date['date_type']
-            when 'bulk', 'inclusive'
-              xml.dateRange {
-                xml.fromDate(:standardDate => date['begin']) {
-                  xml.text date['begin']
-                }
-                xml.toDate(:standardDate => date['end']) {
-                  xml.text date['end']
-                }
-              }
-            when 'single'
-              xml.dateRange {
-                xml.date(:standardDate => date['begin']) {
-                  xml.text date['begin']
-                }
-              }
-            end
+            _build_date_ranges(date, xml)
           }
         end
       }
