@@ -335,16 +335,21 @@ FactoryGirl.define do
   factory :json_note_orderedlist, class: JSONModel(:note_orderedlist) do
     title { nil_or_whatever }
     enumeration { generate(:orderedlist_enumeration) }
-    items { (0..rand(3)).map { generate(:whatever) } }
+    items { (0..rand(3)).map { generate(:alphanumstr) } }
   end
 
   factory :json_note_definedlist, class: JSONModel(:note_definedlist) do
     title { nil_or_whatever }
-    items { (0..rand(3)).map { {:label => generate(:whatever), :value => generate(:whatever) } } }
+    items { (0..rand(3)).map { {:label => generate(:alphanumstr), :value => generate(:alphanumstr) } } }
   end
 
   factory :json_note_abstract, class: JSONModel(:note_abstract) do
-    items { (0..rand(3)).map { generate(:alphanumstr) } }
+    content { (0..rand(3)).map { generate(:alphanumstr) } }
+  end
+
+  factory :json_note_citation, class: JSONModel(:note_citation) do
+    content { (0..rand(3)).map { generate(:alphanumstr) } }
+    xlink Hash[%w(actuate arcrole href role show title type).map{|i| [i, i]}]
   end
 
   factory :json_note_chronology, class: JSONModel(:note_chronology) do
