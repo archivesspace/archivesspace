@@ -64,6 +64,10 @@
    <field name="agents" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="notes" type="text_general" indexed="true" stored="false" multiValued="false"/>
 
+   <field name="subjects_text" type="text_general" indexed="true" stored="false" multiValued="true"/>
+   <field name="creators_text" type="text_general" indexed="true" stored="false" multiValued="true"/>
+   <field name="agents_text" type="text_general" indexed="true" stored="false" multiValued="true"/>
+
    <field name="json" type="string" indexed="false" stored="true" multiValued="false" />
 
    <!-- Archival Record properties required for facets -->
@@ -279,4 +283,7 @@
   <!-- Copy fields ... perhaps for sort fields -->
   <copyField source="title" dest="title_sort"/>
   <copyField source="json" dest="fullrecord"/>
+  <copyField source="subjects" dest="subjects_text"/>
+  <copyField source="agents" dest="agents_text"/>
+  <copyField source="creators" dest="creators_text"/>
 </schema>

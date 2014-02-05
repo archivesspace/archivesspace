@@ -6,6 +6,8 @@ class SearchController < ApplicationController
 
   VIEWABLE_TYPES = ['agent', 'repository', 'subject'] + DETAIL_TYPES
 
+  FACETS = ["repository", "primary_type", "subjects", "source", "linked_agent_roles"]
+
 
   def search
     set_search_criteria
@@ -71,7 +73,7 @@ class SearchController < ApplicationController
     end
 
     @criteria['exclude[]'] = params[:exclude] if not params[:exclude].blank?
-    @criteria['facet[]'] = ["repository", "primary_type", "subjects", "source", "linked_agent_roles"]
+    @criteria['facet[]'] = FACETS
   end
 
 
@@ -91,6 +93,7 @@ class SearchController < ApplicationController
 
     if not terms.empty?
       @criteria["aq"] = JSONModel(:advanced_query).from_hash({"query" => group_queries(terms)}).to_json
+      @criteria['facet[]'] = FACETS
     end
   end
 
