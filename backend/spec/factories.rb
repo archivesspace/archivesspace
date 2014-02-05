@@ -252,25 +252,25 @@ FactoryGirl.define do
     agent_type 'agent_corporate_entity'
     names { [build(:json_name_corporate_entity)] }
     agent_contacts { [build(:json_agent_contact)] }
-    dates_of_existence { [build(:json_date)] }
+    dates_of_existence { [build(:json_date, :label => 'existence')] }
   end
 
   factory :json_agent_family, class: JSONModel(:agent_family) do
     agent_type 'agent_family'
     names { [build(:json_name_family)] }
-    dates_of_existence { [build(:json_date)] }
+    dates_of_existence { [build(:json_date, :label => 'existence')] }
   end
 
   factory :json_agent_person, class: JSONModel(:agent_person) do
     agent_type 'agent_person'
     names { [build(:json_name_person)] }
-    dates_of_existence { [build(:json_date)] }
+    dates_of_existence { [build(:json_date, :label => 'existence')] }
   end
 
   factory :json_agent_software, class: JSONModel(:agent_software) do
     agent_type 'agent_software'
     names { [build(:json_name_software)] }
-    dates_of_existence { [build(:json_date)] }
+    dates_of_existence { [build(:json_date, :label => 'existence')] }
   end
 
   factory :json_archival_object, class: JSONModel(:archival_object) do
