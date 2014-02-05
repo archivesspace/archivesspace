@@ -174,6 +174,19 @@ def create_accession(opts = {})
 end
 
 
+def create_agent_person(opts = {})
+  AgentPerson.create_from_json(build(:json_agent_person, opts),
+                               :repo_id => $repo_id)
+end
+
+
+def create_event(opts = {})
+  Event.create_from_json(build(:json_event, opts),
+                         :repo_id => $repo_id)
+end
+
+
+
 
 class ArchivesSpaceService
   def current_user

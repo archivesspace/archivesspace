@@ -47,5 +47,4 @@ class Accession < Sequel::Model(:accession)
 
                   display_string
                 }
-
 end

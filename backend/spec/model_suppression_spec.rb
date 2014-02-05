@@ -25,6 +25,24 @@ describe 'Record Suppression' do
     end
   end
 
+  it "can suppress an accession and then unsuppress it" do
+    accession = create_accession
+
+    accession.set_suppressed(true)
+
+    create_nobody_user
+
+    as_test_user('nobody') do
+      Accession.this_repo[accession.id].should be(nil)
+    end
+
+    accession.set_suppressed(false)
+
+    as_test_user('nobody') do
+      Accession.this_repo[accession.id].should_not be(nil)
+    end
+  end
+
 
   it "can suppress an archival object record" do
     archival_object = ArchivalObject.create_from_json(build(:json_archival_object), :repo_id => $repo_id)
@@ -34,6 +52,22 @@ describe 'Record Suppression' do
 
     as_test_user('nobody') do
       ArchivalObject.this_repo[archival_object.id].should eq(nil)
+    end
+  end
+
+
+  it "doesn't show suppressed accessions when listing" do
+    3.times do
+      create_accession
+    end
+
+    create_nobody_user
+
+    accession = create_accession
+    accession.set_suppressed(true)
+
+    as_test_user('nobody') do
+      Accession.this_repo.all.count.should eq(3)
     end
   end
 
@@ -118,4 +152,51 @@ describe 'Record Suppression' do
     end
   end
 
+
+  it "doesn't give you any schtick if you request a suppressed accession as a manager" do
+    accession = create_accession
+    accession.set_suppressed(true)
+
+    Accession.this_repo[accession.id].should_not be(nil)
+  end
+
+
+  it "(un)suppresses events that link solely to a (un)suppressed accession" do
+    test_agent = create_agent_person
+    test_accession = create_accession
+
+    event = create_event(:linked_agents => [{
+                                              'ref' => test_agent.uri,
+                                              'role' => generate(:agent_role)
+                                            }],
+                         :linked_records => [{
+                                               'ref' => test_accession.uri,
+                                               'role' => generate(:record_role)
+                                             }])
+
+    create_nobody_user
+
+    as_test_user('nobody') do
+      Event.this_repo[event.id].should_not be(nil)
+    end
+
+    # Suppressing the accession suppresses the event too
+    test_accession.reload
+    test_accession.set_suppressed(true)
+
+    as_test_user('nobody') do
+      Event.this_repo[event.id].should be(nil)
+    end
+
+
+    # and unsuppressing the accession unsuppresses the event
+    test_accession.reload
+    test_accession.set_suppressed(false)
+
+    as_test_user('nobody') do
+      Event.this_repo[event.id].should_not be(nil)
+    end
+  end
+
 end
+
