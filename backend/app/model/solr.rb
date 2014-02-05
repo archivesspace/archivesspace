@@ -4,15 +4,15 @@ require 'net/http'
 
 class Solr
 
-  @@opts_hooks ||= []
+  @@search_hooks ||= []
 
 
   def self.add_search_hook(&block)
-    @@opts_hooks << block
+    @@search_hooks << block
   end
 
   def self.search_hooks
-    @@opts_hooks
+    @@search_hooks
   end
 
 
@@ -219,14 +219,6 @@ class Solr
       Solr.search_hooks.each do |hook|
         hook.call(self)
       end
-
-      opts = {
-        :q => @query_string,
-        :wt => "json",
-        :start => (@pagination[:page] - 1) * @pagination[:page_size],
-        :rows => @pagination[:page_size],
-      }.to_a
-
 
       url = @solr_url
       url.path = "/select"
