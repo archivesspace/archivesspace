@@ -2,6 +2,7 @@ class DigitalObjectComponentsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show],
                       "update_archival_record" => [:new, :edit, :create, :update, :accept_children, :rde, :add_children, :validate_rows],
+                      "suppress_archival_record" => [:suppress, :unsuppress],
                       "delete_archival_record" => [:delete]
 
 
@@ -19,6 +20,11 @@ class DigitalObjectComponentsController < ApplicationController
 
   def edit
     @digital_object_component = JSONModel(:digital_object_component).find(params[:id], find_opts)
+
+    if @digital_object_component.suppressed
+      return redirect_to(:action => :show, :id => params[:id], :inline => params[:inline])
+    end
+
     render :partial => "digital_object_components/edit_inline" if inline?
   end
 
@@ -76,6 +82,9 @@ class DigitalObjectComponentsController < ApplicationController
   def show
     @digital_object_id = params['digital_object_id']
     @digital_object_component = JSONModel(:digital_object_component).find(params[:id], find_opts)
+
+    flash.now[:info] = I18n.t("digital_object_component._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component)) if @digital_object_component.suppressed
+
     render :partial => "digital_object_components/show_inline" if inline?
   end
 
@@ -156,6 +165,24 @@ class DigitalObjectComponentsController < ApplicationController
     end
 
     render :partial => "shared/rde"
+  end
+
+
+  def suppress
+    digital_object_component = JSONModel(:digital_object_component).find(params[:id])
+    digital_object_component.set_suppressed(true)
+
+    flash[:success] = I18n.t("digital_object_component._frontend.messages.suppressed", JSONModelI18nWrapper.new(:digital_object_component => digital_object_component))
+    redirect_to(:controller => :digital_objects, :action => :show, :id => JSONModel(:digital_object).id_for(digital_object_component['digital_object']['ref']), :anchor => "tree::digital_object_component_#{params[:id]}")
+  end
+
+
+  def unsuppress
+    digital_object_component = JSONModel(:digital_object_component).find(params[:id])
+    digital_object_component.set_suppressed(false)
+
+    flash[:success] = I18n.t("digital_object_component._frontend.messages.unsuppressed", JSONModelI18nWrapper.new(:digital_object_component => digital_object_component))
+    redirect_to(:controller => :digital_objects, :action => :show, :id => JSONModel(:digital_object).id_for(digital_object_component['digital_object']['ref']), :anchor => "tree::digital_object_component_#{params[:id]}")
   end
 
 end

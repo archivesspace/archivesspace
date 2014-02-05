@@ -117,7 +117,7 @@
         }
       },
 
-      "suppressed" => {"type" => "boolean"},
+      "suppressed" => {"type" => "boolean", "readonly" => "true"},
 
       "acquisition_type" => {"type" => "string", "dynamic_enum" => "accession_acquisition_type"},
       

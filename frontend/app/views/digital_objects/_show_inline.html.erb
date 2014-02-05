@@ -7,6 +7,9 @@
     <div class="record-pane">
       <% define_template "digital_object", jsonmodel_definition(:digital_object) do |readonly, digital_object| %>
         <h2><%= digital_object.title %> <span class="label label-info"><%= I18n.t("digital_object._singular") %></span></h2>
+
+        <%= render :partial => "shared/form_messages", :locals => {:form => readonly} %>
+
         <section id="basic_information">
           <h3><%= I18n.t("digital_object._frontend.section.basic_information") %></h3>
   

@@ -4,6 +4,7 @@ class ResourcesController < ApplicationController
                       "update_archival_record" => [:new, :edit, :create, :update, :rde, :add_children, :publish, :accept_children],
                       "delete_archival_record" => [:delete],
                       "merge_archival_record" => [:merge],
+                      "suppress_archival_record" => [:suppress, :unsuppress],
                       "transfer_archival_record" => [:transfer]
 
 
@@ -16,6 +17,8 @@ class ResourcesController < ApplicationController
 
     if params[:inline]
       @resource = fetch_resolved(params[:id])
+
+      flash.now[:info] = I18n.t("resource._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:resource => @resource)) if @resource.suppressed
       return render :partial => "resources/show_inline"
     end
 
@@ -50,6 +53,11 @@ class ResourcesController < ApplicationController
     if params[:inline]
       # only fetch the fully resolved record when rendering the full form
       @resource = fetch_resolved(params[:id])
+
+      if @resource.suppressed
+        return redirect_to(:action => :show, :id => params[:id], :inline => params[:inline])
+      end
+
       return render :partial => "resources/edit_inline"
     end
 
@@ -180,6 +188,24 @@ class ResourcesController < ApplicationController
 
   def tree
     render :json => fetch_tree
+  end
+
+
+  def suppress
+    resource = JSONModel(:resource).find(params[:id])
+    resource.set_suppressed(true)
+
+    flash[:success] = I18n.t("resource._frontend.messages.suppressed", JSONModelI18nWrapper.new(:resource => resource))
+    redirect_to(:controller => :resources, :action => :show, :id => params[:id])
+  end
+
+
+  def unsuppress
+    resource = JSONModel(:resource).find(params[:id])
+    resource.set_suppressed(false)
+
+    flash[:success] = I18n.t("resource._frontend.messages.unsuppressed", JSONModelI18nWrapper.new(:resource => resource))
+    redirect_to(:controller => :resources, :action => :show, :id => params[:id])
   end
 
 
