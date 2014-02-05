@@ -102,8 +102,9 @@ ASpaceExport::model :eac do
       }
     when 'agent_family'
       {
-        "family_name" => nil,
-        "prefix" => nil
+        "family_name" => 'familyName',
+        "prefix" => nil,
+        "qualifier" => nil,
       }
     when 'agent_software'
       {

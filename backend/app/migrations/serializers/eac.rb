@@ -49,7 +49,7 @@ ASpaceExport::serializer :eac do
               xml.agent agent[1]
             end
           }
-        end         
+        end
           
         # xml.maintenanceEvent {
         #   xml.eventType "created"
@@ -92,19 +92,12 @@ ASpaceExport::serializer :eac do
         
         xml.entityType entity_type
 
-        json.names.each do |name|
-          xml.nameEntry {
-            xml.authorizedForm name['rules'] if name['rules']
-            xml.authorizedForm name['source'] if name['source']
-
-            json.name_part_fields.each do |field, localType|
-              localType = localType.nil? ? field : localType
-              next unless name[field]
-              xml.part(:localType => localType) {
-                xml.text name[field]
-              }
-            end
+        if json.names.length > 1
+          xml.nameEntryParallel {
+            _build_name_entries(json, xml)
           }
+        elsif json.names
+          _build_name_entries(json, xml)
         end
       }
 
@@ -120,5 +113,47 @@ ASpaceExport::serializer :eac do
       }
       
     }
+  end
+
+
+  def _build_name_entries(json, xml)
+    json.names.each do |name|
+      xml.nameEntry {
+        xml.authorizedForm name['rules'] if name['rules']
+        xml.authorizedForm name['source'] if name['source']
+
+        json.name_part_fields.each do |field, localType|
+          localType = localType.nil? ? field : localType
+          next unless name[field]
+          xml.part(:localType => localType) {
+            xml.text name[field]
+          }
+        end
+
+        name['use_dates'].each do |date|
+          xml.useDates {
+            xml.dateRange date['expression']
+            xml.dateRange date['expression']
+            case date['date_type']
+            when 'bulk', 'inclusive'
+              xml.dateRange {
+                xml.fromDate(:standardDate => date['begin']) {
+                  xml.text date['begin']
+                }
+                xml.toDate(:standardDate => date['end']) {
+                  xml.text date['end']
+                }
+              }
+            when 'single'
+              xml.dateRange {
+                xml.date(:standardDate => date['begin']) {
+                  xml.text date['begin']
+                }
+              }
+            end
+          }
+        end
+      }
+    end
   end
 end
