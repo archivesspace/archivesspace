@@ -49,7 +49,7 @@ class Event < Sequel::Model(:event)
   # Look for events that link to a given record.  If we find any, consider
   # suppressing them if they have no active linked records
   def self.handle_suppressed(record)
-    events = instances_relating_to(record)
+    events = find_relationship(:event_link).who_participates_with(record)
 
     events.each do |event|
       val = !event.has_active_linked_records?

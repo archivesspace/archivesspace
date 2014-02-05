@@ -25,6 +25,7 @@ describe 'Relationships' do
       String :sauce
       Integer :banana_id
       Integer :apple_id
+      Integer :suppressed, :null => false, :default => 0
       Integer :aspace_relationship_position
       DateTime :system_mtime, :null => false
       DateTime :user_mtime, :null => false
@@ -39,6 +40,7 @@ describe 'Relationships' do
       Integer :banana_id_1
       Integer :apple_id_1
       Integer :cherry_id
+      Integer :suppressed, :null => false, :default => 0
 
       Integer :aspace_relationship_position
       DateTime :system_mtime, :null => false

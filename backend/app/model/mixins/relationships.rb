@@ -225,6 +225,13 @@ AbstractRelationship = Class.new(Sequel::Model) do
   end
 
 
+  def self.suppress_relationship_involving(obj)
+    self.reference_columns_for(obj.class).each do |col|
+      self.filter(col => obj.id).update(:suppressed => 1)
+    end
+  end
+
+
   # The properties for this relationship instance
   def properties
     self.values
@@ -370,6 +377,18 @@ module Relationships
 
     super
   end
+
+
+  def set_suppressed(val)
+    if val
+      self.class.relationships.each do |relationship|
+        relationship.suppress_relationship_involving(self)
+      end
+    end
+
+    super
+  end
+
 
 
   module ClassMethods
@@ -564,6 +583,8 @@ module Relationships
                         end
 
         json[property_name] = relationships.map {|relationship|
+          next if relationship.suppressed == 1
+
           # Return the relationship properties, plus the URI reference of the
           # related object
           values = ASUtils.keys_as_strings(relationship.properties)

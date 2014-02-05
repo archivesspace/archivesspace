@@ -50,4 +50,18 @@ describe 'Record Suppression' do
     end
   end
 
+
+  it "suppresses relationships when a record gets suppressed" do
+    test_agent = create_agent_person
+    test_accession = create_accession(:linked_agents => [{
+                                                           'ref' => test_agent.uri,
+                                                           'role' => 'creator'
+                                                         }])
+
+    JSONModel(:accession).find(test_accession.id).linked_agents.length.should eq(1)
+    test_accession.set_suppressed(true)
+    JSONModel(:accession).find(test_accession.id).linked_agents.length.should eq(0)
+  end
+
+
 end
