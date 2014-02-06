@@ -53,7 +53,7 @@ module ExportHelpers
     ASpaceExport.serializer(:marc21).serialize(marc)
   end
 
-  # streamin'
+
   def generate_ead(id, unpublished)
     obj = resolve_references(Resource.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects', 'tree', 'digital_object'])
     ead = ASpaceExport.model(:ead).from_resource(JSONModel(:resource).new(obj))
@@ -63,21 +63,21 @@ module ExportHelpers
 
 
   def generate_eac(id, type)
-    obj = Kernel.const_get(type.camelize).get_or_die(id)
+    klass = Kernel.const_get(type.camelize)
     events = []
 
     # Events related to the 'maintenance history' of this agent record
-    RequestContext.in_global_repo do
-      Event.instances_relating_to(obj).each do |e|
-        if obj[:repo_id] == RequestContext.get(:repo_id)
-          res = resolve_references(Event.to_jsonmodel(e), ['linked_agents'])
-          events << JSONModel(:event).new(res)
-        end
-      end
-    end
+    # RequestContext.in_global_repo do
+    #   Event.instances_relating_to(obj).each do |e|
+    #     if obj[:repo_id] == RequestContext.get(:repo_id)
+    #       res = resolve_references(Event.to_jsonmodel(e), ['linked_agents'])
+    #       events << JSONModel(:event).new(res)
+    #     end
+    #   end
+    # end
 
-    json = obj.class.to_jsonmodel(obj)
-    eac = ASpaceExport.model(:eac).from_agent(json, events)
+    obj = resolve_references(klass.to_jsonmodel(id), ['linked_agents'])
+    eac = ASpaceExport.model(:eac).from_agent(JSONModel(type.intern).new(obj), events)
     ASpaceExport::serializer(:eac).serialize(eac)
   end
 
