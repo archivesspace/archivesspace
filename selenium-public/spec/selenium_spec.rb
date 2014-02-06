@@ -218,6 +218,12 @@ describe "ArchivesSpace Public interface" do
       $driver.ensure_no_such_element(:link, $unpublished_agent)
     end
 
+    it "shows the Agent Name in the sort pulldown" do
+      $driver.find_element(:link, "Names").click
+      $driver.find_element(:xpath, "//a[span = 'Select']").click
+      $driver.find_element(:link, "Agent Name" )
+      $driver.ensure_no_such_element(:link, "Title") 
+    end
   end
 
 
