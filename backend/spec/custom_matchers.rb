@@ -96,7 +96,19 @@ RSpec::Matchers.define :have_tag do |expected|
     nodeset = if doc.namespaces.empty?
                 doc.xpath("//#{tag}")
               else
-                tag = "xmlns:#{tag.split('/').join('/xmlns:')}"
+                tag_frags = tag.gsub(/^\//, '').split('/')
+                tag = "xmlns:#{tag_frags.shift}"
+                selector = false
+                
+                tag_frags.each do |frag|
+        					join = selector ? '/' : '/xmlns:'
+        					tag << "#{join}#{frag}"
+        					if frag =~ /\[[^\]]*$/
+                    selector = true
+                  elsif frag =~ /\][^\[]*$/
+                    selector = false
+                  end
+					      end
                 doc.xpath("//#{tag}", doc.namespaces)
               end
     
