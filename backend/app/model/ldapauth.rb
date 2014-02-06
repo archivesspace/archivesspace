@@ -49,8 +49,11 @@ class LDAPAuth
 
 
   def bind_as_dn(user_dn, password)
-    @connection.auth user_dn, password
+    # Some LDAP servers treat a blank password as an anonymous bind.  Avoid
+    # confusion by automatically rejecting auth attempts with a blank password.
+    return nil if password.to_s.empty?
 
+    @connection.auth(user_dn, password)
     @connection.bind
   end
 
