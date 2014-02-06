@@ -2,6 +2,7 @@ require 'nokogiri'
 
 if ENV['ASPACE_BACKEND_URL']
   require_relative 'custom_matchers'
+  require_relative 'converter_spec_helper'
   require 'jsonmodel'
 
   JSONModel::init(:client_mode => true, :strict_mode => true,
@@ -100,8 +101,8 @@ describe 'EAC Export' do
 
       @eac = get_eac(@rec)
 
-      puts "SOURCE: #{@rec.inspect}\n"
-      puts "RESULT: #{@eac.to_xml}\n"
+      # puts "SOURCE: #{@rec.inspect}\n"
+      # puts "RESULT: #{@eac.to_xml}\n"
     end
 
     it "exports EAC with the correct namespaces" do
@@ -243,8 +244,8 @@ describe 'EAC Export' do
 
       @eac = get_eac(@rec)
 
-      puts "SOURCE: #{@rec.inspect}\n"
-      puts "RESULT: #{@eac.to_xml}\n"
+      # puts "SOURCE: #{@rec.inspect}\n"
+      # puts "RESULT: #{@eac.to_xml}\n"
     end
 
     it "maps name.primary_name to nameEntry/part[@localType='primaryPart']" do
@@ -330,8 +331,8 @@ describe 'EAC Export' do
 
       @eac = get_eac(@rec)
 
-      puts "SOURCE: #{@rec.inspect}\n"
-      puts "RESULT: #{@eac.to_xml}\n"
+      # puts "SOURCE: #{@rec.inspect}\n"
+      # puts "RESULT: #{@eac.to_xml}\n"
     end
 
 
@@ -395,10 +396,168 @@ describe 'EAC Export' do
       @eac.should have_tag("existDates/dateRange[2]/toDate[@standardDate=\"#{@rec.dates_of_existence[0]['end']}\"]" =>
                            @rec.dates_of_existence[0]['end'])
     end
-
   end
 
 
+  describe "biographical / historical notes" do
+    before(:all) do
+      subnotes = [
+                  :note_abstract,
+                  :note_chronology,
+                  :note_citation,
+                  :note_orderedlist,
+                  :note_definedlist,
+                  :note_text,
+                  :note_outline
+                 ]
+        
+
+      @rec = create(:json_agent_person,
+                    :notes => [ build(:json_note_bioghist,
+                                      :subnotes => subnotes.map {|type|
+                                        build("json_#{type.to_s}".intern)
+                                      }
+                                      ) 
+                              ]
+                    )
+      @eac = get_eac(@rec)
+
+      @subnotes = Hash[subnotes.map{|type| [type, get_subnotes_by_type(@rec.notes[0], type.to_s)[0]] } ]
+
+      # puts @rec.inspect
+      # puts @eac.to_xml
+    end                                            
+
+
+    it "creates a biogHist tag for each note" do
+      rec = create(:json_agent_person,
+                   :notes => [1,2].map{ build(:json_note_bioghist) }
+                   )
+      eac = get_eac(rec)
+
+      eac.should have_tag("biogHist[2]")
+    end
+
+
+    it "ignores un-published notes" do
+      rec = create(:json_agent_person,
+                   :notes => [ build(:json_note_bioghist,
+                                   :publish => false) ]
+                   )
+
+      eac = get_eac(rec)
+
+      eac.should_not have_tag("biogHist")
+    end
+
+
+    it "maps 'abstract' subnotes to abstract tags" do
+      @eac.should have_tag("biogHist/abstract" => 
+                           @subnotes[:note_abstract]['content'].join('--'))
+    end
+
+
+    it "maps 'citation' subnotes to 'citation' tags" do
+      xlink_values = @subnotes[:note_citation]['xlink']
+      citation_text = @subnotes[:note_citation]['content'].join('--')
+
+      @eac.should have_tag("biogHist/citation[@xlink:actuate=\"#{xlink_values['actuate']}\"]") 
+      @eac.should have_tag("biogHist/citation[@xlink:arcrole='#{xlink_values['arcrole']}']")
+      @eac.should have_tag("biogHist/citation[@xlink:href='#{xlink_values['href']}']")
+      @eac.should have_tag("biogHist/citation[@xlink:role='#{xlink_values['role']}']")
+      @eac.should have_tag("biogHist/citation[@xlink:show='#{xlink_values['show']}']")
+      @eac.should have_tag("biogHist/citation[@xlink:title='#{xlink_values['title']}']")
+ 
+      @eac.should have_tag("biogHist/citation" => citation_text)
+    end
+
+
+    it "maps 'definedlist' subnotes to 'list[@localType=\"defined:{title}\"]' tags" do
+      list_title = @subnotes[:note_definedlist]['title']
+      list_items = @subnotes[:note_definedlist]['items']
+
+      @eac.should have_tag("biogHist/list[@localType='defined:#{list_title}']/item[#{list_items.count}]")
+      @eac.should_not have_tag("biogHist/list[@localType='defined:#{list_title}']/item[#{list_items.count + 1}]")
+      @eac.should have_tag("biogHist/list/item[@localType='#{list_items.last['label']}']" => list_items.last['value'])
+    end
+
+
+    it "maps 'orderedlist' subnotes to 'list[@localType=\"ordered:{title}\"]' tags" do
+      list_title = @subnotes[:note_orderedlist]['title']
+      list_items = @subnotes[:note_orderedlist]['items']
+      enumeration = @subnotes[:note_orderedlist]['enumeration']
+
+      @eac.should have_tag("biogHist/list[@localType='ordered:#{list_title}']/item[#{list_items.count}]")
+      @eac.should_not have_tag("biogHist/list[@localType='ordered:#{list_title}']/item[#{list_items.count + 1}]")
+      @eac.should have_tag("biogHist/list/item[@localType='#{enumeration}']" => list_items.last)
+    end
+
+
+    it "maps 'chronology' subnotes to 'chronList' tags" do
+      chron_title = @subnotes[:note_chronology]['title']
+
+      if chron_title
+        @eac.should have_tag("biogHist/chronList[@localType='#{chron_title}']")
+      else
+        @eac.should_not have_tag("biogHist/chronList[@localType]")
+        @eac.should have_tag("biogHist/chronList")
+      end
+    end
+
+
+    it "maps every 'event' of every 'item' in a 'chronology' to a 'chronitem' tag" do
+      events = @subnotes[:note_chronology]['items'].map{|i| i['events'].map{|e| [i['event_date'], e] } }.flatten(1)
+
+      @eac.should have_tag("chronList/chronItem[#{events.count}]")
+      @eac.should_not have_tag("chronList/chronItem[#{events.count + 1}]")
+    end
+
+
+    it "maps 'event_date' of an 'item' to each 'chronItem/@standardDate'" do
+      events = @subnotes[:note_chronology]['items'].map{|i| i['events'].map{|e| [i['event_date'], e] } }.flatten(1)
+
+      events.each do |event| # date, event pair
+        if event[0] && event[0].length
+          @eac.should have_tag("chronList/chronItem[@standardDate='#{event[0]}']/event" => event[1])
+        else
+          @eac.should have_tag("chronList/chronItem/event" => event[1])
+          @eac.should_not have_tag("chronList/chronItem[@standardDate]/event" => event[1])
+        end
+      end
+    end
+
+
+    it "maps 'outline' subnotes to 'outline' tags" do
+      rec = create(:json_agent_person,
+                   :notes => [ build(:json_note_bioghist,
+                                     :subnotes => [build(:json_note_outline,
+                                                         :levels => (0..rand(3)).map { build(:json_note_outline_level,
+                                                                                             :items => (0..rand(3)).map { [true, false].sample ? build(:json_note_outline_level) : generate(:alphanumstr) }
+                                                                                             ) }
+                                                         ),
+                                                   build(:json_note_text),
+                                                  ]
+                                     )
+                             ]
+                 )
+      eac = get_eac(rec)
+
+      outline = get_subnotes_by_type(rec.notes[0], 'note_outline')[0]
+      eac.should have_tag("outline/level[#{outline['levels'].count}]")
+      eac.should_not have_tag("outline/level[#{outline['levels'].count + 1}]")
+
+      outline['levels'].sample['items'].each do |item|
+        if item.is_a?(String)
+          eac.should have_tag("outline/level/item" => item)
+        else
+          eac.should have_tag("outline/level/level/item" => item['items'][0])
+        end
+      end
+    end
+  end
+
+
+  # Ensure nil values don't mess things up, etc.
   describe "miscellaneous" do
 
     it "doesn't create any empty tags for dates missing expression" do

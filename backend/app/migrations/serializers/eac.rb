@@ -112,15 +112,72 @@ ASpaceExport::serializer :eac do
 
             
         json.notes.reject {|n| n['jsonmodel_type'] != 'note_bioghist'}.each do |n|
+          next unless n['publish']
           xml.biogHist {
-            n['content'].each do |c|
-              # xml.__send__ :insert, c   # << use this method if the note contents are ever valid EAC <description> content
-              xml.p c
+            n['subnotes'].each do |sn|
+              case sn['jsonmodel_type']
+              when 'note_abstract'
+                xml.abstract {
+                  xml.text sn['content'].join('--')
+                }
+              when 'note_citation'
+                atts = Hash[ sn['xlink'].map {|x, v| ["xlink:#{x}", v] }.reject{|a| a[1].nil?} ] 
+                xml.citation(atts) {
+                  xml.text sn['content'].join('--')
+                }
+
+              when 'note_definedlist'
+                xml.list(:localType => "defined:#{sn['title']}") {
+                  sn['items'].each do |item|
+                    xml.item(:localType => item['label']) {
+                      xml.text item['value']
+                    }
+                  end
+                }
+              when 'note_orderedlist'
+                xml.list(:localType => "ordered:#{sn['title']}") {
+                  sn['items'].each do |item|
+                    xml.item(:localType => sn['enumeration']) {
+                      xml.text item
+                    }
+                  end
+                }
+              when 'note_chronology'
+                atts = sn['title'] ? {:localType => sn['title']} : {} 
+                xml.chronList(atts) {
+                  sn['items'].map {|i| i['events'].map {|e| [i['event_date'], e] } }.flatten(1).each do |pair|
+                    date, event = pair
+                    atts = (date.nil? || date.empty?) ? {} : {:standardDate => date }
+                    xml.chronItem(atts) {
+                      xml.event event
+                    }
+                  end
+                }
+              when 'note_outline'
+                xml.outline {
+                  sn['levels'].each do |level|
+                    _expand_level(level, xml)
+                  end
+                }
+              end
             end
           }
         end
       }
       
+    }
+  end
+
+
+  def _expand_level(level, xml)
+    xml.level {
+      level['items'].each do |item|
+        if item.is_a?(String)
+          xml.item item
+        else
+          _expand_level(item, xml)
+        end
+      end
     }
   end
 
