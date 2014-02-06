@@ -49,7 +49,7 @@ $(function() {
           if (init_callback) {
             init_callback($subsubform)
           } else {
-            initNoteForm($subsubform);
+            initNoteForm($subsubform, false, $subform);
           }
 
           if (is_subrecord) {
@@ -168,7 +168,77 @@ $(function() {
         initNoteType($subform, 'template_note_bioghist_selector', true, '.add-sub-note-btn', callback);
       };
 
-      var initNoteForm = function($noteform, for_a_new_form) {
+
+      var initCollapsible = function($noteform, $subform) {
+
+        // only init this feature for top level notes
+        if ($noteform.parents(".subrecord-form-fields").length > 0 ||
+            $subform && $subform.parents(".subrecord-form-fields").length > 0) {
+          return;
+        }
+
+        var truncate_note_content = function(content_inputs) {
+          if (content_inputs.length === 0) {
+            return "&hellip;";
+          }
+
+          var text = $(content_inputs.get(0)).text();
+          if (text.length <= 200) {
+            return text + ((content_inputs.length > 1)?"<br/>&hellip;":"");
+          }
+
+          return $.trim(text).substring(0, 200).split(" ").slice(0, -1).join(" ") + "&hellip;";
+        };
+
+        var generateNoteSummary = function() {
+          var form_data = $noteform.serializeObject();
+          var note_data = {
+            type: $("#" + id_path + "_type_ :selected", $noteform).text(),
+            label: $("#" + id_path + "_label_", $noteform).val(),
+            summary:  truncate_note_content($(":input[id*='_content_']", $noteform))
+          };
+          return $(AS.renderTemplate("template_note_summary", note_data));
+        };
+
+        var id_path_template = $subform.closest(".subrecord-form-list").data("id-path");
+        var note_index = $subform.closest("li").data("index");
+        var id_path = AS.quickTemplate(id_path_template, {index: note_index});
+
+        // set up summary
+        var $summary = generateNoteSummary();
+        var $container = $(" > .subrecord-form-container", $noteform);
+
+        // add button to header
+        $("> .subrecord-form-heading", $noteform).append(AS.renderTemplate("template_note_collapse_action"));
+        $noteform.on("click", ".collapse-note-toggle", function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          // replace the existing summary with a new one
+          // to reflect any updated values
+          if (!$noteform.hasClass("collapsed")) {
+            $summary.remove();
+            $summary = generateNoteSummary();
+            $noteform.append($summary);
+          }
+
+          $container.slideToggle();
+          $summary.slideToggle();
+          $noteform.toggleClass("collapsed");
+        });
+
+        if ($noteform.data("collapsed")) {
+          $container.hide();
+          $noteform.addClass("collapsed")
+        } else {
+          $summary.hide();
+        }
+
+        $noteform.append($summary);
+      };
+
+
+      var initNoteForm = function($noteform, for_a_new_form, $subform) {
         if ($noteform.hasClass("initialised")) {
           return;
         }
@@ -189,6 +259,7 @@ $(function() {
         }
 
         initContentList($noteform);
+        initCollapsible($noteform, $subform);
       };
 
       var changeNoteTemplate = function() {
@@ -215,7 +286,7 @@ $(function() {
         var matchingNoteType = $(".note-type option:contains('"+$(":selected", this).text()+"')", $note_form);
         $(".note-type", $note_form).val(matchingNoteType.val());
 
-        initNoteForm($note_form, true);
+        initNoteForm($note_form, true, $subform);
 
         $noteFormContainer.html($note_form);
 
@@ -232,6 +303,8 @@ $(function() {
         var $target_subrecord_list = $(".subrecord-form-list:first", $this);
 
         var $subform = $(AS.renderTemplate("template_note_type_selector"));
+
+        $subform.data("collapsed", false);
 
         $subform = $("<li>").data("type", $subform.data("type")).append($subform);
         $subform.attr("data-index", index);
@@ -263,7 +336,8 @@ $(function() {
 
       if ($(".subrecord-form-list > .subrecord-form-wrapper > .subrecord-form-fields", $this).length) {
         $(".subrecord-form-list > .subrecord-form-wrapper > .subrecord-form-fields", $this).each(function() {
-          initNoteForm($(this));
+          $(this).data("collapsed", $(this).find(".error:first").length === 0);
+          initNoteForm($(this), false, $(this));
         });
         $(".subrecord-form-inline", $this).each(function() {
           initRemoveActionForSubRecord($(this));

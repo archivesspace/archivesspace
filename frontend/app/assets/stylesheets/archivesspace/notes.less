@@ -32,4 +32,41 @@
     &.render-singlequote:before, &.render-boldsinglequote:before {content: "'"}
     &.render-singlequote:after, &.render-boldsinglequote:after {content: "'"}
   }
+
+  .note-summary-view {
+    display: none;
+  }
+
+  .subrecord-form-fields {
+    .collapse-note-toggle {
+      margin: 6px 6px 0 0;
+
+      .expand {
+        display: none;
+      }
+    }
+    &.collapsed {
+      .subrecord-form-container {
+        display: none;
+      }
+      .collapse-note-toggle {
+        .collapse {
+          display: none;
+        }
+        .expand {
+          display: inline;
+        }
+      }
+      .note-summary-view {
+        display: block;
+        background-color: #f3f3f3;
+
+        .note-content-summary {
+          padding: 10px;
+          border-top: 1px dotted #CCC;
+          margin: 0 20px;
+        }
+      }
+    }
+  }
 }

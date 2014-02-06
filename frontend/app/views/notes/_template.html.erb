@@ -1,3 +1,32 @@
+<div id="template_note_summary"><!--
+  <div class="note-summary-view">
+    {if defined("label") && label != "" && label != type}
+      <div class="control-group">
+        <label class="control-label"><%= I18n.t("note_attributes.label") %></label>
+        <div class="controls label-only">${label}</div>
+      </div>
+    {/if}
+    {if defined("type") && type != ""}
+      <div class="control-group">
+        <label class="control-label"><%= I18n.t("note.note_type") %></label>
+        <div class="controls label-only">${type}</div>
+      </div>
+    {/if}
+    {if summary.length > 0}
+      <div class="note-content-summary">
+        <p>${summary}</p>
+      </div>
+    {/if}
+  </div>
+--></div>
+
+<div id="template_note_collapse_action"><!--
+  <button class="btn btn-mini pull-right collapse-note-toggle">
+    <span class="expand">Expand</span>
+    <span class="collapse">Collapse</span>
+  </button>
+--></div>
+
 <% define_template "note_type_selector" do |form, item| %>
   <% if item %>
     <% form.emit_template(item["jsonmodel_type"]) %>
