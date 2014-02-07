@@ -72,10 +72,16 @@ describe "ArchivesSpace Public interface" do
 
     it "lists all available repositories" do
       $driver.find_element(:link, "Repositories").click
-
       $driver.find_element_with_text('//a', /#{$test_repo}/)
       $driver.find_element_with_text('//a', /#{@test_repo_code_1}/)
       $driver.find_element_with_text('//a', /#{@test_repo_code_2}/)
+    end
+    
+    it "shows Title (default)  in the sort pulldown" do
+      $driver.find_element(:link, "Repositories").click
+      $driver.find_element(:xpath, "//a[span = 'Select']").click
+      $driver.find_element(:link, "Title" )
+      $driver.ensure_no_such_element(:link, "Term") 
     end
 
   end
@@ -251,6 +257,13 @@ describe "ArchivesSpace Public interface" do
 
     it "is not visible when it not linked to a published resource" do
       $driver.ensure_no_such_element(:link, $not_linked_subject_title)
+    end
+    
+    it "shows the Term  in the sort pulldown" do
+      $driver.find_element(:link, "Subjects").click
+      $driver.find_element(:xpath, "//a[span = 'Select']").click
+      $driver.find_element(:link, "Terms" )
+      $driver.ensure_no_such_element(:link, "Title") 
     end
   end
 
