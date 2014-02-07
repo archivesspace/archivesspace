@@ -191,6 +191,14 @@ class SearchResultData
     "#{I18n.t("search_results.filter.query")}: #{@search_data[:criteria]["q"]}"
   end
 
+  def index_results_view_settings
+    if @search_data[:criteria].has_key?("type[]") and !@search_data[:criteria]["type[]"].blank?
+      self.class.VIEW_SETTINGS[@search_data[:criteria]["type[]"].first]
+    else
+      nil
+    end
+  end
+
   def self.BASE_SORT_FIELDS
     %w(create_time user_mtime)
   end
@@ -198,4 +206,21 @@ class SearchResultData
   def self.UNTITLED_TYPES
     ["event"]
   end
+
+  # currently we don't need all the functionality that is in the staff UI
+  # but it is believed we will in the near furture. Commenting out the 
+  # additional columns. 
+  def self.VIEW_SETTINGS
+    {  "agent" => 
+          proc {
+            title_column_header(I18n.t("agent.name"))
+     #       add_column(I18n.t("agnt_name.authority_id"), proc {|record| record['authority_id']}, :sortable => true, :sort_by => "authority_id")
+     #       add_column(I18n.t("agent_name.source"), proc {|record| I18n.t("enumerations.name_source.#{record['source']}", :default => record['source']) if record['source']}, :sortable => true, :sort_by => "source")
+     #       add_column(I18n.t("agent_name.rules"), proc {|record| I18n.t("enumerations.name_rule.#{record['rules']}", :default => record['rules']) if record['rules']}, :sortable => true, :sort_by => "rules")
+          },
+        "subject" => 
+          proc { title_column_header(I18n.t('subject.terms')) }
+    }
+  end
+
 end

@@ -1,5 +1,5 @@
 <% if @search_data %>
-<% configure_columns %> 
+<% configure_index_results_view %> 
   <div class="pull-left">
     <%= I18n.t "pagination.summary_prefix" %> <strong><%= search_data["offset_first"] %></strong> <%= I18n.t "pagination.summary_offset_connector" %> <strong><%= search_data["offset_last"] %></strong> <%= I18n.t "pagination.summary_total_connector" %> <strong><%= search_data["total_hits"] %></strong> <%= I18n.t "pagination.summary_suffix" %>
   </div>

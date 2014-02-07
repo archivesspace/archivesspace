@@ -37,30 +37,11 @@ module SearchHelper
 
     search_params.reject{|k,v| k.blank? or v.blank?}
   end
-
-
-  # currently we don't need all the functionality that is in the staff UI
-  # but it is believed we will in the near furture. Commenting out the 
-  # additional columns. 
-  def column_defaults
-    {  "agent" => 
-          proc {
-            title_column_header(I18n.t("agent.name"))
-     #       add_column(I18n.t("agnt_name.authority_id"), proc {|record| record['authority_id']}, :sortable => true, :sort_by => "authority_id")
-     #       add_column(I18n.t("agent_name.source"), proc {|record| I18n.t("enumerations.name_source.#{record['source']}", :default => record['source']) if record['source']}, :sortable => true, :sort_by => "source")
-     #       add_column(I18n.t("agent_name.rules"), proc {|record| I18n.t("enumerations.name_rule.#{record['rules']}", :default => record['rules']) if record['rules']}, :sortable => true, :sort_by => "rules")
-          },
-        "subject" => 
-          proc { title_column_header(I18n.t('subject.terms')) }
-    }
-  end
-
-  def configure_columns
-    if @search_data[:criteria].has_key?("type[]")
-      columns = column_defaults[@search_data[:criteria]["type[]"].first]
-      unless columns.nil?
-        columns.call
-      end
+  
+  def configure_index_results_view
+    results_view_config = @search_data.index_results_view_settings
+    unless results_view_config.nil?
+      instance_eval &results_view_config
     end
   end
 
