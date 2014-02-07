@@ -1687,6 +1687,13 @@ en:
     description: Description
     creator: Creator
 
+  preferences: &preferences_attributes
+    defaults: Defaults
+
+  preference: &preference_attributes
+    _singular: Preferences
+    _plural: Preferences
+
   reports:
     CreatedAccessionsReport: Created Accessions
     UnprocessedAccessionsReport: Unprocessed Accessions

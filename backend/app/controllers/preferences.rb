@@ -50,12 +50,13 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.get('/repositories/:repo_id/preferences')
-    .description("Get a list of Preferences for a Repository")
-    .params(["repo_id", :repo_id])
+    .description("Get a list of Preferences for a Repository and optionally a user")
+    .params(["repo_id", :repo_id],
+            ["user_id", Integer, "The username to retrieve defaults for", :optional => true])
     .permissions([:view_repository])
     .returns([200, "[(:preference)]"]) \
   do
-    handle_listing(Preference, params)
+    handle_unlimited_listing(Preference, params)
   end
 
 

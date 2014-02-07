@@ -177,6 +177,7 @@ en:
     manage_groups: Manage Groups
     manage_users: Manage Users
     manage_enumerations: Manage Controlled Value Lists
+    manage_preferences: Preferences
     manage_user_access: Manage User Access
     logout: Logout
     login: Sign In
@@ -634,6 +635,11 @@ en:
         create: Create Resource
         save: Save Resource
         delete_multiple: Delete Resources
+
+  preference:
+    _frontend:
+      messages:
+        updated: "Preferences updated"
 
   rights_statement:
     _frontend:

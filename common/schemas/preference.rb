@@ -6,6 +6,8 @@
     "uri" => "/repositories/:repo_id/preferences",
 
     "properties" => {
+      "uri" => {"type" => "string", "required" => false},
+
       "user_id" => {"type" => "integer"},
 
       "defaults" => {
