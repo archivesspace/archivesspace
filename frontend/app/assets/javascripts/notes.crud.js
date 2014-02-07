@@ -195,6 +195,7 @@ $(function() {
           var note_data = {
             type: $("#" + id_path + "_type_ :selected", $noteform).text(),
             label: $("#" + id_path + "_label_", $noteform).val(),
+            jsonmodel_type: $("> .subrecord-form-heading:first", $noteform).text(),
             summary:  truncate_note_content($(":input[id*='_content_']", $noteform))
           };
           return $(AS.renderTemplate("template_note_summary", note_data));
@@ -209,7 +210,7 @@ $(function() {
         var $container = $(" > .subrecord-form-container", $noteform);
 
         // add button to header
-        $("> .subrecord-form-heading", $noteform).append(AS.renderTemplate("template_note_collapse_action"));
+        $(".subrecord-form-remove", $noteform).after(AS.renderTemplate("template_note_collapse_action"));
         $noteform.on("click", ".collapse-note-toggle", function(event) {
           event.preventDefault();
           event.stopPropagation();
@@ -225,6 +226,8 @@ $(function() {
           $container.slideToggle();
           $summary.slideToggle();
           $noteform.toggleClass("collapsed");
+        }).on("click", ".note-summary-view", function(event) {
+          $(".collapse-note-toggle", $noteform).trigger("click");
         });
 
         if ($noteform.data("collapsed")) {

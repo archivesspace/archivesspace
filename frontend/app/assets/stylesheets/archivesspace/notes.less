@@ -46,6 +46,7 @@
       }
     }
     &.collapsed {
+      .subrecord-form-heading,
       .subrecord-form-container {
         display: none;
       }
@@ -58,13 +59,20 @@
         }
       }
       .note-summary-view {
+        cursor: pointer;
         display: block;
-        background-color: #f3f3f3;
+        background-color: #fafafa;
+        padding: 0.5em 40px;
 
-        .note-content-summary {
-          padding: 10px;
-          border-top: 1px dotted #CCC;
-          margin: 0 20px;
+        &:hover {
+          background-color: #f3f3f3;
+        }
+
+        .note-summary-title {
+          font-weight: bold;
+        }
+
+        .note-summary-content {
         }
       }
     }
