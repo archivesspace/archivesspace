@@ -1,4 +1,7 @@
 ASpaceExport::model :eac do
+
+  attr_reader :related_records
+
   
   @eac_event = Class.new do
     
@@ -55,21 +58,15 @@ ASpaceExport::model :eac do
   end
    
 
-  def initialize(obj, events)
+  def initialize(obj, events, related_records)
     @json = obj
     @events = events.map {|e| self.class.instance_variable_get(:@eac_event).new(e) }
+    @related_records = related_records
   end
+   
   
-  def self.from_aspace_object(obj, events)
-  
-    self.new(obj, events)
-  end
-    
-  
-  def self.from_agent(obj, events = [])
-    eac = self.from_aspace_object(obj, events)
-  
-    eac
+  def self.from_agent(obj, events, related_records)
+    self.new(obj, events, related_records)
   end
   
   

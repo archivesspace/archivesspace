@@ -76,8 +76,10 @@ module ExportHelpers
     #   end
     # end
 
-    obj = resolve_references(klass.to_jsonmodel(id), ['linked_agents'])
-    eac = ASpaceExport.model(:eac).from_agent(JSONModel(type.intern).new(obj), events)
+    json = klass.to_jsonmodel(id, :agent_centric => true)
+    related_records = json['_related_records']
+    obj = resolve_references(json, ['related_agents'])
+    eac = ASpaceExport.model(:eac).from_agent(JSONModel(type.intern).new(obj), events, related_records)
     ASpaceExport::serializer(:eac).serialize(eac)
   end
 

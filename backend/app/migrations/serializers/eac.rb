@@ -165,6 +165,36 @@ ASpaceExport::serializer :eac do
         end
       }
       
+      xml.relations {
+        json.related_agents.each do |related_agent|
+
+          resolved = related_agent['_resolved']
+          relator = related_agent['relator']
+
+          name = case resolved['jsonmodel_type']
+                 when 'agent_software'
+                   resolved['names'][0]['software_name']
+                 when 'agent_family'
+                   resolved['names'][0]['family_name']
+                 else
+                   resolved['names'][0]['primary_name']
+                 end
+
+          xml.cpfRelation(:cpfRelationType => relator, 'xlink:type' => 'simple', 'xlink:href' => resolved['uri']) {
+            xml.relationEntry name
+          }
+        end
+
+
+        json.related_records.each do |record|
+          role = record[:role] + "Of"
+          record = record[:record]
+          atts = {:resourceRelationType => role, "xlink:type" => "simple", 'xlink:href' => "#{AppConfig[:public_proxy_url]}#{record['uri']}"}
+          xml.resourceRelation(atts) {
+            xml.relationEntry record['title']
+          }
+        end
+      }
     }
   end
 
