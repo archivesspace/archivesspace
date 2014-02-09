@@ -16,6 +16,9 @@ if ENV['ASPACE_BACKEND_URL']
   require_relative 'factories'
   include FactoryGirl::Syntax::Methods
 
+  repo = create(:json_repo)
+  JSONModel::set_repository(repo.id)
+
   def get_xml(uri)
     uri = URI("#{ENV['ASPACE_BACKEND_URL']}#{uri}")
     response = JSONModel::HTTP::get_response(uri)
@@ -553,6 +556,49 @@ describe 'EAC Export' do
           eac.should have_tag("outline/level/level/item" => item['items'][0])
         end
       end
+    end
+  end
+
+  describe "Relations" do
+    before(:all) do
+      @rec = create(:json_agent_person,
+                    :external_documents => [
+                                            build(:json_external_document),
+                                            build(:json_external_document,
+                                                  :location => "not a url")
+                                           ]
+                    )
+      @resource, @digital_object = [:json_resource, :json_digital_object].map {|type| 
+        create(type,
+               :linked_agents => [{
+                 'role' => %w(creator subject).sample,
+                 'ref' => @rec.uri
+               }])
+      }
+
+      @relationship = JSONModel(:agent_relationship_parentchild).new
+      @relationship.relator = "is_child_of"
+      @relationship.ref = @rec.uri
+
+      @linked_agent = create(:json_agent_person,
+                             :related_agents => [@relationship.to_hash]
+                             )
+
+      @eac = get_eac(@rec)
+
+      puts "SOURCE: #{@rec.inspect}\n"
+      puts "RESULT: #{@eac.to_xml}\n"                      
+    end
+
+    it "maps related agents to cpfRelation" do
+      @eac.should have_tag("relations/cpfRelation[@cpfRelationType='is_parent_of'][@xlink:href='#{@linked_agent.uri}']/relationEntry" =>
+@linked_agent.names[0]['primary_name'])
+    end
+
+
+    it "maps related resources and components to resourceRelation" do
+      role = @resource.linked_agents[0]['role'] + "Of"
+      @eac.should have_tag("relations/resourceRelation[@resourceRelationType='#{role}']/relationEntry" => @resource.title)
     end
   end
 
