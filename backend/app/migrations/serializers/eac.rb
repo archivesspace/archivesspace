@@ -194,6 +194,15 @@ ASpaceExport::serializer :eac do
             xml.relationEntry record['title']
           }
         end
+
+
+        json.external_documents.each do |document|
+          next unless document['location'] =~ /^http[s]?:\/\/.+/
+          atts = {:resourceRelationType => 'other', "xlink:type" => "simple", 'xlink:href' => "#{document['location']}"}
+          xml.resourceRelation(atts) {
+            xml.relationEntry document['title']
+          }
+        end
       }
     }
   end

@@ -19,6 +19,7 @@ if ENV['ASPACE_BACKEND_URL']
   repo = create(:json_repo)
   JSONModel::set_repository(repo.id)
 
+
   def get_xml(uri)
     uri = URI("#{ENV['ASPACE_BACKEND_URL']}#{uri}")
     response = JSONModel::HTTP::get_response(uri)
@@ -599,6 +600,13 @@ describe 'EAC Export' do
     it "maps related resources and components to resourceRelation" do
       role = @resource.linked_agents[0]['role'] + "Of"
       @eac.should have_tag("relations/resourceRelation[@resourceRelationType='#{role}']/relationEntry" => @resource.title)
+    end
+
+
+    it "maps external documents to resourceRelation" do
+      @eac.should have_tag("relations/resourceRelation[@resourceRelationType='other'][1]")
+      # bad locations don't get exported
+      @eac.should_not have_tag("relations/resourceRelation[@resourceRelationType='other'][2]")
     end
   end
 
