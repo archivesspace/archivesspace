@@ -22,11 +22,16 @@ module AgentCentricity
 
           related_record = AgentCentricity.find_other_referent(relation)
           next unless related_record
-          
-          related_resources << {
-            :role => BackendEnumSource.values_for_ids(relation[:role_id])[relation[:role_id]],
-            :record => related_record.class.to_jsonmodel(related_record, :skip_relationships => true) 
-          }
+
+          # it may be necessary to check user permissions here -- need
+          # more clarity on how agent-centric views should work with
+          # repository scoping
+          RequestContext.open(:repo_id => related_record.repo_id) do
+            related_resources << {
+              :role => BackendEnumSource.values_for_ids(relation[:role_id])[relation[:role_id]],
+              :record => related_record.class.to_jsonmodel(related_record, :skip_relationships => true) 
+            }
+          end
         end
 
         data = json.instance_variable_get(:@data)
