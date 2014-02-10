@@ -1,10 +1,13 @@
 <%= setup_context(:title => I18n.t("location._plural")) %>
 
 <% 
-   title_column_header(I18n.t("location._singular")) 
+   no_title!
+
    %w(building floor room area).each do |place|
-   	 add_column(I18n.t("location.#{place}"), proc {|record| record[place]}, :sortable => true, :sort_by => place)
+     add_column(I18n.t("location.#{place}"), proc {|record| record[place]}, :sortable => true, :sort_by => place)
    end
+
+   add_column(I18n.t("location._singular"), proc {|record| record['title']}, :sortable => true, :sort_by => 'title_sort')
 %>
 
 <div class="row-fluid">
