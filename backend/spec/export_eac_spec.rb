@@ -587,8 +587,8 @@ describe 'EAC Export' do
 
       @eac = get_eac(@rec)
 
-      puts "SOURCE: #{@rec.inspect}\n"
-      puts "RESULT: #{@eac.to_xml}\n"                      
+      # puts "SOURCE: #{@rec.inspect}\n"
+      # puts "RESULT: #{@eac.to_xml}\n"
     end
 
     it "maps related agents to cpfRelation" do

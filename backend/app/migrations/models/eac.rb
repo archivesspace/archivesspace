@@ -83,6 +83,16 @@ ASpaceExport::model :eac do
     end
   end
 
+
+  def related_agents
+    if @json.respond_to?(:related_agents)
+      @json.related_agents
+    else
+      []
+    end
+  end
+
+
   # maps name.{field} => EAC @localType attribute
   def name_part_fields
     case @json.jsonmodel_type

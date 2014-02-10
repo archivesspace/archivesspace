@@ -53,5 +53,7 @@ module AgentCentricity
         end
       end
     end
+
+    nil
   end
 end

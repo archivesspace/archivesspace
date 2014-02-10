@@ -166,6 +166,7 @@ ASpaceExport::serializer :eac do
       }
       
       xml.relations {
+
         json.related_agents.each do |related_agent|
 
           resolved = related_agent['_resolved']
