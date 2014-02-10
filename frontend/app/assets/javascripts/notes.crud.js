@@ -182,7 +182,7 @@ $(function() {
             return "&hellip;";
           }
 
-          var text = $(content_inputs.get(0)).text();
+          var text = $(content_inputs.get(0)).val();
           if (text.length <= 200) {
             return text + ((content_inputs.length > 1)?"<br/>&hellip;":"");
           }
@@ -191,7 +191,6 @@ $(function() {
         };
 
         var generateNoteSummary = function() {
-          var form_data = $noteform.serializeObject();
           var note_data = {
             type: $("#" + id_path + "_type_ :selected", $noteform).text(),
             label: $("#" + id_path + "_label_", $noteform).val(),
