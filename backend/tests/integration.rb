@@ -272,6 +272,12 @@ def run_tests(opts)
     (r[:status] == '403') or fail("LDAP login with incorrect password", r)
 
 
+    r = do_post(URI.encode_www_form(:password => ""),
+                url("/users/marktriggs/login"))
+
+    (r[:status] == '403') or fail("LDAP login with blank password", r)
+
+
     r = do_post(URI.encode_www_form(:password => "testuser"),
                 url("/users/marktriggs/login"))
 
