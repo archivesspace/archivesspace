@@ -29,7 +29,7 @@
             <%= link_to I18n.t("search_sorting.#{field}"), build_search_params("sort" => @search_data.sort_filter_for(field, "desc")) %>
             <ul class="dropdown-menu">
               <li><%= link_to I18n.t("search_sorting.asc"), build_search_params("sort" => "#{field} asc") %></li>
-              <li><%= link_to I18n.t("search_sorting.desc"), build_search_params("sort" => "{field desc") %></li>
+              <li><%= link_to I18n.t("search_sorting.desc"), build_search_params("sort" => "#{field} desc") %></li>
             </ul>
           </li>
         <% end %>
