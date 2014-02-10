@@ -7,6 +7,11 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
+        <% if !session[:user] %>
+          <button type="button" class="btn pull-right btn-collapse-login" data-toggle="collapse" data-target=".nav-global-collapse">
+            <%= I18n.t("navbar.login") %>
+          </button>
+        <% end %>
         <div class="nav-collapse nav-global-collapse collapse">
             <%= link_to I18n.t("navbar.brand"), {:controller => :welcome, :action => :index}, :class => "brand" %>
             <ul class="nav pull-right">
