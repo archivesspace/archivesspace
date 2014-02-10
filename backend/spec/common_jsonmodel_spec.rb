@@ -369,7 +369,6 @@ describe 'JSON model' do
 
     rescue JSONModel::ValidationException => e
       e.errors.keys.sort.should eq(["notes/0/content",
-                                    "notes/1/subnotes", # missing a text field
                                     "notes/1/subnotes/0/items/0" # wrong type
                                    ])
     end
