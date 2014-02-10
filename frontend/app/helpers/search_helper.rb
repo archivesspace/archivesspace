@@ -49,8 +49,14 @@ module SearchHelper
   end
 
 
+  # in case the title needs to be handled among other columns
+  def no_title!
+    @no_title = true
+  end
+
+
   def show_title_column?
-    @search_data.has_titles?
+    @search_data.has_titles? && !@no_title
   end
 
 
