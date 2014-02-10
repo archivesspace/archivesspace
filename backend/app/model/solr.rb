@@ -213,7 +213,8 @@ class Solr
 
       if @query_type == :edismax
         add_solr_param(:defType, "edismax")
-        add_solr_param(:qf, "title^2 fullrecord")
+        add_solr_param(:pf, "four_part_id^4")
+        add_solr_param(:qf, "four_part_id^3 title^2 fullrecord")
       end
 
       Solr.search_hooks.each do |hook|
