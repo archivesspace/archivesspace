@@ -412,7 +412,7 @@ module JSONModel::Validations
 
   JSONModel(:note_multipart).add_validation("note_multipart_check_at_least_one_subnote") do |hash|
     if Array(hash['subnotes']).empty?
-      [["subnotes", "Must contain at least one 'text' subnote"]]
+      [["subnotes", "Must contain at least one subnote"]]
     else
       []
     end
