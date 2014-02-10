@@ -577,6 +577,21 @@ describe 'EAC Export' do
                }])
       }
 
+      @resource_component = create(:json_archival_object,
+                                   :resource => {'ref' => @resource.uri},
+                                   :linked_agents => [{
+                                                        'role' => 'subject',
+                                                        'ref' => @rec.uri
+                                                      }])
+
+      @digital_object_component = create(:json_digital_object_component,
+                                         :digital_object => {'ref' => @digital_object.uri},
+                                         :linked_agents => [{
+                                                              'role' => 'subject',
+                                                              'ref' => @rec.uri
+                                                            }])
+
+
       @relationship = JSONModel(:agent_relationship_parentchild).new
       @relationship.relator = "is_child_of"
       @relationship.ref = @rec.uri
@@ -600,6 +615,14 @@ describe 'EAC Export' do
     it "maps related resources and components to resourceRelation" do
       role = @resource.linked_agents[0]['role'] + "Of"
       @eac.should have_tag("relations/resourceRelation[@resourceRelationType='#{role}']/relationEntry" => @resource.title)
+      @eac.should have_tag("relations/resourceRelation/relationEntry" => @resource_component.title)
+    end
+
+
+    it "maps related digital objects and components to resourceRelation" do
+      role = @digital_object.linked_agents[0]['role'] + "Of"
+      @eac.should have_tag("relations/resourceRelation[@resourceRelationType='#{role}']/relationEntry" => @digital_object.title)
+      @eac.should have_tag("relations/resourceRelation/relationEntry" => @digital_object_component.title)
     end
 
 
