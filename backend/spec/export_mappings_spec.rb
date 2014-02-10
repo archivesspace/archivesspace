@@ -1,6 +1,15 @@
 require 'nokogiri'
 require 'spec_helper'
 
+#################################################
+# It is not recommended that this specification #
+# be developed further. Going forward, use or   #
+# create a specification for whatever export    #
+# format you are working on, e.g.,              #
+# export_mods_spec.rb                           #
+#################################################
+
+
 describe 'Export Mappings' do
 
   #######################################################################
