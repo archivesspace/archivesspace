@@ -567,6 +567,8 @@ en:
         add_note_outline_level_item: Add Item
         add_note_outline_level_level: Add Level
         note_definedlist_item: Add Item
+        expand: Expand
+        collapse: Collapse
 
   related_accession:
     _frontend:

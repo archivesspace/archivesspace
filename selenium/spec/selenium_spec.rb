@@ -578,8 +578,11 @@ describe "ArchivesSpace user interface" do
 
       notes = $driver.blocking_find_elements(:css => '#agent_person_notes .subrecord-form-fields')
 
+      # Expand the collapsed note
+      notes[0].find_element(:css => '.collapse-note-toggle').click
+
       # Add a sub note
-      notes[0].find_element(:css => '.subrecord-form-heading .btn').click
+      assert(5) { notes[0].find_element(:css => '.subrecord-form-heading .btn').click }
       notes[0].find_element(:css => 'select.bioghist-note-type').select_option('note_outline')
 
       # ensure sub note form displayed
@@ -1284,9 +1287,12 @@ end
       $driver.find_element(:id, "resource_level_").select_option("collection")
 
       # condition and content descriptions have come across as notes fields
+      notes_toggle = $driver.blocking_find_elements(:css => "#notes .collapse-note-toggle")
+      notes_toggle[0].click
       $driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').toTextArea()")
-      $driver.find_element(:id => "resource_notes__0__subnotes__0__content_").attribute("value").should eq("9 guinea pigs")
+      assert(5) { $driver.find_element(:id => "resource_notes__0__subnotes__0__content_").attribute("value").should eq("9 guinea pigs") }
 
+      notes_toggle[1].click
       $driver.find_element(:id => "resource_notes__1__content__0_").text.should match(/furious/)
 
 
@@ -1640,7 +1646,8 @@ end
       notes = $driver.blocking_find_elements(:css => '#notes .subrecord-form-fields')
 
       # Add a sub note
-      notes[0].find_element(:css => '.subrecord-form-heading .btn').click
+      notes[0].find_element(:css => '.collapse-note-toggle').click
+      assert(5) { notes[0].find_element(:css => '.subrecord-form-heading .btn').click }
       notes[0].find_last_element(:css => 'select.multipart-note-type').select_option('note_chronology')
 
       $driver.find_element(:id => 'resource_notes__0__subnotes__2__title_')
@@ -1702,12 +1709,15 @@ end
 
 
     it "can wrap note content text with EAD mark up" do
+      # expand the first note
+      $driver.find_element(:css => '#notes .collapse-note-toggle').click
+
       # select some text
       $driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').setValue('ABC')")
       $driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').setSelection({line: 0, ch: 0}, {line: 0, ch: 3})")
 
       # select a tag to wrap the text
-      $driver.find_element(:css => "select.mixed-content-wrap-action").select_option("ref")
+      assert(5) { $driver.find_element(:css => "select.mixed-content-wrap-action").select_option("ref") }
       $driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').save()")
       $driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').toTextArea()")
       $driver.find_element(:id => "resource_notes__0__subnotes__0__content_").attribute("value").should eq("<ref>ABC</ref>")
