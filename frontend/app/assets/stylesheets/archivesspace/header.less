@@ -229,9 +229,11 @@ header .inset-label {
       display: block !important;
     }
   }
-  .select-a-repository {
-    .dropdown-menu {
-      display: block !important;
-    }
+
+  // When on a mobile device, disable the bootstrap
+  // backdrop as it breaks the dropdown menus
+  // See http://stackoverflow.com/questions/17435359/bootstrap-collapsed-menu-links-not-working-on-mobile-devices
+  .dropdown-backdrop {
+    display: none !important;
   }
 }
