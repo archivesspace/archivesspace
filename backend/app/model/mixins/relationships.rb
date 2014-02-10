@@ -156,6 +156,15 @@ AbstractRelationship = Class.new(Sequel::Model) do
     # These will contain references to instances of obj's class
     reference_columns = self.reference_columns_for(obj.class)
     matching_relationships = reference_columns.map {|col| self.filter(col => obj.id).all}.flatten(1)
+    our_columns = participating_models.map {|m| reference_columns_for(m)}.flatten(1)
+
+    # Reject any relationship that links to obj.id but not another model we're interested in.
+    matching_relationships.reject! {|relationship|
+      !our_columns.any? {|c|
+        relationship[c] && (!reference_columns_for(obj.class).include?(c) || relationship[c] != obj.id)
+      }
+    }
+
     matching_relationships.sort_by {|relationship| relationship[:aspace_relationship_position]}
   end
 

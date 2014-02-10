@@ -32,4 +32,49 @@
     &.render-singlequote:before, &.render-boldsinglequote:before {content: "'"}
     &.render-singlequote:after, &.render-boldsinglequote:after {content: "'"}
   }
+
+  .note-summary-view {
+    display: none;
+  }
+
+  .subrecord-form-fields {
+    .collapse-note-toggle {
+      margin: 6px 6px 0 0;
+
+      .expand {
+        display: none;
+      }
+    }
+    &.collapsed {
+      .subrecord-form-heading,
+      .subrecord-form-container {
+        display: none;
+      }
+      .collapse-note-toggle {
+        .collapse {
+          display: none;
+        }
+        .expand {
+          display: inline;
+        }
+      }
+      .note-summary-view {
+        cursor: pointer;
+        display: block;
+        background-color: #fafafa;
+        padding: 0.5em 40px;
+
+        &:hover {
+          background-color: #f3f3f3;
+        }
+
+        .note-summary-title {
+          font-weight: bold;
+        }
+
+        .note-summary-content {
+        }
+      }
+    }
+  }
 }

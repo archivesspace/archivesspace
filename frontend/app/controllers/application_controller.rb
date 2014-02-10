@@ -166,7 +166,9 @@ class ApplicationController < ActionController::Base
       "resolve[]" => ["subjects", "related_resources", "linked_agents",
                       "container_locations", "digital_object", "classification",
                       "related_agents", "resource", "parent", "creator",
-                      "linked_instances", "linked_records", "related_accessions"]
+                      "linked_instances", "linked_records", "related_accessions",
+                      "linked_events", "linked_events::linked_records",
+                      "linked_events::linked_agents"]
     }
   end
 

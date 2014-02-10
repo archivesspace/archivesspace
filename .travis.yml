@@ -1,9 +1,5 @@
 language: ruby
 
-rvm:
-  # The bootstrap script installs jruby, so this setting does not matter.
-  - jruby-19mode
-
 jdk:
   - openjdk7
   - oraclejdk7

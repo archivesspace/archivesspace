@@ -83,6 +83,8 @@
           <%= render :partial => "collection_management/show", :locals => { :collection_management => digital_object.collection_management, :section_id => "digital_object_collection_management_"  } %>
         <% end %>
 
+        <%= render :partial => "linked_events/show", :locals => { :linked_events => digital_object.linked_events, :context => readonly, :section_id => "digital_object_linked_events_" } %>
+
         <% if digital_object.user_defined %>
           <%= render :partial => "user_defined/show", :locals => { :user_defined => digital_object.user_defined, :section_id => "digital_object_user_defined_"  } %>
         <% end %>

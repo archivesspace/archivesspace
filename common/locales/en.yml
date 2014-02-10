@@ -224,7 +224,7 @@ en:
   digital_object_component_linked_agent:
     <<: *linked_agent_attributes
 
-  event:
+  event: &event
     <<: *section_tooltips
     event_type: Type
     event_type_tooltip: |
@@ -293,6 +293,9 @@ en:
       virus_check: Virus Check
     _singular: Event
     _plural: Events
+
+  linked_event:
+    <<: *event
 
   deaccession:
     <<: *section_tooltips

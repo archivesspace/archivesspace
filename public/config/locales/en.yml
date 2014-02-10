@@ -46,23 +46,37 @@ en:
       repository: Repository
       creators: Creator
       fullrecord: Keyword
+      subjects_text: Subject
       title: Title
-      creator: Creator
+      creators_text: Creator
       scope: Scope
       notes: Notes
       source: Source
       agents: Agents
+      agents_text: Agents
       classification_uri: Classification
       linked_agent_roles: Role
 
   search_sorting:
     sort_by: "Sort by:"
+    and: "and:"
     asc: Ascending
     desc: Descending
     relevance: Relevance
     title_sort: Title
     user_mtime: Modified
+    primary_type: Record Type
+    processing_priority: Priority
+    processing_status: Status
+    parent_id: Record Type
     create_time: Created
+    authority_id: Authority ID
+    source: Source
+    rules: Rules
+    outcome: Outcome
+    event_type: Type
+    identifier: Identifier
+    select: Select
 
   errors:
     error_404: Record Not Found
