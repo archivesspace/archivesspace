@@ -47,4 +47,22 @@ class Preference < Sequel::Model(:preference)
     self.repo_defaults.merge(user_defs)
   end
 
+
+  def self.sequel_to_jsonmodel(obj, opts = {})
+    json = super
+    json['defaults'] = JSONModel(:defaults).from_json(obj.defaults)
+    json
+  end
+
+
+  def self.create_from_json(json, opts = {})
+    super(json, opts.merge('defaults' => JSON(json.defaults)))
+  end
+
+
+  def update_from_json(json, opts = {}, apply_nested_records = true)
+    super(json, opts.merge('defaults' => JSON(json.defaults)),
+          apply_nested_records)
+  end
+
 end

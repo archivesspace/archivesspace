@@ -10,12 +10,7 @@
 
       "user_id" => {"type" => "integer"},
 
-      "defaults" => {
-        "type" => "string",
-        "maxLength" => 65000,
-        "ifmissing" => "error",
-      },
-
+      "defaults" => {"type" => "JSONModel(:defaults) object"},
     },
   },
 }
