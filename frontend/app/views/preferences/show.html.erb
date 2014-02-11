@@ -1,0 +1,19 @@
+<%= setup_context(:object => @preference, :title => 'Preferences') %>
+
+<div class="row-fluid">
+  <div class="span12">
+    <div class="record-pane">
+      <%= readonly_context :preferences, @preference do |readonly| %>
+         <h2><%= I18n.t("preference._singular") %></h2>
+
+         <%= render :partial => "shared/flash_messages" %>
+
+          <div class="row-fluid label-and-value">
+             <div class="span3">Defaults</div>
+             <div class="span9"><%= @preference.defaults %></div>
+          </div>
+
+      <% end %>
+    </div>
+  </div>
+</div>

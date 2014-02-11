@@ -1,0 +1,27 @@
+<%= setup_context(:title => 'Preferences') %>
+
+<%= form_for @preference, :as => "preference", :url => {:action => :update, :id => @preference.id}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@preference)) do |f| %>
+
+<%= form_context :preference, @preference do |form| %>
+
+<div class="row-fluid">
+   <div class="span3">
+   </div>
+  <div class="span9">
+    <%= render :partial => "toolbar" %>
+    <div class="record-pane">
+         <h2><%= I18n.t("preference._singular") %></h2>
+  
+         <%= render :partial => "shared/flash_messages" %>
+
+    <fieldset>
+       <%= form.label_and_textarea "defaults" %>
+    </fieldset>
+
+    </div>
+  </div>
+</div>
+
+<% end %>
+
+<% end %>
