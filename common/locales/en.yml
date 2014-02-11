@@ -1687,10 +1687,8 @@ en:
     description: Description
     creator: Creator
 
-  preferences: &preferences_attributes
-    defaults: Defaults
-
   preference: &preference_attributes
+    defaults: Defaults
     _singular: Preferences
     _plural: Preferences
 
