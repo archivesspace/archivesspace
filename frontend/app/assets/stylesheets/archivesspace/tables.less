@@ -48,6 +48,7 @@ table {
     margin: 0;
   }
   td {
+    background-color: #FFF;
     &.error {
       background-color: @errorBackground !important;
       color: @errorText;
@@ -64,6 +65,7 @@ table.table-sortable {
   thead {
     th.sortable {
       padding: 0;
+      position: relative;
 
       > a {
         padding: 4px 5px;
@@ -72,8 +74,9 @@ table.table-sortable {
 
         &::after {
           content: "";
-          float: right;
-          margin-top: 7px;
+          position: absolute;
+          right: 5px;
+          top: 1em;
           border-width: 0 4px 4px;
           border-style: solid;
           border-color: #000 transparent;
@@ -87,7 +90,8 @@ table.table-sortable {
     th.sort-desc {
       #gradient > .vertical(#f0f7fa, #dcf1fa);
 
-      > a { 
+      > a {
+        padding-right: 15px;
         &::after {
           visibility:visible;
           .opacity(60);
@@ -98,6 +102,7 @@ table.table-sortable {
       #gradient > .vertical(#f0f7fa, #dcf1fa);
 
       > a {
+        padding-right: 20px;
         &::after {
           visibility:visible;
           .opacity(60);
