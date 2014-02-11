@@ -1689,12 +1689,14 @@ en:
 
   preference: &preference_attributes
     defaults: Defaults
+    global: Global Preferences
+    repo: Repository Preferences
     _singular: Preferences
     _plural: Preferences
 
   defaults: &defaults_attributes
     show_suppressed: Show Suppressed
-    show_suppressed_tooltip: Whether to show suppressed records when browsing.
+    show_suppressed_tooltip: Whether to show suppressed records that you have permission to see when browsing.
     _singular: Defaults
     _plural: Defaults
 
