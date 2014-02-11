@@ -579,7 +579,7 @@ describe "ArchivesSpace user interface" do
       notes = $driver.blocking_find_elements(:css => '#agent_person_notes .subrecord-form-fields')
 
       # Expand the collapsed note
-      notes[0].find_element(:css => '.collapse-note-toggle').click
+      notes[0].find_element(:css => '.collapse-subrecord-toggle').click
 
       # Add a sub note
       assert(5) { notes[0].find_element(:css => '.subrecord-form-heading .btn').click }
@@ -1287,7 +1287,7 @@ end
       $driver.find_element(:id, "resource_level_").select_option("collection")
 
       # condition and content descriptions have come across as notes fields
-      notes_toggle = $driver.blocking_find_elements(:css => "#notes .collapse-note-toggle")
+      notes_toggle = $driver.blocking_find_elements(:css => "#notes .collapse-subrecord-toggle")
       notes_toggle[0].click
       $driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').toTextArea()")
       assert(5) { $driver.find_element(:id => "resource_notes__0__subnotes__0__content_").attribute("value").should eq("9 guinea pigs") }
@@ -1646,7 +1646,7 @@ end
       notes = $driver.blocking_find_elements(:css => '#notes .subrecord-form-fields')
 
       # Add a sub note
-      notes[0].find_element(:css => '.collapse-note-toggle').click
+      notes[0].find_element(:css => '.collapse-subrecord-toggle').click
       assert(5) { notes[0].find_element(:css => '.subrecord-form-heading .btn').click }
       notes[0].find_last_element(:css => 'select.multipart-note-type').select_option('note_chronology')
 
@@ -1710,7 +1710,7 @@ end
 
     it "can wrap note content text with EAD mark up" do
       # expand the first note
-      $driver.find_element(:css => '#notes .collapse-note-toggle').click
+      $driver.find_element(:css => '#notes .collapse-subrecord-toggle').click
 
       # select some text
       $driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').setValue('ABC')")

@@ -715,3 +715,45 @@ ul.subrecord-form-list {
 .typeahead.dropdown-menu {
   z-index: 1099;
 }
+
+.subrecord-form {
+  .subrecord-summary-view {
+    display: none;
+  }
+
+  .collapse-subrecord-toggle {
+    margin: 6px 6px 0 0;
+
+    .expand {
+      display: none;
+    }
+  }
+  .collapsed {
+    .subrecord-form-heading,
+    .subrecord-form-container {
+      display: none;
+    }
+    .collapse-subrecord-toggle {
+      .collapse {
+        display: none;
+      }
+      .expand {
+        display: inline;
+      }
+    }
+    .subrecord-summary-view {
+      cursor: pointer;
+      display: block;
+      background-color: #fafafa;
+      padding: 0.5em 40px;
+
+      &:hover {
+        background-color: #f3f3f3;
+      }
+
+      .subrecord-summary-title {
+        font-weight: bold;
+      }
+    }
+  }
+}

@@ -1,30 +1,21 @@
 <div id="template_note_summary"><!--
-  <div class="note-summary-view">
-    <div class="note-summary-title">
-      {if type != ""}
-        ${type}
-      {/if}
-      {if label != "" && label != type}
-        {if type != ""} - {/if}
-        ${label}
-      {/if}
-      {if label == "" && type == ""}
-        ${jsonmodel_type}
-      {/if}
-    </div>
-    {if summary.length > 0}
-      <div class="note-summary-content">
-        ${summary}
-      </div>
+  <div class="subrecord-summary-title">
+    {if type != ""}
+      ${type}
+    {/if}
+    {if label != "" && label != type}
+      {if type != ""} - {/if}
+      ${label}
+    {/if}
+    {if label == "" && type == ""}
+      ${jsonmodel_type}
     {/if}
   </div>
---></div>
-
-<div id="template_note_collapse_action"><!--
-  <button class="btn btn-mini pull-right collapse-note-toggle">
-    <span class="expand"><%= I18n.t("note._frontend.action.expand")%></span>
-    <span class="collapse"><%= I18n.t("note._frontend.action.collapse")%></span>
-  </button>
+  {if summary.length > 0}
+    <div class="subrecord-summary-content">
+      ${summary}
+    </div>
+  {/if}
 --></div>
 
 <% define_template "note_type_selector" do |form, item| %>
