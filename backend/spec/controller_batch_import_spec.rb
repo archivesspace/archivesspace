@@ -239,7 +239,7 @@ describe "Batch Import Controller" do
 
 
   it "manages repeated position numbers in batch" do
-    20.times {
+    5.times {
       resource = build(:json_resource)
       resource.uri = resource.class.uri_for(rand(100000), {:repo_id => $repo_id})
       archival_objects = []
@@ -253,7 +253,7 @@ describe "Batch Import Controller" do
       end
 
       correct_order = archival_objects.map{ |a| a['title'] }
-      puts correct_order.join(", ")
+
       # simulate a double entry
       archival_objects[-3..-1].each do |a|
         a.position = a.position - 1
@@ -266,7 +266,6 @@ describe "Batch Import Controller" do
       
       batch_array = [resource.to_hash(:raw)]
       archival_objects.shuffle.each do |ao|
-        puts "#{ao['title']} -- Position: #{ao['position']}"
         batch_array << ao.to_hash(:raw)
       end
 
@@ -290,6 +289,8 @@ describe "Batch Import Controller" do
 
       # everything after the double entry should be the same:
       result_order[-2..-1].should eq(correct_order[-2..-1])
+
+      # (the double-entry members occupy 7 and 8)
     }
   end
 end
