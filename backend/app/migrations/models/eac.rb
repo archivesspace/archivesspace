@@ -1,4 +1,7 @@
 ASpaceExport::model :eac do
+
+  attr_reader :related_records
+
   
   @eac_event = Class.new do
     
@@ -55,21 +58,15 @@ ASpaceExport::model :eac do
   end
    
 
-  def initialize(obj, events)
+  def initialize(obj, events, related_records)
     @json = obj
     @events = events.map {|e| self.class.instance_variable_get(:@eac_event).new(e) }
+    @related_records = related_records
   end
+   
   
-  def self.from_aspace_object(obj, events)
-  
-    self.new(obj, events)
-  end
-    
-  
-  def self.from_agent(obj, events = [])
-    eac = self.from_aspace_object(obj, events)
-  
-    eac
+  def self.from_agent(obj, events, related_records)
+    self.new(obj, events, related_records)
   end
   
   
@@ -85,6 +82,52 @@ ASpaceExport::model :eac do
       nil
     end
   end
-  
-  
+
+
+  def related_agents
+    if @json.respond_to?(:related_agents)
+      @json.related_agents
+    else
+      []
+    end
+  end
+
+
+  # maps name.{field} => EAC @localType attribute
+  def name_part_fields
+    case @json.jsonmodel_type
+    when 'agent_person'
+      {
+        "primary_name" => "surname",
+        "title" => nil,
+        "prefix" => nil,
+        "rest_of_name" => "forename",
+        "suffix" => nil,
+        "fuller_form" => "fullerForm",
+        "number" => nil,
+        "qualifier" => nil,
+      }
+    when 'agent_family'
+      {
+        "family_name" => 'familyName',
+        "prefix" => nil,
+        "qualifier" => nil,
+      }
+    when 'agent_software'
+      {
+        "software_name" => nil,
+        "version" => nil,
+        "manufacturer" => nil
+      }
+    when 'agent_corporate_entity'
+      {
+        "primary_name" => "primaryPart", 
+        "subordinate_name_1" => "secondaryPart", 
+        "subordinate_name_2" => "tertiaryPart", 
+        "number" => nil,
+        "qualifier" => nil
+      }
+    end
+  end
+
 end

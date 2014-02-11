@@ -26,14 +26,14 @@ describe 'Agent model' do
 
   it "requires a rules to be set if source is not provided" do
 
-    expect { n1 = build(:json_name_person, :rules => nil).to_hash }.to raise_error(JSONModel::ValidationException)
+    expect { n1 = build(:json_name_person, :rules => nil, :source => nil).to_hash }.to raise_error(JSONModel::ValidationException)
 
   end
 
 
   it "requires a source to be set if an authority id is provided, but only in strict mode" do
 
-    expect { n1 = build(:json_name_person, :authority_id => 'wooo').to_hash }.to raise_error(JSONModel::ValidationException)
+    expect { n1 = build(:json_name_person, :authority_id => 'wooo', :source => nil).to_hash }.to raise_error(JSONModel::ValidationException)
 
     JSONModel::strict_mode(false)
 

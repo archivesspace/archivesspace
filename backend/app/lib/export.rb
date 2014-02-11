@@ -53,7 +53,7 @@ module ExportHelpers
     ASpaceExport.serializer(:marc21).serialize(marc)
   end
 
-  # streamin'
+
   def generate_ead(id, unpublished)
     obj = resolve_references(Resource.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects', 'tree', 'digital_object'])
     ead = ASpaceExport.model(:ead).from_resource(JSONModel(:resource).new(obj))
@@ -63,21 +63,28 @@ module ExportHelpers
 
 
   def generate_eac(id, type)
-    obj = Kernel.const_get(type.camelize).get_or_die(id)
+    klass = Kernel.const_get(type.camelize)
     events = []
 
-    # Events related to the 'maintenance history' of this agent record
-    RequestContext.in_global_repo do
-      Event.instances_relating_to(obj).each do |e|
-        if obj[:repo_id] == RequestContext.get(:repo_id)
-          res = resolve_references(Event.to_jsonmodel(e), ['linked_agents'])
-          events << JSONModel(:event).new(res)
-        end
-      end
-    end
+    agent = klass.get_or_die(id)
+    relationship_defn = klass.find_relationship(:linked_agents)
 
-    json = obj.class.to_jsonmodel(obj)
-    eac = ASpaceExport.model(:eac).from_agent(json, events)
+    related_records = relationship_defn.find_by_participant(agent).map{|relation|
+      related_record = relation.other_referent_than(agent)
+
+      next unless [Resource, ArchivalObject, DigitalObject, DigitalObjectComponent].include?(related_record.class)
+
+      RequestContext.open(:repo_id => related_record.repo_id) do
+        {
+          :role => BackendEnumSource.values_for_ids(relation[:role_id])[relation[:role_id]],
+          :record => related_record.class.to_jsonmodel(related_record, :skip_relationships => true)
+        }
+      end
+    }.compact
+
+    obj = resolve_references(klass.to_jsonmodel(agent), ['related_agents'])
+
+    eac = ASpaceExport.model(:eac).from_agent(JSONModel(type.intern).new(obj), events, related_records)
     ASpaceExport::serializer(:eac).serialize(eac)
   end
 

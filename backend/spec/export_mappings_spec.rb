@@ -1296,7 +1296,7 @@ describe 'Export Mappings' do
         name = subject.names[0]
         df = nil
 
-        ind2 =  source_to_code(subject['source'])
+        ind2 =  source_to_code(name['source'])
 
         case subject['agent_type']
         when 'agent_person'

@@ -14,7 +14,12 @@ ASpaceExport::serializer :eac do
   private
   
   def _eac(json, xml)  
-    xml.send("eac-cpf", 'xmlns' => 'urn:isbn:1-931666-33-4') {
+    xml.send("eac-cpf", {'xmlns' => 'urn:isbn:1-931666-33-4',
+               "xmlns:html" => "http://www.w3.org/1999/xhtml",
+               "xmlns:xlink" => "http://www.w3.org/1999/xlink",
+               "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
+               "xsi:schemaLocation" => "urn:isbn:1-931666-33-4 http://eac.staatsbibliothek-berlin.de/schema/cpf.xsd",
+               "xml:lang" => "eng"}) {
       _control(json, xml)
       _cpfdesc(json, xml)
     }
@@ -44,7 +49,7 @@ ASpaceExport::serializer :eac do
               xml.agent agent[1]
             end
           }
-        end         
+        end
           
         # xml.maintenanceEvent {
         #   xml.eventType "created"
@@ -87,46 +92,187 @@ ASpaceExport::serializer :eac do
         
         xml.entityType entity_type
 
-        # TODO: It might be nice to flag these attributes on the schema 
-        # so they can be pulled out automatically
-        json.names.each do |n|
-          xml.nameEntry {
-            case json.jsonmodel_type
-            when 'agent_person'
-              _name_parts(n, xml, ["primary_name", "title", "prefix", "rest_of_name", "suffix", "fuller_form", "number"])
-            when 'agent_family'
-              _name_parts(n, xml, ["family_name", "prefix"])
-            when 'agent_software'
-              _name_parts(n, xml, ["software_name", "version", "manufacturer"])
-            when 'agent_corporate_entity'
-              _name_parts(n, xml, ["primary_name", "subordinate_name_1", "subordinate_name_2", "number"])
-            end   
+        if json.names.length > 1
+          xml.nameEntryParallel {
+            _build_name_entries(json, xml)
           }
+        elsif json.names
+          _build_name_entries(json, xml)
         end
       }
 
       xml.description {
+        if json.dates_of_existence[0]
+          date = json.dates_of_existence[0]
+          xml.existDates(:localType =>  date['certainty']) {            
+            _build_date_ranges(date, xml)
+
+          }
+        end
+
+            
         json.notes.reject {|n| n['jsonmodel_type'] != 'note_bioghist'}.each do |n|
+          next unless n['publish']
           xml.biogHist {
-            n['content'].each do |c|
-              # xml.__send__ :insert, c   # << use this method if the note contents are ever valid EAC <description> content
-              xml.p c
+            n['subnotes'].each do |sn|
+              case sn['jsonmodel_type']
+              when 'note_abstract'
+                xml.abstract {
+                  xml.text sn['content'].join('--')
+                }
+              when 'note_citation'
+                atts = Hash[ sn['xlink'].map {|x, v| ["xlink:#{x}", v] }.reject{|a| a[1].nil?} ] 
+                xml.citation(atts) {
+                  xml.text sn['content'].join('--')
+                }
+
+              when 'note_definedlist'
+                xml.list(:localType => "defined:#{sn['title']}") {
+                  sn['items'].each do |item|
+                    xml.item(:localType => item['label']) {
+                      xml.text item['value']
+                    }
+                  end
+                }
+              when 'note_orderedlist'
+                xml.list(:localType => "ordered:#{sn['title']}") {
+                  sn['items'].each do |item|
+                    xml.item(:localType => sn['enumeration']) {
+                      xml.text item
+                    }
+                  end
+                }
+              when 'note_chronology'
+                atts = sn['title'] ? {:localType => sn['title']} : {} 
+                xml.chronList(atts) {
+                  sn['items'].map {|i| i['events'].map {|e| [i['event_date'], e] } }.flatten(1).each do |pair|
+                    date, event = pair
+                    atts = (date.nil? || date.empty?) ? {} : {:standardDate => date }
+                    xml.chronItem(atts) {
+                      xml.event event
+                    }
+                  end
+                }
+              when 'note_outline'
+                xml.outline {
+                  sn['levels'].each do |level|
+                    _expand_level(level, xml)
+                  end
+                }
+              end
             end
           }
         end
       }
       
+      xml.relations {
+
+        json.related_agents.each do |related_agent|
+
+          resolved = related_agent['_resolved']
+          relator = related_agent['relator']
+
+          name = case resolved['jsonmodel_type']
+                 when 'agent_software'
+                   resolved['names'][0]['software_name']
+                 when 'agent_family'
+                   resolved['names'][0]['family_name']
+                 else
+                   resolved['names'][0]['primary_name']
+                 end
+
+          xml.cpfRelation(:cpfRelationType => relator, 'xlink:type' => 'simple', 'xlink:href' => resolved['uri']) {
+            xml.relationEntry name
+          }
+        end
+
+
+        json.related_records.each do |record|
+          role = record[:role] + "Of"
+          record = record[:record]
+          atts = {:resourceRelationType => role, "xlink:type" => "simple", 'xlink:href' => "#{AppConfig[:public_proxy_url]}#{record['uri']}"}
+          xml.resourceRelation(atts) {
+            xml.relationEntry record['title']
+          }
+        end
+
+
+        json.external_documents.each do |document|
+          next unless document['location'] =~ /^http[s]?:\/\/.+/
+          atts = {:resourceRelationType => 'other', "xlink:type" => "simple", 'xlink:href' => "#{document['location']}"}
+          xml.resourceRelation(atts) {
+            xml.relationEntry document['title']
+          }
+        end
+      }
     }
   end
-  
-  def _name_parts(name, xml, types)
-    types << 'sort_name'
-    types.each do |t|
-      next unless name[t]
-      xml.part(:localType => t) {
-        xml.text name[t]
+
+
+  def _expand_level(level, xml)
+    xml.level {
+      level['items'].each do |item|
+        if item.is_a?(String)
+          xml.item item
+        else
+          _expand_level(item, xml)
+        end
+      end
+    }
+  end
+
+
+  def _build_date_ranges(date, xml)
+    if date['expression']
+      xml.dateRange date['expression']
+    end
+    if date['begin'] || date['end']
+      xml.dateRange {
+        if date['date_type'] == 'single' && date['begin']
+          xml.date(:standardDate => date['begin']) {
+            xml.text date['begin']
+          }
+        else
+
+          if date['begin']
+            xml.fromDate(:standardDate => date['begin']) {
+              xml.text date['begin']
+            }
+          end
+
+          if date['end']
+            xml.toDate(:standardDate => date['end']) {
+              xml.text date['end']
+            }
+          end
+        end
       }
     end
   end
 
+
+
+
+  def _build_name_entries(json, xml)
+    json.names.each do |name|
+      xml.nameEntry {
+        xml.authorizedForm name['rules'] if name['rules']
+        xml.authorizedForm name['source'] if name['source']
+
+        json.name_part_fields.each do |field, localType|
+          localType = localType.nil? ? field : localType
+          next unless name[field]
+          xml.part(:localType => localType) {
+            xml.text name[field]
+          }
+        end
+
+        name['use_dates'].each do |date|
+          xml.useDates {
+            _build_date_ranges(date, xml)
+          }
+        end
+      }
+    end
+  end
 end

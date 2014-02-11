@@ -65,6 +65,7 @@ FactoryGirl.define do
   sequence(:indicator) { (2+rand(3)).times.map { (2+rand(3)).times.map {rand(9)}.join }.join('-') }
 
   sequence(:name_rule) { sample(JSONModel(:abstract_name).schema['properties']['rules']) }
+  sequence(:name_source) { sample(JSONModel(:abstract_name).schema['properties']['source']) }
   sequence(:level) { %w(series subseries item)[rand(3)] }
   sequence(:term) { |n| "Term #{n}" }
   sequence(:term_type) { sample(JSONModel(:term).schema['properties']['term_type']) }
@@ -251,21 +252,25 @@ FactoryGirl.define do
     agent_type 'agent_corporate_entity'
     names { [build(:json_name_corporate_entity)] }
     agent_contacts { [build(:json_agent_contact)] }
+    dates_of_existence { [build(:json_date, :label => 'existence')] }
   end
 
   factory :json_agent_family, class: JSONModel(:agent_family) do
     agent_type 'agent_family'
     names { [build(:json_name_family)] }
+    dates_of_existence { [build(:json_date, :label => 'existence')] }
   end
 
   factory :json_agent_person, class: JSONModel(:agent_person) do
     agent_type 'agent_person'
     names { [build(:json_name_person)] }
+    dates_of_existence { [build(:json_date, :label => 'existence')] }
   end
 
   factory :json_agent_software, class: JSONModel(:agent_software) do
     agent_type 'agent_software'
     names { [build(:json_name_software)] }
+    dates_of_existence { [build(:json_date, :label => 'existence')] }
   end
 
   factory :json_archival_object, class: JSONModel(:archival_object) do
@@ -330,12 +335,21 @@ FactoryGirl.define do
   factory :json_note_orderedlist, class: JSONModel(:note_orderedlist) do
     title { nil_or_whatever }
     enumeration { generate(:orderedlist_enumeration) }
-    items { (0..rand(3)).map { generate(:whatever) } }
+    items { (0..rand(3)).map { generate(:alphanumstr) } }
   end
 
   factory :json_note_definedlist, class: JSONModel(:note_definedlist) do
     title { nil_or_whatever }
-    items { (0..rand(3)).map { {:label => generate(:whatever), :value => generate(:whatever) } } }
+    items { (0..rand(3)).map { {:label => generate(:alphanumstr), :value => generate(:alphanumstr) } } }
+  end
+
+  factory :json_note_abstract, class: JSONModel(:note_abstract) do
+    content { (0..rand(3)).map { generate(:alphanumstr) } }
+  end
+
+  factory :json_note_citation, class: JSONModel(:note_citation) do
+    content { (0..rand(3)).map { generate(:alphanumstr) } }
+    xlink Hash[%w(actuate arcrole href role show title type).map{|i| [i, i]}]
   end
 
   factory :json_note_chronology, class: JSONModel(:note_chronology) do
@@ -462,6 +476,7 @@ FactoryGirl.define do
 
   factory :json_name_person, class: JSONModel(:name_person) do
     rules { generate(:name_rule) }
+    source { generate(:name_source) }
     primary_name { generate(:generic_name) }
     sort_name { generate(:sort_name) }
     name_order { %w(direct inverted).sample }
@@ -473,6 +488,7 @@ FactoryGirl.define do
     prefix { [nil, generate(:alphanumstr)].sample }
     title { [nil, generate(:alphanumstr)].sample }
     suffix { [nil, generate(:alphanumstr)].sample }
+    rest_of_name { [nil, generate(:alphanumstr)].sample }
   end
 
   factory :json_name_software, class: JSONModel(:name_software) do

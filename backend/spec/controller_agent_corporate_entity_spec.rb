@@ -46,12 +46,14 @@ describe 'Corporate entity agent controller' do
 
 
   it "can give a list of corporate entity agents" do
+    count = JSONModel(:agent_corporate_entity).all(:page => 1)['results'].count
+
     create_corporate_entity
     create_corporate_entity
     create_corporate_entity
 
     # There's a corporate entity created in the test setup too.
-    JSONModel(:agent_corporate_entity).all(:page => 1)['results'].count.should eq(4)
+    JSONModel(:agent_corporate_entity).all(:page => 1)['results'].count.should eq(count + 3)
   end
 
 
