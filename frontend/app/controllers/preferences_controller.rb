@@ -28,7 +28,6 @@ class PreferencesController < ApplicationController
 
 
   def update
-    params['preference']['defaults'] = JSONModel(:defaults).from_hash(eval(params['preference']['defaults']))
     handle_crud(:instance => :preference,
                 :model => JSONModel(:preference),
                 :obj => JSONModel(:preference).find(params['id']),

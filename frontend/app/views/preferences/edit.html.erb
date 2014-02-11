@@ -14,9 +14,7 @@
   
          <%= render :partial => "shared/flash_messages" %>
 
-    <fieldset>
-       <%= form.label_and_textarea "defaults" %>
-    </fieldset>
+    <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "defaults", :cardinality => :zero_to_one, :template => "defaults", :hidden => true} %>
 
     </div>
   </div>

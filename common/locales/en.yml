@@ -1692,6 +1692,12 @@ en:
     _singular: Preferences
     _plural: Preferences
 
+  defaults: &defaults_attributes
+    show_suppressed: Show Suppressed
+    show_suppressed_tooltip: Whether to show suppressed records when browsing.
+    _singular: Defaults
+    _plural: Defaults
+
   reports:
     CreatedAccessionsReport: Created Accessions
     UnprocessedAccessionsReport: Unprocessed Accessions
