@@ -87,6 +87,42 @@ run-level symbolic links (such as `chkconfig` for RedHat or
 Note that you may want to edit archivesspace.sh to set the account
 that the system runs under, JVM options, and so on.
 
+# Running ArchivesSpace as a Windows Service
+
+Running ArchivesSpace as a Windows service requires some additional 
+configuration. 
+
+A popular method is to use Tomcat, which ships with a script that 
+configures Tomcat as a service. For more information, please see :
+[Instructions for running under Tomcat](https://github.com/archivesspace/archivesspace/blob/master/README_TOMCAT.md).
+
+You can also use procrun to configure ArchivesSpace. We have 
+provided a service.bat script that will attempt to configure 
+procrun for you. 
+
+To run this script, first you need to [download procrun](http://commons.apache.org/proper/commons-daemon/procrun.html ).
+Extract the files and copy the prunsrv.exe and prunmgr.exe to your
+ArchivesSpace directory. 
+
+You also need to be sure to set JAVA_HOME as a global environment variable 
+on your system. 
+
+You can execute the batch script, which will configure the service and
+provide two executiables : ArchivesSpaceService.exe (the service) and
+ArchivesSpaceServicew.exe ( a GUI monitor )
+
+To executre the service, you can invoke:
+
+    ArchivesSpaceService.exe //ES// .
+
+Alternatively, you can start the GUI monitor and minimize it in your
+system tray with:
+
+    ArchivesSpaceServicew.exe //MS//
+
+Please see the [procrun
+documentation](http://commons.apache.org/proper/commons-daemon/procrun.html)
+for more information. 
 
 # Running ArchivesSpace with a custom configuration file
 
