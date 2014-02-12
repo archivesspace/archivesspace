@@ -409,21 +409,13 @@ module JSONModel::Validations
     end
   end
 
-
-  JSONModel(:note_multipart).add_validation("note_multipart_check_at_least_one_subnote") do |hash|
-    if Array(hash['subnotes']).empty?
-      [["subnotes", "Must contain at least one subnote"]]
-    else
-      []
-    end
-  end
-
-
-  JSONModel(:note_bioghist).add_validation("note_bioghist_check_at_least_one_text_note") do |hash|
-    if Array(hash['subnotes']).any? {|subnote| subnote['jsonmodel_type'] == 'note_text'}
-      []
-    else
-      [["subnotes", "Must contain at least one 'text' subnote"]]
+  [:note_multipart, :note_bioghist].each do |schema|
+    JSONModel(schema).add_validation("#{schema}_check_at_least_one_subnote") do |hash|
+      if Array(hash['subnotes']).empty?
+        [["subnotes", "Must contain at least one subnote"]]
+      else
+        []
+      end
     end
   end
 
