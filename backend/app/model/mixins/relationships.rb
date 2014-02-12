@@ -169,6 +169,22 @@ AbstractRelationship = Class.new(Sequel::Model) do
   end
 
 
+  def self.find_by_participant_ids(participant_model, participant_ids)
+    result = []
+
+    return result if participant_ids.empty?
+    reference_columns = self.reference_columns_for(participant_model)
+
+    reference_columns.each do |col|
+      self.filter(col => participant_ids).each do |relationship|
+        result << relationship
+      end
+    end
+
+    result
+  end
+
+
   # Return a mapping of records and the relationships they participate in.
   # Input is a list like:
   #
@@ -225,10 +241,8 @@ AbstractRelationship = Class.new(Sequel::Model) do
   end
 
 
-  def self.suppress_relationship_involving(obj)
-    self.reference_columns_for(obj.class).each do |col|
-      self.filter(col => obj.id).update(:suppressed => 1)
-    end
+  def self.handle_suppressed(ids, val)
+    ASModel.update_suppressed_flag(self.filter(:id => ids), val)
   end
 
 
@@ -379,19 +393,28 @@ module Relationships
   end
 
 
-  def set_suppressed(val)
-    if val
-      self.class.relationships.each do |relationship|
-        relationship.suppress_relationship_involving(self)
+  module ClassMethods
+
+
+    def calculate_object_graph(object_graph)
+      # For each relationship involving a resource
+      self.relationships.each do |relationship_defn|
+        # Find any relationship of this type involving any record mentioned in
+        # suppression_set
+
+        object_graph.each do |model, id_list|
+          next unless relationship_defn.participating_models.include?(model)
+
+          linked_relationships = relationship_defn.find_by_participant_ids(model, id_list).map {|row|
+            row[:id]
+          }
+          object_graph.add_objects(relationship_defn, linked_relationships)
+        end
       end
+
+      super
     end
 
-    super
-  end
-
-
-
-  module ClassMethods
 
     # Reset relationship definitions for the current class
     def clear_relationships
@@ -583,7 +606,7 @@ module Relationships
                         end
 
         json[property_name] = relationships.map {|relationship|
-          next if relationship.suppressed == 1
+          next if RequestContext.get(:enforce_suppression) && relationship.suppressed == 1
 
           # Return the relationship properties, plus the URI reference of the
           # related object

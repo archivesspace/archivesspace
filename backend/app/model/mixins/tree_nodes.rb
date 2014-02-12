@@ -140,15 +140,6 @@ module TreeNodes
   end
 
 
-  def set_suppressed(val)
-    children.each do |child|
-      child.set_suppressed(val)
-    end
-
-    super
-  end
-
-
   def publish!
     children.each do |child|
       child.publish!
@@ -160,6 +151,16 @@ module TreeNodes
 
   def has_children?
     self.class.filter(:parent_id => self.id).count > 0
+  end
+
+
+  def transfer_to_repository(repository, transfer_group = [])
+    # All records under this one will be transferred too
+    children.select(:id).each do |child|
+      child.transfer_to_repository(repository, transfer_group + [self])
+    end
+
+    super
   end
 
 
@@ -263,16 +264,41 @@ module TreeNodes
       super
     end
 
-  end
 
+    def calculate_object_graph(object_graph)
+      object_graph.each do |model, id_list|
+        next if self != model
 
-  def transfer_to_repository(repository, transfer_group = [])
-    # All records under this one will be transferred too
-    children.select(:id).each do |child|
-      child.transfer_to_repository(repository, transfer_group + [self])
+        ids = self.any_repo.filter(:parent_id => id_list).
+                   select(:id).map {|row|
+          row[:id]
+        }
+
+        object_graph.add_objects(self, ids)
+      end
+
+      super
     end
-
-    super
   end
+
+
+
+  def descendant_ids
+    parent_set = [self.id]
+    last_size = -1
+
+    # Repeatedly expand the set of children until we have them all.
+    while true
+      new_parent_set = self.class.filter(:parent_id => parent_set).select(:id).all
+      parent_set.concat(new_parent_set.map {|row| row[:id]}).uniq!
+
+      if parent_set.length == last_size
+        return parent_set
+      else
+        last_size = parent_set.length
+      end
+    end
+  end
+
 
 end

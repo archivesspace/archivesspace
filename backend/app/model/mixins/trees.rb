@@ -34,15 +34,6 @@ module Trees
   end
 
 
-  def set_suppressed(val)
-    children.each do |child|
-      child.set_suppressed(val)
-    end
-
-    super
-  end
-
-
   def publish!
     children.each do |child|
       child.publish!
@@ -184,6 +175,16 @@ module Trees
   end
 
 
+  def transfer_to_repository(repository, transfer_group = [])
+    # All records under this one will be transferred too
+    children.select(:id).each do |child|
+      child.transfer_to_repository(repository, transfer_group + [self])
+    end
+
+    super
+  end
+
+
 
   module ClassMethods
 
@@ -245,16 +246,22 @@ module Trees
 
       super
     end
-  end
 
 
-  def transfer_to_repository(repository, transfer_group = [])
-    # All records under this one will be transferred too
-    children.select(:id).each do |child|
-      child.transfer_to_repository(repository, transfer_group + [self])
+    def calculate_object_graph(object_graph)
+      object_graph.each do |model, id_list|
+        next if self != model
+
+        ids = node_model.any_repo.filter(:root_record_id => id_list).
+                         select(:id).map {|row|
+          row[:id]
+        }
+
+        object_graph.add_objects(node_model, ids)
+      end
+
+      super
     end
-
-    super
   end
 
 end

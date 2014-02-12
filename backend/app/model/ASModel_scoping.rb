@@ -1,5 +1,12 @@
 module ASModel
   # Code that keeps the records of different repositories isolated and hiding suppressed records.
+
+  def self.update_suppressed_flag(dataset, val)
+    dataset.update(:suppressed => (val ? 1 : 0),
+                   :system_mtime => Time.now)
+  end
+
+
   module ModelScoping
 
     def self.included(base)
@@ -18,10 +25,11 @@ module ASModel
         raise "Suppression not supported for this class: #{self.class.inspect}"
       end
 
-      self.suppressed = val ? 1 : 0
-      obj = save
+      object_graph = self.object_graph
 
-      Event.handle_suppressed(self)
+      object_graph.each do |model, ids_to_change|
+        model.handle_suppressed(ids_to_change, val)
+      end
 
       RequestContext.open(:enforce_suppression => false) do
         self.class.fire_update(self.class.to_jsonmodel(self.id), self)
@@ -45,6 +53,12 @@ module ASModel
 
       def suppressible?
         @suppressible
+      end
+
+      def handle_suppressed(ids, val)
+        if suppressible?
+          self.filter(:id => ids).update(:suppressed => val ? 1 : 0)
+        end
       end
 
       def set_model_scope(value)
