@@ -5,8 +5,8 @@
   </div>
 
   <div class="pull-right" style="position: relative">
-    <span class="input-append">
-      <label style="float: left;"><%= I18n.t("search_sorting.sort_by") %>&#160;</label>
+    <span class="input-append sort-by-action">
+      <label class="pull-left"><%= I18n.t("search_sorting.sort_by") %>&#160;</label>
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
         <span class="inset-label"><%= @search_data.sorted_by_label(title_sort_label) %></span>
         <span class="btn btn-mini last"><span class="caret"></span></span>

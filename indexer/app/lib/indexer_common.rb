@@ -61,6 +61,7 @@ class CommonIndexer
     if record['record']['linked_agents']
       # index all linked agents first
       doc['agents'] = record['record']['linked_agents'].collect{|link| link['_resolved']['names'][0]['sort_name']}
+      doc['agent_uris'] = record['record']['linked_agents'].collect{|link| link['ref']}
 
       # index the creators only
       creators = record['record']['linked_agents'].select{|link| link['role'] === 'creator'}
