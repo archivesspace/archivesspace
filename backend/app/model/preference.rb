@@ -12,7 +12,6 @@ class Preference < Sequel::Model(:preference)
 
 
   def parsed_defaults
-    puts "SSSSSSSSSSSSSSS #{self.defaults}"
     ASUtils.json_parse(self.defaults)
   end
 
