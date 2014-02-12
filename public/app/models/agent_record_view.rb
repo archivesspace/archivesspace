@@ -23,7 +23,7 @@ class AgentRecordView < ArchivalRecordView
 
   def related_resources
     criteria = {
-      "filter_term[]" => [{"agents" => @record['title']}.to_json], 
+      "filter_term[]" => [{"agent_uris" => @record['uri']}.to_json],
       "type[]" => "resource"
     }
 
