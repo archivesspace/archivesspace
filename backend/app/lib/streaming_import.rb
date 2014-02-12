@@ -227,19 +227,14 @@ class StreamingImport
 
     position_maps.each do |set_key, positions|
       offset = 0
+      positions.flatten!
       positions.compact!
       while !positions.empty?
-        first = positions.shift
-        while first.length > 1
-          offset += 1
-          first_last = first.pop
-          position_offsets[first_last] = offset
-          dependencies[first_last] << first[0]
-        end
+        preceding = positions.shift
+        following = positions[0]
 
         unless positions.empty?
-          dependencies[positions[0][0]] << first[0] 
-          position_offsets[positions[0][0]] = offset
+          dependencies[following] << preceding
         end
       end
     end
