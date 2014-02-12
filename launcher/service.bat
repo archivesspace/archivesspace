@@ -18,8 +18,8 @@ echo
 pause
 SETLOCAL ENABLEDELAYEDEXPANSION
 
-cd /d %~dp0%
-set ASPACE_LAUNCHER_BASE=%~dp0%
+cd /d %~dp0%..
+set ASPACE_LAUNCHER_BASE=%CD%
 
 REM
 REM Check for Java.
