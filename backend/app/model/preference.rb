@@ -4,6 +4,35 @@ class Preference < Sequel::Model(:preference)
 
   set_model_scope :repository
 
+  def self.init
+    defs_file = File.join(ASUtils.find_base_directory("common"), "config", "preference_defaults.rb")
+    defaults = {}
+    if File.exists?(defs_file)
+      found_defs_file = true
+      Log.info("Loading preference defaults file at #{defs_file}")
+      defaults = eval(File.read(defs_file))
+    end
+
+    RequestContext.in_global_repo do
+      filter = {:repo_id => Repository.global_repo_id, :user_id => nil}
+      if self.filter(filter).count == 0
+        Log.info("Creating system preferences")
+        Preference.create_from_json(JSONModel(:preference).from_hash({
+                                                                       :user_id => nil,
+                                                                       :defaults => defaults
+                                                                     }),
+                                    :repo_id => Repository.global_repo_id)
+      else
+        if found_defs_file
+          Log.info("Updating system preferences")
+          pref = self.filter(filter).first
+          pref.update_from_json(JSONModel(:preference).from_hash({:defaults => defaults}),
+                                :lock_version => pref.lock_version)
+        end
+      end
+    end    
+  end
+
 
   def before_save
     super

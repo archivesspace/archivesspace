@@ -153,6 +153,8 @@ class ArchivesSpaceService < Sinatra::Base
 
       require_relative "lib/bootstrap_access_control"
 
+      Preference.init
+
       @loaded_hooks.each do |hook|
         hook.call
       end
