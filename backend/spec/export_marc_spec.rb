@@ -1,6 +1,7 @@
 require 'nokogiri'
 require 'i18n'
 require 'asutils'
+require_relative 'converter_spec_helper'
 
 if ENV['ASPACE_BACKEND_URL']
   require_relative 'custom_matchers'
@@ -86,31 +87,50 @@ describe 'MARC Export' do
 
   describe "datafield 245 mapping" do
     before(:all) do
-      @dates = ['inclusive', 'inclusive', 'bulk'].map {|type|
+
+      @dates = ['inclusive', 'bulk'].map {|type|
+        range = [nil, nil].map { generate(:yyyy_mm_dd) }.sort
         build(:json_date,
               :date_type => type,
-              :begin => generate(:yyyy_mm_dd),
-              :end => generate(:yyyy_mm_dd)
+              :begin => range[0],
+              :end => range[1],
+              :expression => [true, false].sample ? generate(:string) : nil
               )
       }
 
-      @dates[1].expression = nil
+      2.times { @dates << build(:json_date) }
+
 
       @resource = create(:json_resource,
-                         :dates => [@date])
+                         :dates => @dates)
 
       @marc = get_marc(@resource)
+
+      puts "SOURCE: #{@resource.inspect}"
+      puts "RESULT: #{@marc.to_xml}"
     end
 
-    it "maps an inclusive date to subfield 'f'" do
-      dates = @dates.select{|d| d.date_type == 'inclusive'}
-      @marc.should have_tag "datafield[@tag='245']/subfield[@code='f'][1]" => "#{dates[0].expression}"
-      @marc.should have_tag "datafield[@tag='245']/subfield[@code='f'][2]" => "#{dates[1].begin} - #{dates[1].end}"
+    it "maps the first inclusive date to subfield 'f'" do
+      date = @dates.find{|d| d.date_type == 'inclusive'}
+      
+      if date.expression
+        @marc.should have_tag "datafield[@tag='245']/subfield[@code='f'][1]" => "#{date.expression}"
+      else
+        @marc.should have_tag "datafield[@tag='245']/subfield[@code='f'][1]" => "#{date.begin} - #{date.end}"
+      end
     end
 
-    it "maps a bulk date to subfield 'g'" do
+
+    it "maps the first bulk date to subfield 'g'" do
       date = @dates.find{|d| d.date_type == 'bulk'}
       @marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{date.begin} - #{date.end}"
+    end
+
+
+    it "doesn't create more than two dates" do
+      %w(f g).each do |code|
+        @marc.should_not have_tag "datafield[@tag='245']/subfield[@code='#{code}'][2]"
+      end
     end
   end
 
@@ -118,7 +138,7 @@ describe 'MARC Export' do
   describe "datafield 3xx mapping" do
     before(:all) do
 
-      @notes => %w(arrangement fileplan).map { |type|
+      @notes = %w(arrangement fileplan).map { |type|
         build(:json_note_multipart,
               :type => type)
       }
@@ -129,11 +149,14 @@ describe 'MARC Export' do
                          :notes => @notes)
 
       @marc = get_marc(@resource)
+
+      puts "SOURCE: #{@resource.inspect}"
+      puts "RESULT: #{@marc.to_xml}"
     end
 
     it "creates a 300 field for each extent" do
       @marc.should have_tag "datafield[@tag='300'][#{@extents.count}]"
-      @marc.should_note have_tag "datafield[@tag='300'][#{@extents.count + 1}]"
+      @marc.should_not have_tag "datafield[@tag='300'][#{@extents.count + 1}]"
     end
 
 
@@ -152,9 +175,9 @@ describe 'MARC Export' do
     end
 
 
-    it "maps arrangemnt and fileplan notes to datafield 351" do
+    it "maps arrangment and fileplan notes to datafield 351" do
       @notes.each do |note|
-        @resource.should have_tag "datafield[@tag='351']/subfield[@code='b'][0]" => note_content(note)
+        @marc.should have_tag "datafield[@tag='351']/subfield[@code='b'][1]" => note_content(note)
       end
     end
   end    

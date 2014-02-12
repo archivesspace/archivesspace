@@ -49,6 +49,7 @@ FactoryGirl.define do
   sequence(:username) {|n| "username_#{n}"}
 
   sequence(:alphanumstr) { (0..4).map{ rand(3)==1?rand(10):(65 + rand(25)).chr }.join }
+  sequence(:string) { generate(:alphanumstr) }
   sequence(:generic_title) { |n| "Title: #{n}"}
   sequence(:generic_description) {|n| "Description: #{n}"}
   sequence(:generic_name) {|n| "Name Number #{n}"}
