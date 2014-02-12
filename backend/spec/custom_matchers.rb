@@ -115,9 +115,9 @@ RSpec::Matchers.define :have_tag do |expected|
     if nodeset.empty?
       false
     elsif expected.is_a?(Hash)
-      nodeset.find {|node|
+      nodeset.any? {|node|
         node.inner_text == expected.values[0]
-      }.nil? ? false : true
+      }
     else
       true
     end

@@ -1,4 +1,6 @@
 require 'nokogiri'
+require 'i18n'
+require 'asutils'
 
 if ENV['ASPACE_BACKEND_URL']
   require_relative 'custom_matchers'
@@ -14,6 +16,10 @@ if ENV['ASPACE_BACKEND_URL']
   require 'factory_girl'
   require_relative 'factories'
   include FactoryGirl::Syntax::Methods
+
+  
+  I18n.load_path += ASUtils.find_locales_directories(File.join("enums", "#{AppConfig[:locale]}.yml"))
+
 
   def get_xml(uri)
     uri = URI("#{ENV['ASPACE_BACKEND_URL']}#{uri}")
@@ -80,11 +86,15 @@ describe 'MARC Export' do
 
   describe "datafield 245 mapping" do
     before(:all) do
-      @date = build(:json_date,
-                    :date_type => 'inclusive',
-                    :begin => '1900',
-                    :end => '2000'
-                    )
+      @dates = ['inclusive', 'inclusive', 'bulk'].map {|type|
+        build(:json_date,
+              :date_type => type,
+              :begin => generate(:yyyy_mm_dd),
+              :end => generate(:yyyy_mm_dd)
+              )
+      }
+
+      @dates[1].expression = nil
 
       @resource = create(:json_resource,
                          :dates => [@date])
@@ -93,9 +103,59 @@ describe 'MARC Export' do
     end
 
     it "maps an inclusive date to subfield 'f'" do
-      @marc.should have_tag "datafield[@tag='245']/subfield[@code='f']" => "#{@date.begin} - #{@date.end}"
+      dates = @dates.select{|d| d.date_type == 'inclusive'}
+      @marc.should have_tag "datafield[@tag='245']/subfield[@code='f'][1]" => "#{dates[0].expression}"
+      @marc.should have_tag "datafield[@tag='245']/subfield[@code='f'][2]" => "#{dates[1].begin} - #{dates[1].end}"
     end
-    
 
+    it "maps a bulk date to subfield 'g'" do
+      date = @dates.find{|d| d.date_type == 'bulk'}
+      @marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{date.begin} - #{date.end}"
+    end
   end
+
+
+  describe "datafield 3xx mapping" do
+    before(:all) do
+
+      @notes => %w(arrangement fileplan).map { |type|
+        build(:json_note_multipart,
+              :type => type)
+      }
+
+      @extents = (0..5).to_a.map{ build(:json_extent) }
+      @resource = create(:json_resource,
+                         :extents => @extents,
+                         :notes => @notes)
+
+      @marc = get_marc(@resource)
+    end
+
+    it "creates a 300 field for each extent" do
+      @marc.should have_tag "datafield[@tag='300'][#{@extents.count}]"
+      @marc.should_note have_tag "datafield[@tag='300'][#{@extents.count + 1}]"
+    end
+
+
+    it "maps extent number and type to subfield a" do
+      type = I18n.t("enumerations.extent_extent_type.#{@extents[0].extent_type}")
+      extent = "#{@extents[0].number} #{type}"
+      @marc.should have_tag "datafield[@tag='300'][1]/subfield[@code='a']" => extent
+    end
+
+
+    it "maps container summary to subfield f" do
+      @extents.each do |e|
+        next unless e.container_summary
+        @marc.should have_tag "datafield[@tag='300']/subfield[@code='f']" => e.container_summary
+      end
+    end
+
+
+    it "maps arrangemnt and fileplan notes to datafield 351" do
+      @notes.each do |note|
+        @resource.should have_tag "datafield[@tag='351']/subfield[@code='b'][0]" => note_content(note)
+      end
+    end
+  end    
 end

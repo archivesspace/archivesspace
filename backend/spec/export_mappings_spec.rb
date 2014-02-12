@@ -1158,21 +1158,6 @@ describe 'Export Mappings' do
     end
 
 
-    it "maps extent data to datafield[@tag='300' and @ind1=' ' and @ind2=' ']" do
-      df = @doc.df('300', ' ', ' ')
-      df.sf('a').count.should eq(@resource.extents.count)
-      df.sf_t('a').should eq(@resource.extents.map{|e| "#{e['number']} #{translate('enumerations.extent_extent_type', e['extent_type'])}"}.join(''))
-      df.sf_t('f').should eq(@resource.extents.map{|e| e['container_summary']}.join(''))
-    end
-
-
-    # specified, but not possible given validation rules
-    # it "hardcodes datafield[@tag='300' and @ind1=' ' and @ind2=' '] when extents is empty" do
-    #   df = @doc_b.df('300', ' ', ' ')
-    #   df.sf_t('a').should eq('1 item')
-    # end
-
-
     it "maps notes of type 'arrangement' and 'fileplan' to datafield[@tag='351' and @ind1=' ' and @ind2=' ']/subfield[@code='b']" do
       contents = @resource.notes.select{|n| ['arrangement', 'fileplan'].include?(n['type']) }.map {|n| note_content(n)}.sort
       xml_data = @doc.df('351', ' ', ' ').sf('b').map{|n| n.inner_text}.sort
