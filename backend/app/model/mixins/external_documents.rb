@@ -1,14 +1,5 @@
 module ExternalDocuments
 
-  def publish!
-    # publish all external documents
-    self.external_document.each do |exdoc|
-      exdoc.publish!
-    end
-
-    super
-  end
-
   def self.included(base)
     base.one_to_many(:external_document)
 

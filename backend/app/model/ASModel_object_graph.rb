@@ -55,12 +55,14 @@ module ObjectGraph
   end
 
 
-  def object_graph
+  def object_graph(opts = {})
     graph = ObjectGraph.new(self.class => [self.id])
+
+    opts = {:include_nested => true}.merge(opts)
 
     while true
       version = graph.version
-      self.class.calculate_object_graph(graph)
+      self.class.calculate_object_graph(graph, opts)
       break unless graph.changed_since?(version)
     end
 
@@ -70,17 +72,23 @@ module ObjectGraph
 
   module ClassMethods
 
-    def calculate_object_graph(object_graph)
-      self.nested_records.each do |nr|
-        association =  nr[:association]
-        nested_model = Kernel.const_get(association[:class_name])
+    def calculate_object_graph(object_graph, opts = {})
 
-        ids = nested_model.filter(association[:key] => object_graph.ids_for(self)).
-                           select(:id).map {|row|
-          row[:id]
-        }
+      if opts[:include_nested]
+        object_graph.models.each do |model|
+          next unless model.respond_to?(:nested_records)
+          model.nested_records.each do |nr|
+            association =  nr[:association]
+            nested_model = Kernel.const_get(association[:class_name])
 
-        object_graph.add_objects(nested_model, ids)
+            ids = nested_model.filter(association[:key] => object_graph.ids_for(model)).
+                               select(:id).map {|row|
+              row[:id]
+            }
+
+            object_graph.add_objects(nested_model, ids)
+          end
+        end
       end
 
       object_graph

@@ -34,15 +34,6 @@ module Trees
   end
 
 
-  def publish!
-    children.each do |child|
-      child.publish!
-    end
-
-    super
-  end
-
-
   def build_node_query
     self.class.node_model.this_repo.filter(:root_record_id => self.id)
   end
@@ -248,7 +239,7 @@ module Trees
     end
 
 
-    def calculate_object_graph(object_graph)
+    def calculate_object_graph(object_graph, opts = {})
       object_graph.each do |model, id_list|
         next if self != model
 

@@ -239,6 +239,23 @@ describe 'Archival Object controller' do
   end
 
 
+  it "can publish notes" do
+    archival_object = create(:json_archival_object)
+
+    notes = [build(:json_note_bibliography),
+             build(:json_note_index)]
+
+    archival_object.notes = notes
+    archival_object.save
+
+    ArchivalObject[archival_object.id].publish!
+
+    ASUtils.json_parse(ArchivalObject[archival_object.id].notes).all? {|note|
+      note['publish']
+    }.should be_true
+  end
+
+
   it "can publish records with really long notes" do
     archival_object = create(:json_archival_object)
 

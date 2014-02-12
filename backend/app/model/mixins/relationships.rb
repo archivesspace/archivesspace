@@ -396,7 +396,7 @@ module Relationships
   module ClassMethods
 
 
-    def calculate_object_graph(object_graph)
+    def calculate_object_graph(object_graph, opts = {})
       # For each relationship involving a resource
       self.relationships.each do |relationship_defn|
         # Find any relationship of this type involving any record mentioned in

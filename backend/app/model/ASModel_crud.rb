@@ -246,8 +246,13 @@ module ASModel
 
     # Mixins will hook in here to add their own publish actions.
     def publish!
-      self.publish = 1
-      self.save
+      object_graph = self.object_graph(:include_nested => true)
+
+      object_graph.each do |model, ids|
+        next unless model.publishable?
+
+        model.handle_publish_flag(ids, true)
+      end
     end
 
 
@@ -501,6 +506,15 @@ module ASModel
       def repo_unique_constraint(property, constraints)
         @repo_unique_constraints ||= []
         @repo_unique_constraints << constraints.merge(:property => property)
+      end
+
+
+      def publishable?
+        self.columns.include?(:publish)
+      end
+
+      def handle_publish_flag(ids, val)
+        ASModel.update_publish_flag(model.filter(:id => ids), val)
       end
 
     end

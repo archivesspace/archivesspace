@@ -13,19 +13,6 @@ module Notes
   end
 
 
-  def publish!
-    updated_notes = ASUtils.json_parse(self.notes || "[]")
-    if not updated_notes.empty?
-      updated_notes.each do |note|
-        note["publish"] = true
-      end
-
-      self.notes = JSON(updated_notes)
-    end
-
-    super
-  end
-
 
   module ClassMethods
 
@@ -64,6 +51,23 @@ module Notes
       json
     end
 
-  end
+    def handle_publish_flag(ids, val)
+      # Anything with notes needs them rewritten.
 
+      self.filter(:id => ids).filter(Sequel.~(:notes => nil)).each do |obj|
+        updated_notes = ASUtils.json_parse(obj.notes || "[]")
+        if not updated_notes.empty?
+          updated_notes.each do |note|
+            note["publish"] = val
+          end
+
+          obj.notes = ASUtils.to_json(updated_notes)
+          obj.save
+        end
+      end
+
+      super
+    end
+
+  end
 end

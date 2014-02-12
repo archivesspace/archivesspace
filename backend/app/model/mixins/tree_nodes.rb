@@ -140,15 +140,6 @@ module TreeNodes
   end
 
 
-  def publish!
-    children.each do |child|
-      child.publish!
-    end
-
-    super
-  end
-
-
   def has_children?
     self.class.filter(:parent_id => self.id).count > 0
   end
@@ -265,7 +256,7 @@ module TreeNodes
     end
 
 
-    def calculate_object_graph(object_graph)
+    def calculate_object_graph(object_graph, opts = {})
       object_graph.each do |model, id_list|
         next if self != model
 

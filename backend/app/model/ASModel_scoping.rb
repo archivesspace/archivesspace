@@ -7,6 +7,13 @@ module ASModel
   end
 
 
+  def self.update_publish_flag(dataset, val)
+    dataset.update(:publish => (val ? 1 : 0),
+                   :system_mtime => Time.now)
+  end
+
+
+
   module ModelScoping
 
     def self.included(base)
