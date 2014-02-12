@@ -5,7 +5,7 @@
     "type" => "object",
     "properties" => {
 
-      "show_suppressed" =>  {"type" => "boolean", "default" => false},
+      "show_suppressed" =>  {"type" => "boolean", "required" => false},
 
     },
   },
