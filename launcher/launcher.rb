@@ -125,18 +125,19 @@ def main
   end
 
   begin
-    start_server(URI(AppConfig[:backend_url]).port, {:war => File.join('wars', 'backend.war'), :path => '/'}) if AppConfig[:enable_backend]
+	  aspace_base = java.lang.System.get_property("ASPACE_LAUNCHER_BASE")
+    start_server(URI(AppConfig[:backend_url]).port, {:war => File.join(aspace_base, 'wars', 'backend.war'), :path => '/'}) if AppConfig[:enable_backend]
     start_server(URI(AppConfig[:solr_url]).port,
-                 {:war => File.join('wars', 'solr.war'), :path => '/'},
-                 {:war => File.join('wars', 'indexer.war'), :path => '/aspace-indexer'}) if AppConfig[:enable_indexer]
+                 {:war => File.join(aspace_base,'wars', 'solr.war'), :path => '/'},
+                 {:war => File.join(aspace_base,'wars', 'indexer.war'), :path => '/aspace-indexer'}) if AppConfig[:enable_indexer]
     start_server(URI(AppConfig[:frontend_url]).port,
-                 {:war => File.join('wars', 'frontend.war'), :path => '/'},
+                 {:war => File.join(aspace_base,'wars', 'frontend.war'), :path => '/'},
                  {:static_dirs => ASUtils.find_local_directories("frontend/assets"),
-                   :path => "#{AppConfig[:frontend_prefix]}assets"}) if AppConfig[:enable_frontend]
+                       :path => "#{AppConfig[:frontend_prefix]}assets"}) if AppConfig[:enable_frontend]
     start_server(URI(AppConfig[:public_url]).port,
-                 {:war => File.join('wars', 'public.war'), :path => '/'},
+                 {:war => File.join(aspace_base,'wars', 'public.war'), :path => '/'},
                  {:static_dirs => ASUtils.find_local_directories("public/assets"),
-                   :path => "#{AppConfig[:public_prefix]}assets"}) if AppConfig[:enable_public]
+                        :path => "#{AppConfig[:public_prefix]}assets"}) if AppConfig[:enable_public]
   rescue
     # If anything fails on startup, dump a diagnostic file.
     ASUtils.dump_diagnostics($!)
