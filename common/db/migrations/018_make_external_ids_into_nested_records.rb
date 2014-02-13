@@ -17,6 +17,8 @@ Sequel.migration do
       Integer :event_id, :null => true
       Integer :location_id, :null => true
       Integer :resource_id, :null => true
+
+      apply_mtime_columns
     end
 
     alter_table(:external_id) do

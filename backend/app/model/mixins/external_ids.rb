@@ -1,4 +1,3 @@
-# This is weird.  Can we turn this into a nested record?
 module ExternalIDs
 
   def self.included(base)
@@ -8,4 +7,5 @@ module ExternalIDs
                            :contains_records_of_type => :external_id,
                            :corresponding_to_association  => :external_id)
   end
+
 end

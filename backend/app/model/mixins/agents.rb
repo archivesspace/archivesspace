@@ -6,7 +6,6 @@ module Agents
   def self.included(base)
     base.extend(ClassMethods)
     base.include(Relationships)
-    base.include(ExternalIDs)
 
     base.define_relationship(:name => :linked_agents,
                              :json_property => 'linked_agents',

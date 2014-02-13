@@ -1,4 +1,4 @@
-class ExternalID < Sequel::Model(:external_id)
+class ExternalId < Sequel::Model(:external_id)
   include ASModel
   corresponds_to JSONModel(:external_id)
 
