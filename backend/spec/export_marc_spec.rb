@@ -75,8 +75,8 @@ describe 'MARC Export' do
 
       @marc = get_marc(@resource)
 
-      puts "SOURCE: #{@resource.inspect}"
-      puts "RESULT: #{@marc.to_xml}"
+      # puts "SOURCE: #{@resource.inspect}"
+      # puts "RESULT: #{@marc.to_xml}"
     end
 
     it "maps primary_name to subfield 'a'" do
@@ -106,17 +106,17 @@ describe 'MARC Export' do
 
       @marc = get_marc(@resource)
 
-      puts "SOURCE: #{@resource.inspect}"
-      puts "RESULT: #{@marc.to_xml}"
+      # puts "SOURCE: #{@resource.inspect}"
+      # puts "RESULT: #{@marc.to_xml}"
     end
 
     it "maps the first inclusive date to subfield 'f'" do
       date = @dates.find{|d| d.date_type == 'inclusive'}
       
       if date.expression
-        @marc.should have_tag "datafield[@tag='245']/subfield[@code='f'][1]" => "#{date.expression}"
+        @marc.should have_tag "datafield[@tag='245']/subfield[@code='f']" => "#{date.expression}"
       else
-        @marc.should have_tag "datafield[@tag='245']/subfield[@code='f'][1]" => "#{date.begin} - #{date.end}"
+        @marc.should have_tag "datafield[@tag='245']/subfield[@code='f']" => "#{date.begin} - #{date.end}"
       end
     end
 
@@ -150,8 +150,8 @@ describe 'MARC Export' do
 
       @marc = get_marc(@resource)
 
-      puts "SOURCE: #{@resource.inspect}"
-      puts "RESULT: #{@marc.to_xml}"
+      # puts "SOURCE: #{@resource.inspect}"
+      # puts "RESULT: #{@marc.to_xml}"
     end
 
     it "creates a 300 field for each extent" do
