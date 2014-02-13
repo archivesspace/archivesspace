@@ -62,7 +62,11 @@ module ObjectGraph
 
     while true
       version = graph.version
-      self.class.calculate_object_graph(graph, opts)
+
+      graph.models.each do |model|
+        model.calculate_object_graph(graph, opts)
+      end
+
       break unless graph.changed_since?(version)
     end
 
