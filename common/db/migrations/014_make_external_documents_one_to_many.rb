@@ -1,10 +1,17 @@
 require_relative 'utils'
+require 'digest/sha1'
 
 Sequel.migration do
 
   up do
-    records_supporting_external_documents = [:accession, :archival_object,
-                                             :resource, :subject,
+
+    # add a location_hash column
+    add_column :external_document, :location_sha1, String
+
+    records_supporting_external_documents = [:accession,
+                                             :archival_object,
+                                             :resource,
+                                             :subject,
                                              :agent_person,
                                              :agent_family,
                                              :agent_corporate_entity,
@@ -23,7 +30,8 @@ Sequel.migration do
         add_foreign_key(["#{record}_id".intern], record, :key => :id)
 
         # add that a location is unique for a record
-        add_unique_constraint(["#{record}_id".intern, :location], :unique => true, :name => "uniq_exdoc_#{record}")
+        constraint_name = "uniq_exdoc_#{record.to_s.split("_").map{|s| s[0,3]}.join("_")}"
+        add_unique_constraint(["#{record}_id".intern, :location_sha1], :unique => true, :name => constraint_name)
       end
 
       # populate the id columns for existing external documents
@@ -37,10 +45,17 @@ Sequel.migration do
       drop_table(many_to_many_table)
     end
 
+    # populate the location_hash column
+    self[:external_document].all.each do |row|
+      hash = Digest::SHA1.hexdigest(row[:location])
+      self[:external_document].filter(row[:id]).update(:location_sha1 => hash)
+    end
+
   end
 
 
   down do
+    drop_table(:external_document)
   end
 
 end
