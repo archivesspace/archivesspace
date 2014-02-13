@@ -1,47 +1,5 @@
-require 'nokogiri'
+require_relative 'export_spec_helper'
 
-if ENV['ASPACE_BACKEND_URL']
-  require_relative 'custom_matchers'
-  require_relative 'converter_spec_helper'
-  require 'jsonmodel'
-
-  JSONModel::init(:client_mode => true, :strict_mode => true,
-                  :url => ENV['ASPACE_BACKEND_URL'],
-                  :priority => :high)
-
-  auth = JSONModel::HTTP.post_form('/users/admin/login', {:password => 'admin'})
-  JSONModel::HTTP.current_backend_session = JSON.parse(auth.body)['session']
-
-  require 'factory_girl'
-  require_relative 'factories'
-  include FactoryGirl::Syntax::Methods
-
-  repo = create(:json_repo)
-  JSONModel::set_repository(repo.id)
-
-
-  def get_xml(uri)
-    uri = URI("#{ENV['ASPACE_BACKEND_URL']}#{uri}")
-    response = JSONModel::HTTP::get_response(uri)
-
-    if response.is_a?(Net::HTTPSuccess) || response.status == 200
-      Nokogiri::XML::Document.parse(response.body)
-    else
-      nil
-    end
-  end
-
-else
-  require 'spec_helper'
-
-  # $old_user = Thread.current[:active_test_user]
-  Thread.current[:active_test_user] = User.find(:username => 'admin')
-
-  def get_xml(uri)
-    response = get(uri)
-    Nokogiri::XML::Document.parse(response.body)
-  end  
-end
 
 def get_eac(rec)
   case rec.jsonmodel_type
