@@ -42,6 +42,8 @@
 # We'll create a concrete instance of this class for each defined relationship.
 AbstractRelationship = Class.new(Sequel::Model) do
 
+  include ObjectGraph
+
   # Create a relationship instance between two objects with a defined set of properties.
   def self.relate(obj1, obj2, properties)
     columns = if obj1.class == obj2.class
@@ -245,6 +247,15 @@ AbstractRelationship = Class.new(Sequel::Model) do
     ASModel.update_suppressed_flag(self.filter(:id => ids), val)
   end
 
+
+  def self.handle_delete(ids)
+    self.filter(:id => ids).delete
+  end
+
+
+  def self.my_jsonmodel(ok_if_missing = false)
+    raise("No corresponding JSONModel set for model #{self.inspect}") unless ok_if_missing
+  end
 
   # The properties for this relationship instance
   def properties
@@ -643,19 +654,6 @@ module Relationships
     def transfer(relationship_name, target, victims)
       relationship = find_relationship(relationship_name)
       relationship.transfer(target, victims)
-    end
-
-
-    def prepare_for_deletion(dataset)
-      dataset.select(:id).each do |obj|
-        # Delete all the relationships created against this object
-        delete_existing_relationships(obj, true, true)
-        dependent_models.each do |model|
-          model.delete_existing_relationships(obj, true, true) if model != self
-        end
-      end
-
-      super
     end
 
 

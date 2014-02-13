@@ -165,7 +165,7 @@ module ASModel
 
           # Now delete all nested objects
           dataset = self.send("#{nested_record_defn[:association][:name]}_dataset")
-          model.prepare_for_deletion(dataset)
+          model.handle_delete(dataset.select(:id).map {|row| row[:id]})
           dataset.delete
         elsif nested_record_defn[:association][:type] === :many_to_many
           # Just remove the links
@@ -228,14 +228,48 @@ module ASModel
     # Delete the current record using Sequel's delete method, but clean up
     # dependencies first.
     def delete
-      self.remove_nested_records
-      self.class.prepare_for_deletion(self.class.where(:id => self.id))
+      object_graph = self.object_graph(:include_nested => true)
 
-      super
+      deleted_uris = []
 
-      uri = self.class.my_jsonmodel(true) && self.uri
+      successfully_deleted_models = []
+      last_error = nil
 
-      if uri
+      while true
+        progressed = false
+        object_graph.each do |model, ids_to_delete|
+          next if successfully_deleted_models.include?(model)
+
+          begin
+            model.handle_delete(ids_to_delete)
+            successfully_deleted_models << model
+            progressed = true
+          rescue Sequel::DatabaseError
+            last_error = $!
+            next
+          end
+
+          if model.my_jsonmodel(true)
+            ids_to_delete.each do |id|
+              deleted_uri = model.my_jsonmodel(true).
+                                  uri_for(id, :repo_id => model.active_repository)
+
+              if deleted_uri
+                deleted_uris << deleted_uri
+              end
+            end
+          end
+        end
+
+        break if object_graph.models.length == successfully_deleted_models.length
+
+        unless progressed
+          raise ConflictException.new("Record deletion failed: #{last_error}")
+        end
+      end
+
+
+      deleted_uris.each do |uri|
         Tombstone.create(:uri => uri)
         DB.after_commit do
           RealtimeIndexing.record_delete(uri)
@@ -484,9 +518,8 @@ module ASModel
       end
 
 
-      def prepare_for_deletion(dataset)
-        # Provide a hook for models to do something in response to a dataset being deleted.
-        # We won't do anything here, but mixins can add to this.
+      def handle_delete(ids_to_delete)
+        self.filter(:id => ids_to_delete).delete
       end
 
 

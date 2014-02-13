@@ -79,14 +79,17 @@ module ObjectGraph
           next unless model.respond_to?(:nested_records)
           model.nested_records.each do |nr|
             association =  nr[:association]
-            nested_model = Kernel.const_get(association[:class_name])
 
-            ids = nested_model.filter(association[:key] => object_graph.ids_for(model)).
-                               select(:id).map {|row|
-              row[:id]
-            }
+            if association[:type] != :many_to_many
+              nested_model = Kernel.const_get(association[:class_name])
 
-            object_graph.add_objects(nested_model, ids)
+              ids = nested_model.filter(association[:key] => object_graph.ids_for(model)).
+                                 select(:id).map {|row|
+                row[:id]
+              }
+
+              object_graph.add_objects(nested_model, ids)
+            end
           end
         end
       end

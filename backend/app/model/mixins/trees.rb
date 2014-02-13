@@ -226,19 +226,6 @@ module Trees
     end
 
 
-    def prepare_for_deletion(dataset)
-      dataset.select(:id).each do |record|
-        node_model.this_repo.filter(:root_record_id => record.id,
-                                    :parent_id => nil).
-                             select(:id).each do |child|
-          child.delete
-        end
-      end
-
-      super
-    end
-
-
     def calculate_object_graph(object_graph, opts = {})
       object_graph.each do |model, id_list|
         next if self != model

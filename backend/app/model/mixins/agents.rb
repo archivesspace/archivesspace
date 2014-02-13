@@ -69,6 +69,15 @@ module Agents
         end
 
 
+        def self.handle_delete(ids_to_delete)
+          self.db[:linked_agent_term].
+               filter(:linked_agents_rlshp_id => ids_to_delete).
+               delete
+
+          super
+        end
+
+
         alias_method :delete_orig, :delete
         define_method(:delete) do
           self.remove_all_term

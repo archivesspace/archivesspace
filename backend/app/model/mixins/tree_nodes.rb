@@ -245,17 +245,6 @@ module TreeNodes
     end
 
 
-    def prepare_for_deletion(dataset)
-      dataset.select(:id).each do |record|
-        self.filter(:parent_id => record.id).select(:id).each do |victim|
-          victim.delete
-        end
-      end
-
-      super
-    end
-
-
     def calculate_object_graph(object_graph, opts = {})
       object_graph.each do |model, id_list|
         next if self != model

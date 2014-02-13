@@ -240,7 +240,7 @@ describe 'Relationships' do
     # Now you see it
     banana.my_relationships(:fruit_salad).count.should_not be(0)
 
-    Apple.prepare_for_deletion(Apple.filter(:id => apple.id))
+    apple.delete
 
     # Now you don't
     banana.reload

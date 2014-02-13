@@ -90,6 +90,9 @@ describe "Deletion of Archival Records" do
     event1.delete
     event2.delete
 
+    Event[event1.id].should be_nil
+    Event[event2.id].should be_nil
+
     # With the linked records unharmed!
     expect {
       linked1.refresh
@@ -107,6 +110,8 @@ describe "Deletion of Archival Records" do
 
     subject.delete
 
+    Subject[subject.id].should be_nil
+
     acc.my_relationships(:subject).count.should eq(0)
   end
 
@@ -122,6 +127,8 @@ describe "Deletion of Archival Records" do
     acc.my_relationships(:linked_agents).count.should eq(1)
 
     agent.delete
+
+    AgentSoftware[agent.id].should be_nil
 
     acc.my_relationships(:linked_agents).count.should eq(0)
   end

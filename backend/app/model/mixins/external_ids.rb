@@ -12,6 +12,8 @@ module ExternalIDs
         if !self.db.table_exists?(self.table_name)
           Log.warn("Table doesn't exist: #{self.table_name}")
         end
+
+        include ObjectGraph
       end
 
       Object.const_set(table_name.to_s.classify, clz)
@@ -32,7 +34,7 @@ module ExternalIDs
         ds = self.send("#{table_name}_dataset")
         ds.delete
       }
-      
+
     end
 
     base.extend(ClassMethods)
@@ -62,17 +64,6 @@ module ExternalIDs
       json = super
       json['external_ids'] = obj.external_id.map {|obj| ASUtils.keys_as_strings(obj.values)}
       json
-    end
-
-
-    def prepare_for_deletion(dataset)
-      dataset.each do |obj|
-        if obj.respond_to?(:external_id)
-          obj.external_id.map(&:delete)
-        end
-      end
-
-      super
     end
 
 

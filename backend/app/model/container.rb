@@ -6,6 +6,20 @@ class Container < Sequel::Model(:container)
 
   set_model_scope :global
 
+
+  def self.handle_delete(ids)
+    # Containers are funny (but not "ha ha" funny) because they're nested
+    # records, yet contain relationships with other records.  If we're deleting
+    # one of these nested records, we need to clear its relationship as well.
+
+    relationship_defn = find_relationship(:housed_at)
+    relationships = relationship_defn.find_by_participant_ids(self, ids)
+
+    relationship_defn.handle_delete(relationships.map(&:id))
+    super
+  end
+
+
   define_relationship(:name => :housed_at,
                       :json_property => 'container_locations',
                       :contains_references_to_types => proc {[Location]},
