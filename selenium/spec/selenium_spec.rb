@@ -2379,16 +2379,18 @@ end
       $driver.click_and_wait_until_gone(:css, "#fill_sequence .btn-primary")
 
       # check the component id for each row matches the sequence
-      @modal.find_element(:id, "archival_record_children_children__0__component_id_").attribute("value").should eq("ABC1")
-      @modal.find_element(:id, "archival_record_children_children__1__component_id_").attribute("value").should eq("ABC2")
-      @modal.find_element(:id, "archival_record_children_children__2__component_id_").attribute("value").should eq("ABC3")
-      @modal.find_element(:id, "archival_record_children_children__3__component_id_").attribute("value").should eq("ABC4")
-      @modal.find_element(:id, "archival_record_children_children__4__component_id_").attribute("value").should eq("ABC5")
-      @modal.find_element(:id, "archival_record_children_children__5__component_id_").attribute("value").should eq("ABC6")
-      @modal.find_element(:id, "archival_record_children_children__6__component_id_").attribute("value").should eq("ABC7")
-      @modal.find_element(:id, "archival_record_children_children__7__component_id_").attribute("value").should eq("ABC8")
-      @modal.find_element(:id, "archival_record_children_children__8__component_id_").attribute("value").should eq("ABC9")
-      @modal.find_element(:id, "archival_record_children_children__9__component_id_").attribute("value").should eq("ABC10")
+      assert(5) {
+        @modal.find_element(:id, "archival_record_children_children__0__component_id_").attribute("value").should eq("ABC1")
+        @modal.find_element(:id, "archival_record_children_children__1__component_id_").attribute("value").should eq("ABC2")
+        @modal.find_element(:id, "archival_record_children_children__2__component_id_").attribute("value").should eq("ABC3")
+        @modal.find_element(:id, "archival_record_children_children__3__component_id_").attribute("value").should eq("ABC4")
+        @modal.find_element(:id, "archival_record_children_children__4__component_id_").attribute("value").should eq("ABC5")
+        @modal.find_element(:id, "archival_record_children_children__5__component_id_").attribute("value").should eq("ABC6")
+        @modal.find_element(:id, "archival_record_children_children__6__component_id_").attribute("value").should eq("ABC7")
+        @modal.find_element(:id, "archival_record_children_children__7__component_id_").attribute("value").should eq("ABC8")
+        @modal.find_element(:id, "archival_record_children_children__8__component_id_").attribute("value").should eq("ABC9")
+        @modal.find_element(:id, "archival_record_children_children__9__component_id_").attribute("value").should eq("ABC10")
+      }
     end
 
     it "can perform a column reorder" do
