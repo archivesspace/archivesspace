@@ -1143,28 +1143,6 @@ describe 'Export Mappings' do
     end
 
 
-    it "maps data to datafield[@tag='245' and @ind1='1' and @ind2='0']" do
-      df = @doc.df('245', '1', '0')
-      df.sf_t('a').should eq(@resource.title)
-      date = @resource.dates[0]
-      date_content = date['date_type'] == 'bulk' ? df.sf_t('g') : df.sf_t('f')
-      if date['expression']
-        date_content.should eq(date['expression'])
-      elsif date['date_type'] == 'single'
-        date_content.should eq(date['begin'])
-      elsif date['date_type'] == 'inclusive'
-        date_content.should eq("#{date['begin']} - #{date['end']}")
-      end
-    end
-
-
-    it "maps notes of type 'arrangement' and 'fileplan' to datafield[@tag='351' and @ind1=' ' and @ind2=' ']/subfield[@code='b']" do
-      contents = @resource.notes.select{|n| ['arrangement', 'fileplan'].include?(n['type']) }.map {|n| note_content(n)}.sort
-      xml_data = @doc.df('351', ' ', ' ').sf('b').map{|n| n.inner_text}.sort
-      contents.should eq(xml_data)
-    end
-
-
     it "maps notes of type (odd|dimensions|physdesc|materialspec|physloc|phystech|physfacet|processinfo|separatedmaterial) to df 500, sf a" do
       xml_content = @doc.df('500', ' ', ' ').sf_t('a')
       types = %w(odd dimensions physdesc materialspec physloc phystech physfacet processinfo separatedmaterial)

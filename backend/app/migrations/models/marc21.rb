@@ -123,7 +123,7 @@ ASpaceExport::model :marc21 do
   end
 
 
-  def df!(args)
+  def df!(*args)
     @sequence ||= 0
     @sequence += 1
     @datafields[@sequence] = @@datafield.new(*args)
