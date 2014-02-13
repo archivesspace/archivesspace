@@ -27,9 +27,9 @@
         <% end %>
         <li class="divider"></li>
           <li><%= link_to I18n.t("navbar.global_preferences"), :controller => :preferences, :action => :edit, :id => 0, :global => true %></li>
-        <% if session[:repo_id] %>
+<!--        <% if session[:repo_id] %>
           <li><%= link_to I18n.t("navbar.repo_preferences"), :controller => :preferences, :action => :edit, :id => 0 %></li>
-        <% end %>
+        <% end %> -->
         <% if ArchivesSpaceHelp.enabled? %>
           <li class="divider"></li>
         <% end %>

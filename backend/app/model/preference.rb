@@ -126,7 +126,7 @@ class Preference < Sequel::Model(:preference)
 
 
   def self.create_from_json(json, opts = {})
-    super(json, opts.merge('defaults' => JSON(json.defaults)))
+    super(json, opts.merge('defaults' => JSON(json.defaults || {})))
   end
 
 
