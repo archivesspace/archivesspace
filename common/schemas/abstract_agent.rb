@@ -6,16 +6,7 @@
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
 
-      "external_ids" => {
-        "type" => "array",
-        "items" => {
-          "type" => "object",
-          "properties" => {
-            "external_id" => {"type" => "string", "maxLength" => 255},
-            "source" => {"type" => "string", "maxLength" => 255},
-          }
-        }
-      },
+      "external_ids" => {"type" => "array", "items" => {"type" => "JSONModel(:external_id) object"}},
 
       "title" => {
         "type" => "string",

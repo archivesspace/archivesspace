@@ -9,16 +9,7 @@
 
       "title" => {"type" => "string", "readonly" => true},
 
-      "external_ids" => {
-        "type" => "array",
-        "items" => {
-          "type" => "object",
-          "properties" => {
-            "external_id" => {"type" => "string", "maxLength" => 255},
-            "source" => {"type" => "string", "maxLength" => 255},
-          }
-        }
-      },
+      "external_ids" => {"type" => "array", "items" => {"type" => "JSONModel(:external_id) object"}},
 
       "is_linked_to_published_record" => {"type" => "boolean", "readonly" => true},
 
