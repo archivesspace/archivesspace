@@ -484,11 +484,21 @@ describe 'Resources controller' do
       :notes => [build(:json_note_bibliography, {:publish => false})]
     })
 
+
+    vocab = create(:json_vocab)
+    vocab_uri = JSONModel(:vocabulary).uri_for(vocab.id)
+
+    subject = create(:json_subject,
+                     :terms => [build(:json_term, :vocabulary => vocab_uri)],
+                     :vocabulary => vocab_uri)
+
+
     archival_object = create(:json_archival_object, {
       :publish => false,
       :resource => {:ref => resource.uri},
       :external_documents => [build(:json_external_document, {:publish => false})],
-      :notes => [build(:json_note_bibliography, {:publish => false})]
+      :notes => [build(:json_note_bibliography, {:publish => false})],
+      :subjects => [{:ref => subject.uri}]
     })
 
     url = URI("#{JSONModel::HTTP.backend_url}#{resource.uri}/publish")

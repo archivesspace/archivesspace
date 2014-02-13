@@ -257,6 +257,10 @@ AbstractRelationship = Class.new(Sequel::Model) do
     raise("No corresponding JSONModel set for model #{self.inspect}") unless ok_if_missing
   end
 
+  def self.publishable?
+    self.columns.include?(:publish)
+  end
+
   # The properties for this relationship instance
   def properties
     self.values
