@@ -2336,16 +2336,18 @@ end
       $driver.click_and_wait_until_gone(:css, "#fill_basic .btn-primary")
 
       # all should have item as the level
-      @modal.find_element(:id, "archival_record_children_children__0__level_").get_select_value.should eq("item")
-      @modal.find_element(:id, "archival_record_children_children__1__level_").get_select_value.should eq("item")
-      @modal.find_element(:id, "archival_record_children_children__2__level_").get_select_value.should eq("item")
-      @modal.find_element(:id, "archival_record_children_children__3__level_").get_select_value.should eq("item")
-      @modal.find_element(:id, "archival_record_children_children__4__level_").get_select_value.should eq("item")
-      @modal.find_element(:id, "archival_record_children_children__5__level_").get_select_value.should eq("item")
-      @modal.find_element(:id, "archival_record_children_children__6__level_").get_select_value.should eq("item")
-      @modal.find_element(:id, "archival_record_children_children__7__level_").get_select_value.should eq("item")
-      @modal.find_element(:id, "archival_record_children_children__8__level_").get_select_value.should eq("item")
-      @modal.find_element(:id, "archival_record_children_children__9__level_").get_select_value.should eq("item")
+      assert {
+        @modal.find_element(:id, "archival_record_children_children__0__level_").get_select_value.should eq("item")
+        @modal.find_element(:id, "archival_record_children_children__1__level_").get_select_value.should eq("item")
+        @modal.find_element(:id, "archival_record_children_children__2__level_").get_select_value.should eq("item")
+        @modal.find_element(:id, "archival_record_children_children__3__level_").get_select_value.should eq("item")
+        @modal.find_element(:id, "archival_record_children_children__4__level_").get_select_value.should eq("item")
+        @modal.find_element(:id, "archival_record_children_children__5__level_").get_select_value.should eq("item")
+        @modal.find_element(:id, "archival_record_children_children__6__level_").get_select_value.should eq("item")
+        @modal.find_element(:id, "archival_record_children_children__7__level_").get_select_value.should eq("item")
+        @modal.find_element(:id, "archival_record_children_children__8__level_").get_select_value.should eq("item")
+        @modal.find_element(:id, "archival_record_children_children__9__level_").get_select_value.should eq("item")
+      }
     end
 
     it "can perform a sequence fill" do
@@ -2574,16 +2576,18 @@ end
       $driver.click_and_wait_until_gone(:css, "#fill_basic .btn-primary")
 
       # all should have item as the level
-      @modal.find_element(:id, "digital_record_children_children__0__label_").attribute("value").should eq("NEW_LABEL")
-      @modal.find_element(:id, "digital_record_children_children__1__label_").attribute("value").should eq("NEW_LABEL")
-      @modal.find_element(:id, "digital_record_children_children__2__label_").attribute("value").should eq("NEW_LABEL")
-      @modal.find_element(:id, "digital_record_children_children__3__label_").attribute("value").should eq("NEW_LABEL")
-      @modal.find_element(:id, "digital_record_children_children__4__label_").attribute("value").should eq("NEW_LABEL")
-      @modal.find_element(:id, "digital_record_children_children__5__label_").attribute("value").should eq("NEW_LABEL")
-      @modal.find_element(:id, "digital_record_children_children__6__label_").attribute("value").should eq("NEW_LABEL")
-      @modal.find_element(:id, "digital_record_children_children__7__label_").attribute("value").should eq("NEW_LABEL")
-      @modal.find_element(:id, "digital_record_children_children__8__label_").attribute("value").should eq("NEW_LABEL")
-      @modal.find_element(:id, "digital_record_children_children__9__label_").attribute("value").should eq("NEW_LABEL")
+      assert {
+        @modal.find_element(:id, "digital_record_children_children__0__label_").attribute("value").should eq("NEW_LABEL")
+        @modal.find_element(:id, "digital_record_children_children__1__label_").attribute("value").should eq("NEW_LABEL")
+        @modal.find_element(:id, "digital_record_children_children__2__label_").attribute("value").should eq("NEW_LABEL")
+        @modal.find_element(:id, "digital_record_children_children__3__label_").attribute("value").should eq("NEW_LABEL")
+        @modal.find_element(:id, "digital_record_children_children__4__label_").attribute("value").should eq("NEW_LABEL")
+        @modal.find_element(:id, "digital_record_children_children__5__label_").attribute("value").should eq("NEW_LABEL")
+        @modal.find_element(:id, "digital_record_children_children__6__label_").attribute("value").should eq("NEW_LABEL")
+        @modal.find_element(:id, "digital_record_children_children__7__label_").attribute("value").should eq("NEW_LABEL")
+        @modal.find_element(:id, "digital_record_children_children__8__label_").attribute("value").should eq("NEW_LABEL")
+        @modal.find_element(:id, "digital_record_children_children__9__label_").attribute("value").should eq("NEW_LABEL")
+      }
     end
 
     it "can perform a sequence fill" do
