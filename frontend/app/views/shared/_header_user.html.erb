@@ -26,6 +26,8 @@
           <li><%= link_to I18n.t("navbar.manage_enumerations"), :controller => :enumerations, :action => :index %></li>
         <% end %>
         <li class="divider"></li>
+      <% end %>
+
           <li><%= link_to I18n.t("navbar.global_preferences"), :controller => :preferences, :action => :edit, :id => 0, :global => true %></li>
 <!--        <% if session[:repo_id] %>
           <li><%= link_to I18n.t("navbar.repo_preferences"), :controller => :preferences, :action => :edit, :id => 0 %></li>
@@ -33,7 +35,6 @@
         <% if ArchivesSpaceHelp.enabled? %>
           <li class="divider"></li>
         <% end %>
-      <% end %>
       <% if ArchivesSpaceHelp.enabled? %>
         <li><%= link_to_help :label => I18n.t("help.help_center") %></li>
       <% end %>
