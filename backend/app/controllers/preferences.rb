@@ -4,7 +4,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create a Preferences record")
     .params(["preference", JSONModel(:preference), "The record to create", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([])
     .returns([200, :created],
              [400, :error]) \
   do
@@ -16,7 +16,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get the default set of Preferences for a Repository and optionally a user")
     .params(["repo_id", :repo_id],
             ["username", String, "The username to retrieve defaults for", :optional => true])
-    .permissions([:view_repository])
+    .permissions([])
     .returns([200, "(defaults)"]) \
   do
     json_response(Preference.defaults_for(params[:repo_id], params[:username]))
@@ -27,7 +27,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get a Preferences record")
     .params(["id", :id],
             ["repo_id", :repo_id])
-    .permissions([:view_repository])
+    .permissions([])
     .returns([200, "(:preference)"]) \
   do
     json = Preference.to_jsonmodel(params[:id])
@@ -39,7 +39,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/repositories/:repo_id/current_preferences')
     .description("Get the Preferences records for the current repository and user.")
     .params(["repo_id", :repo_id])
-    .permissions([:view_repository])
+    .permissions([])
     .returns([200, "{(:preference)}"]) \
   do
     json = Preference.current_preferences(params[:repo_id])
@@ -53,7 +53,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
             ["preference", JSONModel(:preference), "The updated record", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([])
     .returns([200, :updated],
              [400, :error]) \
   do
