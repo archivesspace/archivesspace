@@ -1,3 +1,5 @@
+require 'digest/sha1'
+
 class ExternalDocument < Sequel::Model(:external_document)
   include ASModel
   corresponds_to JSONModel(:external_document)
@@ -15,12 +17,26 @@ class ExternalDocument < Sequel::Model(:external_document)
      :digital_object,
      :digital_object_component].each do |record|
 
-      validates_unique([:location, "#{record}_id".intern],
+      validates_unique([:location_sha1, "#{record}_id".intern],
                         :message => "location must be unique within a record")
 
-      map_validation_to_json_property([:location, "#{record}_id".intern], :location)
+      map_validation_to_json_property([:location_sha1, "#{record}_id".intern], :location)
     end
 
     super
   end
+
+  def self.generate_location_sha1(json)
+    Digest::SHA1.hexdigest(json.location)
+  end
+
+  def self.create_from_json(json, opts = {})
+    super(json, opts.merge(:location_sha1 => generate_location_sha1(json)))
+  end
+
+  def update_from_json(json, opts = {}, apply_nested_records = true)
+    self[:location_sha1] = self.class.generate_location_sha1(json)
+    super
+  end
+
 end
