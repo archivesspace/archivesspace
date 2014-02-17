@@ -1,4 +1,4 @@
-<%= setup_context(:title => 'Preferences') %>
+<%= setup_context(:title => I18n.t("preference.global")) %>
 
 <%= form_for @preference, :as => "preference", :url => {:action => :update, :id => @preference.id}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@preference)) do |f| %>
 
