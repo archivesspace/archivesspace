@@ -48,7 +48,7 @@ Sequel.migration do
     # populate the location_hash column
     self[:external_document].all.each do |row|
       hash = Digest::SHA1.hexdigest(row[:location])
-      self[:external_document].filter(row[:id]).update(:location_sha1 => hash)
+      self[:external_document].filter(:id => row[:id]).update(:location_sha1 => hash)
     end
 
   end
