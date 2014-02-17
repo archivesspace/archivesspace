@@ -152,8 +152,8 @@
 <div id="subform_remove_confirmation_template"><!--
    <div class="pull-right subrecord-form-removal-confirmation">
     <div class="btn-group">
-      <button class="btn btn-small cancel-removal"><%= I18n.t "actions.cancel" %></button>
-      <button class="btn btn-small btn-primary confirm-removal"><%= I18n.t "actions.confirm_removal" %></button>
+      <button class="btn btn-mini cancel-removal"><%= I18n.t "actions.cancel" %></button>
+      <button class="btn btn-mini btn-primary confirm-removal"><%= I18n.t "actions.confirm_removal" %></button>
      </div>
    </div>
 --></div>
@@ -210,4 +210,11 @@
   <li class='alert-error update-monitor-error'>
     <a href='#form_messages'><%= I18n.t("errors.sidebar_label") %> <span class='icon-chevron-right'></span></a>
   </li>
+--></div>
+
+<div id="template_subrecord_collapse_action"><!--
+  <button class="btn btn-mini pull-right collapse-subrecord-toggle">
+    <span class="expand"><%= I18n.t("note._frontend.action.expand")%></span>
+    <span class="collapse"><%= I18n.t("note._frontend.action.collapse")%></span>
+  </button>
 --></div>

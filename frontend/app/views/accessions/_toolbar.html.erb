@@ -22,88 +22,87 @@
         <% end %>
         <div class="btn-toolbar pull-right">
           <div class="btn-group">
-          <% if @accession.publish %>
-            <div class="btn btn-inline-form">
-              <%= link_to I18n.t("actions.view_published"), URI.join(AppConfig[:public_proxy_url], @accession.uri).to_s, :target => "_blank", :class => "btn btn-small" %>
-            </div>
-          <% end %> 
-         <% if @accession_event_types && !@accession.suppressed %>
-            <div class="btn btn-inline-form">
-              <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
-                <%= I18n.t("actions.add_event") %>
-                <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu open-aligned-right">
-                <% @accession_event_types.each do |type| %>
-                  <li>
-                    <%= link_to I18n.t("event.types.#{type}"), {:controller => :events, :action => :new, :event_type => type, :accession_uri => @accession.uri} %>
-                  </li>
-                <% end %>
-              </ul>
-            <% end %>
-          </div>
-          <% if not @accession.suppressed %>
-            <div class="btn btn-inline-form">
-              <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
-                <%= I18n.t "actions.spawn" %>
-                <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu open-aligned-right">
-                <li>
-                  <%= link_to "<span class='icon-resource'></span> #{I18n.t("resource._singular")}".html_safe, :controller => :resources, :action => :new, :accession_id => @accession.id %>
-                </li>
-              </ul>
-            </div>
-          <% end %>
-          <% if user_can?('transfer_archival_record') %>
-            <%=
-               render :partial => "shared/transfer_dropdown",
-                      :locals => {:record => @accession,
-                                  :controller => controller.controller_name,
-                                  :confirmation_title => I18n.t("actions.transfer_confirm_title"),
-                                  :confirmation_msg => I18n.t("actions.transfer_confirm_message",
-                                                              :target => @accession.title)}
-            %>
-          <% end %>
-
-          <% if user_can?('suppress_archival_record') || user_can?('delete_archival_record') %>
-            <% if user_can?('suppress_archival_record') %>
+            <% if @accession.publish %>
               <div class="btn btn-inline-form">
-                <% if @accession.suppressed %>
+                <%= link_to I18n.t("actions.view_published"), URI.join(AppConfig[:public_proxy_url], @accession.uri).to_s, :target => "_blank", :class => "btn btn-small" %>
+              </div>
+            <% end %>
+            <% if @accession_event_types && !@accession.suppressed %>
+              <div class="btn btn-inline-form">
+                <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+                  <%= I18n.t("actions.add_event") %>
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu open-aligned-right">
+                  <% @accession_event_types.each do |type| %>
+                    <li>
+                      <%= link_to I18n.t("event.types.#{type}"), {:controller => :events, :action => :new, :event_type => type, :accession_uri => @accession.uri} %>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+            <% if not @accession.suppressed %>
+              <div class="btn btn-inline-form">
+                <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+                  <%= I18n.t "actions.spawn" %>
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu open-aligned-right">
+                  <li>
+                    <%= link_to "<span class='icon-resource'></span> #{I18n.t("resource._singular")}".html_safe, :controller => :resources, :action => :new, :accession_id => @accession.id %>
+                  </li>
+                </ul>
+              </div>
+            <% end %>
+            <% if user_can?('transfer_archival_record') %>
+              <%=
+                 render :partial => "shared/transfer_dropdown",
+                        :locals => {:record => @accession,
+                                    :controller => controller.controller_name,
+                                    :confirmation_title => I18n.t("actions.transfer_confirm_title"),
+                                    :confirmation_msg => I18n.t("actions.transfer_confirm_message",
+                                                                :target => @accession.title)}
+              %>
+            <% end %>
 
-                  <%= button_confirm_action I18n.t("actions.unsuppress"),
-                                            url_for(:controller => :accessions, :action => :unsuppress, :id => @accession.id),
-                                            {
-                                              :class => "btn btn-small unsuppress-record",
-                                              :"data-title" => I18n.t("actions.unsuppress_confirm_title"),
-                                              :"data-message" => I18n.t("actions.unsuppress_confirm_message"),
-                                              :"data-confirm-btn-label" => "#{I18n.t("actions.unsuppress")}"
-                                            }
-                  %>
-                <% else %>
-                  <%= button_confirm_action I18n.t("actions.suppress"),
-                                              url_for(:controller => :accessions, :action => :suppress, :id => @accession.id),
+            <% if user_can?('suppress_archival_record') || user_can?('delete_archival_record') %>
+              <% if user_can?('suppress_archival_record') %>
+                <div class="btn btn-inline-form">
+                  <% if @accession.suppressed %>
+
+                    <%= button_confirm_action I18n.t("actions.unsuppress"),
+                                              url_for(:controller => :accessions, :action => :unsuppress, :id => @accession.id),
                                               {
-                                                :class => "btn btn-small btn-warning suppress-record",
-                                                :"data-title" => I18n.t("actions.suppress_confirm_title"),
-                                                :"data-message" => I18n.t("actions.suppress_confirm_message"),
-                                                :"data-confirm-btn-label" => "#{I18n.t("actions.suppress")}",
-                                                :"data-confirm-btn-class" => "btn-warning"
+                                                :class => "btn btn-small unsuppress-record",
+                                                :"data-title" => I18n.t("actions.unsuppress_confirm_title"),
+                                                :"data-message" => I18n.t("actions.unsuppress_confirm_message"),
+                                                :"data-confirm-btn-label" => "#{I18n.t("actions.unsuppress")}"
                                               }
                     %>
-                <% end %>
-              </div>
-
+                  <% else %>
+                    <%= button_confirm_action I18n.t("actions.suppress"),
+                                                url_for(:controller => :accessions, :action => :suppress, :id => @accession.id),
+                                                {
+                                                  :class => "btn btn-small btn-warning suppress-record",
+                                                  :"data-title" => I18n.t("actions.suppress_confirm_title"),
+                                                  :"data-message" => I18n.t("actions.suppress_confirm_message"),
+                                                  :"data-confirm-btn-label" => "#{I18n.t("actions.suppress")}",
+                                                  :"data-confirm-btn-class" => "btn-warning"
+                                                }
+                      %>
+                  <% end %>
+                </div>
+              <% end %>
+              <% if user_can?('delete_archival_record') %>
+                <div class="btn btn-inline-form">
+                  <%= button_delete_action url_for(:controller => :accessions, :action => :delete, :id => @accession.id) %>
+                </div>
+              <% end %>
             <% end %>
-            <% if user_can?('delete_archival_record') %>
-              <div class="btn btn-inline-form">
-                <%= button_delete_action url_for(:controller => :accessions, :action => :delete, :id => @accession.id) %>
-              </div>
-            <% end %>
-            </div>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  </div>
+          </div><!-- btn-group -->
+        </div><!-- btn-toolbar pull-right -->
+      </div><!-- record-toolbar -->
+    </div><!-- span12 -->
+  </div><!-- row-fluid -->
 <% end %>

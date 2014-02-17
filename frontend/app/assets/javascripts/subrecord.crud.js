@@ -88,8 +88,6 @@ $(function() {
           //init any sub sub record forms
           $(".subrecord-form:not(.initialised)", formEl).init_subrecord_form();
 
-          $(document).triggerHandler("subrecordcreated.aspace", [$this.data("object-name"), formEl]);
-
           $(":input:visible:first", formEl).focus();
 
           $this.data("form_index", $this.data("form_index")+1);
