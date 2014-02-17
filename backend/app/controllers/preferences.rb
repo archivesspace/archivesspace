@@ -109,7 +109,7 @@ class ArchivesSpaceService < Sinatra::Base
     end
 
     # trying to edit user prefs
-    if user_id != current_user.id
+    if user_id && user_id != current_user.id
       raise AccessDeniedException.new
     end
   end
