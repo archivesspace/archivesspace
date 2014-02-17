@@ -3,6 +3,16 @@ require 'spec_helper'
 
 describe 'Accession controller' do
 
+  before(:all) do
+    RequestContext.in_global_repo do
+      pref = Preference[:user_id => nil]
+
+      pref.update_from_json(JSONModel(:preference).from_hash(:defaults => {'show_suppressed' => true},
+                                                             :lock_version => pref.lock_version))
+    end
+  end
+
+
   it "lets you create an accession and get it back" do
     opts = {:title => 'The accession title'}
 
@@ -152,6 +162,29 @@ describe 'Accession controller' do
     as_test_user('nobody') do
       JSONModel(:accession).all(:page => 1)['results'].count.should eq(3)
     end
+  end
+
+
+  it "does show suppressed accessions to the right people if they choose to see them" do
+    3.times do
+      create(:json_accession)
+    end
+
+    accession = create(:json_accession)
+    accession.suppress
+
+    as_test_user("admin") do
+      pref = create(:json_preference, {:defaults => {'show_suppressed' => false}})
+      JSONModel(:accession).all(:page => 1)['results'].count.should eq(3)
+      Preference[pref.id].delete
+    end
+
+    as_test_user("admin") do
+      pref = create(:json_preference, {:defaults => {'show_suppressed' => true}})
+      JSONModel(:accession).all(:page => 1)['results'].count.should eq(4)
+      Preference[pref.id].delete
+    end
+
   end
 
 

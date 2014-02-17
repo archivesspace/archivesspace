@@ -1106,6 +1106,16 @@ end
 
 
     it "can suppress an Accession" do
+      # make sure we can see suppressed records
+      $driver.find_element(:link, 'System').click
+      $driver.find_element(:link, "User Preferences").click
+
+      elt = $driver.find_element(:xpath, '//input[@id="preference_defaults__show_suppressed_"]')
+      unless elt[@checked]
+        elt.click
+        $driver.find_element(:css => 'button[type="submit"]').click
+      end
+
       # Navigate to the Accession
       $driver.clear_and_send_keys([:id, "global-search-box"], @accession_title)
       $driver.find_element(:id, "global-search-button").click

@@ -158,6 +158,9 @@ ArchivesSpace::Application.routes.draw do
 
     match 'generate_sequence' => 'utils#generate_sequence', :via => [:get]
 
+    resources :preferences
+    match 'preferences/:id' => 'preferences#update', :via => [:post]
+
     if Plugins.system_menu_items?
       scope '/plugins' do
         Plugins.system_menu_items.each do |plugin|

@@ -25,10 +25,21 @@
           <li><%= link_to I18n.t("navbar.manage_users"), :controller => :users, :action => :create %></li>
           <li><%= link_to I18n.t("navbar.manage_enumerations"), :controller => :enumerations, :action => :index %></li>
         <% end %>
-        <% if ArchivesSpaceHelp.enabled? %>
+        <li class="divider"></li>
+      <% end %>
+
+      <% user_prefs_enabled = true if user_can?('manage_repository') || user_can?('view_suppressed') || user_can?('suppress_archival_record') %>
+
+      <% if user_prefs_enabled %>
+          <li><%= link_to I18n.t("navbar.global_preferences"), :controller => :preferences, :action => :edit, :id => 0, :global => true %></li>
+<!--        <% if session[:repo_id] %>
+          <li><%= link_to I18n.t("navbar.repo_preferences"), :controller => :preferences, :action => :edit, :id => 0 %></li>
+            <% end %> -->
+      <% end %>        
+
+        <% if ArchivesSpaceHelp.enabled? && user_prefs_enabled %>
           <li class="divider"></li>
         <% end %>
-      <% end %>
       <% if ArchivesSpaceHelp.enabled? %>
         <li><%= link_to_help :label => I18n.t("help.help_center") %></li>
       <% end %>

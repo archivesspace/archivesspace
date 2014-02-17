@@ -78,22 +78,24 @@ module ASUtils
   end
 
 
+  def self.find_base_directory(root = nil)
+    [java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
+     java.lang.System.get_property("catalina.base"),
+     File.join(*[File.dirname(__FILE__), "..", root].compact)].find {|dir|
+      Dir.exists?(dir)
+    }
+  end
+
+
   def self.find_local_directories(base = nil, *plugins)
     plugins = AppConfig[:plugins] if plugins.empty?
-    [File.join(File.dirname(__FILE__), ".."),
-     java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
-     java.lang.System.get_property("catalina.base")].
-      reject { |dir| !Dir.exists?(dir) }.
-      map { |dir| Array(plugins).map { |plugin| File.join(*[dir, "plugins", plugin, base].compact) } }.flatten
+    base_directory = self.find_base_directory
+    Array(plugins).map { |plugin| File.join(*[base_directory, "plugins", plugin, base].compact) }
   end
 
 
   def self.find_locales_directories(base = nil)
-    [File.join(File.dirname(__FILE__), "..", "common"),
-           java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
-           java.lang.System.get_property("catalina.base")].
-        reject { |dir| !Dir.exists?(dir) }.
-        map { |dir| File.join(*[dir, "locales", base].compact) }
+    [File.join(*[self.find_base_directory("common"), "locales", base].compact)]
   end
 
 

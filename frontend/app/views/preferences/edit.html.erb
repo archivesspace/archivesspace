@@ -1,0 +1,33 @@
+<%= setup_context(:title => I18n.t("preference.global")) %>
+
+<%= form_for @preference, :as => "preference", :url => {:action => :update, :id => @preference.id}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@preference)) do |f| %>
+
+<% if params['global'] %>
+  <input type="hidden" name="global" value="true">
+<% end %>
+
+<%= form_context :preference, @preference do |form| %>
+
+<div class="row-fluid">
+   <div class="span3">
+   </div>
+  <div class="span9">
+    <%= render :partial => "toolbar" %>
+    <div class="record-pane">
+    <% if params['global'] %>
+         <h2><%= I18n.t("preference.global") %></h2>
+    <% else %>
+         <h2><%= I18n.t("preference.repo") %> -- <%= current_repo['repo_code'] %></h2>
+    <% end %>
+
+         <%= render :partial => "shared/flash_messages" %>
+
+    <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "defaults", :cardinality => :zero_to_one, :template => "defaults", :hidden => true} %>
+
+    </div>
+  </div>
+</div>
+
+<% end %>
+
+<% end %>
