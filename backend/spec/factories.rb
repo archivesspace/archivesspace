@@ -530,6 +530,7 @@ FactoryGirl.define do
     name { generate(:generic_description) }
     org_code { generate(:alphanumstr) }
     image_url { generate(:url) }
+    url { generate(:url) }
   end
 
   # may need factories for each rights type

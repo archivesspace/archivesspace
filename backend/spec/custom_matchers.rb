@@ -136,7 +136,20 @@ RSpec::Matchers.define :have_tag do |expected|
   end
 end
 
- 
+
+RSpec::Matchers.define :have_schema_location do |expected|
+
+  match do |doc|
+    schema_location = doc.xpath('/*').attr('xsi:schemaLocation')
+    schema_location && schema_location.value == expected
+  end
+
+  failure_message_for_should do |doc|
+    "Expected document's schema location to be #{expected}"
+  end
+end
+
+
 RSpec::Matchers.define :have_namespaces do |expected|
 
   match do |doc|
