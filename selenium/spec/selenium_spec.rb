@@ -1071,7 +1071,7 @@ end
     it "can navigate through pages of digital objects " do
       c = 0
       (AppConfig[:default_page_size].to_i + 1).times do
-        create_digital_object("I can't believe this is DO number #{c += 1}")
+        create_digital_object({ :title => "I can't believe this is DO number #{c += 1}"})
       end
       run_index_round
 
@@ -2437,7 +2437,7 @@ end
 
     before(:all) do
       login_as_archivist
-      @digital_object_title = create_digital_object("Test Digital Object #{Time.now.to_i}#{$$}")
+      @digital_object_title = create_digital_object({ :title => "Test Digital Object #{Time.now.to_i}#{$$}"})
       run_index_round
     end
 
