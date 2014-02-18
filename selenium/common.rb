@@ -489,15 +489,20 @@ def create_accession(title)
 end
 
 
-def create_digital_object(title)
+def create_digital_object(values = {})
+  default_values = { :title => "Digital Object #{Time.now.to_i}#{$$}",
+                      :digital_object_id => "#{Time.now.to_f}#{$$}"
+                    }
+  values_to_post = default_values.merge(values)
   req = Net::HTTP::Post.new("#{$test_repo_uri}/digital_objects")
-  req.body = {:title => title, :digital_object_id => "#{Time.now.to_f}#{$$}"}.to_json
+  req.body = values_to_post.to_json
 
   response = admin_backend_request(req)
 
   raise response.body if response.code != '200'
+  uri = JSON.parse(response.body)['uri']
 
-  title
+  [ uri, values_to_post[:title] ]
 end
 
 
@@ -506,7 +511,9 @@ def create_resource(values = {})
     ($test_repo, $test_repo_uri) = create_test_repo("repo_#{Time.now.to_i}_#{$$}", "description")
   end
 
-  default_values = {:title => "Test Resource #{Time.now.to_i}#{$$}", :id_0 => "#{Time.now.to_i}#{$$}", :level => "collection", :language => "eng", :extents => [{:portion => "whole", :number => "1", :extent_type => "files"}]}
+  default_values = {:title => "Test Resource #{Time.now.to_i}#{$$}", 
+    :id_0 => "#{Time.now.to_i}#{$$}", :level => "collection", :language => "eng",
+    :extents => [{:portion => "whole", :number => "1", :extent_type => "files"}]}
   values_to_post = default_values.merge(values)
 
   req = Net::HTTP::Post.new("#{$test_repo_uri}/resources")

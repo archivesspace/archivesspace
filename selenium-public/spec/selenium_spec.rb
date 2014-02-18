@@ -130,6 +130,27 @@ describe "ArchivesSpace Public interface" do
 
   end
 
+  describe "Digital Objects" do
+      before(:all) do
+        $published_digital_object_uri, $published_digital_object_title = create_digital_object(
+                                    :title => "Published DO",  
+                                    :file_versions => [
+                                      { :file_uri => "https://archivesssss.xxx"}, 
+                                      { :file_uri => "http://boo.eu", :publish => false }
+                                    ] )
+        @indexer.run_index_round
+      end
+      
+      it "displayed the digital object correctly" do
+        $driver.get(URI.join($frontend, $published_digital_object_uri))
+        $driver.find_element_with_text('//h2', /#{$published_digital_object_title}/)
+        $driver.save_screenshot("/tmp/screen.png")
+        $driver.find_element_with_text('//h3', /File Versions/)
+        $driver.find_element(:link ,"https://archivesssss.xxx" )
+        $driver.ensure_no_such_element( :link, "http://boo.eu") 
+      end
+  
+  end
 
   describe "Archival Objects" do
 
