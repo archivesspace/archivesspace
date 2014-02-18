@@ -272,7 +272,7 @@ class PeriodicIndexer < CommonIndexer
     @processed_trees.clear
 
     # And any records in any repositories
-    repositories.each do |repository|
+    repositories.each_with_index do |repository, i|
       JSONModel.set_repository(repository.id)
 
       checkpoints = []
@@ -280,6 +280,7 @@ class PeriodicIndexer < CommonIndexer
       did_something = false
 
       @@record_types.each do |type|
+        next if @@global_types.include?(type) && i > 0
         start = Time.now
 
         modified_since = [@state.get_last_mtime(repository.id, type) - WINDOW_SECONDS, 0].max
