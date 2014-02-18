@@ -5,7 +5,9 @@
 
 $(function() {
   var $tree = $("#archives_tree"),
-    $container = $("#object_container");
+    $container = $("#object_container"),
+    $toolbar = $("#archives_tree_toolbar");
+
 
   if ($tree.length > 0) {
 
@@ -217,13 +219,13 @@ $(function() {
       if (indexOfCurrentNode+1 < allNodes.length) {
         data.next = allNodes.get(indexOfCurrentNode+1).id;
       }
-      $(".btn-toolbar > .btn-group:first", "#archives_tree_toolbar").append(AS.renderTemplate("tree_nodenavigation_toolbar_template", data));
+      $(".btn-toolbar > .btn-group:first", $toolbar).append(AS.renderTemplate("tree_nodenavigation_toolbar_template", data));
     };
 
 
     var loadTreeActionsForNode = function(nodeEl) {
       // render tree toolbar
-      $("#archives_tree_toolbar").html(AS.renderTemplate("tree_toolbar_template"));
+      $toolbar.html(AS.renderTemplate("tree_toolbar_template"));
       renderTreeNodeNavigation();
       if (config.read_only !== true && nodeEl.attr("id") != "new") {
         var data_for_toolbar = {
@@ -243,25 +245,25 @@ $(function() {
           }).toArray();
         }
         var toolbar_actions = $(AS.renderTemplate("tree_nodeactions_toolbar_template", data_for_toolbar));
-        $(".btn-toolbar > .btn-group:first", "#archives_tree_toolbar").append(toolbar_actions);
+        $(".btn-toolbar > .btn-group:first", $toolbar).append(toolbar_actions);
 
         var finish_action = $(AS.renderTemplate("tree_finish_action_template", data_for_toolbar));
-        $(".btn-toolbar", "#archives_tree_toolbar").append(finish_action);
+        $(".btn-toolbar", $toolbar).append(finish_action);
 
-        $('a', "#archives_tree_toolbar").on("focus", function() {
+        $('a', $toolbar).on("focus", function() {
           if ($(this).parents("li.dropdown-submenu").length) {
             $('.dropdown-menu', $(this).parent()).show();
           } else {
             $(".dropdown-submenu .dropdown-menu", $(this).parents(".nav")).css("display", "");
           }
         });
-        $('.dropdown-submenu > a', "#archives_tree_toolbar").on("keyup", function(event) {
+        $('.dropdown-submenu > a', $toolbar).on("keyup", function(event) {
           // right arrow focuses submenu
           if (event.keyCode === 39) {
             $('.dropdown-menu a:first', $(this).parent()).focus();
           }
         });
-        $('.dropdown-submenu > .dropdown-menu > li > a', "#archives_tree_toolbar").on("keyup", function() {
+        $('.dropdown-submenu > .dropdown-menu > li > a', $toolbar).on("keyup", function() {
           // left arrow focuses parent menu
           if (event.keyCode === 37) {
             $("> a", $(this).parents(".dropdown-submenu:first")).focus();
@@ -272,16 +274,16 @@ $(function() {
         if ($tree.data("clipboard")) {
           // disable paste if current node is a child
           if (nodeEl.closest($tree.data("clipboard")).length === 0) {
-            $(".paste-node", "#archives_tree_toolbar").removeClass("disabled");
+            $(".paste-node", $toolbar).removeClass("disabled");
           }
         }
-        $(".cut-node", "#archives_tree_toolbar").removeClass("disabled");
+        $(".cut-node", $toolbar).removeClass("disabled");
 
         // toggle action disabled/enabled based on status of tree
         enableDisableToolbarActions();
 
         // init any widgets in the newly rendered toolbar
-        $(document).trigger("loadedrecordform.aspace", [$("#archives_tree_toolbar")]);
+        $(document).trigger("loadedrecordform.aspace", [$toolbar]);
       }
     };
 
@@ -301,6 +303,15 @@ $(function() {
 
 
     var onHashChange = function(){
+      var currentlyFocusedSelector;
+
+      // if a toolbar action is clicked, let's refocus it
+      // up re-render (it will be replaced with a new toolbar
+      // for the selected node)
+      if ($(":focus").length > 0 && $(":focus").closest($toolbar).length > 0) {
+        currentlyFocusedSelector = $(":focus").attr("class");
+      }
+
       if ($(window).data("ignore-hashchange")) {
         $(window).data("ignore-hashchange", false);
         return;
@@ -327,6 +338,16 @@ $(function() {
 
       loadPaneForNode($selected);
       loadTreeActionsForNode($selected);
+
+      if (currentlyFocusedSelector) {
+        var $target = $("[class='"+currentlyFocusedSelector+"']");
+
+        if ($target.is("[disabled]")) {
+          $(".btn:not([disabled]):first", $toolbar).focus();
+        } else {
+          $("[class='"+currentlyFocusedSelector+"']").focus();
+        }
+      }
     };
 
 
@@ -340,16 +361,16 @@ $(function() {
 
 
     var resizeArchivesTree = function() {
-      var height = $("#archives_tree").parent().height() - $("#archives_tree_toolbar").outerHeight() - 21;
+      var height = $("#archives_tree").parent().height() - $toolbar.outerHeight() - 21;
       $("#archives_tree").height(height);
     };
 
 
     var enableDisableToolbarActions = function() {
       if (getSelectedNodes().length === 1) {
-        $(".move-node.move-node-up, .move-node.move-node-down", "#archives_tree_toolbar").removeAttr("disabled").removeClass("disabled");
+        $(".move-node.move-node-up, .move-node.move-node-down", $toolbar).removeAttr("disabled").removeClass("disabled");
       } else {
-        $(".move-node.move-node-up, .move-node.move-node-down", "#archives_tree_toolbar").attr("disabled", "disabled").addClass("disabled");
+        $(".move-node.move-node-up, .move-node.move-node-down", $toolbar).attr("disabled", "disabled").addClass("disabled");
       }
     };
 
@@ -763,30 +784,31 @@ $(function() {
         },
         hotkeys: {
           "up": false,
+          "down": false,
           "ctrl+up": function() {
-            $(".move-node-up","#archives_tree_toolbar").trigger("click");
+            $(".move-node-up",$toolbar).trigger("click");
           },
           "shift+up": false,
-          "down": false,
           "ctrl+down": function() {
-            $(".move-node-down","#archives_tree_toolbar").trigger("click");
+            $(".move-node-down",$toolbar).trigger("click");
           },
           "shift+down": false,
-          "left": false,
           "ctrl+left": function() {
-            $(".move-node-up-level","#archives_tree_toolbar").trigger("click");
+            $(".move-node-up-level",$toolbar).trigger("click");
           },
           "shift+left": false,
-          "right": false,
           "ctrl+right": function() {
-            $($(".move-node-down-into","#archives_tree_toolbar")[getPrimarySelectedNode().index()]).trigger("click");
+            $($(".move-node-down-into",$toolbar)[getPrimarySelectedNode().index()]).trigger("click");
           },
           "shift+right": false,
           "space": false,
           "ctrl+space": false,
           "shift+space": false,
           "f2": false,
-          "del": false
+          "del": false,
+          "return": function() {
+            $('.jstree-hovered', $tree).trigger("click");
+          }
         },
         plugins: [ "themes", "ui", "html_data", "crrm", "dnd", "hotkeys"]
       }).one("loaded.jstree", function() {
@@ -813,10 +835,6 @@ $(function() {
         $tree.jstree("select_node", getPrimarySelectedNode());
 
         loadTreeActionsForNode(getPrimarySelectedNode());
-
-        setTimeout(function() {
-          $(".selected a:first", $tree).focus();
-        }, 0);
 
         if (onTreeLoadCallback) onTreeLoadCallback();
       }).bind("before.jstree", function (event, data) {
@@ -849,6 +867,7 @@ $(function() {
           } else {
             setHashForNode($selectedNode.find("a").attr("href"));
           }
+          $tree.jstree("hover_node", $selectedNode);
           $tree.trigger("treesingleselected.aspace");
         }
       }).bind("deselect_node.jstree", function (event, data) {

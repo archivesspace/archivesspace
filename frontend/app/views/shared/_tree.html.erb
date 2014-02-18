@@ -190,7 +190,7 @@
   --></div>
 
   <div id="tree_node_template"><!--
-    <a href="#tree::${node.node_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">
+    <a href="#tree::${node.node_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}" tabindex="-1">
       {eval}node.tmp = {node: node}{/eval}
       ${AS.renderTemplate("tree_node_"+node.node_type+"_template", node.tmp)}
     </a>
@@ -221,14 +221,14 @@
   <div id="tree_nodenavigation_toolbar_template"><!--
     <div class="btn-group">
       {if defined('previous')}
-        <a href="#tree::${previous}" class="btn btn-mini"><span class="icon-arrow-left"></span></a>
+        <a href="#tree::${previous}" class="btn btn-mini btn-prev-tree-node"><span class="icon-arrow-left"></span></a>
       {else}
-        <a disabled="disabled" class="btn btn-mini"><span class="icon-arrow-left"></span></a>
+        <a disabled="disabled" class="btn btn-mini btn-prev-tree-node"><span class="icon-arrow-left"></span></a>
       {/if}
       {if defined('next')}
-        <a href="#tree::${next}" class="btn btn-mini"><span class="icon-arrow-right"></span></a>
+        <a href="#tree::${next}" class="btn btn-mini btn-next-tree-node"><span class="icon-arrow-right"></span></a>
       {else}
-        <a disabled="disabled" class="btn btn-mini"><span class="icon-arrow-right"></span></a>
+        <a disabled="disabled" class="btn btn-mini btn-next-tree-node"><span class="icon-arrow-right"></span></a>
       {/if}
     </div>
   --></div>
