@@ -187,6 +187,7 @@ class CommonIndexer
 
     add_document_prepare_hook {|doc, record|
       if ['agent_person', 'agent_family', 'agent_software', 'agent_corporate_entity'].include?(doc['primary_type'])
+        record['record'].reject! { |rec| rec === 'agent_contacts' }
         doc['json'] = record['record'].to_json
         doc['title'] = record['record']['names'][0]['sort_name']
         doc['authority_id'] = record['record']['names'][0]['authority_id']

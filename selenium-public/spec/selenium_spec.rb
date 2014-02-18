@@ -207,8 +207,12 @@ describe "ArchivesSpace Public interface" do
   describe "Agents" do
 
     before(:all) do
+      contact =  { "name" => "Home", "salutation" => "mr", "address_1" => "123 Fake St.",
+      "city" => "Springfield"}
       unpublished_agent_uri, $unpublished_agent = create_agent("Unpubished Dude", {"publish" => false})
-      published_agent_uri, $published_agent = create_agent("Published Dude", {"publish" => true})
+      published_agent_uri, $published_agent = create_agent("Published Dude",
+                                                           {"publish" => true,
+                                                            "agent_contacts" => [ contact  ]})
 
       $published_resource_uri, $published_resource_title = create_resource({
         :title => "Published Resource No.3",
@@ -236,6 +240,8 @@ describe "ArchivesSpace Public interface" do
     it "linked records show for an agent search" do
       $driver.find_element(:link, $published_agent).click
       $driver.find_element(:link, $published_resource_title)
+      $driver.ensure_no_such_element(:xpath, "//*[text()[contains( '1234 Fake St')]]")
+      $driver.ensure_no_such_element(:css, '#contacts')
     end
 
     it "linked record shows published agents in the list" do
