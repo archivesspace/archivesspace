@@ -74,6 +74,11 @@ class TomcatSetup
   end
 
 
+  def copy_plugins
+    loud_cp_r(File.join(@base_dir, "plugins"), @tomcat_dir)
+  end
+
+
   def port_for(service)
     URI(AppConfig["#{service}_url".intern]).port
   end
@@ -123,6 +128,7 @@ EOF
   def setup
     copy_wars
     copy_libs
+    copy_plugins
     copy_locales
     copy_config
   end
