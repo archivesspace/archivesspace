@@ -35,3 +35,15 @@ gem "rjack-jackson"
 
 gem "rubyzip", "1.0.0"
 gem "zip-zip"
+
+
+# Allow plugins to provide their own Gemfiles too.
+#
+require 'asutils'
+ASUtils.find_local_directories('backend').each do |plugin|
+  gemfile = File.join(plugin, 'Gemfile')
+
+  if File.exists?(gemfile)
+    instance_eval(File.read(gemfile))
+  end
+end

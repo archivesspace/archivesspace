@@ -69,3 +69,15 @@ gem "zip-zip"
 # The frontend doesn't specifically depend on Nokogiri at the moment, but
 # several plugins use it.
 gem "nokogiri"
+
+
+# Allow plugins to provide their own Gemfiles too.
+#
+require 'asutils'
+ASUtils.find_local_directories('frontend').each do |plugin|
+  gemfile = File.join(plugin, 'Gemfile')
+
+  if File.exists?(gemfile)
+    instance_eval(File.read(gemfile))
+  end
+end
