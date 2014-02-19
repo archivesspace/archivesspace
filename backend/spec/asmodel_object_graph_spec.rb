@@ -29,10 +29,9 @@ describe 'ASModel Object Graph' do
     count = 5
 
     count.times do
-      create(:archival_object,
-             :root_record_id => resource.id,
-             :parent_id => top_ao.id,
-             :repo_id => $repo_id)
+      ArchivalObject.create_from_json(build(:json_archival_object,
+                                            :resource => {'ref' => resource.uri},
+                                            :parent => {'ref' => top_ao.uri}))
     end
 
     resource.object_graph.each.map {|_, ids| ids.to_a}.flatten.length.should eq(count + 2)
