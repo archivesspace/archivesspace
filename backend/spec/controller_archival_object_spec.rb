@@ -242,16 +242,15 @@ describe 'Archival Object controller' do
   it "can publish notes" do
     archival_object = create(:json_archival_object)
 
-    notes = [build(:json_note_bibliography),
-             build(:json_note_index)]
+    notes = [build(:json_note_bibliography, :publish => false),
+             build(:json_note_index, :publish => false)]
 
     archival_object.notes = notes
     archival_object.save
 
     ArchivalObject[archival_object.id].publish!
-
-    ASUtils.json_parse(ArchivalObject[archival_object.id].notes).all? {|note|
-      note['publish']
+    ArchivalObject[archival_object.id].note.all? {|note|
+      note.publish == 1
     }.should be_true
   end
 

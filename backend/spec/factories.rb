@@ -140,7 +140,6 @@ FactoryGirl.define do
 
     factory :agent_corporate_entity, class: AgentCorporateEntity do
       json_schema_version { 1 }
-      notes_json_schema_version { 1 }
       after(:create) do |a|
         a.add_name_corporate_entity(:rules => generate(:name_rule),
                                     :primary_name => generate(:generic_name),
@@ -190,7 +189,6 @@ FactoryGirl.define do
 
     factory :resource do
       json_schema_version { 1 }
-      notes_json_schema_version { 1 }
       title { generate(:generic_title) }
       id_0 { generate(:alphanumstr) }
       id_1 { generate(:alphanumstr) }
@@ -209,7 +207,6 @@ FactoryGirl.define do
 
     factory :archival_object do
       json_schema_version { 1 }
-      notes_json_schema_version { 1 }
       title { generate(:generic_title) }
       repo_id nil
       ref_id { generate(:alphanumstr) }
