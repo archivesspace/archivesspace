@@ -44,6 +44,9 @@ Sequel.migration do
         foreign_key = "#{record}_id".intern
         self[:external_id].insert(foreign_key => row[foreign_key],
                                   :source => row[:source],
+                                  :create_time => row.fetch(:create_time, Time.now),
+                                  :system_mtime => row.fetch(:system_mtime, Time.now),
+                                  :user_mtime => row.fetch(:user_mtime, Time.now),
                                   :external_id => row[:external_id])
       end
 
