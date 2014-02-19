@@ -43,7 +43,7 @@ module Notes
 
 
     def sequel_to_jsonmodel(obj, opts = {})
-      notes = Array(obj.note).map {|note|
+      notes = Array(obj.note.sort_by {|note| note[:id]}).map {|note|
         parsed = ASUtils.json_parse(note.notes)
         parsed['publish'] = (note.publish == 1)
         parsed

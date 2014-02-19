@@ -484,7 +484,7 @@ module ASModel
         nested_records.each do |nested_record|
           model = Kernel.const_get(nested_record[:association][:class_name])
 
-          records = Array(obj.send(nested_record[:association][:name])).map {|linked_obj|
+          records = Array(obj.send(nested_record[:association][:name])).sort_by{|rec| rec[:id]}.map {|linked_obj|
             model.to_jsonmodel(linked_obj).to_hash(:trusted)
           }
 
