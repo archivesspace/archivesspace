@@ -69,6 +69,7 @@ $(function() {
               $("#createAndLinkButton", $modal).removeAttr("disabled");
             }
           });
+          $(".alert", $modal).ScrollTo();
           $modal.trigger("resize");
           $(document).triggerHandler("loadedrecordform.aspace", [$modal]);
         };

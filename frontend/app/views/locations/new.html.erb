@@ -12,7 +12,6 @@
           <h2><%= I18n.t("actions.new_prefix") %> <%= I18n.t("location._singular") %>  <span class="label label-info"><%= I18n.t("location._singular") %></span></h2>
           <br/>
 
-          <%= render :partial => "shared/form_messages", :locals => {:object => @subject, :form => form} %>
           <%= render :partial => "locations/form", :locals => {:form => form} %>
 
           <div class="form-actions">

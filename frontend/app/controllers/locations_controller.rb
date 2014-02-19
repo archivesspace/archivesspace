@@ -1,7 +1,7 @@
 class LocationsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show],
-                      "update_location_record" => [:new, :edit, :create, :update, :batch, :batch_create]
+                      "update_location_record" => [:new, :edit, :create, :update, :batch, :batch_create, :delete]
 
 
   def index
@@ -93,6 +93,20 @@ class LocationsController < ApplicationController
 
       return render :action => :batch
     end
+  end
+
+
+  def delete
+    location = JSONModel(:location).find(params[:id])
+    begin
+      location.delete
+    rescue ConflictException => e
+      flash[:error] = location.translate_exception_message(e.conflicts)
+      return redirect_to(:controller => :locations, :action => :show, :id => location.id)
+    end
+
+    flash[:success] = I18n.t("location._frontend.messages.deleted", JSONModelI18nWrapper.new(:location => location))
+    redirect_to(:controller => :locations, :action => :index, :deleted_uri => location.uri)
   end
 
 end

@@ -532,6 +532,7 @@ en:
         batch: Batch Locations
         save: Save Location
         single: Single Location
+        delete_confirm_message: "<p>Please be aware you <strong>cannot undo this action.</strong>.</p><p> If this Location is currently linked to one or more instances it cannot be deleted.</p>"
 
   location_batch:
     _frontend:
