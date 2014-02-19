@@ -2439,7 +2439,8 @@ end
 
     before(:all) do
       login_as_archivist
-      @digital_object_title = create_digital_object({ :title => "Test Digital Object #{Time.now.to_i}#{$$}"})
+      @digital_object_title = "Test Digital Object #{Time.now.to_i}#{$$}"
+      create_digital_object({ :title => @digital_object_title})
       run_index_round
     end
 
