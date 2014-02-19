@@ -41,7 +41,7 @@ Sequel.migration do
                          :agent_person, :agent_corporate_entity, :agent_family, :agent_software]
 
     TABLES_WITH_NOTES.each do |table|
-
+      $stderr.puts("Migrating notes for records of type #{table}")
       migrated_count = 0
       fk_column = "#{table}_id".intern
 
@@ -62,7 +62,7 @@ Sequel.migration do
 
           self[:notes].insert(values)
 
-          $stderr.puts("Migrated #{migrated_count} #{table} records")
+          $stderr.puts("Migrated #{migrated_count} #{table} records") if (migrated_count % 1000) == 0
           migrated_count += 1
         end
       end

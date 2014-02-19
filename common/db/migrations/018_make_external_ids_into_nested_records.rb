@@ -37,6 +37,8 @@ Sequel.migration do
                                        :digital_object_component, :event, :location, :resource]
 
     records_supporting_external_ids.each do |record|
+      $stderr.puts("Migrating external IDs for records of type #{record}")
+
       many_to_many_table = "#{record}_ext_id".intern
 
       # populate the id columns for existing external documents
@@ -49,10 +51,17 @@ Sequel.migration do
                                   :user_mtime => row.fetch(:user_mtime, Time.now),
                                   :external_id => row[:external_id])
       end
+    end
+
+    records_supporting_external_ids.each do |record|
+      $stderr.puts("Removing old external ID table for type #{record}")
+
+      many_to_many_table = "#{record}_ext_id".intern
 
       # drop the old many-to-many table
       drop_table(many_to_many_table)
     end
+
   end
 
 
