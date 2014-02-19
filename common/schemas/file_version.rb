@@ -4,7 +4,7 @@
     "version" => 1,
     "type" => "object",
     "properties" => {
-
+      "identifier" => {"type" => "string", "readonly" => true},
       "file_uri" => {"type" => "string", "maxLength" => 16384, "ifmissing" => "error"},
       "publish" => {"type" => "boolean", "default" => true},
       "use_statement" => {"type" => "string", "dynamic_enum" => "file_version_use_statement"},
