@@ -550,6 +550,8 @@
       <zipfileset dir="../launcher/scripts" includes="setup-database.bat" prefix="archivesspace/scripts" filemode="755" />
       <zipfileset dir="../launcher/tomcat" includes="configure-tomcat.sh" prefix="archivesspace/scripts" filemode="755" />
       <zipfileset dir="../launcher/tomcat" includes="configure-tomcat.bat" prefix="archivesspace/scripts" filemode="644" />
+      <zipfileset dir="../launcher/plugin_gems" includes="install-gems-for-plugin.sh" prefix="archivesspace/scripts" filemode="755" />
+      <zipfileset dir="../launcher/plugin_gems" includes="install-gems-for-plugin.bat" prefix="archivesspace/scripts" filemode="644" />
       <zipfileset dir="../launcher/password_reset" includes="password-reset.sh" prefix="archivesspace/scripts" filemode="755" />
       <zipfileset dir="../launcher/password_reset" includes="password-reset.bat" prefix="archivesspace/scripts" filemode="644" />
       <zipfileset dir="../launcher/backup" includes="backup.sh" prefix="archivesspace/scripts" filemode="755" />
