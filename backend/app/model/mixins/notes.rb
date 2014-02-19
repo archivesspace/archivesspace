@@ -18,7 +18,7 @@ module Notes
 
 
     def apply_notes(obj, json)
-      obj.remove_all_note
+      obj.note_dataset.delete
 
       json.notes.each do |note|
         publish = note['publish'] ? 1 : 0
