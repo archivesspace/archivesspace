@@ -162,4 +162,22 @@ EOF
   end
 
 
+  def self.load_plugin_gems(context)
+    ASUtils.find_local_directories.each do |plugin|
+      gemfile = File.join(plugin, 'Gemfile')
+      gemdir = File.join(plugin, "gems")
+
+      if File.exists?(gemfile)
+        if Dir.exists?(gemdir)
+          Dir.glob(File.join(File.expand_path(gemdir), "gems", "*", "lib")).each do |gem|
+            $: << gem
+          end
+        end
+
+        context.instance_eval(File.read(gemfile))
+      end
+    end
+  end
+
+
 end

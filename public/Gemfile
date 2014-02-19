@@ -33,10 +33,4 @@ end
 # Allow plugins to provide their own Gemfiles too.
 #
 require 'asutils'
-ASUtils.find_local_directories('public').each do |plugin|
-  gemfile = File.join(plugin, 'Gemfile')
-
-  if File.exists?(gemfile)
-    instance_eval(File.read(gemfile))
-  end
-end
+ASUtils.load_plugin_gems(self)
