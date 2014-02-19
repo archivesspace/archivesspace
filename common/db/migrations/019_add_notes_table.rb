@@ -60,7 +60,7 @@ Sequel.migration do
             end
           end
 
-          self[:notes].insert(values)
+          self[:note].insert(values)
 
           $stderr.puts("Migrated #{migrated_count} #{table} records") if (migrated_count % 1000) == 0
           migrated_count += 1
