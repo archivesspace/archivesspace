@@ -49,7 +49,7 @@ module ASpaceImport
       @cell_handlers = []
       @proxies = ASpaceImport::RecordProxyMgr.new
 
-      CSV.foreach(@input_file) do |row|
+      CSV.foreach(@input_file, 'r:bom|utf-8') do |row|
 
         if @cell_handlers.empty?
           @cell_handlers, bad_headers = self.class.configure_cell_handlers(row)
