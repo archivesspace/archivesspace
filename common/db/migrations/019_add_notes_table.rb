@@ -45,7 +45,7 @@ Sequel.migration do
       migrated_count = 0
       fk_column = "#{table}_id".intern
 
-      self[table].filter(Sequel.~(:notes => nil)).each do |row|
+      self[table].filter(Sequel.~(:notes => nil)).each_by_page do |row|
         ASUtils.json_parse(row[:notes]).each do |note|
           values = {
             :notes => ASUtils.to_json(note),

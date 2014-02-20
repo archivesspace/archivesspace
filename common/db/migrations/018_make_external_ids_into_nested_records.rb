@@ -42,7 +42,7 @@ Sequel.migration do
       many_to_many_table = "#{record}_ext_id".intern
 
       # populate the id columns for existing external documents
-      self[many_to_many_table].each do |row|
+      self[many_to_many_table].each_by_page do |row|
         foreign_key = "#{record}_id".intern
         self[:external_id].insert(foreign_key => row[foreign_key],
                                   :source => row[:source],

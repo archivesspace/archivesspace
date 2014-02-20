@@ -1,4 +1,6 @@
 Sequel.extension :inflector
+Sequel.extension :pagination
+
 
 module MigrationUtils
   def self.shorten_table(name)
@@ -7,9 +9,29 @@ module MigrationUtils
 end
 
 
-def create_editable_enum(name, values, default = nil, opts = {})
-      create_enum(name, values, default, true, opts)
+module EachByPage
+
+  def each_by_page(page_size = 1000)
+    self.each_page(page_size) do |page_ds|
+      page_ds.each do |row|
+        yield(row)
+      end
     end
+  end
+
+end
+
+
+module Sequel
+  class Dataset
+    include EachByPage
+  end
+end
+
+
+def create_editable_enum(name, values, default = nil, opts = {})
+  create_enum(name, values, default, true, opts)
+end
 
 
 def create_enum(name, values, default = nil, editable = false, opts = {})
