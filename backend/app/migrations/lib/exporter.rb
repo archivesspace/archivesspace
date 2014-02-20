@@ -92,37 +92,16 @@ module ASpaceExport
     def serialize(object) end
 
 
-    def insert(meth)
-
-      old_kontext = @kontext.clone
-
-      if self.respond_to?(meth) && @kontext[0].respond_to?(meth)
-        if @kontext[0].send(meth).is_a?(Array)
-          @kontext[0].send(meth).each do |mem|
-            @kontext[0] = mem
-            @kontext[1].send(meth) {
-              self.send(meth)
-            }
-          end
-        else
-          @kontext[0] = @kontext[0].send(meth)
-          @kontext[1].send(meth) {
-            self.send(meth)
-          }
-        end
-      elsif @kontext[0].respond_to?(meth)
-        values = *(@kontext[0].send(meth))
-        values.each do |val|
-          raise "oops #{val} is not a string" unless val.is_a?(String)
-          @kontext[1].send(meth, val) unless val.nil?
-        end
-      else
-        raise "Neither the serializer nor the data object responds to #{meth}"
-      end
-
-      @kontext = old_kontext
+    # use a serializer to embed wrapped data
+    # for example, MODS data wrapped in METS
+    def self.with_namespace(prefix, xml)
+      ns = xml.doc.root.namespace_definitions.find{|ns| ns.prefix == prefix}
+      xml.instance_variable_set(:@sticky_ns, ns)
+      yield 
+      xml.instance_variable_set(:@sticky_ns, nil)
     end
   end
+
 
   # Abstract Export Model class
   class ExportModel
