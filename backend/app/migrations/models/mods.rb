@@ -66,16 +66,24 @@ ASpaceExport::model :mods do
     
     mods = self.from_archival_object(obj)
     
-    mods.type_of_resource = obj.digital_object_type
-    
+    if obj.respond_to? :digital_object_type
+      mods.type_of_resource = obj.digital_object_type
+    end
+
     mods.apply_map(obj, @digital_object_map)
     
-    obj.tree['_resolved']['children'].each do |child|
-      mods.parts << {'id' => "component-#{child['id']}", 'title' => child['title']}
-    end
+    # obj.tree['_resolved']['children'].each do |child|
+    #   mods.parts << {'id' => "component-#{child['id']}", 'title' => child['title']}
+    # end
   
     mods
   end
+
+
+  def self.from_digital_object_component(obj)
+    mods = self.from_digital_object(obj)
+  end
+
   
   def self.name_type_map
     @name_type_map

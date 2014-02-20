@@ -3,10 +3,11 @@ ASpaceExport::model :mets do
   include JSONModel
 
   attr_accessor :header_agent_name
-  attr_accessor :header_agent_note
+  attr_accessor :header_agent_notes
   attr_accessor :header_agent_role
   attr_accessor :header_agent_type
-  
+
+  attr_accessor :mods_model
   attr_accessor :wrapped_dmd
   
   attr_accessor :extents
@@ -15,19 +16,20 @@ ASpaceExport::model :mets do
   attr_accessor :names
   attr_accessor :type_of_resource
   attr_accessor :parts
-  
+  attr_accessor :dmd_id
+
+
   @repository_map = {
     :name => :header_agent_name=,
-    :values => :build_header_agent_note,
+    :url => :add_agent_note,
   }
-  
   
   @archival_object_map = {
   }
   
   @digital_object_map = {
+    :id => :dmd_id=
   }
-  
   
   @name_type_map = {
     'agent_person' => 'personal',
@@ -43,13 +45,18 @@ ASpaceExport::model :mets do
     'family_name' => 'family',
     'prefix' => 'termsOfAddress'
   }
+
   
   @doc = Class.new do
+    attr_accessor :mods_model
+    attr_accessor :dmd_id
     
     def initialize(tree)
       obj = DigitalObjectComponent.to_jsonmodel(tree['id'])
       @json = JSONModel::JSONModel(:digital_object_component).new(obj)
       @tree = tree
+      @mods_model = ASpaceExport.model(:mods).from_digital_object_component(obj)
+      @dmd_id = @json.id
     end
     
     def method_missing(meth)
@@ -65,20 +72,51 @@ ASpaceExport::model :mets do
       @tree['children'].map { |subtree| self.class.new(subtree) }
     end
   end
-  
+
+
+  @file_group = Class.new do
+
+    @file_wrapper = Struct.new(:id, :group_id, :uri)
+
+    def self.file_wrapper
+      @file_wrapper
+    end
+
+    def initialize(use_statement, file_versions)
+      @use_statement = use_statement
+      @file_versions = file_versions
+    end
+
+    def use
+      I18n.t("enumerations.file_version_use_statement.#{@use_statement}")
+    end
+
+    def with_files
+      @file_versions.each do |file|
+        id = file['identifier']
+        group_id = file['digital_object_id'] || file['digital_object_component_id']
+        yield self.class.file_wrapper.new(id, group_id, file['file_uri'])  
+      end
+    end
+  end
+
 
   def initialize(obj)
     @json = obj
-    @wrapped_dmd = []
-    
+    @wrapped_dmd = []    
     @extents = []
     @notes = []
     @subjects = []
     @names = []
     @parts = []
   end
-  
-  # Some things are universal
+
+
+  def self.get_file_group(*args)
+    @file_group.new(*args)
+  end
+
+
   def self.from_aspace_object(obj)
   
     mets = self.new(obj)
@@ -89,62 +127,54 @@ ASpaceExport::model :mets do
       mets.header_agent_role = "CREATOR"
       mets.header_agent_type = "ORGANIZATION"
     end
-    
+
+    mets.add_agent_note("Produced by ArchivesSpace")
+
     mets
   end
-    
-  # meaning, 'archival object' in the abstract
+
+
   def self.from_archival_object(obj)
-    
+
     mets = self.from_aspace_object(obj)
-    
     mets.apply_map(obj, @archival_object_map)
-         
     mets
   end
-    
+
   
   def self.from_digital_object(obj)
-    
-    mets = self.from_archival_object(obj)
-    
-    mets.type_of_resource = obj.digital_object_type
-    
-    mets.apply_map(obj, @digital_object_map)
-    
-    # wrapped DMD
-    mods = ASpaceExport.model(:mods).from_digital_object(obj)
-    mods_callback = lambda {|mods, xml|
-                            mods_ns = xml.doc.root.namespace_definitions.find{|ns| ns.prefix == 'mods'}
-                            xml.instance_variable_set(:@sticky_ns, mods_ns)
-                            ASpaceExport.serializer(:mods)._mods(mods, xml)
-                            xml.instance_variable_set(:@sticky_ns, nil)
-                             }
 
-    mets.dmd_wrap("MODS", mods_callback, mods)
-  
+    mets = self.from_archival_object(obj)
+    mets.type_of_resource = obj.digital_object_type
+    mets.apply_map(obj, @digital_object_map)
+
+    # wrapped DMD
+    mets.mods_model = ASpaceExport.model(:mods).from_digital_object(obj)
     mets
   end
+
   
   def self.name_type_map
     @name_type_map
   end
-  
+
+
   def self.name_part_type_map
     @name_part_type_map
   end
-  
-  def build_header_agent_note(vals)
-    note = String.new
-    vals.reject! {|k,v| v.nil?}
-    note += "Parent Institution: #{vals[:parent_institution_name]}" if vals[:parent_institution_name]
-    self.header_agent_note = note unless note.empty?
+
+
+  def add_agent_note(val)
+    @header_agent_notes ||= []
+    @header_agent_notes << val
   end
+
   
   def dmd_wrap(mdtype, callback, data)
     self.wrapped_dmd << {'type' => mdtype,'callback' => callback, 'data' => data}
   end
-  
+
+
   def method_missing(meth)
     if @json.respond_to?(meth)
       @json.send(meth)
@@ -152,6 +182,7 @@ ASpaceExport::model :mets do
       nil
     end
   end
+
   
   def children
     return nil unless @json.tree['_resolved']['children']
@@ -162,6 +193,98 @@ ASpaceExport::model :mets do
     
     children
   end
-  
-  
+
+
+  def with_file_groups
+    file_versions = @json.file_versions
+    file_versions.each do |fv|
+      fv['digital_object_id'] = @json.id
+    end
+    file_versions += extract_file_versions(@json.tree['_resolved']['children'])
+    file_versions.compact!
+
+    while file_versions.length > 0
+      use_statement = file_versions[0]['use_statement']
+      use_group = file_versions.select {|fv| fv['use_statement'] == use_statement }
+      yield self.class.get_file_group(use_statement, use_group)
+
+      file_versions.reject! {|fv| fv['use_statement'] == use_statement }
+    end
+  end
+
+  @@logical_div = Struct.new(:label,
+                             :dmdid, 
+                             :file_versions, 
+                             :children) do
+
+    def self.init
+      @order = 0
+    end
+
+    def self.next_order
+      @order += 1
+      @order
+    end
+
+    def order
+      @order ||= self.class.next_order
+      @order
+    end
+
+    def has_files?
+      file_versions.count > 0
+    end
+
+    def each_file_version
+      file_versions.each do |file|
+        yield Struct.new(:id).new(file['identifier'])
+      end
+    end
+
+    def each_child
+      children.each do |child|
+        yield self.class.new(child['title'],
+                             child['id'],
+                             child['file_versions'],
+                             child['children'])
+      end
+    end
+  end
+
+
+  def root_logical_div
+    @@logical_div.init
+    @@logical_div.new(@json.title,
+                      @json.id, 
+                      @json.file_versions,
+                      @json.tree['_resolved']['children'])
+
+  end
+
+
+  def root_physical_div
+    @@logical_div.init
+    @@logical_div.new(@json.title,
+                      @json.id, 
+                      @json.file_versions,
+                      @json.tree['_resolved']['children'])
+
+  end  
+
+
+  def extract_file_versions(children)
+    file_versions = []
+
+    children.each do |child|
+      if child['file_versions']
+        file_versions += child['file_versions']
+      end
+      if child['children']
+        file_versions += extract_file_versions(child['children'])
+      end
+    end
+
+    file_versions
+  end
+
 end

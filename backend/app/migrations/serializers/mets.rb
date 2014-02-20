@@ -1,69 +1,79 @@
 ASpaceExport::serializer :mets do
   
-  def build(mets, opts = {})
+  def build(data, opts = {})
 
     builder = Nokogiri::XML::Builder.new do |xml|
-      mets(mets, xml)     
+      mets(data, xml)     
     end   
     
     builder
   end
-  
-  def serialize(mets, opts = {})
 
-    builder = build(mets, opts)
+  
+  def serialize(data, opts = {})
+
+    builder = build(data, opts)
     
     builder.to_xml   
   end
   
+
   private
 
-  def mets(mets, xml)
-    xml.mets('xmlns' => 'http://www.loc.gov/METS/', 'xmlns:mods' => 'http://www.loc.gov/mods/v3', 'xmlns:xlink' => 'http://www.w3.org/1999/xlink'){
-      xml.metsHdr {
-        xml.agent(:ROLE => mets.header_agent_role, :TYPE => mets.header_agent_type) {
-          xml.name mets.header_agent_name
-          xml.note mets.header_agent_note
-        }
-        
+  def mets(data, xml)
+    xml.mets('xmlns' => 'http://www.loc.gov/METS/', 
+             'xmlns:mods' => 'http://www.loc.gov/mods/v3', 
+             'xmlns:xlink' => 'http://www.w3.org/1999/xlink',
+             'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",
+             'xsi:schemaLocation' => "http://www.loc.gov/standards/mets/mets.xsd"){
+      xml.metsHdr(:CREATEDATE => Time.now) {
+        xml.agent(:ROLE => data.header_agent_role, :TYPE => data.header_agent_type) {
+          xml.name data.header_agent_name
+          data.header_agent_notes.each do |note|
+            xml.note note
+          end
+        }        
       }
-      
-      xml.dmdSec(:ID => 'DMDSEC') {
-        mets.wrapped_dmd.each do |dmd|
-          xml.mdWrap(:MDTYPE => dmd['type']) {
-            xml.xmlData {
-              dmd['callback'].call(dmd['data'], xml) 
-            }
+
+      xml.dmdSec(:ID => data.dmd_id) {
+        xml.mdWrap(:MDTYPE => 'MODS') {
+          xml.xmlData {
+            ASpaceExport::Serializer.with_namespace('mods', xml) do
+              ASpaceExport.serializer(:mods)._mods(data.mods_model, xml)
+            end
           }
-        end
+        }            
       }
+
+      data.children.each do |component_data|
+        serialize_child_dmd(component_data, xml)
+      end
+
       
       xml.amdSec {
         
       }
 
       xml.fileSec { 
-        if mets.file_versions
-          serialize_files(mets.file_versions, xml)
+        data.with_file_groups do |file_group|
+          xml.fileGrp(:USE => file_group.use) {
+            file_group.with_files do |file|
+              xml.file(:ID => file.id, :GROUPID => file.group_id) {
+                xml.FLocat("xlink:href" => file.uri)
+              }
+            end
+          }
         end
-        
-        child_files(mets.children, xml)
-
-      }      
-      
-      xml.structMap {
-           
       }
-      
-      # xml.structLink {
-      #    
-      #  }
-      
-      # xml.behaviorSec {
-      #   
-      # }
+
+      xml.structMap(:TYPE => 'logical') {
+        serialize_logical_div(data.root_logical_div, xml)
+      }
+
+      xml.structMap(:TYPE => 'physical') {
+        serialize_physical_div(data.root_physical_div, xml)
+      }
     }
-      
   end
   
   def child_files(children, xml)    
@@ -74,7 +84,45 @@ ASpaceExport::serializer :mets do
       child_files(child.children, xml)
     end
   end
-    
+
+
+  def serialize_logical_div(div, xml)
+    xml.div(:ORDER => div.order,
+            :LABEL => div.label,
+            :TYPE => "item",
+            :DMDID => div.dmdid
+            ){
+      div.each_file_version do |fv|
+        xml.fptr(:FILEID => fv.id)
+      end
+      div.each_child do |child|
+        serialize_logical_div(child, xml)
+      end
+    }
+  end
+
+
+  def serialize_physical_div(div, xml)
+    if div.has_files?
+      xml.div(:ORDER => div.order,
+              :LABEL => div.label,
+              :TYPE => "item",
+              :DMDID => div.dmdid
+              ){
+        div.each_file_version do |fv|
+          xml.fptr(:FILEID => fv.id)
+        end
+        div.each_child do |child|
+          serialize_physical_div(child, xml)
+        end
+      }
+    else
+      div.each_child do |child|
+        serialize_physical_div(child, xml)
+      end
+    end
+  end
+
   
   def serialize_files(files, xml)
     @file_id ||= 0
@@ -90,6 +138,21 @@ ASpaceExport::serializer :mets do
       end
     }
   end
-    
-  
+
+
+  def serialize_child_dmd(component_data, xml)
+    xml.dmdSec(:ID => component_data.dmd_id) {
+      xml.mdWrap(:MDTYPE => 'MODS') {
+        xml.xmlData {
+          ASpaceExport::Serializer.with_namespace('mods', xml) do
+            ASpaceExport.serializer(:mods)._mods(component_data.mods_model, xml)
+          end
+        }
+      }
+    }
+    component_data.children.each do |child|
+      serialize_child_dmd(child, xml)
+    end
+  end
+
 end
