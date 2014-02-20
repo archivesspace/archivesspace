@@ -78,6 +78,7 @@ FactoryGirl.define do
   sequence(:date_lable) { sample(JSONModel(:date).schema['properties']['label']) }
 
   sequence(:multipart_note_type) { sample(JSONModel(:note_multipart).schema['properties']['type'])}
+  sequence(:digital_object_note_type) { sample(JSONModel(:note_digital_object).schema['properties']['type'])}
   sequence(:singlepart_note_type) { sample(JSONModel(:note_singlepart).schema['properties']['type'])}
   sequence(:note_index_type) { sample(JSONModel(:note_index).schema['properties']['type'])}
   sequence(:note_index_item_type) { sample(JSONModel(:note_index_item).schema['properties']['type'])}
@@ -109,8 +110,8 @@ FactoryGirl.define do
   sequence(:relator) { sample(JSONModel(:abstract_archival_object).schema['properties']['linked_agents']['items']['properties']['relator']) }
   sequence(:subject_source) { sample(JSONModel(:subject).schema['properties']['source']) }
 
-  sequence(:vocab_name) {|n| "Vocabulary #{generate(:generic_title)} #{n}" }
-  sequence(:vocab_refid) {|n| "vocab_ref_#{n}"}
+  sequence(:vocab_name) {|n| "Vocabulary #{generate(:generic_title)} #{n} - #{Time.now}" }
+  sequence(:vocab_refid) {|n| "vocab_ref_#{n} - #{Time.now}"}
 
   sequence(:downtown_address) { "#{rand(200)} #{%w(E W).sample} #{(4..9).to_a.sample}th Street" }
 
@@ -507,6 +508,11 @@ FactoryGirl.define do
   factory :json_note_multipart, class: JSONModel(:note_multipart) do
     type { generate(:multipart_note_type)}
     subnotes { [ build(:json_note_text) ] }
+  end
+
+  factory :json_note_digital_object, class: JSONModel(:note_digital_object) do
+    type { generate(:digital_object_note_type)}
+    content { [ generate(:string), generate(:string) ] }
   end
 
   factory :json_resource, class: JSONModel(:resource) do
