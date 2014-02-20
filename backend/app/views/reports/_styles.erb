@@ -1,15 +1,16 @@
 <style media="screen,print">
     /* ArchivesSpace Reporting Stylesheet */
   <% if params[:format] === "pdf" %>
-    @font-face {
-      font-family: "DejaVu Sans";
-      src: url('<%= @base_url %>/fonts/dejavu/DejaVuSans.ttf');
-      -fs-pdf-font-embed: embed;
-      -fs-pdf-font-encoding: Identity-H;
-    }
+    <% AppConfig[:report_pdf_font_paths].each do |font_path| %>
+      @font-face {
+        src: url('<%= font_path %>');
+        -fs-pdf-font-embed: embed;
+        -fs-pdf-font-encoding: Identity-H;
+      }
+    <% end %>
 
     body {
-      font-family: "DejaVu Sans", sans-serif;
+      font-family: <%= AppConfig[:report_pdf_font_family] %>;
     }
   <% else %>
     body {
