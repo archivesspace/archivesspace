@@ -1,11 +1,5 @@
 require_relative 'export_spec_helper'
 
-
-def get_mets(rec)
-  get_xml("/repositories/#{$repo_id}/digital_objects/mets/#{rec.id}.xml")
-end
-
-
 describe "Exported METS document" do
 
   before(:all) do

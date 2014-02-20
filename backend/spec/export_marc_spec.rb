@@ -1,11 +1,5 @@
 require_relative 'export_spec_helper'
 
-
-def get_marc(rec)
-  get_xml("/repositories/#{$repo_id}/resources/marc21/#{rec.id}.xml")
-end
-
-
 describe 'MARC Export' do
 
   describe "datafield 110 name mapping" do

@@ -1,20 +1,5 @@
 require_relative 'export_spec_helper'
 
-
-def get_eac(rec)
-  case rec.jsonmodel_type
-  when 'agent_person'
-    get_xml("/archival_contexts/people/#{rec.id}.xml")
-  when 'agent_corporate_entity'
-    get_xml("/archival_contexts/corporate_entities/#{rec.id}.xml")
-  when 'agent_family'
-    get_xml("/archival_contexts/families/#{rec.id}.xml")
-  when 'agent_software'
-    get_xml("/archival_contexts/softwares/#{rec.id}.xml")
-  end
-end
-
-
 describe 'EAC Export' do
 
   shared_examples "abstract agents" do
