@@ -64,17 +64,17 @@
   </target>
 
 
-  <target name="bundler" description="Run bundler against a gemfile" >
+  <target name="bundler" depends="set-classpath" description="Run bundler against a gemfile" >
     <property name="build.home" location="."/>
 
     <echo message="Fetching gems for ${gemfile}" />
 
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="HOME" value="${build.home}" />
-      <arg line="--1.9 gems/bin/bundle install --gemfile='${gemfile}'" />
+      <arg line="--1.9 gems/bin/bundle install --gemfile='${gemfile}' --no-deployment" />
     </java>
   </target>
 
@@ -463,6 +463,7 @@
     <mkdir dir="target/archivesspace/stylesheets" />
     <mkdir dir="target/archivesspace/plugins/aspace_feedback" />
     <mkdir dir="target/archivesspace/plugins/cat_in_a_box" />
+    <mkdir dir="target/archivesspace/plugins/newrelic" />
     <mkdir dir="target/archivesspace/plugins/refid_rules" />
     <mkdir dir="target/archivesspace/plugins/lcnaf" />
     <mkdir dir="target/archivesspace/plugins/local/indexer" />
@@ -514,6 +515,10 @@
       <fileset dir="../plugins/aspace_feedback"/>
     </copy>
 
+    <copy todir="target/archivesspace/plugins/newrelic">
+      <fileset dir="../plugins/newrelic"/>
+    </copy>
+
     <copy todir="target/archivesspace/plugins/cat_in_a_box">
       <fileset dir="../plugins/cat_in_a_box"/>
     </copy>
@@ -550,6 +555,8 @@
       <zipfileset dir="../launcher/scripts" includes="setup-database.bat" prefix="archivesspace/scripts" filemode="755" />
       <zipfileset dir="../launcher/tomcat" includes="configure-tomcat.sh" prefix="archivesspace/scripts" filemode="755" />
       <zipfileset dir="../launcher/tomcat" includes="configure-tomcat.bat" prefix="archivesspace/scripts" filemode="644" />
+      <zipfileset dir="../launcher/plugin_gems" includes="initialize-plugin.sh" prefix="archivesspace/scripts" filemode="755" />
+      <zipfileset dir="../launcher/plugin_gems" includes="initialize-plugin.bat" prefix="archivesspace/scripts" filemode="644" />
       <zipfileset dir="../launcher/password_reset" includes="password-reset.sh" prefix="archivesspace/scripts" filemode="755" />
       <zipfileset dir="../launcher/password_reset" includes="password-reset.bat" prefix="archivesspace/scripts" filemode="644" />
       <zipfileset dir="../launcher/backup" includes="backup.sh" prefix="archivesspace/scripts" filemode="755" />

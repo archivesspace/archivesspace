@@ -28,3 +28,9 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl'
 end
+
+
+# Allow plugins to provide their own Gemfiles too.
+#
+require 'asutils'
+ASUtils.load_plugin_gems(self)

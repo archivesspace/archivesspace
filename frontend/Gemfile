@@ -69,3 +69,9 @@ gem "zip-zip"
 # The frontend doesn't specifically depend on Nokogiri at the moment, but
 # several plugins use it.
 gem "nokogiri"
+
+
+# Allow plugins to provide their own Gemfiles too.
+#
+require 'asutils'
+ASUtils.load_plugin_gems(self)

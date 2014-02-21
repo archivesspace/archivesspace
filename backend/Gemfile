@@ -35,3 +35,9 @@ gem "rjack-jackson"
 
 gem "rubyzip", "1.0.0"
 gem "zip-zip"
+
+
+# Allow plugins to provide their own Gemfiles too.
+#
+require 'asutils'
+ASUtils.load_plugin_gems(self)

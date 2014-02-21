@@ -1,3 +1,5 @@
+require 'asutils'
+
 class ASpaceGems
 
   def self.setup
@@ -21,7 +23,19 @@ class ASpaceGems
 
     ENV['GEM_PATH'] = nil
     require "rubygems"
-    Gem.use_paths(nil, File.expand_path(ENV['GEM_HOME']))
+
+    gem_paths = [File.expand_path(ENV['GEM_HOME'])]
+
+    # Add plugin gem paths too
+    ASUtils.find_local_directories.each do |plugin|
+      gemdir = File.join(plugin, "gems")
+
+      if Dir.exists?(gemdir)
+        gem_paths << gemdir
+      end
+    end
+
+    Gem.use_paths(nil, gem_paths)
   end
 
 end

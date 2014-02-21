@@ -162,4 +162,14 @@ EOF
   end
 
 
+  def self.load_plugin_gems(context)
+    ASUtils.find_local_directories.each do |plugin|
+      gemfile = File.join(plugin, 'Gemfile')
+      if File.exists?(gemfile)
+        context.instance_eval(File.read(gemfile))
+      end
+    end
+  end
+
+
 end
