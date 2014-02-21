@@ -261,24 +261,4 @@ module TreeNodes
     end
   end
 
-
-
-  def descendant_ids
-    parent_set = [self.id]
-    last_size = -1
-
-    # Repeatedly expand the set of children until we have them all.
-    while true
-      new_parent_set = self.class.filter(:parent_id => parent_set).select(:id).all
-      parent_set.concat(new_parent_set.map {|row| row[:id]}).uniq!
-
-      if parent_set.length == last_size
-        return parent_set
-      else
-        last_size = parent_set.length
-      end
-    end
-  end
-
-
 end
