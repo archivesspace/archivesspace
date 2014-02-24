@@ -21,6 +21,9 @@
       <% end %>
       <div class="btn-toolbar pull-right">
         <div class="btn-group">
+          <% if user_can?('update_archival_record') && !record.suppressed %>
+            <%= render :partial => "shared/event_dropdown", :locals => {:record => record} %>
+          <% end %>
           <% if user_can?('suppress_archival_record') %>
             <div class="btn btn-inline-form">
               <% if record.suppressed %>
@@ -47,9 +50,6 @@
               <% end %>
             </div>
           <% end %>
-          <% if user_can?('update_archival_record') && !record.suppressed %>
-            <%= render :partial => "shared/event_dropdown", :locals => {:record => record} %>
-          <% end %>
           <% if user_can?('delete_archival_record') %>
             <div class="btn btn-inline-form">
               <%= button_delete_action url_for(:action => :delete, :id => record.id) %>
@@ -57,6 +57,7 @@
           <% end %>
         </div>
       </div>
+      <div class="clearfix"></div>
     </div>
   </div>
 </div>
