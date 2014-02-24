@@ -97,11 +97,12 @@ RSpec::Matchers.define :have_tag do |expected|
                 doc.xpath("//#{tag}")
               else
                 tag_frags = tag.gsub(/^\//, '').split('/')
-                tag = "xmlns:#{tag_frags.shift}"
+                path_root = tag_frags.shift
+                tag = path_root =~ /.+:.+/ ? path_root : "xmlns:#{path_root}"
                 selector = false
                 
                 tag_frags.each do |frag|
-        					join = selector ? '/' : '/xmlns:'
+        					join = (selector || frag =~ /.+:.+/) ? '/' : '/xmlns:'
         					tag << "#{join}#{frag}"
         					if frag =~ /\[[^\]]*$/
                     selector = true
