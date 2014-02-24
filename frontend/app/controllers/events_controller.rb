@@ -22,11 +22,11 @@ class EventsController < ApplicationController
       @event.event_type = params[:event_type]
     end    
 
-    if params.has_key?(:accession_uri)
+    if params.has_key?(:record_uri)
       @event.linked_records = []
       
-      accession = JSONModel(:accession).find_by_uri(params[:accession_uri])
-      @event.linked_records << {'ref' => accession.uri, '_resolved' => accession.to_hash, 'role' => 'source'}
+      record = JSONModel(params[:record_type]).find_by_uri(params[:record_uri])
+      @event.linked_records << {'ref' => record.uri, '_resolved' => record.to_hash, 'role' => 'source'}
       if request.referrer.end_with?("/edit")
         @redirect_action = 'edit'
       end

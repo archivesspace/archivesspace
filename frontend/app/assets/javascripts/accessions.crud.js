@@ -8,3 +8,4 @@
 //= require rights_statements.crud
 //= require form
 //= require transfer_dropdown
+//= require add_event_dropdown

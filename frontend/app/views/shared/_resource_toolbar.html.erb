@@ -36,6 +36,9 @@
       <% end %>
       <div class="btn-toolbar pull-right">
         <div class="btn-group">
+          <% if user_can?('update_archival_record') %>
+            <%= render :partial => "shared/event_dropdown", :locals => {:record => record} %>
+          <% end %>
           <div class="btn btn-inline-form">
             <%= button_confirm_action(I18n.t("actions.publish"),
                         url_for({:action => :publish, :id => record.id}),
