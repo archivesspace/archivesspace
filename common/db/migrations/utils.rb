@@ -29,6 +29,11 @@ module Sequel
 end
 
 
+def blobify(db, s)
+  (db.database_type == :derby) ? s.to_sequel_blob : s
+end
+
+
 def create_editable_enum(name, values, default = nil, opts = {})
   create_enum(name, values, default, true, opts)
 end

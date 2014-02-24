@@ -48,7 +48,7 @@ Sequel.migration do
       self[table].filter(Sequel.~(:notes => nil)).each_by_page do |row|
         ASUtils.json_parse(row[:notes]).each do |note|
           values = {
-            :notes => ASUtils.to_json(note),
+            :notes => blobify(self, ASUtils.to_json(note)),
             :publish => note['publish'] ? 1 : 0,
             :notes_json_schema_version => row[:notes_json_schema_version],
             fk_column => row[:id]
