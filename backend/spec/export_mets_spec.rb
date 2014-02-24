@@ -1,5 +1,11 @@
 require_relative 'export_spec_helper'
 
+# Background: These specs are the result of an attempt to interpret
+# mappings included in documentation for the Archivists' Toolkit. 
+# Where it was  possible to do so, they have been transposed from a 
+# file downloaded from:
+# http://archiviststoolkit.org/sites/default/files/ATexports_2008_10_08.xls
+
 describe "Exported METS document" do
 
   before(:all) do
