@@ -11,6 +11,8 @@ class EventsController < ApplicationController
 
   def show
     @event = JSONModel(:event).find(params[:id], find_opts)
+
+    flash.now[:info] = I18n.t("event._frontend.messages.suppressed_info") if @event.suppressed
   end
 
   def new
@@ -36,6 +38,10 @@ class EventsController < ApplicationController
 
   def edit
     @event = JSONModel(:event).find(params[:id], find_opts)
+
+    if @event.suppressed
+      redirect_to(:controller => :events, :action => :show, :id => params[:id])
+    end
   end
 
   def create
