@@ -47,6 +47,9 @@
               <% end %>
             </div>
           <% end %>
+          <% if user_can?('update_archival_record') %>
+            <%= render :partial => "shared/event_dropdown", :locals => {:record => record} %>
+          <% end %>
           <% if user_can?('delete_archival_record') %>
             <div class="btn btn-inline-form">
               <%= button_delete_action url_for(:action => :delete, :id => record.id) %>
