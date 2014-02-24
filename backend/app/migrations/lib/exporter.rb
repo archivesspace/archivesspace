@@ -103,7 +103,6 @@ module ASpaceExport
   end
 
 
-  # Abstract Export Model class
   class ExportModel
     def initialize
     end
