@@ -107,8 +107,11 @@ module ASpaceExport
     def initialize
     end
 
-    def apply_map(obj, map)
+    def apply_map(obj, map, opts = {})
+      fields_to_ignore = opts[:ignore] ||= []
+
       map.each do |as_field, handler|
+        next if fields_to_ignore.include? as_field
 
         fieldable = [as_field].flatten.reject { |asf| !obj.respond_to?(asf) }
 

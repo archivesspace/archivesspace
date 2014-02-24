@@ -43,8 +43,8 @@ describe "Exported METS document" do
 
     @mets = get_mets(@digital_object)
 
-    # puts "SOURCE: #{@digital_object.inspect}\n"
-    # puts "RESULT: #{@mets.to_xml}\n"
+    puts "SOURCE: #{@digital_object.inspect}\n"
+    puts "RESULT: #{@mets.to_xml}\n"
   end
 
   it "has the correct namespaces" do
@@ -81,9 +81,14 @@ describe "Exported METS document" do
 
     # TODO: Describe MODS and DC Mappings / Choice
     it "creates a dmdSec for the top-level digital object" do
-      @mets.should have_tag "dmdSec[@ID='#{@digital_object.id}']"
+      @mets.should have_tag "dmdSec[@ID='#{@digital_object.id}']/mdWrap/xmlData/mods:mods"
       @mets.should have_tag "dmdSec/mdWrap[@MDTYPE='MODS']"
       @mets.should_not have_tag "dmdSec/mdWrap[not(@MDTYPE)]"
+    end
+
+
+    it "doesn't traverse the tree to build out relatedItem tags" do
+      @mets.should_not have_tag "mods:mods/mods:relatedItem"
     end
 
 

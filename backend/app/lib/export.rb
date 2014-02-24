@@ -34,14 +34,14 @@ module ExportHelpers
 
 
   def generate_mets(id)
-    obj = resolve_references(DigitalObject.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects', 'tree'])
+    obj = resolve_references(DigitalObject.to_jsonmodel(id), ['repository::agent_representation', 'linked_agents', 'subjects', 'tree'])
     mets = ASpaceExport.model(:mets).from_digital_object(JSONModel(:digital_object).new(obj))
     ASpaceExport.serializer(:mets).serialize(mets)
   end
 
 
   def generate_mods(id)
-    obj = resolve_references(DigitalObject.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects', 'tree'])
+    obj = resolve_references(DigitalObject.to_jsonmodel(id), ['repository::agent_representation', 'linked_agents', 'subjects', 'tree'])
     mods = ASpaceExport.model(:mods).from_digital_object(JSONModel(:digital_object).new(obj))
     ASpaceExport.serializer(:mods).serialize(mods)
   end

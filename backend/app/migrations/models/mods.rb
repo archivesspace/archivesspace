@@ -62,7 +62,7 @@ ASpaceExport::model :mods do
   end
     
   
-  def self.from_digital_object(obj)
+  def self.from_digital_object(obj, opts = {})
     
     mods = self.from_archival_object(obj)
     
@@ -70,7 +70,7 @@ ASpaceExport::model :mods do
       mods.type_of_resource = obj.digital_object_type
     end
 
-    mods.apply_map(obj, @digital_object_map)
+    mods.apply_map(obj, @digital_object_map, opts)
 
     mods.repository_note = build_repo_note(obj.repository['_resolved'])
 

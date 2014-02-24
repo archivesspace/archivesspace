@@ -149,7 +149,7 @@ ASpaceExport::model :mets do
     mets.apply_map(obj, @digital_object_map)
 
     # wrapped DMD
-    mets.mods_model = ASpaceExport.model(:mods).from_digital_object(obj)
+    mets.mods_model = ASpaceExport.model(:mods).from_digital_object(obj, :ignore => [:tree])
     mets
   end
 

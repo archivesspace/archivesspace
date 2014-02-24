@@ -39,7 +39,7 @@ ASpaceExport::serializer :mets do
         xml.mdWrap(:MDTYPE => 'MODS') {
           xml.xmlData {
             ASpaceExport::Serializer.with_namespace('mods', xml) do
-              ASpaceExport.serializer(:mods)._mods(data.mods_model, xml)
+              ASpaceExport.serializer(:mods).serialize_mods(data.mods_model, xml)
             end
           }
         }            
@@ -145,7 +145,7 @@ ASpaceExport::serializer :mets do
       xml.mdWrap(:MDTYPE => 'MODS') {
         xml.xmlData {
           ASpaceExport::Serializer.with_namespace('mods', xml) do
-            ASpaceExport.serializer(:mods)._mods(component_data.mods_model, xml)
+            ASpaceExport.serializer(:mods).serialize_mods(component_data.mods_model, xml)
           end
         }
       }
