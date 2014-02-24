@@ -47,7 +47,7 @@
               <% end %>
             </div>
           <% end %>
-          <% if user_can?('update_archival_record') %>
+          <% if user_can?('update_archival_record') && !record.suppressed %>
             <%= render :partial => "shared/event_dropdown", :locals => {:record => record} %>
           <% end %>
           <% if user_can?('delete_archival_record') %>

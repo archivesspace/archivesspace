@@ -36,7 +36,7 @@
       <% end %>
       <div class="btn-toolbar pull-right">
         <div class="btn-group">
-          <% if user_can?('update_archival_record') %>
+          <% if user_can?('update_archival_record') && !record.suppressed %>
             <%= render :partial => "shared/event_dropdown", :locals => {:record => record} %>
           <% end %>
           <div class="btn btn-inline-form">
