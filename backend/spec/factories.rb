@@ -539,6 +539,12 @@ FactoryGirl.define do
     url { generate(:url) }
   end
 
+
+  factory :json_repo_with_agent, class: JSONModel(:repository_with_agent) do
+    repository { build(:json_repo) }
+    agent_representation { build(:json_agent_corporate_entity) }
+  end
+
   # may need factories for each rights type
   factory :json_rights_statement, class: JSONModel(:rights_statement) do
     rights_type 'intellectual_property'
