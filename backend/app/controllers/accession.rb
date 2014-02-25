@@ -12,20 +12,6 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.post('/repositories/:repo_id/accessions/:id/suppressed')
-    .description("Suppress this record")
-    .params(["id", :id],
-            ["suppressed", BooleanParam, "Suppression state"],
-            ["repo_id", :repo_id])
-    .permissions([:suppress_archival_record])
-    .returns([200, :suppressed]) \
-  do
-    sup_state = Accession.get_or_die(params[:id]).set_suppressed(params[:suppressed])
-
-    suppressed_response(params[:id], sup_state)
-  end
-
-
   Endpoint.post('/repositories/:repo_id/accessions')
     .description("Create an Accession")
     .params(["accession", JSONModel(:accession), "The record to create", :body => true],

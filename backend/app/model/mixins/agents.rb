@@ -6,7 +6,6 @@ module Agents
   def self.included(base)
     base.extend(ClassMethods)
     base.include(Relationships)
-    base.include(ExternalIDs)
 
     base.define_relationship(:name => :linked_agents,
                              :json_property => 'linked_agents',
@@ -66,6 +65,15 @@ module Agents
         def self.create(values)
           obj = super
           obj.apply_nested_records({:terms => values['terms']}, true)
+        end
+
+
+        def self.handle_delete(ids_to_delete)
+          self.db[:linked_agent_term].
+               filter(:linked_agents_rlshp_id => ids_to_delete).
+               delete
+
+          super
         end
 
 

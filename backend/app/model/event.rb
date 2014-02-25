@@ -24,6 +24,7 @@ class Event < Sequel::Model(:event)
                       :json_property => 'linked_records',
                       :contains_references_to_types => proc {[Accession, Resource, ArchivalObject, DigitalObject, AgentPerson, AgentCorporateEntity, AgentFamily, AgentSoftware, DigitalObjectComponent]},
                       :class_callback => proc { |clz|
+
                         clz.instance_eval do
                           include DynamicEnums
 
@@ -43,26 +44,6 @@ class Event < Sequel::Model(:event)
     end
 
     return false
-  end
-
-
-  # Look for events that link to a given record.  If we find any, consider
-  # suppressing them if they have no active linked records
-  def self.handle_suppressed(record)
-    events = instances_relating_to(record)
-
-    events.each do |event|
-      val = !event.has_active_linked_records?
-      event.set_suppressed(val)
-    end
-  end
-
-
-  def set_suppressed(suppress)
-    self.suppressed = (suppress ? 1 : 0)
-    save
-
-    suppress
   end
 
 

@@ -103,6 +103,13 @@ class Subject < Sequel::Model(:subject)
   end
 
 
+  def self.handle_delete(ids_to_delete)
+    self.db[:subject_term].filter(:subject_id => ids_to_delete).delete
+
+    super
+  end
+
+
   def validate
     super
 

@@ -4,6 +4,7 @@ class DigitalObjectsController < ApplicationController
                       "update_archival_record" => [:new, :edit, :create, :update, :publish, :accept_children, :rde, :add_children],
                       "delete_archival_record" => [:delete],
                       "merge_archival_record" => [:merge],
+                      "suppress_archival_record" => [:suppress, :unsuppress],
                       "transfer_archival_record" => [:transfer]
 
 
@@ -18,6 +19,9 @@ class DigitalObjectsController < ApplicationController
     if params[:inline]
       # only fetch the fully resolved record when rendering the full form
       @digital_object = JSONModel(:digital_object).find(params[:id], find_opts)
+
+      flash.now[:info] = I18n.t("digital_object._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:digital_object => @digital_object)) if @digital_object.suppressed
+
       return render :partial => "digital_objects/show_inline"
     end
 
@@ -43,6 +47,11 @@ class DigitalObjectsController < ApplicationController
     if params[:inline]
       # only fetch the fully resolved record when rendering the full form
       @digital_object = JSONModel(:digital_object).find(params[:id], find_opts)
+
+      if @digital_object.suppressed
+        return redirect_to(:action => :show, :id => params[:id], :inline => params[:inline])
+      end
+
       return render :partial => "digital_objects/edit_inline"
     end
 
@@ -176,6 +185,25 @@ class DigitalObjectsController < ApplicationController
 
     render :partial => "shared/rde"
   end
+
+
+  def suppress
+    digital_object = JSONModel(:digital_object).find(params[:id])
+    digital_object.set_suppressed(true)
+
+    flash[:success] = I18n.t("digital_object._frontend.messages.suppressed", JSONModelI18nWrapper.new(:digital_object => digital_object))
+    redirect_to(:controller => :digital_objects, :action => :show, :id => params[:id])
+  end
+
+
+  def unsuppress
+    digital_object = JSONModel(:digital_object).find(params[:id])
+    digital_object.set_suppressed(false)
+
+    flash[:success] = I18n.t("digital_object._frontend.messages.unsuppressed", JSONModelI18nWrapper.new(:digital_object => digital_object))
+    redirect_to(:controller => :digital_objects, :action => :show, :id => params[:id])
+  end
+
 
   private
 

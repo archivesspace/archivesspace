@@ -56,12 +56,10 @@ describe 'Family agent controller' do
 
 
   it "can give a list of family agents" do
-    create_family
-    create_family
-    create_family
-    create_family
+    uris = (1...4).map {|_| create_family.uri}
+    results = JSONModel(:agent_family).all(:page => 1)['results'].map {|rec| rec['uri']}
 
-    JSONModel(:agent_family).all(:page => 1)['results'].count.should eq(4)
+    (uris - results).length.should eq(0)
   end
 
 end

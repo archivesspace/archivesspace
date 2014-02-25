@@ -42,6 +42,8 @@
 # We'll create a concrete instance of this class for each defined relationship.
 AbstractRelationship = Class.new(Sequel::Model) do
 
+  include ObjectGraph
+
   # Create a relationship instance between two objects with a defined set of properties.
   def self.relate(obj1, obj2, properties)
     columns = if obj1.class == obj2.class
@@ -169,6 +171,22 @@ AbstractRelationship = Class.new(Sequel::Model) do
   end
 
 
+  def self.find_by_participant_ids(participant_model, participant_ids)
+    result = []
+
+    return result if participant_ids.empty?
+    reference_columns = self.reference_columns_for(participant_model)
+
+    reference_columns.each do |col|
+      self.filter(col => participant_ids).each do |relationship|
+        result << relationship
+      end
+    end
+
+    result
+  end
+
+
   # Return a mapping of records and the relationships they participate in.
   # Input is a list like:
   #
@@ -224,6 +242,24 @@ AbstractRelationship = Class.new(Sequel::Model) do
     }
   end
 
+
+  def self.handle_suppressed(ids, val)
+    ASModel.update_suppressed_flag(self.filter(:id => ids), val)
+  end
+
+
+  def self.handle_delete(ids)
+    self.filter(:id => ids).delete
+  end
+
+
+  def self.my_jsonmodel(ok_if_missing = false)
+    raise("No corresponding JSONModel set for model #{self.inspect}") unless ok_if_missing
+  end
+
+  def self.publishable?
+    self.columns.include?(:publish)
+  end
 
   # The properties for this relationship instance
   def properties
@@ -373,6 +409,28 @@ module Relationships
 
 
   module ClassMethods
+
+
+    def calculate_object_graph(object_graph, opts = {})
+      # For each relationship involving a resource
+      self.relationships.each do |relationship_defn|
+        # Find any relationship of this type involving any record mentioned in
+        # object graph
+
+        object_graph.each do |model, id_list|
+          next unless relationship_defn.participating_models.include?(model)
+
+          linked_relationships = relationship_defn.find_by_participant_ids(model, id_list).map {|row|
+            row[:id]
+          }
+
+          object_graph.add_objects(relationship_defn, linked_relationships)
+        end
+      end
+
+      super
+    end
+
 
     # Reset relationship definitions for the current class
     def clear_relationships
@@ -564,6 +622,8 @@ module Relationships
                         end
 
         json[property_name] = relationships.map {|relationship|
+          next if RequestContext.get(:enforce_suppression) && relationship.suppressed == 1
+
           # Return the relationship properties, plus the URI reference of the
           # related object
           values = ASUtils.keys_as_strings(relationship.properties)
@@ -599,19 +659,6 @@ module Relationships
     def transfer(relationship_name, target, victims)
       relationship = find_relationship(relationship_name)
       relationship.transfer(target, victims)
-    end
-
-
-    def prepare_for_deletion(dataset)
-      dataset.select(:id).each do |obj|
-        # Delete all the relationships created against this object
-        delete_existing_relationships(obj, true, true)
-        dependent_models.each do |model|
-          model.delete_existing_relationships(obj, true, true) if model != self
-        end
-      end
-
-      super
     end
 
 

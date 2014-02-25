@@ -331,6 +331,9 @@ en:
         transfer_success: Successfully transferred Archival Object <strong>%{archival_object.display_string}</strong> to Resource <strong>%{resource.title}</strong>
         transfer_error: "Unable to transfer Archival Object due to an error or conflict: <pre>%{exception}</pre>"
         deleted: "Archival Object <strong>%{archival_object.display_string}</strong> deleted"
+        unsuppressed: Archival Object <strong>%{archival_object.title}</strong> unsuppressed
+        suppressed: Archival Object <strong>%{archival_object.title}</strong> suppressed
+        suppressed_info: Archival Object is suppressed and cannot be edited
       section:
         basic_information: Basic Information
       action:
@@ -411,6 +414,9 @@ en:
         merged: Digital object(s) Merged
         transfer_description: Transfer this resource to...
         transfer_target: Select a repository to transfer into
+        unsuppressed: Digital Object <strong>%{digital_object.title}</strong> unsuppressed
+        suppressed: Digital Object <strong>%{digital_object.title}</strong> suppressed
+        suppressed_info: Digital Object is suppressed and cannot be edited
       section:
         basic_information: Basic Information
       action:
@@ -427,6 +433,9 @@ en:
         updated_with_parent: Digital Object Component <strong>%{digital_object_component.display_string}</strong> updated
         updated: Digital Object Component <strong>%{digital_object_component.display_string}</strong> updated
         deleted: Digital Object Component <strong>%{digital_object_component.display_string}</strong> deleted
+        unsuppressed: Digital Object Component <strong>%{digital_object_component.display_string}</strong> unsuppressed
+        suppressed: Digital Object Component <strong>%{digital_object_component.display_string}</strong> suppressed
+        suppressed_info: Digital Object Component is suppressed and cannot be edited
       section:
         basic_information: Basic Information
       action:
@@ -627,6 +636,9 @@ en:
         merged: Resource(s) Merged
         transfer_description: Transfer this resource to...
         transfer_target: Select a repository to transfer into
+        unsuppressed: Resource <strong>%{resource.title}</strong> unsuppressed
+        suppressed: Resource <strong>%{resource.title}</strong> suppressed
+        suppressed_info: Resource is suppressed and cannot be edited
       section:
         basic_information: Basic Information
         finding_aid: Finding Aid Data

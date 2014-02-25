@@ -140,17 +140,18 @@ module TreeNodes
   end
 
 
-  def publish!
-    children.each do |child|
-      child.publish!
-    end
-
-    super
+  def has_children?
+    self.class.filter(:parent_id => self.id).count > 0
   end
 
 
-  def has_children?
-    self.class.filter(:parent_id => self.id).count > 0
+  def transfer_to_repository(repository, transfer_group = [])
+    # All records under this one will be transferred too
+    children.select(:id).each do |child|
+      child.transfer_to_repository(repository, transfer_group + [self])
+    end
+
+    super
   end
 
 
@@ -244,26 +245,20 @@ module TreeNodes
     end
 
 
-    def prepare_for_deletion(dataset)
-      dataset.select(:id).each do |record|
-        self.filter(:parent_id => record.id).select(:id).each do |victim|
-          victim.delete
-        end
+    def calculate_object_graph(object_graph, opts = {})
+      object_graph.each do |model, id_list|
+        next if self != model
+
+        ids = self.any_repo.filter(:parent_id => id_list).
+                   select(:id).map {|row|
+          row[:id]
+        }
+
+        object_graph.add_objects(self, ids)
       end
 
       super
     end
-
-  end
-
-
-  def transfer_to_repository(repository, transfer_group = [])
-    # All records under this one will be transferred too
-    children.select(:id).each do |child|
-      child.transfer_to_repository(repository, transfer_group + [self])
-    end
-
-    super
   end
 
 end

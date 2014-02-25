@@ -34,15 +34,6 @@ module Trees
   end
 
 
-  def publish!
-    children.each do |child|
-      child.publish!
-    end
-
-    super
-  end
-
-
   def build_node_query
     self.class.node_model.this_repo.filter(:root_record_id => self.id)
   end
@@ -175,6 +166,16 @@ module Trees
   end
 
 
+  def transfer_to_repository(repository, transfer_group = [])
+    # All records under this one will be transferred too
+    children.select(:id).each do |child|
+      child.transfer_to_repository(repository, transfer_group + [self])
+    end
+
+    super
+  end
+
+
 
   module ClassMethods
 
@@ -225,27 +226,20 @@ module Trees
     end
 
 
-    def prepare_for_deletion(dataset)
-      dataset.select(:id).each do |record|
-        node_model.this_repo.filter(:root_record_id => record.id,
-                                    :parent_id => nil).
-                             select(:id).each do |child|
-          child.delete
-        end
+    def calculate_object_graph(object_graph, opts = {})
+      object_graph.each do |model, id_list|
+        next if self != model
+
+        ids = node_model.any_repo.filter(:root_record_id => id_list).
+                         select(:id).map {|row|
+          row[:id]
+        }
+
+        object_graph.add_objects(node_model, ids)
       end
 
       super
     end
-  end
-
-
-  def transfer_to_repository(repository, transfer_group = [])
-    # All records under this one will be transferred too
-    children.select(:id).each do |child|
-      child.transfer_to_repository(repository, transfer_group + [self])
-    end
-
-    super
   end
 
 end

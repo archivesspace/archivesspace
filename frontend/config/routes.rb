@@ -53,6 +53,8 @@ ArchivesSpace::Application.routes.draw do
     match 'archival_objects/:id/rde' => 'archival_objects#rde', :via => [:get]
     match 'archival_objects/:id/add_children' => 'archival_objects#add_children', :via => [:post]
     match 'archival_objects/:id/accept_children' => 'archival_objects#accept_children', :via => [:post]
+    match 'archival_objects/:id/suppress' => 'archival_objects#suppress', :via => [:post]
+    match 'archival_objects/:id/unsuppress' => 'archival_objects#unsuppress', :via => [:post]
 
     resources :digital_objects
     match 'digital_objects/:id/download_dc' => 'exports#download_dc', :via => [:get]
@@ -67,6 +69,8 @@ ArchivesSpace::Application.routes.draw do
     match 'digital_objects/:id/tree' => 'digital_objects#tree', :via => [:get]
     match 'digital_objects/:id/rde' => 'digital_objects#rde', :via => [:get]
     match 'digital_objects/:id/add_children' => 'digital_objects#add_children', :via => [:post]
+    match 'digital_objects/:id/suppress' => 'digital_objects#suppress', :via => [:post]
+    match 'digital_objects/:id/unsuppress' => 'digital_objects#unsuppress', :via => [:post]
 
     match 'digital_object_components/validate_rows' => 'digital_object_components#validate_rows', :via => [:post]
     resources :digital_object_components
@@ -75,6 +79,8 @@ ArchivesSpace::Application.routes.draw do
     match 'digital_object_components/:id/accept_children' => 'digital_object_components#accept_children', :via => [:post]
     match 'digital_object_components/:id/rde' => 'digital_object_components#rde', :via => [:get]
     match 'digital_object_components/:id/add_children' => 'digital_object_components#add_children', :via => [:post]
+    match 'digital_object_components/:id/suppress' => 'digital_object_components#suppress', :via => [:post]
+    match 'digital_object_components/:id/unsuppress' => 'digital_object_components#unsuppress', :via => [:post]
 
     resources :resources
     match 'resources/:id/container_labels' => 'exports#container_labels', :via => [:get]
@@ -89,6 +95,8 @@ ArchivesSpace::Application.routes.draw do
     match 'resources/:id/merge' => 'resources#merge', :via => [:post]
     match 'resources/:id/transfer' => 'resources#transfer', :via => [:post]
     match 'resources/:id/tree' => 'resources#tree', :via => [:get]
+    match 'resources/:id/suppress' => 'resources#suppress', :via => [:post]
+    match 'resources/:id/unsuppress' => 'resources#unsuppress', :via => [:post]
 
     resources :classifications
     match 'classifications/:id' => 'classifications#update', :via => [:post]

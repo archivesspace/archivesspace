@@ -1,43 +1,53 @@
 module Notes
 
   def self.included(base)
+    base.one_to_many :note
+
     base.extend(ClassMethods)
   end
 
 
   def update_from_json(json, opts = {}, apply_nested_records = true)
-    super(json,
-          opts.merge('notes' => JSON(json.notes),
-                     'notes_json_schema_version' => json.class.schema_version),
-          apply_nested_records)
+    obj = super
+    self.class.apply_notes(obj, json)
   end
 
-
-  def publish!
-    updated_notes = ASUtils.json_parse(self.notes || "[]")
-    if not updated_notes.empty?
-      updated_notes.each do |note|
-        note["publish"] = true
-      end
-
-      self.notes = JSON(updated_notes)
-    end
-
-    super
-  end
 
 
   module ClassMethods
 
+
+    def apply_notes(obj, json)
+      obj.note_dataset.delete
+
+      json.notes.each do |note|
+        publish = note['publish'] ? 1 : 0
+        note.delete('publish')
+
+        note_obj = Note.create(:notes_json_schema_version => json.class.schema_version,
+                               :publish => publish,
+                               :lock_version => 0,
+                               :notes => JSON(note))
+
+        obj.add_note(note_obj)
+      end
+
+      obj
+    end
+
+
     def create_from_json(json, opts = {})
-      super(json, opts.merge('notes' => JSON(json.notes),
-                             'notes_json_schema_version' => json.class.schema_version))
+      obj = super
+      apply_notes(obj, json)
     end
 
 
     def sequel_to_jsonmodel(obj, opts = {})
-      notes = ASUtils.json_parse(obj.notes || "[]")
-      obj[:notes] = nil
+      notes = Array(obj.note.sort_by {|note| note[:id]}).map {|note|
+        parsed = ASUtils.json_parse(note.notes)
+        parsed['publish'] = (note.publish == 1)
+        parsed
+      }
 
       json = super
 
@@ -64,6 +74,17 @@ module Notes
       json
     end
 
-  end
 
+    def calculate_object_graph(object_graph, opts = {})
+      super
+
+      column = "#{self.table_name}_id".intern
+
+      ids = Note.filter(column => object_graph.ids_for(self)).
+                 map {|row| row[:id]}
+
+      object_graph.add_objects(Note, ids)
+    end
+
+  end
 end

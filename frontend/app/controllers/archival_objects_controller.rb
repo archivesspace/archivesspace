@@ -2,6 +2,7 @@ class ArchivalObjectsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show, :generate_sequence],
                       "update_archival_record" => [:new, :edit, :create, :update, :transfer, :rde, :add_children, :accept_children, :validate_rows],
+                      "suppress_archival_record" => [:suppress, :unsuppress],
                       "delete_archival_record" => [:delete]
 
 
@@ -19,6 +20,11 @@ class ArchivalObjectsController < ApplicationController
 
   def edit
     @archival_object = JSONModel(:archival_object).find(params[:id], find_opts)
+
+    if @archival_object.suppressed
+      return redirect_to(:action => :show, :id => params[:id], :inline => params[:inline])
+    end
+
     render :partial => "archival_objects/edit_inline" if inline?
   end
 
@@ -73,6 +79,9 @@ class ArchivalObjectsController < ApplicationController
   def show
     @resource_id = params['resource_id']
     @archival_object = JSONModel(:archival_object).find(params[:id], find_opts)
+
+    flash.now[:info] = I18n.t("archival_object._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:archival_object => @archival_object)) if @archival_object.suppressed
+
     render :partial => "archival_objects/show_inline" if inline?
   end
 
@@ -179,5 +188,22 @@ class ArchivalObjectsController < ApplicationController
     render :json => aoc.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
   end
 
+
+  def suppress
+    archival_object = JSONModel(:archival_object).find(params[:id])
+    archival_object.set_suppressed(true)
+
+    flash[:success] = I18n.t("archival_object._frontend.messages.suppressed", JSONModelI18nWrapper.new(:archival_object => archival_object))
+    redirect_to(:controller => :resources, :action => :show, :id => JSONModel(:resource).id_for(archival_object['resource']['ref']), :anchor => "tree::archival_object_#{params[:id]}")
+  end
+
+
+  def unsuppress
+    archival_object = JSONModel(:archival_object).find(params[:id])
+    archival_object.set_suppressed(false)
+
+    flash[:success] = I18n.t("archival_object._frontend.messages.unsuppressed", JSONModelI18nWrapper.new(:archival_object => archival_object))
+    redirect_to(:controller => :resources, :action => :show, :id => JSONModel(:resource).id_for(archival_object['resource']['ref']), :anchor => "tree::archival_object_#{params[:id]}")
+  end
 
 end

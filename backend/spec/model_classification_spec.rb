@@ -99,6 +99,7 @@ describe 'Classification models' do
                                        :identifier => "same IDs",
                                        :parent => {'ref' => term1.uri})
 
+
     expect {
       classification.delete
     }.to_not raise_error

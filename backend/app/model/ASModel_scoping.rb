@@ -1,5 +1,19 @@
 module ASModel
   # Code that keeps the records of different repositories isolated and hiding suppressed records.
+
+  def self.update_suppressed_flag(dataset, val)
+    dataset.update(:suppressed => (val ? 1 : 0),
+                   :system_mtime => Time.now)
+  end
+
+
+  def self.update_publish_flag(dataset, val)
+    dataset.update(:publish => (val ? 1 : 0),
+                   :system_mtime => Time.now)
+  end
+
+
+
   module ModelScoping
 
     def self.included(base)
@@ -10,6 +24,37 @@ module ASModel
     def uri
       # Bleh!
       self.class.uri_for(self.class.my_jsonmodel.record_type, self.id)
+    end
+
+
+    def set_suppressed(val)
+      unless self.class.suppressible?
+        raise "Suppression not supported for this class: #{self.class.inspect}"
+      end
+
+      object_graph = self.object_graph
+
+      object_graph.each do |model, ids_to_change|
+        model.handle_suppressed(ids_to_change, val)
+      end
+
+      RequestContext.open(:enforce_suppression => false) do
+        self.class.fire_update(self.class.to_jsonmodel(self.id), self)
+      end
+
+      val
+    end
+
+
+    # Mixins will hook in here to add their own publish actions.
+    def publish!
+      object_graph = self.object_graph
+
+      object_graph.each do |model, ids|
+        next unless model.publishable?
+
+        model.handle_publish_flag(ids, true)
+      end
     end
 
 
@@ -28,6 +73,23 @@ module ASModel
       def suppressible?
         @suppressible
       end
+
+      def handle_suppressed(ids, val)
+        if suppressible?
+          self.filter(:id => ids).update(:suppressed => val ? 1 : 0)
+        end
+      end
+
+
+      def publishable?
+        self.columns.include?(:publish)
+      end
+
+
+      def handle_publish_flag(ids, val)
+        ASModel.update_publish_flag(model.filter(:id => ids), val)
+      end
+
 
       def set_model_scope(value)
         if ![:repository, :global].include?(value)

@@ -220,17 +220,21 @@ module RESTHelpers
           end
 
           DB.open((use_transaction == :unspecified) ? true : use_transaction) do
-
             RequestContext.put(:current_username, current_user.username)
 
             # If the current user is a manager, show them suppressed records
             # too.
             if RequestContext.get(:repo_id)
-              RequestContext.put(:enforce_suppression,
-                                 !((current_user.can?(:manage_repository) ||
-                                    current_user.can?(:view_suppressed) ||
-                                    current_user.can?(:suppress_archival_record)) &&
-                                   Preference.defaults['show_suppressed']))
+              if current_user.can?(:index_system)
+                # Don't mess with the search user
+                RequestContext.put(:enforce_suppression, false)
+              else
+                RequestContext.put(:enforce_suppression,
+                                   !((current_user.can?(:manage_repository) ||
+                                      current_user.can?(:view_suppressed) ||
+                                      current_user.can?(:suppress_archival_record)) &&
+                                     Preference.defaults['show_suppressed']))
+              end
             end
 
             self.instance_eval &block

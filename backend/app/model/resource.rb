@@ -22,6 +22,8 @@ class Resource < Sequel::Model(:resource)
   include Classifications
   include Events
 
+  enable_suppression
+
   tree_record_types :resource, :archival_object
 
   agent_role_enum("linked_agent_role")

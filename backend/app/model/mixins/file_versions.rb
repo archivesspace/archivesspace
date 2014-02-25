@@ -1,13 +1,5 @@
 module FileVersions
 
-  def publish!
-    self.file_version.each do |version|
-      version.publish!
-    end
-
-    super
-  end
-
   def self.included(base)
     base.one_to_many :file_version
 

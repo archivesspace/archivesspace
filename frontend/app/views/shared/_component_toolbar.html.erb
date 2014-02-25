@@ -1,30 +1,58 @@
 <div class="row-fluid">
   <div class="span12">
     <div class="record-toolbar">
-      <% if !['edit', 'update', 'create'].include?(controller.action_name) %>
-        <div class="btn-group pull-left">
-          <%= link_to I18n.t("actions.edit"), parent_link, :class => "btn btn-small btn-primary" %>
-        </div>
-      <% end %>
-      <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
-        <div class="pull-left save-changes">
-          <button type="submit" class="btn btn-primary btn-small"><%= I18n.t("actions.save_prefix") %></button>
-        </div>
-      <% end %>
-      <% if ['edit', 'update'].include?(controller.action_name) %>
-        <div class="pull-left revert-changes">
-          <%= link_to I18n.t("actions.revert"), parent_link, :class => "btn btn-small" %>
-          <%= I18n.t("actions.toolbar_disabled_message") %>
-        </div>
+      <% if !record.suppressed %>
+        <% if !['edit', 'update', 'create'].include?(controller.action_name) %>
+          <div class="btn-group pull-left">
+            <%= link_to I18n.t("actions.edit"), parent_link, :class => "btn btn-small btn-primary" %>
+          </div>
+        <% end %>
+        <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
+          <div class="pull-left save-changes">
+            <button type="submit" class="btn btn-primary btn-small"><%= I18n.t("actions.save_prefix") %></button>
+          </div>
+        <% end %>
+        <% if ['edit', 'update'].include?(controller.action_name) %>
+          <div class="pull-left revert-changes">
+            <%= link_to I18n.t("actions.revert"), parent_link, :class => "btn btn-small" %>
+            <%= I18n.t("actions.toolbar_disabled_message") %>
+          </div>
+        <% end %>
       <% end %>
       <div class="btn-toolbar pull-right">
-        <% if user_can?('delete_archival_record') %>
-          <div class="btn-group">
+        <div class="btn-group">
+          <% if user_can?('suppress_archival_record') %>
+            <div class="btn btn-inline-form">
+              <% if record.suppressed %>
+                <%= button_confirm_action I18n.t("actions.unsuppress"),
+                                          url_for(:action => :unsuppress, :id => record.id),
+                                          {
+                                            :class => "btn btn-small unsuppress-record",
+                                            :"data-title" => I18n.t("actions.unsuppress_confirm_title"),
+                                            :"data-message" => I18n.t("actions.unsuppress_confirm_message"),
+                                            :"data-confirm-btn-label" => "#{I18n.t("actions.unsuppress")}"
+                                          }
+                %>
+              <% else %>
+                <%= button_confirm_action I18n.t("actions.suppress"),
+                                          url_for(:action => :suppress, :id => record.id),
+                                          {
+                                            :class => "btn btn-small btn-warning suppress-record",
+                                            :"data-title" => I18n.t("actions.suppress_confirm_title"),
+                                            :"data-message" => I18n.t("actions.suppress_confirm_message"),
+                                            :"data-confirm-btn-label" => "#{I18n.t("actions.suppress")}",
+                                            :"data-confirm-btn-class" => "btn-warning"
+                                          }
+                %>
+              <% end %>
+            </div>
+          <% end %>
+          <% if user_can?('delete_archival_record') %>
             <div class="btn btn-inline-form">
               <%= button_delete_action url_for(:action => :delete, :id => record.id) %>
             </div>
-          </div>
-      <% end %>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
