@@ -172,8 +172,6 @@ class ArchivesSpaceService < Sinatra::Base
 
       Notifications.notify("BACKEND_STARTED")
 
-      # Setup public static file sharing
-      set :public_folder, Proc.new { File.join(File.dirname(__FILE__), "static") }
     rescue
       ASUtils.dump_diagnostics($!)
     end
