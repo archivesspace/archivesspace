@@ -78,8 +78,6 @@ module Notes
     def calculate_object_graph(object_graph, opts = {})
       super
 
-      return unless opts[:include_nested]
-
       column = "#{self.table_name}_id".intern
 
       ids = Note.filter(column => object_graph.ids_for(self)).

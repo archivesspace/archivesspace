@@ -228,7 +228,7 @@ module ASModel
     # Delete the current record using Sequel's delete method, but clean up
     # dependencies first.
     def delete
-      object_graph = self.object_graph(:include_nested => true)
+      object_graph = self.object_graph
 
       deleted_uris = []
 
@@ -280,7 +280,7 @@ module ASModel
 
     # Mixins will hook in here to add their own publish actions.
     def publish!
-      object_graph = self.object_graph(:include_nested => true)
+      object_graph = self.object_graph
 
       object_graph.each do |model, ids|
         next unless model.publishable?

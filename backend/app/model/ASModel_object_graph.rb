@@ -116,8 +116,6 @@ module ObjectGraph
   def object_graph(opts = {})
     graph = ObjectGraph.new(self.class => [self.id])
 
-    opts = {:include_nested => true}.merge(opts)
-
     while true
       version = graph.version
 
@@ -136,22 +134,20 @@ module ObjectGraph
 
     def calculate_object_graph(object_graph, opts = {})
 
-      if opts[:include_nested]
-        object_graph.models.each do |model|
-          next unless model.respond_to?(:nested_records)
-          model.nested_records.each do |nr|
-            association =  nr[:association]
+      object_graph.models.each do |model|
+        next unless model.respond_to?(:nested_records)
+        model.nested_records.each do |nr|
+          association =  nr[:association]
 
-            if association[:type] != :many_to_many
-              nested_model = Kernel.const_get(association[:class_name])
+          if association[:type] != :many_to_many
+            nested_model = Kernel.const_get(association[:class_name])
 
-              ids = nested_model.filter(association[:key] => object_graph.ids_for(model)).
-                                 select(:id).map {|row|
-                row[:id]
-              }
+            ids = nested_model.filter(association[:key] => object_graph.ids_for(model)).
+                               select(:id).map {|row|
+              row[:id]
+            }
 
-              object_graph.add_objects(nested_model, ids)
-            end
+            object_graph.add_objects(nested_model, ids)
           end
         end
       end
