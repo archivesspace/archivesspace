@@ -36,12 +36,12 @@ class Solr
 
 
     def self.create_advanced_search(advanced_query_json)
-      new(construct_advanced_query(advanced_query_json['query'])).
+      new(construct_advanced_query_string(advanced_query_json['query'])).
         use_standard_query_type
     end
 
 
-    def construct_advanced_query_string(advanced_query)
+    def self.construct_advanced_query_string(advanced_query)
       if advanced_query.has_key?('subqueries')
         subqueries = advanced_query['subqueries'].map {|subq|
           construct_advanced_query_string(subq)
