@@ -12,7 +12,7 @@ To configure your own font:
 
 2. In the `config/config.rb`, modify the following configuration settings to refer to your new font:
 
-     AppConfig[:report_pdf_font_paths] = proc { ["#{AppConfig[:backend_url]}/reports/static/fonts/myfont.ttf"] }
-     AppConfig[:report_pdf_font_family] = "My Font"
+        AppConfig[:report_pdf_font_paths] = proc { ["#{AppConfig[:backend_url]}/reports/static/fonts/myfont.ttf"] }
+        AppConfig[:report_pdf_font_family] = "My Font"
 
 3. Restart your application for the new configuration settings to apply.
