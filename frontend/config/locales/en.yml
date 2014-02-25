@@ -522,6 +522,7 @@ en:
       messages:
         created: Location Created
         updated: Location Saved
+        deleted: Location Deleted
       section:
         basic_information: Basic Information
         search_embedded: Linked Records

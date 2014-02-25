@@ -231,7 +231,7 @@ class CommonIndexer
     }
 
     add_document_prepare_hook {|doc, record|
-      if ['resource', 'archival_object'].include?(doc['primary_type']) && record['record']['instances'] && record['record']['instances'].length > 0
+      if ['resource', 'archival_object', 'accession'].include?(doc['primary_type']) && record['record']['instances'] && record['record']['instances'].length > 0
         doc['location_uris'] = record['record']['instances'].
                                   collect{|instance| instance["container"]}.compact.
                                   collect{|container| container["container_locations"]}.flatten.

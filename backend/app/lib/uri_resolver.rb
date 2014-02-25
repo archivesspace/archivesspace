@@ -44,7 +44,9 @@ module URIResolver
 
             resolved = (v.is_a?(Array) ? v : [v]).map {|elt|
               resolve_reference(elt, env).tap do |r|
-                r['_resolved'] = resolve_references_helper(r['_resolved'], subproperties, env)
+                if r.is_a?(Hash) && r.has_key?('ref')
+                  r['_resolved'] = resolve_references_helper(r['_resolved'], subproperties, env)
+                end
               end
             }
 
