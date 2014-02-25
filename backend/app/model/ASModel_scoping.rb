@@ -46,6 +46,18 @@ module ASModel
     end
 
 
+    # Mixins will hook in here to add their own publish actions.
+    def publish!
+      object_graph = self.object_graph
+
+      object_graph.each do |model, ids|
+        next unless model.publishable?
+
+        model.handle_publish_flag(ids, true)
+      end
+    end
+
+
     module ClassMethods
 
       def enable_suppression
@@ -67,6 +79,17 @@ module ASModel
           self.filter(:id => ids).update(:suppressed => val ? 1 : 0)
         end
       end
+
+
+      def publishable?
+        self.columns.include?(:publish)
+      end
+
+
+      def handle_publish_flag(ids, val)
+        ASModel.update_publish_flag(model.filter(:id => ids), val)
+      end
+
 
       def set_model_scope(value)
         if ![:repository, :global].include?(value)
