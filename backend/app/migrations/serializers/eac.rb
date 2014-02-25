@@ -72,13 +72,6 @@ ASpaceExport::serializer :eac do
         # }
       }
     
-      json.external_ids.each do |e|
-        local_source = e['source'] ? {:localType => e['source']} : nil
-        xml.otherRecordId(local_source) {
-          xml.text e['external_id']
-        }
-      end
-    
     } 
         
   end
