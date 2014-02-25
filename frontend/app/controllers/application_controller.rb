@@ -2,6 +2,8 @@ require 'asconstants'
 require 'memoryleak'
 require 'search'
 
+require 'lib/jsoup-1.7.2.jar'
+
 class ApplicationController < ActionController::Base
   protect_from_forgery
 

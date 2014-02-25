@@ -109,7 +109,7 @@ END
 
 
     def convert_test_file
-      converter = MarcXMLConverter.new(File.expand_path("../app/migrations/examples/marc/at-tracer-marc-1.xml", File.dirname(__FILE__)))
+      converter = MarcXMLConverter.new(File.expand_path("../app/exporters/examples/marc/at-tracer-marc-1.xml", File.dirname(__FILE__)))
       converter.run
       parsed = JSON(IO.read(converter.get_output_path))
 
@@ -342,7 +342,7 @@ END
 
 
   it "can import an authority record" do
-    john_davis = File.expand_path("../app/migrations/examples/marc/authority_john_davis.xml",
+    john_davis = File.expand_path("../app/exporters/examples/marc/authority_john_davis.xml",
                                          File.dirname(__FILE__))
 
     converter = MarcXMLConverter.for_subjects_and_agents_only(john_davis)

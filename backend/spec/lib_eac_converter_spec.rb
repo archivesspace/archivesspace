@@ -4,7 +4,7 @@ require_relative '../app/converters/eac_converter'
 describe 'EAC converter' do
 
   def convert_test_file
-    test_file = File.expand_path("../app/migrations/examples/eac/feynman-richard-phillips-1918-1988-cr.xml",
+    test_file = File.expand_path("../app/exporters/examples/eac/feynman-richard-phillips-1918-1988-cr.xml",
                                  File.dirname(__FILE__))
     converter = EACConverter.instance_for('eac_xml', test_file)
     converter.run
