@@ -76,6 +76,8 @@ module ObjectGraph
       return if flat_ids.empty?
       @graph[model] ||= Set.new
       @graph[model].merge(flat_ids)
+
+      self
     end
 
     def version

@@ -86,7 +86,6 @@ module Notes
                  map {|row| row[:id]}
 
       object_graph.add_objects(Note, ids)
-      object_graph
     end
 
   end

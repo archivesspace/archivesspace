@@ -423,6 +423,7 @@ module Relationships
           linked_relationships = relationship_defn.find_by_participant_ids(model, id_list).map {|row|
             row[:id]
           }
+
           object_graph.add_objects(relationship_defn, linked_relationships)
         end
       end
