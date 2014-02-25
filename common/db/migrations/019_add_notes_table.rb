@@ -80,7 +80,6 @@ Sequel.migration do
 
 
   down do
-    drop_table(:note)
   end
 
 end
