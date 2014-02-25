@@ -164,4 +164,33 @@ module ASpaceExport
       @child_class.new(subtree, @repo_id)
     end
   end
+
+
+  module ExportModelHelpers
+
+    def extract_date_string(date)
+      if date['expression']
+        date['expression']
+      elsif date['end'].nil? || date['end'] == date['begin']
+        date['begin']
+      else
+        "#{date['begin']} - #{date['end']}"
+      end
+    end
+
+
+    def extract_note_content(note)
+      if note['content']
+        Array(note['content']).join(" ")
+      else
+        get_subnotes_by_type(note, 'note_text').map {|sn| sn['content']}.join(" ").gsub(/\n +/, "\n")
+      end
+    end
+
+
+    def get_subnotes_by_type(obj, note_type)
+      obj['subnotes'].select {|sn| sn['jsonmodel_type'] == note_type}
+    end
+
+  end
 end

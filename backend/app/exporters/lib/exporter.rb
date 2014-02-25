@@ -130,6 +130,7 @@ module ASpaceExport
 
 
   class ExportModel
+    include ExportModelHelpers
 
     def self.inherited(subclass)
       ASpaceExport.register_model(subclass)

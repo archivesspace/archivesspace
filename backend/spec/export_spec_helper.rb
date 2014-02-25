@@ -32,7 +32,7 @@ if ENV['ASPACE_BACKEND_URL']
   end
 
   $repo_record = create(:json_repo)
-  $repo_id = $repo.id
+  $repo_id = $repo_record.id
 
   JSONModel.set_repository($repo_id)
 
@@ -62,6 +62,11 @@ end
 
 def get_mods(rec)
   get_xml("/repositories/#{$repo_id}/digital_objects/mods/#{rec.id}.xml")
+end
+
+
+def get_dc(rec)
+  get_xml("/repositories/#{$repo_id}/digital_objects/dublin_core/#{rec.id}.xml")
 end
 
 
