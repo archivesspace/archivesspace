@@ -529,6 +529,11 @@ module ASModel
         @repo_unique_constraints << constraints.merge(:property => property)
       end
 
+
+      def is_relationship?
+        false
+      end
+
     end
   end
 

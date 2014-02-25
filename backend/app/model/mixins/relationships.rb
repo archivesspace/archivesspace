@@ -295,6 +295,11 @@ AbstractRelationship = Class.new(Sequel::Model) do
     }
   end
 
+
+  def self.is_relationship?
+    true
+  end
+
 end
 
 

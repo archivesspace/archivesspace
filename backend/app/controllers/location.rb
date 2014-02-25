@@ -58,4 +58,14 @@ class ArchivesSpaceService < Sinatra::Base
     json_response(Location.to_jsonmodel(params[:id]))
   end
 
+
+  Endpoint.delete('/locations/:id')
+  .description("Delete a Location")
+  .params(["id", :id])
+  .permissions([:update_location_record])
+  .returns([200, :deleted]) \
+  do
+    handle_delete(Location, params[:id])
+  end
+
 end

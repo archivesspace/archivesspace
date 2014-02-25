@@ -120,6 +120,7 @@ ArchivesSpace::Application.routes.draw do
     match 'locations/batch_preview' => 'locations#batch_preview', :via => [:post]
     resources :locations
     match 'locations/:id' => 'locations#update', :via => [:post]
+    match 'locations/:id/delete' => 'locations#delete', :via => [:post]
 
     resources :events
     match 'events/:id' => 'events#update', :via => [:post]

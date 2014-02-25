@@ -7,6 +7,12 @@ class Location < Sequel::Model(:location)
 
   set_model_scope :global
 
+  ArchivesSpaceService.loaded_hook do
+    Location.define_relationship(:name => :housed_at,
+                                :contains_references_to_types => proc {Location.relationship_dependencies[:housed_at]})
+  end
+
+
   def self.generate_title(json)
     title = ""
 
@@ -82,6 +88,18 @@ class Location < Sequel::Model(:location)
 
   def self.generate_indicators(opts)
     (opts["start"]..opts["end"]).map{|i| "#{opts["prefix"]}#{i}#{opts["suffix"]}"}
+  end
+
+
+  def delete
+    # only allow delete if the location doesn't have any relationships
+    object_graph = self.object_graph
+
+    if object_graph.models.any? {|model| model.is_relationship?}
+      raise ConflictException.new("Location cannot be deleted if linked")
+    end
+
+    super
   end
 
 end
