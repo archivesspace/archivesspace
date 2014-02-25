@@ -31,7 +31,7 @@ if ENV['ASPACE_BACKEND_URL']
     end
   end
 
-  $repo = create(:json_repo)
+  $repo_record = create(:json_repo)
   $repo_id = $repo.id
 
   JSONModel.set_repository($repo_id)
@@ -44,7 +44,9 @@ else
   def get_xml(uri)
     response = get(uri)
     Nokogiri::XML::Document.parse(response.body)
-  end  
+  end
+
+  $repo_record = JSONModel(:repository).find($repo_id)
 end
 
 

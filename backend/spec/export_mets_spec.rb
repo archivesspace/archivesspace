@@ -9,6 +9,11 @@ require_relative 'export_spec_helper'
 describe "Exported METS document" do
 
   before(:all) do
+    @repo = create(:json_repo)
+    $old_repo_id = $repo_id
+    $repo_id = @repo.id
+
+    JSONModel.set_repository($repo_id)
 
     use_statements = []
 
@@ -43,8 +48,13 @@ describe "Exported METS document" do
 
     @mets = get_mets(@digital_object)
 
-    puts "SOURCE: #{@digital_object.inspect}\n"
-    puts "RESULT: #{@mets.to_xml}\n"
+    # puts "SOURCE: #{@digital_object.inspect}\n"
+    # puts "RESULT: #{@mets.to_xml}\n"
+  end
+
+  after(:all) do
+    $repo_id = $old_repo_id
+    JSONModel.set_repository($repo_id)
   end
 
   it "has the correct namespaces" do
@@ -70,8 +80,9 @@ describe "Exported METS document" do
 
 
     it "has an agent statement" do
-      @mets.should have_tag "metsHdr/agent[@ROLE='CREATOR'][@TYPE='ORGANIZATION']/name" => $repo.name
-      @mets.should have_tag "metsHdr/agent[@ROLE='CREATOR'][@TYPE='ORGANIZATION']/note" => $repo.url
+      @mets.should have_tag "metsHdr/agent[@ROLE='CREATOR'][@TYPE='ORGANIZATION']/name" => @repo.name
+
+      @mets.should have_tag "metsHdr/agent[@ROLE='CREATOR'][@TYPE='ORGANIZATION']/note" => @repo.url
       @mets.should have_tag "metsHdr/agent[@ROLE='CREATOR'][@TYPE='ORGANIZATION']/note" => "Produced by ArchivesSpace"
     end
   end
