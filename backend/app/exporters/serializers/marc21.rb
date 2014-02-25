@@ -1,4 +1,5 @@
-ASpaceExport::serializer :marc21 do
+class MARCSerializer < ASpaceExport::Serializer 
+  serializer_for :marc21
 
   def build(marc, opts = {})
 

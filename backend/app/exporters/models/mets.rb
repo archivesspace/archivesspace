@@ -1,4 +1,5 @@
-ASpaceExport::model :mets do
+class METSModel < ASpaceExport::ExportModel
+  model_for :mets
   
   include JSONModel
 

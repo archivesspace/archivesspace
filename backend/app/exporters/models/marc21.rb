@@ -1,4 +1,5 @@
-ASpaceExport::model :marc21 do
+class MARCModel < ASpaceExport::ExportModel
+  model_for :marc21
 
   include JSONModel
 

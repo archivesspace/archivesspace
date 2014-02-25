@@ -1,4 +1,5 @@
-ASpaceExport::model :labels do
+class LabelModel < ASpaceExport::ExportModel
+  model_for :labels
   
   @ao = Class.new do
     

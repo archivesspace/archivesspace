@@ -1,6 +1,5 @@
-require 'nokogiri'
-
-ASpaceExport::serializer :eac do
+class EACSerializer < ASpaceExport::Serializer
+  serializer_for :eac
   
   def serialize(eac, opts = {})
 

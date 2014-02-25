@@ -1,5 +1,6 @@
-ASpaceExport::model :dc do
-  
+class DCModel < ASpaceExport::ExportModel
+  model_for :dc
+
   include JSONModel
 
   attr_accessor :title

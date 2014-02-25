@@ -1,5 +1,6 @@
-ASpaceExport::model :mods do
-  
+class MODSModel < ASpaceExport::ExportModel
+  model_for :mods
+
   include JSONModel
 
   attr_accessor :title

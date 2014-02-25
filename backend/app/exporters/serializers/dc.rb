@@ -1,5 +1,6 @@
-ASpaceExport::serializer :dc do
-  
+class DCSerializer < ASpaceExport::Serializer
+  serializer_for :dc
+
   def build(dc, opts = {})
 
     builder = Nokogiri::XML::Builder.new do |xml|

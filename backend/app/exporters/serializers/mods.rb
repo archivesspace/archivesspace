@@ -1,5 +1,6 @@
-ASpaceExport::serializer :mods do
-  
+class MODSSerializer < ASpaceExport::Serializer
+  serializer_for :mods
+
   include JSONModel
   
   def serialize(mods, opts = {})

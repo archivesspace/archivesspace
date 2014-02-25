@@ -1,5 +1,6 @@
-ASpaceExport::serializer :mets do
-  
+class METSSerializer < ASpaceExport::Serializer 
+  serializer_for :mets
+
   def build(data, opts = {})
 
     builder = Nokogiri::XML::Builder.new do |xml|
@@ -39,17 +40,17 @@ ASpaceExport::serializer :mets do
         xml.mdWrap(:MDTYPE => 'MODS') {
           xml.xmlData {
             ASpaceExport::Serializer.with_namespace('mods', xml) do
-              ASpaceExport.serializer(:mods).serialize_mods(data.mods_model, xml)
+              mods_serializer = ASpaceExport.serializer(:mods).new
+              mods_serializer.serialize_mods(data.mods_model, xml)
             end
           }
-        }            
+        }          
       }
 
       data.children.each do |component_data|
         serialize_child_dmd(component_data, xml)
       end
 
-      
       xml.amdSec {
         
       }
@@ -145,7 +146,8 @@ ASpaceExport::serializer :mets do
       xml.mdWrap(:MDTYPE => 'MODS') {
         xml.xmlData {
           ASpaceExport::Serializer.with_namespace('mods', xml) do
-            ASpaceExport.serializer(:mods).serialize_mods(component_data.mods_model, xml)
+            mods_serializer = ASpaceExport.serializer(:mods).new
+            mods_serializer.serialize_mods(component_data.mods_model, xml)
           end
         }
       }
