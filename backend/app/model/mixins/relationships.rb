@@ -415,7 +415,7 @@ module Relationships
       # For each relationship involving a resource
       self.relationships.each do |relationship_defn|
         # Find any relationship of this type involving any record mentioned in
-        # suppression_set
+        # object graph
 
         object_graph.each do |model, id_list|
           next unless relationship_defn.participating_models.include?(model)
