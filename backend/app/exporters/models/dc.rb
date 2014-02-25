@@ -7,18 +7,16 @@ class DCModel < ASpaceExport::ExportModel
   attr_accessor :identifier
   attr_accessor :creators
   attr_accessor :subjects
-  attr_accessor :sources
   attr_accessor :dates
   attr_accessor :type
   attr_accessor :language
-  attr_accessor :rights
+
   
   
   @archival_object_map = {
     :title => :title=,
-    :date => :handle_date,
+    :dates => :handle_date,
     :language => :language=,
-    :rights_statement => :handle_rights,
     :linked_agents => :handle_agents,
     :subjects => :handle_subjects
   }
@@ -26,26 +24,19 @@ class DCModel < ASpaceExport::ExportModel
   @digital_object_map = {}
   
   
-  def initialize
+  def initialize(obj)
     @creators = []
     @subjects = []
     @sources = []
     @dates = []
     @rights = []
+    @json = obj
   end
-  
-  # Some things are universal
-  def self.from_aspace_object(obj)
-  
-    dc = self.new
-    
-    dc
-  end
-    
-  # meaning, 'archival object' in the abstract
+
+
   def self.from_archival_object(obj)
     
-    dc = self.from_aspace_object(obj)
+    dc = self.new(obj)
     
     dc.apply_map(obj, @archival_object_map)
     
@@ -65,8 +56,80 @@ class DCModel < ASpaceExport::ExportModel
   
     dc
   end
-  
-  
+
+  def self.DESCRIPTIVE_NOTE_TYPES
+    @descriptive_note_type ||= %w(bioghist prefercite)
+    @descriptive_note_type
+  end
+
+  def self.RIGHTS_NOTE_TYPES
+    @rights_note_type ||= %w(accessrestrict userestrict)
+    @rights_note_type
+  end
+
+  def self.FORMAT_NOTE_TYPES
+    @format_note_type ||= %w(dimensions physdesc)
+    @format_note_type
+  end
+
+  def self.SOURCE_NOTE_TYPES
+    @source_note_type ||= %w(originalsloc)
+    @source_note_type
+  end
+
+  def self.RELATION_NOTE_TYPES
+    @relation_note_type ||= %w(relatedmaterial)
+    @relation_note_type
+  end
+
+  def each_description
+    @json.notes.each do |note|
+      if self.class.DESCRIPTIVE_NOTE_TYPES.include? note['type']
+        yield extract_note_content(note)
+      end
+    end
+
+    repo = @json.repository['_resolved']
+    repo_info = "Digital object made available by #{repo['name']}"
+    repo_info << " (#{repo['url']})" if repo['url']
+
+    yield repo_info
+  end
+
+  def each_rights
+    @json.notes.each do |note|
+      if self.class.RIGHTS_NOTE_TYPES.include? note['type']
+        yield extract_note_content(note)
+      end
+    end
+  end
+
+  def each_format
+    puts "EACH FORMAT"
+    @json.notes.each do |note|
+      if self.class.FORMAT_NOTE_TYPES.include? note['type']
+        yield extract_note_content(note)
+      end
+    end
+  end
+
+  def each_source
+    @json.notes.each do |note|
+      if self.class.SOURCE_NOTE_TYPES.include? note['type']
+        yield extract_note_content(note)
+      end
+    end
+  end
+
+  def each_relation
+    @json.notes.each do |note|
+      if self.class.RELATION_NOTE_TYPES.include? note['type']
+        yield extract_note_content(note)
+      end
+    end
+  end
+
+
   def handle_agents(linked_agents)
     linked_agents.each do |link|
 
@@ -78,9 +141,6 @@ class DCModel < ASpaceExport::ExportModel
         agent['names'].each {|n| self.creators << n['sort_name'] }
       when 'subject'
         agent['names'].each {|n| self.subjects << n['sort_name'] }
-      # false friend: http://dublincore.org/documents/2012/06/14/dcmi-terms/?v=elements#terms-source
-      # when 'source'
-      #   json.names.each {|n| self.sources << n['sort_name'] }
       end
     end
   end
@@ -88,18 +148,7 @@ class DCModel < ASpaceExport::ExportModel
   
   def handle_date(dates)
     dates.each do |date|
-      d = if date['expression']
-            date['expression']
-          elsif date['begin'] && date['end']
-            "#{date['begin']} - #{date['end']}" 
-          elsif date['begin']
-            date['begin']
-          elsif date['end']
-            date['end']
-          else
-            "unknown"
-          end
-      self.dates << d
+      self.dates << extract_date_string(date)
     end
   end
   

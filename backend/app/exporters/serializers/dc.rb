@@ -20,28 +20,38 @@ class DCSerializer < ASpaceExport::Serializer
   private
 
   def _root(dc, xml)
+    schema_locations = "http://purl.org/dc/elements/1.1/ http://dublincore.org/schemas/xmls/qdc/2006/01/06/dc.xsd http://purl.org/dc/terms/ http://dublincore.org/schemas/xmls/qdc/2006/01/06/dcterms.xsd"
 
-    xml.metadata('xmlns:dc' => 'http://purl.org/dc/elements/1.1/', 
+    xml.dc('xmlns' => 'http://purl.org/dc/elements/1.1/', 
+                 "xmlns:dcterms" => "http://purl.org/dc/terms/",
+                 "xmlns:xlink" => "http://www.w3.org/1999/xlink",
                  'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-                 'xsi:schemaLocation' => 'http://dublincore.org/schemas/xmls/simpledc20021212.xsd'){
+                 'xsi:schemaLocation' => schema_locations){
                
-      xml['dc'].title dc.title
+      xml.title dc.title
       
-      xml['dc'].identifier dc.identifier
+      xml.identifier dc.identifier
       
-      dc.creators.each {|c| xml['dc'].creator c }
+      dc.creators.each {|c| xml.creator c }
       
-      dc.subjects.each {|s| xml['dc'].subject s }
+      dc.subjects.each {|s| xml.subject s }
       
-      dc.sources.each {|s| xml['dc'].source s }
+      dc.sources.each {|s| xml.source s }
       
-      dc.dates.each {|d| xml['dc'].date d }
-      
-      xml['dc'].type dc.type
-      
-      xml['dc'].language dc.language
+      dc.dates.each {|d| xml.date d }
 
-      dc.rights.each {|r| xml['dc'].rights r }
+      %w(description rights format source relation).each do |tag|
+
+        dc.send("each_#{tag}") do |value|
+          xml.send(:"#{tag}_", value)
+        end
+      end
+
+      # dc.each_description {|d| xml.description d }
+
+      xml.type dc.type
+      
+      xml.language dc.language
 
     }
       
