@@ -19,7 +19,7 @@
 # graph includes its friends, its friends-of-friends, and so on.
 #
 # Since these object graphs can be quite large, we represent them only as sets
-# of record IDs, rather than as fully realised records.
+# of record IDs (grouped by model type), rather than as fully realised records.
 #
 
 ## What they're for
