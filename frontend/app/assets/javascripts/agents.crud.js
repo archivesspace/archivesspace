@@ -43,7 +43,7 @@ $(function() {
     // setup authoritive/display name actions
     var $authorized = $(":input[name$=\"[authorized]\"]", $subform);
     var $displayName = $(":input[name$=\"[is_display_name]\"]", $subform);
-    var $section = $authorized.closest("#agent_person_names");
+    var $section = $authorized.closest("section.subrecord-form");
 
     var handleAuthorizedChange = function(val) {
       if (val) {
