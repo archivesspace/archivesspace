@@ -64,6 +64,9 @@ module AgentManager
       self.class.ensure_display_name(json)
       self.class.combine_unauthorized_names(json)
 
+      # Called for the sake of updating the JSON blob sent to the realtime indexer
+      self.class.populate_display_name(json)
+
       super
     end
 
@@ -80,6 +83,11 @@ module AgentManager
 
 
     module ClassMethods
+
+      def populate_display_name(json)
+        json.display_name = json['names'].find {|name| name['is_display_name']}
+      end
+
 
       def ensure_authorized_name(json)
         if !Array(json['names']).empty? && json['names'].none? {|name| name['authorized']}
@@ -108,6 +116,9 @@ module AgentManager
         self.ensure_authorized_name(json)
         self.ensure_display_name(json)
         self.combine_unauthorized_names(json)
+
+        # Called for the sake of updating the JSON blob sent to the realtime indexer
+        self.populate_display_name(json)
 
         super
       end
@@ -155,7 +166,7 @@ module AgentManager
         json.agent_type = my_agent_type[:jsonmodel].to_s
         json.linked_agent_roles = obj.linked_agent_roles
 
-        json.display_name = json['names'].find {|name| name['is_display_name']}
+        populate_display_name(json)
         json.title = json['display_name']['sort_name']
 
         json
