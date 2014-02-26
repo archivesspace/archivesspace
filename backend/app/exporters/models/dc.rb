@@ -105,7 +105,6 @@ class DCModel < ASpaceExport::ExportModel
   end
 
   def each_format
-    puts "EACH FORMAT"
     @json.notes.each do |note|
       if self.class.FORMAT_NOTE_TYPES.include? note['type']
         yield extract_note_content(note)
