@@ -35,9 +35,7 @@ class DCSerializer < ASpaceExport::Serializer
       dc.creators.each {|c| xml.creator c }
       
       dc.subjects.each {|s| xml.subject s }
-      
-      dc.sources.each {|s| xml.source s }
-      
+           
       dc.dates.each {|d| xml.date d }
 
       %w(description rights format source relation).each do |tag|
@@ -46,8 +44,6 @@ class DCSerializer < ASpaceExport::Serializer
           xml.send(:"#{tag}_", value)
         end
       end
-
-      # dc.each_description {|d| xml.description d }
 
       xml.type dc.type
       
