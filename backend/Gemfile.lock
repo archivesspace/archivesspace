@@ -56,6 +56,8 @@ GEM
     rufus-lru (1.0.5)
     rufus-scheduler (2.0.17)
       tzinfo (>= 0.3.23)
+    saxerator (0.9.0)
+      nokogiri (>= 1.4.0)
     sequel (3.41.0)
     simplecov (0.7.1)
       multi_json (~> 1.0)
@@ -110,6 +112,7 @@ DEPENDENCIES
   rubyzip (= 1.0.0)
   rufus-lru
   rufus-scheduler
+  saxerator
   sequel
   simplecov
   sinatra
