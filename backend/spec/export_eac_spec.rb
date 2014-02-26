@@ -52,6 +52,10 @@ describe 'EAC Export' do
       # puts "RESULT: #{@eac.to_xml}\n"
     end
 
+    after(:all) do
+      @rec.delete
+    end
+
     it "exports EAC with the correct namespaces" do
       @eac.should have_namespaces({
         "xmlns"=> "urn:isbn:1-931666-33-4",
@@ -195,6 +199,10 @@ describe 'EAC Export' do
       # puts "RESULT: #{@eac.to_xml}\n"
     end
 
+    after(:all) do
+      @rec.delete
+    end
+
     it "maps name.primary_name to nameEntry/part[@localType='primaryPart']" do
       val = @rec.names[0]['primary_name']
       tag = "nameEntry[1]/part[@localType='primaryPart']"
@@ -282,6 +290,9 @@ describe 'EAC Export' do
       # puts "RESULT: #{@eac.to_xml}\n"
     end
 
+    after(:all) do
+      @rec.delete
+    end
 
     it "maps name.prefix to nameEntry/part[@localType='prefix']" do
       val = @rec.names[0]['prefix']
@@ -320,6 +331,10 @@ describe 'EAC Export' do
       @eac = get_eac(@rec)
     end
 
+
+    after(:all) do
+      @rec.delete
+    end
 
     it "creates an existDates tag for the first date of existence" do
       @eac.should have_tag("description/existDates[1]")
@@ -373,7 +388,11 @@ describe 'EAC Export' do
 
       # puts @rec.inspect
       # puts @eac.to_xml
-    end                                            
+    end
+
+    after(:all) do
+      @rec.delete
+    end
 
 
     it "creates a biogHist tag for each note" do
@@ -547,6 +566,12 @@ describe 'EAC Export' do
 
       # puts "SOURCE: #{@rec.inspect}\n"
       # puts "RESULT: #{@eac.to_xml}\n"
+    end
+
+    after(:all) do
+      [@rec, @resource, @digital_object, @resource_component, @linked_agent].each do |rec|
+          rec.delete
+      end
     end
 
     it "maps related agents to cpfRelation" do

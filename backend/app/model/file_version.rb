@@ -10,7 +10,7 @@ class FileVersion < Sequel::Model(:file_version)
 
   def self.sequel_to_jsonmodel(obj, opts = {})
     json = super
-    json["identifier"] = obj[:id]
+    json["identifier"] = obj[:id].to_s
 
     json
   end

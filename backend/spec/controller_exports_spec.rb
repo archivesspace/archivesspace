@@ -152,7 +152,7 @@ describe 'Exports controller' do
     dig = create(:json_digital_object)
     get "/repositories/#{$repo_id}/digital_objects/dublin_core/#{dig.id}.xml"
     resp = last_response.body
-    resp.should match(/<dc:title>#{dig.title}<\/dc:title>/)
+    resp.should match(/<title>#{dig.title}<\/title>/)
   end
 
 end

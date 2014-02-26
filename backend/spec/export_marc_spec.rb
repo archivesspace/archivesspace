@@ -23,6 +23,10 @@ describe 'MARC Export' do
       # puts "RESULT: #{@marc.to_xml}"
     end
 
+    after(:all) do
+      @resource.delete
+    end
+
     it "maps primary_name to subfield 'a'" do
       @marc.should have_tag "datafield[@tag='110']/subfield[@code='a']" => @name.primary_name
     end

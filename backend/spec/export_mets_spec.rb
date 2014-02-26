@@ -53,6 +53,11 @@ describe "Exported METS document" do
   end
 
   after(:all) do
+    [@digital_objects, @components].flatten.each do |rec|
+      rec.delete
+    end
+
+
     $repo_id = $old_repo_id
     JSONModel.set_repository($repo_id)
   end

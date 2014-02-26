@@ -81,6 +81,10 @@ describe "Exported MODS metadata" do
 
 
   after(:all) do
+    [@agent_person, @subject_person, @subjects, @components, @digital_object].flatten.each do |rec|
+      rec.delete
+    end
+
     $repo_id = $old_repo_id
     JSONModel.set_repository($repo_id)
   end
