@@ -14,6 +14,7 @@
       "rules" => {"type" => "string", "dynamic_enum" => "name_rule"},
 
       "authorized" => {"type" => "boolean", "default" => false},
+      "is_display_name" => {"type" => "boolean", "default" => false},
 
       "sort_name" => {"type" => "string", "maxLength" => 255},
       "sort_name_auto_generate" => {"type" => "boolean", "default" => true},

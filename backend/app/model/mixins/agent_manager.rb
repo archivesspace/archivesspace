@@ -59,6 +59,7 @@ module AgentManager
 
     def update_from_json(json, opts = {}, apply_nested_records = true)
       self.class.ensure_authorized_name(json)
+      self.class.ensure_display_name(json)
 
       super
     end
@@ -77,16 +78,26 @@ module AgentManager
 
     module ClassMethods
 
-
       def ensure_authorized_name(json)
-        if json['names'].none? {|name| name['authorized']}
+        if !Array(json['names']).empty? && json['names'].none? {|name| name['authorized']}
           json['names'][0]['authorized'] = true
+        end
+      end
+
+
+      def ensure_display_name(json)
+        if !Array(json['names']).empty? && json['names'].none? {|name| name['is_display_name']}
+          # If no display name was specified, take the authorized one as display
+          # name.
+          authorized_name = json['names'].find {|name| name['authorized']}
+          authorized_name['is_display_name'] = true
         end
       end
 
 
       def create_from_json(json, opts = {})
         self.ensure_authorized_name(json)
+        self.ensure_display_name(json)
 
         super
       end
@@ -134,6 +145,8 @@ module AgentManager
         json.agent_type = my_agent_type[:jsonmodel].to_s
         json.title = json['names'][0]['sort_name']
         json.linked_agent_roles = obj.linked_agent_roles
+
+        json.display_name = json['names'].find {|name| name['is_display_name']}
 
         json
       end

@@ -13,6 +13,12 @@ class NameCorporateEntity < Sequel::Model(:name_corporate_entity)
       map_validation_to_json_property([:authorized, :agent_corporate_entity_id], :authorized)
     end
 
+    if is_display_name
+      validates_unique([:is_display_name, :agent_corporate_entity_id],
+                       :message => "An agent can only have one display name")
+      map_validation_to_json_property([:is_display_name, :agent_corporate_entity_id], :is_display_name)
+    end
+
     super
   end
 
