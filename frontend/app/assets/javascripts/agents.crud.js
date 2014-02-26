@@ -53,7 +53,7 @@ $(function() {
         $subform.removeClass("authoritive-name");
         $(".name-authority-fields :input", $subform).attr("disabled", "disabled");
       }
-      $authorized.val(val);
+      $authorized.val(val ? 1 : 0);
     }
     var handleDisplayNameChange = function(val) {
       if (val) {
@@ -61,7 +61,7 @@ $(function() {
       } else {
         $subform.removeClass("display-name");
       }
-      $displayName.val(val);
+      $displayName.val(val ? 1 : 0);
     }
 
     $(".btn-authoritive-name-toggle", $subform).click(function(event) {
@@ -84,8 +84,8 @@ $(function() {
       handleDisplayNameChange(display_name_form == $subform);
     });
 
-    handleAuthorizedChange($authorized.val() == "true");
-    handleDisplayNameChange($displayName.val() == "true");
+    handleAuthorizedChange($authorized.val() == "1");
+    handleDisplayNameChange($displayName.val() == "1");
   };
 
 
