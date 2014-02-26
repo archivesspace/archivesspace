@@ -24,10 +24,13 @@ describe 'Agent model' do
   end
 
 
-  it "requires a rules to be set if source is not provided" do
+  it "for authorized names, requires a rules to be set if source is not provided" do
+    expect { n1 = build(:json_name_person, :rules => nil, :source => nil, :authorized => true).to_hash }.to raise_error(JSONModel::ValidationException)
+  end
 
-    expect { n1 = build(:json_name_person, :rules => nil, :source => nil).to_hash }.to raise_error(JSONModel::ValidationException)
 
+  it "for unauthorized names, no requirement for source or rules" do
+    expect { n1 = build(:json_name_person, :rules => nil, :source => nil, :authorized => false).to_hash }.to_not raise_error
   end
 
 
