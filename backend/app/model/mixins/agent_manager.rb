@@ -1,6 +1,8 @@
 require_relative 'relationships'
 require_relative 'related_agents'
 require_relative 'implied_publication'
+require 'set'
+
 
 module AgentManager
 
@@ -60,6 +62,7 @@ module AgentManager
     def update_from_json(json, opts = {}, apply_nested_records = true)
       self.class.ensure_authorized_name(json)
       self.class.ensure_display_name(json)
+      self.class.combine_unauthorized_names(json)
 
       super
     end
@@ -95,9 +98,16 @@ module AgentManager
       end
 
 
+      def combine_unauthorized_names(json)
+        return if Array(json['names']).empty?
+        json.names = json['names'].uniq
+      end
+
+
       def create_from_json(json, opts = {})
         self.ensure_authorized_name(json)
         self.ensure_display_name(json)
+        self.combine_unauthorized_names(json)
 
         super
       end

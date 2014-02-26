@@ -257,4 +257,19 @@ describe 'Agent model' do
   end
 
 
+  it "combines unauthorized names when they're the same field-for-field" do
+    unique_name = build(:json_name_person, 'authorized' => true)
+
+    name_template = build(:json_name_person, 'authorized' => false)
+    values = name_template.to_hash.reject {|name, val| val.nil?}
+
+    duplicated_name = JSONModel(:name_person).from_hash(values)
+    another_duplicated_name = JSONModel(:name_person).from_hash(values)
+
+    agent = AgentPerson.create_from_json(build(:json_agent_person,
+                                               :names => [unique_name, duplicated_name, another_duplicated_name]))
+
+    AgentPerson.to_jsonmodel(agent.id).names.length.should eq(2)
+  end
+
 end
