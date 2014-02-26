@@ -275,4 +275,21 @@ describe 'Agent model' do
     AgentPerson.to_jsonmodel(agent.id).names.length.should eq(2)
   end
 
+
+  it "can update an agent's name list" do
+    name = build(:json_name_person,
+                 'authorized' => true,
+                 'source' => 'local',
+                 'authority_id' => 'something_great')
+    agent_obj = AgentPerson.create_from_json(build(:json_agent_person, :names => [name]))
+
+    agent = AgentPerson.to_jsonmodel(agent_obj.id)
+
+    agent.names[0]['primary_name'] = 'something else'
+
+    RequestContext.in_global_repo do
+      agent_obj.update_from_json(JSONModel(:agent_person).from_hash(agent.to_hash))
+    end
+  end
+
 end

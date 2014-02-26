@@ -32,6 +32,12 @@ module AgentNames
   end
 
 
+  def remove_nested_records
+    name_authority_id_dataset.delete
+    super
+  end
+
+
   module ClassMethods
 
     def apply_authority_id(obj, json)
