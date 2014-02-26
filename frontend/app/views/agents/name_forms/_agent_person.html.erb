@@ -13,8 +13,9 @@
       <%= form.label_and_select "source", form.possible_options_for('source', true), :required => :conditionally %>
       <%= form.label_and_select "rules", form.possible_options_for('rules', true), :required => :conditionally %>
       <%= form.hidden_input "authorized", form["authorized"] || "false" %>
+      <hr/>
     </div>
-    <hr/>
+
     <%= form.label_and_select "name_order", form.possible_options_for("name_order") %>
     <%= form.label_and_textfield "prefix" %>
     <%= form.label_and_textfield "title" %>

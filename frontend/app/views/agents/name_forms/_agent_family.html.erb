@@ -13,8 +13,9 @@
       <%= form.label_and_select "source", form.possible_options_for('source', true), :required => :conditionally %>
       <%= form.label_and_select "rules", form.possible_options_for('rules', true), :required => :conditionally %>
       <%= form.hidden_input "authorized", form["authorized"] || "false" %>
+      <hr/>
     </div>
-    <hr/>
+
     <%= form.label_and_textfield "prefix" %>
     <%= form.label_and_textfield "family_name" %>
     <%= form.label_and_textfield "dates" %>

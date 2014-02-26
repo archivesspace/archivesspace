@@ -762,12 +762,24 @@ ul.subrecord-form-list {
 .is-display-name-label {
   display: none;
 }
+.name-authority-fields {
+  display: none;
+}
 .authoritive-name {
   .is-authoritive-label {
     display: inline;
   }
   .btn-authoritive-name-toggle {
     display: none;
+  }
+  .name-authority-fields {
+    display: block;
+
+    .conditionally-required {
+      > .control-label {
+        background-image: asset-url('archivesspace/required_quiet.png') !important;
+      }
+    }
   }
 }
 .display-name {
