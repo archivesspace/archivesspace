@@ -105,7 +105,7 @@
       <%= form.label_and_select("type",
           singlepart_notes.sort_by {|value, hash| hash[:i18n]}.map {|value, hash| [hash[:i18n], value]},
           :field_opts => {:class => "note-type"}) %>
-      <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
+      <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
       <% form.emit_template("content_items", :required => form.required?('content')) %>
     </div>
@@ -120,7 +120,7 @@
       <%= form.hidden_input("ingest_problem") %>
       <%= form.label_and_textfield("title") %>
       <%= form.label_and_select("enumeration", form.possible_options_for("enumeration", true)) %>
-      <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
+      <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
       <div class="control-group">
         <label class="control-label"><%= I18n.t("note_orderedlist.items") %></label>
@@ -182,7 +182,7 @@
       <%= form.label_and_select("type",
           multipart_notes.map {|value, hash| [hash[:i18n], value]},
           :field_opts => {:class => "note-type"}) %>
-      <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
+      <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
       <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
         <h5 class="subrecord-form-heading">
@@ -238,7 +238,7 @@
       <%= form.hidden_input(:jsonmodel_type, "note_bioghist") %>
       <%= form.hidden_input("ingest_problem") %>
       <%= form.label_and_textfield("label") %>
-      <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
+      <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
       <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
         <h5 class="subrecord-form-heading">
@@ -277,7 +277,7 @@
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_citation") %>
       <%= form.hidden_input("ingest_problem") %>
-      <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
+      <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
       <% form.emit_template("content_items", :required => form.required?('content')) %>
 
@@ -300,7 +300,7 @@
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_abstract") %>
       <%= form.hidden_input("ingest_problem") %>
-      <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
+      <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
       <% form.emit_template("content_items", :required => form.required?('content')) %>
     </div>
@@ -342,7 +342,7 @@
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_outline") %>
       <%= form.hidden_input("ingest_problem") %>
-      <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
+      <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
       <div class="control-group">
         <label class="control-label"><%= I18n.t("note_outline.levels") %></label>
@@ -367,7 +367,7 @@
       <%= form.hidden_input(:jsonmodel_type, "note_definedlist") %>
       <%= form.hidden_input("ingest_problem") %>
       <%= form.label_and_textfield("title") %>
-      <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
+      <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
       <section class="subrecord-form">
         <h5 class="subrecord-form-heading">
@@ -401,7 +401,7 @@
       <%= form.hidden_input("ingest_problem") %>
       <%= form.label_and_textfield("label") %>
       <% form.emit_template("content_items", :required => form.required?('content')) %>
-      <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
+      <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
       <section class="subrecord-form">
         <h5 class="subrecord-form-heading">
@@ -437,7 +437,7 @@
       <%= form.hidden_input(:jsonmodel_type, "note_chronology") %>
       <%= form.hidden_input("ingest_problem") %>
       <%= form.label_and_textfield("title") %>
-      <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
+      <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
       <section class="subrecord-form">
         <h5 class="subrecord-form-heading">
@@ -488,7 +488,7 @@
       <%= form.hidden_input(:jsonmodel_type, "note_bibliography") %>
       <%= form.hidden_input("ingest_problem") %>
       <%= form.label_and_textfield("label") %>
-      <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
+      <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
       <% form.emit_template("content_items", :required => form.required?('content')) %>
 
@@ -529,7 +529,7 @@
       <%= form.hidden_input("ingest_problem") %>
       <%= form.label_and_textfield("label") %>
       <%= form.label_and_select("type", digital_object_note_types.map {|value, hash| [hash[:i18n], value]}, :field_opts => {:class => "note-type"}) %>
-      <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
+      <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
       <% form.emit_template("content_items", :required => form.required?('content')) %>
     </div>
@@ -564,7 +564,7 @@
 
         <%= form.label_and_textarea('content', :field_opts => {:class => "mixed-content"}) %>
 
-        <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
+        <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
       <% end %>
     </div>
   </div>

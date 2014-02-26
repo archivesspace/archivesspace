@@ -6,6 +6,7 @@
     "properties" => {
 
       "show_suppressed" =>  {"type" => "boolean", "required" => false},
+      "publish" =>  {"type" => "boolean", "required" => false},
 
     },
   },

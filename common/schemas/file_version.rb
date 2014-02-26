@@ -6,7 +6,7 @@
     "properties" => {
       "identifier" => {"type" => "string", "readonly" => true},
       "file_uri" => {"type" => "string", "maxLength" => 16384, "ifmissing" => "error"},
-      "publish" => {"type" => "boolean", "default" => true},
+      "publish" => {"type" => "boolean"},
       "use_statement" => {"type" => "string", "dynamic_enum" => "file_version_use_statement"},
 
       "xlink_actuate_attribute" => {"type" => "string", "dynamic_enum" => "file_version_xlink_actuate_attribute"},

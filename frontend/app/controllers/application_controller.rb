@@ -191,6 +191,12 @@ class ApplicationController < ActionController::Base
   end
 
 
+  helper_method :user_prefs
+  def user_prefs
+    JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/current_preferences")['defaults']
+  end
+
+
   helper_method :user_can?
   def user_can?(permission, repository = nil)
     self.class.session_can?(session, permission, repository)

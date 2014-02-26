@@ -5,7 +5,7 @@
     "type" => "object",
     "properties" => {
       "label" => {"type" => "string", "maxLength" => 65000},
-      "publish" => {"type" => "boolean", "default" => true},
+      "publish" => {"type" => "boolean"},
       "persistent_id" => {"type" => "string", "maxLength" => 255},
       "ingest_problem" => {"type" => "string", "maxLength" => 65000},
     },
