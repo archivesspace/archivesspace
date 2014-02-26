@@ -407,6 +407,7 @@ module JSONModel::Validations
 
       errors
     end
+
   end
 
   [:note_multipart, :note_bioghist].each do |schema|

@@ -171,4 +171,39 @@ describe 'Agent model' do
     person_agent.linked_agent_roles.should eq(['source'])
   end
 
+
+  it "can mark an agent's name as authorized" do
+    person_agent = AgentPerson.create_from_json(build(:json_agent_person,
+                                                      :names => [build(:json_name_person, 'authorized' => false),
+                                                                 build(:json_name_person, 'authorized' => true)]))
+
+    agent = AgentPerson.to_jsonmodel(person_agent.id)
+
+    agent.names[0]['authorized'].should be(false)
+    agent.names[1]['authorized'].should be(true)
+  end
+
+
+  it "ensures that an agent only has one authorized name" do
+    expect {
+      AgentPerson.create_from_json(build(:json_agent_person,
+                                                      :names => [build(:json_name_person,
+                                                                       'authorized' => true),
+                                                                 build(:json_name_person,
+                                                                       'authorized' => true)]))
+    }.to raise_error(Sequel::ValidationFailed)
+  end
+
+
+  it "takes the first name as authorized if no indication is present" do
+    agent = AgentPerson.create_from_json(build(:json_agent_person,
+                                               :names => [build(:json_name_person,
+                                                                'authorized' => false),
+                                                          build(:json_name_person,
+                                                                'authorized' => false)]))
+
+    AgentPerson.to_jsonmodel(agent.id).names[0]['authorized'].should be(true)
+    AgentPerson.to_jsonmodel(agent.id).names[1]['authorized'].should be(false)
+  end
+
 end

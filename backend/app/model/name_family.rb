@@ -5,6 +5,17 @@ class NameFamily < Sequel::Model(:name_family)
   include AgentNames
   include AutoGenerator
 
+  def validate
+    if authorized
+      validates_unique([:authorized, :agent_family_id],
+                       :message => "An agent can only have one authorized name")
+      map_validation_to_json_property([:authorized, :agent_family_id], :authorized)
+    end
+
+    super
+  end
+
+
   auto_generate :property => :sort_name,
                 :generator => proc  { |json|
                   result = ""

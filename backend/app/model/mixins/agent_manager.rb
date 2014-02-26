@@ -57,6 +57,13 @@ module AgentManager
     end
 
 
+    def update_from_json(json, opts = {}, apply_nested_records = true)
+      self.class.ensure_authorized_name(json)
+
+      super
+    end
+
+
     def linked_agent_roles
       role_ids = self.class.find_relationship(:linked_agents).values_for_property(self, :role_id).uniq
 
@@ -69,6 +76,21 @@ module AgentManager
 
 
     module ClassMethods
+
+
+      def ensure_authorized_name(json)
+        if json['names'].none? {|name| name['authorized']}
+          json['names'][0]['authorized'] = true
+        end
+      end
+
+
+      def create_from_json(json, opts = {})
+        self.ensure_authorized_name(json)
+
+        super
+      end
+
 
       def register_agent_type(opts)
         AgentManager.register_agent_type(self, opts)
