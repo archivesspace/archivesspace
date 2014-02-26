@@ -25,6 +25,8 @@ class ApplicationController < ActionController::Base
 
   before_filter :refresh_permissions
 
+  before_filter :refresh_preferences
+
   before_filter :load_repository_list
 
   before_filter :unauthorised_access
@@ -193,7 +195,24 @@ class ApplicationController < ActionController::Base
 
   helper_method :user_prefs
   def user_prefs
-    JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/current_preferences")['defaults']
+    session[:preferences] || self.class.user_preferences(session)
+  end
+
+
+  def self.session_repo(session, repo)
+    session[:repo] = repo
+    session[:repo_id] = JSONModel(:repository).id_for(repo)
+    self.user_preferences(session)
+  end
+
+
+  def self.user_preferences(session)
+    session[:last_preference_refresh] = Time.now.to_i
+    if session[:repo_id]
+      session[:preferences] = JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/current_preferences")['defaults']
+    else
+      session[:preferences] = JSONModel::HTTP::get_json("/current_global_preferences")['defaults']
+    end
   end
 
 
@@ -254,8 +273,7 @@ class ApplicationController < ActionController::Base
     end
 
     if not session[:repo] and not @repositories.empty?
-      session[:repo] = @repositories.first.uri
-      session[:repo_id] = @repositories.first.id
+      self.class.session_repo(session, @repositories.first.uri)
     end
   end
 
@@ -264,6 +282,14 @@ class ApplicationController < ActionController::Base
     if session[:last_permission_refresh] &&
         session[:last_permission_refresh] < MemoryLeak::Resources.get(:acl_system_mtime)
       User.refresh_permissions(session)
+    end
+  end
+
+
+  def refresh_preferences
+    if session[:last_preference_refresh] &&
+        session[:last_preference_refresh] < MemoryLeak::Resources.get(:preferences_system_mtime)
+      session[:preferences] = nil
     end
   end
 

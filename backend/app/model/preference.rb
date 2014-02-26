@@ -40,6 +40,11 @@ class Preference < Sequel::Model(:preference)
   end
 
 
+  def after_save
+    Notifications.notify("REFRESH_PREFERENCES")
+  end
+
+
   def parsed_defaults
     ASUtils.json_parse(self.defaults)
   end
@@ -78,19 +83,23 @@ class Preference < Sequel::Model(:preference)
 
 
   def self.current_preferences(repo_id = RequestContext.get(:repo_id))
+    return {} unless RequestContext.get(:current_username)
+
     user_id = User[:username => RequestContext.get(:current_username)].id
     filter = {:repo_id => repo_id, :user_uniq => [user_id.to_s, 'GLOBAL_USER']}
     json_prefs = {'defaults' => {}}
     prefs = {}
     defaults = {}
 
-    self.filter(filter).each do |pref|
-      if pref.user_uniq == 'GLOBAL_USER'
-        json_prefs['repo'] = self.sequel_to_jsonmodel(pref)
-        prefs[:repo] = pref
-      else
-        json_prefs['user_repo'] = self.sequel_to_jsonmodel(pref)
-        prefs[:user_repo] = pref
+    if repo_id != Repository.global_repo_id
+      self.filter(filter).each do |pref|
+        if pref.user_uniq == 'GLOBAL_USER'
+          json_prefs['repo'] = self.sequel_to_jsonmodel(pref)
+          prefs[:repo] = pref
+        else
+          json_prefs['user_repo'] = self.sequel_to_jsonmodel(pref)
+          prefs[:user_repo] = pref
+        end
       end
     end
 
