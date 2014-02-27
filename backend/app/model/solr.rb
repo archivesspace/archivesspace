@@ -127,7 +127,7 @@ class Solr
 
     def set_excluded_ids(ids)
       if ids
-        query = excluded_ids.map { |id| "\"#{id}\"" }.join(' OR ')
+        query = ids.map { |id| "\"#{id}\"" }.join(' OR ')
         add_solr_param(:fq, "-id:(#{query})")
       end
 
