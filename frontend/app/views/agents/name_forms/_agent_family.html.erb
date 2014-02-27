@@ -1,20 +1,13 @@
 <% define_template "name_family", jsonmodel_definition(:name_family) do |form| %>
   <div class="subrecord-form-fields">
     <h4 class="subrecord-form-heading">
-      <span class="badge badge-info is-authoritive-label"><%= I18n.t("name_person.authorized") %></span>
+      <span class="badge badge-info is-authoritive-label"><%= I18n.t("name_family.authorized") %></span>
       <button class="btn btn-small btn-authoritive-name-toggle"><%= I18n.t("name._frontend.action.make_authorized") %></button>
-      <span class="badge badge-info is-display-name-label"><%= I18n.t("name_person.is_display_name") %></span>
+      <span class="badge badge-info is-display-name-label"><%= I18n.t("name_family.is_display_name") %></span>
       <button class="btn btn-small btn-display-name-toggle"><%= I18n.t("name._frontend.action.make_display_name") %></button>
     </h4>
 
-    <%= form.hidden_input "is_display_name", form["is_display_name"] || 0 %>
-    <div class="name-authority-fields">
-      <%= form.label_and_textfield "authority_id", :required => :conditionally %>
-      <%= form.label_and_select "source", form.possible_options_for('source', true), :required => :conditionally %>
-      <%= form.label_and_select "rules", form.possible_options_for('rules', true), :required => :conditionally %>
-      <%= form.hidden_input "authorized", form["authorized"] || 0 %>
-      <hr/>
-    </div>
+    <%= render :partial => "agents/name_forms/authority_fields", :locals => {:form => form} %>
 
     <%= form.label_and_textfield "prefix" %>
     <%= form.label_and_textfield "family_name" %>
