@@ -1,7 +1,10 @@
+<%
+   suppressible = true if suppressible.nil?
+%>
 <div class="row-fluid">
   <div class="span12">
     <div class="record-toolbar">
-      <% if !record.suppressed %>
+      <% if (suppressible && !record.suppressed) || !suppressible %>
         <% if !['edit', 'update', 'create'].include?(controller.action_name) %>
           <div class="btn-group pull-left">
             <%= link_to I18n.t("actions.edit"), parent_link, :class => "btn btn-small btn-primary" %>
@@ -21,10 +24,12 @@
       <% end %>
       <div class="btn-toolbar pull-right">
         <div class="btn-group">
+
           <% if user_can?('update_archival_record') && !record.suppressed %>
             <%= render :partial => "shared/event_dropdown", :locals => {:record => record} %>
           <% end %>
-          <% if user_can?('suppress_archival_record') %>
+
+          <% if suppressible && user_can?('suppress_archival_record') %>
             <div class="btn btn-inline-form">
               <% if record.suppressed %>
                 <%= button_confirm_action I18n.t("actions.unsuppress"),

@@ -2878,6 +2878,9 @@ end
 
     before(:all) do
       login_as_admin
+
+      @classification_agent_uri, @classification_agent_name = create_agent("Classification Agent #{Time.now.to_i}_#{$$}")
+      run_index_round
     end
 
 
@@ -2887,6 +2890,7 @@ end
 
 
     test_classification = "Classification #{Time.now.to_i}_#{$$}"
+    test_classification_term = "Classification Term #{Time.now.to_i}_#{$$}"
 
     it "allows you to create a classification tree" do
       $driver.find_element(:link, "Create").click
@@ -2895,9 +2899,37 @@ end
       $driver.clear_and_send_keys([:id, 'classification_identifier_'], "10")
       $driver.clear_and_send_keys([:id, 'classification_title_'], test_classification)
 
+      token_input = $driver.find_element(:id, "token-input-classification_creator__ref_")
+      token_input.clear
+      token_input.click
+      token_input.send_keys(@classification_agent_name)
+      $driver.find_element(:css, "li.token-input-dropdown-item2").click
+
       $driver.click_and_wait_until_gone(:css => "form#classification_form button[type='submit']")
 
       $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Classification.*created/i)
+
+      $driver.find_element_with_text('//div[contains(@class, "agent_person")]', /#{@classification_agent_name}/i)
+    end
+
+
+    it "allows you to create a classification term" do
+      $driver.find_element(:link, "Add Child").click
+
+      $driver.clear_and_send_keys([:id, 'classification_term_identifier_'], "11")
+      $driver.clear_and_send_keys([:id, 'classification_term_title_'], test_classification_term)
+
+      token_input = $driver.find_element(:id, "token-input-classification_term_creator__ref_")
+      token_input.clear
+      token_input.click
+      token_input.send_keys(@classification_agent_name)
+      $driver.find_element(:css, "li.token-input-dropdown-item2").click
+
+      $driver.click_and_wait_until_gone(:css => "form#classification_term_form button[type='submit']")
+
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Classification Term.*created/i)
+
+      $driver.find_element_with_text('//div[contains(@class, "agent_person")]', /#{@classification_agent_name}/i)
     end
 
 
