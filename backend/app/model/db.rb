@@ -164,7 +164,7 @@ EOF
 
 
   def self.jdbc_metadata
-    md =  open { |p|  p.synchronize { |c| c.send(:getMetaData) }} 
+    md =  open { |p|  p.synchronize { |c| c.getMetaData }} 
     { "databaseProductName" => md.getDatabaseProductName, 
       "databaseProductVersion" => md.getDatabaseProductVersion } 
   end
