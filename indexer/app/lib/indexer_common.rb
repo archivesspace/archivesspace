@@ -21,7 +21,8 @@ class CommonIndexer
                     :event,
                     :agent_person, :agent_software, :agent_family, :agent_corporate_entity]
 
-  @@global_types = [:agent_person, :agent_software, :agent_family, :agent_corporate_entity]
+  @@global_types = [:agent_person, :agent_software, :agent_family, :agent_corporate_entity,
+                    :location, :subject]
 
   @@records_with_children = []
   @@init_hooks = []
