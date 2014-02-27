@@ -258,6 +258,10 @@ class StreamingImport
 
       model = model_for(record['jsonmodel_type'])
 
+      if json.respond_to?(:publish) && json.publish.nil?
+        json.publish = Preference.defaults['publish']
+      end
+
       obj = if model.respond_to?(:ensure_exists)
               model.ensure_exists(json, nil)
             else
