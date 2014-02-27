@@ -57,6 +57,7 @@ describe 'Solr model' do
     query = Solr::Query.create_keyword_search("hello world").
                         pagination(1, 10).
                         set_repo_id(@repo_id).
+      									set_excluded_ids(%w(alpha omega)).
                         set_record_types(['optional_record_type'])
 
     response = Solr.search(query)
@@ -65,6 +66,7 @@ describe 'Solr model' do
     http.request.path.should match(/wt=json/)
     http.request.path.should match(/suppressed%3Afalse/)
     http.request.path.should match(/fq=types%3A%28]?%22optional_record_type/)
+    http.request.path.should match(/-id%3A%28%22alpha%22\+OR\+%22omega/)
 
     response['offset_first'].should eq(1)
     response['offset_last'].should eq(1)
