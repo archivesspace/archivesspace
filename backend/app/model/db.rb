@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'rbconfig'
 
 class DB
 
@@ -156,6 +157,22 @@ EOF
     end
   end
 
+
+  def self.sysinfo
+    jdbc_metadata.merge(system_metadata) 
+  end
+
+
+  def self.jdbc_metadata
+    md =  open { |p|  p.synchronize { |c| c.send(:getMetaData) }} 
+    { "databaseProductName" => md.getDatabaseProductName, 
+      "databaseProductVersion" => md.getDatabaseProductVersion } 
+  end
+
+  def self.system_metadata
+    RbConfig.const_get("CONFIG").select { |key| ['host_os', 'host_cpu', 
+                                                  'build', 'ruby_version'].include? key }
+  end
 
   def self.needs_savepoint?
     # Postgres needs a savepoint for any statement that might fail
