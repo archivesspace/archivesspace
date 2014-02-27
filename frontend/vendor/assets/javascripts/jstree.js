@@ -3605,77 +3605,77 @@
         else { return false; }
       }
     };
-    $(function () {
-      var css_string = '' +
-        '#vakata-contextmenu { display:block; visibility:hidden; left:0; top:-200px; position:absolute; margin:0; padding:0; min-width:180px; background:#ebebeb; border:1px solid silver; z-index:10000; *width:180px; } ' +
-        '#vakata-contextmenu ul { min-width:180px; *width:180px; } ' +
-        '#vakata-contextmenu ul, #vakata-contextmenu li { margin:0; padding:0; list-style-type:none; display:block; } ' +
-        '#vakata-contextmenu li { line-height:20px; min-height:20px; position:relative; padding:0px; } ' +
-        '#vakata-contextmenu li a { padding:1px 6px; line-height:17px; display:block; text-decoration:none; margin:1px 1px 0 1px; } ' +
-        '#vakata-contextmenu li ins { float:left; width:16px; height:16px; text-decoration:none; margin-right:2px; } ' +
-        '#vakata-contextmenu li a:hover, #vakata-contextmenu li.vakata-hover > a { background:gray; color:white; } ' +
-        '#vakata-contextmenu li ul { display:none; position:absolute; top:-2px; left:100%; background:#ebebeb; border:1px solid gray; } ' +
-        '#vakata-contextmenu .right { right:100%; left:auto; } ' +
-        '#vakata-contextmenu .bottom { bottom:-1px; top:auto; } ' +
-        '#vakata-contextmenu li.vakata-separator { min-height:0; height:1px; line-height:1px; font-size:1px; overflow:hidden; margin:0 2px; background:silver; /* border-top:1px solid #fefefe; */ padding:0; } ';
-      $.vakata.css.add_sheet({ str : css_string, title : "vakata" });
-      $.vakata.context.cnt
-        .delegate("a","click", function (e) { e.preventDefault(); })
-        .delegate("a","mouseup", function (e) {
-          if(!$(this).parent().hasClass("jstree-contextmenu-disabled") && $.vakata.context.exec($(this).attr("rel"))) {
-            $.vakata.context.hide();
-          }
-          else { $(this).blur(); }
-        })
-        .delegate("a","mouseover", function () {
-          $.vakata.context.cnt.find(".vakata-hover").removeClass("vakata-hover");
-        })
-        .appendTo("body");
-      $(document).bind("mousedown", function (e) { if($.vakata.context.vis && !$.contains($.vakata.context.cnt[0], e.target)) { $.vakata.context.hide(); } });
-      if(typeof $.hotkeys !== "undefined") {
-        $(document)
-          .bind("keydown", "up", function (e) {
-            if($.vakata.context.vis) {
-              var o = $.vakata.context.cnt.find("ul:visible").last().children(".vakata-hover").removeClass("vakata-hover").prevAll("li:not(.vakata-separator)").first();
-              if(!o.length) { o = $.vakata.context.cnt.find("ul:visible").last().children("li:not(.vakata-separator)").last(); }
-              o.addClass("vakata-hover");
-              e.stopImmediatePropagation();
-              e.preventDefault();
-            }
-          })
-          .bind("keydown", "down", function (e) {
-            if($.vakata.context.vis) {
-              var o = $.vakata.context.cnt.find("ul:visible").last().children(".vakata-hover").removeClass("vakata-hover").nextAll("li:not(.vakata-separator)").first();
-              if(!o.length) { o = $.vakata.context.cnt.find("ul:visible").last().children("li:not(.vakata-separator)").first(); }
-              o.addClass("vakata-hover");
-              e.stopImmediatePropagation();
-              e.preventDefault();
-            }
-          })
-          .bind("keydown", "right", function (e) {
-            if($.vakata.context.vis) {
-              $.vakata.context.cnt.find(".vakata-hover").children("ul").show().children("li:not(.vakata-separator)").removeClass("vakata-hover").first().addClass("vakata-hover");
-              e.stopImmediatePropagation();
-              e.preventDefault();
-            }
-          })
-          .bind("keydown", "left", function (e) {
-            if($.vakata.context.vis) {
-              $.vakata.context.cnt.find(".vakata-hover").children("ul").hide().children(".vakata-separator").removeClass("vakata-hover");
-              e.stopImmediatePropagation();
-              e.preventDefault();
-            }
-          })
-          .bind("keydown", "esc", function (e) {
-            $.vakata.context.hide();
-            e.preventDefault();
-          })
-          .bind("keydown", "space", function (e) {
-            $.vakata.context.cnt.find(".vakata-hover").last().children("a").click();
-            e.preventDefault();
-          });
-      }
-    });
+//    $(function () {
+//      var css_string = '' +
+//        '#vakata-contextmenu { display:block; visibility:hidden; left:0; top:-200px; position:absolute; margin:0; padding:0; min-width:180px; background:#ebebeb; border:1px solid silver; z-index:10000; *width:180px; } ' +
+//        '#vakata-contextmenu ul { min-width:180px; *width:180px; } ' +
+//        '#vakata-contextmenu ul, #vakata-contextmenu li { margin:0; padding:0; list-style-type:none; display:block; } ' +
+//        '#vakata-contextmenu li { line-height:20px; min-height:20px; position:relative; padding:0px; } ' +
+//        '#vakata-contextmenu li a { padding:1px 6px; line-height:17px; display:block; text-decoration:none; margin:1px 1px 0 1px; } ' +
+//        '#vakata-contextmenu li ins { float:left; width:16px; height:16px; text-decoration:none; margin-right:2px; } ' +
+//        '#vakata-contextmenu li a:hover, #vakata-contextmenu li.vakata-hover > a { background:gray; color:white; } ' +
+//        '#vakata-contextmenu li ul { display:none; position:absolute; top:-2px; left:100%; background:#ebebeb; border:1px solid gray; } ' +
+//        '#vakata-contextmenu .right { right:100%; left:auto; } ' +
+//        '#vakata-contextmenu .bottom { bottom:-1px; top:auto; } ' +
+//        '#vakata-contextmenu li.vakata-separator { min-height:0; height:1px; line-height:1px; font-size:1px; overflow:hidden; margin:0 2px; background:silver; /* border-top:1px solid #fefefe; */ padding:0; } ';
+//      $.vakata.css.add_sheet({ str : css_string, title : "vakata" });
+//      $.vakata.context.cnt
+//        .delegate("a","click", function (e) { e.preventDefault(); })
+//        .delegate("a","mouseup", function (e) {
+//          if(!$(this).parent().hasClass("jstree-contextmenu-disabled") && $.vakata.context.exec($(this).attr("rel"))) {
+//            $.vakata.context.hide();
+//          }
+//          else { $(this).blur(); }
+//        })
+//        .delegate("a","mouseover", function () {
+//          $.vakata.context.cnt.find(".vakata-hover").removeClass("vakata-hover");
+//        })
+//        .appendTo("body");
+//      $(document).bind("mousedown", function (e) { if($.vakata.context.vis && !$.contains($.vakata.context.cnt[0], e.target)) { $.vakata.context.hide(); } });
+//      if(typeof $.hotkeys !== "undefined") {
+//        $(document)
+//          .bind("keydown", "up", function (e) {
+//            if($.vakata.context.vis) {
+//              var o = $.vakata.context.cnt.find("ul:visible").last().children(".vakata-hover").removeClass("vakata-hover").prevAll("li:not(.vakata-separator)").first();
+//              if(!o.length) { o = $.vakata.context.cnt.find("ul:visible").last().children("li:not(.vakata-separator)").last(); }
+//              o.addClass("vakata-hover");
+//              e.stopImmediatePropagation();
+//              e.preventDefault();
+//            }
+//          })
+//          .bind("keydown", "down", function (e) {
+//            if($.vakata.context.vis) {
+//              var o = $.vakata.context.cnt.find("ul:visible").last().children(".vakata-hover").removeClass("vakata-hover").nextAll("li:not(.vakata-separator)").first();
+//              if(!o.length) { o = $.vakata.context.cnt.find("ul:visible").last().children("li:not(.vakata-separator)").first(); }
+//              o.addClass("vakata-hover");
+//              e.stopImmediatePropagation();
+//              e.preventDefault();
+//            }
+//          })
+//          .bind("keydown", "right", function (e) {
+//            if($.vakata.context.vis) {
+//              $.vakata.context.cnt.find(".vakata-hover").children("ul").show().children("li:not(.vakata-separator)").removeClass("vakata-hover").first().addClass("vakata-hover");
+//              e.stopImmediatePropagation();
+//              e.preventDefault();
+//            }
+//          })
+//          .bind("keydown", "left", function (e) {
+//            if($.vakata.context.vis) {
+//              $.vakata.context.cnt.find(".vakata-hover").children("ul").hide().children(".vakata-separator").removeClass("vakata-hover");
+//              e.stopImmediatePropagation();
+//              e.preventDefault();
+//            }
+//          })
+//          .bind("keydown", "esc", function (e) {
+//            $.vakata.context.hide();
+//            e.preventDefault();
+//          })
+//          .bind("keydown", "space", function (e) {
+//            $.vakata.context.cnt.find(".vakata-hover").last().children("a").click();
+//            e.preventDefault();
+//          });
+//      }
+//    });
 
     $.jstree.plugin("contextmenu", {
       __init : function () {

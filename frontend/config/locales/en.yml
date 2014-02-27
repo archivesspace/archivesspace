@@ -471,6 +471,7 @@ en:
         created: Event Created
         updated: Event Saved
         deleted: Event Deleted
+        suppressed_info: Event is suppressed and cannot be edited
       section:
         basic_information: Basic Information
         date: Event Date/Time

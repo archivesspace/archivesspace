@@ -13,21 +13,6 @@
           <button type="submit" class="btn btn-primary btn-small"><%= I18n.t("actions.save_prefix") %></button>
         </div>
       <% end %>
-
-      <% if user_can?('merge_archival_record') %>
-        <div class="pull-left">
-          <%=
-             render :partial => "shared/merge_dropdown",
-                    :locals => {:record => record,
-                                :controller => controller.controller_name,
-                                :confirmation_title => I18n.t("actions.merge_confirm_title"),
-                                :confirmation_msg => I18n.t("actions.merge_resource_confirm_message",
-                                                            :target => record.title)}
-          %>
-        </div>
-      <% end %>
-
-
       <% if ['edit', 'update'].include?(controller.action_name) %>
         <div class="pull-left revert-changes">
           <%= link_to I18n.t("actions.revert"), {:action => :edit, :id => record.id}, :class => "btn btn-small" %>
@@ -36,6 +21,9 @@
       <% end %>
       <div class="btn-toolbar pull-right">
         <div class="btn-group">
+          <% if user_can?('update_archival_record') && !record.suppressed %>
+            <%= render :partial => "shared/event_dropdown", :locals => {:record => record} %>
+          <% end %>
           <div class="btn btn-inline-form">
             <%= button_confirm_action(I18n.t("actions.publish"),
                         url_for({:action => :publish, :id => record.id}),
@@ -61,7 +49,16 @@
               <%= yield :exports %>
             </ul>
           </div>
-
+          <% if user_can?('merge_archival_record') %>
+            <%=
+                render :partial => "shared/merge_dropdown",
+                       :locals => {:record => record,
+                                   :controller => controller.controller_name,
+                                   :confirmation_title => I18n.t("actions.merge_confirm_title"),
+                                   :confirmation_msg => I18n.t("actions.merge_resource_confirm_message",
+                                                               :target => record.title)}
+            %>
+          <% end %>
           <% if user_can?('transfer_archival_record') %>
             <%=
                render :partial => "shared/transfer_dropdown",
@@ -105,6 +102,7 @@
           <% end %>
         </div>
       </div>
+      <div class="clearfix"></div>
     </div>
   </div>
 </div>

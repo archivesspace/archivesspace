@@ -13,21 +13,6 @@
           </div>
         <% end %>
 
-        <% if user_can?('merge_agent_record') %>
-          <div class="pull-left">
-            <%=
-               render :partial => "shared/merge_dropdown",
-                      :locals => {:record => @agent,
-                                  :extra_params => {:agent_type => @agent.agent_type},
-                                  :controller => :agents,
-                                  :confirmation_title => I18n.t("actions.merge_confirm_title"),
-                                  :confirmation_msg => I18n.t("actions.merge_agent_confirm_message",
-                                                              :target => @agent.title)}
-            %>
-          </div>
-        <% end %>
-
-
         <% if ['edit', 'update'].include?(controller.action_name) %>
           <div class="pull-left revert-changes">
             <%= link_to I18n.t("actions.revert"), {:controller => :agents, :action => :edit, :id => @agent.id}, :class => "btn btn-small" %>
@@ -45,6 +30,17 @@
                 <%= link_to I18n.t("actions.view_published"), URI.join(AppConfig[:public_proxy_url], @agent.uri).to_s, :target => "_blank", :class => "btn btn-small" %>
               </div>
             <% end %>
+            <% if user_can?('merge_agent_record') %>
+              <%=
+                  render :partial => "shared/merge_dropdown",
+                         :locals => {:record => @agent,
+                                     :extra_params => {:agent_type => @agent.agent_type},
+                                     :controller => :agents,
+                                     :confirmation_title => I18n.t("actions.merge_confirm_title"),
+                                     :confirmation_msg => I18n.t("actions.merge_agent_confirm_message",
+                                                                 :target => @agent.title)}
+              %>
+            <% end %>
             <% if user_can?('delete_agent_record') %>
               <div class="btn btn-inline-form">
                 <%= button_delete_action url_for(:controller => :agents, :action => :delete, :id => @agent.id) %>
@@ -52,6 +48,7 @@
             <% end %>
           </div>
         </div>
+        <div class="clearfix"></div>
       </div>
     </div>
   </div>

@@ -11,6 +11,8 @@ class EventsController < ApplicationController
 
   def show
     @event = JSONModel(:event).find(params[:id], find_opts)
+
+    flash.now[:info] = I18n.t("event._frontend.messages.suppressed_info") if @event.suppressed
   end
 
   def new
@@ -22,11 +24,11 @@ class EventsController < ApplicationController
       @event.event_type = params[:event_type]
     end    
 
-    if params.has_key?(:accession_uri)
+    if params.has_key?(:record_uri)
       @event.linked_records = []
       
-      accession = JSONModel(:accession).find_by_uri(params[:accession_uri])
-      @event.linked_records << {'ref' => accession.uri, '_resolved' => accession.to_hash, 'role' => 'source'}
+      record = JSONModel(params[:record_type]).find_by_uri(params[:record_uri])
+      @event.linked_records << {'ref' => record.uri, '_resolved' => record.to_hash, 'role' => 'source'}
       if request.referrer.end_with?("/edit")
         @redirect_action = 'edit'
       end
@@ -36,6 +38,10 @@ class EventsController < ApplicationController
 
   def edit
     @event = JSONModel(:event).find(params[:id], find_opts)
+
+    if @event.suppressed
+      redirect_to(:controller => :events, :action => :show, :id => params[:id])
+    end
   end
 
   def create

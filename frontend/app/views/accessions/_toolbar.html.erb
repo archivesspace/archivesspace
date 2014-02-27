@@ -28,19 +28,7 @@
               </div>
             <% end %>
             <% if @accession_event_types && !@accession.suppressed %>
-              <div class="btn btn-inline-form">
-                <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
-                  <%= I18n.t("actions.add_event") %>
-                  <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu open-aligned-right">
-                  <% @accession_event_types.each do |type| %>
-                    <li>
-                      <%= link_to I18n.t("event.types.#{type}"), {:controller => :events, :action => :new, :event_type => type, :accession_uri => @accession.uri} %>
-                    </li>
-                  <% end %>
-                </ul>
-              </div>
+              <%= render :partial => "shared/event_dropdown", :locals => {:record => @accession, :event_types => @accession_event_types} %>
             <% end %>
             <% if not @accession.suppressed %>
               <div class="btn btn-inline-form">
@@ -102,6 +90,7 @@
             <% end %>
           </div><!-- btn-group -->
         </div><!-- btn-toolbar pull-right -->
+        <div class="clearfix"></div>
       </div><!-- record-toolbar -->
     </div><!-- span12 -->
   </div><!-- row-fluid -->
