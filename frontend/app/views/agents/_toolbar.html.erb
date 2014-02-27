@@ -37,6 +37,9 @@
 
         <div class="btn-toolbar pull-right">
           <div class="btn-group">
+            <div class="btn btn-inline-form">
+              <%= link_to I18n.t("actions.export_eac"), {:controller => :exports, :action => :download_eac, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-small" %>
+            </div>
             <% if @agent.publish %>
           	  <div class="btn btn-inline-form">
                 <%= link_to I18n.t("actions.view_published"), URI.join(AppConfig[:public_proxy_url], @agent.uri).to_s, :target => "_blank", :class => "btn btn-small" %>

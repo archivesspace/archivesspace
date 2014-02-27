@@ -1,61 +1,4 @@
-require 'nokogiri'
-
-if ENV['ASPACE_BACKEND_URL']
-  require_relative 'custom_matchers'
-  require_relative 'converter_spec_helper'
-  require 'jsonmodel'
-
-  JSONModel::init(:client_mode => true, :strict_mode => true,
-                  :url => ENV['ASPACE_BACKEND_URL'],
-                  :priority => :high)
-
-  auth = JSONModel::HTTP.post_form('/users/admin/login', {:password => 'admin'})
-  JSONModel::HTTP.current_backend_session = JSON.parse(auth.body)['session']
-
-  require 'factory_girl'
-  require_relative 'factories'
-  include FactoryGirl::Syntax::Methods
-
-  repo = create(:json_repo)
-  JSONModel::set_repository(repo.id)
-
-
-  def get_xml(uri)
-    uri = URI("#{ENV['ASPACE_BACKEND_URL']}#{uri}")
-    response = JSONModel::HTTP::get_response(uri)
-
-    if response.is_a?(Net::HTTPSuccess) || response.status == 200
-      Nokogiri::XML::Document.parse(response.body)
-    else
-      nil
-    end
-  end
-
-else
-  require 'spec_helper'
-
-  # $old_user = Thread.current[:active_test_user]
-  Thread.current[:active_test_user] = User.find(:username => 'admin')
-
-  def get_xml(uri)
-    response = get(uri)
-    Nokogiri::XML::Document.parse(response.body)
-  end  
-end
-
-def get_eac(rec)
-  case rec.jsonmodel_type
-  when 'agent_person'
-    get_xml("/archival_contexts/people/#{rec.id}.xml")
-  when 'agent_corporate_entity'
-    get_xml("/archival_contexts/corporate_entities/#{rec.id}.xml")
-  when 'agent_family'
-    get_xml("/archival_contexts/families/#{rec.id}.xml")
-  when 'agent_software'
-    get_xml("/archival_contexts/softwares/#{rec.id}.xml")
-  end
-end
-
+require_relative 'export_spec_helper'
 
 describe 'EAC Export' do
 
@@ -107,6 +50,10 @@ describe 'EAC Export' do
 
       # puts "SOURCE: #{@rec.inspect}\n"
       # puts "RESULT: #{@eac.to_xml}\n"
+    end
+
+    after(:all) do
+      @rec.delete
     end
 
     it "exports EAC with the correct namespaces" do
@@ -252,6 +199,10 @@ describe 'EAC Export' do
       # puts "RESULT: #{@eac.to_xml}\n"
     end
 
+    after(:all) do
+      @rec.delete
+    end
+
     it "maps name.primary_name to nameEntry/part[@localType='primaryPart']" do
       val = @rec.names[0]['primary_name']
       tag = "nameEntry[1]/part[@localType='primaryPart']"
@@ -339,6 +290,9 @@ describe 'EAC Export' do
       # puts "RESULT: #{@eac.to_xml}\n"
     end
 
+    after(:all) do
+      @rec.delete
+    end
 
     it "maps name.prefix to nameEntry/part[@localType='prefix']" do
       val = @rec.names[0]['prefix']
@@ -377,6 +331,10 @@ describe 'EAC Export' do
       @eac = get_eac(@rec)
     end
 
+
+    after(:all) do
+      @rec.delete
+    end
 
     it "creates an existDates tag for the first date of existence" do
       @eac.should have_tag("description/existDates[1]")
@@ -430,7 +388,11 @@ describe 'EAC Export' do
 
       # puts @rec.inspect
       # puts @eac.to_xml
-    end                                            
+    end
+
+    after(:all) do
+      @rec.delete
+    end
 
 
     it "creates a biogHist tag for each note" do
@@ -604,6 +566,12 @@ describe 'EAC Export' do
 
       # puts "SOURCE: #{@rec.inspect}\n"
       # puts "RESULT: #{@eac.to_xml}\n"
+    end
+
+    after(:all) do
+      [@rec, @resource, @digital_object, @resource_component, @linked_agent].each do |rec|
+          rec.delete
+      end
     end
 
     it "maps related agents to cpfRelation" do

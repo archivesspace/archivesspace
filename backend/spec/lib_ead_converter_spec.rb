@@ -37,7 +37,7 @@ ANEAD
   describe "EAD Import Mappings" do
 
     def convert_test_file
-      converter = EADConverter.new(File.expand_path("../app/migrations/examples/ead/at-tracer.xml", File.dirname(__FILE__)))
+      converter = EADConverter.new(File.expand_path("../app/exporters/examples/ead/at-tracer.xml", File.dirname(__FILE__)))
       converter.run
       parsed = JSON(IO.read(converter.get_output_path))
 

@@ -22,7 +22,8 @@
         "properties" => {
           "ref" => {
             "type" => "JSONModel(:agent_corporate_entity) uri",
-            "ifmissing" => "error"
+            "ifmissing" => "error",
+            "readonly" => "true"
           }
         }
       },

@@ -7,4 +7,12 @@ class FileVersion < Sequel::Model(:file_version)
   end
 
   set_model_scope :global
+
+  def self.sequel_to_jsonmodel(obj, opts = {})
+    json = super
+    json["identifier"] = obj[:id].to_s
+
+    json
+  end
+  
 end

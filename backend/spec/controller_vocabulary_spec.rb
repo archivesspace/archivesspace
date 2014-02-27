@@ -18,8 +18,9 @@ describe 'Vocabulary controller' do
 
 
   it "lets you list all vocabularies" do
-    id = create_vocabulary
-    JSONModel(:vocabulary).all.count.should eq(2)
+    vocab_count = JSONModel(:vocabulary).all.count
+    create_vocabulary
+    JSONModel(:vocabulary).all.count.should eq(vocab_count + 1)
   end
 
 

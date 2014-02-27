@@ -97,11 +97,12 @@ RSpec::Matchers.define :have_tag do |expected|
                 doc.xpath("//#{tag}")
               else
                 tag_frags = tag.gsub(/^\//, '').split('/')
-                tag = "xmlns:#{tag_frags.shift}"
+                path_root = tag_frags.shift
+                tag = path_root =~ /^[^\[]+:.+/ ? path_root : "xmlns:#{path_root}"
                 selector = false
                 
                 tag_frags.each do |frag|
-        					join = selector ? '/' : '/xmlns:'
+        					join = (selector || frag =~ /^[^\[]+:.+/) ? '/' : '/xmlns:'
         					tag << "#{join}#{frag}"
         					if frag =~ /\[[^\]]*$/
                     selector = true
@@ -115,9 +116,9 @@ RSpec::Matchers.define :have_tag do |expected|
     if nodeset.empty?
       false
     elsif expected.is_a?(Hash)
-      nodeset.find {|node|
+      nodeset.any? {|node|
         node.inner_text == expected.values[0]
-      }.nil? ? false : true
+      }
     else
       true
     end
@@ -136,7 +137,20 @@ RSpec::Matchers.define :have_tag do |expected|
   end
 end
 
- 
+
+RSpec::Matchers.define :have_schema_location do |expected|
+
+  match do |doc|
+    schema_location = doc.xpath('/*').attr('xsi:schemaLocation')
+    schema_location && schema_location.value == expected
+  end
+
+  failure_message_for_should do |doc|
+    "Expected document's schema location to be #{expected}"
+  end
+end
+
+
 RSpec::Matchers.define :have_namespaces do |expected|
 
   match do |doc|

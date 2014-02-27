@@ -52,7 +52,7 @@ class ArchivesSpaceService < Sinatra::Base
     register Sinatra::Reloader
     config.also_reload File.join("app", "**", "*.rb")
     config.dont_reload File.join("app", "lib", "rest.rb")
-    config.dont_reload File.join("**", "migrations", "*.rb")
+    config.dont_reload File.join("**", "exporters", "*.rb")
     config.dont_reload File.join("**", "spec", "*.rb")
 
     set :server, :puma

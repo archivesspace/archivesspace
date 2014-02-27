@@ -1,4 +1,5 @@
-ASpaceExport::model :marc21 do
+class MARCModel < ASpaceExport::ExportModel
+  model_for :marc21
 
   include JSONModel
 
@@ -123,6 +124,14 @@ ASpaceExport::model :marc21 do
   end
 
 
+  def df!(*args)
+    @sequence ||= 0
+    @sequence += 1
+    @datafields[@sequence] = @@datafield.new(*args)
+    @datafields[@sequence]
+  end
+
+
   def df(*args)
     if @datafields.has_key?(args.to_s)
       @datafields[args.to_s]
@@ -131,6 +140,7 @@ ASpaceExport::model :marc21 do
       @datafields[args.to_s]
     end
   end
+
 
   def handle_id(*ids)
     ids.reject!{|i| i.nil? || i.empty?}
@@ -144,20 +154,26 @@ ASpaceExport::model :marc21 do
   end
 
   def handle_dates(dates)
-    d0 = dates[0]
-    return false unless d0
+    return false if dates.empty?
 
-    code = d0['date_type'] == 'bulk' ? 'g' : 'f'
-    val = nil
-    if d0['expression']
-      val = d0['expression']
-    elsif d0['date_type'] == 'single'
-      val = d0['begin']
-    elsif d0['date_type'] == 'inclusive'
-      val = "#{d0['begin']} - #{d0['end']}"
+    # only use up to 1 bulk and 1 non-bulk
+    dates = [["single", "inclusive"], ["bulk"]].map {|types| 
+      dates.find {|date| types.include? date['date_type'] } 
+    }.compact
+
+    dates.each do |date|
+    code = date['date_type'] == 'bulk' ? 'g' : 'f'
+      val = nil
+      if date['expression'] && date['date_type'] != 'bulk'
+        val = date['expression']
+      elsif date['date_type'] == 'single'
+        val = date['begin']
+      else
+        val = "#{date['begin']} - #{date['end']}"
+      end
+
+      df('245', '1', '0').with_sfs([code, val])
     end
-
-    df('245', '1', '0').with_sfs([code, val])
   end
 
   def handle_repo_code(repository)
@@ -468,7 +484,7 @@ ASpaceExport::model :marc21 do
       unless marc_args.nil?
         text = prefix ? "#{prefix}: " : ""
         text += ASpaceExport::Utils.extract_note_text(note)
-        df(*marc_args[0...-1]).with_sfs([marc_args.last, *Array(text)])
+        df!(*marc_args[0...-1]).with_sfs([marc_args.last, *Array(text)])
       end
 
     end
@@ -478,15 +494,13 @@ ASpaceExport::model :marc21 do
   def handle_extents(extents)
     extents.each do |ext|
       e = ext['number']
-      # e << " (#{ext['portion']})" if ext['portion']
       e << " #{I18n.t('enumerations.extent_extent_type.'+ext['extent_type'], :default => ext['extent_type'])}"
 
       if ext['container_summary']
         e << " (#{ext['container_summary']})"
       end
 
-      df('300').with_sfs(['a', e])
-
+      df!('300').with_sfs(['a', e])
     end
   end
 

@@ -100,4 +100,16 @@ class Repository < Sequel::Model(:repository)
     end
   end
 
+
+  def self.sequel_to_jsonmodel(obj, opts = {})
+    json = super
+
+    if (agent_id = obj.agent_representation_id)
+      json["agent_representation"] = {
+        "ref" => JSONModel(:agent_corporate_entity).uri_for(agent_id)
+      }
+    end
+    
+    json
+  end
 end

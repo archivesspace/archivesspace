@@ -4,7 +4,7 @@ require_relative '../app/converters/digital_object_converter'
 
 describe 'Digital Object converter' do
 
-  def convert_test_file(input_file = "../app/migrations/examples/digital_object/test_digital_object.csv" )
+  def convert_test_file(input_file = "../app/exporters/examples/digital_object/test_digital_object.csv" )
     test_file = File.expand_path( input_file, File.dirname(__FILE__))
     converter = DigitalObjectConverter.instance_for('digital_object_csv', test_file)
     converter.run
@@ -32,7 +32,7 @@ describe 'Digital Object converter' do
   end
   
   it "does something even if its a kooky utf-8 file with a BOM" do
-    @records = convert_test_file('../app/migrations/examples/digital_object/test_digital_object_utf8_bom.csv')
+    @records = convert_test_file('../app/exporters/examples/digital_object/test_digital_object_utf8_bom.csv')
     @digital_objects = @records.select {|r| r['jsonmodel_type'] == 'digital_object' }
 
     @digital_objects[0].should_not be(nil)

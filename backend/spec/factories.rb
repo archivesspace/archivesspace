@@ -49,6 +49,7 @@ FactoryGirl.define do
   sequence(:username) {|n| "username_#{n}"}
 
   sequence(:alphanumstr) { (0..4).map{ rand(3)==1?rand(10):(65 + rand(25)).chr }.join }
+  sequence(:string) { generate(:alphanumstr) }
   sequence(:generic_title) { |n| "Title: #{n}"}
   sequence(:generic_description) {|n| "Description: #{n}"}
   sequence(:generic_name) {|n| "Name Number #{n}"}
@@ -77,6 +78,7 @@ FactoryGirl.define do
   sequence(:date_lable) { sample(JSONModel(:date).schema['properties']['label']) }
 
   sequence(:multipart_note_type) { sample(JSONModel(:note_multipart).schema['properties']['type'])}
+  sequence(:digital_object_note_type) { sample(JSONModel(:note_digital_object).schema['properties']['type'])}
   sequence(:singlepart_note_type) { sample(JSONModel(:note_singlepart).schema['properties']['type'])}
   sequence(:note_index_type) { sample(JSONModel(:note_index).schema['properties']['type'])}
   sequence(:note_index_item_type) { sample(JSONModel(:note_index_item).schema['properties']['type'])}
@@ -108,8 +110,8 @@ FactoryGirl.define do
   sequence(:relator) { sample(JSONModel(:abstract_archival_object).schema['properties']['linked_agents']['items']['properties']['relator']) }
   sequence(:subject_source) { sample(JSONModel(:subject).schema['properties']['source']) }
 
-  sequence(:vocab_name) {|n| "Vocabulary #{generate(:generic_title)} #{n}" }
-  sequence(:vocab_refid) {|n| "vocab_ref_#{n}"}
+  sequence(:vocab_name) {|n| "Vocabulary #{generate(:generic_title)} #{n} - #{Time.now}" }
+  sequence(:vocab_refid) {|n| "vocab_ref_#{n} - #{Time.now}"}
 
   sequence(:downtown_address) { "#{rand(200)} #{%w(E W).sample} #{(4..9).to_a.sample}th Street" }
 
@@ -508,6 +510,11 @@ FactoryGirl.define do
     subnotes { [ build(:json_note_text) ] }
   end
 
+  factory :json_note_digital_object, class: JSONModel(:note_digital_object) do
+    type { generate(:digital_object_note_type)}
+    content { [ generate(:string), generate(:string) ] }
+  end
+
   factory :json_resource, class: JSONModel(:resource) do
     title { "Resource #{generate(:generic_title)}" }
     id_0 { generate(:alphanumstr) }
@@ -529,6 +536,13 @@ FactoryGirl.define do
     name { generate(:generic_description) }
     org_code { generate(:alphanumstr) }
     image_url { generate(:url) }
+    url { generate(:url) }
+  end
+
+
+  factory :json_repo_with_agent, class: JSONModel(:repository_with_agent) do
+    repository { build(:json_repo) }
+    agent_representation { build(:json_agent_corporate_entity) }
   end
 
   # may need factories for each rights type

@@ -1,6 +1,15 @@
 require 'nokogiri'
 require 'spec_helper'
 
+#################################################
+# It is not recommended that this specification #
+# be developed further. Going forward, use or   #
+# create a specification for whatever export    #
+# format you are working on, e.g.,              #
+# export_mods_spec.rb                           #
+#################################################
+
+
 describe 'Export Mappings' do
 
   #######################################################################
@@ -1131,43 +1140,6 @@ describe 'Export Mappings' do
       else
         df.sf_t('e').should eq('creator')
       end
-    end
-
-
-    it "maps data to datafield[@tag='245' and @ind1='1' and @ind2='0']" do
-      df = @doc.df('245', '1', '0')
-      df.sf_t('a').should eq(@resource.title)
-      date = @resource.dates[0]
-      date_content = date['date_type'] == 'bulk' ? df.sf_t('g') : df.sf_t('f')
-      if date['expression']
-        date_content.should eq(date['expression'])
-      elsif date['date_type'] == 'single'
-        date_content.should eq(date['begin'])
-      elsif date['date_type'] == 'inclusive'
-        date_content.should eq("#{date['begin']} - #{date['end']}")
-      end
-    end
-
-
-    it "maps extent data to datafield[@tag='300' and @ind1=' ' and @ind2=' ']" do
-      df = @doc.df('300', ' ', ' ')
-      df.sf('a').count.should eq(@resource.extents.count)
-      df.sf_t('a').should eq(@resource.extents.map{|e| "#{e['number']} #{translate('enumerations.extent_extent_type', e['extent_type'])}"}.join(''))
-      df.sf_t('f').should eq(@resource.extents.map{|e| e['container_summary']}.join(''))
-    end
-
-
-    # specified, but not possible given validation rules
-    # it "hardcodes datafield[@tag='300' and @ind1=' ' and @ind2=' '] when extents is empty" do
-    #   df = @doc_b.df('300', ' ', ' ')
-    #   df.sf_t('a').should eq('1 item')
-    # end
-
-
-    it "maps notes of type 'arrangement' and 'fileplan' to datafield[@tag='351' and @ind1=' ' and @ind2=' ']/subfield[@code='b']" do
-      contents = @resource.notes.select{|n| ['arrangement', 'fileplan'].include?(n['type']) }.map {|n| note_content(n)}.sort
-      xml_data = @doc.df('351', ' ', ' ').sf('b').map{|n| n.inner_text}.sort
-      contents.should eq(xml_data)
     end
 
 

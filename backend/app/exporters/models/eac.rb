@@ -1,4 +1,5 @@
-ASpaceExport::model :eac do
+class EACModel < ASpaceExport::ExportModel
+  model_for :eac
 
   attr_reader :related_records
 
