@@ -2102,11 +2102,35 @@ end
       $driver.find_element(:css => "form#delete_enumeration button[type='submit']").click
 
       $driver.find_element_with_text('//div', /Value Deleted/)
+
+      $driver.ensure_no_such_element(:xpath, '//td[contains(text(), "manna")]')
     end
 
 
     it "lets you merge one value into another in an enumeration" do
-      # write this test!
+      enum_a = "EnumA_#{Time.now.to_i}_#{$$}"
+      enum_b = "EnumB_#{Time.now.to_i}_#{$$}"
+
+      # create enum A
+      $driver.find_element(:link, 'Create Value').click
+      $driver.clear_and_send_keys([:id, "enumeration_value_"], "#{enum_a}\n")
+
+      # create enum B
+      $driver.find_element(:link, 'Create Value').click
+      $driver.clear_and_send_keys([:id, "enumeration_value_"], "#{enum_b}\n")
+
+      # merge enum B into A
+      $driver.find_element(:xpath, "//a[contains(@href, \"#{enum_b}\")][contains(text(), \"Merge\")]").click
+
+      #merge form is eventually displayed
+      merge_form = $driver.find_element(:id, 'merge_enumeration')
+      merge_form.find_element(:id, 'merge_into').select_option_with_text(enum_a)
+
+      $driver.click_and_wait_until_gone(:css => "form#merge_enumeration button[type='submit']")
+
+      $driver.find_element_with_text('//div', /Value Merged/)
+
+      $driver.ensure_no_such_element(:xpath, "//td[contains(text(), \"#{enum_b}\")]")
     end
 
 
