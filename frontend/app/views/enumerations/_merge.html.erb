@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 <%= form_for @enumeration, :as => "enumeration", :url => {:action => :merge, :id => JSONModel(:enumeration).id_for(@enumeration["uri"])}, :html => {:class => 'form-horizontal aspace-record-form', :id => "merge_enumeration"} do |f| %>
   <%= form_context :enumeration, @enumeration do |form| %>
     <div class="modal-header">
