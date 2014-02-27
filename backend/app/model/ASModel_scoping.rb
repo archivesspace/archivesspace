@@ -58,6 +58,7 @@ module ASModel
     end
 
 
+
     module ClassMethods
 
       def enable_suppression
@@ -76,7 +77,7 @@ module ASModel
 
       def handle_suppressed(ids, val)
         if suppressible?
-          self.filter(:id => ids).update(:suppressed => val ? 1 : 0)
+          ASModel.update_suppressed_flag(self.filter(:id => ids), val)
         end
       end
 
