@@ -415,8 +415,8 @@ describe 'Resources controller' do
     resource.notes = [notes, index]
     resource.save
 
-    JSONModel(:resource).find(resource.id)[:notes].first.should eq(notes.to_hash)
-    JSONModel(:resource).find(resource.id)[:notes].last.should eq(index.to_hash)
+    JSONModel(:resource).find(resource.id)[:notes].first['content'].should eq(notes.to_hash['content'])
+    JSONModel(:resource).find(resource.id)[:notes].last['content'].should eq(index.to_hash['content'])
   end
 
 
