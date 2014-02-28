@@ -24,17 +24,17 @@ describe 'Agent model' do
   end
 
 
-  it "for authorized names, requires a rules to be set if source is not provided" do
+  it "for authorized names, requires rules to be set if source is not provided" do
     expect { n1 = build(:json_name_person, :rules => nil, :source => nil, :authorized => true).to_hash }.to raise_error(JSONModel::ValidationException)
   end
 
 
-  it "for authorized names, requires a rules to be set if source is not provided (even if the name is only implicitly authorized)" do
+  it "for authorized names, require rules to be set if source is not provided (even if the name is only implicitly authorized)" do
     expect {
       name = build(:json_name_person, :rules => nil, :source => nil, :authorized => false)
 
       AgentPerson.create_from_json(build(:json_agent_person, :names => [name]))
-    }.to_not raise_error(JSONModel::ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 

@@ -147,6 +147,8 @@ FactoryGirl.define do
                                     :primary_name => generate(:generic_name),
                                     :sort_name => generate(:sort_name),
                                     :sort_name_auto_generate => 1,
+                                    :is_display_name => 1,
+                                    :authorized => 1,
                                     :json_schema_version => 1)
         a.add_agent_contact(:name => generate(:generic_name),
                             :telephone => generate(:phone_number),

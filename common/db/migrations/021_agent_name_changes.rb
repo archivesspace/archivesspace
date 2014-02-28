@@ -22,7 +22,8 @@ Sequel.migration do
 
       self[table].order(foreign_key, :id).each_by_page do |row|
         if row[foreign_key] != last_agent_seen
-          self[table].filter(:id => row[:id]).update(:authorized => 1)
+          self[table].filter(:id => row[:id]).update(:authorized => 1,
+                                                     :is_display_name => 1)
         end
 
         last_agent_seen = row[foreign_key]
