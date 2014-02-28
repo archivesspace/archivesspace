@@ -1,5 +1,6 @@
 <%
    suppressible = true if suppressible.nil?
+   supports_events = true if supports_events.nil?
 %>
 <div class="row-fluid">
   <div class="span12">
@@ -25,7 +26,7 @@
       <div class="btn-toolbar pull-right">
         <div class="btn-group">
 
-          <% if user_can?('update_archival_record') && !record.suppressed %>
+          <% if user_can?('update_archival_record') && supports_events && !record.suppressed %>
             <%= render :partial => "shared/event_dropdown", :locals => {:record => record} %>
           <% end %>
 
