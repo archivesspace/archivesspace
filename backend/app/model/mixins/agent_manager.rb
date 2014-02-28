@@ -64,6 +64,10 @@ module AgentManager
       self.class.ensure_display_name(json)
       self.class.combine_unauthorized_names(json)
 
+      # Force validation to make sure we're left with a valid record after our
+      # changes
+      json.to_hash
+
       # Called for the sake of updating the JSON blob sent to the realtime indexer
       self.class.populate_display_name(json)
 
@@ -116,6 +120,10 @@ module AgentManager
         self.ensure_authorized_name(json)
         self.ensure_display_name(json)
         self.combine_unauthorized_names(json)
+
+        # Force validation to make sure we're left with a valid record after our
+        # changes
+        json.to_hash
 
         # Called for the sake of updating the JSON blob sent to the realtime indexer
         self.populate_display_name(json)
