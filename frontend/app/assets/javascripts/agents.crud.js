@@ -48,10 +48,8 @@ $(function() {
     var handleAuthorizedChange = function(val) {
       if (val) {
         $subform.addClass("authoritive-name");
-        $(".name-authority-fields :input", $subform).removeAttr("disabled");
       } else {
         $subform.removeClass("authoritive-name");
-        $(".name-authority-fields :input", $subform).attr("disabled", "disabled");
       }
       $authorized.val(val ? 1 : 0);
     }
