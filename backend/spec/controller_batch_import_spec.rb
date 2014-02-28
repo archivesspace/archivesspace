@@ -293,4 +293,26 @@ describe "Batch Import Controller" do
       # (the double-entry members occupy 7 and 8)
     }
   end
+
+
+  it "respects the publish default user preference" do
+    obj = build(:json_resource)
+    obj.uri = obj.class.uri_for(1729, {:repo_id => $repo_id})
+    obj.publish = nil
+
+    uri = "/repositories/#{$repo_id}/batch_imports"
+    url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
+
+    response = JSONModel::HTTP.post_json(url, [obj].to_json)
+    response.code.should eq('200')
+    results = ASUtils.json_parse(response.body)
+    results.last['saved'].length.should eq(1)
+
+    real_id = results.last['saved'][obj.uri][-1]
+
+    obj_reloaded = JSONModel(:resource).find(real_id)
+
+    obj_reloaded.publish.should eq(Preference.defaults['publish'])
+  end
+
 end
