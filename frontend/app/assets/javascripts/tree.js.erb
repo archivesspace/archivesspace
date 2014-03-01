@@ -916,8 +916,13 @@ $(function() {
         }
       }).on("after_open.jstree", function() {
         loadTreeActionsForNode(getPrimarySelectedNode());
-      }).on("click", "a", function() {
-        $(this).focus();
+      }).on("click", ".jstree-leaf a", function(event) {
+        // only focus the tree node if the event originates
+        // from a mouse click (otherwise it will be triggered
+        // by another event).
+        if (typeof event.isTrigger == "undefined") {
+          $(this).focus();
+        }
       });
     };
 
