@@ -916,6 +916,8 @@ $(function() {
         }
       }).on("after_open.jstree", function() {
         loadTreeActionsForNode(getPrimarySelectedNode());
+      }).on("click", "a", function() {
+        $(this).focus();
       });
     };
 
