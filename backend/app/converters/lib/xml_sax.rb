@@ -162,13 +162,6 @@ module ASpaceImport
       end
 
 
-      # Schedule retrieval from the next text node
-      # to show up
-      def inner_text
-        @proxies.get_proxy_for(:text)
-      end
-
-
       def inner_xml
         @node.inner_xml.strip
       end

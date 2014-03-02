@@ -1,7 +1,17 @@
+# -*- coding: utf-8 -*-
 require 'spec_helper'
 require_relative '../app/converters/ead_converter'
 
 describe 'EAD converter' do
+
+  def convert(path_to_some_xml)
+    converter = EADConverter.new(test_doc)
+    converter.run
+    json = JSON(IO.read(converter.get_output_path))
+
+    json
+  end
+
 
   let (:test_doc_1) {
     src = <<ANEAD
@@ -699,5 +709,37 @@ ANEAD
     #   get_subnotes_by_type(n, 'note_orderedlist').count.should eq(1)
     #   get_subnotes_by_type(n, 'note_text').should be_empty
     # end
+  end
+
+  # https://www.pivotaltracker.com/story/show/65722286
+  describe "Mapping the unittitle tag" do
+    let (:test_doc) {
+          src = <<ANEAD
+<ead>
+  <archdesc level="collection" audience="internal">
+    <did>
+      <unittitle>一般行政文件 [2]</unittitle>
+      <unitid>Resource.ID.AT</unitid>
+      <physdesc>
+        <extent>5.0 Linear feet</extent>
+        <extent>Resource-ContainerSummary-AT</extent>
+      </physdesc>
+    </did>
+  </archdesc>
+</ead>
+ANEAD
+
+      tmp = ASUtils.tempfile("doc")
+      tmp.write(src)
+      tmp.close
+      tmp.path
+    }
+
+    it "maps the unittitle tag correctly" do
+      json = convert(test_doc)
+      resource = json.find{|r| r['jsonmodel_type'] == 'resource'}
+      resource['title'].should eq("一般行政文件 [2]")
+    end
+
   end
 end
