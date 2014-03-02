@@ -33,12 +33,16 @@ class ArchivesSpaceBackup
 
       params = CGI::parse(db_uri.query)
 
+      host     = db_uri.host
+      port     = db_uri.port
       username = params['user'].first
       password = params['password'].first
       database = db_uri.path.gsub('/', '')
 
       mysqldump_cmd = [
         "mysqldump",
+        "--host=#{host}",
+        "--port=#{port}",
         "--user=#{username}",
         "--password=#{password}",
         "--single-transaction",
