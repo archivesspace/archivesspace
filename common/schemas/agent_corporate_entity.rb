@@ -13,6 +13,11 @@
         "minItems" => 1
       },
 
+      "display_name" => {
+        "type" => "JSONModel(:name_corporate_entity) object",
+        "readonly" => true
+      },
+
       "related_agents" => {
         "type" => "array",
         "items" => {

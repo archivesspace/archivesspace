@@ -565,7 +565,7 @@ def create_agent(name, values = {})
     "names" => [
       {
         "name_order" => "inverted",
-        "authority_id" => "authid123",
+        "authority_id" => SecureRandom.hex,
         "primary_name" => name,
         "rest_of_name" => name,
         "sort_name" => name,

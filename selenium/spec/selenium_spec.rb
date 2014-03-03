@@ -490,7 +490,6 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "agent_agent_contacts__0__name_"], "Email Address")
       $driver.clear_and_send_keys([:id, "agent_agent_contacts__0__email_"], "jimi@rocknrollheaven.com")
 
-      $driver.find_element(:id => "agent_names__1__source_").select_option("local")
       $driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
       assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("My Custom Sort Name Agent") }

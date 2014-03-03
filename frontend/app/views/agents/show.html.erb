@@ -44,7 +44,10 @@
                       <div class="span6">
                         <%= name['sort_name'] %>
                       </div>
-                      <div class="span4"><%# Primary token can go here %></div>
+                      <div class="span4">
+                        <% if name['authorized'] %><span class="badge badge-info"><%= I18n.t("name_person.authorized") %></span><% end %>
+                        <% if name['is_display_name'] %><span class="badge badge-info"><%= I18n.t("name_person.is_display_name") %></span><% end %>
+                      </div>
                     </div>
                   </div>
                   <div id="agent_name_<%= index %>" class="accordion-body collapse">
