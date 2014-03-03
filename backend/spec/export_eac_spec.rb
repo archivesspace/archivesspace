@@ -2,10 +2,6 @@ require_relative 'export_spec_helper'
 
 describe 'EAC Export' do
 
-  shared_examples "abstract agents" do
-
-  end
-
   describe "nameEntryParallel tag" do
     it "wraps two or more name entries in a nameEntryParallel tag" do
       rec = create(:json_agent_family,
@@ -601,6 +597,24 @@ describe 'EAC Export' do
     end
   end
 
+
+  describe "maintenanceAgency" do
+
+    it "maps the repository name and org code" do
+      repo = create(:json_repo)
+      $old_repo_id = $repo_id
+      $repo_id = repo.id
+
+      JSONModel.set_repository($repo_id)
+
+      rec = create(:json_agent_family)
+      eac = get_eac(rec)
+
+      eac.should have_tag "control/maintenanceAgency/agencyCode" => repo.org_code
+      eac.should have_tag "control/maintenanceAgency/agencyName" => repo.name
+    end
+
+  end
 
   # Ensure nil values don't mess things up, etc.
   describe "miscellaneous" do
