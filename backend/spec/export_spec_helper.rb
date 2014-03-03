@@ -73,13 +73,13 @@ end
 def get_eac(rec)
   case rec.jsonmodel_type
   when 'agent_person'
-    get_xml("/archival_contexts/people/#{rec.id}.xml")
+    get_xml("/repositories/#{$repo_id}/archival_contexts/people/#{rec.id}.xml")
   when 'agent_corporate_entity'
-    get_xml("/archival_contexts/corporate_entities/#{rec.id}.xml")
+    get_xml("/repositories/#{$repo_id}/archival_contexts/corporate_entities/#{rec.id}.xml")
   when 'agent_family'
-    get_xml("/archival_contexts/families/#{rec.id}.xml")
+    get_xml("/repositories/#{$repo_id}/archival_contexts/families/#{rec.id}.xml")
   when 'agent_software'
-    get_xml("/archival_contexts/softwares/#{rec.id}.xml")
+    get_xml("/repositories/#{$repo_id}/archival_contexts/softwares/#{rec.id}.xml")
   end
 end
 
