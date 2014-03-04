@@ -66,9 +66,9 @@ class PeriodicIndexer < CommonIndexer
     this_node = tree.reject {|k, v| k == 'children'}
 
     direct_children = tree['children'].
-                        reject {|child| !child['publish']}.
+                        reject {|child| !child['publish'] || child['suppressed']}.
                         map {|child|
-                          grand_children = child['children'].reject{|grand_child| !grand_child['publish']}
+                          grand_children = child['children'].reject{|grand_child| !grand_child['publish'] || grand_child['suppressed']}
                           child['has_children'] = !grand_children.empty?
                           child.reject {|k, v| k == 'children'}
                         }
