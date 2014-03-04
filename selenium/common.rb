@@ -485,7 +485,7 @@ def create_accession(title)
 
   raise response.body if response.code != '200'
 
-  [title, "#{title}, #{identifier}"]
+  title
 end
 
 

@@ -677,9 +677,9 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "accession_condition_description_"], "Slightly squashed")
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-      $driver.click_and_wait_until_gone(:link => "#{@accession_title}, #{@shared_4partid.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => @accession_title)
 
-      assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("#{@accession_title}, #{@shared_4partid.join(", ")} Accession") }
+      assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("#{@accession_title} Accession") }
     end
 
 
@@ -689,7 +689,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, 'accession_condition_description_'], "Here we note the condition of this accession.")
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-      $driver.click_and_wait_until_gone(:link => "#{@accession_title}, #{@shared_4partid.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => @accession_title)
 
       assert(5) { $driver.find_element(:css => 'body').text.should match(/Here is a description of this accession/) }
     end
@@ -722,9 +722,9 @@ describe "ArchivesSpace user interface" do
 
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-      $driver.click_and_wait_until_gone(:link => "#{@accession_title}, #{@shared_4partid.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => @accession_title)
 
-      assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("#{@accession_title}, #{@shared_4partid.join(", ")} Accession") }
+      assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("#{@accession_title} Accession") }
     end
 
 
@@ -745,7 +745,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-      $driver.click_and_wait_until_gone(:link => "#{@accession_title}, #{@shared_4partid.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => @accession_title)
 
       extent_headings = $driver.blocking_find_elements(:css => '#accession_extents_ .accordion-heading')
       extent_headings.length.should eq (1)
@@ -777,7 +777,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-      $driver.click_and_wait_until_gone(:link => "#{@accession_title}, #{@shared_4partid.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => @accession_title)
 
       $driver.find_element(:id => 'accession_linked_agents_').text.should match(/LinkedAgentTerm/)
     end
@@ -841,7 +841,7 @@ describe "ArchivesSpace user interface" do
       # save again!
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-      $driver.click_and_wait_until_gone(:link => "#{@dates_accession_title}, #{@dates_4partid.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => @dates_accession_title)
 
       # check dates
       date_headings = $driver.blocking_find_elements(:css => '#accession_dates_ .accordion-heading')
@@ -860,7 +860,7 @@ describe "ArchivesSpace user interface" do
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
       # check remaining date
-      $driver.click_and_wait_until_gone(:link => "#{@dates_accession_title}, #{@dates_4partid.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => @dates_accession_title)
       date_headings = $driver.blocking_find_elements(:css => '#accession_dates_ .accordion-heading')
       date_headings.length.should eq (1)
     end
@@ -894,7 +894,7 @@ describe "ArchivesSpace user interface" do
       # save!
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-      $driver.click_and_wait_until_gone(:link => "#{@exdocs_accession_title}, #{@exdocs_4partid.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => @exdocs_accession_title)
 
       # check external documents
       external_document_sections = $driver.blocking_find_elements(:css => '#accession_external_documents_ .external-document')
@@ -913,7 +913,7 @@ describe "ArchivesSpace user interface" do
       # save!
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-      $driver.click_and_wait_until_gone(:link => "#{@exdocs_accession_title}, #{@exdocs_4partid.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => @exdocs_accession_title)
 
       # check remaining external documents
       external_document_sections = $driver.blocking_find_elements(:css => '#accession_external_documents_ .external-document')
@@ -946,7 +946,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-      $driver.click_and_wait_until_gone(:link => "#{@exdocs_accession_title}, #{@exdocs_4partid.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => @exdocs_accession_title)
 
       assert(5) { $driver.find_element(:css => "#accession_subjects_ .token").text.should eq("#{@me}AccessionTermABC -- #{@me}AccessionTermDEF") }
     end
@@ -972,7 +972,7 @@ describe "ArchivesSpace user interface" do
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
       # check the show page
-      $driver.click_and_wait_until_gone(:link => "#{@exdocs_accession_title}, #{@exdocs_4partid.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => @exdocs_accession_title)
       $driver.find_element(:id, "accession_rights_statements_")
       $driver.find_element(:css, "#accession_rights_statements_ .accordion-toggle").click
       $driver.find_element(:id, "rights_statement_0")
@@ -1005,7 +1005,7 @@ describe "ArchivesSpace user interface" do
       # Success!
       assert(5) {
         $driver.find_element_with_text('//div', /Event Created/).should_not be_nil
-        $driver.find_element(:css => '.record-pane h2').text.should eq("#{@exdocs_accession_title}, #{@exdocs_4partid.join(", ")} Accession")
+        $driver.find_element(:css => '.record-pane h2').text.should eq("#{@exdocs_accession_title} Accession")
       }
 end
     end
@@ -1113,7 +1113,7 @@ end
 
     before(:all) do
       login_as_repo_manager
-      @accession_title, @accession_label = create_accession("My accession to test the record lifecycle")
+      @accession_title = create_accession("My accession to test the record lifecycle")
       run_index_round
     end
 
@@ -1145,7 +1145,7 @@ end
       $driver.find_element(:css, ".suppress-record.btn").click
       $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
 
-      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession_label} suppressed") }
+      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession_title} suppressed") }
       assert(5) { $driver.find_element(:css => "div.alert.alert-info").text.should eq('Accession is suppressed and cannot be edited') }
 
       run_index_round
@@ -1169,7 +1169,7 @@ end
       $driver.find_element_with_text('//h2', /Accessions/)
 
       # No element found
-      $driver.find_element_with_text('//td', /#{@accession_label}/, true, true).should eq(nil)
+      $driver.find_element_with_text('//td', /#{@accession_title}/, true, true).should eq(nil)
 
       # check the accession url
       $driver.get($accession_url)
@@ -1188,7 +1188,7 @@ end
       $driver.find_element(:css, ".unsuppress-record.btn").click
       $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
 
-      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession_label} unsuppressed") }
+      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession_title} unsuppressed") }
     end
 
 
@@ -1198,7 +1198,7 @@ end
       $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
 
       #Ensure Accession no longer exists
-      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession_label} deleted") }
+      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession_title} deleted") }
 
       run_index_round
 
@@ -1207,7 +1207,7 @@ end
       $driver.find_element_with_text('//h2', /Accessions/)
 
       # No element found
-      $driver.find_element_with_text('//td', /#{@accession_label}/, true, true).should eq(nil)
+      $driver.find_element_with_text('//td', /#{@accession_title}/, true, true).should eq(nil)
 
       # Navigate back to the accession's page
       $driver.get($accession_url)
@@ -3004,7 +3004,7 @@ end
 
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-      $driver.click_and_wait_until_gone(:link => "#{accession_title}, #{accession_4part_id.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => accession_title)
 
       $driver.find_element(:css => 'div.token.classification').text.should match(/#{test_classification}/)
     end
