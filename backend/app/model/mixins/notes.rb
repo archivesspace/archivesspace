@@ -1,3 +1,6 @@
+require 'securerandom'
+require_relative 'auto_generator'
+
 module Notes
 
   def self.included(base)
@@ -17,8 +20,25 @@ module Notes
   module ClassMethods
 
 
+    def populate_persistent_ids(json)
+      json.notes.each do |note|
+        JSONSchemaUtils.map_hash_with_schema(note, JSONModel(note['jsonmodel_type']).schema,
+                                             [proc {|hash, schema|
+                                                if schema['properties']['persistent_id']
+                                                  hash['persistent_id'] ||= SecureRandom.hex
+                                                end
+
+                                                hash
+                                              }])
+      end
+    end
+
+
     def apply_notes(obj, json)
       obj.note_dataset.delete
+
+      populate_persistent_ids(json)
+
 
       json.notes.each do |note|
         publish = note['publish'] ? 1 : 0
