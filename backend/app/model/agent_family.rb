@@ -9,6 +9,7 @@ class AgentFamily < Sequel::Model(:agent_family)
   include AgentManager::Mixin
   include RecordableCataloging
   include Notes
+  include Publishable
 
 
   register_agent_type(:jsonmodel => :agent_family,

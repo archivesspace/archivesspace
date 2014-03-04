@@ -11,6 +11,7 @@ class Subject < Sequel::Model(:subject)
   include AutoGenerator
   include Relationships
   include ImpliedPublication
+  include Publishable
 
   set_model_scope :global
 

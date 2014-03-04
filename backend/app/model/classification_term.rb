@@ -5,6 +5,7 @@ class ClassificationTerm < Sequel::Model(:classification_term)
   include Relationships
   include TreeNodes
   include ClassificationIndexing
+  include Publishable
 
   corresponds_to JSONModel(:classification_term)
   set_model_scope(:repository)
