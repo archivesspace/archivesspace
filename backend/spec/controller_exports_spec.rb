@@ -11,7 +11,7 @@ describe 'Exports controller' do
            'linked_records' => [{'ref' => accession.uri, 'role' => 'source'}])
 
 
-    get '/archival_contexts/softwares/1.xml'
+    get "/repositories/#{$repo_id}/archival_contexts/softwares/1.xml"
     last_response.should be_ok
     last_response.body.should match(/<eac-cpf/)
   end
@@ -19,7 +19,7 @@ describe 'Exports controller' do
 
   it "lets you export a person in EAC-CPF" do
     id = create(:json_agent_person).id
-    get "/archival_contexts/people/#{id}.xml"
+    get "/repositories/#{$repo_id}/archival_contexts/people/#{id}.xml"
     resp = last_response.body
     resp.should match(/<eac-cpf/)
     resp.should match(/<control>/)
@@ -29,7 +29,7 @@ describe 'Exports controller' do
 
   it "lets you export a family in EAC-CPF" do
     id = create(:json_agent_family).id
-    get "/archival_contexts/families/#{id}.xml"
+    get "/repositories/#{$repo_id}/archival_contexts/families/#{id}.xml"
     resp = last_response.body
     resp.should match(/<eac-cpf/)
     resp.should match(/<control>/)
@@ -39,7 +39,7 @@ describe 'Exports controller' do
 
   it "lets you export a corporate entity in EAC-CPF" do
     id = create(:json_agent_corporate_entity).id
-    get "/archival_contexts/corporate_entities/#{id}.xml"
+    get "/repositories/#{$repo_id}/archival_contexts/corporate_entities/#{id}.xml"
     resp = last_response.body
     resp.should match(/<eac-cpf/)
     resp.should match(/<control>/)
@@ -49,7 +49,7 @@ describe 'Exports controller' do
 
   it "lets you export a software in EAC-CPF" do
     id = create(:json_agent_software).id
-    get "/archival_contexts/softwares/#{id}.xml"
+    get "/repositories/#{$repo_id}/archival_contexts/softwares/#{id}.xml"
     resp = last_response.body
     resp.should match(/<eac-cpf/)
     resp.should match(/<control>/)
