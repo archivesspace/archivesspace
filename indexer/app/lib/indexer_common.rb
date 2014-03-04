@@ -448,8 +448,12 @@ class CommonIndexer
       doc['primary_type'] = record_type
       doc['types'] = [record_type]
       doc['json'] = ASUtils.to_json(values)
-      doc['suppressed'] = values['suppressed'].to_s
-      doc['publish'] = values.has_key?('publish') ? values['publish'].to_s : 'false'
+      doc['suppressed'] = values.has_key?('suppressed') ? values['suppressed'].to_s : 'false'
+      if doc['suppressed'] == 'true'
+        doc['publish'] = 'false'
+      else
+        doc['publish'] =  values.has_key?('publish') ? values['publish'].to_s : 'false'
+      end
       doc['system_generated'] = values.has_key?('system_generated') ? values['system_generated'].to_s : 'false'
       doc['repository'] = get_record_scope(uri)
 
