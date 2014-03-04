@@ -2,6 +2,7 @@ require 'nokogiri'
 require_relative 'parse_queue'
 require_relative 'utils'
 require_relative 'jsonmodel_wrap'
+require 'saxerator'
 
 module ASpaceImport
   module XML
@@ -53,14 +54,6 @@ module ASpaceImport
       end
 
 
-      def node_queue_for(reader)
-        obj = reader.to_java
-        nodeQueueField = obj.get_class.get_declared_field("nodeQueue")
-        nodeQueueField.setAccessible(true)
-        nodeQueueField.get(obj)
-      end
-
-
       def run
 
         if config.doc_frag_nodes.empty?
@@ -71,23 +64,20 @@ module ASpaceImport
             object(path, defn)
           end
         else
-          reader = Nokogiri::XML::Reader(IO.read(@input_file))
-          node_queue = node_queue_for(reader)
-          reader.each_with_index do |node, i|
-            if node.node_type == 1 && config.doc_frag_nodes.include?(node.local_name)
+          parser = Saxerator.parser(IO.read(@input_file)) do |config|
+            config.output_type = :xml
+            config.ignore_namespaces!
+            config.strip_namespaces!
+          end
 
-              # it is futile to try to manage namespace
-              # with DocumentFragment.
-              xml = node.outer_xml.gsub(/xmlns[^"]+"[^"]+"/, '')
-
-              @doc = Nokogiri::XML::DocumentFragment.parse(xml)
+          config.doc_frag_nodes.each do |break_node|
+            parser.for_tag(break_node).each do |xml|
+              @doc = xml
               @context = [@doc]
               config.mappings.each do |path, defn|
                 object(path, defn)
               end
             end
-
-            node_queue.set(i, nil)
           end
         end
       end

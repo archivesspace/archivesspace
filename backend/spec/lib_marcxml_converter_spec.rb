@@ -345,7 +345,7 @@ END
 
   describe "Importing Authority Files" do
     it "can import an authority record" do
-      john_davis = File.expand_path("../app/migrations/examples/marc/authority_john_davis.xml",
+      john_davis = File.expand_path("../app/exporters/examples/marc/authority_john_davis.xml",
                                     File.dirname(__FILE__))
 
       converter = MarcXMLConverter.for_subjects_and_agents_only(john_davis)
