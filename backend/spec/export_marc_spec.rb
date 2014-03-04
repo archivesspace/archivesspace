@@ -88,7 +88,8 @@ describe 'MARC Export' do
 
       @notes = %w(arrangement fileplan).map { |type|
         build(:json_note_multipart,
-              :type => type)
+              :type => type,
+              :publish => true)
       }
 
       @extents = (0..5).to_a.map{ build(:json_extent) }

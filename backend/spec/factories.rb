@@ -509,7 +509,7 @@ FactoryGirl.define do
 
   factory :json_note_multipart, class: JSONModel(:note_multipart) do
     type { generate(:multipart_note_type)}
-    subnotes { [ build(:json_note_text) ] }
+    subnotes { [ build(:json_note_text, :publish => true) ] }
   end
 
   factory :json_note_digital_object, class: JSONModel(:note_digital_object) do
