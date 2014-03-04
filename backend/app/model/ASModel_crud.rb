@@ -338,6 +338,7 @@ module ASModel
 
         fire_update(json, obj)
 
+        obj.refresh
         obj
       end
 
@@ -350,13 +351,9 @@ module ASModel
       # (Potentially) notify the real-time indexer that an update is available.
       def fire_update(json, sequel_obj)
         if high_priority?
-          sequel_obj.refresh
-
-          # Manually set any DB hooked values
-          CRUD.set_audit_fields(json, sequel_obj)
-
-          hash = json.to_hash
+          model = self
           uri = sequel_obj.uri
+          hash = model.to_jsonmodel(sequel_obj.id).to_hash(:trusted)
           DB.after_commit do
             RealtimeIndexing.record_update(hash, uri)
           end
