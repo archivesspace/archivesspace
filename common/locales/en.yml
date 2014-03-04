@@ -719,6 +719,7 @@ en:
   file_version:
     _plural: File Versions
     _singular: File Version
+    file: File
     file_uri: File URI
     file_uri_tooltip: |
         <p>An identifier for a file associated with a digital object, accessible on the web or in a file directory.</p>
@@ -771,6 +772,7 @@ en:
         <li>SHA-1</li>
         <li>SHA-256</li>
         </ul>
+    identifier: Identifier
 
   extent: &extent_attributes
     portion: Portion
