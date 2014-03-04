@@ -10,7 +10,7 @@ module Publishable
     def create_from_json(json, opts = {})
       obj = super
 
-      if obj.publish.nil?
+      if respond_to?(:publish) && obj.publish.nil?
         obj.publish = Preference.defaults['publish'] ? 1 : 0
       end
 
