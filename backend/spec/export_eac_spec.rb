@@ -520,6 +520,12 @@ describe 'EAC Export' do
 
   describe "Relations" do
     before(:all) do
+      @repo = create(:json_repo)
+      $old_repo_id = $repo_id
+      $repo_id = @repo.id
+
+      JSONModel.set_repository($repo_id)
+
       @rec = create(:json_agent_person,
                     :external_documents => [
                                             build(:json_external_document),
@@ -566,8 +572,12 @@ describe 'EAC Export' do
 
     after(:all) do
       [@rec, @resource, @digital_object, @resource_component, @linked_agent].each do |rec|
-          rec.delete
+        next if rec.nil?
+        rec.delete
       end
+
+      $repo_id = $old_repo_id
+      JSONModel.set_repository($repo_id)
     end
 
     it "maps related agents to cpfRelation" do
