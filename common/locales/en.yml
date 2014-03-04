@@ -648,6 +648,7 @@ en:
     <<: *note_attributes
     option: Chronology
     title: Title
+    items: Events
 
   chronology_item:
     event_date: Event Date
