@@ -541,6 +541,7 @@ en:
     label: Label
     label_tooltip: |
         <p>A label or heading for the specific note. If a label is not used, the note type will be used as the label wherever required.</p>
+    persistent_id: Persistent ID
     content: Content
     content_tooltip: |
         <p>The content of the note.</p>
