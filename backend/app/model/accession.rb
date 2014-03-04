@@ -35,17 +35,8 @@ class Accession < Sequel::Model(:accession)
 
   auto_generate :property => :display_string,
                 :generator => proc { |json|
+                  return json["title"] if json["title"]
 
-                  display_string = ""
-
-                  %w(title id_0 id_1 id_2 id_3).each do |p|
-
-                    if json[p]
-                      display_string += ", " if !display_string.empty?
-                      display_string += json[p]
-                    end
-                  end
-
-                  display_string
+                  %w(id_0 id_1 id_2 id_3).map{|p| json[p]}.compact.join("-")
                 }
 end
