@@ -585,7 +585,11 @@ FactoryGirl.define do
   end
 
   factory :json_preference, class: JSONModel(:preference) do
-    defaults { "{}" }
+    defaults { build(:json_defaults) }
   end
 
+  factory :json_defaults, class: JSONModel(:defaults) do
+    show_suppressed { false }
+    publish { false }
+  end
 end
