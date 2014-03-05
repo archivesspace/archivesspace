@@ -612,13 +612,11 @@ describe 'EAC Export' do
 
     it "maps the repository name and org code" do
       repo = create(:json_repo)
-      $old_repo_id = $repo_id
-      $repo_id = repo.id
 
-      JSONModel.set_repository($repo_id)
+      JSONModel.set_repository(repo.id)
 
       rec = create(:json_agent_family)
-      eac = get_eac(rec)
+      eac = get_eac(rec, repo.id)
 
       eac.should have_tag "control/maintenanceAgency/agencyCode" => repo.org_code
       eac.should have_tag "control/maintenanceAgency/agencyName" => repo.name

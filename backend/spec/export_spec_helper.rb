@@ -43,7 +43,11 @@ else
 
   def get_xml(uri)
     response = get(uri)
-    Nokogiri::XML::Document.parse(response.body)
+    if response.status == 200
+      Nokogiri::XML::Document.parse(response.body)
+    else
+      raise "Invalid response from backend for URI #{uri}: #{response.body}"
+    end
   end
 
   $repo_record = JSONModel(:repository).find($repo_id)
@@ -70,16 +74,16 @@ def get_dc(rec)
 end
 
 
-def get_eac(rec)
+def get_eac(rec, repo_id = $repo_id)
   case rec.jsonmodel_type
   when 'agent_person'
-    get_xml("/repositories/#{$repo_id}/archival_contexts/people/#{rec.id}.xml")
+    get_xml("/repositories/#{repo_id}/archival_contexts/people/#{rec.id}.xml")
   when 'agent_corporate_entity'
-    get_xml("/repositories/#{$repo_id}/archival_contexts/corporate_entities/#{rec.id}.xml")
+    get_xml("/repositories/#{repo_id}/archival_contexts/corporate_entities/#{rec.id}.xml")
   when 'agent_family'
-    get_xml("/repositories/#{$repo_id}/archival_contexts/families/#{rec.id}.xml")
+    get_xml("/repositories/#{repo_id}/archival_contexts/families/#{rec.id}.xml")
   when 'agent_software'
-    get_xml("/repositories/#{$repo_id}/archival_contexts/softwares/#{rec.id}.xml")
+    get_xml("/repositories/#{repo_id}/archival_contexts/softwares/#{rec.id}.xml")
   end
 end
 
