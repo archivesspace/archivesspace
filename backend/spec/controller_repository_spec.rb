@@ -48,6 +48,26 @@ describe 'Repository controller' do
   end
 
 
+  it "returns a 404 when a repository is not found" do
+    ids = JSONModel(:repository).all.map{|r| r.id }.sort
+    ids.unshift 0
+
+    non_existing_id = ids.last + 1
+
+    url = URI("#{JSONModel::HTTP.backend_url}/repositories/with_agent/#{non_existing_id}")
+    request = Net::HTTP::Get.new(url.request_uri)
+    response = JSONModel::HTTP.do_http_request(url, request)
+
+    response.code.should eq("404")
+
+    url = URI("#{JSONModel::HTTP.backend_url}/repositories/#{non_existing_id}")
+    request = Net::HTTP::Get.new(url.request_uri)
+    response = JSONModel::HTTP.do_http_request(url, request)
+
+    response.code.should eq("404")
+  end
+
+
   it "creating a repository automatically creates the standard set of groups" do
     groups = JSONModel(:group).all.map {|group| group.group_code}
 
