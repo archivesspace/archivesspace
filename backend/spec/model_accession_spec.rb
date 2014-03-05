@@ -291,4 +291,13 @@ describe 'Accession model' do
     accession.related_records(:classification).title.should eq("top-level classification")
   end
 
+
+  it "respects the publish preference when creating accessions" do
+    accession = create_accession
+
+    Accession[accession[:id]].publish.should eq(Preference.defaults['publish'] ? 1 : 0)
+  end
+
+
+
 end
