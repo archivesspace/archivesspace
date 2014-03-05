@@ -45,7 +45,7 @@ class ExportsController < ApplicationController
   
   def download_eac
     download_export(
-      "/archival_contexts/#{params[:type].sub(/^agent_/, '').pluralize}/#{params[:id]}.xml")
+      "/repositories/#{JSONModel::repository}/archival_contexts/#{params[:type].sub(/^agent_/, '').pluralize}/#{params[:id]}.xml")
   end
 
 
@@ -63,7 +63,6 @@ class ExportsController < ApplicationController
 
         self.response_body = Enumerator.new do |y|
           xml_response(request_uri, params) do |chunk, percent|
-            Rails.logger.debug("#{percent} complete")
             y << chunk if !chunk.blank?
           end
         end
