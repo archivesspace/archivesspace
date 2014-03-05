@@ -171,7 +171,7 @@ en:
     import_accession_csv: Accession CSV
     import_digital_object_csv: Digital Object CSV
     search_all: All Records
-    search_placeholder: Search
+    search_placeholder: Search All Records
     plugins: Plug-ins
     repositories_manage: Manage Repositories
     manage_groups: Manage Groups
