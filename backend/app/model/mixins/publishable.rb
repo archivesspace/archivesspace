@@ -8,10 +8,7 @@ module Publishable
   module ClassMethods
 
     def create_from_json(json, opts = {})
-      if respond_to?(:publish) && json['publish'].nil?
-        json['publish'] = Preference.defaults['publish']
-      end
-
+      json['publish'] = Preference.defaults['publish'] if json['publish'].nil?
       super
     end
 

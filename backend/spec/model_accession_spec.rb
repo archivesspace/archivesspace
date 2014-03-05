@@ -298,6 +298,4 @@ describe 'Accession model' do
     Accession[accession[:id]].publish.should eq(Preference.defaults['publish'] ? 1 : 0)
   end
 
-
-
 end
