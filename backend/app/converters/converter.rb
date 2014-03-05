@@ -1,3 +1,4 @@
+require_relative 'lib/parse_queue'
 class Converter
 
   class ConverterNotFound < StandardError; end

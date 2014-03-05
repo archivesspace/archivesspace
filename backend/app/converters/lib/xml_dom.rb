@@ -1,15 +1,22 @@
 require 'nokogiri'
 require_relative 'parse_queue'
 require_relative 'utils'
-
+require_relative 'jsonmodel_wrap'
+require 'saxerator'
 
 module ASpaceImport
   module XML
     module DOM
 
       module ClassMethods
-        def configuration
-          @configuration ||= self.configure
+        def configure
+          @config ||= Config.new
+          yield @config
+        end
+
+
+        def config
+          @config
         end
 
 
@@ -42,18 +49,36 @@ module ASpaceImport
       end
 
 
-      def configuration
-        self.class.configuration
+      def config
+        self.class.config
       end
 
 
       def run
 
-        @doc = Nokogiri::XML::Document.parse(IO.read(@input_file))
-        @doc.remove_namespaces!
+        if config.doc_frag_nodes.empty?
+          @doc = Nokogiri::XML::Document.parse(IO.read(@input_file))
+          @doc.remove_namespaces!
 
-        configuration.each do |path, defn|
-          object(path, defn)
+          config.mappings.each do |path, defn|
+            object(path, defn)
+          end
+        else
+          parser = Saxerator.parser(IO.read(@input_file)) do |config|
+            config.output_type = :xml
+            config.ignore_namespaces!
+            config.strip_namespaces!
+          end
+
+          config.doc_frag_nodes.each do |break_node|
+            parser.for_tag(break_node).each do |xml|
+              @doc = xml
+              @context = [@doc]
+              config.mappings.each do |path, defn|
+                object(path, defn)
+              end
+            end
+          end
         end
       end
 
@@ -76,6 +101,9 @@ module ASpaceImport
           end
           yield obj if block_given?
           @context.pop
+        end
+        if @context.length == 1
+          @batch.flush 
         end
       end
 
@@ -116,6 +144,29 @@ module ASpaceImport
 
         else
           raise "Don't know how to handle a (#{key.class.name}) => (#{value.class.name}) situation"
+        end
+      end
+
+
+      class Config
+        attr_reader :mappings
+        attr_accessor :doc_frag_nodes
+
+        def initialize
+          @doc_frag_nodes = []
+        end
+
+        def init_map(hash)
+          @mappings = hash
+        end
+
+        def [](arg)
+          @mappings[arg]
+        end
+
+        def []=(arg, val)
+          @mappings ||= {}
+          @mappings[arg] = val
         end
       end
     end
