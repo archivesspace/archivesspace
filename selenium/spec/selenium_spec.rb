@@ -504,6 +504,26 @@ describe "ArchivesSpace user interface" do
     end
 
 
+    it "can add a related agent" do
+      agent_uri, agent_name = create_agent("Linked Agent #{$$}.#{Time.now.to_i}")
+      run_index_round
+
+      $driver.find_element(:css => '#agent_person_related_agents .subrecord-form-heading .btn').click
+      $driver.find_element(:css => "select.related-agent-type").select_option("agent_relationship_associative")
+
+      token_input = $driver.find_element(:id, "token-input-agent_related_agents__1__ref_")
+      token_input.clear
+      token_input.click
+      token_input.send_keys(agent_name)
+      $driver.find_element(:css, "li.token-input-dropdown-item2").click
+
+      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Agent Saved/)
+      assert(5) { $driver.find_element(:css, "#agent_person_related_agents ul.token-input-list").text.should match(/#{agent_name}/) }
+    end
+
+
     it "can remove contact details" do
       $driver.find_element(:css => '#agent_person_contact_details .subrecord-form-remove').click
       $driver.find_element(:css => '#agent_person_contact_details .confirm-removal').click
