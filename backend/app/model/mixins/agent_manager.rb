@@ -71,9 +71,19 @@ module AgentManager
       # Called for the sake of updating the JSON blob sent to the realtime indexer
       self.class.populate_display_name(json)
 
-      super
+      super(json, opts.merge(:agent_sha1 => self.class.calculate_hash(json)))
     end
 
+
+    def validate
+      super
+      validates_unique([:agent_sha1], :message => "Agent must be unique")
+      map_validation_to_json_property([:agent_sha1], :names)
+      map_validation_to_json_property([:agent_sha1], :dates_of_existence)
+      map_validation_to_json_property([:agent_sha1], :external_documents)
+      map_validation_to_json_property([:agent_sha1], :notes)
+    end
+ 
 
     def linked_agent_roles
       role_ids = self.class.find_relationship(:linked_agents).values_for_property(self, :role_id).uniq
@@ -128,7 +138,61 @@ module AgentManager
         # Called for the sake of updating the JSON blob sent to the realtime indexer
         self.populate_display_name(json)
 
-        super
+        super(json, opts.merge(:agent_sha1 => calculate_hash(json)))
+      end
+
+
+      def hash_chunk(rec, field_array)
+        field_array.map {|property|
+            rec[property.to_s] || ' '
+          }.join('_')
+      end
+
+      def assemble_hash_fields(json)
+        fields = []
+
+        json.dates_of_existence.each do |date|
+          fields << hash_chunk(date,
+                               %w(date_type label certainty expression begin end era calendar))
+        end
+
+        json.agent_contacts.each do |contact|
+          fields << hash_chunk(contact,
+                               %w(name telephone address_1 address_2 address_3 city region country post_code telephone_ext fax email email_signature note))
+        end
+
+        json.external_documents.each do |doc|
+          fields << hash_chunk(doc,
+                               %w(title location))
+        end
+
+        json.notes.each do |note|
+          note_json = note.clone
+          note_json.delete("publish")
+          fields << note_json.to_s
+        end
+
+        name_model = my_agent_type[:name_model]
+
+        name_fields = []
+        json.names.each do |name|
+          name_fields += name_model.assemble_hash_fields(name)
+        end
+
+        fields += name_fields.sort
+
+        fields
+      end
+
+
+      def calculate_hash(json)
+
+        fields = assemble_hash_fields(json)
+ 
+        fields.join('-')
+        digest = Digest::SHA1.hexdigest(fields.join('-'))
+ 
+        digest
       end
 
 
@@ -160,8 +224,6 @@ module AgentManager
                                :corresponding_to_association => :date)
 
       end
-
-
 
 
       def my_agent_type

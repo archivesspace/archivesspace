@@ -67,7 +67,33 @@ module AgentNames
 
       json
     end
-  end
 
+
+    def assemble_hash_fields(json)
+      hash_fields = []
+      name_fields = %w(authority_id dates qualifier source rules) + type_specific_hash_fields
+
+      json['use_dates'].each do |date|
+        hash_fields << [:date_type,
+                        :label, 
+                        :certainty,
+                        :expression, 
+                        :begin, 
+                        :end, 
+                        :era, 
+                        :calendar].map {|property|
+          date[property.to_s] || ' '
+        }.join('_')
+      end
+
+
+      hash_fields << name_fields.uniq.map {|field|
+        json[field] || ' '
+      }.join('_')
+
+      hash_fields
+
+    end
+  end
 
 end
