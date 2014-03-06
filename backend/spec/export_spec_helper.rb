@@ -54,11 +54,6 @@ else
 end
 
 
-create(:json_preference,
-       :defaults => build(:json_defaults, :publish => true),
-       :user_id => User.find(:username => 'admin').id)
-
-
 def get_mets(rec)
   get_xml("/repositories/#{$repo_id}/digital_objects/mets/#{rec.id}.xml")
 end
