@@ -186,6 +186,11 @@ def create_event(opts = {})
 end
 
 
+def create_resource(opts = {})
+  Resource.create_from_json(build(:json_resource, opts), :repo_id => $repo_id)
+end
+
+
 
 
 class ArchivesSpaceService
