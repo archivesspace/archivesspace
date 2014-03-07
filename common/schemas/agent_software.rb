@@ -6,6 +6,11 @@
     "parent" => "abstract_agent",
     "uri" => "/agents/software",
     "properties" => {
+      "display_name" => {
+        "type" => "JSONModel(:name_software) object",
+        "readonly" => true
+      },
+
       "names" => {
         "type" => "array",
         "items" => {"type" => "JSONModel(:name_software) object"},

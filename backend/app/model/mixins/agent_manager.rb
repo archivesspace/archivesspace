@@ -1,6 +1,8 @@
 require_relative 'relationships'
 require_relative 'related_agents'
 require_relative 'implied_publication'
+require 'set'
+
 
 module AgentManager
 
@@ -57,6 +59,22 @@ module AgentManager
     end
 
 
+    def update_from_json(json, opts = {}, apply_nested_records = true)
+      self.class.ensure_authorized_name(json)
+      self.class.ensure_display_name(json)
+      self.class.combine_unauthorized_names(json)
+
+      # Force validation to make sure we're left with a valid record after our
+      # changes
+      json.to_hash
+
+      # Called for the sake of updating the JSON blob sent to the realtime indexer
+      self.class.populate_display_name(json)
+
+      super
+    end
+
+
     def linked_agent_roles
       role_ids = self.class.find_relationship(:linked_agents).values_for_property(self, :role_id).uniq
 
@@ -69,6 +87,50 @@ module AgentManager
 
 
     module ClassMethods
+
+      def populate_display_name(json)
+        json.display_name = json['names'].find {|name| name['is_display_name']}
+      end
+
+
+      def ensure_authorized_name(json)
+        if !Array(json['names']).empty? && json['names'].none? {|name| name['authorized']}
+          json['names'][0]['authorized'] = true
+        end
+      end
+
+
+      def ensure_display_name(json)
+        if !Array(json['names']).empty? && json['names'].none? {|name| name['is_display_name']}
+          # If no display name was specified, take the authorized one as display
+          # name.
+          authorized_name = json['names'].find {|name| name['authorized']}
+          authorized_name['is_display_name'] = true
+        end
+      end
+
+
+      def combine_unauthorized_names(json)
+        return if Array(json['names']).empty?
+        json.names = json['names'].uniq
+      end
+
+
+      def create_from_json(json, opts = {})
+        self.ensure_authorized_name(json)
+        self.ensure_display_name(json)
+        self.combine_unauthorized_names(json)
+
+        # Force validation to make sure we're left with a valid record after our
+        # changes
+        json.to_hash
+
+        # Called for the sake of updating the JSON blob sent to the realtime indexer
+        self.populate_display_name(json)
+
+        super
+      end
+
 
       def register_agent_type(opts)
         AgentManager.register_agent_type(self, opts)
@@ -110,8 +172,10 @@ module AgentManager
       def sequel_to_jsonmodel(obj, opts = {})
         json = super
         json.agent_type = my_agent_type[:jsonmodel].to_s
-        json.title = json['names'][0]['sort_name']
         json.linked_agent_roles = obj.linked_agent_roles
+
+        populate_display_name(json)
+        json.title = json['display_name']['sort_name']
 
         json
       end

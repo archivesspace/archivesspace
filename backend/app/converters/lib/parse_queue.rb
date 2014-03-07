@@ -1,4 +1,5 @@
 require 'tempfile'
+require 'asutils'
 
 module ASpaceImport
 

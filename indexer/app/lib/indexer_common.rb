@@ -190,10 +190,16 @@ class CommonIndexer
       if ['agent_person', 'agent_family', 'agent_software', 'agent_corporate_entity'].include?(doc['primary_type'])
         record['record'].reject! { |rec| rec === 'agent_contacts' }
         doc['json'] = record['record'].to_json
-        doc['title'] = record['record']['names'][0]['sort_name']
-        doc['authority_id'] = record['record']['names'][0]['authority_id']
-        doc['source'] = record['record']['names'][0]['source']
-        doc['rules'] = record['record']['names'][0]['rules']
+        doc['title'] = record['record']['display_name']['sort_name']
+
+        authorized_name = record['record']['names'].find {|name| name['authorized']}
+
+        if authorized_name
+          doc['authority_id'] = authorized_name['authority_id']
+          doc['source'] = authorized_name['source']
+          doc['rules'] = authorized_name['rules']
+        end
+
         doc['publish'] = record['record']['publish'] && record['record']['is_linked_to_published_record']
         doc['linked_agent_roles'] = record['record']['linked_agent_roles']
 
@@ -442,8 +448,12 @@ class CommonIndexer
       doc['primary_type'] = record_type
       doc['types'] = [record_type]
       doc['json'] = ASUtils.to_json(values)
-      doc['suppressed'] = values['suppressed'].to_s
-      doc['publish'] = values.has_key?('publish') ? values['publish'].to_s : 'false'
+      doc['suppressed'] = values.has_key?('suppressed') ? values['suppressed'].to_s : 'false'
+      if doc['suppressed'] == 'true'
+        doc['publish'] = 'false'
+      else
+        doc['publish'] =  values.has_key?('publish') ? values['publish'].to_s : 'false'
+      end
       doc['system_generated'] = values.has_key?('system_generated') ? values['system_generated'].to_s : 'false'
       doc['repository'] = get_record_scope(uri)
 

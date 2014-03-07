@@ -1,4 +1,5 @@
 require_relative '../model/reports/report_manager'
+require_relative '../lib/static_asset_finder'
 
 class ArchivesSpaceService < Sinatra::Base
 
@@ -27,6 +28,16 @@ class ArchivesSpaceService < Sinatra::Base
                     :reports => ReportManager.registered_reports,
                     :formats => ReportHelper.allowed_report_formats
                   })
+  end
+
+
+  Endpoint.get('/reports/static/*')
+  .description('Get a static asset for a report')
+  .params(["splat", String, "The requested asset"])
+  .permissions([])
+  .returns([200, "the asset"]) \
+  do
+    send_file(StaticAssetFinder.new(File.join("reports", "static")).find(params[:splat][0]))
   end
 
 

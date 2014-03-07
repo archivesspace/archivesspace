@@ -433,6 +433,8 @@ en:
     sort_name_tooltip: |
         <p>A version of the name concatenating all the parts of the name provided in a given agent record. Used for display purposes in the application and for some exports.</p>
         <p>The sort name may be edited by unchecking the "Automatically generate" checkbox and then entering the form of the sort name desired.</p>
+    authorized: Authorized
+    is_display_name: Display Name
     _singular: Name
     _plural: Names
 
@@ -646,6 +648,7 @@ en:
     <<: *note_attributes
     option: Chronology
     title: Title
+    items: Events
 
   chronology_item:
     event_date: Event Date
@@ -716,6 +719,7 @@ en:
   file_version:
     _plural: File Versions
     _singular: File Version
+    file: File
     file_uri: File URI
     file_uri_tooltip: |
         <p>An identifier for a file associated with a digital object, accessible on the web or in a file directory.</p>
@@ -768,6 +772,7 @@ en:
         <li>SHA-1</li>
         <li>SHA-256</li>
         </ul>
+    identifier: Identifier
 
   extent: &extent_attributes
     portion: Portion

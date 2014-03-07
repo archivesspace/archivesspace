@@ -24,10 +24,22 @@ describe 'Agent model' do
   end
 
 
-  it "requires a rules to be set if source is not provided" do
+  it "for authorized names, requires rules to be set if source is not provided" do
+    expect { n1 = build(:json_name_person, :rules => nil, :source => nil, :authorized => true).to_hash }.to raise_error(JSONModel::ValidationException)
+  end
 
-    expect { n1 = build(:json_name_person, :rules => nil, :source => nil).to_hash }.to raise_error(JSONModel::ValidationException)
 
+  it "for authorized names, require rules to be set if source is not provided (even if the name is only implicitly authorized)" do
+    expect {
+      name = build(:json_name_person, :rules => nil, :source => nil, :authorized => false)
+
+      AgentPerson.create_from_json(build(:json_agent_person, :names => [name]))
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
+
+  it "for unauthorized names, no requirement for source or rules" do
+    expect { n1 = build(:json_name_person, :rules => nil, :source => nil, :authorized => false).to_hash }.to_not raise_error
   end
 
 
@@ -169,6 +181,124 @@ describe 'Agent model' do
 
 
     person_agent.linked_agent_roles.should eq(['source'])
+  end
+
+
+  it "can mark an agent's name as authorized" do
+    person_agent = AgentPerson.create_from_json(build(:json_agent_person,
+                                                      :names => [build(:json_name_person, 'authorized' => false),
+                                                                 build(:json_name_person, 'authorized' => true)]))
+
+    agent = AgentPerson.to_jsonmodel(person_agent.id)
+
+    agent.names[0]['authorized'].should be(false)
+    agent.names[1]['authorized'].should be(true)
+  end
+
+
+  it "ensures that an agent only has one authorized name" do
+    expect {
+      AgentPerson.create_from_json(build(:json_agent_person,
+                                                      :names => [build(:json_name_person,
+                                                                       'authorized' => true),
+                                                                 build(:json_name_person,
+                                                                       'authorized' => true)]))
+    }.to raise_error(Sequel::ValidationFailed)
+  end
+
+
+  it "takes the first name as authorized if no indication is present" do
+    agent = AgentPerson.create_from_json(build(:json_agent_person,
+                                               :names => [build(:json_name_person,
+                                                                'authorized' => false),
+                                                          build(:json_name_person,
+                                                                'authorized' => false)]))
+
+    AgentPerson.to_jsonmodel(agent.id).names[0]['authorized'].should be(true)
+    AgentPerson.to_jsonmodel(agent.id).names[1]['authorized'].should be(false)
+  end
+
+
+  it "doesn't allow two agent records to have a name with the same authority ID" do
+    expect {
+      2.times do
+        AgentPerson.create_from_json(build(:json_agent_person,
+                                           :names => [build(:json_name_person,
+                                                            'authority_id' => 'same',
+                                                            'authorized' => true)]))
+      end
+    }.to raise_error(Sequel::ValidationFailed)
+  end
+
+
+  it "supports having a display name" do
+    display_name = build(:json_name_person,
+                         'authorized' => false,
+                         'is_display_name' => true)
+    agent = AgentPerson.create_from_json(build(:json_agent_person,
+                                               :names => [display_name,
+                                                          build(:json_name_person,
+                                                                'authorized' => true,
+                                                                'is_display_name' => false)]))
+    
+    AgentPerson.to_jsonmodel(agent.id).display_name['primary_name'].should eq(display_name['primary_name'])
+  end
+
+
+  it "stops agents from having more than one display name" do
+    expect {
+      AgentPerson.create_from_json(build(:json_agent_person,
+                                         :names => [build(:json_name_person,
+                                                          'authorized' => false,
+                                                          'is_display_name' => true),
+                                                    build(:json_name_person,
+                                                          'authorized' => true,
+                                                          'is_display_name' => true)]))
+    }.to raise_error(Sequel::ValidationFailed)
+  end
+
+
+  it "defaults the display name to the authorized name" do
+    authorized_name = build(:json_name_person, 'authorized' => true)
+
+    agent = AgentPerson.create_from_json(build(:json_agent_person,
+                                               :names => [build(:json_name_person, 'authorized' => false),
+                                                          authorized_name]))
+
+    AgentPerson.to_jsonmodel(agent.id).display_name['primary_name'].should eq(authorized_name['primary_name'])
+  end
+
+
+  it "combines unauthorized names when they're the same field-for-field" do
+    unique_name = build(:json_name_person, 'authorized' => true)
+
+    name_template = build(:json_name_person, 'authorized' => false)
+    values = name_template.to_hash.reject {|name, val| val.nil?}
+
+    duplicated_name = JSONModel(:name_person).from_hash(values)
+    another_duplicated_name = JSONModel(:name_person).from_hash(values)
+
+    agent = AgentPerson.create_from_json(build(:json_agent_person,
+                                               :names => [unique_name, duplicated_name, another_duplicated_name]))
+
+    AgentPerson.to_jsonmodel(agent.id).names.length.should eq(2)
+  end
+
+
+  it "can update an agent's name list" do
+    name = build(:json_name_person,
+                 'authorized' => true,
+                 'source' => 'local',
+                 'authority_id' => 'something_great')
+    agent_obj = AgentPerson.create_from_json(build(:json_agent_person, :names => [name]))
+
+    agent = AgentPerson.to_jsonmodel(agent_obj.id)
+
+    agent.names[0]['primary_name'] = 'something else'
+
+    RequestContext.in_global_repo do
+      agent_obj.update_from_json(JSONModel(:agent_person).from_hash(agent.to_hash))
+    end
   end
 
 end

@@ -13,6 +13,11 @@
         "minItems" => 1
       },
 
+      "display_name" => {
+        "type" => "JSONModel(:name_family) object",
+        "readonly" => true
+      },
+
       "related_agents" => {
         "type" => "array",
         "items" => {"type" => [{"type" => "JSONModel(:agent_relationship_earlierlater) object"},

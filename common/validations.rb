@@ -32,6 +32,9 @@ module JSONModel::Validations
   def self.check_source(hash)
     errors = []
 
+    # non-authorized forms don't need source or rules
+    return errors if !hash['authorized']
+
     if hash["source"].nil?
       if hash["rules"].nil?
         errors << ["rules", "is required when 'source' is blank"]
@@ -407,6 +410,7 @@ module JSONModel::Validations
 
       errors
     end
+
   end
 
   [:note_multipart, :note_bioghist].each do |schema|

@@ -1,3 +1,5 @@
+require 'jsonmodel'
+
 module ASpaceImport
   def self.JSONModel(type)
 

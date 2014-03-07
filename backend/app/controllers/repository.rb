@@ -9,16 +9,16 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "(:repository_with_agent)"],
              [404, "Not found"]) \
   do
-    repo = Repository[params[:id]]
-    repo_json = Repository.to_jsonmodel(repo)
+    repo = Repository.to_jsonmodel(params[:id])
     agent = nil
 
-    if repo.agent_representation_id
-      agent = AgentCorporateEntity.to_jsonmodel(repo.agent_representation_id)
+    if repo.agent_representation
+      agent_id = JSONModel(:agent_corporate_entity).id_for(repo.agent_representation['ref'])
+      agent = AgentCorporateEntity.to_jsonmodel(agent_id)
     end
 
     json_response(JSONModel(:repository_with_agent).
-                  from_hash(:repository => repo_json,
+                  from_hash(:repository => repo,
                             :agent_representation => agent,
                             :uri => JSONModel(:repository_with_agent).uri_for(params[:id])))
   end

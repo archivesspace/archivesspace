@@ -1,0 +1,8 @@
+<%= form.hidden_input "is_display_name", form["is_display_name"] ? 1 : 0 %>
+<div class="name-authority-fields">
+  <%= form.label_and_textfield "authority_id" %>
+  <%= form.label_and_select "source", form.possible_options_for('source', true), :required => :conditionally %>
+  <%= form.label_and_select "rules", form.possible_options_for('rules', true), :required => :conditionally %>
+  <%= form.hidden_input "authorized", form["authorized"] ? 1 : 0 %>
+  <hr/>
+</div>

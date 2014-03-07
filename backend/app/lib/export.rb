@@ -84,7 +84,10 @@ module ExportHelpers
 
     obj = resolve_references(klass.to_jsonmodel(agent), ['related_agents'])
 
-    eac = ASpaceExport.model(:eac).from_agent(JSONModel(type.intern).new(obj), events, related_records)
+    repo_json = Repository.to_jsonmodel(RequestContext.get(:repo_id))
+    repo = JSONModel(:repository).new(repo_json)
+
+    eac = ASpaceExport.model(:eac).from_agent(JSONModel(type.intern).new(obj), events, related_records, repo)
     ASpaceExport::serialize(eac)
   end
 

@@ -16,7 +16,7 @@ class AgentsController < ApplicationController
 
   def new
     @agent = JSONModel(@agent_type).new({:agent_type => @agent_type})._always_valid!
-    @agent.names = [@name_type.new._always_valid!]
+    @agent.names = [@name_type.new({:authorized => true, :is_display_name => true})._always_valid!]
 
     render :partial => "agents/new" if inline?
   end

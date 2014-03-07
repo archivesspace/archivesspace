@@ -95,6 +95,8 @@ AppConfig[:locale] = :en
 # :report_page_layout uses valid values for the  CSS3 @page directive's
 # size property: http://www.w3.org/TR/css3-page/#page-size-prop
 AppConfig[:report_page_layout] = "letter landscape"
+AppConfig[:report_pdf_font_paths] = proc { ["#{AppConfig[:backend_url]}/reports/static/fonts/dejavu/DejaVuSans.ttf"] }
+AppConfig[:report_pdf_font_family] = "\"DejaVu Sans\", sans-serif"
 
 # Plug-ins to load. They will load in the order specified
 AppConfig[:plugins] = ['local', 'aspace_feedback', 'lcnaf']

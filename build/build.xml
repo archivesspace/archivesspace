@@ -207,7 +207,7 @@
 
       <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
             dir="../backend">
-        <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+        <jvmarg line="-Daspace.config.backend_url=http://localhost:${aspace.backend.port} ${default_java_options} ${env.JAVA_OPTS}"/>
         <env key="GEM_HOME" value="${gem_home}" />
         <env key="GEM_PATH" value="" />
         <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
@@ -548,6 +548,7 @@
       <zipfileset dir=".." includes="UPGRADING.md" prefix="archivesspace" filemode="644" />
       <zipfileset dir=".." includes="COPYING" prefix="archivesspace" filemode="644" />
       <zipfileset dir="../clustering" prefix="archivesspace/clustering" filemode="755" />
+      <zipfileset dir="../reports" prefix="archivesspace/reports" filemode="755" />
       <zipfileset dir="../launcher" includes="archivesspace.sh" prefix="archivesspace" filemode="755" />
       <zipfileset dir="../launcher" includes="archivesspace.bat" prefix="archivesspace" filemode="644" />
       <zipfileset dir="../launcher/scripts" includes="find-base.sh" prefix="archivesspace/scripts" filemode="755" />

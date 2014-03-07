@@ -75,8 +75,10 @@ class EADConverter < Converter
     end
 
 
-    with 'unittitle' do
-      set ancestor(:resource, :archival_object), :title, inner_text
+    with 'unittitle' do |node|
+      ancestor(:resource, :archival_object) do |obj|
+        obj.title = node.inner_xml.strip
+      end
     end
 
 
