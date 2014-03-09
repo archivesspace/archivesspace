@@ -315,11 +315,16 @@ describe 'Agent model' do
     }
 
     before(:each) do 
-      AgentPerson.create_from_json(agent)
+      @agent_obj = AgentPerson.create_from_json(agent)
     end
 
     it "won't create the 'same exact' agent twice" do
       expect { AgentPerson.create_from_json(agent) }.to raise_error(Sequel::ValidationFailed)
+    end
+
+    it "will ensure an agent exists if you ask nicely" do
+      agent_too = AgentPerson.ensure_exists(agent, nil)
+      agent_too.id.should eq(@agent_obj.id)
     end
 
     it "will accept two agents differing only in one contact field" do
@@ -347,6 +352,14 @@ describe 'Agent model' do
       agent.notes[0]['subnotes'][0]['levels'][0]['items'][0] << "x"
 
       expect { AgentPerson.create_from_json(agent) }.to_not raise_error
+    end
+
+    it "will *not* accept two agents differing only in authority_id" do
+      agent.names[0]['authority_id'] = 'x'
+      AgentPerson.create_from_json(agent)
+
+      agent.names[0]['authority_id'] = 'y'
+      expect { AgentPerson.create_from_json(agent) }.to raise_error(Sequel::ValidationFailed)
     end
 
     it "will not be fooled by the order of name records" do

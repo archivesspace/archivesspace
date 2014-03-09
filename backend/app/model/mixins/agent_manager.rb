@@ -126,6 +126,27 @@ module AgentManager
       end
 
 
+      def ensure_exists(json, referrer)
+        DB.attempt {
+          self.create_from_json(json)
+        }.and_if_constraint_fails {|exception|
+
+          agent = find(:agent_sha1 => calculate_hash(json))
+
+          if !agent
+            # The agent exists but we can't find it.  This could mean it was
+            # created in a currently running transaction.  Abort this one to trigger
+            # a retry.
+            Log.info("Agent '#{json.names}' seems to have been created by a currently running transaction.  Restarting this one.")
+            sleep 5
+            raise RetryTransaction.new
+          end
+
+          agent
+        }
+      end
+
+
       def create_from_json(json, opts = {})
         self.ensure_authorized_name(json)
         self.ensure_display_name(json)
@@ -144,7 +165,14 @@ module AgentManager
 
       def hash_chunk(rec, field_array)
         field_array.map {|property|
-            rec[property.to_s] || ' '
+          if !rec[property]
+            ' '
+          elsif rec.class.schema["properties"][property]["dynamic_enum"]
+            enum = rec.class.schema["properties"][property]["dynamic_enum"]
+            BackendEnumSource.id_for_value(enum, rec[property])
+          else
+            rec[property.to_s]
+          end
           }.join('_')
       end
 
@@ -152,24 +180,24 @@ module AgentManager
         fields = []
 
         json.dates_of_existence.each do |date|
-          fields << hash_chunk(date,
+          fields << hash_chunk(JSONModel(:date).from_hash(date),
                                %w(date_type label certainty expression begin end era calendar))
         end
 
         json.agent_contacts.each do |contact|
-          fields << hash_chunk(contact,
-                               %w(name telephone address_1 address_2 address_3 city region country post_code telephone_ext fax email email_signature note))
+          fields << hash_chunk(JSONModel(:agent_contact).from_hash(contact),
+                               %w(name salutation telephone address_1 address_2 address_3 city region country post_code telephone_ext fax email email_signature note))
         end
 
         json.external_documents.each do |doc|
-          fields << hash_chunk(doc,
+          fields << hash_chunk(JSONModel(:external_document).from_hash(doc),
                                %w(title location))
         end
 
         json.notes.each do |note|
           note_json = note.clone
           note_json.delete("publish")
-          fields << note_json.to_s
+          fields << note_json.to_json.to_s
         end
 
         name_model = my_agent_type[:name_model]
@@ -186,11 +214,9 @@ module AgentManager
 
 
       def calculate_hash(json)
-
         fields = assemble_hash_fields(json)
- 
-        fields.join('-')
-        digest = Digest::SHA1.hexdigest(fields.join('-'))
+         Log.debug("Calculating Hash for fields: #{fields.inspect}")
+        digest = Digest::SHA1.hexdigest(fields.sort.join('-'))
  
         digest
       end
