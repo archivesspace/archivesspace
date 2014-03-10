@@ -1307,6 +1307,8 @@ en:
       merge_archival_record: merge the major record types in this repository
       transfer_repository: transfer the entire contents of a repository
       transfer_archival_record: transfer major record types between repositories
+      manage_subject_record: create/update/delete subject records
+      manage_agent_record: create/update/delete agent records
     _singular: Group
     _plural: Groups
 

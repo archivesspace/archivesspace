@@ -160,14 +160,22 @@ class ArchivesSpaceService
     # Updates and deletes to locations, subjects and agents are a bit funny: they're
     # global objects, but users are granted permission to modify them by being
     # associated with a group within a repository.
+    Permission.define("manage_subject_record",
+                      "The ability to create, modify and delete a subject record",
+                      :level => "repository")
+
     Permission.define("update_subject_record",
                       "The ability to create and modify subject records",
-                      :implied_by => 'update_archival_record',
+                      :implied_by => 'manage_subject_record',
                       :level => "global")
+
+    Permission.define("manage_agent_record",
+                      "The ability to create, modify and delete an agent record",
+                      :level => "repository")
 
     Permission.define("update_agent_record",
                       "The ability to create and modify agent records",
-                      :implied_by => 'update_archival_record',
+                      :implied_by => 'manage_agent_record',
                       :level => "global")
 
     Permission.define("update_vocabulary_record",
@@ -182,18 +190,19 @@ class ArchivesSpaceService
 
     Permission.define("delete_agent_record",
                       "The ability to delete agent records",
-                      :implied_by => 'delete_archival_record',
+                      :implied_by => 'manage_agent_record',
                       :level => "global")
 
     Permission.define("delete_subject_record",
                       "The ability to delete subject records",
-                      :implied_by => 'delete_archival_record',
+                      :implied_by => 'manage_subject_record',
                       :level => "global")
 
     Permission.define("delete_vocabulary_record",
                       "The ability to delete vocabulary records",
                       :implied_by => 'delete_archival_record',
                       :level => "global")
+
 
     # Merge permissions are special too.  A user with merge_agents_and_subjects
     # in any repository is granted merge_agent_record and merge_subject_record
