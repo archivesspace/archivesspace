@@ -1,4 +1,5 @@
 require_relative 'note_persistent_id'
+require_relative 'mixins/publishable'
 
 class Note < Sequel::Model(:note)
   include ASModel
