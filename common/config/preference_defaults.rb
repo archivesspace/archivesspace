@@ -3,5 +3,6 @@
 # Only keys matching propoerties declared in common/schemas/defaults.rb will be loaded.
 # TAKE CARE editing this file as errors will prevent the system from starting.
 {
-  'show_suppressed' => false
+  'show_suppressed' => false,
+  'publish' => false,
 }

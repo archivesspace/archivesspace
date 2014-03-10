@@ -373,8 +373,10 @@ describe 'EAC Export' do
       @rec = create(:json_agent_person,
                     :notes => [ build(:json_note_bioghist,
                                       :subnotes => subnotes.map {|type|
-                                        build("json_#{type.to_s}".intern)
-                                      }
+                                        build("json_#{type.to_s}".intern,
+                                              :publish => true)
+                                      },
+                                      :publish => true
                                       ) 
                               ]
                     )
@@ -393,7 +395,7 @@ describe 'EAC Export' do
 
     it "creates a biogHist tag for each note" do
       rec = create(:json_agent_person,
-                   :notes => [1,2].map{ build(:json_note_bioghist) }
+                   :notes => [1,2].map{ build(:json_note_bioghist, :publish => true) }
                    )
       eac = get_eac(rec)
 
@@ -491,7 +493,7 @@ describe 'EAC Export' do
 
     it "maps 'outline' subnotes to 'outline' tags" do
       rec = create(:json_agent_person,
-                   :notes => [ build(:json_note_bioghist,
+                   :notes => [ build(:json_note_bioghist, :publish => true,
                                      :subnotes => [build(:json_note_outline,
                                                          :levels => (0..rand(3)).map { build(:json_note_outline_level,
                                                                                              :items => (0..rand(3)).map { [true, false].sample ? build(:json_note_outline_level) : generate(:alphanumstr) }

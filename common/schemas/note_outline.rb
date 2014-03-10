@@ -6,7 +6,7 @@
 
     "properties" => {
 
-      "publish" => {"type" => "boolean", "default" => true},
+      "publish" => {"type" => "boolean"},
 
       "levels" => {
         "type" => "array",

@@ -49,6 +49,18 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.get('/current_global_preferences')
+    .description("Get the global Preferences records for the current user.")
+    .params()
+    .permissions([])
+    .returns([200, "{(:preference)}"]) \
+  do
+    json = Preference.current_preferences(Repository.global_repo_id)
+
+    json_response(json)
+  end
+
+
   Endpoint.post('/repositories/:repo_id/preferences/:id')
     .description("Update a Preferences record")
     .params(["id", :id],

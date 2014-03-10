@@ -85,7 +85,7 @@
     <td class="control-group"><%= form.textfield "label" %></td>
     <td class="control-group"><%= form.textfield "title" %></td>
     <td class="control-group"><%= form.textfield "component_id" %></td>
-    <td class="control-group"><%= form.checkbox "publish", {}, form.default_for("publish") %></td>
+    <td class="control-group"><%= form.checkbox "publish", {}, user_prefs["publish"] %></td>
     <td class="control-group">
       <%= form.select "language", jsonmodel_definition(:digital_object_component).options_for(form, "language", true) %>
     </td>
@@ -125,7 +125,7 @@
     </td>
     <td class="control-group">
       <% form.push(form.set_index("file_versions[]", 0), begin digital_object_component["file_versions"][0] || {} rescue {} end) do %>
-        <%= form.checkbox "publish", {}, form.default_for("publish") %>
+        <%= form.checkbox "publish", {}, user_prefs["publish"] %>
       <% end %>
     </td>
     <td class="control-group">

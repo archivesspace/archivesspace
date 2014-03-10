@@ -17,6 +17,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include ExternalIDs
   include ComponentsAddChildren
   include Events
+  include Publishable
 
   enable_suppression
 

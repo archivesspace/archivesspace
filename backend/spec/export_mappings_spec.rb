@@ -154,6 +154,12 @@ describe 'Export Mappings' do
 
 
     before(:all) do
+      RequestContext.in_global_repo do
+        @pref = create(:json_preference,
+                       :defaults => build(:json_defaults, :publish => true),
+                       :user_id => User.find(:username => 'admin').id)
+      end
+
       as_test_user("admin") do
         DB.open(true) do
           load_export_fixtures
@@ -164,6 +170,11 @@ describe 'Export Mappings' do
           raise Sequel::Rollback
         end
       end
+    end
+
+
+    after(:all) do
+      @pref.delete
     end
 
 

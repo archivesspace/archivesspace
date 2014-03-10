@@ -15,6 +15,7 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
   include FileVersions
   include ComponentsAddChildren
   include Events
+  include Publishable
 
   enable_suppression
 

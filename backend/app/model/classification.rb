@@ -3,6 +3,7 @@ class Classification < Sequel::Model(:classification)
   include Relationships
   include Trees
   include ClassificationIndexing
+  include Publishable
 
   corresponds_to JSONModel(:classification)
   set_model_scope(:repository)

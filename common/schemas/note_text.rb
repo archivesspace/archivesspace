@@ -11,7 +11,7 @@
         "ifmissing" => "error",
       },
 
-      "publish" => {"type" => "boolean", "default" => true},
+      "publish" => {"type" => "boolean"},
     },
   },
 }

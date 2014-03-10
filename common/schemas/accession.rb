@@ -27,7 +27,7 @@
 
       "accession_date" => {"type" => "date", "minLength" => 1, "ifmissing" => "error"},
 
-      "publish" => {"type" => "boolean", "default" => false},
+      "publish" => {"type" => "boolean"},
 
       "classification" => {
         "type" => "object",

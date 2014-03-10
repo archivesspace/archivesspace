@@ -235,7 +235,7 @@ describe 'Archival Object controller' do
     archival_object.notes = [notes]
     archival_object.save
 
-    JSONModel(:archival_object).find(archival_object.id)[:notes].first.should eq(notes.to_hash)
+    JSONModel(:archival_object).find(archival_object.id)[:notes].first['content'].should eq(notes.to_hash['content'])
   end
 
 
