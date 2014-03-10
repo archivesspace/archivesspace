@@ -487,11 +487,11 @@ module MarcXMLBaseMap
                 'k' => 'bulk',
                 's' => 'single'}[control[6]]
 
-              if control[7..10] && control[7..10].length == 4
+              if control[7..10] && control[7..10].match(/^\d{4}$/)
                 date.begin = control[7..10]
               end
 
-              if control[11..14] && control[11..14].length == 4
+              if control[11..14] && control[11..14].match(/^\d{4}$/)
                 date.end = control[11..14]
               end
 
