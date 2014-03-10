@@ -24,8 +24,6 @@ class FileVersionView
 
   def embed
     if %w(jpeg gif).include?(@record['file_format_name']) && 
-        @record['xlink_actuate_attribute'] == 'onLoad' &&
-        @record['xlink_show_attribute'] == 'embed' &&
         uri.scheme =~ /http/ && 
         @record['file_size_bytes'].to_i < 512001
 
