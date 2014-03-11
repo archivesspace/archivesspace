@@ -79,7 +79,7 @@ module ASpaceImport
             if @node_shadow && node.depth <= @node_shadow[1]
               handle_closer(@node_shadow)
             end
-            handle_opener(node)
+            handle_opener(node) unless is_node_empty?(node)
           when 3
             handle_text(node)
           when 15
@@ -92,11 +92,21 @@ module ASpaceImport
         end
       end
 
+      def is_node_empty?(node)
+        # calling inner_xml on the root note slows things down a lot...
+        if node.depth == 0 
+          return false
+        else   
+          return ( node.inner_xml.strip.empty? && node.attributes? )
+        end
+      end
+
 
       def handle_opener(node)
         @node_name = node.local_name
         @node_depth = node.depth
         @node_shadow = [node.local_name, node.depth]
+        
         @node = node
 
         # constrained handlers, e.g. publication/date

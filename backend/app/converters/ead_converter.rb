@@ -30,6 +30,13 @@ class EADConverter < Converter
     "Convert EAD To ArchivesSpace JSONModel records"
   end
 
+  def is_node_empty?(node)
+    if  %w{ "ead", "c", "archdesc" }.include?( node.local_name ) 
+      return false 
+    else
+      return ( node.inner_xml.strip.empty? && !node.attributes? )
+    end
+  end
 
   def self.configure
 
