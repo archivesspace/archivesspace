@@ -2,7 +2,7 @@ class SubjectsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show],
                       "update_subject_record" => [:new, :edit, :create, :update, :merge],
-                      "delete_archival_record" => [:delete]
+                      "delete_subject_record" => [:delete]
 
 
   def index

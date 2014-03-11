@@ -233,7 +233,6 @@ $(function() {
       var addEventBindings = function() {
         $(".linker-browse-btn", $linkerWrapper).on("click", initAndShowLinkerBrowseModal);
         $(".linker-create-btn", $linkerWrapper).on("click", showLinkerCreateModal);
-        $this.on("tokeninput.enter", showLinkerCreateModal);
 
         // Initialise popover on demand to improve performance
         $linkerWrapper.one("mouseenter focus", ".has-popover", function() {

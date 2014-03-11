@@ -2,7 +2,7 @@ class AgentsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show],
                       "update_agent_record" => [:new, :edit, :create, :update, :merge],
-                      "delete_archival_record" => [:delete]
+                      "delete_agent_record" => [:delete]
 
   before_filter :assign_types
 
