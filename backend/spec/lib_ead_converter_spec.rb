@@ -5,7 +5,7 @@ require_relative '../app/converters/ead_converter'
 describe 'EAD converter' do
 
   def convert(path_to_some_xml)
-    converter = EADConverter.new(test_doc)
+    converter = EADConverter.new(path_to_some_xml)
     converter.run
     json = JSON(IO.read(converter.get_output_path))
 

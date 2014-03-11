@@ -8,8 +8,11 @@ describe 'ParseQueue' do
     ASpaceImport::JSONModel(:archival_object).from_hash(build(:json_archival_object).to_hash)
   }
 
-  it "has an in-memory working area for objects pushed into it" do
+  let (:batch) {
     batch = ASpaceImport::RecordBatch.new
+  }
+
+  it "has an in-memory working area for objects pushed into it" do
 
     5.times do
       batch << test_record
@@ -34,4 +37,25 @@ describe 'ParseQueue' do
     batch.working_area.length.should eq(0)
   end
 
+
+  describe "deduping incoming records" do
+
+    let (:test_record) {
+      date_template = build(:json_date, :label => 'creation')
+      date1 = JSONModel(:date).from_hash(date_template.to_hash)
+      date2 = JSONModel(:date).from_hash(date_template.to_hash)
+
+      resource = build(:json_resource,
+                       :dates => [date1, date2])
+
+      ASpaceImport::JSONModel(:resource).from_hash(resource.to_hash)
+    }
+
+    it "won't let two identical date subrecords go through" do
+      batch << test_record
+
+      batch.working_area.last.dates.length.should eq(1)
+    end
+
+  end
 end

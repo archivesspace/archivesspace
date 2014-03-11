@@ -3,6 +3,22 @@ require_relative '../app/converters/marcxml_converter.rb'
 
 describe 'MARCXML converter' do
 
+  def get_input_path(src)
+    tmp = ASUtils.tempfile("doc-#{Time.now.to_i}")
+    tmp.write(src)
+    tmp.close
+    tmp.path
+  end
+
+  def convert(path_to_some_xml)
+    converter = MarcXMLConverter.new(path_to_some_xml)
+    converter.run
+    json = JSON(IO.read(converter.get_output_path))
+
+    json
+  end
+
+
   describe "Basic MARCXML to ASPACE mappings" do
     let (:test_doc_1) {
       src = <<END
@@ -60,20 +76,14 @@ describe 'MARCXML converter' do
      </collection>
 END
 
-      tmp = ASUtils.tempfile("doc1")
-      tmp.write(src)
-      tmp.close
-      tmp.path
+      get_input_path(src)
     }
 
 
     before(:all) do
-      converter = MarcXMLConverter.new(test_doc_1)
-      converter.run
-      parsed = JSON.parse(IO.read(converter.get_output_path))
+      parsed = convert(test_doc_1)
       @resource = parsed.last
       @subjects = parsed.select{|r| r['jsonmodel_type'] == 'subject'}
-
     end
 
 
@@ -110,10 +120,8 @@ END
 
 
       def convert_test_file
-        converter = MarcXMLConverter.new(File.expand_path("../app/exporters/examples/marc/at-tracer-marc-1.xml", File.dirname(__FILE__)))
-        converter.run
-        parsed = JSON(IO.read(converter.get_output_path))
-
+        test_file = File.expand_path("../app/exporters/examples/marc/at-tracer-marc-1.xml", File.dirname(__FILE__))
+        parsed = convert(test_file)
 
         @corps = parsed.select {|rec| rec['jsonmodel_type'] == 'agent_corporate_entity'}
         @families = parsed.select {|rec| rec['jsonmodel_type'] == 'agent_family'}
@@ -153,26 +161,6 @@ END
         convert_test_file
       end
 
-      # Tag ind1  ind2  Subfield code   Object  Property
-      # 008
-      #         The 008 is a string of values derived from the fixed fields of the MARC record.  Each fixed field value has a zero-indexed absolute position on in the string.
-      # Positions 0-5 represent the date the record was created.
-      # Position 6 is a single alpha character representing the date type.
-      # Positions 7-14 represent the date information (two four digit dates in most cases).
-      # Positions 35-37 represent a three-letter language code taken from the MARC Code List for Languages. Three fill characters ('|||' or 3 spaces) may be used if no attempt was made to code the language.
-      #
-      # For example, given the 008 string:
-      # 880812s1967    xxu                 eng d
-      #
-      # This represents a single date with the year 1967 and a resource in English (code 'eng').
-      #
-      #       position 6  IF position 6 = 'i', date.date_type is "inclusive"  date  date_type
-      #         IF position 6 = 'k', date.date_type is "bulk"
-      #         IF position 6 = 's', date.date_type is "single"
-      #       positions 7-10    date  begin
-      #       positions 11-14   date  end
-      #       positions 35-37   resource  language
-      # Sample "130109i19601970xx                  eng d"
       it "maps field 008 correctly" do
         @resource['language'].should eq('eng')
         date = @resource['dates'].find {|d| d['date_type'] == 'inclusive' && d['begin'] == '1960' && d['end'] == '1970'}
@@ -350,9 +338,9 @@ END
 
       converter = MarcXMLConverter.for_subjects_and_agents_only(john_davis)
       converter.run
-      parsed = JSON.parse(IO.read(converter.get_output_path))
+      json = JSON(IO.read(converter.get_output_path))
 
-      new_record = parsed.last
+      new_record = json.last
 
       new_record['names'][0]['primary_name'].should eq("Davis, John W.")
       new_record['names'][0]['use_dates'][0]['expression'].should eq("1873-1955")
@@ -361,6 +349,41 @@ END
       new_record['names'][1]['primary_name'].should eq("Davis, John William,")
     end
   end
+
+
+  describe "008 string handling" do
+    let (:test_doc) {
+      src = <<marc
+<?xml version="1.0" encoding="UTF-8" ?>
+<marc:collection xmlns:marc="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+<marc:record><marc:leader>00943nasaa2200253Ia 4500</marc:leader>
+<marc:controlfield tag="001">32415731</marc:controlfield>
+<marc:controlfield tag="008">950503s1934    fr                  fre d</marc:controlfield>
+
+<marc:datafield tag="245" ind1="1" ind2="0">
+<marc:subfield code="a">Letters :</marc:subfield>
+<marc:subfield code="b">Paris, to Kelver Hartley, Paris,</marc:subfield>
+<marc:subfield code="f">1934 Nov. 1-Dec. 25 </marc:subfield>
+</marc:datafield>
+
+<marc:datafield tag="300" ind1=" " ind2=" ">
+<marc:subfield code="a">2 items (2 leaves) ;</marc:subfield>
+<marc:subfield code="c">20 cm. and smaller </marc:subfield>
+</marc:datafield>
+</marc:record>
+</marc:collection>
+
+marc
+      get_input_path(src)
+    }
+
+    it "doesn't try to set an end date if the controlfield has blank values" do
+      parsed = convert(test_doc)
+      @resource = parsed.last
+      @resource['dates'][0]['end'].should be_nil
+    end
+  end
+
 
   describe "Namespace handling" do
 
@@ -380,10 +403,7 @@ END
   </foo:collection>
 MARC
 
-      tmp = ASUtils.tempfile("doc1")
-      tmp.write(src)
-      tmp.close
-      tmp.path
+      get_input_path(src)
     }
 
     let (:record_doc) {
@@ -399,25 +419,18 @@ MARC
     </foo:datafield>
   </foo:record>
 MARC
-      tmp = ASUtils.tempfile("doc1")
-      tmp.write(src)
-      tmp.close
-      tmp.path
+      get_input_path(src)
     }
 
     it "ignores namespaces declared at the record node" do
-      converter = MarcXMLConverter.new(record_doc)
-      converter.run
-      parsed = JSON.parse(IO.read(converter.get_output_path))
+      parsed = convert(record_doc)
       @resource = parsed.last
       @resource.should_not be_nil
       @resource['title'].should_not be_nil
     end
 
     it "ignores namespaces declared at the collection node" do
-      converter = MarcXMLConverter.new(collection_doc)
-      converter.run
-      parsed = JSON.parse(IO.read(converter.get_output_path))
+      parsed = convert(collection_doc)
       @resource = parsed.last
       @resource.should_not be_nil
       @resource['title'].should_not be_nil
@@ -435,10 +448,7 @@ MARC
     </datafield>
   </record>
 MARC
-      tmp = ASUtils.tempfile("test_doc")
-      tmp.write(src)
-      tmp.close
-      tmp.path
+      get_input_path(src)
     end
 
     let (:subclass) {

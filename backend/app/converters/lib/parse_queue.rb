@@ -3,6 +3,8 @@ require 'asutils'
 
 module ASpaceImport
 
+  FIELDS_TO_DEDUPE = [:dates]
+
   # Manages the JSON object batch set
   class RecordBatch
 
@@ -23,12 +25,34 @@ module ASpaceImport
     end
 
 
+    def self.dedupe_subrecords(obj)
+      ASpaceImport::FIELDS_TO_DEDUPE.each do |subrecord|
+
+        if obj.respond_to?(subrecord) && obj.send(subrecord).is_a?(Array)
+          hashes = []
+          obj.send(subrecord).map! { |json|
+            hash = json.to_hash.hash
+            if hashes.include?(hash)
+              nil
+            else
+              hashes << hash
+              json
+            end
+          }
+
+          obj.send(subrecord).compact!
+        end
+      end
+    end
+
+
     def working_area
       @working_area
     end
 
 
     def <<(obj)
+      self.class.dedupe_subrecords(obj)
       @working_area.push(obj)
     end
 
