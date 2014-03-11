@@ -259,6 +259,13 @@ module TreeNodes
 
       super
     end
+
+
+    def handle_delete(ids_to_delete)
+      self.filter(:id => ids_to_delete).update(:parent_id => nil)
+      super
+    end
+
   end
 
 end
