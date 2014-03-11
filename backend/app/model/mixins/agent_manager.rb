@@ -130,7 +130,6 @@ module AgentManager
         DB.attempt {
           self.create_from_json(json)
         }.and_if_constraint_fails {|exception|
-
           agent = find(:agent_sha1 => calculate_hash(json))
 
           if !agent
@@ -197,6 +196,7 @@ module AgentManager
         json.notes.each do |note|
           note_json = note.clone
           note_json.delete("publish")
+          note_json.delete("persistent_id")
           fields << note_json.to_json.to_s
         end
 
@@ -215,7 +215,6 @@ module AgentManager
 
       def calculate_hash(json)
         fields = assemble_hash_fields(json)
-         Log.debug("Calculating Hash for fields: #{fields.inspect}")
         digest = Digest::SHA1.hexdigest(fields.sort.join('-'))
  
         digest
