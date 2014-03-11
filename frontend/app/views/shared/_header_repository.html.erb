@@ -76,17 +76,7 @@
                 <div class="input-append">
                   <input id="global-search-box" type="text" class="span2" placeholder="<%= I18n.t("navbar.search_placeholder") %>" name="q" value="<%= params[:q] %>"/>
                   <div class="btn-group">
-                    <%= hidden_field_tag "type", "" %>
                     <button id="global-search-button" class="btn"><span class=" icon-search"></span></button>
-                    <a class="btn dropdown-toggle last" data-toggle="dropdown" href="#"><b class="caret"></b></a>
-                    <ul class="dropdown-menu scoped-search-options">
-                      <li><a href="#" data-type=""><%= I18n.t("navbar.search_all") %></a></li>
-                      <li class="divider"></li>
-                      <li><a href="#" data-type="accession"><%= I18n.t("accession._plural") %></a></li>
-                      <li><a href="#" data-type="resource"><%= I18n.t("resource._plural") %></a></li>
-                      <li><a href="#" data-type="archival_object"><%= I18n.t("archival_object._plural") %></a></li>
-                      <li><a href="#" data-type="digital_object"><%= I18n.t("digital_object._plural") %></a></li>
-                    </ul>
                   </div>
                 </div>
               <% end %>
