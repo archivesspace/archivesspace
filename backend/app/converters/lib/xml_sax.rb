@@ -92,6 +92,12 @@ module ASpaceImport
         end
       end
 
+
+      # this is used to check if a node is empty before processing. 
+      # this is a bit of a processing hit on this, especially for nodes
+      # that have any children. For this reason we skip the root node.  
+      # You should override this in order to not check nodes that are
+      # expected to be very deep.
       def is_node_empty?(node)
         # calling inner_xml on the root note slows things down a lot...
         if node.depth == 0 

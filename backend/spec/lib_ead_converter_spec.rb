@@ -586,7 +586,10 @@ ANEAD
           src = <<ANEAD
 <ead>
   <archdesc level="collection" audience="internal">
-    <did>
+  <did>
+       <descgrp>                                                      
+          <processinfo/>                                                 
+      </descgrp>  
       <unittitle>Resource--Title-AT</unittitle>
       <unitid>Resource.ID.AT</unitid>
       <physdesc>
