@@ -36,12 +36,14 @@ Sequel.migration do
         end
 
         self[:note].filter(foreign_key => row[:id]).each do |note|
-          hash_fields << note[:notes]
+          note_json = JSON.parse(note[:notes])
+          note_json.delete("publish")
+          note_json.delete("persistent_id")
+          hash_fields << note_json.to_json.to_s
         end
 
         name_table = :"#{table.to_s.sub(/agent/, 'name')}"
 
-        puts "TABLE NAME #{name_table}"
         name_fields = %w(dates qualifier source_id rules_id)
         name_fields += case name_table
                       when :name_person
@@ -59,8 +61,6 @@ Sequel.migration do
             name[field.intern] || ' '
           }.join('_')
         end
-
-        puts "Hash fields: #{hash_fields.inspect}"
 
         digest = Digest::SHA1.hexdigest(hash_fields.sort.join('-'))
 
