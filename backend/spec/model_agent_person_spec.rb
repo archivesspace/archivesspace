@@ -354,9 +354,12 @@ describe 'Agent model' do
       expect { AgentPerson.create_from_json(agent) }.to_not raise_error
     end
 
-    it "will *not* accept two agents differing only in authority_id" do
+    it "will *not* consider authority_id when comparing agents" do
       agent.names[0]['authority_id'] = 'x'
-      AgentPerson.create_from_json(agent)
+      expect { AgentPerson.create_from_json(agent) }.to raise_error(Sequel::ValidationFailed)
+
+      agent.names[0]['primary_name'] += 'x'
+      expect { AgentPerson.create_from_json(agent) }.to_not raise_error
 
       agent.names[0]['authority_id'] = 'y'
       expect { AgentPerson.create_from_json(agent) }.to raise_error(Sequel::ValidationFailed)
