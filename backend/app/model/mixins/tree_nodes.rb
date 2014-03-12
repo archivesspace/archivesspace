@@ -241,7 +241,29 @@ module TreeNodes
         end
       end
 
+      json['has_unpublished_ancestor'] = calculate_has_unpublished_ancestor(obj)
+
       json
+    end
+
+
+    def calculate_has_unpublished_ancestor(obj, check_root_record = true)
+      if check_root_record && obj.root_record_id
+        root_model = Kernel.const_get(root_record_type.camelize)
+        return true if root_model[obj.root_record_id].publish == 0
+      end
+
+      if obj.parent_id
+        node_model = Kernel.const_get(node_record_type.camelize)
+        parent = node_model[obj.parent_id]
+        if parent.publish == 0
+          return true
+        else
+          return calculate_has_unpublished_ancestor(parent, false)
+        end
+      end
+
+      false
     end
 
 
