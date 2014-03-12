@@ -177,8 +177,9 @@ en:
     manage_groups: Manage Groups
     manage_users: Manage Users
     manage_enumerations: Manage Controlled Value Lists
-    global_preferences: User Preferences
-    repo_preferences: Repository Preferences
+    user_global_preferences: My Global Preferences
+    user_repo_preferences: My Repository Preferences
+    repo_preferences: User Preference Defaults
     manage_user_access: Manage User Access
     logout: Logout
     login: Sign In
