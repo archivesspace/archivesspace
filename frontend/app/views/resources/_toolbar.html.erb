@@ -2,8 +2,26 @@
 
   <% unless content_for?(:exports) %>
     <% content_for :exports do %>
-      <li><%= link_to I18n.t("actions.export_ead"), {:controller => :exports, :action => :download_ead, :id => @resource.id} %></li>
-      <li><%= link_to I18n.t("actions.export_ead_unpub"), {:controller => :exports, :action => :download_ead, :id => @resource.id, :include_unpublished => "true"} %></li>
+      <li class="dropdown-submenu">
+        <a href="#" data-toggle="dropdown" class="menu-with-options"><%= I18n.t("actions.export_ead") %></a>        
+        <div class="dropdown-menu" id="ead-export-dropdown">
+          <%= form_tag({:controller => :exports, :action => :download_ead}, :method => "get", :id => "form-download-ead") do %>
+            <input type="hidden" name="id", value="<%= @resource.id %>" />
+            <label class="checkbox" for="include-unpublished">
+              <input type="checkbox" id="include-unpublished" name="include-unpublished" checked="checked"/>
+              <%= I18n.t("export_options.include_unpublished") %>&#160;
+            </label>
+            <label class="checkbox" for="include-daos">
+              <input type="checkbox" id="include-daos" name="include-daos" checked="checked"/>
+              <%= I18n.t("export_options.include_daos") %>&#160;
+            </label>
+            <label class="checkbox" for="numbered-cs">
+              <input type="checkbox" id="numbered-cs" name="numbered-cs" />
+              <%= I18n.t("export_options.numbered_cs") %>&#160;
+            </label>
+          <% end %>
+        </div>
+      </li>
       <li><%= link_to I18n.t("actions.export_marc"), {:controller => :exports, :action => :download_marc, :id => @resource.id} %></li>
       <li><%= link_to I18n.t("actions.container_labels"), {:controller => :exports, :action => :container_labels, :id => @resource.id} %></li>
     <% end %>
