@@ -6,7 +6,7 @@ describe 'MARCXML converter' do
   def get_input_path(src)
     tmp = ASUtils.tempfile("doc-#{Time.now.to_i}")
     tmp.write(src)
-    tmp.close
+    tmp.flush
     tmp.path
   end
 
