@@ -5,7 +5,7 @@
   <span class="label label-info"><%= I18n.t("classification_term._singular") %></span>
 </h2>
 
-<%= render :partial => "shared/form_messages", :locals => {:form => form} %>
+<%= render :partial => "shared/form_messages", :formats => [:html], :handlers => [:erb], :locals => {:form => form} %>
 
 <fieldset>
 
@@ -23,7 +23,7 @@
       <%= form.label_and_textarea "description" %>
 
       <% form.push("creator", form["creator"] || {}) do %>
-        <%= render :partial => "agents/linker", :locals => {:form => form, :linker_label => I18n.t("classification.creator"), :optional => true, :multiplicity => "one"} %>
+        <%= render :partial => "agents/linker", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :linker_label => I18n.t("classification.creator"), :optional => true, :multiplicity => "one"} %>
       <% end %>
 
     </section>

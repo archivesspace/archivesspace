@@ -6,7 +6,7 @@
 
 <div class="row-fluid">
    <div class="span3">
-     <%= render :partial => "search/filter" %>
+     <%= render :partial => "search/filter", :formats => [:html], :handlers => [:erb] %>
    </div>
    <div class="span9">
      <% if user_can?('update_classification_record') %>
@@ -29,9 +29,9 @@
 
        <h2><%= I18n.t("classification._plural") %></h2>
 
-       <%= render :partial => "shared/flash_messages" %>
+       <%= render :partial => "shared/flash_messages", :formats => [:html], :handlers => [:erb] %>
 
-       <%= render :partial => "search/listing" %>
+       <%= render :partial => "search/listing", :formats => [:html], :handlers => [:erb] %>
      </div>
    </div>
 </div>

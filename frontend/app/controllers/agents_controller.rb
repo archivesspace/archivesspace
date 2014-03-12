@@ -18,7 +18,7 @@ class AgentsController < ApplicationController
     @agent = JSONModel(@agent_type).new({:agent_type => @agent_type})._always_valid!
     @agent.names = [@name_type.new({:authorized => true, :is_display_name => true})._always_valid!]
 
-    render :partial => "agents/new" if inline?
+    render :partial => "agents/new", :formats => [:html], :handlers => [:erb] if inline?
   end
 
   def edit
@@ -30,7 +30,7 @@ class AgentsController < ApplicationController
                 :model => JSONModel(@agent_type),
                 :find_opts => find_opts,
                 :on_invalid => ->(){
-                  return render :partial => "agents/new" if inline?
+                  return render :partial => "agents/new", :formats => [:html], :handlers => [:erb] if inline?
                   return render :action => :new
                 },
                 :on_valid => ->(id){

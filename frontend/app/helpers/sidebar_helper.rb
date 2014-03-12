@@ -44,7 +44,7 @@ module SidebarHelper
     private
 
     def render_entry(opts)
-      @form.render(:partial => '/shared/sidebar_entry',
+      @form.render(:partial => '/shared/sidebar_entry', :formats => [:html], :handlers => [:erb],
                    :locals => opts.merge(@opts))
     end
 

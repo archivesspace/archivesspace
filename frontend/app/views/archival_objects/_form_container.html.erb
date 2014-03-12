@@ -5,7 +5,7 @@
   <span class="label label-info"><%= I18n.t("archival_object._singular") %></span>
 </h2>
 
-<%= render :partial => "shared/form_messages", :locals => {:form => form} %>
+<%= render :partial => "shared/form_messages", :formats => [:html], :handlers => [:erb], :locals => {:form => form} %>
 
 
   <%= form.hidden_input "parent", nil, {"data-base-name" => "archival_object[parent]", "class" => "hidden-parent-uri"} %>
@@ -50,17 +50,17 @@
 
   <% form.emit_template("archival_object") %>
   
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :required => :conditionally, :template => "archival_record_date"} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
+  <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "dates", :required => :conditionally, :template => "archival_record_date"} %>
+  <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "extents"} %>
 
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "archival_object_linked_agent"} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template => "subrecord_subject"} %>
+  <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "linked_agents", :template => "archival_object_linked_agent"} %>
+  <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "subjects", :template => "subrecord_subject"} %>
 
-  <%= render :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type'])} %>
+  <%= render :partial => "notes/form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type'])} %>
 
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "instances", :custom_action_template => "instances/subrecord_form_action"} %>
+  <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "external_documents"} %>
+  <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "external_ids", :hidden => true} %>
+  <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "rights_statements"} %>
+  <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "instances", :custom_action_template => "instances/subrecord_form_action"} %>
 
   <%= form_plugins_for("archival_object", form) %>

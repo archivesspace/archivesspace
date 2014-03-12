@@ -28,7 +28,7 @@
 
             <% if user_can?('merge_agent_record') %>
               <%=
-                  render :partial => "shared/merge_dropdown",
+                  render :partial => "shared/merge_dropdown", :formats => [:html], :handlers => [:erb],
                          :locals => {:record => @agent,
                                      :extra_params => {:agent_type => @agent.agent_type},
                                      :controller => :agents,
@@ -45,7 +45,7 @@
             <% end %>
             <% if user_can?('merge_agent_record') %>
               <%=
-                  render :partial => "shared/merge_dropdown",
+                  render :partial => "shared/merge_dropdown", :formats => [:html], :handlers => [:erb],
                          :locals => {:record => @agent,
                                      :extra_params => {:agent_type => @agent.agent_type},
                                      :controller => :agents,

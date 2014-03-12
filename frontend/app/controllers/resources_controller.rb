@@ -19,7 +19,7 @@ class ResourcesController < ApplicationController
       @resource = fetch_resolved(params[:id])
 
       flash.now[:info] = I18n.t("resource._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:resource => @resource)) if @resource.suppressed
-      return render :partial => "resources/show_inline"
+      return render :partial => "resources/show_inline", :formats => [:html], :handlers => [:erb]
     end
 
     @resource = JSONModel(:resource).find(params[:id])
@@ -38,7 +38,7 @@ class ResourcesController < ApplicationController
       end
     end
 
-    return render :partial => "resources/new_inline" if params[:inline]
+    return render :partial => "resources/new_inline", :formats => [:html], :handlers => [:erb] if params[:inline]
   end
 
 
@@ -58,7 +58,7 @@ class ResourcesController < ApplicationController
         return redirect_to(:action => :show, :id => params[:id], :inline => params[:inline])
       end
 
-      return render :partial => "resources/edit_inline"
+      return render :partial => "resources/edit_inline", :formats => [:html], :handlers => [:erb]
     end
 
     @resource = JSONModel(:resource).find(params[:id])
@@ -87,12 +87,12 @@ class ResourcesController < ApplicationController
     handle_crud(:instance => :resource,
                 :obj => fetch_resolved(params[:id]),
                 :on_invalid => ->(){
-                  render :partial => "edit_inline"
+                  render :partial => "edit_inline", :formats => [:html], :handlers => [:erb]
                 },
                 :on_valid => ->(id){
                   @refresh_tree_node = true
                   flash.now[:success] = I18n.t("resource._frontend.messages.updated", JSONModelI18nWrapper.new(:resource => @resource))
-                  render :partial => "edit_inline"
+                  render :partial => "edit_inline", :formats => [:html], :handlers => [:erb]
                 })
   end
 
@@ -113,7 +113,7 @@ class ResourcesController < ApplicationController
     @children = ResourceChildren.new
     @exceptions = []
 
-    render :partial => "shared/rde"
+    render :partial => "shared/rde", :formats => [:html], :handlers => [:erb]
   end
 
 
@@ -141,7 +141,7 @@ class ResourcesController < ApplicationController
             flash.now[:success] = I18n.t("rde.messages.rows_no_errors")
           end
 
-          return render :partial => "shared/rde"
+          return render :partial => "shared/rde", :formats => [:html], :handlers => [:erb]
         else
           @children.save(:resource_id => @parent.id)
         end
@@ -155,7 +155,7 @@ class ResourcesController < ApplicationController
 
     end
 
-    render :partial => "shared/rde"
+    render :partial => "shared/rde", :formats => [:html], :handlers => [:erb]
   end
 
 

@@ -7,7 +7,7 @@ add_column(I18n.t("collection_management.processing_hours_total_short"), proc {|
 %>
 <div class="row-fluid">
   <div class="span3">
-    <%= render :partial => "search/filter" %>
+    <%= render :partial => "search/filter", :formats => [:html], :handlers => [:erb] %>
   </div>
   <div class="span9">
     <div class="record-pane">
@@ -15,9 +15,9 @@ add_column(I18n.t("collection_management.processing_hours_total_short"), proc {|
 
       <h2><%= I18n.t("collection_management._plural") %></h2>
 
-      <%= render :partial => "shared/flash_messages" %>
+      <%= render :partial => "shared/flash_messages", :formats => [:html], :handlers => [:erb] %>
 
-      <%= render :partial => "search/listing" %>
+      <%= render :partial => "search/listing", :formats => [:html], :handlers => [:erb] %>
     </div>
   </div>
 </div>

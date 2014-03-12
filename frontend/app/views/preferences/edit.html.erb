@@ -37,16 +37,16 @@
    <div class="span3">
    </div>
   <div class="span9">
-    <%= render :partial => "toolbar" %>
+    <%= render :partial => "toolbar", :formats => [:html], :handlers => [:erb] %>
     <div class="record-pane">
       <h2><%= title %></h2>
       <div class="alert alert-info">
         <%= message.force_encoding("UTF-8") %>
       </div>
 
-         <%= render :partial => "shared/flash_messages" %>
+         <%= render :partial => "shared/flash_messages", :formats => [:html], :handlers => [:erb] %>
 
-    <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "defaults", :cardinality => :zero_to_one, :template => "defaults", :hidden => true} %>
+    <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "defaults", :cardinality => :zero_to_one, :template => "defaults", :hidden => true} %>
 
     </div>
   </div>

@@ -4,16 +4,16 @@
   <%= form_context :repository, @repository do |form| %>
     <div class="row-fluid">
       <div class="span3">
-        <%= render :partial => "repositories/sidebar" %>
+        <%= render :partial => "repositories/sidebar", :formats => [:html], :handlers => [:erb] %>
       </div>
       <div class="span9">
-        <%= render :partial => "repositories/toolbar" %>
+        <%= render :partial => "repositories/toolbar", :formats => [:html], :handlers => [:erb] %>
         <div class="record-pane">
           <%= link_to_help :topic => "repository" %>
           <h2><%= @repository.repository['name'] %>  <span class="label label-info"><%= I18n.t("repository._singular") %></span></h2>
           <br/>
 
-          <%= render :partial => "repositories/form_container", :locals => {:form => form} %>
+          <%= render :partial => "repositories/form_container", :formats => [:html], :handlers => [:erb], :locals => {:form => form} %>
 
           <div class="form-actions">
             <button type="submit" class="btn btn-primary"><%= I18n.t("repository._frontend.action.save") %></button>

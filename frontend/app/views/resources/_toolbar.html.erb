@@ -9,7 +9,7 @@
     <% end %>
   <% end %>
 
-  <%= render(:partial => '/shared/resource_toolbar',
+  <%= render(:partial => '/shared/resource_toolbar', :formats => [:html], :handlers => [:erb],
              :locals => {
               :record_type => 'resource',
               :record => @resource,

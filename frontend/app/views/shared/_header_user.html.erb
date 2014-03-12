@@ -79,7 +79,7 @@
   <li class="dropdown login-dropdown <% if params[:login] %>open<% end %>">
     <a class="session-actions dropdown-toggle" href="#" data-toggle="dropdown"><%= I18n.t("navbar.login") %></a>
     <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-       <%= render :partial => "shared/login" %>
+       <%= render :partial => "shared/login", :formats => [:html], :handlers => [:erb] %>
        <% if AppConfig[:allow_user_registration] %>
          <p><%= I18n.t "navbar.register_prefix" %> <%= link_to I18n.t("navbar.register"), {:controller => "users", :action => "new"}, :class => "boring-link" %></p>
        <% end %>

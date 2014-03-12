@@ -12,7 +12,7 @@ class DigitalObjectComponentsController < ApplicationController
     @digital_object_component.parent = {'ref' => JSONModel(:digital_object_component).uri_for(params[:digital_object_component_id])} if params.has_key?(:digital_object_component_id)
     @digital_object_component.digital_object = {'ref' => JSONModel(:digital_object).uri_for(params[:digital_object_id])} if params.has_key?(:digital_object_id)
 
-    return render :partial => "digital_object_components/new_inline" if inline?
+    return render :partial => "digital_object_components/new_inline", :formats => [:html], :handlers => [:erb] if inline?
 
     # render the full DOC form
 
@@ -25,14 +25,14 @@ class DigitalObjectComponentsController < ApplicationController
       return redirect_to(:action => :show, :id => params[:id], :inline => params[:inline])
     end
 
-    render :partial => "digital_object_components/edit_inline" if inline?
+    render :partial => "digital_object_components/edit_inline", :formats => [:html], :handlers => [:erb] if inline?
   end
 
 
   def create
     handle_crud(:instance => :digital_object_component,
                 :find_opts => find_opts,
-                :on_invalid => ->(){ render :partial => "new_inline" },
+                :on_invalid => ->(){ render :partial => "new_inline", :formats => [:html], :handlers => [:erb] },
                 :on_valid => ->(id){
                   # Refetch the record to ensure all sub records are resolved
                   # (this object isn't marked as stale upon create like Archival Objects,
@@ -51,7 +51,7 @@ class DigitalObjectComponentsController < ApplicationController
                     flash.now[:success] = success_message
                   end
 
-                  render :partial => "digital_object_components/edit_inline"
+                  render :partial => "digital_object_components/edit_inline", :formats => [:html], :handlers => [:erb]
                 })
   end
 
@@ -65,7 +65,7 @@ class DigitalObjectComponentsController < ApplicationController
 
     handle_crud(:instance => :digital_object_component,
                 :obj => @digital_object_component,
-                :on_invalid => ->(){ return render :partial => "edit_inline" },
+                :on_invalid => ->(){ return render :partial => "edit_inline", :formats => [:html], :handlers => [:erb] },
                 :on_valid => ->(id){
                   success_message = parent ?
                     I18n.t("digital_object_component._frontend.messages.updated_with_parent", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object, :parent => parent)) :
@@ -74,7 +74,7 @@ class DigitalObjectComponentsController < ApplicationController
 
                   @refresh_tree_node = true
 
-                  render :partial => "edit_inline"
+                  render :partial => "edit_inline", :formats => [:html], :handlers => [:erb]
                 })
   end
 
@@ -85,7 +85,7 @@ class DigitalObjectComponentsController < ApplicationController
 
     flash.now[:info] = I18n.t("digital_object_component._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component)) if @digital_object_component.suppressed
 
-    render :partial => "digital_object_components/show_inline" if inline?
+    render :partial => "digital_object_components/show_inline", :formats => [:html], :handlers => [:erb] if inline?
   end
 
 
@@ -112,7 +112,7 @@ class DigitalObjectComponentsController < ApplicationController
     @children = DigitalObjectComponentChildren.new
     @exceptions = []
 
-    render :partial => "shared/rde"
+    render :partial => "shared/rde", :formats => [:html], :handlers => [:erb]
   end
 
 
@@ -150,7 +150,7 @@ class DigitalObjectComponentsController < ApplicationController
             flash.now[:success] = I18n.t("rde.messages.rows_no_errors")
           end
 
-          return render :partial => "shared/rde"
+          return render :partial => "shared/rde", :formats => [:html], :handlers => [:erb]
         else
           @children.save(:digital_object_component_id => @parent.id)
         end
@@ -164,7 +164,7 @@ class DigitalObjectComponentsController < ApplicationController
 
     end
 
-    render :partial => "shared/rde"
+    render :partial => "shared/rde", :formats => [:html], :handlers => [:erb]
   end
 
 

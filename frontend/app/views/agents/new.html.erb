@@ -4,14 +4,14 @@
   <%= form_context :agent, @agent do |form| %>
     <div class="row-fluid">
       <div class="span3">
-        <%= render :partial => "sidebar", :locals => {:form => form} %>
+        <%= render :partial => "sidebar", :formats => [:html], :handlers => [:erb], :locals => {:form => form} %>
       </div>
       <div class="span9">
-        <%= render :partial => "shared/toolbar_new_records" %>
+        <%= render :partial => "shared/toolbar_new_records", :formats => [:html], :handlers => [:erb] %>
         <div class="record-pane">
           <%= link_to_help :topic => "#{@agent.agent_type}" %>
           <h2><%= "#{I18n.t("actions.new_prefix")} #{I18n.t("agent.agent_type.#{@agent.agent_type}")}" %>  <span class="label label-info"><%= I18n.t("agent._singular") %></span></h2>
-          <%= render :partial => "agents/form", :locals => {:form => form} %>
+          <%= render :partial => "agents/form", :formats => [:html], :handlers => [:erb], :locals => {:form => form} %>
           <div class="form-actions">
             <div class="btn-group">
               <button type="submit" class="btn btn-primary"><%= I18n.t("#{@agent.agent_type}._frontend.action.save") %></button>

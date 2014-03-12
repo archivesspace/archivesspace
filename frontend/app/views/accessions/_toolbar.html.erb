@@ -28,7 +28,7 @@
               </div>
             <% end %>
             <% if @accession_event_types && !@accession.suppressed %>
-              <%= render :partial => "shared/event_dropdown", :locals => {:record => @accession, :event_types => @accession_event_types} %>
+              <%= render :partial => "shared/event_dropdown", :formats => [:html], :handlers => [:erb], :locals => {:record => @accession, :event_types => @accession_event_types} %>
             <% end %>
             <% if not @accession.suppressed %>
               <div class="btn btn-inline-form">
@@ -45,7 +45,7 @@
             <% end %>
             <% if user_can?('transfer_archival_record') %>
               <%=
-                 render :partial => "shared/transfer_dropdown",
+                 render :partial => "shared/transfer_dropdown", :formats => [:html], :handlers => [:erb],
                         :locals => {:record => @accession,
                                     :controller => controller.controller_name,
                                     :confirmation_title => I18n.t("actions.transfer_confirm_title"),

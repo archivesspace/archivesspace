@@ -5,7 +5,7 @@
   <span class="label label-info"><%= I18n.t("digital_object_component._singular") %></span>
 </h2>
 
-<%= render :partial => "shared/form_messages", :locals => {:form => form} %>
+<%= render :partial => "shared/form_messages", :formats => [:html], :handlers => [:erb], :locals => {:form => form} %>
 
 <fieldset>
 
@@ -39,19 +39,19 @@
 
   <% form.emit_template("digital_object_component") %>
 
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "file_versions"} %>
+  <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "file_versions"} %>
 
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template => "archival_record_date", :required => :conditionally} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
+  <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "dates", :template => "archival_record_date", :required => :conditionally} %>
+  <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "extents"} %>
 
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "digital_object_component_linked_agent"} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template => "subrecord_subject"} %>
+  <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "linked_agents", :template => "digital_object_component_linked_agent"} %>
+  <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "subjects", :template => "subrecord_subject"} %>
 
-  <%= render :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type'])} %>
+  <%= render :partial => "notes/form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type'])} %>
 
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>
+  <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "external_documents"} %>
+  <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "external_ids", :hidden => true} %>
+  <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "rights_statements"} %>
 
   <%= form_plugins_for("digital_object_component", form) %>
 

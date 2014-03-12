@@ -12,10 +12,10 @@
 
       <div class="tab-content">
         <div id="simpleSearch" class="tab-pane active">
-          <%= render :partial => "simple_search" %>
+          <%= render :partial => "simple_search", :formats => [:html], :handlers => [:erb] %>
         </div>
         <div id="advancedSearch" class="tab-pane">
-          <%= render :partial => "advanced_search" %>
+          <%= render :partial => "advanced_search", :formats => [:html], :handlers => [:erb] %>
         </div>
       </div>
 

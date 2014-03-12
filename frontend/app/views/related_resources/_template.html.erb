@@ -1,5 +1,5 @@
 <% define_template("accession_related_resource",  jsonmodel_definition(:accession)) do |form| %>
   <div class="subrecord-form-fields">
-    <%= render :partial => "resources/linker", :locals => { :form => form }%>
+    <%= render :partial => "resources/linker", :formats => [:html], :handlers => [:erb], :locals => { :form => form }%>
   </div>
 <% end %>

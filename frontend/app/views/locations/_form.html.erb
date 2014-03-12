@@ -21,6 +21,6 @@
   </fieldset>
 <% end %>
 
-<%= render :partial => "shared/form_messages", :locals => {:object => @location, :form => form} %>
+<%= render :partial => "shared/form_messages", :formats => [:html], :handlers => [:erb], :locals => {:object => @location, :form => form} %>
 <% form.emit_template("location") %>
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>
+<%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "external_ids", :hidden => true} %>

@@ -62,7 +62,7 @@ module ApplicationHelper
         breadcrumb_trail.push([options[:title]])
     end
 
-    render(:partial =>"shared/breadcrumb", :layout => false , :locals => { :trail => breadcrumb_trail }).to_s if options[:suppress_breadcrumb] != true
+    render(:partial =>"shared/breadcrumb", :formats => [:html], :handlers => [:erb], :layout => false , :locals => { :trail => breadcrumb_trail }).to_s if options[:suppress_breadcrumb] != true
   end
 
   def render_token(opts)

@@ -7,7 +7,7 @@
   <div class="container-subrecord">
     <%= read_only_view(container, :label_css => "span4") %>
     <% if container["container_locations"].length > 0 %>
-      <%= render :partial => "container_locations/show", :locals => { :container_locations => container["container_locations"] } %>
+      <%= render :partial => "container_locations/show", :formats => [:html], :handlers => [:erb], :locals => { :container_locations => container["container_locations"] } %>
     <% end %>
   </div>
 

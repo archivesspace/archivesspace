@@ -2,7 +2,7 @@
 
 <div class="row-fluid" xmlns="http://www.w3.org/1999/html">
   <div class="span12">
-    <%= render :partial => "shared/tree", :locals => {:root_record => @resource} %>
+    <%= render :partial => "shared/tree", :formats => [:html], :handlers => [:erb], :locals => {:root_record => @resource} %>
   </div>
 </div>
 

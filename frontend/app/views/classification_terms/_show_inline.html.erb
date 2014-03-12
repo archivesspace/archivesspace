@@ -1,13 +1,13 @@
 <div class="row-fluid">
   <div class="span3">
-    <%= render :partial => "sidebar" %>
+    <%= render :partial => "sidebar", :formats => [:html], :handlers => [:erb] %>
   </div>
   <div class="span9">
-    <%= render :partial => "toolbar" %>
+    <%= render :partial => "toolbar", :formats => [:html], :handlers => [:erb] %>
     <div class="record-pane">
       <%= readonly_context :classification_term, @classification_term do |readonly| %>
         <h2><%= @classification_term.title %> <span class="label label-info"><%= I18n.t("classification_term._singular") %></span></h2>
-        <%= render :partial => "shared/flash_messages" %>
+        <%= render :partial => "shared/flash_messages", :formats => [:html], :handlers => [:erb] %>
         <section id="basic_information">
           <h3><%= I18n.t("classification_term._frontend.section.basic_information") %></h3>
           <%= readonly.label_and_textarea "identifier" %>
@@ -25,7 +25,7 @@
         </section>
       <% end %>
 
-      <%= render :partial => "search/embedded", :locals => {:filter_term => {"classification_uri" => @classification_term.uri}.to_json, :heading_text => I18n.t("classification_term._frontend.section.search_embedded")} %>
+      <%= render :partial => "search/embedded", :formats => [:html], :handlers => [:erb], :locals => {:filter_term => {"classification_uri" => @classification_term.uri}.to_json, :heading_text => I18n.t("classification_term._frontend.section.search_embedded")} %>
 
     </div>
   </div>

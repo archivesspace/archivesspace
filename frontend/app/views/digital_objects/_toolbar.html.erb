@@ -8,7 +8,7 @@
     <% end %>
   <% end %>
 
-  <%= render(:partial => '/shared/resource_toolbar',
+  <%= render(:partial => '/shared/resource_toolbar', :formats => [:html], :handlers => [:erb],
              :locals => {
               :record_type => 'digital_object',
               :record => @digital_object,

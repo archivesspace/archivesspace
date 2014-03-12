@@ -83,7 +83,7 @@
 
 
     <div class="subrecord-form-container">
-      <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents", :heading_size => "h4", :help_topic => "rights_statement_external_documents"} %>
+      <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "external_documents", :heading_size => "h4", :help_topic => "rights_statement_external_documents"} %>
     </div>
   </div>
 

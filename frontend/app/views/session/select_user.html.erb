@@ -6,7 +6,7 @@
     <div class="record-pane">
       <h2><%= I18n.t("navbar.become-user") %></h2>
 
-      <%= render :partial => "shared/flash_messages" %>
+      <%= render :partial => "shared/flash_messages", :formats => [:html], :handlers => [:erb] %>
 
       <%= form_for @become_user, :as => "become_user", :url => {:action => :become_user}, :html => {:class => 'form-horizontal'} do |f| %>
         <input id="select-user" name="username" class="input-medium" type="text" autocomplete="off" placeholder="Username" />

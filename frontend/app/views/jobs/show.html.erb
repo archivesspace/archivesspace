@@ -1,18 +1,18 @@
 <%= setup_context :object => @job, :title => @job.id %>
 
-<%= render :partial => "jobs/show_templates" %>
+<%= render :partial => "jobs/show_templates", :formats => [:html], :handlers => [:erb] %>
 
 <div class="row-fluid job-status-<%= @job.status %>">
   <div class="span3">
-    <%= render :partial => "sidebar" %>
+    <%= render :partial => "sidebar", :formats => [:html], :handlers => [:erb] %>
   </div>
   <div class="span9">
-    <%= render :partial => "toolbar" %>
+    <%= render :partial => "toolbar", :formats => [:html], :handlers => [:erb] %>
     <div class="record-pane">
       <%= readonly_context :job, @job do |readonly| %>
         <h2><%= I18n.t("job.import_type_#{@job["import_type"]}", :default => @job["import_type"]) %> [<%= @job.id %>] <span class="label label-info"><%= I18n.t("job._singular") %></span></h2>
 
-        <%= render :partial => "shared/flash_messages" %>
+        <%= render :partial => "shared/flash_messages", :formats => [:html], :handlers => [:erb] %>
 
         <% if @job.status === "queued" %>
           <div class="alert alert-warning" id="queueMessage"></div>

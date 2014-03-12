@@ -1,5 +1,5 @@
 <% if user_can?('update_classification_record') %>
-  <%= render(:partial => '/shared/component_toolbar',
+  <%= render(:partial => '/shared/component_toolbar', :formats => [:html], :handlers => [:erb],
              :locals => {
                :parent_link => {:controller => :classifications, :action => :edit, :id => JSONModel(:classification).id_for(@classification_term.classification["ref"]), :anchor => "classification_term_#{@classification_term.id}"},
                :record => @classification_term,

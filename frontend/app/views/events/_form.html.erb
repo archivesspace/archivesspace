@@ -1,4 +1,4 @@
-<%= render :partial => "shared/form_messages", :locals => {:object => @event, :form => form} %>
+<%= render :partial => "shared/form_messages", :formats => [:html], :handlers => [:erb], :locals => {:object => @event, :form => form} %>
 
 <% define_template("event", jsonmodel_definition(:event)) do |form| %>
   <section id="basic_information">
@@ -26,7 +26,7 @@
       <%= form.label_and_textfield "timestamp" %>
     <% else %>
       <%= form.fields_for(@event.date || {}, "date") do | date | %>
-        <% render :partial => "dates/template", :locals => {:form => form} %>
+        <% render :partial => "dates/template", :formats => [:html], :handlers => [:erb], :locals => {:form => form} %>
         <% form.emit_template("date") %>
       <% end %>
     <% end %>
@@ -37,7 +37,7 @@
     </div>
     <div id="chronotype_subrecord" class="chronotype_form">
       <%= form.fields_for(@event.date || {}, "date") do | date | %>
-        <% render :partial => "dates/template", :locals => {:form => form} %>
+        <% render :partial => "dates/template", :formats => [:html], :handlers => [:erb], :locals => {:form => form} %>
         <% form.emit_template("date") %>
       <% end %>
     </div>
@@ -62,7 +62,7 @@
     </div>
   </section>
 <% else %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "event_linked_agent"} %>
+  <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "linked_agents", :template => "event_linked_agent"} %>
 
 <% end %>
 
@@ -84,6 +84,6 @@
     </div>
   </section>
 <% else %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_records"} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>
+  <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "linked_records"} %>
+  <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "external_ids", :hidden => true} %>
 <% end %>

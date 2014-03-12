@@ -2,15 +2,15 @@
 
 <div class="row-fluid">
    <div class="span3">
-      <%= render :partial => "agents/sidebar" %>
+      <%= render :partial => "agents/sidebar", :formats => [:html], :handlers => [:erb] %>
    </div>
    <div class="span9">
-    <%= render :partial => "toolbar" %>
+    <%= render :partial => "toolbar", :formats => [:html], :handlers => [:erb] %>
     <div class="record-pane">
      <%= readonly_context @agent.agent_type.intern, @agent do |readonly| %>
         <h2><%= @agent.title %>  <span class="label label-info"><%= I18n.t("agent._singular") %></span></h2>
 
-        <%= render :partial => "shared/flash_messages" %>
+        <%= render :partial => "shared/flash_messages", :formats => [:html], :handlers => [:erb] %>
 
         <div class="row-fluid">
           <section id="basic_information">
@@ -26,7 +26,7 @@
         </div>
 
         <% if @agent.dates_of_existence.length > 0 %>
-          <%= render :partial => "dates/show", :locals => { :dates => @agent.dates_of_existence, :section_title => I18n.t("agent.dates_of_existence"), :section_id => "dates_of_existence", :context => readonly } %>
+          <%= render :partial => "dates/show", :formats => [:html], :handlers => [:erb], :locals => { :dates => @agent.dates_of_existence, :section_title => I18n.t("agent.dates_of_existence"), :section_id => "dates_of_existence", :context => readonly } %>
         <% end %>
 
         <div class="row-fluid">
@@ -53,7 +53,7 @@
                   <div id="agent_name_<%= index %>" class="accordion-body collapse">
                     <%= read_only_view(name.to_hash) %>
                     <% if name['use_dates'].length > 0 %>
-                      <%= render :partial => "dates/show", :locals => { :dates => name['use_dates'], :section_id => "name_use_dates", :section_title => I18n.t("agent_name.use_dates"), :context => readonly } %>
+                      <%= render :partial => "dates/show", :formats => [:html], :handlers => [:erb], :locals => { :dates => name['use_dates'], :section_id => "name_use_dates", :section_title => I18n.t("agent_name.use_dates"), :context => readonly } %>
                     <% end %>
                   </div>
                 </div>
@@ -63,7 +63,7 @@
         </div>
 
         <% if @agent.agent_contacts.length > 0 %>
-          <%= render :partial => "agents/contact_details" %>
+          <%= render :partial => "agents/contact_details", :formats => [:html], :handlers => [:erb] %>
 
           <div class="row-fluid">
             <section id="<%= @agent.agent_type %>_contact_details">
@@ -95,20 +95,20 @@
         <% end %>
 
         <% if @agent.notes.length > 0 %>
-          <%= render :partial => "notes/show", :locals => { :notes => @agent.notes, :context => readonly, :section_id => "#{@agent.agent_type}_notes" } %>
+          <%= render :partial => "notes/show", :formats => [:html], :handlers => [:erb], :locals => { :notes => @agent.notes, :context => readonly, :section_id => "#{@agent.agent_type}_notes" } %>
         <% end %>
 
         <% if !@agent['related_agents'].blank? %>
-          <%= render :partial => "related_agents/show", :locals => { :related_agents => @agent.related_agents, :context => readonly } %>
+          <%= render :partial => "related_agents/show", :formats => [:html], :handlers => [:erb], :locals => { :related_agents => @agent.related_agents, :context => readonly } %>
         <% end %>
 
         <% if @agent.external_documents.length > 0 %>
-          <%= render :partial => "external_documents/show", :locals => { :external_documents => @agent.external_documents, :section_id => "#{@agent.agent_type}_external_documents" } %>
+          <%= render :partial => "external_documents/show", :formats => [:html], :handlers => [:erb], :locals => { :external_documents => @agent.external_documents, :section_id => "#{@agent.agent_type}_external_documents" } %>
         <% end %>
 
         <%= show_plugins_for(@agent, readonly) %>
 
-        <%= render :partial => "search/embedded", :locals => {:filter_term => {"agents" => @agent.title}.to_json, :heading_text => I18n.t("agent._frontend.section.search_embedded")} %>
+        <%= render :partial => "search/embedded", :formats => [:html], :handlers => [:erb], :locals => {:filter_term => {"agents" => @agent.title}.to_json, :heading_text => I18n.t("agent._frontend.section.search_embedded")} %>
       <% end %>
     </div>
   </div>

@@ -9,15 +9,15 @@
 
 <div class="row-fluid">
    <div class="span3">
-      <%= render :partial => "sidebar" %>
+      <%= render :partial => "sidebar", :formats => [:html], :handlers => [:erb] %>
    </div>
   <div class="span9">
-    <%= render :partial => "toolbar" %>
+    <%= render :partial => "toolbar", :formats => [:html], :handlers => [:erb] %>
     <div class="record-pane">
       <%= readonly_context :collection_management, @collection_management do |readonly| %>
          <h2><%= I18n.t("collection_management_record._frontend.title_prefix") %> <%= title %> <span class="label label-info"><%= I18n.t("collection_management_record._singular") %></span></h2>
   
-         <%= render :partial => "shared/flash_messages" %>
+         <%= render :partial => "shared/flash_messages", :formats => [:html], :handlers => [:erb] %>
   
           <section id="basic_information">
             <h3><%= I18n.t("collection_management_record._frontend.section.basic_information") %></h3>

@@ -1,5 +1,5 @@
 
- <%= render :partial => "shared/form_messages", :locals => {:form => form} %>
+ <%= render :partial => "shared/form_messages", :formats => [:html], :handlers => [:erb], :locals => {:form => form} %>
  <fieldset>
    <%= form.label_and_textfield "username", :required => true %>
    <%= form.label_and_textfield "name", {:field_opts => {:size => 30, :class => "input-xxlarge"}, :required => true} %>

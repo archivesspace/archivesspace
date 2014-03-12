@@ -12,9 +12,9 @@ class SearchController < ApplicationController
       }
       format.js {
         if params[:listing_only]
-          render :partial => "search/listing"
+          render :partial => "search/listing", :formats => [:html], :handlers => [:erb]
         else
-          render :partial => "search/results"
+          render :partial => "search/results", :formats => [:html], :handlers => [:erb]
         end
       }
       format.html {

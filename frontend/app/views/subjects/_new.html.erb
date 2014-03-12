@@ -1,6 +1,6 @@
 <%= form_for @subject, :as => "subject", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
   <%= form_context :subject, @subject do |form| %>
     <%= hidden_field "inline", "true" %>
-    <%= render :partial => "subjects/form", :locals => {:form => form} %>
+    <%= render :partial => "subjects/form", :formats => [:html], :handlers => [:erb], :locals => {:form => form} %>
   <% end %>
 <% end %>

@@ -1,4 +1,4 @@
-<%= render :partial => "notes/template" %>
+<%= render :partial => "notes/template", :formats => [:html], :handlers => [:erb] %>
 
 <%
   section_id = "notes" if section_id.blank?

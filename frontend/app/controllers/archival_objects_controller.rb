@@ -12,7 +12,7 @@ class ArchivalObjectsController < ApplicationController
     @archival_object.parent = {'ref' => JSONModel(:archival_object).uri_for(params[:archival_object_id])} if params.has_key?(:archival_object_id)
     @archival_object.resource = {'ref' => JSONModel(:resource).uri_for(params[:resource_id])} if params.has_key?(:resource_id)
 
-    return render :partial => "archival_objects/new_inline" if inline?
+    return render :partial => "archival_objects/new_inline", :formats => [:html], :handlers => [:erb] if inline?
 
     # render the full AO form
 
@@ -25,14 +25,14 @@ class ArchivalObjectsController < ApplicationController
       return redirect_to(:action => :show, :id => params[:id], :inline => params[:inline])
     end
 
-    render :partial => "archival_objects/edit_inline" if inline?
+    render :partial => "archival_objects/edit_inline", :formats => [:html], :handlers => [:erb] if inline?
   end
 
 
   def create
     handle_crud(:instance => :archival_object,
                 :find_opts => find_opts,
-                :on_invalid => ->(){ render :partial => "new_inline" },
+                :on_invalid => ->(){ render :partial => "new_inline", :formats => [:html], :handlers => [:erb] },
                 :on_valid => ->(id){
 
                   success_message = @archival_object.parent ?
@@ -47,7 +47,7 @@ class ArchivalObjectsController < ApplicationController
                     flash.now[:success] = success_message
                   end
 
-                  render :partial => "archival_objects/edit_inline"
+                  render :partial => "archival_objects/edit_inline", :formats => [:html], :handlers => [:erb]
 
                 })
   end
@@ -62,7 +62,7 @@ class ArchivalObjectsController < ApplicationController
 
     handle_crud(:instance => :archival_object,
                 :obj => @archival_object,
-                :on_invalid => ->(){ return render :partial => "edit_inline" },
+                :on_invalid => ->(){ return render :partial => "edit_inline", :formats => [:html], :handlers => [:erb] },
                 :on_valid => ->(id){
                   success_message = parent ?
                     I18n.t("archival_object._frontend.messages.updated_with_parent", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved'], :parent => parent)) :
@@ -71,7 +71,7 @@ class ArchivalObjectsController < ApplicationController
 
                   @refresh_tree_node = true
 
-                  render :partial => "edit_inline"
+                  render :partial => "edit_inline", :formats => [:html], :handlers => [:erb]
                 })
   end
 
@@ -82,7 +82,7 @@ class ArchivalObjectsController < ApplicationController
 
     flash.now[:info] = I18n.t("archival_object._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:archival_object => @archival_object)) if @archival_object.suppressed
 
-    render :partial => "archival_objects/show_inline" if inline?
+    render :partial => "archival_objects/show_inline", :formats => [:html], :handlers => [:erb] if inline?
   end
 
 
@@ -132,7 +132,7 @@ class ArchivalObjectsController < ApplicationController
     @children = ArchivalObjectChildren.new
     @exceptions = []
 
-    render :partial => "shared/rde"
+    render :partial => "shared/rde", :formats => [:html], :handlers => [:erb]
   end
 
 
@@ -160,7 +160,7 @@ class ArchivalObjectsController < ApplicationController
             flash.now[:success] = I18n.t("rde.messages.rows_no_errors")
           end
 
-          return render :partial => "shared/rde"
+          return render :partial => "shared/rde", :formats => [:html], :handlers => [:erb]
         else
           @children.save(:archival_object_id => @parent.id)
         end
@@ -174,7 +174,7 @@ class ArchivalObjectsController < ApplicationController
 
     end
 
-    render :partial => "shared/rde"
+    render :partial => "shared/rde", :formats => [:html], :handlers => [:erb]
   end
 
 

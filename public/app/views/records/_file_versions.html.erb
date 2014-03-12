@@ -5,7 +5,7 @@
       <% file_versions.each do |file| %>
         <li class="result">
           <% if file.embed %>
-            <%= render :partial => "file_version_embed/#{file.embed_type}", :locals => {:file => file} %>
+            <%= render :partial => "file_version_embed/#{file.embed_type}", :formats => [:html], :handlers => [:erb], :locals => {:file => file} %>
           <% elsif  file.uri.scheme.match /^http/ %>
             <%= link_to file.uri.to_s, file.uri.to_s %>
           <% else %>

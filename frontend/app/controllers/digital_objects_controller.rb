@@ -22,7 +22,7 @@ class DigitalObjectsController < ApplicationController
 
       flash.now[:info] = I18n.t("digital_object._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:digital_object => @digital_object)) if @digital_object.suppressed
 
-      return render :partial => "digital_objects/show_inline"
+      return render :partial => "digital_objects/show_inline", :formats => [:html], :handlers => [:erb]
     end
 
     @digital_object = JSONModel(:digital_object).find(params[:id])
@@ -37,7 +37,7 @@ class DigitalObjectsController < ApplicationController
   def new
     @digital_object = JSONModel(:digital_object).new({:title => I18n.t("digital_object.title_default", :default => "")})._always_valid!
 
-    return render :partial => "digital_objects/new" if params[:inline]
+    return render :partial => "digital_objects/new", :formats => [:html], :handlers => [:erb] if params[:inline]
   end
 
 
@@ -52,7 +52,7 @@ class DigitalObjectsController < ApplicationController
         return redirect_to(:action => :show, :id => params[:id], :inline => params[:inline])
       end
 
-      return render :partial => "digital_objects/edit_inline"
+      return render :partial => "digital_objects/edit_inline", :formats => [:html], :handlers => [:erb]
     end
 
     @digital_object = JSONModel(:digital_object).find(params[:id])
@@ -62,7 +62,7 @@ class DigitalObjectsController < ApplicationController
   def create
     handle_crud(:instance => :digital_object,
                 :on_invalid => ->(){
-                  return render :partial => "new" if inline? 
+                  return render :partial => "new", :formats => [:html], :handlers => [:erb] if inline? 
                   render :action => "new" 
                 },
                 :on_valid => ->(id){
@@ -81,12 +81,12 @@ class DigitalObjectsController < ApplicationController
     handle_crud(:instance => :digital_object,
                 :obj => JSONModel(:digital_object).find(params[:id], find_opts),
                 :on_invalid => ->(){
-                  render :partial => "edit_inline"
+                  render :partial => "edit_inline", :formats => [:html], :handlers => [:erb]
                 },
                 :on_valid => ->(id){
                   @refresh_tree_node = true
                   flash.now[:success] = I18n.t("digital_object._frontend.messages.updated", JSONModelI18nWrapper.new(:digital_object => @digital_object))
-                  render :partial => "edit_inline"
+                  render :partial => "edit_inline", :formats => [:html], :handlers => [:erb]
                 })
   end
 
@@ -141,7 +141,7 @@ class DigitalObjectsController < ApplicationController
     @children = DigitalObjectChildren.new
     @exceptions = []
 
-    render :partial => "shared/rde"
+    render :partial => "shared/rde", :formats => [:html], :handlers => [:erb]
   end
 
 
@@ -169,7 +169,7 @@ class DigitalObjectsController < ApplicationController
             flash.now[:success] = I18n.t("rde.messages.rows_no_errors")
           end
 
-          return render :partial => "shared/rde"
+          return render :partial => "shared/rde", :formats => [:html], :handlers => [:erb]
         else
           @children.save(:digital_object_id => @parent.id)
         end
@@ -183,7 +183,7 @@ class DigitalObjectsController < ApplicationController
 
     end
 
-    render :partial => "shared/rde"
+    render :partial => "shared/rde", :formats => [:html], :handlers => [:erb]
   end
 
 

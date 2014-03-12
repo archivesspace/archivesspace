@@ -19,7 +19,7 @@
    section_id = "notes" if section_id.blank?
 %>
 
-<%= render :partial => "notes/template" %>
+<%= render :partial => "notes/template", :formats => [:html], :handlers => [:erb] %>
 
 <section id="<%= section_id %>" class="subrecord-form">
   <h3 class="subrecord-form-heading"><%= I18n.t("note._plural") %></h3>
