@@ -33,12 +33,12 @@ Sequel.migration do
                                                                 :user_mtime => Time.now)
       end
 
-      update_archival_record_group_ids = self[:group_permission].filter(:permission_id => [delete_archival_record_permission_id, update_archival_record_permission_id]).distinct(:group_id).select(:group_id)
-      update_archival_record_group_ids.each do |row|
+      update_archival_record_group_ids = self[:group_permission].filter(:permission_id => [delete_archival_record_permission_id, update_archival_record_permission_id]).select(:group_id).map {|row| row[:group_id]}.uniq
+      update_archival_record_group_ids.each do |group_id|
         self[:group_permission].insert(:permission_id => manage_agent_permission_id,
-                                       :group_id => row[:group_id])
+                                       :group_id => group_id)
         self[:group_permission].insert(:permission_id => manage_subject_permission_id,
-                                       :group_id => row[:group_id])
+                                       :group_id => group_id)
       end
     end
   end
