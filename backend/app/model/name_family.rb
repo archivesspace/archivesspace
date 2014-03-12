@@ -23,6 +23,11 @@ class NameFamily < Sequel::Model(:name_family)
   end
 
 
+  def self.type_specific_hash_fields
+    %w(family_name prefix)
+  end
+
+
   auto_generate :property => :sort_name,
                 :generator => proc  { |json|
                   result = ""

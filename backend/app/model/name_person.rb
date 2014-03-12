@@ -22,6 +22,11 @@ class NamePerson < Sequel::Model(:name_person)
   end
 
 
+  def self.type_specific_hash_fields
+    %w(primary_name name_order prefix rest_of_name suffix fuller_form number)
+  end
+
+
   auto_generate :property => :sort_name,
                 :generator => proc  { |json|
                   result = ""
@@ -45,4 +50,5 @@ class NamePerson < Sequel::Model(:name_person)
                   result.length > 255 ? result[0..254] : result
                 },
                 :only_if => proc { |json| json["sort_name_auto_generate"] }
+
 end

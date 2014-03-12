@@ -23,6 +23,10 @@ class NameCorporateEntity < Sequel::Model(:name_corporate_entity)
   end
 
 
+  def self.type_specific_hash_fields
+    %w(primary_name subordinate_name_1 subordinate_name_2 number)
+  end
+
 
   auto_generate :property => :sort_name,
                 :generator => proc  { |json|

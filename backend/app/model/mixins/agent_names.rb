@@ -67,7 +67,41 @@ module AgentNames
 
       json
     end
-  end
 
+
+    def assemble_hash_fields(json)
+      name = my_jsonmodel.from_hash(json)
+      hash_fields = []
+      name_fields = %w(dates qualifier source rules) + type_specific_hash_fields
+
+      name['use_dates'].each do |date|
+        hash_fields << [:date_type,
+                        :label, 
+                        :certainty,
+                        :expression, 
+                        :begin, 
+                        :end, 
+                        :era, 
+                        :calendar].map {|property|
+          date[property.to_s] || ' '
+        }.join('_')
+      end
+
+
+      hash_fields << name_fields.uniq.map {|property|
+        if !name[property]
+          ' '
+        elsif name.class.schema["properties"][property]["dynamic_enum"]
+          enum = name.class.schema["properties"][property]["dynamic_enum"]
+          BackendEnumSource.id_for_value(enum, name[property])
+        else
+          name[property.to_s]
+        end
+      }.join('_')
+
+      hash_fields
+
+    end
+  end
 
 end

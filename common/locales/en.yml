@@ -1725,6 +1725,7 @@ en:
       html: HTML
 
   validation_errors:
+    agent_must_be_unique: Agent records cannot be identical
     missing_required_property: Property is required but was missing
     missing_property: Property was missing
     not_a_valid_date: Not a valid date

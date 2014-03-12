@@ -301,4 +301,99 @@ describe 'Agent model' do
     end
   end
 
+
+  describe "non-duplicative agents" do
+
+    let(:agent) {
+      build(:json_agent_person,
+            :names => [build(:json_name_person), 
+                       build(:json_name_person)],
+            :agent_contacts => [build(:json_agent_contact)],
+            :external_documents => [build(:json_external_document)],
+            :notes => [build(:json_note_bioghist)]
+            )
+    }
+
+    before(:each) do 
+      @agent_obj = AgentPerson.create_from_json(agent)
+    end
+
+    it "won't create the 'same exact' agent twice" do
+      expect { AgentPerson.create_from_json(agent) }.to raise_error(Sequel::ValidationFailed)
+    end
+
+    it "will ensure an agent exists if you ask nicely" do
+      agent_too = AgentPerson.ensure_exists(agent, nil)
+      agent_too.id.should eq(@agent_obj.id)
+    end
+
+    it "will accept two agents differing only in one contact field" do
+      post_code = agent.agent_contacts[0]['post_code'] || "a"
+      agent.agent_contacts[0]['post_code'] = post_code + "x"
+
+      expect { AgentPerson.create_from_json(agent) }.to_not raise_error
+    end
+
+    it "will accept two agents differing only in one name field" do
+      dates = agent.names[0]['dates'] || "a"
+      agent.names[0]['dates'] = dates + "x"
+
+      expect { AgentPerson.create_from_json(agent) }.to_not raise_error
+    end
+
+    it "will accept two agents differing only in one external document field" do
+      ext_doc_loc = agent.external_documents[0]['location'] || "a"
+      agent.external_documents[0]['location'] = ext_doc_loc + "x"
+
+      expect { AgentPerson.create_from_json(agent) }.to_not raise_error
+    end
+
+    it "will accept two agents differing only in a note field" do
+      agent.notes[0]['subnotes'][0]['levels'][0]['items'][0] << "x"
+
+      expect { AgentPerson.create_from_json(agent) }.to_not raise_error
+    end
+
+    it "will *not* consider authority_id when comparing agents" do
+      agent.names[0]['authority_id'] = 'x'
+      expect { AgentPerson.create_from_json(agent) }.to raise_error(Sequel::ValidationFailed)
+
+      agent.names[0]['primary_name'] += 'x'
+      expect { AgentPerson.create_from_json(agent) }.to_not raise_error
+
+      agent.names[0]['authority_id'] = 'y'
+      expect { AgentPerson.create_from_json(agent) }.to raise_error(Sequel::ValidationFailed)
+    end
+
+    it "will not be fooled by the order of name records" do
+      agent.names.unshift(agent.names.pop)
+
+      expect { AgentPerson.create_from_json(agent) }.to raise_error(Sequel::ValidationFailed)
+    end
+
+    it "will catch duplications resulting from updates" do
+      agent.names[0]['primary_name'] << "x"
+
+      agent_obj = AgentPerson.create_from_json(agent)
+
+      agent.names[0]['primary_name'].chomp!('x')
+
+      agent[:lock_version] = 0
+
+      expect {
+        RequestContext.in_global_repo do
+          agent_obj.update_from_json(JSONModel(:agent_person).from_hash(agent.to_hash))
+        end
+      }.to raise_error(Sequel::ValidationFailed)
+
+      agent.names[0]['primary_name'] << "y"
+
+      expect {
+        RequestContext.in_global_repo do
+          agent_obj.update_from_json(JSONModel(:agent_person).from_hash(agent.to_hash))
+        end
+      }.to_not raise_error
+    end
+  end
+
 end
