@@ -79,7 +79,7 @@ Sequel.migration do
 
       used_hashes = []
 
-      self[table].each do |row|
+      self[table].each_by_page do |row|
         digest = calculate_hash(self, table, row)
         foreign_key = :"#{table}_id"
 
