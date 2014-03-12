@@ -1,13 +1,13 @@
 <%
   set_title(@agent.title)
 %>
-<%= render(:partial => 'title_pane', :formats => [:html], :handlers => [:erb],
+<%= render_aspace_partial(:partial => 'title_pane',
            :locals => {:record_title => @agent.title}) 
 %>
 <div class="content-pane">
   <div class="row-fluid">
     <div class="span3">
-      <%= render(:partial => 'navlist', :formats => [:html], :handlers => [:erb],
+      <%= render_aspace_partial(:partial => 'navlist',
                  :locals => {
                    :record_type => 'agent',
                    :record => @agent,
@@ -38,18 +38,18 @@
           </dl>
         </section>
 
-        <%= render :partial => "dates", :formats => [:html], :handlers => [:erb], :locals => {:dates => @agent['dates_of_existence']} %>
+        <%= render_aspace_partial :partial => "dates", :locals => {:dates => @agent['dates_of_existence']} %>
 
-        <%= render :partial => "names", :formats => [:html], :handlers => [:erb], :locals => {:names => @agent.names} %>
+        <%= render_aspace_partial :partial => "names", :locals => {:names => @agent.names} %>
 
-        <%= render :partial => "external_documents", :formats => [:html], :handlers => [:erb], :locals => {:external_documents => @agent.published_external_documents} %>
+        <%= render_aspace_partial :partial => "external_documents", :locals => {:external_documents => @agent.published_external_documents} %>
 
 
-        <%= render :partial => "agents", :formats => [:html], :handlers => [:erb], :locals => {:linked_agents => @agent.published_agents, :relating_property => "related_agent"} %>
+        <%= render_aspace_partial :partial => "agents", :locals => {:linked_agents => @agent.published_agents, :relating_property => "related_agent"} %>
 
-        <%= render :partial => "search_data_as_subrecord", :formats => [:html], :handlers => [:erb], :locals => {:search_url => url_for(:controller => :search, :action => :search, :format => :js, :filter_term => [{"agent_uris" => @agent['uri']}.to_json], "type[]" => "resource"), :section_id => 'related_resources', :section_header => 'related_resource'} %>
+        <%= render_aspace_partial :partial => "search_data_as_subrecord", :locals => {:search_url => url_for(:controller => :search, :action => :search, :format => :js, :filter_term => [{"agent_uris" => @agent['uri']}.to_json], "type[]" => "resource"), :section_id => 'related_resources', :section_header => 'related_resource'} %>
 
-        <%= render :partial => "notes", :formats => [:html], :handlers => [:erb], :locals => {:notes => @agent.published_notes} %>
+        <%= render_aspace_partial :partial => "notes", :locals => {:notes => @agent.published_notes} %>
       </fieldset>
 
 

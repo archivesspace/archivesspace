@@ -1,5 +1,5 @@
 <% if user_can?('update_archival_record') %>
-  <%= render(:partial => '/shared/component_toolbar', :formats => [:html], :handlers => [:erb],
+  <%= render_aspace_partial(:partial => '/shared/component_toolbar',
              :locals => {
                :parent_link => {:controller => :resources, :action => :edit, :id => JSONModel(:resource).id_for(@archival_object.resource["ref"]), :anchor => "archival_object_#{@archival_object.id}"},
                :record => @archival_object,

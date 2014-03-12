@@ -5,7 +5,7 @@ class EnumerationsController < ApplicationController
 
   def new
     @enumeration = JSONModel(:enumeration).find(params[:id])
-    render :partial => "new", :formats => [:html], :handlers => [:erb]
+    render_aspace_partial :partial => "new"
   end
 
 
@@ -22,9 +22,9 @@ class EnumerationsController < ApplicationController
     @value = params[:value]
 
     if @merge
-      render :partial => "merge", :formats => [:html], :handlers => [:erb]
+      render_aspace_partial :partial => "merge"
     else
-      render :partial => "delete", :formats => [:html], :handlers => [:erb]
+      render_aspace_partial :partial => "delete"
     end
   end
   
@@ -58,10 +58,10 @@ class EnumerationsController < ApplicationController
       flash.now[:error] = I18n.t("enumeration._frontend.messages.delete_conflict")
       flash.now[:info] = I18n.t("enumeration._frontend.messages.merge_tip")
 
-      render :partial => "merge", :formats => [:html], :handlers => [:erb]
+      render_aspace_partial :partial => "merge"
     rescue
       flash.now[:error] = I18n.t("enumeration._frontend.messages.delete_error")
-      render :partial => "delete", :formats => [:html], :handlers => [:erb]
+      render_aspace_partial :partial => "delete"
     end
   end
 
@@ -73,10 +73,10 @@ class EnumerationsController < ApplicationController
 
     if @merge.blank?
       flash.now[:error] = "#{I18n.t("enumeration.merge_into")} - is required"
-      return render :partial => "merge", :formats => [:html], :handlers => [:erb]
+      return render_aspace_partial :partial => "merge"
     elsif @value.blank?
       flash.now[:error] = "#{I18n.t("enumeration.value")} - is required"
-      return render :partial => "merge", :formats => [:html], :handlers => [:erb]
+      return render_aspace_partial :partial => "merge"
     end
 
     begin
@@ -89,7 +89,7 @@ class EnumerationsController < ApplicationController
       render :text => "Success"
     rescue
       flash.now[:error] = I18n.t("enumeration._frontend.messages.merge_error")
-      render :partial => "merge", :formats => [:html], :handlers => [:erb]
+      render_aspace_partial :partial => "merge"
     end
   end
 
@@ -98,7 +98,7 @@ class EnumerationsController < ApplicationController
 
     if params[:enumeration].blank? or params[:enumeration][:value].blank?
       flash.now[:error] = "#{I18n.t("enumeration.value")} is required"
-      return render :partial => "new", :formats => [:html], :handlers => [:erb]
+      return render_aspace_partial :partial => "new"
     end
 
     begin
@@ -109,7 +109,7 @@ class EnumerationsController < ApplicationController
       render :text => "Success"
     rescue
       flash.now[:error] = I18n.t("enumeration._frontend.messages.create_error")
-      render :partial => "new", :formats => [:html], :handlers => [:erb]
+      render_aspace_partial :partial => "new"
     end
 
   end

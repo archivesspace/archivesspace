@@ -112,4 +112,11 @@ module ApplicationHelper
     "#{string[0..50]}#{trailing}".html_safe
   end
 
+
+  # See: ApplicationController#render_aspace_partial
+  def render_aspace_partial(args)
+    defaults = {:formats => [:html], :handlers => [:erb]}
+    return render(defaults.merge(args))
+  end
+
 end

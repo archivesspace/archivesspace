@@ -4,6 +4,6 @@
     <%= form.label_and_date "start_date" %>
     <%= form.label_and_date "end_date" %>
     <%= form.label_and_textarea "note" %>
-    <%= render :partial => "locations/linker", :formats => [:html], :handlers => [:erb], :locals => { :form => form }%>
+    <%= render_aspace_partial :partial => "locations/linker", :locals => { :form => form }%>
   </div>
 <% end %>

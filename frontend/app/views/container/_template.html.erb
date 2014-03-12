@@ -1,4 +1,4 @@
-<%= render :partial => "container_locations/template", :formats => [:html], :handlers => [:erb] %>
+<%= render_aspace_partial :partial => "container_locations/template" %>
 
 <% define_template "container", jsonmodel_definition(:container) do |form| %>
   <div>
@@ -14,7 +14,7 @@
     <%= form.label_and_select "container_extent_type", form.possible_options_for("container_extent_type", true), :required => :conditionally %>
 
     <div class="subrecord-form-container">
-      <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "container_locations", :heading_size => "h5"} %>
+      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "container_locations", :heading_size => "h5"} %>
     </div>
   </div>
 <% end %>

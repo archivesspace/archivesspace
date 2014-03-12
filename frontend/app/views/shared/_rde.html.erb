@@ -1,4 +1,4 @@
-<%= render :partial => "#{@children.child_type.to_s.pluralize}/rde_templates", :formats => [:html], :handlers => [:erb] %>
+<%= render_aspace_partial :partial => "#{@children.child_type.to_s.pluralize}/rde_templates" %>
 
 <%= stylesheet_link_tag "jquery.kiketable.colsizable.css" %>
 <%= stylesheet_link_tag "archivesspace/rde" %>
@@ -19,7 +19,7 @@
 
       <%= form_context @children.class.record_type, @children do |form| %>
 
-        <%= render :partial => "shared/flash_messages", :formats => [:html], :handlers => [:erb], :locals => {:form => form} %>
+        <%= render_aspace_partial :partial => "shared/flash_messages", :locals => {:form => form} %>
 
         <p>
         <div class="btn-group">

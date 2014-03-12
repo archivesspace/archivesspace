@@ -9,9 +9,9 @@
 
       <%= form_for @group, :as => "group", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
         <%= form_context :group, @group do |form| %>
-          <%= render :partial => "shared/form_messages", :formats => [:html], :handlers => [:erb], :locals => {:form => form} %>
+          <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
           <%= form.label_and_textfield :group_code, :required => true %>
-          <%= render :partial => "groups/form", :formats => [:html], :handlers => [:erb], :locals => {:form => form} %>
+          <%= render_aspace_partial :partial => "groups/form", :locals => {:form => form} %>
         <% end %>
       <% end %>
     </div>

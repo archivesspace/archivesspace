@@ -3,12 +3,12 @@
 <%= form_for @user, :as => "createuser", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@user)) do |f| %>
   <div class="row-fluid">
      <div class="span12">
-       <%= render :partial => "toolbar", :formats => [:html], :handlers => [:erb] %>
+       <%= render_aspace_partial :partial => "toolbar" %>
        <div class="record-pane">
          <%= link_to_help :topic => "user" %>
          <h2><%= I18n.t("user._frontend.section.edit_account") %></h2>
          <%= form_context :user, @user do |form| %>
-           <%= render :partial => "users/form", :formats => [:html], :handlers => [:erb], :locals => {:form => form} %>
+           <%= render_aspace_partial :partial => "users/form", :locals => {:form => form} %>
 
            <div class="form-actions">
              <button id="create_account" type="submit" class="btn btn-primary"><%= I18n.t("user._frontend.section.edit_account_submit") %></button>

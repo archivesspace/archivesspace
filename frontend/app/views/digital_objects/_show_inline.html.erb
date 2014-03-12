@@ -1,14 +1,14 @@
 <div class="row-fluid">
   <div class="span3">
-    <%= render :partial => "digital_objects/sidebar", :formats => [:html], :handlers => [:erb] %>
+    <%= render_aspace_partial :partial => "digital_objects/sidebar" %>
   </div>
   <div class="span9">
-    <%= render :partial => "toolbar", :formats => [:html], :handlers => [:erb] %>
+    <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <% define_template "digital_object", jsonmodel_definition(:digital_object) do |readonly, digital_object| %>
         <h2><%= digital_object.title %> <span class="label label-info"><%= I18n.t("digital_object._singular") %></span></h2>
 
-        <%= render :partial => "shared/form_messages", :formats => [:html], :handlers => [:erb], :locals => {:form => readonly} %>
+        <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => readonly} %>
 
         <section id="basic_information">
           <h3><%= I18n.t("digital_object._frontend.section.basic_information") %></h3>
@@ -24,19 +24,19 @@
         </section>
 
         <% if digital_object.file_versions.length > 0 %>
-          <%= render :partial => "file_versions/show", :formats => [:html], :handlers => [:erb], :locals => { :file_versions => digital_object.file_versions, :section_id => "digital_object_file_versions_" } %>
+          <%= render_aspace_partial :partial => "file_versions/show", :locals => { :file_versions => digital_object.file_versions, :section_id => "digital_object_file_versions_" } %>
         <% end %>
 
         <% if digital_object.dates.length > 0 %>
-          <%= render :partial => "dates/show", :formats => [:html], :handlers => [:erb], :locals => { :dates => digital_object.dates, :section_id => "digital_object_dates_" } %>
+          <%= render_aspace_partial :partial => "dates/show", :locals => { :dates => digital_object.dates, :section_id => "digital_object_dates_" } %>
         <% end %>
 
         <% if digital_object.extents.length > 0 %>
-          <%= render :partial => "extents/show", :formats => [:html], :handlers => [:erb], :locals => { :extents => digital_object.extents, :section_id => "digital_object_extents_" } %>
+          <%= render_aspace_partial :partial => "extents/show", :locals => { :extents => digital_object.extents, :section_id => "digital_object_extents_" } %>
         <% end %>
 
         <% if digital_object.linked_agents.length > 0 %>
-          <%= render :partial => "linked_agents/show", :formats => [:html], :handlers => [:erb], :locals => { :linked_agents => digital_object.linked_agents, :section_id => "digital_object_linked_agents_" } %>
+          <%= render_aspace_partial :partial => "linked_agents/show", :locals => { :linked_agents => digital_object.linked_agents, :section_id => "digital_object_linked_agents_" } %>
         <% end %>
 
         <% if digital_object.linked_instances.length > 0 %>
@@ -67,29 +67,29 @@
         <% end %>
 
         <% if not digital_object.subjects.blank? %>
-          <%= render :partial => "subjects/show_inline", :formats => [:html], :handlers => [:erb], :locals => {:subjects => digital_object.subjects, :section_id => "digital_object_subjects_"} %>
+          <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => digital_object.subjects, :section_id => "digital_object_subjects_"} %>
         <% end %>
 
         <% if digital_object.notes.length > 0 %>
-          <%= render :partial => "notes/show", :formats => [:html], :handlers => [:erb], :locals => { :notes => digital_object.notes, :context => readonly } %>
+          <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => digital_object.notes, :context => readonly } %>
         <% end %>
 
         <% if digital_object.external_documents.length > 0 %>
-          <%= render :partial => "external_documents/show", :formats => [:html], :handlers => [:erb], :locals => { :external_documents => digital_object.external_documents, :section_id => "digital_object_external_documents_"  } %>
+          <%= render_aspace_partial :partial => "external_documents/show", :locals => { :external_documents => digital_object.external_documents, :section_id => "digital_object_external_documents_"  } %>
         <% end %>
 
         <% if digital_object.rights_statements.length > 0 %>
-          <%= render :partial => "rights_statements/show", :formats => [:html], :handlers => [:erb], :locals => { :rights_statements => digital_object.rights_statements, :section_id => "digital_object_rights_statements_"  } %>
+          <%= render_aspace_partial :partial => "rights_statements/show", :locals => { :rights_statements => digital_object.rights_statements, :section_id => "digital_object_rights_statements_"  } %>
         <% end %>
 
         <% if digital_object.collection_management %>
-          <%= render :partial => "collection_management/show", :formats => [:html], :handlers => [:erb], :locals => { :collection_management => digital_object.collection_management, :section_id => "digital_object_collection_management_"  } %>
+          <%= render_aspace_partial :partial => "collection_management/show", :locals => { :collection_management => digital_object.collection_management, :section_id => "digital_object_collection_management_"  } %>
         <% end %>
 
-        <%= render :partial => "linked_events/show", :formats => [:html], :handlers => [:erb], :locals => { :linked_events => digital_object.linked_events, :context => readonly, :section_id => "digital_object_linked_events_" } %>
+        <%= render_aspace_partial :partial => "linked_events/show", :locals => { :linked_events => digital_object.linked_events, :context => readonly, :section_id => "digital_object_linked_events_" } %>
 
         <% if digital_object.user_defined %>
-          <%= render :partial => "user_defined/show", :formats => [:html], :handlers => [:erb], :locals => { :user_defined => digital_object.user_defined, :section_id => "digital_object_user_defined_"  } %>
+          <%= render_aspace_partial :partial => "user_defined/show", :locals => { :user_defined => digital_object.user_defined, :section_id => "digital_object_user_defined_"  } %>
         <% end %>
 
         <%= show_plugins_for(@digital_object, readonly) %>

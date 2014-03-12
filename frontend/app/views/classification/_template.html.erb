@@ -2,7 +2,7 @@
   <div id="classification-container" class="subrecord-form-container">
     <div class="subrecord-form-fields">
       <% if !opts[:readonly] %>
-        <%= render :partial => "classifications/linker", :formats => [:html], :handlers => [:erb],
+        <%= render_aspace_partial :partial => "classifications/linker",
                    :locals => {
                        :form => form
                    }

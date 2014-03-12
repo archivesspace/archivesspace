@@ -2,13 +2,13 @@
    record_title = @archival_object.title
    set_title(record_title)
 %>
-<%= render(:partial => 'title_pane', :formats => [:html], :handlers => [:erb],
+<%= render_aspace_partial(:partial => 'title_pane',
            :locals => {:record_title => record_title}) 
 %>
 <div class="content-pane">
   <div class="row-fluid">
     <div class="span3">
-      <%= render(:partial => 'navlist', :formats => [:html], :handlers => [:erb],
+      <%= render_aspace_partial(:partial => 'navlist',
                  :locals => {
                    :record_type => 'archival_object',
                    :record => @archival_object,
@@ -26,7 +26,7 @@
        %>
     </div>
     <div class="span9">
-      <%= render :partial => "archival_object", :formats => [:html], :handlers => [:erb], 
+      <%= render_aspace_partial :partial => "archival_object",
                  :locals => {
                    :archival_object => @archival_object,
                  } %>

@@ -22,7 +22,7 @@
       <div class="btn-toolbar pull-right">
         <div class="btn-group">
           <% if user_can?('update_archival_record') && !record.suppressed %>
-            <%= render :partial => "shared/event_dropdown", :formats => [:html], :handlers => [:erb], :locals => {:record => record} %>
+            <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => record} %>
           <% end %>
           <div class="btn btn-inline-form">
             <%= button_confirm_action(I18n.t("actions.publish"),
@@ -51,7 +51,7 @@
           </div>
           <% if user_can?('merge_archival_record') %>
             <%=
-                render :partial => "shared/merge_dropdown", :formats => [:html], :handlers => [:erb],
+                render_aspace_partial :partial => "shared/merge_dropdown",
                        :locals => {:record => record,
                                    :controller => controller.controller_name,
                                    :confirmation_title => I18n.t("actions.merge_confirm_title"),
@@ -61,7 +61,7 @@
           <% end %>
           <% if user_can?('transfer_archival_record') %>
             <%=
-               render :partial => "shared/transfer_dropdown", :formats => [:html], :handlers => [:erb],
+               render_aspace_partial :partial => "shared/transfer_dropdown",
                       :locals => {:record => record,
                                   :controller => controller.controller_name,
                                   :confirmation_title => I18n.t("actions.transfer_confirm_title"),

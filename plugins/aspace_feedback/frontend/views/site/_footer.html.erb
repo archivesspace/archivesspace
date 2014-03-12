@@ -9,7 +9,7 @@
 </div>
 
 <div id="template_feedback_form"><!--
-  <%= render :partial => "site/feedback_form", :formats => [:html], :handlers => [:erb] %>
+  <%= render_aspace_partial :partial => "site/feedback_form" %>
 --></div>
 
 <script src="<%= "#{AppConfig[:frontend_prefix]}assets/aspace_feedback.js" %>"></script>

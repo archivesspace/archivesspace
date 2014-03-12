@@ -1,5 +1,5 @@
 <% define_template "subrecord_subject", jsonmodel_definition(:accession) do |form| %>
   <div class="subrecord-form-fields">
-    <%= render :partial => "subjects/linker", :formats => [:html], :handlers => [:erb], :locals => { :form => form }%>
+    <%= render_aspace_partial :partial => "subjects/linker", :locals => { :form => form }%>
   </div>
 <% end %>

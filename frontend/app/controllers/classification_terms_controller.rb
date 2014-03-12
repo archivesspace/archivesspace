@@ -10,20 +10,20 @@ class ClassificationTermsController < ApplicationController
     @classification_term.parent = {'ref' => JSONModel(:classification_term).uri_for(params[:classification_term_id])} if params.has_key?(:classification_term_id)
     @classification_term.classification = {'ref' => JSONModel(:classification).uri_for(params[:classification_id])} if params.has_key?(:classification_id)
 
-    return render :partial => "classification_terms/new_inline", :formats => [:html], :handlers => [:erb] if inline?
+    return render_aspace_partial :partial => "classification_terms/new_inline" if inline?
   end
 
 
   def edit
     @classification_term = JSONModel(:classification_term).find(params[:id], find_opts)
-    render :partial => "classification_terms/edit_inline", :formats => [:html], :handlers => [:erb] if inline?
+    render_aspace_partial :partial => "classification_terms/edit_inline" if inline?
   end
 
 
   def create
     handle_crud(:instance => :classification_term,
                 :find_opts => find_opts,
-                :on_invalid => ->(){ render :partial => "new_inline", :formats => [:html], :handlers => [:erb] },
+                :on_invalid => ->(){ render_aspace_partial :partial => "new_inline" },
                 :on_valid => ->(id){
 
                   success_message = @classification_term.parent ?
@@ -38,7 +38,7 @@ class ClassificationTermsController < ApplicationController
                     flash.now[:success] = success_message
                   end
 
-                  render :partial => "classification_terms/edit_inline", :formats => [:html], :handlers => [:erb]
+                  render_aspace_partial :partial => "classification_terms/edit_inline"
 
                 })
   end
@@ -52,7 +52,7 @@ class ClassificationTermsController < ApplicationController
 
     handle_crud(:instance => :classification_term,
                 :obj => @classification_term,
-                :on_invalid => ->(){ return render :partial => "edit_inline", :formats => [:html], :handlers => [:erb] },
+                :on_invalid => ->(){ return render_aspace_partial :partial => "edit_inline" },
                 :on_valid => ->(id){
                   success_message = parent ?
                     I18n.t("classification_term._frontend.messages.updated_with_parent", JSONModelI18nWrapper.new(:classification_term => @classification_term, :classification => @classification_term['classification']['_resolved'], :parent => parent)) :
@@ -61,7 +61,7 @@ class ClassificationTermsController < ApplicationController
 
                   @refresh_tree_node = true
 
-                  render :partial => "edit_inline", :formats => [:html], :handlers => [:erb]
+                  render_aspace_partial :partial => "edit_inline"
                 })
   end
 
@@ -69,7 +69,7 @@ class ClassificationTermsController < ApplicationController
   def show
     @classification_id = params['classification_id']
     @classification_term = JSONModel(:classification_term).find(params[:id], find_opts)
-    render :partial => "classification_terms/show_inline", :formats => [:html], :handlers => [:erb] if inline?
+    render_aspace_partial :partial => "classification_terms/show_inline" if inline?
   end
 
 

@@ -5,7 +5,7 @@
       <h3><%= I18n.t("enumeration._frontend.action.create_value") %></h3>
     </div>
     <div class="modal-body">
-      <%= render :partial => "shared/form_messages", :formats => [:html], :handlers => [:erb], :locals => {:form => form} %>
+      <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
       <fieldset>
         <div class="control-group required">
           <label class="control-label" for="enum_selector"><%= I18n.t("enumeration.name") %></label>

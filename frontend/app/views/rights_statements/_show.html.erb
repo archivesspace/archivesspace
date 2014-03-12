@@ -29,7 +29,7 @@
         <div id="rights_statement_<%= index %>" class="accordion-body collapse">
           <%= read_only_view(rights_statement) %>
           <% if rights_statement["external_documents"].length > 0 %>
-            <%= render :partial => "external_documents/show", :formats => [:html], :handlers => [:erb], :locals => { :external_documents => rights_statement["external_documents"], :id => "rights_statement_#{index}_external_documents" } %>
+            <%= render_aspace_partial :partial => "external_documents/show", :locals => { :external_documents => rights_statement["external_documents"], :id => "rights_statement_#{index}_external_documents" } %>
           <% end %>
         </div>
       </div>

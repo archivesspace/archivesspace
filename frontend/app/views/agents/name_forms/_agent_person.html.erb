@@ -7,7 +7,7 @@
       <button class="btn btn-small btn-display-name-toggle"><%= I18n.t("name._frontend.action.make_display_name") %></button>
     </h4>
 
-    <%= render :partial => "agents/name_forms/authority_fields", :formats => [:html], :handlers => [:erb], :locals => {:form => form} %>
+    <%= render_aspace_partial :partial => "agents/name_forms/authority_fields", :locals => {:form => form} %>
 
     <%= form.label_and_select "name_order", form.possible_options_for("name_order") %>
     <%= form.label_and_textfield "prefix" %>
@@ -21,6 +21,6 @@
     <hr/>
     <%= form.label_and_textfield "qualifier" %>
     <%= form.label_and_textfield "sort_name", {:field_opts => {:automatable => true}, :required => :conditionally}%>
-    <%= render :partial => "shared/subrecord_form", :formats => [:html], :handlers => [:erb], :locals => {:form => form, :name => "use_dates", :template_erb => "dates/template", :template => "usage_date", :heading_text => I18n.t("name._frontend.section.use_date"), :heading_size => "h4", :template_overrides => {"date_label" => "agents/name_forms/date_labels"}} %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "use_dates", :template_erb => "dates/template", :template => "usage_date", :heading_text => I18n.t("name._frontend.section.use_date"), :heading_size => "h4", :template_overrides => {"date_label" => "agents/name_forms/date_labels"}} %>
   </div>
 <% end %>

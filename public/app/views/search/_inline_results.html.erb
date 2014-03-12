@@ -1,6 +1,6 @@
 <div class="search-results">
 <% if search_data.results? %>
-  <%= render :partial => "search/pagination_summary", :formats => [:html], :handlers => [:erb], :locals => {:search_data => search_data} %>
+  <%= render_aspace_partial :partial => "search/pagination_summary", :locals => {:search_data => search_data} %>
   <ul class="results-list">
     <% search_data['results'].each do |result| %>
       <%
@@ -21,12 +21,12 @@
           <% end %>
         </h3>
         <div class="result-summary">
-          <%= render :partial => "search/result_summary_#{result[", :formats => [:html], :handlers => [:erb]primary_type"]}", :locals => {:obj => result} %>
+          <%= render_aspace_partial :partial => "search/result_summary_#{result["primary_type"]}", :locals => {:obj => result} %>
         </div>
       </li>
     <% end %>
   </ul>
-  <%= render :partial => "search/pagination", :formats => [:html], :handlers => [:erb], :locals => {:search_data => search_data} %>
+  <%= render_aspace_partial :partial => "search/pagination", :locals => {:search_data => search_data} %>
 <% else %>
   <p class="alert alert-info">
     <%= I18n.t("search_results.no_results") %></em>.

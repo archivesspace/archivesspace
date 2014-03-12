@@ -27,7 +27,7 @@
         <div class="btn-group">
 
           <% if user_can?('update_archival_record') && supports_events && ((suppressible && !record.suppressed) || !suppressible ) %>
-            <%= render :partial => "shared/event_dropdown", :formats => [:html], :handlers => [:erb], :locals => {:record => record} %>
+            <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => record} %>
           <% end %>
 
           <% if suppressible && user_can?('suppress_archival_record') %>

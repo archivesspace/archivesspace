@@ -33,7 +33,7 @@
             <%= link_to_help :topic => "job" %>
             <h2><%= I18n.t("job._frontend.actions.new") %></h2>
 
-            <%= render :partial => "shared/form_messages", :formats => [:html], :handlers => [:erb], :locals => {:object => @job, :form => form} %>
+            <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @job, :form => form} %>
 
             <% form.emit_template("job") %>
 

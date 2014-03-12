@@ -5,12 +5,12 @@
 <div class="content-pane">
   <div class="row-fluid">
     <div class="span3">
-      <%= render :partial => "search/components_switch", :formats => [:html], :handlers => [:erb] %>
-      <%= render :partial => "search/filter", :formats => [:html], :handlers => [:erb] %>
+      <%= render_aspace_partial :partial => "search/components_switch" %>
+      <%= render_aspace_partial :partial => "search/filter" %>
     </div>
     <div class="span9">
       <div class="record-pane">
-        <%= render :partial => "inline_results", :formats => [:html], :handlers => [:erb], :locals => {:search_data => @search_data} %>
+        <%= render_aspace_partial :partial => "inline_results", :locals => {:search_data => @search_data} %>
       </div>
     </div>
   </div>

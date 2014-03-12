@@ -7,7 +7,7 @@
         <div class="span8">
           <h2><%= I18n.t("plugins.lcnaf.label") %></h2>
 
-          <%= render :partial => "shared/flash_messages", :formats => [:html], :handlers => [:erb] %>
+          <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
           <%= form_tag({:controller => :lcnaf, :action => :search}, {:id => "lcnaf_search", :class => "form-search", :method => "GET"}) do |form| %>
             <input type="text" name="query" id="search-query" class="input-large">
