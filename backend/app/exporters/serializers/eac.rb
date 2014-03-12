@@ -169,11 +169,11 @@ class EACSerializer < ASpaceExport::Serializer
 
           name = case resolved['jsonmodel_type']
                  when 'agent_software'
-                   resolved['names'][0]['software_name']
+                   resolved['display_name']['software_name']
                  when 'agent_family'
-                   resolved['names'][0]['family_name']
+                   resolved['display_name']['family_name']
                  else
-                   resolved['names'][0]['primary_name']
+                   resolved['display_name']['primary_name']
                  end
 
           xml.cpfRelation(:cpfRelationType => relator, 'xlink:type' => 'simple', 'xlink:href' => resolved['uri']) {

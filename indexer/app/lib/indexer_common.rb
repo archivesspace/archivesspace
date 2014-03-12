@@ -63,12 +63,12 @@ class CommonIndexer
   def add_agents(doc, record)
     if record['record']['linked_agents']
       # index all linked agents first
-      doc['agents'] = record['record']['linked_agents'].collect{|link| link['_resolved']['names'][0]['sort_name']}
+      doc['agents'] = record['record']['linked_agents'].collect{|link| link['_resolved']['display_name']['sort_name']}
       doc['agent_uris'] = record['record']['linked_agents'].collect{|link| link['ref']}
 
       # index the creators only
       creators = record['record']['linked_agents'].select{|link| link['role'] === 'creator'}
-      doc['creators'] = creators.collect{|link| link['_resolved']['names'][0]['sort_name']} if not creators.empty?
+      doc['creators'] = creators.collect{|link| link['_resolved']['display_name']['sort_name']} if not creators.empty?
     end
   end
 

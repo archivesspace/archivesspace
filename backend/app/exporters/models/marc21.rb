@@ -240,7 +240,7 @@ class MARCModel < ASpaceExport::ExportModel
     return nil unless link
 
     creator = link['_resolved']
-    name = creator['names'][0]
+    name = creator['display_name']
     ind2 = ' '
     role_info = link['relator'] ? ['4', link['relator']] : ['e', 'creator']
 
@@ -296,7 +296,7 @@ class MARCModel < ASpaceExport::ExportModel
 
     subjects.each_with_index do |link, i|
       subject = link['_resolved']
-      name = subject['names'][0]
+      name = subject['display_name']
       relator = link['relator']
       terms = link['terms']
       ind2 = source_to_code(name['source'])
@@ -364,7 +364,7 @@ class MARCModel < ASpaceExport::ExportModel
 
     creators.each do |link|
       creator = link['_resolved']
-      name = creator['names'][0]
+      name = creator['display_name']
       relator = link['relator']
       terms = link['terms']
       role = link['role']

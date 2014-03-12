@@ -47,9 +47,9 @@ module ASpaceExport
           role = link['relator'] ? link['relator'] : (link['role'] == 'source' ? 'fmo' : nil)
 
           agent = link['_resolved']
-          sort_name = agent['names'][0]['sort_name']
-          rules = agent['names'][0]['rules']
-          source = agent['names'][0]['source']
+          sort_name = agent['display_name']['sort_name']
+          rules = agent['display_name']['rules']
+          source = agent['display_name']['source']
 
           content = sort_name
 

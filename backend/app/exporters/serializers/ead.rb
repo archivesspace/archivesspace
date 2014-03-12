@@ -171,9 +171,9 @@ class EADSerializer < ASpaceExport::Serializer
         agent = link['_resolved']
         role = link['role']
         relator = link['relator']
-        sort_name = agent['names'][0]['sort_name']
-        rules = agent['names'][0]['rules']
-        source = agent['names'][0]['source']
+        sort_name = agent['display_name']['sort_name']
+        rules = agent['display_name']['rules']
+        source = agent['display_name']['source']
         node_name = case agent['agent_type']
                     when 'agent_person'; 'persname'
                     when 'agent_family'; 'famname'
