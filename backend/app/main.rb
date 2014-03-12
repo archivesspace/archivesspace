@@ -265,18 +265,14 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   get '/' do
-    if request.accept.length < 1
-      "Hello, ArchivesSpace (#{ASConstants.VERSION})!" 
-    else
-      request.accept.each do |type|
+    sys_info =  DB.sysinfo.merge({ "archivesSpaceVersion" =>  ASConstants.VERSION}) 
+    request.accept.each do |type|
         case type
-          when 'text/html'
-            halt "Hello, ArchivesSpace (#{ASConstants.VERSION})!"
           when 'application/json'
-            halt DB.sysinfo.merge({ "archivesSpaceVersion" =>  ASConstants.VERSION}).to_json
+            halt sys_info.to_json
         end
-      end  
-    end
+    end  
+    JSON.pretty_generate(sys_info )
   end
 
 
