@@ -8,15 +8,15 @@
           <%= form_tag({:controller => :exports, :action => :download_ead}, :method => "get", :id => "form-download-ead") do %>
             <input type="hidden" name="id", value="<%= @resource.id %>" />
             <label class="checkbox" for="include-unpublished">
-              <input type="checkbox" id="include-unpublished" name="include-unpublished" checked="checked"/>
+              <input type="checkbox" id="include-unpublished" name="include_unpublished" checked="checked"/>
               <%= I18n.t("export_options.include_unpublished") %>&#160;
             </label>
             <label class="checkbox" for="include-daos">
-              <input type="checkbox" id="include-daos" name="include-daos" checked="checked"/>
+              <input type="checkbox" id="include-daos" name="include_daos" checked="checked"/>
               <%= I18n.t("export_options.include_daos") %>&#160;
             </label>
             <label class="checkbox" for="numbered-cs">
-              <input type="checkbox" id="numbered-cs" name="numbered-cs" />
+              <input type="checkbox" id="numbered-cs" name="numbered_cs" />
               <%= I18n.t("export_options.numbered_cs") %>&#160;
             </label>
           <% end %>

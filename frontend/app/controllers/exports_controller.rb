@@ -39,7 +39,9 @@ class ExportsController < ApplicationController
 
   def download_ead
     download_export("/repositories/#{JSONModel::repository}/resource_descriptions/#{params[:id]}.xml",
-                    :include_unpublished => params[:include_unpublished])
+                    :include_unpublished => (params[:include_unpublished] ? true : false),
+                    :include_daos => (params[:include_daos] ? true : false),
+                    :numbered_cs => (params[:numbered_cs] ? true : false))
   end
   
   

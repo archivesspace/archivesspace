@@ -9,6 +9,7 @@ class EADSerializer < ASpaceExport::Serializer
     @stream_handler = ASpaceExport::StreamHandler.new
     @fragments = ASpaceExport::RawXMLHandler.new
     @include_unpublished = data.include_unpublished?
+    @use_numbered_c_tags = data.use_numbered_c_tags?
 
     doc = Nokogiri::XML::Builder.new do |xml|
 
@@ -104,8 +105,10 @@ class EADSerializer < ASpaceExport::Serializer
   end
 
 
-  def serialize_child(data, xml, fragments)
+  def serialize_child(data, xml, fragments, c_depth = 1)
     return if data["publish"] === false && !@include_unpublished
+
+    tag_name = @use_numbered_c_tags ? :"c#{c_depth.to_s.rjust(2, '0')}" : :c
 
     prefixed_ref_id = "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{data.ref_id}"
     atts = {:level => data.level, :otherlevel => data.other_level, :id => prefixed_ref_id}
@@ -115,7 +118,7 @@ class EADSerializer < ASpaceExport::Serializer
     end
 
     atts.reject! {|k, v| v.nil?}
-    xml.c(atts) {
+    xml.send(tag_name, atts) {
 
       xml.did {
         if (val = data.title)
@@ -157,7 +160,7 @@ class EADSerializer < ASpaceExport::Serializer
       data.children_indexes.each do |i|
         xml.text(
                  @stream_handler.buffer {|xml, new_fragments|
-                   serialize_child(data.get_child(i), xml, new_fragments)
+                   serialize_child(data.get_child(i), xml, new_fragments, c_depth + 1)
                  }
                  )
       end

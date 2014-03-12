@@ -1,6 +1,10 @@
 class EADModel < ASpaceExport::ExportModel
   model_for :ead
 
+  attr_accessor :include_daos
+  attr_accessor :include_unpublished
+  attr_accessor :use_numbered_c_tags
+
   include ASpaceExport::ArchivalObjectDescriptionHelpers
   include ASpaceExport::LazyChildEnumerations
 
@@ -91,13 +95,13 @@ class EADModel < ASpaceExport::ExportModel
   end
 
 
-  def include_unpublished(incl)
-    @include_unpublished = incl
+  def include_unpublished?
+    @include_unpublished
   end
 
 
-  def include_unpublished?
-    @include_unpublished
+  def use_numbered_c_tags?
+    @use_numbered_c_tags
   end
 
 
@@ -163,6 +167,10 @@ class EADModel < ASpaceExport::ExportModel
 
 
   def digital_objects
-    self.instances.select{|inst| inst['digital_object']}.compact.map{|inst| inst['digital_object']['_resolved'] }.compact
+    if @include_daos
+      self.instances.select{|inst| inst['digital_object']}.compact.map{|inst| inst['digital_object']['_resolved'] }.compact
+    else
+      []
+    end
   end
 end

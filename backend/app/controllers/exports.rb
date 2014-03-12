@@ -111,11 +111,18 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
             ["include_unpublished", BooleanParam,
              "Include unpublished records", :optional => true],
+            ["include_daos", BooleanParam,
+             "Include digital objects in dao tags", :optional => true],
+            ["numbered_cs", BooleanParam,
+             "Use numbered <c> tags in ead", :optional => true],
             ["repo_id", :repo_id])
     .permissions([:view_repository])
     .returns([200, "(:resource)"]) \
   do
-    ead_stream = generate_ead(params[:id], params[:include_unpublished] || false)
+    ead_stream = generate_ead(params[:id],
+                              (params[:include_unpublished] || false),
+                              (params[:include_daos] || false),
+                              (params[:numbered_cs] || false))
 
     stream_response(ead_stream)
   end
