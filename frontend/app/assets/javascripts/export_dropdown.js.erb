@@ -4,12 +4,13 @@ $(function () {
 
     // allow option sidebar to stay open when 
     // elements are clicked
-    $('.record-toolbar').on('click', '.dropdown-submenu input', function(e) {
+    $('.record-toolbar').on('change click keyup', '.dropdown-submenu input', function(e) {
       e.stopPropagation();
     });
+    $('.record-toolbar').on('click', 'a.download-ead-action', function(e) {
+      var url = AS.quickTemplate(decodeURIComponent($("#download-ead-dropdown").data("download-ead-url")), {include_unpublished: $("input#include-unpublished").is(':checked'), include_daos: $("input#include-daos").is(':checked'), numbered_cs: $("input#numbered-cs").is(':checked')});
 
-    $('.record-toolbar').on('click', 'a.menu-with-options', function(e) {
-      $('form#form-download-ead').submit();
+      location.href = url
     });
   });
 

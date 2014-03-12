@@ -2,10 +2,10 @@
 
   <% unless content_for?(:exports) %>
     <% content_for :exports do %>
-      <li class="dropdown-submenu">
-        <a href="#" data-toggle="dropdown" class="menu-with-options"><%= I18n.t("actions.export_ead") %></a>        
-        <div class="dropdown-menu" id="ead-export-dropdown">
-          <%= form_tag({:controller => :exports, :action => :download_ead}, :method => "get", :id => "form-download-ead") do %>
+      <li class="dropdown-submenu" id="download-ead-dropdown" data-download-ead-url="<%= url_for(:controller => :exports, :action => :download_ead, :id => @resource.id, :include_unpublished => "${include_unpublished}", :include_daos => "${include_daos}", :numbered_cs => "${numbered_cs}") %>">
+        <a href="#" data-toggle="dropdown" class="menu-with-options download-ead-action" title="<%= I18n.t("actions.export_ead") %>"><%= I18n.t("actions.export_ead") %></a>        
+        <div class="dropdown-menu" id="form_download_ead">
+          <fieldset>
             <input type="hidden" name="id", value="<%= @resource.id %>" />
             <label class="checkbox" for="include-unpublished">
               <input type="checkbox" id="include-unpublished" name="include_unpublished" checked="checked"/>
@@ -19,7 +19,7 @@
               <input type="checkbox" id="numbered-cs" name="numbered_cs" />
               <%= I18n.t("export_options.numbered_cs") %>&#160;
             </label>
-          <% end %>
+          </fieldset>
         </div>
       </li>
       <li><%= link_to I18n.t("actions.export_marc"), {:controller => :exports, :action => :download_marc, :id => @resource.id} %></li>
