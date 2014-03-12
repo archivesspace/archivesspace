@@ -451,8 +451,10 @@ class CommonIndexer
       doc['suppressed'] = values.has_key?('suppressed') ? values['suppressed'].to_s : 'false'
       if doc['suppressed'] == 'true'
         doc['publish'] = 'false'
+      elsif values['has_unpublished_ancestor']
+        doc['publish'] = 'false'
       else
-        doc['publish'] =  values.has_key?('publish') ? values['publish'].to_s : 'false'
+        doc['publish'] = values.has_key?('publish') ? values['publish'].to_s : 'false'
       end
       doc['system_generated'] = values.has_key?('system_generated') ? values['system_generated'].to_s : 'false'
       doc['repository'] = get_record_scope(uri)

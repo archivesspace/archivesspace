@@ -53,6 +53,8 @@
                                {"type" => "JSONModel(:note_multipart) object"},
                                {"type" => "JSONModel(:note_singlepart) object"}]},
       },
+
+      "has_unpublished_ancestor" => {"type" => "boolean", "readonly" => "true"},
     },
   },
 }

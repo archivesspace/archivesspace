@@ -192,6 +192,11 @@ end
 
 
 
+def create_digital_object(opts = {})
+  DigitalObject.create_from_json(build(:json_digital_object, opts), :repo_id => $repo_id)
+end
+
+
 
 class ArchivesSpaceService
   def current_user

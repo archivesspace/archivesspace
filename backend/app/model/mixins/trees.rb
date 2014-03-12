@@ -178,6 +178,21 @@ module Trees
   end
 
 
+  def update_from_json(json, opts = {}, apply_nested_records = true)
+    obj = super
+
+    trigger_index_of_entire_tree
+
+    obj
+  end
+
+
+  def trigger_index_of_entire_tree
+    self.class.node_model.
+                filter(:root_record_id => self.id).
+                update(:system_mtime => Time.now)
+  end
+
 
   module ClassMethods
 

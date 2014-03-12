@@ -71,7 +71,7 @@ en:
     merge: Merge
     form_changes_message: "<small><span class='muted'>You have unsaved changes</span></small>"
     toolbar_disabled_message: "<small><span class='muted'>You have unsaved changes - Save or Revert to access toolbar</span></small>"
-    publish: Publish
+    publish: Publish All
     publish_confirm_title: Publish?
     publish_confirm_message: "<p>Performing this action will publish this record, any sub-records (External Documents, Notes, etc) and all components in the hierarchy.</p>"
     view_search_results: Go to Search Results
@@ -334,6 +334,7 @@ en:
         unsuppressed: Archival Object <strong>%{archival_object.title}</strong> unsuppressed
         suppressed: Archival Object <strong>%{archival_object.title}</strong> suppressed
         suppressed_info: Archival Object is suppressed and cannot be edited
+        has_unpublished_ancestor: Please be aware this record has an ancestor that is unpublished.
       section:
         basic_information: Basic Information
       action:
@@ -436,6 +437,7 @@ en:
         unsuppressed: Digital Object Component <strong>%{digital_object_component.display_string}</strong> unsuppressed
         suppressed: Digital Object Component <strong>%{digital_object_component.display_string}</strong> suppressed
         suppressed_info: Digital Object Component is suppressed and cannot be edited
+        has_unpublished_ancestor: Please be aware this record has an ancestor that is unpublished.
       section:
         basic_information: Basic Information
       action:

@@ -93,7 +93,15 @@ module TreeNodes
       self.set_position_in_list(json.position, sequence)
     end
 
+    trigger_index_of_child_nodes
+
     obj
+  end
+
+
+  def trigger_index_of_child_nodes
+    self.children.update(:system_mtime => Time.now)
+    self.children.each(&:trigger_index_of_child_nodes)
   end
 
 
@@ -171,6 +179,16 @@ module TreeNodes
     end
 
 
+    def root_model
+      Kernel.const_get(root_record_type.camelize)
+    end
+
+
+    def node_model
+      Kernel.const_get(node_record_type.camelize)
+    end
+
+
     def sequence_for(json)
       if json[root_record_type]
         if json.parent
@@ -241,7 +259,29 @@ module TreeNodes
         end
       end
 
+      if node_model.publishable?
+        json['has_unpublished_ancestor'] = calculate_has_unpublished_ancestor(obj)
+      end
+
       json
+    end
+
+
+    def calculate_has_unpublished_ancestor(obj, check_root_record = true)
+      if check_root_record && obj.root_record_id
+        return true if root_model[obj.root_record_id].publish == 0
+      end
+
+      if obj.parent_id
+        parent = node_model[obj.parent_id]
+        if parent.publish == 0
+          return true
+        else
+          return calculate_has_unpublished_ancestor(parent, false)
+        end
+      end
+
+      false
     end
 
 
