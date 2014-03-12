@@ -265,19 +265,14 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   get '/' do
-    # sometimes the accept header is now there, so just assume text.
-    if request.accept.length < 1
-      halt JSON.pretty_generate(DB.sysinfo.merge({ "archivesSpaceVersion" =>  ASConstants.VERSION}) )
-    else
-      request.accept.each do |type|
+    sys_info =  DB.sysinfo.merge({ "archivesSpaceVersion" =>  ASConstants.VERSION}) 
+    request.accept.each do |type|
         case type
-          when 'text/html'
-            halt JSON.pretty_generate(DB.sysinfo.merge({ "archivesSpaceVersion" =>  ASConstants.VERSION}) )
           when 'application/json'
-            halt DB.sysinfo.merge({ "archivesSpaceVersion" =>  ASConstants.VERSION}).to_json
+            halt sys_info.to_json
         end
-      end  
-    end
+    end  
+    JSON.pretty_generate(sys_info )
   end
 
 
