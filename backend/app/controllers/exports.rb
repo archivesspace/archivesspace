@@ -180,7 +180,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "The export metadata"]) \
   do
     agent = AgentPerson.to_jsonmodel(params[:id])
-    aname = agent['names'][0]
+    aname = agent['display_name']
     fn = [aname['authority_id'], aname['primary_name']].compact.join("_")
     json_response({"filename" => "#{fn}_eac.xml".gsub(/\s+/, '_'),
                    "mimetype" => "application/xml"})
@@ -208,7 +208,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "The export metadata"]) \
   do
     agent = AgentCorporateEntity.to_jsonmodel(params[:id])
-    aname = agent['names'][0]
+    aname = agent['display_name']
     fn = [aname['authority_id'], aname['primary_name']].compact.join("_")
     json_response({"filename" => "#{fn}_eac.xml".gsub(/\s+/, '_'),
                    "mimetype" => "application/xml"})
@@ -236,7 +236,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "The export metadata"]) \
   do
     agent = AgentFamily.to_jsonmodel(params[:id])
-    aname = agent['names'][0]
+    aname = agent['display_name']
     fn = [aname['authority_id'], aname['family_name']].compact.join("_")
     json_response({"filename" => "#{fn}_eac.xml".gsub(/\s+/, '_'),
                    "mimetype" => "application/xml"})
@@ -264,7 +264,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "The export metadata"]) \
   do
     agent = AgentSoftware.to_jsonmodel(params[:id])
-    aname = agent['names'][0]
+    aname = agent['display_name']
     fn = [aname['authority_id'], aname['software_name']].compact.join("_")
     json_response({"filename" => "#{fn}_eac.xml".gsub(/\s+/, '_'),
                    "mimetype" => "application/xml"})

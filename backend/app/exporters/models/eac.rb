@@ -47,9 +47,9 @@ class EACModel < ASpaceExport::ExportModel
       @event.linked_agents.each do |a| 
         case a['_resolved']['agent_type']
         when 'agent_person'
-          agents << ['human', a['_resolved']['names'][0]['sort_name']]
+          agents << ['human', a['_resolved']['display_name']['sort_name']]
         when 'agent_software'
-          agents << ['machine', a['_resolved']['names'][0]['sort_name']] 
+          agents << ['machine', a['_resolved']['display_name']['sort_name']] 
         end
       end
       
