@@ -3,7 +3,7 @@ class METSSerializer < ASpaceExport::Serializer
 
   def build(data, opts = {})
 
-    builder = Nokogiri::XML::Builder.new do |xml|
+    builder = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
       mets(data, xml)     
     end   
     

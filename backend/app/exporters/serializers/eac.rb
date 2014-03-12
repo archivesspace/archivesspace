@@ -3,7 +3,7 @@ class EACSerializer < ASpaceExport::Serializer
   
   def serialize(eac, opts = {})
 
-    builder = Nokogiri::XML::Builder.new do |xml|
+    builder = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
       _eac(eac, xml)     
     end
     
