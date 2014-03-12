@@ -31,10 +31,10 @@
       <% user_prefs_enabled = true if user_can?('manage_repository') || user_can?('view_suppressed') || user_can?('suppress_archival_record') || user_can?('update_archival_record') %>
 
       <% if user_prefs_enabled %>
-          <li><%= link_to I18n.t("navbar.global_preferences"), :controller => :preferences, :action => :edit, :id => 0, :global => true %></li>
-<!--        <% if session[:repo_id] %>
-          <li><%= link_to I18n.t("navbar.repo_preferences"), :controller => :preferences, :action => :edit, :id => 0 %></li>
-            <% end %> -->
+          <li><%= link_to I18n.t("navbar.user_global_preferences"), :controller => :preferences, :action => :edit, :id => 0, :global => true %></li>
+        <% if session[:repo_id] %>
+          <li><%= link_to I18n.t("navbar.user_repo_preferences"), :controller => :preferences, :action => :edit, :id => 0 %></li>
+            <% end %>
       <% end %>        
 
         <% if ArchivesSpaceHelp.enabled? && user_prefs_enabled %>

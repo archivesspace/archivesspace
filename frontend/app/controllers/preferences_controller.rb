@@ -4,6 +4,7 @@ class PreferencesController < ApplicationController
 
   def edit
     scope = params['global'] ? 'global' : 'repo'
+    user_prefix = params['repo'] ? '' : 'user_'
     @current_prefs, global_repo_id = current_preferences
     @defaults = @current_prefs['defaults']
     opts = {}
@@ -11,12 +12,12 @@ class PreferencesController < ApplicationController
       opts[:repo_id] = global_repo_id
     end
 
-    if @current_prefs["user_#{scope}"]
-      pref = JSONModel(:preference).from_hash(@current_prefs["user_#{scope}"])
+    if @current_prefs["#{user_prefix}#{scope}"]
+      pref = JSONModel(:preference).from_hash(@current_prefs["#{user_prefix}#{scope}"])
     else
       pref = JSONModel(:preference).new({
                                           :defaults => {},
-                                          :user_id => JSONModel(:user).id_for(session[:user_uri])
+                                          :user_id => params['repo'] ? nil : JSONModel(:user).id_for(session[:user_uri])
                                         })
       pref.save(opts)
     end
@@ -24,7 +25,11 @@ class PreferencesController < ApplicationController
     if params['id'] == pref.id.to_s
       @preference = pref
     else
-      redirect_to(:controller => :preferences, :action => :edit, :id => pref.id, :global => params['global'])
+      redirect_to(:controller => :preferences,
+                  :action => :edit,
+                  :id => pref.id,
+                  :global => params['global'],
+                  :repo => params['repo'])
     end
   end
 
@@ -45,7 +50,11 @@ class PreferencesController < ApplicationController
                 :on_valid => ->(id){
                   flash[:success] = I18n.t("preference._frontend.messages.updated",
                                            JSONModelI18nWrapper.new(:preference => @preference))
-                  redirect_to :controller => :preferences, :action => :edit, :id => id, :global => params['global']
+                  redirect_to(:controller => :preferences,
+                              :action => :edit,
+                              :id => id,
+                              :global => params['global'],
+                              :repo => params['repo'])
                 })
   end
 
