@@ -145,6 +145,7 @@ en:
     coordinate_3_indicator_tooltip: |
         <p>Used to record an indicator such as a number or letter that uniquely identifies a location in combination with the associated coordinate label.</p>
     display_string: Display String
+    has_unpublished_ancestor: Has Unpublished Ancestor?
     _singular: Location
     _plural: Locations
 
@@ -1270,6 +1271,7 @@ en:
         <p>The language term and code represented in the material(s) described.</p>
         <p>See DACS 4.5</p>
     "[:resource_id, :ref_id]": Ref ID
+    has_unpublished_ancestor: Has Unpublished Ancestor?
     _singular: Archival Object
     _plural: Archival Objects
 
