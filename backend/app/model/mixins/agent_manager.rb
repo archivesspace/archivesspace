@@ -75,6 +75,17 @@ module AgentManager
     end
 
 
+    # Generally we won't hit this because records are created using
+    # create_from_json.  But just to keep the tests happy.
+    def before_save
+      if self.agent_sha1.nil?
+        self.agent_sha1 = SecureRandom.hex
+      end
+
+      super
+    end
+
+
     def validate
       super
       validates_unique([:agent_sha1], :message => "Agent must be unique")

@@ -115,7 +115,7 @@ Sequel.migration do
       end
 
       alter_table(table) do
-        add_unique_constraint(:agent_sha1, :name => "agent_sha1_unique")
+        add_unique_constraint(:agent_sha1, :name => "sha1_#{table}")
         set_column_allow_null(:agent_sha1, false)
       end
 
