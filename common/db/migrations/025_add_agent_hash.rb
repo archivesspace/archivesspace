@@ -57,6 +57,8 @@ def calculate_hash(db, table, row)
                  end
 
   db[name_table].filter(foreign_key => row[:id]).each do |name|
+    next if name[:authorized] == 0
+
     hash_fields << name_fields.map {|field|
       name[field.intern] || ' '
     }.join('_')

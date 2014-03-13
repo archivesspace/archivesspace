@@ -215,6 +215,8 @@ module AgentManager
 
         name_fields = []
         json.names.each do |name|
+          next if !name["authorized"]
+
           name_fields += name_model.assemble_hash_fields(name)
         end
 
