@@ -1764,6 +1764,7 @@ en:
       You must either specify a barcode, a classification, or both a coordinate 1 label and coordinate 1 indicator
     location_must_be_unique_within_a_record: Must be unique within a record
     location_cannot_be_deleted_if_linked: Location Record is currently linked to one or more Instance records and cannot be deleted. Please link these instances to new locations before deleting the location record.
+    authority_id_must_be_unique: Authority ID is already in use
 
   job:
     _singular: Import Job
