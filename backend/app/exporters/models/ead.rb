@@ -1,10 +1,6 @@
 class EADModel < ASpaceExport::ExportModel
   model_for :ead
 
-  attr_accessor :include_daos
-  attr_accessor :include_unpublished
-  attr_accessor :use_numbered_c_tags
-
   include ASpaceExport::ArchivalObjectDescriptionHelpers
   include ASpaceExport::LazyChildEnumerations
 
@@ -59,9 +55,11 @@ class EADModel < ASpaceExport::ExportModel
   end
 
 
-  def initialize(obj)
+  def initialize(obj, opts)
     @json = obj
-    @include_unpublished = false
+    opts.each do |k, v|
+      self.instance_variable_set("@#{k}", v)
+    end
     repo_ref = obj.repository['ref']
     @repo_id = JSONModel::JSONModel(:repository).id_for(repo_ref)
     @repo = Repository.to_jsonmodel(@repo_id)
@@ -70,17 +68,8 @@ class EADModel < ASpaceExport::ExportModel
   end
 
 
-  def self.from_aspace_object(obj)
-    ead = self.new(obj)
-
-    ead
-  end
-
-
-  def self.from_resource(obj)
-    ead = self.from_aspace_object(obj)
-
-    ead
+  def self.from_resource(obj, opts)
+    self.new(obj, opts)
   end
 
 
