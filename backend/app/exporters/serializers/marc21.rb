@@ -3,7 +3,7 @@ class MARCSerializer < ASpaceExport::Serializer
 
   def build(marc, opts = {})
 
-    builder = Nokogiri::XML::Builder.new do |xml|
+    builder = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
       _root(marc, xml)
     end
 

@@ -2,8 +2,8 @@
 
 <project name="ArchivesSpace" default="help">
 
-  <property name="jruby_url" value="http://jruby.org.s3.amazonaws.com/downloads/1.7.6/jruby-complete-1.7.6.jar" />
-  <property name="jruby_file" value="jruby-complete-1.7.6.jar" />
+  <property name="jruby_url" value="http://jruby.org.s3.amazonaws.com/downloads/1.7.11/jruby-complete-1.7.11.jar" />
+  <property name="jruby_file" value="jruby-complete-1.7.11.jar" />
 
   <property name="solr_url" value="http://repo1.maven.org/maven2/org/apache/solr/solr/4.0.0/solr-4.0.0.war" />
   <property name="solr_file" value="solr-4.0.0.war" />
@@ -296,6 +296,7 @@
       <jvmarg line="-Daspace.config.backend_url=http://localhost:${aspace.backend.port} ${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
       <arg line="--1.9 script/rails s Puma --port=${aspace.frontend.port}" />
     </java>
   </target>
@@ -500,7 +501,7 @@
     <copy file="scripts/migrate_db.rb" todir="target/archivesspace/scripts/rb" />
 
     <copy todir="target/archivesspace/gems">
-      <fileset dir="gems" excludes="cache/*,doc/*,gems/jruby-jars-1.7.6/lib/*.dev.jar" />
+      <fileset dir="gems" excludes="cache/*,doc/*,gems/jruby-jars-1.7.11/lib/*.dev.jar" />
     </copy>
 
     <copy todir="target/archivesspace/launcher">
@@ -605,6 +606,7 @@
       <jvmarg line="-Daspace.config.backend_url=http://localhost:${aspace.backend.port}/ ${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
       <arg line="--1.9 script/rails s Puma --port=${aspace.public.port}" />
     </java>
   </target>

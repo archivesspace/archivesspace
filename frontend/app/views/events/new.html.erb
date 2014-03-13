@@ -10,15 +10,15 @@
 
     <div class="row-fluid">
       <div class="span3">
-        <%= render :partial => "sidebar" %>
+        <%= render_aspace_partial :partial => "sidebar" %>
       </div>
       <div class="span9">
-        <%= render :partial => "shared/toolbar_new_records" %>
+        <%= render_aspace_partial :partial => "shared/toolbar_new_records" %>
         <div class="record-pane">
           <%= link_to_help :topic => "event" %>
           <h2><%= I18n.t("actions.new_prefix") %> <%= I18n.t("event._singular") %> <span class="label label-info"><%= I18n.t("event._singular") %></span></h2>
 
-          <%= render :partial => "events/form", :locals => {:form => form} %>
+          <%= render_aspace_partial :partial => "events/form", :locals => {:form => form} %>
           <div class="form-actions">
             <div class="btn-group">
               <button type="submit" class="btn btn-primary"><%= I18n.t("event._frontend.action.save") %></button>

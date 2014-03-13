@@ -1,5 +1,5 @@
-<%= render :partial => "shared/form_messages", :locals => {:object => @subject, :form => form} %>
-<%= render :partial => "terms/template", :locals => {:form => form, :show_preview => true} %>
+<%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @subject, :form => form} %>
+<%= render_aspace_partial :partial => "terms/template", :locals => {:form => form, :show_preview => true} %>
 
 <fieldset>
   <%= form.hidden_input "vocabulary", current_vocabulary['uri'] %>
@@ -18,8 +18,8 @@
 
   <% form.emit_template("subject") %>
 
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "terms", :required => true, :heading_text => I18n.t("subject._frontend.section.terms")} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "terms", :required => true, :heading_text => I18n.t("subject._frontend.section.terms")} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
 
   <%= form_plugins_for("subject", form) %>
 

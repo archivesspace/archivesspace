@@ -8,14 +8,14 @@
 
 
   <div class="span9">
-    <%= render :partial => "toolbar" %>
+    <%= render_aspace_partial :partial => "toolbar" %>
 
     <div class="record-pane">
       <h2><%= !@group.description.empty? ? @group.description : "#{I18n.t("actions.edit")} #{I18n.t("group._singular")}" %> <span class="label label-info"><%= I18n.t("group._singular") %></span></h2>
 
       <%= form_context :group, @group do |form| %>
-        <%= render :partial => "shared/form_messages", :locals => {:form => form} %>
-        <%= render :partial => "groups/form", :locals => {:form => form} %>
+        <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
+        <%= render_aspace_partial :partial => "groups/form", :locals => {:form => form} %>
       <% end %>
     </div>
   </div>

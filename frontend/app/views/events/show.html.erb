@@ -6,15 +6,15 @@
 
 <div class="row-fluid">
    <div class="span3">
-     <%= render :partial => "events/sidebar" %>
+     <%= render_aspace_partial :partial => "events/sidebar" %>
    </div>
   <div class="span9">
-    <%= render :partial => "toolbar" %>
+    <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <h2><%= record_title %>  <span class="label label-info"><%= I18n.t("event._singular") %></span></h2>
 
       <%= readonly_context :event, @event do |readonly| %>
-        <%= render :partial => "events/form", :locals => {:form => readonly} %>
+        <%= render_aspace_partial :partial => "events/form", :locals => {:form => readonly} %>
       <% end %>
       <%# read_only_view(@event.to_hash) %>
     </div>

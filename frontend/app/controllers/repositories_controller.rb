@@ -43,7 +43,7 @@ class RepositoriesController < ApplicationController
                     @exceptions[:errors]["repository/repo_code"] = @exceptions[:errors].delete("repo_code")
                   end
 
-                  return render :partial => "repositories/new" if inline?
+                  return render_aspace_partial :partial => "repositories/new" if inline?
                   return render :action => :new
                 },
                 :on_valid => ->(id){

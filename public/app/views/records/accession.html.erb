@@ -1,13 +1,13 @@
 <%
   set_title(@accession.display_string)
 %>
-<%= render(:partial => 'title_pane',
+<%= render_aspace_partial(:partial => 'title_pane',
            :locals => {:record_title => @accession.display_string}) 
 %>
 <div class="content-pane">
   <div class="row-fluid">
     <div class="span3">
-      <%= render(:partial => 'navlist',
+      <%= render_aspace_partial(:partial => 'navlist',
                  :locals => {
                    :record_type => 'accession',
                    :record => @accession,
@@ -46,13 +46,13 @@
           </dl>
         </section>
 
-        <%= render :partial => "dates", :locals => {:dates => @accession['dates']} %>
-        <%= render :partial => "extents", :locals => {:extents => @accession['extents']} %>
-        <%= render :partial => "agents", :locals => {:linked_agents => @accession.published_agents} %>
-        <%= render :partial => "resources", :locals => {:resources => @accession.published_related_resources} %>
-        <%= render :partial => "subjects", :locals => {:subjects => @accession['subjects']} %>
-        <%= render :partial => "external_documents", :locals => {:external_documents => @accession.published_external_documents} %>
-        <%= render :partial => "instances", :locals => {:instances => @accession.instances} %>
+        <%= render_aspace_partial :partial => "dates", :locals => {:dates => @accession['dates']} %>
+        <%= render_aspace_partial :partial => "extents", :locals => {:extents => @accession['extents']} %>
+        <%= render_aspace_partial :partial => "agents", :locals => {:linked_agents => @accession.published_agents} %>
+        <%= render_aspace_partial :partial => "resources", :locals => {:resources => @accession.published_related_resources} %>
+        <%= render_aspace_partial :partial => "subjects", :locals => {:subjects => @accession['subjects']} %>
+        <%= render_aspace_partial :partial => "external_documents", :locals => {:external_documents => @accession.published_external_documents} %>
+        <%= render_aspace_partial :partial => "instances", :locals => {:instances => @accession.instances} %>
       </fieldset>
 
 

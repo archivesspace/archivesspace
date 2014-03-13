@@ -12,6 +12,6 @@
       <%= form.label_and_textarea "processing_funding_source" %>
       <%= form.label_and_textarea "processors" %>
       <%= form.label_and_boolean "rights_determined", {}, form.default_for("rights_determined") %>
-      <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>
+      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>
     </div>
 <% end %>

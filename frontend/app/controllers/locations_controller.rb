@@ -19,7 +19,7 @@ class LocationsController < ApplicationController
 
   def new
     @location = JSONModel(:location).new._always_valid!
-    render :partial => "locations/new" if inline?
+    render_aspace_partial :partial => "locations/new" if inline?
   end
 
   def edit
@@ -30,7 +30,7 @@ class LocationsController < ApplicationController
     handle_crud(:instance => :location,
                 :model => JSONModel(:location),
                 :on_invalid => ->(){
-                  return render :partial => "locations/new" if inline?
+                  return render_aspace_partial :partial => "locations/new" if inline?
                   return render :action => :new
                 },
                 :on_valid => ->(id){
@@ -74,7 +74,7 @@ class LocationsController < ApplicationController
 
       if batch_response.kind_of?(Hash) and batch_response.has_key?("error")
         if params["dry_run"]
-          return render :partial => "shared/quick_messages", :locals => {:exceptions => batch_response, :jsonmodel => "location_batch"}
+          return render_aspace_partial :partial => "shared/quick_messages", :locals => {:exceptions => batch_response, :jsonmodel => "location_batch"}
         else
           @exceptions = {:errors => batch_response["error"]}
 
@@ -83,7 +83,7 @@ class LocationsController < ApplicationController
       end
 
       if params["dry_run"]
-        render :partial => "locations/batch_preview", :locals => {:locations => batch_response}
+        render_aspace_partial :partial => "locations/batch_preview", :locals => {:locations => batch_response}
       else
         flash[:success] = I18n.t("location_batch._frontend.messages.created", :number_created => batch_response.length)
         redirect_to :action => :index

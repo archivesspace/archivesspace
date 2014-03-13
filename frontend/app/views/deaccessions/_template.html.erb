@@ -14,7 +14,7 @@
         </h4>
         <div class="subrecord-form-container">
           <%= form.fields_for(form.obj["date"] || {"label" => "deaccession"}, "date") do | date | %>
-            <% render :partial => "dates/template", :locals => {:form => form} %>
+            <% render_aspace_partial :partial => "dates/template", :locals => {:form => form} %>
             <% form.emit_template("date") %>
           <% end %>
         </div>
@@ -22,7 +22,7 @@
     </div>
 
     <div class="subrecord-form-container">
-      <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents", :heading_size => "h4", :help_topic => "deaccession_extents"} %>
+      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents", :heading_size => "h4", :help_topic => "deaccession_extents"} %>
     </div>
   </div>
 <% end %>

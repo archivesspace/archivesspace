@@ -4,7 +4,7 @@
    <%= @classification.title.blank? ? "#{I18n.t("actions.new_prefix")} #{I18n.t("classification._singular")}" : @classification.title %>  <span class="label label-info"><%= I18n.t("classification._singular") %></span>
 </h2>
 
-<%= render :partial => "shared/form_messages", :locals => {:form => form} %>
+<%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
 
 <%= hidden_field_tag "id", @classification.id %>
 
@@ -19,7 +19,7 @@
       <%= form.label_and_textarea "description" %>
 
       <% form.push("creator", form["creator"] || {}) do %>
-        <%= render :partial => "agents/linker", :locals => {:form => form, :linker_label => I18n.t("classification.creator"), :optional => true, :multiplicity => "one"} %>
+        <%= render_aspace_partial :partial => "agents/linker", :locals => {:form => form, :linker_label => I18n.t("classification.creator"), :optional => true, :multiplicity => "one"} %>
       <% end %>
 
     </section>

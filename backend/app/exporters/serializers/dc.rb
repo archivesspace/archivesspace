@@ -3,7 +3,7 @@ class DCSerializer < ASpaceExport::Serializer
 
   def build(dc, opts = {})
 
-    builder = Nokogiri::XML::Builder.new do |xml|
+    builder = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
       _root(dc, xml)     
     end   
     

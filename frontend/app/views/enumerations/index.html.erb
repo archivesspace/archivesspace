@@ -5,7 +5,7 @@
     <div class="record-pane">
       <%= link_to_help :topic => "enumeration" %>
 
-      <%= render :partial => "shared/flash_messages" %>
+      <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
       <div class="form-horizontal">
         <fieldset>
@@ -27,9 +27,9 @@
       <div id="enum_list">
 
         <% if @enumeration %>
-          <%= render :partial => "list" %>
+          <%= render_aspace_partial :partial => "list" %>
         <% else %>
-          <%= render :partial => "empty_list" %>
+          <%= render_aspace_partial :partial => "empty_list" %>
         <% end %>
 
       </div>

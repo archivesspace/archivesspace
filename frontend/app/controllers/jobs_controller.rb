@@ -25,9 +25,9 @@ class JobsController < ApplicationController
       @job = e.invalid_object
 
       if params[:iframePOST] # IE saviour. Render the form in a textarea for the AjaxPost plugin to pick out.
-        return render :partial => "jobs/form_for_iframepost", :status => 400
+        return render_aspace_partial :partial => "jobs/form_for_iframepost", :status => 400
       else
-        return render :partial => "jobs/form", :status => 400
+        return render_aspace_partial :partial => "jobs/form", :status => 400
       end
     end
 
@@ -78,7 +78,7 @@ class JobsController < ApplicationController
 
   def records
     @search_data = Job.records(params[:id], params[:page] || 1)
-    render :partial => "jobs/job_records"
+    render_aspace_partial :partial => "jobs/job_records"
   end
 
   private

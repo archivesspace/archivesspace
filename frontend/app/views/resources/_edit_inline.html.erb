@@ -2,12 +2,12 @@
   <%= form_context :resource, @resource do |form| %>
     <div class="row-fluid">
       <div class="span3">
-        <%= render :partial => "resources/sidebar" %>
+        <%= render_aspace_partial :partial => "resources/sidebar" %>
       </div>
       <div class="span9">
-        <%= render :partial => "toolbar" %>
+        <%= render_aspace_partial :partial => "toolbar" %>
         <div class="record-pane">
-           <%= render :partial => "resources/form_container", :locals => {:form => form} %>
+           <%= render_aspace_partial :partial => "resources/form_container", :locals => {:form => form} %>
            <div class="form-actions">
              <button type="submit" class="btn btn-primary"><%= I18n.t("resource._frontend.action.save") %></button>
               <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>

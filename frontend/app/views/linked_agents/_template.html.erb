@@ -1,4 +1,4 @@
-<%= render :partial => "terms/template", :locals => {:form => form, :show_preview => false} %>
+<%= render_aspace_partial :partial => "terms/template", :locals => {:form => form, :show_preview => false} %>
 
 <% [{:type => :accession, :relator => true},
     {:type => :resource, :relator => true},
@@ -18,10 +18,10 @@
       <% if defn[:relator] %>
         <%= form.label_and_select("relator", form.possible_options_for("relator", true)) %>
       <% end %>
-      <%= render :partial => "agents/linker", :locals => {:form => form} %>
+      <%= render_aspace_partial :partial => "agents/linker", :locals => {:form => form} %>
 
       <div class="agent-terms subrecord-form-container" style="display: none">
-        <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "terms", :heading_text => I18n.t("subject._frontend.section.terms")} %>
+        <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "terms", :heading_text => I18n.t("subject._frontend.section.terms")} %>
       </div>
 
     </div>

@@ -1,4 +1,4 @@
-<%= render :partial => "shared/form_messages", :locals => {:form => form} %>
+<%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
 
 <fieldset>
 
@@ -20,21 +20,21 @@
 
   <% form.emit_template("digital_object") %>
 
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "file_versions"} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "file_versions"} %>
 
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template => "archival_record_date"} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template => "archival_record_date"} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
 
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "digital_object_linked_agent"} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template => "subrecord_subject"} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "digital_object_linked_agent"} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template => "subrecord_subject"} %>
 
-  <%= render :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type'])} %>
+  <%= render_aspace_partial :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type'])} %>
 
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "collection_management", :cardinality => :zero_to_one} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "user_defined", :cardinality => :zero_to_one} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "collection_management", :cardinality => :zero_to_one} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "user_defined", :cardinality => :zero_to_one} %>
 
   <%= form_plugins_for("digital_object", form) %>
 

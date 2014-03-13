@@ -305,7 +305,7 @@
                 <fieldset>
                   <%= form.hidden_input "current_resource_id", "${root_object_id}" %>
                   <div class="alert alert-error missing-ref-message" style="display: none;"><%= I18n.t "archival_object._frontend.messages.please_select_a_resource_for_transfer" %></div>
-                  <%= render :partial => "resources/linker", :locals => { :form => form, :exclude_ids => [root_record.id] }%>
+                  <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :exclude_ids => [root_record.id] }%>
                 </fieldset>
                 <div class="form-actions">
                   <button class="btn btn-primary pull-left"><%= I18n.t("actions.transfer") %></button>

@@ -1,4 +1,4 @@
-<% render :partial => "dates/template" %>
+<% render_aspace_partial :partial => "dates/template" %>
 
 <% define_template "related_agents_selector" do |form| %>
   <div class="subrecord-form-fields">
@@ -43,7 +43,7 @@
                                                          :uri => form["_resolved"]["uri"])) %>
           </div>
         <% else %>
-          <%= render :partial => "agents/linker",
+          <%= render_aspace_partial :partial => "agents/linker",
                      :locals => {
                          :form => form,
                          :linker_label => I18n.t("#{relationship_type}.ref"),
@@ -57,7 +57,7 @@
         <%= form.label_and_textarea("description") %>
 
         <% if !form.readonly? || !form['dates'].blank? %>
-          <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :cardinality => :zero_to_one} %>
+          <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :cardinality => :zero_to_one} %>
         <% end %>
       </div>
     </div>

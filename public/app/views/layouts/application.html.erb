@@ -56,10 +56,10 @@
   <div class="container">
     <% if !current_page?(root_url) %>
       <div class="advanced-search-container <% if params["advanced"].blank? or params["advanced"]  === 'false' %>hide<% end %>">
-        <%= render :partial => "site/advanced_search" %>
+        <%= render_aspace_partial :partial => "site/advanced_search" %>
       </div>
     <% end %>
-    <%= render :partial => "site/breadcrumb" %>
+    <%= render_aspace_partial :partial => "site/breadcrumb" %>
     <%= yield %>
   </div>
 

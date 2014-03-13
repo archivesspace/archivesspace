@@ -1,4 +1,4 @@
-<%= render :partial => "container/template" %>
+<%= render_aspace_partial :partial => "container/template" %>
 
 <div id="template_instance_summary"><!--
   <div class="subrecord-summary-title">
@@ -26,7 +26,7 @@
     <div class="subrecord-form-container">
       <%= form.hidden_input "instance_type", "digital_object" %>
       <%= form.fields_for(form["digital_object"] || {}, "digital_object") do |item| %>
-        <%= render :partial => "digital_objects/linker", :locals => {:form => form} %>
+        <%= render_aspace_partial :partial => "digital_objects/linker", :locals => {:form => form} %>
       <% end %>
     </div>
   </div>

@@ -10,7 +10,7 @@ class EADSerializer < ASpaceExport::Serializer
     @fragments = ASpaceExport::RawXMLHandler.new
     @include_unpublished = data.include_unpublished?
 
-    doc = Nokogiri::XML::Builder.new do |xml|
+    doc = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
 
       xml.ead('xmlns' => 'urn:isbn:1-931666-22-9',
                  'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',

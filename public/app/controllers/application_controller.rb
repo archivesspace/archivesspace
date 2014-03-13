@@ -43,6 +43,19 @@ class ApplicationController < ActionController::Base
     redirect_to request.url
   end
 
+
+  # We explicitly set the formats and handlers here to avoid the huge number of
+  # stat() syscalls that Rails normally triggers when running in dev mode.
+  #
+  # It would have been nice to call this 'render_partial', but that name is
+  # taken by the default controller.
+  #
+  def render_aspace_partial(args)
+    defaults = {:formats => [:html], :handlers => [:erb]}
+    return render(defaults.merge(args))
+  end
+
+
   protected
 
   def assign_repositories

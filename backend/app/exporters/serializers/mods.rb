@@ -5,7 +5,7 @@ class MODSSerializer < ASpaceExport::Serializer
   
   def serialize(mods, opts = {})
 
-    builder = Nokogiri::XML::Builder.new do |xml|
+    builder = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
       serialize_mods(mods, xml)     
     end
     

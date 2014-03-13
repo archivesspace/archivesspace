@@ -39,7 +39,7 @@
               </div>
             </div>
           <% elsif instance["container"] and instance["container"].length > 0 %>
-            <%= render :partial => "container/show", :locals => { :container => instance["container"], :id => "instance_#{index}_container" } %>
+            <%= render_aspace_partial :partial => "container/show", :locals => { :container => instance["container"], :id => "instance_#{index}_container" } %>
           <% end %>
         </div>
       </div>

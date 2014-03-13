@@ -24,7 +24,7 @@
         <h2><%= I18n.t("user._plural") %></h2>
       <% end %>
 
-      <%= render :partial => "shared/flash_messages" %>
+      <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
      <% if @search_data['results'].length %>
        <table class="table table-striped table-bordered table-condensed">
@@ -51,7 +51,7 @@
           <% end %>
          </tbody>
        </table>
-       <%= render :partial => "shared/pagination" %>
+       <%= render_aspace_partial :partial => "shared/pagination" %>
       <% else %>
          <p class="alert alert-info">
             No Users.
