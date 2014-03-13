@@ -29,9 +29,20 @@ class CommonIndexer
 
   @@resolved_attributes = ['subjects', 'linked_agents', 'linked_records', 'classification', 'digital_object']
 
+  @@paused_until = Time.now 
 
   def self.add_indexer_initialize_hook(&block)
     @@init_hooks << block
+  end
+  
+  # This is to pause the indexer.
+  # Duration is given in seconds.
+  def self.pause(duration = 900 )
+    @@paused_until = Time.now + duration
+  end
+
+  def self.paused?
+    @@paused_until > Time.now
   end
 
 
@@ -530,6 +541,11 @@ class CommonIndexer
       end
     end
   end
+  
+  def paused?
+    self.singleton_class.class_variable_get(:@@paused_until) > Time.now
+  end
+
 
 end
 

@@ -340,7 +340,7 @@ class PeriodicIndexer < CommonIndexer
   def run
     while true
       begin
-        run_index_round
+        run_index_round unless paused?
       rescue
         reset_session
         puts "#{$!.inspect}"
