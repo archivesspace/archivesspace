@@ -58,14 +58,16 @@ module AgentNames
     end
 
 
-    def sequel_to_jsonmodel(obj, opts = {})
-      json = super
+    def sequel_to_jsonmodel(objs, opts = {})
+      jsons = super
 
-      if obj.name_authority_id
-        json['authority_id'] = obj.name_authority_id.authority_id
+      jsons.zip(objs).each do |json, obj|
+        if obj.name_authority_id
+          json['authority_id'] = obj.name_authority_id.authority_id
+        end
       end
 
-      json
+      jsons
     end
 
 

@@ -97,10 +97,14 @@ class Subject < Sequel::Model(:subject)
   end
 
 
-  def self.sequel_to_jsonmodel(obj, opts = {})
-    json = super
-    json.vocabulary = uri_for(:vocabulary, obj.vocab_id)
-    json
+  def self.sequel_to_jsonmodel(objs, opts = {})
+    jsons = super
+
+    jsons.zip(objs).each do |json, obj|
+      json.vocabulary = uri_for(:vocabulary, obj.vocab_id)
+    end
+
+    jsons
   end
 
 

@@ -66,18 +66,19 @@ class User < Sequel::Model(:user)
   end
 
 
-  def self.sequel_to_jsonmodel(obj, opts = {})
-    json = super
+  def self.sequel_to_jsonmodel(objs, opts = {})
+    jsons = super
 
-    if obj.agent_record_id
-      json['agent_record'] = {'ref' => uri_for(obj.agent_record_type, obj.agent_record_id)}
+    jsons.zip(objs).each do |json, obj|
+      if obj.agent_record_id
+        json['agent_record'] = {'ref' => uri_for(obj.agent_record_type, obj.agent_record_id)}
+      end
+
+      if obj.can?(:administer_system)
+        json['is_admin'] = true
+      end
     end
-
-    if obj.can?(:administer_system)
-      json['is_admin'] = true
-    end
-
-    json
+    jsons
   end
 
 

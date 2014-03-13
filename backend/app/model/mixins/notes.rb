@@ -161,19 +161,30 @@ module Notes
     end
 
 
-    def sequel_to_jsonmodel(obj, opts = {})
-      notes = Array(obj.note.sort_by {|note| note[:id]}).map {|note|
-        parsed = ASUtils.json_parse(note.notes)
-        parsed['publish'] = (note.publish == 1)
-        parsed
+    def sequel_to_jsonmodel(objs, opts = {})
+      jsons = super
+
+      association = self.association_reflection(:note)
+      notes = {}
+      Note.filter(association[:key] => objs.map(&:id)).map {|note|
+        record_id = note[association[:key]]
+        notes[record_id] ||= []
+        notes[record_id] << note
       }
 
-      json = super
-      json.notes = notes
+      jsons.zip(objs).each do |json, obj|
+        notes = Array(notes[obj.id]).sort_by(&:id).map {|note|
+          parsed = ASUtils.json_parse(note.notes)
+          parsed['publish'] = (note.publish == 1)
+          parsed
+        }
 
-      resolve_note_references(obj, json)
+        json.notes = notes
 
-      json
+        resolve_note_references(obj, json)
+      end
+
+      jsons
     end
 
 

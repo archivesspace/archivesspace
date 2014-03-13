@@ -66,22 +66,23 @@ module CrudHelpers
 
     elsif pagination_data[:id_set]
       # Return the requested set of IDs
-      listing_response(dataset.filter(:id => pagination_data[:id_set]).all, model)
+      listing_response(dataset.filter(:id => pagination_data[:id_set]), model)
     end
   end
 
   private
 
   def listing_response(dataset, model)
-    results = dataset.collect {|obj|
-      json = model.to_jsonmodel(obj)
-
-      if params[:resolve]
-        resolve_references(json, params[:resolve])
+    objs = dataset.respond_to?(:all) ? dataset.all : dataset
+    jsons = model.sequel_to_jsonmodel(objs).map {|json|
+      if json.is_a?(JSONModelType)
+        json.to_hash(:trusted)
       else
         json
       end
     }
+
+    results = resolve_references(jsons, params[:resolve])
 
     if dataset.respond_to? (:page_range)
       response = {

@@ -105,15 +105,18 @@ class Repository < Sequel::Model(:repository)
   end
 
 
-  def self.sequel_to_jsonmodel(obj, opts = {})
-    json = super
+  def self.sequel_to_jsonmodel(objs, opts = {})
+    jsons = super
 
-    if (agent_id = obj.agent_representation_id)
-      json["agent_representation"] = {
-        "ref" => JSONModel(:agent_corporate_entity).uri_for(agent_id)
-      }
+    jsons.zip(objs).each do |json, obj|
+      if (agent_id = obj.agent_representation_id)
+        json["agent_representation"] = {
+          "ref" => JSONModel(:agent_corporate_entity).uri_for(agent_id)
+        }
+      end
     end
-    
-    json
+
+    jsons
   end
+
 end
