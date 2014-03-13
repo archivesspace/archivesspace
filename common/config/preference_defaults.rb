@@ -5,4 +5,6 @@
 {
   'show_suppressed' => false,
   'publish' => false,
+  'accession_browse_label_title' => '',
+  'accession_browse_label_identifier' => '',
 }

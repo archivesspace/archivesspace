@@ -2,6 +2,8 @@
   <div class="subrecord-form-fields">
       <%= form.label_and_boolean "show_suppressed", {}, form.default_for("show_suppressed") %>
       <%= form.label_and_boolean "publish", {}, form.default_for("publish") %>
+      <%= form.label_and_textfield("accession_browse_label_title") %>
+      <%= form.label_and_textfield("accession_browse_label_identifier") %>
       <%= form.hidden_input "junk", "bin me please" %>
    </div>
 <% end %>
