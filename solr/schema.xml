@@ -150,7 +150,6 @@
 
    <!-- Sort fields -->
    <field name="title_sort" type="sort_string" indexed="true" stored="false" multiValued="false"/>
-   <field name="acquisition_type_sort" type="sort_string" indexed="true" stored="false" multiValued="false"/>
 
    <!-- Agent and Subject fields -->
    <field name="authority_id" type="string" indexed="true" stored="true" multiValued="false" />
@@ -291,8 +290,6 @@
 
   <!-- Copy fields ... perhaps for sort fields -->
   <copyField source="title" dest="title_sort"/>
-  <copyField source="acquisition_type" dest="acquisition_type_sort"/>
-
   <copyField source="json" dest="fullrecord"/>
   <copyField source="subjects" dest="subjects_text"/>
   <copyField source="agents" dest="agents_text"/>
