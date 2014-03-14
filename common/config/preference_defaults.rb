@@ -10,4 +10,9 @@
   'accession_browse_column_3' => '',
   'accession_browse_column_4' => '',
   'accession_browse_column_5' => '',
+  'resource_browse_column_1' => 'identifier',
+  'resource_browse_column_2' => '',
+  'resource_browse_column_3' => '',
+  'resource_browse_column_4' => '',
+  'resource_browse_column_5' => '',
 }

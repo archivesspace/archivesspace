@@ -163,6 +163,11 @@ en:
     restrictions_apply: Restrictions Apply
     access_restrictions: Access Restrictions
     use_restrictions: Use Restrictions
+    level: Level of Description
+    language: Language
+    restrictions: Restrictions
+    ead_id: EAD ID
+    finding_aid_status: Finding Aid Status
 
   become-user:
     become-user: Become User

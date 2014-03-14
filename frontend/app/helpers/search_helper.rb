@@ -98,19 +98,20 @@ module SearchHelper
   end
 
 
-  def add_browse_columns(model)
-   (1..5).to_a.each do |n|
+  def add_browse_columns(model, enum_locales = {})
+    (1..5).to_a.each do |n|
       prop = user_prefs["#{model}_browse_column_#{n}"]
-     if prop
-       add_column(I18n.t("#{model}.#{prop}"),
-                  proc { |record|
-                    v = record[prop] || ASUtils.json_parse(record['json'])[prop]
-                    I18n.t("enumerations.#{model}_#{prop}.#{v}", :default => v.to_s)
-                  }, :sortable => true, :sort_by => prop)
-     end
-   end
-
+      if prop
+        enum_locale_key = enum_locales.has_key?(prop) ? enum_locales[prop] : "#{model}_#{prop}"
+        add_column(I18n.t("#{model}.#{prop}"),
+                   proc { |record|
+                     v = record[prop] || ASUtils.json_parse(record['json'])[prop]
+                     I18n.t("enumerations.#{enum_locale_key}.#{v}", :default => v.to_s)
+                   }, :sortable => true, :sort_by => prop)
+      end
+    end
   end
+
 
   def extra_columns
     @extra_columns

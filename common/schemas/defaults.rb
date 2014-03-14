@@ -1,7 +1,11 @@
-browse_column_enum = [
+accession_browse_column_enum = [
                       "identifier", "accession_date", "acquisition_type", "resource_type",
                       "restrictions_apply", "access_restrictions", "use_restrictions",
                       "publish"
+                     ]
+resource_browse_column_enum = [
+                      "identifier", "resource_type", "level", "language", "restrictions",
+                      "ead_id", "finding_aid_status", "publish"
                      ]
 {
   :schema => {
@@ -15,29 +19,56 @@ browse_column_enum = [
 
       "accession_browse_column_1" => {
         "type" => "string",
-        "enum" => browse_column_enum,
+        "enum" => accession_browse_column_enum,
         "required" => false
       },
       "accession_browse_column_2" => {
         "type" => "string",
-        "enum" => browse_column_enum,
+        "enum" => accession_browse_column_enum,
         "required" => false
       },
       "accession_browse_column_3" => {
         "type" => "string",
-        "enum" => browse_column_enum,
+        "enum" => accession_browse_column_enum,
         "required" => false
       },
       "accession_browse_column_4" => {
         "type" => "string",
-        "enum" => browse_column_enum,
+        "enum" => accession_browse_column_enum,
         "required" => false
       },
       "accession_browse_column_5" => {
         "type" => "string",
-        "enum" => browse_column_enum,
+        "enum" => accession_browse_column_enum,
         "required" => false
       },
+
+      "resource_browse_column_1" => {
+        "type" => "string",
+        "enum" => resource_browse_column_enum,
+        "required" => false
+      },
+      "resource_browse_column_2" => {
+        "type" => "string",
+        "enum" => resource_browse_column_enum,
+        "required" => false
+      },
+      "resource_browse_column_3" => {
+        "type" => "string",
+        "enum" => resource_browse_column_enum,
+        "required" => false
+      },
+      "resource_browse_column_4" => {
+        "type" => "string",
+        "enum" => resource_browse_column_enum,
+        "required" => false
+      },
+      "resource_browse_column_5" => {
+        "type" => "string",
+        "enum" => resource_browse_column_enum,
+        "required" => false
+      },
+
     },
   },
 }
