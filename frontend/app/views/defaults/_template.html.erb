@@ -2,8 +2,6 @@
   <div class="subrecord-form-fields">
       <%= form.label_and_boolean "show_suppressed", {}, form.default_for("show_suppressed") %>
       <%= form.label_and_boolean "publish", {}, form.default_for("publish") %>
-      <%= form.label_and_textfield("accession_browse_label_title") %>
-      <%= form.label_and_textfield("accession_browse_label_identifier") %>
 
       <h3><%= I18n.t "defaults.accession_browse_section" %></h3>
       <%= form.label_and_select "accession_browse_column_1", form.possible_options_for("accession_browse_column_1", true) %>

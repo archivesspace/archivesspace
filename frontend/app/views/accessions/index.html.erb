@@ -2,8 +2,6 @@
 
 <%
    @show_multiselect_column = user_can?("delete_archival_record")
-   @title_column_header = user_prefs["accession_browse_label_title"]
-   id_label = user_prefs["accession_browse_label_identifier"] || I18n.t("accession.identifier")
 
    (1..5).to_a.each do |n|
      prop = user_prefs["accession_browse_column_#{n}"]

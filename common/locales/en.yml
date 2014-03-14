@@ -1715,11 +1715,7 @@ en:
     show_suppressed_tooltip: Whether to show suppressed records that you have permission to see when browsing.
     publish: Publish?
     publish_tooltip: Whether to publish new records by default.
-    accession_browse_label_title: Accession Title label
-    accession_browse_label_title_tooltip: Set the browse column header label for the Accession Title.
-    accession_browse_label_identifier: Accession Identifier label
-    accession_browse_label_identifier_tooltip: Set the browse column header label for Accession Identifier.
-    accession_browse_section: Accession Browse Settings
+    accession_browse_section: Accession Browse Columns
     accession_browse_column_1: Column 1
     accession_browse_column_2: Column 2
     accession_browse_column_3: Column 3
