@@ -34,7 +34,8 @@ class EADConverter < Converter
   # We can safely assume ead, c, and archdesc will have children,
   # which greatly helps the performance. 
   def is_node_empty?(node)
-    if  %w{ "ead", "c", "archdesc" }.include?( node.local_name ) 
+    parent_nodes = %w{ ead e archdesc dsc } + (1..12).collect { |n| "c#{ sprintf('%02d', n)}" }  
+    if  parent_nodes.include?( node.local_name ) 
       return false 
     else
       return ( node.inner_xml.strip.empty? && !node.attributes? )
