@@ -1711,16 +1711,22 @@ en:
     _plural: Preferences
 
   defaults: &defaults_attributes
+    general_section: General Settings
     show_suppressed: Show Suppressed?
     show_suppressed_tooltip: Whether to show suppressed records that you have permission to see when browsing.
     publish: Publish?
     publish_tooltip: Whether to publish new records by default.
     accession_browse_section: Accession Browse Columns
     accession_browse_column_1: Column 1
+    accession_browse_column_1_tooltip: The field to show in column 1. Leave blank to accept the default.
     accession_browse_column_2: Column 2
+    accession_browse_column_2_tooltip: The field to show in column 2. Leave blank to accept the default.
     accession_browse_column_3: Column 3
+    accession_browse_column_3_tooltip: The field to show in column 3. Leave blank to accept the default.
     accession_browse_column_4: Column 4
+    accession_browse_column_4_tooltip: The field to show in column 4. Leave blank to accept the default.
     accession_browse_column_5: Column 5
+    accession_browse_column_5_tooltip: The field to show in column 5. Leave blank to accept the default.
     _singular: Defaults
     _plural: Defaults
 
