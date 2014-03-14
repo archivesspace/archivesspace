@@ -7,4 +7,9 @@
   'publish' => false,
   'accession_browse_label_title' => '',
   'accession_browse_label_identifier' => '',
+  'accession_browse_column_1' => 'identifier',
+  'accession_browse_column_2' => '',
+  'accession_browse_column_3' => '',
+  'accession_browse_column_4' => '',
+  'accession_browse_column_5' => '',
 }

@@ -157,6 +157,12 @@ en:
     floor: Floor
     room: Room
     area: Area
+    resource_type: Resource Type
+    acquisition_type: Acquisition Type
+    accession_date: Accession Date
+    restrictions_apply: Restrictions Apply
+    access_restrictions: Access Restrictions
+    use_restrictions: Use Restrictions
 
   become-user:
     become-user: Become User

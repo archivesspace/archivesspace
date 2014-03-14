@@ -133,6 +133,13 @@ class CommonIndexer
         doc['accession_date_year'] = Date.parse(record['record']['accession_date']).year
         doc['identifier'] = (0...4).map {|i| record['record']["id_#{i}"]}.compact.join("-")
         doc['title'] = record['record']['display_string']
+
+        doc['acquisition_type'] = record['record']['acquisition_type']
+        doc['accession_date'] = record['record']['accession_date']
+        doc['resource_type'] = record['record']['resource_type']
+        doc['restrictions_apply'] = record['record']['restrictions_apply']
+        doc['access_restrictions'] = record['record']['access_restrictions']
+        doc['use_restrictions'] = record['record']['use_restrictions']
       end
     }
 

@@ -1719,6 +1719,12 @@ en:
     accession_browse_label_title_tooltip: Set the browse column header label for the Accession Title.
     accession_browse_label_identifier: Accession Identifier label
     accession_browse_label_identifier_tooltip: Set the browse column header label for Accession Identifier.
+    accession_browse_section: Accession Browse Settings
+    accession_browse_column_1: Column 1
+    accession_browse_column_2: Column 2
+    accession_browse_column_3: Column 3
+    accession_browse_column_4: Column 4
+    accession_browse_column_5: Column 5
     _singular: Defaults
     _plural: Defaults
 

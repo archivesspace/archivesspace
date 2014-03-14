@@ -78,6 +78,12 @@
    <!-- Accession properties required for facets -->
    <field name="accession_date_year" type="int" indexed="true" stored="true" multiValued="false" />
    <field name="identifier" type="sort_string" indexed="true" stored="true" multiValued="false" />
+   <field name="acquisition_type" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="accession_date" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="resource_type" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="restrictions_apply" type="boolean" indexed="true" stored="true" multiValued="false" />
+   <field name="access_restrictions" type="boolean" indexed="true" stored="true" multiValued="false" />
+   <field name="use_restrictions" type="boolean" indexed="true" stored="true" multiValued="false" />
 
    <!-- Archival Objects store the URI of the resource they belong to (if any) -->
    <field name="resource" type="string" indexed="true" stored="true" multiValued="false" />
@@ -144,6 +150,7 @@
 
    <!-- Sort fields -->
    <field name="title_sort" type="sort_string" indexed="true" stored="false" multiValued="false"/>
+   <field name="acquisition_type_sort" type="sort_string" indexed="true" stored="false" multiValued="false"/>
 
    <!-- Agent and Subject fields -->
    <field name="authority_id" type="string" indexed="true" stored="true" multiValued="false" />
@@ -284,6 +291,8 @@
 
   <!-- Copy fields ... perhaps for sort fields -->
   <copyField source="title" dest="title_sort"/>
+  <copyField source="acquisition_type" dest="acquisition_type_sort"/>
+
   <copyField source="json" dest="fullrecord"/>
   <copyField source="subjects" dest="subjects_text"/>
   <copyField source="agents" dest="agents_text"/>
