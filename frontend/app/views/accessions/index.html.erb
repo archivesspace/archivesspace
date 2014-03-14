@@ -3,16 +3,8 @@
 <%
    @show_multiselect_column = user_can?("delete_archival_record")
 
-   (1..5).to_a.each do |n|
-     prop = user_prefs["accession_browse_column_#{n}"]
-     if prop
-       add_column(I18n.t("accession.#{prop}"),
-                  proc { |record|
-                    v = record[prop] || ASUtils.json_parse(record['json'])[prop]
-                    I18n.t("enumerations.accession_#{prop}.#{v}", :default => v.to_s)
-                  }, :sortable => true, :sort_by => prop)
-     end
-   end
+   add_browse_columns("accession")
+
 %>
 
 <div class="row-fluid">
