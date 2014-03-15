@@ -6,18 +6,50 @@
       <%= form.label_and_boolean "publish", {}, form.default_for("publish") %>
 
       <h3><%= I18n.t "defaults.accession_browse_section" %></h3>
-      <%= form.label_and_select "accession_browse_column_1", form.possible_options_for("accession_browse_column_1", true) %>
-      <%= form.label_and_select "accession_browse_column_2", form.possible_options_for("accession_browse_column_2", true) %>
-      <%= form.label_and_select "accession_browse_column_3", form.possible_options_for("accession_browse_column_3", true) %>
-      <%= form.label_and_select "accession_browse_column_4", form.possible_options_for("accession_browse_column_4", true) %>
-      <%= form.label_and_select "accession_browse_column_5", form.possible_options_for("accession_browse_column_5", true) %>
+      <%= form.label_and_select("accession_browse_column_1",
+                                form.possible_options_for("accession_browse_column_1",
+                                                          true,
+                                                          {:i18n_prefix => "accession"})) %>
+      <%= form.label_and_select("accession_browse_column_2",
+                                form.possible_options_for("accession_browse_column_2",
+                                                          true,
+                                                          {:i18n_prefix => "accession"})) %>
+      <%= form.label_and_select("accession_browse_column_3",
+                                form.possible_options_for("accession_browse_column_3",
+                                                          true,
+                                                          {:i18n_prefix => "accession"})) %>
+      <%= form.label_and_select("accession_browse_column_4",
+                                form.possible_options_for("accession_browse_column_4",
+                                                          true,
+                                                          {:i18n_prefix => "accession"})) %>
+      <%= form.label_and_select("accession_browse_column_5",
+                                form.possible_options_for("accession_browse_column_5",
+                                                          true,
+                                                          {:i18n_prefix => "accession"})) %>
+
 
       <h3><%= I18n.t "defaults.resource_browse_section" %></h3>
-      <%= form.label_and_select "resource_browse_column_1", form.possible_options_for("resource_browse_column_1", true) %>
-      <%= form.label_and_select "resource_browse_column_2", form.possible_options_for("resource_browse_column_2", true) %>
-      <%= form.label_and_select "resource_browse_column_3", form.possible_options_for("resource_browse_column_3", true) %>
-      <%= form.label_and_select "resource_browse_column_4", form.possible_options_for("resource_browse_column_4", true) %>
-      <%= form.label_and_select "resource_browse_column_5", form.possible_options_for("resource_browse_column_5", true) %>
+      <%= form.label_and_select("resource_browse_column_1",
+                                form.possible_options_for("resource_browse_column_1",
+                                                          true,
+                                                          {:i18n_prefix => "resource"})) %>
+      <%= form.label_and_select("resource_browse_column_2",
+                                form.possible_options_for("resource_browse_column_2",
+                                                          true,
+                                                          {:i18n_prefix => "resource"})) %>
+      <%= form.label_and_select("resource_browse_column_3",
+                                form.possible_options_for("resource_browse_column_3",
+                                                          true,
+                                                          {:i18n_prefix => "resource"})) %>
+      <%= form.label_and_select("resource_browse_column_4",
+                                form.possible_options_for("resource_browse_column_4",
+                                                          true,
+                                                          {:i18n_prefix => "resource"})) %>
+      <%= form.label_and_select("resource_browse_column_5",
+                                form.possible_options_for("resource_browse_column_5",
+                                                          true,
+                                                          {:i18n_prefix => "resource"})) %>
+
 
       <%= form.hidden_input "junk", "bin me please" %>
    </div>
