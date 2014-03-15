@@ -574,7 +574,7 @@ module AspaceFormHelper
 
     def options_for(context, property, add_empty_options = false, opts = {})
       options = []
-      options.push(["",""]) if add_empty_options
+      options.push([(opts[:empty_label] || ""),""]) if add_empty_options
 
       defn = jsonmodel_schema_definition(property)
 

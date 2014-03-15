@@ -7,6 +7,13 @@ class PreferencesController < ApplicationController
     user_prefix = params['repo'] ? '' : 'user_'
     @current_prefs, global_repo_id = current_preferences
     @defaults = @current_prefs['defaults']
+    level = "#{user_prefix}#{scope}"
+    @parent_level = ''
+    ['global', 'user_global', 'repo', 'user_repo'].each do |lev|
+      break if lev == level
+      @parent_level = lev
+    end
+    @inherited_defaults = @current_prefs["defaults_#{@parent_level}"]
     opts = {}
     if params['global']
       opts[:repo_id] = global_repo_id

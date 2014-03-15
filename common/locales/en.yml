@@ -1718,26 +1718,28 @@ en:
     publish_tooltip: Whether to publish new records by default.
     accession_browse_section: Accession Browse Columns
     accession_browse_column_1: Column 1
-    accession_browse_column_1_tooltip: The field to show in column 1. Leave blank to accept the default.
+    accession_browse_column_1_tooltip: The field to show in column 1.
     accession_browse_column_2: Column 2
-    accession_browse_column_2_tooltip: The field to show in column 2. Leave blank to accept the default.
+    accession_browse_column_2_tooltip: The field to show in column 2.
     accession_browse_column_3: Column 3
-    accession_browse_column_3_tooltip: The field to show in column 3. Leave blank to accept the default.
+    accession_browse_column_3_tooltip: The field to show in column 3.
     accession_browse_column_4: Column 4
-    accession_browse_column_4_tooltip: The field to show in column 4. Leave blank to accept the default.
+    accession_browse_column_4_tooltip: The field to show in column 4.
     accession_browse_column_5: Column 5
-    accession_browse_column_5_tooltip: The field to show in column 5. Leave blank to accept the default.
+    accession_browse_column_5_tooltip: The field to show in column 5.
     resource_browse_section: Resource Browse Columns
     resource_browse_column_1: Column 1
-    resource_browse_column_1_tooltip: The field to show in column 1. Leave blank to accept the default.
+    resource_browse_column_1_tooltip: The field to show in column 1.
     resource_browse_column_2: Column 2
-    resource_browse_column_2_tooltip: The field to show in column 2. Leave blank to accept the default.
+    resource_browse_column_2_tooltip: The field to show in column 2.
     resource_browse_column_3: Column 3
-    resource_browse_column_3_tooltip: The field to show in column 3. Leave blank to accept the default.
+    resource_browse_column_3_tooltip: The field to show in column 3.
     resource_browse_column_4: Column 4
-    resource_browse_column_4_tooltip: The field to show in column 4. Leave blank to accept the default.
+    resource_browse_column_4_tooltip: The field to show in column 4.
     resource_browse_column_5: Column 5
-    resource_browse_column_5_tooltip: The field to show in column 5. Leave blank to accept the default.
+    resource_browse_column_5_tooltip: The field to show in column 5.
+    accept_default_message: '>> Accept Default:'
+    no_value: '[no value]'
     _singular: Defaults
     _plural: Defaults
 
