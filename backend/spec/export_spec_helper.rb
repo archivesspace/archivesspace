@@ -1,7 +1,7 @@
 require 'nokogiri'
 require 'i18n'
 require 'asutils'
-require_relative 'converter_spec_helper'
+require_relative 'json_record_spec_helper'
 require_relative 'custom_matchers'
 require 'jsonmodel'
 require 'factory_girl'

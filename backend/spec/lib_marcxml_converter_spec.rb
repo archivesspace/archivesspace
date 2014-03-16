@@ -1,22 +1,12 @@
 require 'spec_helper'
-require_relative '../app/converters/marcxml_converter.rb'
+require 'converter_spec_helper'
+
+require_relative '../app/converters/marcxml_converter'
 
 describe 'MARCXML converter' do
-
-  def get_input_path(src)
-    tmp = ASUtils.tempfile("doc-#{Time.now.to_i}")
-    tmp.write(src)
-    tmp.flush
-    tmp.path
-  end
-
-  def convert(path_to_some_xml)
-    converter = MarcXMLConverter.new(path_to_some_xml)
-    converter.run
-    json = JSON(IO.read(converter.get_output_path))
-
-    json
-  end
+  let(:my_converter) {
+    MarcXMLConverter
+  }
 
 
   describe "Basic MARCXML to ASPACE mappings" do
@@ -76,7 +66,7 @@ describe 'MARCXML converter' do
      </collection>
 END
 
-      get_input_path(src)
+      get_tempfile_path(src)
     }
 
 
@@ -374,7 +364,7 @@ END
 </marc:collection>
 
 marc
-      get_input_path(src)
+      get_tempfile_path(src)
     }
 
     it "doesn't try to set an end date if the controlfield has blank values" do
@@ -485,7 +475,7 @@ ROTFL
   </foo:collection>
 MARC
 
-      get_input_path(src)
+      get_tempfile_path(src)
     }
 
     let (:record_doc) {
@@ -501,7 +491,7 @@ MARC
     </foo:datafield>
   </foo:record>
 MARC
-      get_input_path(src)
+      get_tempfile_path(src)
     }
 
     it "ignores namespaces declared at the record node" do
@@ -530,7 +520,7 @@ MARC
     </datafield>
   </record>
 MARC
-      get_input_path(src)
+      get_tempfile_path(src)
     end
 
     let (:subclass) {

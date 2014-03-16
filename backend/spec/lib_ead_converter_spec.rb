@@ -1,16 +1,13 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
+require 'converter_spec_helper'
+
 require_relative '../app/converters/ead_converter'
 
 describe 'EAD converter' do
-
-  def convert(path_to_some_xml)
-    converter = EADConverter.new(path_to_some_xml)
-    converter.run
-    json = JSON(IO.read(converter.get_output_path))
-
-    json
-  end
+  let(:my_converter) {
+    EADConverter
+  }
 
 
   let (:test_doc_1) {
@@ -27,10 +24,7 @@ describe 'EAD converter' do
 </c>
 ANEAD
 
-    tmp = ASUtils.tempfile("doc1")
-    tmp.write(src)
-    tmp.close
-    tmp.path
+    get_tempfile_path(src)
   }
 
 
@@ -45,11 +39,12 @@ ANEAD
 
 
   describe "EAD Import Mappings" do
+    let(:test_file) {
+      File.expand_path("../app/exporters/examples/ead/at-tracer.xml", File.dirname(__FILE__))
+    }
 
-    def convert_test_file
-      converter = EADConverter.new(File.expand_path("../app/exporters/examples/ead/at-tracer.xml", File.dirname(__FILE__)))
-      converter.run
-      parsed = JSON(IO.read(converter.get_output_path))
+    before(:all) do
+      parsed = convert(test_file)
 
       @corps = parsed.select {|rec| rec['jsonmodel_type'] == 'agent_corporate_entity'}
       @families = parsed.select {|rec| rec['jsonmodel_type'] == 'agent_family'}
@@ -67,11 +62,6 @@ ANEAD
       }
 
       @resource = parsed.select {|rec| rec['jsonmodel_type'] == 'resource'}.last
-    end
-
-
-    before(:all) do
-      convert_test_file
     end
 
 
@@ -611,16 +601,11 @@ ANEAD
 </ead>
 ANEAD
 
-      tmp = ASUtils.tempfile("doc1")
-      tmp.write(src)
-      tmp.close
-      tmp.path
+      get_tempfile_path(src)
     }
 
     before do
-      converter = EADConverter.new(test_doc)
-      converter.run
-      parsed = JSON(IO.read(converter.get_output_path))
+      parsed = convert(test_doc)
       @resource = parsed.find{|r| r['jsonmodel_type'] == 'resource'}
       @components = parsed.select{|r| r['jsonmodel_type'] == 'archival_object'}
     end      
@@ -678,16 +663,11 @@ ANEAD
 </ead>
 ANEAD
 
-      tmp = ASUtils.tempfile("doc1")
-      tmp.write(src)
-      tmp.close
-      tmp.path
+      get_tempfile_path(src)
     }
 
     before do
-      converter = EADConverter.new(test_doc)
-      converter.run
-      parsed = JSON(IO.read(converter.get_output_path))
+      parsed = convert(test_doc)
       @resource = parsed.find{|r| r['jsonmodel_type'] == 'resource'}
       @component = parsed.find{|r| r['jsonmodel_type'] == 'archival_object'}
     end
@@ -732,10 +712,7 @@ ANEAD
 </ead>
 ANEAD
 
-      tmp = ASUtils.tempfile("doc")
-      tmp.write(src)
-      tmp.close
-      tmp.path
+      get_tempfile_path(src)
     }
 
     it "maps the unittitle tag correctly" do

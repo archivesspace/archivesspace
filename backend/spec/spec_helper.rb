@@ -10,7 +10,7 @@ if ENV['COVERAGE_REPORTS'] == 'true'
 end
 
 require_relative "../app/model/db"
-require_relative "converter_spec_helper"
+require_relative "json_record_spec_helper"
 require_relative "custom_matchers"
 
 
