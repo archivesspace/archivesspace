@@ -385,6 +385,88 @@ marc
   end
 
 
+  describe "Name Order handling" do
+    let(:name_order_test_doc) {
+      src = <<ROTFL
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <record>
+    <leader>00000npc a2200000 u 4500</leader>
+    <controlfield tag="008">130109i19601970xx                  eng d</controlfield>
+
+    <datafield tag="100" ind1="1">
+      <subfield code="a">a1</subfield>
+      <subfield code="b">b1</subfield>
+      <subfield code="c">c1</subfield>
+      <subfield code="d">d1</subfield>
+      <subfield code="e">e1</subfield>
+      <subfield code="f">f1</subfield>
+    </datafield>
+    <datafield tag="100" ind1="0">
+      <subfield code="a">a2</subfield>
+      <subfield code="b">b2</subfield>
+      <subfield code="c">c2</subfield>
+      <subfield code="d">d2</subfield>
+      <subfield code="e">e2</subfield>
+      <subfield code="f">f2</subfield>
+    </datafield>
+    <datafield tag="600" ind1="1">
+      <subfield code="a">a3</subfield>
+      <subfield code="b">b3</subfield>
+      <subfield code="c">c3</subfield>
+      <subfield code="d">d3</subfield>
+      <subfield code="e">e3</subfield>
+      <subfield code="f">f3</subfield>
+    </datafield>
+    <datafield tag="600" ind1="0">
+      <subfield code="a">a4</subfield>
+      <subfield code="b">b4</subfield>
+      <subfield code="c">c4</subfield>
+      <subfield code="d">d4</subfield>
+      <subfield code="e">e4</subfield>
+      <subfield code="f">f4</subfield>
+    </datafield>
+    <datafield tag="700" ind1="1">
+      <subfield code="a">a5</subfield>
+      <subfield code="b">b5</subfield>
+      <subfield code="c">c5</subfield>
+      <subfield code="d">d5</subfield>
+      <subfield code="e">e5</subfield>
+      <subfield code="f">f5</subfield>
+    </datafield>
+    <datafield tag="700" ind1="0">
+      <subfield code="a">a6</subfield>
+      <subfield code="b">b6</subfield>
+      <subfield code="c">c6</subfield>
+      <subfield code="d">d6</subfield>
+      <subfield code="e">e6</subfield>
+      <subfield code="f">f6</subfield>
+    </datafield>
+  </record>
+</collection>
+ROTFL
+
+      get_input_path(src)
+    }
+
+    before(:all) do
+      converter = MarcXMLConverter.for_subjects_and_agents_only(name_order_test_doc)
+      converter.run
+      json = JSON(IO.read(converter.get_output_path))
+      @people = json.select{|r| r['jsonmodel_type'] == 'agent_person'}
+    end
+
+    it "imports name_person subrecords with the correct name_order" do
+      puts @people.inspect
+      names = @people.map {|person| person['names'][0] }
+      names = names.sort_by{|name| name['primary_name'] }
+      puts names.inspect
+
+      names.map{|name| name['name_order']}.should eq(%w(direct indirect direct indirect direct indirect))
+    end
+  end
+
+
   describe "Namespace handling" do
 
     let (:collection_doc) {

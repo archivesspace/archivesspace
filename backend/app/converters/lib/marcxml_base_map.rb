@@ -234,6 +234,7 @@ module MarcXMLBaseMap
         },
         "self::datafield" => {
           :map => {
+            "@ind1" => sets_name_order_from_ind1,
             "subfield[@code='v']" => adds_prefixed_qualifier('Form subdivision'),
             "subfield[@code='x']" => adds_prefixed_qualifier('General subdivision'),
             "subfield[@code='y']" => adds_prefixed_qualifier('Chronological subdivision'),
@@ -257,6 +258,7 @@ module MarcXMLBaseMap
         "subfield[@code='z']" => adds_agent_term('geographic'),
         "self::datafield" => {
           :map => {
+            "@ind1" => sets_name_order_from_ind1,
             "@ind2" => sets_name_source_from_code,
             "subfield[@code='2']" => sets_other_name_source
           }
@@ -341,6 +343,18 @@ module MarcXMLBaseMap
         term.vocabulary = '/vocabularies/1'
         agent['_terms'] << term
       end
+    }
+  end
+
+
+  def sets_name_order_from_ind1
+    Proc.new {|name, node|
+      name['name_order'] = case node.value
+                           when '1'
+                             'direct'
+                           when '0'
+                             'indirect'
+                           end
     }
   end
 
@@ -846,7 +860,7 @@ module MarcXMLBaseMap
         # LINKED AGENTS (PERSON)
         "datafield[@tag='100' or @tag='700'][@ind1='0' or @ind1='1']" => mix(person_template, creators_and_sources),
 
-        "datafield[@tag='600'][@ind1='1']" => mix(person_template, agent_as_subject),
+        "datafield[@tag='600'][@ind1='0' or @ind1='1']" => mix(person_template, agent_as_subject),
 
         # LINKED AGENTS (FAMILY)
         "datafield[@tag='100' or @tag='700'][@ind1='3']" => mix(family_template, creators_and_sources),
