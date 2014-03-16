@@ -158,27 +158,17 @@ describe 'Export Mappings' do
 
 
     before(:all) do
-      RequestContext.in_global_repo do
-        @pref = create(:json_preference,
-                       :defaults => build(:json_defaults, :publish => true),
-                       :user_id => User.find(:username => 'admin').id)
-      end
 
       as_test_user("admin") do
         DB.open(true) do
           load_export_fixtures
-          @doc = get_xml_doc("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml")
+          @doc = get_xml_doc("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
           @doc_nsless = Nokogiri::XML::Document.parse(@doc.to_xml)
           @doc_nsless.remove_namespaces!
 
           raise Sequel::Rollback
         end
       end
-    end
-
-
-    after(:all) do
-      @pref.delete
     end
 
 

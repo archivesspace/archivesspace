@@ -59,8 +59,7 @@ en:
     delete_multiple_confirm_title: Delete Records?
     delete_multiple_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove these records from the database, including any references they have to other records.</p>"
     export_eac: Download EAC-CPF
-    export_ead: Download EAD (excl. unpublished)
-    export_ead_unpub: Download EAD (incl. unpublished)
+    export_ead: Download EAD
     export_mods: Download MODS
     export_mets: Download METS
     export_marc: Download MARCXML
@@ -79,6 +78,11 @@ en:
 
   states:
     auto_generated: System generates when saved
+
+  export_options:
+    include_unpublished: Include unpublished
+    include_daos: Include &lt;dao&gt; tags
+    numbered_cs: Use numbered &lt;c&gt; tags
 
   pagination:
     first: First
