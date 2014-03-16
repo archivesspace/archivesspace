@@ -1738,7 +1738,7 @@ en:
     resource_browse_column_4_tooltip: The field to show in column 4.
     resource_browse_column_5: Column 5
     resource_browse_column_5_tooltip: The field to show in column 5.
-    accept_default_message: '>> Accept Default:'
+    accept_default_message: '> Accept Default:'
     no_value: '[no value]'
     _singular: Defaults
     _plural: Defaults

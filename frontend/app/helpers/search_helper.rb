@@ -101,7 +101,7 @@ module SearchHelper
   def add_browse_columns(model, enum_locales = {})
     (1..5).to_a.each do |n|
       prop = user_prefs["#{model}_browse_column_#{n}"]
-      if prop
+      if prop && prop != 'no_value'
         enum_locale_key = enum_locales.has_key?(prop) ? enum_locales[prop] : "#{model}_#{prop}"
         add_column(I18n.t("#{model}.#{prop}"),
                    proc { |record|

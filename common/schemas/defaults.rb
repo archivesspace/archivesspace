@@ -1,11 +1,11 @@
 accession_browse_column_enum = [
                       "identifier", "accession_date", "acquisition_type", "resource_type",
                       "restrictions_apply", "access_restrictions", "use_restrictions",
-                      "publish"
+                      "publish", 'no_value'
                      ]
 resource_browse_column_enum = [
                       "identifier", "resource_type", "level", "language", "restrictions",
-                      "ead_id", "finding_aid_status", "publish"
+                      "ead_id", "finding_aid_status", "publish", 'no_value'
                      ]
 {
   :schema => {

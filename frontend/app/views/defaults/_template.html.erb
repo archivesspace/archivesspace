@@ -17,7 +17,8 @@
                                                                     (@inherited_defaults["accession_browse_column_#{n}"] ?
                                                                        I18n.t("accession." +
                                                                          @inherited_defaults["accession_browse_column_#{n}"]) :
-                                                                       I18n.t("defaults.no_value"))}))
+                                                                       I18n.t("defaults.no_value")),
+                                                                   :i18n_path_for => {'no_value' => 'defaults.no_value'}}))
         end
         out.html_safe
       %>
