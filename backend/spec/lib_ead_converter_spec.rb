@@ -722,4 +722,39 @@ ANEAD
     end
 
   end
+
+
+  describe "Mapping the langmaterial tag" do
+    let (:test_doc) {
+          src = <<ANEAD
+<ead>
+  <archdesc level="collection" audience="internal">
+    <did>
+      <unittitle>Title</unittitle>
+      <unitid>Resource.ID.AT</unitid>
+      <langmaterial>
+        <language langcode="eng">English</language>
+      </langmaterial>
+      <physdesc>
+        <extent>5.0 Linear feet</extent>
+        <extent>Resource-ContainerSummary-AT</extent>
+      </physdesc>
+    </did>
+  </archdesc>
+</ead>
+ANEAD
+
+      get_tempfile_path(src)
+    }
+
+    it "should map the langcode to language, and the language text to a note" do
+      json = convert(test_doc)
+      resource = json.select {|rec| rec['jsonmodel_type'] == 'resource'}.last
+      resource['language'].should eq('eng')
+
+      langmaterial = get_note_by_type(resource, 'langmaterial')
+      note_content(langmaterial).should eq('English')
+    end
+  end
+
 end

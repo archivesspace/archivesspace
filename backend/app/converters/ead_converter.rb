@@ -227,7 +227,11 @@ class EADConverter < Converter
       with note do |node|
         content = inner_xml
         next if content =~ /\A<language langcode=\"[a-z]+\"\/>\Z/
-        
+
+        if content.match(/\A<language langcode=\"[a-z]+\"\s*>([^<]+)<\/language>\Z/)
+          content = $1
+        end
+
         make :note_singlepart, {
           :type => note,
           :persistent_id => att('id'),
