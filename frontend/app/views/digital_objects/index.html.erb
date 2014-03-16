@@ -2,6 +2,9 @@
 
 <%
   @show_multiselect_column = user_can?("delete_archival_record")
+
+  add_browse_columns("digital_object")
+
 %>
 
 <div class="row-fluid">

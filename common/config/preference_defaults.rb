@@ -15,4 +15,9 @@
   'resource_browse_column_3' => '',
   'resource_browse_column_4' => '',
   'resource_browse_column_5' => '',
+  'digital_object_browse_column_1' => '',
+  'digital_object_browse_column_2' => '',
+  'digital_object_browse_column_3' => '',
+  'digital_object_browse_column_4' => '',
+  'digital_object_browse_column_5' => '',
 }

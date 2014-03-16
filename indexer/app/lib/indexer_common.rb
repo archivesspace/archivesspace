@@ -193,6 +193,10 @@ class CommonIndexer
 
       if doc['primary_type'] == 'digital_object'
         doc['digital_object_type'] = record['record']['digital_object_type']
+
+        doc['digital_object_id'] = record['record']['digital_object_id']
+        doc['level'] = record['record']['level']
+        doc['restrictions'] = record['record']['restrictions']
       end
     }
 

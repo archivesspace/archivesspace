@@ -168,6 +168,9 @@ en:
     restrictions: Restrictions
     ead_id: EAD ID
     finding_aid_status: Finding Aid Status
+    digital_object_id: Digital Object ID
+    digital_object_type: Digital Object Type
+    publish: Publish
 
   become-user:
     become-user: Become User

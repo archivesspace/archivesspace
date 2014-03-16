@@ -7,6 +7,10 @@ resource_browse_column_enum = [
                       "identifier", "resource_type", "level", "language", "restrictions",
                       "ead_id", "finding_aid_status", "publish", 'no_value'
                      ]
+digital_object_browse_column_enum = [
+                      "digital_object_id", "digital_object_type", "level", "restrictions",
+                      "publish", 'no_value'
+                     ]
 {
   :schema => {
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
@@ -66,6 +70,32 @@ resource_browse_column_enum = [
       "resource_browse_column_5" => {
         "type" => "string",
         "enum" => resource_browse_column_enum,
+        "required" => false
+      },
+
+      "digital_object_browse_column_1" => {
+        "type" => "string",
+        "enum" => digital_object_browse_column_enum,
+        "required" => false
+      },
+      "digital_object_browse_column_2" => {
+        "type" => "string",
+        "enum" => digital_object_browse_column_enum,
+        "required" => false
+      },
+      "digital_object_browse_column_3" => {
+        "type" => "string",
+        "enum" => digital_object_browse_column_enum,
+        "required" => false
+      },
+      "digital_object_browse_column_4" => {
+        "type" => "string",
+        "enum" => digital_object_browse_column_enum,
+        "required" => false
+      },
+      "digital_object_browse_column_5" => {
+        "type" => "string",
+        "enum" => digital_object_browse_column_enum,
         "required" => false
       },
 

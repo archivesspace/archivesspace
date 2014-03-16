@@ -1738,6 +1738,17 @@ en:
     resource_browse_column_4_tooltip: The field to show in column 4.
     resource_browse_column_5: Column 5
     resource_browse_column_5_tooltip: The field to show in column 5.
+    digital_object_browse_section: Digital_Object Browse Columns
+    digital_object_browse_column_1: Column 1
+    digital_object_browse_column_1_tooltip: The field to show in column 1.
+    digital_object_browse_column_2: Column 2
+    digital_object_browse_column_2_tooltip: The field to show in column 2.
+    digital_object_browse_column_3: Column 3
+    digital_object_browse_column_3_tooltip: The field to show in column 3.
+    digital_object_browse_column_4: Column 4
+    digital_object_browse_column_4_tooltip: The field to show in column 4.
+    digital_object_browse_column_5: Column 5
+    digital_object_browse_column_5_tooltip: The field to show in column 5.
     accept_default_message: '> Accept Default:'
     no_value: '[no value]'
     _singular: Defaults
