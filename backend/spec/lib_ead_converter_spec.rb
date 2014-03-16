@@ -391,11 +391,6 @@ ANEAD
       get_note_by_type(@resource, 'otherfindaid')['persistent_id'].should eq("ref23")
     end
 
-    it "maps '<physdesc>' correctly" do
-      @resource['notes'].find{|n| n['persistent_id'] == 'ref25'}['type'].should eq('physdesc')
-      @archival_objects['02']['notes'].find{|n| n['type'] == 'physdesc'}['content'][0].should eq("<extent>1.0 Linear feet</extent>\n<extent>Resource-C02-ContainerSummary-AT</extent>")
-    end
-
     it "maps '<physfacet>' correctly" do
       note_content(get_note_by_type(@resource, 'physfacet')).should eq("Resource-PhysicalFacet-AT")
     end
@@ -757,4 +752,98 @@ ANEAD
     end
   end
 
+
+  describe "extent and physdesc mapping logic" do
+    let(:doc1) {
+      src = <<ANEAD
+<ead>
+  <archdesc level="collection" audience="internal">
+    <did>
+      <unittitle>Title</unittitle>
+      <unitid>Resource.ID.AT</unitid>
+      <langmaterial>
+        <language langcode="eng">English</language>
+      </langmaterial>
+      <physdesc altrender="whole">
+        <extent altrender="materialtype spaceoccupied">1 Linear Feet</extent>
+      </physdesc>
+      <physdesc altrender="whole">
+        <extent altrender="materialtype spaceoccupied">1 record carton</extent>
+      </physdesc>
+    </did>
+  </archdesc>
+</ead>
+ANEAD
+
+      get_tempfile_path(src)
+    }
+
+    let (:doc2) {
+          src = <<ANEAD
+<ead>
+  <archdesc level="collection" audience="internal">
+    <did>
+      <unittitle>Title</unittitle>
+      <unitid>Resource.ID.AT</unitid>
+      <langmaterial>
+        <language langcode="eng">English</language>
+      </langmaterial>
+      <physdesc altrender="whole">
+        <extent altrender="materialtype spaceoccupied">1 Linear Feet</extent>
+        <extent altrender="materialtype spaceoccupied">1 record carton</extent>
+      </physdesc>
+    </did>
+  </archdesc>
+</ead>
+ANEAD
+
+      get_tempfile_path(src)
+    }
+
+    let (:doc3) {
+          src = <<ANEAD
+<ead>
+  <archdesc level="collection" audience="internal">
+    <did>
+      <unittitle>Title</unittitle>
+      <unitid>Resource.ID.AT</unitid>
+      <langmaterial>
+        <language langcode="eng">English</language>
+      </langmaterial>
+      <physdesc altrender="whole">
+        <extent altrender="materialtype spaceoccupied">1 Linear Feet</extent>
+      </physdesc>
+      <physdesc altrender="whole">
+        <function>whatever</function>
+      </physdesc>
+    </did>
+  </archdesc>
+</ead>
+ANEAD
+
+      get_tempfile_path(src)
+    }
+
+    before(:all) do
+      @resource1 = convert(doc1).select {|rec| rec['jsonmodel_type'] == 'resource'}.last
+      @resource2 = convert(doc2).select {|rec| rec['jsonmodel_type'] == 'resource'}.last
+      @resource3 = convert(doc3).select {|rec| rec['jsonmodel_type'] == 'resource'}.last
+    end
+
+    it "creates a single extent record for each physdec/extent[1] node" do
+      @resource1['extents'].count.should eq(2)
+      @resource2['extents'].count.should eq(1)
+    end
+
+    it "puts additional extent records in extent.container_summary" do
+      @resource2['extents'][0]['container_summary'].should eq('1 record carton')
+    end
+
+    it "maps a physdec node to a note unless it only contains extent tags" do
+      get_notes_by_type(@resource1, 'physdesc').length.should eq(0)
+      get_notes_by_type(@resource2, 'physdesc').length.should eq(0)
+      get_notes_by_type(@resource3, 'physdesc').length.should eq(1)
+    end
+
+  end
 end
