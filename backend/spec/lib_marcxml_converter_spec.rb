@@ -436,7 +436,7 @@ marc
 </collection>
 ROTFL
 
-      get_input_path(src)
+      get_tempfile_path(src)
     }
 
     before(:all) do
@@ -447,10 +447,8 @@ ROTFL
     end
 
     it "imports name_person subrecords with the correct name_order" do
-      puts @people.inspect
       names = @people.map {|person| person['names'][0] }
       names = names.sort_by{|name| name['primary_name'] }
-      puts names.inspect
 
       names.map{|name| name['name_order']}.should eq(%w(direct indirect direct indirect direct indirect))
     end
