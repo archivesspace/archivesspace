@@ -1126,7 +1126,7 @@ end
 
     it "can suppress an Accession" do
       # make sure we can see suppressed records
-      $driver.find_element(:link, 'System').click
+      $driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
       $driver.find_element(:link, "My Repository Preferences").click
 
       elt = $driver.find_element(:xpath, '//input[@id="preference_defaults__show_suppressed_"]')
