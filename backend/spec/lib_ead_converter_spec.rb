@@ -1,16 +1,13 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
+require 'converter_spec_helper'
+
 require_relative '../app/converters/ead_converter'
 
 describe 'EAD converter' do
-
-  def convert(path_to_some_xml)
-    converter = EADConverter.new(path_to_some_xml)
-    converter.run
-    json = JSON(IO.read(converter.get_output_path))
-
-    json
-  end
+  let(:my_converter) {
+    EADConverter
+  }
 
 
   let (:test_doc_1) {
@@ -27,10 +24,7 @@ describe 'EAD converter' do
 </c>
 ANEAD
 
-    tmp = ASUtils.tempfile("doc1")
-    tmp.write(src)
-    tmp.close
-    tmp.path
+    get_tempfile_path(src)
   }
 
 
@@ -45,11 +39,12 @@ ANEAD
 
 
   describe "EAD Import Mappings" do
+    let(:test_file) {
+      File.expand_path("../app/exporters/examples/ead/at-tracer.xml", File.dirname(__FILE__))
+    }
 
-    def convert_test_file
-      converter = EADConverter.new(File.expand_path("../app/exporters/examples/ead/at-tracer.xml", File.dirname(__FILE__)))
-      converter.run
-      parsed = JSON(IO.read(converter.get_output_path))
+    before(:all) do
+      parsed = convert(test_file)
 
       @corps = parsed.select {|rec| rec['jsonmodel_type'] == 'agent_corporate_entity'}
       @families = parsed.select {|rec| rec['jsonmodel_type'] == 'agent_family'}
@@ -67,11 +62,6 @@ ANEAD
       }
 
       @resource = parsed.select {|rec| rec['jsonmodel_type'] == 'resource'}.last
-    end
-
-
-    before(:all) do
-      convert_test_file
     end
 
 
@@ -401,11 +391,6 @@ ANEAD
       get_note_by_type(@resource, 'otherfindaid')['persistent_id'].should eq("ref23")
     end
 
-    it "maps '<physdesc>' correctly" do
-      @resource['notes'].find{|n| n['persistent_id'] == 'ref25'}['type'].should eq('physdesc')
-      @archival_objects['02']['notes'].find{|n| n['type'] == 'physdesc'}['content'][0].should eq("<extent>1.0 Linear feet</extent>\n<extent>Resource-C02-ContainerSummary-AT</extent>")
-    end
-
     it "maps '<physfacet>' correctly" do
       note_content(get_note_by_type(@resource, 'physfacet')).should eq("Resource-PhysicalFacet-AT")
     end
@@ -611,16 +596,11 @@ ANEAD
 </ead>
 ANEAD
 
-      tmp = ASUtils.tempfile("doc1")
-      tmp.write(src)
-      tmp.close
-      tmp.path
+      get_tempfile_path(src)
     }
 
     before do
-      converter = EADConverter.new(test_doc)
-      converter.run
-      parsed = JSON(IO.read(converter.get_output_path))
+      parsed = convert(test_doc)
       @resource = parsed.find{|r| r['jsonmodel_type'] == 'resource'}
       @components = parsed.select{|r| r['jsonmodel_type'] == 'archival_object'}
     end      
@@ -678,16 +658,11 @@ ANEAD
 </ead>
 ANEAD
 
-      tmp = ASUtils.tempfile("doc1")
-      tmp.write(src)
-      tmp.close
-      tmp.path
+      get_tempfile_path(src)
     }
 
     before do
-      converter = EADConverter.new(test_doc)
-      converter.run
-      parsed = JSON(IO.read(converter.get_output_path))
+      parsed = convert(test_doc)
       @resource = parsed.find{|r| r['jsonmodel_type'] == 'resource'}
       @component = parsed.find{|r| r['jsonmodel_type'] == 'archival_object'}
     end
@@ -732,16 +707,142 @@ ANEAD
 </ead>
 ANEAD
 
-      tmp = ASUtils.tempfile("doc")
-      tmp.write(src)
-      tmp.close
-      tmp.path
+      get_tempfile_path(src)
     }
 
     it "maps the unittitle tag correctly" do
       json = convert(test_doc)
       resource = json.find{|r| r['jsonmodel_type'] == 'resource'}
       resource['title'].should eq("一般行政文件 [2]")
+    end
+
+  end
+
+
+  describe "Mapping the langmaterial tag" do
+    let (:test_doc) {
+          src = <<ANEAD
+<ead>
+  <archdesc level="collection" audience="internal">
+    <did>
+      <unittitle>Title</unittitle>
+      <unitid>Resource.ID.AT</unitid>
+      <langmaterial>
+        <language langcode="eng">English</language>
+      </langmaterial>
+      <physdesc>
+        <extent>5.0 Linear feet</extent>
+        <extent>Resource-ContainerSummary-AT</extent>
+      </physdesc>
+    </did>
+  </archdesc>
+</ead>
+ANEAD
+
+      get_tempfile_path(src)
+    }
+
+    it "should map the langcode to language, and the language text to a note" do
+      json = convert(test_doc)
+      resource = json.select {|rec| rec['jsonmodel_type'] == 'resource'}.last
+      resource['language'].should eq('eng')
+
+      langmaterial = get_note_by_type(resource, 'langmaterial')
+      note_content(langmaterial).should eq('English')
+    end
+  end
+
+
+  describe "extent and physdesc mapping logic" do
+    let(:doc1) {
+      src = <<ANEAD
+<ead>
+  <archdesc level="collection" audience="internal">
+    <did>
+      <unittitle>Title</unittitle>
+      <unitid>Resource.ID.AT</unitid>
+      <langmaterial>
+        <language langcode="eng">English</language>
+      </langmaterial>
+      <physdesc altrender="whole">
+        <extent altrender="materialtype spaceoccupied">1 Linear Feet</extent>
+      </physdesc>
+      <physdesc altrender="whole">
+        <extent altrender="materialtype spaceoccupied">1 record carton</extent>
+      </physdesc>
+    </did>
+  </archdesc>
+</ead>
+ANEAD
+
+      get_tempfile_path(src)
+    }
+
+    let (:doc2) {
+          src = <<ANEAD
+<ead>
+  <archdesc level="collection" audience="internal">
+    <did>
+      <unittitle>Title</unittitle>
+      <unitid>Resource.ID.AT</unitid>
+      <langmaterial>
+        <language langcode="eng">English</language>
+      </langmaterial>
+      <physdesc altrender="whole">
+        <extent altrender="materialtype spaceoccupied">1 Linear Feet</extent>
+        <extent altrender="materialtype spaceoccupied">1 record carton</extent>
+      </physdesc>
+    </did>
+  </archdesc>
+</ead>
+ANEAD
+
+      get_tempfile_path(src)
+    }
+
+    let (:doc3) {
+          src = <<ANEAD
+<ead>
+  <archdesc level="collection" audience="internal">
+    <did>
+      <unittitle>Title</unittitle>
+      <unitid>Resource.ID.AT</unitid>
+      <langmaterial>
+        <language langcode="eng">English</language>
+      </langmaterial>
+      <physdesc altrender="whole">
+        <extent altrender="materialtype spaceoccupied">1 Linear Feet</extent>
+      </physdesc>
+      <physdesc altrender="whole">
+        <function>whatever</function>
+      </physdesc>
+    </did>
+  </archdesc>
+</ead>
+ANEAD
+
+      get_tempfile_path(src)
+    }
+
+    before(:all) do
+      @resource1 = convert(doc1).select {|rec| rec['jsonmodel_type'] == 'resource'}.last
+      @resource2 = convert(doc2).select {|rec| rec['jsonmodel_type'] == 'resource'}.last
+      @resource3 = convert(doc3).select {|rec| rec['jsonmodel_type'] == 'resource'}.last
+    end
+
+    it "creates a single extent record for each physdec/extent[1] node" do
+      @resource1['extents'].count.should eq(2)
+      @resource2['extents'].count.should eq(1)
+    end
+
+    it "puts additional extent records in extent.container_summary" do
+      @resource2['extents'][0]['container_summary'].should eq('1 record carton')
+    end
+
+    it "maps a physdec node to a note unless it only contains extent tags" do
+      get_notes_by_type(@resource1, 'physdesc').length.should eq(0)
+      get_notes_by_type(@resource2, 'physdesc').length.should eq(0)
+      get_notes_by_type(@resource3, 'physdesc').length.should eq(1)
     end
 
   end
