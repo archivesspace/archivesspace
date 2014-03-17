@@ -8,7 +8,7 @@ describe 'The ArchivesSpaceService app' do
   end
   
 
-  it "gives you TMI is you ask in JSON" do
+  it "gives you TMI if you ask in JSON" do
     get '/', nil, {'HTTP_ACCEPT' => "application/json"}
     last_response.should be_ok
     json = JSON.parse(last_response.body)
