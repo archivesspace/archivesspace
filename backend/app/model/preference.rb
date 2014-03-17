@@ -127,6 +127,7 @@ class Preference < Sequel::Model(:preference)
     [:global, :user_global, :repo, :user_repo].each do |k|
       if prefs[k]
         json_prefs['defaults'].merge!(prefs[k].parsed_defaults)
+        json_prefs["defaults_#{k}"] = json_prefs['defaults'].clone
       end
     end
     json_prefs['defaults'].delete('jsonmodel_type')

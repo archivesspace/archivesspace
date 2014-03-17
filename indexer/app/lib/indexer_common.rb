@@ -133,6 +133,13 @@ class CommonIndexer
         doc['accession_date_year'] = Date.parse(record['record']['accession_date']).year
         doc['identifier'] = (0...4).map {|i| record['record']["id_#{i}"]}.compact.join("-")
         doc['title'] = record['record']['display_string']
+
+        doc['acquisition_type'] = record['record']['acquisition_type']
+        doc['accession_date'] = record['record']['accession_date']
+        doc['resource_type'] = record['record']['resource_type']
+        doc['restrictions_apply'] = record['record']['restrictions_apply']
+        doc['access_restrictions'] = record['record']['access_restrictions']
+        doc['use_restrictions'] = record['record']['use_restrictions']
       end
     }
 
@@ -176,10 +183,20 @@ class CommonIndexer
       if doc['primary_type'] == 'resource'
         doc['finding_aid_title'] = record['record']['finding_aid_title'] if record['record']['finding_aid_status'] === 'completed'
         doc['identifier'] = (0...4).map {|i| record['record']["id_#{i}"]}.compact.join("-")
+        doc['resource_type'] = record['record']['resource_type']
+        doc['level'] = record['record']['level']
+        doc['language'] = record['record']['language']
+        doc['restrictions'] = record['record']['restrictions']
+        doc['ead_id'] = record['record']['ead_id']
+        doc['finding_aid_status'] = record['record']['finding_aid_status']
       end
 
       if doc['primary_type'] == 'digital_object'
         doc['digital_object_type'] = record['record']['digital_object_type']
+
+        doc['digital_object_id'] = record['record']['digital_object_id']
+        doc['level'] = record['record']['level']
+        doc['restrictions'] = record['record']['restrictions']
       end
     }
 

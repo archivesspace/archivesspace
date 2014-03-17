@@ -2,7 +2,9 @@
 
 <%
    @show_multiselect_column = user_can?("delete_archival_record")
-   add_column(I18n.t("accession.identifier"), proc {|record| record['identifier']}, :sortable => true, :sort_by => "identifier")
+
+   add_browse_columns("accession")
+
 %>
 
 <div class="row-fluid">

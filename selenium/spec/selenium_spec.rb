@@ -1126,7 +1126,7 @@ end
 
     it "can suppress an Accession" do
       # make sure we can see suppressed records
-      $driver.find_element(:link, 'System').click
+      $driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
       $driver.find_element(:link, "My Repository Preferences").click
 
       elt = $driver.find_element(:xpath, '//input[@id="preference_defaults__show_suppressed_"]')
@@ -3012,5 +3012,37 @@ end
 
   end
 
+  describe "User Preferences" do
+
+    before(:all) do
+      login_as_admin
+    end
+
+
+    after(:all) do
+      logout
+    end
+
+
+    it "allows you to configure browse columns" do
+      create_accession("a browseable accession")
+      run_index_round
+
+      $driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
+      $driver.find_element(:link, "My Repository Preferences").click
+
+
+      $driver.find_element(:id => "preference_defaults__accession_browse_column_1_").select_option_with_text("Acquisition Type")
+      $driver.find_element(:css => 'button[type="submit"]').click
+
+      $driver.find_element(:link => 'Browse').click
+      $driver.find_element(:link => 'Accessions').click
+
+      cells = $driver.find_elements(:css, "table th")
+      cells[1].text.should eq("Title")
+      cells[2].text.should eq("Acquisition Type")
+    end
+
+  end
 
 end

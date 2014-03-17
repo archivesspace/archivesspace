@@ -7,6 +7,12 @@ class PreferencesController < ApplicationController
     user_prefix = params['repo'] ? '' : 'user_'
     @current_prefs, global_repo_id = current_preferences
     @defaults = @current_prefs['defaults']
+    level = "#{user_prefix}#{scope}"
+    @inherited_defaults = @current_prefs["defaults_global"]
+    ['user_global', 'repo', 'user_repo'].each do |lev|
+      break if lev == level
+      @inherited_defaults = @current_prefs["defaults_#{lev}"] if @current_prefs["defaults_#{lev}"]
+    end
     opts = {}
     if params['global']
       opts[:repo_id] = global_repo_id
@@ -62,7 +68,12 @@ class PreferencesController < ApplicationController
   private
 
   def current_preferences
-    current_prefs = JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/current_preferences")
+    if session[:repo_id]
+      current_prefs = JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/current_preferences")
+    else
+      current_prefs = JSONModel::HTTP::get_json("/current_global_preferences")
+    end
+
     repo_id = JSONModel(:repository).id_for(current_prefs['global']['repository']['ref'])
     
     return current_prefs, repo_id
