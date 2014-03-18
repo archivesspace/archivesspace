@@ -136,7 +136,7 @@ class UsersController < ApplicationController
                     backend_session = User.login(params['user']['username'],
                                                params['user']['password'])
 
-                    User.establish_session(session, backend_session, params['user']['username'])
+                    User.establish_session(self, backend_session, params['user']['username'])
 
                     redirect_to :controller => :welcome, :action => :index
 

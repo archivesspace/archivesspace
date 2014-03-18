@@ -3,22 +3,28 @@ require 'json'
 
 class User < JSONModel(:user)
 
-  def self.establish_session(session, backend_session, username)
-    session[:session] = backend_session["session"]
-    session[:permissions] = Permissions.pack(backend_session["user"]["permissions"])
-    session[:last_permission_refresh] = Time.now.to_i
-    session[:user_uri] = backend_session["user"]["uri"]
-    session[:user] = username
+  def self.establish_session(context, backend_session, username)
+    context.session[:session] = backend_session["session"]
+
+    store_permissions(backend_session["user"]["permissions"], context)
+
+    context.session[:user_uri] = backend_session["user"]["uri"]
+    context.session[:user] = username
   end
 
 
-  def self.refresh_permissions(session)
+  def self.refresh_permissions(context)
     user = self.find('current-user')
 
     if user
-      session[:permissions] = Permissions.pack(user.permissions)
-      session[:last_permission_refresh] = Time.now.to_i
+      store_permissions(user.permissions, context)
     end
+  end
+
+
+  def self.store_permissions(permissions, context)
+    context.send(:cookies).signed[:archivesspace_permissions] = ASUtils.to_json(Permissions.pack(permissions))
+    context.session[:last_permission_refresh] = Time.now.to_i
   end
 
 

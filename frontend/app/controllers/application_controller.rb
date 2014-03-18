@@ -35,9 +35,9 @@ class ApplicationController < ActionController::Base
     Array(@permission_mappings)
   end
 
-  def self.can_access?(session, method)
+  def self.can_access?(context, method)
     permission_mappings.each do |permission, actions|
-      if actions.include?(method) && !session_can?(session, permission)
+      if actions.include?(method) && !session_can?(context, permission)
         return false
       end
     end
@@ -218,18 +218,25 @@ class ApplicationController < ActionController::Base
 
   helper_method :user_can?
   def user_can?(permission, repository = nil)
-    self.class.session_can?(session, permission, repository)
+    self.class.session_can?(self, permission, repository)
   end
 
 
-  def self.session_can?(session, permission, repository = nil)
-    repository ||= session[:repo]
+  def self.session_can?(context, permission, repository = nil)
+    repository ||= context.session[:repo]
 
-    (session &&
-     session[:user] &&
-     session[:permissions] &&
-     (Permissions.user_can?(session[:permissions], repository, permission) ||
-      Permissions.user_can?(session[:permissions], ASConstants::Repository.GLOBAL, permission)))
+    return false if !context.session || !context.session[:user]
+
+    permissions_s = context.send(:cookies).signed[:archivesspace_permissions]
+
+    if permissions_s
+      permissions = ASUtils.json_parse(permissions_s)
+    else
+      return false
+    end
+
+    (Permissions.user_can?(permissions, repository, permission) ||
+     Permissions.user_can?(permissions, ASConstants::Repository.GLOBAL, permission))
   end
 
 
@@ -281,7 +288,7 @@ class ApplicationController < ActionController::Base
   def refresh_permissions
     if session[:last_permission_refresh] &&
         session[:last_permission_refresh] < MemoryLeak::Resources.get(:acl_system_mtime)
-      User.refresh_permissions(session)
+      User.refresh_permissions(self)
     end
   end
 
