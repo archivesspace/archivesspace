@@ -25,14 +25,20 @@ module URIResolver
       value = value.to_hash(:trusted) if value.is_a?(JSONModelType)
       value = deep_clone(value) if clone
 
-      find_refs_for_resolving(value)
+      # Walk the tree of 'value' looking for any refs that should be resolved.
+      # Store them on this instance.
+      store_refs_for_resolving(value)
+
+      # Resolve all refs, mutating 'value' to include resolved versions.
       resolve_and_insert_refs!
 
       value
     end
 
 
-    def find_refs_for_resolving(value)
+    private
+
+    def store_refs_for_resolving(value)
       if value.is_a?(Hash)
         value.each do |k, v|
           if properties_matching(k)
@@ -40,18 +46,16 @@ module URIResolver
               mark_for_resolving(elt, properties_matching(k)) if reference?(elt)
             end
           else
-            find_refs_for_resolving(v)
+            store_refs_for_resolving(v)
           end
         end
       elsif value.is_a? Array
         value.each do |elt|
-          find_refs_for_resolving(elt)
+          store_refs_for_resolving(elt)
         end
       end
     end
 
-
-    private
 
     def reference?(val)
       val.is_a?(Hash) && val.has_key?('ref')
@@ -91,6 +95,7 @@ module URIResolver
     def group_resolve_requests(requests)
       grouped = {}
 
+      # Group resolve requests by model and then by repository.
       requests.each do |request|
         ref = request[:ref]
 
@@ -107,6 +112,10 @@ module URIResolver
         grouped[model][repo_id] << request
       end
 
+      # Turn the requests into a flat structure like:
+      #
+      #  [[model1, repo_id1, [r1, r2, r3]], ...]
+      #
       result = []
       grouped.each do |model, repo_requests|
         repo_requests.each do |repo_id, requests|
