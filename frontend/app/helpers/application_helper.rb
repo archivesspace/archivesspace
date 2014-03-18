@@ -216,7 +216,7 @@ module ApplicationHelper
     controller_class_name = "#{name}_controller".classify
     controller_class = Kernel.const_get(controller_class_name)
 
-    controller_class.can_access?(session, :index)
+    controller_class.can_access?(self, :index)
   end
 
 
