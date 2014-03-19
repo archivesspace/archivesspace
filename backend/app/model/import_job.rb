@@ -122,14 +122,18 @@ class ImportJob < Sequel::Model(:import_job)
     end
   end
 
-  def self.sequel_to_jsonmodel(obj, opts = {})
-    filenames = ASUtils.json_parse(obj.filenames || "[]")
-    json = super
-    json.filenames = filenames
-    json.owner = obj.owner.username
-    json.queue_position = obj.queue_position if obj.status === "queued"
 
-    json
+  def self.sequel_to_jsonmodel(objs, opts = {})
+    jsons = super
+
+    jsons.zip(objs).each do |json, obj|
+      filenames = ASUtils.json_parse(obj.filenames || "[]")
+      json.filenames = filenames
+      json.owner = obj.owner.username
+      json.queue_position = obj.queue_position if obj.status === "queued"
+    end
+
+    jsons
   end
 
 

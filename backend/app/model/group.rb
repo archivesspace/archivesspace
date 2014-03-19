@@ -112,16 +112,18 @@ class Group < Sequel::Model(:group)
   end
 
 
-  def self.sequel_to_jsonmodel(obj, opts = {})
-    json = super
+  def self.sequel_to_jsonmodel(objs, opts = {})
+    jsons = super
 
-    if opts[:with_members]
-      json.member_usernames = obj.user.map {|user| user[:username]}
+    jsons.zip(objs).each do |json, obj|
+      if opts[:with_members]
+        json.member_usernames = obj.user.map {|user| user[:username]}
+      end
+
+      json.grants_permissions = obj.permission.map {|permission| permission[:permission_code]}
     end
 
-    json.grants_permissions = obj.permission.map {|permission| permission[:permission_code]}
-
-    json
+    jsons
   end
 
 

@@ -269,16 +269,20 @@ module AgentManager
       end
 
 
-      def sequel_to_jsonmodel(obj, opts = {})
-        json = super
-        json.agent_type = my_agent_type[:jsonmodel].to_s
-        json.linked_agent_roles = obj.linked_agent_roles
+      def sequel_to_jsonmodel(objs, opts = {})
+        jsons = super
 
-        populate_display_name(json)
-        json.title = json['display_name']['sort_name']
+        jsons.zip(objs).each do |json, obj|
+          json.agent_type = my_agent_type[:jsonmodel].to_s
+          json.linked_agent_roles = obj.linked_agent_roles
 
-        json
+          populate_display_name(json)
+          json.title = json['display_name']['sort_name']
+        end
+
+        jsons
       end
+
     end
   end
 end

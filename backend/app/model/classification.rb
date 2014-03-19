@@ -39,10 +39,14 @@ class Classification < Sequel::Model(:classification)
   end
 
 
-  def self.sequel_to_jsonmodel(obj, opts = {})
-    json = super
-    self.set_path_from_root(json)
-    json
+  def self.sequel_to_jsonmodel(objs, opts = {})
+    jsons = super
+
+    jsons.each do |json|
+      self.set_path_from_root(json)
+    end
+
+    jsons
   end
 
 

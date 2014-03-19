@@ -119,24 +119,26 @@ class Enumeration < Sequel::Model(:enumeration)
   end
 
 
-  def self.sequel_to_jsonmodel(obj, opts = {})
-    json = super
+  def self.sequel_to_jsonmodel(objs, opts = {})
+    jsons = super
 
-    values = obj.enumeration_value.map {|enum_value|
-      {
-        :value => enum_value[:value],
-        :readonly => enum_value[:readonly]
+    jsons.zip(objs).each do |json, obj|
+      values = obj.enumeration_value.map {|enum_value|
+        {
+          :value => enum_value[:value],
+          :readonly => enum_value[:readonly]
+        }
       }
-    }
 
-    json['values'] = values.map {|v| v[:value]}
-    json['readonly_values'] = values.map {|v| v[:value] if (v[:readonly] != 0)}.compact
+      json['values'] = values.map {|v| v[:value]}
+      json['readonly_values'] = values.map {|v| v[:value] if (v[:readonly] != 0)}.compact
 
-    if obj.default_value
-      json['default_value'] = EnumerationValue[:id => obj.default_value][:value]
+      if obj.default_value
+        json['default_value'] = EnumerationValue[:id => obj.default_value][:value]
+      end
     end
 
-    json
+    jsons
   end
 
 

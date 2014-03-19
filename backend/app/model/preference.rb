@@ -102,10 +102,10 @@ class Preference < Sequel::Model(:preference)
     if repo_id != Repository.global_repo_id
       self.filter(filter).each do |pref|
         if pref.user_uniq == 'GLOBAL_USER'
-          json_prefs['repo'] = self.sequel_to_jsonmodel(pref)
+          json_prefs['repo'] = self.to_jsonmodel(pref)
           prefs[:repo] = pref
         else
-          json_prefs['user_repo'] = self.sequel_to_jsonmodel(pref)
+          json_prefs['user_repo'] = self.to_jsonmodel(pref)
           prefs[:user_repo] = pref
         end
       end
@@ -115,10 +115,10 @@ class Preference < Sequel::Model(:preference)
       filter = {:repo_id => Repository.global_repo_id, :user_uniq => [user_id.to_s, 'GLOBAL_USER']}
       self.filter(filter).each do |pref|
         if pref.user_uniq == 'GLOBAL_USER'
-          json_prefs['global'] = self.sequel_to_jsonmodel(pref)
+          json_prefs['global'] = self.to_jsonmodel(pref)
           prefs[:global] = pref
         else
-          json_prefs['user_global'] = self.sequel_to_jsonmodel(pref)
+          json_prefs['user_global'] = self.to_jsonmodel(pref)
           prefs[:user_global] = pref
         end
       end
@@ -136,10 +136,14 @@ class Preference < Sequel::Model(:preference)
   end
 
 
-  def self.sequel_to_jsonmodel(obj, opts = {})
-    json = super
-    json['defaults'] = JSONModel(:defaults).from_json(obj.defaults)
-    json
+  def self.sequel_to_jsonmodel(objs, opts = {})
+    jsons = super
+
+    jsons.zip(objs).each do |json, obj|
+      json['defaults'] = JSONModel(:defaults).from_json(obj.defaults)
+    end
+
+    jsons
   end
 
 

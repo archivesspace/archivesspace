@@ -33,11 +33,14 @@ module ImpliedPublication
 
   module ClassMethods
 
-    def sequel_to_jsonmodel(obj, opts = {})
-      json = super
-      json.is_linked_to_published_record = obj.is_published_by_implication?
+    def sequel_to_jsonmodel(objs, opts = {})
+      jsons = super
 
-      json
+      jsons.zip(objs).each do |json, obj|
+        json.is_linked_to_published_record = obj.is_published_by_implication?
+      end
+
+      jsons
     end
 
   end

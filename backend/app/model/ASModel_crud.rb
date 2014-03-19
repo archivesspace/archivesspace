@@ -454,33 +454,64 @@ module ASModel
       end
 
 
-      def sequel_to_jsonmodel(obj, opts = {})
-        json = my_jsonmodel.new(map_db_types_to_json(my_jsonmodel.schema,
-                                                     obj.values.reject {|k, v| v.nil? }))
+      def sequel_to_jsonmodel(objs, opts = {})
+        all_nested = {}
 
-        uri = json.class.uri_for(obj.id, :repo_id => active_repository)
-        json.uri = uri if uri
-
-        if model_scope == :repository
-          json['repository'] = {'ref' => JSONModel(:repository).uri_for(active_repository)}
-        end
-
-        # If there are nested records for this class, grab their URI references too
+        # Load all nested records into memory, doing all of our DB querying up
+        # front (and efficiently)
         nested_records.each do |nested_record|
-          model = Kernel.const_get(nested_record[:association][:class_name])
+          all_nested[nested_record[:json_property]] ||= {}
 
-          records = Array(obj.send(nested_record[:association][:name])).sort_by{|rec| rec[:id]}.map {|linked_obj|
-            model.to_jsonmodel(linked_obj).to_hash(:trusted)
-          }
+          association = nested_record[:association]
 
-          is_array = nested_record[:is_array] && ![:many_to_one, :one_to_one].include?(nested_record[:association][:type])
+          next unless [:one_to_one, :one_to_many].include?(association[:type])
 
-          json[nested_record[:json_property]] = (is_array ? records : records[0])
+          model = Kernel.const_get(association[:class_name])
+          matches = model.filter(association[:key] => objs.map(&:id))
+
+          matches.each do |nested_obj|
+            all_nested[nested_record[:json_property]][nested_obj[association[:key]]] ||= []
+            all_nested[nested_record[:json_property]][nested_obj[association[:key]]] << nested_obj
+          end
         end
 
-        CRUD.set_audit_fields(json, obj)
+        # Walk across the objects we're resolving, link their nested records
+        # back to them, and turn whole lot into JSONModels.
+        objs.map {|obj|
+          json = my_jsonmodel.new(map_db_types_to_json(my_jsonmodel.schema,
+                                                       obj.values.reject {|k, v| v.nil? }))
 
-        json
+          uri = json.class.uri_for(obj.id, :repo_id => active_repository)
+          json.uri = uri if uri
+
+          if model_scope == :repository
+            json['repository'] = {'ref' => JSONModel(:repository).uri_for(active_repository)}
+          end
+
+          # If there are nested records for this class, insert them into our
+          # JSON structure here.
+          nested_records.each do |nested_record|
+            model = Kernel.const_get(nested_record[:association][:class_name])
+
+            if [:one_to_one, :one_to_many].include?(nested_record[:association][:type])
+              nested_objs = all_nested.fetch(nested_record[:json_property], {}).fetch(obj.id, [])
+            else
+              nested_objs = Array(obj.send(nested_record[:association][:name]))
+            end
+
+            records = model.sequel_to_jsonmodel(nested_objs.sort_by{|rec| rec[:id]}).map {|json|
+              json.to_hash(:trusted)
+            }
+
+            is_array = nested_record[:is_array] && ![:many_to_one, :one_to_one].include?(nested_record[:association][:type])
+
+            json[nested_record[:json_property]] = (is_array ? records : records[0])
+          end
+
+          CRUD.set_audit_fields(json, obj)
+
+          json
+        }
       end
 
 
@@ -499,7 +530,7 @@ module ASModel
           obj.eagerly_load!
         end
 
-        sequel_to_jsonmodel(obj, opts)
+        sequel_to_jsonmodel([obj], opts)[0]
       end
 
 

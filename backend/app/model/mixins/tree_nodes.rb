@@ -248,22 +248,24 @@ module TreeNodes
     end
 
 
-    def sequel_to_jsonmodel(obj, opts = {})
-      json = super
+    def sequel_to_jsonmodel(objs, opts = {})
+      jsons = super
 
-      if obj.root_record_id
-        json[root_record_type] = {'ref' => uri_for(root_record_type, obj.root_record_id)}
+      jsons.zip(objs).each do |json, obj|
+        if obj.root_record_id
+          json[root_record_type] = {'ref' => uri_for(root_record_type, obj.root_record_id)}
 
-        if obj.parent_id
-          json.parent = {'ref' => uri_for(node_record_type, obj.parent_id)}
+          if obj.parent_id
+            json.parent = {'ref' => uri_for(node_record_type, obj.parent_id)}
+          end
+        end
+
+        if node_model.publishable?
+          json['has_unpublished_ancestor'] = calculate_has_unpublished_ancestor(obj)
         end
       end
 
-      if node_model.publishable?
-        json['has_unpublished_ancestor'] = calculate_has_unpublished_ancestor(obj)
-      end
-
-      json
+      jsons
     end
 
 

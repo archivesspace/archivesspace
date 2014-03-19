@@ -236,10 +236,14 @@ module Trees
     end
 
 
-    def sequel_to_jsonmodel(obj, opts = {})
-      json = super
-      json['tree'] = {'ref' => obj.uri + '/tree'}
-      json
+    def sequel_to_jsonmodel(objs, opts = {})
+      jsons = super
+
+      jsons.zip(objs).each do |json, obj|
+        json['tree'] = {'ref' => obj.uri + '/tree'}
+      end
+
+      jsons
     end
 
 

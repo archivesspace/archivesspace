@@ -110,11 +110,16 @@ module RelatedAgents
     end
 
 
-    def sequel_to_jsonmodel(obj, opts = {})
-      json = super
-      RelatedAgents.prepare_related_agents_for_display(json)
-      json
+    def sequel_to_jsonmodel(objs, opts = {})
+      jsons = super
+
+      jsons.zip(objs).each do |json, obj|
+        RelatedAgents.prepare_related_agents_for_display(json)
+      end
+
+      jsons
     end
+
   end
 
 
