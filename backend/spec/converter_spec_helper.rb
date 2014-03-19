@@ -14,5 +14,9 @@ def get_tempfile_path(src)
   tmp = ASUtils.tempfile("doc-#{Time.now.to_i}")
   tmp.write(src)
   tmp.flush
+
+  $icky_hack_to_avoid_gc ||= []
+  $icky_hack_to_avoid_gc << tmp
+
   tmp.path
 end
