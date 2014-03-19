@@ -25,6 +25,8 @@ module URIResolver
       value = value.to_hash(:trusted) if value.is_a?(JSONModelType)
       value = deep_clone(value) if clone
 
+      @to_resolve = []
+
       # Walk the tree of 'value' looking for any refs that should be resolved.
       # Store them on this instance.
       store_refs_for_resolving(value)
