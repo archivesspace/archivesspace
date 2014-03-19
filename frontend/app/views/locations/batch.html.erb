@@ -29,7 +29,7 @@
             <h3 class="subrecord-heading"><%= I18n.t("location_batch._frontend.section.ranges") %></h3>
             <div class="subrecord-form-container">
               <p class="alert alert-info">
-                <%= I18n.t("location_batch._frontend.messages.ranges_info") %>
+                <%= I18n.t("location_batch._frontend.messages.ranges_info", :max_range => AppConfig[:max_location_range].to_s) %>
               </p>
               <div class="subrecord-form-fields">
                 <%= render_aspace_partial :partial => "locations/batch_form", :locals => {:form => form} %>

@@ -87,7 +87,8 @@ class Location < Sequel::Model(:location)
   end
 
   def self.generate_indicators(opts)
-    (opts["start"]..opts["end"]).map{|i| "#{opts["prefix"]}#{i}#{opts["suffix"]}"}
+    range = (opts["start"]..opts["end"]).take(AppConfig[:max_location_range].to_i)
+    range.map{|i| "#{opts["prefix"]}#{i}#{opts["suffix"]}"}
   end
 
 
