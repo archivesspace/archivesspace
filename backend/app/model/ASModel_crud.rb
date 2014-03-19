@@ -457,6 +457,8 @@ module ASModel
       def sequel_to_jsonmodel(objs, opts = {})
         all_nested = {}
 
+        # Load all nested records into memory, doing all of our DB querying up
+        # front (and efficiently)
         nested_records.each do |nested_record|
           all_nested[nested_record[:json_property]] ||= {}
 
@@ -473,6 +475,8 @@ module ASModel
           end
         end
 
+        # Walk across the objects we're resolving, link their nested records
+        # back to them, and turn whole lot into JSONModels.
         objs.map {|obj|
           json = my_jsonmodel.new(map_db_types_to_json(my_jsonmodel.schema,
                                                        obj.values.reject {|k, v| v.nil? }))
@@ -484,7 +488,8 @@ module ASModel
             json['repository'] = {'ref' => JSONModel(:repository).uri_for(active_repository)}
           end
 
-          # If there are nested records for this class, grab their URI references too
+          # If there are nested records for this class, insert them into our
+          # JSON structure here.
           nested_records.each do |nested_record|
             model = Kernel.const_get(nested_record[:association][:class_name])
 
