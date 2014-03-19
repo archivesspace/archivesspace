@@ -123,3 +123,5 @@ AppConfig[:import_timeout_seconds] = 300
 
 # By default, only allow jobs to be cancelled if we're running against MySQL (since we can rollback)
 AppConfig[:import_jobs_cancelable] = proc { (AppConfig[:db_url] != AppConfig.demo_db_url).to_s }
+
+AppConfig[:max_location_range] = 1000
