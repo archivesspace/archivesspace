@@ -450,7 +450,7 @@ ROTFL
       names = @people.map {|person| person['names'][0] }
       names = names.sort_by{|name| name['primary_name'] }
 
-      names.map{|name| name['name_order']}.should eq(%w(direct indirect direct indirect direct indirect))
+      names.map{|name| name['name_order']}.should eq(%w(indirect direct indirect direct indirect direct))
     end
   end
 

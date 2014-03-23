@@ -351,9 +351,9 @@ module MarcXMLBaseMap
     Proc.new {|name, node|
       name['name_order'] = case node.value
                            when '1'
-                             'direct'
-                           when '0'
                              'indirect'
+                           when '0'
+                             'direct'
                            end
     }
   end
