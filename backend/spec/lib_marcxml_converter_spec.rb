@@ -129,7 +129,13 @@ END
         @people = parsed.select {|rec| rec['jsonmodel_type'] == 'agent_person'}
         @people.instance_eval do
           def by_name(name)
-            self.select {|p| p['names'][0]['primary_name'] == name}
+            self.select {|p| 
+              if name.match(/(.+),\s*(.+)/)
+                (p['names'][0]['primary_name'] == $1) && (p['names'][0]['rest_of_name'] == $2)
+              else
+                p['names'][0]['primary_name'] == name
+              end
+            }
           end
 
           def uris_for_name(name)
@@ -332,11 +338,13 @@ END
 
       new_record = json.last
 
-      new_record['names'][0]['primary_name'].should eq("Davis, John W.")
+      new_record['names'][0]['primary_name'].should eq("Davis")
+      new_record['names'][0]['rest_of_name'].should eq("John W.")
       new_record['names'][0]['use_dates'][0]['expression'].should eq("1873-1955")
 
       # Unauthorized names are added too
-      new_record['names'][1]['primary_name'].should eq("Davis, John William,")
+      new_record['names'][1]['primary_name'].should eq("Davis")
+      new_record['names'][1]['rest_of_name'].should eq("John William,")
     end
   end
 
@@ -385,7 +393,7 @@ marc
     <controlfield tag="008">130109i19601970xx                  eng d</controlfield>
 
     <datafield tag="100" ind1="1">
-      <subfield code="a">a1</subfield>
+      <subfield code="a">a1, foo</subfield>
       <subfield code="b">b1</subfield>
       <subfield code="c">c1</subfield>
       <subfield code="d">d1</subfield>
@@ -444,13 +452,18 @@ ROTFL
       converter.run
       json = JSON(IO.read(converter.get_output_path))
       @people = json.select{|r| r['jsonmodel_type'] == 'agent_person'}
+
+      names = @people.map {|person| person['names'][0] }
+      @names = names.sort_by{|name| name['primary_name'] }
     end
 
     it "imports name_person subrecords with the correct name_order" do
-      names = @people.map {|person| person['names'][0] }
-      names = names.sort_by{|name| name['primary_name'] }
+      @names.map{|name| name['name_order']}.should eq(%w(indirect direct indirect direct indirect direct))
+    end
 
-      names.map{|name| name['name_order']}.should eq(%w(indirect direct indirect direct indirect direct))
+    it "splits primary_name and rest_of_name" do      
+      @names[0]['primary_name'].should eq('a1')
+      @names[0]['rest_of_name'].should eq('foo')
     end
   end
 
