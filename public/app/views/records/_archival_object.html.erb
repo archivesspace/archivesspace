@@ -15,7 +15,7 @@
   <%= render_aspace_partial :partial => "subjects", :locals => {:subjects => archival_object['subjects']} %>
   <%= render_aspace_partial :partial => "notes", :locals => {:notes => archival_object.published_notes} %>
   <%= render_aspace_partial :partial => "external_documents", :locals => {:external_documents => archival_object.published_external_documents} %>
-  <%= render_aspace_partial :partial => "instances", :locals => {:instances => archival_object.instances} %>
+  <%= render_aspace_partial :partial => "instances", :locals => {:instances => archival_object.published_instances} %>
 
   <%= render_aspace_partial :partial => "components", :locals => {
         :record_type => "archival_object",

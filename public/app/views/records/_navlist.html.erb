@@ -4,12 +4,12 @@
 
     <% entries.each do |entry| %>
       <% if entry[:property] %>
-        <% unless record[entry[:property]].blank? %>
+        <% unless record[entry[:property]].blank? || (entry[:count] && entry[:count] == 0) %>
           <li>
             <a href="#<%= entry[:anchor] %>">
               <%= I18n.t("#{entry[:subrecord_type]}._plural") %>
               <span class="badge badge-info">
-                <%= record[entry[:property]].length
+                <%= entry[:count] || record[entry[:property]].length
                 %></span><span class="icon-chevron-right"></span>
             </a>
           </li>

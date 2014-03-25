@@ -18,7 +18,7 @@
                      {:property => 'published_related_resources', :subrecord_type => 'resource', :anchor => 'resources'},
                      {:property => 'subjects', :subrecord_type => 'subject', :anchor => 'subjects'},
                      {:property => 'published_external_documents', :subrecord_type => 'external_document', :anchor => 'external_documents'},
-                     {:property => 'instances', :subrecord_type => 'instance', :anchor => 'instances'},
+                     {:property => 'published_instances', :subrecord_type => 'instance', :anchor => 'instances'},
                    ]
                  })
        %>
@@ -52,7 +52,7 @@
         <%= render_aspace_partial :partial => "resources", :locals => {:resources => @accession.published_related_resources} %>
         <%= render_aspace_partial :partial => "subjects", :locals => {:subjects => @accession['subjects']} %>
         <%= render_aspace_partial :partial => "external_documents", :locals => {:external_documents => @accession.published_external_documents} %>
-        <%= render_aspace_partial :partial => "instances", :locals => {:instances => @accession.instances} %>
+        <%= render_aspace_partial :partial => "instances", :locals => {:instances => @accession.published_instances} %>
       </fieldset>
 
 
