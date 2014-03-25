@@ -3,6 +3,7 @@ require_relative "../model/ASModel_database_mapping"
 class NestedRecordResolver
 
   include ASModel::DatabaseMapping
+  include JSONModel
 
   def initialize(nested_records, objs)
     @nested_records = nested_records
