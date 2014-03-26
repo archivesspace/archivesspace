@@ -133,7 +133,17 @@ module AgentManager
 
       def combine_unauthorized_names(json)
         return if Array(json['names']).empty?
-        json.names = json['names'].uniq
+
+        name_model = my_agent_type[:name_model]
+        seen_names = []
+
+        json.names = json.names.select {|name|
+          name_hash = Digest::SHA1.hexdigest(name_model.assemble_hash_fields(name).sort.join('-'))
+
+          result = name['authorized'] || !seen_names.include?(name_hash)
+          seen_names << name_hash
+          result
+        }
       end
 
 
