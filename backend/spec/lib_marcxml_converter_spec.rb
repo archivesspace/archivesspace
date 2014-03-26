@@ -255,7 +255,7 @@ END
       end
 
       it "maps datafield[@tag='245']/subfield[@code='f' or @code='g'] to resources.dates[]" do
-        @resource['dates'][1]['expression'].should eq("Resource-Date-Expression-AT-1960 - 1970")
+        @resource['dates'][0]['expression'].should eq("Resource-Date-Expression-AT-1960 - 1970")
       end
 
       it "maps datafield[@tag='300'] to resource.extents[].container_summary using template '$3: $a ; $b, $c ($e, $f, $g)'" do
@@ -464,6 +464,57 @@ ROTFL
     it "splits primary_name and rest_of_name" do      
       @names[0]['primary_name'].should eq('a1')
       @names[0]['rest_of_name'].should eq('foo')
+    end
+  end
+
+
+  describe "Date de-duplication" do
+    let(:date_dupes_test_doc) {
+      src = <<OMFG
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<marc:collection xmlns:marc="http://www.loc.gov/MARC21/slim"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+  <marc:record>
+    <marc:leader>00874cbd a2200253 a 4500</marc:leader>
+    <marc:controlfield tag="001">1161022 </marc:controlfield>
+    <marc:controlfield tag="005">20020626205047.0</marc:controlfield>
+    <marc:controlfield tag="008">920324s19801980kyu eng d</marc:controlfield>
+    <marc:datafield tag="040" ind1=" " ind2=" ">
+      <marc:subfield code="a">RC</marc:subfield>
+      <marc:subfield code="e">appm</marc:subfield>
+    </marc:datafield>
+    <marc:datafield tag="110" ind1="2" ind2=" ">
+      <marc:subfield code="a">University of Louisville.</marc:subfield>
+      <marc:subfield code="b">University Personnel Services.</marc:subfield>
+    </marc:datafield>
+    <marc:datafield tag="245" ind1="0" ind2="0">
+      <marc:subfield code="a">Applicant files,</marc:subfield>
+      <marc:subfield code="f">1980.</marc:subfield>
+    </marc:datafield>
+    <marc:datafield tag="300" ind1=" " ind2=" ">
+      <marc:subfield code="a">5.00</marc:subfield>
+      <marc:subfield code="f">linear feet.</marc:subfield>
+    </marc:datafield>
+  </marc:record>    
+</marc:collection>
+OMFG
+
+      get_tempfile_path(src)
+    }
+
+    before(:all) do
+      json = convert(date_dupes_test_doc)
+      @resource = json.last
+    end
+
+    it "will combine the data in 245f and controlfield 008 into a single date" do
+      @resource['dates'].count.should eq(1)
+      date = @resource['dates'][0]
+      date['expression'].should eq('1980.')
+      date['date_type'].should eq('single')
+      date['begin'].should eq('1980')
+      date['end'].should eq('1980')
     end
   end
 
