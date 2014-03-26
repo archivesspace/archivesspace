@@ -10,12 +10,31 @@ module Instances
                            :contains_records_of_type => :instance,
                            :corresponding_to_association => :instance)
 
+    base.extend(ClassMethods)
+  end
 
-    def eagerly_load!
-      Instance.eager_load_relationships(self.instance)
-      super
+
+  def eagerly_load!
+    Instance.eager_load_relationships(self.instance)
+    super
+  end
+
+
+  module ClassMethods
+
+    def sequel_to_jsonmodel(objs, opts = {})
+      jsons = super
+
+      jsons.each do |json|
+        if json['instances']
+          json['instances'].reject! {|instance|
+            instance['instance_type'] == 'digital_object' && !instance['digital_object']
+          }
+        end
+      end
+
+      jsons
     end
 
   end
-
 end
