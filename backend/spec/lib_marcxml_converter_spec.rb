@@ -255,7 +255,7 @@ END
       end
 
       it "maps datafield[@tag='245']/subfield[@code='f' or @code='g'] to resources.dates[]" do
-        @resource['dates'][1]['expression'].should eq("Resource-Date-Expression-AT-1960 - 1970")
+        @resource['dates'][0]['expression'].should eq("Resource-Date-Expression-AT-1960 - 1970")
       end
 
       it "maps datafield[@tag='300'] to resource.extents[].container_summary using template '$3: $a ; $b, $c ($e, $f, $g)'" do
