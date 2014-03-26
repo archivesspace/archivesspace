@@ -67,7 +67,7 @@ module MarcXMLBaseMap
 
   def name_person_map
     {
-      "subfield[@code='a']" => :primary_name,
+      "subfield[@code='a']" => sets_primary_and_rest_of_name,
       "subfield[@code='b']" => :number,
       "subfield[@code='c']" => :title,
 
@@ -347,13 +347,26 @@ module MarcXMLBaseMap
   end
 
 
+  def sets_primary_and_rest_of_name
+    Proc.new {|name, node|
+      val = node.inner_text
+      if val.match(/\A(.+),\s*(.+)\s*\Z/)
+        name['primary_name'] = $1
+        name['rest_of_name'] = $2
+      else
+        name['primary_name'] = val
+      end
+    }
+  end
+
+
   def sets_name_order_from_ind1
     Proc.new {|name, node|
       name['name_order'] = case node.value
                            when '1'
-                             'direct'
-                           when '0'
                              'indirect'
+                           when '0'
+                             'direct'
                            end
     }
   end
