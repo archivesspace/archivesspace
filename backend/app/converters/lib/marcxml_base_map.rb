@@ -569,11 +569,15 @@ module MarcXMLBaseMap
           # FIXME: separate dates for $f (inclusive) and $g (bulk)
           expression = concatenate_subfields(%w(f g), node, '-')
           unless expression.empty?
-            make(:date)  do |date|
-              date.label = 'creation'
-              date.date_type = 'inclusive'
-              date.expression = expression
-              resource.dates << date
+            if resource.dates[0]
+              resource.dates[0]['expression'] = expression
+            else
+              make(:date)  do |date|
+                date.label = 'creation'
+                date.date_type = 'inclusive'
+                date.expression = expression
+                resource.dates << date
+              end
             end
           else
             resource['_needs_date'] = true
