@@ -55,7 +55,7 @@
                   <div class="span9 token-list">
                     <% digital_object.linked_instances.each do | ref | %>
                       <%= render_token :object => ref,
-                                       :label => ref["_resolved"]["title"],
+                                       :label => ref["_resolved"]["display_string"] || ref["_resolved"]["title"],
                                        :type => ref["_resolved"]["jsonmodel_type"],
                                        :uri => ref["ref"] %>
                     <% end %>

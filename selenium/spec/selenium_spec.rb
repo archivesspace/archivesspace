@@ -1030,7 +1030,7 @@ end
       login_as_repo_manager
 
       second_accession_title = "A new accession about to be deleted"
-      create_accession(second_accession_title)
+      create_accession(:title => second_accession_title)
       run_index_round
 
       $driver.find_element(:link, "Browse").click
@@ -1070,7 +1070,7 @@ end
     it "can navigate through pages of accessions" do
       c = 0
       (AppConfig[:default_page_size].to_i * 2 + 1).times do
-        create_accession("acc #{c += 1}")
+        create_accession(:title => "acc #{c += 1}")
       end
       run_index_round
 
@@ -1113,7 +1113,12 @@ end
 
     before(:all) do
       login_as_repo_manager
-      @accession_title = create_accession("My accession to test the record lifecycle")
+
+      do_uri, @digital_object_title = create_digital_object(:title => "My digital object to test the record lifecycle")
+      resource_uri, resource_title = create_resource(:title => "My resource to test the record lifecycle", :instances => [{:instance_type => "digital_object", :digital_object => {:ref => do_uri}}])
+      create_archival_object(:title => nil, :dates => [{:expression => "1981 - present", :date_type => "single", :label => "creation"}], :resource => {:ref => resource_uri}, :instances => [{:instance_type => "digital_object", :digital_object => {:ref => do_uri}}])
+
+      @accession_title = create_accession(:title => "My accession to test the record lifecycle")
       run_index_round
     end
 
@@ -1216,6 +1221,30 @@ end
       }
     end
 
+
+    it "can suppress a Digital Object" do
+      # Navigate to the Digital Object
+      $driver.clear_and_send_keys([:id, "global-search-box"], @digital_object_title)
+      $driver.find_element(:id, "global-search-button").click
+      $driver.find_element(:link, "Edit").click
+      digital_object_edit_url = $driver.current_url
+
+      # Suppress the Digital Object
+      $driver.find_element(:css, ".suppress-record.btn").click
+      $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
+
+      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Digital Object #{@digital_object_title} suppressed") }
+      assert(5) { $driver.find_element(:css => "div.alert.alert-info").text.should eq('Digital Object is suppressed and cannot be edited') }
+
+      run_index_round
+
+      # Try to navigate to the edit form
+      $driver.get(digital_object_edit_url)
+
+      assert(5) { $driver.current_url.should eq(digital_object_edit_url) }
+      assert(5) { $driver.find_element(:css => "div.alert.alert-info").text.should eq('Digital Object is suppressed and cannot be edited') }
+    end
+
   end
 
 
@@ -1223,7 +1252,7 @@ end
 
     before(:all) do
       login_as_archivist
-      @accession_title, accession_label = create_accession("Events link to this accession")
+      @accession_title = create_accession(:title => "Events link to this accession")
       agent_uri, @agent_name = create_agent("Geddy Lee")
       run_index_round
     end
@@ -2214,7 +2243,7 @@ end
 
 
     it "supports filtering global searches by type" do
-      create_accession("A test accession #{Time.now.to_i}_#{$$}")
+      create_accession(:title => "A test accession #{Time.now.to_i}_#{$$}")
       run_index_round
 
       $driver.find_element(:id, 'global-search-button').click
@@ -3025,7 +3054,7 @@ end
 
 
     it "allows you to configure browse columns" do
-      create_accession("a browseable accession")
+      create_accession(:title => "a browseable accession")
       run_index_round
 
       $driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click

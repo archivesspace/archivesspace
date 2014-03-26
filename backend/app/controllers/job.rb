@@ -142,8 +142,8 @@ class ArchivesSpaceService < Sinatra::Base
     # have URIs in the first place.
     handle_listing(ImportJobCreatedRecord,
                    params,
-                   Sequel.&(Sequel.~(Sequel.like(:record_uri, "%/collection_management/%")),
-                            {:job_id => job.id}))
+                   Sequel.&(Sequel.~(Sequel.like(:record_uri, "%/collection_management/%")), {:job_id => job.id}),
+                   Sequel.desc(:create_time))
   end
 
 end

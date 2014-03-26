@@ -66,4 +66,23 @@ describe 'Instance model' do
 
   end
 
+
+  it "doesn't show instances where the digital object link has been suppressed" do
+    digital_object =  create(:json_digital_object)
+
+    archival_object = create(:json_archival_object,
+                             :instances => [{"instance_type" => "digital_object",
+                                              "digital_object" => {"ref" => digital_object.uri},
+                                              "container" => nil
+                                            }])
+
+    digital_object.set_suppressed(true)
+
+    create_nobody_user
+    as_test_user("nobody") do
+      ArchivalObject.to_jsonmodel(archival_object.id)['instances'].should eq([])
+    end
+  end
+
+
 end
