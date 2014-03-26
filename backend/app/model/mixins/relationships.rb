@@ -61,7 +61,14 @@ AbstractRelationship = Class.new(Sequel::Model) do
              "  (Have you created the '#{table_name}' table?)")
     end
 
-    self.create(Hash[columns.zip([obj1.id, obj2.id])].merge(properties))
+    values = Hash[columns.zip([obj1.id, obj2.id])].merge(properties)
+
+    if [obj1, obj2].any? {|obj| obj.class.suppressible? && obj.suppressed == 1}
+      # Suppress this new relationship if it points to a suppressed record
+      values[:suppressed] = 1
+    end
+
+    self.create(values)
   end
 
 
