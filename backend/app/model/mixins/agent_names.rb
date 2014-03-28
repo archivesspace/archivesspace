@@ -32,13 +32,21 @@ module AgentNames
   end
 
 
-  def remove_nested_records
-    name_authority_id_dataset.delete
-    super
-  end
-
 
   module ClassMethods
+
+    def calculate_object_graph(object_graph, opts = {})
+      super
+
+      # Add the rows for authority IDs too
+      column = "#{self.table_name}_id".intern
+
+      ids = NameAuthorityId.filter(column => object_graph.ids_for(self)).
+                            map {|row| row[:id]}
+
+      object_graph.add_objects(NameAuthorityId, ids)
+    end
+
 
     def apply_authority_id(obj, json)
       obj.name_authority_id_dataset.delete

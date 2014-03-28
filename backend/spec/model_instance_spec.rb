@@ -85,4 +85,20 @@ describe 'Instance model' do
   end
 
 
+  it "allows an archival object with a digital object instance to be saved" do
+    digital_object =  create(:json_digital_object)
+
+    archival_object = create(:json_archival_object,
+                             :instances => [{"instance_type" => "digital_object",
+                                              "digital_object" => {"ref" => digital_object.uri},
+                                              "container" => nil
+                                            }])
+
+    archival_object.title = "something else"
+
+    obj = ArchivalObject.find(:id => archival_object.id)
+
+    expect { obj.update_from_json(archival_object) }.to_not raise_error
+  end
+
 end
