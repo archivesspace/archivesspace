@@ -173,13 +173,13 @@ module Notes
       }
 
       jsons.zip(objs).each do |json, obj|
-        notes = Array(notes[obj.id]).sort_by(&:id).map {|note|
+        my_notes = Array(notes[obj.id]).sort_by(&:id).map {|note|
           parsed = ASUtils.json_parse(note.notes)
           parsed['publish'] = (note.publish == 1)
           parsed
         }
 
-        json.notes = notes
+        json.notes = my_notes
 
         resolve_note_references(obj, json)
       end
