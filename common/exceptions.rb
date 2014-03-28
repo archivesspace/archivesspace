@@ -7,6 +7,7 @@ class ConflictException < StandardError
 
   def initialize(conflicts)
     @conflicts = conflicts
+    super
   end
 end
 

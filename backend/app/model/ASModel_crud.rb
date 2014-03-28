@@ -162,13 +162,8 @@ module ASModel
 
           # Tell the nested record to clear its own nested records
           Array(self.send(nested_record_defn[:association][:name])).each do |nested_record|
-            nested_record.remove_nested_records
+            nested_record.delete
           end
-
-          # Now delete all nested objects
-          dataset = self.send("#{nested_record_defn[:association][:name]}_dataset")
-          model.handle_delete(dataset.select(:id).map {|row| row[:id]})
-          dataset.delete
         elsif nested_record_defn[:association][:type] === :many_to_many
           # Just remove the links
           self.send("remove_all_#{nested_record_defn[:association][:name]}".intern)
