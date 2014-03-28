@@ -265,4 +265,19 @@ describe 'ArchivalObject model' do
     }.to_not raise_error
   end
 
+
+  it "doesn't blow up when converting records with multiple notes" do
+    recs = 5.times.map {
+      ArchivalObject.create_from_json(build(:json_archival_object,
+                                            'notes' => 10.times.map {
+                                                          build(:json_note_multipart,
+                                                              'type' => 'accruals',
+                                                              :subnotes => [build(:json_note_text)])
+                                                        }))
+    }
+
+    expect {
+      ArchivalObject.sequel_to_jsonmodel(recs)
+    }.to_not raise_error
+  end
 end
