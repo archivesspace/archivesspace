@@ -528,7 +528,16 @@ module Relationships
     # Delete all existing relationships for 'obj'.
     def delete_existing_relationships(obj, bump_lock_version_on_referent = false, force = false, predicate = nil)
       relationships.each do |relationship_defn|
+
         next if (!relationship_defn.json_property && !force)
+
+        if (relationship_defn.json_property &&
+            (!self.my_jsonmodel.schema['properties'][relationship_defn.json_property] ||
+             self.my_jsonmodel.schema['properties'][relationship_defn.json_property]['readonly'] === 'true'))
+          # Don't delete instances of relationships that are read-only in this direction.
+          next
+        end
+
 
         relationship_defn.find_by_participant(obj).each do |relationship|
 

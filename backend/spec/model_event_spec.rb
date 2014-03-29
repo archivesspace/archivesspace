@@ -44,4 +44,19 @@ describe 'Event model' do
     }.to raise_error(JSONModel::ValidationException)
   end
 
+
+  it "shouldn't clear event relationships when updating a record" do
+    accession = create(:json_accession)
+    event = create(:json_event, :linked_records => [{'ref' => accession.uri, 'role' => generate(:record_role)}])
+
+    json = Accession.to_jsonmodel(accession.id)
+
+    json['linked_events'].length.should eq(1)
+    updated = json.to_hash
+    updated.delete('linked_events')
+    Accession[accession.id].update_from_json(JSONModel(:accession).from_hash(updated))
+
+    Accession.to_jsonmodel(accession.id)['linked_events'].length.should eq(1)
+  end
+
 end
