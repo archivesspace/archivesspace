@@ -171,6 +171,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
       Notifications.notify("BACKEND_STARTED")
+      Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}"
 
     rescue
       ASUtils.dump_diagnostics($!)
