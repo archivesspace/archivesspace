@@ -19,7 +19,11 @@ class FileVersionView
   end
 
   def uri
-    @uri ||= URI(@record['file_uri'])
+    begin
+      @uri ||= URI(@record['file_uri'])
+    rescue URI::InvalidURIError => e
+      nil
+    end
   end
 
   def embed
