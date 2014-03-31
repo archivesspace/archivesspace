@@ -34,6 +34,14 @@ module Notes
 
   module ClassMethods
 
+    def handle_publish_flag(ids, val)
+      super
+
+      association = self.association_reflection(:note)
+      SubnoteMetadata.filter(:note_id => Note.filter(association[:key] => ids).map(&:id)).
+                      update(:publish => val ? 1 : 0)
+    end
+
 
     def populate_persistent_ids(json)
       json.notes.each do |note|
@@ -46,6 +54,33 @@ module Notes
                                                 hash
                                               }])
       end
+    end
+
+
+    def populate_metadata(note)
+      metadata = []
+
+      toplevel = true
+      result = JSONSchemaUtils.map_hash_with_schema(note, JSONModel(note['jsonmodel_type']).schema,
+                                                    [proc {|hash, schema|
+                                                       if toplevel
+                                                         toplevel = false
+                                                         hash
+                                                       elsif "#{hash['jsonmodel_type']}".start_with?('note_')
+                                                         guid = SecureRandom.hex
+
+                                                         metadata << {
+                                                           :guid => guid,
+                                                           :publish => hash['publish'] ? 1 : 0,
+                                                         }
+
+                                                         hash.merge('subnote_guid' => guid)
+                                                       else
+                                                         hash
+                                                       end
+                                                     }])
+
+      [metadata, result]
     end
 
 
@@ -65,12 +100,23 @@ module Notes
     end
 
 
+    def handle_delete(ids_to_delete)
+      association = self.association_reflection(:note)
+      SubnoteMetadata.filter(:note_id => Note.filter(association[:key] => ids_to_delete).select(:id)).delete
+
+      super
+    end
+
+
     def apply_notes(obj, json)
+      SubnoteMetadata.filter(:note_id => obj.note_dataset.select(:id)).delete
       obj.note_dataset.delete
 
       populate_persistent_ids(json)
 
       json.notes.each do |note|
+        metadata, note = populate_metadata(note)
+
         publish = note['publish'] ? 1 : 0
         note.delete('publish')
 
@@ -78,6 +124,12 @@ module Notes
                                :publish => publish,
                                :lock_version => 0,
                                :notes => JSON(note))
+
+        metadata.each do |m|
+          SubnoteMetadata.create(:publish => m.fetch(:publish),
+                                 :note_id => note_obj.id,
+                                 :guid => m.fetch(:guid))
+        end
 
         # Persistent IDs exist in the context of the tree they belong to (or
         # just their record, if there's no tree).
@@ -161,6 +213,31 @@ module Notes
     end
 
 
+    def load_subnote_metadata(notes)
+      Hash[SubnoteMetadata.filter(:note_id => notes.values.flatten.map(&:id)).
+                           all.
+                           map {|sm|
+             [sm.guid, sm]
+           }]
+    end
+
+
+    def apply_subnote_metadata(json, subnote_metadata)
+      JSONSchemaUtils.map_hash_with_schema(json, JSONModel(json['jsonmodel_type']).schema,
+                                           [proc {|hash, schema|
+                                              if hash['subnote_guid']
+                                                guid = hash['subnote_guid']
+                                                hash['publish'] = (subnote_metadata[guid].publish == 1)
+                                                hash.delete('subnote_guid')
+                                              end
+
+                                              hash
+                                            }])
+
+      json
+    end
+
+
     def sequel_to_jsonmodel(objs, opts = {})
       jsons = super
 
@@ -172,9 +249,14 @@ module Notes
         notes[record_id] << note
       }
 
+      subnote_metadata = load_subnote_metadata(notes)
+
       jsons.zip(objs).each do |json, obj|
         my_notes = Array(notes[obj.id]).sort_by(&:id).map {|note|
           parsed = ASUtils.json_parse(note.notes)
+
+          apply_subnote_metadata(parsed, subnote_metadata)
+
           parsed['publish'] = (note.publish == 1)
           parsed
         }
