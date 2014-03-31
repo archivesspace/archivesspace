@@ -458,7 +458,7 @@ ROTFL
     end
 
     it "imports name_person subrecords with the correct name_order" do
-      @names.map{|name| name['name_order']}.should eq(%w(indirect direct indirect direct indirect direct))
+      @names.map{|name| name['name_order']}.should eq(%w(inverted direct inverted direct inverted direct))
     end
 
     it "splits primary_name and rest_of_name" do      
