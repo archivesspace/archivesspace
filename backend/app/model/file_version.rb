@@ -1,5 +1,9 @@
+require_relative 'mixins/publishable'
+
 class FileVersion < Sequel::Model(:file_version)
   include ASModel
+  include Publishable
+
   corresponds_to JSONModel(:file_version)
 
   def self.handle_publish_flag(ids, val)
