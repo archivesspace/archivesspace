@@ -7,6 +7,8 @@ AppConfig[:solr_indexing_frequency_seconds] = 30
 AppConfig[:default_page_size] = 10
 AppConfig[:max_page_size] = 250
 
+# Log level for the backend, values: (everything) debug, info, warn, error, fatal (severe only)
+AppConfig[:backend_log_level] = "debug"
 
 # A prefix added to cookies used by the application.
 #

@@ -3,6 +3,10 @@ require 'logger'
 class Log
   @@logger = Logger.new($stderr)
 
+  def self.noisiness(log_level)
+    @@logger.sev_threshold = log_level.constantize
+  end
+
   def self.quiet_please
     @@logger.sev_threshold = Logger::FATAL
   end
