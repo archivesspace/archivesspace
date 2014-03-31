@@ -1,7 +1,9 @@
 require 'digest/sha1'
+require_relative 'mixins/publishable'
 
 class ExternalDocument < Sequel::Model(:external_document)
   include ASModel
+  include Publishable
   corresponds_to JSONModel(:external_document)
 
   set_model_scope :global

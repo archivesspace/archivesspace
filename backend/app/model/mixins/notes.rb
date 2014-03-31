@@ -71,7 +71,7 @@ module Notes
 
                                                          metadata << {
                                                            :guid => guid,
-                                                           :publish => hash['publish'] ? 1 : 0,
+                                                           :publish => Publishable.db_value_for(hash)
                                                          }
 
                                                          hash.merge('subnote_guid' => guid)
