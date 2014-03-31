@@ -2193,7 +2193,7 @@ end
       $driver.find_element(:css, '.enumeration-list')
 
       while true
-        inclusive_dates = $driver.find_element_with_text('//tr', /Inclusive Dates/)
+        inclusive_dates = $driver.find_element_with_text('//tr', /Range/)
         default_btn = inclusive_dates.find_elements(:link, 'Set as Default')
 
         if default_btn[0]
