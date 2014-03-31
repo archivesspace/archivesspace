@@ -37,6 +37,8 @@ class NamePerson < Sequel::Model(:name_person)
                   elsif json["name_order"] === "direct"
                     result << json["rest_of_name"] if json["rest_of_name"]
                     result << " #{json["primary_name"]}" if json["primary_name"]
+                  else
+                    result << json["primary_name"]
                   end
 
                   result << ", #{json["prefix"]}" if json["prefix"]
