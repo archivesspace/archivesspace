@@ -59,4 +59,22 @@ describe 'Event model' do
     Accession.to_jsonmodel(accession.id)['linked_events'].length.should eq(1)
   end
 
+
+  it "should be able to resolve nested properties with a shared prefix" do
+    accession = create(:json_accession)
+    event = create(:json_event,
+                   :linked_records => [{'ref' => accession.uri, 'role' => generate(:record_role)}],
+                   :outcome_note => "testing")
+
+    json = Accession.to_jsonmodel(accession.id)
+
+    resolved = URIResolver.resolve_references(json,
+                                              ["linked_events", "linked_events::linked_records"],
+                                              {})
+
+
+    resolved['linked_events'][0]['_resolved']['outcome_note'].should eq('testing')
+    resolved['linked_events'][0]['_resolved']['linked_records'][0]['_resolved']['title'].should eq(accession.title)
+  end
+
 end
