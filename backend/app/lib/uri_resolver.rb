@@ -43,7 +43,7 @@ module URIResolver
     def store_refs_for_resolving(value)
       if value.is_a?(Hash)
         value.each do |k, v|
-          if properties_matching(k)
+          if !properties_matching(k).empty?
             as_array(v).each do |elt|
               mark_for_resolving(elt, properties_matching(k)) if reference?(elt)
             end
@@ -74,15 +74,17 @@ module URIResolver
     end
 
 
-    def mark_for_resolving(ref, properties)
-      @to_resolve << {
-        :ref => ref,
-        :after_resolve => proc {
-          if properties.length > 1
-            self.class.new([properties.drop(1)], env).resolve_references(ref['_resolved'], false)
-          end
+    def mark_for_resolving(ref, matching_properties)
+      matching_properties.each do |properties|
+        @to_resolve << {
+          :ref => ref,
+          :after_resolve => proc {
+            if properties.length > 1
+              self.class.new([properties.drop(1)], env).resolve_references(ref['_resolved'], false)
+            end
+          }
         }
-      }
+      end
     end
 
 
@@ -145,7 +147,7 @@ module URIResolver
             objs.zip(jsons).each do |obj, json|
               requests = id_to_request[obj.id]
               requests.each do |request|
-                request[:ref]['_resolved'] = json.to_hash(:trusted)
+                request[:ref]['_resolved'] ||= json.to_hash(:trusted)
                 request[:after_resolve].call
               end
             end
@@ -166,7 +168,7 @@ module URIResolver
             resolved = ASUtils.json_parse(resolved)
 
             if resolved
-              ref['_resolved'] = resolved
+              ref['_resolved'] ||= resolved
             end
 
             request[:after_resolve].call
@@ -177,7 +179,7 @@ module URIResolver
 
 
     def properties_matching(key)
-      properties.find {|p| p.first == key}
+      properties.select {|p| p.first == key}
     end
 
     attr_reader :env, :properties
