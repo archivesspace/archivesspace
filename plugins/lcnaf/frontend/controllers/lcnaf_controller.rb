@@ -12,7 +12,9 @@ class LcnafController < ApplicationController
 
 
   def search
-    query = SRUQuery.name_search(params[:query])
+    family_name = params[:family_name] ? params[:family_name] : ""
+    given_name = params[:given_name] ? params[:given_name] :  ""
+    query = SRUQuery.name_search(family_name, given_name )
     render :json => searcher.search(query, params[:page].to_i, params[:records_per_page].to_i).to_json
   end
 

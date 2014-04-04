@@ -26,34 +26,16 @@ class LCNAFConverter < MarcXMLConverter
   def self.profile
     "Import all subjects and agents from a MARC XML file, setting source to LCNAF"
   end
+end
 
 
-  class << self
-    alias :super_configure :configure
+LCNAFConverter.configure do |config|
+  [
+   "[@tag='720']['@ind1'='1']",
+   "[@tag='720']['@ind1'='2']",
+   "[@tag='100' or @tag='700'][@ind1='0' or @ind1='1']"
+  ].each do |selector|
+    config["/record"][:map]["datafield#{selector}"][:map]\
+    ["self::datafield"][:defaults][:source] = 'naf'
   end
-
-  def self.configure
-    naf_source = {
-      :map => {
-        "self::datafield" => {
-          :defaults => {
-            :source => 'naf'
-          }
-        }
-      }
-    }
-
-    naf_config = {
-      "//record" => {
-        :map => {
-          "datafield[@tag='720']['@ind1'='1']" => naf_source,
-          "datafield[@tag='720']['@ind1'='2']" => naf_source,
-          "datafield[@tag='100' or @tag='700'][@ind1='0' or @ind1='1']" => naf_source
-        }
-      }
-    }
-
-    ASUtils.deep_merge(super_configure, naf_config)
-  end
-
 end

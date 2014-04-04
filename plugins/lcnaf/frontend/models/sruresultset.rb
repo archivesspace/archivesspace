@@ -15,7 +15,8 @@ class SRUResultSet
     end
 
     doc.remove_namespaces!
-
+    doc.encoding = 'utf-8'
+   
     @at_start = doc.xpath("//startRecord").text() == "1"
     @at_end = doc.xpath("//nextRecordPosition").empty?
 
