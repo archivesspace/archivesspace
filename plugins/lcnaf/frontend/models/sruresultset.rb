@@ -5,8 +5,9 @@ class SRUResultSet
   attr_reader :hit_count
 
 
-  def initialize(response_body, query_string, page, records_per_page)
-    @query_string = query_string
+  def initialize(response_body, query, page, records_per_page)
+    @query = query
+    
     @page = page
     @records_per_page = records_per_page
 
@@ -62,7 +63,7 @@ class SRUResultSet
                     :at_start => at_start?,
                     :at_end => at_end?,
                     :hit_count => hit_count,
-                    :query => @query_string,
+                    :query => @query,
                     :page => @page,
                     :records_per_page => @records_per_page,
                     :first_record_index => first_record_index,

@@ -69,7 +69,7 @@ $(function() {
     dataType: "json",
     type: "GET",
     beforeSubmit: function() {
-      if (!$(".search-query", $searchForm).val()) {
+      if (!$("#family-name-search-query", $searchForm).val()) {
           return false;
       }
 
