@@ -2,7 +2,7 @@
 
 <div class="row-fluid">
   <div class="span12">
-    <%= render :partial => "shared/tree", :locals => {:root_record => @classification, :read_only => true} %>
+    <%= render_aspace_partial :partial => "shared/tree", :locals => {:root_record => @classification, :read_only => true} %>
   </div>
 </div>
 

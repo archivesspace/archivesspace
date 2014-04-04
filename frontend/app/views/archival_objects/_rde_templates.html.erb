@@ -73,7 +73,7 @@
       </div>
     </td>
     <td class="control-group"><%= form.select "level", form.possible_options_for("level", true) %></td>
-    <td class="control-group"><%= form.checkbox "publish", {}, form.default_for("publish") %></td>
+    <td class="control-group"><%= form.checkbox "publish", {}, user_prefs["publish"] %></td>
     <td class="control-group"><%= form.textfield "title" %></td>
     <td class="control-group"><%= form.textfield "component_id" %></td>
     <td class="control-group">

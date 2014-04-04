@@ -12,6 +12,8 @@ describe 'Relationships' do
         String :name
         Integer :lock_version, :default => 0
 
+        Integer :suppressed, :default => 0
+
         String :created_by
         String :last_modified_by
         DateTime :create_time
@@ -133,6 +135,8 @@ describe 'Relationships' do
       include ASModel
       set_model_scope :global
       corresponds_to JSONModel(:cherry)
+
+      enable_suppression
     end
 
 
@@ -142,6 +146,8 @@ describe 'Relationships' do
       set_model_scope :global
       corresponds_to JSONModel(:apple)
       clear_relationships
+
+      enable_suppression
     end
 
 
@@ -150,6 +156,8 @@ describe 'Relationships' do
       include Relationships
       set_model_scope :global
       corresponds_to JSONModel(:banana)
+
+      enable_suppression
 
       clear_relationships
       define_relationship(:name => :fruit_salad,
@@ -338,6 +346,18 @@ describe 'Relationships' do
     banana.refresh
 
     (banana.system_mtime.to_f * 1000).to_i.should_not eq(time)
+  end
+
+
+  it "creates relationships as suppressed if they relate to suppressed records" do
+    cherry = Cherry.create_from_json(JSONModel(:cherry).new)
+    cherry.set_suppressed(true)
+
+    banana = Banana.create_from_json(JSONModel(:banana).from_hash(:friends => [{
+                                                              :ref => cherry.uri
+                                                            }]))
+
+    banana.my_relationships(:friends).first.suppressed.should eq(1)
   end
 
 end

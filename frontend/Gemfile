@@ -26,7 +26,7 @@ gem 'json-schema'
 
 gem 'useragent'
 
-gem "jruby-jars", "= 1.7.6"
+gem "jruby-jars", "= 1.7.11"
 
 gem 'warbler'
 
@@ -57,7 +57,6 @@ group :test do
   gem 'simplecov'
 end
 
-gem "json"
 gem "puma"
 
 gem "net-http-persistent"

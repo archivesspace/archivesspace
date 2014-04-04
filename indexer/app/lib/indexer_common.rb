@@ -29,9 +29,20 @@ class CommonIndexer
 
   @@resolved_attributes = ['subjects', 'linked_agents', 'linked_records', 'classification', 'digital_object']
 
+  @@paused_until = Time.now 
 
   def self.add_indexer_initialize_hook(&block)
     @@init_hooks << block
+  end
+  
+  # This is to pause the indexer.
+  # Duration is given in seconds.
+  def self.pause(duration = 900 )
+    @@paused_until = Time.now + duration
+  end
+
+  def self.paused?
+    @@paused_until > Time.now
   end
 
 
@@ -63,12 +74,12 @@ class CommonIndexer
   def add_agents(doc, record)
     if record['record']['linked_agents']
       # index all linked agents first
-      doc['agents'] = record['record']['linked_agents'].collect{|link| link['_resolved']['names'][0]['sort_name']}
+      doc['agents'] = record['record']['linked_agents'].collect{|link| link['_resolved']['display_name']['sort_name']}
       doc['agent_uris'] = record['record']['linked_agents'].collect{|link| link['ref']}
 
       # index the creators only
       creators = record['record']['linked_agents'].select{|link| link['role'] === 'creator'}
-      doc['creators'] = creators.collect{|link| link['_resolved']['names'][0]['sort_name']} if not creators.empty?
+      doc['creators'] = creators.collect{|link| link['_resolved']['display_name']['sort_name']} if not creators.empty?
     end
   end
 
@@ -122,6 +133,13 @@ class CommonIndexer
         doc['accession_date_year'] = Date.parse(record['record']['accession_date']).year
         doc['identifier'] = (0...4).map {|i| record['record']["id_#{i}"]}.compact.join("-")
         doc['title'] = record['record']['display_string']
+
+        doc['acquisition_type'] = record['record']['acquisition_type']
+        doc['accession_date'] = record['record']['accession_date']
+        doc['resource_type'] = record['record']['resource_type']
+        doc['restrictions_apply'] = record['record']['restrictions_apply']
+        doc['access_restrictions'] = record['record']['access_restrictions']
+        doc['use_restrictions'] = record['record']['use_restrictions']
       end
     }
 
@@ -165,10 +183,20 @@ class CommonIndexer
       if doc['primary_type'] == 'resource'
         doc['finding_aid_title'] = record['record']['finding_aid_title'] if record['record']['finding_aid_status'] === 'completed'
         doc['identifier'] = (0...4).map {|i| record['record']["id_#{i}"]}.compact.join("-")
+        doc['resource_type'] = record['record']['resource_type']
+        doc['level'] = record['record']['level']
+        doc['language'] = record['record']['language']
+        doc['restrictions'] = record['record']['restrictions']
+        doc['ead_id'] = record['record']['ead_id']
+        doc['finding_aid_status'] = record['record']['finding_aid_status']
       end
 
       if doc['primary_type'] == 'digital_object'
         doc['digital_object_type'] = record['record']['digital_object_type']
+
+        doc['digital_object_id'] = record['record']['digital_object_id']
+        doc['level'] = record['record']['level']
+        doc['restrictions'] = record['record']['restrictions']
       end
     }
 
@@ -190,10 +218,16 @@ class CommonIndexer
       if ['agent_person', 'agent_family', 'agent_software', 'agent_corporate_entity'].include?(doc['primary_type'])
         record['record'].reject! { |rec| rec === 'agent_contacts' }
         doc['json'] = record['record'].to_json
-        doc['title'] = record['record']['names'][0]['sort_name']
-        doc['authority_id'] = record['record']['names'][0]['authority_id']
-        doc['source'] = record['record']['names'][0]['source']
-        doc['rules'] = record['record']['names'][0]['rules']
+        doc['title'] = record['record']['display_name']['sort_name']
+
+        authorized_name = record['record']['names'].find {|name| name['authorized']}
+
+        if authorized_name
+          doc['authority_id'] = authorized_name['authority_id']
+          doc['source'] = authorized_name['source']
+          doc['rules'] = authorized_name['rules']
+        end
+
         doc['publish'] = record['record']['publish'] && record['record']['is_linked_to_published_record']
         doc['linked_agent_roles'] = record['record']['linked_agent_roles']
 
@@ -442,8 +476,14 @@ class CommonIndexer
       doc['primary_type'] = record_type
       doc['types'] = [record_type]
       doc['json'] = ASUtils.to_json(values)
-      doc['suppressed'] = values['suppressed'].to_s
-      doc['publish'] = values.has_key?('publish') ? values['publish'].to_s : 'false'
+      doc['suppressed'] = values.has_key?('suppressed') ? values['suppressed'].to_s : 'false'
+      if doc['suppressed'] == 'true'
+        doc['publish'] = 'false'
+      elsif values['has_unpublished_ancestor']
+        doc['publish'] = 'false'
+      else
+        doc['publish'] = values.has_key?('publish') ? values['publish'].to_s : 'false'
+      end
       doc['system_generated'] = values.has_key?('system_generated') ? values['system_generated'].to_s : 'false'
       doc['repository'] = get_record_scope(uri)
 
@@ -518,6 +558,11 @@ class CommonIndexer
       end
     end
   end
+  
+  def paused?
+    self.singleton_class.class_variable_get(:@@paused_until) > Time.now
+  end
+
 
 end
 

@@ -79,6 +79,23 @@
    <field name="accession_date_year" type="int" indexed="true" stored="true" multiValued="false" />
    <field name="identifier" type="sort_string" indexed="true" stored="true" multiValued="false" />
 
+   <!-- Accession properties required for browse sorting -->
+   <field name="acquisition_type" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="accession_date" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="resource_type" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="restrictions_apply" type="boolean" indexed="true" stored="true" multiValued="false" />
+   <field name="access_restrictions" type="boolean" indexed="true" stored="true" multiValued="false" />
+   <field name="use_restrictions" type="boolean" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Resource properties required for browse sorting -->
+   <field name="language" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="restrictions" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="ead_id" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="finding_aid_status" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Digital Object properties required for browse sorting -->
+   <field name="digital_object_id" type="string" indexed="true" stored="true" multiValued="false" />
+
    <!-- Archival Objects store the URI of the resource they belong to (if any) -->
    <field name="resource" type="string" indexed="true" stored="true" multiValued="false" />
 

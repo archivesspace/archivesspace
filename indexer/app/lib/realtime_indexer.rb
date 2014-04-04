@@ -63,7 +63,7 @@ class RealtimeIndexer < CommonIndexer
     last_sequence = 0
 
     while @should_continue.call
-      last_sequence = run_index_round(last_sequence)
+     last_sequence = run_index_round(last_sequence) unless paused?   
     end
 
   end

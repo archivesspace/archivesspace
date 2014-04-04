@@ -2,27 +2,15 @@ require 'spec_helper'
 
 describe 'Digital Objects controller' do
 
-  def create_digital_object
-    digital_object = JSONModel(:digital_object).from_hash("title" => "a digital object",
-                                                          "digital_object_id" => "abc123",
-                                                          "extents" => [{
-                                                                          "portion" => "whole",
-                                                                          "number" => "5 or so",
-                                                                          "extent_type" => "reels"
-                                                                        }])
-    digital_object.save
-  end
-
-
   it "lets you create a digital object and get it back" do
-    id = create_digital_object
+    id = create_digital_object("title" => "a digital object").id
 
     JSONModel(:digital_object).find(id).title.should eq("a digital object")
   end
 
 
   it "lets you update a digital object" do
-    id = create_digital_object
+    id = create_digital_object.id
 
     digital_object = JSONModel(:digital_object).find(id)
 

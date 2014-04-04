@@ -3,7 +3,7 @@ class EACSerializer < ASpaceExport::Serializer
   
   def serialize(eac, opts = {})
 
-    builder = Nokogiri::XML::Builder.new do |xml|
+    builder = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
       _eac(eac, xml)     
     end
     
@@ -31,7 +31,10 @@ class EACSerializer < ASpaceExport::Serializer
       xml.maintenanceStatus json.create_time == json.system_mtime ? "new" : "revised"
     
       xml.maintenanceAgency {
-        xml.agencyName "unknown"
+        xml.agencyName json.maintenanceAgency.agencyName
+        if json.maintenanceAgency.agencyCode
+          xml.agencyCode json.maintenanceAgency.agencyCode
+        end
       }
     
       xml.maintenanceHistory {
@@ -166,11 +169,11 @@ class EACSerializer < ASpaceExport::Serializer
 
           name = case resolved['jsonmodel_type']
                  when 'agent_software'
-                   resolved['names'][0]['software_name']
+                   resolved['display_name']['software_name']
                  when 'agent_family'
-                   resolved['names'][0]['family_name']
+                   resolved['display_name']['family_name']
                  else
-                   resolved['names'][0]['primary_name']
+                   resolved['display_name']['primary_name']
                  end
 
           xml.cpfRelation(:cpfRelationType => relator, 'xlink:type' => 'simple', 'xlink:href' => resolved['uri']) {

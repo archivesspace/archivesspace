@@ -2,7 +2,7 @@ class AgentsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show],
                       "update_agent_record" => [:new, :edit, :create, :update, :merge],
-                      "delete_archival_record" => [:delete]
+                      "delete_agent_record" => [:delete]
 
   before_filter :assign_types
 
@@ -16,9 +16,9 @@ class AgentsController < ApplicationController
 
   def new
     @agent = JSONModel(@agent_type).new({:agent_type => @agent_type})._always_valid!
-    @agent.names = [@name_type.new._always_valid!]
+    @agent.names = [@name_type.new({:authorized => true, :is_display_name => true})._always_valid!]
 
-    render :partial => "agents/new" if inline?
+    render_aspace_partial :partial => "agents/new" if inline?
   end
 
   def edit
@@ -30,7 +30,7 @@ class AgentsController < ApplicationController
                 :model => JSONModel(@agent_type),
                 :find_opts => find_opts,
                 :on_invalid => ->(){
-                  return render :partial => "agents/new" if inline?
+                  return render_aspace_partial :partial => "agents/new" if inline?
                   return render :action => :new
                 },
                 :on_valid => ->(id){

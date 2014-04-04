@@ -8,7 +8,7 @@
 
       "title" => {"type" => "string", "maxLength" => 16384},
 
-      "publish" => {"type" => "boolean", "default" => true},
+      "publish" => {"type" => "boolean"},
 
       "enumeration" => {
         "type" => "string",

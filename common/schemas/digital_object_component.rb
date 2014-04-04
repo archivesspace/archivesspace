@@ -46,6 +46,8 @@
                                    {"type" => "JSONModel(:note_digital_object) object"}]},
           },
 
+      "has_unpublished_ancestor" => {"type" => "boolean", "readonly" => "true"},
+
     },
   },
 }

@@ -89,6 +89,11 @@ class TomcatSetup
   end
 
 
+  def copy_reports
+    loud_cp_r(File.join(@base_dir, "reports"), @tomcat_dir)
+  end
+
+
   def copy_config
     Dir.glob(File.join(@base_dir, "launcher", "tomcat", "files", "setenv*")).each do |setenv|
       loud_cp(setenv, File.join(@tomcat_dir, "bin"))
@@ -129,6 +134,7 @@ EOF
     copy_wars
     copy_libs
     copy_plugins
+    copy_reports
     copy_locales
     copy_config
   end

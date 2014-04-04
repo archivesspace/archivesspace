@@ -8,8 +8,9 @@
 $(function() {
 
   var init_name_form = function(subform) {
-    var $checkbox = $(":checkbox[name$=\"[sort_name_auto_generate]\"]", subform);
-    var $sortNameField = $(":input[name$=\"[sort_name]\"]", subform);
+    var $subform = $(subform);
+    var $checkbox = $(":checkbox[name$=\"[sort_name_auto_generate]\"]", $subform);
+    var $sortNameField = $(":input[name$=\"[sort_name]\"]", $subform);
 
 		var disableSortName = function() {
 			$sortNameField.attr("readonly","readonly");
@@ -37,6 +38,52 @@ $(function() {
         // $sortNameField.closest(".control-group").show();
       }
     });
+
+
+    // setup authoritive/display name actions
+    var $authorized = $(":input[name$=\"[authorized]\"]", $subform);
+    var $displayName = $(":input[name$=\"[is_display_name]\"]", $subform);
+    var $section = $authorized.closest("section.subrecord-form");
+
+    var handleAuthorizedChange = function(val) {
+      if (val) {
+        $subform.addClass("authoritive-name");
+      } else {
+        $subform.removeClass("authoritive-name");
+      }
+      $authorized.val(val ? 1 : 0);
+    }
+    var handleDisplayNameChange = function(val) {
+      if (val) {
+        $subform.addClass("display-name");
+      } else {
+        $subform.removeClass("display-name");
+      }
+      $displayName.val(val ? 1 : 0);
+    }
+
+    $(".btn-authoritive-name-toggle", $subform).click(function(event) {
+      event.preventDefault();
+
+      $section.triggerHandler("newauthorizedname.aspace", [$subform])
+    });
+
+    $section.on("newauthorizedname.aspace", function(event, authorized_name_form) {
+      handleAuthorizedChange(authorized_name_form == $subform);
+    });
+
+    $(".btn-display-name-toggle", $subform).click(function(event) {
+      event.preventDefault();
+
+      $section.triggerHandler("newdisplayname.aspace", [$subform])
+    });
+
+    $section.on("newdisplayname.aspace", function(event, display_name_form) {
+      handleDisplayNameChange(display_name_form == $subform);
+    });
+
+    handleAuthorizedChange($authorized.val() == "1");
+    handleDisplayNameChange($displayName.val() == "1");
   };
 
 

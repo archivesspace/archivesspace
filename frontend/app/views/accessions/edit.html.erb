@@ -4,16 +4,16 @@
   <%= form_context :accession, @accession do |form| %>
     <div class="row-fluid">
       <div class="span3">
-        <%= render :partial => "sidebar" %>
+        <%= render_aspace_partial :partial => "sidebar" %>
       </div>
 
       <div class="span9">
-        <%= render :partial => "accessions/toolbar" %>
+        <%= render_aspace_partial :partial => "accessions/toolbar" %>
         <div class="record-pane">
           <%= link_to_help :topic => "accession" %>
           <h2><%= @accession.display_string %> <span class="label label-info"><%= I18n.t("accession._singular") %></span></h2>
           <input type="hidden" name="_method" value="put" />
-          <%= render :partial => "accessions/form", :locals => {:form => form} %>
+          <%= render_aspace_partial :partial => "accessions/form", :locals => {:form => form} %>
         </div>
       </div>
     </div>

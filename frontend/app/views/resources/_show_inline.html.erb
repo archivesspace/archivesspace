@@ -1,14 +1,14 @@
 <div class="row-fluid">
   <div class="span3">
-    <%= render :partial => "resources/sidebar" %>
+    <%= render_aspace_partial :partial => "resources/sidebar" %>
   </div>
   <div class="span9">
-    <%= render :partial => "toolbar" %>
+    <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <%= readonly_context :resource, @resource do |readonly| %>
         <h2><%= @resource.title %> <span class="label label-info"><%= I18n.t("resource._singular") %></span></h2>
 
-        <%= render :partial => "shared/form_messages", :locals => {:form => readonly} %>
+        <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => readonly} %>
 
         <% define_template "resource", jsonmodel_definition(:resource) do |readonly, resource| %>
           <section id="basic_information">
@@ -27,10 +27,10 @@
           </section>
 
           <% if @resource.dates.length > 0 %>
-            <%= render :partial => "dates/show", :locals => { :dates => @resource.dates, :section_id => "resource_dates_" } %>
+            <%= render_aspace_partial :partial => "dates/show", :locals => { :dates => @resource.dates, :section_id => "resource_dates_" } %>
           <% end %>
 
-          <%= render :partial => "extents/show", :locals => { :extents => @resource.extents, :section_id => "resource_extents_" } %>
+          <%= render_aspace_partial :partial => "extents/show", :locals => { :extents => @resource.extents, :section_id => "resource_extents_" } %>
 
           <section id="finding_aid" class="subrecord-form-dummy">
             <h3><%= I18n.t("resource._frontend.section.finding_aid") %></h3>
@@ -62,49 +62,49 @@
         <% readonly.emit_template("resource", @resource) %>
 
         <% if @resource.related_accessions.length > 0 %>
-          <%= render :partial => "related_accessions/show", :locals => { :related_accessions => @resource.related_accessions, :section_id => "resource_related_accessions_" } %>
+          <%= render_aspace_partial :partial => "related_accessions/show", :locals => { :related_accessions => @resource.related_accessions, :section_id => "resource_related_accessions_" } %>
         <% end %>
 
         <% if @resource.linked_agents.length > 0 %>
-          <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @resource.linked_agents, :section_id => "resource_linked_agents_" } %>
+          <%= render_aspace_partial :partial => "linked_agents/show", :locals => { :linked_agents => @resource.linked_agents, :section_id => "resource_linked_agents_" } %>
         <% end %>
 
         <% if not @resource.subjects.blank? %>
-          <%= render :partial => "subjects/show_inline", :locals => {:subjects => @resource.subjects, :section_id => "resource_subjects_"} %>
+          <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => @resource.subjects, :section_id => "resource_subjects_"} %>
         <% end %>
 
         <% if @resource.notes.length > 0 %>
-          <%= render :partial => "notes/show", :locals => { :notes => @resource.notes, :context => readonly } %>
+          <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => @resource.notes, :context => readonly } %>
         <% end %>
 
         <% if @resource.external_documents.length > 0 %>
-          <%= render :partial => "external_documents/show", :locals => { :external_documents => @resource.external_documents, :section_id => "resource_external_documents_"  } %>
+          <%= render_aspace_partial :partial => "external_documents/show", :locals => { :external_documents => @resource.external_documents, :section_id => "resource_external_documents_"  } %>
         <% end %>
 
         <% if @resource.rights_statements.length > 0 %>
-          <%= render :partial => "rights_statements/show", :locals => { :rights_statements => @resource.rights_statements, :section_id => "resource_rights_statements_"  } %>
+          <%= render_aspace_partial :partial => "rights_statements/show", :locals => { :rights_statements => @resource.rights_statements, :section_id => "resource_rights_statements_"  } %>
         <% end %>
 
         <% if @resource.instances.length > 0 %>
-          <%= render :partial => "instances/show", :locals => { :instances => @resource.instances, :section_id => "resource_instances_"  } %>
+          <%= render_aspace_partial :partial => "instances/show", :locals => { :instances => @resource.instances, :section_id => "resource_instances_"  } %>
         <% end %>
 
         <% if @resource.deaccessions.length > 0 %>
-          <%= render :partial => "deaccessions/show", :locals => { :deaccessions => @resource.deaccessions, :context => readonly, :section_id => "resource_deaccessions_" } %>
+          <%= render_aspace_partial :partial => "deaccessions/show", :locals => { :deaccessions => @resource.deaccessions, :context => readonly, :section_id => "resource_deaccessions_" } %>
         <% end %>
 
         <% if @resource.collection_management %>
-          <%= render :partial => "collection_management/show", :locals => { :collection_management => @resource.collection_management, :context => readonly, :section_id => "resource_collection_management_" } %>
+          <%= render_aspace_partial :partial => "collection_management/show", :locals => { :collection_management => @resource.collection_management, :context => readonly, :section_id => "resource_collection_management_" } %>
         <% end %>
 
         <% if @resource.classification %>
-          <%= render :partial => "classification/show", :locals => { :classification => @resource.classification, :context => readonly, :section_id => "resource_classification_" } %>
+          <%= render_aspace_partial :partial => "classification/show", :locals => { :classification => @resource.classification, :context => readonly, :section_id => "resource_classification_" } %>
         <% end %>
 
-        <%= render :partial => "linked_events/show", :locals => { :linked_events => @resource.linked_events, :context => readonly, :section_id => "resource_linked_events_" } %>
+        <%= render_aspace_partial :partial => "linked_events/show", :locals => { :linked_events => @resource.linked_events, :context => readonly, :section_id => "resource_linked_events_" } %>
 
         <% if @resource.user_defined %>
-          <%= render :partial => "user_defined/show", :locals => { :user_defined => @resource.user_defined, :context => readonly, :section_id => "resource_user_defined_" } %>
+          <%= render_aspace_partial :partial => "user_defined/show", :locals => { :user_defined => @resource.user_defined, :context => readonly, :section_id => "resource_user_defined_" } %>
         <% end %>
 
         <%= show_plugins_for(@resource, readonly) %>

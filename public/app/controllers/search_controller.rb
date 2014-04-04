@@ -17,7 +17,7 @@ class SearchController < ApplicationController
 
     respond_to do |format|
       format.html { render "search/results" }
-      format.js { render :partial => "search/inline_results", :content_type => "text/html", :locals => {:search_data => @search_data} }
+      format.js { render_aspace_partial :partial => "search/inline_results", :content_type => "text/html", :locals => {:search_data => @search_data} }
     end
   end
 

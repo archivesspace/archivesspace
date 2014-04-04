@@ -935,7 +935,7 @@ en:
       expression: Expression
       single: Single
       bulk: Bulk Dates
-      inclusive: Inclusive Dates
+      inclusive: Range 
     date_label:
       broadcast: Broadcast
       copyright: Copyright
@@ -987,7 +987,7 @@ en:
       reading_room: Reading Room
     name_person_name_order:
       direct: Direct
-      inverted: Inverted
+      inverted: Indirect
     country_iso_3166:
       AF: Afghanistan
       AX: Åland Islands

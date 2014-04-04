@@ -2,12 +2,12 @@
   <%= form_context :archival_object, @archival_object do |form| %>
     <div class="row-fluid">
       <div class="span3">
-        <%= render :partial => "sidebar" %>
+        <%= render_aspace_partial :partial => "sidebar" %>
       </div>
       <div class="span9">
-        <%= render :partial => "shared/toolbar_new_records" %>
+        <%= render_aspace_partial :partial => "shared/toolbar_new_records" %>
         <div class="record-pane">
-          <%= render :partial => "archival_objects/form_container", :locals => {:form => form} %>
+          <%= render_aspace_partial :partial => "archival_objects/form_container", :locals => {:form => form} %>
           <div class="form-actions">
             <div class="btn-group btn-submit-group">
               <button type="submit" class="btn btn-primary"><%= I18n.t("archival_object._frontend.action.save") %></button>

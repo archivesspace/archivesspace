@@ -2,11 +2,6 @@ require 'spec_helper'
 
 describe 'Resource model' do
 
-  def create_resource(opts = {})
-    Resource.create_from_json(build(:json_resource, opts), :repo_id => $repo_id)
-  end
-
-
   it "allows resources to be created" do
     opts = {:title => generate(:generic_title)}
     

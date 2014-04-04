@@ -43,7 +43,7 @@ class RepositoriesController < ApplicationController
                     @exceptions[:errors]["repository/repo_code"] = @exceptions[:errors].delete("repo_code")
                   end
 
-                  return render :partial => "repositories/new" if inline?
+                  return render_aspace_partial :partial => "repositories/new" if inline?
                   return render :action => :new
                 },
                 :on_valid => ->(id){
@@ -84,8 +84,7 @@ class RepositoriesController < ApplicationController
 
   def select
     selected = @repositories.find {|r| r.id.to_s == params[:id]}
-    session[:repo] = selected.uri
-    session[:repo_id] = selected.id
+    self.class.session_repo(session, selected.uri)
 
     flash[:success] = I18n.t("repository._frontend.messages.changed", JSONModelI18nWrapper.new(:repository => selected))
 

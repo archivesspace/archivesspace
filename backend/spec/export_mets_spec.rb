@@ -54,6 +54,7 @@ describe "Exported METS document" do
 
   after(:all) do
     [@digital_objects, @components].flatten.each do |rec|
+      next if rec.nil?
       rec.delete
     end
 

@@ -4,7 +4,7 @@
 
 <div class="row-fluid">
   <div class="span3">
-    <%= render :partial => "search/filter" %>
+    <%= render_aspace_partial :partial => "search/filter" %>
   </div>
   <div class="span9">
     <div class="record-pane">
@@ -13,7 +13,7 @@
         <h2><%= title %></h2>
       <% end %>
 
-      <%= render :partial => "listing" %>
+      <%= render_aspace_partial :partial => "listing" %>
 
     </div>
   </div>

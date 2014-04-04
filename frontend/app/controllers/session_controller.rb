@@ -8,7 +8,7 @@ class SessionController < ApplicationController
     backend_session = User.login(params[:username], params[:password])
 
     if backend_session
-      User.establish_session(session, backend_session, params[:username])
+      User.establish_session(self, backend_session, params[:username])
     end
 
     load_repository_list
@@ -18,7 +18,7 @@ class SessionController < ApplicationController
 
 
   def login_inline
-    render :partial => "shared/modal", :locals => {:title => I18n.t("session.inline_login_title"), :partial => "shared/login", :id => "inlineLoginModal"}
+    render_aspace_partial :partial => "shared/modal", :locals => {:title => I18n.t("session.inline_login_title"), :partial => "shared/login", :id => "inlineLoginModal"}
   end
 
 

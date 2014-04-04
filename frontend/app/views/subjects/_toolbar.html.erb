@@ -22,7 +22,7 @@
         <div class="btn-group btn-toolbar pull-right">
           <% if user_can?('merge_subject_record') %>
             <%=
-                render :partial => "shared/merge_dropdown",
+                render_aspace_partial :partial => "shared/merge_dropdown",
                        :locals => {:record => @subject,
                                    :controller => :subjects,
                                    :confirmation_title => I18n.t("actions.merge_confirm_title"),

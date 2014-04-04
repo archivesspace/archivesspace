@@ -1,13 +1,13 @@
 <div class="row-fluid">
   <div class="span3">
-    <%= render :partial => "sidebar" %>
+    <%= render_aspace_partial :partial => "sidebar" %>
   </div>
   <div class="span9">
-    <%= render :partial => "toolbar" %>
+    <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <% define_template "archival_object", jsonmodel_definition(:archival_object) do |readonly, archival_object| %>
         <h2><%= archival_object.display_string %> <span class="label label-info"><%= I18n.t("archival_object._singular") %></span></h2>
-        <%= render :partial => "shared/flash_messages" %>
+        <%= render_aspace_partial :partial => "shared/flash_messages" %>
         <section id="basic_information">
           <h3><%= I18n.t("archival_object._frontend.section.basic_information") %></h3>
           <%= readonly.label_and_textarea "title" %>
@@ -17,44 +17,45 @@
           <%= readonly.label_and_textfield "other_level" %>
           <%= readonly.label_and_select "language", readonly.possible_options_for("language", true) %>
           <%= readonly.label_and_boolean "publish" %>
+          <%= readonly.label_and_boolean "has_unpublished_ancestor" %>
           <%= readonly.label_and_boolean "restrictions_apply" %>
           <%= readonly.label_and_textarea "repository_processing_note" %>
           <%= display_audit_info(@archival_object) %>
         </section>
 
         <% if archival_object.dates.length > 0 %>
-          <%= render :partial => "dates/show", :locals => { :dates => archival_object.dates, :section_id => "archival_object_dates_" } %>
+          <%= render_aspace_partial :partial => "dates/show", :locals => { :dates => archival_object.dates, :section_id => "archival_object_dates_" } %>
         <% end %>
 
         <% if archival_object.extents.length > 0 %>
-          <%= render :partial => "extents/show", :locals => { :extents => archival_object.extents, :section_id => "archival_object_extents_" } %>
+          <%= render_aspace_partial :partial => "extents/show", :locals => { :extents => archival_object.extents, :section_id => "archival_object_extents_" } %>
         <% end %>
 
         <% if archival_object.linked_agents.length > 0 %>
-          <%= render :partial => "linked_agents/show", :locals => { :linked_agents => archival_object.linked_agents, :section_id => "archival_object_linked_agents_" } %>
+          <%= render_aspace_partial :partial => "linked_agents/show", :locals => { :linked_agents => archival_object.linked_agents, :section_id => "archival_object_linked_agents_" } %>
         <% end %>
 
         <% if not archival_object.subjects.blank? %>
-          <%= render :partial => "subjects/show_inline", :locals => {:subjects => archival_object.subjects, :section_id => "archival_object_subjects_"} %>
+          <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => archival_object.subjects, :section_id => "archival_object_subjects_"} %>
         <% end %>
 
         <% if archival_object.notes.length > 0 %>
-          <%= render :partial => "notes/show", :locals => { :notes => archival_object.notes, :context => readonly } %>
+          <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => archival_object.notes, :context => readonly } %>
         <% end %>
 
         <% if archival_object.external_documents.length > 0 %>
-          <%= render :partial => "external_documents/show", :locals => { :external_documents => archival_object.external_documents, :section_id => "archival_object_external_documents_" } %>
+          <%= render_aspace_partial :partial => "external_documents/show", :locals => { :external_documents => archival_object.external_documents, :section_id => "archival_object_external_documents_" } %>
         <% end %>
 
         <% if archival_object.rights_statements.length > 0 %>
-          <%= render :partial => "rights_statements/show", :locals => { :rights_statements => archival_object.rights_statements, :section_id => "archival_object_rights_statements_" } %>
+          <%= render_aspace_partial :partial => "rights_statements/show", :locals => { :rights_statements => archival_object.rights_statements, :section_id => "archival_object_rights_statements_" } %>
         <% end %>
 
         <% if archival_object.instances.length > 0 %>
-          <%= render :partial => "instances/show", :locals => { :instances => archival_object.instances, :section_id => "archival_object_instances_"  } %>
+          <%= render_aspace_partial :partial => "instances/show", :locals => { :instances => archival_object.instances, :section_id => "archival_object_instances_"  } %>
         <% end %>
 
-        <%= render :partial => "linked_events/show", :locals => { :linked_events => archival_object.linked_events, :context => readonly, :section_id => "archival_object_linked_events_" } %>
+        <%= render_aspace_partial :partial => "linked_events/show", :locals => { :linked_events => archival_object.linked_events, :context => readonly, :section_id => "archival_object_linked_events_" } %>
 
 
         <%= show_plugins_for(@archival_object, readonly) %>

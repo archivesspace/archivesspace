@@ -17,6 +17,7 @@ class DigitalObject < Sequel::Model(:digital_object)
   include UserDefineds
   include ComponentsAddChildren
   include Events
+  include Publishable
 
   enable_suppression
 
@@ -32,26 +33,39 @@ class DigitalObject < Sequel::Model(:digital_object)
                       :contains_references_to_types => proc {[Instance]})
 
 
-  def self.sequel_to_jsonmodel(obj, opts = {})
-    json = super
+  def self.sequel_to_jsonmodel(objs, opts = {})
+    jsons = super
 
-    json["linked_instances"] = []
+    relationships = find_relationship(:instance_do_link).find_by_participant_ids(self, objs.map(&:id))
+    instances = Instance.filter(:id => relationships.map {|relationship| relationship[:instance_id]}).all
 
-    obj.related_records(:instance_do_link).each do |link|
-      uri = link.resource.uri if link.resource
-      uri = link.archival_object.uri if link.archival_object
-      uri = link.accession.uri if link.accession
+    relationship_to_instance = Hash[relationships.map {|relationship|
+                                      [relationship, instances.select {|instance| relationship[:instance_id] == instance.id}]
+                                    }]
 
-      if uri.nil?
-        raise "Digital Object Instance not linked to either a resource, archival object or accession"
+    jsons.zip(objs).each do |json, obj|
+      json["linked_instances"] = []
+
+      relationships.each do |relationship|
+        next unless relationship.relates_to?(obj)
+
+        instances = relationship_to_instance[relationship]
+
+        instances.each do |link|
+          uri = self.uri_for(:resource, link[:resource_id]) if link[:resource_id]
+          uri = self.uri_for(:archival_object, link[:archival_object_id]) if link[:archival_object_id]
+          uri = self.uri_for(:accession, link[:accession_id]) if link[:accession_id]
+
+          if uri.nil?
+            raise "Digital Object Instance not linked to either a resource, archival object or accession"
+          end
+
+          json["linked_instances"].push({"ref" => uri})
+        end
       end
-
-        json["linked_instances"].push({
-            "ref" => uri
-        })
     end
 
-    json
+    jsons
   end
 
 

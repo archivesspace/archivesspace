@@ -47,14 +47,16 @@ class Event < Sequel::Model(:event)
   end
 
 
-  def self.sequel_to_jsonmodel(obj, opts = {})
-    json = super
+  def self.sequel_to_jsonmodel(objs, opts = {})
+    jsons = super
 
-    if json['timestamp']
-      json['timestamp'] = json['timestamp'].iso8601
+    jsons.each do |json|
+      if json['timestamp']
+        json['timestamp'] = json['timestamp'].iso8601
+      end
     end
 
-    json
+    jsons
   end
 
 

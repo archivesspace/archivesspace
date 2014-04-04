@@ -490,7 +490,6 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "agent_agent_contacts__0__name_"], "Email Address")
       $driver.clear_and_send_keys([:id, "agent_agent_contacts__0__email_"], "jimi@rocknrollheaven.com")
 
-      $driver.find_element(:id => "agent_names__1__source_").select_option("local")
       $driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
       assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("My Custom Sort Name Agent") }
@@ -678,9 +677,9 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "accession_condition_description_"], "Slightly squashed")
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-      $driver.click_and_wait_until_gone(:link => "#{@accession_title}, #{@shared_4partid.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => @accession_title)
 
-      assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("#{@accession_title}, #{@shared_4partid.join(", ")} Accession") }
+      assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("#{@accession_title} Accession") }
     end
 
 
@@ -690,7 +689,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, 'accession_condition_description_'], "Here we note the condition of this accession.")
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-      $driver.click_and_wait_until_gone(:link => "#{@accession_title}, #{@shared_4partid.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => @accession_title)
 
       assert(5) { $driver.find_element(:css => 'body').text.should match(/Here is a description of this accession/) }
     end
@@ -723,9 +722,9 @@ describe "ArchivesSpace user interface" do
 
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-      $driver.click_and_wait_until_gone(:link => "#{@accession_title}, #{@shared_4partid.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => @accession_title)
 
-      assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("#{@accession_title}, #{@shared_4partid.join(", ")} Accession") }
+      assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("#{@accession_title} Accession") }
     end
 
 
@@ -746,7 +745,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-      $driver.click_and_wait_until_gone(:link => "#{@accession_title}, #{@shared_4partid.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => @accession_title)
 
       extent_headings = $driver.blocking_find_elements(:css => '#accession_extents_ .accordion-heading')
       extent_headings.length.should eq (1)
@@ -778,7 +777,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-      $driver.click_and_wait_until_gone(:link => "#{@accession_title}, #{@shared_4partid.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => @accession_title)
 
       $driver.find_element(:id => 'accession_linked_agents_').text.should match(/LinkedAgentTerm/)
     end
@@ -842,7 +841,7 @@ describe "ArchivesSpace user interface" do
       # save again!
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-      $driver.click_and_wait_until_gone(:link => "#{@dates_accession_title}, #{@dates_4partid.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => @dates_accession_title)
 
       # check dates
       date_headings = $driver.blocking_find_elements(:css => '#accession_dates_ .accordion-heading')
@@ -861,7 +860,7 @@ describe "ArchivesSpace user interface" do
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
       # check remaining date
-      $driver.click_and_wait_until_gone(:link => "#{@dates_accession_title}, #{@dates_4partid.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => @dates_accession_title)
       date_headings = $driver.blocking_find_elements(:css => '#accession_dates_ .accordion-heading')
       date_headings.length.should eq (1)
     end
@@ -895,7 +894,7 @@ describe "ArchivesSpace user interface" do
       # save!
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-      $driver.click_and_wait_until_gone(:link => "#{@exdocs_accession_title}, #{@exdocs_4partid.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => @exdocs_accession_title)
 
       # check external documents
       external_document_sections = $driver.blocking_find_elements(:css => '#accession_external_documents_ .external-document')
@@ -914,7 +913,7 @@ describe "ArchivesSpace user interface" do
       # save!
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-      $driver.click_and_wait_until_gone(:link => "#{@exdocs_accession_title}, #{@exdocs_4partid.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => @exdocs_accession_title)
 
       # check remaining external documents
       external_document_sections = $driver.blocking_find_elements(:css => '#accession_external_documents_ .external-document')
@@ -947,7 +946,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-      $driver.click_and_wait_until_gone(:link => "#{@exdocs_accession_title}, #{@exdocs_4partid.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => @exdocs_accession_title)
 
       assert(5) { $driver.find_element(:css => "#accession_subjects_ .token").text.should eq("#{@me}AccessionTermABC -- #{@me}AccessionTermDEF") }
     end
@@ -973,7 +972,7 @@ describe "ArchivesSpace user interface" do
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
       # check the show page
-      $driver.click_and_wait_until_gone(:link => "#{@exdocs_accession_title}, #{@exdocs_4partid.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => @exdocs_accession_title)
       $driver.find_element(:id, "accession_rights_statements_")
       $driver.find_element(:css, "#accession_rights_statements_ .accordion-toggle").click
       $driver.find_element(:id, "rights_statement_0")
@@ -1006,7 +1005,7 @@ describe "ArchivesSpace user interface" do
       # Success!
       assert(5) {
         $driver.find_element_with_text('//div', /Event Created/).should_not be_nil
-        $driver.find_element(:css => '.record-pane h2').text.should eq("#{@exdocs_accession_title}, #{@exdocs_4partid.join(", ")} Accession")
+        $driver.find_element(:css => '.record-pane h2').text.should eq("#{@exdocs_accession_title} Accession")
       }
 end
     end
@@ -1031,7 +1030,7 @@ end
       login_as_repo_manager
 
       second_accession_title = "A new accession about to be deleted"
-      create_accession(second_accession_title)
+      create_accession(:title => second_accession_title)
       run_index_round
 
       $driver.find_element(:link, "Browse").click
@@ -1071,7 +1070,7 @@ end
     it "can navigate through pages of accessions" do
       c = 0
       (AppConfig[:default_page_size].to_i * 2 + 1).times do
-        create_accession("acc #{c += 1}")
+        create_accession(:title => "acc #{c += 1}")
       end
       run_index_round
 
@@ -1114,7 +1113,12 @@ end
 
     before(:all) do
       login_as_repo_manager
-      @accession_title, @accession_label = create_accession("My accession to test the record lifecycle")
+
+      do_uri, @digital_object_title = create_digital_object(:title => "My digital object to test the record lifecycle")
+      resource_uri, resource_title = create_resource(:title => "My resource to test the record lifecycle", :instances => [{:instance_type => "digital_object", :digital_object => {:ref => do_uri}}])
+      create_archival_object(:title => nil, :dates => [{:expression => "1981 - present", :date_type => "single", :label => "creation"}], :resource => {:ref => resource_uri}, :instances => [{:instance_type => "digital_object", :digital_object => {:ref => do_uri}}])
+
+      @accession_title = create_accession(:title => "My accession to test the record lifecycle")
       run_index_round
     end
 
@@ -1127,8 +1131,8 @@ end
 
     it "can suppress an Accession" do
       # make sure we can see suppressed records
-      $driver.find_element(:link, 'System').click
-      $driver.find_element(:link, "User Preferences").click
+      $driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
+      $driver.find_element(:link, "My Repository Preferences").click
 
       elt = $driver.find_element(:xpath, '//input[@id="preference_defaults__show_suppressed_"]')
       unless elt[@checked]
@@ -1146,7 +1150,7 @@ end
       $driver.find_element(:css, ".suppress-record.btn").click
       $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
 
-      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession_label} suppressed") }
+      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession_title} suppressed") }
       assert(5) { $driver.find_element(:css => "div.alert.alert-info").text.should eq('Accession is suppressed and cannot be edited') }
 
       run_index_round
@@ -1170,7 +1174,7 @@ end
       $driver.find_element_with_text('//h2', /Accessions/)
 
       # No element found
-      $driver.find_element_with_text('//td', /#{@accession_label}/, true, true).should eq(nil)
+      $driver.find_element_with_text('//td', /#{@accession_title}/, true, true).should eq(nil)
 
       # check the accession url
       $driver.get($accession_url)
@@ -1189,7 +1193,7 @@ end
       $driver.find_element(:css, ".unsuppress-record.btn").click
       $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
 
-      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession_label} unsuppressed") }
+      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession_title} unsuppressed") }
     end
 
 
@@ -1199,7 +1203,7 @@ end
       $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
 
       #Ensure Accession no longer exists
-      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession_label} deleted") }
+      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession_title} deleted") }
 
       run_index_round
 
@@ -1208,13 +1212,37 @@ end
       $driver.find_element_with_text('//h2', /Accessions/)
 
       # No element found
-      $driver.find_element_with_text('//td', /#{@accession_label}/, true, true).should eq(nil)
+      $driver.find_element_with_text('//td', /#{@accession_title}/, true, true).should eq(nil)
 
       # Navigate back to the accession's page
       $driver.get($accession_url)
       assert(5) {
         $driver.find_element_with_text('//h2', /Record Not Found/)
       }
+    end
+
+
+    it "can suppress a Digital Object" do
+      # Navigate to the Digital Object
+      $driver.clear_and_send_keys([:id, "global-search-box"], @digital_object_title)
+      $driver.find_element(:id, "global-search-button").click
+      $driver.find_element(:link, "Edit").click
+      digital_object_edit_url = $driver.current_url
+
+      # Suppress the Digital Object
+      $driver.find_element(:css, ".suppress-record.btn").click
+      $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
+
+      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Digital Object #{@digital_object_title} suppressed") }
+      assert(5) { $driver.find_element(:css => "div.alert.alert-info").text.should eq('Digital Object is suppressed and cannot be edited') }
+
+      run_index_round
+
+      # Try to navigate to the edit form
+      $driver.get(digital_object_edit_url)
+
+      assert(5) { $driver.current_url.should eq(digital_object_edit_url) }
+      assert(5) { $driver.find_element(:css => "div.alert.alert-info").text.should eq('Digital Object is suppressed and cannot be edited') }
     end
 
   end
@@ -1224,7 +1252,7 @@ end
 
     before(:all) do
       login_as_archivist
-      @accession_title, accession_label = create_accession("Events link to this accession")
+      @accession_title = create_accession(:title => "Events link to this accession")
       agent_uri, @agent_name = create_agent("Geddy Lee")
       run_index_round
     end
@@ -2165,7 +2193,7 @@ end
       $driver.find_element(:css, '.enumeration-list')
 
       while true
-        inclusive_dates = $driver.find_element_with_text('//tr', /Inclusive Dates/)
+        inclusive_dates = $driver.find_element_with_text('//tr', /Range/)
         default_btn = inclusive_dates.find_elements(:link, 'Set as Default')
 
         if default_btn[0]
@@ -2215,7 +2243,7 @@ end
 
 
     it "supports filtering global searches by type" do
-      create_accession("A test accession #{Time.now.to_i}_#{$$}")
+      create_accession(:title => "A test accession #{Time.now.to_i}_#{$$}")
       run_index_round
 
       $driver.find_element(:id, 'global-search-button').click
@@ -3005,7 +3033,7 @@ end
 
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-      $driver.click_and_wait_until_gone(:link => "#{accession_title}, #{accession_4part_id.join(", ")}")
+      $driver.click_and_wait_until_gone(:link => accession_title)
 
       $driver.find_element(:css => 'div.token.classification').text.should match(/#{test_classification}/)
     end
@@ -3013,5 +3041,37 @@ end
 
   end
 
+  describe "User Preferences" do
+
+    before(:all) do
+      login_as_admin
+    end
+
+
+    after(:all) do
+      logout
+    end
+
+
+    it "allows you to configure browse columns" do
+      create_accession(:title => "a browseable accession")
+      run_index_round
+
+      $driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
+      $driver.find_element(:link, "My Repository Preferences").click
+
+
+      $driver.find_element(:id => "preference_defaults__accession_browse_column_1_").select_option_with_text("Acquisition Type")
+      $driver.find_element(:css => 'button[type="submit"]').click
+
+      $driver.find_element(:link => 'Browse').click
+      $driver.find_element(:link => 'Accessions').click
+
+      cells = $driver.find_elements(:css, "table th")
+      cells[1].text.should eq("Title")
+      cells[2].text.should eq("Acquisition Type")
+    end
+
+  end
 
 end

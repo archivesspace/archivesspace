@@ -23,7 +23,7 @@
 
 <div class="row-fluid">
   <div class="span3">
-    <%= render :partial => "search/filter" %>
+    <%= render_aspace_partial :partial => "search/filter" %>
   </div>
   <div class="span9">
     <% if user_can?('update_event_record') %>
@@ -43,9 +43,9 @@
 
       <h2><%= I18n.t("event._plural") %></h2>
 
-      <%= render :partial => "shared/flash_messages" %>
+      <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
-      <%= render :partial => "search/listing" %>
+      <%= render_aspace_partial :partial => "search/listing" %>
     </div>
   </div>
 </div>

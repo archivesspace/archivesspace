@@ -25,6 +25,8 @@ class ApplicationController < ActionController::Base
 
   before_filter :refresh_permissions
 
+  before_filter :refresh_preferences
+
   before_filter :load_repository_list
 
   before_filter :unauthorised_access
@@ -33,9 +35,9 @@ class ApplicationController < ActionController::Base
     Array(@permission_mappings)
   end
 
-  def self.can_access?(session, method)
+  def self.can_access?(context, method)
     permission_mappings.each do |permission, actions|
-      if actions.include?(method) && !session_can?(session, permission)
+      if actions.include?(method) && !session_can?(context, permission)
         return false
       end
     end
@@ -191,20 +193,50 @@ class ApplicationController < ActionController::Base
   end
 
 
-  helper_method :user_can?
-  def user_can?(permission, repository = nil)
-    self.class.session_can?(session, permission, repository)
+  helper_method :user_prefs
+  def user_prefs
+    session[:preferences] || self.class.user_preferences(session)
   end
 
 
-  def self.session_can?(session, permission, repository = nil)
-    repository ||= session[:repo]
+  def self.session_repo(session, repo)
+    session[:repo] = repo
+    session[:repo_id] = JSONModel(:repository).id_for(repo)
+    self.user_preferences(session)
+  end
 
-    (session &&
-     session[:user] &&
-     session[:permissions] &&
-     (Permissions.user_can?(session[:permissions], repository, permission) ||
-      Permissions.user_can?(session[:permissions], ASConstants::Repository.GLOBAL, permission)))
+
+  def self.user_preferences(session)
+    session[:last_preference_refresh] = Time.now.to_i
+    if session[:repo_id]
+      session[:preferences] = JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/current_preferences")['defaults']
+    else
+      session[:preferences] = JSONModel::HTTP::get_json("/current_global_preferences")['defaults']
+    end
+  end
+
+
+  helper_method :user_can?
+  def user_can?(permission, repository = nil)
+    self.class.session_can?(self, permission, repository)
+  end
+
+
+  def self.session_can?(context, permission, repository = nil)
+    repository ||= context.session[:repo]
+
+    return false if !context.session || !context.session[:user]
+
+    permissions_s = context.send(:cookies).signed[:archivesspace_permissions]
+
+    if permissions_s
+      permissions = ASUtils.json_parse(permissions_s)
+    else
+      return false
+    end
+
+    (Permissions.user_can?(permissions, repository, permission) ||
+     Permissions.user_can?(permissions, ASConstants::Repository.GLOBAL, permission))
   end
 
 
@@ -248,8 +280,7 @@ class ApplicationController < ActionController::Base
     end
 
     if not session[:repo] and not @repositories.empty?
-      session[:repo] = @repositories.first.uri
-      session[:repo_id] = @repositories.first.id
+      self.class.session_repo(session, @repositories.first.uri)
     end
   end
 
@@ -257,7 +288,15 @@ class ApplicationController < ActionController::Base
   def refresh_permissions
     if session[:last_permission_refresh] &&
         session[:last_permission_refresh] < MemoryLeak::Resources.get(:acl_system_mtime)
-      User.refresh_permissions(session)
+      User.refresh_permissions(self)
+    end
+  end
+
+
+  def refresh_preferences
+    if session[:last_preference_refresh] &&
+        session[:last_preference_refresh] < MemoryLeak::Resources.get(:preferences_system_mtime)
+      session[:preferences] = nil
     end
   end
 
@@ -285,6 +324,19 @@ class ApplicationController < ActionController::Base
 
     render "/404"
   end
+
+
+  # We explicitly set the formats and handlers here to avoid the huge number of
+  # stat() syscalls that Rails normally triggers when running in dev mode.
+  #
+  # It would have been nice to call this 'render_partial', but that name is
+  # taken by the default controller.
+  #
+  def render_aspace_partial(args)
+    defaults = {:formats => [:html], :handlers => [:erb]}
+    return render(defaults.merge(args))
+  end
+
 
 
   def determine_browser_support

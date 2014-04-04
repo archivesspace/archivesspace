@@ -32,14 +32,26 @@ class LocationsReport < AbstractReport
 # LEFT OUTER JOIN "REPOSITORY" ON ("REPOSITORY"."ID" = "RESOURCE"."REPO_ID")
   def query(db)
     dataset = db[:location].
-      left_outer_join(:housed_at_rlshp, :location_id => :location__id).
-      left_outer_join(:container, :id => :housed_at_rlshp__container_id).
-      left_outer_join(:instance, :id => :container__instance_id).
-      left_outer_join(:resource, :id => :instance__resource_id).
-      left_outer_join(:repository, :id => :resource__repo_id)
-
-    dataset = dataset.where(Sequel.qualify(:repository, :id) => @repo_id) if @repo_id
-
+      select_all( :location).
+      select_append( Sequel.as( :repository__id, :repo_id) ).
+      join(:housed_at_rlshp, :location_id => :location__id).
+      join(:container, :id => :housed_at_rlshp__container_id).
+      join(:instance, :id => :container__instance_id).
+      join(:resource, :id => :instance__resource_id).
+      join(:repository, :id => :resource__repo_id)
+      .where(Sequel.qualify(:repository, :id) => @repo_id) 
+ 
+    dataset2 = db[:location].
+      select_all( :location).
+      select_append( Sequel.as( :repository__id, :repo_id) ).
+      join(:housed_at_rlshp, :location_id => :location__id).
+      join(:container, :id => :housed_at_rlshp__container_id).
+      join(:instance, :id => :container__instance_id).
+      join(:accession, :id => :instance__accession_id).
+      join(:repository, :id => :accession__repo_id)
+      .where(Sequel.qualify(:repository, :id) => @repo_id) 
+ 
+    dataset.union(dataset2, :all => true )
   end
 
 end

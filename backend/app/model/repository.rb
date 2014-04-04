@@ -40,24 +40,28 @@ class Repository < Sequel::Model(:repository)
                          :description => "Managers of the #{repo_code} repository",
                          :grants_permissions => ["manage_repository", "update_location_record", "update_subject_record",
                                                  "update_agent_record", "update_archival_record", "update_event_record", "view_repository",
-                                                 "delete_archival_record", "suppress_archival_record"]
+                                                 "delete_archival_record", "suppress_archival_record",
+                                                 "manage_subject_record", "manage_agent_record"]
                        },
                        {
                          :group_code => "repository-archivists",
                          :description => "Archivists of the #{repo_code} repository",
-                         :grants_permissions => ["update_subject_record", "update_agent_record", "update_archival_record", "update_event_record", "view_repository"]
+                         :grants_permissions => ["update_subject_record", "update_agent_record", "update_archival_record", "update_event_record", "view_repository",
+                                                 "manage_subject_record", "manage_agent_record"]
                        },
                        {
                          :group_code => "repository-project-managers",
                          :description => "Project managers of the #{repo_code} repository",
                          :grants_permissions => ["view_repository", "update_archival_record", "update_event_record", "update_subject_record", "update_agent_record",
                                                  "delete_archival_record", "suppress_archival_record",
+                                                 "manage_subject_record", "manage_agent_record",
                                                  'merge_agents_and_subjects']
                        },
                        {
                          :group_code => "repository-advanced-data-entry",
                          :description => "Advanced Data Entry users of the #{repo_code} repository",
-                         :grants_permissions => ["view_repository", "update_archival_record", "update_event_record", "update_subject_record", "update_agent_record"]
+                         :grants_permissions => ["view_repository", "update_archival_record", "update_event_record", "update_subject_record", "update_agent_record",
+                                                "manage_subject_record", "manage_agent_record"]
                        },
                        {
                          :group_code => "repository-basic-data-entry",
@@ -101,15 +105,18 @@ class Repository < Sequel::Model(:repository)
   end
 
 
-  def self.sequel_to_jsonmodel(obj, opts = {})
-    json = super
+  def self.sequel_to_jsonmodel(objs, opts = {})
+    jsons = super
 
-    if (agent_id = obj.agent_representation_id)
-      json["agent_representation"] = {
-        "ref" => JSONModel(:agent_corporate_entity).uri_for(agent_id)
-      }
+    jsons.zip(objs).each do |json, obj|
+      if (agent_id = obj.agent_representation_id)
+        json["agent_representation"] = {
+          "ref" => JSONModel(:agent_corporate_entity).uri_for(agent_id)
+        }
+      end
     end
-    
-    json
+
+    jsons
   end
+
 end

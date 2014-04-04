@@ -17,7 +17,7 @@ class RecordsController < ApplicationController
 
   def archival_object
     archival_object = JSONModel(:archival_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents"])
-    raise RecordNotFound.new if (!archival_object || !archival_object.publish)
+    raise RecordNotFound.new if (!archival_object || archival_object.has_unpublished_ancestor || !archival_object.publish)
 
     @archival_object = ArchivalObjectView.new(archival_object)
     @tree_view = Search.tree_view(@archival_object.uri)
@@ -56,7 +56,7 @@ class RecordsController < ApplicationController
 
   def digital_object_component
     digital_object_component = JSONModel(:digital_object_component).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_agents"])
-    raise RecordNotFound.new if (!digital_object_component || !digital_object_component.publish)
+    raise RecordNotFound.new if (!digital_object_component || digital_object_component.has_unpublished_ancestor ||  !digital_object_component.publish)
 
     @digital_object_component = DigitalObjectView.new(digital_object_component)
     @tree_view = Search.tree_view(@digital_object_component.uri)

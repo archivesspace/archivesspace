@@ -2,15 +2,15 @@
 
 <div class="row-fluid">
    <div class="span3">
-      <%= render :partial => "agents/sidebar" %>
+      <%= render_aspace_partial :partial => "agents/sidebar" %>
    </div>
    <div class="span9">
-    <%= render :partial => "toolbar" %>
+    <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
      <%= readonly_context @agent.agent_type.intern, @agent do |readonly| %>
         <h2><%= @agent.title %>  <span class="label label-info"><%= I18n.t("agent._singular") %></span></h2>
 
-        <%= render :partial => "shared/flash_messages" %>
+        <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
         <div class="row-fluid">
           <section id="basic_information">
@@ -26,7 +26,7 @@
         </div>
 
         <% if @agent.dates_of_existence.length > 0 %>
-          <%= render :partial => "dates/show", :locals => { :dates => @agent.dates_of_existence, :section_title => I18n.t("agent.dates_of_existence"), :section_id => "dates_of_existence", :context => readonly } %>
+          <%= render_aspace_partial :partial => "dates/show", :locals => { :dates => @agent.dates_of_existence, :section_title => I18n.t("agent.dates_of_existence"), :section_id => "dates_of_existence", :context => readonly } %>
         <% end %>
 
         <div class="row-fluid">
@@ -44,13 +44,16 @@
                       <div class="span6">
                         <%= name['sort_name'] %>
                       </div>
-                      <div class="span4"><%# Primary token can go here %></div>
+                      <div class="span4">
+                        <% if name['authorized'] %><span class="badge badge-info"><%= I18n.t("name_person.authorized") %></span><% end %>
+                        <% if name['is_display_name'] %><span class="badge badge-info"><%= I18n.t("name_person.is_display_name") %></span><% end %>
+                      </div>
                     </div>
                   </div>
                   <div id="agent_name_<%= index %>" class="accordion-body collapse">
                     <%= read_only_view(name.to_hash) %>
                     <% if name['use_dates'].length > 0 %>
-                      <%= render :partial => "dates/show", :locals => { :dates => name['use_dates'], :section_id => "name_use_dates", :section_title => I18n.t("agent_name.use_dates"), :context => readonly } %>
+                      <%= render_aspace_partial :partial => "dates/show", :locals => { :dates => name['use_dates'], :section_id => "name_use_dates", :section_title => I18n.t("agent_name.use_dates"), :context => readonly } %>
                     <% end %>
                   </div>
                 </div>
@@ -60,7 +63,7 @@
         </div>
 
         <% if @agent.agent_contacts.length > 0 %>
-          <%= render :partial => "agents/contact_details" %>
+          <%= render_aspace_partial :partial => "agents/contact_details" %>
 
           <div class="row-fluid">
             <section id="<%= @agent.agent_type %>_contact_details">
@@ -92,20 +95,20 @@
         <% end %>
 
         <% if @agent.notes.length > 0 %>
-          <%= render :partial => "notes/show", :locals => { :notes => @agent.notes, :context => readonly, :section_id => "#{@agent.agent_type}_notes" } %>
+          <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => @agent.notes, :context => readonly, :section_id => "#{@agent.agent_type}_notes" } %>
         <% end %>
 
         <% if !@agent['related_agents'].blank? %>
-          <%= render :partial => "related_agents/show", :locals => { :related_agents => @agent.related_agents, :context => readonly } %>
+          <%= render_aspace_partial :partial => "related_agents/show", :locals => { :related_agents => @agent.related_agents, :context => readonly } %>
         <% end %>
 
         <% if @agent.external_documents.length > 0 %>
-          <%= render :partial => "external_documents/show", :locals => { :external_documents => @agent.external_documents, :section_id => "#{@agent.agent_type}_external_documents" } %>
+          <%= render_aspace_partial :partial => "external_documents/show", :locals => { :external_documents => @agent.external_documents, :section_id => "#{@agent.agent_type}_external_documents" } %>
         <% end %>
 
         <%= show_plugins_for(@agent, readonly) %>
 
-        <%= render :partial => "search/embedded", :locals => {:filter_term => {"agents" => @agent.title}.to_json, :heading_text => I18n.t("agent._frontend.section.search_embedded")} %>
+        <%= render_aspace_partial :partial => "search/embedded", :locals => {:filter_term => {"agents" => @agent.title}.to_json, :heading_text => I18n.t("agent._frontend.section.search_embedded")} %>
       <% end %>
     </div>
   </div>

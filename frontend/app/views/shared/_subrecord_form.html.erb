@@ -18,7 +18,7 @@
   cardinality = :zero_to_many if cardinality.blank?
 %>
 
-<%= render :partial=>template_erb, :locals => {:form => form} %>
+<%= render_aspace_partial :partial => template_erb, :locals => {:form => form} %>
 
 
 <section id="<%= section_id %>" class="<%= section_class %><% if required == :conditionally %> conditionally-required<% elsif required %> required<% end %>" data-subrecord-form="true" data-object-name="<%= singular %>" data-template="<%= js_template_name %>" <% if custom_action_template %>data-custom-action="true"<% end %> data-cardinality="<%= cardinality %>">

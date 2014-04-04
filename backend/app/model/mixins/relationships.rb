@@ -61,7 +61,22 @@ AbstractRelationship = Class.new(Sequel::Model) do
              "  (Have you created the '#{table_name}' table?)")
     end
 
-    self.create(Hash[columns.zip([obj1.id, obj2.id])].merge(properties))
+    values = Hash[columns.zip([obj1.id, obj2.id])].merge(properties)
+
+    if [obj1, obj2].any? {|obj| obj.class.suppressible? && obj.suppressed == 1}
+      # Suppress this new relationship if it points to a suppressed record
+      values[:suppressed] = 1
+    end
+
+    self.create(values)
+  end
+
+
+  # True if this relationship relates to obj
+  def relates_to?(obj)
+    self.class.reference_columns_for(obj.class).any? {|col|
+      self[col] == obj.id
+    }
   end
 
 
@@ -171,6 +186,8 @@ AbstractRelationship = Class.new(Sequel::Model) do
   end
 
 
+  # Return the list of relationships involving any of the records named in
+  # 'participant_ids'
   def self.find_by_participant_ids(participant_model, participant_ids)
     result = []
 
@@ -511,7 +528,16 @@ module Relationships
     # Delete all existing relationships for 'obj'.
     def delete_existing_relationships(obj, bump_lock_version_on_referent = false, force = false, predicate = nil)
       relationships.each do |relationship_defn|
+
         next if (!relationship_defn.json_property && !force)
+
+        if (relationship_defn.json_property &&
+            (!self.my_jsonmodel.schema['properties'][relationship_defn.json_property] ||
+             self.my_jsonmodel.schema['properties'][relationship_defn.json_property]['readonly'] === 'true'))
+          # Don't delete instances of relationships that are read-only in this direction.
+          next
+        end
+
 
         relationship_defn.find_by_participant(obj).each do |relationship|
 
@@ -607,42 +633,46 @@ module Relationships
     end
 
 
-    def sequel_to_jsonmodel(obj, opts = {})
-      json = super
+    def sequel_to_jsonmodel(objs, opts = {})
+      jsons = super
 
-      return json if opts[:skip_relationships]
+      return jsons if opts[:skip_relationships]
 
-      relationships.each do |relationship_defn|
-        property_name = relationship_defn.json_property
+      eager_load_relationships(objs)
 
-        # If we don't need this property in our return JSON, skip it.
-        next unless property_name
+      jsons.zip(objs).each do |json, obj|
+        relationships.each do |relationship_defn|
+          property_name = relationship_defn.json_property
 
-        # For each defined relationship
-        relationships = if obj.cached_relationships
-                          # Use the eagerly fetched relationships if we have them
-                          Array(obj.cached_relationships[relationship_defn])
-                        else
-                          relationship_defn.find_by_participant(obj)
-                        end
+          # If we don't need this property in our return JSON, skip it.
+          next unless property_name
 
-        json[property_name] = relationships.map {|relationship|
-          next if RequestContext.get(:enforce_suppression) && relationship.suppressed == 1
+          # For each defined relationship
+          relationships = if obj.cached_relationships
+                            # Use the eagerly fetched relationships if we have them
+                            Array(obj.cached_relationships[relationship_defn])
+                          else
+                            relationship_defn.find_by_participant(obj)
+                          end
 
-          # Return the relationship properties, plus the URI reference of the
-          # related object
-          values = ASUtils.keys_as_strings(relationship.properties)
-          values['ref'] = relationship.uri_for_other_referent_than(obj)
+          json[property_name] = relationships.map {|relationship|
+            next if RequestContext.get(:enforce_suppression) && relationship.suppressed == 1
 
-          values
-        }
+            # Return the relationship properties, plus the URI reference of the
+            # related object
+            values = ASUtils.keys_as_strings(relationship.properties)
+            values['ref'] = relationship.uri_for_other_referent_than(obj)
 
-        if !relationship_defn.wants_array?
-          json[property_name] = json[property_name].first
+            values
+          }
+
+          if !relationship_defn.wants_array?
+            json[property_name] = json[property_name].first
+          end
         end
       end
 
-      json
+      jsons
     end
 
 

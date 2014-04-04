@@ -409,14 +409,25 @@ describe 'Resources controller' do
   it "can store some notes and get them back" do
     resource = create(:json_resource)
 
-    notes = build(:json_note_bibliography)
-    index = build(:json_note_index)
+    notes = build(:json_note_bibliography, :persistent_id => "something")
+    index = build(:json_note_index, :persistent_id => "else")
 
     resource.notes = [notes, index]
     resource.save
 
-    JSONModel(:resource).find(resource.id)[:notes].first.should eq(notes.to_hash)
-    JSONModel(:resource).find(resource.id)[:notes].last.should eq(index.to_hash)
+    JSONModel(:resource).find(resource.id)[:notes].first['content'].should eq(notes.to_hash['content'])
+    JSONModel(:resource).find(resource.id)[:notes].last['content'].should eq(index.to_hash['content'])
+  end
+
+
+  it "automatically generates persistent IDs for notes if not given" do
+    resource = create(:json_resource)
+
+    notes = build(:json_note_bibliography)
+    resource.notes = [notes]
+    resource.save
+
+    JSONModel(:resource).find(resource.id)[:notes].first['persistent_id'].should_not be(nil)
   end
 
 

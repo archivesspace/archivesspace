@@ -2,13 +2,15 @@
 
 <%
    @show_multiselect_column = user_can?("delete_archival_record")
-   add_column(I18n.t("resource.identifier"), proc {|record| record['identifier']}, :sortable => true, :sort_by => "identifier")
+
+   add_browse_columns("resource", {"level" => "archival_record_level", "language" => "language_iso639_2"})
+
 %>
 
 <div class="row-fluid">
    <div class="span3">
-     <%= render :partial => "search/components_switch" %>
-     <%= render :partial => "search/filter" %>
+     <%= render_aspace_partial :partial => "search/components_switch" %>
+     <%= render_aspace_partial :partial => "search/filter" %>
    </div>
    <div class="span9">
      <% if user_can?('update_archival_record') %>
@@ -31,9 +33,9 @@
 
        <h2><%= I18n.t("resource._plural") %></h2>
 
-       <%= render :partial => "shared/flash_messages" %>
+       <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
-       <%= render :partial => "search/listing" %>
+       <%= render_aspace_partial :partial => "search/listing" %>
      </div>
    </div>
 </div>

@@ -196,6 +196,63 @@ describe 'ArchivalObject model' do
   end
 
 
+  it "stores persistent_ids in the database when saving notes" do
+    note = build(:json_note_bibliography,
+                 :content => ["a little note"],
+                 :persistent_id => "something")
+
+    obj = ArchivalObject.create_from_json(build(:json_archival_object,
+                                                'notes' => [note]))
+
+    NotePersistentId.filter(:persistent_id => "something",
+                            :parent_id => obj.id,
+                            :parent_type => 'archival_object').count.should eq(1)
+  end
+
+
+
+  it "persistent_ids are stored within the context of the tree root where applicable" do
+    note = build(:json_note_bibliography,
+                 :content => ["a little note"],
+                 :persistent_id => "something")
+
+    resource = create_resource
+
+    obj = ArchivalObject.create_from_json(build(:json_archival_object,
+                                                'resource' => {'ref' => resource.uri},
+                                                'notes' => [note]))
+
+
+    NotePersistentId.filter(:persistent_id => "something",
+                            :parent_id => resource.id,
+                            :parent_type => 'resource').count.should eq(1)
+  end
+
+
+  it "persistent_ids are stored within the context of the tree root where applicable" do
+    note = build(:json_note_bibliography,
+                 :content => ["a little note"],
+                 :persistent_id => "something")
+
+    resource = create_resource
+
+    obj = ArchivalObject.create_from_json(build(:json_archival_object,
+                                                'resource' => {'ref' => resource.uri},
+                                                'notes' => [note]))
+
+
+    ao_with_index = ArchivalObject.create_from_json(build(:json_archival_object,
+                                                          'resource' => {'ref' => resource.uri},
+                                                          'parent' => {'ref' => obj.uri},
+                                                          'notes' => [build(:json_note_index,
+                                                                            :items => [build(:json_note_index_item,
+                                                                                             :reference => "something")])
+                                                                     ]))
+
+    ArchivalObject.to_jsonmodel(ao_with_index).notes[0]['items'][0]['reference_ref']['ref'].should eq(obj.uri)
+  end
+
+
   it "can re-save a record with long notes" do
     long_note = build(:json_note_text, :content => "a really long note" * 3000)
     id = ArchivalObject.create_from_json(build(:json_archival_object,
@@ -208,4 +265,19 @@ describe 'ArchivalObject model' do
     }.to_not raise_error
   end
 
+
+  it "doesn't blow up when converting records with multiple notes" do
+    recs = 5.times.map {
+      ArchivalObject.create_from_json(build(:json_archival_object,
+                                            'notes' => 10.times.map {
+                                                          build(:json_note_multipart,
+                                                              'type' => 'accruals',
+                                                              :subnotes => [build(:json_note_text)])
+                                                        }))
+    }
+
+    expect {
+      ArchivalObject.sequel_to_jsonmodel(recs)
+    }.to_not raise_error
+  end
 end

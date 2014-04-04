@@ -62,7 +62,7 @@ module ApplicationHelper
         breadcrumb_trail.push([options[:title]])
     end
 
-    render(:partial =>"shared/breadcrumb", :layout => false , :locals => { :trail => breadcrumb_trail }).to_s if options[:suppress_breadcrumb] != true
+    render_aspace_partial(:partial =>"shared/breadcrumb", :layout => false , :locals => { :trail => breadcrumb_trail }).to_s if options[:suppress_breadcrumb] != true
   end
 
   def render_token(opts)
@@ -216,7 +216,14 @@ module ApplicationHelper
     controller_class_name = "#{name}_controller".classify
     controller_class = Kernel.const_get(controller_class_name)
 
-    controller_class.can_access?(session, :index)
+    controller_class.can_access?(self, :index)
+  end
+
+
+  # See: ApplicationController#render_aspace_partial
+  def render_aspace_partial(args)
+    defaults = {:formats => [:html], :handlers => [:erb]}
+    return render(defaults.merge(args))
   end
 
 end

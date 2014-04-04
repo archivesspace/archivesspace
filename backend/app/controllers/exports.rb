@@ -111,11 +111,18 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
             ["include_unpublished", BooleanParam,
              "Include unpublished records", :optional => true],
+            ["include_daos", BooleanParam,
+             "Include digital objects in dao tags", :optional => true],
+            ["numbered_cs", BooleanParam,
+             "Use numbered <c> tags in ead", :optional => true],
             ["repo_id", :repo_id])
     .permissions([:view_repository])
     .returns([200, "(:resource)"]) \
   do
-    ead_stream = generate_ead(params[:id], params[:include_unpublished] || false)
+    ead_stream = generate_ead(params[:id],
+                              (params[:include_unpublished] || false),
+                              (params[:include_daos] || false),
+                              (params[:numbered_cs] || false))
 
     stream_response(ead_stream)
   end
@@ -159,9 +166,10 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/archival_contexts/people/:id.xml')
+  Endpoint.get('/repositories/:repo_id/archival_contexts/people/:id.xml')
     .description("Get an EAC-CPF representation of an Agent")
-    .params(["id", :id])
+    .params(["id", :id],
+            ["repo_id", :repo_id])
     .permissions([])
     .returns([200, "(:agent)"]) \
   do
@@ -171,22 +179,25 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/archival_contexts/people/:id.:fmt/metadata')
+  Endpoint.get('/repositories/:repo_id/archival_contexts/people/:id.:fmt/metadata')
     .description("Get metadata for an EAC-CPF export of a person")
-    .params(["id", :id])
+    .params(["id", :id],
+            ["repo_id", :repo_id])
     .permissions([])
     .returns([200, "The export metadata"]) \
   do
-    aname = AgentPerson[params[:id]].name_person[0]
-    fn = [aname.authority_id, aname.primary_name].compact.join("_")
+    agent = AgentPerson.to_jsonmodel(params[:id])
+    aname = agent['display_name']
+    fn = [aname['authority_id'], aname['primary_name']].compact.join("_")
     json_response({"filename" => "#{fn}_eac.xml".gsub(/\s+/, '_'),
                    "mimetype" => "application/xml"})
   end
 
 
-  Endpoint.get('/archival_contexts/corporate_entities/:id.xml')
+  Endpoint.get('/repositories/:repo_id/archival_contexts/corporate_entities/:id.xml')
     .description("Get an EAC-CPF representation of a Corporate Entity")
-    .params(["id", :id])
+    .params(["id", :id],
+            ["repo_id", :repo_id])
     .permissions([])
     .returns([200, "(:agent)"]) \
   do
@@ -196,22 +207,25 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/archival_contexts/corporate_entities/:id.:fmt/metadata')
+  Endpoint.get('/repositories/:repo_id/archival_contexts/corporate_entities/:id.:fmt/metadata')
     .description("Get metadata for an EAC-CPF export of a corporate entity")
-    .params(["id", :id])
+    .params(["id", :id],
+            ["repo_id", :repo_id])
     .permissions([])
     .returns([200, "The export metadata"]) \
   do
-    aname = AgentCorporateEntity[params[:id]].name_corporate_entity[0]
-    fn = [aname.authority_id, aname.primary_name].compact.join("_")
+    agent = AgentCorporateEntity.to_jsonmodel(params[:id])
+    aname = agent['display_name']
+    fn = [aname['authority_id'], aname['primary_name']].compact.join("_")
     json_response({"filename" => "#{fn}_eac.xml".gsub(/\s+/, '_'),
                    "mimetype" => "application/xml"})
   end
 
 
-  Endpoint.get('/archival_contexts/families/:id.xml')
+  Endpoint.get('/repositories/:repo_id/archival_contexts/families/:id.xml')
     .description("Get an EAC-CPF representation of a Family")
-    .params(["id", :id])
+    .params(["id", :id],
+            ["repo_id", :repo_id])
     .permissions([])
     .returns([200, "(:agent)"]) \
   do
@@ -221,22 +235,25 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/archival_contexts/families/:id.:fmt/metadata')
+  Endpoint.get('/repositories/:repo_id/archival_contexts/families/:id.:fmt/metadata')
     .description("Get metadata for an EAC-CPF export of a family")
-    .params(["id", :id])
+    .params(["id", :id],
+            ["repo_id", :repo_id])
     .permissions([])
     .returns([200, "The export metadata"]) \
   do
-    aname = AgentFamily[params[:id]].name_family[0]
-    fn = [aname.authority_id, aname.family_name].compact.join("_")
+    agent = AgentFamily.to_jsonmodel(params[:id])
+    aname = agent['display_name']
+    fn = [aname['authority_id'], aname['family_name']].compact.join("_")
     json_response({"filename" => "#{fn}_eac.xml".gsub(/\s+/, '_'),
                    "mimetype" => "application/xml"})
   end
 
 
-  Endpoint.get('/archival_contexts/softwares/:id.xml')
+  Endpoint.get('/repositories/:repo_id/archival_contexts/softwares/:id.xml')
     .description("Get an EAC-CPF representation of a Software agent")
-    .params(["id", :id])
+    .params(["id", :id],
+            ["repo_id", :repo_id])
     .permissions([])
     .returns([200, "(:agent)"]) \
   do
@@ -246,17 +263,18 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/archival_contexts/softwares/:id.:fmt/metadata')
+  Endpoint.get('/repositories/:repo_id/archival_contexts/softwares/:id.:fmt/metadata')
     .description("Get metadata for an EAC-CPF export of a software")
-    .params(["id", :id])
+    .params(["id", :id],
+            ["repo_id", :repo_id])
     .permissions([])
     .returns([200, "The export metadata"]) \
   do
-    aname = AgentSoftware[params[:id]].name_software[0]
-    fn = [aname.authority_id, aname.software_name].compact.join("_")
+    agent = AgentSoftware.to_jsonmodel(params[:id])
+    aname = agent['display_name']
+    fn = [aname['authority_id'], aname['software_name']].compact.join("_")
     json_response({"filename" => "#{fn}_eac.xml".gsub(/\s+/, '_'),
                    "mimetype" => "application/xml"})
   end
-
 
 end

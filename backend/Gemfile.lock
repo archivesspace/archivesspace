@@ -20,9 +20,8 @@ GEM
     i18n (0.6.1)
     jdbc-derby (10.6.2.1-java)
     jdbc-mysql (5.1.13)
-    jruby-jars (1.7.6)
+    jruby-jars (1.7.11)
     jruby-rack (1.1.12)
-    json (1.7.7-java)
     json-schema (1.0.10)
     ladle (0.2.0-java)
     mini_portile (0.5.2)
@@ -42,7 +41,7 @@ GEM
       sequel
     rack-test (0.6.2)
       rack (>= 1.0)
-    rake (10.0.4)
+    rake (10.1.0)
     rjack-jackson (1.8.11.0-java)
     rspec (2.12.0)
       rspec-core (~> 2.12.0)
@@ -56,6 +55,8 @@ GEM
     rufus-lru (1.0.5)
     rufus-scheduler (2.0.17)
       tzinfo (>= 0.3.23)
+    saxerator (0.9.2)
+      nokogiri (>= 1.4.0)
     sequel (3.41.0)
     simplecov (0.7.1)
       multi_json (~> 1.0)
@@ -95,8 +96,7 @@ DEPENDENCIES
   flying_saucer
   jdbc-derby
   jdbc-mysql
-  jruby-jars (= 1.7.6)
-  json
+  jruby-jars (= 1.7.11)
   json-schema
   ladle
   multipart-post
@@ -110,6 +110,7 @@ DEPENDENCIES
   rubyzip (= 1.0.0)
   rufus-lru
   rufus-scheduler
+  saxerator (~> 0.9.2)
   sequel
   simplecov
   sinatra

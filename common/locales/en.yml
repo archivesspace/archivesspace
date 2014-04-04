@@ -145,6 +145,7 @@ en:
     coordinate_3_indicator_tooltip: |
         <p>Used to record an indicator such as a number or letter that uniquely identifies a location in combination with the associated coordinate label.</p>
     display_string: Display String
+    has_unpublished_ancestor: Has Unpublished Ancestor?
     _singular: Location
     _plural: Locations
 
@@ -433,6 +434,8 @@ en:
     sort_name_tooltip: |
         <p>A version of the name concatenating all the parts of the name provided in a given agent record. Used for display purposes in the application and for some exports.</p>
         <p>The sort name may be edited by unchecking the "Automatically generate" checkbox and then entering the form of the sort name desired.</p>
+    authorized: Authorized
+    is_display_name: Display Name
     _singular: Name
     _plural: Names
 
@@ -539,6 +542,7 @@ en:
     label: Label
     label_tooltip: |
         <p>A label or heading for the specific note. If a label is not used, the note type will be used as the label wherever required.</p>
+    persistent_id: Persistent ID
     content: Content
     content_tooltip: |
         <p>The content of the note.</p>
@@ -646,6 +650,7 @@ en:
     <<: *note_attributes
     option: Chronology
     title: Title
+    items: Events
 
   chronology_item:
     event_date: Event Date
@@ -716,6 +721,7 @@ en:
   file_version:
     _plural: File Versions
     _singular: File Version
+    file: File
     file_uri: File URI
     file_uri_tooltip: |
         <p>An identifier for a file associated with a digital object, accessible on the web or in a file directory.</p>
@@ -768,6 +774,7 @@ en:
         <li>SHA-1</li>
         <li>SHA-256</li>
         </ul>
+    identifier: Identifier
 
   extent: &extent_attributes
     portion: Portion
@@ -1264,6 +1271,7 @@ en:
         <p>The language term and code represented in the material(s) described.</p>
         <p>See DACS 4.5</p>
     "[:resource_id, :ref_id]": Ref ID
+    has_unpublished_ancestor: Has Unpublished Ancestor?
     _singular: Archival Object
     _plural: Archival Objects
 
@@ -1301,6 +1309,8 @@ en:
       merge_archival_record: merge the major record types in this repository
       transfer_repository: transfer the entire contents of a repository
       transfer_archival_record: transfer major record types between repositories
+      manage_subject_record: create/update/delete subject records
+      manage_agent_record: create/update/delete agent records
     _singular: Group
     _plural: Groups
 
@@ -1689,14 +1699,58 @@ en:
 
   preference: &preference_attributes
     defaults: Defaults
-    global: User Preferences
-    repo: Repository Preferences
+    global: Global Preference Defaults
+    global_message: Edit these values to set system-wide user preference defaults. These values can be overridden by repository defaults or a user's own preferences.
+    repo: User Preference Defaults
+    repo_message: Edit these values to set user preference defaults for the current repository. These values can be overridden by a user's own preferences.
+    user_global: My Global Preferences
+    user_global_message: Edit these values to set your system-wide user preferences. These values can be overridden by repository defaults or by your own preferences for a repository.
+    user_repo: My Repository Preferences
+    user_repo_message: Edit these values to set your user preferences for this repository. These values cannot be overridden.
     _singular: Preferences
     _plural: Preferences
 
   defaults: &defaults_attributes
+    general_section: General Settings
     show_suppressed: Show Suppressed?
     show_suppressed_tooltip: Whether to show suppressed records that you have permission to see when browsing.
+    publish: Publish?
+    publish_tooltip: Whether to publish new records by default.
+    accession_browse_section: Accession Browse Columns
+    accession_browse_column_1: Column 1
+    accession_browse_column_1_tooltip: The field to show in column 1.
+    accession_browse_column_2: Column 2
+    accession_browse_column_2_tooltip: The field to show in column 2.
+    accession_browse_column_3: Column 3
+    accession_browse_column_3_tooltip: The field to show in column 3.
+    accession_browse_column_4: Column 4
+    accession_browse_column_4_tooltip: The field to show in column 4.
+    accession_browse_column_5: Column 5
+    accession_browse_column_5_tooltip: The field to show in column 5.
+    resource_browse_section: Resource Browse Columns
+    resource_browse_column_1: Column 1
+    resource_browse_column_1_tooltip: The field to show in column 1.
+    resource_browse_column_2: Column 2
+    resource_browse_column_2_tooltip: The field to show in column 2.
+    resource_browse_column_3: Column 3
+    resource_browse_column_3_tooltip: The field to show in column 3.
+    resource_browse_column_4: Column 4
+    resource_browse_column_4_tooltip: The field to show in column 4.
+    resource_browse_column_5: Column 5
+    resource_browse_column_5_tooltip: The field to show in column 5.
+    digital_object_browse_section: Digital_Object Browse Columns
+    digital_object_browse_column_1: Column 1
+    digital_object_browse_column_1_tooltip: The field to show in column 1.
+    digital_object_browse_column_2: Column 2
+    digital_object_browse_column_2_tooltip: The field to show in column 2.
+    digital_object_browse_column_3: Column 3
+    digital_object_browse_column_3_tooltip: The field to show in column 3.
+    digital_object_browse_column_4: Column 4
+    digital_object_browse_column_4_tooltip: The field to show in column 4.
+    digital_object_browse_column_5: Column 5
+    digital_object_browse_column_5_tooltip: The field to show in column 5.
+    accept_default_message: '> Accept Default:'
+    no_value: '[no value]'
     _singular: Defaults
     _plural: Defaults
 
@@ -1715,6 +1769,7 @@ en:
       html: HTML
 
   validation_errors:
+    agent_must_be_unique: Agent records cannot be identical
     missing_required_property: Property is required but was missing
     missing_property: Property was missing
     not_a_valid_date: Not a valid date
@@ -1745,6 +1800,7 @@ en:
       You must either specify a barcode, a classification, or both a coordinate 1 label and coordinate 1 indicator
     location_must_be_unique_within_a_record: Must be unique within a record
     location_cannot_be_deleted_if_linked: Location Record is currently linked to one or more Instance records and cannot be deleted. Please link these instances to new locations before deleting the location record.
+    authority_id_must_be_unique: Authority ID is already in use
 
   job:
     _singular: Import Job

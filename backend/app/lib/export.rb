@@ -54,10 +54,15 @@ module ExportHelpers
   end
 
 
-  def generate_ead(id, unpublished)
+  def generate_ead(id, include_unpublished, include_daos, use_numbered_c_tags)
     obj = resolve_references(Resource.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects', 'tree', 'digital_object'])
-    ead = ASpaceExport.model(:ead).from_resource(JSONModel(:resource).new(obj))
-    ead.include_unpublished(unpublished)
+    opts = {
+      :include_unpublished => include_unpublished,
+      :include_daos => include_daos,
+      :use_numbered_c_tags => use_numbered_c_tags
+    }
+
+    ead = ASpaceExport.model(:ead).from_resource(JSONModel(:resource).new(obj), opts)
     ASpaceExport::stream(ead)
   end
 
@@ -84,7 +89,10 @@ module ExportHelpers
 
     obj = resolve_references(klass.to_jsonmodel(agent), ['related_agents'])
 
-    eac = ASpaceExport.model(:eac).from_agent(JSONModel(type.intern).new(obj), events, related_records)
+    repo_json = Repository.to_jsonmodel(RequestContext.get(:repo_id))
+    repo = JSONModel(:repository).new(repo_json)
+
+    eac = ASpaceExport.model(:eac).from_agent(JSONModel(type.intern).new(obj), events, related_records, repo)
     ASpaceExport::serialize(eac)
   end
 

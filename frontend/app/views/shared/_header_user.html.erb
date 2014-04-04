@@ -28,18 +28,6 @@
         <li class="divider"></li>
       <% end %>
 
-      <% user_prefs_enabled = true if user_can?('manage_repository') || user_can?('view_suppressed') || user_can?('suppress_archival_record') %>
-
-      <% if user_prefs_enabled %>
-          <li><%= link_to I18n.t("navbar.global_preferences"), :controller => :preferences, :action => :edit, :id => 0, :global => true %></li>
-<!--        <% if session[:repo_id] %>
-          <li><%= link_to I18n.t("navbar.repo_preferences"), :controller => :preferences, :action => :edit, :id => 0 %></li>
-            <% end %> -->
-      <% end %>        
-
-        <% if ArchivesSpaceHelp.enabled? && user_prefs_enabled %>
-          <li class="divider"></li>
-        <% end %>
       <% if ArchivesSpaceHelp.enabled? %>
         <li><%= link_to_help :label => I18n.t("help.help_center") %></li>
       <% end %>
@@ -68,6 +56,13 @@
       </span>
       <a class="btn dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
       <ul class="dropdown-menu pull-right">
+
+        <li><%= link_to I18n.t("navbar.user_global_preferences"), :controller => :preferences, :action => :edit, :id => 0, :global => true %></li>
+        <% if session[:repo_id] %>
+          <li><%= link_to I18n.t("navbar.user_repo_preferences"), :controller => :preferences, :action => :edit, :id => 0 %></li>
+        <% end %>
+        <li class="divider"></li>
+
         <% if user_can?('become_user') %>
           <li><%= link_to I18n.t("navbar.become-user"), :controller => "session", :action => "select_user" %></li>
         <% end %>
@@ -79,7 +74,7 @@
   <li class="dropdown login-dropdown <% if params[:login] %>open<% end %>">
     <a class="session-actions dropdown-toggle" href="#" data-toggle="dropdown"><%= I18n.t("navbar.login") %></a>
     <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-       <%= render :partial => "shared/login" %>
+       <%= render_aspace_partial :partial => "shared/login" %>
        <% if AppConfig[:allow_user_registration] %>
          <p><%= I18n.t "navbar.register_prefix" %> <%= link_to I18n.t("navbar.register"), {:controller => "users", :action => "new"}, :class => "boring-link" %></p>
        <% end %>

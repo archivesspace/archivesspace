@@ -1,3 +1,5 @@
+require_relative '../lib/nested_record_resolver'
+
 module ASModel
 
   # Code for converting JSONModels into DB records and back again.
@@ -160,13 +162,8 @@ module ASModel
 
           # Tell the nested record to clear its own nested records
           Array(self.send(nested_record_defn[:association][:name])).each do |nested_record|
-            nested_record.remove_nested_records
+            nested_record.delete
           end
-
-          # Now delete all nested objects
-          dataset = self.send("#{nested_record_defn[:association][:name]}_dataset")
-          model.handle_delete(dataset.select(:id).map {|row| row[:id]})
-          dataset.delete
         elsif nested_record_defn[:association][:type] === :many_to_many
           # Just remove the links
           self.send("remove_all_#{nested_record_defn[:association][:name]}".intern)
@@ -338,6 +335,7 @@ module ASModel
 
         fire_update(json, obj)
 
+        obj.refresh
         obj
       end
 
@@ -350,13 +348,9 @@ module ASModel
       # (Potentially) notify the real-time indexer that an update is available.
       def fire_update(json, sequel_obj)
         if high_priority?
-          sequel_obj.refresh
-
-          # Manually set any DB hooked values
-          CRUD.set_audit_fields(json, sequel_obj)
-
-          hash = json.to_hash
+          model = self
           uri = sequel_obj.uri
+          hash = model.to_jsonmodel(sequel_obj.id).to_hash(:trusted)
           DB.after_commit do
             RealtimeIndexing.record_update(hash, uri)
           end
@@ -457,33 +451,8 @@ module ASModel
       end
 
 
-      def sequel_to_jsonmodel(obj, opts = {})
-        json = my_jsonmodel.new(map_db_types_to_json(my_jsonmodel.schema,
-                                                     obj.values.reject {|k, v| v.nil? }))
-
-        uri = json.class.uri_for(obj.id, :repo_id => active_repository)
-        json.uri = uri if uri
-
-        if model_scope == :repository
-          json['repository'] = {'ref' => JSONModel(:repository).uri_for(active_repository)}
-        end
-
-        # If there are nested records for this class, grab their URI references too
-        nested_records.each do |nested_record|
-          model = Kernel.const_get(nested_record[:association][:class_name])
-
-          records = Array(obj.send(nested_record[:association][:name])).sort_by{|rec| rec[:id]}.map {|linked_obj|
-            model.to_jsonmodel(linked_obj).to_hash(:trusted)
-          }
-
-          is_array = nested_record[:is_array] && ![:many_to_one, :one_to_one].include?(nested_record[:association][:type])
-
-          json[nested_record[:json_property]] = (is_array ? records : records[0])
-        end
-
-        CRUD.set_audit_fields(json, obj)
-
-        json
+      def sequel_to_jsonmodel(objs, opts = {})
+        NestedRecordResolver.new(nested_records, objs).resolve
       end
 
 
@@ -502,7 +471,7 @@ module ASModel
           obj.eagerly_load!
         end
 
-        sequel_to_jsonmodel(obj, opts)
+        sequel_to_jsonmodel([obj], opts)[0]
       end
 
 

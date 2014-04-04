@@ -133,6 +133,7 @@ module Trees
           :id => node.id,
           :record_uri => self.class.uri_for(node_type, node.id),
           :publish => node.respond_to?(:publish) ? node.publish===1 : true,
+          :suppressed => node.respond_to?(:suppressed) ? node.suppressed===1 : false,
           :node_type => node_type.to_s
         }
 
@@ -156,6 +157,7 @@ module Trees
       :id => self.id,
       :node_type => root_type.to_s,
       :publish => self.respond_to?(:publish) ? self.publish===1 : true,
+      :suppressed => self.respond_to?(:suppressed) ? self.suppressed===1 : false,
       :children => top_nodes.sort_by(&:first).map {|position, node| self.class.assemble_tree(node, links, properties)},
       :record_uri => self.class.uri_for(root_type, self.id)
     }
@@ -175,6 +177,21 @@ module Trees
     super
   end
 
+
+  def update_from_json(json, opts = {}, apply_nested_records = true)
+    obj = super
+
+    trigger_index_of_entire_tree
+
+    obj
+  end
+
+
+  def trigger_index_of_entire_tree
+    self.class.node_model.
+                filter(:root_record_id => self.id).
+                update(:system_mtime => Time.now)
+  end
 
 
   module ClassMethods
@@ -219,10 +236,14 @@ module Trees
     end
 
 
-    def sequel_to_jsonmodel(obj, opts = {})
-      json = super
-      json['tree'] = {'ref' => obj.uri + '/tree'}
-      json
+    def sequel_to_jsonmodel(objs, opts = {})
+      jsons = super
+
+      jsons.zip(objs).each do |json, obj|
+        json['tree'] = {'ref' => obj.uri + '/tree'}
+      end
+
+      jsons
     end
 
 

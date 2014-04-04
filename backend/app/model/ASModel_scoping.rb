@@ -47,16 +47,20 @@ module ASModel
 
 
     # Mixins will hook in here to add their own publish actions.
-    def publish!
+    def publish!(setting = true)
       object_graph = self.object_graph
 
       object_graph.each do |model, ids|
         next unless model.publishable?
 
-        model.handle_publish_flag(ids, true)
+        model.handle_publish_flag(ids, setting)
       end
     end
 
+
+    def unpublish!
+      publish!(false)
+    end
 
 
     module ClassMethods

@@ -11,19 +11,19 @@
     <div class="record-pane">
       <h2><%= I18n.t("job._plural") %></h2>
 
-      <%= render :partial => "shared/flash_messages" %>
+      <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
       <h3><%= I18n.t("job._frontend.section.active_jobs") %></h3>
       <% if @active_jobs.length > 0 %>
-        <%= render :partial => "jobs/listing", :locals => {:jobs => @active_jobs} %>
+        <%= render_aspace_partial :partial => "jobs/listing", :locals => {:jobs => @active_jobs} %>
       <% else %>
         <p class="alert alert-info"><%= I18n.t("job._frontend.messages.no_active_jobs") %></p>
       <% end %>
 
       <h3><%= I18n.t("job._frontend.section.archived_jobs") %></h3>
       <% if @search_data['results'].length > 0 %>
-        <%= render :partial => "jobs/listing", :locals => {:jobs => @search_data['results']} %>
-        <%= render :partial => "shared/pagination" %>
+        <%= render_aspace_partial :partial => "jobs/listing", :locals => {:jobs => @search_data['results']} %>
+        <%= render_aspace_partial :partial => "shared/pagination" %>
       <% else %>
         <p class="alert alert-info">
           <%= I18n.t("job._frontend.messages.no_archived_jobs") %>

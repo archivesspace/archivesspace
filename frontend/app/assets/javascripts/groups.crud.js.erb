@@ -23,13 +23,12 @@ $(function() {
     // add what is typed.  User can 'esc' to close the typeahead, and then
     // hit return/tab to the button to add the custom userid.
     if ($(e.target).attr("id") == "new-member") {
-      if (((e.keyCode || e.which) != 13) || $(".typeahead.dropdown-menu", ".member-toolbar").length) {
+      if (((e.keyCode || e.which) != 13) || $(".typeahead.dropdown-menu:visible", ".member-toolbar").length > 0) {
         return;
-      } else if ((e.keyCode || e.which) == 13 && $(".typeahead.dropdown-menu:visible", ".member-toolbar").length == 0) {
-        e.stopPropagation();
       }
     }
 
+    e.stopPropagation();
     e.preventDefault();
     var input = $("#new-member");
     var username = input.val();

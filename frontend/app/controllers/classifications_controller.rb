@@ -14,7 +14,7 @@ class ClassificationsController < ApplicationController
 
     if params[:inline]
       @classification = JSONModel(:classification).find(params[:id], find_opts)
-      return render :partial => "classifications/show_inline"
+      return render_aspace_partial :partial => "classifications/show_inline"
     end
 
     @classification = JSONModel(:classification).find(params[:id])
@@ -23,7 +23,7 @@ class ClassificationsController < ApplicationController
   def new
     @classification = JSONModel(:classification).new(:title => I18n.t("classification.title_default", :default => ""))._always_valid!
 
-    return render :partial => "classifications/new_inline" if params[:inline]
+    return render_aspace_partial :partial => "classifications/new_inline" if params[:inline]
   end
 
 
@@ -32,7 +32,7 @@ class ClassificationsController < ApplicationController
 
     if params[:inline]
       @classification = JSONModel(:classification).find(params[:id], find_opts)
-      return render :partial => "classifications/edit_inline"
+      return render_aspace_partial :partial => "classifications/edit_inline"
     end
 
     @classification = JSONModel(:classification).find(params[:id])
@@ -61,12 +61,12 @@ class ClassificationsController < ApplicationController
     handle_crud(:instance => :classification,
                 :obj => JSONModel(:classification).find(params[:id], find_opts),
                 :on_invalid => ->(){
-      render :partial => "edit_inline"
+      render_aspace_partial :partial => "edit_inline"
     },
       :on_valid => ->(id){
       @refresh_tree_node = true
     flash.now[:success] = I18n.t("classification._frontend.messages.updated", JSONModelI18nWrapper.new(:classification => @classification))
-    render :partial => "edit_inline"
+    render_aspace_partial :partial => "edit_inline"
     })
   end
 

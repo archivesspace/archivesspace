@@ -21,6 +21,7 @@ class Resource < Sequel::Model(:resource)
   include ComponentsAddChildren
   include Classifications
   include Events
+  include Publishable
 
   enable_suppression
 

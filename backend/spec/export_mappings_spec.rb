@@ -44,12 +44,14 @@ describe 'Export Mappings' do
 
 
 
-    @resource = create(:json_resource,  :linked_agents => build_linked_agents(@agents),
+    resource = create(:json_resource,  :linked_agents => build_linked_agents(@agents),
                        :notes => build_archival_object_notes(100),
                        :subjects => @subjects.map{|ref, s| {:ref => ref}},
                        :instances => instances,
                        :finding_aid_status => %w(completed in_progress under_revision unprocessed).sample
                        )
+
+    @resource = JSONModel(:resource).find(resource.id)
 
     @archival_objects = {}
 
@@ -64,6 +66,8 @@ describe 'Export Mappings' do
 
 
                  )
+
+      a = JSONModel(:archival_object).find(a.id)
 
       @archival_objects[a.uri] = a
     }
@@ -154,10 +158,11 @@ describe 'Export Mappings' do
 
 
     before(:all) do
+
       as_test_user("admin") do
         DB.open(true) do
           load_export_fixtures
-          @doc = get_xml_doc("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml")
+          @doc = get_xml_doc("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
           @doc_nsless = Nokogiri::XML::Document.parse(@doc.to_xml)
           @doc_nsless.remove_namespaces!
 
@@ -1114,8 +1119,8 @@ describe 'Export Mappings' do
 
 
     it "maps the first creator to df[@tag='100'] or df[@tag='110']" do
-      clink = @resource.linked_agents.find{|l| l[:role] == 'creator'}
-      creator = @agents[clink[:ref]]
+      clink = @resource.linked_agents.find{|l| l['role'] == 'creator'}
+      creator = @agents[clink['ref']]
       cname = creator['names'][0]
       df = nil
       case creator.agent_type
@@ -1135,8 +1140,8 @@ describe 'Export Mappings' do
       end
       df.sf_t('d').should eq(cname['dates'])
       df.sf_t('g').should eq(cname['qualifier'])
-      if clink[:relator]
-        df.sf_t('4').should eq(clink[:relator])
+      if clink['relator']
+        df.sf_t('4').should eq(clink['relator'])
       else
         df.sf_t('e').should eq('creator')
       end
@@ -1260,11 +1265,11 @@ describe 'Export Mappings' do
 
 
     it "maps agents with 'subject' role to field 600|610" do
-      subjects = @resource.linked_agents.select{|l| l[:role] == 'subject'}.map{|s| @agents[s[:ref]]}
+      subjects = @resource.linked_agents.select{|l| l['role'] == 'subject'}.map{|s| @agents[s['ref']]}
 
       subjects.each do |subject|
-        relator = @resource.linked_agents.find{|l| l[:ref] == subject.uri}[:relator]
-        terms = @resource.linked_agents.find{|l| l[:ref] == subject.uri}[:terms]
+        relator = @resource.linked_agents.find{|l| l['ref'] == subject.uri}['relator']
+        terms = @resource.linked_agents.find{|l| l['ref'] == subject.uri}['terms']
         name = subject.names[0]
         df = nil
 
@@ -1303,7 +1308,7 @@ describe 'Export Mappings' do
 
     it "maps subject.terms[0] to df 630-656 (' ', $)" do
       @resource.subjects.each do |link|
-        subject = @subjects[link[:ref]]
+        subject = @subjects[link['ref']]
         term = subject['terms'][0]
         terms = subject['terms'][1..-1]
         code, ind2 =  case term['term_type']
@@ -1340,12 +1345,12 @@ describe 'Export Mappings' do
 
 
     it "maps secondary agents with 'creator' or 'source' role to df 700|710" do
-      creators = @resource.linked_agents.select{|l| l[:role] == 'creator' || l[:role] == 'source'}[1..-1]
+      creators = @resource.linked_agents.select{|l| l['role'] == 'creator' || l['role'] == 'source'}[1..-1]
 
       creators.each do |link|
-        creator = @agents[link[:ref]]
-        relator = link[:relator]
-        role = link[:role]
+        creator = @agents[link['ref']]
+        relator = link['relator']
+        role = link['role']
         name = creator.names[0]
         df = nil
 

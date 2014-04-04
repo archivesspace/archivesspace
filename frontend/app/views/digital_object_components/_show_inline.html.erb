@@ -1,14 +1,14 @@
 <div class="row-fluid">
   <div class="span3">
-    <%= render :partial => "sidebar" %>
+    <%= render_aspace_partial :partial => "sidebar" %>
   </div>
   <div class="span9">
-    <%= render :partial => "toolbar" %>
+    <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <% define_template "digital_object_component", jsonmodel_definition(:digital_object_component) do |readonly, digital_object_component| %>
         <h2><%= digital_object_component.display_string %> <span class="label label-info"><%= I18n.t("digital_object_component._singular") %></span></h2>
 
-        <%= render :partial => "shared/form_messages", :locals => {:form => readonly} %>
+        <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => readonly} %>
 
         <section id="basic_information">
           <h3><%= I18n.t("digital_object_component._frontend.section.basic_information") %></h3>
@@ -17,43 +17,44 @@
           <%= readonly.label_and_textarea "title" %>
           <%= readonly.label_and_textfield "component_id" %>
           <%= readonly.label_and_boolean "publish" %>
+          <%= readonly.label_and_boolean "has_unpublished_ancestor" %>
           <%= readonly.label_and_select "language", readonly.possible_options_for("language") %>
 
         </section>
 
         <% if digital_object_component.file_versions.length > 0 %>
-          <%= render :partial => "file_versions/show", :locals => { :file_versions => digital_object_component.file_versions, :section_id => "digital_object_component_file_versions_" } %>
+          <%= render_aspace_partial :partial => "file_versions/show", :locals => { :file_versions => digital_object_component.file_versions, :section_id => "digital_object_component_file_versions_" } %>
         <% end %>
 
         <% if digital_object_component.dates.length > 0 %>
-          <%= render :partial => "dates/show", :locals => { :dates => digital_object_component.dates, :section_id => "digital_object_component_dates_" } %>
+          <%= render_aspace_partial :partial => "dates/show", :locals => { :dates => digital_object_component.dates, :section_id => "digital_object_component_dates_" } %>
         <% end %>
 
         <% if digital_object_component.extents.length > 0 %>
-          <%= render :partial => "extents/show", :locals => { :extents => digital_object_component.extents, :section_id => "digital_object_component_extents_" } %>
+          <%= render_aspace_partial :partial => "extents/show", :locals => { :extents => digital_object_component.extents, :section_id => "digital_object_component_extents_" } %>
         <% end %>
 
         <% if digital_object_component.linked_agents.length > 0 %>
-          <%= render :partial => "linked_agents/show", :locals => { :linked_agents => digital_object_component.linked_agents, :section_id => "digital_object_component_linked_agents_" } %>
+          <%= render_aspace_partial :partial => "linked_agents/show", :locals => { :linked_agents => digital_object_component.linked_agents, :section_id => "digital_object_component_linked_agents_" } %>
         <% end %>
 
         <% if not digital_object_component.subjects.blank? %>
-          <%= render :partial => "subjects/show_inline", :locals => {:subjects => digital_object_component.subjects, :section_id => "digital_object_component_subjects_"} %>
+          <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => digital_object_component.subjects, :section_id => "digital_object_component_subjects_"} %>
         <% end %>
 
         <% if digital_object_component.notes.length > 0 %>
-          <%= render :partial => "notes/show", :locals => { :notes => digital_object_component.notes, :context => readonly } %>
+          <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => digital_object_component.notes, :context => readonly } %>
         <% end %>
 
         <% if digital_object_component.external_documents.length > 0 %>
-          <%= render :partial => "external_documents/show", :locals => { :external_documents => digital_object_component.external_documents, :section_id => "digital_object_component_external_documents_" } %>
+          <%= render_aspace_partial :partial => "external_documents/show", :locals => { :external_documents => digital_object_component.external_documents, :section_id => "digital_object_component_external_documents_" } %>
         <% end %>
 
         <% if digital_object_component.rights_statements.length > 0 %>
-          <%= render :partial => "rights_statements/show", :locals => { :rights_statements => digital_object_component.rights_statements, :section_id => "digital_object_component_rights_statements_"  } %>
+          <%= render_aspace_partial :partial => "rights_statements/show", :locals => { :rights_statements => digital_object_component.rights_statements, :section_id => "digital_object_component_rights_statements_"  } %>
         <% end %>
 
-        <%= render :partial => "linked_events/show", :locals => { :linked_events => digital_object_component.linked_events, :context => readonly, :section_id => "digital_object_component_linked_events_" } %>
+        <%= render_aspace_partial :partial => "linked_events/show", :locals => { :linked_events => digital_object_component.linked_events, :context => readonly, :section_id => "digital_object_component_linked_events_" } %>
 
         <%= show_plugins_for(@digital_object_component, readonly) %>
 

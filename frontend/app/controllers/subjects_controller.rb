@@ -2,7 +2,7 @@ class SubjectsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show],
                       "update_subject_record" => [:new, :edit, :create, :update, :merge],
-                      "delete_archival_record" => [:delete]
+                      "delete_subject_record" => [:delete]
 
 
   def index
@@ -16,7 +16,7 @@ class SubjectsController < ApplicationController
 
   def new
     @subject = JSONModel(:subject).new({:vocab_id => JSONModel(:vocabulary).id_for(current_vocabulary["uri"]), :terms => [{}]})._always_valid!
-    render :partial => "subjects/new" if inline?
+    render_aspace_partial :partial => "subjects/new" if inline?
   end
 
   def edit
@@ -27,7 +27,7 @@ class SubjectsController < ApplicationController
     handle_crud(:instance => :subject,
                 :model => JSONModel(:subject),
                 :on_invalid => ->(){
-                  return render :partial => "subjects/new" if inline?
+                  return render_aspace_partial :partial => "subjects/new" if inline?
                   return render :action => :new
                 },
                 :on_valid => ->(id){

@@ -30,6 +30,17 @@ class EADConverter < Converter
     "Convert EAD To ArchivesSpace JSONModel records"
   end
 
+  # We override this to skip nodes that are often very deep
+  # We can safely assume ead, c, and archdesc will have children,
+  # which greatly helps the performance. 
+  def is_node_empty?(node)
+    parent_nodes = %w{ ead e archdesc dsc } + (1..12).collect { |n| "c#{ sprintf('%02d', n)}" }  
+    if  parent_nodes.include?( node.local_name ) 
+      return false 
+    else
+      return ( node.inner_xml.strip.empty? && !node.attributes? )
+    end
+  end
 
   def self.configure
 
@@ -75,8 +86,10 @@ class EADConverter < Converter
     end
 
 
-    with 'unittitle' do
-      set ancestor(:resource, :archival_object), :title, inner_text
+    with 'unittitle' do |node|
+      ancestor(:resource, :archival_object) do |obj|
+        obj.title = node.inner_xml.strip
+      end
     end
 
 
@@ -108,20 +121,49 @@ class EADConverter < Converter
     end
 
 
-    with 'physdesc/extent' do
-      if inner_xml.strip =~ /^([0-9\.]+)+\s+(.*)$/
+    with 'physdesc' do
+      physdesc = Nokogiri::XML::DocumentFragment.parse(inner_xml)
+      extent_number_and_type = nil
+      other_extent_data = []
+      make_note_too = false
+      physdesc.children.each do |child|
+        if child.respond_to?(:name) && child.name == 'extent'
+          if extent_number_and_type.nil? && child.content =~ /^([0-9\.]+)+\s+(.*)$/
+            extent_number_and_type = {:number => $1, :extent_type => $2}
+          else
+            other_extent_data << child.content
+          end
+        else
+          # there's other info here; make a note as well
+          make_note_too = true unless child.text.strip.empty?
+        end
+      end
+
+      # only make an extent if we got a number and type
+      if extent_number_and_type
         make :extent, {
           :number => $1,
           :extent_type => $2,
-          :portion => 'whole'
+          :portion => 'whole',
+          :container_summary => other_extent_data.join('; ')
         } do |extent|
           set ancestor(:resource, :archival_object), :extents, extent
         end
       else
-        ancestor(:resource, :archival_object) do |obj|
-          set obj.extents.last, :container_summary, inner_xml
+        make_note_too = true;
+      end
+
+      if make_note_too
+        content = physdesc.to_xml
+        make :note_singlepart, {
+          :type => 'physdesc',
+          :persistent_id => att('id'),
+          :content => content.sub(/<head>.*?<\/head>/, '').strip
+        } do |note|
+          set ancestor(:resource, :archival_object), :notes, note
         end
       end
+
     end
 
 
@@ -210,11 +252,15 @@ class EADConverter < Converter
     end
 
 
-    %w(abstract langmaterial materialspec physdesc physfacet physloc).each do |note|
+    %w(abstract langmaterial materialspec physfacet physloc).each do |note|
       with note do |node|
         content = inner_xml
         next if content =~ /\A<language langcode=\"[a-z]+\"\/>\Z/
-        
+
+        if content.match(/\A<language langcode=\"[a-z]+\"\s*>([^<]+)<\/language>\Z/)
+          content = $1
+        end
+
         make :note_singlepart, {
           :type => note,
           :persistent_id => att('id'),

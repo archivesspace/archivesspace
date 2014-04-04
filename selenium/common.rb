@@ -475,17 +475,19 @@ def add_user_to_group(user, repo, group_code)
 end
 
 
-def create_accession(title)
-  identifier = "#{Time.now.to_f}#{$$}"
+def create_accession(values = {})
+  accession_data = {:id_0 => "#{Time.now.to_f}#{$$}", :accession_date => "2000-01-01"}.merge(values)
+
+  title = accession_data[:title]
 
   req = Net::HTTP::Post.new("#{$test_repo_uri}/accessions")
-  req.body = {:title => title, :id_0 => identifier, :accession_date => "2000-01-01"}.to_json
+  req.body = accession_data.to_json
 
   response = admin_backend_request(req)
 
   raise response.body if response.code != '200'
 
-  [title, "#{title}, #{identifier}"]
+  title
 end
 
 
@@ -565,7 +567,7 @@ def create_agent(name, values = {})
     "names" => [
       {
         "name_order" => "inverted",
-        "authority_id" => "authid123",
+        "authority_id" => SecureRandom.hex,
         "primary_name" => name,
         "rest_of_name" => name,
         "sort_name" => name,

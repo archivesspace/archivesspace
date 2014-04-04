@@ -4,7 +4,7 @@
    <%= @resource.title.blank? ? "#{I18n.t("actions.new_prefix")} #{I18n.t("resource._singular")}" : @resource.title %>  <span class="label label-info"><%= I18n.t("resource._singular") %></span>
 </h2>
 
-<%= render :partial => "shared/form_messages", :locals => {:form => form} %>
+<%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
 
 <%= form.hidden_input "related_accession" %>
 <%= hidden_field_tag "id", @resource.id %>
@@ -24,14 +24,14 @@
       <%= form.label_and_textfield "other_level", :required => true %>
       <%= form.label_and_select "resource_type", form.possible_options_for("resource_type", true) %>
       <%= form.label_and_select "language", form.possible_options_for("language", true) %>
-      <%= form.label_and_boolean "publish", {}, form.default_for("publish") %>
+      <%= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
       <%= form.label_and_boolean "restrictions", {}, form.default_for("restrictions") %>
       <%= form.label_and_textarea "repository_processing_note" %>
     </fieldset>
   </section>
 
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template => "archival_record_date"} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template => "archival_record_date"} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
 
   <section id="finding_aid" class="subrecord-form-dummy">
     <h3>
@@ -66,18 +66,18 @@
 
 <% form.emit_template("resource") %>
 
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "related_accessions", :template => "resource_related_accessions"} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "resource_linked_agent"} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template => "subrecord_subject"} %>
-<%# render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "notes", :template => "note_form_selector", :section_id => "notes"} %>
-<%= render :partial => "notes/form", :locals => {:form => form} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "instances", :custom_action_template => "instances/subrecord_form_action"} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "deaccessions"} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "collection_management", :cardinality => :zero_to_one} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "classification", :cardinality => :zero_to_one} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "user_defined", :cardinality => :zero_to_one} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "related_accessions", :template => "resource_related_accessions"} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "resource_linked_agent"} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template => "subrecord_subject"} %>
+<%# render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "notes", :template => "note_form_selector", :section_id => "notes"} %>
+<%= render_aspace_partial :partial => "notes/form", :locals => {:form => form} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "instances", :custom_action_template => "instances/subrecord_form_action"} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "deaccessions"} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "collection_management", :cardinality => :zero_to_one} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "classification", :cardinality => :zero_to_one} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "user_defined", :cardinality => :zero_to_one} %>
 
   <%= form_plugins_for("resource", form) %>

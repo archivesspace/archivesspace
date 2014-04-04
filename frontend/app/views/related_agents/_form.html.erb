@@ -1,4 +1,4 @@
-<%= render :partial => "related_agents/template" %>
+<%= render_aspace_partial :partial => "related_agents/template" %>
 
 <% @agent_type = form['agent_type'] %>
 <% define_template "related_agents_#{@agent_type}", jsonmodel_definition(@agent_type.intern) do |form|  %>

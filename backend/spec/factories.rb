@@ -147,6 +147,8 @@ FactoryGirl.define do
                                     :primary_name => generate(:generic_name),
                                     :sort_name => generate(:sort_name),
                                     :sort_name_auto_generate => 1,
+                                    :is_display_name => 1,
+                                    :authorized => 1,
                                     :json_schema_version => 1)
         a.add_agent_contact(:name => generate(:generic_name),
                             :telephone => generate(:phone_number),
@@ -507,7 +509,7 @@ FactoryGirl.define do
 
   factory :json_note_multipart, class: JSONModel(:note_multipart) do
     type { generate(:multipart_note_type)}
-    subnotes { [ build(:json_note_text) ] }
+    subnotes { [ build(:json_note_text, :publish => true) ] }
   end
 
   factory :json_note_digital_object, class: JSONModel(:note_digital_object) do
@@ -583,7 +585,11 @@ FactoryGirl.define do
   end
 
   factory :json_preference, class: JSONModel(:preference) do
-    defaults { "{}" }
+    defaults { build(:json_defaults) }
   end
 
+  factory :json_defaults, class: JSONModel(:defaults) do
+    show_suppressed { false }
+    publish { false }
+  end
 end

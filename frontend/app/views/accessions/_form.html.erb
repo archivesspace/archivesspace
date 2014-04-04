@@ -1,4 +1,4 @@
-<%= render :partial => "shared/form_messages", :locals => {:object => @accession, :form => form} %>
+<%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @accession, :form => form} %>
 
 <% define_template("accession", jsonmodel_definition(:accession)) do |form| %>
   <section id="basic_information">
@@ -20,7 +20,7 @@
        <%= form.label_and_select "acquisition_type", form.possible_options_for("acquisition_type", true) %>
        <%= form.label_and_select "resource_type", form.possible_options_for("resource_type", true) %>
        <%= form.label_and_boolean "restrictions_apply", {}, form.default_for("restrictions_apply") %>
-       <%= form.label_and_boolean "publish", {}, form.default_for("publish") %>
+       <%= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
        <%= form.label_and_boolean "access_restrictions", {}, form.default_for("access_restrictions") %>
        <%= form.label_and_textarea "access_restrictions_note" %> 
        <%= form.label_and_boolean "use_restrictions", {}, form.default_for("use_restrictions") %>
@@ -31,21 +31,21 @@
 
 <% form.emit_template("accession") %>
 
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template => "archival_record_date"} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template => "archival_record_date"} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
 
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "accession_linked_agent"} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "related_resources", :template => "accession_related_resource"} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template => "subrecord_subject"} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "accession_linked_agent"} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "related_resources", :template => "accession_related_resource"} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template => "subrecord_subject"} %>
 
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "instances", :custom_action_template => "instances/subrecord_form_action"} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "deaccessions"} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "collection_management", :cardinality => :zero_to_one} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "classification", :cardinality => :zero_to_one} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "user_defined", :cardinality => :zero_to_one} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "instances", :custom_action_template => "instances/subrecord_form_action"} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "deaccessions"} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "collection_management", :cardinality => :zero_to_one} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "classification", :cardinality => :zero_to_one} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "user_defined", :cardinality => :zero_to_one} %>
 
 <%= form_plugins_for("accession", form) %>
 

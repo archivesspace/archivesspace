@@ -26,11 +26,14 @@ class Term < Sequel::Model(:term)
     obj
   end
 
-  def self.sequel_to_jsonmodel(obj, opts = {})
-    json = super
-    json.vocabulary = uri_for(:vocabulary, obj.vocab_id)
+  def self.sequel_to_jsonmodel(objs, opts = {})
+    jsons = super
 
-    json
+    jsons.zip(objs).each do |json, obj|
+      json.vocabulary = uri_for(:vocabulary, obj.vocab_id)
+    end
+
+    jsons
   end
 
 

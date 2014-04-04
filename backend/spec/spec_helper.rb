@@ -10,7 +10,7 @@ if ENV['COVERAGE_REPORTS'] == 'true'
 end
 
 require_relative "../app/model/db"
-require_relative "converter_spec_helper"
+require_relative "json_record_spec_helper"
 require_relative "custom_matchers"
 
 
@@ -185,6 +185,16 @@ def create_event(opts = {})
                          :repo_id => $repo_id)
 end
 
+
+def create_resource(opts = {})
+  Resource.create_from_json(build(:json_resource, opts), :repo_id => $repo_id)
+end
+
+
+
+def create_digital_object(opts = {})
+  DigitalObject.create_from_json(build(:json_digital_object, opts), :repo_id => $repo_id)
+end
 
 
 

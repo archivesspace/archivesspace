@@ -7,6 +7,8 @@ AppConfig[:solr_indexing_frequency_seconds] = 30
 AppConfig[:default_page_size] = 10
 AppConfig[:max_page_size] = 250
 
+# Log level for the backend, values: (everything) debug, info, warn, error, fatal (severe only)
+AppConfig[:backend_log_level] = "debug"
 
 # A prefix added to cookies used by the application.
 #
@@ -107,6 +109,8 @@ AppConfig[:locale] = :en
 # :report_page_layout uses valid values for the  CSS3 @page directive's
 # size property: http://www.w3.org/TR/css3-page/#page-size-prop
 AppConfig[:report_page_layout] = "letter landscape"
+AppConfig[:report_pdf_font_paths] = proc { ["#{AppConfig[:backend_url]}/reports/static/fonts/dejavu/DejaVuSans.ttf"] }
+AppConfig[:report_pdf_font_family] = "\"DejaVu Sans\", sans-serif"
 
 # Plug-ins to load. They will load in the order specified
 AppConfig[:plugins] = ['local', 'aspace_feedback', 'lcnaf']
@@ -133,3 +137,5 @@ AppConfig[:import_timeout_seconds] = 300
 
 # By default, only allow jobs to be cancelled if we're running against MySQL (since we can rollback)
 AppConfig[:import_jobs_cancelable] = proc { (AppConfig[:db_url] != AppConfig.demo_db_url).to_s }
+
+AppConfig[:max_location_range] = 1000

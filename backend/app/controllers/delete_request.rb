@@ -10,7 +10,7 @@ class ArchivesSpaceService < Sinatra::Base
     errors = []
 
     params[:record_uris].each do |uri|
-      response = URIResolver.forward_rack_request("DELETE", uri, env)
+      response = ::URIResolver.forward_rack_request("DELETE", uri, env)
 
       if response[0] === 200
         results << ASUtils.json_parse(response[2].first).merge({"uri" => uri})

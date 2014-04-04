@@ -1,4 +1,4 @@
-<%= render :partial => "shared/form_messages", :locals => {:object => @repository, :form => form} %>
+<%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @repository, :form => form} %>
 
 <fieldset>
   <% define_template("repository", jsonmodel_definition(:repository)) do |form| %>

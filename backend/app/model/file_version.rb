@@ -1,5 +1,9 @@
+require_relative 'mixins/publishable'
+
 class FileVersion < Sequel::Model(:file_version)
   include ASModel
+  include Publishable
+
   corresponds_to JSONModel(:file_version)
 
   def self.handle_publish_flag(ids, val)
@@ -8,11 +12,14 @@ class FileVersion < Sequel::Model(:file_version)
 
   set_model_scope :global
 
-  def self.sequel_to_jsonmodel(obj, opts = {})
-    json = super
-    json["identifier"] = obj[:id].to_s
+  def self.sequel_to_jsonmodel(objs, opts = {})
+    jsons = super
 
-    json
+    jsons.zip(objs).each do |json, obj|
+      json["identifier"] = obj[:id].to_s
+    end
+
+    jsons
   end
-  
+
 end

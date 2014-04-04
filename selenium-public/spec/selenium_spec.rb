@@ -111,7 +111,7 @@ describe "ArchivesSpace Public interface" do
 
     it "offers pagination when there are more than 10" do
       11.times.each do |i|
-        create_resource(:title => "Test Resource #{i}", :id_0 => "id#{i}")
+        create_resource(:title => "Test Resource #{i}", :publish => true, :id_0 => "id#{i}")
       end
 
       @indexer.run_index_round
@@ -133,9 +133,10 @@ describe "ArchivesSpace Public interface" do
   describe "Digital Objects" do
       before(:all) do
         $published_digital_object_uri, $published_digital_object_title = create_digital_object(
-                                    :title => "Published DO",  
+                                    :title => "Published DO",
+                                    :publish => true,
                                     :file_versions => [
-                                      { :file_uri => "https://archivesssss.xxx"}, 
+                                      { :file_uri => "https://archivesssss.xxx", :publish => true}, 
                                       { :file_uri => "http://boo.eu", :publish => false }
                                     ] )
         @indexer.run_index_round
@@ -173,6 +174,7 @@ describe "ArchivesSpace Public interface" do
                              :publish => true,
                              :resource => {:ref => $published_resource_uri},
                              :notes => [{:jsonmodel_type => "note_index",
+                                          :publish => true,
                                           :items => [{:jsonmodel_type => "note_index_item",
                                                        :type => "name",
                                                        :value => "something",

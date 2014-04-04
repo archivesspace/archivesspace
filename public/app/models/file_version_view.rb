@@ -19,13 +19,15 @@ class FileVersionView
   end
 
   def uri
-    @uri ||= URI(@record['file_uri'])
+    begin
+      @uri ||= URI(@record['file_uri'])
+    rescue URI::InvalidURIError => e
+      nil
+    end
   end
 
   def embed
     if %w(jpeg gif).include?(@record['file_format_name']) && 
-        @record['xlink_actuate_attribute'] == 'onLoad' &&
-        @record['xlink_show_attribute'] == 'embed' &&
         uri.scheme =~ /http/ && 
         @record['file_size_bytes'].to_i < 512001
 
