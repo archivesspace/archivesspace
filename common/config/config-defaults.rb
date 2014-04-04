@@ -57,6 +57,18 @@ AppConfig[:enable_frontend] = true
 AppConfig[:enable_public] = true
 AppConfig[:enable_indexer] = true
 
+# Some use cases want the ability to shutdown the Jetty service using Jetty's 
+# ShutdownHandler, which allows a POST request to a specific URI to signal
+# server shutdown. The prefix for this URI path is set to /xkcd to reduce the
+# possibility of a collision in the path configuration. So, full path would be
+# /xkcd/shutdown?token={randomly generated password} 
+# The launcher creates a password to use this, which is stored 
+# in the data directory. This is not turned on by default.
+#
+AppConfig[:use_jetty_shutdown_handler] = false
+AppConfig[:jetty_shutdown_path] = "/xkcd"
+
+
 # If you have multiple instances of the backend running behind a load
 # balancer, list the URL of each backend instance here.  This is used by the
 # real-time indexing, which needs to connect directly to each running

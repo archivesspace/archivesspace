@@ -9,7 +9,7 @@ require 'asutils'
 require 'fileutils'
 require 'securerandom'
 require 'uri'
-
+require 'net/http'
 
 $server_prepare_hooks = []
 
@@ -29,6 +29,9 @@ end
 
 
 def start_server(port, *webapps)
+  server = org.eclipse.jetty.server.Server.new
+  
+  
   server = org.eclipse.jetty.server.Server.new
   server.send_date_header = true
 
@@ -63,6 +66,14 @@ def start_server(port, *webapps)
     end
   end
 
+  # this establishes a shutdown port on jetty. use the context xkcd so there is
+  # little change of this overlapping on a server
+  # posting to /xkcd/shutdown?password= will stop that jetty instance 
+  if AppConfig[:use_jetty_shutdown_handler]  
+    shtctx = org.eclipse.jetty.server.handler.ContextHandler.new(AppConfig[:jetty_shutdown_path])
+    shtctx.set_handler(org.eclipse.jetty.server.handler.ShutdownHandler.new(server, generate_secret_for("jetty_shutdown")))
+    contexts << shtctx
+  end
   server.add_connector(connector)
   collection = org.eclipse.jetty.server.handler.ContextHandlerCollection.new
   collection.handlers = contexts
@@ -86,16 +97,21 @@ def generate_secret_for(secret)
     puts "**** INFO: Generated a secret key for AppConfig[:#{secret}]"
     puts "****       and stored it in #{file}."
     puts "****"
-    puts "**** If you're running ArchivesSpace in a clustered setup, you will"
-    puts "**** need to make sure that all instances share the same value for this"
-    puts "**** setting.  You can do that by setting a value for AppConfig[:#{secret}]"
-    puts "**** in your config.rb file."
-    puts "****"
+    unless secret == "shutdown"  
+     puts "**** If you're running ArchivesSpace in a clustered setup, you will"
+     puts "**** need to make sure that all instances share the same value for this"
+     puts "**** setting.  You can do that by setting a value for AppConfig[:#{secret}]"
+     puts "**** in your config.rb file."
+     puts "****"
+    end 
     puts ""
   end
 
   File.read(file)
 end
+
+
+
 
 
 def main
@@ -153,10 +169,56 @@ EOF
 end
 
 
+def stop_server(uri)j 
+    puts "Stopping : #{uri.to_s}"
+    
+    shutdown_uri = uri.clone 
+    shutdown_uri.path = "/xkcd/shutdown"
+    response = Net::HTTP.post_form(shutdown_uri, 'token' => generate_secret_for("jetty_shutdown"))
+    #now we check to see if indeed the server has shutdown. should return an
+    #connection error. 
+    Net::HTTP.get(uri)
+    
+    raise "Jetty Shutdown error on #{uri.to_s}. Shutdown returned:  #{response.body}"
+
+rescue Errno::ECONNREFUSED, SocketError, EOFError => se
+  # A little odd, but when jetty shutdowns it just shutsdown and no response is
+  # sent. Some jrubys handle this differently, but most raise either a
+  # Connection, socket, or a rbuff_fill execption. When this happens, we can
+  # assume the shutdown has worked. 
+  puts "#{uri.to_s} not running"
+end
+
+
+def stop
+  if AppConfig[:use_jetty_shutdown_handler]  
+    stop_server(URI(AppConfig[:backend_url])) if AppConfig[:enable_backend]
+    stop_server(URI(AppConfig[:solr_url])) if AppConfig[:enable_indexer]
+    stop_server(URI(AppConfig[:frontend_url])) if AppConfig[:enable_frontend]
+    stop_server(URI(AppConfig[:public_url])) if AppConfig[:enable_public]
+    pid_file = File.join(AppConfig[:data_directory], ".archivesspace.pid" ) 
+    FileUtils.rm(pid_file) if File.exists?(pid_file)
+    java.lang.System.exit(0)
+  else
+    puts "****"
+    puts "AppConfig[:use_jetty_shutdown_handler] has not been set. "
+    puts "To use this shutdown command, you must update the config.rb file."
+    puts "****"
+  end
+rescue => e
+  puts "There has been an error issueing shutdown to Jetty."
+  puts e.inspect
+end
+
 launcher_rc = File.join(java.lang.System.get_property("ASPACE_LAUNCHER_BASE"), "launcher_rc.rb")
 
 if java.lang.System.get_property("ASPACE_LAUNCHER_BASE") && File.exists?(launcher_rc)
   load File.absolute_path(launcher_rc)
 end
 
-main
+
+if ARGV[0] == 'stop'
+  stop
+else
+  main
+end
