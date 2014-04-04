@@ -1,7 +1,9 @@
 class SRUQuery
 
-  def self.name_search(family_name, given_name)
-    new({ 'local.FamilyName' => family_name, 'local.FirstName' => given_name })
+  def self.name_search(family_name, given_name )
+    query = { 'local.FamilyName' => family_name}
+    query['local.FirstName'] = given_name unless ( given_name.nil? or given_name.empty? )
+    new( query )
   end
 
 
@@ -30,8 +32,8 @@ class SRUQuery
 
 
   def to_s
-    @fields.map {|field| "#{field} #{@relation} \"#{clean(@query[field])}\""}.
-           join(" #{@boolean} ")
+    @fields.map { |field| "#{field} #{@relation} \"#{clean(@query[field])}\"" unless @query[field].empty? }.
+           compact.join(" #{@boolean} ")
   end
 
 end

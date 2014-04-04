@@ -10,14 +10,25 @@
           <%= render :partial => "shared/flash_messages" %>
 
           <%= form_tag({:controller => :lcnaf, :action => :search}, {:id => "lcnaf_search", :class => "form-search", :method => "GET"}) do |form| %>
-            <label for="family-name-search-query"><%= I18n.t("plugins.lcnaf.search.family_name") %></label>
-            <input type="text" name="family_name" class="search-query" id="family-name-search-query" class="input-large"></input>
-            <label for="given-name-search-query"><%= I18n.t("plugins.lcnaf.search.given_name") %></label>
-            <input type="text" name="given_name" class='search-query' id="given-name-search-query" class="input-large"></input>
-            <button type="submit" class="btn btn-primary">
-              <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %>
-              <%= I18n.t("plugins.lcnaf.actions.search") %>
-            </button>
+            <div class='control-group required'> 
+             <label class='control-label' for="family-name-search-query"><%= I18n.t("plugins.lcnaf.search.family_name") %></label>
+             <div class='controls'> 
+              <input type="text" name="family_name" class="family-name-search-query" id="family-name-search-query" class="input-large"></input>
+              </div>
+            </div>
+            <div class='control-group'> 
+              <label for="given-name-search-query"><%= I18n.t("plugins.lcnaf.search.given_name") %></label>
+              <div class='controls'> 
+                <input type="text" name="given_name"  id="given-name-search-query" class="input-large"></input>
+               </div>
+            </div>
+              
+            <div class='control-group'> 
+              <button type="submit" class="btn btn-primary">
+               <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %>
+               <%= I18n.t("plugins.lcnaf.actions.search") %>
+              </button>
+            </div>
             <%= hidden_field_tag "page", @page %>
             <%= hidden_field_tag "records_per_page", @records_per_page %>
           <% end %>
