@@ -4,6 +4,9 @@ plugin="$1"
 
 export ASPACE_LAUNCHER_BASE="$("`dirname $0`"/find-base.sh)"
 
+cd "$ASPACE_LAUNCHER_BASE/gems/gems"
+BUNDLER_VERSION=$(ls | grep bundler | cut -d'-' -f 2)
+
 cd "$ASPACE_LAUNCHER_BASE/plugins/$plugin"
 
 if [ "$plugin" = "" ]; then
@@ -23,7 +26,7 @@ done
 
 export GEM_HOME=gems
 
-java $JAVA_OPTS -cp "../../lib/*$JRUBY" org.jruby.Main --1.9 -S gem install bundler
+java $JAVA_OPTS -cp "../../lib/*$JRUBY" org.jruby.Main --1.9 -S gem install bundler -v "$BUNDLER_VERSION"
 java $JAVA_OPTS -cp "../../lib/*$JRUBY" org.jruby.Main --1.9 ../../gems/bin/bundle install --gemfile=Gemfile
 
 
