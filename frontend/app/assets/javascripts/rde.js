@@ -136,6 +136,18 @@ $(function() {
           if ($th.hasClass("fieldset-label") && !isVisible($th.attr("id"))) {
             $($("td", $row).get(i)).hide();
           }
+
+          // Apply column order
+          if (COLUMN_ORDER != null) {
+            $.each(COLUMN_ORDER, function(targetIndex, colId) {
+              var $td = $("td[data-col='"+colId+"']", $row);
+              var currentIndex = $td.index();
+
+              if (targetIndex !== currentIndex) {
+                $td.insertBefore($("td", $row).get(targetIndex));
+              }
+            });
+          }
         });
 
         $currentRow.after($row);
@@ -587,7 +599,7 @@ $(function() {
 
 
         // Setup global events
-        $btnReorderToggle.click(function(event) {
+        $btnReorderToggle.off("click").on("click", function(event) {
           event.preventDefault();
           event.stopPropagation();
 
@@ -661,7 +673,7 @@ $(function() {
           if ($colHeader.hasClass("fieldset-label") && filter_func($colHeader)) {
             var $option = $("<option>");
             var option_text = "";
-            option_text += $(".section-"+$colHeader.data("section")).text();
+            option_text += $(".section-"+$colHeader.data("section")+":first").text();
             option_text += " - ";
             option_text += $colHeader.text();
 
