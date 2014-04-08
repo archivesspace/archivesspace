@@ -12,6 +12,14 @@ $(function() {
     var $checkbox = $(":checkbox[name$=\"[sort_name_auto_generate]\"]", $subform);
     var $sortNameField = $(":input[name$=\"[sort_name]\"]", $subform);
 
+    // we are migrating away from dates in the name form. 
+    // but we want existing data to persist in the form until we migrate off
+    // so, this code hides dates if there is no value.
+    var dates = $(":input[name$=\"[dates]\"]", $subform);
+    if ( dates.val() == "") { 
+      dates.closest(".control-group").hide();
+    }
+
 		var disableSortName = function() {
 			$sortNameField.attr("readonly","readonly");
 			$sortNameField.prop('disabled', true);

@@ -414,6 +414,7 @@ en:
         </ul>
     dates: Dates
     dates_tooltip: |
+        <p>DEPRECIATED. PLEASE USE DATES OF EXISTENCE SECTION</p> 
         <p>Dates of existence for the named entity.</p>
         <p>Examples:<p>
         <ul>
