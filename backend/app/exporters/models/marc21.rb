@@ -156,15 +156,14 @@ class MARCModel < ASpaceExport::ExportModel
   def handle_dates(dates)
     return false if dates.empty?
 
-    # only use up to 1 bulk and 1 non-bulk
-    dates = [["single", "inclusive"], ["bulk"]].map {|types| 
+    dates = [["single", "inclusive"]].map {|types| 
       dates.find {|date| types.include? date['date_type'] } 
     }.compact
 
     dates.each do |date|
-    code = date['date_type'] == 'bulk' ? 'g' : 'f'
+    code = 'f'
       val = nil
-      if date['expression'] && date['date_type'] != 'bulk'
+      if date['expression'] 
         val = date['expression']
       elsif date['date_type'] == 'single'
         val = date['begin']

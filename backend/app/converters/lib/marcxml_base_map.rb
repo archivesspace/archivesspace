@@ -511,7 +511,7 @@ module MarcXMLBaseMap
             make(:date) do |date|
               date.label = 'creation'
               date.date_type = {'i' => 'inclusive',
-                'k' => 'bulk',
+                'k' => 'inclusive',
                 's' => 'single'}[control[6]]
 
               if control[7..10] && control[7..10].match(/^\d{4}$/)
@@ -566,7 +566,6 @@ module MarcXMLBaseMap
         "datafield[@tag='245']" => Proc.new {|resource, node|
           resource.title = subfield_template("{$a : }{$b }{[$h] }{$k , }{$n , }{$p , }{$s }{/ $c}", node)
 
-          # FIXME: separate dates for $f (inclusive) and $g (bulk)
           expression = concatenate_subfields(%w(f g), node, '-')
           unless expression.empty?
             if resource.dates[0]
