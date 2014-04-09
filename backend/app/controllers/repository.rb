@@ -109,22 +109,36 @@ class ArchivesSpaceService < Sinatra::Base
              [400, :error],
              [403, :access_denied]) \
   do
+
     # Create a dummy agent for this repository, since none was specified.
-    name = {
-      'primary_name' => params[:repository]['repo_code'],
-      'sort_name' => params[:repository]['repo_code'],
-      'source' => 'local'
-    }
+      name = {
+        'primary_name' => params[:repository]['repo_code'],
+        'sort_name' => params[:repository]['repo_code'],
+        'source' => 'local'
+      }
 
-    contact = {
-      'name' => params[:repository]['repo_code']
-    }
+      contact = {
+        'name' => params[:repository]['repo_code']
+      }
 
-    json = JSONModel(:agent_corporate_entity).from_hash('names' => [name],
-                                                        'agent_contacts' => [contact])
-    agent = AgentCorporateEntity.create_from_json(json)
-
-    handle_create(Repository, params[:repository], :agent_representation_id => agent.id)
+      json = JSONModel(:agent_corporate_entity).from_hash('names' => [name],
+                                                          'agent_contacts' => [contact])
+    
+      # we need to check if the Agent for the repo has already been created 
+      nce =  NameCorporateEntity.find(Sequel.like(:primary_name,params[:repository]['repo_code']))
+    
+      unless nce.nil?
+        agent_id = nce.agent_corporate_entity_id
+        agent =AgentCorporateEntity.get_or_die(agent_id)  
+        json[:lock_version] = agent.lock_version 
+        agent.update_from_json(json)
+      else 
+        agent = AgentCorporateEntity.create_from_json(json)
+      end
+      
+      agent_id = agent.id 
+    
+    handle_create(Repository, params[:repository], :agent_representation_id => agent_id)
   end
 
 

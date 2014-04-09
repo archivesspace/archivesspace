@@ -3,8 +3,8 @@ en:
     lcnaf:
       label: LCNAF Import
       search:
-        family_name: Family Name
-        given_name: Given Name
+        family_name: Primary Name 
+        given_name: Rest of Name
       actions:
         search: Search
         import: Import
