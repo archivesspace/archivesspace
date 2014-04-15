@@ -89,6 +89,10 @@ if [ "$ARCHIVESSPACE_USER" = "" ]; then
     ARCHIVESSPACE_USER=
 fi
 
+if [ "$ARCHIVESSPACE_LOGS" = "" ]; then
+    ARCHIVESSPACE_LOGS="logs/archivesspace.out"
+fi
+
 export JAVA_OPTS="-Darchivesspace-daemon=yes $JAVA_OPTS"
 
 # Wow.  Not proud of this!
@@ -139,12 +143,12 @@ case "$1" in
         $shellcmd -c "cd '$ASPACE_LAUNCHER_BASE';
           (
              exec 0<&-; exec 1>&-; exec 2>&-;
-             $startup_cmd &> \"logs/archivesspace.out\" &
+             $startup_cmd &> \"$ARCHIVESSPACE_LOGS\" &
              echo \$! > \"$PIDFILE\"
           ) &
           disown $!"
 
-        echo "ArchivesSpace started!  See logs/archivesspace.out for details."
+        echo "ArchivesSpace started!  See $ARCHIVESSPACE_LOGS for details."
         ;;
     stop)
         pid=`cat $PIDFILE 2>/dev/null`
@@ -163,7 +167,7 @@ case "$1" in
         ;;
     "")
         # Run in foreground mode
-        (cd "$ASPACE_LAUNCHER_BASE"; bash -c "$startup_cmd 2>&1 | tee 'logs/archivesspace.out'")
+        (cd "$ASPACE_LAUNCHER_BASE"; bash -c "$startup_cmd 2>&1 | tee '$ARCHIVESSPACE_LOGS'")
         ;;
     *)
         echo "Usage: $0 [start|stop]"
