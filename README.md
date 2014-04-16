@@ -39,7 +39,7 @@ and for Windows:
 
 This will start ArchivesSpace running in foreground mode (so it will
 shut down when you close your terminal window).  Log output will be
-written to the file `logs/archivesspace.out`.
+written to the file `logs/archivesspace.out` (by default).
 
 **Note:** If you're running Windows and you get an error message like
 `unable to resolve type 'size_t'` or `no such file to load -- bundler`,
@@ -70,7 +70,7 @@ you run:
      archivesspace.sh start
 
 ArchivesSpace will run in the background as a daemon (logging to
-`logs/archivesspace.out` as before).  You can shut it down with:
+`logs/archivesspace.out` by default, as before).  You can shut it down with:
 
      archivesspace.sh stop
 
