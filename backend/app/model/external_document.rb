@@ -20,7 +20,7 @@ class ExternalDocument < Sequel::Model(:external_document)
      :digital_object_component].each do |record|
 
       validates_unique([:location_sha1, "#{record}_id".intern],
-                        :message => "location must be unique within a record")
+                        :message => "location and title must have unique values within a record")
 
       map_validation_to_json_property([:location_sha1, "#{record}_id".intern], :location)
     end
@@ -29,7 +29,7 @@ class ExternalDocument < Sequel::Model(:external_document)
   end
 
   def self.generate_location_sha1(json)
-    Digest::SHA1.hexdigest(json.location)
+    Digest::SHA1.hexdigest(json.location + json.title )
   end
 
   def self.create_from_json(json, opts = {})
