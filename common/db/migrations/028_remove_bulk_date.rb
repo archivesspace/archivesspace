@@ -2,18 +2,15 @@ require_relative 'utils'
 
 Sequel.migration do
 
+
+  # this migration was a mistake and born out of a misunderstood feature 
+  # request. Apologize if you already ran it, but it only removed the bulk_date
+  # value from the enum lists. next migration resolves this. 
   up do
-    
-    bulk_dates = self[:enumeration_value].filter(:value => "bulk").select(:id)
-    inclusive_dates = self[:enumeration_value].filter(:value => "inclusive" ).select(:id)
-    self[:date].filter(:date_type_id => bulk_dates ).update(:date_type_id => inclusive_dates)
- 
-    self[:enumeration_value].filter(:value => "bulk").delete 
   end
 
 
   down do
-    # No going back!
   end
 
 end

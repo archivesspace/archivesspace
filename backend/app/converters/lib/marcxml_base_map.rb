@@ -511,7 +511,7 @@ module MarcXMLBaseMap
             make(:date) do |date|
               date.label = 'creation'
               date.date_type = {'i' => 'inclusive',
-                'k' => 'inclusive',
+                'k' => 'bulk',
                 's' => 'single'}[control[6]]
 
               if control[7..10] && control[7..10].match(/^\d{4}$/)

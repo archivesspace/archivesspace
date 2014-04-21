@@ -100,10 +100,9 @@ class EADConverter < Converter
         norm_dates[1] = norm_dates[0]
       end
       norm_dates.map! {|d| d =~ /^([0-9]{4}(\-(1[0-2]|0[1-9])(\-(0[1-9]|[12][0-9]|3[01]))?)?)$/ ? d : nil}
-      date_type = %w{inclusive single}.include?(att('type')) ? att(type) : 'inclusive'
       
       make :date, {
-        :date_type => date_type || "inclusive",
+        :date_type => att('type') || 'inclusive', 
         :expression => inner_xml,
         :label => 'creation',
         :begin => norm_dates[0],

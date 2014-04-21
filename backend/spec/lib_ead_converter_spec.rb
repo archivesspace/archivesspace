@@ -110,7 +110,7 @@ ANEAD
 
     it "maps '<unitdate>' correctly" do
       @resource['dates'][0]['expression'].should eq("Bulk, 1960-1970")
-      @resource['dates'][0]['date_type'].should eq("inclusive")
+      @resource['dates'][0]['date_type'].should eq("bulk")
 
       @resource['dates'][1]['expression'].should eq("Resource-Title-AT")
       @resource['dates'][1]['date_type'].should eq("inclusive")

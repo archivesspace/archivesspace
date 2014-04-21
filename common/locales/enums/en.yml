@@ -934,7 +934,9 @@ en:
     date_type:
       expression: Expression
       single: Single
-      inclusive: Range 
+      bulk: Bulk Dates
+      inclusive: Inclusive Dates
+      range: Range
     date_label:
       broadcast: Broadcast
       copyright: Copyright

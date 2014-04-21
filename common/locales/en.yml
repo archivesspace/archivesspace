@@ -962,7 +962,7 @@ en:
         <p>See DACS 2.4 and 2.4.3</p>
     date_type: Type
     date_type_tooltip: |
-        <p>Indicates the type for normalized date information, either a single date or a date range.</p>
+        <p>Indicates the type for normalized date information, either a single date or a date range (inclusive or bulk).</p>
     date_type_message: Select a Type to enter normalized date or date range
     expression: Expression
     expression_tooltip: |
@@ -972,6 +972,7 @@ en:
         <ul>
         <li>1968</li>
         <li>1979-1993</li>
+        <li>1785-1960, bulk 1916-1958</li>
         <li>1827, 1952-1978</li>
         <li>circa 1870-1879</li>
         <li>1906 March 17</li>
@@ -1010,9 +1011,15 @@ en:
   date_type_single:
     <<: *date_attributes
 
+  date_type_bulk:
+    <<: *date_attributes
+
   date_type_inclusive:
     <<: *date_attributes
-    
+ 
+  date_type_range:
+    <<: *date_attributes
+
   date_label:
     <<: *date_attributes
     

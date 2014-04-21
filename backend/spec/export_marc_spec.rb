@@ -36,7 +36,7 @@ describe 'MARC Export' do
   describe "datafield 245 mapping" do
     before(:all) do
 
-      @dates = ['inclusive', 'inclusive'].map {|type|
+      @dates = ['inclusive', 'bulk'].map {|type|
         range = [nil, nil].map { generate(:yyyy_mm_dd) }.sort
         build(:json_date,
               :date_type => type,
@@ -69,11 +69,10 @@ describe 'MARC Export' do
     end
 
 
-    it "doesn't add bulk dates" do
+    it "maps the first bulk date to subfield 'g'" do
       date = @dates.find{|d| d.date_type == 'bulk'}
-      date.should be_nil 
+      @marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{date.begin} - #{date.end}"
     end
-
 
 
     it "doesn't create more than two dates" do

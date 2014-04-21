@@ -240,6 +240,14 @@ describe 'EAC Export' do
     end
 
 
+    it "creates a from- and to-Date for 'bulk' dates" do
+         from = @rec.names[0]['use_dates'][0]['begin']
+         to = @rec.names[0]['use_dates'][0]['end']
+   
+         @eac.should have_tag("nameEntry[1]/useDates[1]/dateRange/fromDate[@standardDate=\"#{from}\"]" => "#{from}")
+         @eac.should have_tag("nameEntry[1]/useDates[1]/dateRange/toDate[@standardDate=\"#{to}\"]" => "#{to}")
+    end
+
 
     it "creates a from- and to-Date for 'inclusive' dates" do
       from = @rec.names[0]['use_dates'][1]['begin']
@@ -310,7 +318,7 @@ describe 'EAC Export' do
       @rec = create(:json_agent_person,
                     :dates_of_existence => [
                                             build(:json_date,
-                                                  :date_type => 'inclusive',
+                                                  :date_type => 'bulk',
                                                   :label => 'existence'),
                                             build(:json_date,
                                                   :label => 'existence')
