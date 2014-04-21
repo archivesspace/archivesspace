@@ -75,7 +75,13 @@ started up)
 
 ## Running ArchivesSpace under Tomcat as a Windows service
 
-You can also use Tomcat to run ArchivesSpace as a Windows service.
+The primary README contains a refrence to the following error:
+
+"Note: If you're running Windows and you get an error message like unable to resolve type 'size_t' or no such file to load -- bundler, make sure that there are no spaces in any part of the path name in which the ArchivesSpace directory is located."
+
+This also applies to Tomcat on Windows.  The default installation for Tomcat on Windows contains many spaces (ie, Program Files, Tomcat 7.0, etc).  You should install Tomcat to a folder without spaces, C:\Tomcat for example.
+
+You can  use Tomcat to run ArchivesSpace as a Windows service.
 Start by following the steps above to install ArchivesSpace into your
 Tomcat directory (using `scripts\configure-tomcat.bat` instead of
 `scripts/configure-tomcat.sh`).  Make sure you get the release

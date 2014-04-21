@@ -59,9 +59,9 @@ Or on Windows:
      $ xcopy \path\to\archivesspace-1.0.2\archivesspace\plugins\wonderful_plugin plugins\wonderful_plugin /i /k /h /s /e /o /x /y
 
 
-Note that you may want to preserve the `logs/archivesspace.out` file
-from your previous installation--just in case you need to refer to it
-later.
+Note that you may want to preserve the logs file (`logs/archivesspace.out` 
+by default) from your previous installation--just in case you need to 
+refer to it later.
 
 
 ## Run the database migrations
