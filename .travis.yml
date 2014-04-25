@@ -14,6 +14,8 @@ env:
   - DB=derby TASK=travis:test
   - DB=mysql TASK=travis:selenium
   - DB=derby TASK=travis:selenium
+  - DB=mysql TASK=travis:selenium:public
+  - DB=derby TASK=travis:selenium:public
   - TASK=dist
 
 before_script:
