@@ -365,6 +365,7 @@ def selenium_init(backend_fn, frontend_fn)
 
 
   $driver = Selenium::WebDriver.for :firefox
+  $wait   = Selenium::WebDriver::Wait.new(:timeout => 10)
   $driver.manage.window.maximize
 end
 
