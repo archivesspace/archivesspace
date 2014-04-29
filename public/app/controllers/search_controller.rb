@@ -113,13 +113,21 @@ class SearchController < ApplicationController
 
         stack.push(JSONModel(:boolean_query).from_hash({
                                                          :op => b[:op],
-                                                         :subqueries => [JSONModel(:field_query).from_hash(a), JSONModel(:field_query).from_hash(b)]
+                                                         :subqueries => [as_subquery(a), as_subquery(b)]
                                                        }))
       end
 
       stack.pop
     else
       JSONModel(:field_query).from_hash(terms[0])
+    end
+  end
+
+  def as_subquery(query_data)
+    if query_data.kind_of? JSONModelType
+      query_data
+    else
+      JSONModel(:field_query).from_hash(query_data)
     end
   end
 
