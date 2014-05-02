@@ -27,7 +27,7 @@ class SessionController < ApplicationController
 
 
   def become_user
-    if User.become_user(session, params[:username])
+    if User.become_user(self, params[:username])
       flash[:success] = I18n.t("become-user.success")
       redirect_to :controller => :welcome, :action => :index
     else

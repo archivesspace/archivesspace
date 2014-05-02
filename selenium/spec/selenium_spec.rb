@@ -2108,6 +2108,19 @@ end
       assert(5) {
         $driver.ensure_no_such_element(:link, "Select Repository")
       }
+      logout
+    end
+
+
+    it "allows the admin user to become a different user" do
+      login("admin", "admin")
+
+      $driver.find_element(:css, '.user-container .btn').click
+      $driver.find_element(:link, "Become User").click
+      $driver.clear_and_send_keys([:id, "select-user"], @user)
+      $driver.find_element(:css, "#new_become_user .btn-primary").click
+
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Successfully switched users/)
     end
 
   end

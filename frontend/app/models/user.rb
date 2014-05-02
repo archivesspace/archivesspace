@@ -41,7 +41,7 @@ class User < JSONModel(:user)
   end
 
 
-  def self.become_user(session, username)
+  def self.become_user(context, username)
     uri = JSONModel(:user).uri_for("#{username}/become-user")
 
     response = JSONModel::HTTP.post_form(uri)
@@ -49,7 +49,7 @@ class User < JSONModel(:user)
     if response.code == '200'
       backend_session = ASUtils.json_parse(response.body)
 
-      self.establish_session(session, backend_session, username)
+      self.establish_session(context, backend_session, username)
 
       true
     else
