@@ -23,6 +23,17 @@
         </li>
       <% end %>
     <% end %>
+
+    <% if AppConfig[:enable_public_metadata_format_links] %>
+      <% if record_type == "resource" %>
+        <li><%= link_to I18n.t("metadata_formats.ead"), "#{request.original_url}/ead" %></li>
+        <li><%= link_to I18n.t("metadata_formats.marc21"), "#{request.original_url}/marc21" %></li>
+      <% elsif record_type == "digital_object" %>
+        <li><%= link_to I18n.t("metadata_formats.dc"), "#{request.original_url}/dc" %></li>
+        <li><%= link_to I18n.t("metadata_formats.mets"), "#{request.original_url}/mets" %></li>
+        <li><%= link_to I18n.t("metadata_formats.mods"), "#{request.original_url}/mods" %></li>
+      <% end  %>
+    <% end %>
   </ul>
 </div>
 
