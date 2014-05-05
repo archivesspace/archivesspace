@@ -109,9 +109,10 @@ module Notes
 
 
     def apply_notes(obj, json)
-      SubnoteMetadata.filter(:note_id => obj.note_dataset.select(:id)).delete
-      obj.note_dataset.delete
-
+      if obj.note_dataset.first
+      	SubnoteMetadata.filter(:note_id => obj.note_dataset.select(:id)).delete
+      	obj.note_dataset.delete
+      end
       populate_persistent_ids(json)
 
       json.notes.each do |note|
