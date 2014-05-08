@@ -291,6 +291,22 @@ def logout
 end
 
 
+# Drop a call to this into a Selenium test block to work with the browser
+# interactively.  Useful during test development!
+def debug_repl
+  $stderr.puts("Debug REPL active.  Type :eof to abort")
+  while true
+    line = $stdin.readline
+    break if line.strip == ":eof"
+    begin
+      puts eval(line).inspect
+    rescue
+      puts $!
+    end
+  end
+end
+
+
 RSpec.configure do |c|
   c.fail_fast = true
 end
