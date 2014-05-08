@@ -295,4 +295,63 @@ describe "ArchivesSpace Public interface" do
     end
   end
 
+  describe "Search" do
+    before(:all) do
+      $published_resource_uri, published   = create_resource(:title => "The meaning of life papers", :publish => true, :id_0 => "themeaningoflifepapers")
+      $published_resource_uri1, published1 = create_resource(:title => "The meaning of death papers", :publish => true, :id_0 => "themeaningofdeathpapers")
+
+      @indexer.run_index_round
+    end
+
+    before(:each) do
+      $driver.find_element(:css, 'a span[class="icon-home"]').click
+    end
+
+    it "finds the published resource with a basic search" do
+      $driver.clear_and_send_keys([:class, 'input-large'], "The meaning of life papers")
+      $driver.find_element(:id, "global-search-button").click
+      $driver.find_element(:link, "The meaning of life papers")
+    end
+
+    it "finds the published resource with an advanced search (default AND)" do
+      $driver.find_element(:link, 'Show Advanced Search').click
+
+      $driver.clear_and_send_keys([:id, 'v0'], "meaning")
+      $driver.clear_and_send_keys([:id, 'v1'], "life")
+      $driver.clear_and_send_keys([:id, 'v2'], "papers")
+
+      $driver.find_element_with_text("//button", /Search/).click
+      $driver.find_element(:link, "The meaning of life papers")
+      $driver.ensure_no_such_element(:link, "The meaning of death papers")
+    end
+
+    it "finds the published resources with an OR advanced search" do
+      $driver.find_element(:link, 'Show Advanced Search').click
+
+      $driver.clear_and_send_keys([:id, 'v0'], "meaning")
+      $driver.clear_and_send_keys([:id, 'v1'], "life")
+      $driver.find_element(:id => "op2").select_option("OR")
+      $driver.clear_and_send_keys([:id, 'v2'], "death")
+
+      $driver.find_element_with_text("//button", /Search/).click
+
+      ["The meaning of life papers", "The meaning of death papers"].each do |title|
+        $driver.find_element(:link, title)
+      end
+    end
+
+    it "finds the appropriate published resource with a NOT advanced search" do
+      $driver.find_element(:link, 'Show Advanced Search').click
+
+      $driver.clear_and_send_keys([:id, 'v0'], "meaning")
+      $driver.clear_and_send_keys([:id, 'v1'], "life")
+      $driver.find_element(:id => "op2").select_option("NOT")
+      $driver.clear_and_send_keys([:id, 'v2'], "death")
+
+      $driver.find_element_with_text("//button", /Search/).click
+      $driver.find_element(:link, "The meaning of life papers")
+      $driver.ensure_no_such_element(:link, "The meaning of death papers")
+    end
+  end
+
 end
