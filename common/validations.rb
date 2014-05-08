@@ -154,13 +154,13 @@ module JSONModel::Validations
     errors = []
 
     if hash["rights_type"] == "intellectual_property"
-      errors << ["ip_status", "is required"] if hash["ip_status"].nil?
-      errors << ["jurisdiction", "is required"] if hash["jurisdiction"].nil?
+      errors << ["ip_status", "missing required property"] if hash["ip_status"].nil?
+      errors << ["jurisdiction", "missing required property"] if hash["jurisdiction"].nil?
     elsif hash["rights_type"] == "license"
-      errors << ["license_identifier_terms", "is required"] if hash["license_identifier_terms"].nil?
+      errors << ["license_identifier_terms", "missing required property"] if hash["license_identifier_terms"].nil?
     elsif hash["rights_type"] == "statute"
-      errors << ["statute_citation", "is required"] if hash["statute_citation"].nil?
-      errors << ["jurisdiction", "is required"] if hash["jurisdiction"].nil?
+      errors << ["statute_citation", "missing required property"] if hash["statute_citation"].nil?
+      errors << ["jurisdiction", "missing required property"] if hash["jurisdiction"].nil?
     end
 
     errors

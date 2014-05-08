@@ -2108,6 +2108,19 @@ end
       assert(5) {
         $driver.ensure_no_such_element(:link, "Select Repository")
       }
+      logout
+    end
+
+
+    it "allows the admin user to become a different user" do
+      login("admin", "admin")
+
+      $driver.find_element(:css, '.user-container .btn').click
+      $driver.find_element(:link, "Become User").click
+      $driver.clear_and_send_keys([:id, "select-user"], @user)
+      $driver.find_element(:css, "#new_become_user .btn-primary").click
+
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Successfully switched users/)
     end
 
   end
@@ -3060,12 +3073,13 @@ end
       $driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
       $driver.find_element(:link, "My Repository Preferences").click
 
-
       $driver.find_element(:id => "preference_defaults__accession_browse_column_1_").select_option_with_text("Acquisition Type")
       $driver.find_element(:css => 'button[type="submit"]').click
+      $wait.until { $driver.find_element(:css => ".alert-success") }
 
       $driver.find_element(:link => 'Browse').click
       $driver.find_element(:link => 'Accessions').click
+      $wait.until { $driver.find_element(:link => "Create Accession") }
 
       cells = $driver.find_elements(:css, "table th")
       cells[1].text.should eq("Title")
