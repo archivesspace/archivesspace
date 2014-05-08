@@ -57,10 +57,11 @@ class StreamingImport
 
   include JSONModel
 
-  def initialize(stream, ticker, import_canceled = Atomic.new(false))
-
-    @import_canceled = import_canceled
-
+  def initialize(stream, ticker, import_canceled = false,  migration = false)
+    
+    @import_canceled = import_canceled ? import_canceled :  Atomic.new(false)
+    @migration = migration ? Atomic.new(true) : Atomic.new(false)
+   
     raise StandardError.new("Nothing to stream") unless stream
 
     @ticker = ticker
@@ -261,7 +262,7 @@ class StreamingImport
       obj = if model.respond_to?(:ensure_exists)
               model.ensure_exists(json, nil)
             else
-              model_for(record['jsonmodel_type']).create_from_json(json)
+              model_for(record['jsonmodel_type']).create_from_json(json, :migration => @migration )
             end
 
       @ticker.log("Created: #{record['uri']}")

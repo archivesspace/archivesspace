@@ -8,7 +8,6 @@ describe "Batch Import Controller" do
 
 
   it "can import a batch of JSON objects" do
-
     batch_array = []
 
     types = [:json_resource, :json_archival_object]
@@ -26,10 +25,55 @@ describe "Batch Import Controller" do
     response.code.should eq('200')
 
     results = ASUtils.json_parse(response.body)
+    results.last['saved'].length.should eq(10)
+  end
+  
+  it "can import a batch of JSON objects from a migrator and not slam the database with checks if position is provided" do
 
+    ArchivalObject.any_instance.should_not_receive(:set_position_in_list)
+    batch_array = []
+
+   resource = create(:json_resource)
+
+    10.times do |i|
+	obj = build(:json_archival_object, :resource => {:ref => resource.uri}, :title => "A#{i.to_s}", :position => i )
+        obj.uri = obj.class.uri_for(rand(100000), {:repo_id => $repo_id})
+        batch_array << obj
+    end
+
+    uri = "/repositories/#{$repo_id}/batch_imports?migration=true"
+    url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
+
+    response = JSONModel::HTTP.post_json(url, batch_array.to_json)
+
+    response.code.should eq('200')
+
+    results = ASUtils.json_parse(response.body)
     results.last['saved'].length.should eq(10)
   end
 
+  it "can import a batch of hierarchical JSON objects not from a migrator and will check positioning" do
+
+    ArchivalObject.any_instance.should_receive(:set_position_in_list)
+    batch_array = []
+
+   resource = create(:json_resource)
+
+    10.times do |i|
+	obj = build(:json_archival_object, :resource => {:ref => resource.uri}, :title => "B#{i.to_s}", :position => 1)
+        obj.uri = obj.class.uri_for(rand(100000), {:repo_id => $repo_id})
+        batch_array << obj
+    end
+
+    uri = "/repositories/#{$repo_id}/batch_imports"
+    url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
+
+    response = JSONModel::HTTP.post_json(url, batch_array.to_json)
+
+    response.code.should eq('200')
+    results = ASUtils.json_parse(response.body)
+    results.last['saved'].length.should eq(10)
+  end
 
   it "can import a batch of JSON objects with unknown enum values" do
 

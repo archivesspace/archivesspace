@@ -6,7 +6,8 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/repositories/:repo_id/batch_imports')
     .description("Import a batch of records")
     .params(["batch_import", :body_stream, "The batch of records"],
-            ["repo_id", :repo_id])
+            ["repo_id", :repo_id],
+	    ["migration", String, "param to indicate we are using a migrator", :optional => true ]    )
     .request_context(:create_enums => true)
     .use_transaction(false)
     .permissions([:update_archival_record])
@@ -14,6 +15,11 @@ class ArchivesSpaceService < Sinatra::Base
              [400, :error],
              [409, :error]) \
   do
+
+    # some migrators (like Archivists Toolkit) use the batch_import endpoint. 
+    # however, we can disable some checks, since AT has managed the data in a particular way, so 
+    # things like ordering should not need to be checked.
+    migration = params[:migration] ? true : false 
 
     # The first time we're invoked, spool our input into a file.  Since the
     # transaction might get aborted and restarted, the body of this endpoint
@@ -48,7 +54,7 @@ class ArchivesSpaceService < Sinatra::Base
 
           File.open(env['batch_import_file']) do |stream|
             begin
-              batch = StreamingImport.new(stream, job_monitor)
+              batch = StreamingImport.new(stream, job_monitor, false,  migration )
               batch.process
               success = true
             rescue JSONModel::ValidationException, ImportException, Sequel::ValidationFailed, ReferenceError => e

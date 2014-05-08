@@ -202,10 +202,11 @@ module TreeNodes
     def create_from_json(json, opts = {})
       sequence = sequence_for(json)
       set_root_record(json, sequence, opts)
-
+      
       obj = super
-
-      if json[self.root_record_type] && json.position
+     
+      migration = opts[:migration] ? opts[:migration].value : false
+      if json[self.root_record_type] && json.position && !migration 
         obj.set_position_in_list(json.position, sequence)
       end
 
