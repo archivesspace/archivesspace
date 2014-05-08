@@ -101,7 +101,7 @@ class RecordsController < ApplicationController
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"]
     ]
 
-    @breadcrumbs.push([@accession.title, "#", "accession"])
+    @breadcrumbs.push([@accession.display_string, "#", "accession"])
   end
 
 
