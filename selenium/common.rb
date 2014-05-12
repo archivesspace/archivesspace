@@ -40,7 +40,7 @@ module Selenium
 
   module Config
     def self.retries
-      100
+      500 
     end
   end
 
@@ -57,7 +57,7 @@ class Selenium::WebDriver::Driver
         break
       end
 
-      sleep(0.1)
+      sleep(0.5)
       try += 1
     end
 
@@ -82,7 +82,7 @@ class Selenium::WebDriver::Driver
         if try < Selenium::Config.retries
           try += 1
           $sleep_time += 0.1
-          sleep 0.1
+          sleep 0.5
           puts "find_element: #{try} misses on selector '#{selectors}'.  Retrying..." if (try % 5) == 0
         else
           puts "Failed to find #{selectors}"
@@ -135,7 +135,7 @@ class Selenium::WebDriver::Driver
         if try < Selenium::Config.retries
           try += 1
           $sleep_time += 0.1
-          sleep 0.1
+          sleep 0.5
           puts "click_and_wait_until_gone: #{try} hits selector '#{selector}'.  Retrying..." if (try % 5) == 0
         else
           raise Selenium::WebDriver::Error::NoSuchElementError.new(selector.inspect)
@@ -176,7 +176,7 @@ class Selenium::WebDriver::Driver
         break
       rescue
         $sleep_time += 0.1
-        sleep 0.1
+        sleep 0.3
       end
     end
   end
@@ -257,7 +257,7 @@ class Selenium::WebDriver::Element
       end
 
       $sleep_time += 0.1
-      sleep 0.1
+      sleep 0.5
       puts "find_element_with_text: #{try} misses on selector ':xpath => #{xpath}'.  Retrying..." if (try % 10) == 0
     end
 
@@ -280,6 +280,7 @@ end
 
 
 def logout
+  $driver.navigate.to $frontend
   ## Complete the logout process
   user_menu = $driver.find_elements(:css, '.user-container .dropdown-menu.pull-right').first
   if !user_menu || !user_menu.displayed?
@@ -396,7 +397,7 @@ def assert(times = nil, &block)
     try += 1
     if try < times
       $sleep_time += 0.1
-      sleep 0.1
+      sleep 0.5
       retry
     else
       puts "Assert giving up"

@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.13'
+gem 'rails', '3.2.18'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -22,9 +22,9 @@ end
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
-gem 'json-schema'
+gem 'json-schema', '~> 1.0.10'
 
-gem 'useragent'
+gem 'useragent', '~> 0.6.0'
 
 gem "jruby-jars", "= 1.7.11"
 
@@ -53,7 +53,9 @@ gem 'atomic', '= 1.0.1'
 
 
 group :test do
-  gem 'rspec-rails'
+  gem 'rspec', '~> 2.12.0'
+  gem 'rspec-core', '2.12.1'
+  gem 'rspec-rails', '~> 2.12.1'
   gem 'simplecov'
 end
 
@@ -67,7 +69,7 @@ gem "zip-zip"
 
 # The frontend doesn't specifically depend on Nokogiri at the moment, but
 # several plugins use it.
-gem "nokogiri"
+gem "nokogiri", '~> 1.6.1'
 
 
 # Allow plugins to provide their own Gemfiles too.

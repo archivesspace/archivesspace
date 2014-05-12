@@ -59,7 +59,7 @@ describe "Batch Import Controller" do
 
    resource = create(:json_resource)
 
-    10.times do |i|
+    1.times do |i|
 	obj = build(:json_archival_object, :resource => {:ref => resource.uri}, :title => "B#{i.to_s}", :position => 1)
         obj.uri = obj.class.uri_for(rand(100000), {:repo_id => $repo_id})
         batch_array << obj
@@ -72,7 +72,7 @@ describe "Batch Import Controller" do
 
     response.code.should eq('200')
     results = ASUtils.json_parse(response.body)
-    results.last['saved'].length.should eq(10)
+    results.last['saved'].length.should eq(1)
   end
 
   it "can import a batch of JSON objects with unknown enum values" do

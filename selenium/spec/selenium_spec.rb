@@ -1007,7 +1007,7 @@ describe "ArchivesSpace user interface" do
         $driver.find_element_with_text('//div', /Event Created/).should_not be_nil
         $driver.find_element(:css => '.record-pane h2').text.should eq("#{@exdocs_accession_title} Accession")
       }
-end
+      end
     end
 
 
@@ -1120,16 +1120,20 @@ end
 
       @accession_title = create_accession(:title => "My accession to test the record lifecycle")
       run_index_round
+      logout
     end
 
+    after(:each) do
+	logout 
+    end
 
     after(:all) do
-      logout
       $accession_url = nil
     end
 
 
     it "can suppress an Accession" do
+      login_as_repo_manager
       # make sure we can see suppressed records
       $driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
       $driver.find_element(:link, "My Repository Preferences").click
@@ -1161,12 +1165,11 @@ end
       assert(5) { $driver.current_url.should eq($accession_url) }
       assert(5) { $driver.find_element(:css => "div.alert.alert-info").text.should eq('Accession is suppressed and cannot be edited') }
 
-      logout
-      login_as_archivist
     end
 
 
     it "an archivist can't see a suppressed Accession" do
+      login_as_archivist
       # check the listing
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Accessions").click
@@ -1180,7 +1183,6 @@ end
       $driver.get($accession_url)
       $driver.find_element_with_text('//h2', /Record Not Found/)
 
-      logout
     end
 
 
@@ -1198,6 +1200,8 @@ end
 
 
     it "can delete an Accession" do
+      login_as_repo_manager
+      $driver.get($accession_url)
       # Delete the accession
       $driver.find_element(:css, ".delete-record.btn").click
       $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
@@ -1219,13 +1223,17 @@ end
       assert(5) {
         $driver.find_element_with_text('//h2', /Record Not Found/)
       }
+      $driver.navigate.to $frontend
     end
 
 
     it "can suppress a Digital Object" do
+      login_as_repo_manager
       # Navigate to the Digital Object
       $driver.clear_and_send_keys([:id, "global-search-box"], @digital_object_title)
       $driver.find_element(:id, "global-search-button").click
+      $driver.find_element(:link, "View").click
+      digital_object_url = $driver.current_url
       $driver.find_element(:link, "Edit").click
       digital_object_edit_url = $driver.current_url
 
@@ -1241,7 +1249,7 @@ end
       # Try to navigate to the edit form
       $driver.get(digital_object_edit_url)
 
-      assert(5) { $driver.current_url.should eq(digital_object_edit_url) }
+      assert(5) { $driver.current_url.should eq(digital_object_url) }
       assert(5) { $driver.find_element(:css => "div.alert.alert-info").text.should eq('Digital Object is suppressed and cannot be edited') }
     end
 
