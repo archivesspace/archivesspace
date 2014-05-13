@@ -22,53 +22,33 @@ end
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem "json", "1.8.0"
-gem 'json-schema', '~> 1.0.10'
+gem 'json-schema', '1.0.10'
 
 gem 'useragent', '~> 0.6.0'
 
 gem "jruby-jars", "= 1.7.11"
 
-gem 'warbler'
+gem 'warbler', "1.4.2"
 
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'debugger'
 
 gem 'atomic', '= 1.0.1'
 
-# For queuing batch import jobs
-
-#gem 'delayed_job_active_record'
-
 
 group :test do
-  gem 'rspec', '~> 2.12.0'
+  gem 'rspec', '2.12.0'
   gem 'rspec-core', '2.12.1'
-  gem 'rspec-rails', '~> 2.12.1'
+  gem 'rspec-rails', '2.12.1'
   gem 'simplecov', "0.7.1"
 end
 
-gem "puma"
+gem "puma", "2.8.2"
 
-gem "net-http-persistent"
-gem "multipart-post"
+gem "net-http-persistent", "2.8"
+gem "multipart-post", "1.2.0"
 
 gem "rubyzip", "1.0.0"
-gem "zip-zip"
+gem "zip-zip", "0.3"
 
-# The frontend doesn't specifically depend on Nokogiri at the moment, but
-# several plugins use it.
 gem "nokogiri", '~> 1.6.1'
 
 
