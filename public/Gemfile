@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.13'
+gem 'rails', '3.2.18'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -9,13 +9,12 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
   gem 'therubyrhino'
 
-  gem 'less-rails'
+  gem 'less-rails', "~> 2.3.3"
 end
 
 gem 'jquery-rails'
-
-gem 'json-schema'
-
+gem "json", "1.8.0"
+gem 'json-schema', '~> 1.0.10'
 gem "jruby-jars", "= 1.7.11"
 
 gem 'atomic', '= 1.0.1'
@@ -25,8 +24,8 @@ gem "net-http-persistent"
 gem "multipart-post"
 
 group :development, :test do
-  gem 'rspec-rails'
-  gem 'factory_girl'
+  gem 'rspec-rails', '~> 2.12.0'
+  gem 'factory_girl', "~> 4.1.0"
 end
 
 

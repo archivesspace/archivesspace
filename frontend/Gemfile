@@ -21,7 +21,7 @@ end
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-
+gem "json", "1.8.0"
 gem 'json-schema', '~> 1.0.10'
 
 gem 'useragent', '~> 0.6.0'
@@ -56,7 +56,7 @@ group :test do
   gem 'rspec', '~> 2.12.0'
   gem 'rspec-core', '2.12.1'
   gem 'rspec-rails', '~> 2.12.1'
-  gem 'simplecov'
+  gem 'simplecov', "0.7.1"
 end
 
 gem "puma"
