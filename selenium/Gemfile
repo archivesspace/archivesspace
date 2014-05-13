@@ -1,5 +1,12 @@
 # A sample Gemfile
 source "http://rubygems.org"
 
-gem "selenium-webdriver"
-gem "rspec"
+
+gem 'multi_json', '1.10.0'
+gem 'rubyzip', '1.0.0'
+
+group "test" do
+	gem "rspec-core", "2.12.1"
+	gem "selenium-webdriver", "2.41.0"
+	gem "rspec", "2.12.0"
+end

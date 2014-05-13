@@ -28,7 +28,7 @@ gem "multipart-post", "1.2.0"
 group :development, :test do
   gem "rspec", "2.12.0"
   gem "rspec-core", "2.12.1"
-  gem 'rspec-rails', '~> 2.12.1'
+  gem 'rspec-rails', '2.12.1'
   gem 'factory_girl', "~> 4.1.0"
 end
 
