@@ -59,7 +59,7 @@ class ArchivesSpaceService
 
 
     # Create the admin user
-    self.create_system_user(User.ADMIN_USERNAME, "Administrator", User.ADMIN_USERNAME)
+    self.create_system_user(User.ADMIN_USERNAME, "Administrator", AppConfig[:default_admin_password])
     self.create_group(Group.ADMIN_GROUP_CODE, "Administrators", [User.ADMIN_USERNAME], [])
 
 

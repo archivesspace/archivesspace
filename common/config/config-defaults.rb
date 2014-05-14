@@ -1,3 +1,4 @@
+AppConfig[:default_admin_password] = "admin"
 AppConfig[:data_directory] = File.join(Dir.home, "ArchivesSpace")
 AppConfig[:backup_directory] = proc { File.join(AppConfig[:data_directory], "demo_db_backups") }
 AppConfig[:solr_index_directory] = proc { File.join(AppConfig[:data_directory], "solr_index") }
