@@ -34,7 +34,11 @@ class CommonIndexer
   def self.add_indexer_initialize_hook(&block)
     @@init_hooks << block
   end
-  
+
+  def self.add_attribute_to_resolve(attr)
+    @@resolved_attributes.push(attr) unless @@resolved_attributes.include?(attr)
+  end
+
   # This is to pause the indexer.
   # Duration is given in seconds.
   def self.pause(duration = 900 )
