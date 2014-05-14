@@ -181,9 +181,13 @@
    <dynamicField name="*_u_ustr"  type="string"  indexed="true"  stored="false" multiValued="true"/>
    <dynamicField name="*_u_uint"  type="int"  indexed="true"  stored="false" multiValued="true"/>
    <dynamicField name="*_u_utext"  type="text_general"  indexed="true"  stored="false" multiValued="true"/>
+   <dynamicField name="*_u_udate"  type="date"  indexed="true"  stored="false" multiValued="true"/>
+   <dynamicField name="*_u_ubool"  type="boolean"  indexed="true"  stored="false" multiValued="true"/>
    <dynamicField name="*_u_sstr"  type="string"  indexed="true"  stored="true" multiValued="true"/>
    <dynamicField name="*_u_sint"  type="int"  indexed="true"  stored="true" multiValued="true"/>
    <dynamicField name="*_u_stext"  type="text_general"  indexed="true"  stored="true" multiValued="true"/>
+   <dynamicField name="*_u_sdate"  type="date"  indexed="true"  stored="true" multiValued="true"/>
+   <dynamicField name="*_u_sbool"  type="boolean"  indexed="true"  stored="true" multiValued="true"/>
    <dynamicField name="*_u_sort"  type="sort_string"  indexed="true"  stored="false" multiValued="false"/>
 
  </fields>
