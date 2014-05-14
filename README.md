@@ -1,6 +1,11 @@
 ArchivesSpace README
 --------------------
+
+[![Build Status](http://54.187.182.145:8080/buildStatus/icon?job=ArchivesSpace)](http://54.187.182.145:8080/job/ArchivesSpace/)[![Code Climate](https://codeclimate.com/github/archivesspace/archivesspace.png)](https://codeclimate.com/github/archivesspace/archivesspace)
+
 <http://archivesspace.org>
+
+
 
 # System requirements
 
