@@ -151,6 +151,10 @@
     <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
       <isset property="example"/>
     </condition>
+    <dirset id="plugins" dir="../plugins">
+      <include name="**/backend/spec"/>
+    </dirset>
+    <pathconvert pathsep=" " property="plugin-spec-dirs" refid="plugins"/>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" 
           failonerror="true"
           dir="../backend">
@@ -158,7 +162,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
-      <arg line="--1.9 --debug -X-C ../build/gems/bin/rspec -b --format d -P '*_spec.rb' --order rand:1 ${example-arg} spec/${spec}" />
+      <arg line="--1.9 --debug -X-C ../build/gems/bin/rspec -b --format d -P '*_spec.rb' --order rand:1 ${example-arg} spec/${spec} ${plugin-spec-dirs}" />
     </java>
   </target>
 
