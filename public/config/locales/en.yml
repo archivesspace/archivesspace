@@ -81,6 +81,7 @@ en:
   errors:
     error_404: Record Not Found
     error_404_message: "The record you've tried to access does not exist or may have been removed."
+    error_403_message: "Read access forbidden."
     backend_down: Unable to Connect to Database
     backend_down_message: ArchivesSpace is currently experiencing technical difficulties. We apologise for the inconvenience. Please try again later.
 
@@ -167,3 +168,10 @@ en:
   record_tree:
     record_tree_tab: Record Tree
     search_tab: Search Components
+
+  metadata_formats:
+    dc: DC
+    ead: EAD
+    marc21: MARCXML
+    mets: METS
+    mods: MODS

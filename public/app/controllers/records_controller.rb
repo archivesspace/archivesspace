@@ -14,6 +14,18 @@ class RecordsController < ApplicationController
     ]
   end
 
+  def resource_by_format
+    backend_target = case params[:format]
+    when "ead"
+      "/repositories/#{params[:repo_id]}/resource_descriptions/#{params[:id]}.xml?include_unpublished=false&include_daos=true&numbered_cs=true"
+    when "marc21"
+      "/repositories/#{params[:repo_id]}/resources/marc21/#{params[:id]}.xml"
+    else
+      raise RecordNotFound.new
+    end
+
+    raw_response backend_target
+  end
 
   def archival_object
     archival_object = JSONModel(:archival_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents"])
@@ -78,6 +90,21 @@ class RecordsController < ApplicationController
     @breadcrumbs.push([@digital_object_component.display_string, "#", "digital_object_component"])
   end
 
+  def digital_object_by_format
+    backend_target = case params[:format]
+    when "dc"
+      "/repositories/#{params[:repo_id]}/digital_objects/dublin_core/#{params[:id]}.xml"
+    when "mets"
+      "/repositories/#{params[:repo_id]}/digital_objects/mets/#{params[:id]}.xml"
+    when "mods"
+      "/repositories/#{params[:repo_id]}/digital_objects/mods/#{params[:id]}.xml"
+    else
+      raise RecordNotFound.new
+    end
+
+    raw_response backend_target
+  end
+
   def classification
     @classification = JSONModel(:classification).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_agents"])
     raise RecordNotFound.new if (!@classification || !@classification.publish)
@@ -128,6 +155,23 @@ class RecordsController < ApplicationController
 
   def get_repository
     @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
+  end
+
+  def raw_response(backend_target)
+    if AppConfig[:enable_public_metadata_formats]
+      uri      = URI.parse AppConfig[:backend_url]
+      http     = Net::HTTP.new uri.host, uri.port
+      request  = Net::HTTP::Get.new backend_target
+      request['X-ArchivesSpace-Session'] = JSONModel::HTTP.current_backend_session
+      response = http.request request
+      if response.code == "200"
+        render :text => response.body, :content_type => "text/xml"
+      else
+        raise RecordNotFound.new
+      end
+    else
+      render :inline => '<%= I18n.t("errors.error_403_message") %>'
+    end
   end
 
 end

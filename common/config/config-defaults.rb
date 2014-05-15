@@ -139,3 +139,6 @@ AppConfig[:import_timeout_seconds] = 300
 AppConfig[:import_jobs_cancelable] = proc { (AppConfig[:db_url] != AppConfig.demo_db_url).to_s }
 
 AppConfig[:max_location_range] = 1000
+
+AppConfig[:enable_public_metadata_formats] = true
+AppConfig[:enable_public_metadata_format_links] = false
