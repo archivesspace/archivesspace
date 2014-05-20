@@ -72,7 +72,7 @@ class EADConverter < Converter
 
 
     with 'unitid' do |node|
-      ancestor(:resource, :archival_object) do |obj|
+      ancestor(:note_multipart, :resource, :archival_object) do |obj|
         case obj.class.record_type
         when 'resource'
           # inner_xml.split(/[\/_\-\.\s]/).each_with_index do |id, i|
@@ -87,8 +87,9 @@ class EADConverter < Converter
 
 
     with 'unittitle' do |node|
-      ancestor(:resource, :archival_object) do |obj|
-        obj.title = node.inner_xml.strip
+      ancestor(:note_multipart, :resource, :archival_object) do |obj|
+        klass =  obj.class.record_type
+        obj.title = node.inner_xml.strip unless klass == "note_multipart"
       end
     end
 
@@ -128,10 +129,11 @@ class EADConverter < Converter
       make_note_too = false
       physdesc.children.each do |child|
         if child.respond_to?(:name) && child.name == 'extent'
-          if extent_number_and_type.nil? && child.content =~ /^([0-9\.]+)+\s+(.*)$/
+          child_content = child.content.strip 
+          if extent_number_and_type.nil? && child_content =~ /^([0-9\.]+)+\s+(.*)$/
             extent_number_and_type = {:number => $1, :extent_type => $2}
           else
-            other_extent_data << child.content
+            other_extent_data << child_content
           end
         else
           # there's other info here; make a note as well
