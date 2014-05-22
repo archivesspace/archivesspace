@@ -578,6 +578,7 @@ ANEAD
       <unittitle>Resource--Title-AT</unittitle>
       <unitid>Resource.ID.AT</unitid>
       <physdesc>
+       (folders 14–15 of 15 folders)
         <extent>5.0 Linear feet</extent>
         <extent>Resource-ContainerSummary-AT</extent>
       </physdesc>

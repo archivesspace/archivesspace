@@ -156,7 +156,7 @@ class EADConverter < Converter
       end
 
       if make_note_too
-        content = physdesc.to_xml
+        content = physdesc.to_xml(:encoding => 'utf-8')
         make :note_singlepart, {
           :type => 'physdesc',
           :persistent_id => att('id'),
