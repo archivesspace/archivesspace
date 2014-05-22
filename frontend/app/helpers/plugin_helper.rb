@@ -38,7 +38,7 @@ module PluginHelper
 
       result << render_aspace_partial(:partial => "shared/subrecord_form",
                        :locals => {:form => context, :name => parent['name'],
-                         :cardinality => parent['cardinality'], :plugin => true})
+                         :cardinality => parent['cardinality'].intern, :plugin => true})
 
     end
     result.html_safe

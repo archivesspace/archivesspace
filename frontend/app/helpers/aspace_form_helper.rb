@@ -222,7 +222,7 @@ module AspaceFormHelper
 
 
     def label_and_boolean(name, opts = {}, default = false, force_checked = false)
-      label_with_field(name, checkbox(name, opts, default, force_checked))
+      label_with_field(name, checkbox(name, opts, default, force_checked), opts)
     end
 
 
