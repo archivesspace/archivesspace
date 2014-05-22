@@ -196,11 +196,11 @@ module JSONModel
         allow_unmapped_enum_value(entry[:schema]['properties'])
       end
 
-      AppConfig[:plugins].each do |plugin|
-        Dir.glob(File.join('..', 'plugins', plugin, 'schemas', "#{schema_name}_ext.rb")).each do |ext|
-          entry[:schema]['properties'] = ASUtils.deep_merge(entry[:schema]['properties'],
-                                                            eval(File.open(ext).read))
-        end
+      ASUtils.find_local_directories("schemas/#{schema_name}_ext.rb").
+              select {|path| File.exists?(path)}.
+              each do |schema_extension|
+        entry[:schema]['properties'] = ASUtils.deep_merge(entry[:schema]['properties'],
+                                                          eval(File.open(schema_extension).read))
       end
 
       self.create_model_for(schema_name, entry[:schema])
