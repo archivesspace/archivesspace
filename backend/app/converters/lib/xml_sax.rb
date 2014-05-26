@@ -66,23 +66,34 @@ module ASpaceImport
         @stickies = []
         # another hack for noko:
         @node_shadow = nil
+        @empty_node = false 
 
         self.class.ensure_configuration
 
         @reader.each_with_index do |node, i|
+
           case node.node_type
 
           when 1
+             
             # Nokogiri Reader won't create events for closing tags on empty nodes
             # https://github.com/sparklemotion/nokogiri/issues/928
             # handle_closer(node) if node.self_closing? #<--- don't do this it's horribly slow
-            if @node_shadow && node.depth <= @node_shadow[1]
+            if @node_shadow && @empty_node 
               handle_closer(@node_shadow)
             end
-            handle_opener(node) unless is_node_empty?(node)
+            
+            #we do not bother with empty and attributesless nodes. however, a
+            #node can be empty as long as it has attributes 
+            empty_node = is_node_empty?(node)
+            handle_opener(node, empty_node) unless ( empty_node && !node.attributes? ) 
+
           when 3
             handle_text(node)
           when 15
+            if @node_shadow && node.local_name != @node_shadow[0] 
+              handle_closer(@node_shadow)
+            end
             handle_closer(node)
           end
 
@@ -103,17 +114,19 @@ module ASpaceImport
         if node.depth == 0 
           return false
         else   
-          return ( node.inner_xml.strip.empty? && node.attributes? )
+          return  node.inner_xml.strip.empty? # using empty_element? returns true if there's just whitespace... 
         end
       end
 
 
-      def handle_opener(node)
+      def handle_opener(node, empty_node)
         @node_name = node.local_name
         @node_depth = node.depth
         @node_shadow = [node.local_name, node.depth]
         
         @node = node
+        @empty_node = empty_node 
+
 
         # constrained handlers, e.g. publication/date
         @stickies.each_with_index do |prefix, i|
@@ -137,6 +150,7 @@ module ASpaceImport
 
       def handle_closer(node)
         @node_shadow = nil
+        @empty_node = false
         node_info = node.is_a?(Array) ? node : [node.local_name, node.depth]
         if @context_nodes[node_info[0]] && @context_nodes[node_info[0]][node_info[1]]
           @context_nodes[node_info[0]][node_info[1]].reverse.each do |type|

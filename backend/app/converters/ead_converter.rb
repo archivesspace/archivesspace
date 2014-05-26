@@ -38,7 +38,7 @@ class EADConverter < Converter
     if  parent_nodes.include?( node.local_name ) 
       return false 
     else
-      return ( node.inner_xml.strip.empty? && !node.attributes? )
+      return  node.inner_xml.strip.empty? 
     end
   end
 
@@ -493,27 +493,65 @@ class EADConverter < Converter
 
 
     with 'dao' do
+      make :instance, {
+          :instance_type => 'digital_object'
+        } do |instance|
+          set ancestor(:resource, :archival_object), :instances, instance
+      end
+
+      
       make :digital_object, {
         :digital_object_id => SecureRandom.uuid,
-        :title => att('title')
-      } do |obj|
-        ancestor(:resource, :archival_object) do |ao|
+        :title => att('title'),
+       } do |obj|
+         obj.file_versions <<  {   
+             :use_statement => att('role'),
+             :file_uri => att('href'),
+             :xlink_actuate_attribute => att('actuate'),
+             :xlink_show_attribute => att('show')
+         }
+         set ancestor(:instance), :digital_object, obj 
+      end
+
+    end
+    
+    with 'daodesc' do
+        make :note_digital_object, {
+          :type => node.name,
+          :persistent_id => att('id'),
+          :content => inner_xml.strip
+        } do |note|
+          set ancestor(:digital_object), :notes, note
+        end
+    end
+    
+    with 'daogrp' do
+      title = '' 
+      ancestor(:resource, :archival_object ) { |ao| title << ao.title + ' Digital Object' } 
+      
+      make :digital_object, {
+        :digital_object_id => SecureRandom.uuid,
+        :title => title,
+       } do |obj|
+         ancestor(:resource, :archival_object) do |ao|
           ao.instances.push({'instance_type' => 'digital_object', 'digital_object' => {'ref' => obj.uri}})
         end
       end
 
-      make :file_version, {
-       :use_statement => att('role'),
-       :file_uri => att('href'),
-       :xlink_actuate_attribute => att('actuate'),
-       :xlink_show_attribute => att('show')
-      } do |obj|
-        set ancestor(:digital_object), :file_versions, obj
-      end
     end
-
+  
+  
+   with 'daoloc' do
+     ancestor(:digital_object) do |dobj|
+      dobj.file_versions << {
+       :file_uri => att('href'),
+       :xlink_show_attribute => att('show'),
+       :file_format_name => att('role')  
+       } 
+     end
+   end
+  
   end
-
   # Templates Section
 
   def make_corp_template(opts)

@@ -847,4 +847,39 @@ ANEAD
     end
 
   end
+
+ describe "DAO and DAOGROUPS" do
+    let(:test_file) {
+      File.expand_path("../app/exporters/examples/ead/ead-dao-test.xml", File.dirname(__FILE__))
+    }
+   
+   before(:all) do 
+     parsed = convert(test_file)
+      @digital_objects = parsed.select {|rec| rec['jsonmodel_type'] == 'digital_object'}
+      @notes = @digital_objects.inject([]) { |c, rec| c + rec["notes"] } 
+      @resources = parsed.select {|rec| rec['jsonmodel_type'] == 'resource'}.last
+      @archival_objects = parsed.select {|rec| rec['jsonmodel_type'] == 'archival_object'}
+      @file_versions = @digital_objects.inject([]) { |c, rec| c + rec["file_versions"] } 
+   end
+  
+   it "should make all the digital, archival objects and resources" do
+      @digital_objects.length.should == 5 
+      @archival_objects.length.should == 8 
+      @resources.length.should == 21
+      @file_versions.length.should == 11
+   end
+
+
+   it "should turn all the daodsc into notes" do
+    @notes.length.should == 3
+    notes_content = @notes.inject([]) { |c, note| c +  note["content"]  } 
+    notes_content.should include('<p>first daogrp</p>')
+    notes_content.should include('<p>second daogrp</p>')
+    notes_content.should include('<p>dao no grp</p>')
+   end
+ 
+ end
+
+
+
 end
