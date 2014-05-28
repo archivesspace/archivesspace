@@ -23,7 +23,7 @@ class NamePerson < Sequel::Model(:name_person)
 
 
   def self.type_specific_hash_fields
-    %w(primary_name name_order prefix rest_of_name suffix fuller_form number)
+    %w(primary_name title name_order prefix rest_of_name suffix fuller_form number qualifier )
   end
 
 

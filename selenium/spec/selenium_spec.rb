@@ -781,7 +781,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can link an accession to an agent as a subject" do
-      create_agent("Subject Agent #{@me}")
+      create_agent("Accession Subject Agent #{@me}")
       run_index_round
 
       $driver.click_and_wait_until_gone(:link, 'Edit')

@@ -24,7 +24,7 @@ class NameSoftware < Sequel::Model(:name_software)
 
 
   def self.type_specific_hash_fields
-    %w(software_name version manufacturer)
+    %w(software_name version manufacturer qualifier)
   end
 
 

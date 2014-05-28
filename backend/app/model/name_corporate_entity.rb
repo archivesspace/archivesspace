@@ -24,7 +24,7 @@ class NameCorporateEntity < Sequel::Model(:name_corporate_entity)
 
 
   def self.type_specific_hash_fields
-    %w(primary_name subordinate_name_1 subordinate_name_2 number)
+    %w(primary_name subordinate_name_1 subordinate_name_2 number qualifier)
   end
 
 

@@ -24,7 +24,7 @@ class NameFamily < Sequel::Model(:name_family)
 
 
   def self.type_specific_hash_fields
-    %w(family_name prefix)
+    %w(family_name prefix qualifier)
   end
 
 
