@@ -51,7 +51,7 @@ module AspaceFormHelper
         push(set_index(context_name, idx), object) do
           result << "<li id=\"#{current_id}\" class=\"subrecord-form-wrapper\" data-index=\"#{idx}\" data-object-name=\"#{context_name.gsub(/\[\]/,"").singularize}\">"
           result << hidden_input("lock_version") if obj.respond_to?(:has_key?) && obj.has_key?("lock_version")
-          result << @parent.capture(object, &block)
+          result << @parent.capture(object, idx,  &block)
           result << "</li>"
         end
       end

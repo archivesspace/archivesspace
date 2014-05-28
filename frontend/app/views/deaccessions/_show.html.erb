@@ -36,12 +36,14 @@
           </div>
         </div>
         <div id="deaccession_<%= index %>" class="accordion-body collapse">
-          <div class="subrecord-form-container">
-            <%= read_only_view(deaccession) %>
-            <%= render_aspace_partial :partial => "dates/show", :locals => { :dates =>[deaccession["date"]], :section_id => "deaccession_#{index}_date_", :section_title => I18n.t("deaccession.dates") } %>
-            <% if !deaccession["extents"].blank? %>
-              <%= render_aspace_partial :partial => "extents/show", :locals => { :extents => deaccession["extents"], :section_id => "deaccession_#{index}_extents_" } %>
-            <% end %>
+          <div class="accordion-inner"> 
+            <div class="subrecord-form-container">
+              <%= read_only_view(deaccession) %>
+              <%= render_aspace_partial :partial => "dates/show", :locals => { :dates =>[deaccession["date"]], :section_id => "deaccession_#{index}_date_", :section_title => I18n.t("deaccession.dates") } %>
+              <% if !deaccession["extents"].blank? %>
+                <%= render_aspace_partial :partial => "extents/show", :locals => { :extents => deaccession["extents"], :section_id => "deaccession_#{index}_extents_" } %>
+              <% end %>
+            </div>
           </div>
         </div>
       </div>
