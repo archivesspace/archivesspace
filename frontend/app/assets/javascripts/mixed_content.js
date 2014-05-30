@@ -15,6 +15,13 @@ $(function() {
       }
 
       var selected;
+      
+      var updateExcluded = function() {
+        return $this.closest('.mixed-content-anchor').find("[class$=-type]" ).map(function() {
+          return this.value;
+        }).get();
+      };
+
 
       $this.addClass("initialised");
 
@@ -23,6 +30,11 @@ $(function() {
 
       var $editor = CodeMirror.fromTextArea($this[0], {
         value: $this.val(),
+        
+        onFocus: function() {  
+            var excludes = updateExcluded();  
+            generateXMLHints(excludes); 
+        }, 
         mode: 'text/html',
         smartIndent: false,
         extraKeys: {
@@ -77,7 +89,7 @@ $(function() {
     });
   };
 
-  var generateXMLHints = function() {
+  var generateXMLHints = function(excludes) {
     var addToPath = function(path, defs) {
       
       CodeMirror.xmlHints[path] = [];
@@ -99,14 +111,24 @@ $(function() {
 
     };
 
+
+    excludes = (typeof excludes === "undefined") ? [] : excludes;
+
     if (AS.mixedContentElements) {
       CodeMirror.xmlHints['<'] = [];
       $.each(AS.mixedContentElements, function(tag, def) {
-        CodeMirror.xmlHints['<'].push(tag);
-        CodeMirror.xmlHints["<" + tag + " "] = def.attributes || [];
-
-        if (def.elements) {
-          addToPath("<" + def.tag + "><", def.elements);
+        var exclude = false;
+        if ( def.exclude ) {
+          exclude = ( $(def.exclude).filter(excludes).length > 0 ); 
+        }
+        
+        if ( !exclude ) { 
+          CodeMirror.xmlHints['<'].push(tag);
+          CodeMirror.xmlHints["<" + tag + " "] = def.attributes || [];
+         
+          if (def.elements && !exclude ) {
+            addToPath("<" + def.tag + "><", def.elements);
+          }
         }
       });
     } else {
@@ -115,6 +137,7 @@ $(function() {
   };
 
   generateXMLHints();
+
 
   $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     $("textarea.mixed-content:not(.initialised)", subform).mixedContent();

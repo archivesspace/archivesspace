@@ -89,7 +89,7 @@ class EADConverter < Converter
     with 'unittitle' do |node|
       ancestor(:note_multipart, :resource, :archival_object) do |obj|
         klass =  obj.class.record_type
-        obj.title = node.inner_xml.strip unless klass == "note_multipart"
+        obj.title = node.inner_xml.strip.gsub(/(<unitdate[\s\S]+?>|<\/unitdate>)/, '') unless klass == "note_multipart"
       end
     end
 
@@ -221,9 +221,16 @@ class EADConverter < Converter
       end
     end
 
-
+    # this is very imperfect. 
     with 'indexentry/ref' do
-      context_obj.items << {:reference_text => inner_xml, :reference => att('target')}
+        make :note_index_item, {
+          :type => 'name',
+          :value => inner_xml,
+          :reference_text => inner_xml,
+          :reference =>  att('target')
+        } do |item|
+          set ancestor(:note_index), :items, item
+        end
     end
 
 

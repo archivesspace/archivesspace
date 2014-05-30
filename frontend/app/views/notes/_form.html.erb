@@ -4,7 +4,7 @@
   section_id = "notes" if section_id.blank?
 %>
 
-<section id="<%= section_id %>" class="subrecord-form notes-form">
+<section id="<%= section_id %>" class="subrecord-form notes-form mixed-content-anchor">
   <h3 class="subrecord-form-heading">
     <%= wrap_with_tooltip(I18n.t("note._plural"), "#{form.i18n_for('notes')}_tooltip", "subrecord-form-heading-label") %>
     <%= link_to_help :topic => "#{form['jsonmodel_type']}_notes" %>

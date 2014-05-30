@@ -38,7 +38,8 @@ module ASpaceExport
 
 
     def stream_out(doc, fragments, y, depth=0)
-      xml_text = doc.to_xml
+      xml_text = doc.to_xml(:encoding => 'utf-8')
+
       return if xml_text.empty?
       xml_text.force_encoding('utf-8')
       queue = xml_text.split(":aspace_section")

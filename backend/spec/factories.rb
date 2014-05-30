@@ -49,8 +49,10 @@ FactoryGirl.define do
   sequence(:username) {|n| "username_#{n}"}
 
   sequence(:alphanumstr) { (0..4).map{ rand(3)==1?rand(10):(65 + rand(25)).chr }.join }
+  sequence(:whack_markup) { "<blockquote><p><br>WACK " + generate(:alphanumstr) }
   sequence(:string) { generate(:alphanumstr) }
   sequence(:generic_title) { |n| "Title: #{n}"}
+  sequence(:html_title) { |n| "Title: <emph render='italic'>#{n}</emph>"}
   sequence(:generic_description) {|n| "Description: #{n}"}
   sequence(:generic_name) {|n| "Name Number #{n}"}
   sequence(:container_type) {|n| sample(JSONModel(:container).schema['properties']['type_1'])}
@@ -330,7 +332,7 @@ FactoryGirl.define do
   end
 
   factory :json_note_text, class: JSONModel(:note_text) do
-    content { generate(:alphanumstr) }
+    content { generate(:whack_markup) }
   end
 
   factory :json_note_orderedlist, class: JSONModel(:note_orderedlist) do
@@ -345,11 +347,11 @@ FactoryGirl.define do
   end
 
   factory :json_note_abstract, class: JSONModel(:note_abstract) do
-    content { (0..rand(3)).map { generate(:alphanumstr) } }
+    content { (0..rand(3)).map { generate(:whack_markup) } }
   end
 
   factory :json_note_citation, class: JSONModel(:note_citation) do
-    content { (0..rand(3)).map { generate(:alphanumstr) } }
+    content { (0..rand(3)).map { generate(:whack_markup) } }
     xlink Hash[%w(actuate arcrole href role show title type).map{|i| [i, i]}]
   end
 
@@ -518,7 +520,7 @@ FactoryGirl.define do
   end
 
   factory :json_resource, class: JSONModel(:resource) do
-    title { "Resource #{generate(:generic_title)}" }
+    title { "Resource #{generate(:html_title)}" }
     id_0 { generate(:alphanumstr) }
     extents { [build(:json_extent)] }
     level { generate(:archival_record_level) }

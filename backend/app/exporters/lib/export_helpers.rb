@@ -4,7 +4,7 @@ module ASpaceExport
   module ArchivalObjectDescriptionHelpers
 
     def archdesc_note_types
-      %w(accruals appraisal arrangement bioghist accessrestirct userestrict custodhist altformavail originalsloc fileplan odd acqinfo otherfindaid phystech prefercite processinfo relatedmaterial scopecontent separatedmaterial)
+      %w(accruals appraisal arrangement bioghist accessrestrict legalstatus userestrict custodhist altformavail originalsloc fileplan odd acqinfo otherfindaid phystech prefercite processinfo relatedmaterial scopecontent separatedmaterial)
     end
 
 

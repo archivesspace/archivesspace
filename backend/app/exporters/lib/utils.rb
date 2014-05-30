@@ -13,6 +13,10 @@ module ASpaceExport
        }.compact).join(" ")
     end
 
+    def self.has_html?(text)
+      !!(text =~ /.*\<[^>]+>.*/   )
+    end
+
   end
 end
 
