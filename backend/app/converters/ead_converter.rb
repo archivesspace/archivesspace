@@ -89,7 +89,7 @@ class EADConverter < Converter
     with 'unittitle' do |node|
       ancestor(:note_multipart, :resource, :archival_object) do |obj|
         klass =  obj.class.record_type
-        obj.title = node.inner_xml.strip.gsub(/(<unitdate[\s\S]+?>|<\/unitdate>)/, '') unless klass == "note_multipart"
+        obj.title = node.inner_xml.strip.gsub(/<[^>]*>/, ' ') unless klass == "note_multipart"
       end
     end
 
