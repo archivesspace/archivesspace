@@ -498,9 +498,20 @@ module MarcXMLBaseMap
     {
       :obj => :resource,
       :defaults => {
-        :level => 'collection',
+       :level => 'collection',
       },
       :map => {
+
+        #LEADER
+        "//leader" => Proc.new { |resource, node|
+          values = node.inner_text.strip
+          if values[7] == 'm'
+            resource.level = 'item'
+          else
+            resource.level = 'collection'
+          end
+        
+        }, 
 
         #CONTROLFIELD
         "//controlfield[@tag='008']" => Proc.new {|resource, node|

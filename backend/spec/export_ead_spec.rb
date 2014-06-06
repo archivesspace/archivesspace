@@ -157,7 +157,6 @@ describe 'Export Mappings' do
           @doc = get_xml_doc("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
           @doc_nsless = Nokogiri::XML::Document.parse(@doc.to_xml)
           @doc_nsless.remove_namespaces!
-          File.open("/tmp/ead.xml" , 'w') { |f| f << @doc.to_xml }
           raise Sequel::Rollback
         end
       end
