@@ -153,6 +153,7 @@
       }
 
       this.$menu
+        .on('mousedown', function(e) {e.preventDefault()}) // ArchivesSpace patch to enable scrollbars
         .on('click', $.proxy(this.click, this))
         .on('mouseenter', 'li', $.proxy(this.mouseenter, this))
         .on('mouseleave', 'li', $.proxy(this.mouseleave, this))
