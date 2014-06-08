@@ -590,7 +590,10 @@ module AspaceFormHelper
         elsif opts.has_key?(:i18n_prefix)
           i18n_path =  "#{opts[:i18n_prefix]}.#{v}"
         elsif defn.has_key?('dynamic_enum')
-          i18n_path = "enumerations.#{defn['dynamic_enum']}.#{v}"
+          i18n_path = {
+            :enumeration => defn['dynamic_enum'],
+            :value => v
+          }
         else
           i18n_path = context.i18n_for("#{Array(property).last}_#{v}")
         end

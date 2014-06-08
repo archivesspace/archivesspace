@@ -36,7 +36,21 @@ module I18n
   end
 
   def self.t_raw(*args)
-    return ((args[1] || {})[:default] || "") if args[0] && args[0].end_with?(".")
+    key = args[0]
+
+    # String
+    if key && key.kind_of?(String) && key.end_with?(".")
+      return ((args[1] || {})[:default] || "")
+    end
+
+    # Hash / Enumeration Value
+    if key && key.kind_of?(Hash) && key.has_key?(:enumeration)
+      backend  = config.backend
+      locale   = config.locale
+      # Null character to cope with enumeration values containing dots.  Eugh.
+      return backend.send(:lookup, locale, ['enumerations', key[:enumeration], key[:value]].join("\0"), [], {:separator => "\0"})
+    end
+
 
     self.translate(*args)
   end
