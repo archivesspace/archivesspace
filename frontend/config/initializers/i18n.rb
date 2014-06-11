@@ -37,10 +37,15 @@ module I18n
 
   def self.t_raw(*args)
     key = args[0]
+    default = if args[1].is_a?(String)
+                args[1]
+              else
+                (args[1] || {}).fetch(:default, "")
+              end
 
     # String
     if key && key.kind_of?(String) && key.end_with?(".")
-      return ((args[1] || {})[:default] || "")
+      return default
     end
 
     # Hash / Enumeration Value
@@ -48,7 +53,7 @@ module I18n
       backend  = config.backend
       locale   = config.locale
       # Null character to cope with enumeration values containing dots.  Eugh.
-      return backend.send(:lookup, locale, ['enumerations', key[:enumeration], key[:value]].join("\0"), [], {:separator => "\0"})
+      return backend.send(:lookup, locale, ['enumerations', key[:enumeration], key[:value]].join("\0"), [], {:separator => "\0"}) || default
     end
 
 
