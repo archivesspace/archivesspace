@@ -101,29 +101,39 @@ A popular method is to use Tomcat, which ships with a script that
 configures Tomcat as a service. For more information, please see :
 [Instructions for running under Tomcat](https://github.com/archivesspace/archivesspace/blob/master/README_TOMCAT.md).
 
-You can also use procrun to configure ArchivesSpace. We have 
+You can also use Apache [procrun]((http://commons.apache.org/proper/commons-daemon/procrun.html) to configure ArchivesSpace. We have 
 provided a service.bat script that will attempt to configure 
 procrun for you (under `launcher\service.bat`). 
 
-To run this script, first you need to [download procrun](http://commons.apache.org/proper/commons-daemon/procrun.html ).
+To run this script, first you need to [download procrun](http://www.apache.org/dist/commons/daemon/binaries/windows/ ).
 Extract the files and copy the prunsrv.exe and prunmgr.exe to your
 ArchivesSpace directory. 
 
-You also need to be sure to set `JAVA_HOME` as a global environment variable 
-on your system. 
+You also need to be sure that Java in your system path and also to set `JAVA_HOME` as a global environment variable. 
+To add Java to your path, edit you %PATH% environment variable to include the directory of
+your java executable ( it will be something like `C:\Program Files
+(x86)\Java\bin` ). To add `JAVA_HOME`, add a new system variable and put the
+directory where java was installed ( something like `C:\Program Files
+(x86)\Java` ).
 
-You can execute the batch script, which will configure the service and
+You can execute the batch script from your ArchivesSpace root directory from
+the command line with `launcher\service.bat`. This  will configure the service and
 provide two executables: `ArchivesSpaceService.exe` (the service) and
 `ArchivesSpaceServicew.exe` (a GUI monitor)
 
-To execute the service, you can invoke:
-
-    ArchivesSpaceService.exe //ES// .
+There are several options to launch the service. The easiest is to open the GUI
+monitor and click "Launch".
 
 Alternatively, you can start the GUI monitor and minimize it in your
 system tray with:
 
     ArchivesSpaceServicew.exe //MS//
+
+To execute the service from the command line, you can invoke:
+
+    ArchivesSpaceService.exe //ES// 
+
+Log output will be placed in your ArchivesSpace log directory.
 
 Please see the [procrun
 documentation](http://commons.apache.org/proper/commons-daemon/procrun.html)
