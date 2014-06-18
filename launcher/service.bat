@@ -9,13 +9,14 @@ echo and put the execuitables ( prunsrv.exe and prunmgr.exe )
 echo into your archivesspace directory.
 echo
 echo
-echo 2) You must have %JAVA_HOME% defined as a global variable, pointing 
+echo 2) You must have JAVA_HOME defined as a global variable, pointing 
 echo to your systems java home ( e.g. C:\Program Files\Java\jre7 ).
 echo To find this, you can use "where java" command. The home will be the
 echo directory above "bin\java.exe". 
 echo
 echo
 pause
+
 SETLOCAL ENABLEDELAYEDEXPANSION
 
 cd /d %~dp0%..
@@ -84,7 +85,7 @@ FOR /D %%c IN ("!GEM_HOME!\gems\jruby-*") DO (
 goto :doInstall
 
 :doInstall 
-"%INSTALL_PROCESS%" //IS//ArchivesSpaceService --LogPath=%LOG_DIR% --LogPrefix=%LOG_PREFIX% --StdOutput=%AS_LOG% --StdError=%AS_ERROR_LOG%  --DisplayName="ArchivesSpaceService" --Startup=auto ++JvmOptions=-Darchivesspace-daemon=yes ++JvmOptions=%JAVA_OPTS% --JvmOptions=-Xss2m --JvmOptions=-XX:MaxPermSize=256m --JvmOptions=-Xmx1024m ++JvmOptions=-Dfile.encoding=UTF-8  --Install=%INSTALL_PROCESS% --StartMode=java --StopMode=java --Classpath="!AS_JARS!;!LAUNCHER_JARS!;!JRUBY!" ++StartParams="'%LAUNCHER_SCRIPT%'" --StartClass=org.jruby.Main ++StopParams="'%LAUNCHER_SCRIPT%'; stop"  --StopClass=org.jruby.Main ++Environment='ASPACE_LAUNCHER_BASE=%ASPACE_LAUNCHER_BASE%'
+%INSTALL_PROCESS% //IS//ArchivesSpaceService --LogPath=%LOG_DIR% --LogPrefix=%LOG_PREFIX% --StdOutput=%AS_LOG% --StdError=%AS_ERROR_LOG%  --DisplayName="ArchivesSpaceService" --Startup=auto ++JvmOptions=-Darchivesspace-daemon=yes ++JvmOptions=%JAVA_OPTS% --JvmOptions=-Xss2m --JvmOptions=-XX:MaxPermSize=256m --JvmOptions=-Xmx1024m ++JvmOptions=-Dfile.encoding=UTF-8  --Install=%INSTALL_PROCESS% --StartMode=java --StopMode=java --Classpath="!AS_JARS!;!LAUNCHER_JARS!;!JRUBY!" ++StartParams="'%LAUNCHER_SCRIPT%'" --StartClass=org.jruby.Main ++StopParams="'%LAUNCHER_SCRIPT%'; stop" --StopTimeout=5  --StopClass=org.jruby.Main ++Environment='ASPACE_LAUNCHER_BASE=%ASPACE_LAUNCHER_BASE%'
 if not errorlevel 1 goto installed
 echo "There was a problem installing the service...please check the settings."
 goto end

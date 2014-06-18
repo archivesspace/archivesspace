@@ -116,7 +116,21 @@ your java executable ( it will be something like `C:\Program Files
 directory where java was installed ( something like `C:\Program Files
 (x86)\Java` ).
 
-You can execute the batch script from your ArchivesSpace root directory from
+Before setting up the ArchivesSpace service, you should also [configure
+ArchivesSpace to run against MySQL](https://github.com/archivesspace/archivesspace#running-archivesspace-against-mysql).
+Be sure that the MySQL connector jar file is in the lib directory, in order for
+the service setup script to add it to the application's classpath.
+
+Lastly, for the service to shutdown cleanly, uncomment and change these lines in
+config/config.rb: 
+
+    AppConfig[:use_jetty_shutdown_handler] = true 
+    AppConfig[:jetty_shutdown_path] = "/xkcd"
+
+This enables a shutdown hook for Jetty to respond to when the shutdown action
+is taken. 
+
+You can now execute the batch script from your ArchivesSpace root directory from
 the command line with `launcher\service.bat`. This  will configure the service and
 provide two executables: `ArchivesSpaceService.exe` (the service) and
 `ArchivesSpaceServicew.exe` (a GUI monitor)
