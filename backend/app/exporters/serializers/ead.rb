@@ -526,6 +526,8 @@ class EADSerializer < ASpaceExport::Serializer
           titleproper += "#{data.finding_aid_title} " if data.finding_aid_title
           titleproper += "#{data.title}" if ( data.title && titleproper.empty? )
           titleproper += "<num>#{(0..3).map{|i| data.send("id_#{i}")}.compact.join('.')}</num>"
+          titleproper += "<date>#{data.finding_aid_date}</date>" if data.finding_aid_date 
+        
           xml.titleproper { cdata_or_text( (fragments << titleproper ), xml ) }
 
           xml.author { cdata_or_text( data.finding_aid_author, xml )} unless data.finding_aid_author.nil?
@@ -566,9 +568,6 @@ class EADSerializer < ASpaceExport::Serializer
             xml.notestmt { xml.note { cdata_or_p(( fragments << data.finding_aid_note ), xml )} }
         end
         
-        if (data.finding_aid_date )
-           xml.date { cdata_or_text( ( fragments << data.finding_aid_date ), xml   ) }
-        end
       }
 
       xml.profiledesc {

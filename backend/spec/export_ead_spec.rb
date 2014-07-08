@@ -148,13 +148,16 @@ describe 'Export Mappings' do
       @archival_objects.values[index]
     end
 
-
     before(:all) do
 
       as_test_user("admin") do
         DB.open(true) do
           load_export_fixtures
           @doc = get_xml_doc("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
+          
+          #dtd = Nokogiri::XML::Schema(open('http://www.loc.gov/ead/ead.xsd'))
+          #dtd.valid?(@doc).should be_true
+
           @doc_nsless = Nokogiri::XML::Document.parse(@doc.to_xml)
           @doc_nsless.remove_namespaces!
           raise Sequel::Rollback
