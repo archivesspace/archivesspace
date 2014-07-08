@@ -15,13 +15,6 @@ $(function() {
       }
 
       var selected;
-      
-      var updateExcluded = function() {
-        return $this.closest('.mixed-content-anchor').find("[class$=-type]" ).map(function() {
-          return this.value;
-        }).get();
-      };
-
 
       $this.addClass("initialised");
 
@@ -32,7 +25,9 @@ $(function() {
         value: $this.val(),
         
         onFocus: function() {  
-            var excludes = updateExcluded();  
+            var excludes = $this.closest('.mixed-content-anchor > ul > li').find("[class$=-type]" ).map(function() {
+                                return this.value;
+                        }).get();
             generateXMLHints(excludes); 
         }, 
         mode: 'text/html',

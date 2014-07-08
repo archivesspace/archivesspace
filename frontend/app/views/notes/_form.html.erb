@@ -4,13 +4,13 @@
   section_id = "notes" if section_id.blank?
 %>
 
-<section id="<%= section_id %>" class="subrecord-form notes-form mixed-content-anchor">
+<section id="<%= section_id %>" class="subrecord-form notes-form ">
   <h3 class="subrecord-form-heading">
     <%= wrap_with_tooltip(I18n.t("note._plural"), "#{form.i18n_for('notes')}_tooltip", "subrecord-form-heading-label") %>
     <%= link_to_help :topic => "#{form['jsonmodel_type']}_notes" %>
     <button class="btn btn-small pull-right"><%= I18n.t("note._frontend.action.add") %></button>
   </h3>
-  <div class="subrecord-form-container">
+  <div class="subrecord-form-container mixed-content-anchor">
     <%= form.list_for(form["notes"], "notes[]") do |note| %>
       <% form.emit_template(note["jsonmodel_type"]) %>
     <% end %>
