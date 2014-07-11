@@ -854,7 +854,7 @@ en:
   external_document: &external_document_attributes
     title: Title
     title_tooltip: |
-        <p>The title of an external document referenced from the accession record. The document may be of any form or content. A web accessible file, a network accessible file, a file on the same computer as the application, etc.</p>
+        <p>The title of an external document referenced from this record. The document may be of any form or content. A web accessible file, a network accessible file, a file on the same computer as the application, etc.</p>
     location: Location
     location_tooltip: |
         <p>The location of the file, ideally a resolvable URI.</p>
