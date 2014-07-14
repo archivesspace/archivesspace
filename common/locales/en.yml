@@ -1430,6 +1430,7 @@ en:
     _plural: Related Resources
 
   repository:
+    repository: Repository Name and Short Name 
     repo_code: Repository Short Name
     repo_code_tooltip: |
         <p>REQUIRED FIELD. An abbreviation or acronym of the repository name, which can be better accommodated in the user interface.</p>
