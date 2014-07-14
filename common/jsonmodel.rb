@@ -34,15 +34,22 @@ module JSONModel
     attr_accessor :errors
     attr_accessor :warnings
     attr_accessor :attribute_types
+    attr_accessor :import_context
+    attr_accessor :object_context
 
     def initialize(opts)
       @invalid_object = opts[:invalid_object]
       @errors = opts[:errors]
+      @import_context = opts[:import_context]
+      @object_context = opts[:object_context]
       @attribute_types = opts[:attribute_types]
     end
 
     def to_s
-      "#<:ValidationException: #{{:errors => @errors}.inspect}>"
+       msg = { :errors => @errors } 
+       msg[:import_context] = @import_context unless @import_context.nil? 
+       msg[:object_context] = @object_context unless @object_context.nil? 
+       "#<:ValidationException: #{msg.inspect}>"
     end
   end
 

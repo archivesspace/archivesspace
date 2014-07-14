@@ -164,6 +164,7 @@ module ASpaceImport
 
       def open_context(type, properties = {})
         obj = ASpaceImport::JSONModel(type).new
+        obj["import_context"]= "#{outer_xml.match(/^(.*?)\>/).to_s} ... #{ outer_xml.match(/\<\/(.*?)\>\Z/).to_s  }"
         @contexts.push(type)
         @batch << obj
         @context_nodes[@node_name] ||= []
@@ -196,6 +197,9 @@ module ASpaceImport
         @node.inner_xml.strip
       end
 
+      def outer_xml
+        @node.outer_xml.strip
+      end
 
       def append(obj = context_obj, property, value)
         property_type = ASpaceImport::Utils.get_property_type(obj.class.schema['properties'][property.to_s])

@@ -1,4 +1,4 @@
-# Prepare an import job run: orchestrates converting the input file's records,
+# prepare an import job run: orchestrates converting the input file's records,
 # runs the job and gathers its log output, handling any errors.
 
 [File.expand_path("..", File.dirname(__FILE__)),
@@ -97,7 +97,16 @@ class BatchImportRunner
     end
 
     if last_error
-      ticker.log("Error: #{last_error}")
+      
+      if  last_error.respond_to?(:errors)
+        ticker.log("Error: #{last_error}") if last_error.errors.empty?
+        last_error.errors.each_pair { |k,v| ticker.log("\t#{k.to_s} : #{v.join(' -- ')}" ) }
+        ticker.log("\n\n For #{ last_error.object_context.class }: \n #{ last_error.object_context  }") unless last_error.object_context.nil? 
+        ticker.log("\n\nIn : \n #{ CGI.escapeHTML( last_error.import_context ) } ") if last_error.import_context
+        ticker.log("\n\n") 
+      else
+        ticker.log("Error: #{last_error}")
+      end
       raise last_error
     end
   end
