@@ -387,8 +387,8 @@ class EADSerializer < ASpaceExport::Serializer
 
       audatt = note["publish"] === false ? {:audience => 'internal'} : {}
       content = ASpaceExport::Utils.extract_note_text(note, @include_unpublished)
-      id = note['persistent_id']
-      att = id ? {:id => id} : {}
+      prefixed_ref_id = "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{note['persistent_id']}"
+      att = prefixed_ref_id ? {:id => prefixed_ref_id} : {}
 
       case note['type']
       when 'dimensions', 'physfacet'
@@ -409,7 +409,8 @@ class EADSerializer < ASpaceExport::Serializer
     return if note["publish"] === false && !@include_unpublished
     audatt = note["publish"] === false ? {:audience => 'internal'} : {}
     content = ASpaceExport::Utils.extract_note_text(note, @include_unpublished)
-    atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}.merge(audatt)
+    prefixed_ref_id = "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{note['persistent_id']}"
+    atts = {:id => prefixed_ref_id }.reject{|k,v| v.nil? || v.empty?}.merge(audatt)
     head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note['type']}", :default => note['type'])
     content, head_text = extract_head_text(content, head_text) 
     xml.send(note['type'], atts) {
@@ -447,7 +448,8 @@ class EADSerializer < ASpaceExport::Serializer
       content = ASpaceExport::Utils.extract_note_text(note, @include_unpublished)
       head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note['type']}")
       audatt = note["publish"] === false ? {:audience => 'internal'} : {}
-      atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}.merge(audatt)
+      prefixed_ref_id = "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{note['persistent_id']}"
+      atts = {:id => prefixed_ref_id }.reject{|k,v| v.nil? || v.empty?}.merge(audatt)
 
       xml.bibliography(atts) {
         xml.head head_text unless content.strip.start_with?('<head')
@@ -475,8 +477,8 @@ class EADSerializer < ASpaceExport::Serializer
       elsif note['type']
         head_text = I18n.t("enumerations._note_types.#{note['type']}", :default => note['type'])
       end
-
-      atts = {:id => note['persistent_id']}.reject{|k,v| v.nil? || v.empty?}.merge(audatt)
+      prefixed_ref_id = "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{note['persistent_id']}"
+      atts = {:id => prefixed_ref_id }.reject{|k,v| v.nil? || v.empty?}.merge(audatt)
 
       content, head_text = extract_head_text(content, head_text) 
       xml.index(atts) {
