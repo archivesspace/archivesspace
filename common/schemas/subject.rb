@@ -15,7 +15,7 @@
 
       "publish" => {"type" => "boolean", "default" => true, "readonly" => true},
 
-      "source" => {"type" => "string", "dynamic_enum" => "subject_source"},
+      "source" => {"type" => "string", "default" => 'local', "ifmissing" => "error", "dynamic_enum" => "subject_source"},
 
       "scope_note" => {"type" => "string"},
 
