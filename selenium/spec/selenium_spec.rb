@@ -1951,6 +1951,21 @@ describe "ArchivesSpace user interface" do
       assert(5) { $driver.find_element(:css => "a.jstree-clicked").text.strip.should match(/#{digital_object_title}/) }
     end
 
+    it "can handle multiple file versions and file system and network path types" do
+      [
+        '/root/top_secret.txt',
+        'C:\Program Files\windows.exe',
+        '\\\\SomeAwesome\Network\location.bat',
+      ].each_with_index do |uri, idx|
+        i = idx + 1
+        $driver.find_element(:css => "section#digital_object_file_versions_ > h3 > .btn").click
+        $driver.clear_and_send_keys([:id, "digital_object_file_versions__#{i}__file_uri_"], uri)
+        $driver.find_element(:css => ".form-actions button[type='submit']").click
+      end
+      $driver.find_element(:link, "Close Record").click
+      $driver.find_element_with_text('//h3', /File Versions/)
+      $driver.find_element(:link, "Edit").click
+    end
 
     it "reports errors if adding an empty child to a Digital Object" do
       $driver.find_element(:link, "Add Child").click
