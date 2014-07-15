@@ -97,16 +97,21 @@ class BatchImportRunner
     end
 
     if last_error
+      ticker.log("!" * 50 ) 
+      ticker.log("\nIMPORT ERROR:\n") 
+      ticker.log("!" * 50 ) 
       
       if  last_error.respond_to?(:errors)
-        ticker.log("Error: #{last_error}") if last_error.errors.empty?
+        ticker.log("#{last_error}") if last_error.errors.empty? # just spit it out if there's not explicit errors
+        ticker.log("The following errors were found:\n") 
         last_error.errors.each_pair { |k,v| ticker.log("\t#{k.to_s} : #{v.join(' -- ')}" ) }
         ticker.log("\n\n For #{ last_error.object_context.class }: \n #{ last_error.object_context  }") unless last_error.object_context.nil? 
         ticker.log("\n\nIn : \n #{ CGI.escapeHTML( last_error.import_context ) } ") if last_error.import_context
-        ticker.log("\n\n") 
+        ticker.log("\n\n\n\n") 
       else
         ticker.log("Error: #{last_error}")
       end
+      ticker.log("=" * 50 ) 
       raise last_error
     end
   end
