@@ -74,7 +74,7 @@ $(function() {
       "title": {
         "tag": "title",
         "attributes": ["render", "accruals"],
-        "exclude": ["appraisal", "arrangement", "bioghist", "accessrestrict", "userestrict", "custodhist", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "legalstatus", "phystech", "prefercite", "processinfo", "scopecontent" , "note_index"]
+        "exclude": ["appraisal", "accruals", "arrangement", "bioghist", "accessrestrict", "userestrict", "custodhist", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "legalstatus", "phystech", "prefercite", "processinfo", "scopecontent" , "note_index"]
       },
       "ref": {
         "tag": "ref",
