@@ -210,9 +210,8 @@ describe 'Export Mappings' do
 
         it "maps note content to {desc_path}/NOTE_TAG" do
           object.notes.select{|n| archdesc_note_types.include?(n['type'])}.each do |note|
-
             head_text = note['label'] ? note['label'] : translate('enumerations._note_types', note['type'])
-            id = note['persistent_id']
+            id = "aspace_" + note['persistent_id']
             content = note_content(note)
             path = "#{desc_path}/#{note['type']}"
             path += id ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
@@ -245,7 +244,7 @@ describe 'Export Mappings' do
         it "maps notes[].note_bibliography to {desc_path}/bibliography" do
           bibliographies.each do |note|
             head_text = note['label']
-            id = note['persistent_id']
+            id = "aspace_" + note['persistent_id']
             content = note_content(note)
             path = "#{desc_path}/bibliography"
             path += id ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
@@ -264,7 +263,7 @@ describe 'Export Mappings' do
         it "maps notes[].note_index to {desc_path}/index" do
           indexes.each do |note|
             head_text = note['label']
-            id = note['persistent_id']
+            id = "aspace_" + note['persistent_id']
             content = note_content(note)
             path = "#{desc_path}/index"
             path += id ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
@@ -293,7 +292,7 @@ describe 'Export Mappings' do
 
         let(:build_path) { Proc.new {|note|
             content = note_content(note)
-            id = note['persistent_id']
+            id = "aspace_" + note['persistent_id']
             path = "#{desc_path}/#{note['type']}"
             path += id ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
           }
@@ -471,7 +470,7 @@ describe 'Export Mappings' do
           notes.select {|n| n['type'] == 'abstract'}.each_with_index do |note, i|
             path = "#{desc_path}/did/abstract[#{i+1}]"
             mt(note_content(note), path)
-            mt(note['persistent_id'], path, "id")
+            mt("aspace_" + note['persistent_id'], path, "id")
           end
         end
 
@@ -480,7 +479,7 @@ describe 'Export Mappings' do
           notes.select {|n| n['type'] == 'dimensions'}.each_with_index do |note, i|
             path = "#{desc_path}/did/physdesc[dimensions][#{i+1}]/dimensions"
             mt(note_content(note), path)
-            mt(note['persistent_id'], path, "id")
+            mt("aspace_" + note['persistent_id'], path, "id")
           end
         end
 
@@ -489,7 +488,7 @@ describe 'Export Mappings' do
           notes.select {|n| n['type'] == 'physdesc'}.each do |note|
             content = note_content(note)
             path = "#{desc_path}/did/physdesc[text()='#{content}']"
-            mt(note['persistent_id'], path, "id")
+            mt("aspace_" + note['persistent_id'], path, "id")
           end
         end
 
@@ -498,7 +497,7 @@ describe 'Export Mappings' do
           notes.select {|n| n['type'] == 'langmaterial'}.each_with_index do |note, i|
             content = note_content(note)
             path = "#{desc_path}/did/langmaterial[text()='#{content}']"
-            mt(note['persistent_id'], path, "id")
+            mt("aspace_" + note['persistent_id'], path, "id")
           end
         end
 
@@ -507,7 +506,7 @@ describe 'Export Mappings' do
           notes.select {|n| n['type'] == 'physloc'}.each_with_index do |note, i|
             path = "#{desc_path}/did/physloc[#{i+1}]"
             mt(note_content(note), path)
-            mt(note['persistent_id'], path, "id")
+            mt("aspace_" + note['persistent_id'], path, "id")
           end
         end
 
@@ -516,7 +515,7 @@ describe 'Export Mappings' do
           notes.select {|n| n['type'] == 'materialspec'}.each_with_index do |note, i|
             path = "#{desc_path}/did/materialspec[#{i+1}]"
             mt(note_content(note), path)
-            mt(note['persistent_id'], path, "id")
+            mt("aspace_" + note['persistent_id'], path, "id")
           end
         end
 
@@ -525,7 +524,7 @@ describe 'Export Mappings' do
           notes.select {|n| n['type'] == 'physfacet'}.each_with_index do |note, i|
             path = "#{desc_path}/did/physdesc[physfacet][#{i+1}]/physfacet"
             mt(note_content(note), path)
-            mt(note['persistent_id'], path, "id")
+            mt("aspace_" + note['persistent_id'], path, "id")
           end
         end
       end
