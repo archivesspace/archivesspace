@@ -95,6 +95,9 @@ describe "ArchivesSpace user interface" do
       assert(5) { $driver.find_element(:css, 'span.current-repository-id').text.should eq @test_repo_code_2 }
     end
 
+    it "will persist repository selection" do
+      assert(5) { $driver.find_element(:css, 'span.current-repository-id').text.should eq @test_repo_code_2 }
+    end
 
     it "automatically refreshes the repository list when a new repo gets added" do
       new_repo_code = "notificationtest1#{Time.now.to_i}_#{$$}"
