@@ -232,6 +232,7 @@ en:
   welcome:
     heading: Welcome to ArchivesSpace
     message: Your friendly archives management tool.
+    message_logged_in: Your friendly archives management tool.
 
   breadcrumb:
     home: Home

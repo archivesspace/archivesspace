@@ -5,6 +5,10 @@
 
    <div class="span12">
       <h1><%= I18n.t "welcome.heading" %></h1>
-      <p><%= I18n.t "welcome.message" %></p>
+      <% if session["user"] %>
+        <p><%= I18n.t "welcome.message_logged_in" %></p>
+      <% else %>
+        <p><%= I18n.t "welcome.message" %></p>
+      <% end %>
    </div>
 </div>
