@@ -2,7 +2,7 @@ require 'csv'
 
 class CSVResponse
 
-  def initialize(report)
+  def initialize(report, params = {} )
     @report = report
   end
 
@@ -12,6 +12,11 @@ class CSVResponse
     @report.each do |row|
       yield @report.headers.map{|h| row[h]}.to_csv
     end
+  end
+
+  # just added for the generic response
+  def generate
+    self 
   end
 
 end

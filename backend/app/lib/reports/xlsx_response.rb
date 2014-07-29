@@ -2,7 +2,7 @@ require 'axlsx'
 
 class XLSXResponse
 
-  def initialize(report)
+  def initialize(report, params = {})
     @report = report
 
     @p = Axlsx::Package.new
@@ -21,6 +21,10 @@ class XLSXResponse
   end
 
   def to_stream
+    @p.to_stream
+  end
+
+  def generate
     @p.to_stream
   end
 

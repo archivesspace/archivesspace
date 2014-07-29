@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'LocationsReport model' do
+=begin
   it "can be created from a JSON module" do
     
     # create the record with all the instance/container etc
@@ -41,5 +42,5 @@ describe 'LocationsReport model' do
     report.to_enum.to_a.last[:barcode].should eq(location2.barcode)
     report.to_enum.to_a.last[:building].should eq(location2.building)
      
-  end
+=end
 end
