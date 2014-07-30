@@ -252,9 +252,10 @@ module JSONModel::Validations
     errors = []
 
     if hash["instance_type"] == "digital_object"
-      errors << ["digital_object", "is required"] if hash["digital_object"].nil?
+      errors << ["digital_object", "Can't be empty"] if hash["digital_object"].nil?
+
     elsif hash["instance_type"]
-      errors << ["container", "is required"] if hash["container"].nil?
+      errors << ["container", "Can't be empty"] if hash["container"].nil?
     end
 
     errors

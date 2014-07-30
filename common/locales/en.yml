@@ -719,6 +719,9 @@ en:
   instance_container:
     <<: *instance_attributes
 
+  instance_digital_object:
+    <<: *instance_attributes
+
   file_version:
     _plural: File Versions
     _singular: File Version
@@ -854,7 +857,7 @@ en:
   external_document: &external_document_attributes
     title: Title
     title_tooltip: |
-        <p>The title of an external document referenced from this record. The document may be of any form or content. A web accessible file, a network accessible file, a file on the same computer as the application, etc.</p>
+        <p>The title of an external document referenced from the accession record. The document may be of any form or content. A web accessible file, a network accessible file, a file on the same computer as the application, etc.</p>
     location: Location
     location_tooltip: |
         <p>The location of the file, ideally a resolvable URI.</p>
@@ -1430,7 +1433,6 @@ en:
     _plural: Related Resources
 
   repository:
-    repository: Repository Name and Short Name 
     repo_code: Repository Short Name
     repo_code_tooltip: |
         <p>REQUIRED FIELD. An abbreviation or acronym of the repository name, which can be better accommodated in the user interface.</p>
