@@ -25,19 +25,6 @@
             <div class="btn btn-inline-form">
               <%= link_to I18n.t("actions.export_eac"), {:controller => :exports, :action => :download_eac, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-small" %>
             </div>
-
-            <% if user_can?('merge_agent_record') %>
-              <%=
-                  render_aspace_partial :partial => "shared/merge_dropdown",
-                         :locals => {:record => @agent,
-                                     :extra_params => {:agent_type => @agent.agent_type},
-                                     :controller => :agents,
-                                     :confirmation_title => I18n.t("actions.merge_confirm_title"),
-                                     :confirmation_msg => I18n.t("actions.merge_agent_confirm_message",
-                                                                 :target => @agent.title)}
-              %>
-            <% end %>
-
             <% if @agent.publish %>
           	  <div class="btn btn-inline-form">
                 <%= link_to I18n.t("actions.view_published"), URI.join(AppConfig[:public_proxy_url], @agent.uri).to_s, :target => "_blank", :class => "btn btn-small" %>
