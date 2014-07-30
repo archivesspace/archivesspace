@@ -198,6 +198,18 @@ class ApplicationController < ActionController::Base
     session[:preferences] || self.class.user_preferences(session)
   end
 
+  def user_repository_cookie
+    cookies[user_repository_cookie_key]
+  end
+
+  def user_repository_cookie_key
+    "#{AppConfig[:cookie_prefix]}_#{session[:user]}_repository"
+  end
+
+  def set_user_repository_cookie(repository_uri)
+    cookies[user_repository_cookie_key] = repository_uri
+  end
+
 
   def self.session_repo(session, repo)
     session[:repo] = repo
@@ -280,7 +292,17 @@ class ApplicationController < ActionController::Base
     end
 
     if not session[:repo] and not @repositories.empty?
-      self.class.session_repo(session, @repositories.first.uri)
+      if user_repository_cookie
+        if @repositories.any?{|repo| repo.uri == user_repository_cookie}
+          self.class.session_repo(session, user_repository_cookie)
+        else
+          # delete the cookie as the stored repository uri is no longer valid
+          cookies.delete(user_repository_cookie_key)
+        end
+      else
+        set_user_repository_cookie(@repositories.first.uri)
+        self.class.session_repo(session, @repositories.first.uri)
+      end
     end
   end
 
