@@ -59,6 +59,7 @@ class SearchController < ApplicationController
     }
 
     @criteria["page"] ||= 1
+    @criteria["sort"] ||= "title_sort asc"
 
     if @criteria["filter_term"]
       @criteria["filter_term[]"] = Array(@criteria["filter_term"]).reject{|v| v.blank?}
