@@ -7,6 +7,17 @@
 
       <h3><%= I18n.t "defaults.accession_browse_section" %></h3>
       <%=
+        form.label_and_select("accession_sort_by",
+                         form.possible_options_for("accession_sort_by", true,
+                                                   {:i18n_prefix => "accession",
+                                                    :empty_label => "#{def_msg} " +
+                                                      (@inherited_defaults["accession_sort_by"] ?
+                                                         I18n.t("accession." +
+                                                           @inherited_defaults["accession_sort_by"]) :
+                                                         I18n.t("defaults.no_value")),
+                                                     :i18n_path_for => {'no_value' => 'defaults.no_value'}})).html_safe
+      %>
+      <%=
         out = ''
         (1..5).to_a.each do |n|
           out += form.label_and_select("accession_browse_column_#{n}",
@@ -24,6 +35,17 @@
 
       <h3><%= I18n.t "defaults.resource_browse_section" %></h3>
       <%=
+        form.label_and_select("resource_sort_by",
+                         form.possible_options_for("resource_sort_by", true,
+                                                   {:i18n_prefix => "resource",
+                                                    :empty_label => "#{def_msg} " +
+                                                      (@inherited_defaults["resource_sort_by"] ?
+                                                         I18n.t("resource." +
+                                                           @inherited_defaults["resource_sort_by"]) :
+                                                         I18n.t("defaults.no_value")),
+                                                     :i18n_path_for => {'no_value' => 'defaults.no_value'}})).html_safe
+       %>
+       <%=
         out = ''
         (1..5).to_a.each do |n|
           out += form.label_and_select("resource_browse_column_#{n}",
@@ -40,6 +62,17 @@
 
       <h3><%= I18n.t "defaults.digital_object_browse_section" %></h3>
       <%=
+         form.label_and_select("digital_object_sort_by",
+                         form.possible_options_for("digital_object_sort_by", true,
+                                                   {:i18n_prefix => "digital_object",
+                                                    :empty_label => "#{def_msg} " +
+                                                      (@inherited_defaults["digital_object_sort_by"] ?
+                                                         I18n.t("digital_object." +
+                                                           @inherited_defaults["digital_object_sort_by"]) :
+                                                         I18n.t("defaults.no_value")),
+                                                     :i18n_path_for => {'no_value' => 'defaults.no_value'}})).html_safe
+       %>
+       <%=
         out = ''
         (1..5).to_a.each do |n|
           out += form.label_and_select("digital_object_browse_column_#{n}",
