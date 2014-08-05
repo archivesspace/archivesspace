@@ -163,6 +163,10 @@ describe 'Export Mappings' do
           raise Sequel::Rollback
         end
       end
+      if @doc.errors.length > 0
+        File.open('/tmp/out.txt', 'a') { |f| f <<  @doc.to_xml + "\n" + @doc.errors.inspect + "\n" + "*" * 100 }
+      end
+      
       @doc.errors.length.should == 0 
     end
 

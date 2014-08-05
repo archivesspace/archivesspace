@@ -3,36 +3,12 @@ require 'securerandom'
 
 class EADSerializer < ASpaceExport::Serializer
   serializer_for :ead
-  
-  def has_html?(text)
-    ASpaceExport::Utils.has_html?(text)
-  end
- 
-  def cdata_or_p(content, xml)
-    if has_html?(content)
-      xml.p {xml.cdata content}
-    else
-      xml.p content
-    end
-  end
 
-  def cdata_or_text(content, xml)
-    if has_html?(content)
-      xml.cdata content
+  def sanitize_mixed_content(content, context)
+    if ASpaceExport::Utils.has_html?(content)
+      context << Nokogiri::XML::DocumentFragment.parse(content).to_xml
     else
-      xml.text content
-    end
-  end 
-
-  # this extracts <head> content and returns it. optionally, you can provide a
-  # backup text node that will be returned if there is no <head> nodes in the
-  # content
-  def extract_head_text(content, backup = "")
-    match = content.strip.match(/<head( [^<>]+)?>(.+?)<\/head>/)
-    if match.nil? # content has no head so we return it as it
-      return [content, backup ]
-    else
-      [ content.gsub(match.to_a.first, ''), match.to_a.last]
+      context.text content
     end
   end
   
@@ -45,8 +21,7 @@ class EADSerializer < ASpaceExport::Serializer
 
     doc = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
 
-      xml.ead('xmlns' => 'urn:isbn:1-931666-22-9',
-                 'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+      xml.ead(                  'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
                  'xsi:schemaLocation' => 'urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd',
                  'xmlns:xlink' => 'http://www.w3.org/1999/xlink') {
 
@@ -90,7 +65,7 @@ class EADSerializer < ASpaceExport::Serializer
             end
 
             if (val = data.title)
-              xml.unittitle { cdata_or_text(val, xml) }
+              xml.unittitle  {  xml <<  Nokogiri::XML::DocumentFragment.parse(val).to_xml  } 
             end
 
             serialize_origination(data, xml, @fragments)
@@ -130,12 +105,24 @@ class EADSerializer < ASpaceExport::Serializer
         }
       }
     end
+    doc.doc.root.add_namespace nil, 'urn:isbn:1-931666-22-9'
 
     Enumerator.new do |y|
       @stream_handler.stream_out(doc, @fragments, y)
     end
   end
-
+  
+  # this extracts <head> content and returns it. optionally, you can provide a
+  # backup text node that will be returned if there is no <head> nodes in the
+  # content
+  def extract_head_text(content, backup = "")
+    match = content.strip.match(/<head( [^<>]+)?>(.+?)<\/head>/)
+    if match.nil? # content has no head so we return it as it
+      return [content, backup ]
+    else
+      [ content.gsub(match.to_a.first, ''), match.to_a.last]
+    end
+  end
 
   def serialize_child(data, xml, fragments, c_depth = 1)
     return if data["publish"] === false && !@include_unpublished
@@ -154,7 +141,7 @@ class EADSerializer < ASpaceExport::Serializer
 
       xml.did {
         if (val = data.title)
-          xml.unittitle { cdata_or_text( val, xml ) }
+          xml.unittitle val
         end
 
         if !data.component_id.nil? && !data.component_id.empty?
@@ -219,7 +206,7 @@ class EADSerializer < ASpaceExport::Serializer
          atts.reject! {|k, v| v.nil?}
 
           xml.send(node_name, atts) {
-            cdata_or_text( sort_name, xml )
+            xml.text sort_name
           }
         }
       end
@@ -232,14 +219,14 @@ class EADSerializer < ASpaceExport::Serializer
 
         data.controlaccess_subjects.each do |node_data|
           xml.send(node_data[:node_name], node_data[:atts]) {
-            cdata_or_text( node_data[:content], xml)
+            xml.text node_data[:content]
           }
         end
 
 
         data.controlaccess_linked_agents.each do |node_data|
           xml.send(node_data[:node_name], node_data[:atts]) {
-            cdata_or_text( node_data[:content], xml)
+            xml.text node_data[:content]
           }
         end
 
@@ -258,7 +245,7 @@ class EADSerializer < ASpaceExport::Serializer
       case sn['jsonmodel_type']
       when 'note_chronology'
         xml.chronlist(audatt) {
-          xml.head { cdata_or_text( title, xml) } if title
+          xml.head title if title
 
           sn['items'].each do |item|
             xml.chronitem {
@@ -278,20 +265,20 @@ class EADSerializer < ASpaceExport::Serializer
       when 'note_orderedlist'
         atts = {:type => 'ordered', :numeration => sn['enumeration']}.reject{|k,v| v.nil? || v.empty? || v == "null" }.merge(audatt)
         xml.list(atts) {
-          xml.head { cdata_or_text( title, xml) } if title
+          xml.head title if title
 
           sn['items'].each do |item|
-            xml.item { cdata_or_text(item, xml) }
+            xml.item item
           end
         }
       when 'note_definedlist'
         xml.list({:type => 'deflist'}.merge(audatt)) {
-          xml.head { cdata_or_text( title, xml) } if title
+          xml.head title if title
 
           sn['items'].each do |item|
             xml.defitem {
               xml.label item['label'] if item['label']
-              xml.item { cdata_or_text(item['value'], xml) } if item['value']
+              xml.item item['value'] if item['value']
             } 
           end
         }
@@ -340,7 +327,7 @@ class EADSerializer < ASpaceExport::Serializer
     atts['xlink:show'] = file_version['xlink_show_attribute'] || 'new'
 
     xml.dao(atts) {
-      xml.daodesc{ cdata_or_p( content, xml) } if content
+      xml.daodesc{ xml.p(content) } if content
     }
   end
 
@@ -353,16 +340,16 @@ class EADSerializer < ASpaceExport::Serializer
         xml.physdesc({:altrender => e['portion']}.merge(audatt)) {
           if e['number'] && e['extent_type']
             xml.extent({:altrender => 'materialtype spaceoccupied'}) {
-              cdata_or_text( "#{e['number']} #{I18n.t('enumerations.extent_extent_type.'+e['extent_type'], :default => e['extent_type'])}", xml)
+              xml.text "#{e['number']} #{I18n.t('enumerations.extent_extent_type.'+e['extent_type'], :default => e['extent_type'])}"
             }
           end
           if e['container_summary']
             xml.extent({:altrender => 'carrier'}) {
-              cdata_or_text( e['container_summary'],xml)
+              xml.text e['container_summary']
             }
           end
-          xml.physfacet { cdata_or_text(e['physical_details'],xml) } if e['physical_details']
-          xml.dimensions cdata_or_text( e['dimensions'], xml) if e['dimensions']
+          xml.physfacet e['physical_details'] if e['physical_details']
+          xml.dimensions  ( fragments << sanitize_mixed_content(e['dimensions']) ) if e['dimensions']
         }
       end
     end
@@ -394,12 +381,12 @@ class EADSerializer < ASpaceExport::Serializer
       when 'dimensions', 'physfacet'
         xml.physdesc(audatt) {
           xml.send(note['type'], att) {
-            xml.cdata (fragments << content) 
+            xml.text (fragments << content)
           }
         }
       else
         xml.send(note['type'], att.merge(audatt)) {
-          xml.cdata (fragments << content) 
+          xml.text (fragments << content)
         }
       end
     end
@@ -414,9 +401,12 @@ class EADSerializer < ASpaceExport::Serializer
     head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note['type']}", :default => note['type'])
     content, head_text = extract_head_text(content, head_text) 
     xml.send(note['type'], atts) {
-      xml.head head_text 
-      xml.p { xml.cdata(fragments << content  ) } 
-      
+      xml.head head_text unless content.strip.start_with?('<head')
+      if content.strip.start_with?('<')
+        xml.text (fragments << content)
+      else
+        xml.p (fragments << content)
+      end
       if note['subnotes']
         serialize_subnotes(note['subnotes'], xml, fragments)
       end
@@ -482,19 +472,23 @@ class EADSerializer < ASpaceExport::Serializer
 
       content, head_text = extract_head_text(content, head_text) 
       xml.index(atts) {
-        xml.head head_text 
-        cdata_or_p(content, xml) 
+        xml.head head_text unless content.strip.start_with?('<head')
+        if content.strip.start_with?('<')
+          xml.text (fragments << content)
+        else
+          xml.p (fragments << content)
+        end
         note['items'].each do |item|
           next unless (node_name = data.index_item_type_map[item['type']])
           xml.indexentry {
             atts = item['reference'] ? {:target => item['reference']} : {}
-            if (val = item['value'])
-              xml.send(node_name) { cdata_or_text(val, xml)} 
-            end
             if (val = item['reference_text'])
               xml.ref(atts) {
                 xml.text val
               }
+            end
+            if (val = item['value'])
+              xml.send(node_name, val)
             end
           }
         end
@@ -528,22 +522,20 @@ class EADSerializer < ASpaceExport::Serializer
           titleproper += "#{data.finding_aid_title} " if data.finding_aid_title
           titleproper += "#{data.title}" if ( data.title && titleproper.empty? )
           titleproper += "<num>#{(0..3).map{|i| data.send("id_#{i}")}.compact.join('.')}</num>"
-          titleproper += "<date>#{data.finding_aid_date}</date>" if data.finding_aid_date 
-        
-          xml.titleproper { cdata_or_text( (fragments << titleproper ), xml ) }
+          xml.titleproper (fragments << titleproper)
 
-          xml.author { cdata_or_text( data.finding_aid_author, xml )} unless data.finding_aid_author.nil?
-          xml.sponsor { cdata_or_text( data.finding_aid_sponsor, xml )} unless data.finding_aid_sponsor.nil?
+          xml.author data.finding_aid_author unless data.finding_aid_author.nil?
+          xml.sponsor data.finding_aid_sponsor unless data.finding_aid_sponsor.nil?
         }
 
         unless data.finding_aid_edition_statement.nil?
           xml.editionstmt {
-            cdata_or_p(data.finding_aid_edition_statement, xml)
+            xml.p data.finding_aid_edition_statement
           }
         end
 
         xml.publicationstmt {
-          xml.publisher { cdata_or_text( data.repo.name,xml ) }
+          xml.publisher data.repo.name
 
           if data.repo.image_url
             xml.p {
@@ -557,42 +549,50 @@ class EADSerializer < ASpaceExport::Serializer
           unless data.addresslines.empty?
             xml.address {
               data.addresslines.each do |line|
-                xml.addressline { cdata_or_text( line, xml ) }
+                xml.addressline line 
               end
             }
           end
         }
 
-        if (val = data.finding_aid_series_statement)
-          xml.seriesstmt { cdata_or_p(( fragments << val ), xml) } 
+        if (data.finding_aid_series_statement)
+          val = data.finding_aid_series_statemen
+          txml.seriesstmt {
+            if val.strip.start_with?('<')
+              xml.text (fragments << val)
+            else
+              xml.p (fragments << val)
+            end
+          }
         end
         if ( data.finding_aid_note )
-            xml.notestmt { xml.note { cdata_or_p(( fragments << data.finding_aid_note ), xml )} }
+            val = data.finding_aid_note 
+            xml.notestmt { xml.note { xml.p ( fragments << val )} }  
         end
         
       }
 
       xml.profiledesc {
         creation = "This finding aid was produced using ArchivesSpace on <date>#{Time.now}</date>."
-        xml.creation { cdata_or_text((fragments << creation), xml)}
+        xml.creation (fragments << creation)
 
         if (val = data.finding_aid_language)
-          xml.langusage { cdata_or_text((fragments << val), xml)}
+          xml.langusage (fragments << val)
         end
 
         if (val = data.descrules)
-          xml.descrules { cdata_or_text(val, xml ) }
+          xml.descrules val
         end
       }
 
       if data.finding_aid_revision_date || data.finding_aid_revision_description
         xml.revisiondesc {
           if data.finding_aid_revision_description && data.finding_aid_revision_description.strip.start_with?('<')
-            cdata_or_text( (fragments << data.finding_aid_revision_description), xml )
+            xml.text (fragments << data.finding_aid_revision_description)
           else
             xml.change {
               xml.date (fragments << data.finding_aid_revision_date) if data.finding_aid_revision_date
-              xml.item { cdata_or_text( (fragments << data.finding_aid_revision_description), xml)} if data.finding_aid_revision_description
+              xml.item (fragments << data.finding_aid_revision_description) if data.finding_aid_revision_description
             }
           end
         }
