@@ -140,7 +140,7 @@
 <% end %>
 
 <% define_template "orderedlist_item" do |form, item| %>
-  <div class="subrecord-form-inline"><%= form.textfield(nil, item) %></div>
+  <div class="subrecord-form-inline"><%= form.textfield(nil, item, :escape => false) %></div>
 <% end %>
 
 
