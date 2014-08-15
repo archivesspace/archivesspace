@@ -47,6 +47,7 @@ AppConfig[:backend_url] = "http://localhost:8089"
 AppConfig[:frontend_url] = "http://localhost:8080"
 AppConfig[:frontend_prefix] = proc { "#{URI(AppConfig[:frontend_url]).path}/".gsub(%r{/+$}, "/") }
 AppConfig[:solr_url] = "http://localhost:8090"
+AppConfig[:indexer_url] = "http://localhost:8091"
 AppConfig[:public_url] = "http://localhost:8081"
 AppConfig[:public_prefix] = proc { "#{URI(AppConfig[:public_url]).path}/".gsub(%r{/+$}, "/") }
 
@@ -58,6 +59,7 @@ AppConfig[:public_prefix] = proc { "#{URI(AppConfig[:public_url]).path}/".gsub(%
 AppConfig[:enable_backend] = true
 AppConfig[:enable_frontend] = true
 AppConfig[:enable_public] = true
+AppConfig[:enable_solr] = true
 AppConfig[:enable_indexer] = true
 
 # Some use cases want the ability to shutdown the Jetty service using Jetty's 
