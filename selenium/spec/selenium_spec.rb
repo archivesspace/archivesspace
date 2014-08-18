@@ -2460,6 +2460,7 @@ describe "ArchivesSpace user interface" do
       8.times { @modal.find_element(:css, ".add-rows-form input").send_keys(:arrow_up) } 
       $driver.wait_for_ajax
       @modal.find_element(:css, ".add-rows-form .btn.btn-primary").click
+      $driver.wait_for_ajax
       # there should be 10 rows now :)
       @modal.find_elements(:css, "table tbody tr").length.should eq(10)
 
