@@ -71,7 +71,7 @@ RSpec::Matchers.define :have_inner_text do |expected|
     if regex_mode
       node.inner_text =~ expected
     else
-      node.inner_text == expected
+      node.inner_text.strip == expected
     end
   end
 
@@ -79,6 +79,33 @@ RSpec::Matchers.define :have_inner_text do |expected|
     infinitive = regex_mode ? "match /#{expected}/" : "contain '#{expected}'"
     name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map{|n| n.name}.uniq.join(' | ') : node.name
     "Expected node '#{name}' to #{infinitive}. Found string: '#{node.inner_text}'."
+  end
+
+  failure_message_for_should_not do |node|
+    name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map{|n| n.name}.uniq.join(' | ') : node.name
+    "Expected node '#{name}' to contain something other than '#{txt}'."
+  end
+end
+
+RSpec::Matchers.define :have_inner_markup do |expected|
+  regex_mode = expected.is_a?(Regexp)
+
+  match do |node|
+    if regex_mode
+      markup =~ expected
+    else
+      markup = node.inner_html.strip.delete(' ').gsub("'", '"')
+      expected_markup = expected.strip.delete(' ').gsub("'", '"')
+      markup == expected_markup 
+    end
+  end
+
+  failure_message_for_should do |node|
+      markup = node.inner_html.strip.delete(' ').gsub("'", '"')
+      expected_markup = expected.strip.delete(' ').gsub("'", '"')
+    infinitive = regex_mode ? "match /#{expected}/" : "contain '#{expected_markup}'"
+    name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map{|n| n.name}.uniq.join(' | ') : node.name
+    "Expected node '#{name}' to #{infinitive}. Found string: '#{markup}'."
   end
 
   failure_message_for_should_not do |node|

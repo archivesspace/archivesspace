@@ -74,7 +74,13 @@ describe 'Export Mappings' do
 
 
   def test_mapping_template(doc, data, path, trib=nil)
-    unless path.slice(0) == '/'
+    
+    case path.slice(0) 
+    when '/' 
+      path
+    when '.'
+      path.slice!(0..1) 
+    else 
       path.prepend("/#{doc.root.name}/")
     end
 
@@ -85,6 +91,8 @@ describe 'Export Mappings' do
       doc.should have_node(path)
       if trib.nil?
         node.should have_inner_text(data)
+      elsif trib == :markup 
+        node.should have_inner_markup(data)
       else
         node.should have_attribute(trib, data)
       end
@@ -187,7 +195,7 @@ describe 'Export Mappings' do
 
 
       it "maps {archival_object}.title to {desc_path}/did/unittitle" do
-        mt(object.title, "#{desc_path}/did/unittitle")
+        mt(object.title, "#{desc_path}/did/unittitle", :markup)
       end
 
 
@@ -216,13 +224,13 @@ describe 'Export Mappings' do
           object.notes.select{|n| archdesc_note_types.include?(n['type'])}.each do |note|
             head_text = note['label'] ? note['label'] : translate('enumerations._note_types', note['type'])
             id = "aspace_" + note['persistent_id']
-            content = note_content(note)
+            content = Nokogiri::XML::DocumentFragment.parse(note_content(note)).text
             path = "#{desc_path}/#{note['type']}"
             path += id ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
 
             mt(id, path, 'id')
             mt(head_text, "#{path}/head")
-            mt(content, "#{path}/p")
+            mt(head_text << "\n" << content, "#{path}")
           end
         end
       end
@@ -250,15 +258,15 @@ describe 'Export Mappings' do
             head_text = note['label']
             id = "aspace_" + note['persistent_id']
             content = note_content(note)
-            path = "#{desc_path}/bibliography"
+            path = "bibliography"
             path += id ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
-
-            mt(id, path, 'id')
-            mt(head_text, "#{path}/head")
-            mt(content, "#{path}/p")
+            full_path = "#{desc_path}/#{path}"
+            mt(id, full_path, 'id')
+            mt(head_text, "#{full_path}/head")
+            mt(content, "./#{path}/text()[contains('#{content}')]")
 
             note['items'].each_with_index do |item, i|
-              mt(item, "#{path}/bibref[#{i+1}]")
+              mt(item, "#{full_path}/bibref[#{i+1}]")
             end
           end
         end
@@ -269,16 +277,16 @@ describe 'Export Mappings' do
             head_text = note['label']
             id = "aspace_" + note['persistent_id']
             content = note_content(note)
-            path = "#{desc_path}/index"
+            path = "index"
             path += id ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
-
-            mt(id, path, 'id')
-            mt(head_text, "#{path}/head")
-            mt(content, "#{path}/p")
+            full_path = "#{desc_path}/#{path}"
+            mt(id, full_path, 'id')
+            mt(head_text, "#{full_path}/head")
+            mt(content, "./#{path}/text()[contains( '#{content}')]")
 
             note['items'].each_with_index do |item, i|
               index_item_type_map.keys.should include(item['type'])
-              item_path = "#{path}/indexentry[#{i+1}]"
+              item_path = "#{full_path}/indexentry[#{i+1}]"
               mt(item['value'], "#{item_path}/#{index_item_type_map[item['type']]}")
               mt(item['reference'], "#{item_path}/ref", 'target')
               mt(item['reference_text'], "#{item_path}/ref")
@@ -482,7 +490,7 @@ describe 'Export Mappings' do
         it "maps notes of type 'dimensions' to did/physdesc/dimensions" do
           notes.select {|n| n['type'] == 'dimensions'}.each_with_index do |note, i|
             path = "#{desc_path}/did/physdesc[dimensions][#{i+1}]/dimensions"
-            mt(note_content(note), path)
+            mt(note_content(note), path, :markup)
             mt("aspace_" + note['persistent_id'], path, "id")
           end
         end
