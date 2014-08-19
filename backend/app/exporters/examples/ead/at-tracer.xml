@@ -55,7 +55,7 @@
     </eadheader>
     <archdesc level="collection">
         <did>
-            <unittitle>Resource--Title-AT</unittitle>
+            <unittitle>Resource--<title render="italic">Title</title>-AT</unittitle>
             <unitid>Resource.ID.AT</unitid>
             <repository>
                 <corpname>Archivists' Toolkit Migration Tracer</corpname>

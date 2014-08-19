@@ -11,27 +11,28 @@ module NotesParser
     document.select("lb").tagName("br")
 
     # tweak the emph tags
-    document.select("emph").each do | emph |
-      # make all emph's a span
-      emph.tagName("span")
+    [ "emph", "title" ].each do |tag| 
+      document.select(tag).each do | emph |
+        # make all emph's a span
+        emph.tagName("span")
 
-      # <emph> should render as <em> if there is no @render attribute. If there is, render as follows:
-      if emph.attr("render").blank?
-        emph.attr("class", "emph render-none")
+        # <emph> should render as <em> if there is no @render attribute. If there is, render as follows:
+        if emph.attr("render").blank?
+          emph.attr("class", "emph render-none")
 
-      # render="nonproport": <code>
-      elsif emph.attr("render") === "nonproport"
-        emph.attr("class", "emph render-#{emph.attr("render")}")
-        emph.tagName("code")
-        emph.removeAttr("render")
+        # render="nonproport": <code>
+        elsif emph.attr("render") === "nonproport"
+          emph.attr("class", "emph render-#{emph.attr("render")}")
+          emph.tagName("code")
+          emph.removeAttr("render")
 
-      # set a class so CSS can style based on the render value
-      else
-        emph.attr("class", "emph render-#{emph.attr("render")}")
-        emph.removeAttr("render")
+        # set a class so CSS can style based on the render value
+        else
+          emph.attr("class", "emph render-#{emph.attr("render")}")
+          emph.removeAttr("render")
+        end
       end
     end
-
     document.toString()
   end
 

@@ -123,7 +123,7 @@
     {/macro}
 
     <span class="tree-node-text">
-      <span class="title-column pull-left">${node.title|h}</span>
+      <span class="title-column pull-left">${AS.stripHTML(node.title)|h}</span>
       <span class="field-column field-column-3 pull-right" title="${AS.encodeForAttribute(render_container_summary(node))}">${render_container_summary(node)}</span>
       <span class="field-column field-column-2 pull-right" title="${AS.encodeForAttribute(render_instance_types(node))}">${render_instance_types(node)}</span>
       <span class="field-column field-column-1 pull-right">${node.level||"&#160;"}</span>
@@ -155,7 +155,7 @@
       {/if}
     {/macro}
     <span class="tree-node-text">
-      <span class="title-column pull-left">${node.title|h}</span>
+      <span class="title-column pull-left">${node.title|replace('<[^>]*>', '')}</span>
       <span class="field-column field-column-2 pull-right" title="">${render_file_version_summary(node)}</span>
       <span class="field-column field-column-1 pull-right">${node.digital_object_type||"&#160;"}</span>
     </span>

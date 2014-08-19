@@ -125,7 +125,7 @@ ANEAD
 
     it "maps '<unittitle>' correctly" do
       # 	IF nested in <archdesc><did>
-      @resource["title"].should eq("Resource--Title-AT")
+      @resource["title"].should eq('Resource--<title render="italic">Title</title>-AT')
       # 	IF nested in <c><did>
       @archival_objects['12']['title'].should eq("Resource-C12-AT")
     end

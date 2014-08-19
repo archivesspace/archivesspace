@@ -1,3 +1,5 @@
+require 'notes_parser'
+
 module AspaceFormHelper
   class FormContext
 
@@ -398,6 +400,7 @@ module AspaceFormHelper
       opts[:label_opts] ||= {}
       opts[:label_opts][:plugin] = opts[:plugin]
       control_group_classes = "control-group"
+      
 
       # There must be a better way to say this...
       # The value of the 'required' option wins out if set to either true or false
@@ -452,7 +455,8 @@ module AspaceFormHelper
 
     def textarea(name = nil, value = "", opts =  {})
       return "" if value.blank?
-      @parent.preserve_newlines(CGI::escapeHTML(value)).html_safe
+      value =   NotesParser::parse(value, opts[:base_url]).html_safe if opts[:clean]
+      @parent.preserve_newlines(value).html_safe
     end
 
     def checkbox(name, opts = {}, default = true, force_checked = false)

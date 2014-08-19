@@ -335,6 +335,9 @@ $(function() {
   });
 });
 
+
+
+
 AS.templateCache = [];
 AS.renderTemplate = function(templateId, data) {
   if (!AS.templateCache[templateId]) {
@@ -360,6 +363,13 @@ AS.quickTemplate = function(templateHTML, data) {
   return TrimPath.parseTemplate(templateHTML).process(data);
 };
 
+AS.stripHTML =  function(string) {
+  if (string === null || string === undefined) {
+    return "";
+  }
+  var rex = /(<([^>]+)>)/ig;
+  return $.trim(string.replace(rex, ""));
+};
 
 AS.encodeForAttribute = function(string) {
   if (string === null || string === undefined) {

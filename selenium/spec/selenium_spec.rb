@@ -1418,8 +1418,8 @@ describe "ArchivesSpace user interface" do
     end
 
 
-    resource_title = "Pony Express"
-
+    resource_title = "Pony <emph render='italic'>Express</emph>"
+    resource_stripped = "Pony Express"
     it "can create a resource" do
       $driver.find_element(:link, "Create").click
       $driver.find_element(:link, "Resource").click
@@ -1433,7 +1433,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => "form#resource_form button[type='submit']").click
 
       # The new Resource shows up on the tree
-      assert(5) { $driver.find_element(:css => "a.jstree-clicked").text.strip.should match(/#{resource_title}/) }
+      assert(5) { $driver.find_element(:css => "a.jstree-clicked").text.strip.should match(/#{resource_stripped}/) }
     end
 
 

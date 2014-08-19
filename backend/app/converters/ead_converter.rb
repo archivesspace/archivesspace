@@ -89,7 +89,7 @@ class EADConverter < Converter
     with 'unittitle' do |node|
       ancestor(:note_multipart, :resource, :archival_object) do |obj|
         klass =  obj.class.record_type
-        obj.title = node.inner_xml.strip.gsub(/<[^>]*>/, ' ') unless klass == "note_multipart"
+        obj.title = Nokogiri::XML::DocumentFragment.parse(inner_xml.strip).to_xml(:encoding => 'utf-8') unless klass == "note_multipart" 
       end
     end
 
