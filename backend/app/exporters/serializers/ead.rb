@@ -5,6 +5,13 @@ class EADSerializer < ASpaceExport::Serializer
   serializer_for :ead
 
   def sanitize_mixed_content(content, context)
+    content.strip!
+    content.chomp!
+    blocks = content.split("\n")
+    if blocks.length > 1
+      content = blocks.inject("") { |c,n| c << "<p>#{n}</p>"  }
+    end
+    
     begin 
       if ASpaceExport::Utils.has_html?(content)
           context << Nokogiri::XML::DocumentFragment.parse(content).to_xml

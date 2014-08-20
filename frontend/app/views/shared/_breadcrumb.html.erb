@@ -7,10 +7,10 @@
          <% trail.each_with_index do |crumb, i| %>
             <% if i < trail.length - 1%>         
                <li>
-                  <%= link_to crumb[0].html_safe, crumb[1] %><span class="divider">/</span>
+                  <%= link_to clean_mixed_content(crumb[0]) , crumb[1] %><span class="divider">/</span>
                </li>
             <% else %>
-               <li class="active"><%= crumb[0].html_safe %></li>
+               <li class="active"><%= clean_mixed_content( crumb[0])  %></li>
             <% end %>
          <% end %>
         <% if flash.key? :spawned_from_accession %>

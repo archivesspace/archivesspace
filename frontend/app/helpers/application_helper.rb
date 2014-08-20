@@ -1,3 +1,5 @@
+require 'mixed_content_parser'
+
 module ApplicationHelper
 
   def include_controller_js
@@ -224,6 +226,11 @@ module ApplicationHelper
   def render_aspace_partial(args)
     defaults = {:formats => [:html], :handlers => [:erb]}
     return render(defaults.merge(args))
+  end
+  
+  def clean_mixed_content(content)
+    return content if content.blank? 
+    MixedContentParser::parse(content, url_for(:root), { :wrap_blocks => false } )
   end
 
 end

@@ -1,11 +1,18 @@
 require 'java'
 
-module NotesParser
+module MixedContentParser
 
-  def self.parse(note, base_uri)
-    cleaned_note = org.jsoup.Jsoup.clean(note, org.jsoup.safety.Whitelist.relaxed.addTags("emph", "lb").addAttributes("emph", "render"))
+  def self.parse(content, base_uri, opts = {} )
+    content.strip!
+    content.chomp!
 
-    document = org.jsoup.Jsoup.parse(cleaned_note, base_uri, org.jsoup.parser.Parser.xmlParser())
+    # transform blocks of text seperated by line breaks into <p> wrapped blocks
+    content = content.split("\n").inject("") { |c,n| c << "<p>#{n}</p>"  } if opts[:wrap_blocks]
+
+    cleaned_content = org.jsoup.Jsoup.clean(content, org.jsoup.safety.Whitelist.relaxed.addTags("emph", "lb").addAttributes("emph", "render"))
+
+
+    document = org.jsoup.Jsoup.parse(cleaned_content, base_uri, org.jsoup.parser.Parser.xmlParser())
 
     # replace lb with br
     document.select("lb").tagName("br")

@@ -6,7 +6,7 @@
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <%= readonly_context :resource, @resource do |readonly| %>
-        <h2><%= clean_note(@resource.title).html_safe %> <span class="label label-info"><%= I18n.t("resource._singular") %></span></h2>
+        <h2><%= clean_mixed_content(@resource.title).html_safe %> <span class="label label-info"><%= I18n.t("resource._singular") %></span></h2>
 
         <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => readonly} %>
 

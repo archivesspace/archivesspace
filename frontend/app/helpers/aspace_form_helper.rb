@@ -1,4 +1,4 @@
-require 'notes_parser'
+require 'mixed_content_parser'
 
 module AspaceFormHelper
   class FormContext
@@ -455,7 +455,7 @@ module AspaceFormHelper
 
     def textarea(name = nil, value = "", opts =  {})
       return "" if value.blank?
-      value =   NotesParser::parse(value, opts[:base_url]).html_safe if opts[:clean]
+      value =   MixedContentParser::parse(value, opts[:base_url]) if opts[:clean]
       @parent.preserve_newlines(value).html_safe
     end
 
