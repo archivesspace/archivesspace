@@ -5,6 +5,8 @@ jdk:
   - oraclejdk7
   - openjdk6
 
+sudo: false
+
 env:
   # These sets of environment variables determine which tasks to run and
   # which database the tests will run against. The build script honors any 
