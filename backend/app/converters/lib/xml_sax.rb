@@ -206,7 +206,7 @@ module ASpaceImport
         return unless property_type[0].match(/string/) && value.is_a?(String)
         filtered_value = ASpaceImport::Utils.value_filter(property_type[0]).call(value)
         if obj.send(property)
-          obj.send(property).send(:<<, property)
+          obj.send(property).send(:<<, filtered_value)
         else
           obj.send("#{property}=", filtered_value)
         end
