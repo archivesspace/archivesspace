@@ -21,7 +21,7 @@ class ReportResponse
   end
 
   def generate
-    if @report.is_a?(JasperReport)
+    if  @report.is_a?(JasperReport) 
       String.from_java_bytes( @report.render(@format.to_sym) ) 
     else
       klass = Object.const_get("#{@format.upcase}Response")

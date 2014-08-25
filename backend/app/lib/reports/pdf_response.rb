@@ -1,6 +1,6 @@
 require "java"
 
-java_import org.xhtmlrenderer.pdf.ITextRenderer
+#java_import org.xhtmlrenderer.pdf.ITextRenderer
 
 class PDFResponse
 

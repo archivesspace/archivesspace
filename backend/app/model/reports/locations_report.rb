@@ -1,6 +1,6 @@
-require_relative 'jasper_report'
+require_relative 'json_report'
 
-class LocationsReport < JasperReport
+class LocationsReport < JSONReport
 
   register_report({
                     :uri_suffix => "locations",
