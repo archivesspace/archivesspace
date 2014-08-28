@@ -230,7 +230,7 @@ module ApplicationHelper
   
   def clean_mixed_content(content)
     return content if content.blank? 
-    MixedContentParser::parse(content, url_for(:root), { :wrap_blocks => false } )
+    MixedContentParser::parse(content.to_s, url_for(:root), { :wrap_blocks => false } )
   end
 
 end
