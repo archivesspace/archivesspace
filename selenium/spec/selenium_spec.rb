@@ -2457,7 +2457,8 @@ describe "ArchivesSpace user interface" do
       @modal.find_element(:id, "archival_record_children_children__0__level_").select_option("fonds")
 
       @modal.find_element(:css, ".btn.add-rows-dropdown").click
-      8.times { @modal.find_element(:css, ".add-rows-form input").send_keys(:arrow_up) } 
+      #7.times { @modal.find_element(:css, ".add-rows-form input").send_keys(:arrow_up) } 
+      $driver.clear_and_send_keys([:css, ".add-rows-form input"], "9") 
       $driver.wait_for_ajax
       @modal.find_element(:css, ".add-rows-form .btn.btn-primary").click
       $driver.wait_for_ajax
@@ -2701,7 +2702,8 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "digital_record_children_children__0__label_"], "DO_LABEL")
 
       @modal.find_element(:css, ".btn.add-rows-dropdown").click
-      8.times { @modal.find_element(:css, ".add-rows-form input").send_keys(:arrow_up) } 
+      # 8.times { @modal.find_element(:css, ".add-rows-form input").send_keys(:arrow_up) } 
+      $driver.clear_and_send_keys([:css, ".add-rows-form input"], "9") 
       @modal.find_element(:css, ".add-rows-form .btn.btn-primary").click
 
       # there should be 10 rows now :)
