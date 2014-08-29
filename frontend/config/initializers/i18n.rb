@@ -32,7 +32,8 @@ module I18n
 
 
   def self.t(*args)
-    self.t_raw(*args).html_safe
+    results =  self.t_raw(*args)
+    results.nil? ? "" : results.html_safe
   end
 
   def self.t_raw(*args)
