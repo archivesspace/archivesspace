@@ -62,7 +62,7 @@ class AccessionConverter < Converter
       'accession_processing_plan' => 'collection_management.processing_plan',
       'accession_processing_priority' => 'collection_management.processing_priority',
       'accession_processing_status' => 'collection_management.processing_status',
-      'accession_processing_started_date' => 'collection_management.processing_started_date',
+      'accession_processing_started_date' => [  date_flip, 'collection_management.processing_started_date'] ,
       'accession_processing_total_extent' => 'collection_management.processing_total_extent',
       'accession_processing_total_extent_type' => 'collection_management.processing_total_extent_type',
       'accession_processors' => 'collection_management.processors',
@@ -125,6 +125,42 @@ class AccessionConverter < Converter
       'user_defined_enum_3' => 'user_defined.enum_3',
       'user_defined_enum_4' => 'user_defined.enum_4',
 
+      'agent_role' => 'accession.agent_role',
+      'agent_type' => 'agent.agent_type',
+
+      'agent_contact_address_1' => 'agent_contact.address_1',
+      'agent_contact_address_2' => 'agent_contact.address_2',
+      'agent_contact_address_3' => 'agent_contact.address_3',
+      'agent_contact_city' => 'agent_contact.city',
+      'agent_contact_country' => 'agent_contact.country',
+      'agent_contact_email' => 'agent_contact.email',
+      'agent_contact_fax' => 'agent_contact.fax',
+      'agent_contact_name' => 'agent_contact.name',
+
+      'agent_contact_post_code' => 'agent_contact.post_code',
+      'agent_contact_region' => 'agent_contact.region',
+      'agent_contact_salutation' => 'agent_contact.salutation',
+      'agent_contact_telephone' => 'agent_contact.telephone',
+      'agent_contact_telephone_ext' => 'agent_contact.telephone_ext',
+
+      'agent_name_authority_id' => 'agent_name.authority_id',
+      'agent_name_dates' => 'agent_name.dates',
+      'agent_name_fuller_form' => 'agent_name.fuller_form',
+      'agent_name_name_order' => 'agent_name.name_order',
+      'agent_name_number' => 'agent_name.number',
+      'agent_name_prefix' => 'agent_name.prefix',
+      'agent_name_primary_name' => 'agent_name.primary_name',
+      'agent_name_qualifier' => 'agent_name.qualifier',
+      'agent_name_rest_of_name' => 'agent_name.rest_of_name',
+      'agent_name_rules' => 'agent_name.rules',
+      'agent_name_sort_name' => 'agent_name.sort_name',
+      'agent_name_source' => 'agent_name.source',
+      'agent_name_subordinate_name_1' => 'agent_name.subordinate_name_1',
+      'agent_name_subordinate_name_2' => 'agent_name.subordinate_name_2',
+      'agent_name_suffix' => 'agent_name.suffix',
+
+      'agent_name_description_note' => 'note_bioghist.content',
+      'agent_name_description_citation' => 'note_citation.content',
 
       # 2. Define data handlers
       #    :record_type of the schema (if other than the handler key)
@@ -142,14 +178,75 @@ class AccessionConverter < Converter
       :cataloged_event_date => event_template('cataloged'),
 
       :processed_event_date => event_template('processed'),
+      
+      :agent => {
+        :record_type => Proc.new {|data|
+          @agent_type = data['agent_type']
+          },
+        :on_row_complete => Proc.new {|cache, agent|
+          accession = cache.find {|obj| obj.class.record_type == 'accession' }
+
+          if accession 
+            accession.linked_agents[0]['ref'] = agent.uri
+          else
+            cache.reject! {|obj| obj.key == agent.key}
+          end
+          },
+
+      },
+
+      :agent_contact => {
+        :on_row_complete => Proc.new {|cache, this|
+          agent = cache.find {|obj| obj.class.record_type =~ /^agent_(perso|corpo|famil)/}
+          agent.agent_contacts << this
+        }
+      },
+
+      :agent_name => {
+        :record_type => Proc.new {|data|
+            @agent_type.sub(/agent_/, 'name_')
+        },
+        :on_create => Proc.new {|data, obj|
+          if @agent_type =~ /family/
+            obj.family_name = data['primary_name']
+          end
+        },
+        :on_row_complete => Proc.new {|cache, this|
+          agent = cache.find {|obj| obj.class.record_type =~ /^agent_(perso|corpo|famil)/}
+          agent.names << this
+        }
+      },
 
       :accession => {
+        :on_create => Proc.new {|data, obj|
+            if data['agent_role']
+              obj.linked_agents << {'role' => data['agent_role']}
+            end
+        },
         :on_row_complete => Proc.new { |queue, accession|
           queue.select {|obj| obj.class.record_type == 'event'}.each do |event|
             event.linked_records << {'role' => 'source', 'ref' => accession.uri}
           end
         }
       },
+      
+      :note_bioghist => {
+        :on_create => Proc.new {|data, obj|
+          obj.subnotes = [{'jsonmodel_type' => 'note_text', 'content' => data['content']}]
+        },
+        :on_row_complete => Proc.new {|cache, this|
+          agent = cache.find {|obj| obj.class.record_type =~ /^agent_(perso|fami|corpo)/}
+          agent.notes << this
+        }
+      },
+
+      :note_citation => {
+        :on_row_complete => Proc.new {|cache, this|
+          note_biogist = cache.find {|obj| obj.class.record_type == 'note_bioghist'}
+          note_biogist.subnotes << this
+        }
+      },
+
 
       :date_1 => {
         :record_type => :date,
@@ -247,6 +344,12 @@ class AccessionConverter < Converter
     @date_flip ||= Proc.new {|val| val.sub(/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4})$/, '\2/\1/\3')}
 
     @date_flip
+  end
+  
+  # need to resue the agent type
+  def self.agent_type
+    @agent_type ||= "agent_family" 
+    @agent_type
   end
 
 

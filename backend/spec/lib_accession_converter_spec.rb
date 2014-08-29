@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'converter_spec_helper'
-
+require 'csv'
 require_relative '../app/converters/accession_converter'
 
 describe 'Accession converter' do
@@ -17,6 +17,7 @@ describe 'Accession converter' do
   before(:all) do
     @records = convert(test_file)
     @accessions = @records.select {|r| r['jsonmodel_type'] == 'accession' }
+    @agents = @records.select { |a| a['jsonmodel_type'].include?('agent_')  } 
   end
 
 
@@ -24,10 +25,15 @@ describe 'Accession converter' do
     @accessions.count.should eq(10)
   end
 
+  it "created a  Agent record if one is in the row" do
+    @agents.count.should eq(5)
+  end
 
   it "maps accession_processing_started_date to collection_management.processing_started_date" do    
     @accessions[1]['collection_management']['processing_started_date'].should match(/\d{4}-\d{2}-\d{2}/)
   end
-    
+
+
+
 end
 
