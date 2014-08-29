@@ -161,6 +161,10 @@ class AccessionConverter < Converter
 
       'agent_name_description_note' => 'note_bioghist.content',
       'agent_name_description_citation' => 'note_citation.content',
+      
+      'subject_source' => 'subject.source',
+      'subject_term' => 'subject.term',
+      'subject_term_type' => 'subject.term_type',
 
       # 2. Define data handlers
       #    :record_type of the schema (if other than the handler key)
@@ -247,6 +251,16 @@ class AccessionConverter < Converter
         }
       },
 
+      :subject => {
+        :on_create => Proc.new {|data, obj|
+          obj.terms = [{:term => data['term'], :term_type => data['term_type'], :vocabulary => '/vocabularies/1'}]
+          obj.vocabulary = '/vocabularies/1'
+        },
+        :on_row_complete => Proc.new {|cache, this|
+          digital_object = cache.find {|obj| obj.class.record_type == 'accession'}
+          digital_object.subjects << {'ref' => this.uri}
+        }
+      },
 
       :date_1 => {
         :record_type => :date,
