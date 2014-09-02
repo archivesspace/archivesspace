@@ -34,9 +34,7 @@ class DBAuth
 
       if pwhash and (Password.new(pwhash) == password)
         user = User.find(:username => username)
-
-        JSONModel(:user).from_hash(:username => username,
-                                   :name => user.name)
+        JSONModel(:user).from_hash( user.to_hash ) 
       else
         nil
       end
