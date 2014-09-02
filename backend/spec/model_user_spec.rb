@@ -67,7 +67,7 @@ describe 'User model' do
     pass1 = generate(:alphanumstr)
     pass2 = generate(:alphanumstr)
     new_user = create(:user)
-    
+    new_user.source.should eq("local")    
     DBAuth.set_password(new_user.username, pass1)
     
     AuthenticationManager.authenticate(new_user.username, pass1).username.should eq(new_user.username)
@@ -76,8 +76,9 @@ describe 'User model' do
     
     AuthenticationManager.authenticate(new_user.username, pass1).should be nil
     
-    AuthenticationManager.authenticate(new_user.username, pass2).username.should eq(new_user.username)
-    
+    authed = AuthenticationManager.authenticate(new_user.username, pass2)
+    authed.username.should eq(new_user.username)
+    authed.source.should eq("DBAuth") 
   end
 
 
