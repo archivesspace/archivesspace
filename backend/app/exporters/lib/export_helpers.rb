@@ -42,16 +42,15 @@ module ASpaceExport
       unless @controlaccess_linked_agents
         results = []
         linked = self.linked_agents || []
-        linked.each do |link|
+        linked.each_with_index do |link, i|
 
           role = link['relator'] ? link['relator'] : (link['role'] == 'source' ? 'fmo' : nil)
 
-          agent = link['_resolved']
+          agent = link['_resolved'].dup
           sort_name = agent['display_name']['sort_name']
           rules = agent['display_name']['rules']
           source = agent['display_name']['source']
-
-          content = sort_name
+          content = sort_name.dup
 
           if link['terms'].length > 0
             content << " -- "
