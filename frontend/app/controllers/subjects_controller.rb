@@ -73,9 +73,9 @@ class SubjectsController < ApplicationController
 
 
   def merge
-    handle_merge(JSONModel(:subject).uri_for(params[:id]),
-                 params[:ref],
-                 'subject')
+    handle_merge( params[:refs],
+                  JSONModel(:subject).uri_for(params[:id]),
+                  'subject')
   end
 
 

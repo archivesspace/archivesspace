@@ -21,10 +21,10 @@ en:
     transfer_record: Transfer
     link_to: Link To
     add_prefix: Add
-    merge_confirm_title: Merge this record?
-    merge_subject_confirm_message: "The subject '%{target}' will be deleted and any linked records will be re-linked to the subject you selected."
-    merge_agent_confirm_message: "The agent '%{target}' will be deleted and any linked records will be re-linked to the agent you selected."
-    merge_resource_confirm_message: "The resource '%{target}' will be deleted and any linked records will be re-linked to the record you selected."
+    merge_confirm_title: Merge into this record?
+    merge_subject_confirm_message: "The subject '%{source}' will have the select records merged into it. All select records will be deleted and any linked records will be re-linked to this subject."
+    merge_agent_confirm_message: "The agent '%{source}' will have the select records merged into it. All select records will be deleted and any linked records will be re-linked to this agent."
+    merge_resource_confirm_message: "The resource '%{source}' will have the select records merged into it. All select records will be deleted and any linked records will be re-linked to this resource." 
     move: Move
     move_up_a_level: Up a Level
     move_up: Up
@@ -303,7 +303,7 @@ en:
         created: Agent Created
         updated: Agent Saved
         deleted: Agent Deleted
-        merge_description: Merge this agent into...
+        merge_description: Merge into this agent...
         merged: Agent(s) Merged
         please_select_a_agent_to_merge: Please select an agent
       section:
@@ -430,7 +430,7 @@ en:
         updated: "Digital Object <strong>%{digital_object.title}</strong> Updated"
         deleted: "Digital Object <strong>%{digital_object.title}</strong> Deleted"
         published: "The Digital Object <strong>%{digital_object.title}</strong>, its subrecords and components have been published"
-        merge_description: Merge this digital object into...
+        merge_description: Merge into this digital object...
         please_select_a_digital_object_to_merge: Please select a digital object
         merged: Digital object(s) Merged
         transfer_description: Transfer this resource to...
@@ -658,7 +658,7 @@ en:
         spawned: "A new Resource has been spawned from Accession <strong>%{accession.display_string}</strong>"
         deleted: "Resource <strong>%{resource.title}</strong> deleted"
         published: "The Resource <strong>%{resource.title}</strong>, its subrecords and components have been published"
-        merge_description: Merge this resource into...
+        merge_description: Merge into this resource...
         please_select_a_resource_to_merge: Please select a resource
         merged: Resource(s) Merged
         transfer_description: Transfer this resource to...
@@ -703,7 +703,7 @@ en:
         updated: Subject Saved
         deleted: Subject Deleted
         merged: Subject(s) Merged
-        merge_description: Merge this subject into...
+        merge_description: Merge into this subject...
         please_select_a_subject_to_merge: Please select a subject
       section:
         basic_information: Basic Information

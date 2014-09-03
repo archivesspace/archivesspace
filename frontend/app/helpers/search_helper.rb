@@ -7,6 +7,10 @@ module SearchHelper
     search_params["filter_term"].concat(Array(opts["add_filter_term"])) if opts["add_filter_term"]
     search_params["filter_term"] = search_params["filter_term"].reject{|f| Array(opts["remove_filter_term"]).include?(f)} if opts["remove_filter_term"]
 
+    if params["multiplicity"]
+      search_params["multiplicity"] = params["multiplicity"] 
+    end
+
     sort = (opts["sort"] || params["sort"])
 
     # if the browse list was sorted by default

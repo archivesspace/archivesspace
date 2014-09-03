@@ -38,7 +38,7 @@
                                      :controller => :agents,
                                      :confirmation_title => I18n.t("actions.merge_confirm_title"),
                                      :confirmation_msg => I18n.t("actions.merge_agent_confirm_message",
-                                                                 :target => @agent.title)}
+                                                                 :source => @agent.title)}
               %>
             <% end %>
             <% if user_can?('delete_agent_record') %>

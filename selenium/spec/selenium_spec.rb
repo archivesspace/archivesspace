@@ -2502,7 +2502,16 @@ describe "ArchivesSpace user interface" do
 
       @modal.find_element(:css, ".btn.add-rows-dropdown").click
       #7.times { @modal.find_element(:css, ".add-rows-form input").send_keys(:arrow_up) } 
+      $driver.wait_for_ajax
       $driver.clear_and_send_keys([:css, ".add-rows-form input"], "9") 
+      
+      # this is stupid, but seems to be a flakey issue with Selenium,
+      # especailly when headless. The key is not being sent, so we'll try the 
+      # up arror method to add the rows. 
+      stupid = @modal.find_element(:css, ".add-rows-form input").attribute('value')
+      unless stupid == '9'  
+        9.times { @modal.find_element(:css, ".add-rows-form input").send_keys(:arrow_up) } 
+      end 
       $driver.wait_for_ajax
       @modal.find_element(:css, ".add-rows-form .btn.btn-primary").click
       $driver.wait_for_ajax
@@ -2748,6 +2757,14 @@ describe "ArchivesSpace user interface" do
       @modal.find_element(:css, ".btn.add-rows-dropdown").click
       # 8.times { @modal.find_element(:css, ".add-rows-form input").send_keys(:arrow_up) } 
       $driver.clear_and_send_keys([:css, ".add-rows-form input"], "9") 
+      
+      # this is stupid, but seems to be a flakey issue with Selenium,
+      # especailly when headless. The key is not being sent, so we'll try the 
+      # up arror method to add the rows. 
+      stupid = @modal.find_element(:css, ".add-rows-form input").attribute('value')
+      unless stupid == '9'  
+        9.times { @modal.find_element(:css, ".add-rows-form input").send_keys(:arrow_up) } 
+      end 
       @modal.find_element(:css, ".add-rows-form .btn.btn-primary").click
 
       # there should be 10 rows now :)

@@ -39,14 +39,14 @@ $(function () {
 
     $(".merge-form .merge-button").on("click", function(event) {
       var formvals = $(".merge-form").serializeObject();
-      if (!formvals["merge[ref]"]) {
+      if (!formvals["merge[ref][]"]) {
         $(".missing-ref-message", ".merge-form").show();
         event.preventDefault();
         event.stopImmediatePropagation();
         return false;
       } else {
         $(".missing-ref-message", ".merge-form").hide();
-        $(this).data("form-data", {"ref": formvals["merge[ref]"]});
+        $(this).data("form-data", {"refs": formvals["merge[ref][]"]});
       }
     });
   };

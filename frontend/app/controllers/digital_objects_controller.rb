@@ -121,8 +121,8 @@ class DigitalObjectsController < ApplicationController
 
 
   def merge
-    handle_merge(JSONModel(:digital_object).uri_for(params[:id]),
-                 params[:ref],
+    handle_merge(  params[:refs] ,
+                  JSONModel(:digital_object).uri_for(params[:id]),
                  'digital_object')
   end
 

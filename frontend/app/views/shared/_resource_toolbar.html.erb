@@ -53,10 +53,11 @@
             <%=
                 render_aspace_partial :partial => "shared/merge_dropdown",
                        :locals => {:record => record,
+                                   :multiplicity => "one",
                                    :controller => controller.controller_name,
                                    :confirmation_title => I18n.t("actions.merge_confirm_title"),
                                    :confirmation_msg => I18n.t("actions.merge_resource_confirm_message",
-                                                               :target => record.title)}
+                                                               :source => record.title)}
             %>
           <% end %>
           <% if user_can?('transfer_archival_record') %>
