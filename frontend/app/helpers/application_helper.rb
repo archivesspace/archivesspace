@@ -233,4 +233,8 @@ module ApplicationHelper
     MixedContentParser::parse(content.to_s, url_for(:root), { :wrap_blocks => false } )
   end
 
+  def proxy_localhost?
+    AppConfig[:public_proxy_url] =~ /localhost/
+  end
+
 end

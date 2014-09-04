@@ -120,4 +120,8 @@ module ApplicationHelper
     return render(defaults.merge(args))
   end
 
+  def proxy_localhost?
+    AppConfig[:frontend_proxy_url] =~ /localhost/
+  end
+
 end
