@@ -126,13 +126,17 @@ describe 'Export Mappings' do
 
 
   def build_linked_agents(agents)
-    agents.map{|ref, a| {
+    agents = agents.map{|ref, a| {
         :ref => ref,
         :role => (ref[-1].to_i % 2 == 0 ? 'creator' : 'subject'),
         :terms => [build(:json_term), build(:json_term)],
         :relator => (ref[-1].to_i % 4 == 0 ? generate(:relator) : nil)
       }
-    }.shuffle
+    }
+    # let's makes sure there's one agent a creator without and terms.
+    agents.find { |a| a[:role] == "creator" }[:terms] = []
+    agents.shuffle
+
   end
 
 
