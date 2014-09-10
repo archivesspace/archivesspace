@@ -571,6 +571,7 @@ class EADConverter < Converter
     make :name_corporate_entity, {
       :primary_name => inner_xml,
       :rules => att('rules'),
+      :authority_id => att('id'), 
       :source => att('source') || 'ingest'
     } do |name|
       set ancestor(:agent_corporate_entity), :names, proxy
@@ -588,6 +589,7 @@ class EADConverter < Converter
     make :name_family, {
       :family_name => inner_xml,
       :rules => att('rules'),
+      :authority_id => att('id'), 
       :source => att('source') || 'ingest'
     } do |name|
       set ancestor(:agent_family), :names, name
@@ -605,6 +607,7 @@ class EADConverter < Converter
     make :name_person, {
       :name_order => 'inverted',
       :primary_name => inner_xml,
+      :authority_id => att('id'), 
       :rules => att('rules'),
       :source => att('source') || 'ingest'
     } do |name|

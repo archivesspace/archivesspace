@@ -20,14 +20,14 @@ describe 'EAD converter' do
   <c id="2" level="file">
     <unittitle>whatever</unittitle>
     <container id="cid3" type="Box" label="Text">FOO</container>
+    <controlaccess><persname rules="dacs" source='local' id='thesame'>Art, Makah</persname></controlaccess>
   </c>
 </c>
 ANEAD
 
     get_tempfile_path(src)
   }
-
-
+  
   it "should be able to manage empty tags" do
     converter = EADConverter.new(test_doc_1)
     converter.run
@@ -35,6 +35,29 @@ ANEAD
 
     parsed.length.should eq(2)
     parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['container']['type_2'].should eq('Folder')
+  end
+
+  it "should be link to existing agents with authority_id" do
+  
+    json =    build( :json_agent_person,
+                     :names => [build(:json_name_person,
+                     'authority_id' => 'thesame',
+                     'source' => 'local'
+                     )])
+   
+    agent =    AgentPerson.create_from_json(json)
+    
+    converter = EADConverter.new(test_doc_1)
+    converter.run
+    parsed = JSON(IO.read(converter.get_output_path))
+   
+    # these lines are ripped out of StreamingImport
+    new_agent_json = parsed.find { |r| r['jsonmodel_type'] == 'agent_person' }
+    record = JSONModel(:agent_person).from_hash(new_agent_json, true, false)
+    new_agent = AgentPerson.ensure_exists(record, nil) 
+    
+
+    agent.should eq(new_agent)
   end
 
 
