@@ -230,6 +230,22 @@ describe 'Agent model' do
     }.to raise_error(Sequel::ValidationFailed)
   end
 
+  it "returns the existing agent if an name authority id is already in place " do
+    json =    build( :json_agent_person,
+                     :names => [build(:json_name_person,
+                     'authority_id' => 'thesame'
+                     )])
+    json2 =    build( :json_agent_person,
+                     :names => [build(:json_name_person,
+                     'authority_id' => 'thesame'
+                     )])
+   
+    a1 =    AgentPerson.create_from_json(json)
+    a2 =    AgentPerson.ensure_exists(json2, nil)
+    
+    a1.should eq(a2) # the names should still be the same as the first authority_id names 
+  end
+
 
   it "supports having a display name" do
     display_name = build(:json_name_person,

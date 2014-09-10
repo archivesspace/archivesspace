@@ -42,6 +42,24 @@ describe 'Agent model' do
      }.to raise_error(JSONModel::ValidationException)
   end
 
+  it "returns the existing agent if an name authority id is already in place " do
+    json =    build( :json_agent_software,
+                     :names => [build(:json_name_software,
+                     'authority_id' => 'thesame',
+                      'source' => "naf"
+
+                     )])
+    json2 =    build( :json_agent_software,
+                     :names => [build(:json_name_software,
+                     'authority_id' => 'thesame',
+                      'source' => "naf"
+                     )])
+   
+    a1 =    AgentSoftware.create_from_json(json)
+    a2 =    AgentSoftware.ensure_exists(json2, nil)
+    
+    a1.should eq(a2) # the names should still be the same as the first authority_id names 
+  end
 
   it "maintains a record that represents the ArchivesSpace application itself" do
     as_json = AgentSoftware.to_jsonmodel(AgentSoftware.archivesspace_record)

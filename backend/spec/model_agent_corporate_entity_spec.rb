@@ -51,4 +51,22 @@ describe 'Agent model' do
       agent = AgentCorporateEntity.create_from_json(build(:json_agent_corporate_entity, test_opts))
      }.to raise_error(JSONModel::ValidationException)
   end
+  
+  it "returns the existing agent if an name authority id is already in place " do
+    json =    build( :json_agent_corporate_entity,
+                     :names => [build(:json_name_corporate_entity,
+                     'authority_id' => 'thesame',
+                     'source' => 'naf'
+                                     )])
+    json2 =    build( :json_agent_corporate_entity,
+                     :names => [build(:json_name_corporate_entity,
+                     'authority_id' => 'thesame',
+                     'source' => 'naf'
+                     )])
+    a1 = AgentCorporateEntity.create_from_json(json)
+    a2 = AgentCorporateEntity.ensure_exists(json2, nil)
+    
+    a1.should eq(a2) # the names should still be the same as the first authority_id names 
+  end
+
 end

@@ -56,4 +56,25 @@ describe 'Agent Family model' do
       agent = AgentFamily.create_from_json(build(:json_agent_family, test_opts))
      }.to raise_error(JSONModel::ValidationException)
   end
+
+  it "returns the existing agent if an name authority id is already in place " do
+    json =    build( :json_agent_family,
+                     :names => [build(:json_name_family,
+                     'authority_id' => 'thesame',
+                     'source' => 'naf'
+                     )])
+    json2 =    build( :json_agent_family,
+                     :names => [build(:json_name_family,
+                     'authority_id' => 'thesame',
+                     'source' => 'naf'
+                     )])
+   
+    a1 =    AgentFamily.create_from_json(json)
+    a2 =    AgentFamily.ensure_exists(json2, nil)
+    
+    a1.should eq(a2) # the names should still be the same as the first authority_id names 
+  end
+
+
+
 end
