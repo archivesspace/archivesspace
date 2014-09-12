@@ -6,6 +6,7 @@ describe 'Subject model' do
     @count += 1
     Term.create_from_json(JSONModel(:term).
                           from_hash({
+                                      'source' => 'local',
                                       "term" => "test#{Time.now.to_i}_#{@count}",
                                       "term_type" => "cultural_context",
                                       "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
@@ -30,7 +31,8 @@ describe 'Subject model' do
     term_id = createTerm.id
     subject = Subject.create_from_json(JSONModel(:subject).
                                        from_hash({
-                                                   "terms" => [
+                                                    "source" => 'local', 
+                                                    "terms" => [
                                                                JSONModel(:term).uri_for(term_id)
                                                               ],
                                                    "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
@@ -46,7 +48,7 @@ describe 'Subject model' do
     term_id_2 = createTerm.id
     term_id_3 = createTerm.id
     subject = Subject.create_from_json(JSONModel(:subject).
-                                       from_hash({
+                                       from_hash({ 'source' => 'local',
                                                    "terms" => [
                                                                JSONModel(:term).uri_for(term_id_0),
                                                                JSONModel(:term).uri_for(term_id_1),
@@ -110,7 +112,7 @@ describe 'Subject model' do
     term_id_1 = createTerm
 
     subject = Subject.create_from_json(JSONModel(:subject).
-                                         from_hash({
+                                         from_hash({ 'source' => 'local',
                                                      "terms" => [
                                                        JSONModel(:term).uri_for(term_id_0.id),
                                                        JSONModel(:term).uri_for(term_id_1.id)

@@ -73,7 +73,9 @@ describe 'Vocabulary controller' do
     id = create_vocabulary
     vocab_uri = JSONModel(:vocabulary).uri_for(id)
 
-    subject = JSONModel(:subject).from_hash("terms" => [{
+    subject = JSONModel(:subject).from_hash(
+                                            "source" => "local", 
+                                            "terms" => [{
                                                           "term" => "1981 Heroes",
                                                           "term_type" => "cultural_context",
                                                           "vocabulary" => vocab_uri

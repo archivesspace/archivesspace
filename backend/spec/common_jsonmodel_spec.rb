@@ -377,7 +377,9 @@ describe 'JSON model' do
 
   it "reports errors correctly for simple errors too" do
     begin
-      JSONModel(:subject).from_hash({"vocabulary" => "/vocabularies/1",
+      JSONModel(:subject).from_hash({
+                                      "source" => "local", 
+                                      "vocabulary" => "/vocabularies/1",
                                       "terms" => [{
                                                     "term" => "",
                                                     "term_type" => "cultural_context",
