@@ -175,9 +175,9 @@ describe 'Export Mappings' do
           raise Sequel::Rollback
         end
       end
-      if @doc.errors.length > 0
+#      if @doc.errors.length > 0
         File.open('/tmp/out.txt', 'a') { |f| f <<  @doc.to_xml + "\n" + @doc.errors.inspect + "\n" + "*" * 100 }
-      end
+#      end
       
       @doc.errors.length.should == 0 
     end
@@ -231,8 +231,13 @@ describe 'Export Mappings' do
             content = Nokogiri::XML::DocumentFragment.parse(note_content(note)).inner_text
             path = "#{desc_path}/#{note['type']}"
             path += id ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
-
-            mt(id, path, 'id')
+            
+            if !note['persistent_id'].nil?
+              mt(id, path, 'id')
+            else
+              mt(nil, path, 'id')
+            end
+            
             mt(head_text, "#{path}/head")
             mt(/^.*?#{head_text}.*?[\r\n]*.*?#{content}.*?$/, "#{path}")
           end
@@ -265,7 +270,12 @@ describe 'Export Mappings' do
             path = "bibliography"
             path += id ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
             full_path = "#{desc_path}/#{path}"
-            mt(id, full_path, 'id')
+            
+            if !note['persistent_id'].nil? 
+              mt(id, full_path, 'id')
+            else
+              mt(nil, full_path, 'id')
+            end
             mt(head_text, "#{full_path}/head")
             mt(content, "./#{path}/text()[contains('#{content}')]")
 
@@ -284,7 +294,12 @@ describe 'Export Mappings' do
             path = "index"
             path += id ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
             full_path = "#{desc_path}/#{path}"
-            mt(id, full_path, 'id')
+            if note['persistent_id'] 
+              mt(id, full_path, 'id')
+            else
+              mt(nil, full_path, 'id')
+            end
+            
             mt(head_text, "#{full_path}/head")
             mt(content, "./#{path}/text()[contains( '#{content}')]")
 
@@ -310,7 +325,7 @@ describe 'Export Mappings' do
             content = note_content(note)
             id = "aspace_" + note['persistent_id']
             path = "#{desc_path}/#{note['type']}"
-            path += id ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
+            path += note['persistent_id'] ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
           }
         }
 
@@ -486,7 +501,11 @@ describe 'Export Mappings' do
           notes.select {|n| n['type'] == 'abstract'}.each_with_index do |note, i|
             path = "#{desc_path}/did/abstract[#{i+1}]"
             mt(note_content(note), path)
-            mt("aspace_" + note['persistent_id'], path, "id")
+            if note['persistent_id'] 
+              mt("aspace_" + note['persistent_id'], path, "id")
+            else 
+              mt(nil, path, "id")
+            end 
           end
         end
 
@@ -495,8 +514,12 @@ describe 'Export Mappings' do
           notes.select {|n| n['type'] == 'dimensions'}.each_with_index do |note, i|
             path = "#{desc_path}/did/physdesc[dimensions][#{i+1}]/dimensions"
             mt(note_content(note), path, :markup)
-            mt("aspace_" + note['persistent_id'], path, "id")
-          end
+            if note['persistent_id'] 
+              mt("aspace_" + note['persistent_id'], path, "id")
+            else 
+              mt(nil, path, "id")
+            end
+          end 
         end
 
 
@@ -504,7 +527,11 @@ describe 'Export Mappings' do
           notes.select {|n| n['type'] == 'physdesc'}.each do |note|
             content = note_content(note)
             path = "#{desc_path}/did/physdesc[text()='#{content}']"
-            mt("aspace_" + note['persistent_id'], path, "id")
+            if note['persistent_id'] 
+              mt("aspace_" + note['persistent_id'], path, "id")
+            else 
+              mt(nil, path, "id")
+            end
           end
         end
 
@@ -513,7 +540,11 @@ describe 'Export Mappings' do
           notes.select {|n| n['type'] == 'langmaterial'}.each_with_index do |note, i|
             content = note_content(note)
             path = "#{desc_path}/did/langmaterial[text()='#{content}']"
-            mt("aspace_" + note['persistent_id'], path, "id")
+            if note['persistent_id'] 
+              mt("aspace_" + note['persistent_id'], path, "id")
+            else 
+              mt(nil, path, "id")
+            end
           end
         end
 
@@ -522,7 +553,11 @@ describe 'Export Mappings' do
           notes.select {|n| n['type'] == 'physloc'}.each_with_index do |note, i|
             path = "#{desc_path}/did/physloc[#{i+1}]"
             mt(note_content(note), path)
-            mt("aspace_" + note['persistent_id'], path, "id")
+            if note['persistent_id'] 
+              mt("aspace_" + note['persistent_id'], path, "id")
+            else 
+              mt(nil, path, "id")
+            end
           end
         end
 
@@ -531,7 +566,11 @@ describe 'Export Mappings' do
           notes.select {|n| n['type'] == 'materialspec'}.each_with_index do |note, i|
             path = "#{desc_path}/did/materialspec[#{i+1}]"
             mt(note_content(note), path)
-            mt("aspace_" + note['persistent_id'], path, "id")
+            if !note['persistent_id'].nil? 
+              mt("aspace_" + note['persistent_id'], path, "id")
+            else 
+              mt(nil, path, "id")
+            end
           end
         end
 
@@ -540,7 +579,11 @@ describe 'Export Mappings' do
           notes.select {|n| n['type'] == 'physfacet'}.each_with_index do |note, i|
             path = "#{desc_path}/did/physdesc[physfacet][#{i+1}]/physfacet"
             mt(note_content(note), path)
-            mt("aspace_" + note['persistent_id'], path, "id")
+            if !note['persistent_id'].nil? 
+              mt("aspace_" + note['persistent_id'], path, "id")
+            else 
+              mt(nil, path, "id")
+            end
           end
         end
       end

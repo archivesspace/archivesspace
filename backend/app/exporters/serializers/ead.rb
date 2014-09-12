@@ -4,6 +4,16 @@ require 'securerandom'
 class EADSerializer < ASpaceExport::Serializer
   serializer_for :ead
 
+
+  def prefix_id(id)
+    if id.nil? or id.empty? or id == 'null'
+      ""
+    else 
+      "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{id}"
+    end 
+  end
+  
+  
   def sanitize_mixed_content(content, context, fragments)
     blocks = content.split("\n")
     if blocks.length > 1
@@ -138,8 +148,7 @@ class EADSerializer < ASpaceExport::Serializer
 
     tag_name = @use_numbered_c_tags ? :"c#{c_depth.to_s.rjust(2, '0')}" : :c
 
-    prefixed_ref_id = "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{data.ref_id}"
-    atts = {:level => data.level, :otherlevel => data.other_level, :id => prefixed_ref_id}
+    atts = {:level => data.level, :otherlevel => data.other_level, :id => prefix_id(data.ref_id)}
 
     if data.publish === false
       atts[:audience] = 'internal'
@@ -383,8 +392,9 @@ class EADSerializer < ASpaceExport::Serializer
 
       audatt = note["publish"] === false ? {:audience => 'internal'} : {}
       content = ASpaceExport::Utils.extract_note_text(note, @include_unpublished)
-      prefixed_ref_id = "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{note['persistent_id']}"
-      att = prefixed_ref_id ? {:id => prefixed_ref_id} : {}
+
+      att = { :id => prefix_id(note['persistent_id']) }.reject {|k,v| v.nil? || v.empty? || v == "null" } 
+      att ||= {}
 
       case note['type']
       when 'dimensions', 'physfacet'
@@ -405,8 +415,9 @@ class EADSerializer < ASpaceExport::Serializer
     return if note["publish"] === false && !@include_unpublished
     audatt = note["publish"] === false ? {:audience => 'internal'} : {}
     content = ASpaceExport::Utils.extract_note_text(note, @include_unpublished)
-    prefixed_ref_id = "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{note['persistent_id']}"
-    atts = {:id => prefixed_ref_id }.reject{|k,v| v.nil? || v.empty?}.merge(audatt)
+
+    atts = {:id => prefix_id(note['persistent_id']) }.reject{|k,v| v.nil? || v.empty? || v == "null" }.merge(audatt)
+    
     head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note['type']}", :default => note['type'])
     content, head_text = extract_head_text(content, head_text) 
     xml.send(note['type'], atts) {
@@ -443,8 +454,8 @@ class EADSerializer < ASpaceExport::Serializer
       content = ASpaceExport::Utils.extract_note_text(note, @include_unpublished)
       head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note['type']}")
       audatt = note["publish"] === false ? {:audience => 'internal'} : {}
-      prefixed_ref_id = "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{note['persistent_id']}"
-      atts = {:id => prefixed_ref_id }.reject{|k,v| v.nil? || v.empty?}.merge(audatt)
+      
+      atts = {:id => prefix_id(note['persistent_id']) }.reject{|k,v| v.nil? || v.empty? || v == "null" }.merge(audatt)
 
       xml.bibliography(atts) {
         xml.head { sanitize_mixed_content(head_text, xml, fragments) } 
@@ -468,8 +479,7 @@ class EADSerializer < ASpaceExport::Serializer
       elsif note['type']
         head_text = I18n.t("enumerations._note_types.#{note['type']}", :default => note['type'])
       end
-      prefixed_ref_id = "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{note['persistent_id']}"
-      atts = {:id => prefixed_ref_id }.reject{|k,v| v.nil? || v.empty?}.merge(audatt)
+      atts = {:id => prefix_id(note["persistent_id"]) }.reject{|k,v| v.nil? || v.empty? || v == "null" }.merge(audatt)
 
       content, head_text = extract_head_text(content, head_text) 
       xml.index(atts) {
@@ -499,13 +509,13 @@ class EADSerializer < ASpaceExport::Serializer
                       :repositoryencoding => "iso15511",
                       :countryencoding => "iso3166-1",
                       :dateencoding => "iso8601",
-                      :langencoding => "iso639-2b"}.reject{|k,v| v.nil? || v.empty?}
+                      :langencoding => "iso639-2b"}.reject{|k,v| v.nil? || v.empty? || v == "null"}
 
     xml.eadheader(eadheader_atts) {
 
       eadid_atts = {:countrycode => data.repo.country,
               :url => data.ead_location,
-              :mainagencycode => data.mainagencycode}.reject{|k,v| v.nil? || v.empty?}
+              :mainagencycode => data.mainagencycode}.reject{|k,v| v.nil? || v.empty? || v == "null" }
 
       xml.eadid(eadid_atts) {
         xml.text data.ead_id
