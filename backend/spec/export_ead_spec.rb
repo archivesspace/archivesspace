@@ -228,13 +228,13 @@ describe 'Export Mappings' do
           object.notes.select{|n| archdesc_note_types.include?(n['type'])}.each do |note|
             head_text = note['label'] ? note['label'] : translate('enumerations._note_types', note['type'])
             id = "aspace_" + note['persistent_id']
-            content = Nokogiri::XML::DocumentFragment.parse(note_content(note)).text
+            content = Nokogiri::XML::DocumentFragment.parse(note_content(note)).inner_text
             path = "#{desc_path}/#{note['type']}"
             path += id ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
 
             mt(id, path, 'id')
             mt(head_text, "#{path}/head")
-            mt(head_text << "\n" << content, "#{path}")
+            mt(/^.*?#{head_text}.*?[\r\n]*.*?#{content}.*?$/, "#{path}")
           end
         end
       end

@@ -33,7 +33,7 @@ ANEAD
     converter.run
     parsed = JSON(IO.read(converter.get_output_path))
 
-    parsed.length.should eq(2)
+    parsed.length.should eq(3)
     parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['container']['type_2'].should eq('Folder')
   end
 
