@@ -180,9 +180,9 @@ class ResourcesController < ApplicationController
 
 
   def merge
-    handle_merge(JSONModel(:resource).uri_for(params[:id]),
-                 params[:ref],
-                 'resource')
+    handle_merge( params[:refs], 
+                  JSONModel(:resource).uri_for(params[:id]),
+                  'resource')
   end
 
 

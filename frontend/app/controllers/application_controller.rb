@@ -126,10 +126,10 @@ class ApplicationController < ActionController::Base
   end
 
 
-  def handle_merge(victim_uri, target_uri, merge_type, extra_params = {})
+  def handle_merge(victims, target_uri, merge_type, extra_params = {})
     request = JSONModel(:merge_request).new
     request.target = {'ref' => target_uri}
-    request.victims = [{'ref' => victim_uri}]
+    request.victims = victims.map { |victim| { 'ref' => victim  } }
 
     begin
       request.save(:record_type => merge_type)

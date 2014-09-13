@@ -456,7 +456,14 @@ $.fn.serializeObject = function() {
     } else {
       // NOTE: THIS DOESN'T WORK FOR RADIO ELEMENTS (YET)
       $(":input", this).each(function() {
-        o[this.name] = $(this).val();
+        if (o[this.name] !== undefined) {
+          if (!o[this.name].push) {
+            o[this.name] = [o[this.name]];
+          }
+          o[this.name].push($(this).val() || '');
+        } else {
+          o[this.name] = $(this).val() || '';
+        }
       });
     }
 
