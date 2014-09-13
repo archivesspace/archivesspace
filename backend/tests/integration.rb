@@ -158,6 +158,7 @@ def run_tests(opts)
 
   puts "Create a subject with no terms"
   r = do_post({
+                :source => "local", 
                 :terms => [],
                 :vocabulary => "/vocabularies/1"
               }.to_json,
@@ -167,7 +168,8 @@ def run_tests(opts)
 
   puts "Create a subject"
   r = do_post({
-                :terms => [
+                :source => "local", 
+                  :terms => [
                            :term => "Some term #{$me}",
                            :term_type => "function",
                            :vocabulary => "/vocabularies/1"

@@ -358,6 +358,10 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link => 'Create').click
       $driver.find_element(:link => 'Subject').click
       $driver.find_element(:css => "form #subject_terms_ button").click 
+      
+      $driver.find_element(:id => "subject_source_").select_option("local")
+      
+      
       $driver.clear_and_send_keys([:id, "subject_terms__0__term_"], "just a term really #{now}")
       $driver.clear_and_send_keys([:id, "subject_terms__1__term_"], "really")
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
@@ -369,6 +373,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link => 'Create').click
       $driver.find_element(:link => 'Subject').click
       $driver.find_element(:css => "form #subject_terms_ button").click 
+      $driver.find_element(:id => "subject_source_").select_option("local")
       $driver.clear_and_send_keys([:id, "subject_terms__0__term_"], "first")
       $driver.clear_and_send_keys([:id, "subject_terms__1__term_"], "second")
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
@@ -408,6 +413,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link => 'Subject').click
 
       $driver.clear_and_send_keys([:id, "subject_terms__0__term_"], "My First New Term #{now}")
+      $driver.find_element(:id => "subject_source_").select_option("local")
       $driver.find_element(:css => "form #createPlusOne").click
 
       $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Subject Created/)
@@ -965,6 +971,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id => "subject_terms__0__term_"], "#{@me}AccessionTermABC")
       $driver.clear_and_send_keys([:id => "subject_terms__1__term_"], "#{@me}AccessionTermDEF")
+      $driver.find_element(:id => "subject_source_").select_option("local")
 
       $driver.find_element(:id, "createAndLinkButton").click
 
@@ -1553,6 +1560,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id => "subject_terms__0__term_"], "#{$$}TestTerm123")
       $driver.clear_and_send_keys([:id => "subject_terms__1__term_"], "#{$$}FooTerm456")
+      $driver.find_element(:id => "subject_source_").select_option("local")
 
       $driver.find_element(:id, "createAndLinkButton").click
     end

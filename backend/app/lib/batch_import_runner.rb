@@ -100,12 +100,12 @@ class BatchImportRunner
       ticker.log("!" * 50 ) 
       ticker.log("\nIMPORT ERROR:\n") 
       ticker.log("!" * 50 ) 
-      
       if  last_error.respond_to?(:errors)
+        File.open("/tmp/out.hash", "w") { |f| f << last_error.invalid_object.to_hash(:trusted )} 
         ticker.log("#{last_error}") if last_error.errors.empty? # just spit it out if there's not explicit errors
         ticker.log("The following errors were found:\n") 
         last_error.errors.each_pair { |k,v| ticker.log("\t#{k.to_s} : #{v.join(' -- ')}" ) }
-        ticker.log("\n\n For #{ last_error.object_context.class }: \n #{ last_error.object_context  }") unless last_error.object_context.nil? 
+        ticker.log("\n\n For #{ last_error.invalid_object.class }: \n #{ last_error.invalid_object.inspect  }") unless last_error.invalid_object.nil? 
         ticker.log("\n\nIn : \n #{ CGI.escapeHTML( last_error.import_context ) } ") if last_error.import_context
         ticker.log("\n\n\n\n") 
       else

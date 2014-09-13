@@ -562,6 +562,7 @@ class EADConverter < Converter
   # Templates Section
 
   def make_corp_template(opts)
+    return nil if inner_xml.strip.empty? 
     make :agent_corporate_entity, {
       :agent_type => 'agent_corporate_entity'
     } do |corp|
@@ -580,6 +581,7 @@ class EADConverter < Converter
 
 
   def make_family_template(opts)
+    return nil if inner_xml.strip.empty? 
     make :agent_family, {
       :agent_type => 'agent_family',
     } do |family|
@@ -598,6 +600,7 @@ class EADConverter < Converter
 
 
   def make_person_template(opts)
+    return nil if inner_xml.strip.empty? 
     make :agent_person, {
       :agent_type => 'agent_person',
     } do |person|

@@ -95,7 +95,6 @@ module ASpaceImport
         hash = obj.to_hash
       rescue JSONModel::ValidationException => e
         e.import_context = obj["import_context"] 
-        e.object_context = obj 
         raise e
       end
 
