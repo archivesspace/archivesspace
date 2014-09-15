@@ -30,6 +30,17 @@ describe 'Repository model' do
   it "can transfer all records from one repository into another" do
     destination = make_test_repo("destination")
     source = make_test_repo("source")
+    user_id = User[:username => RequestContext.get(:current_username)].id
+    
+    RequestContext.open(:repo_id => destination) do
+      Preference.create_from_json(build(:json_preference),
+                                  :user_id => user_id)
+    end
+    
+    RequestContext.open(:repo_id => source) do
+      Preference.create_from_json(build(:json_preference),
+                                  :user_id => user_id)
+    end
 
     records = []
     records << [Accession, create(:json_accession).id]

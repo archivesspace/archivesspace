@@ -99,7 +99,7 @@ class Repository < Sequel::Model(:repository)
   def assimilate(other_repository)
     ASModel.all_models.each do |model|
       if model.model_scope(true) == :repository
-        model.transfer_all(other_repository, self)
+        model.transfer_all(other_repository, self) unless [ Preference ].include?(model)
       end
     end
   end
