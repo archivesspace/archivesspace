@@ -222,7 +222,8 @@ class Solr
       end
 
       url = @solr_url
-      url.path = "/select"
+      # retain path if present i.e. "solr/aspace/select" when using an external Solr with path required
+      url.path += "/select"
       url.query = URI.encode_www_form([[:q, @query_string],
                                        [:wt, @writer_type],
                                        [:start, (@pagination[:page] - 1) * @pagination[:page_size]],

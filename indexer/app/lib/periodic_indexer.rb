@@ -107,7 +107,7 @@ class PeriodicIndexer < CommonIndexer
     return if resource_uris.empty?
 
     resource_uris.each_slice(512) do |resource_uris|
-      req = Net::HTTP::Post.new("/update")
+      req = Net::HTTP::Post.new("#{solr_url.path}/update")
       req['Content-Type'] = 'application/json'
 
       escaped = resource_uris.map {|s| "\"#{s}\""}
