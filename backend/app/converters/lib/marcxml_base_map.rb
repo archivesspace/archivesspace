@@ -389,9 +389,19 @@ module MarcXMLBaseMap
 
   def sets_use_date_from_code_d
     Proc.new {|name, node|
+      date_begin, date_end = nil
+      date_type = 'single'
+      
+      if  node.inner_text.strip =~ /^([0-9]{4})-([0-9]{4})$/
+        date_begin,date_end = node.inner_text.strip.split("-")  
+        date_type = "range"
+      end
+      
       make(:date) do |date|
         date.label = 'other'
-        date.date_type = 'single'
+        date.date_type = date_type
+        date.begin = date_begin
+        date.end = date_end
         date.expression = node.inner_text
         name.use_dates << date
       end

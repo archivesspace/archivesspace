@@ -341,6 +341,9 @@ END
       new_record['names'][0]['primary_name'].should eq("Davis")
       new_record['names'][0]['rest_of_name'].should eq("John W.")
       new_record['names'][0]['use_dates'][0]['expression'].should eq("1873-1955")
+      new_record['names'][0]['use_dates'][0]['date_type'].should eq("range")
+      new_record['names'][0]['use_dates'][0]['begin'].should eq("1873")
+      new_record['names'][0]['use_dates'][0]['end'].should eq("1955")
 
       # Unauthorized names are added too
       new_record['names'][1]['primary_name'].should eq("Davis")
