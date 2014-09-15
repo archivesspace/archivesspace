@@ -125,4 +125,22 @@ describe 'User model' do
     user.permissions[Repository.GLOBAL].sort.should eq(["update_location_record"])
   end
 
+  it "can delete a user even if it has preferences and import jobs" do
+
+    group = Group.create_from_json(build(:json_group), :repo_id => $repo_id)
+    new_user = create(:user)
+
+    new_user.add_to_groups(group)
+    json = build(:json_import_job)
+    ImportJob.create_from_json(json, :repo_id => $repo_id, :user => new_user)
+  
+    RequestContext.open(:repo_id => Repository.global_repo_id) do
+      Preference.create_from_json(build(:json_preference, :user_id => new_user.id))
+    end
+
+    new_user.delete
+
+  end
+
+
 end

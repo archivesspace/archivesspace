@@ -228,7 +228,9 @@ class User < Sequel::Model(:user)
     raise AccessDeniedException.new("Can't delete system user") if self.is_system_user == 1
 
     DBAuth.delete_user(self.username)
-
+   
+    ImportJob.filter(:owner_id => self.id).delete
+    Preference.filter(:user_id => self.id).delete
     self.remove_all_group
 
     super
