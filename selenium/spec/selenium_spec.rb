@@ -2138,6 +2138,16 @@ describe "ArchivesSpace user interface" do
 
    end
 
+   it "doesn't allow you to edit the user short names" do
+      login("admin", "admin")
+      $driver.find_element(:link, 'System').click
+      $driver.find_element(:link, "Manage Users").click
+      $driver.find_element( :xpath => "//td[contains(text(), 'admin')]/following-sibling::td/div/a").click
+      $driver.find_element(:id, "user_username_").attribute("readonly").should eq("true")
+   end
+
+
+
   end
 
 
