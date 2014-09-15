@@ -1,5 +1,10 @@
 $(function() {
   AS.mixedContentElements = {
+      "language": {
+        "tag": "language",
+        "attributes": [],
+        "exclude": ["langmaterial"]
+      },
       "blockquote": {
         "tag": "blockquote",
         "attributes": [],
@@ -33,30 +38,24 @@ $(function() {
       "corpname": {
         "tag": "corpname",
         "attributes": ["rules", "role", "source"],
-        "exclude": ["abstract", "accruals", "appraisal", "arrangement", "note_bibliography", "bioghist", "accessrestrict", "userestrict", "custodhist", "dimensions", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "legalstatus", "otherfindaid", "phystech", "prefercite", "processinfo", "relatedmaterial", "scopecontent", "separatedmaterial" , "note_index", "langmaterial", "materialspec", "physloc"]
-      },
-      "p": {
-        "tag": "p",
-        "attributes": [],
-        "elements": ["emph"],
-        "exclude": ["abstract", "dimensions", "legalstatus", "langmaterial", "materialspec", "physdesc", "physfacet", "physloc"]
+        "exclude": ["abstract", "accruals", 'acqinfo', "appraisal", "arrangement", "note_bibliography", "bioghist", "accessrestrict", "userestrict", "custodhist", "dimensions", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "legalstatus", "otherfindaid", "phystech", "prefercite", "processinfo", "relatedmaterial", "scopecontent", "separatedmaterial" , "note_index", "langmaterial", "materialspec", "physloc"]
       },
       "persname": {
         "tag": "persname",
         "attributes": ["rules", "role", "source"],
-        "exclude": ["abstract", "accruals", "appraisal", "arrangement", "note_bibliography", "bioghist", "accessrestrict", "userestrict", "custodhist", "dimensions", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "legalstatus", "otherfindaid", "phystech", "prefercite", "processinfo", "relatedmaterial", "scopecontent" , "separatedmaterial", "note_index", "langmaterial", "materialspec", "physloc"]
+        "exclude": ["abstract", "accruals", "appraisal", "acqinfo", "arrangement", "note_bibliography", "bioghist", "accessrestrict", "userestrict", "custodhist", "dimensions", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "legalstatus", "otherfindaid", "phystech", "prefercite", "processinfo", "relatedmaterial", "scopecontent" , "separatedmaterial", "note_index", "langmaterial", "materialspec", "physloc"]
 
       },
       "famname": {
         "tag": "famname",
         "attributes": ["rules", "role", "source"],
-        "exclude": ["abstract", "accruals", "appraisal", "arrangement", "note_bibliography", "bioghist", "accessrestrict", "userestrict", "custodhist", "dimensions", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "legalstatus", "otherfindaid", "phystech", "prefercite", "processinfo", "relatedmaterial", "scopecontent" , "separatedmaterial", "note_index", "langmaterial", "materialspec", "physloc"]
+        "exclude": ["abstract", "accruals", "appraisal", 'acqinfo', "arrangement", "note_bibliography", "bioghist", "accessrestrict", "userestrict", "custodhist", "dimensions", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "legalstatus", "otherfindaid", "phystech", "prefercite", "processinfo", "relatedmaterial", "scopecontent" , "separatedmaterial", "note_index", "langmaterial", "materialspec", "physloc"]
 
       },
       "name": {
         "tag": "name",
         "attributes": ["rules", "role", "source"],
-        "exclude": ["abstract", "accruals", "appraisal", "arrangement", "note_bibliography", "bioghist", "accessrestrict", "userestrict", "custodhist", "dimensions", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "legalstatus", "otherfindaid", "phystech", "prefercite", "processinfo", "relatedmaterial", "scopecontent" , "separatedmaterial", "note_index", "langmaterial", "materialspec", "physloc"]
+        "exclude": ["abstract", "accruals", "acqinfo", "appraisal", "arrangement", "note_bibliography", "bioghist", "accessrestrict", "userestrict", "custodhist", "dimensions", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "legalstatus", "otherfindaid", "phystech", "prefercite", "processinfo", "relatedmaterial", "scopecontent" , "separatedmaterial", "note_index", "langmaterial", "materialspec", "physloc"]
 
       },
       "geogname": {
@@ -87,10 +86,5 @@ $(function() {
         "exclude": ["abstract", "accruals", "appraisal", "arrangement", "bioghist", "accessrestrict", "userestrict", "custodhist", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "legalstatus", "phystech", "prefercite", "processinfo", "scopecontent" , "separatedmaterial", "note_index"]
 
       },
-      "lb": {
-        "tag": "lb",
-        "attributes": [],
-        "exclude": [ "accruals", "appraisal", "arrangement", "note_bibliography", "bioghist", "accessrestrict", "userestrict", "custodhist", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "otherfindaid", "phystech", "prefercite", "processinfo", "relatedmaterial", "scopecontent", "separatedmaterial", "note_index" , "langmaterial", "materialspec"]
-      }
     };
 });
