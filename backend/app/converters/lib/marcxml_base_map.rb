@@ -768,7 +768,7 @@ module MarcXMLBaseMap
                                             |),
 
         # 500s
-        "datafield[@tag='500']" => multipart_note('accessrestrict', 'General Note', "{$3: }{$a}"),
+        "datafield[@tag='500']" => multipart_note('odd', 'General Note', "{$3: }{$a}"),
 
         "datafield[@tag='501']" => multipart_note('odd', 'With Note', "{$a}"),
 

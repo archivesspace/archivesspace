@@ -270,6 +270,7 @@ END
 
       it "maps datafield[@tag='500'] to resource.notes[] using template '$3: $a'" do
         note_content(@notes[5]).should eq('Material Specific Details:Resource-MaterialSpecificDetails-AT')
+        @notes[5]['type'].should eq('odd') 
       end
       
       it "maps datafield[@tag='505'] to resource.notes[] using template '$a'" do
