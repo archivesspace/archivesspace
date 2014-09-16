@@ -5,8 +5,8 @@
     "type" => "object",
     "properties" => {
 
-      "type_1" => {"type" => "string", "ifmissing" => "error", "dynamic_enum" => "container_type"},
-      "indicator_1" => {"type" => "string", "maxLength" => 255, "minLength" => 1, "ifmissing" => "error"},
+      "type_1" => {"type" => "string", "dynamic_enum" => "container_type", "required" => false},
+      "indicator_1" => {"type" => "string", "maxLength" => 255, "minLength" => 1, "required" => false },
       "barcode_1" => {"type" => "string", "maxLength" => 255, "minLength" => 1},
 
       "type_2" => {"type" => "string", "dynamic_enum" => "container_type"},

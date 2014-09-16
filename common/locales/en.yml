@@ -1808,7 +1808,7 @@ en:
     location_must_be_unique_within_a_record: Must be unique within a record
     location_cannot_be_deleted_if_linked: Location Record is currently linked to one or more Instance records and cannot be deleted. Please link these instances to new locations before deleting the location record.
     authority_id_must_be_unique: Authority ID is already in use
-
+    either_type_1_or_barcode_is_required: A container must contain Container 1 Type or Barcode. 
   job:
     _singular: Import Job
     _plural: Import Jobs

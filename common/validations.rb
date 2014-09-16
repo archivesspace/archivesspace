@@ -219,6 +219,13 @@ module JSONModel::Validations
   def self.check_container(hash)
     errors = []
     got_current = false
+    
+    required_container_fields = [["barcode_1"],
+                                ["type_1", "indicator_1"]]
+
+    if !required_container_fields.any? { |fieldset| fieldset.all? {|field| hash[field]} }
+      errors << [ :container_fields_error, "either type_1 or barcode is required" ]
+    end
 
     if !hash["container_extent_number"].nil? and hash["container_extent_number"] !~ /^\-?\d{0,9}(\.\d{1,5})?$/
       errors << ["container_extent", "must be a number with no more than nine digits and five decimal places"]
