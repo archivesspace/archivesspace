@@ -66,6 +66,9 @@
         <datafield tag="500" ind2=" " ind1=" ">
             <subfield code="a">Materials Separated from the Resource: Resource-SeparatedMaterials-AT</subfield>
         </datafield>
+        <datafield tag="505" ind2=" " ind1=" ">
+          <subfield code="a">CumulativeIndexFindingAidsNote-AT</subfield>
+        </datafield>
         <datafield tag="506" ind2=" " ind1=" ">
             <subfield code="a">Resource-ConditionsGoverningAccess-AT</subfield>
         </datafield>

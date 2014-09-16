@@ -271,47 +271,51 @@ END
       it "maps datafield[@tag='500'] to resource.notes[] using template '$3: $a'" do
         note_content(@notes[5]).should eq('Material Specific Details:Resource-MaterialSpecificDetails-AT')
       end
+      
+      it "maps datafield[@tag='505'] to resource.notes[] using template '$a'" do
+        note_content(@notes[11]).should eq('CumulativeIndexFindingAidsNote-AT')
+      end
 
-      it "maps datafield[@tag='506'] to resource.notes[] using template '$3: $a, $b, $c, $d, $e, $u.'" do
-        note_content(@notes[11]).should eq('Resource-ConditionsGoverningAccess-AT.')
+      it "maps datafield[@tag='506'] to resource.notes[] using template '$a'" do
+        note_content(@notes[12]).should eq('Resource-ConditionsGoverningAccess-AT.')
       end
 
       it "maps datafield[@tag='520'] to resource.notes[] using template '$3:  $a. ($u) [line break] $b.'" do
-        note_content(@notes[12]).should eq('Resource-Abstract-AT.')
-        @notes[12]['label'].should eq("Summary")
+        note_content(@notes[13]).should eq('Resource-Abstract-AT.')
+        @notes[13]['label'].should eq("Summary")
       end
 
       it "maps datafield[@tag='524'] to resource.notes[] using template '$3: $a. $2.'" do
-        note_content(@notes[14]).should eq('Resource-PreferredCitation-AT.')
+        note_content(@notes[15]).should eq('Resource-PreferredCitation-AT.')
       end
 
       it "maps datafield[@tag='535'] to resource.notes[] using template 'Indicator 1 [Holder of originals | Holder of duplicates]: $3--$a. $b, $c. $d ($g).'" do
-        note_content(@notes[16]).should eq('Indicator 1 Holder of originals: Resource-ExistenceLocationOriginals-AT.')
+        note_content(@notes[17]).should eq('Indicator 1 Holder of originals: Resource-ExistenceLocationOriginals-AT.')
       end
 
       it "maps datafield[@tag='540'] to resource.notes[] using template '$3: $a. $b. $c. $d ($u).'" do
-        note_content(@notes[17]).should eq('Resource-ConditionsGoverningUse-AT.')
+        note_content(@notes[18]).should eq('Resource-ConditionsGoverningUse-AT.')
       end
 
       it "maps datafield[@tag='541'] to resource.notes[] using template '#3: Source of acquisition--$a. Address--$b. Method of acquisition--$c; Date of acquisition--$d. Accession number--$e: Extent--$n; Type of unit--$o. Owner--$f. Purchase price--$h.'" do
-        note_content(@notes[19]).should eq('Source of acquisition--Resource-ImmediateSourceAcquisition.')
+        note_content(@notes[20]).should eq('Source of acquisition--Resource-ImmediateSourceAcquisition.')
       end
 
       it "maps datafield[@tag='544'] to resource.notes[] using template 'Indicator 1 [ Associated Materials | Related Materials]--$3: Title--$t. Custodian--$a: Address--$b, Country--$c. Provenance--$e. Note--$n.'" do
-        note_content(@notes[20]).should eq('Custodian--Resource-RelatedArchivalMaterials-AT.')
+        note_content(@notes[21]).should eq('Custodian--Resource-RelatedArchivalMaterials-AT.')
       end
 
       it "maps datafield[@tag='545'] to resource.notes[] using template '$a ($u). [Line break] $b.'" do
-        note_content(@notes[21]).should eq('Resource-BiographicalHistorical-AT.')
+        note_content(@notes[22]).should eq('Resource-BiographicalHistorical-AT.')
       end
 
       it "maps datafield[@tag='546'] to resource.notes[] using template '$3: $a ($b).'" do
-        note_content(@notes[22]).should eq('Resource-LanguageMaterials-AT.')
-        @notes[22]['label'].should eq('Language of Material')
+        note_content(@notes[23]).should eq('Resource-LanguageMaterials-AT.')
+        @notes[23]['label'].should eq('Language of Material')
       end
 
       it "maps datafield[@tag='561'] to resource.notes[] using template '$3: $a.'" do
-        note_content(@notes[23]).should eq('Resource--CustodialHistory-AT.')
+        note_content(@notes[24]).should eq('Resource--CustodialHistory-AT.')
       end
 
       it "maps datafield[@tag='630'] to subject" do

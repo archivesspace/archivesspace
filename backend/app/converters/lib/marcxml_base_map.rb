@@ -775,6 +775,8 @@ module MarcXMLBaseMap
         "datafield[@tag='502']" => multipart_note('odd', 'Thesis / Dissertation Note', "{$a}"),
 
         "datafield[@tag='504']" => bibliography_note_template('Bibliographic References', "{$a }{$b}"),
+        
+        "datafield[@tag='505']" => multipart_note('odd', 'Cumulative Index/Finding Aids Note', "{$a}"),
 
         "datafield[@tag='506']" => multipart_note('accessrestrict', ' Restrictions on Access', "{$3: }{$a, }{$b, }{$c, }{$d, }{$e, }{$u}."),
 
