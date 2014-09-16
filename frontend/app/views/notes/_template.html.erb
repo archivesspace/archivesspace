@@ -56,7 +56,7 @@
     <div class="tabbable tabs-below">
       <div class="tab-content">
         <div class="tab-pane active" id="<%= form.id_for("item") %>_raw">
-          <%= form.textarea(nil, item, :class => "mixed-content") %>
+          <%= form.textarea(nil, item, { :escape => false, :class => "mixed-content"}) %>
         </div>
         <div class="tab-pane" id="<%= form.id_for("item") %>_parsed">
           <%= clean_note(item).html_safe %>
@@ -480,11 +480,11 @@
 <% end %>
 
 <% define_template "chronology_item_event" do |form, event| %>
-  <div class="subrecord-form-inline"><%= form.textfield(nil, event) %></div>
+  <div class="subrecord-form-inline"><%= form.textfield(nil, event, { :escape => false }) %></div>
 <% end %>
 
 <% define_template "bib_item" do |form, item| %>
-  <div class="subrecord-form-inline"><%= form.textfield(nil, item) %></div>
+  <div class="subrecord-form-inline"><%= form.textfield(nil, item, { :escape => false }) %></div>
 <% end %>
 
 <% define_template "note_bibliography", jsonmodel_definition(:note_bibliography) do |form| %>

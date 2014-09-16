@@ -450,13 +450,22 @@ module AspaceFormHelper
 
     def textfield(name = nil, value = "", opts =  {})
       return "" if value.blank?
-      CGI::escapeHTML(value)
+      opts[:escape] = true unless opts[:escape] == false 
+      opts[:base_url] ||= "/"
+      value =   MixedContentParser::parse(value, opts[:base_url]) if opts[:clean] == true
+      value =  @parent.preserve_newlines(value) if opts[:clean] == true
+      value = CGI::escapeHTML(value) if opts[:escape]
+      value.html_safe
     end
 
     def textarea(name = nil, value = "", opts =  {})
       return "" if value.blank?
-      value =   MixedContentParser::parse(value, opts[:base_url]) if opts[:clean]
-      @parent.preserve_newlines(value).html_safe
+      opts[:escape] = true unless opts[:escape] == false 
+      opts[:base_url] ||= "/"
+      value =   MixedContentParser::parse(value, opts[:base_url]) if opts[:clean] == true
+      value =  @parent.preserve_newlines(value) if opts[:clean] == true
+      value = CGI::escapeHTML(value) if opts[:escape]
+      value.html_safe
     end
 
     def checkbox(name, opts = {}, default = true, force_checked = false)
