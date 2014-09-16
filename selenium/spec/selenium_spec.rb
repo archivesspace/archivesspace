@@ -1821,10 +1821,10 @@ describe "ArchivesSpace user interface" do
       $driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').setSelection({line: 0, ch: 0}, {line: 0, ch: 3})")
 
       # select a tag to wrap the text
-      assert(5) { $driver.find_element(:css => "select.mixed-content-wrap-action").select_option("p") }
+      assert(5) { $driver.find_element(:css => "select.mixed-content-wrap-action").select_option("blockquote") }
       $driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').save()")
       $driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').toTextArea()")
-      $driver.find_element(:id => "resource_notes__0__subnotes__0__content_").attribute("value").should eq("<p>ABC</p>")
+      $driver.find_element(:id => "resource_notes__0__subnotes__0__content_").attribute("value").should eq("<blockquote>ABC</blockquote>")
 
       # Save the resource
       $driver.find_element(:css => "form#resource_form button[type='submit']").click
