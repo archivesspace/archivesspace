@@ -657,6 +657,15 @@ module MarcXMLBaseMap
           :rel => :extents,
           :map => {
             "self::datafield" => Proc.new {|extent, node|
+              ex = node.xpath('.//subfield[@code="a"]') 
+              if ex.length > 0
+                ext = ex.first.text 
+                if ext =~ /^([0-9\.]+)+\s+(.*)$/
+                  extent.number = $1
+                  extent.extent_type = $2
+                end 
+              end
+              
               extent.container_summary = subfield_template("{$3: }{$a }{$b, }{$c }({$e, }{$f, }{$g})", node)
             }
           },

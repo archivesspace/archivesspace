@@ -260,6 +260,8 @@ END
 
       it "maps datafield[@tag='300'] to resource.extents[].container_summary using template '$3: $a ; $b, $c ($e, $f, $g)'" do
         @resource['extents'][0]['container_summary'].should eq("5.0 Linear feet (Resource-ContainerSummary-AT)")
+        @resource['extents'][0]['number'].should eq("5.0")
+        @resource['extents'][0]['extent_type'].should eq("Linear feet")
       end
 
       it "maps datafield[@tag='351'] to resource.notes[] using template '$3: $a. $b. $c'" do
