@@ -115,7 +115,7 @@ var KEY = {
     RIGHT: 39,
     DOWN: 40,
     NUMPAD_ENTER: 108,
-    COMMA: 188
+    COMMA: null // 188
 };
 
 var HTML_ESCAPES = {
