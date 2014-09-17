@@ -489,6 +489,10 @@ customize ArchivesSpace, please see the README in the `plugins` directory.
 
 [Instructions for running under Tomcat](https://github.com/archivesspace/archivesspace/blob/master/README_TOMCAT.md).
 
+# Running ArchivesSpace with an external Solr instance
+
+[Instructions for using an external Solr server](https://github.com/archivesspace/archivesspace/blob/master/README_SOLR.md)
+
 # Running ArchivesSpace under a prefix
 
 [Instructions for running under a prefix](https://github.com/archivesspace/archivesspace/blob/master/README_PREFIX.md).

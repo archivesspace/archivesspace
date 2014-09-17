@@ -303,6 +303,7 @@ Here's our `config/instance_apps1.example.com.rb`:
        :backend_url => "http://apps1.example.com:8089",
        :frontend_url => "http://apps1.example.com:8080",
        :solr_url => "http://apps1.example.com:8090",
+       :indexer_url => "http://apps1.example.com:8091",
        :public_url => "http://apps1.example.com:8081",
      }
 

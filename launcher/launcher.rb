@@ -124,8 +124,10 @@ def main
   FileUtils.mkdir_p(tempdir)
 
   java.lang.System.set_property("java.io.tmpdir", tempdir)
-  java.lang.System.set_property("solr.data.dir", AppConfig[:solr_index_directory])
-  java.lang.System.set_property("solr.solr.home", AppConfig[:solr_home_directory])
+  if AppConfig[:enable_solr]
+    java.lang.System.set_property("solr.data.dir", AppConfig[:solr_index_directory])
+    java.lang.System.set_property("solr.solr.home", AppConfig[:solr_home_directory])
+  end
 
   [:search_user_secret, :public_user_secret, :staff_user_secret].each do |property|
     if !AppConfig.has_key?(property)
@@ -143,9 +145,13 @@ def main
   begin
 	  aspace_base = java.lang.System.get_property("ASPACE_LAUNCHER_BASE")
     start_server(URI(AppConfig[:backend_url]).port, {:war => File.join(aspace_base, 'wars', 'backend.war'), :path => '/'}) if AppConfig[:enable_backend]
+
     start_server(URI(AppConfig[:solr_url]).port,
-                 {:war => File.join(aspace_base,'wars', 'solr.war'), :path => '/'},
+                 {:war => File.join(aspace_base,'wars', 'solr.war'), :path => '/'}) if AppConfig[:enable_solr]
+
+    start_server(URI(AppConfig[:indexer_url]).port,
                  {:war => File.join(aspace_base,'wars', 'indexer.war'), :path => '/aspace-indexer'}) if AppConfig[:enable_indexer]
+
     start_server(URI(AppConfig[:frontend_url]).port,
                  {:war => File.join(aspace_base,'wars', 'frontend.war'), :path => '/'},
                  {:static_dirs => ASUtils.find_local_directories("frontend/assets"),
@@ -193,7 +199,8 @@ end
 def stop
   if AppConfig[:use_jetty_shutdown_handler]  
     stop_server(URI(AppConfig[:backend_url])) if AppConfig[:enable_backend]
-    stop_server(URI(AppConfig[:solr_url])) if AppConfig[:enable_indexer]
+    stop_server(URI(AppConfig[:solr_url])) if AppConfig[:enable_solr]
+    stop_server(URI(AppConfig[:indexer_url])) if AppConfig[:enable_indexer]
     stop_server(URI(AppConfig[:frontend_url])) if AppConfig[:enable_frontend]
     stop_server(URI(AppConfig[:public_url])) if AppConfig[:enable_public]
     pid_file = File.join(AppConfig[:data_directory], ".archivesspace.pid" ) 

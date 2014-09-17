@@ -405,7 +405,7 @@ class CommonIndexer
   def delete_records(records)
     return if records.empty?
 
-    req = Net::HTTP::Post.new("/update")
+    req = Net::HTTP::Post.new("#{solr_url.path}/update")
     req['Content-Type'] = 'application/json'
 
     # Delete the ID plus any documents that were the child of that ID
@@ -519,14 +519,14 @@ class CommonIndexer
       }.compact
 
       if !records_with_children.empty?
-        req = Net::HTTP::Post.new("/update")
+        req = Net::HTTP::Post.new("#{solr_url.path}/update")
         req['Content-Type'] = 'application/json'
         req.body = {:delete => {'query' => "parent_id:(" + records_with_children.join(" OR ") + ")"}}.to_json
         response = do_http_request(solr_url, req)
       end
 
       # Now apply the updates
-      req = Net::HTTP::Post.new("/update")
+      req = Net::HTTP::Post.new("#{solr_url.path}/update")
       req['Content-Type'] = 'application/json'
 
       stream = batch.to_json_stream
@@ -548,7 +548,7 @@ class CommonIndexer
 
 
   def send_commit(type = :hard)
-    req = Net::HTTP::Post.new("/update")
+    req = Net::HTTP::Post.new("#{solr_url.path}/update")
     req['Content-Type'] = 'application/json'
     req.body = {:commit => {"softCommit" => (type == :soft) }}.to_json
 
