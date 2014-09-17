@@ -98,7 +98,10 @@ END
     end
 
     it "maps field 69* to resource['subjects']" do
-      @subjects[0]['terms'][0]['term'].should eq("SF 3--SF A--SF D--SF X")
+      @subjects[0]['terms'][0]['term'].should eq("SF 3")
+      @subjects[0]['terms'][1]['term'].should eq("SF A")
+      @subjects[0]['terms'][2]['term'].should eq("SF D")
+      @subjects[0]['terms'][3]['term'].should eq("SF X")
     end
 
     it "maps field 040 subfield e to resource.finding_aid_description_rules" do

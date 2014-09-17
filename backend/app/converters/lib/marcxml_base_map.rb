@@ -1039,6 +1039,7 @@ module MarcXMLBaseMap
 
         "datafield[starts-with(@tag, '69')]" => subject_template(
                                                                  Proc.new{|node|
+                                                                   terms = []
                                                                    term = ""
                                                                    hsh = {}
                                                                    node.xpath("subfield").each do |subnode|
@@ -1061,12 +1062,10 @@ module MarcXMLBaseMap
                                                                    end
                                                                    srtd_keys.each do |k|
                                                                      if hsh[k] and !hsh[k].empty?
-                                                                       term += "--" unless term.empty?
-                                                                       term += hsh[k]
+                                                                        terms << make_term('topical', hsh[k])
                                                                      end
                                                                    end
-
-                                                                   [make_term('topical', term)]
+                                                                  terms
                                                                  },
                                                                  Proc.new{|node| 'local'},
                                                                  ),
