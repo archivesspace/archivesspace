@@ -608,6 +608,7 @@ end
 
 def create_subject(values = {})
   subject_hash = {
+    "source" => "local",
     "terms" => [{
                   "term" => SecureRandom.hex,
                   "term_type" => "cultural_context",

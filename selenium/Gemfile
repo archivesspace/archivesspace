@@ -7,6 +7,6 @@ gem 'rubyzip', '1.0.0'
 
 group "test" do
 	gem "rspec-core", "2.12.1"
-	gem "selenium-webdriver", "2.41.0"
+	gem "selenium-webdriver", "2.43.0"
 	gem "rspec", "2.12.0"
 end
