@@ -153,7 +153,7 @@ END
         @subjects = parsed.select {|rec| rec['jsonmodel_type'] == 'subject'}
 
         @resource = parsed.select {|rec| rec['jsonmodel_type'] == 'resource'}.last
-        @notes = @resource['notes']
+        @notes = @resource['notes'].map { |note| note_content(note) }
       end
 
       before(:all) do
@@ -266,60 +266,61 @@ END
         @resource['extents'][0]['number'].should eq("5.0")
         @resource['extents'][0]['extent_type'].should eq("Linear feet")
       end
+      
+      it "maps datafield[@tag='260'] to resource.notes[] using template '$a'" do
+        @notes.should include('1889-1945')
+      end
 
       it "maps datafield[@tag='351'] to resource.notes[] using template '$3: $a. $b. $c'" do
-        note_content(@notes[0]).should eq('Resource-Arrangement-Note Resource-FilePlan-AT.')
+        @notes.should include('Resource-Arrangement-Note Resource-FilePlan-AT.')
       end
 
       it "maps datafield[@tag='500'] to resource.notes[] using template '$3: $a'" do
-        note_content(@notes[5]).should eq('Material Specific Details:Resource-MaterialSpecificDetails-AT')
-        @notes[5]['type'].should eq('odd') 
+        @notes.should include('Material Specific Details:Resource-MaterialSpecificDetails-AT')
       end
       
       it "maps datafield[@tag='505'] to resource.notes[] using template '$a'" do
-        note_content(@notes[11]).should eq('CumulativeIndexFindingAidsNote-AT')
+        @notes.should include('CumulativeIndexFindingAidsNote-AT')
       end
 
       it "maps datafield[@tag='506'] to resource.notes[] using template '$a'" do
-        note_content(@notes[12]).should eq('Resource-ConditionsGoverningAccess-AT.')
+        @notes.should include('Resource-ConditionsGoverningAccess-AT.')
       end
 
       it "maps datafield[@tag='520'] to resource.notes[] using template '$3:  $a. ($u) [line break] $b.'" do
-        note_content(@notes[13]).should eq('Resource-Abstract-AT.')
-        @notes[13]['label'].should eq("Summary")
+        @notes.should include('Resource-Abstract-AT.')
       end
 
       it "maps datafield[@tag='524'] to resource.notes[] using template '$3: $a. $2.'" do
-        note_content(@notes[15]).should eq('Resource-PreferredCitation-AT.')
+        @notes.should include('Resource-PreferredCitation-AT.')
       end
 
       it "maps datafield[@tag='535'] to resource.notes[] using template 'Indicator 1 [Holder of originals | Holder of duplicates]: $3--$a. $b, $c. $d ($g).'" do
-        note_content(@notes[17]).should eq('Indicator 1 Holder of originals: Resource-ExistenceLocationOriginals-AT.')
+        @notes.should include('Indicator 1 Holder of originals: Resource-ExistenceLocationOriginals-AT.')
       end
 
       it "maps datafield[@tag='540'] to resource.notes[] using template '$3: $a. $b. $c. $d ($u).'" do
-        note_content(@notes[18]).should eq('Resource-ConditionsGoverningUse-AT.')
+        @notes.should include('Resource-ConditionsGoverningUse-AT.')
       end
 
       it "maps datafield[@tag='541'] to resource.notes[] using template '#3: Source of acquisition--$a. Address--$b. Method of acquisition--$c; Date of acquisition--$d. Accession number--$e: Extent--$n; Type of unit--$o. Owner--$f. Purchase price--$h.'" do
-        note_content(@notes[20]).should eq('Source of acquisition--Resource-ImmediateSourceAcquisition.')
+        @notes.should include('Source of acquisition--Resource-ImmediateSourceAcquisition.')
       end
 
       it "maps datafield[@tag='544'] to resource.notes[] using template 'Indicator 1 [ Associated Materials | Related Materials]--$3: Title--$t. Custodian--$a: Address--$b, Country--$c. Provenance--$e. Note--$n.'" do
-        note_content(@notes[21]).should eq('Custodian--Resource-RelatedArchivalMaterials-AT.')
+        @notes.should include('Custodian--Resource-RelatedArchivalMaterials-AT.')
       end
 
       it "maps datafield[@tag='545'] to resource.notes[] using template '$a ($u). [Line break] $b.'" do
-        note_content(@notes[22]).should eq('Resource-BiographicalHistorical-AT.')
+        @notes.should include('Resource-BiographicalHistorical-AT.')
       end
 
       it "maps datafield[@tag='546'] to resource.notes[] using template '$3: $a ($b).'" do
-        note_content(@notes[23]).should eq('Resource-LanguageMaterials-AT.')
-        @notes[23]['label'].should eq('Language of Material')
+        @notes.should include('Resource-LanguageMaterials-AT.')
       end
 
       it "maps datafield[@tag='561'] to resource.notes[] using template '$3: $a.'" do
-        note_content(@notes[24]).should eq('Resource--CustodialHistory-AT.')
+        @notes.should include('Resource--CustodialHistory-AT.')
       end
 
       it "maps datafield[@tag='630'] to subject" do

@@ -28,6 +28,11 @@
             <subfield code="f">Resource-Date-Expression-AT</subfield>
             <subfield code="g">1960 - 1970</subfield>
         </datafield>
+        <datafield tag="260" ind1=" " ind2=" ">
+          <subfield code="a">[S.l. :</subfield>
+          <subfield code="b">s.n.],</subfield>
+          <subfield code="c">1889-1945</subfield>
+        </datafield> 
         <datafield tag="300" ind2=" " ind1=" ">
             <subfield code="a">5.0 Linear feet</subfield>
             <subfield code="f">Resource-ContainerSummary-AT</subfield>

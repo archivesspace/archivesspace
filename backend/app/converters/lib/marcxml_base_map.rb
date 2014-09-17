@@ -621,23 +621,23 @@ module MarcXMLBaseMap
                                                              "{$a: }{$b }{[$h] }{$f, }{$n }{$p, }{$g})"
                                                              ),
 
-        "datafield[@tag='250']" => multipart_note('odd', 'Edition Statement', "$a / $b"),
+        "datafield[@tag='250']" => multipart_note('odd', 'Edition Statement', "{$a} / {$b}"),
 
-        "datafield[@tag='254']" => multipart_note('odd', 'Musical Presentation Statement', "$a"),
+        "datafield[@tag='254']" => multipart_note('odd', 'Musical Presentation Statement', "{$a}"),
 
         "datafield[@tag='255']" => multipart_note('odd', 'Mathematical map data', %q|
-                                            Statement of scale--$a; Statement of projection--$b; Statement of
-                                            coordinates--$c; Statement of zone--$d; Statement of equinox--$e;
-                                            Ourter G-ring coordinate pairs--$f; ExclusionG-ring coordinate pairs--$g.
+                                            Statement of scale--{$a}; Statement of projection--{$b}; Statement of
+                                            coordinates--{$c}; Statement of zone--{$d}; Statement of equinox--{$e};
+                                            Ourter G-ring coordinate pairs--{$f}; ExclusionG-ring coordinate pairs--{$g}.
                                             |),
 
-        "datafield[@tag='256']" => singlepart_note('physdesc', 'Computer file Characteristics', "$a"),
+        "datafield[@tag='256']" => singlepart_note('physdesc', 'Computer file Characteristics', "{$a}"),
 
-        "datafield[@tag='257']" => multipart_note('odd', 'Country of Producing Entity for Archival Films', "$a"),
+        "datafield[@tag='257']" => multipart_note('odd', 'Country of Producing Entity for Archival Films', "{$a}"),
 
-        "datafield[@tag='258']" => multipart_note('odd', 'Stamp description', "$a, $b."),
+        "datafield[@tag='258']" => multipart_note('odd', 'Stamp description', "{$a}, {$b}."),
 
-        "datafield[@tag='260']" => mix(multipart_note('odd', 'Publication Date', "$c"), {
+        "datafield[@tag='260']" => mix(multipart_note('odd', 'Publication Date', "{$c}"), {
                                          "self::datafield" => Proc.new {|resource, node|
                                            if resource['_needs_date']
                                              make(:date) do |date|
