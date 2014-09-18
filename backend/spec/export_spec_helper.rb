@@ -41,10 +41,14 @@ else
 
   Thread.current[:active_test_user] = User.find(:username => 'admin')
 
-  def get_xml(uri)
+  def get_xml(uri, raw = false)
     response = get(uri)
     if response.status == 200
-      Nokogiri::XML::Document.parse(response.body)
+      if raw
+        response.body
+      else 
+        Nokogiri::XML::Document.parse(response.body)
+      end 
     else
       raise "Invalid response from backend for URI #{uri}: #{response.body}"
     end
@@ -71,6 +75,10 @@ end
 
 def get_dc(rec)
   get_xml("/repositories/#{$repo_id}/digital_objects/dublin_core/#{rec.id}.xml")
+end
+
+def get_labels(rec)
+  get_xml("/repositories/#{$repo_id}/resource_labels/#{rec.id}.tsv", true )
 end
 
 
