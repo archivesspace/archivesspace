@@ -81,5 +81,28 @@ it "can identify and report conflicting identifiers" do
       end
     }
   end
+  
 
+  it "can delete a repo even if it has preferences and import jobs" do
+
+    repo = Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "TESTREPO2",
+                                                                        :name => "electric boogaloo"))
+
+    group = Group.create_from_json(build(:json_group), :repo_id => repo.id)
+    new_user = create(:user)
+
+    new_user.add_to_groups(group)
+    json = build(:json_import_job)
+    ImportJob.create_from_json(json, :repo_id => repo.id, :user => new_user)
+  
+    RequestContext.open(:repo_id => repo.id) do
+      Preference.create_from_json(build(:json_preference, :user_id => new_user.id))
+    end
+    
+    RequestContext.open(:repo_id => repo.id) do
+      repo.delete
+      new_user.delete
+    end
+  
+  end
 end
