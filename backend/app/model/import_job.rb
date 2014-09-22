@@ -16,6 +16,10 @@ class ImportJob < Sequel::Model(:import_job)
 
   set_model_scope :repository
 
+  def before_destroy
+    self.job_files_dataset.delete
+    self.created_records_dataset.delete
+  end
 
   class JobFileStore
 

@@ -89,7 +89,7 @@ class Repository < Sequel::Model(:repository)
     
     [ Group, Preference, ImportJob ].each do |klass|
         klass.send(:filter, :repo_id => self.id).each do |thingy|
-          thingy.delete
+          thingy.destroy
         end 
     end
 
