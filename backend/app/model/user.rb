@@ -228,8 +228,11 @@ class User < Sequel::Model(:user)
     raise AccessDeniedException.new("Can't delete system user") if self.is_system_user == 1
 
     DBAuth.delete_user(self.username)
-   
-    ImportJob.filter(:owner_id => self.id).delete
+ 
+    # transfer all import jobs to the admin user
+    admin_user = User.select(:id).where( :username => "admin" ).first
+    ImportJob.filter(:owner_id => self.id).update( :owner_id => admin_user.id )
+    
     Preference.filter(:user_id => self.id).delete
     self.remove_all_group
 
