@@ -59,6 +59,7 @@ describe 'MARCXML converter' do
                   <subfield code="d">SF D</subfield>
                   <subfield code="a">SF A</subfield>
                   <subfield code="x">SF X</subfield>
+                  <subfield code="x">SF XII</subfield>
                   <subfield code="3">SF 3</subfield>
               </datafield>
 
@@ -102,6 +103,7 @@ END
       @subjects[0]['terms'][1]['term'].should eq("SF A")
       @subjects[0]['terms'][2]['term'].should eq("SF D")
       @subjects[0]['terms'][3]['term'].should eq("SF X")
+      @subjects[0]['terms'][4]['term'].should eq("SF XII")
     end
 
     it "maps field 040 subfield e to resource.finding_aid_description_rules" do
