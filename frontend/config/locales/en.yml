@@ -18,6 +18,7 @@ en:
     export: Export
     view: View
     spawn: Spawn
+    show_all: Show All
     transfer_record: Transfer
     link_to: Link To
     add_prefix: Add

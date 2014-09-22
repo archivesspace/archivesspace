@@ -554,11 +554,20 @@ AS.initAddAsYouGoActions = function($form, $list) {
       $asYouGo.hide();
     }
 
-    var btnsToReplicate = $(".subrecord-form-heading:first > .btn, .subrecord-form-heading:first > .custom-action > .btn", $form);
+    var btnsToReplicate =  $(".subrecord-form-heading:first > .btn, .subrecord-form-heading:first > .custom-action > .btn", $form)
+    btnsToReplicate = btnsToReplicate.map( function() { 
+        var $btn = $(this);
+        if ( $btn.hasClass('show-all') && numberOfSubRecords() < 5   )
+          return;
+        else
+          return this;
+    });
+
     var fillToPercentage = 100; // full width
 
     btnsToReplicate.each(function() {
       var $btn = $(this);
+      
       var $a = $("<a href='#'>+</a>");
       var btnText = $btn.val().length ? $btn.val() : $btn.text();
       $a.css("width", Math.floor(fillToPercentage / btnsToReplicate.length) + "%");
@@ -567,6 +576,7 @@ AS.initAddAsYouGoActions = function($form, $list) {
         // we need to differentiate the links
         $a.text(btnText);
         $a.addClass("has-label");
+        if ($btn.hasClass('show-all')) { $a.addClass('show-all'); }
       } else {
         // just add a title and we'll have a '+'
         $a.attr("title", btnText);

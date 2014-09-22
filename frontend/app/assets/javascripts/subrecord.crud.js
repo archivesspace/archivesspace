@@ -96,7 +96,7 @@ $(function() {
         // add binding for creation of subforms
         if ($this.data("custom-action")) {
           // Support custom actions - just buttons really with some data attributes
-          $($this).on("click", "> .subrecord-form-heading > .custom-action .btn", function(event) {
+          $($this).on("click", "> .subrecord-form-heading > .custom-action .btn:not(.show-all)", function(event) {
             event.preventDefault();
 
             var $target_subrecord_list = $(".subrecord-form-list:first", $(this).parents(".subrecord-form:first"));
@@ -111,7 +111,7 @@ $(function() {
           });
         } else {
 
-          $($this).on("click", "> .subrecord-form-heading > .btn", function(event) {
+          $($this).on("click", "> .subrecord-form-heading > .btn:not(.show-all)", function(event) {
             event.preventDefault();
 
             var $target_subrecord_list = $(".subrecord-form-list:first", $(this).parents(".subrecord-form:first"));
@@ -126,6 +126,7 @@ $(function() {
             addAndInitForm(formEl, $target_subrecord_list);
           });
         };
+        
 
         var $list = $("ul.subrecord-form-list:first", $this);
 
@@ -133,7 +134,23 @@ $(function() {
         AS.initSubRecordSorting($list);
 
         // init any existing subforms
-        $("> .subrecord-form-container .subrecord-form-list > .subrecord-form-wrapper", $this).each(init_subform);
+         
+        var subformsExisting = $("> .subrecord-form-container .subrecord-form-list > .subrecord-form-wrapper:not(.initialised)", $this) 
+        
+        if (subformsExisting.length > 4 ) { 
+          $("> .subrecord-form-heading > .btn.show-all", $this).show(); 
+          $($this).on("click", "> .subrecord-form-heading > .btn.show-all", function(event) {
+            this.disabled = true;  
+            
+            event.preventDefault(); 
+            subformsExisting.show(); 
+            subformsExisting.each(init_subform);
+            $("a.has-label.show-all", $this).hide();
+          });
+          subformsExisting.slice(0,4).each(init_subform);
+          subformsExisting.slice(5).hide();
+        }  
+          $("> .subrecord-form-container .subrecord-form-list > .subrecord-form-wrapper", $this).each(init_subform);
 
       }
 

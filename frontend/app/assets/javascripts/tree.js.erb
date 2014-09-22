@@ -21,9 +21,11 @@ $(function() {
 
     var initForm = function(html) {
       $container.html(html);
+      
 
       var $form = $("form", $container);
-
+      
+      
       $(".btn-cancel", $form).html(AS.renderTemplate("tree_revert_changes_label_template"));
 
       if (location.hash !== "#tree::new") {
@@ -61,7 +63,8 @@ $(function() {
       // the ajaxForm is attached, so events (like the session check)
       // can be bound to the form first.
       $(document).triggerHandler("loadedrecordform.aspace", [$container]);
-
+      
+      
       $form.ajaxForm({
         data: {
           inline: true
@@ -80,6 +83,7 @@ $(function() {
         },
         success: function(response, status, xhr) {
           var $form = initForm(response);
+          
 
           if ($container.find(".form-messages .alert-error:first, .form-messages .alert-warning:first").length) {
             $container.triggerHandler("submitted", {success: false});
@@ -89,6 +93,10 @@ $(function() {
             $form.data("form_changed", false);
 
             $container.triggerHandler("submitted", {success: true});
+          }
+          
+          if ( $form.data('"update-monitor-paused"') ) {
+            $form.data("update-monitor-paused", false);
           }
 
           // scroll back to the top
@@ -102,6 +110,8 @@ $(function() {
       });
 
       AS.resetScrollSpy();
+      
+      
 
       return $form;
     };
