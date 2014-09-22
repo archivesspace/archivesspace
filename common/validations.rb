@@ -224,7 +224,7 @@ module JSONModel::Validations
                                 ["type_1", "indicator_1"]]
 
     if !required_container_fields.any? { |fieldset| fieldset.all? {|field| hash[field]} }
-      errors << [ :container_fields_error, "either type_1 or barcode is required" ]
+      errors << [ :type_1, "either type_1 or barcode is required" ]
     end
 
     if !hash["container_extent_number"].nil? and hash["container_extent_number"] !~ /^\-?\d{0,9}(\.\d{1,5})?$/
