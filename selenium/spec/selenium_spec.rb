@@ -338,7 +338,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link => 'Create').click
       $driver.find_element(:link => 'Subject').click
 
-      $driver.find_element(:css => '#subject_external_documents_ .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#subject_external_documents_ .subrecord-form-heading .btn:not(.show-all)').click
 
       $driver.find_element(:css => '#subject_terms_ .subrecord-form-remove').click
       $driver.find_element(:css => '#subject_terms_ .confirm-removal').click
@@ -357,7 +357,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:link => 'Create').click
       $driver.find_element(:link => 'Subject').click
-      $driver.find_element(:css => "form #subject_terms_ button").click 
+      $driver.find_element(:css => "form #subject_terms_ button:not(.show-all)").click 
       
       $driver.find_element(:id => "subject_source_").select_option("local")
       
@@ -372,7 +372,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:link => 'Create').click
       $driver.find_element(:link => 'Subject').click
-      $driver.find_element(:css => "form #subject_terms_ button").click 
+      $driver.find_element(:css => "form #subject_terms_ button:not(.show-all)").click 
       $driver.find_element(:id => "subject_source_").select_option("local")
       $driver.clear_and_send_keys([:id, "subject_terms__0__term_"], "first")
       $driver.clear_and_send_keys([:id, "subject_terms__1__term_"], "second")
@@ -509,7 +509,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can add a secondary name and validations match index of name form" do
-      $driver.find_element(:css => '#agent_person_names .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#agent_person_names .subrecord-form-heading .btn:not(.show-all)').click
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
 
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Part of Name - Property is required but was missing/)
@@ -521,7 +521,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can save a person and view readonly view of person" do
-      $driver.find_element(:css => '#agent_person_contact_details .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#agent_person_contact_details .subrecord-form-heading .btn:not(.show-all)').click
 
       $driver.clear_and_send_keys([:id, "agent_agent_contacts__0__name_"], "Email Address")
       $driver.clear_and_send_keys([:id, "agent_agent_contacts__0__email_"], "jimi@rocknrollheaven.com")
@@ -544,7 +544,7 @@ describe "ArchivesSpace user interface" do
       agent_uri, agent_name = create_agent("Linked Agent #{$$}.#{Time.now.to_i}")
       run_index_round
 
-      $driver.find_element(:css => '#agent_person_related_agents .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#agent_person_related_agents .subrecord-form-heading .btn:not(.show-all)').click
       $driver.find_element(:css => "select.related-agent-type").select_option("agent_relationship_associative")
 
       token_input = $driver.find_element(:id, "token-input-agent_related_agents__1__ref_")
@@ -575,7 +575,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can add an external document to an Agent" do
-      $driver.find_element(:css => '#agent_person_external_documents .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#agent_person_external_documents .subrecord-form-heading .btn:not(.show-all)').click
 
       $driver.clear_and_send_keys([:id, "agent_external_documents__0__title_"], "My URI document")
       $driver.clear_and_send_keys([:id, "agent_external_documents__0__location_"], "http://archivesspace.org")
@@ -593,7 +593,7 @@ describe "ArchivesSpace user interface" do
 
     it "can add a date of existence to an Agent" do
       $driver.click_and_wait_until_gone(:link, 'Edit')
-      $driver.find_element(:css => '#agent_person_dates_of_existence .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#agent_person_dates_of_existence .subrecord-form-heading .btn:not(.show-all)').click
 
       $driver.find_element(:id => "agent_dates_of_existence__0__date_type_").select_option("single")
       $driver.clear_and_send_keys([:id, "agent_dates_of_existence__0__expression_"], "1973")
@@ -609,7 +609,7 @@ describe "ArchivesSpace user interface" do
 
     it "can add a Biog/Hist note to an Agent" do
       $driver.click_and_wait_until_gone(:link, 'Edit')
-      $driver.find_element(:css => '#agent_person_notes .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#agent_person_notes .subrecord-form-heading .btn:not(.show-all)').click
       $driver.blocking_find_elements(:css => '#agent_person_notes .top-level-note-type')[0].select_option("note_bioghist")
 
       # ensure note form displayed
@@ -637,7 +637,7 @@ describe "ArchivesSpace user interface" do
       notes[0].find_element(:css => '.collapse-subrecord-toggle').click
 
       # Add a sub note
-      assert(5) { notes[0].find_element(:css => '.subrecord-form-heading .btn').click }
+      assert(5) { notes[0].find_element(:css => '.subrecord-form-heading .btn:not(.show-all)').click }
       notes[0].find_element(:css => 'select.bioghist-note-type').select_option('note_outline')
 
       # ensure sub note form displayed
@@ -745,13 +745,13 @@ describe "ArchivesSpace user interface" do
 
     it "can edit an Accession and two Extents" do
       # add the first extent
-      $driver.find_element(:css => '#accession_extents_ .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#accession_extents_ .subrecord-form-heading .btn:not(.show-all)').click
 
       $driver.clear_and_send_keys([:id, 'accession_extents__0__number_'], "5")
       $driver.find_element(:id => "accession_extents__0__extent_type_").select_option("volumes")
 
       # add the second extent
-      $driver.find_element(:css => '#accession_extents_ .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#accession_extents_ .subrecord-form-heading .btn:not(.show-all)').click
       $driver.clear_and_send_keys([:id, 'accession_extents__1__number_'], "10")
       $driver.find_element(:id => "accession_extents__1__extent_type_").select_option("files")
 
@@ -795,7 +795,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.click_and_wait_until_gone(:link, 'Edit')
 
-      $driver.find_element(:css => '#accession_linked_agents_ .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#accession_linked_agents_ .subrecord-form-heading .btn:not(.show-all)').click
 
       $driver.find_element(:id => "accession_linked_agents__0__role_").select_option("subject")
 
@@ -805,8 +805,8 @@ describe "ArchivesSpace user interface" do
       token_input.send_keys("Subject Agent")
       $driver.find_element(:css, "li.token-input-dropdown-item2").click
 
-      $driver.find_element(:css, "#accession_linked_agents__0__terms_ .subrecord-form-heading .btn").click
-      $driver.find_element(:css, "#accession_linked_agents__0__terms_ .subrecord-form-heading .btn").click
+      $driver.find_element(:css, "#accession_linked_agents__0__terms_ .subrecord-form-heading .btn:not(.show-all)").click
+      $driver.find_element(:css, "#accession_linked_agents__0__terms_ .subrecord-form-heading .btn:not(.show-all)").click
 
       $driver.clear_and_send_keys([:id => "accession_linked_agents__0__terms__0__term_"], "#{@me}LinkedAgentTerm1")
       $driver.clear_and_send_keys([:id => "accession_linked_agents__0__terms__1__term_"], "#{@me}LinkedAgentTerm2")
@@ -849,8 +849,8 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "accession_condition_description_"], "Slightly squashed")
 
       # add some dates!
-      $driver.find_element(:css => '#accession_dates_ .subrecord-form-heading .btn').click
-      $driver.find_element(:css => '#accession_dates_ .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#accession_dates_ .subrecord-form-heading .btn:not(.show-all)').click
+      $driver.find_element(:css => '#accession_dates_ .subrecord-form-heading .btn:not(.show-all)').click
 
       #populate the first date
       $driver.find_element(:id => "accession_dates__0__label_").select_option("digitized")
@@ -916,8 +916,8 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "accession_condition_description_"], "Slightly squashed")
 
       # add some external documents
-      $driver.find_element(:css => '#accession_external_documents_ .subrecord-form-heading .btn').click
-      $driver.find_element(:css => '#accession_external_documents_ .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#accession_external_documents_ .subrecord-form-heading .btn:not(.show-all)').click
+      $driver.find_element(:css => '#accession_external_documents_ .subrecord-form-heading .btn:not(.show-all)').click
 
       #populate the first external documents
       $driver.clear_and_send_keys([:id, "accession_external_documents__0__title_"], "My URI document")
@@ -961,13 +961,13 @@ describe "ArchivesSpace user interface" do
 
       $driver.click_and_wait_until_gone(:link, 'Edit')
 
-      $driver.find_element(:css => '#accession_subjects_ .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#accession_subjects_ .subrecord-form-heading .btn:not(.show-all)').click
 
       $driver.find_element(:css => '#accession_subjects_ .dropdown-toggle').click
 
       $driver.find_element(:css, "a.linker-create-btn").click
 
-      $driver.find_element(:css, ".modal #subject_terms_ .subrecord-form-heading .btn").click
+      $driver.find_element(:css, ".modal #subject_terms_ .subrecord-form-heading .btn:not(.show-all)").click
 
       $driver.clear_and_send_keys([:id => "subject_terms__0__term_"], "#{@me}AccessionTermABC")
       $driver.clear_and_send_keys([:id => "subject_terms__1__term_"], "#{@me}AccessionTermDEF")
@@ -993,7 +993,7 @@ describe "ArchivesSpace user interface" do
       $driver.click_and_wait_until_gone(:link, 'Edit')
 
       # add a rights sub record
-      $driver.find_element(:css => '#accession_rights_statements_ .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#accession_rights_statements_ .subrecord-form-heading .btn:not(.show-all)').click
 
       $driver.find_element(:id => "accession_rights_statements__0__rights_type_").select_option("intellectual_property")
       $driver.find_element(:id => "accession_rights_statements__0__ip_status_").select_option("copyrighted")
@@ -1001,7 +1001,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:id, "accession_rights_statements__0__active_").click
 
       # add an external document
-      $driver.find_element(:css => "#accession_rights_statements__0__external_documents_ .subrecord-form-heading .btn").click
+      $driver.find_element(:css => "#accession_rights_statements__0__external_documents_ .subrecord-form-heading .btn:not(.show-all)").click
       $driver.clear_and_send_keys([:id, "accession_rights_statements__0__external_documents__0__title_"], "Agreement")
       $driver.clear_and_send_keys([:id, "accession_rights_statements__0__external_documents__0__location_"], "http://locationof.agreement.com")
 
@@ -1427,6 +1427,8 @@ describe "ArchivesSpace user interface" do
 
     resource_title = "Pony <emph render='italic'>Express</emph>"
     resource_stripped = "Pony Express"
+    resource_regex = /^.*?\bPony\b.*?$/m 
+    
     it "can create a resource" do
       $driver.find_element(:link, "Create").click
       $driver.find_element(:link, "Resource").click
@@ -1440,7 +1442,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => "form#resource_form button[type='submit']").click
 
       # The new Resource shows up on the tree
-      assert(5) { $driver.find_element(:css => "a.jstree-clicked").text.strip.should match(/#{resource_stripped}/) }
+      assert(5) { $driver.find_element(:css => "a.jstree-clicked").text.strip.should match(resource_regex) }
     end
 
 
@@ -1551,12 +1553,12 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "Christmas cards")
       $driver.find_element(:id, "archival_object_level_").select_option("item")
 
-      $driver.find_element(:css => '#archival_object_subjects_ .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#archival_object_subjects_ .subrecord-form-heading .btn:not(.show-all)').click
 
       $driver.find_element(:css, ".linker-wrapper a.btn").click
       $driver.find_element(:css, "a.linker-create-btn").click
 
-      $driver.find_element(:css, ".modal #subject_terms_ .subrecord-form-heading .btn").click
+      $driver.find_element(:css, ".modal #subject_terms_ .subrecord-form-heading .btn:not(.show-all)").click
 
       $driver.clear_and_send_keys([:id => "subject_terms__0__term_"], "#{$$}TestTerm123")
       $driver.clear_and_send_keys([:id => "subject_terms__1__term_"], "#{$$}FooTerm456")
@@ -1620,7 +1622,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Resources").click
 
-      $driver.find_element_with_text('//td', /#{resource_title}/)
+      $driver.find_element_with_text('//td', /#{resource_stripped}/)
     end
 
 
@@ -1629,16 +1631,16 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Resources").click
 
-      $driver.find_element_with_text('//tr', /#{resource_title}/).find_element(:link, 'Edit').click
+      $driver.find_element_with_text('//tr', resource_regex).find_element(:link, 'Edit').click
 
-      $driver.find_element(:css => '#resource_extents_ .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#resource_extents_ .subrecord-form-heading .btn:not(.show-all)').click
 
       $driver.clear_and_send_keys([:id, 'resource_extents__1__number_'], "5")
       $driver.find_element(:id => "resource_extents__1__extent_type_").select_option("volumes")
 
       $driver.find_element(:css => "form#resource_form button[type='submit']").click
 
-      $driver.find_element_with_text('//div', /Resource #{resource_title} updated/).should_not be_nil
+      $driver.find_element_with_text('//div', /\bResource\b.*\bupdated\b/).should_not be_nil
 
       $driver.find_element(:link, 'Close Record').click
     end
@@ -1693,7 +1695,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:id => "resource_extents__0__extent_type_").select_option("files")
 
       add_note = proc do |type|
-        $driver.find_element(:css => '#notes .subrecord-form-heading .btn').click
+        $driver.find_element(:css => '#notes .subrecord-form-heading .btn:not(.show-all)').click
         $driver.find_last_element(:css => '#notes select.top-level-note-type:last-of-type').select_option(type)
       end
 
@@ -1751,14 +1753,14 @@ describe "ArchivesSpace user interface" do
 
       # Add a sub note
       notes[0].find_element(:css => '.collapse-subrecord-toggle').click
-      assert(5) { notes[0].find_element(:css => '.subrecord-form-heading .btn').click }
+      assert(5) { notes[0].find_element(:css => '.subrecord-form-heading .btn:not(.show-all)').click }
       notes[0].find_last_element(:css => 'select.multipart-note-type').select_option('note_chronology')
 
       $driver.find_element(:id => 'resource_notes__0__subnotes__2__title_')
       $driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__2__title_'], "Chronology title")
 
 
-      notes[0].find_element(:css => '.subrecord-form-heading .btn').click
+      notes[0].find_element(:css => '.subrecord-form-heading .btn:not(.show-all)').click
       notes[0].find_last_element(:css => 'select.multipart-note-type').select_option('note_definedlist')
 
       $driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__3__title_'], "Defined list")
@@ -1790,7 +1792,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.click_and_wait_until_gone(:link, 'Edit')
 
-      $driver.find_element(:css => '#notes > .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#notes > .subrecord-form-heading .btn:not(.show-all)').click
       $driver.find_last_element(:css => 'select.top-level-note-type').select_option("note_bibliography")
 
       $driver.clear_and_send_keys([:id, 'resource_notes__6__label_'], "Top-level bibliography label")
@@ -1835,7 +1837,7 @@ describe "ArchivesSpace user interface" do
     it "can add a deaccession record" do
       $driver.click_and_wait_until_gone(:link, 'Edit')
 
-      $driver.find_element(:css => '#resource_deaccessions_ .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#resource_deaccessions_ .subrecord-form-heading .btn:not(.show-all)').click
 
       $driver.find_element(:id => 'resource_deaccessions__0__date__label_').get_select_value.should eq("deaccession")
 
@@ -1875,7 +1877,7 @@ describe "ArchivesSpace user interface" do
 
       # Add some notes to it
       add_note = proc do |type|
-        $driver.find_element(:css => '#notes .subrecord-form-heading .btn').click
+        $driver.find_element(:css => '#notes .subrecord-form-heading .btn:not(.show-all)').click
         $driver.find_last_element(:css => '#notes select.top-level-note-type').select_option(type)
       end
 
@@ -1900,7 +1902,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "digital_object_digital_object_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
 
       # Add a Summary note
-      $driver.find_element(:css => '#notes .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#notes .subrecord-form-heading .btn:not(.show-all)').click
       $driver.find_last_element(:css => '#notes select.top-level-note-type').select_option_with_text("Summary")
 
       $driver.clear_and_send_keys([:id, 'digital_object_notes__0__label_'], "Summary label")
@@ -1951,7 +1953,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:id => 'digital_object_digital_object_type_').select_option_with_text("Mixed Materials")
 
-      $driver.find_element(:css => "section#digital_object_file_versions_ > h3 > .btn").click
+      $driver.find_element(:css => "section#digital_object_file_versions_ > h3 > .btn:not(.show-all)").click
 
       $driver.clear_and_send_keys([:id, "digital_object_file_versions__0__file_uri_"], "/uri/for/this/file/version")
       $driver.clear_and_send_keys([:id , "digital_object_file_versions__0__file_size_bytes_"], '100')
@@ -1969,7 +1971,7 @@ describe "ArchivesSpace user interface" do
         '\\\\SomeAwesome\Network\location.bat',
       ].each_with_index do |uri, idx|
         i = idx + 1
-        $driver.find_element(:css => "section#digital_object_file_versions_ > h3 > .btn").click
+        $driver.find_element(:css => "section#digital_object_file_versions_ > h3 > .btn:not(.show-all)").click
         $driver.clear_and_send_keys([:id, "digital_object_file_versions__#{i}__file_uri_"], uri)
         $driver.find_element(:css => ".form-actions button[type='submit']").click
       end
@@ -2007,7 +2009,7 @@ describe "ArchivesSpace user interface" do
         $driver.clear_and_send_keys([:id, "digital_object_component_label_"],(thing))
         $driver.clear_and_send_keys([:id, "digital_object_component_component_id_"],(Digest::MD5.hexdigest("#{thing}#{Time.now}")))
 
-        $driver.find_element(:css => "section#digital_object_component_file_versions_ > h3 > .btn").click
+        $driver.find_element(:css => "section#digital_object_component_file_versions_ > h3 > .btn:not(.show-all)").click
         $driver.clear_and_send_keys([:id, "digital_object_component_file_versions__0__file_uri_"], "/uri/for/this/file/version")
 
         if idx < 2
@@ -2336,7 +2338,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Create").click
       $driver.find_element(:link, "Accession").click
 
-      $driver.find_element(:css => '#accession_dates_ .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#accession_dates_ .subrecord-form-heading .btn:not(.show-all)').click
 
       date_type_select = $driver.find_element(:id => "accession_dates__0__date_type_")
       selected_type = date_type_select.get_select_value
@@ -3141,7 +3143,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:id => "resource_extents__0__extent_type_").select_option("files")
 
       # Now add a classification
-      $driver.find_element(:css => '#resource_classification_ .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#resource_classification_ .subrecord-form-heading .btn:not(.show-all)').click
 
       assert(5) {
         run_index_round
@@ -3170,7 +3172,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "accession_accession_date_"], "2013-06-11")
 
       # Now add a classification
-      $driver.find_element(:css => '#accession_classification_ .subrecord-form-heading .btn').click
+      $driver.find_element(:css => '#accession_classification_ .subrecord-form-heading .btn:not(.show-all)').click
 
       assert(5) {
         run_index_round

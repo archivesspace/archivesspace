@@ -634,7 +634,7 @@ describe 'Export Mappings' do
             mt(rules, path, 'rules')
             mt(source, path, 'source')
             mt(role, path, 'label')
-            mt(content, path)
+            mt(content.strip, path)
           end
         end
 

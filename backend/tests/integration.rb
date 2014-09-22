@@ -337,7 +337,7 @@ def run_tests(opts)
 
   puts "Records can be queried by their external ID"
   r = do_get(url("/by-external-id?eid=rhubarb"), true)
-  r.code == '303' or fail("fetch by external ID", r)
+  r.code == '303' or r.code == '300' or fail("fetch by external ID", r)
 
 
   puts "It can generate accession reports"
