@@ -1,5 +1,6 @@
 require_relative 'spec_helper'
 require_relative '../../indexer/app/lib/realtime_indexer'
+require_relative '../../indexer/app/lib/periodic_indexer'
 
 
 
@@ -9,6 +10,7 @@ describe "ArchivesSpace user interface" do
   before(:all) do
     selenium_init($backend_start_fn, $frontend_start_fn)
     @indexer = RealtimeIndexer.new($backend, nil)
+    @period = PeriodicIndexer.new
   end
 
 
@@ -17,7 +19,15 @@ describe "ArchivesSpace user interface" do
     @last_sequence = @indexer.run_index_round(@last_sequence)
   end
 
+  def run_periodic_index
+    @period.run_index_round
+  end
 
+  def run_all_indexers
+    run_index_round
+    run_periodic_index
+  end
+  
   # Stop selenium, kill the dev servers
   after(:all) do
     report_sleep
@@ -1008,6 +1018,7 @@ describe "ArchivesSpace user interface" do
       # save changes
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
+      sleep(10)
       # check the show page
       $driver.click_and_wait_until_gone(:link => @exdocs_accession_title)
       $driver.find_element(:id, "accession_rights_statements_")
@@ -1015,6 +1026,45 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:id, "rights_statement_0")
     end
 
+    it "can add collection management fields to an Accession" do
+      $driver.click_and_wait_until_gone(:link, 'Edit')
+       $accession_url = $driver.current_url
+      # add a rights sub record
+      $driver.find_element(:css => '#accession_collection_management_ .subrecord-form-heading .btn:not(.show-all)').click
+
+      $driver.clear_and_send_keys([:id => "accession_collection_management__cataloged_note_"], ["DONE!", :return])
+      $driver.find_element(:id => "accession_collection_management__processing_status_").select_option("completed")
+
+      # save changes
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
+     
+      run_all_indexers
+      # check the CM page
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Collection Management").click
+     
+    
+      expect {
+        $driver.find_element_with_text('//td', /#{@exdocs_accession_title}/ )
+      }.to_not raise_error     
+      
+      $driver.click_and_wait_until_gone(:link, 'Edit')
+     
+      # now delete it
+      $driver.find_element(:css => '#accession_collection_management_ .subrecord-form-remove').click
+      $driver.find_element(:css => '#accession_collection_management_ .confirm-removal').click 
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
+    
+      run_all_indexers
+
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Collection Management").click
+      
+      assert(5) { $driver.find_element(:css => ".alert.alert-info").text.should eq("No records found") }    
+
+      $driver.get($accession_url) 
+      $driver.click_and_wait_until_gone(:link => @exdocs_accession_title) 
+    end
 
     it "supports adding an event and then returning to the accession" do
       if false

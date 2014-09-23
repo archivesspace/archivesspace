@@ -117,6 +117,17 @@ class CommonIndexer
 
 
   def configure_doc_rules
+    
+    add_delete_hook { |records, delete_request|
+      records.each do |rec|
+        if rec.include?("_collection_management")
+          delete_request[:delete] ||= []
+          delete_request[:delete] <<  {"id" => rec}
+          delete_request[:delete] <<  {'query' => "parent_id:\"#{rec.split("#").first}\""}
+        end
+      end
+     }
+    
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'archival_object'
         doc['resource'] = record['record']['resource']['ref'] if record['record']['resource']
