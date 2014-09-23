@@ -705,9 +705,8 @@ module Relationships
 
       relationships.map do |relationship_defn|
         models = relationship_defn.participating_models
-
         if models.include?(obj.class)
-          their_ref_columns = relationship_defn.reference_columns_for(self)
+          their_ref_columns = relationship_defn.reference_columns_for(obj.class)
           my_ref_columns = relationship_defn.reference_columns_for(self)
           their_ref_columns.each do |their_col|
             my_ref_columns.each do |my_col|
