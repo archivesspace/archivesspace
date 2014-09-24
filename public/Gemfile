@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.18'
+gem 'rails', '3.2.19'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -12,7 +12,7 @@ group :assets do
   gem 'less-rails', "~> 2.3.3"
 end
 
-gem 'jquery-rails'
+gem 'jquery-rails', '~> 3.1.0'
 gem "json", "1.8.0"
 gem 'json-schema', '1.0.10'
 gem "jruby-jars", "= 1.7.11"

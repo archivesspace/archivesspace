@@ -26,7 +26,7 @@ gem "axlsx", "2.0.1"
 gem "flying_saucer", "0.8.0"
 
 group :test do
-  gem 'activesupport', '3.2.18' 
+  gem 'activesupport', '3.2.19' 
   gem "factory_girl", "~> 4.1.0"
   gem "ladle", "0.2.0"
   gem "simplecov", "0.7.1"
