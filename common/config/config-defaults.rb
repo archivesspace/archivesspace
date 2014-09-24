@@ -116,7 +116,7 @@ AppConfig[:report_pdf_font_paths] = proc { ["#{AppConfig[:backend_url]}/reports/
 AppConfig[:report_pdf_font_family] = "\"DejaVu Sans\", sans-serif"
 
 # Plug-ins to load. They will load in the order specified
-AppConfig[:plugins] = ['local', 'aspace_feedback', 'lcnaf']
+AppConfig[:plugins] = ['local', 'aspace_feedback']
 
 # Allow an unauthenticated user to create an account
 AppConfig[:allow_user_registration] = true
