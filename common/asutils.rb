@@ -10,7 +10,7 @@ module ASUtils
     result = {}
 
     hash.each do |key, value|
-      result[key.to_s] = value
+      result[key.to_s] = value.is_a?(Date) ? value.to_s : value 
     end
 
     result

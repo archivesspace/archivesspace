@@ -67,6 +67,9 @@ AbstractRelationship = Class.new(Sequel::Model) do
       # Suppress this new relationship if it points to a suppressed record
       values[:suppressed] = 1
     end
+   
+    # some objects ( like events? ) seem to leak their ids into the mix. 
+    values.reject! { |key| key == :id or key == "id" }
 
     self.create(values)
   end
