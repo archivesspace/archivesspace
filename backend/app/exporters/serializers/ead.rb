@@ -6,10 +6,10 @@ class EADSerializer < ASpaceExport::Serializer
 
 
   def prefix_id(id)
-    if id.nil? or id.empty? or id == 'null'
+    if id.nil? or id.empty? or id == 'null' or  id =~ /^#{@id_prefix}/ 
       ""
     else 
-      "#{I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')}#{id}"
+      "#{@id_prefix}#{id}"
     end 
   end
   
@@ -37,6 +37,7 @@ class EADSerializer < ASpaceExport::Serializer
     @fragments = ASpaceExport::RawXMLHandler.new
     @include_unpublished = data.include_unpublished?
     @use_numbered_c_tags = data.use_numbered_c_tags?
+    @id_prefix = I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')
 
     doc = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
 
