@@ -152,9 +152,11 @@ class ApplicationController < ActionController::Base
                                          "children[]" => params[:children],
                                          "position" => params[:index].to_i)
 
+
+
+
     if response.code == '200'
       render :json => {
-        :parent => params[:id],
         :position => params[:index].to_i
       }
     else
