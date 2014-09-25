@@ -169,12 +169,16 @@ module Trees
 
 
   def transfer_to_repository(repository, transfer_group = [])
+    super
+    
     # All records under this one will be transferred too
     children.select(:id).each do |child|
       child.transfer_to_repository(repository, transfer_group + [self])
     end
+    RequestContext.open(:repo_id => repository.id) do
+      self.adopt_children(self)
+    end
 
-    super
   end
 
 

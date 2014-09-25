@@ -11,6 +11,7 @@ describe "ArchivesSpace user interface" do
     selenium_init($backend_start_fn, $frontend_start_fn)
     @indexer = RealtimeIndexer.new($backend, nil)
     @period = PeriodicIndexer.new
+    create_test_repo('target', 'target', true)
   end
 
 
@@ -1719,6 +1720,67 @@ describe "ArchivesSpace user interface" do
       extent_headings.length.should eq (1)
       assert(5) { extent_headings[0].text.should eq ("10 Files") }
     end
+ 
+    it "can transfer a resource to another repository" do
+      
+      
+      logout
+      login("admin", "admin")
+      
+      select_repo($test_repo) 
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Resources").click
+      $driver.find_element_with_text('//tr', resource_regex).find_element(:link, 'Edit').click
+      
+      $driver.find_element(:link, "Transfer").click
+      $driver.find_element(:id, "transfer_ref_").select_option_with_text('target')
+      $driver.find_element(:css => ".transfer-button").click
+      $driver.find_element(:css, "#confirmButton").click
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Transfer Successful/)
+      
+      run_all_indexers
+
+      select_repo('target') 
+      
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Resources").click
+      
+      $driver.find_element_with_text('//td', /#{resource_stripped}/)
+
+    end
+    
+    it "can edit and reorder aftert the transfer" do
+      $driver.find_element_with_text('//tr', resource_regex).find_element(:link, 'Edit').click
+      
+      # first resize the tree pane (do it incrementally so it doesn't flip out...)
+      pane_resize_handle = $driver.find_element(:css => ".ui-resizable-handle.ui-resizable-s")
+      10.times {
+        $driver.action.drag_and_drop_by(pane_resize_handle, 0, 10).perform
+      }
+
+      source = $driver.find_element_with_text("//div[@id='archives_tree']//a", /December/)
+      target = $driver.find_element_with_text("//div[@id='archives_tree']//a", /Pony Express/)
+      $driver.action.drag_and_drop(source, target).perform
+      $driver.wait_for_ajax
+    
+      target = $driver.find_element_with_text("//div[@id='archives_tree']//li", /Pony Express/)
+      target.find_element_with_text(".//a", /December/)
+
+      # refresh the page and verify that the change really stuck
+      $driver.navigate.refresh
+
+      target = $driver.find_element_with_text("//div[@id='archives_tree']//li", /Pony Express/)
+      target.find_element_with_text(".//a", /December/).click
+      
+      $driver.clear_and_send_keys([:id, "archival_object_title_"], "save this please")
+      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+      assert(5) { $driver.find_element(:css, "h2").text.should eq("save this please Archival Object") }
+      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq('Archival Object save this please updated') }
+
+    
+    end
+  
+  
   end
 
 
