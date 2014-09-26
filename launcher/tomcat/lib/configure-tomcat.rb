@@ -41,7 +41,9 @@ class TomcatSetup
     [{:service => 'backend', :root_war => 'backend'},
      {:service => 'frontend', :root_war => 'frontend'},
      {:service => 'public', :root_war => 'public'},
-     {:service => 'solr', :root_war => 'solr', :extra_wars => ['indexer']}].each do |service|
+     {:service => 'solr', :root_war => 'solr'},
+     {:service => 'indexer', :root_war => 'indexer'}].each do |service|
+      next if service[:service] == "solr" and not AppConfig[:enable_solr]
 
       webapps = File.join(@tomcat_dir, "webapps-#{service[:service]}")
       FileUtils.mkdir_p(webapps)
@@ -102,7 +104,7 @@ class TomcatSetup
 
     server_xml = File.read(File.join(@base_dir, "launcher", "tomcat", "files", "server.xml"))
 
-    ['backend', 'frontend', 'public', 'solr'].each do |service|
+    ['backend', 'frontend', 'public', 'solr', 'indexer'].each do |service|
       server_xml = server_xml.gsub(/%#{service.upcase}_PORT%/,
                                    port_for(service).to_s)
     end
