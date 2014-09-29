@@ -31,7 +31,6 @@ $(function() {
             template = template_name($(this));
           }
 
-
           var context = $(this).parent().hasClass("controls") ? $(this).parent() : $(this).closest(".subrecord-form");
           var $target_subrecord_list = $(".subrecord-form-list:first", context);
 
@@ -271,7 +270,17 @@ $(function() {
 
         var $target_subrecord_list = $(".subrecord-form-list:first", $this);
 
-        var $subform = $(AS.renderTemplate("template_note_type_selector"));
+        var is_inline = $this.hasClass('note-inline');
+        // if it's inline, we need to bring a special template, since the
+        // template has already been defined for the parent record....
+        if ( is_inline == true ) {
+          var form_note_type =  $this.get(0).id; 
+          var inline_template = "template_" + form_note_type + "_note_type_selector_inline"; 
+          var $subform = $(AS.renderTemplate(inline_template));
+        
+        } else {   
+          var $subform = $(AS.renderTemplate("template_note_type_selector"));
+        } 
 
         $subform = $("<li>").data("type", $subform.data("type")).append($subform);
         $subform.attr("data-index", index);

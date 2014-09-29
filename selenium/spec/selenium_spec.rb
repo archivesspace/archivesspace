@@ -1425,6 +1425,15 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "accession_accession_date_"], "2012-01-01")
       $driver.clear_and_send_keys([:id, "accession_content_description_"], "9 guinea pigs")
       $driver.clear_and_send_keys([:id, "accession_condition_description_"], "furious")
+      
+      # add a rights sub record
+      $driver.find_element(:css => '#accession_collection_management_ .subrecord-form-heading .btn:not(.show-all)').click
+
+      $driver.clear_and_send_keys([:id => "accession_collection_management__cataloged_note_"], ["HOBO CAMP!", :return])
+      $driver.find_element(:id => "accession_collection_management__processing_status_").select_option("completed")
+      
+
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
       # save
       $driver.find_element(:css => "form#accession_form button[type='submit']").click
@@ -1440,6 +1449,9 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "resource_language__combobox"], ["eng", :return])
       $driver.find_element(:id, "resource_level_").select_option("collection")
 
+      # no collection managment
+      $driver.find_elements(:id, "resource_collection_management__cataloged_note_").length.should eq(0)
+      
       # condition and content descriptions have come across as notes fields
       notes_toggle = $driver.blocking_find_elements(:css => "#notes .collapse-subrecord-toggle")
       notes_toggle[0].click

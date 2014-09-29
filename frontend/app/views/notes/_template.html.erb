@@ -18,6 +18,34 @@
   {/if}
 --></div>
 
+<% form_note_type ||= nil %>
+  
+<% if ( inline? && form_note_type )  %>
+  <% define_template "#{form_note_type}_note_type_selector_inline" do |form, item| %>
+    <% if item %>
+      <% form.emit_template(item["jsonmodel_type"]) %>
+    <% else %>
+      <div class="subrecord-form-fields">
+        <div class="control-group required">
+          <label class="control-label"><%= I18n.t("note.note_type") %></label>
+          <div class="controls">
+            <select class="top-level-note-type">
+              <option></option>
+              <% model_note_types = all_note_types ? all_note_types : note_types_for(form['jsonmodel_type']) %> 
+              <% model_note_types.sort_by {|value, hash| hash[:i18n]}.each do |value, hash| %>
+                <option value="<%= hash[:target] %>"><%= hash[:i18n] %></option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+        <div class="selected-container">
+        <% form.emit_template("note_type_nil") %>
+      </div>
+    </div>
+  <% end %>
+  <% end %>
+<% end %>
+
 <% define_template "note_type_selector" do |form, item| %>
   <% if item %>
     <% form.emit_template(item["jsonmodel_type"]) %>
