@@ -15,6 +15,7 @@ gem "jruby-jars", "= 1.7.11"
 gem "warbler", "1.4.2"
 gem "nokogiri",  '~> 1.6.1'
 gem "saxerator", "~> 0.9.2"
+gem 'saxon-xslt'
 gem 'tzinfo', '0.3.39'
 gem "rufus-scheduler", "~> 2.0.24"
 gem "rufus-lru", "1.0.5"
