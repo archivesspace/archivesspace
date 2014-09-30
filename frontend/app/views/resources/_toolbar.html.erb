@@ -2,7 +2,7 @@
 
   <% unless content_for?(:exports) %>
     <% content_for :exports do %>
-      <li class="dropdown-submenu" id="download-ead-dropdown" data-download-ead-url="<%= url_for(:controller => :exports, :action => :download_ead, :id => @resource.id, :include_unpublished => "${include_unpublished}", :include_daos => "${include_daos}", :numbered_cs => "${numbered_cs}") %>">
+      <li class="dropdown-submenu" id="download-ead-dropdown" data-download-ead-url="<%= url_for(:controller => :exports, :action => :download_ead, :id => @resource.id, :include_unpublished => "${include_unpublished}", :include_daos => "${include_daos}", :numbered_cs => "${numbered_cs}", :print_pdf => "${print_pdf}" )%>">
         <a href="#" data-toggle="dropdown" class="menu-with-options download-ead-action" title="<%= I18n.t("actions.export_ead") %>"><%= I18n.t("actions.export_ead") %></a>        
         <div class="dropdown-menu" id="form_download_ead">
           <fieldset>
@@ -18,6 +18,10 @@
             <label class="checkbox" for="numbered-cs">
               <input type="checkbox" id="numbered-cs" name="numbered_cs" />
               <%= I18n.t("export_options.numbered_cs") %>&#160;
+            </label>
+            <label class="checkbox" for="print-pdf">
+              <input type="checkbox" id="print-pdf" name="print_pdf" />
+              <%= I18n.t("export_options.print_pdf") %>&#160;
             </label>
           </fieldset>
         </div>

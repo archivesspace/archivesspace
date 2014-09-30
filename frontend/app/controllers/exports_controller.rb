@@ -38,8 +38,15 @@ class ExportsController < ApplicationController
   
 
   def download_ead
-    download_export("/repositories/#{JSONModel::repository}/resource_descriptions/#{params[:id]}.xml",
+    if params[:print_pdf] 
+      url = "/repositories/#{JSONModel::repository}/resource_descriptions/#{params[:id]}.pdf"
+    else
+      url = "/repositories/#{JSONModel::repository}/resource_descriptions/#{params[:id]}.xml"
+    end 
+    
+    download_export(url,
                     :include_unpublished => (params[:include_unpublished] ? params[:include_unpublished] : false),
+                    :print_pdf => (params[:print_pdf] ? params[:print_pdf] : false),
                     :include_daos => (params[:include_daos] ? params[:include_daos] : false),
                     :numbered_cs => (params[:numbered_cs] ? params[:numbered_cs] : false))
   end

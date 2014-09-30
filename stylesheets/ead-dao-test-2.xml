@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ead xmlns="urn:isbn:1-931666-22-9"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xsi:schemaLocation="urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd">
+   <eadheader>
+      <eadid>DAO-GRP-???</eadid>
+        <filedesc>
+            <titlestmt>
+                <titleproper>DAO-test</titleproper>
+            </titlestmt>
+        </filedesc>
+   </eadheader>
+   <archdesc level="collection" relatedencoding="MARC21" type="register">
+      <did id="did">
+         <head>Overview</head>
+         <unitid countrycode="US" repositorycode="US-CtY-BR" label="Call Number:">DAO-GRP</unitid>
+          <unittitle>i'm a title, since required</unittitle>
+          <unitdate normal="1900/1999"/>
+          <physdesc>
+              <extent>1 whatever</extent>
+          </physdesc>
+      </did>
+
+      <dsc type="combined" id="dsc">
+         <head>Collection Contents</head>
+         <c01 level="series" id="s1">
+            <did>
+               <unittitle>test</unittitle>
+            </did>
+            <c02 level="subseries" id="c02.d0e12035">
+               <did>
+                  <unittitle>test</unittitle>
+               </did>
+               <c03 level="file" id="c03.d0e12221">
+                  <did>
+                     <unittitle>test</unittitle>
+                  </did>
+                   <c04 level="file">
+                       <did>
+                           <container type="Box">44</container>
+                           <container type="Folder">1-2</container>
+                           <unittitle>did/dao-grp (with 3 daoloc items)</unittitle>
+                           <unitdate type="inclusive">undated, 1955</unitdate>
+                           <physdesc>
+                               <extent>2 folders</extent>
+                           </physdesc>
+                           <daogrp>
+                               <daodesc><p>first daogrp</p></daodesc>
+                               <daoloc xlink:href="http://a" xlink:title="imageone" xlink:role="image/jpeg" xlink:label="label1"/>
+                               <daoloc xlink:href="http://b" xlink:title="imagetwo" xlink:role="image/jpeg" xlink:label="label2"/>
+                               <daoloc xlink:href="http://c" xlink:title="imagetwoverso" xlink:role="image/jpeg" xlink:label="label3"/>
+                           </daogrp>
+                       </did>
+                       <accessrestrict>
+                           <p>Folder 2 is restricted</p>
+                       </accessrestrict>
+                   </c04>
+
+                   <c04 level="file">
+                       <did>
+                           <container type="Box">45</container>
+                           <container type="Folder">1-2</container>
+                           <unittitle>did/dao-grp (with 3 daoloc items)... no daodesc</unittitle>
+                           <unitdate type="inclusive">undated, 1955</unitdate>
+                           <physdesc>
+                               <extent>2 folders</extent>
+                           </physdesc>
+                           <daogrp>
+                               <daoloc xlink:href="http://a" xlink:title="imageone" xlink:role="image/jpeg" xlink:label="label1"/>
+                               <daoloc xlink:href="http://b" xlink:title="imagetwo" xlink:role="image/jpeg" xlink:label="label2"/>
+                               <daoloc xlink:href="http://c" xlink:title="imagetwoverso" xlink:role="image/jpeg" xlink:label="label3"/>
+                           </daogrp>
+                       </did>
+                       <accessrestrict>
+                           <p>Folder 2 is restricted</p>
+                       </accessrestrict>
+                   </c04>
+ 
+                   <c04 level="file">
+                       <did>
+                           <container type="Box">46</container>
+                           <container type="Folder">1-2</container>
+                           <unittitle>dao-grp (with 3 daoloc items)</unittitle>
+                           <unitdate type="inclusive">undated, 1955</unitdate>
+                           <physdesc>
+                               <extent>2 folders</extent>
+                           </physdesc>
+                       </did>
+                       <daogrp>
+                           <daodesc><p>second daogrp</p></daodesc>
+                           <daoloc xlink:href="http://a" xlink:title="imageone" xlink:role="image/jpeg" xlink:label="label1"/>
+                           <daoloc xlink:href="http://b" xlink:title="imagetwo" xlink:role="image/jpeg" xlink:label="label2"/>
+                           <daoloc xlink:href="http://c" xlink:title="imagetwoverso" xlink:role="image/jpeg" xlink:label="label3"/>
+                       </daogrp>
+                       <accessrestrict>
+                           <p>Folder 2 is restricted</p>
+                       </accessrestrict>
+                   </c04>
+
+                   <c04 level="file">
+                       <did>
+                           <container type="Box">47</container>
+                           <unittitle>1 dao in the did</unittitle>
+                           <unitdate type="inclusive">undated, 1955</unitdate>
+                           <!-- but this form of DAO won't work
+                           <dao xlink:href="somewhere" xlink:title="required-title-1"/>
+                           -->
+                           <dao xlink:title="something" xlink:href="http://blah"><daodesc><p>needs a desc, really?</p></daodesc></dao>
+                       </did>
+                   </c04>
+                   <c04 level="file">
+                       <did>
+                           <container type="Box">48</container>
+                           <unittitle>1 dao outside of the did</unittitle>
+                           <unitdate type="inclusive">undated, 1955</unitdate>
+                       </did>
+                       <dao xlink:title="required-title-2" xlink:href="somewhere"><daodesc><p>needs a desc, really?</p></daodesc></dao>
+                   </c04>
+
+               </c03>
+            </c02>
+         </c01>
+      </dsc>
+
+   </archdesc>
+</ead>
