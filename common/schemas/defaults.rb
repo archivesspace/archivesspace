@@ -1,11 +1,24 @@
+accession_sort_column_enum = [
+                      "identifier", "accession_date", "acquisition_type", "resource_type",
+                      "restrictions_apply", "access_restrictions", "use_restrictions",
+                      "publish", 'no_value', "title"
+                     ]
 accession_browse_column_enum = [
                       "identifier", "accession_date", "acquisition_type", "resource_type",
                       "restrictions_apply", "access_restrictions", "use_restrictions",
                       "publish", 'no_value'
                      ]
+resource_sort_column_enum = [
+                      "identifier", "resource_type", "level", "language", "restrictions",
+                      "ead_id", "finding_aid_status", "publish", 'no_value', "title"
+                     ]
 resource_browse_column_enum = [
                       "identifier", "resource_type", "level", "language", "restrictions",
                       "ead_id", "finding_aid_status", "publish", 'no_value'
+                     ]
+digital_object_sort_column_enum = [
+                      "digital_object_id", "digital_object_type", "level", "restrictions",
+                      "publish", 'no_value', "title"
                      ]
 digital_object_browse_column_enum = [
                       "digital_object_id", "digital_object_type", "level", "restrictions",
@@ -21,6 +34,11 @@ digital_object_browse_column_enum = [
       "show_suppressed" =>  {"type" => "boolean", "required" => false},
       "publish" =>  {"type" => "boolean", "required" => false},
 
+      "accession_sort_by" => {
+        "type" => "string",
+        "enum" => accession_sort_column_enum,
+        "required" => false
+      },
       "accession_browse_column_1" => {
         "type" => "string",
         "enum" => accession_browse_column_enum,
@@ -47,6 +65,11 @@ digital_object_browse_column_enum = [
         "required" => false
       },
 
+      "resource_sort_by" => {
+        "type" => "string",
+        "enum" => resource_sort_column_enum,
+        "required" => false
+      },
       "resource_browse_column_1" => {
         "type" => "string",
         "enum" => resource_browse_column_enum,
@@ -73,6 +96,11 @@ digital_object_browse_column_enum = [
         "required" => false
       },
 
+      "digital_object_sort_by" => {
+        "type" => "string",
+        "enum" => digital_object_sort_column_enum,
+        "required" => false
+      },
       "digital_object_browse_column_1" => {
         "type" => "string",
         "enum" => digital_object_browse_column_enum,

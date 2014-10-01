@@ -76,6 +76,7 @@ en:
         <p>A check box for indicating that restrictions apply. The restrictions can be explained using Note subrecords or Rights subrecords.</p>
     file_versions_tooltip: |
         <p>Links a digital object or digital object component to an associated content file, addressable by URI.</p>
+    no_value: '[no value]'
     _singular: Digital Object
     _plural: Digital Objects
 
@@ -1161,6 +1162,7 @@ en:
         <p>See DACS 2.3.18-2.3.22</p>
     related_resources_tooltip: |
         <p>Used for linking associated Resources with this Accession.</p>
+    no_value: '[no value]'
     _singular: Accession
     _plural: Accessions
 
@@ -1421,6 +1423,7 @@ en:
     finding_aid_note: Finding Aid Note
     finding_aid_note_tooltip: |
         <p>For recording any additional information about the finding aid (not the described Resource) not covered by the other finding aid data elements.</p>
+    no_value: '[no value]'
     _singular: Resource
     _plural: Resources
 
@@ -1723,6 +1726,8 @@ en:
     show_suppressed_tooltip: Whether to show suppressed records that you have permission to see when browsing.
     publish: Publish?
     publish_tooltip: Whether to publish new records by default.
+    accession_sort_by: Default Sort
+    accession_sort_by_tooltip: Default ascending sort property for accession browse
     accession_browse_section: Accession Browse Columns
     accession_browse_column_1: Column 1
     accession_browse_column_1_tooltip: The field to show in column 1.
@@ -1734,6 +1739,8 @@ en:
     accession_browse_column_4_tooltip: The field to show in column 4.
     accession_browse_column_5: Column 5
     accession_browse_column_5_tooltip: The field to show in column 5.
+    resource_sort_by: Default Sort
+    resource_sort_by_tooltip: Default ascending sort property for resource browse
     resource_browse_section: Resource Browse Columns
     resource_browse_column_1: Column 1
     resource_browse_column_1_tooltip: The field to show in column 1.
@@ -1745,6 +1752,8 @@ en:
     resource_browse_column_4_tooltip: The field to show in column 4.
     resource_browse_column_5: Column 5
     resource_browse_column_5_tooltip: The field to show in column 5.
+    digital_object_sort_by: Default Sort
+    digital_object_sort_by_tooltip: Default ascending sort property for digital object browse
     digital_object_browse_section: Digital_Object Browse Columns
     digital_object_browse_column_1: Column 1
     digital_object_browse_column_1_tooltip: The field to show in column 1.

@@ -490,6 +490,14 @@ class ApplicationController < ActionController::Base
     params_for_search = params.select{|k,v| ["page", "q", "type", "sort", "exclude", "filter_term"].include?(k) and not v.blank?}
 
     params_for_search["page"] ||= 1
+    unless params_for_search["q"] or params_for_search["sort"] or params["advanced"].present?
+      context = "#{params[:controller].singularize}_sort_by"
+      if user_prefs.has_key? context and user_prefs[context] != "no_value"
+        sort_key = user_prefs[context]
+        sort_key += "_sort" if sort_key == "title"
+        params_for_search["sort"] = "#{sort_key} asc"
+      end
+    end
 
     if params_for_search["type"]
       params_for_search["type[]"] = Array(params_for_search["type"]).reject{|v| v.blank?}

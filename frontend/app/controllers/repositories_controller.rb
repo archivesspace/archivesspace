@@ -9,7 +9,7 @@ class RepositoriesController < ApplicationController
 
 
   def index
-    @search_data = Search.global(params_for_backend_search.merge({"facet[]" => []}),
+    @search_data = Search.global({"sort" => "title_sort asc"}.merge(params_for_backend_search.merge({"facet[]" => []})),
                                  "repositories")
   end
 
