@@ -3,7 +3,7 @@ $(function() {
       "language": {
         "tag": "language",
         "attributes": [],
-        "exclude": ["langmaterial"]
+        "exclude": ["accessrestrict", "accruals", "acqinfo", "altformavail", "appraisal", "arrangement", "bibliography", "bioghist", "custodhist", "fileplan", "index", "odd", "otherfindaid", "originalsloc", "phystech", "prefercite", "processinfo", "relatedmaterial", "scopecontent", "separatedmaterial", "userestrict", "dimensions", "legalstatus", "summary", "edition", "extent", "note", "inscription",  "physdesc", "relatedmaterial", "abstract", "physloc", "materialspec", "physfacet"]
       },
       "blockquote": {
         "tag": "blockquote",
@@ -33,7 +33,7 @@ $(function() {
       "emph": {
         "tag": "emph",
         "attributes": ["render"],
-        "exclude": ["abstract", "accruals", "appraisal", "arrangement", "note_bibliography", "bioghist", "accessrestrict", "userestrict", "custodhist", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "otherfindaid", "phystech", "prefercite", "processinfo", "relatedmaterial", "scopecontent" , "separatedmaterial", "note_index"]
+        "exclude": ["langmaterial", "abstract", "accruals", "appraisal", "arrangement", "note_bibliography", "bioghist", "accessrestrict", "userestrict", "custodhist", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "otherfindaid", "phystech", "prefercite", "processinfo", "relatedmaterial", "scopecontent" , "separatedmaterial", "note_index"]
       },
       "corpname": {
         "tag": "corpname",
@@ -73,17 +73,17 @@ $(function() {
       "title": {
         "tag": "title",
         "attributes": ["render", "accruals"],
-        "exclude": ["appraisal", "accruals", "arrangement", "bioghist", "accessrestrict", "userestrict", "custodhist", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "legalstatus", "phystech", "prefercite", "processinfo", "scopecontent" , "note_index"]
+        "exclude": ["langmaterial", "appraisal", "accruals", "arrangement", "bioghist", "accessrestrict", "userestrict", "custodhist", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "legalstatus", "phystech", "prefercite", "processinfo", "scopecontent" , "note_index"]
       },
       "ref": {
         "tag": "ref",
         "attributes": ["target", "show", "title", "actuate", "href"],
-        "exclude": [ "accruals", "appraisal", "arrangement", "bioghist", "accessrestrict", "userestrict", "custodhist", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "legalstatus", "phystech", "prefercite", "processinfo", "scopecontent" , "note_index"]
+        "exclude": ["langmaterial", "accruals", "appraisal", "arrangement", "bioghist", "accessrestrict", "userestrict", "custodhist", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "legalstatus", "phystech", "prefercite", "processinfo", "scopecontent" , "note_index"]
       },
       "extref": {
         "tag": "extref",
         "attributes": ["show", "title", "actuate", "href"],
-        "exclude": ["abstract", "accruals", "appraisal", "arrangement", "bioghist", "accessrestrict", "userestrict", "custodhist", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "legalstatus", "phystech", "prefercite", "processinfo", "scopecontent" , "separatedmaterial", "note_index"]
+        "exclude": ["langmaterial", "abstract", "accruals", "appraisal", "arrangement", "bioghist", "accessrestrict", "userestrict", "custodhist", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "legalstatus", "phystech", "prefercite", "processinfo", "scopecontent" , "separatedmaterial", "note_index"]
 
       },
     };
