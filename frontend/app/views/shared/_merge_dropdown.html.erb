@@ -11,7 +11,7 @@
     </a>
     <ul class="dropdown-menu merge-form open-aligned-right">
       <li>
-        <p><%= I18n.t("#{singular}._frontend.messages.merge_description") %></p>
+      <p><%= I18n.t("#{singular}._frontend.messages.merge_description") %>   <%= record.title %></p>
         <%= form_context :merge, {} do |form| %>
 
         <fieldset>

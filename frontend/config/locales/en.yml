@@ -304,7 +304,7 @@ en:
         created: Agent Created
         updated: Agent Saved
         deleted: Agent Deleted
-        merge_description: Merge into this agent...
+        merge_description: Select below agents to merge into 
         merged: Agent(s) Merged
         please_select_a_agent_to_merge: Please select an agent
       section:
@@ -431,7 +431,7 @@ en:
         updated: "Digital Object <strong>%{digital_object.title}</strong> Updated"
         deleted: "Digital Object <strong>%{digital_object.title}</strong> Deleted"
         published: "The Digital Object <strong>%{digital_object.title}</strong>, its subrecords and components have been published"
-        merge_description: Merge into this digital object...
+        merge_description: Select digital objects below to merge into
         please_select_a_digital_object_to_merge: Please select a digital object
         merged: Digital object(s) Merged
         transfer_description: Transfer this resource to...
@@ -659,7 +659,7 @@ en:
         spawned: "A new Resource has been spawned from Accession <strong>%{accession.display_string}</strong>"
         deleted: "Resource <strong>%{resource.title}</strong> deleted"
         published: "The Resource <strong>%{resource.title}</strong>, its subrecords and components have been published"
-        merge_description: Merge into this resource...
+        merge_description: Select resources below to merge into
         please_select_a_resource_to_merge: Please select a resource
         merged: Resource(s) Merged
         transfer_description: Transfer this resource to...
@@ -704,7 +704,7 @@ en:
         updated: Subject Saved
         deleted: Subject Deleted
         merged: Subject(s) Merged
-        merge_description: Merge into this subject...
+        merge_description: Select subjects below to merge into
         please_select_a_subject_to_merge: Please select a subject
       section:
         basic_information: Basic Information
