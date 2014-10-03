@@ -130,4 +130,38 @@ describe 'MARC Export' do
       end
     end
   end    
+
+  describe "datafield 65x mapping" do
+    before(:all) do
+
+      @subjects = [] 
+      5.times {
+        @subjects << create(:json_subject)
+      }
+     linked_subjects = @subjects.map {|s| {:ref => s.uri} }
+
+     
+
+
+      @extents = [ build(:json_extent)] 
+      @resource = create(:json_resource,
+                         :extents => @extents,
+                         :subjects => linked_subjects)
+
+      @marc = get_marc(@resource)
+
+       #puts "SOURCE: #{@resource.inspect}"
+       #puts "RESULT: #{@marc.to_xml}"
+    end
+
+    it "creates a 65x field for each subject" do
+      xmlnotes = [] 
+      (0..9).each do |i|
+        tag = "65#{i.to_s}"  
+        @marc.xpath("//xmlns:datafield[@tag = '#{tag}']").each { |x| xmlnotes << x  } 
+      end
+      xmlnotes.length.should eq(@subjects.length) 
+    end
+  end    
+
 end

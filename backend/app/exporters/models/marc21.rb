@@ -211,6 +211,8 @@ class MARCModel < ASpaceExport::ExportModel
                       ['656', '7']
                     when 'function'
                       ['656', '7']
+                    else
+                      ['650', source_to_code(subject['source'])]
                     end
       sfs = [['a', term['term']]]
 
@@ -229,7 +231,7 @@ class MARCModel < ASpaceExport::ExportModel
         sfs << ['2', subject['source']]
       end
 
-      df(code, ' ', ind2).with_sfs(*sfs)
+      df!(code, ' ', ind2).with_sfs(*sfs)
     end
   end
 
