@@ -1,6 +1,11 @@
 Running ArchivesSpace under Tomcat
 ----------------------------------
 
+Before using these intructions, please have a look at the main documentation.
+It a good idea to try out ArchivesSpace and be able to have it running in the
+standard foreground mode ( using the archivesspace.bat or archivesspace.sh scripts).
+Also, be sure to have your database setup and config.rb configured correctly.
+
 ArchivesSpace is packaged as a set of `.war` files, so you can run it
 under any servlet container you like.  Unless you have particular
 needs, we recommend you use the standard method described in README.md
