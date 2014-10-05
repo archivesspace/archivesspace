@@ -146,9 +146,11 @@
             <!-- The fo:page-sequence establishes headers, footers and the body of the page.-->            
             <!-- Cover page layout -->            
             <fo:page-sequence master-reference="cover-page">
-                <fo:static-content flow-name="xsl-region-after">
-                    <xsl:apply-templates select="/ead:ead/ead:eadheader/ead:filedesc/ead:publicationstmt" mode="coverPage"/>
-                </fo:static-content>
+                <xsl:if test="/ead:ead/ead:eadheader/ead:filedesc/ead:publicationstmt">
+                  <fo:static-content flow-name="xsl-region-after">
+                        <xsl:apply-templates select="/ead:ead/ead:eadheader/ead:filedesc/ead:publicationstmt" mode="coverPage"/>
+                    </fo:static-content>
+               </xsl:if>   
                 <fo:flow flow-name="xsl-region-body">                                   
                     <xsl:apply-templates select="/ead:ead/ead:eadheader/ead:filedesc/ead:titlestmt" mode="coverPage"/>
                 </fo:flow>               

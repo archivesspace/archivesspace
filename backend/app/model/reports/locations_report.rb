@@ -1,57 +1,46 @@
-#noinspection ALL
-class LocationsReport < AbstractReport
+require_relative 'json_report'
+
+class LocationsReport < JSONReport
+
   register_report({
                     :uri_suffix => "locations",
                     :description => "Report on repository locations",
                   })
-
-  def initialize(params)
-    super
-  end
-
-  def headers
-    Location.columns
-  end
-
-  def processor
-    {
-      'identifier' => proc {|record| ASUtils.json_parse(record[:identifier] || "[]").compact.join("-")}
-    }
-  end
 
   def scope_by_repo_id(dataset)
     # repo scope is applied in the query below
     dataset
   end
 
-# SELECT * FROM "LOCATION" 
-# LEFT OUTER JOIN "HOUSED_AT_RLSHP" ON ("HOUSED_AT_RLSHP"."LOCATION_ID" = "LOCATION"."ID") 
-# LEFT OUTER JOIN "CONTAINER" ON ("CONTAINER"."ID" = "HOUSED_AT_RLSHP"."CONTAINER_ID") 
-# LEFT OUTER JOIN "INSTANCE" ON ("INSTANCE"."ID" = "CONTAINER"."INSTANCE_ID") 
-# LEFT OUTER JOIN "RESOURCE" ON ("RESOURCE"."ID" = "INSTANCE"."RESOURCE_ID") 
-# LEFT OUTER JOIN "REPOSITORY" ON ("REPOSITORY"."ID" = "RESOURCE"."REPO_ID")
-  def query(db)
-    dataset = db[:location].
-      select_all( :location).
-      select_append( Sequel.as( :repository__id, :repo_id) ).
-      join(:housed_at_rlshp, :location_id => :location__id).
-      join(:container, :id => :housed_at_rlshp__container_id).
-      join(:instance, :id => :container__instance_id).
-      join(:resource, :id => :instance__resource_id).
-      join(:repository, :id => :resource__repo_id)
-      .where(Sequel.qualify(:repository, :id) => @repo_id) 
- 
-    dataset2 = db[:location].
-      select_all( :location).
-      select_append( Sequel.as( :repository__id, :repo_id) ).
-      join(:housed_at_rlshp, :location_id => :location__id).
-      join(:container, :id => :housed_at_rlshp__container_id).
-      join(:instance, :id => :container__instance_id).
-      join(:accession, :id => :instance__accession_id).
-      join(:repository, :id => :accession__repo_id)
-      .where(Sequel.qualify(:repository, :id) => @repo_id) 
- 
-    dataset.union(dataset2, :all => true )
+  def query
+    results = nil 
+    DB.open do |db|
+      locations = db[:location].select(:building, :title, :floor, :room, :area, :barcode, :classification, :id ).all
+      
+      resources = db[:location].
+        join(:housed_at_rlshp, :location_id => :location__id).
+        join(:container, :id => :housed_at_rlshp__container_id).
+        join(:instance,{  :id => :container__instance_id} , :table_alias => :instance ).
+        join(:enumeration_value, :id => :instance__instance_type_id).
+        join(:resource, { :id => :instance__resource_id }, :table_alias => :resource ).
+        join(:repository, :id => :resource__repo_id).
+        where(Sequel.qualify(:repository, :id) => @repo_id).
+        select(:resource__id, :resource__title, Sequel.as( :location__id, :location_id), Sequel.as( :enumeration_value__value, :instance_type)).  
+        all
+       
+      accessions = db[:location].
+        join(:housed_at_rlshp, :location_id => :location__id).
+        join(:container, :id => :housed_at_rlshp__container_id).
+        join(:instance, :id => :container__instance_id).
+        join(:accession, :id => :instance__accession_id).
+        join(:repository, :id => :accession__repo_id).
+        where(Sequel.qualify(:repository, :id) => @repo_id).
+        select(:accession__id, :accession__title, :accession__identifier,  Sequel.as( :location__id, :location_id)).
+        all
+      
+      results = { :locations => locations, :resources => resources, :accessions => accessions }
+    end 
+    results
   end
 
 end

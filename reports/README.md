@@ -16,3 +16,8 @@ To configure your own font:
         AppConfig[:report_pdf_font_family] = "My Font"
 
 3. Restart your application for the new configuration settings to apply.
+
+## Including Jasper JRXML Files for reports
+
+Add your JRXML file to the jasper directory.
+

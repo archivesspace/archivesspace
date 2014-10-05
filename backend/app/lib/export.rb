@@ -1,8 +1,20 @@
 require_relative "../exporters/lib/exporter"
+require_relative 'AS_fop'
+
 
 module ExportHelpers
 
   ASpaceExport::init
+  
+  def pdf_response(pdf)
+    [status, {"Content-Type" => "application/pdf"}, pdf ]
+  end
+  
+  def generate_pdf_from_ead( ead )
+    xml = ""
+    ead.each { |e| xml << e  }
+    ASFop.new(xml).to_pdf
+  end
 
   def xml_response(xml)
     [status, {"Content-Type" => "application/xml"}, [xml + "\n"]]
@@ -66,7 +78,7 @@ module ExportHelpers
     ASpaceExport::stream(ead)
   end
 
-
+  
   def generate_eac(id, type)
     klass = Kernel.const_get(type.camelize)
     events = []

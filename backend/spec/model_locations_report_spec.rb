@@ -33,13 +33,22 @@ describe 'LocationsReport model' do
     create(:json_location, :temporary => generate(:temporary_location_type))
 
     report = LocationsReport.new({:repo_id => $repo_id})
-    report.to_enum.to_a.length.should == 2 
+    json = JSON(  String.from_java_bytes( report.render(:json) )   )
     
+    json["locations"].length.should == 3 
     
-    report.to_enum.first[:barcode].should eq(location.barcode)
-    report.to_enum.first[:building].should eq(location.building)
-    report.to_enum.to_a.last[:barcode].should eq(location2.barcode)
-    report.to_enum.to_a.last[:building].should eq(location2.building)
-     
+    loc1 = json["locations"][0]
+    loc2 = json["locations"][1]
+
+    loc1["barcode"].should eq(location.barcode)
+    loc1["building"].should eq(location.building)
+    loc2["barcode"].should eq(location2.barcode)
+    loc2["building"].should eq(location2.building)
+    
+    # unsure how to test these...let's just render them and see if there are
+    # any errors. 
+    report.render(:html)
+    report.render(:pdf) 
+    report.render(:xlsx) 
   end
 end
