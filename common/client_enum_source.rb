@@ -1,7 +1,7 @@
 require "jsonmodel"
 require "memoryleak"
 
-class FrontendEnumSource
+class ClientEnumSource
 
   def initialize
     MemoryLeak::Resources.define(:enumerations, proc {

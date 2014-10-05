@@ -4,7 +4,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create an Archival Object")
     .params(["archival_object", JSONModel(:archival_object), "The record to create", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:update_resource_record])
     .returns([200, :created],
              [400, :error]) \
   do
@@ -17,7 +17,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
             ["archival_object", JSONModel(:archival_object), "The updated record", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:update_resource_record])
     .returns([200, :updated],
              [400, :error]) \
   do
@@ -31,7 +31,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["parent", Integer, "The parent of this node in the tree", :optional => true],
             ["position", Integer, "The position of this node in the tree", :optional => true],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:update_resource_record])
     .returns([200, :updated],
              [400, :error]) \
   do

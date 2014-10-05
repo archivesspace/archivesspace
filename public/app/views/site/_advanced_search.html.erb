@@ -1,6 +1,15 @@
 <%
   values_for_operator = JSONModel(:boolean_query).schema['properties']['op']['enum'].collect {|v| [I18n.t("advanced_search.operator.#{v}", :default => v), v]}
-  values_for_scope = JSONModel(:field_query).schema['properties']['field']['enum'].collect {|v| [I18n.t("search_results.filter.#{v}", :default => v), v]}
+  default_field = nil
+
+  values_for_text = AdvancedSearch.fields_matching(:type => :text, :visibility => :public).map {|field|
+    if field.is_default
+      default_field = field.name
+    end
+    [I18n.t("advanced_search.text.#{field.name}"), field.name]
+  }.sort_by(&:first)
+
+
 %>
 <%= form_tag(url_for(:controller => :search, :action => :advanced_search), :method => :get, :class => "advanced-search") do %>
   <%= hidden_field_tag "advanced", true %>
@@ -12,7 +21,7 @@
       <%= text_field_tag "v0", params["v0"] %>
     </div>
     <div class="span3">
-      <%=select_tag "f0", options_for_select(values_for_scope, params["f0"]) %>
+      <%=select_tag "f0", options_for_select(values_for_text, params["f0"] || default_field) %>
     </div>
   </div>
   <div class="span12">
@@ -23,7 +32,7 @@
       <%= text_field_tag "v1", params["v1"] %>
     </div>
     <div class="span3">
-      <%=select_tag "f1", options_for_select(values_for_scope, params["f1"]) %>
+      <%=select_tag "f1", options_for_select(values_for_text, params["f1"] || default_field) %>
     </div>
   </div>
   <div class="span12">
@@ -34,7 +43,7 @@
       <%= text_field_tag "v2", params["v2"] %>
     </div>
     <div class="span3">
-      <%=select_tag "f2", options_for_select(values_for_scope, params["f2"]) %>
+      <%=select_tag "f2", options_for_select(values_for_text, params["f2"] || default_field) %>
     </div>
   </div>
   <div class="span11">

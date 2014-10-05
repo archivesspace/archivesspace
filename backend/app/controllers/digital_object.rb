@@ -18,7 +18,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create a Digital Object")
     .params(["digital_object", JSONModel(:digital_object), "The record to create", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:update_digital_object_record])
     .returns([200, :created],
              [400, :error]) \
   do
@@ -31,7 +31,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
             ["digital_object", JSONModel(:digital_object), "The updated record", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:update_digital_object_record])
     .returns([200, :updated],
              [400, :error]) \
   do
@@ -78,7 +78,7 @@ class ArchivesSpaceService < Sinatra::Base
   .description("Publish a digital object and all its sub-records and components")
   .params(["id", :id],
           ["repo_id", :repo_id])
-  .permissions([:update_archival_record])
+  .permissions([:update_digital_object_record])
   .returns([200, :updated],
            [400, :error]) \
   do

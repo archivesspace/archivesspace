@@ -20,21 +20,25 @@ module DynamicEnums
           define_method("#{property}=".intern) do |value|
 
             if value
-              enum_value_id = BackendEnumSource.id_for_value(definition[:uses_enum], value)
+              Array(definition[:uses_enum]).each do |enum_name|
+                enum_value_id = BackendEnumSource.id_for_value(enum_name, value)
 
-              if !enum_value_id && value == 'other_unmapped' && AppConfig[:allow_other_unmapped]
-                # Ensure this value exists for this enumeration
-                enum = Enumeration[:name => definition[:uses_enum]]
-                enum_value_id = DB.attempt {
-                  EnumerationValue.create(:enumeration_id => enum.id, :value => 'other_unmapped').id
-                }.and_if_constraint_fails do
-                  BackendEnumSource.id_for_value(definition[:uses_enum], value)
+                if !enum_value_id && value == 'other_unmapped' && AppConfig[:allow_other_unmapped]
+                  # Ensure this value exists for this enumeration
+                  enum = Enumeration[:name => definition[:uses_enum]]
+                  enum_value_id = DB.attempt {
+                    EnumerationValue.create(:enumeration_id => enum.id, :value => 'other_unmapped').id
+                  }.and_if_constraint_fails do
+                    BackendEnumSource.id_for_value(definition[:uses_enum], value)
+                  end
                 end
+
+                next if !enum_value_id
+                self[property_id] = enum_value_id
+                break
               end
 
-              raise "Invalid value: #{value}" if !enum_value_id
-
-              self[property_id] = enum_value_id
+              raise "Invalid value: #{value}" if !self[property_id]
             else
               self[property_id] = nil
             end
@@ -43,8 +47,12 @@ module DynamicEnums
 
           define_method("#{property}".intern) do
             if self[property_id]
-              BackendEnumSource.value_for_id(definition[:uses_enum], self[property_id]) or
-                raise "Couldn't find enum for #{self[property_id]}"
+              result = Array(definition[:uses_enum]).map {|enum_name|
+                BackendEnumSource.value_for_id(enum_name, self[property_id])
+              }.compact.first
+
+              raise "Couldn't find enum for #{self[property_id]}" unless result
+              result
             else
               nil
             end

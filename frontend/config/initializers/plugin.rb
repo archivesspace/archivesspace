@@ -9,8 +9,10 @@ module Plugins
       # config.yml is optional, so defaults go here
       @config[:plugin][plugin] = {'parents' => []}
       plugin_dir = ASUtils.find_local_directories(nil, plugin).shift
-      Dir.glob(File.join(plugin_dir, 'config.yml')).each do |config|
-        @config[:plugin][plugin] = cfg = YAML.load_file File.absolute_path(config)
+
+      config_path = File.join(plugin_dir, 'config.yml')
+      if File.exist?(config_path)
+        @config[:plugin][plugin] = cfg = YAML.load_file config_path
         @config[:system_menu_items] << cfg['system_menu_controller'] if cfg['system_menu_controller']
         @config[:repository_menu_items] << cfg['repository_menu_controller'] if cfg['repository_menu_controller']
         (cfg['parents'] || {}).keys.each do |parent|

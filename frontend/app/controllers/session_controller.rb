@@ -68,8 +68,12 @@ class SessionController < ApplicationController
     record_info = JSONModel.parse_reference(params[:uri])
 
     case record_info[:type]
-    when 'accession', 'resource', 'archival_object', 'digital_object', 'digital_object_component'
-      user_can?('update_archival_record', params[:repository])
+    when 'accession'
+      user_can?('update_accession_record', params[:repository])
+    when 'resource', 'archival_object'
+      user_can?('update_resource_record', params[:repository])
+    when 'digital_object', 'digital_object_component'
+      user_can?('update_digital_object_record', params[:repository])
     when /^agent/
       user_can?('update_agent_record')
     when 'subject'

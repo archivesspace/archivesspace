@@ -5,7 +5,7 @@ class ArchivesSpaceService < Sinatra::Base
   .params(["children", JSONModel(:archival_record_children), "The children to add to the resource", :body => true],
           ["id", :id],
           ["repo_id", :repo_id])
-  .permissions([:update_archival_record])
+  .permissions([:update_resource_record])
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -23,7 +23,7 @@ class ArchivesSpaceService < Sinatra::Base
   .params(["children", JSONModel(:archival_record_children), "The children to add to the archival object", :body => true],
           ["id", Integer, "The ID of the archival object to add children to"],
           ["repo_id", :repo_id])
-  .permissions([:update_archival_record])
+  .permissions([:update_resource_record])
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -41,7 +41,7 @@ class ArchivesSpaceService < Sinatra::Base
   .params(["children", JSONModel(:digital_record_children), "The component children to add to the digital object", :body => true],
           ["id", :id],
           ["repo_id", :repo_id])
-  .permissions([:update_archival_record])
+  .permissions([:update_digital_object_record])
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -59,7 +59,7 @@ class ArchivesSpaceService < Sinatra::Base
   .params(["children", JSONModel(:digital_record_children), "The children to add to the digital object component", :body => true],
           ["id", Integer, "The ID of the digital object component to add children to"],
           ["repo_id", :repo_id])
-  .permissions([:update_archival_record])
+  .permissions([:update_digital_object_record])
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -77,7 +77,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["id", Integer, "The ID of the Archival Object to move children to"],
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
-  .permissions([:update_archival_record])
+  .permissions([:update_resource_record])
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -92,7 +92,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["id", Integer, "The ID of the Resource to move children to"],
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
-  .permissions([:update_archival_record])
+  .permissions([:update_resource_record])
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -107,7 +107,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["id", Integer, "The ID of the Digital Object to move children to"],
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
-  .permissions([:update_archival_record])
+  .permissions([:update_digital_object_record])
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -122,7 +122,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["id", Integer, "The ID of the Digital Object Component to move children to"],
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
-  .permissions([:update_archival_record])
+  .permissions([:update_digital_object_record])
   .returns([200, :created],
            [400, :error],
            [409, :error]) \

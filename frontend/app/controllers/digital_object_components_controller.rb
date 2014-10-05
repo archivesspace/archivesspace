@@ -1,7 +1,7 @@
 class DigitalObjectComponentsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show],
-                      "update_archival_record" => [:new, :edit, :create, :update, :accept_children, :rde, :add_children, :validate_rows],
+                      "update_digital_object_record" => [:new, :edit, :create, :update, :accept_children, :rde, :add_children, :validate_rows],
                       "suppress_archival_record" => [:suppress, :unsuppress],
                       "delete_archival_record" => [:delete]
 

@@ -714,6 +714,63 @@ describe "ArchivesSpace user interface" do
     end
 
 
+    it "can spawn an accession from an existing accession" do
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Accession").click
+
+      $driver.clear_and_send_keys([:id, "accession_title_"], "Charles Darwin's paperclip collection")
+      $driver.complete_4part_id("accession_id_%d_")
+      $driver.clear_and_send_keys([:id, "accession_accession_date_"], "2012-01-01")
+      $driver.clear_and_send_keys([:id, "accession_content_description_"], "Lots of paperclips")
+      $driver.clear_and_send_keys([:id, "accession_condition_description_"], "pristine")
+
+      # add a date
+      $driver.find_element(:css => '#accession_dates_ .subrecord-form-heading .btn:not(.show-all)').click
+      $driver.find_element(:id => "accession_dates__0__label_").select_option("digitized")
+      $driver.find_element(:id => "accession_dates__0__date_type_").select_option("single")
+      $driver.clear_and_send_keys([:id, "accession_dates__0__expression_"], "The day before yesterday.")
+
+      # add a rights subrecord
+      $driver.find_element(:css => '#accession_rights_statements_ .subrecord-form-heading .btn:not(.show-all)').click
+      $driver.find_element(:id => "accession_rights_statements__0__rights_type_").select_option("intellectual_property")
+      $driver.find_element(:id => "accession_rights_statements__0__ip_status_").select_option("copyrighted")
+      $driver.clear_and_send_keys([:id => "accession_rights_statements__0__jurisdiction__combobox"], ["AU", :return])
+      $driver.find_element(:id, "accession_rights_statements__0__active_").click
+
+      # add an external document
+      $driver.find_element(:css => "#accession_rights_statements__0__external_documents_ .subrecord-form-heading .btn:not(.show-all)").click
+      $driver.clear_and_send_keys([:id, "accession_rights_statements__0__external_documents__0__title_"], "Agreement")
+      $driver.clear_and_send_keys([:id, "accession_rights_statements__0__external_documents__0__location_"], "http://locationof.agreement.com")
+
+      # save
+      $driver.find_element(:css => "form#accession_form button[type='submit']").click
+
+      # Spawn an accession from the accession we just created
+      $driver.find_element(:link, "Spawn").click
+      $driver.find_element(:link, "Accession").click
+
+      $driver.clear_and_send_keys([:id, "accession_title_"], "Charles Darwin's second paperclip collection")
+      $driver.complete_4part_id("accession_id_%d_")
+
+      $driver.find_element(:css => "form#accession_form button[type='submit']").click
+
+      # Success!
+      assert(5) {
+        $driver.find_element_with_text('//div', /Accession Charles Darwin's second paperclip collection created/).should_not be_nil
+      }
+
+      $driver.click_and_wait_until_gone(:link => "Charles Darwin's second paperclip collection")
+
+      # date should have come across
+      date_headings = $driver.blocking_find_elements(:css => '#accession_dates_ .accordion-heading')
+      date_headings.length.should eq (1)
+
+      # rights and external doc shouldn't
+      $driver.ensure_no_such_element(:id, "accession_rights_statements_")
+      $driver.ensure_no_such_element(:id, "accession_external_documents_")
+    end
+
+
     it "can create an Accession" do
       $driver.find_element(:link, "Create").click
       $driver.find_element(:link, "Accession").click
@@ -801,7 +858,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can link an accession to an agent as a subject" do
-      create_agent("Accession Subject Agent #{@me}")
+      create_agent("Subject Agent #{@me}")
       run_index_round
 
       $driver.click_and_wait_until_gone(:link, 'Edit')
@@ -1049,6 +1106,7 @@ describe "ArchivesSpace user interface" do
         $driver.find_element_with_text('//td', /#{@exdocs_accession_title}/ )
       }.to_not raise_error     
       
+      $driver.click_and_wait_until_gone(:link, 'View')
       $driver.click_and_wait_until_gone(:link, 'Edit')
      
       # now delete it
@@ -1096,6 +1154,35 @@ describe "ArchivesSpace user interface" do
         $driver.find_element(:css => '.record-pane h2').text.should eq("#{@exdocs_accession_title} Accession")
       }
       end
+    end
+
+
+    it "can create an accession which is linked to another accession" do
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Accession").click
+
+      # populate mandatory fields
+      $driver.clear_and_send_keys([:id, "accession_title_"], "linked_accession_#{@me}")
+
+      $driver.complete_4part_id("accession_id_%d_")
+      
+      #$driver.find_element(:css => '#accession_collection_management_ .subrecord-form-heading .btn:not(.show-all)').click
+      $driver.find_element(:css => "#accession_related_accessions_ .subrecord-form-heading .btn:not(.show-all)").click
+
+      $driver.find_element(:class, "related-accession-type").select_option('accession_parts_relationship')
+
+      token_input = $driver.find_element(:id, "token-input-accession_related_accessions__0__ref_")
+      token_input.clear
+      token_input.click
+      token_input.send_keys(@accession_title)
+      $driver.find_element(:css =>  "li.token-input-dropdown-item2").click
+
+      $driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
+
+      $driver.find_element(:link, "linked_accession_#{@me}").click
+
+      $driver.find_element_with_text('//td', /Forms Part of/)
+      $driver.find_element_with_text('//td', /#{@accession_title}/)
     end
 
 
@@ -1337,7 +1424,7 @@ describe "ArchivesSpace user interface" do
       # Try to navigate to the edit form
       $driver.get(digital_object_edit_url)
 
-      # assert(5) { $driver.current_url.should eq(digital_object_edit_url) }
+      assert(5) { $driver.current_url.should eq(digital_object_url) }
       assert(5) { $driver.find_element(:css => "div.alert.alert-info").text.should eq('Digital Object is suppressed and cannot be edited') }
     end
 
@@ -2659,6 +2746,7 @@ describe "ArchivesSpace user interface" do
       $driver.wait_for_ajax
       @modal.find_element(:css, ".add-rows-form .btn.btn-primary").click
       $driver.wait_for_ajax
+      
       # there should be 10 rows now :)
       @modal.find_elements(:css, "table tbody tr").length.should eq(10)
 
@@ -2899,6 +2987,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "digital_record_children_children__0__label_"], "DO_LABEL")
 
       @modal.find_element(:css, ".btn.add-rows-dropdown").click
+      
       # 8.times { @modal.find_element(:css, ".add-rows-form input").send_keys(:arrow_up) } 
       $driver.clear_and_send_keys([:css, ".add-rows-form input"], "9") 
       
@@ -2909,6 +2998,7 @@ describe "ArchivesSpace user interface" do
       unless stupid == '9'  
         9.times { @modal.find_element(:css, ".add-rows-form input").send_keys(:arrow_up) } 
       end 
+      
       @modal.find_element(:css, ".add-rows-form .btn.btn-primary").click
 
       # there should be 10 rows now :)
@@ -3345,6 +3435,264 @@ describe "ArchivesSpace user interface" do
       cells = $driver.find_elements(:css, "table th")
       cells[1].text.should eq("Title")
       cells[2].text.should eq("Acquisition Type")
+    end
+
+  end
+
+  describe "Advanced Search" do
+
+    before(:all) do
+      login_as_repo_manager
+
+      @shared_keyword_1 = SecureRandom.hex
+      @shared_keyword_2 = SecureRandom.hex
+      @shared_keyword_3 = SecureRandom.hex
+      @shared_keyword_4 = SecureRandom.hex
+      @shared_keyword_5 = SecureRandom.hex
+      @shared_keyword_6 = SecureRandom.hex
+      @shared_keyword_7 = SecureRandom.hex
+      @shared_keyword_8 = SecureRandom.hex
+      @shared_keyword_9 = SecureRandom.hex
+      @shared_keyword_10 = SecureRandom.hex
+
+      @accession_1_title = create_accession(:title => "#{@shared_keyword_1} #{@shared_keyword_5}", :publish => true)
+      @accession_2_title = create_accession(:title => "#{@shared_keyword_2} #{@shared_keyword_6}", :publish => false)
+      @resource_1_title = create_resource(:title => "#{@shared_keyword_1} #{@shared_keyword_7}", :publish => false)[1]
+      @resource_2_title = create_resource(:title => "#{@shared_keyword_3} #{@shared_keyword_8}", :publish => true)[1]
+      @digital_object_1_title = create_digital_object(:title => "#{@shared_keyword_1} #{@shared_keyword_9}")[1]
+      @digital_object_2_title = create_digital_object(:title => "#{@shared_keyword_4} #{@shared_keyword_10}")[1]
+
+      run_index_round
+    end
+
+
+    after(:all) do
+      logout
+    end
+
+
+    it "is available via the navbar and renders when toggled" do
+      $driver.find_element(:css => ".navbar .search-switcher").click
+
+      assert(10) {
+        advanced_search_form = $driver.find_element(:css => "form.advanced-search")
+        advanced_search_form.find_element(:id => "v0")
+        advanced_search_form.find_element(:css => ".btn-primary")
+      }
+    end
+
+
+    it "finds matches with one keyword field query" do
+      $driver.clear_and_send_keys([:id => "v0"], @shared_keyword_1)
+
+      $driver.click_and_wait_until_gone(:css => ".advanced-search .btn-primary")
+
+      # result list should contain those items with the @shared_keyword_1 in the title
+      $driver.find_element_with_text("//td", /#{@accession_1_title}/)
+      $driver.find_element_with_text("//td", /#{@resource_1_title}/)
+      $driver.find_element_with_text("//td", /#{@digital_object_1_title}/)
+
+      # these records should not appear in the results
+      $driver.ensure_no_such_element(:xpath, "//td[contains(text(), '#{@accession_2_title}')]")
+      $driver.ensure_no_such_element(:xpath, "//td[contains(text(), '#{@resource_2_title}')]")
+      $driver.ensure_no_such_element(:xpath, "//td[contains(text(), '#{@digital_object_2_title}')]")
+    end
+
+
+    it "finds single match with two keyword ANDed field queries" do
+      # add a 2nd query row
+      $driver.find_element(:css => ".advanced-search-add-row-dropdown").click
+      $driver.find_element(:css => ".advanced-search-add-text-row").click
+
+      $driver.clear_and_send_keys([:id => "v0"], @shared_keyword_1)
+      $driver.clear_and_send_keys([:id => "v1"], @shared_keyword_5)
+      $driver.find_element(:id => "f1").select_option("title")
+
+      $driver.click_and_wait_until_gone(:css => ".advanced-search .btn-primary")
+
+      # result list should contain those items with a keyword @shared_keyword_1
+      # and with the title containing @shared_keyword_5
+      $driver.find_element_with_text("//td", /#{@accession_1_title}/)
+
+      # and these results should no longer be there
+      $driver.ensure_no_such_element(:xpath, "//td[contains(text(), '#{@resource_1_title}')]")
+      $driver.ensure_no_such_element(:xpath, "//td[contains(text(), '#{@digital_object_1_title}')]")
+
+      # these records should not appear in the results
+      $driver.ensure_no_such_element(:xpath, "//td[contains(text(), '#{@accession_2_title}')]")
+      $driver.ensure_no_such_element(:xpath, "//td[contains(text(), '#{@resource_2_title}')]")
+      $driver.ensure_no_such_element(:xpath, "//td[contains(text(), '#{@digital_object_2_title}')]")
+    end
+
+    it "finds matches with two keyword ORed field queries" do
+      $driver.find_element(:id => "op1").select_option("OR")
+
+      $driver.click_and_wait_until_gone(:css => ".advanced-search .btn-primary")
+
+      # result list should contain those items with both @shared_keyword_1 and @shared_keyword_5
+      $driver.find_element_with_text("//td", /#{@accession_1_title}/)
+      $driver.find_element_with_text("//td", /#{@resource_1_title}/)
+      $driver.find_element_with_text("//td", /#{@digital_object_1_title}/)
+
+      # these records should not appear in the results
+      $driver.ensure_no_such_element(:xpath, "//td[contains(text(), '#{@accession_2_title}')]")
+      $driver.ensure_no_such_element(:xpath, "//td[contains(text(), '#{@resource_2_title}')]")
+      $driver.ensure_no_such_element(:xpath, "//td[contains(text(), '#{@digital_object_2_title}')]")
+    end
+
+
+    it "finds matches with two keyword joined AND NOTed field queries" do
+      $driver.find_element(:id => "op1").select_option("NOT")
+
+      $driver.click_and_wait_until_gone(:css => ".advanced-search .btn-primary")
+
+      # result list should contain those items with both @shared_keyword_1 and NOT @shared_keyword_5
+      $driver.find_element_with_text("//td", /#{@resource_1_title}/)
+      $driver.find_element_with_text("//td", /#{@digital_object_1_title}/)
+      $driver.ensure_no_such_element(:xpath, "//td[contains(text(), '#{@accession_1_title}')]")
+
+      # these records should not appear in the results
+      $driver.ensure_no_such_element(:xpath, "//td[contains(text(), '#{@accession_2_title}')]")
+      $driver.ensure_no_such_element(:xpath, "//td[contains(text(), '#{@resource_2_title}')]")
+      $driver.ensure_no_such_element(:xpath, "//td[contains(text(), '#{@digital_object_2_title}')]")
+    end
+
+
+    it "clear resets the fields" do
+      $driver.click_and_wait_until_gone(:css => ".advanced-search .reset-advanced-search")
+
+      $driver.find_element(:id => "v0").attribute("value").should eq("")
+    end
+
+    it "allow adding of mulitple rows of the same type" do
+      # in response to a bug
+      $driver.find_element(:css => ".advanced-search-add-row-dropdown").click
+      $driver.find_element(:css => ".advanced-search-add-bool-row").click
+      $driver.find_element(:css => ".advanced-search-add-row-dropdown").click
+      $driver.find_element(:css => ".advanced-search-add-bool-row").click
+
+      $driver.find_element(:id => "v1")
+      $driver.find_element(:id => "v2")
+
+      $driver.click_and_wait_until_gone(:css => ".advanced-search .reset-advanced-search")
+    end
+
+    it "filters records based on a boolean search" do
+      # Let's find all records with keyword 1
+      $driver.clear_and_send_keys([:id => "v0"], @shared_keyword_1)
+      $driver.find_element(:id => "f0").select_option("title")
+
+      $driver.click_and_wait_until_gone(:css => ".advanced-search .btn-primary")
+
+      $driver.find_element_with_text("//td", /#{@accession_1_title}/)
+      $driver.find_element_with_text("//td", /#{@resource_1_title}/)
+
+      # add a boolean field row
+      $driver.find_element(:css => ".advanced-search-add-row-dropdown").click
+      $driver.find_element(:css => ".advanced-search-add-bool-row").click
+
+      # let's only find those that are unpublished
+      $driver.find_element(:id => "f1").select_option("published")
+      $driver.find_element(:id => "v1").select_option("false")
+
+      $driver.click_and_wait_until_gone(:css => ".advanced-search .btn-primary")
+
+      $driver.find_element_with_text("//td", /#{@resource_1_title}/)
+      $driver.ensure_no_such_element(:xpath, "//td[contains(text(), '#{@accession_1_title}')]")
+
+      # now let's flip it to find those that are published
+      $driver.find_element(:id => "v1").select_option("true")
+
+      $driver.click_and_wait_until_gone(:css => ".advanced-search .btn-primary")
+
+      $driver.find_element_with_text("//td", /#{@accession_1_title}/)
+      $driver.ensure_no_such_element(:xpath, "//td[contains(text(), '#{@resource_1_title}')]")
+
+    end
+
+
+    it "filters records based on a date field search" do
+      $driver.find_element(:css => ".advanced-search-add-row-dropdown").click
+      $driver.find_element(:css => ".advanced-search-add-date-row").click
+
+      # let's find all records created after 2014
+      $driver.clear_and_send_keys([:id => "v2"], "2012-01-01")
+      $driver.find_element(:id => "op2").select_option("AND")
+      $driver.find_element(:id => "f2").select_option("create_time")
+      $driver.find_element(:id => "dop2").select_option("greater_than")
+
+      $driver.click_and_wait_until_gone(:css => ".advanced-search .btn-primary")
+
+      $driver.find_element_with_text("//td", /#{@accession_1_title}/)
+
+      # change to lesser than.. there should be no results!
+      $driver.find_element(:id => "dop2").select_option("lesser_than")
+
+      $driver.click_and_wait_until_gone(:css => ".advanced-search .btn-primary")
+
+      $driver.find_element_with_text('//p[contains(@class, "alert-info")]', /No records found/)
+    end
+
+
+    it "hides when toggled" do
+      advanced_search_form = $driver.find_element(:css => "form.advanced-search")
+
+      $driver.find_element(:link => "Hide Advanced Search").click
+
+      assert(10) {
+        advanced_search_form.displayed?.should be_false
+      }
+    end
+
+
+    it "doesn't display when a normal search is performed" do
+      $driver.clear_and_send_keys([:id => "global-search-box"], @shared_keyword_1)
+      $driver.find_element(:id => "global-search-button").click
+
+      $driver.ensure_no_such_element(:css => "form.advanced-search")
+    end
+  end
+
+
+  describe "Permissions" do
+
+    before(:all) do
+      @perm_test_repo = "perm_test#{Time.now.to_i}_#{$$}"
+      (moo, @repo_uri) = create_test_repo(@perm_test_repo, "The name of the #{@perm_test_repo}")
+      (@archivist, @pass) = create_user
+      add_user_to_archivists(@archivist, @repo_uri)
+    end
+
+
+    it "allows archivists to edit major record types by default" do
+      login(@archivist, @pass)
+      select_repo(@perm_test_repo)
+      $driver.find_element(:link => 'Create').click
+      $driver.find_element(:link => 'Accession').click
+      $driver.find_element(:link => 'Create').click
+      $driver.find_element(:link => 'Resource').click
+      $driver.find_element(:link => 'Create').click
+      $driver.find_element(:link => 'Digital Object').click
+      logout
+    end
+
+
+    it "supports denying permission to edit Resources" do
+      login_as_admin
+      select_repo(@perm_test_repo)
+      $driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+      $driver.find_element(:link, "Manage Groups").click
+
+      row = $driver.find_element_with_text('//tr', /repository-archivists/)
+      row.find_element(:link, 'Edit').click
+      $driver.find_element(:xpath, '//input[@id="update_resource_record"]').click
+      $driver.find_element(:css => 'button[type="submit"]').click
+      logout
+      login(@archivist, @pass)
+      select_repo(@perm_test_repo)
+      $driver.find_element(:link => 'Create').click
+      $driver.ensure_no_such_element(:link, "Resource")
+      logout
     end
 
   end

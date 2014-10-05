@@ -11,3 +11,37 @@
     margin: 0;
   }
 }
+
+.advanced-search-container {
+  margin: 0 -21px;
+  padding: 19px;
+  background-color: @wellBackground;
+  border-left: 1px solid @navbarBorder;
+  border-right: 1px solid @navbarBorder;
+  border-bottom: 1px solid @navbarBorder;
+  .box-shadow(0 1px 4px rgba(0,0,0,.065));
+
+  .advanced-search {
+    margin: 0;
+
+    input, select, .btn-primary {
+      width: 95%;
+    }
+
+    .advanced-search-date-fields {
+      .control-group {
+        padding: 0;
+
+        .input-append {
+          width: 85%;
+        }
+      }
+    }
+
+    .combobox-container {
+      width: 95%;
+    }
+
+
+  }
+}

@@ -1,7 +1,7 @@
 class ResourcesController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show, :tree],
-                      "update_archival_record" => [:new, :edit, :create, :update, :rde, :add_children, :publish, :accept_children],
+                      "update_resource_record" => [:new, :edit, :create, :update, :rde, :add_children, :publish, :accept_children],
                       "delete_archival_record" => [:delete],
                       "merge_archival_record" => [:merge],
                       "suppress_archival_record" => [:suppress, :unsuppress],

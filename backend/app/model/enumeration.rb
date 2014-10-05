@@ -11,9 +11,10 @@ class Enumeration < Sequel::Model(:enumeration)
 
   # Record the fact that 'model' uses 'enum_name'.
   def self.register_enumeration_dependant(definition, model)
-    enum_name = definition[:uses_enum]
-    @enumeration_dependants[enum_name] ||= []
-    @enumeration_dependants[enum_name] << [definition, model]
+    Array(definition[:uses_enum]).each do |enum_name|
+      @enumeration_dependants[enum_name] ||= []
+      @enumeration_dependants[enum_name] << [definition, model]
+    end
   end
 
 

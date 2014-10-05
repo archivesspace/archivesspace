@@ -144,6 +144,7 @@ ArchivesSpace::Application.routes.draw do
     match 'test/shutdown' => 'tests#shutdown', :via => [:get]
 
     match 'search' => 'search#do_search', :via => [:get]
+    match 'advanced_search' => 'search#advanced_search', :via => [:get]
 
     match 'resolve/edit' => 'resolver#resolve_edit', :via => [:get]
     match 'resolve/readonly' => 'resolver#resolve_readonly', :via => [:get]

@@ -1161,8 +1161,30 @@ en:
         <p>See DACS 2.3.18-2.3.22</p>
     related_resources_tooltip: |
         <p>Used for linking associated Resources with this Accession.</p>
+    relator: Relator
+    relator_type: Relator Type
     _singular: Accession
     _plural: Accessions
+
+  interrelated_accession:
+    _plural: Related Accessions
+    relationship_type: Relationship type
+
+  accession_sibling_relationship:
+    _singular: Sibling Relationship
+    relator: This Accession
+    sibling_of: Sibling of
+    relator_type: Relator Type
+    bound_with: "\"Bound with\" Relationship"
+
+  accession_parts_relationship:
+    _singular: "\"Part of\" Relationship"
+    part: "\"Part of\" Relationship"
+    relator: This Accession
+    forms_part_of: Forms Part of
+    has_part: Has Part
+    relator_type: Relator Type
+
 
   agent: &agent_attributes
     type: Agent Type
@@ -1303,7 +1325,10 @@ en:
       update_location_record: create/modify/delete location records in this repository
       update_subject_record: create/update subject records
       update_agent_record: create/update agent records
-      update_archival_record: create/update accessions, resources, archival objects and digital objects in this repository
+      update_vocabulary_record: create/update vocabulary records
+      update_accession_record: create/update accessions in this repository
+      update_resource_record: create/update resources in this repository
+      update_digital_object_record: create/update digital objects in this repository
       update_event_record: create/update event records in this repository
       view_repository: view the records in this repository
       view_suppressed: view suppressed records in this repository
@@ -1318,6 +1343,9 @@ en:
       transfer_archival_record: transfer major record types between repositories
       manage_subject_record: create/update/delete subject records
       manage_agent_record: create/update/delete agent records
+      manage_vocabulary_record: create/update/delete vocabulary records
+      import_records: initiate import jobs
+      cancel_importer_job: cancel an import job
     _singular: Group
     _plural: Groups
 
@@ -1817,7 +1845,8 @@ en:
     import_type_accession_csv: Accession CSV
     import_type_digital_object_csv: Digital Object CSV
     import_type_eac_xml: EAC
-    import_type_marcxml: MarcXML
+    import_type_marcxml: MarcXML (Resource)
+    import_type_marcxml_accession: MarcXML (Accession)
     import_type_marcxml_subjects_and_agents: MarcXML (Subjects and Agents Only)
     status: Status
     status_completed: Completed
@@ -1830,3 +1859,22 @@ en:
     time_finished: Time Completed
     owner: Owner
     filenames: Import Files
+
+  advanced_search:
+    type:
+      text: Text
+      date: Date
+      boolean: Boolean
+      controlled_value: Controlled Value
+    text:
+      keyword: Keyword
+      title: Title
+      creators: Creator
+      notes: Notes
+      subjects: Subject
+    boolean:
+      published: Published?
+      suppressed: Suppressed?
+    date:
+      create_time: Created
+      user_mtime: Updated

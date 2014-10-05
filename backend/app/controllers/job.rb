@@ -5,7 +5,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["job", JSONModel(:job)],
             ["files", [UploadFile]],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:import_records])
     .returns([200, :updated]) \
   do
     job = ImportJob.create_from_json(params[:job], :user => current_user)

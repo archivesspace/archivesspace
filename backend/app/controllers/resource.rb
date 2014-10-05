@@ -4,7 +4,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create a Resource")
     .params(["resource", JSONModel(:resource), "The record to create", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:update_resource_record])
     .returns([200, :created],
              [400, :error]) \
   do
@@ -63,7 +63,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
             ["resource", JSONModel(:resource), "The updated record", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:update_resource_record])
     .returns([200, :updated],
              [400, :error]) \
   do
@@ -97,7 +97,7 @@ class ArchivesSpaceService < Sinatra::Base
   .description("Publish a resource and all its sub-records and components")
   .params(["id", :id],
                      ["repo_id", :repo_id])
-  .permissions([:update_archival_record])
+  .permissions([:update_resource_record])
   .returns([200, :updated],
            [400, :error]) \
   do

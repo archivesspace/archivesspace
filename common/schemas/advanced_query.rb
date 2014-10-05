@@ -5,7 +5,7 @@
     "type" => "object",
     "properties" => {
 
-      "query" => {"type" => ["JSONModel(:boolean_query) object", "JSONModel(:field_query) object"]},
+      "query" => {"type" => ["JSONModel(:boolean_query) object", "JSONModel(:field_query) object", "JSONModel(:date_field_query) object", "JSONModel(:boolean_field_query) object"]},
 
     },
   },

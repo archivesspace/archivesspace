@@ -1,7 +1,7 @@
 class AccessionsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show],
-                      "update_archival_record" => [:new, :edit, :create, :update],
+                      "update_accession_record" => [:new, :edit, :create, :update],
                       "transfer_archival_record" => [:transfer],
                       "suppress_archival_record" => [:suppress, :unsuppress],
                       "delete_archival_record" => [:delete]
@@ -21,7 +21,18 @@ class AccessionsController < ApplicationController
 
   def new
     @accession = Accession.new({:accession_date => Date.today.strftime('%Y-%m-%d')})._always_valid!
+
+    if params[:accession_id]
+      acc = Accession.find(params[:accession_id], find_opts)
+
+      if acc
+        @accession.populate_from_accession(acc)
+        flash.now[:info] = I18n.t("accession._frontend.messages.spawned", JSONModelI18nWrapper.new(:accession => acc))
+        flash[:spawned_from_accession] = acc.id
+      end
+    end
   end
+
 
   def edit
     @accession = fetch_resolved(params[:id])

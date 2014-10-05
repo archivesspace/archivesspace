@@ -4,6 +4,9 @@
    else
      selected_json = "{}"
    end
+
+  exclude_ids = [] if exclude_ids.blank?
+
 %>
 <div class="control-group required">
    <label class="control-label"><%= I18n.t "accession._singular" %></label>
@@ -16,11 +19,12 @@
             data-path="<%= form.path %>"
             data-name="ref"
             data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
-            data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.ACCESSION_FACETS %>"
+            data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.ACCESSION_FACETS, :exclude => exclude_ids %>"
             data-selected="<%= selected_json %>"
             data-format_property="display_string"
             data-multiplicity="one"
             data-types='["accession"]'
+            data-exclude='<%= exclude_ids.to_json %>'
           />
          <div class="btn-group dropdown pull-right">
            <a class="btn dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>

@@ -10,7 +10,7 @@ class ArchivesSpaceService < Sinatra::Base
 	    ["migration", String, "param to indicate we are using a migrator", :optional => true ]    )
     .request_context(:create_enums => true)
     .use_transaction(false)
-    .permissions([:update_archival_record])
+    .permissions([:import_records])
     .returns([200, :created],
              [400, :error],
              [409, :error]) \

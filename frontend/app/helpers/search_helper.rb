@@ -39,6 +39,18 @@ module SearchHelper
 
     search_params["q"] = opts["q"] || params["q"]
 
+    # retain advanced search params
+    if params["advanced"]
+      search_params["advanced"] = params["advanced"]
+      params.keys.each do |param_key|
+        ["op", "f", "v", "dop", "t"].each do |adv_search_prefix|
+          if param_key =~ /^#{adv_search_prefix}\d+/
+            search_params[param_key] = params[param_key]
+          end
+        end
+      end
+    end
+
     search_params.reject{|k,v| k.blank? or v.blank?}
   end
 
@@ -86,7 +98,9 @@ module SearchHelper
     return user_can?('update_classification_record') if ["classification", "classification_term"].include?(record['primary_type'])
     return user_can?('update_agent_record') if Array(record['types']).include?("agent")
 
-    user_can?('update_archival_record')
+    return user_can?('update_accession_record') if record['primary_type'] === "accession"
+    return user_can?('update_resource_record') if ["resource", "archival_object"].include?(record['primary_type'])
+    return user_can?('update_digital_object_record') if ["digital_object", "digital_object_component"].include?(record['primary_type'])
   end
 
 

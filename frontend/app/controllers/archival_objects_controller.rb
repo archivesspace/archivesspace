@@ -1,7 +1,7 @@
 class ArchivalObjectsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show, :generate_sequence],
-                      "update_archival_record" => [:new, :edit, :create, :update, :transfer, :rde, :add_children, :accept_children, :validate_rows],
+                      "update_resource_record" => [:new, :edit, :create, :update, :transfer, :rde, :add_children, :accept_children, :validate_rows],
                       "suppress_archival_record" => [:suppress, :unsuppress],
                       "delete_archival_record" => [:delete]
 

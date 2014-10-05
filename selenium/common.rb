@@ -117,8 +117,13 @@ class Selenium::WebDriver::Driver
     wait_for_ajax
 
     begin
-      find_element_orig(*selectors)
-      raise "Element was supposed to be absent: #{selectors}"
+      element = find_element_orig(*selectors)
+
+      if element.displayed?
+        raise "Element was supposed to be absent: #{selectors}"
+      else
+        true
+      end
     rescue Selenium::WebDriver::Error::NoSuchElementError => e
       return true
     end
@@ -446,8 +451,8 @@ end
 
 
 def create_user
-  user = "test user_#{Time.now.to_i}_#{$$}"
-  pass = "pass_#{Time.now.to_i}_#{$$}"
+  user = "test user_#{SecureRandom.hex}"
+  pass = "pass_#{SecureRandom.hex}"
 
   req = Net::HTTP::Post.new("/users?password=#{pass}")
   req.body = "{\"username\": \"#{user}\", \"name\": \"#{user}\"}"
@@ -494,7 +499,7 @@ end
 
 
 def create_accession(values = {})
-  accession_data = {:id_0 => "#{Time.now.to_f}#{$$}", :accession_date => "2000-01-01"}.merge(values)
+  accession_data = {:id_0 => SecureRandom.hex, :accession_date => "2000-01-01"}.merge(values)
 
   title = accession_data[:title]
 
@@ -510,8 +515,8 @@ end
 
 
 def create_digital_object(values = {})
-  default_values = { :title => "Digital Object #{Time.now.to_i}#{$$}",
-                      :digital_object_id => "#{Time.now.to_f}#{$$}"
+  default_values = { :title => "Digital Object #{SecureRandom.hex}",
+                      :digital_object_id => SecureRandom.hex
                     }
   values_to_post = default_values.merge(values)
   req = Net::HTTP::Post.new("#{$test_repo_uri}/digital_objects")
@@ -528,11 +533,11 @@ end
 
 def create_resource(values = {})
   if !$test_repo
-    ($test_repo, $test_repo_uri) = create_test_repo("repo_#{Time.now.to_i}_#{$$}", "description")
+    ($test_repo, $test_repo_uri) = create_test_repo("repo_#{SecureRandom.hex}", "description")
   end
 
-  default_values = {:title => "Test Resource #{Time.now.to_i}#{$$}", 
-    :id_0 => "#{Time.now.to_i}#{$$}", :level => "collection", :language => "eng",
+  default_values = {:title => "Test Resource #{SecureRandom.hex}",
+    :id_0 => SecureRandom.hex, :level => "collection", :language => "eng",
     :extents => [{:portion => "whole", :number => "1", :extent_type => "files"}]}
   values_to_post = default_values.merge(values)
 
@@ -552,7 +557,7 @@ end
 def create_archival_object(values = {})
 
   if !$test_repo
-    ($test_repo, $test_repo_uri) = create_test_repo("repo_#{Time.now.to_i}_#{$$}", "description")
+    ($test_repo, $test_repo_uri) = create_test_repo("repo_#{SecureRandom.hex}", "description")
   end
 
   if not values.has_key?(:resource)
@@ -561,7 +566,7 @@ def create_archival_object(values = {})
     values[:resource] = {:ref => resource_uri}
   end
 
-  default_values = {:title => "Test Archival Object #{Time.now.to_i}#{$$}", :level => "item"}
+  default_values = {:title => "Test Archival Object #{SecureRandom.hex}", :level => "item"}
   values_to_post = default_values.merge(values)
 
   req = Net::HTTP::Post.new("#{$test_repo_uri}/archival_objects")
@@ -631,7 +636,7 @@ end
 # A few globals here to allow things to be re-used between nested suites.
 def login_as_archivist
   if !$test_repo
-    ($test_repo, $test_repo_uri) = create_test_repo("repo_#{Time.now.to_i}_#{$$}", "description")
+    ($test_repo, $test_repo_uri) = create_test_repo("repo_#{SecureRandom.hex}", "description")
   end
 
   if !$archivist_user
@@ -648,7 +653,7 @@ end
 
 def login_as_repo_manager
   if !$test_repo
-    ($test_repo, $test_repo_uri) = create_test_repo("repo_#{Time.now.to_i}_#{$$}", "description")
+    ($test_repo, $test_repo_uri) = create_test_repo("repo_#{SecureRandom.hex}", "description")
   end
 
   if !$repo_manager_user
@@ -665,7 +670,7 @@ end
 
 def login_as_admin
   if !$test_repo
-    ($test_repo, $test_repo_uri) = create_test_repo("repo_#{Time.now.to_i}_#{$$}", "description")
+    ($test_repo, $test_repo_uri) = create_test_repo("repo_#{SecureRandom.hex}", "description")
   end
 
   login("admin", "admin")

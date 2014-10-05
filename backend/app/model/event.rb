@@ -30,7 +30,7 @@ class Event < Sequel::Model(:event)
 
                           uses_enums({
                                        :property => 'role',
-                                       :uses_enum => 'linked_event_archival_record_roles'
+                                       :uses_enum => ['linked_event_archival_record_roles']
                                      })
                         end
                       })

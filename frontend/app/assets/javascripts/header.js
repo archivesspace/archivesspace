@@ -1,4 +1,5 @@
 //= require login
+//= require moment
 
 $(function() {
   $('.session-actions').on('click.dropdown', function(e) {
@@ -78,4 +79,116 @@ $(function() {
     $(".nav .system-menu").remove();
   }
 
+
+  // Toggle Advanced Search
+  var $advancedSearchContainer = $(".advanced-search-container");
+  var $advancedSearchForm = $("form", $advancedSearchContainer);
+  var $advancedSearchRowContainer = $(".advanced-search-row-container", $advancedSearchContainer);
+
+  $(".nav .search-switcher").click(function(event) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    $(".nav .search-switcher").toggle();
+    $advancedSearchContainer.slideToggle();
+  });
+
+  $(".search-switcher-hide").click(function(event) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    $(".nav .search-switcher").toggle();
+    $advancedSearchContainer.slideUp();
+  });
+
+  $advancedSearchContainer.on("click", ".advanced-search-remove-row", function(event) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    $(this).closest(".row-fluid").remove();
+
+    // Ensure first row operator select only offers "NOT" value
+    var $firstOpSelect = $(".advanced-search-row-container >.row-fluid:first-child .advanced-search-row-op-input");
+    if ($firstOpSelect.length > 0) {
+      var $newOpSelect = AS.renderTemplate("template_advanced_search_op_select", {first: true, index: $firstOpSelect.attr("name").replace("op", ""), query: {op: $firstOpSelect.val()}});
+      $firstOpSelect.replaceWith($newOpSelect);
+    }
+
+    if ($(".error", $advancedSearchContainer).length == 0) {
+      enableAdvancedSearch();
+    }
+  });
+
+  $advancedSearchContainer.on("click", ".advanced-search-add-row", function(event) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    var index = $(">.row-fluid", $advancedSearchRowContainer).length;
+
+    var adding_as_first_row = false;
+    if (index == 0) {
+      adding_as_first_row = true;
+    }
+
+    while ($(":input[name='f"+index+"']", $advancedSearchContainer).length > 0) {
+      index += 1;
+    }
+
+    addAdvancedSearchRow(index, $(this).data("type"), adding_as_first_row, {});
+
+    // hide the drop down menu after clicking an option
+    $(this).closest(".dropdown-menu").siblings(".advanced-search-add-row-dropdown").trigger("click");
+  });
+
+  var addAdvancedSearchRow = function(index, type, first, query) {
+    var field_data = {
+      index: index,
+      type: type,
+      first: first,
+      query: query
+    }
+
+    var $row = $(AS.renderTemplate("template_advanced_search_row", {field_data: field_data}));
+
+    $advancedSearchRowContainer.append($row);
+
+    if (type == "date") {
+      $("#v"+index, $row).on("change", function(event) {
+        $(this).closest(".control-group").removeClass("error");
+
+        var value = $(this).val();
+        var asDate = moment(value).format("YYYY-MM-DD");
+        if (asDate == "Invalid date") {
+          $(this).closest(".control-group").addClass("error");
+          disableAdvancedSearch();
+        } else {
+          enableAdvancedSearch();
+          $(this).val(asDate);
+        }
+      });
+    }
+
+    $(document).trigger("initadvancedsearchrow.aspace", [field_data, $row]);
+    $(document).trigger("initdatefields.aspace", [$row]);
+    $(document).trigger("initcomboboxfields.aspace", [$row]);
+  };
+
+  if ($advancedSearchRowContainer.length > 0) {
+    // render the rows for existing queries
+    $.each($advancedSearchRowContainer.data("queries"), function(i, query) {
+      addAdvancedSearchRow(i, query["type"], i == 0, query);
+    });
+  }
+
+  var disableAdvancedSearch = function() {
+    $advancedSearchForm.on("submit", function() {
+      return false;
+    });
+    $(".btn-primary", $advancedSearchContainer).attr("disabled", "disabled");
+  };
+
+  var enableAdvancedSearch = function() {
+    $advancedSearchForm.off("submit");
+    $(".btn-primary", $advancedSearchContainer).removeAttr("disabled");
+  };
 });

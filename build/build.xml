@@ -281,7 +281,7 @@
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
-      <arg line="--1.9 --debug -X-C ../build/gems/bin/rspec -b spec --order rand:1 ${example-arg} spec/${spec}" />
+      <arg line="--1.9 --debug -X-C ../build/gems/bin/rspec -b --format d -P '*_spec.rb' --order rand:1 ${example-arg} spec/${spec}" />
     </java>
   </target>
 

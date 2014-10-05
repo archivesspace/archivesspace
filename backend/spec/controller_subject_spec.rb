@@ -20,7 +20,7 @@ describe 'Subject controller' do
 
   it "lets you list all subjects" do
     create(:json_subject)
-    JSONModel(:subject).all(:page => 1)['results'].count.should eq(1)
+    JSONModel(:subject).all(:page => 1)['results'].count.should be > 1 
   end
 
 

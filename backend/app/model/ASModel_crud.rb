@@ -440,7 +440,7 @@ module ASModel
         enums = []
         @jsonmodel.schema['properties'].each do |prop, defn|
           if defn["dynamic_enum"]
-            enums << {:property => prop, :uses_enum => defn['dynamic_enum']}
+            enums << {:property => prop, :uses_enum => [defn['dynamic_enum']]}
           end
         end
 

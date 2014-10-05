@@ -13,23 +13,23 @@
       </a>
       <ul class="dropdown-menu pull-right">
         <% if @search_data.weightable? %>
-          <li><%= link_to I18n.t("search_sorting.relevance"), build_search_params("sort" => "") %></li>
+          <li><%= link_to I18n.t("search_sorting.relevance"), params_for_search("sort" => "") %></li>
         <% end %>
         <% if show_title_column? %>
           <li class="dropdown-submenu pull-left">
-            <%= link_to title_sort_label, build_search_params("sort" => @search_data.sort_filter_for("title_sort")) %>
+            <%= link_to title_sort_label, params_for_search("sort" => @search_data.sort_filter_for("title_sort")) %>
             <ul class="dropdown-menu">
-              <li><%= link_to I18n.t("search_sorting.asc"), build_search_params("sort" => "title_sort asc") %></li>
-              <li><%= link_to I18n.t("search_sorting.desc"), build_search_params("sort" => "title_sort desc") %></li>
+              <li><%= link_to I18n.t("search_sorting.asc"), params_for_search("sort" => "title_sort asc") %></li>
+              <li><%= link_to I18n.t("search_sorting.desc"), params_for_search("sort" => "title_sort desc") %></li>
             </ul>
           </li>
         <% end %>
         <% @search_data.sort_fields.each do |field| %>
           <li class="dropdown-submenu pull-left">
-            <%= link_to I18n.t("search_sorting.#{field}"), build_search_params("sort" => @search_data.sort_filter_for(field, "desc")) %>
+            <%= link_to I18n.t("search_sorting.#{field}"), params_for_search("sort" => @search_data.sort_filter_for(field, "desc")) %>
             <ul class="dropdown-menu">
-              <li><%= link_to I18n.t("search_sorting.asc"), build_search_params("sort" => "#{field} asc") %></li>
-              <li><%= link_to I18n.t("search_sorting.desc"), build_search_params("sort" => "#{field} desc") %></li>
+              <li><%= link_to I18n.t("search_sorting.asc"), params_for_search("sort" => "#{field} asc") %></li>
+              <li><%= link_to I18n.t("search_sorting.desc"), params_for_search("sort" => "#{field} desc") %></li>
             </ul>
           </li>
         <% end %>

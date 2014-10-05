@@ -1,7 +1,7 @@
 class JobsController < ApplicationController
 
   set_access_control "view_repository" => [:index, :show, :log, :status, :records]
-  set_access_control "update_archival_record" => [:new, :create]
+  set_access_control "import_records" => [:new, :create]
   set_access_control "cancel_importer_job" => [:cancel]
 
 

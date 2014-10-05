@@ -529,4 +529,45 @@ class ApplicationController < ActionController::Base
     redirect_to(:action => :index, :deleted_uri => old_uri)
   end
 
+
+  helper_method :default_advanced_search_queries
+  def default_advanced_search_queries
+    [{"i" => 0, "type" => "text"}]
+  end
+
+
+  helper_method :advanced_search_queries
+  def advanced_search_queries
+    return default_advanced_search_queries if !params["advanced"]
+
+    indexes = params.keys.collect{|k| k[/^v(?<index>[\d]+)/, "index"]}.compact.sort{|a,b| a.to_i <=> b.to_i}
+
+    return default_advanced_search_queries if indexes.empty?
+
+    indexes.map {|i|
+      query = {
+        "i" => i.to_i,
+        "op" => params["op#{i}"],
+        "field" => params["f#{i}"],
+        "value" => params["v#{i}"],
+        "type" => params["t#{i}"]
+      }
+
+      if query["op"] === "NOT"
+        query["op"] = "AND"
+        query["negated"] = true
+      end
+
+      if query["type"] == "date"
+        query["comparator"] = params["dop#{i}"]
+      end
+
+      if query["type"] == "boolean"
+        query["value"] = query["value"] == "true"
+      end
+
+      query
+    }
+  end
+
 end

@@ -22,22 +22,24 @@
   </div>
 <% end %>
 
-<%= form_tag({}, :method => :get) do %>
-  <div class="input-append" style="width:100%">
-    <% build_search_params.reject{|k, v| k === "q"}.each do |k, v| %>
-      <% if v.kind_of? Array %>
-        <% v.each do |val| %>
-          <%= hidden_field_tag "#{k}[]", val %>
+<% if params["advanced"] != "true" %>
+  <%= form_tag({}, :method => :get) do %>
+    <div class="input-append" style="width:100%">
+      <% build_search_params.reject{|k, v| k === "q"}.each do |k, v| %>
+        <% if v.kind_of? Array %>
+          <% v.each do |val| %>
+            <%= hidden_field_tag "#{k}[]", val %>
+          <% end %>
+        <% else %>
+          <%= hidden_field_tag k, v %>
         <% end %>
-      <% else %>
-        <%= hidden_field_tag k, v %>
       <% end %>
-    <% end %>
-    <input class="text-filter-field" type="text" placeholder="<%= I18n.t("search_results.text_placeholder") %>" name="q" value="<%= params[:q] %>"/>
-    <div class="btn-group">
-      <button class="btn"><span class=" icon-search"></span></button>
+      <input class="text-filter-field" type="text" placeholder="<%= I18n.t("search_results.text_placeholder") %>" name="q" value="<%= params[:q] %>"/>
+      <div class="btn-group">
+        <button class="btn"><span class=" icon-search"></span></button>
+      </div>
     </div>
-  </div>
+  <% end %>
 <% end %>
 
 <% @search_data.facets_for_filter.each do |facet_group, facets| %>

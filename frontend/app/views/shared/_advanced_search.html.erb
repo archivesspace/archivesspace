@@ -1,0 +1,224 @@
+<%
+  values_for_operator = jsonmodel_definition(:boolean_query).options_for(:unused, "op", false, :i18n_prefix => "advanced_search.operator")
+  values_for_date_comparators = jsonmodel_definition(:date_field_query).options_for(:unused, "comparator", false, :i18n_prefix => "advanced_search.date_operator")
+
+  values_for = {}
+
+  [:text, :boolean, :date, :enum].each do |type|
+    values_for[type] = AdvancedSearch.fields_matching(:type => type, :visibility => :staff).map {|field|
+      OpenStruct.new(:label => I18n.t("advanced_search.#{type}.#{field.name}"),
+                     :field => field.name,
+                     :is_default => field.is_default)
+    }.sort_by(&:label)
+  end
+
+  options_for_enums = Hash[values_for[:enum].map {|op|
+    options = JSONModel.enum_values(op.field).map {|value| [I18n.t("enumerations.#{op.field}.#{value}"), value]}
+    [op.field, options]
+  }]
+
+  def emit_option(op)
+    if op.is_default
+      "<option value=\"#{op.field}\" {if query.field == null || query.field == \"#{op.field}\"}selected{/if}>#{op.label}</option>".html_safe
+    else
+      "<option value=\"#{op.field}\" {if query.field == \"#{op.field}\"}selected{/if}>#{op.label}</option>".html_safe
+    end
+  end
+%>
+
+
+<script>
+  var advanced_search_enum_values = <%= options_for_enums.to_json.html_safe %>;
+
+  var create_select = function(selected_enum, index, existing_selection) {
+      var container = $(".enum-select-container" + index);
+      container.empty();
+
+      var value_select = $('<select name="v' + index + '" id="v' + index + '" />');
+
+      $(advanced_search_enum_values[selected_enum]).each(function (idx, op) {
+          var label = op[0];
+          var value = op[1]
+          var option = $('<option />');
+          option.attr('value', value);
+          option.text(label);
+
+          if (value === existing_selection) {
+              option.attr('selected', 'selected');
+          }
+
+          value_select.append(option);
+      });
+
+      container.append(value_select);
+
+      if (advanced_search_enum_values[selected_enum].length > <%= AspaceFormHelper::COMBOBOX_MIN_LIMIT %>) {
+          value_select.combobox();
+      }
+  }
+
+  $(document).bind("initadvancedsearchrow.aspace", function (event, field_data, row) {
+      if (field_data.type == 'enum') {
+          var field_select = row.find('#f' + field_data.index);
+          var selected_enum = field_select.val();
+          var value_select = row.find('#v' + field_data.index);
+
+          field_select.on('change', function () {
+              create_select($(this).val(), field_data.index);
+          });
+
+          create_select(selected_enum, field_data.index, field_data.query.value);
+      }
+  });
+</script>
+
+
+
+
+<div id="template_advanced_search_row"><!--
+  <div class="row-fluid">
+    <div class="span2">
+      <%= hidden_field_tag "t${field_data.index}", "${field_data.type}" %>
+      ${AS.renderTemplate("template_advanced_search_op_select", field_data)}
+    </div>
+    ${AS.renderTemplate("template_advanced_search_"+field_data.type+"_fields", field_data)}
+    <div class="span1">
+      <a href="#" class="btn btn-danger advanced-search-remove-row"><span class="icon icon-trash icon-white"></span></a>
+    </div>
+  </div>
+--></div>
+
+<div id="template_advanced_search_op_select"><!--
+  {if first}
+  <select name="op${index}" id="op${index}" class="advanced-search-row-op-input">
+    <option></option>
+    <% values_for_operator.select{|op| op[1] == "NOT"}.each do |op| %><option value="<%= op[1] %>" {if query.op == "<%= op[1] %>" || (query.negated && "NOT" == "<%= op[1] %>")}selected{/if}><%= op[0] %></option><% end %>
+  </select>
+  {else}
+  <select name="op${index}" id="op${index}" class="advanced-search-row-op-input">
+    <% values_for_operator.each do |op| %><option value="<%= op[1] %>" {if query.op == "<%= op[1] %>" || (query.negated && "NOT" == "<%= op[1] %>")}selected{/if}><%= op[0] %></option><% end %>
+  </select>
+  {/if}
+--></div>
+
+
+<div id="template_advanced_search_text_fields"><!--
+  <div class="span3">
+    <select name="f${index}" id="f${index}" <% if values_for[:text].length > AspaceFormHelper::COMBOBOX_MIN_LIMIT %> data-combobox="true"<% end %>>
+      <% values_for[:text].each do |op| %>
+        <%= emit_option(op) %>
+      <% end %>
+    </select>
+  </div>
+  <div class="span6">
+    <%= text_field_tag "v${index}", "${query.value}", :id => "v${index}" %>
+  </div>
+--></div>
+
+<div id="template_advanced_search_date_fields"><!--
+  <div class="span3">
+    <select name="f${index}" id="f${index}" <% if values_for[:date].length > AspaceFormHelper::COMBOBOX_MIN_LIMIT %> data-combobox="true"<% end %>>
+      <% values_for[:date].each do |op| %>
+        <%= emit_option(op) %>
+      <% end %>
+    </select>
+  </div>
+  <div class="span6 advanced-search-date-fields">
+    <div class="span4">
+      <select name="dop${index}" id="dop${index}">
+        <% values_for_date_comparators.each do |op| %>
+          <option value="<%= op[1] %>" {if query.comparator == "<%= op[1] %>"}selected{/if}><%= op[0] %></option>
+        <% end %>
+      </select>
+    </div>
+    <div class="span8">
+      <div class="control-group">
+        <%= text_field_tag "v${index}", "${query.value}", :id => "v${index}", :class => "date-field", :"data-format" => "yyyy-mm-dd", :"data-date" => Date.today.strftime('%Y-%m-%d') %>
+      </div>
+    </div>
+  </div>
+--></div>
+
+<div id="template_advanced_search_boolean_fields"><!--
+  <div class="span3">
+    <select name="f${index}" id="f${index}" <% if values_for[:boolean].length > AspaceFormHelper::COMBOBOX_MIN_LIMIT %> data-combobox="true"<% end %>>
+      <% values_for[:boolean].each do |op| %>
+        <%= emit_option(op) %>
+      <% end %>
+    </select>
+  </div>
+  <% bool_default = JSONModel(:boolean_field_query).schema['properties']['value']['default'] %>
+  <div class="span6 advanced-search-boolean-field">
+    <select name="v${index}" id="v${index}">
+      <option value="true" {if query.value <% if bool_default %>|| query.value == null<% end %>}selected{/if}><%= I18n.t("advanced_search.boolean_field.true_value") %></option>
+      <option value="false" {if query.value == false <% if !bool_default %>|| query.value == null<% end %>}selected{/if}><%= I18n.t("advanced_search.boolean_field.false_value") %></option>
+    </select>
+  </div>
+--></div>
+
+
+<div id="template_advanced_search_enum_fields"><!--
+  <div class="span3">
+    <select name="f${index}" id="f${index}" <% if values_for[:enum].length > AspaceFormHelper::COMBOBOX_MIN_LIMIT %> data-combobox="true"<% end %>>
+      <% values_for[:enum].each do |op| %>
+        <%= emit_option(op) %>
+      <% end %>
+    </select>
+  </div>
+  <div class="span6 advanced-search-enum-field">
+    <div class="enum-select-container${index}">
+    </div>
+  </div>
+--></div>
+
+
+
+<%= form_tag(url_for(:controller => :search, :action => :advanced_search), :method => :get, :class => "advanced-search") do %>
+  <%= hidden_field_tag "advanced", true %>
+
+  <div class="advanced-search-row-container" data-queries='<%= advanced_search_queries.to_json %>'></div>
+
+  <div class="row-fluid">
+    <div class="span11">
+      <hr />
+    </div>
+    <div class="span1">
+      <div class="btn-group">
+        <a class="btn btn-success dropdown-toggle advanced-search-add-row-dropdown" data-toggle="dropdown" href="#">
+          <span class="icon icon-plus icon-white"></span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu pull-right">
+          <li><%= link_to I18n.t("advanced_search.type.text"), "javascript:void(0)", :class => "advanced-search-add-row advanced-search-add-text-row", "data-type" => "text" %></li>
+          <li><%= link_to I18n.t("advanced_search.type.date"), "javascript:void(0)", :class => "advanced-search-add-row advanced-search-add-date-row", "data-type" => "date" %></li>
+          <li><%= link_to I18n.t("advanced_search.type.boolean"), "javascript:void(0)", :class => "advanced-search-add-row advanced-search-add-bool-row", "data-type" => "boolean" %></li>
+          <% if !values_for[:enum].empty? %>
+            <li><%= link_to I18n.t("advanced_search.type.controlled_value"), "javascript:void(0)", :class => "advanced-search-add-row advanced-search-add-enum-row", "data-type" => "enum" %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="span6">
+      <%= link_to I18n.t("advanced_search.index_switcher.hide"), { :advanced => nil }, {:class => "search-switcher-hide"} %>
+    </div>
+      <% if current_page?(root_url) %>
+        <div class="span2"></div>
+        <div class="span3">
+          <button class="btn btn-primary"><%= I18n.t("advanced_search.button_text") %></button>
+        </div>
+        <div class="span1"></div>
+      <% else %>
+        <div class="span2">
+          <%= link_to I18n.t("advanced_search.reset"), {:controller => :search, :action => :do_search, :advanced => true}, :class => "btn reset-advanced-search pull-right" %>
+        </div>
+        <div class="span3">
+          <button class="btn btn-primary"><%= I18n.t("advanced_search.button_text") %></button>
+        </div>
+        <div class="span1"></div>
+      <% end %>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+<% end %>

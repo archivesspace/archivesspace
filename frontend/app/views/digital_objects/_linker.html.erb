@@ -26,7 +26,7 @@
         <a class="btn dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
-          <% if user_can?('update_archival_record') %>
+          <% if user_can?('update_digital_object_record') %>
             <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :digital_objects, :action => :new, :inline => true %>" class="linker-create-btn"><%= I18n.t("actions.create") %></a></li>
           <% end %>
         </ul>

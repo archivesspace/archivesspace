@@ -32,7 +32,7 @@ describe 'Enumerations model' do
       include ASModel
       include DynamicEnums
 
-      uses_enums(:property => 'role', :uses_enum => 'test_role_enum')
+      uses_enums(:property => 'role', :uses_enum => ['test_role_enum'])
     end
   end
 
@@ -85,7 +85,7 @@ describe 'Enumerations model' do
     model = Class.new(Sequel::Model(:model_with_enums)) do
       include ASModel
       include DynamicEnums
-      uses_enums(:property => 'role', :uses_enum => 'case_test_role_enum')
+      uses_enums(:property => 'role', :uses_enum => ['case_test_role_enum'])
     end
 
     RequestContext.open(:create_enums => true) do

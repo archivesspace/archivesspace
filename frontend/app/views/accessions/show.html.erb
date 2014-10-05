@@ -59,6 +59,10 @@
            <%= render_aspace_partial :partial => "related_resources/show", :locals => { :related_resources => @accession.related_resources, :section_id => "accession_related_resources_" } %>
          <% end %>
            
+         <% if @accession.related_accessions.length > 0 %>
+           <%= render_aspace_partial :partial => "interrelated_accessions/show", :locals => { :related_accessions => @accession.related_accessions, :section_id => "accession_related_accessions_" } %>
+         <% end %>
+
          <% if not @accession.subjects.blank? %>
            <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => @accession.subjects, :section_id => "accession_subjects_"} %>
          <% end %>

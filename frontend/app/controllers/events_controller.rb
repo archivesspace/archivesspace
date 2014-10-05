@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show],
-                      "update_archival_record" => [:new, :edit, :create, :update],
+                      "update_event_record" => [:new, :edit, :create, :update],
                       "delete_archival_record" => [:delete]
 
 
