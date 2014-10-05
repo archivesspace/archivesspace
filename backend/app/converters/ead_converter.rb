@@ -42,6 +42,48 @@ class EADConverter < Converter
     end
   end
 
+
+  # alright, wtf.
+  # sometimes notes can have things like  lists jammed in them. we need to break those 
+  # out, but keep the narrative order of the notes.
+  def insert_into_subnotes(split_tag = 'list')
+      subnotes =  ancestor(:note_multipart).subnotes 
+      theleftovers = nil 
+     
+      unless subnotes.nil?
+        if subnotes.is_a?(Array)
+          sn = subnotes.pop
+        else
+          sn = subnotes
+        end   
+        
+        if sn["content"]
+          # clone the object... 
+          theleftovers = sn.dup 
+          # rip out the list, and put the left overs back in the content 
+          content = sn["content"].gsub("ead:#{split_tag}", split_tag) # just in case..
+          sn["content"], trash,  theleftovers["content"] = content.partition(/<#{split_tag}[^>]*>.*?<\/#{split_tag}>/m)
+          # what a hack. ripping out the list might leave some dangling <p>s 
+          [sn, theleftovers].each do |s|
+            next if s["content"].nil?
+            s["content"] = Nokogiri::XML::DocumentFragment.parse(s["content"].strip.gsub(/^<\/p[^>]*>/,'')).to_xml(:encoding => 'utf-8') 
+          end
+        end
+        
+        # put everything before the list back...
+        unless ( sn["content"].nil? or  sn["content"].length < 1 ) 
+          set ancestor(:note_multipart), :subnotes, sn 
+        end 
+     
+      end 
+        # now return the leftovers to be delt with after the list subnote has
+        # been created
+        theleftovers
+  end
+
+
+
+
   def self.configure
 
     with 'ead' do |node|
@@ -90,6 +132,7 @@ class EADConverter < Converter
       ancestor(:note_multipart, :resource, :archival_object) do |obj|
         klass =  obj.class.record_type
         obj.title = Nokogiri::XML::DocumentFragment.parse(inner_xml.strip).to_xml(:encoding => 'utf-8') unless klass == "note_multipart" 
+
       end
     end
 
@@ -287,9 +330,21 @@ class EADConverter < Converter
 
 
     with 'chronlist' do
+     
+      # the list is in a subnote. We need to make a new list subnote, insert
+      # it into the middle of the last subnote, and put the remaining content
+      # in after the list....
+      left_overs = insert_into_subnotes("chronlist") 
+      
+      
       make :note_chronology do |note|
         set ancestor(:note_multipart), :subnotes, note
       end
+      
+      # and finally put the leftovers back in the list of subnotes...
+      if ( !left_overs.nil? && left_overs["content"] && left_overs["content"].length > 0 ) 
+        set ancestor(:note_multipart), :subnotes, left_overs 
+      end 
     end
 
 
@@ -307,7 +362,12 @@ class EADConverter < Converter
 
 
     with 'list' do
+      
+      left_overs = insert_into_subnotes 
+     
+      # now let's make the subnote list 
       type = att('type')
+      puts inner_xml 
       if type == 'deflist' || (type.nil? && inner_xml.match(/<deflist>/))
         make :note_definedlist do |note|
           set ancestor(:note_multipart), :subnotes, note
@@ -319,6 +379,12 @@ class EADConverter < Converter
           set ancestor(:note_multipart), :subnotes, note
         end
       end
+      
+      # and finally put the leftovers back in the list of subnotes...
+      if ( !left_overs.nil? && left_overs["content"] && left_overs["content"].length > 0 ) 
+        set ancestor(:note_multipart), :subnotes, left_overs 
+      end 
+    
     end
 
 
