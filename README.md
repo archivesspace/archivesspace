@@ -501,6 +501,10 @@ customize ArchivesSpace, please see the README in the `plugins` directory.
 
 [Upgrading to a new release of ArchivesSpace](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING.md)
 
+Version specific considerations:
+
+- [1.1.0](UPGRADING_1.1.0.md)
+
 # Monitoring with New Relic
 
 [Configuring ArchivesSpace to integrate with New Relic](https://github.com/archivesspace/archivesspace/blob/master/plugins/newrelic/README_NEWRELIC.md)
