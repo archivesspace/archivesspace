@@ -22,6 +22,11 @@ However, if you have a burning desire to use Tomcat, the steps are:
 
       AppConfig[:db_url] = "jdbc:mysql://localhost:3306/archivesspace?user=as&password=as123&useUnicode=true&characterEncoding=UTF-8"
 
+  * Also in config/config.rb disable embedded solr and set solr url if you want to use an [external Solr instance](README_SOLR.md)
+
+      AppConfig[:enable_solr] = false
+      AppConfig[:solr_url] = "http://some.solr.org:8983/solr/archivesspace"
+
   * Unpack the Tomcat distribution
 
   * From your 'archivesspace' directory, use the 'configure-tomcat.sh'

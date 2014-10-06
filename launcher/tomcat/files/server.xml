@@ -98,4 +98,20 @@
   </Service>
 
 
+  <Service name="ArchivesSpaceIndexer">
+
+    <Connector port="%INDEXER_PORT%" protocol="HTTP/1.1" connectionTimeout="20000" />
+
+    <Engine name="ArchivesSpaceIndexer" defaultHost="localhost">
+      <Host name="localhost" appBase="webapps-indexer" unpackWARs="true" autoDeploy="false">
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+               prefix="indexer_access_log." suffix=".txt"
+               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+
+      </Host>
+    </Engine>
+
+  </Service>
+
+
 </Server>
