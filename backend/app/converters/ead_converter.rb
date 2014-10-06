@@ -367,7 +367,6 @@ class EADConverter < Converter
      
       # now let's make the subnote list 
       type = att('type')
-      puts inner_xml 
       if type == 'deflist' || (type.nil? && inner_xml.match(/<deflist>/))
         make :note_definedlist do |note|
           set ancestor(:note_multipart), :subnotes, note

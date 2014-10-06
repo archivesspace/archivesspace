@@ -4,13 +4,13 @@ describe 'SubjectListReport model' do
   
   
   it "can be created from a JSON module" do
+    Subject.all.each { |s| s.delete }  
     subjects = []
     3.times { |i| subjects <<  create(:json_subject ) }
 
     report = SubjectListReport.new()
     json = JSON(  String.from_java_bytes( report.render(:json) )   )
     
-    puts json.inspect 
     json["results"].length.should == 5 # one extra for the footer 
     
     sub1 = json["results"][0]
