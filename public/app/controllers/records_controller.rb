@@ -7,10 +7,11 @@ class RecordsController < ApplicationController
     raise RecordNotFound.new if (!resource || !resource.publish)
 
     @resource = ResourceView.new(resource)
+    breadcrumb_title = (@resource.finding_aid_status === 'completed' and not @resource.finding_aid_title.nil?) ? @resource.finding_aid_title : @resource.title
 
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"],
-      [@resource.finding_aid_status === 'completed' ? @resource.finding_aid_title : @resource.title, "#", "resource"]
+      [breadcrumb_title, "#", "resource"]
     ]
   end
 
@@ -32,7 +33,8 @@ class RecordsController < ApplicationController
 
       if record["node_type"] === "resource"
         @resource_uri = record['record_uri']
-        @breadcrumbs.push([record["finding_aid_status"] === 'completed' ? record["finding_aid_title"] : record["title"], url_for(:controller => :records, :action => :resource, :id => record["id"], :repo_id => @repository.id), "resource"])
+        breadcrumb_title = (record["finding_aid_status"] === 'completed' and not record["finding_aid_title"].nil?) ? record["finding_aid_title"] : record["title"]
+        @breadcrumbs.push([breadcrumb_title, url_for(:controller => :records, :action => :resource, :id => record["id"], :repo_id => @repository.id), "resource"])
       else
         @breadcrumbs.push([record["title"], url_for(:controller => :records, :action => :archival_object, :id => record["id"], :repo_id => @repository.id), "archival_object"])
       end
