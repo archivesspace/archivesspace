@@ -90,22 +90,52 @@ describe "ArchivesSpace Public interface" do
   describe "Resources" do
 
     it "doesn't list an un-published records in the list" do
-      $unpublished_uri, unpublished = create_resource(:title => "Unpublished Resource", :publish => false, :id_0 => "unpublished")
-      $published_uri, published = create_resource(:title => "Published Resource", :publish => true, :id_0 => "published")
+ 
+    
+      @note1 = "BOOO!" 
+      @note2 = "Manny Moe"
+      @note1_html ="<emph render='bold'>#{@note1}</emph>" 
+      @note2_html = "<name>#{@note2}</name>"
+      
+      notes = [{"jsonmodel_type" => "note_singlepart", "publish" => true, "type" => "abstract", "content" => ["moo"]},
+              {"jsonmodel_type" => "note_multipart", "publish" => true,"type" => "accruals", "content" => ["moo"],
+                "label" => "moo", "subnotes" => [{"publish" => true,"jsonmodel_type" => "note_definedlist", 
+                "items" => [{ "value" => @note1_html,  "label" => "should_have_been_an_object" }] }]},
+              {"jsonmodel_type" => "note_multipart","publish" => true, "type" => "accruals", "content" => ["moo"],
+                "label" => "moo", "subnotes" => [{"publish" => true,"jsonmodel_type" => "note_orderedlist", 
+                "items" => [ @note2_html ] }]}
+
+      ]
+
+      $unpublished_uri, $unpublished = create_resource(:title => "Unpublished Resource", :publish => false, :id_0 => "unpublished")
+      $published_uri, $published = create_resource(:title => "Published Resource", :publish => true, :id_0 => "published", :notes => notes)
 
       @indexer.run_index_round
 
       $driver.find_element(:link, "Collections").click
 
-      $driver.find_element(:link, published)
-      $driver.ensure_no_such_element(:link, unpublished)
+      $driver.find_element(:link, $published)
+      $driver.ensure_no_such_element(:link, $unpublished)
     end
 
 
     it "throws a 404 when trying to access an un-processed resource" do
       $driver.get(URI.join($frontend, $unpublished_uri))
-
       $driver.find_element_with_text('//h2', /Record Not Found/)
+    end
+    
+    it "shows a record that is published" do
+
+      $driver.get(URI.join($frontend, $published_uri))
+
+      $driver.find_element_with_text('//h2', /#{$published}/ )
+      
+      $driver.ensure_no_such_text("//dt", /\<emph/)
+      $driver.ensure_no_such_text("//dt", /\<name/)
+      
+      $driver.find_element_with_text('//dt', /#{@note1}/ )
+      $driver.find_element_with_text('//dt', /#{@note2}/ )
+   
     end
 
 

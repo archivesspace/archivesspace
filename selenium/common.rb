@@ -40,7 +40,7 @@ module Selenium
 
   module Config
     def self.retries
-      500 
+      5 
     end
   end
 
@@ -110,6 +110,22 @@ class Selenium::WebDriver::Driver
     find_element(*selectors)
 
     find_elements(*selectors)
+  end
+
+
+  def ensure_no_such_text(xpath, pattern, noError = false, noRetry = false)
+    wait_for_ajax 
+    begin
+      element = self.find_element(:tag_name => "body").find_element_with_text(xpath, pattern, noError, noRetry)
+
+      if element.displayed?
+        raise "Element was supposed to be absent: #{xpath} #{pattern}"
+      else
+        true
+      end
+    rescue Selenium::WebDriver::Error::NoSuchElementError => e
+      return true
+    end
   end
 
 
