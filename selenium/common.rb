@@ -40,7 +40,7 @@ module Selenium
 
   module Config
     def self.retries
-      5 
+      500 
     end
   end
 
@@ -401,8 +401,18 @@ def selenium_init(backend_fn, frontend_fn)
     end
   end
 
+  system("rm #{File.join(Dir.tmpdir, '*.pdf')}")
+  system("rm #{File.join(Dir.tmpdir, '*.xml')}")
 
-  $driver = Selenium::WebDriver.for :firefox
+  profile = Selenium::WebDriver::Firefox::Profile.new
+  profile["browser.download.dir"] = Dir.tmpdir 
+  profile["browser.download.folderList"] = 2
+  profile["browser.helperApps.alwaysAsk.force"] = false
+  profile["browser.helperApps.neverAsk.saveToDisk"] = "application/pdf, application/xml"
+  profile['pdfjs.disabled'] = true
+
+  
+  $driver = Selenium::WebDriver.for :firefox,:profile => profile
   $wait   = Selenium::WebDriver::Wait.new(:timeout => 10)
   $driver.manage.window.maximize
 end

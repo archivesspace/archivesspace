@@ -1584,7 +1584,8 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Resource").click
 
       $driver.clear_and_send_keys([:id, "resource_title_"],(resource_title))
-      $driver.complete_4part_id("resource_id_%d_")
+      @resource_id = $driver.complete_4part_id("resource_id_%d_")
+      
       $driver.clear_and_send_keys([:id, "resource_language__combobox"], ["eng", :return])
       $driver.find_element(:id, "resource_level_").select_option("collection")
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
@@ -1766,6 +1767,32 @@ describe "ArchivesSpace user interface" do
       target = $driver.find_element_with_text("//div[@id='archives_tree']//li", /Pony Express/)
       target.find_element_with_text(".//a", /Christmas cards/)
     end
+    
+    it "exports and downloads the resource to xml" do
+      system("rm #{File.join(Dir.tmpdir, '*_ead.xml')}")
+      $driver.find_element_with_text("//div[@id='archives_tree']//a", /Pony Express/).click
+      $driver.find_element(:link, "Export").click
+      response = $driver.find_element(:link, "Download EAD").click
+      $driver.wait_for_ajax
+      assert(5) { Dir.glob(File.join( Dir.tmpdir,"*_ead.xml" )).length.should eq(1) } 
+      system("rm #{File.join(Dir.tmpdir, '*_ead.xml')}")
+    end
+    
+    it "exports and downloads the resource to pdf" do
+      system("rm #{File.join(Dir.tmpdir, '*_ead.pdf')}")
+      $driver.find_element_with_text("//div[@id='archives_tree']//a", /Pony Express/).click
+      $driver.find_element(:link, "Export").click
+       
+      el = $driver.find_element(:link, "Download EAD")
+      $driver.mouse.move_to(el) 
+      
+      $driver.find_element(:css, "input#print-pdf").click
+      $driver.find_element(:link, "Download EAD").click
+      
+      $driver.wait_for_ajax
+      assert(5) { Dir.glob(File.join( Dir.tmpdir,"*_ead.pdf" )).length.should eq(1) } 
+      system("rm #{File.join(Dir.tmpdir, '*_ead.pdf')}")
+    end
 
 
     it "shows our newly added Resource in the browse list" do
@@ -1774,6 +1801,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element_with_text('//td', /#{resource_stripped}/)
     end
+    
 
 
     it "can edit a Resource and add another Extent" do
