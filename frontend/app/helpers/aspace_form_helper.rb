@@ -605,14 +605,13 @@ module AspaceFormHelper
           i18n_path =  "#{opts[:i18n_prefix]}.#{v}"
         elsif defn.has_key?('dynamic_enum')
           i18n_path = {
-            :enumeration => defn['dynamic_enum'],
+            :enumeration =>  defn['dynamic_enum'],
             :value => v
           }
         else
           i18n_path = context.i18n_for("#{Array(property).last}_#{v}")
         end
-
-        options.push([I18n.t(i18n_path), v])
+        options.push([I18n.t(i18n_path, :default => v), v])
       end
 
       options.sort {|a,b| a[0] <=> b[0]}

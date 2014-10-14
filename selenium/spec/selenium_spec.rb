@@ -2562,6 +2562,51 @@ describe "ArchivesSpace user interface" do
 
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
     end
+
+    it "lets you add a new value to an enumeration and then you can use it" do
+      $driver.find_element(:link, 'System').click
+      $driver.find_element(:link, "Manage Controlled Value Lists").click
+
+      enum_select = $driver.find_element(:id => "enum_selector")
+      enum_select.select_option_with_text("Collection Management Processing Priority (collection_management_processing_priority)")
+
+      # Wait for the table of enumerations to load
+      $driver.find_element(:css, '.enumeration-list')
+
+      $driver.find_element(:link, 'Create Value').click
+      $driver.clear_and_send_keys([:id, "enumeration_value_"], "IMPORTANT.\n")
+
+      $driver.find_element_with_text('//td', /^IMPORTANT\.$/)
+   
+      # now lets make sure it's there
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Accession").click
+     
+      cm_accession_title = "CM Punk TEST"
+      $driver.clear_and_send_keys([:id, "accession_title_"], cm_accession_title)
+      $driver.complete_4part_id("accession_id_%d_", $driver.generate_4part_id)
+      $driver.clear_and_send_keys([:id, "accession_accession_date_"], "2012-01-01")
+      $driver.clear_and_send_keys([:id, "accession_content_description_"], "STUFFZ")
+      $driver.clear_and_send_keys([:id, "accession_condition_description_"], "stuffy")
+     
+      #now add collection management
+      $driver.find_element(:css => '#accession_collection_management_ .subrecord-form-heading .btn:not(.show-all)').click
+
+      $driver.clear_and_send_keys([:id => "accession_collection_management__cataloged_note_"], ["DONE!", :return])
+      $driver.find_element(:id => "accession_collection_management__processing_priority_").select_option("IMPORTANT.")
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
+
+      $driver.click_and_wait_until_gone(:link => cm_accession_title)
+
+      assert(5) { $driver.find_element(:css => '#accession_collection_management__accordian div.span4:last-of-type').text.include?("IMPORTANT.") }
+    
+    
+    
+    
+    end
+  
+  
+  
   end
 
 

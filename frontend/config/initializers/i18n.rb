@@ -54,7 +54,11 @@ module I18n
       backend  = config.backend
       locale   = config.locale
       # Null character to cope with enumeration values containing dots.  Eugh.
-      return backend.send(:lookup, locale, ['enumerations', key[:enumeration], key[:value]].join("\0"), [], {:separator => "\0"}) || default
+      translation =  backend.send(:lookup, locale, ['enumerations', key[:enumeration], key[:value]].join("\0"), [], {:separator => "\0"}) || default
+      
+      unless translation.blank?
+        return translation
+      end
     end
 
 
