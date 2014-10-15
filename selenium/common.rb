@@ -113,15 +113,15 @@ class Selenium::WebDriver::Driver
   end
 
 
-  def ensure_no_such_text(xpath, pattern, noError = false, noRetry = false)
+  def ensure_no_such_text(xpath, pattern, noError = false, noRetry = true )
     wait_for_ajax 
     begin
       element = self.find_element(:tag_name => "body").find_element_with_text(xpath, pattern, noError, noRetry)
 
-      if element.displayed?
-        raise "Element was supposed to be absent: #{xpath} #{pattern}"
+      if element.nil? or !element.displayed?
+        true 
       else
-        true
+        raise "Element was supposed to be absent: #{xpath} #{pattern}"
       end
     rescue Selenium::WebDriver::Error::NoSuchElementError => e
       return true
