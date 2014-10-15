@@ -130,11 +130,11 @@ describe "ArchivesSpace Public interface" do
 
       $driver.find_element_with_text('//h2', /#{$published}/ )
       
-      $driver.ensure_no_such_text("//dt", /\<emph/)
-      $driver.ensure_no_such_text("//dt", /\<name/)
+      $driver.ensure_no_such_text("//dd", /\<emph/)
+      $driver.ensure_no_such_text("//li", /\<name/)
       
-      $driver.find_element_with_text('//dt', /#{@note1}/ )
-      $driver.find_element_with_text('//dt', /#{@note2}/ )
+      $driver.find_element_with_text('//span', /#{@note1}/ )
+      $driver.find_element_with_text('//li', /#{@note2}/ )
    
     end
 
