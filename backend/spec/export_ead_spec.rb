@@ -114,7 +114,7 @@ describe 'Export Mappings' do
     notes = []
     brake = 0
     while !(note_types - notes.map {|note| note['type']}).empty? && brake < max do
-      notes << build("json_note_#{['singlepart', 'multipart', 'index', 'bibliography'].sample}".intern, {
+      notes << build("json_note_#{['singlepart', 'multipart', 'multipart_gone_wilde', 'index', 'bibliography'].sample}".intern, {
                        :publish => true,
                        :persistent_id => [nil, generate(:alphanumstr)].sample
                      })
@@ -167,20 +167,40 @@ describe 'Export Mappings' do
           load_export_fixtures
           @doc = get_xml_doc("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
           
-          #dtd = Nokogiri::XML::Schema(open('http://www.loc.gov/ead/ead.xsd'))
-          #dtd.valid?(@doc).should be_true
 
           @doc_nsless = Nokogiri::XML::Document.parse(@doc.to_xml)
           @doc_nsless.remove_namespaces!
           raise Sequel::Rollback
         end
       end
-#      if @doc.errors.length > 0
-        File.open('/tmp/out.txt', 'a') { |f| f <<  @doc.to_xml + "\n" + @doc.errors.inspect + "\n" + "*" * 100 }
-#      end
+       
+      schema_bugs = [   
+       "fails to validate",
+       "The attribute 'linktype' is not allowed",
+       "Expected is one of ( {urn:isbn:1-931666-22-9}runner, {urn:isbn:1-931666-22-9}did )"
+      ] 
       
+      errors = [] 
+      xml_output = Tempfile.new("ead")
+      
+      ### AAAARRRGGGG!!! JRuby Nokogiri doesn't like schema validations.  
+      begin
+        xml_output.write(@doc.to_xml(:indent => 2))
+        xml_output.rewind
+        xsd = File.join(File.dirname(__FILE__), '..', 'app', 'exporters', 'xsd', 'ead.xsd') 
+        cmd = "xmllint --noout --schema #{xsd} #{xml_output.path}"
+        Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
+          stderr.read.each_line.each { |e| errors <<  e unless schema_bugs.any? { |bug| e.to_s.include?(bug) } }
+        end
+      ensure
+        xml_output.close
+        xml_output.unlink
+      end
+
+      
+      errors.length.should == 0 
       @doc.errors.length.should == 0 
-    end
+end
 
 
     let(:repo) { JSONModel(:repository).find($repo_id) }
@@ -239,7 +259,8 @@ describe 'Export Mappings' do
             end
             
             mt(head_text, "#{path}/head")
-            mt(/^.*?#{head_text}.*?[\r\n]*.*?#{content}.*?$/, "#{path}")
+            regcontent = content.split(/\n|\r/).map { |c| ".*?[\r\n]*.*?#{c.strip}" } 
+            mt(/^.*?#{head_text}.*?[\r\n]*.*?#{regcontent}.*?$/m, "#{path}")
           end
         end
       end
@@ -267,8 +288,9 @@ describe 'Export Mappings' do
             head_text = note['label']
             id = "aspace_" + note['persistent_id']
             content = note_content(note)
+            content.gsub!("<p>", "").gsub!("</p>", "").strip 
             path = "bibliography"
-            path += id ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
+            path += id ? "[@id='#{id}']" : "[p[contains(text(), #{content})]]"
             full_path = "#{desc_path}/#{path}"
             
             if !note['persistent_id'].nil? 
@@ -277,7 +299,7 @@ describe 'Export Mappings' do
               mt(nil, full_path, 'id')
             end
             mt(head_text, "#{full_path}/head")
-            mt(content, "./#{path}/text()[contains('#{content}')]")
+            mt(content, "./#{path}/p/text()[contains('#{content}')]")
 
             note['items'].each_with_index do |item, i|
               mt(item, "#{full_path}/bibref[#{i+1}]")
@@ -301,7 +323,7 @@ describe 'Export Mappings' do
             end
             
             mt(head_text, "#{full_path}/head")
-            mt(content, "./#{path}/text()[contains( '#{content}')]")
+            mt(content, "./#{path}/p/text()[contains( '#{content}')]")
 
             note['items'].each_with_index do |item, i|
               index_item_type_map.keys.should include(item['type'])
@@ -764,7 +786,7 @@ describe 'Export Mappings' do
             repo.image_url => "xlink:href",
             "onLoad" => "xlink:actuate",
             "embed" => "xlink:show",
-            "simple" => "xlink:linktype"
+            "simple" => "linktype"
           }.each do |data, att|
             mt(data, "//xmlns:eadheader/xmlns:filedesc/xmlns:publicationstmt/xmlns:p/xmlns:extref", att)
           end

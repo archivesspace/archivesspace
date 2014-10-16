@@ -71,7 +71,7 @@ RSpec::Matchers.define :have_inner_text do |expected|
     if regex_mode
       node.inner_text =~ expected
     else
-      node.inner_text.strip == expected
+      node.inner_text.strip == expected.strip
     end
   end
 

@@ -15,19 +15,30 @@ class EADSerializer < ASpaceExport::Serializer
     end 
   end
  
-  def convert_linebreaks(content)
+  def handle_linebreaks(content)
+    # if there's already p tags, just leave as is 
+    return content if content.strip.start_with?("<p") 
     blocks = content.split("\n")
     if blocks.length > 1
       content = blocks.inject("") { |c,n| c << "<p>#{n.chomp}</p>"  }
+    else
+      content = "<p>#{content.strip}</p>"
     end
     content
   end
 
+  def strip_p(content)
+    content.gsub("<p>", "").gsub("</p>", "").gsub("<p/>", '')
+  end
 
-  def sanitize_mixed_content(content, context, fragments, convert_linebreaks = false  )
+  def sanitize_mixed_content(content, context, fragments, allow_p = false  )
+    # lets break the text, if it has linebreaks but no p tags.  
+    if allow_p 
+      content = handle_linebreaks(content) 
+    else
+      content = strip_p(content)
+    end
     
-    content = convert_linebreaks(content) if convert_linebreaks
-
     begin 
       if ASpaceExport::Utils.has_html?(content)
          context.text( fragments << content )
@@ -71,12 +82,14 @@ class EADSerializer < ASpaceExport::Serializer
         atts.reject! {|k, v| v.nil?}
 
         xml.archdesc(atts) {
+            
+            data.digital_objects.each do |dob|
+                serialize_digital_object(dob, xml, @fragments)
+            end
 
-          data.digital_objects.each do |dob|
-            serialize_digital_object(dob, xml, @fragments)
-          end
 
           xml.did {
+          
 
             if (val = data.language)
               xml.langmaterial {
@@ -168,7 +181,7 @@ class EADSerializer < ASpaceExport::Serializer
 
       xml.did {
         if (val = data.title)
-          xml.unittitle {  sanitize_mixed_content( val,xml, fragments, false) } 
+          xml.unittitle {  sanitize_mixed_content( val,xml, fragments) } 
         end
 
         if !data.component_id.nil? && !data.component_id.empty?
@@ -246,14 +259,14 @@ class EADSerializer < ASpaceExport::Serializer
 
         data.controlaccess_subjects.each do |node_data|
           xml.send(node_data[:node_name], node_data[:atts]) {
-            sanitize_mixed_content( node_data[:content], xml, fragments, true ) 
+            sanitize_mixed_content( node_data[:content], xml, fragments, ASpaceExport::Utils.include_p?(node_data[:node_name]) ) 
           }
         end
 
 
         data.controlaccess_linked_agents.each do |node_data|
           xml.send(node_data[:node_name], node_data[:atts]) {
-            sanitize_mixed_content( node_data[:content], xml, fragments, true ) 
+            sanitize_mixed_content( node_data[:content], xml, fragments,ASpaceExport::Utils.include_p?(node_data[:node_name]) ) 
           }
         end
 
@@ -354,7 +367,7 @@ class EADSerializer < ASpaceExport::Serializer
     atts['xlink:show'] = file_version['xlink_show_attribute'] || 'new'
 
     xml.dao(atts) {
-      xml.daodesc{ xml.p { sanitize_mixed_content(content, xml, fragments, true) }} if content
+      xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
     }
   end
 
@@ -409,12 +422,12 @@ class EADSerializer < ASpaceExport::Serializer
       when 'dimensions', 'physfacet'
         xml.physdesc(audatt) {
           xml.send(note['type'], att) {
-            sanitize_mixed_content( content, xml, fragments, true  ) 
+            sanitize_mixed_content( content, xml, fragments, ASpaceExport::Utils.include_p?(note['type'])  ) 
           }
         }
       else
         xml.send(note['type'], att.merge(audatt)) {
-          sanitize_mixed_content(content, xml, fragments, true)
+          sanitize_mixed_content(content, xml, fragments,ASpaceExport::Utils.include_p?(note['type']))
         }
       end
     end
@@ -430,8 +443,8 @@ class EADSerializer < ASpaceExport::Serializer
     head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note['type']}", :default => note['type'])
     content, head_text = extract_head_text(content, head_text) 
     xml.send(note['type'], atts) {
-      xml.head { sanitize_mixed_content(head_text, xml, fragments) }  unless content.strip.start_with?('<head')
-      sanitize_mixed_content(content, xml, fragments, true)
+      xml.head { sanitize_mixed_content(head_text, xml, fragments) } unless ASpaceExport::Utils.headless_note?(note['type'], content ) 
+      sanitize_mixed_content(content, xml, fragments,ASpaceExport::Utils.include_p?(note['type']) )
       if note['subnotes']
         serialize_subnotes(note['subnotes'], xml, fragments)
       end
@@ -558,7 +571,8 @@ class EADSerializer < ASpaceExport::Serializer
               xml.extref ({"xlink:href" => data.repo.image_url,
                           "xlink:actuate" => "onLoad",
                           "xlink:show" => "embed",
-                          "xlink:linktype" => "simple"})
+                          "linktype" => "simple" 
+                          })
             }
           end
 
