@@ -2,10 +2,10 @@ require_relative 'json_report'
 
 class LocationsReport < JSONReport
 
-  register_report({
-                    :uri_suffix => "locations",
-                    :description => "Report on repository locations",
-                  })
+#  register_report({
+#                    :uri_suffix => "locations",
+#                    :description => "Report on repository locations",
+#                  })
 
   def scope_by_repo_id(dataset)
     # repo scope is applied in the query below
