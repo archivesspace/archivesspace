@@ -17,7 +17,7 @@ class EADSerializer < ASpaceExport::Serializer
  
   def handle_linebreaks(content)
     # if there's already p tags, just leave as is 
-    return content if content.strip.start_with?("<p") 
+    return content if ( content.strip.start_with?("<p") or content.strip.length < 1 ) 
     blocks = content.split("\n")
     if blocks.length > 1
       content = blocks.inject("") { |c,n| c << "<p>#{n.chomp}</p>"  }
@@ -51,7 +51,6 @@ class EADSerializer < ASpaceExport::Serializer
   end
   
   def stream(data)
-
     @stream_handler = ASpaceExport::StreamHandler.new
     @fragments = ASpaceExport::RawXMLHandler.new
     @include_unpublished = data.include_unpublished?
@@ -157,6 +156,7 @@ class EADSerializer < ASpaceExport::Serializer
   # backup text node that will be returned if there is no <head> nodes in the
   # content
   def extract_head_text(content, backup = "")
+    content ||= ""  
     match = content.strip.match(/<head( [^<>]+)?>(.+?)<\/head>/)
     if match.nil? # content has no head so we return it as it
       return [content, backup ]
@@ -283,6 +283,8 @@ class EADSerializer < ASpaceExport::Serializer
       title = sn['title']
 
       case sn['jsonmodel_type']
+      when 'note_text'
+        sanitize_mixed_content(sn['content'], xml, fragments, true)
       when 'note_chronology'
         xml.chronlist(audatt) {
           xml.head { sanitize_mixed_content(title, xml, fragments) } if title
@@ -436,7 +438,7 @@ class EADSerializer < ASpaceExport::Serializer
   def serialize_note_content(note, xml, fragments)
     return if note["publish"] === false && !@include_unpublished
     audatt = note["publish"] === false ? {:audience => 'internal'} : {}
-    content = ASpaceExport::Utils.extract_note_text(note, @include_unpublished)
+    content = note["content"] 
 
     atts = {:id => prefix_id(note['persistent_id']) }.reject{|k,v| v.nil? || v.empty? || v == "null" }.merge(audatt)
     
@@ -444,7 +446,7 @@ class EADSerializer < ASpaceExport::Serializer
     content, head_text = extract_head_text(content, head_text) 
     xml.send(note['type'], atts) {
       xml.head { sanitize_mixed_content(head_text, xml, fragments) } unless ASpaceExport::Utils.headless_note?(note['type'], content ) 
-      sanitize_mixed_content(content, xml, fragments,ASpaceExport::Utils.include_p?(note['type']) )
+      sanitize_mixed_content(content, xml, fragments,ASpaceExport::Utils.include_p?(note['type']) ) if content
       if note['subnotes']
         serialize_subnotes(note['subnotes'], xml, fragments)
       end

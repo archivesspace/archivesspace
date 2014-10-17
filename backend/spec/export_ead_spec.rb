@@ -34,10 +34,29 @@ describe 'Export Mappings' do
     #throw in a couple non-digital instances
     rand(3).times { instances << build(:json_instance) }
 
+    # this tests that note order is preserved, even when it's a
+    # text.text.list.text setup.
+    @mixed_subnotes_tracer = build("json_note_multipart", {
+                        :type => 'bioghist',
+                        :publish => true,
+                       :persistent_id => "mixed_subnotes_tracter",
+                       :subnotes => [build(:json_note_text, { :publish => true, 
+                                                              :content => "note_text - The ship set ground on the shore of this uncharted desert isle"} ), 
+                                     build(:json_note_text, { :publish => true, 
+                                                                :content => "note_text - With:"}),
+                                    build(:json_note_definedlist,{  :publish => true, :title => "note_definedlist",
+                                                                      :items => [
+                                                                        {:label => "First Mate", :value => "Gilligan" },
+                                                                        {:label => "Captain",:value => "The Skipper"},
+                                                                        {:label => "Etc.", :value => "The Professor and Mary Ann" }
+                                                                      ] 
+                                    }),
+                                    build(:json_note_text,{   :content => "note_text - Here on Gillgian's Island", :publish => true}) ]                                         
+    })
 
 
     resource = create(:json_resource,  :linked_agents => build_linked_agents(@agents),
-                       :notes => build_archival_object_notes(100),
+                       :notes => build_archival_object_notes(100) + [@mixed_subnotes_tracer],
                        :subjects => @subjects.map{|ref, s| {:ref => ref}},
                        :instances => instances,
                        :finding_aid_status => %w(completed in_progress under_revision unprocessed).sample
@@ -197,7 +216,6 @@ describe 'Export Mappings' do
         xml_output.unlink
       end
 
-      
       errors.length.should == 0 
       @doc.errors.length.should == 0 
 end
@@ -416,7 +434,21 @@ end
             end
           end
         end
-      end
+      
+        it "ensures subnotes[] order is respects, even if subnotes are of mixed types" do
+            
+            path = "//bioghist[@id = 'aspace_#{@mixed_subnotes_tracer['persistent_id']}']" 
+            head_text = translate('enumerations._note_types',@mixed_subnotes_tracer['type'])
+          
+            mt(head_text, "#{path}/head")
+            i = 2 # start at two since head is the first child 
+            @mixed_subnotes_tracer["subnotes"].each do |note|
+              mt(/#{note["jsonmodel_type"]}/, "#{path}/*[text() != ''][#{i.to_s}]") 
+              i = i + 1
+            end
+
+        end
+    end
 
       describe "How {archival_object}.instances[].container data is mapped." do
         let(:containers) { object.instances.map {|i| i['container'] } }
