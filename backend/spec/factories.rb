@@ -312,8 +312,8 @@ FactoryGirl.define do
 
   factory :json_note_index_item, class: JSONModel(:note_index_item) do
     value { generate(:alphanumstr) }
-    reference { generate(:alphanumstr) }
-    reference_text { generate(:alphanumstr) }
+    #reference { generate(:alphanumstr) }
+    #reference_text { generate(:alphanumstr) }
     type { generate(:note_index_item_type) }
   end
 

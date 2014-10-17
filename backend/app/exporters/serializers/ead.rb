@@ -82,9 +82,6 @@ class EADSerializer < ASpaceExport::Serializer
 
         xml.archdesc(atts) {
             
-            data.digital_objects.each do |dob|
-                serialize_digital_object(dob, xml, @fragments)
-            end
 
 
           xml.did {
@@ -123,6 +120,10 @@ class EADSerializer < ASpaceExport::Serializer
             end
 
           }# </did>
+            
+          data.digital_objects.each do |dob|
+                serialize_digital_object(dob, xml, @fragments)
+          end
 
           serialize_nondid_notes(data, xml, @fragments)
 
@@ -274,7 +275,7 @@ class EADSerializer < ASpaceExport::Serializer
     end
   end
 
-  def serialize_subnotes(subnotes, xml, fragments)
+  def serialize_subnotes(subnotes, xml, fragments, include_p = true)
     subnotes.each do |sn|
       next if sn["publish"] === false && !@include_unpublished
 
@@ -284,7 +285,7 @@ class EADSerializer < ASpaceExport::Serializer
 
       case sn['jsonmodel_type']
       when 'note_text'
-        sanitize_mixed_content(sn['content'], xml, fragments, true)
+        sanitize_mixed_content(sn['content'], xml, fragments, include_p )
       when 'note_chronology'
         xml.chronlist(audatt) {
           xml.head { sanitize_mixed_content(title, xml, fragments) } if title
@@ -446,9 +447,9 @@ class EADSerializer < ASpaceExport::Serializer
     content, head_text = extract_head_text(content, head_text) 
     xml.send(note['type'], atts) {
       xml.head { sanitize_mixed_content(head_text, xml, fragments) } unless ASpaceExport::Utils.headless_note?(note['type'], content ) 
-      sanitize_mixed_content(content, xml, fragments,ASpaceExport::Utils.include_p?(note['type']) ) if content
+      sanitize_mixed_content(content, xml, fragments, ASpaceExport::Utils.include_p?(note['type']) ) if content
       if note['subnotes']
-        serialize_subnotes(note['subnotes'], xml, fragments)
+        serialize_subnotes(note['subnotes'], xml, fragments, ASpaceExport::Utils.include_p?(note['type']))
       end
     }
   end
@@ -512,14 +513,14 @@ class EADSerializer < ASpaceExport::Serializer
         note['items'].each do |item|
           next unless (node_name = data.index_item_type_map[item['type']])
           xml.indexentry {
-            atts = item['reference'] ? {:target => item['reference']} : {}
+            atts = item['reference'] ? {:target => prefix_id( item['reference']) } : {}
+            if (val = item['value'])
+              xml.send(node_name) {  sanitize_mixed_content(val, xml, fragments )} 
+            end
             if (val = item['reference_text'])
               xml.ref(atts) {
                 sanitize_mixed_content( val, xml, fragments)
               }
-            end
-            if (val = item['value'])
-              xml.send(node_name) {  sanitize_mixed_content(val, xml, fragments )} 
             end
           }
         end
@@ -573,7 +574,7 @@ class EADSerializer < ASpaceExport::Serializer
               xml.extref ({"xlink:href" => data.repo.image_url,
                           "xlink:actuate" => "onLoad",
                           "xlink:show" => "embed",
-                          "linktype" => "simple" 
+                          "xlink:type" => "simple" 
                           })
             }
           end

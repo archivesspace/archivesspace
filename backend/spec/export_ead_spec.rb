@@ -193,31 +193,11 @@ describe 'Export Mappings' do
         end
       end
        
-      schema_bugs = [   
-       "fails to validate",
-       "The attribute 'linktype' is not allowed",
-       "Expected is one of ( {urn:isbn:1-931666-22-9}runner, {urn:isbn:1-931666-22-9}did )"
-      ] 
       
-      errors = [] 
-      xml_output = Tempfile.new("ead")
-      
-      ### AAAARRRGGGG!!! JRuby Nokogiri doesn't like schema validations.  
-      begin
-        xml_output.write(@doc.to_xml(:indent => 2))
-        xml_output.rewind
-        xsd = File.join(File.dirname(__FILE__), '..', 'app', 'exporters', 'xsd', 'ead.xsd') 
-        cmd = "xmllint --noout --schema #{xsd} #{xml_output.path}"
-        Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
-          stderr.read.each_line.each { |e| errors <<  e unless schema_bugs.any? { |bug| e.to_s.include?(bug) } }
-        end
-      ensure
-        xml_output.close
-        xml_output.unlink
-      end
-
-      errors.length.should == 0 
+      xsd = Nokogiri::XML::Schema(open('http://www.loc.gov/ead/ead.xsd'))
+      xsd.valid?(@doc).should be_true
       @doc.errors.length.should == 0 
+
 end
 
 
@@ -567,7 +547,7 @@ end
         it "maps notes of type 'dimensions' to did/physdesc/dimensions" do
           notes.select {|n| n['type'] == 'dimensions'}.each_with_index do |note, i|
             path = "#{desc_path}/did/physdesc[dimensions][#{i+1}]/dimensions"
-            mt(note_content(note), path, :markup)
+            mt(note_content(note).gsub("<p>",'').gsub("</p>", ""), path, :markup)
             if note['persistent_id'] 
               mt("aspace_" + note['persistent_id'], path, "id")
             else 
@@ -818,7 +798,7 @@ end
             repo.image_url => "xlink:href",
             "onLoad" => "xlink:actuate",
             "embed" => "xlink:show",
-            "simple" => "linktype"
+            "simple" => "xlink:type"
           }.each do |data, att|
             mt(data, "//xmlns:eadheader/xmlns:filedesc/xmlns:publicationstmt/xmlns:p/xmlns:extref", att)
           end
