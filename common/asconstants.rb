@@ -15,7 +15,8 @@ module ASConstants
     return @VERSION if @VERSION
 
     begin
-      @VERSION = java.lang.ClassLoader.getSystemClassLoader.getResourceAsStream("ARCHIVESSPACE_VERSION").to_io.read.strip
+      @VERSION = Thread.currentThread.getSystemClassLoader.getResourceAsStream("ARCHIVESSPACE_VERSION").to_io.read.strip
+      
     rescue
       @VERSION = "NO VERSION"
     end
