@@ -539,6 +539,7 @@ FactoryGirl.define do
     dates { [build(:json_date)] }
     finding_aid_description_rules { [nil, generate(:finding_aid_description_rules)].sample }
     ead_id { nil_or_whatever }
+    finding_aid_date { generate(:alphanumstr) } 
     finding_aid_language { nil_or_whatever }
     finding_aid_revision_date { nil_or_whatever }
     finding_aid_revision_description { nil_or_whatever }

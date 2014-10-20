@@ -576,6 +576,10 @@ class EADSerializer < ASpaceExport::Serializer
                           "xlink:show" => "embed",
                           "xlink:type" => "simple" 
                           })
+              if (data.finding_aid_date)
+                  val = data.finding_aid_date   
+                  xml.date {   sanitize_mixed_content( val, xml, fragments) }
+              end
             }
           end
 
@@ -585,10 +589,6 @@ class EADSerializer < ASpaceExport::Serializer
                 xml.addressline { sanitize_mixed_content( line, xml, fragments) }  
               end
             }
-          end
-          if (data.finding_aid_date)
-            val = data.finding_aid_date   
-            xml.date {   sanitize_mixed_content( val, xml, fragments) }
           end
         }
 
@@ -624,7 +624,8 @@ class EADSerializer < ASpaceExport::Serializer
             xml.text (fragments << data.finding_aid_revision_description)
           else
             xml.change {
-              xml.date (fragments << data.finding_aid_revision_date) if data.finding_aid_revision_date
+              rev_date = data.finding_aid_revision_date ? data.finding_aid_revision_date : "" 
+              xml.date (fragments <<  rev_date ) 
               xml.item (fragments << data.finding_aid_revision_description) if data.finding_aid_revision_description
             }
           end
