@@ -97,21 +97,36 @@ class BatchImportRunner
     end
 
     if last_error
-      ticker.log("!" * 50 ) 
-      ticker.log("\nIMPORT ERROR:\n") 
-      ticker.log("!" * 50 ) 
+     
+      ticker.log("\n\n" ) 
+      ticker.log( ( "!" * 48 ) +  "  IMPORT ERROR  " + ( "!" * 48 ) ) 
+      
       if  last_error.respond_to?(:errors)
-        File.open("/tmp/out.hash", "w") { |f| f << last_error.invalid_object.to_hash(:trusted )} 
+     
         ticker.log("#{last_error}") if last_error.errors.empty? # just spit it out if there's not explicit errors
+        
         ticker.log("The following errors were found:\n") 
+        
         last_error.errors.each_pair { |k,v| ticker.log("\t#{k.to_s} : #{v.join(' -- ')}" ) }
-        ticker.log("\n\n For #{ last_error.invalid_object.class }: \n #{ last_error.invalid_object.inspect  }") unless last_error.invalid_object.nil? 
-        ticker.log("\n\nIn : \n #{ CGI.escapeHTML( last_error.import_context ) } ") if last_error.import_context
-        ticker.log("\n\n\n\n") 
+        
+        if last_error.is_a?(Sequel::ValidationFailed) 
+          ticker.log("\n" ) 
+          ticker.log("%" * 112 ) 
+          ticker.log("\n Full Error Message:\n #{last_error.to_s}\n\n") 
+        end 
+        
+        if ( last_error.respond_to?(:invalid_object) && last_error.invalid_object ) 
+          ticker.log("\n\n For #{ last_error.invalid_object.class }: \n #{ last_error.invalid_object.inspect  }")  
+        end 
+        
+        if ( last_error.respond_to?(:import_context) && last_error.import_context )
+          ticker.log("\n\nIn : \n #{ CGI.escapeHTML( last_error.import_context ) } ")
+          ticker.log("\n\n") 
+        end 
       else
-        ticker.log("Error: #{last_error}")
+        ticker.log("Error: #{last_error.inspect}")
       end
-      ticker.log("=" * 50 ) 
+      ticker.log("!" * 100 ) 
       raise last_error
     end
   end
