@@ -293,12 +293,12 @@ class EADSerializer < ASpaceExport::Serializer
           sn['items'].each do |item|
             xml.chronitem {
               if (val = item['event_date'])
-                xml.date sanitize_mixed_content( val, xml, fragments)
+                xml.date {   sanitize_mixed_content( val, xml, fragments) } 
               end
               if item['events'] && !item['events'].empty?
                 xml.eventgrp {
                   item['events'].each do |event|
-                    xml.event sanitize_mixed_content(event,xml, fragments) 
+                    xml.event {   sanitize_mixed_content(event,xml, fragments) }  
                   end
                 }
               end
@@ -586,11 +586,15 @@ class EADSerializer < ASpaceExport::Serializer
               end
             }
           end
+          if (data.finding_aid_date)
+            val = data.finding_aid_date   
+            xml.date {   sanitize_mixed_content( val, xml, fragments) }
+          end
         }
 
         if (data.finding_aid_series_statement)
           val = data.finding_aid_series_statemen
-          txml.seriesstmt {
+          xml.seriesstmt {
             sanitize_mixed_content(  val, xml, fragments, true ) 
           }
         end
@@ -598,7 +602,7 @@ class EADSerializer < ASpaceExport::Serializer
             val = data.finding_aid_note 
             xml.notestmt { xml.note { sanitize_mixed_content(  val, xml, fragments, true )} }  
         end
-        
+       
       }
 
       xml.profiledesc {

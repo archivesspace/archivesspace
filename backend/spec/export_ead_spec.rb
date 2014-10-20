@@ -195,8 +195,14 @@ describe 'Export Mappings' do
        
       
       xsd = Nokogiri::XML::Schema(open('http://www.loc.gov/ead/ead.xsd'))
+      
       xsd.valid?(@doc).should be_true
       @doc.errors.length.should == 0 
+
+      # if the word Nokogiri appears in the XML file, we'll assume something
+      # has gone wrong
+      @doc.to_xml.should_not include("Nokogiri")
+      @doc.to_xml.should_not include("#&amp;")
 
 end
 
