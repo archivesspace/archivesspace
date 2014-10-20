@@ -15,8 +15,12 @@ module ASConstants
     return @VERSION if @VERSION
 
     begin
-      @VERSION = Thread.currentThread.getSystemClassLoader.getResourceAsStream("ARCHIVESSPACE_VERSION").to_io.read.strip
-      
+      version = java.lang.ClassLoader.getSystemClassLoader.getResourceAsStream("ARCHIVESSPACE_VERSION")
+      if version
+        @VERSION = version.to_io.read.strip
+      else # some servlet containers have a hard time finding the resource...
+        @VERSION = "V1.1.0"
+      end
     rescue
       @VERSION = "NO VERSION"
     end
