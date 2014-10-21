@@ -67,6 +67,23 @@ by default) from your previous installation--just in case you need to
 refer to it later.
 
 
+## Transfer your locales data
+
+If you've made modifications to you locales file ( en.yml ) with customized
+labels, titles, tooltips, etc., you'll need to transfer those to your new
+locale file. 
+
+A good way to do this is to use a Diff tool, like Notepad++, TextMate, or just
+Linux diff command:
+
+     $ diff /path/to/archivesspace-1.1.0/locales/en.yml /path/to/archivesspace-1.0.9/archivesspace-v1.0.9/locales/en.yml
+     $ diff /path/to/archivesspace-1.1.0/locales/enums/en.yml /path/to/archivesspace-v1.0.9/locales/enums/en.yml
+
+This will show you the differences in your current locales files, as well as the
+new additions in the new version locales files. Simply copy the values you wish
+to keep from your old ArchivesSpace locales to your new ArchivesSpace locales
+files. 
+
 ## Run the database migrations
 
 With everything copied, the final step is to run the database
