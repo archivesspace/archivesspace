@@ -89,12 +89,8 @@ Or on Windows:
 The steps to deploy to Tomcat are esentially the same as in the
 [README_TOMCAT.md](https://github.com/archivesspace/archivesspace/blob/master/README_TOMCAT.md)
 
-Unpack your new version of ArchivesSpace, configure your database, and make
-sure all your configuration setting are in your new config.rb file ( check your
-Tomcat's conf/config.rb file for your current settings).
-
-But, prior to running your setup-tomcat script, you'll need to clean out the
-old libraries from your Tomcat classpath:
+But, prior to running your setup-tomcat script, you'll need to be sure to clean out the
+any libraries from the previous ASpace version from your Tomcat classpath.
 
      1. Stop Tomcat
      2. Unpack your new version of ArchivesSpace
