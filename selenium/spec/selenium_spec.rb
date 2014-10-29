@@ -1485,6 +1485,15 @@ describe "ArchivesSpace user interface" do
         $driver.find_element_with_text('//div', /Event Created/).should_not be_nil
       }
     end
+  
+
+    it "should be searchable" do
+      run_index_round
+      $driver.find_element(:id, 'global-search-button').click
+      $driver.find_element(:link, "Event").click 
+      assert(5) { $driver.find_element_with_text("//h2", /Search Results/) }
+    end
+  
   end
 
 
