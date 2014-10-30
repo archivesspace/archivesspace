@@ -9,7 +9,7 @@ ArchivesSpace README
 
 # System requirements
 
-* Java 1.6 or higher; Java 1.7+ recommended
+* Java 1.6 or higher; Java 1.7 recommended. Currently,  Java 1.8 requires removal of Jasper libraries from the Java classpath. 
 * At least 1024 MB RAM allocated to the application
 * A [supported browser](https://github.com/archivesspace/archivesspace/wiki/Supported-browsers)
 
@@ -29,6 +29,11 @@ You will need to have Java 1.6 (or newer) installed on your machine.
 You can check your Java version by running the command:
 
      java -version
+
+Currently, if you want to use Java 1.8, you will need to remove the
+jdt-compiler jar library from the java classpath ( lib directory of
+your ArchivesSpace directory). This will disable the use of Jasper
+reports ( but not regular reports).  
 
 When you extract the `.zip` file, it will create a directory called
 `archivesspace`.  To run the system, just execute the appropriate
