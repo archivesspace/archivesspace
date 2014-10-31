@@ -37,7 +37,7 @@ your original ArchivesSpace installation:
 
   * the `data` directory
 
-  * the `config` directory
+  * the `config` directory (see **Configuration note** below)
 
   * your `lib/mysql-connector*.jar` file (if using MySQL)
 
@@ -65,6 +65,20 @@ Or on Windows:
 Note that you may want to preserve the logs file (`logs/archivesspace.out` 
 by default) from your previous installation--just in case you need to 
 refer to it later.
+
+### Configuration note
+
+Sometimes a new release of ArchivesSpace will introduce new
+configuration settings that weren't present in previous releases.
+Before you replace the distribution `config/config.rb` with your
+original version, it's a good idea to review the distribution version
+to see if there are any new configuration settings of interest.
+
+Upgrade notes will generally draw attention to any configuration
+settings you need to set explicitly, but you never know when you'll
+discover a new, exciting feature!  Documentation might also refer to
+uncommenting configuration options that won't be in your file if you
+keep your older version.
 
 
 ## Transfer your locales data
