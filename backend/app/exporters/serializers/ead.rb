@@ -330,10 +330,18 @@ class EADSerializer < ASpaceExport::Serializer
   end
 
   def serialize_container(inst, xml, fragments)
+    File.open("/tmp/list.txt", "a") { |f| f << inst.inspect }  
     containers = []
+    @parent_id = nil 
     (1..3).each do |n|
       atts = {}
       next unless inst['container'].has_key?("type_#{n}") && inst['container'].has_key?("indicator_#{n}")
+      @container_id = prefix_id(SecureRandom.hex) 
+      
+      atts[:parent] = @parent_id unless @parent_id.nil? 
+      atts[:id] = @container_id 
+      @parent_id = @container_id 
+
       atts[:type] = inst['container']["type_#{n}"]
       text = inst['container']["indicator_#{n}"]
       if n == 1 && inst['instance_type']
@@ -555,9 +563,12 @@ class EADSerializer < ASpaceExport::Serializer
           titleproper += "#{data.title}" if ( data.title && titleproper.empty? )
           titleproper += "<num>#{(0..3).map{|i| data.send("id_#{i}")}.compact.join('.')}</num>"
           xml.titleproper {  sanitize_mixed_content(titleproper, xml, fragments) }
-
+  
           xml.author { sanitize_mixed_content(data.finding_aid_author, xml, fragments) }  unless data.finding_aid_author.nil?
           xml.sponsor { sanitize_mixed_content( data.finding_aid_sponsor, xml, fragments) } unless data.finding_aid_sponsor.nil?
+          
+          xml.titleproper("type" => "filing") { sanitize_mixed_content(data.finding_aid_filing_title, xml, fragments)} unless data.finding_aid_filing_title.nil?
+      
         }
 
         unless data.finding_aid_edition_statement.nil?

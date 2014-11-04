@@ -59,7 +59,9 @@ describe 'Export Mappings' do
                        :notes => build_archival_object_notes(100) + [@mixed_subnotes_tracer],
                        :subjects => @subjects.map{|ref, s| {:ref => ref}},
                        :instances => instances,
-                       :finding_aid_status => %w(completed in_progress under_revision unprocessed).sample
+                       :finding_aid_status => %w(completed in_progress under_revision unprocessed).sample,
+                       :finding_aid_filing_title => "this is a filing title",
+
                        )
 
     @resource = JSONModel(:resource).find(resource.id)
@@ -193,10 +195,7 @@ describe 'Export Mappings' do
         end
       end
        
-      
-      xsd = Nokogiri::XML::Schema(open('http://www.loc.gov/ead/ead.xsd'))
-      
-      xsd.valid?(@doc).should be_true
+
       @doc.errors.length.should == 0 
 
       # if the word Nokogiri appears in the XML file, we'll assume something
@@ -729,7 +728,11 @@ end
       end
 
       it "maps resource.finding_aid_title to filedesc/titlestmt/titleproper" do
-        mt(@resource.finding_aid_title, "eadheader/filedesc/titlestmt/titleproper[@type != 'filing']")
+        mt(@resource.finding_aid_title, "eadheader/filedesc/titlestmt/titleproper[not(@type)]")
+      end
+      
+      it "maps resource.finding_aid_filing_title to filedesc/titlestmt/titleproper" do
+        mt(@resource.finding_aid_filing_title, "eadheader/filedesc/titlestmt/titleproper[@type = 'filing']")
       end
 
       it "maps resource.(id_0|id_1|id_2|id_3) to filedesc/titlestmt/titleproper/num" do

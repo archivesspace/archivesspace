@@ -21,3 +21,4 @@ To configure your own font:
 
 Add your JRXML file to the jasper directory.
 
+https://login.proxy.wmu.se/login?qurl=http%3a%2f%2fproxy.wmu.se%2febrary%2fwmulib%2funauthorized

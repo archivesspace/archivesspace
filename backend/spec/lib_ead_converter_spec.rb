@@ -34,7 +34,7 @@ ANEAD
     parsed = JSON(IO.read(converter.get_output_path))
 
     parsed.length.should eq(3)
-    parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['container']['type_2'].should eq('Folder')
+    parsed.find{|r| r['ref_id'] == '1'}['instances'][1]['container']['type_1'].should eq('Folder')
   end
 
   it "should be link to existing agents with authority_id" do
@@ -544,7 +544,7 @@ ANEAD
 
     it "maps '<container>' correctly" do
       i = @archival_objects['02']['instances'][0]
-      i['instance_type'].should eq('mixed_materials')
+      i['instance_type'].should eq('text')
       i['container']['indicator_1'].should eq('2')
       i['container']['indicator_2'].should eq('2')
       #   @type
@@ -903,6 +903,38 @@ ANEAD
  
  end
 
+ 
+  describe "EAD With frontpage" do
+    
+    let(:test_file) {
+      File.expand_path("../app/exporters/examples/ead/vmi.xml", File.dirname(__FILE__))
+    }
 
 
+    before(:all) do
+      @parsed = convert(test_file)
+      @resource = @parsed.select {|rec| rec['jsonmodel_type'] == 'resource'}.last
+      @archival_objects = @parsed.select {|rec| rec['jsonmodel_type'] == 'archival_object'}
+    end
+
+    it "shouldn't overwrite the finding_aid_title/titleproper from frontpage" do
+      @resource["finding_aid_title"].should eq("Proper Title") 
+      @resource["finding_aid_title"].should_not eq("TITLEPAGE titleproper") 
+    end
+
+    it "should not have any of the titlepage content" do
+      @parsed.to_s.should_not include("TITLEPAGE")
+    end
+   
+    it "should have instances grouped by their container @id/@parent relationships" do
+      instances = @archival_objects.first["instances"] 
+      instances.length.should eq(3)
+      instances.each_with_index do |v,index|
+        
+        container = v["container"]
+        (1..( index + 1)) .to_a.each { |i|  container["indicator_#{i.to_s}"].should eq(( i + index ).to_s)  }
+      end
+    end
+
+  end
 end

@@ -41,7 +41,11 @@ class EADConverter < Converter
       return  node.inner_xml.strip.empty? 
     end
   end
-
+  
+  # the act of ignoring is simply switching the ignore to false. 
+  def ignore 
+    @ignore = false
+  end
 
   # alright, wtf.
   # sometimes notes can have things like  lists jammed in them. we need to break those 
@@ -88,6 +92,17 @@ class EADConverter < Converter
 
     with 'ead' do |node|
       make :resource
+    end
+
+
+    # we need to ignore everything on titlepage
+    %w{address author bibseries blockquote chronlist date edition list list/item list/defitem note
+      num p publisher sponsor subtitle table titleproper  }.each do |node_type|
+
+      with "titlepage/#{node_type}" do
+        @ignore = true 
+      end
+
     end
 
 
@@ -282,7 +297,7 @@ class EADConverter < Converter
        bioghist custodhist dimensions \
        fileplan odd otherfindaid originalsloc phystech \
        prefercite processinfo relatedmaterial scopecontent \
-       separatedmaterial userestrict).each do |note|
+       separatedmaterial userestrict ).each do |note|
       with note do |node|
         content = inner_xml.tap {|xml|
           xml.sub!(/<head>.*?<\/head>/m, '')
@@ -330,12 +345,18 @@ class EADConverter < Converter
 
 
     with 'chronlist' do
-     
-      # the list is in a subnote. We need to make a new list subnote, insert
-      # it into the middle of the last subnote, and put the remaining content
-      # in after the list....
-      left_overs = insert_into_subnotes("chronlist") 
-      
+      next ignore if @ignore 
+      if  ancestor(:note_multipart)
+        left_overs = insert_into_subnotes 
+      else 
+        left_overs = nil 
+        make :note_multipart, {
+          :type => node.name,
+          :persistent_id => att('id'),
+        } do |note|
+          set ancestor(:resource, :archival_object), :notes, note
+        end
+      end
       
       make :note_chronology do |note|
         set ancestor(:note_multipart), :subnotes, note
@@ -362,9 +383,21 @@ class EADConverter < Converter
 
 
     with 'list' do
+      next ignore if @ignore 
+       
+      if  ancestor(:note_multipart)
+        left_overs = insert_into_subnotes 
+      else 
+        left_overs = nil 
+        make :note_multipart, {
+          :type => node.name,
+          :persistent_id => att('id'),
+        } do |note|
+          set ancestor(:resource, :archival_object), :notes, note
+        end
+      end
       
-      left_overs = insert_into_subnotes 
-     
+      
       # now let's make the subnote list 
       type = att('type')
       if type == 'deflist' || (type.nil? && inner_xml.match(/<deflist>/))
@@ -379,6 +412,7 @@ class EADConverter < Converter
         end
       end
       
+      
       # and finally put the leftovers back in the list of subnotes...
       if ( !left_overs.nil? && left_overs["content"] && left_overs["content"].length > 0 ) 
         set ancestor(:note_multipart), :subnotes, left_overs 
@@ -388,20 +422,24 @@ class EADConverter < Converter
 
 
     with 'list/head' do |node|
+      next ignore if @ignore 
       set :title, inner_xml
     end
 
 
     with 'defitem' do |node|
+      next ignore if @ignore 
       context_obj.items << {}
     end
 
     with 'defitem/label' do |node|
+      next ignore if @ignore 
       context_obj.items.last['label'] = inner_xml if context == :note_definedlist
     end
 
 
     with 'defitem/item' do |node|
+      next ignore if @ignore 
       context_obj.items.last['value'] =  inner_xml if context == :note_definedlist
     end
 
@@ -417,6 +455,7 @@ class EADConverter < Converter
 
 
     with 'date' do
+      next ignore if @ignore 
       if context == :note_chronology
         date = inner_xml
         context_obj.items.last['event_date'] = date
@@ -435,35 +474,46 @@ class EADConverter < Converter
 
     # example of a 1:many tag:record relation (1+ <container> => 1 instance with 1 container)
     with 'container' do
+      
+      @containers ||= {} 
+      
+      # we've found that the container has a parent att and the parent is in
+      # our queue
+      if att("parent") && @containers[att('parent')] 
+        cont = @containers[att('parent')] 
 
-      if context_obj.instances.empty?
+      else 
+        instance_label = att("label") ? att("label").downcase : 'mixed_materials'
         make :instance, {
-          :instance_type => 'mixed_materials'
-        } do |instance|
-          set ancestor(:resource, :archival_object), :instances, instance
+            :instance_type => instance_label
+          } do |instance|
+            set ancestor(:resource, :archival_object), :instances, instance
         end
-      end
 
-      inst = context == :instance ? context_obj : context_obj.instances.last
-
-      if inst.container.nil?
+        inst = context_obj
+       
         make :container do |cont|
           set inst, :container, cont
         end
+
+        cont =  inst.container 
       end
-
-      cont = inst.container || context_obj
-
+      
+      # now we fill it in
       (1..3).to_a.each do |i|
         next unless cont["type_#{i}"].nil?
         cont["type_#{i}"] = att('type')
         cont["indicator_#{i}"] = inner_xml
         break
       end
+      #store it here incase we find it has a parent 
+      @containers[att("id")] = cont 
+    
     end
 
 
     with 'author' do
+      next ignore if @ignore 
       set :finding_aid_author, inner_xml
     end
 
@@ -490,11 +540,13 @@ class EADConverter < Converter
 
 
     with 'sponsor' do
+      next ignore if @ignore 
       set :finding_aid_sponsor, inner_xml
     end
 
 
     with 'titleproper' do
+      next ignore if @ignore 
       type = att('type')
       case type
       when 'filing'
