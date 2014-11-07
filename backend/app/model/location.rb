@@ -7,11 +7,6 @@ class Location < Sequel::Model(:location)
 
   set_model_scope :global
 
-  ArchivesSpaceService.loaded_hook do
-    Location.define_relationship(:name => :housed_at,
-                                :contains_references_to_types => proc {Location.relationship_dependencies[:housed_at]})
-  end
-
 
   def self.generate_title(json)
     title = ""
