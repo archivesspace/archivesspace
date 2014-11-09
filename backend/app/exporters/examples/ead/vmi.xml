@@ -4,6 +4,8 @@
       <eadid countrycode="US" mainagencycode="ViLxV">a9172317-17ec-46e8-9897-1fea6c91cea1</eadid>
       <filedesc>c28796b8-1f1c-46b4-b423-1725b0e0285a<titlestmt>
             <titleproper>Proper Title</titleproper>
+            <titleproper type='filing'> Filing Title</titleproper>
+
             <subtitle id="sort">c64812e6-d759-4529-b6bd-2dcc3eb26d77<num type="collectionnumber">54434dad-4c35-4ef1-9f4d-8777e0de1bc7</num></subtitle>
             <author>c586b1b2-b0c7-45dd-b0c3-c1673945a5a3</author>
          </titlestmt>

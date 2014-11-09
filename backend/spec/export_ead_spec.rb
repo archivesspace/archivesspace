@@ -202,7 +202,7 @@ describe 'Export Mappings' do
       # has gone wrong
       @doc.to_xml.should_not include("Nokogiri")
       @doc.to_xml.should_not include("#&amp;")
-
+      @doc.to_xml.should_not include("ASPACE EXPORT ERROR")
 end
 
 

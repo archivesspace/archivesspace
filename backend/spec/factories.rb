@@ -318,10 +318,10 @@ FactoryGirl.define do
   end
 
   factory :json_note_bibliography, class: JSONModel(:note_bibliography) do
-    label { generate(:alphanumstr) }
+    label { [ generate(:alphanumstr), nil].sample }
     content { [generate(:wild_markup)] }
     items { [generate(:alphanumstr)] }
-    type { generate(:note_bibliography_type) }
+    type { [ generate(:note_bibliography_type), nil].sample }
   end
 
   factory :json_note_bioghist, class: JSONModel(:note_bioghist) do
