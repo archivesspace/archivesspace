@@ -1273,7 +1273,7 @@
     
     <!-- Collection Inventory (dsc) templates -->
     <xsl:template match="ead:archdesc/ead:dsc">
-        <xsl:if test="count(child::*) > 1">
+        <xsl:if test="count(child::*) >= 1">
 		<fo:block xsl:use-attribute-sets="section">
 		    <fo:block xsl:use-attribute-sets="h2ID"><xsl:value-of select="local:tagName(.)"/></fo:block>
 		    <fo:table table-layout="fixed" space-after="12pt" width="100%" font-size="10pt">
