@@ -147,8 +147,14 @@ $(function() {
             subformsExisting.each(init_subform);
             $("a.has-label.show-all", $this).hide();
           });
-          subformsExisting.slice(0,4).each(init_subform);
-          subformsExisting.slice(5).hide();
+         
+          if ($this.data("custom-action") === true ) {
+            subformsExisting.each(init_subform);
+          } else {  
+            
+            subformsExisting.slice(0,4).each(init_subform);
+            subformsExisting.slice(5).hide();
+          } 
         }  
           $("> .subrecord-form-container .subrecord-form-list > .subrecord-form-wrapper", $this).each(init_subform);
 
