@@ -32,7 +32,7 @@ module MarcXMLBaseMap
         '4'=>"Source not specified",
         '5'=>"Canadian Subject Headings",
         '6'=>"R\u00E9pertoire de vedettes-matic\u00E8re"
-      }[node.attr('ind2')] || node.xpath("subfield[@code='2']").inner_text
+      }[node.attr('ind2')] || ( !node.at_xpath("subfield[@code='2']").nil? ? node.at_xpath("subfield[@code='2']").inner_text : 'Source not specified' )
     }
   end
 
