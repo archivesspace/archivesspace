@@ -104,7 +104,8 @@ class ArchivesSpaceService < Sinatra::Base
 
 
       BatchImportJobQueue.init if ASpaceEnvironment.environment != :unit_test
-      JasperReport.compile
+      
+      JasperReport.compile if AppConfig[:compile_jasper] 
 
       if ASpaceEnvironment.environment == :production
         # Start the job scheduler
