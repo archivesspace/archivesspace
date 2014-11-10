@@ -142,3 +142,11 @@ AppConfig[:import_timeout_seconds] = 300
 AppConfig[:import_jobs_cancelable] = proc { (AppConfig[:db_url] != AppConfig.demo_db_url).to_s }
 
 AppConfig[:max_location_range] = 1000
+
+
+# Jasper Reports
+# (https://community.jaspersoft.com/project/jasperreports-library) 
+# require compilation. This can be done at startup. Please note, if you are
+# using Java 8 and you want to compile at startup, keep this setting at false,
+# but be sure to use the JDK version.
+AppConfig[:compile_jasper] = false
