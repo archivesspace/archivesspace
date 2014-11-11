@@ -1,0 +1,49 @@
+<marcxml:record xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:marcxml="http://www.loc.gov/MARC21/slim" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#" xmlns:ri="http://id.loc.gov/ontologies/RecordInfo#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mets="http://www.loc.gov/METS/">
+      <marcxml:leader>00582nz  a2200205n  4500</marcxml:leader>
+      <marcxml:controlfield tag="001">no2006087900</marcxml:controlfield>
+      <marcxml:controlfield tag="003">DLC</marcxml:controlfield>
+      <marcxml:controlfield tag="005">20060823051957.0</marcxml:controlfield>
+      <marcxml:controlfield tag="008">060822n| acaabaaan          |a ana     c</marcxml:controlfield>
+      <marcxml:datafield tag="010" ind1=" " ind2=" ">
+    <marcxml:subfield code="a">no2006087900</marcxml:subfield>
+  </marcxml:datafield>
+      <marcxml:datafield tag="035" ind1=" " ind2=" ">
+    <marcxml:subfield code="a">(OCoLC)oca07029280</marcxml:subfield>
+  </marcxml:datafield>
+      <marcxml:datafield tag="040" ind1=" " ind2=" ">
+    <marcxml:subfield code="a">NcD</marcxml:subfield>
+    <marcxml:subfield code="b">eng</marcxml:subfield>
+    <marcxml:subfield code="c">NcD</marcxml:subfield>
+  </marcxml:datafield>
+      <marcxml:datafield tag="130" ind1=" " ind2="0">
+    <marcxml:subfield code="a">Cyberpunk</marcxml:subfield>
+  </marcxml:datafield>
+      <marcxml:datafield tag="430" ind1=" " ind2="0">
+    <marcxml:subfield code="a">Badass sci-fi</marcxml:subfield>
+  </marcxml:datafield>
+      <marcxml:datafield tag="643" ind1=" " ind2=" ">
+    <marcxml:subfield code="a">London</marcxml:subfield>
+    <marcxml:subfield code="b">Creation</marcxml:subfield>
+  </marcxml:datafield>
+      <marcxml:datafield tag="644" ind1=" " ind2=" ">
+    <marcxml:subfield code="a">f</marcxml:subfield>
+    <marcxml:subfield code="5">NcD</marcxml:subfield>
+  </marcxml:datafield>
+      <marcxml:datafield tag="645" ind1=" " ind2=" ">
+    <marcxml:subfield code="a">t</marcxml:subfield>
+    <marcxml:subfield code="5">DPCC</marcxml:subfield>
+    <marcxml:subfield code="5">NcD</marcxml:subfield>
+  </marcxml:datafield>
+      <marcxml:datafield tag="646" ind1=" " ind2=" ">
+    <marcxml:subfield code="a">s</marcxml:subfield>
+    <marcxml:subfield code="5">NcD</marcxml:subfield>
+  </marcxml:datafield>
+      <marcxml:datafield tag="670" ind1=" " ind2=" ">
+    <marcxml:subfield code="a">Wired for chaos, 2005:</marcxml:subfield>
+    <marcxml:subfield code="b">cover (Badass sci-fi) back cover (Cyberpunk: Badass sci-fi)</marcxml:subfield>
+  </marcxml:datafield>
+      <marcxml:datafield tag="670" ind1=" " ind2=" ">
+    <marcxml:subfield code="a">Creation Books site via WWW, Aug. 22, 2006</marcxml:subfield>
+    <marcxml:subfield code="b">(series: Cyberpunk)</marcxml:subfield>
+  </marcxml:datafield>
+    </marcxml:record>

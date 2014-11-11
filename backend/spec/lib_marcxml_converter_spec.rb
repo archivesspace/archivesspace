@@ -340,8 +340,8 @@ END
     end
   end
 
-  describe "Importing Authority Files" do
-    it "can import an authority record" do
+  describe "Importing Name Authority Files" do
+    it "can import a name authority record" do
       john_davis = File.expand_path("../app/exporters/examples/marc/authority_john_davis.xml",
                                     File.dirname(__FILE__))
 
@@ -364,6 +364,24 @@ END
     end
   end
 
+  describe "Importing Subject Authority Files" do
+    it "can import a subject authority record" do
+      cyberpunk_file = File.expand_path("../app/exporters/examples/marc/authority_cyberpunk.xml",
+                                    File.dirname(__FILE__))
+
+      converter = MarcXMLConverter.for_subjects_and_agents_only(cyberpunk_file)
+      converter.run
+      json = JSON(IO.read(converter.get_output_path))
+
+      # ensure we get them in a standard order
+      badass, cyberpunk = json.sort_by { |j| j['terms'][0]['term'] }
+      badass['terms'][0]['term'].should eq("Badass sci-fi")
+      badass['source'].should eq("Library of Congress Subject Headings")
+
+      cyberpunk['terms'][0]['term'].should eq("Cyberpunk")
+      cyberpunk['source'].should eq("Library of Congress Subject Headings")
+    end
+  end
 
   describe "008 string handling" do
     let (:test_doc) {
