@@ -32,6 +32,7 @@ class EADSerializer < ASpaceExport::Serializer
   end
 
   def sanitize_mixed_content(content, context, fragments, allow_p = false  )
+#    return "" if content.nil? 
     # lets break the text, if it has linebreaks but no p tags.  
     if allow_p 
       content = handle_linebreaks(content) 
@@ -58,6 +59,7 @@ class EADSerializer < ASpaceExport::Serializer
     @id_prefix = I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')
 
     doc = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
+      begin 
 
       xml.ead(                  'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
                  'xsi:schemaLocation' => 'urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd',
@@ -145,12 +147,23 @@ class EADSerializer < ASpaceExport::Serializer
           }
         }
       }
+    
+    rescue => e
+      xml.text  "ASPACE EXPORT ERROR : YOU HAVE A PROBLEM WITH YOUR EXPORT OF YOUR RESOURCE. THE FOLLOWING INFORMATION MAY HELP:\n
+                MESSAGE: #{e.message.inspect}  \n
+                TRACE: #{e.backtrace.inspect} \n "
+    end
+ 
+    
+    
     end
     doc.doc.root.add_namespace nil, 'urn:isbn:1-931666-22-9'
 
     Enumerator.new do |y|
       @stream_handler.stream_out(doc, @fragments, y)
     end
+  
+    
   end
   
   # this extracts <head> content and returns it. optionally, you can provide a
@@ -227,7 +240,8 @@ class EADSerializer < ASpaceExport::Serializer
       end
     }
     rescue => e
-      xml.text "ASPACE EXPORT ERROR : YOU HAVE A PROBLEM WITH YOUR EXPORT. THE FOLLOWING INFORMATION MAY HELP:\n
+      xml.text "ASPACE EXPORT ERROR : YOU HAVE A PROBLEM WITH YOUR EXPORT OF ARCHIVAL OBJECTS. THE FOLLOWING INFORMATION MAY HELP:\n
+
                 MESSAGE: #{e.message.inspect}  \n
                 TRACE: #{e.backtrace.inspect} \n "
     end
@@ -336,7 +350,6 @@ class EADSerializer < ASpaceExport::Serializer
   end
 
   def serialize_container(inst, xml, fragments)
-    File.open("/tmp/list.txt", "a") { |f| f << inst.inspect }  
     containers = []
     @parent_id = nil 
     (1..3).each do |n|
@@ -361,9 +374,10 @@ class EADSerializer < ASpaceExport::Serializer
 
   def serialize_digital_object(digital_object, xml, fragments)
     return if digital_object["publish"] === false && !@include_unpublished
-    file_version = digital_object['file_versions'][0] || {}
+    file_versions = digital_object['file_versions']
     title = digital_object['title']
     date = digital_object['dates'][0] || {}
+    
     atts = digital_object["publish"] === false ? {:audience => 'internal'} : {}
 
     content = ""
@@ -377,15 +391,27 @@ class EADSerializer < ASpaceExport::Serializer
         content << "-#{date['end']}"
       end
     end
-
-    atts['xlink:href'] = file_version['file_uri'] || digital_object['digital_object_id']
     atts['xlink:title'] = digital_object['title'] if digital_object['title']
-    atts['xlink:actuate'] = file_version['xlink_actuate_attribute'] || 'onRequest'
-    atts['xlink:show'] = file_version['xlink_show_attribute'] || 'new'
-
-    xml.dao(atts) {
-      xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
-    }
+    
+    
+    if file_versions.empty?
+      atts['xlink:href'] = digital_object['digital_object_id']
+      atts['xlink:actuate'] = 'onRequest'
+      atts['xlink:show'] = 'new'
+      xml.dao(atts) {
+        xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
+      }
+    else
+      file_versions.each do |file_version|
+        atts['xlink:href'] = file_version['file_uri'] || digital_object['digital_object_id']
+        atts['xlink:actuate'] = file_version['xlink_actuate_attribute'] || 'onRequest'
+        atts['xlink:show'] = file_version['xlink_show_attribute'] || 'new'
+        xml.dao(atts) {
+          xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
+        }
+      end
+    end
+    
   end
 
 
@@ -609,7 +635,7 @@ class EADSerializer < ASpaceExport::Serializer
         }
 
         if (data.finding_aid_series_statement)
-          val = data.finding_aid_series_statemen
+          val = data.finding_aid_series_statement
           xml.seriesstmt {
             sanitize_mixed_content(  val, xml, fragments, true ) 
           }

@@ -61,7 +61,7 @@ describe 'Export Mappings' do
                        :instances => instances,
                        :finding_aid_status => %w(completed in_progress under_revision unprocessed).sample,
                        :finding_aid_filing_title => "this is a filing title",
-
+                       :finding_aid_series_statement => "here is the series statement"
                        )
 
     @resource = JSONModel(:resource).find(resource.id)
@@ -922,16 +922,29 @@ end
 
       it "maps each resource.instances[].instance.digital_object to archdesc/dao" do
         digital_objects.each do |obj|
-          fv = obj['file_versions'][0] || {}
-          href = fv["file_uri"] || obj.digital_object_id
-          path = "/xmlns:ead/xmlns:archdesc/xmlns:dao[@xlink:href='#{href}']"
-          content = description_content(obj)
-          xlink_actuate_attribute = fv['xlink_actuate_attribute'] || 'onRequest'
-          mt(xlink_actuate_attribute, path, 'xlink:actuate')
-          xlink_show_attribute = fv['xlink_show_attribute'] || 'new'
-          mt(xlink_show_attribute, path, 'xlink:show')
-          mt(obj.title, path, 'xlink:title')
-          mt(content, "#{path}/xmlns:daodesc/xmlns:p")
+          if obj['file_versions'].length > 0
+            obj['file_versions'].each do |fv|
+              href = fv["file_uri"] || obj.digital_object_id
+              path = "/xmlns:ead/xmlns:archdesc/xmlns:dao[@xlink:href='#{href}']"
+              content = description_content(obj)
+              xlink_actuate_attribute = fv['xlink_actuate_attribute'] || 'onRequest'
+              mt(xlink_actuate_attribute, path, 'xlink:actuate')
+              xlink_show_attribute = fv['xlink_show_attribute'] || 'new'
+              mt(xlink_show_attribute, path, 'xlink:show')
+              mt(obj.title, path, 'xlink:title')
+              mt(content, "#{path}/xmlns:daodesc/xmlns:p")
+            end
+          else
+              href =  obj.digital_object_id
+              path = "/xmlns:ead/xmlns:archdesc/xmlns:dao[@xlink:href='#{href}']"
+              content = description_content(obj)
+              xlink_actuate_attribute =  'onRequest'
+              mt(xlink_actuate_attribute, path, 'xlink:actuate')
+              xlink_show_attribute =  'new'
+              mt(xlink_show_attribute, path, 'xlink:show')
+              mt(obj.title, path, 'xlink:title')
+              mt(content, "#{path}/xmlns:daodesc/xmlns:p")
+          end
         end
       end
 
