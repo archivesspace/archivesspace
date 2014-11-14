@@ -572,8 +572,11 @@ $(function() {
 
     var moveNodes = function(jstreeMoveData) {
       var targetNodeEl = $(jstreeMoveData.rslt.cr[0]);
+
+      var urisOfNodesToMove = $.makeArray(jstreeMoveData.rslt.o.map(function(i, moved) {return $(moved).data("uri");}));
+
       var data_for_post = {
-        children: $.makeArray(jstreeMoveData.rslt.o.map(function(i, moved) {return $(moved).data("uri");})),
+        children: urisOfNodesToMove,
         index: jstreeMoveData.rslt.cp
       };
 
@@ -585,19 +588,20 @@ $(function() {
           var $selected = getPrimarySelectedNode();
 
           // If the reparented record's form is open, update its hidden field.
-          if ($selected.data("id").toString() === $("form input#id").val()) {
+          if (urisOfNodesToMove.indexOf($selected.data("uri")) >= 0) {
             var hiddenInput = $("input.hidden-parent-uri", $container);
 
-            if (data.parent) {
+            if (targetNodeEl.attr("rel") === $selected.attr("rel")) {
               hiddenInput.attr('name', $selected.attr("rel") + '[parent][ref]');
-              hiddenInput.val(data.parent);
+              hiddenInput.val(targetNodeEl.data("uri"));
             } else {
               hiddenInput.attr('name', $selected.attr("rel")+ '[parent]');
               hiddenInput.val(null);
             }
-
-            $("#"+$selected.attr("rel")+"_position_", $container).val($selected.index());
           }
+
+          // Always update the currently selected node's position.. it may have changed!
+          $("#"+$selected.attr("rel")+"_position_", $container).val($selected.index());
 
           // Also update the node's toolbar actions (as the move actions may have become out of sync)
           loadTreeActionsForNode($selected);
