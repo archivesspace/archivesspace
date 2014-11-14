@@ -10,7 +10,7 @@ describe 'Digital Object converter' do
   }
 
   let(:test_file) {
-    File.expand_path("../app/exporters/examples/digital_object/test_digital_object.csv",
+    File.expand_path("../app/exporters/examples/digital_object/aspace_digital_object_import_template.csv",
                      File.dirname(__FILE__))
   }
 

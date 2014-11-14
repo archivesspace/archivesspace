@@ -9,7 +9,7 @@ describe 'Accession converter' do
   }
 
   let(:test_file) {
-    File.expand_path("../app/exporters/examples/accession/test_accession.csv",
+    File.expand_path("../app/exporters/examples/accession/aspace_accession_import_template.csv",
                      File.dirname(__FILE__))
   }
 
