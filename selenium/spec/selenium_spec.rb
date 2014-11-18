@@ -11,7 +11,6 @@ describe "ArchivesSpace user interface" do
     selenium_init($backend_start_fn, $frontend_start_fn)
     @indexer = RealtimeIndexer.new($backend, nil)
     @period = PeriodicIndexer.new
-    create_test_repo('target', 'target', true)
   end
 
 
@@ -1754,19 +1753,29 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link => "Edit").click
     end
 
+    it "can add siblings" do
+       
+      [ "Christmas albums", "Tree decorations", "Nog"].each do |ao| 
+        $driver.click_and_wait_until_gone(:link, "Add Sibling")
+        $driver.clear_and_send_keys([:id, "archival_object_title_"], ao)
+        $driver.find_element(:id, "archival_object_level_").select_option("item")
+        $driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")
+      end
+    end
 
     it "can support dragging and dropping an archival object" do
+      $driver.navigate.refresh
       # first resize the tree pane (do it incrementally so it doesn't flip out...)
       pane_resize_handle = $driver.find_element(:css => ".ui-resizable-handle.ui-resizable-s")
       10.times {
-        $driver.action.drag_and_drop_by(pane_resize_handle, 0, 10).perform
+        $driver.action.drag_and_drop_by(pane_resize_handle, 0, 30).perform
       }
+      $driver.find_element(:css, "a[title~='December']").click
 
       source = $driver.find_element_with_text("//div[@id='archives_tree']//a", /Christmas cards/)
       target = $driver.find_element_with_text("//div[@id='archives_tree']//a", /Pony Express/)
       $driver.action.drag_and_drop(source, target).perform
       $driver.wait_for_ajax
-    
       target = $driver.find_element_with_text("//div[@id='archives_tree']//li", /Pony Express/)
       target.find_element_with_text(".//a", /Christmas cards/)
 
@@ -1774,9 +1783,41 @@ describe "ArchivesSpace user interface" do
       $driver.navigate.refresh
 
       target = $driver.find_element_with_text("//div[@id='archives_tree']//li", /Pony Express/)
-      target.find_element_with_text(".//a", /Christmas cards/)
-    end
+      target.find_element_with_text("//a", /Christmas cards/)
     
+      target = $driver.find_element(:xpath, "//div[@id='archives_tree']//li[a/@title='December']")
+      [ "Christmas albums", "Tree decorations", "Nog"].each do |ao| 
+          target.find_element_with_text(".//a", /#{ao}/)
+      end 
+    
+      
+      pane_resize_handle = $driver.find_element(:css => ".ui-resizable-handle.ui-resizable-s")
+      10.times {
+        $driver.action.drag_and_drop_by(pane_resize_handle, 0, -20).perform
+      }
+    end
+   
+    it "can reorder while editing another item and not lose the order" do
+      parent = $driver.find_element(:xpath, "//div[@id='archives_tree']//li[a/@title='December']")
+      source = $driver.find_element_with_text("//div[@id='archives_tree']//a", /Nog/)
+      
+      parent.find_element_with_text(".//a", /Tree decorations/).click
+      $driver.clear_and_send_keys([:id, "archival_object_title_"], "XMAS Tree decorations")
+     
+      # now do a drag and drop
+      $driver.action.drag_and_drop(source, parent ).perform
+      # save the item
+      $driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")
+      
+      parent = $driver.find_element(:xpath, "//div[@id='archives_tree']//li[a/@title='December']")
+      [ "Christmas albums", "Nog", "XMAS Tree decorations" ].each do |term|
+        parent.find_element_with_text(".//a", /#{term}/)
+      end
+
+
+    end
+
+
     it "exports and downloads the resource to xml" do
       system("rm #{File.join(Dir.tmpdir, '*_ead.xml')}")
       $driver.find_element_with_text("//div[@id='archives_tree']//a", /Pony Express/).click
@@ -1862,6 +1903,8 @@ describe "ArchivesSpace user interface" do
       
       logout
       login("admin", "admin")
+      @target_repo_name = "target_#{Time.now.to_i}"      
+      @target_repo_code, @target_repo_uri = create_test_repo(@target_repo_name, @target_repo_name, true)
       
       select_repo($test_repo) 
       $driver.find_element(:link, "Browse").click
@@ -1869,14 +1912,14 @@ describe "ArchivesSpace user interface" do
       $driver.find_element_with_text('//tr', resource_regex).find_element(:link, 'Edit').click
       
       $driver.find_element(:link, "Transfer").click
-      $driver.find_element(:id, "transfer_ref_").select_option_with_text('target')
+      $driver.find_element(:id, "transfer_ref_").select_option_with_text(@target_repo_name)
       $driver.find_element(:css => ".transfer-button").click
       $driver.find_element(:css, "#confirmButton").click
       $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Transfer Successful/)
       
       run_all_indexers
 
-      select_repo('target') 
+      select_repo(@target_repo_code) 
       
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Resources").click
