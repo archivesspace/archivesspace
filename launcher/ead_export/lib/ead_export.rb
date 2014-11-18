@@ -1,27 +1,18 @@
 require_relative '../../launcher_init'
+require_relative '../../request_handler'
 require 'config/config-distribution'
-require 'json'
-require 'net/http'
-require 'nokogiri'
 require 'tempfile'
 require 'zip/zip'
 
 class ArchivesSpaceEadExporter
 
-  attr_reader :repo_id, :token
+  include RequestHandler
+  attr_reader :repo_id
 
   def initialize(repo_id)
     @repo_id = repo_id
     @token = nil
   end
-
-  def login(user, password)
-    url = URI("#{AppConfig[:backend_url]}/users/#{user}/login")
-    @token = post(url, { "password" => password })["session"]
-    token
-  end
-
-  ##### RESOURCE HANDLING
 
   def export(id)
     params = "include_unpublished=false&include_daos=true&numbered_cs=true"
@@ -32,36 +23,6 @@ class ArchivesSpaceEadExporter
   def resource_ids
     url = URI("#{AppConfig[:backend_url]}/repositories/#{repo_id}/resources?all_ids=true")
     get(url)
-  end
-
-  ##### REQUEST HANDLING
-
-  def get(url, format = :json)
-    req = Net::HTTP::Get.new(url.request_uri)
-    request url, req, format
-  end
-
-  def post(url, params)
-    req = Net::HTTP::Post.new(url.request_uri)
-    req.set_form_data(params)
-    request url, req
-  end
-
-  def request(url, req, format = :json)
-    req['X-ArchivesSpace-Session'] = @token
-    Net::HTTP.start(url.host, url.port) do |http|
-      response = http.request(req)
-      if response.code =~ /^4/
-        raise "Request error for #{url}: #{response.message}"
-      end
-      if format == :json
-        JSON.parse response.body
-      elsif format == :xml
-        Nokogiri::XML response.body
-      else
-        raise "Request error unrecognized format for #{url}: #{format}"
-      end
-    end
   end
 
 end
@@ -88,13 +49,13 @@ def main
       unitid = ead.css("did unitid").first
       next if unitid.nil? # unpublished
 
-      unitid = unitid.text
-      ead_filename = "#{id}-#{unitid}"
+      unitid = unitid.text.gsub(/(\/|\s)/, '_')
+      ead_filename = "#{id}-#{unitid}.xml"
       tmp = Tempfile.new(ead_filename)
       tmp.write ead.to_s
       tmp.close
 
-      zip.add "#{ead_filename}.xml", tmp.path
+      zip.add "#{ead_filename}", tmp.path
       zip.commit
 
       tmp.unlink
@@ -105,3 +66,4 @@ def main
 end
 
 main
+
