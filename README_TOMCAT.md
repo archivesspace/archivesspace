@@ -38,11 +38,11 @@ However, if you have a burning desire to use Tomcat, the steps are:
 On my system, that looks like this:
 
      $ ls
-     apache-tomcat-7.0.47.tar.gz  archivesspace-v1.0.1.zip
+     apache-tomcat-7.0.47.tar.gz  archivesspace-v1.1.0.zip
 
      # Unpack both
      $ tar xf apache-tomcat-7.0.47.tar.gz
-     $ unzip -q archivesspace-v1.0.1.zip
+     $ unzip -q archivesspace-v1.l.0.zip
 
      $ cd archivesspace
 
