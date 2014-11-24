@@ -1423,7 +1423,7 @@ describe "ArchivesSpace user interface" do
       # Try to navigate to the edit form
       $driver.get(digital_object_edit_url)
 
-      assert(5) { $driver.current_url.should eq(digital_object_url) }
+      assert(5) { $driver.current_url.should eq(digital_object_edit_url) }
       assert(5) { $driver.find_element(:css => "div.alert.alert-info").text.should eq('Digital Object is suppressed and cannot be edited') }
     end
 

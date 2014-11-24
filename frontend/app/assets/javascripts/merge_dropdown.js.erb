@@ -39,6 +39,11 @@ $(function () {
 
     $(".merge-form .merge-button").on("click", function(event) {
       var formvals = $(".merge-form").serializeObject();
+      
+      if ( formvals["merge[ref]"] && !formvals["merge[ref][]"] ) {
+        formvals["merge[ref][]"] = formvals["merge[ref]"]; 
+      }
+      
       if (!formvals["merge[ref][]"]) {
         $(".missing-ref-message", ".merge-form").show();
         event.preventDefault();
