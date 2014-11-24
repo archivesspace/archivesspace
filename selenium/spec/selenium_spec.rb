@@ -1955,10 +1955,41 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
       assert(5) { $driver.find_element(:css, "h2").text.should eq("save this please Archival Object") }
       assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq('Archival Object save this please updated') }
-
     
     end
-  
+ 
+    it "can merge a resource into a resource" do
+      logout
+      login("admin", "admin")
+      
+      select_repo($test_repo) 
+      
+      [ "Thing1", "Thing2"].each do |title| 
+        create_resource( :title => title  )
+      end
+      run_index_round
+
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Resources").click
+      $driver.find_element_with_text('//tr', /Thing1/).find_element(:link, 'Edit').click
+
+      $driver.find_element(:link, "Merge").click
+      
+      $driver.clear_and_send_keys([:id, "token-input-merge_ref_"], "Thing2" )
+      $driver.find_element(:css, "li.token-input-dropdown-item2").click
+      
+      $driver.find_element(:css, "button.merge-button").click
+      
+      $driver.wait_for_ajax
+
+      $driver.find_element_with_text("//h3", /Merge into this record\?/)
+      $driver.find_element(:css, "button#confirmButton").click
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Resource\(s\) Merged/)
+
+
+    end
+
+
   
   end
 
@@ -2357,6 +2388,37 @@ describe "ArchivesSpace user interface" do
 
     it "applies i18n to the show view" do
       $driver.find_element_with_text("//div", /Mixed Materials/) # not mixed_materials
+    end
+    
+    it "can merge a DO into a DO" do
+      logout
+      login("admin", "admin")
+      
+      select_repo($test_repo) 
+      
+      [ "Thing1", "Thing2"].each do |title| 
+        create_digital_object( :title => title  )
+      end
+      run_index_round
+
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Digital Objects").click
+      $driver.find_element_with_text('//tr', /Thing1/).find_element(:link, 'Edit').click
+
+      $driver.find_element(:link, "Merge").click
+      
+      $driver.clear_and_send_keys([:id, "token-input-merge_ref_"], "Thing2" )
+      $driver.find_element(:css, "li.token-input-dropdown-item2").click
+      
+      $driver.find_element(:css, "button.merge-button").click
+      
+      $driver.wait_for_ajax
+
+      $driver.find_element_with_text("//h3", /Merge into this record\?/)
+      $driver.find_element(:css, "button#confirmButton").click
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Digital object\(s\) Merged/)
+
+
     end
 
   end
