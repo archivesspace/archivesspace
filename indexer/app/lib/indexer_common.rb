@@ -310,9 +310,9 @@ class CommonIndexer
         docs << {
           'id' => "#{record['uri']}##{parent_type}_collection_management",
           'parent_id' => record['uri'],
-          'parent_title' => record['record']['title'],
+          'parent_title' => record['record']['title'] || record['record']['display_string'],
           'parent_type' => parent_type,
-          'title' => record['record']['title'],
+          'title' => record['record']['title'] || record['record']['display_string'],
           'types' => ['collection_management'],
           'primary_type' => 'collection_management',
           'json' => cm.to_json(:max_nesting => false),

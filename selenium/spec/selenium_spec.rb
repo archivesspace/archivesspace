@@ -1086,7 +1086,7 @@ describe "ArchivesSpace user interface" do
     it "can add collection management fields to an Accession" do
       $driver.click_and_wait_until_gone(:link, 'Edit')
        $accession_url = $driver.current_url
-      # add a rights sub record
+      # add a collection management sub record
       $driver.find_element(:css => '#accession_collection_management_ .subrecord-form-heading .btn:not(.show-all)').click
 
       $driver.clear_and_send_keys([:id => "accession_collection_management__cataloged_note_"], ["DONE!", :return])
@@ -3880,6 +3880,63 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link => 'Create').click
       $driver.ensure_no_such_element(:link, "Resource")
       logout
+    end
+
+  end
+
+
+  describe "Collection Management" do
+
+    before(:all) do
+      login_as_archivist
+    end
+
+    after(:all) do
+      logout
+    end
+
+    it "is browseable even when its linked accession has no title" do
+      # first create the title-less accession
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Accession").click
+      fourid = $driver.generate_4part_id
+      $driver.complete_4part_id("accession_id_%d_", fourid)
+#      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
+
+      # add a collection management sub record
+      $driver.find_element(:css => '#accession_collection_management_ .subrecord-form-heading .btn:not(.show-all)').click
+
+      $driver.clear_and_send_keys([:id => "accession_collection_management__cataloged_note_"], ["yikes, my accession has no title", :return])
+      $driver.find_element(:id => "accession_collection_management__processing_status_").select_option("completed")
+
+      # save changes
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
+     
+      run_all_indexers
+      # check the CM page
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Collection Management").click
+     
+    
+      expect {
+        $driver.find_element_with_text('//td', /#{fourid}/ )
+      }.to_not raise_error     
+      
+      $driver.click_and_wait_until_gone(:link, 'View')
+      $driver.click_and_wait_until_gone(:link, 'Edit')
+     
+      # now delete it
+      $driver.find_element(:css => '#accession_collection_management_ .subrecord-form-remove').click
+      $driver.find_element(:css => '#accession_collection_management_ .confirm-removal').click 
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
+    
+      run_all_indexers
+
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Collection Management").click
+      
+      assert(5) { $driver.find_element(:css => ".alert.alert-info").text.should eq("No records found") }    
+
     end
 
   end
