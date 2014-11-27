@@ -62,7 +62,7 @@ module DirectionalRelationships
       Array(directional_relationships).each do |rel|
         property = rel[:json_property]
 
-        Array(json[property]).each do |relationship|
+        ASUtils.wrap(json[property]).each do |relationship|
           # Relationships are directionless by default, but here we want to
           # store a direction (e.g. A is a child of B)
           #
@@ -80,7 +80,7 @@ module DirectionalRelationships
       Array(directional_relationships).each do |rel|
         property = rel[:json_property]
 
-        Array(json[property]).each do |relationship|
+        ASUtils.wrap(json[property]).each do |relationship|
           ref = JSONModel.parse_reference(json.uri)
 
           if (relationship['relationship_target_record_type'] == ref[:type] &&
