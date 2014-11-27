@@ -58,7 +58,7 @@ describe 'Exports controller' do
 
 
   it "lets you export a resource in EAD" do
-    res = create(:json_resource)
+    res = create(:json_resource, :publish => true)
     get "/repositories/#{$repo_id}/resource_descriptions/#{res.id}.xml"
     resp = last_response.body
     resp.should match(/<ead/)
