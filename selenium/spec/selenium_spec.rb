@@ -1846,6 +1846,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "shows our newly added Resource in the browse list" do
+      run_index_round
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Resources").click
 
@@ -2403,6 +2404,10 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Digital Objects").click
+      
+      $driver.clear_and_send_keys([:css, ".span3 .input-append input"], "Thing*" )
+      $driver.find_element(:css, ".span3 .icon-search").click 
+
       $driver.find_element_with_text('//tr', /Thing1/).find_element(:link, 'Edit').click
 
       $driver.find_element(:link, "Merge").click
@@ -3888,18 +3893,34 @@ describe "ArchivesSpace user interface" do
   describe "Collection Management" do
 
     before(:all) do
-      login_as_archivist
+      new_repo_code = "collection_management_test_#{Time.now.to_i}_#{$$}"
+      new_repo_name = "collection_managment test repository - #{Time.now}"
+      (moo, repo_uri) = create_test_repo(new_repo_code, new_repo_name)
+      (archivist, pass) = create_user
+      add_user_to_archivists(archivist, repo_uri)
+
+
+      login(archivist, pass)
+      select_repo(new_repo_code)
     end
 
     after(:all) do
       logout
     end
 
+    it "should be fine with no records" do
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Collection Management").click
+      assert(5) { $driver.find_element(:css => ".alert.alert-info").text.should eq("No records found") }  
+    end
+    
+    
     it "is browseable even when its linked accession has no title" do
       # first create the title-less accession
       $driver.find_element(:link, "Create").click
       $driver.find_element(:link, "Accession").click
       fourid = $driver.generate_4part_id
+      $stderr.puts(fourid)
       $driver.complete_4part_id("accession_id_%d_", fourid)
 #      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
@@ -3935,7 +3956,8 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Collection Management").click
       
-      assert(5) { $driver.find_element(:css => ".alert.alert-info").text.should eq("No records found") }    
+      $driver.find_element_with_text('//td', /#{fourid}/, true, true).should eq(nil)
+      
 
     end
 
