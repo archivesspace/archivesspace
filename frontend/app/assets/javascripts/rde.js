@@ -121,7 +121,7 @@ $(function() {
               var $target = $(":input:first", $("td", $row).get(i));
 
               if ($source.is(":checkbox")) {
-                if ($source.attr("checked")) {
+                if ($source.is(":checked")) {
                   $target.attr("checked", "checked");
                 } else {
                   $target.removeAttr("checked");

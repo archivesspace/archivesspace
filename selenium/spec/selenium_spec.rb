@@ -2895,6 +2895,7 @@ describe "ArchivesSpace user interface" do
 
       @modal.find_element(:id, "archival_record_children_children__0__level_").select_option("fonds")
       @modal.find_element(:id, "archival_record_children_children__0__dates__0__date_type_").select_option("single")
+      @modal.find_element(:id, "archival_record_children_children__0__publish_").click
       $driver.clear_and_send_keys([:id, "archival_record_children_children__0__dates__0__begin_"], "2013")
       $driver.clear_and_send_keys([:id, "archival_record_children_children__0__title_"], "Child 1")
 
@@ -2903,6 +2904,7 @@ describe "ArchivesSpace user interface" do
       @modal.find_element(:css, ".btn.add-row").click
       @modal.find_element(:id, "archival_record_children_children__1__level_").get_select_value.should eq("fonds")
       @modal.find_element(:id, "archival_record_children_children__1__dates__0__date_type_").get_select_value.should eq("single")
+      @modal.find_element(:id, "archival_record_children_children__1__publish_" ).attribute("checked").should be_true
       @modal.find_element(:id, "archival_record_children_children__1__dates__0__begin_").attribute("value").should eq("2013")
       @modal.find_element(:id, "archival_record_children_children__1__title_").attribute("value").should eq("Child 1")
 
@@ -2922,6 +2924,7 @@ describe "ArchivesSpace user interface" do
       @modal = $driver.find_element(:id => "rapidDataEntryModal")
 
       @modal.find_element(:id, "archival_record_children_children__0__level_").select_option("fonds")
+      @modal.find_element(:id, "archival_record_children_children__0__publish_").click
 
       @modal.find_element(:css, ".btn.add-rows-dropdown").click
       #7.times { @modal.find_element(:css, ".add-rows-form input").send_keys(:arrow_up) } 
@@ -2952,6 +2955,11 @@ describe "ArchivesSpace user interface" do
       @modal.find_element(:id, "archival_record_children_children__7__level_").get_select_value.should eq("fonds")
       @modal.find_element(:id, "archival_record_children_children__8__level_").get_select_value.should eq("fonds")
       @modal.find_element(:id, "archival_record_children_children__9__level_").get_select_value.should eq("fonds")
+      
+      (1..9).each do |id|
+        @modal.find_element(:id, "archival_record_children_children__#{id}__publish_" ).attribute("checked").should be_true
+      end
+    
     end
 
     it "can perform a basic fill" do
