@@ -167,7 +167,9 @@ describe "ArchivesSpace Public interface" do
                                     :publish => true,
                                     :file_versions => [
                                       { :file_uri => "https://archivesssss.xxx", :publish => true}, 
-                                      { :file_uri => "http://boo.eu", :publish => false }
+                                      { :file_uri => "http://boo.eu", :publish => false },
+                                      { :file_uri => "C:\\windozefilepaths.suck", :publish => true },
+                                      { :file_uri => "file:///C:\\uris.dont", :publish => true }
                                     ] )
         @indexer.run_index_round
       end
@@ -177,7 +179,9 @@ describe "ArchivesSpace Public interface" do
         $driver.find_element_with_text('//h2', /#{$published_digital_object_title}/)
         $driver.find_element_with_text('//h3', /File Versions/)
         $driver.find_element(:link ,"https://archivesssss.xxx" )
-        $driver.ensure_no_such_element( :link, "http://boo.eu") 
+        $driver.ensure_no_such_element( :link,"http://boo.eu") 
+        $driver.ensure_no_such_element( :link,"C:\\windozefilepaths.suck") 
+        $driver.find_element(:link ,"file:///C:/uris.dont" )
       end
   
   end
