@@ -526,11 +526,16 @@ The latest technical documentation, including API documentation and
 architecture notes, is published at
 [http://archivesspace.github.io/archivesspace/doc](http://archivesspace.github.com/archivesspace/doc/).
 
+# Contributing
+
+Contributors are welcome! Please read about our [Contributor License Agreement](https://github.com/archivesspace/archivesspace/contributing) for more information. 
+
 # License
 
 ArchivesSpace is released under the [Educational Community License,
 version 2.0](http://opensource.org/licenses/ecl2.php). See the
 [COPYING](COPYING) file for more information.
+
 
 # Credits
 
