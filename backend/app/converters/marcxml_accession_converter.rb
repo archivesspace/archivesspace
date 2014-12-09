@@ -38,9 +38,22 @@ MarcXMLAccessionConverter.configure do |config|
   }
 
 
-  ["datafield[@tag='210']", "datafield[@tag='222']", "datafield[@tag='240']", "datafield[@tag='242']", "datafield[@tag='246'][@ind2='0']",  "datafield[@tag='250']", "datafield[@tag='254']", "datafield[@tag='255']", "datafield[@tag='257']", "datafield[@tag='258']", "datafield[@tag='260']",  "datafield[@tag='340']", "datafield[@tag='342']", "datafield[@tag='351']", "datafield[@tag='352']", "datafield[@tag='355']", "datafield[@tag='357']",  "datafield[@tag='500']", "datafield[@tag='501']", "datafield[@tag='502']", "datafield[@tag='506']", "datafield[@tag='507']", "datafield[@tag='508']",  "datafield[@tag='511']", "datafield[@tag='513']", "datafield[@tag='514']", "datafield[@tag='518']", "datafield[@tag='520'][@ind1!='3' and @ind1!='8']",  "datafield[@tag='521'][@ind1!='8']",  "datafield[@tag='522']", "datafield[@tag='524']",  "datafield[@tag='530']", "datafield[@tag='533']",  "datafield[@tag='534']", "datafield[@tag='535']", "datafield[@tag='538']", "datafield[@tag='540']", "datafield[@tag='541']", "datafield[@tag='544']",  "datafield[@tag='545']", "datafield[@tag='561']", "datafield[@tag='562']", "datafield[@tag='563']", "datafield[starts-with(@tag, '59')]",  "datafield[@tag='740']", "datafield[@tag='256']", "datafield[@tag='306']", "datafield[@tag='343']", "datafield[@tag='520'][@ind1='3']", "datafield[@tag='546']", "datafield[@tag='565']", "datafield[@tag='504']", "datafield[@tag='510']", "datafield[@tag='581']"].each do |note_making_path|
-    config["/record"][:map].delete(note_making_path)
+  # strip mappings that target .notes
+  config["/record"][:map].each do |path, defn|
+    next unless defn.is_a?(Hash)
+    if defn[:rel] == :notes
+      config["/record"][:map].delete(path)
+    end
   end
+
+
+  # strip other mappings that target resource-only properties
+  [
+   "datafield[@tag='536']" # finding_aid_sponsor
+  ].each do |resource_only_path|
+    config["/record"][:map].delete(resource_only_path)
+  end
+
 
   config["/record"][:map]["datafield[@tag='506']"] = -> record, node {
     node.xpath("subfield").each do |sf|
@@ -55,7 +68,6 @@ MarcXMLAccessionConverter.configure do |config|
     if node.attr('ind1') == '1'
       record.access_restrictions = true
     end
-
   }
 
 
