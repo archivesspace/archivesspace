@@ -107,6 +107,21 @@ describe 'Subject model' do
   end
 
 
+
+  it "allows authority ids to have spaces and funny characters" do
+    vocab = create(:json_vocab)
+    
+    expect {
+      create(:json_subject, {:vocabulary => vocab.uri, :source => "local", :authority_id => "H0w N0w Br0wn C9w"})
+    }.to_not raise_error(JSONModel::ValidationException)
+
+    expect {
+      create(:json_subject, {:vocabulary => vocab.uri, :source => "local", :authority_id => " Ke$ha!!"})
+    }.to_not raise_error(JSONModel::ValidationException)
+
+  end
+  
+
   it "generates a subject title" do
     term_id_0 = createTerm
     term_id_1 = createTerm
