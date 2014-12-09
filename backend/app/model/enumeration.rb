@@ -49,8 +49,12 @@ class Enumeration < Sequel::Model(:enumeration)
   # Update the allowable values of the current enumeration.
   def self.apply_values(obj, json, opts = {})
     # don't allow update of an non-editable enumeration
-    if not obj.editable
-      raise AccessDeniedException.new("Cannot modify a non-editable enumeration: #{obj.name}")
+    # make sure the DB mapping has been converted. 
+    obj.reload
+    is_editable = ( obj.editable === 1 or obj.editable == true ) 
+
+    if not is_editable
+      raise AccessDeniedException.new("Cannot modify a non-editable enumeration: #{obj.name} with #{ json['values'].join(' , ') }. Only allowed values are : #{ obj.enumeration_value.join(' , ')} ")
     end
 
     incoming_values = Array(json['values'])

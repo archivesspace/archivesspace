@@ -125,6 +125,19 @@ describe 'Enumerations model' do
     }.to raise_error
   end
 
+ it "protects non-editable enums from being messed with" do
+    enum = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'readonly_thingy_enum_delete',
+                                                                          :values => ["banana"] ))
+
+	$testdb[:enumeration].filter(:name => 'readonly_thingy_enum_delete').
+                                update(:editable => 0)
+
+    expect {
+      Enumeration.apply_values(enum, {'values' => [ "more bananas" ]})
+    }.to raise_error(AccessDeniedException)
+
+  end
+
 
   it "protects readonly enum values from being deleted or transferred" do
     enum = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'readonly_role_enum_delete',
@@ -136,7 +149,7 @@ describe 'Enumerations model' do
 
 
     expect {
-      Enumeration.apply_values(enum, {'values' => []})
+      Enumeration.apply_values(enum, {'values' => [ "banana" ]})
     }.to raise_error(AccessDeniedException)
 
     expect {
