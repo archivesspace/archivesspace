@@ -90,6 +90,14 @@ class ArchivesSpaceService < Sinatra::Base
       end
 
       require_relative "model/ASModel"
+      
+      if AppConfig[:enable_jasper] 
+        require_relative 'model/reports/jasper_report' 
+        require_relative 'model/reports/jasper_report_register' 
+        JasperReport.compile if AppConfig[:compile_jasper] 
+        JasperReportRegister.register_reports
+      end
+
 
       [File.dirname(__FILE__), *ASUtils.find_local_directories('backend')].each do |prefix|
         ['model/mixins', 'model', 'model/reports', 'controllers'].each do |path|
@@ -105,7 +113,8 @@ class ArchivesSpaceService < Sinatra::Base
 
       BatchImportJobQueue.init if ASpaceEnvironment.environment != :unit_test
       
-      JasperReport.compile if AppConfig[:compile_jasper] 
+
+
 
       if ASpaceEnvironment.environment == :production
         # Start the job scheduler
