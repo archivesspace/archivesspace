@@ -33,7 +33,10 @@ class EADSerializer < ASpaceExport::Serializer
 
   def sanitize_mixed_content(content, context, fragments, allow_p = false  )
 #    return "" if content.nil? 
+    # br's should be self closing 
+    content = content.gsub("<br>", "<br/>").gsub("</br>", '')
     # lets break the text, if it has linebreaks but no p tags.  
+    
     if allow_p 
       content = handle_linebreaks(content) 
     else

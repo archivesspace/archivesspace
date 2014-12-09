@@ -172,11 +172,11 @@ ANEAD
     end
 
     it "maps '<editionstmt>' correctly" do
-      @resource['finding_aid_edition_statement'].should eq("<p>Resource-FindingAidEdition-AT</p>")
+      @resource['finding_aid_edition_statement'].should eq("Resource-FindingAidEdition-AT")
     end
 
     it "maps '<seriesstmt>' correctly" do
-      @resource['finding_aid_series_statement'].should eq("<p>Resource-FindingAidSeries-AT</p>")
+      @resource['finding_aid_series_statement'].should eq("Resource-FindingAidSeries-AT")
     end
 
     it "maps '<sponsor>' correctly" do
@@ -340,28 +340,28 @@ ANEAD
         note_content(note)
       }.flatten
 
-      nc[0].should eq("<p>Resource-ConditionsGoverningAccess-AT</p>")
+      nc[0].should eq("Resource-ConditionsGoverningAccess-AT")
       nc[1].should eq("<legalstatus>Resource-LegalStatus-AT</legalstatus>")
     end
 
     it "maps '<accruals>' correctly" do
-      note_content(get_note_by_type(@resource, 'accruals')).should eq("<p>Resource-Accruals-AT</p>")
+      note_content(get_note_by_type(@resource, 'accruals')).should eq("Resource-Accruals-AT")
     end
 
     it "maps '<acqinfo>' correctly" do
-      note_content(get_note_by_type(@resource, 'acqinfo')).should eq("<p>Resource-ImmediateSourceAcquisition</p>")
+      note_content(get_note_by_type(@resource, 'acqinfo')).should eq("Resource-ImmediateSourceAcquisition")
     end
 
     it "maps '<altformavail>' correctly" do
-      note_content(get_note_by_type(@resource, 'altformavail')).should eq("<p>Resource-ExistenceLocationCopies-AT</p>")
+      note_content(get_note_by_type(@resource, 'altformavail')).should eq("Resource-ExistenceLocationCopies-AT")
     end
 
     it "maps '<appraisal>' correctly" do
-      note_content(get_note_by_type(@resource, 'appraisal')).should eq("<p>Resource-Appraisal-AT</p>")
+      note_content(get_note_by_type(@resource, 'appraisal')).should eq("Resource-Appraisal-AT")
     end
 
     it "maps '<arrangement>' correctly" do
-      note_content(get_note_by_type(@resource, 'arrangement')).should eq("<p>Resource-Arrangement-Note</p>")
+      note_content(get_note_by_type(@resource, 'arrangement')).should eq("Resource-Arrangement-Note")
     end
 
     it "maps '<bioghist>' correctly" do
@@ -371,7 +371,7 @@ ANEAD
     end
 
     it "maps '<custodhist>' correctly" do
-      note_content(get_note_by_type(@resource, 'custodhist')).should eq("<p>Resource--CustodialHistory-AT</p>")
+      note_content(get_note_by_type(@resource, 'custodhist')).should eq("Resource--CustodialHistory-AT")
     end
 
     it "maps '<dimensions>' correctly" do
@@ -379,7 +379,7 @@ ANEAD
     end
 
     it "maps '<fileplan>' correctly" do
-      note_content(get_note_by_type(@resource, 'fileplan')).should eq("<p>Resource-FilePlan-AT</p>")
+      note_content(get_note_by_type(@resource, 'fileplan')).should eq("Resource-FilePlan-AT")
     end
 
     it "maps '<langmaterial>' correctly" do
@@ -398,8 +398,7 @@ ANEAD
       # 	IF nested in <archdesc> OR <c>
 
       # 	ELSE, IF nested in <notestmnt>
-      @resource['finding_aid_note'].should eq("<p>Resource-FindingAidNote-AT</p>")
-      # 	ELSE
+      @resource['finding_aid_note'].should eq("Resource-FindingAidNote-AT\n\nResource-FindingAidNote-AT2\n\nResource-FindingAidNote-AT3\nResource-FindingAidNote-AT4") 
     end
 
     it "maps '<odd>' correctly" do
