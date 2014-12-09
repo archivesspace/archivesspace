@@ -1,5 +1,8 @@
 require 'java'
 require_relative 'report_manager'
+
+require_relative '../../lib/static_asset_finder'
+
 require 'tempfile'
 require 'rjack-jackson'
 
@@ -58,6 +61,7 @@ class JasperReport
       end 
     end
   end
+
 
   # this makes sure all our tempfiles get unlinked...
   def self.finalize(obj)
