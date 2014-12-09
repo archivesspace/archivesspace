@@ -149,4 +149,5 @@ AppConfig[:max_location_range] = 1000
 # require compilation. This can be done at startup. Please note, if you are
 # using Java 8 and you want to compile at startup, keep this setting at false,
 # but be sure to use the JDK version.
+AppConfig[:enable_jasper] = true 
 AppConfig[:compile_jasper] = false
