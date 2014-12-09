@@ -81,6 +81,12 @@ module ASpaceImport
     end
 
 
+    def each_open_file_path
+      yield @working_file.path if @working_file
+      yield $batch_file.path if @batch_file
+    end
+
+
     def record_filter=(predicate)
       @record_filter = predicate
     end
