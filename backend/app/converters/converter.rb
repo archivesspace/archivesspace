@@ -1,6 +1,8 @@
 require_relative 'lib/parse_queue'
 class Converter
 
+  class ConverterMappingError < StandardError; end
+
   class ConverterNotFound < StandardError; end
 
   def initialize(input_file)
