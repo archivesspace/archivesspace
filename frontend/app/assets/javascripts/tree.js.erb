@@ -18,7 +18,6 @@ $(function() {
       read_only: $(".archives-tree").data("read-only"),
       rules: $(".archives-tree").data("rules")
     };
-
     var initForm = function(html) {
       $container.html(html);
       
@@ -436,6 +435,8 @@ $(function() {
       });
 
       $(".archives-tree-container").on("click", ".move-node", function(event) {
+       
+        
         event.preventDefault();
         event.stopPropagation();
 
@@ -777,7 +778,9 @@ $(function() {
         crrm: {
           move: {
             check_move: function (m) {
-
+              if ( config.read_only ) {
+                return false; 
+              }
               // can't move top level parent
               if ($(m.o[0]).hasClass(config.root_node_type)) {
                 return false;
@@ -893,7 +896,7 @@ $(function() {
           $node.removeClass("selected");
         }
       }).bind("move_node.jstree", function(event, data) {
-        moveNodes(data);
+          moveNodes(data); 
       }).bind("refreshtreenode.aspace", function(event, data) {
 
         var nodeId = data.jsonmodel_type+"_"+data.id;
@@ -935,7 +938,7 @@ $(function() {
         // from a mouse click (otherwise it will be triggered
         // by another event).
         if (typeof event.isTrigger == "undefined") {
-          $(this).focus();
+            $(this).focus();
         }
       });
     };

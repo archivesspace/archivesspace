@@ -505,6 +505,10 @@ def add_user_to_managers(user, repo)
   add_user_to_group(user, repo, 'repository-managers')
 end
 
+def add_user_to_viewers(user, repo)
+  add_user_to_group(user, repo, 'repository-viewers')
+end
+	
 
 def add_user_to_group(user, repo, group_code)
   req = Net::HTTP::Get.new("#{repo}/groups")
@@ -672,6 +676,22 @@ def login_as_archivist
 
 
   login($archivist_user, $archivist_pass)
+
+  select_repo($test_repo)
+end
+
+def login_as_viewer
+  if !$test_repo
+    ($test_repo, $test_repo_uri) = create_test_repo("repo_#{SecureRandom.hex}", "description")
+  end
+
+  if !$viewer_user
+    ($viewer_user, $viewer_pass) = create_user
+    add_user_to_viewers($viewer_user, $test_repo_uri)
+  end
+
+
+  login($viewer_user, $viewer_pass)
 
   select_repo($test_repo)
 end

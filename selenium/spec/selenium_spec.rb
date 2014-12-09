@@ -1813,14 +1813,47 @@ describe "ArchivesSpace user interface" do
       [ "Christmas albums", "Nog", "XMAS Tree decorations" ].each do |term|
         parent.find_element_with_text(".//a", /#{term}/)
       end
+    end
+      
+      
+    it "can not reorder if logged in as a read only user" do
 
+      $driver.find_element(:link, 'Close Record').click
+      url = $driver.current_url
+      
+      logout
+      login_as_viewer
+      
+      $driver.get(url)
+    
+      parent = $driver.find_element(:xpath, "//div[@id='archives_tree']//li[a/@title='December']")
+      source = $driver.find_element_with_text("//div[@id='archives_tree']//a", /XMAS Tree decorations/)
+      
+      children = $driver.blocking_find_elements(:css => "span.tree-node-text").map{|span| span.text.strip}
+      
+      # now do a drag and drop
+      $driver.action.drag_and_drop(source, parent ).perform
 
+		# there should be no change...      
+      rechildren = $driver.blocking_find_elements(:css => "span.tree-node-text").map{|span| span.text.strip}
+		
+	  children.should eq(rechildren)
+
+	   logout
+	   login_as_archivist
+	   
+	
+	   
     end
 
 
     it "exports and downloads the resource to xml" do
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Resources").click
+      $driver.find_element_with_text('//tr', resource_regex).find_element(:link, 'Edit').click
+    
       system("rm #{File.join(Dir.tmpdir, '*_ead.xml')}")
-      $driver.find_element_with_text("//div[@id='archives_tree']//a", /Pony Express/).click
+
       $driver.find_element(:link, "Export").click
       response = $driver.find_element(:link, "Download EAD").click
       $driver.wait_for_ajax
