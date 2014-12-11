@@ -5,8 +5,6 @@ ArchivesSpace README
 
 <http://archivesspace.org>
 
-
-
 # System requirements
 
 * Java 1.6 or higher; Java 1.7 recommended. Currently,  Java 1.8 requires removal of Jasper libraries from the Java classpath. 
