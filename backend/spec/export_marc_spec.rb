@@ -164,4 +164,42 @@ describe 'MARC Export' do
     end
   end    
 
+  describe "strips mixed content" do
+    before(:all) do
+
+      @dates = ['inclusive', 'bulk'].map {|type|
+        range = [nil, nil].map { generate(:yyyy_mm_dd) }.sort
+        build(:json_date,
+              :date_type => type,
+              :begin => range[0],
+              :end => range[1],
+              :expression => [true, false].sample ? generate(:string) : nil
+              )
+      }
+
+      2.times { @dates << build(:json_date) }
+
+
+      @resource = create(:json_resource,
+                         :dates => @dates, 
+                         :id_0 => "999", 
+                         :title => "Foo <emph render='bold'>BAR</emph> Jones")
+
+      @marc = get_marc(@resource)
+
+      # puts "SOURCE: #{@resource.inspect}"
+      # puts "RESULT: #{@marc.to_xml}"
+    end
+
+    it "should strip out the mixed content in title" do
+
+        @marc.should have_tag "datafield[@tag='245']/subfield[@code='a']" => "Foo  BAR  Jones"
+
+
+    end
+
+
+  end
+
+
 end
