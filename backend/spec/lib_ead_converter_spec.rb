@@ -598,6 +598,7 @@ ANEAD
           <processinfo/>                                                 
       </descgrp>  
       <unittitle>Resource--Title-AT</unittitle>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
       <unitid>Resource.ID.AT</unitid>
       <physdesc>
        (folders 14–15 of 15 folders)
@@ -646,6 +647,7 @@ ANEAD
     <did>
       <unittitle>Resource--Title-AT</unittitle>
       <unitid>Resource.ID.AT</unitid>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
       <physdesc>
         <extent>5.0 Linear feet</extent>
         <extent>Resource-ContainerSummary-AT</extent>
@@ -721,6 +723,7 @@ ANEAD
     <did>
       <unittitle>一般行政文件 [2]</unittitle>
       <unitid>Resource.ID.AT</unitid>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
       <physdesc>
         <extent>5.0 Linear feet</extent>
         <extent>Resource-ContainerSummary-AT</extent>
@@ -750,6 +753,7 @@ ANEAD
     <did>
       <unittitle>Title</unittitle>
       <unitid>Resource.ID.AT</unitid>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
       <langmaterial>
         <language langcode="eng">English</language>
       </langmaterial>
@@ -784,6 +788,7 @@ ANEAD
     <did>
       <unittitle>Title</unittitle>
       <unitid>Resource.ID.AT</unitid>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
       <langmaterial>
         <language langcode="eng">English</language>
       </langmaterial>
@@ -808,6 +813,7 @@ ANEAD
     <did>
       <unittitle>Title</unittitle>
       <unitid>Resource.ID.AT</unitid>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
       <langmaterial>
         <language langcode="eng">English</language>
       </langmaterial>
@@ -830,6 +836,7 @@ ANEAD
     <did>
       <unittitle>Title</unittitle>
       <unitid>Resource.ID.AT</unitid>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
       <langmaterial>
         <language langcode="eng">English</language>
       </langmaterial>

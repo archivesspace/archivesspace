@@ -185,6 +185,7 @@ def run_tests(opts)
   r = do_post({
                 :title => "integration test resource #{$$}",
                 :id_0 => "abc123",
+                :dates => [ { "date_type" => "single", "label" => "creation", "expression" => "1492"   } ], 
                 :subjects => [{"ref" => "/subjects/#{subject_id}"}],
                 :language => "eng",
                 :level => "collection",

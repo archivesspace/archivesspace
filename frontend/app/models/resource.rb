@@ -6,6 +6,10 @@ class Resource < JSONModel(:resource)
     if !self.extents || self.extents.empty?
       self.extents = [JSONModel(:extent).new._always_valid!]
     end
+    
+    if !self.dates || self.dates.empty?
+      self.dates = [JSONModel(:date).new._always_valid!]
+    end
 
     self
   end
@@ -56,6 +60,10 @@ class Resource < JSONModel(:resource)
 
     if !self.extents || self.extents.empty?
       self.extents = [JSONModel(:extent).new._always_valid!]
+    end
+    
+    if !self.dates || self.dates.empty?
+      self.dates = [JSONModel(:date).new._always_valid!]
     end
   end
 

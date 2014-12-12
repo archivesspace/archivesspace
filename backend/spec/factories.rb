@@ -202,6 +202,7 @@ FactoryGirl.define do
       id_1 { generate(:alphanumstr) }
       level { generate(:archival_record_level) }
       language { generate(:language) }
+    
     end
 
     factory :extent do

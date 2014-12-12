@@ -568,6 +568,7 @@ def create_resource(values = {})
 
   default_values = {:title => "Test Resource #{SecureRandom.hex}",
     :id_0 => SecureRandom.hex, :level => "collection", :language => "eng",
+    :dates => [ { :date_type => "single", :label => "creation", :expression => "1945" } ],
     :extents => [{:portion => "whole", :number => "1", :extent_type => "files"}]}
   values_to_post = default_values.merge(values)
 

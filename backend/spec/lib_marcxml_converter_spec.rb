@@ -560,6 +560,7 @@ OMFG
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
   <foo:collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns:foo="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <foo:record>
+    <foo:controlfield tag="008">920324s19801980kyu eng d</foo:controlfield>
       <foo:datafield tag="245" ind2=" " ind1="1">
         <foo:subfield code="a">SF A</foo:subfield>
       </foo:datafield>
@@ -579,6 +580,7 @@ MARC
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
   <foo:record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns:foo="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <leader>00000npm a2200000 u 4500</leader>
+    <foo:controlfield tag="008">920324s19801980kyu eng d</foo:controlfield>
     <foo:datafield tag="245" ind2=" " ind1="1">
       <foo:subfield code="a">SF A</foo:subfield>
     </foo:datafield>
@@ -641,6 +643,10 @@ MARC
             resource.title = "TITLE"
           end
 
+          if resource.dates.nil? || resource.dates.empty?
+            resource.dates << ASpaceImport::JSONModel(:date).from_hash({:expression => "1945", :label => "creation", "date_type" => "single"})
+          end
+          
           if resource.extents.nil? || resource.extents.empty?
             resource.extents << ASpaceImport::JSONModel(:extent).from_hash({:portion => 'whole', :number => '1', :extent_type => 'linear_feet'})
           end

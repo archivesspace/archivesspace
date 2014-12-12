@@ -57,6 +57,9 @@
 
       # Extents (overrides abstract schema)
       "extents" => {"type" => "array", "ifmissing" => "error", "minItems" => 1, "items" => {"type" => "JSONModel(:extent) object"}},
+      
+      # Dates (overrides abstract schema)
+      "dates" => {"type" => "array", "ifmissing" => "error", "minItems" => 1, "items" => {"type" => "JSONModel(:date) object"}},
 
       "instances" => {"type" => "array", "items" => {"type" => "JSONModel(:instance) object"}},
       "deaccessions" => {"type" => "array", "items" => {"type" => "JSONModel(:deaccession) object"}},
