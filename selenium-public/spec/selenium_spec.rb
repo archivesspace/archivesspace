@@ -139,6 +139,23 @@ describe "ArchivesSpace Public interface" do
     end
 
 
+    it "uses the finding_aid_title if there is one" do
+
+
+      $published_uri, $published = create_resource(:title => "NO WAY", :id_0 => rand(1000).to_s,  :finding_aid_title => "YeaBuddy", 
+                                                   :publish => true )
+      
+      @indexer.run_index_round
+
+      $driver.find_element(:link, "Collections").click
+
+      $driver.find_element(:link, "YeaBuddy").click
+
+      $driver.find_element_with_text('//li', /YeaBuddy/ )
+      $driver.find_element_with_text('//h2', /YeaBuddy/ )
+      
+    end
+
     it "offers pagination when there are more than 10" do
       11.times.each do |i|
         create_resource(:title => "Test Resource #{i}", :publish => true, :id_0 => "id#{i}")

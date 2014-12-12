@@ -17,7 +17,7 @@
           <% elsif result["primary_type"] === "repository" %>
             <%= link_to result['title'], :controller => :search, :action => :repository, :repo_id => id %>
           <% else %>
-            <%= link_to result['finding_aid_title'] || result["title"] || result['display_string'], :controller => :records, :action => result["primary_type"], :id => id, :repo_id => repo_id %>
+            <%= link_to title_or_finding_aid_title( result )  , :controller => :records, :action => result["primary_type"], :id => id, :repo_id => repo_id %>
           <% end %>
         </h3>
         <div class="result-summary">
