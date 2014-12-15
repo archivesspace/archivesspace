@@ -190,6 +190,8 @@ ArchivesSpace::Application.routes.draw do
       end
     end
 
+    match "system_info" => "system_info#show", :via => [ :get ]
+    
     root :to => 'welcome#index'
 
   end

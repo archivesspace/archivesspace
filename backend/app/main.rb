@@ -277,9 +277,11 @@ class ArchivesSpaceService < Sinatra::Base
 
   get '/' do
     sys_info =  DB.sysinfo.merge({ "archivesSpaceVersion" =>  ASConstants.VERSION}) 
+    
     request.accept.each do |type|
         case type
           when 'application/json'
+            content_type :json 
             halt sys_info.to_json
         end
     end  

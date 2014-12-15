@@ -109,12 +109,12 @@ module ASUtils
     end
   end
 
-
-  def self.dump_diagnostics(exception = nil)
+ def self.get_diagnostics(exception = nil )
     runtime = java.lang.Runtime.getRuntime
-    diagnostics = {
-      :environment => java.lang.System.getenv,
-      :jvm_properties => java.lang.System.getProperties,
+   {
+      :version =>ASConstants.VERSION,  
+      :environment => java.lang.System.getenv.to_hash,
+      :jvm_properties => java.lang.System.getProperties.to_hash,
       :globals => Hash[global_variables.map {|v| [v, eval(v.to_s)]}],
       :appconfig => defined?(AppConfig) ? AppConfig.dump_sanitised : "not loaded",
       :memory => {
@@ -125,8 +125,12 @@ module ASUtils
       :cpu_count => runtime.availableProcessors,
       :exception => exception && {:msg => exception, :backtrace => exception.backtrace}
     }
+   
+ end
 
-    tmp = File.join(Dir.tmpdir, "aspace_diagnostic_#{Time.now.to_i}.txt")
+  def self.dump_diagnostics(exception = nil)
+    diagnostics = self.get_diagnostics( exception ) 
+    tmp = File.join(Dir.tmpdir, "aspaue_diagnostic_#{Time.now.to_i}.txt")
     File.open(tmp, "w") do |fh|
       fh.write(JSON.pretty_generate(diagnostics))
     end

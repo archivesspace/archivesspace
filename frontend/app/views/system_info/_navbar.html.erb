@@ -1,0 +1,10 @@
+<div class="navbar">
+  <div class="navbar-inner">
+    <ul class="nav">
+      <li class="<%= "active" if @app_context  == 'frontend' %>"><a href='/system_info?app_context=frontend'>Frontend</a></li>
+      <li class="<%= "active" if @app_context  == 'backend' %>"><a href='/system_info?app_context=backend'>Backend</a></li>
+      <li class="<%= "active" if @app_context  == 'log' %>"><a href='/system_info?app_context=log'>View Log</a></li>
+    </ul>
+  </div>
+</div>
+

@@ -25,6 +25,9 @@
           <li><%= link_to I18n.t("navbar.manage_users"), :controller => :users, :action => :create %></li>
           <li><%= link_to I18n.t("navbar.manage_enumerations"), :controller => :enumerations, :action => :index %></li>
         <% end %>
+        <% if user_can?('administer_system') %>
+          <li><%= link_to I18n.t("navbar.system_info"), :controller => :system_info, :action => :show %></li>
+        <% end %>
         <li class="divider"></li>
       <% end %>
 
