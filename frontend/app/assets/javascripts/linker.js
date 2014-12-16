@@ -13,8 +13,8 @@ $(function() {
       $this.addClass("initialised");
 
       var config = {
-        url: $this.data("url"),
-        browse_url: $this.data("browse-url"),
+        url: decodeURIComponent($this.data("url")),
+        browse_url: decodeURIComponent($this.data("browse-url")),
         format_template: $this.data("format_template"),
         format_template_id: $this.data("format_template_id"),
         format_property: $this.data("format_property"),
