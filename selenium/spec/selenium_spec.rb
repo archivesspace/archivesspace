@@ -4024,4 +4024,30 @@ describe "ArchivesSpace user interface" do
 
   end
 
+  describe "System Information" do
+
+    before(:all) do
+      login("admin", "admin")
+    end
+
+    after(:all) do
+      logout
+    end
+
+    it "should not let any old fool see this" do
+      (archivist, pass) = create_user
+      add_user_to_archivists(archivist, repo_uri)
+      
+      logout 
+      login(archivist, pass)
+      
+      $driver.find_element(:link, "System").click
+      $driver.find_element(:link, "System Information").click
+      assert(5) { $driver.find_element(:css => ".alert.alert-error h2").text.should eq("Unable to Access Page") }  
+    end
+    
+
+  end
+
+
 end

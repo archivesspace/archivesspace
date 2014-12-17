@@ -1879,3 +1879,10 @@ en:
     date:
       create_time: Created
       user_mtime: Updated
+  system_info:
+    frontend: Frontend UI
+    backend: Backend
+    frontend_info: Frontend System Information
+    frontend_log: Frontend Log
+    backend_info: Backend System Information
+    backend_log: Backend Log
