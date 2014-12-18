@@ -113,8 +113,18 @@ describe 'ArchivalObject model' do
     JSONModel::strict_mode(true)
     
   end
+  
+  it "throws an error if you attempt to add a value to the archival_record_level" do
 
+    opts = {:level => "HAMBURGER!"}
 
+    expect { ArchivalObject.create_from_json(
+                                build(:json_archival_object, opts),
+                                :repo_id => $repo_id)
+    }.to raise_error(JSONModel::ValidationException)
+    
+  end
+  
   it "enforces ref_id uniqueness only within a resource" do
     res1 = create(:json_resource)
     res2 = create(:json_resource)
