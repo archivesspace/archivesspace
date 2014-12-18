@@ -172,7 +172,7 @@ module Trees
     super
     
     # All records under this one will be transferred too
-    children.select(:id).each do |child|
+    children.each do |child|
       child.transfer_to_repository(repository, transfer_group + [self])
     end
     RequestContext.open(:repo_id => repository.id) do

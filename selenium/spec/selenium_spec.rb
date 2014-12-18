@@ -1999,7 +1999,19 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
       assert(5) { $driver.find_element(:css, "h2").text.should eq("save this please Archival Object") }
       assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq('Archival Object save this please updated') }
-    
+      
+      target = $driver.find_element_with_text("//div[@id='archives_tree']//li", /Pony Express/)
+      target.find_element_with_text(".//a", /save this please/).click
+      
+      $driver.find_element(:link, "Add Child").click
+
+      $driver.clear_and_send_keys([:id, "archival_object_title_"], "Baby AO")
+      $driver.find_element(:id, "archival_object_level_").select_option("item")
+      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+        
+      assert(5){
+       $driver.find_element_with_text("//div[@id='archives_tree']//li//span", /Baby AO/)
+      } 
     end
  
     it "can merge a resource into a resource" do
