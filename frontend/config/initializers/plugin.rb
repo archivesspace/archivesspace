@@ -23,32 +23,32 @@ module Plugins
     end
 
     if @config[:system_menu_items].length > 0
-      puts "Found system menu items for plug-ins: #{@config[:system_menu_items].inspect}"
+      puts "Found system menu items for plug-ins: #{system_menu_items.inspect}"
     end
 
     if @config[:repository_menu_items].length > 0
-      puts "Found repository menu items for plug-ins: #{@config[:repository_menu_items].inspect}"
+      puts "Found repository menu items for plug-ins: #{repository_menu_items.inspect}"
     end
   end
 
 
   def self.system_menu_items
-    Array(@config[:system_menu_items])
+    Array(@config[:system_menu_items]).flatten
   end
 
 
   def self.system_menu_items?
-    @config[:system_menu_items].length > 0
+    system_menu_items.length > 0
   end
 
 
   def self.repository_menu_items
-    Array(@config[:repository_menu_items])
+    Array(@config[:repository_menu_items]).flatten
   end
 
 
   def self.repository_menu_items?
-    @config[:repository_menu_items].length > 0
+    repository_menu_items.length > 0
   end
 
 
