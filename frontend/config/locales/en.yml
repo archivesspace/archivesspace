@@ -240,7 +240,7 @@ en:
     register_prefix: Need an account?
     list_reports: Reports
     global_admin: System
-
+    system_info: System Information
   session:
     gone: Your backend session was not found
     expired: Your session expired due to inactivity
