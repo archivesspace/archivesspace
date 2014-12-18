@@ -1,6 +1,8 @@
 require_relative 'lib/parse_queue'
 class Converter
 
+  class ConverterMappingError < StandardError; end
+
   class ConverterNotFound < StandardError; end
 
   def initialize(input_file)
@@ -14,8 +16,11 @@ class Converter
   end
 
 
+  # forcibly remove files in the event of an interruption
   def remove_files
-    File.unlink(get_output_path)
+    @batch.each_open_file_path do |path|
+      File.unlink(path)
+    end
   end
 
 

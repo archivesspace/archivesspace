@@ -134,7 +134,7 @@ END
         @people = parsed.select {|rec| rec['jsonmodel_type'] == 'agent_person'}
         @people.instance_eval do
           def by_name(name)
-            self.select {|p| 
+            self.select {|p|
               if name.match(/(.+),\s*(.+)/)
                 (p['names'][0]['primary_name'] == $1) && (p['names'][0]['rest_of_name'] == $2)
               else
@@ -268,7 +268,7 @@ END
         @resource['extents'][0]['number'].should eq("5.0")
         @resource['extents'][0]['extent_type'].should eq("Linear feet")
       end
-      
+
       it "maps datafield[@tag='260'] to resource.notes[] using template '$a'" do
         @notes.should include('1889-1945')
       end
@@ -280,7 +280,7 @@ END
       it "maps datafield[@tag='500'] to resource.notes[] using template '$3: $a'" do
         @notes.should include('Material Specific Details:Resource-MaterialSpecificDetails-AT')
       end
-      
+
       it "maps datafield[@tag='505'] to resource.notes[] using template '$a'" do
         @notes.should include('CumulativeIndexFindingAidsNote-AT')
       end
@@ -495,7 +495,7 @@ ROTFL
       @names.map{|name| name['name_order']}.should eq(%w(inverted direct inverted direct inverted direct))
     end
 
-    it "splits primary_name and rest_of_name" do      
+    it "splits primary_name and rest_of_name" do
       @names[0]['primary_name'].should eq('a1')
       @names[0]['rest_of_name'].should eq('foo')
     end
@@ -530,7 +530,7 @@ ROTFL
       <marc:subfield code="a">5.00</marc:subfield>
       <marc:subfield code="f">linear feet.</marc:subfield>
     </marc:datafield>
-  </marc:record>    
+  </marc:record>
 </marc:collection>
 OMFG
 
@@ -673,6 +673,89 @@ MARC
       # regular converter should still produce an invalid record
       converter = MarcXMLConverter.new(test_doc)
       expect { converter.run }.to raise_error(JSONModel::ValidationException)
+    end
+  end
+
+  # It might happen that a converter mapping targets a property that doesn't
+  # exist, especially if a mapping is reused for different record types.
+  describe "Handling bad mappings" do
+
+    def test_doc
+      src = <<MARC
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+  <record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <datafield tag="245" ind2=" " ind1="1">
+      <subfield code="a">SF A</subfield>
+    </datafield>
+    <datafield tag="9999" ind2=" " ind1="1">
+      <subfield code="a">SF A</subfield>
+    </datafield>
+  </record>
+MARC
+      get_tempfile_path(src)
+    end
+
+    let (:subconverter) {
+      class BadMarcXMLAccessionConverter < MarcXMLConverter
+        def self.import_types(*args)
+          {:name => 'marc2accession', :description => "make accessions from marc"}
+        end
+
+
+        def self.instance_for(type, input_file)
+          if type == 'marc2accession'
+            self.new(input_file)
+          end
+        end
+      end
+
+      BadMarcXMLAccessionConverter.configure do |config|
+        config['/record'] = {
+          :obj => :accession,
+          :map => {
+            'self::record' => Proc.new {|accession, node|
+              if !accession.title
+                accession.title = "TITLE"
+              end
+
+              if accession.extents.nil? || accession.extents.empty?
+                accession.extents << ASpaceImport::JSONModel(:extent).from_hash({:portion => 'whole', :number => '1', :extent_type => 'linear_feet'})
+              end
+
+              if accession.id_0.nil? or accession.id.empty?
+                accession.id_0 = "ID"
+              end
+            },
+            'datafield[@tag="9999"]' => {
+              :obj => :note_singlepart,
+              :rel => :notes, # Accessions don't take notes!
+              :map => {
+                "self::datafield" => -> note, node {
+                  note.send('label=', "my note")
+                  note.type = 'odd'
+                  note.content = 'my note content'
+                }
+              }
+            }
+          }
+        }
+
+      end
+
+      BadMarcXMLAccessionConverter
+    }
+
+    it "raises a ConverterMappingError" do
+
+      # regular converter should produce an invalid record
+      converter = subconverter.new(test_doc)
+      expect {
+        converter.run
+        json = JSON(IO.read(converter.get_output_path))
+        puts json.inspect
+
+      }.to raise_error(Converter::ConverterMappingError, "The converter maps 'datafield[@tag=\"9999\"]' to a bad target (property 'notes' on record_type 'accession')." )
+
     end
   end
 end

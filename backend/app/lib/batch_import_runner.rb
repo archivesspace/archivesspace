@@ -82,7 +82,7 @@ class BatchImportRunner
           end
         rescue ImportCanceled
           raise Sequel::Rollback
-        rescue JSONModel::ValidationException, ImportException, Sequel::ValidationFailed, ReferenceError => e
+        rescue JSONModel::ValidationException, ImportException, Converter::ConverterMappingError, Sequel::ValidationFailed, ReferenceError => e
           # Note: we deliberately don't catch Sequel::DatabaseError here.  The
           # outer call to DB.open will catch that exception and retry the
           # import for us.
