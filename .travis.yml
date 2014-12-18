@@ -1,4 +1,4 @@
-language: ruby
+language: java
 
 sudo: false
 
@@ -7,24 +7,27 @@ jdk:
   - oraclejdk7
   - openjdk6
 
+sudo: false
+
 env:
+  global:
+    - INTEGRATION_LOGFILE=/var/tmp/aspace-integration.log
+    - DISPLAY=:99.0
+    - SCREENSHOT_ON_ERROR=1
+  matrix:
   # These sets of environment variables determine which tasks to run and
   # which database the tests will run against. The build script honors any 
   # ArchivesSpace options set in JAVA_OPTS, so we don't need an additional
   # configuration file for now.
-  - DB=mysql TASK=travis:test
-  - DB=derby TASK=travis:test
-  - DB=mysql TASK=travis:selenium
-  - DB=derby TASK=travis:selenium
-  - DB=mysql TASK=travis:selenium:public
-  - DB=derby TASK=travis:selenium:public
-  - TASK=dist
+    - DB=mysql TASK=travis:test
+    - DB=derby TASK=travis:test
+    - DB=mysql TASK=travis:selenium
+    - DB=derby TASK=travis:selenium
+    - DB=mysql TASK=travis:selenium:public
+    - DB=derby TASK=travis:selenium:public
+    - TASK=dist
 
 before_script:
-  - "export INTEGRATION_LOGFILE=/var/tmp/aspace-integration.log"
-  # http://about.travis-ci.org/docs/user/gui-and-headless-browsers/
-  - "export DISPLAY=:99.0"
-  - "export SCREENSHOT_ON_ERROR=1"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 
   - if [[ "$DB" == "mysql" ]]; then (mkdir lib; cd lib; curl -Oq http://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.24/mysql-connector-java-5.1.24.jar); fi
