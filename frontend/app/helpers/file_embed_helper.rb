@@ -1,5 +1,15 @@
 module FileEmbedHelper
 
+  def uri_or_string(link)
+    begin
+      link.gsub!(/\\/, '/') # for windows uris
+      link = "file://#{link}" unless link.match(/^(http|file)/)
+      URI(link) 
+    rescue URI::InvalidURIError => e
+      link
+    end
+  end
+
   def can_embed?(file_version)
     begin
       uri = URI(file_version['file_uri'])
