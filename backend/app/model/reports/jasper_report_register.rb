@@ -7,11 +7,15 @@ class JasperReportRegister
 
   # this registers the reports so they work in the URI
   def self.register_reports
-   Array(StaticAssetFinder.new('reports').find("report_config.yml")).each do |config|
-      begin 
-        yml = YAML.load_file(config)
-        self.register_report(yml) 
-      end 
+    begin 
+      Array(StaticAssetFinder.new('reports').find("report_config.yml")).each do |config|
+        begin 
+          yml = YAML.load_file(config)
+          self.register_report(yml) 
+        end 
+      end
+    rescue NotFoundException
+      $stderr.puts("NO JASPER REPORTS FOUND")
     end
   end
 
