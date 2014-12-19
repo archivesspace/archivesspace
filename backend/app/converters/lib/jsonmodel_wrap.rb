@@ -12,16 +12,6 @@ module ASpaceImport
       def self.validate(hash, raise_errors = true)
         begin
           super(hash)
-        # TODO - speed things up by avoiding this another way
-        rescue JSONModel::ValidationException => e
-
-          e.errors.reject! {|path, mssg|
-                            e.attribute_types &&
-                            e.attribute_types.has_key?(path) 
-                            }
-
-          raise e unless e.errors.empty?
-
         end
       end
 
