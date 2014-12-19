@@ -187,7 +187,7 @@ ANEAD
     end
 
     it "maps '<titleproper>' correctly" do
-      @resource['finding_aid_title'].should eq("Resource-FindingAidTitle-AT\n<num>Resource.ID.AT</num>")
+      @resource['finding_aid_title'].should eq("Resource-FindingAidTitle-AT <num>Resource.ID.AT</num>")
     end
 
     it "maps '<titleproper type=\"filing\">' correctly" do
@@ -199,7 +199,7 @@ ANEAD
     end
 
     it "maps '<revisiondesc>' correctly" do
-      @resource['finding_aid_revision_description'].should eq("<change>\n<date>Resource-FindingAidRevisionDate-AT</date>\n<item>Resource-FindingAidRevisionDescription-AT</item>\n</change>")
+      @resource['finding_aid_revision_description'].should eq("<change> <date>Resource-FindingAidRevisionDate-AT</date> <item>Resource-FindingAidRevisionDescription-AT</item> </change>")
     end
 
     # NAMES
@@ -398,7 +398,7 @@ ANEAD
       # 	IF nested in <archdesc> OR <c>
 
       # 	ELSE, IF nested in <notestmnt>
-      @resource['finding_aid_note'].should eq("Resource-FindingAidNote-AT\n\nResource-FindingAidNote-AT2\n\nResource-FindingAidNote-AT3\nResource-FindingAidNote-AT4") 
+      @resource['finding_aid_note'].should eq("Resource-FindingAidNote-AT\n\nResource-FindingAidNote-AT2\n\nResource-FindingAidNote-AT3\n\nResource-FindingAidNote-AT4") 
     end
 
     it "maps '<odd>' correctly" do

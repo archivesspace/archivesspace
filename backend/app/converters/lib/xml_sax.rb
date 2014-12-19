@@ -58,7 +58,9 @@ module ASpaceImport
 
 
       def run
-        @reader = Nokogiri::XML::Reader(IO.read(@input_file))
+        @reader = Nokogiri::XML::Reader( IO.read(@input_file).gsub(/\s\s+/, " ")) do |config|
+          config.noblanks.strict
+        end
         node_queue = node_queue_for(@reader)
         @contexts = []
         @context_nodes = {}

@@ -262,8 +262,8 @@ end
             end
             
             mt(head_text, "#{path}/head")
-            regcontent = content.split(/\n|\r/).map { |c| ".*?[\r\n]*.*?#{c.strip}" } 
-            mt(/^.*?#{head_text}.*?[\r\n]*.*?#{regcontent}.*?$/m, "#{path}")
+            regcontent = content.split(/\n\n|\r/).map { |c| ".*?[\r\n\n]*.*?#{c.strip}" } 
+            mt(/^.*?#{head_text}.*?[\r\n\n]*.*?#{regcontent}.*?$/m, "#{path}")
           end
         end
       end

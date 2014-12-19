@@ -46,9 +46,9 @@ class EADConverter < Converter
   # actually want to ever see them. 
   def format_content(content)
   	return content if content.nil?
-    # Nokogiri::XML::DocumentFragm
-    content.gsub("<p>","").gsub("</p>","\n" ).gsub("<p/>","\n")
-  		   .gsub("<lb/>", "\n").gsub("<lb>","\n").gsub("</lb>","")
+    content.delete!("\n") # first we remove all linebreaks, since they're probably unintentional  
+    content.gsub("<p>","").gsub("</p>","\n\n" ).gsub("<p/>","\n\n")
+  		   .gsub("<lb/>", "\n\n").gsub("<lb>","\n\n").gsub("</lb>","")
   	     .strip
   end
   
