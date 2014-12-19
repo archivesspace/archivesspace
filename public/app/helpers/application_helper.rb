@@ -11,7 +11,7 @@ module ApplicationHelper
     @title = title
   end
 
-  def title_or_finding_aid_title(resource)
+  def title_or_finding_aid_filing_title(resource)
     if resource["finding_aid_filing_title"] && !resource["finding_aid_filing_title"].nil? && resource["finding_aid_filing_title"].length > 0
       resource["finding_aid_filing_title"]
     elsif resource["title"] && !resource["title"].nil?

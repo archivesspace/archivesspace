@@ -488,7 +488,7 @@ class CommonIndexer
       doc = {}
 
       doc['id'] = uri
-      doc['title'] = values['title']
+      doc['title'] = values["finding_aid_filing_title"] ||  values['title']
       doc['primary_type'] = record_type
       doc['types'] = [record_type]
       doc['json'] = ASUtils.to_json(values)

@@ -161,6 +161,10 @@ module Trees
       :children => top_nodes.sort_by(&:first).map {|position, node| self.class.assemble_tree(node, links, properties)},
       :record_uri => self.class.uri_for(root_type, self.id)
     }
+    
+    if  self.respond_to?(:finding_aid_filing_title) && !self.finding_aid_filing_title.nil? && self.finding_aid_filing_title.length > 0
+      result[:finding_aid_filing_title] = self.finding_aid_filing_title
+    end
 
     load_root_properties(result, ids_of_interest)
 

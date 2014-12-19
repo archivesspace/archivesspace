@@ -111,6 +111,7 @@
 
    <!-- Resource stores some Finding Aid data -->
    <field name="finding_aid_title" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="finding_aid_filing_title" type="string" indexed="true" stored="true" multiValued="false" />
 
    <!-- Location properties required for facets -->
    <field name="temporary" type="string" indexed="true" stored="true" multiValued="false" />

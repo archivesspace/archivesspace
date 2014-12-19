@@ -1,13 +1,12 @@
 class RecordsController < ApplicationController
-
+  include ApplicationHelper  
   before_filter :get_repository
 
   def resource
     resource = JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents", "related_accessions"])
     raise RecordNotFound.new if (!resource || !resource.publish)
-
+    breadcrumb_title = title_or_finding_aid_filing_title(resource) 
     @resource = ResourceView.new(resource)
-    breadcrumb_title = @resource.finding_aid_filing_title ? @resource.finding_aid_filing_title : @resource.title
 
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"],
@@ -33,7 +32,7 @@ class RecordsController < ApplicationController
 
       if record["node_type"] === "resource"
         @resource_uri = record['record_uri']
-        breadcrumb_title = !record["finding_aid_filing_title"].nil? ? record["finding_aid_filing_title"] : record["title"]
+        breadcrumb_title = title_or_finding_aid_filing_title(record) 
         @breadcrumbs.push([breadcrumb_title, url_for(:controller => :records, :action => :resource, :id => record["id"], :repo_id => @repository.id), "resource"])
       else
         @breadcrumbs.push([record["title"], url_for(:controller => :records, :action => :archival_object, :id => record["id"], :repo_id => @repository.id), "archival_object"])

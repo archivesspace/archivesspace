@@ -1,5 +1,5 @@
 <%
-  record_title = title_or_finding_aid_title( @resource ) 
+  record_title = title_or_finding_aid_filing_title( @resource ) 
   set_title(record_title)
 %>
 <%= render_aspace_partial(:partial => 'title_pane',

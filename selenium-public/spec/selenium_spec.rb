@@ -206,8 +206,9 @@ describe "ArchivesSpace Public interface" do
   describe "Archival Objects" do
 
     before(:all) do
+      $published_resource_filing_title = "FilingTitle"
       $unpublished_resource_uri, unpublished = create_resource(:title => "Unpublished Resource", :publish => false, :id_0 => "unpublished2")
-      $published_resource_uri, published = create_resource(:title => "Published Resource", :publish => true, :id_0 => "published2")
+      $published_resource_uri, published = create_resource(:title => "Published Resource", :finding_aid_filing_title => $published_resource_filing_title , :publish => true, :id_0 => "published2")
 
       $published_archival_object, $published_archival_object_title = create_archival_object(:title => "Published Top Level AO", :publish => true, :resource => {:ref => $published_resource_uri})
       $unpublished_archival_object, $unpublished_archival_object_title = create_archival_object(:title => "Unpublished Top Level AO", :publish => false, :resource => {:ref => $unpublished_resource_uri})
@@ -235,6 +236,7 @@ describe "ArchivesSpace Public interface" do
 
       $driver.get(URI.join($frontend, ao_with_note))
       $driver.find_element(:link, index_link_text).click
+      $driver.find_element_with_text('//li', /#{$published_resource_filing_title}/ )
       $driver.find_element_with_text('//h2', /#{$published_archival_object_title}/)
     end
 
