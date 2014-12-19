@@ -1,0 +1,22 @@
+.vagrant/
+Berksfile.lock
+*~
+*#
+.#*
+\#*#
+.*.sw[a-z]
+*.un~
+/cookbooks
+
+# Bundler
+Gemfile.lock
+bin/*
+.bundle/*
+.chef/
+roles/*
+!roles/*.md
+!roles/*.sh
+!roles/*.py
+!roles/*.rb
+!roles/*.json
+!roles/*.csv
