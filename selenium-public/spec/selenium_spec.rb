@@ -142,7 +142,7 @@ describe "ArchivesSpace Public interface" do
     it "uses the finding_aid_title if there is one" do
 
 
-      $published_uri, $published = create_resource(:title => "NO WAY", :id_0 => rand(1000).to_s,  :finding_aid_title => "YeaBuddy", 
+      $published_uri, $published = create_resource(:title => "NO WAY", :id_0 => rand(1000).to_s,  :finding_aid_filing_title => "YeaBuddy", 
                                                    :publish => true )
       
       @indexer.run_index_round

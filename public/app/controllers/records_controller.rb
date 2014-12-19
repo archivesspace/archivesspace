@@ -7,7 +7,7 @@ class RecordsController < ApplicationController
     raise RecordNotFound.new if (!resource || !resource.publish)
 
     @resource = ResourceView.new(resource)
-    breadcrumb_title = @resource.finding_aid_title ? @resource.finding_aid_title : @resource.title
+    breadcrumb_title = @resource.finding_aid_filing_title ? @resource.finding_aid_filing_title : @resource.title
 
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"],
@@ -33,7 +33,7 @@ class RecordsController < ApplicationController
 
       if record["node_type"] === "resource"
         @resource_uri = record['record_uri']
-        breadcrumb_title = !record["finding_aid_title"].nil? ? record["finding_aid_title"] : record["title"]
+        breadcrumb_title = !record["finding_aid_filing_title"].nil? ? record["finding_aid_filing_title"] : record["title"]
         @breadcrumbs.push([breadcrumb_title, url_for(:controller => :records, :action => :resource, :id => record["id"], :repo_id => @repository.id), "resource"])
       else
         @breadcrumbs.push([record["title"], url_for(:controller => :records, :action => :archival_object, :id => record["id"], :repo_id => @repository.id), "archival_object"])
