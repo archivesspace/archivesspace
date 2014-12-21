@@ -401,7 +401,7 @@ class EADConverter < Converter
       else 
         left_overs = nil 
         make :note_multipart, {
-          :type => node.name,
+          :type => 'odd',
           :persistent_id => att('id'),
         } do |note|
           set ancestor(:resource, :archival_object), :notes, note
@@ -652,7 +652,7 @@ class EADConverter < Converter
     
     with 'daodesc' do
         make :note_digital_object, {
-          :type => node.name,
+          :type => 'note',
           :persistent_id => att('id'),
           :content => inner_xml.strip
         } do |note|

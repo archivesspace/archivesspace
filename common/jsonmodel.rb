@@ -258,6 +258,9 @@ module JSONModel
         value == 'other_unmapped' || enum_source.valid?(name, value)
       end
 
+      def enum_wrapper.editable?(name)
+        enum_source.editable?(name)
+      end
 
       def enum_wrapper.values_for(name)
         enum_source.values_for(name) + ['other_unmapped']

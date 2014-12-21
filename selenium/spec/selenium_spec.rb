@@ -4038,24 +4038,40 @@ describe "ArchivesSpace user interface" do
 
   describe "System Information" do
 
-    before(:all) do
-      login("admin", "admin")
-    end
 
-    after(:all) do
+    
+    after(:each) do
       logout
     end
 
     it "should not let any old fool see this" do
-      (archivist, pass) = create_user
-      add_user_to_archivists(archivist, repo_uri)
+      @perm_test_repo = "perm_test#{Time.now.to_i}_#{$$}"
+      (moo, @repo_uri) = create_test_repo(@perm_test_repo, "The name of the #{@perm_test_repo}")
+      (@archivist, @pass) = create_user
+      add_user_to_archivists(@archivist, @repo_uri)
       
-      logout 
-      login(archivist, pass)
+      login(@archivist, @pass)
+      
+      $driver.find_element(:link, "System").click
+      $driver.find_elements(:link, "System Information").length.should eq(0)
+      $driver.get(URI.join($frontend, "/system_info"))
+      assert(5) { 
+        $driver.find_element(:css => ".alert.alert-error h2").text.should eq("Unable to Access Page")
+      } 
+   
+    end
+    
+    it "should let the admin see this" do
+      login_as_admin
       
       $driver.find_element(:link, "System").click
       $driver.find_element(:link, "System Information").click
-      assert(5) { $driver.find_element(:css => ".alert.alert-error h2").text.should eq("Unable to Access Page") }  
+      assert(5) { 
+        $driver.find_element(:css => "h3.subrecord-form-heading").text.should eq("Frontend System Information")
+      } 
+       
+      sleep 500 
+    
     end
     
 

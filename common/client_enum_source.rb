@@ -13,6 +13,10 @@ class ClientEnumSource
   def valid?(name, value)
     values_for(name).include?(value)
   end
+  
+  def editable?(name)
+    MemoryLeak::Resources.get(:enumerations).fetch(name).editable?
+  end
 
 
   def values_for(name)

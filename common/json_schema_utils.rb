@@ -104,6 +104,14 @@ module JSONSchemaUtils
          msgs[:errors][fragment_join(path)] = ["Invalid value '#{invalid}'.  Must be one of: #{valid_set}"]
        }
      },
+     {
+       :failed_attribute => ['ArchivesSpaceReadOnlyDynamicEnum'],
+       :pattern => /The property '#\/.*?' value "(.*?)" .*values: (.*) in schema/,
+       :do => ->(msgs, message, path, invalid, valid_set) {
+         msgs[:attribute_types][fragment_join(path)] = 'ArchivesSpaceReadOnlyDynamicEnum'
+         msgs[:errors][fragment_join(path)] = ["Protected read-only list #{path}. Invalid value '#{invalid}'.  Must be one of: #{valid_set}"]
+       }
+     },
 
      {
        :failed_attribute => ['Type', 'ArchivesSpaceType'],
