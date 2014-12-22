@@ -320,7 +320,7 @@ module TreeNodes
     def resequence(repo_id)
       RequestContext.open(:repo_id => repo_id) do
         # we only need to resequence things that have a parent assigned to it. 
-        self.dataset.filter(~:position => nil, :repo_id => repo_id, ~parent_id => nil )
+        self.dataset.filter(~:position => nil, :repo_id => repo_id, ~:parent_id => nil )
             .each do |obj| 
                 obj.update_position_only(obj.parent_id, obj.position) 
         end 
