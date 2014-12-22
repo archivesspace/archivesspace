@@ -19,7 +19,13 @@ class Resequencer
     def resequence(klass)
       repos = Repository.dataset.select(:id).map {|rec| rec[:id]} 
       repos.each do |r|
-        Kernel.const_get(klass).resequence(r)
+        DB.attempt {
+          Kernel.const_get(klass).resequence(r)
+           return
+        }.and_if_constraint_fails {
+          # if there's a failure, just keep going.  
+          return 
+        } 
       end
     end
 
@@ -35,10 +41,7 @@ class Resequencer
         @@running = true 
         klasses = klasses & @@klasses 
         klasses.each do |klass|
-           
-          #          Thread.new do
             self.resequence(klass) 
-#          end
         end 
       ensure
         @@running = false

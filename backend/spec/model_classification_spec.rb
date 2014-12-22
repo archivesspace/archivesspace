@@ -50,6 +50,11 @@ describe 'Classification models' do
                                              :parent => {'ref' => term.uri})
 
     classification.tree['children'][0]['children'][0]['title'].should eq(second_term.title)
+  
+    expect {
+      ClassificationTerm.resequence( classification.repo_id )
+    }.to_not raise_error
+  
   end
 
 

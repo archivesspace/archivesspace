@@ -114,6 +114,7 @@ module TreeNodes
       parent_uri = parent_id ? self.class.uri_for(self.class.node_record_type.intern, parent_id) : nil
       sequence = "#{root_uri}_#{parent_uri}_children_position"
 
+
       parent_name = if parent_id
                       "#{parent_id}@#{self.class.node_record_type}"
                     else
@@ -157,14 +158,19 @@ module TreeNodes
 
 
   def transfer_to_repository(repository, transfer_group = [])
+    
+   
     # All records under this one will be transferred too
-    children.select(:id).each do |child|
+    children.each do |child|
       child.transfer_to_repository(repository, transfer_group + [self])
     end
     
+    RequestContext.open(:repo_id => repository.id ) do
+      self.update_position_only(self.parent_id, self.position) unless self.root_record_id.nil?
+    end
+      
     # ensure that the sequence if updated 
     
-
     super 
   end
 
@@ -320,9 +326,9 @@ module TreeNodes
     def resequence(repo_id)
       RequestContext.open(:repo_id => repo_id) do
         # we only need to resequence things that have a parent assigned to it. 
-        self.dataset.filter(~:position => nil, :repo_id => repo_id, ~:parent_id => nil )
+        self.filter(~:position => nil, :repo_id => repo_id, ~:parent_id => nil, ~:root_record_id => nil )
             .each do |obj| 
-                obj.update_position_only(obj.parent_id, obj.position) 
+               obj.update_position_only(obj.parent_id, obj.position) 
         end 
       end 
     end

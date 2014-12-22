@@ -114,7 +114,6 @@ class ArchivesSpaceService < Sinatra::Base
 
       BatchImportJobQueue.init if ASpaceEnvironment.environment != :unit_test
     
-      Resequencer.run( [ :ArchivalObject,  :DigitalObjectComponent, :ClassificationTerm ] ) if AppConfig[:resequence_on_startup]
 
 
 
@@ -184,6 +183,7 @@ class ArchivesSpaceService < Sinatra::Base
 
       Notifications.notify("BACKEND_STARTED")
       Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}"
+      Resequencer.run( [ :ArchivalObject,  :DigitalObjectComponent, :ClassificationTerm ] ) if AppConfig[:resequence_on_startup]
 
     rescue
       ASUtils.dump_diagnostics($!)

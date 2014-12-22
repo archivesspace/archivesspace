@@ -177,9 +177,9 @@ module Trees
     obj = super
     
     # All records under this one will be transferred too
+    
     children.each do |child|
       child.transfer_to_repository(repository, transfer_group + [self])
-      child.update_position_only(child.parent_id, child.position)
     end
 
     obj
