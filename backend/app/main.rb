@@ -19,6 +19,7 @@ require_relative 'lib/request_context'
 require_relative 'lib/reports/report_helper'
 require_relative 'lib/component_transfer'
 require_relative 'lib/progress_ticker'
+require_relative 'lib/resequencer'
 
 require 'solr_snapshotter'
 
@@ -112,7 +113,8 @@ class ArchivesSpaceService < Sinatra::Base
 
 
       BatchImportJobQueue.init if ASpaceEnvironment.environment != :unit_test
-      
+    
+      Resequencer.run( [ :ArchivalObject,  :DigitalObjectComponent, :ClassificationTerm ] ) if AppConfig[:resequence_on_startup]
 
 
 

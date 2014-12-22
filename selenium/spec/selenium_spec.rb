@@ -4070,7 +4070,6 @@ describe "ArchivesSpace user interface" do
         $driver.find_element(:css => "h3.subrecord-form-heading").text.should eq("Frontend System Information")
       } 
        
-      sleep 500 
     
     end
     

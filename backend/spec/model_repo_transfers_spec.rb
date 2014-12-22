@@ -149,7 +149,11 @@ describe 'Record transfers' do
 
       tree['children'][0]['title'].should eq('hello')
       tree['children'][0]['children'][0]['title'].should eq('world')
+      
     end
+  
+  
+  
   end
 
 

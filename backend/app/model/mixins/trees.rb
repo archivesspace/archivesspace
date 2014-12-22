@@ -12,6 +12,7 @@ module Trees
          this_repo.filter(:root_record_id => old_parent.id,
                           :parent_id => nil).each do |root_child|
       root_child.set_root(self)
+    
     end
   end
 
@@ -173,16 +174,15 @@ module Trees
 
 
   def transfer_to_repository(repository, transfer_group = [])
-    super
+    obj = super
     
     # All records under this one will be transferred too
     children.each do |child|
       child.transfer_to_repository(repository, transfer_group + [self])
-    end
-    RequestContext.open(:repo_id => repository.id) do
-      self.adopt_children(self)
+      child.update_position_only(child.parent_id, child.position)
     end
 
+    obj
   end
 
 

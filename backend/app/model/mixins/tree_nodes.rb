@@ -17,6 +17,8 @@ module TreeNodes
     if self.parent_id.nil?
       # Set ourselves to the end of the list
       update_position_only(nil, nil)
+    else
+      update_position_only(self.parent_id, self.position)
     end
 
     children.each do |child|
@@ -24,6 +26,7 @@ module TreeNodes
     end
   end
 
+  
 
   def set_position_in_list(target_position, sequence)
     siblings_ds = self.class.dataset.
@@ -158,8 +161,11 @@ module TreeNodes
     children.select(:id).each do |child|
       child.transfer_to_repository(repository, transfer_group + [self])
     end
+    
+    # ensure that the sequence if updated 
+    
 
-    super
+    super 
   end
 
 
@@ -307,6 +313,18 @@ module TreeNodes
     def handle_delete(ids_to_delete)
       self.filter(:id => ids_to_delete).update(:parent_id => nil)
       super
+    end
+
+    # this requences the class, which updates the Sequence with correct
+    # sequences
+    def resequence(repo_id)
+      RequestContext.open(:repo_id => repo_id) do
+        # we only need to resequence things that have a parent assigned to it. 
+        self.dataset.filter(~:position => nil, :repo_id => repo_id, ~parent_id => nil )
+            .each do |obj| 
+                obj.update_position_only(obj.parent_id, obj.position) 
+        end 
+      end 
     end
 
   end

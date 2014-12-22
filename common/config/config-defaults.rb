@@ -151,3 +151,10 @@ AppConfig[:max_location_range] = 1000
 # but be sure to use the JDK version.
 AppConfig[:enable_jasper] = true 
 AppConfig[:compile_jasper] = false
+
+# There are some conditions that has caused tree nodes ( ArchivalObjects, DO
+# Components, and ClassificationTerms) to lose their Sequence pointers. This
+# will resequence these tree nodes on startup. 
+AppConfig[:resequence_on_startup] = false
+
+

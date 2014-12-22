@@ -20,6 +20,19 @@ class ArchivesSpaceService < Sinatra::Base
     [200, {}, Log.backlog ]
   end
 
+  Endpoint.get('/system/resequence')
+  .description("Get the log information and start the 15 second log recorder") 
+  .permissions([:administer_system])
+  .params( ["types", [String], "Array of Object trypes to resequence", :optional => true] )
+  .returns([200, "String"],
+           [403, "Access Denied"]) \
+  do
+    klasses = %W{ ArchivalObject DigitalObjectComponent ClassificationTerm   } & params[:type] 
+    klasses.collect! { |k| Kernel.const_get(k.to_sym) } 
+    Resequencer.run(klasses)
+
+    [200, {}, Resequencer.status.to_s ]
+  end
 
   Endpoint.post('/system/demo_db_snapshot')
   .description("Create a snapshot of the demo database if the file '#{File.basename(AppConfig[:demodb_snapshot_flag])}' exists in the data directory")
