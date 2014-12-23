@@ -114,12 +114,12 @@ module TreeNodes
       parent_uri = parent_id ? self.class.uri_for(self.class.node_record_type.intern, parent_id) : nil
       sequence = "#{root_uri}_#{parent_uri}_children_position"
 
-
       parent_name = if parent_id
                       "#{parent_id}@#{self.class.node_record_type}"
                     else
                       "root@#{root_uri}"
                     end
+      
 
       new_values = {
         :parent_id => parent_id,
@@ -127,7 +127,7 @@ module TreeNodes
         :position => Sequence.get(sequence),
         :system_mtime => Time.now
       }
-
+      
       # Run through the standard validation without actually saving
       self.set(new_values)
       self.validate
@@ -135,10 +135,18 @@ module TreeNodes
       if self.errors && !self.errors.empty?
         raise Sequel::ValidationFailed.new(self.errors)
       end
-
-      # Now do the update (without touching lock_version)
-      self.class.dataset.filter(:id => self.id).update(new_values)
-
+    
+     
+      # let's try and update the position. If it doesn't work, then we'll fix 
+      # the position when we set it in the list...there can be problems when
+      # transfering to another repo when there's holes in the tree...
+      DB.attempt {
+        self.class.dataset.filter(:id => self.id).update(new_values)
+      }.and_if_constraint_fails { 
+        new_values.delete(:position) 
+        self.class.dataset.filter(:id => self.id).update(new_values)
+      }
+     
       self.refresh
       self.set_position_in_list(position, sequence) if position
     else
