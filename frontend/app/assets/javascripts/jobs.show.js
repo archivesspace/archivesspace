@@ -11,7 +11,7 @@ $(function() {
   var initLoggingSpool = function() {
     var $logSection = $("#logs");
     
-    if ( typeof $logSection.data("status-poll-interval") != undefined ) {
+    if ( typeof $logSection.data("status-poll-interval") != 'undefined' ) {
        LOG_POLL_INTERVAL = parseInt( $logSection.data("status-poll-interval")); 
     }
    

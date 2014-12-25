@@ -39,7 +39,7 @@ Configuration
 By default links to the formats are **not** added to the navigation sidebar. To add links edit:
 
 ```
-vi /path/to/archivesspace/plugins/aspace-public-formats/public/plugin_init.rb
+vi /path/to/archivesspace/config/config.rb
 ```
 
 And set (choosing the options you want to create public links for):
@@ -61,6 +61,6 @@ The HTML output works by first requesting the EAD, then performing an XSLT trans
 Compatibility
 -----------------
 
-- ArchivesSpace v1.0.9
+- ArchivesSpace v1.1.1
 
 ---

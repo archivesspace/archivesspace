@@ -502,6 +502,7 @@
     <mkdir dir="target/archivesspace/scripts/rb" />
     <mkdir dir="target/archivesspace/stylesheets" />
     <mkdir dir="target/archivesspace/plugins/aspace_feedback" />
+    <mkdir dir="target/archivesspace/plugins/aspace-public-formats" />
     <mkdir dir="target/archivesspace/plugins/cat_in_a_box" />
     <mkdir dir="target/archivesspace/plugins/newrelic" />
     <mkdir dir="target/archivesspace/plugins/refid_rules" />
@@ -569,6 +570,10 @@
 
     <copy todir="target/archivesspace/plugins/lcnaf">
       <fileset dir="../plugins/lcnaf"/>
+    </copy>
+    
+    <copy todir="target/archivesspace/plugins/aspace-public-formats">
+      <fileset dir="../plugins/aspace-public-formats"/>
     </copy>
 
     <copy todir="target/archivesspace/stylesheets">

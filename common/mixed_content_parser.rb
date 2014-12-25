@@ -7,7 +7,7 @@ module MixedContentParser
     content.chomp!
 
     # transform blocks of text seperated by line breaks into <p> wrapped blocks
-    content = content.split("\n").inject("") { |c,n| c << "<p>#{n}</p>"  } if opts[:wrap_blocks]
+    content = content.split("\n\n").inject("") { |c,n| c << "<p>#{n}</p>"  } if opts[:wrap_blocks]
 
     cleaned_content = org.jsoup.Jsoup.clean(content, org.jsoup.safety.Whitelist.relaxed.addTags("emph", "lb").addAttributes("emph", "render"))
 
@@ -18,7 +18,7 @@ module MixedContentParser
     document.select("lb").tagName("br")
 
     # tweak the emph tags
-    [ "emph", "title" ].each do |tag| 
+    [ "emph", "title", "unitdate"  ].each do |tag| 
       document.select(tag).each do | emph |
         # make all emph's a span
         emph.tagName("span")

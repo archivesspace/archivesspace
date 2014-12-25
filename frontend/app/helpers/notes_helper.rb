@@ -111,7 +111,7 @@ module NotesHelper
 
 
   def clean_note(note)
-    MixedContentParser::parse(note, url_for(:root))
+    MixedContentParser::parse(note, url_for(:root), :wrap_blocks => true)
   end
 
 end

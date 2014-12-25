@@ -118,6 +118,16 @@ AppConfig[:report_pdf_font_family] = "\"DejaVu Sans\", sans-serif"
 # Plug-ins to load. They will load in the order specified
 AppConfig[:plugins] = ['local', 'aspace_feedback', 'aspace-public-formats']
 
+
+# 
+# The following are used by the aspace-public-formats plugin
+# https://github.com/archivesspace/aspace-public-formats
+AppConfig[:public_formats_resource_links] = []
+AppConfig[:public_formats_digital_object_links] = []
+AppConfig[:xsltproc_path] = nil
+AppConfig[:xslt_path] = nil
+
+
 # Allow an unauthenticated user to create an account
 AppConfig[:allow_user_registration] = true
 
@@ -156,5 +166,3 @@ AppConfig[:compile_jasper] = false
 # Components, and ClassificationTerms) to lose their Sequence pointers. This
 # will resequence these tree nodes on startup. 
 AppConfig[:resequence_on_startup] = false
-
-

@@ -488,7 +488,13 @@ class CommonIndexer
       doc = {}
 
       doc['id'] = uri
-      doc['title'] = values["finding_aid_filing_title"] ||  values['title']
+     
+      if ( !values["finding_aid_filing_title"].nil? && values["finding_aid_filing_title"].length > 0 )
+        doc['title'] = values["finding_aid_filing_title"] 
+      else 
+        doc['title'] =  values['title']
+      end 
+        
       doc['primary_type'] = record_type
       doc['types'] = [record_type]
       doc['json'] = ASUtils.to_json(values)

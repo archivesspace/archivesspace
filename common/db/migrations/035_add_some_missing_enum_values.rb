@@ -12,8 +12,10 @@ Sequel.migration do
       self[:enumeration_value].insert(:enumeration_id => enum, :value => "genre_form", :readonly => 1)
     end
 
-    $stderr.puts("Triggering reindex of Resources")
-    self[:resource].update(:system_mtime => Time.now)
+   [:resource, :archival_object, :digital_object ].each do |klass|
+      $stderr.puts("Triggering reindex of #{klass.to_s}")
+      self[klass ].update(:system_mtime => Time.now)
+   end
 
 
   end

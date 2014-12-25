@@ -380,14 +380,17 @@ describe "ArchivesSpace user interface" do
 
     it "can reorder the terms and have them maintain order" do
 
+      first = SecureRandom.hex
+      second = SecureRandom.hex
+
       $driver.find_element(:link => 'Create').click
       $driver.find_element(:link => 'Subject').click
       $driver.find_element(:css => "form #subject_terms_ button:not(.show-all)").click 
       $driver.find_element(:id => "subject_source_").select_option("local")
-      $driver.clear_and_send_keys([:id, "subject_terms__0__term_"], "first")
-      $driver.clear_and_send_keys([:id, "subject_terms__1__term_"], "second")
+      $driver.clear_and_send_keys([:id, "subject_terms__0__term_"], first)
+      $driver.clear_and_send_keys([:id, "subject_terms__1__term_"], second)
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
-      assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("first -- second Subject") }
+      assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("#{first} -- #{second} Subject") }
       
       #drag to become sibling of parent
       source = $driver.find_element( :css => "#subject_terms__1_ .drag-handle" )
@@ -396,12 +399,12 @@ describe "ArchivesSpace user interface" do
       $driver.wait_for_ajax
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
 
-      assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("second -- first Subject") }
+      assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("#{second} -- #{first} Subject") }
 
       # refresh the page and verify that the change really stuck
       $driver.navigate.refresh
-      target = $driver.find_element( :css => "#subject_terms__0__term_" ).attribute('value').should eq('second')
-      target = $driver.find_element( :css => "#subject_terms__1__term_" ).attribute('value').should eq('first')
+      target = $driver.find_element( :css => "#subject_terms__0__term_" ).attribute('value').should eq(second)
+      target = $driver.find_element( :css => "#subject_terms__1__term_" ).attribute('value').should eq(first)
 
     end
 
@@ -464,7 +467,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "reports a warning when Authority ID is provided without a Source" do
-      $driver.clear_and_send_keys([:id, "agent_names__0__authority_id_"], "authid123")
+      $driver.clear_and_send_keys([:id, "agent_names__0__authority_id_"], SecureRandom.hex )
       $driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], "Hendrix")
 
       rules_select = $driver.find_element(:id => "agent_names__0__rules_")
@@ -478,7 +481,7 @@ describe "ArchivesSpace user interface" do
     it "auto generates Sort Name when other name fields upon save" do
       $driver.find_element(:id => "agent_names__0__source_").select_option("local")
 
-      $driver.clear_and_send_keys([:id, "agent_names__0__authority_id_"], "authid123")
+      $driver.clear_and_send_keys([:id, "agent_names__0__authority_id_"], SecureRandom.hex)
       $driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], "Hendrix")
 
       $driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
