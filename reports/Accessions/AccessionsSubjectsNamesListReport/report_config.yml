@@ -1,0 +1,3 @@
+report_type: jdbc
+uri_suffix: accessions_subjects_names_list
+description: "Displays accessions and their linked names and subjects. Report contains accession number, linked resources, accession date, title, extent, linked names, and linked subjects."

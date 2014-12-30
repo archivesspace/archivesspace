@@ -35,7 +35,11 @@ module ReportHelper
     def report_response(report, format, report_params = {} )
       report_params[:base_url] ||= request.base_url
       report_params[:html_report] ||= proc {  erb(:'reports/report', :locals => {:report => report}) }    
-      [200, report_header(report, format) ,  ReportResponse.new(report, format, report_params).generate ] 
+      begin 
+        [200, report_header(report, format) ,  ReportResponse.new(report, format, report_params).generate ] 
+      rescue => e
+        [404,{"Content-Type" => "application/json; charset=UTF-8"}  , [  { "error" =>{  report.class.name => [ e.inspect ] }}.to_json ] ]
+      end 
     end 
       
   end

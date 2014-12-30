@@ -1,0 +1,3 @@
+report_type: jdbc
+uri_suffix: accessions_acquired
+description: "Displays a list of all accessions acquired in a specified time period. Report contains accession number, title, extent, accession date, container summary, cataloged, date processed, rights transferred and the total number and physical extent."

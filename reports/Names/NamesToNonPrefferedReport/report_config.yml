@@ -1,0 +1,3 @@
+report_type: jdbc
+uri_suffix: names_to_non_preferred
+description: "Displays name(s) and any associated non-preferred name(s). Report contains sort name, name type, name source and any other non-preferred forms of that name."

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sub_resourcesSourceNames" pageWidth="612" pageHeight="792" columnWidth="582" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<field name="name.contactName" class="java.lang.String"/>
+	<field name="role" class="java.lang.String"/>
+	<field name="nameLinkFunction" class="java.lang.String"/>
+	<field name="name.contactAddress1" class="java.lang.String"/>
+	<field name="name.contactAddress2" class="java.lang.String"/>
+	<field name="name.contactCity" class="java.lang.String"/>
+	<field name="name.contactRegion" class="java.lang.String"/>
+	<field name="name.contactCountry" class="java.lang.String"/>
+	<field name="name.contactMailCode" class="java.lang.String"/>
+	<field name="name.contactPhone" class="java.lang.String"/>
+	<field name="name.contactFax" class="java.lang.String"/>
+	<field name="name.contactEmail" class="java.lang.String"/>
+	<field name="name.salutation" class="java.lang.String"/>
+	<field name="name.sortName" class="java.lang.String"/>
+	<variable name="SOURCE_TEST" class="java.lang.String">
+		<variableExpression><![CDATA[$F{nameLinkFunction}.equalsIgnoreCase("source") ? "true" : "false"]]></variableExpression>
+	</variable>
+	<variable name="HAS_SOURCE" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{nameLinkFunction}.equalsIgnoreCase("source") ? Integer.valueOf(1) : Integer.valueOf(0)]]></variableExpression>
+	</variable>
+	<variable name="COUNT_EXPERIMENT" class="java.lang.Integer" resetType="None" calculation="Count">
+		<variableExpression><![CDATA[$V{HAS_SOURCE}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="64" splitType="Prevent">
+			<printWhenExpression><![CDATA[Boolean.valueOf($F{nameLinkFunction}.equalsIgnoreCase("source"))]]></printWhenExpression>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="textField" positionType="Float" mode="Transparent" x="15" y="22" width="352" height="5" isRemoveLineWhenBlank="true" backcolor="#000000">
+					<printWhenExpression><![CDATA[$F{nameLinkFunction}.equalsIgnoreCase("source") ? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<box topPadding="2" bottomPadding="2" rightPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{name.contactAddress1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="textField-14" positionType="Float" mode="Transparent" x="15" y="27" width="352" height="5" isRemoveLineWhenBlank="true" backcolor="#000000">
+					<printWhenExpression><![CDATA[$F{nameLinkFunction}.equalsIgnoreCase("source") ? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<box topPadding="2" bottomPadding="2" rightPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nameLinkFunction}.equalsIgnoreCase("source")  & $F{name.contactAddress2}!=null ? $F{name.contactAddress2} : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="textField-15" positionType="Float" mode="Transparent" x="15" y="32" width="352" height="5" isRemoveLineWhenBlank="true" backcolor="#000000">
+					<printWhenExpression><![CDATA[$F{nameLinkFunction}.equalsIgnoreCase("source") ? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<box topPadding="2" bottomPadding="2" rightPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nameLinkFunction}.equalsIgnoreCase("source") & $F{name.contactCity}!=null ? $F{name.contactCity} : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="textField-16" positionType="Float" mode="Transparent" x="15" y="37" width="352" height="5" isRemoveLineWhenBlank="true" backcolor="#000000">
+					<printWhenExpression><![CDATA[$F{nameLinkFunction}.equalsIgnoreCase("source") ? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<box topPadding="2" bottomPadding="2" rightPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nameLinkFunction}.equalsIgnoreCase("source") & $F{name.contactRegion}!= null ? $F{name.contactRegion} : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="textField-17" positionType="Float" mode="Transparent" x="15" y="42" width="352" height="5" isRemoveLineWhenBlank="true" backcolor="#000000">
+					<printWhenExpression><![CDATA[$F{nameLinkFunction}.equalsIgnoreCase("source") ? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<box topPadding="2" bottomPadding="2" rightPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nameLinkFunction}.equalsIgnoreCase("source") & $F{name.contactMailCode}!= null? $F{name.contactMailCode} : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="textField-18" positionType="Float" mode="Transparent" x="5" y="47" width="362" height="5" isRemoveLineWhenBlank="true" backcolor="#000000">
+					<printWhenExpression><![CDATA[$F{nameLinkFunction}.equalsIgnoreCase("source") ? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<box topPadding="2" bottomPadding="2" rightPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nameLinkFunction}.equalsIgnoreCase("source") ? ($F{name.contactPhone}.equals(null) || $F{name.contactPhone}.equals("") ? "" :  "Phone:  "+$F{name.contactPhone}) : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="textField-20" positionType="Float" mode="Transparent" x="5" y="57" width="362" height="5" isRemoveLineWhenBlank="true" backcolor="#000000">
+					<printWhenExpression><![CDATA[$F{nameLinkFunction}.equalsIgnoreCase("source") ? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<box topPadding="2" bottomPadding="2" rightPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nameLinkFunction}.equalsIgnoreCase("source") ? ($F{name.contactEmail}.equals(null) || $F{name.contactEmail}.equals("") ? "" :  "Email:  "+$F{name.contactEmail}) : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="textField-21" positionType="Float" mode="Transparent" x="5" y="52" width="362" height="5" isRemoveLineWhenBlank="true" backcolor="#000000">
+					<printWhenExpression><![CDATA[$F{nameLinkFunction}.equalsIgnoreCase("source") ? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<box topPadding="2" bottomPadding="2" rightPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="false" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nameLinkFunction}.equalsIgnoreCase("source")  ? ($F{name.contactFax}.equals(null) || $F{name.contactFax}.equals("") ? "" : "Fax:  "+$F{name.contactFax}) : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="textField-23" positionType="Float" mode="Transparent" x="5" y="7" width="362" height="5" isRemoveLineWhenBlank="true" backcolor="#000000">
+					<printWhenExpression><![CDATA[$F{nameLinkFunction}.equalsIgnoreCase("source") ? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<box topPadding="2" bottomPadding="2" rightPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{name.contactName}.equals("") ? null : "Contact Name:  " + $F{name.contactName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="textField-24" positionType="Float" mode="Transparent" x="5" y="12" width="362" height="5" isRemoveLineWhenBlank="true" backcolor="#000000">
+					<printWhenExpression><![CDATA[$F{nameLinkFunction}.equalsIgnoreCase("source") ? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<box topPadding="2" bottomPadding="2" rightPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{name.salutation}.equals("") ? null : "Salutation:  " + $F{name.salutation}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="textField-25" positionType="Float" isPrintRepeatedValues="false" mode="Transparent" x="0" y="1" width="373" height="5" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF">
+					<printWhenExpression><![CDATA[$F{nameLinkFunction}.equalsIgnoreCase("source") ? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{name.sortName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="5" y="17" width="362" height="5" isRemoveLineWhenBlank="true"/>
+				<box topPadding="2" bottomPadding="2" rightPadding="0"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nameLinkFunction}.equalsIgnoreCase("source") ? ($F{name.contactAddress1}.equals(null) || $F{name.contactAddress1}.equals("") ? "" :  "Address:  ") : ""]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

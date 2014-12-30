@@ -44,7 +44,7 @@ class JasperReport
   # the convention is that all report files ( primary and subreports)  will be located in
   # AS_BASE/reports/ClassNameReport
   def report_base
-    File.join('reports', self.class.name )
+    File.join('reports' )
   end
 
   # the convention is that the compiled primary report will be located in
@@ -58,6 +58,12 @@ class JasperReport
     StaticAssetFinder.new('reports').find_by_extension(".jrxml").each do |jrxml|
       begin 
         JasperCompileManager.compile_report_to_file(jrxml,   jrxml.gsub(".jrxml", ".jasper"))
+      rescue => e
+        $stderr.puts "*" * 100
+        $stderr.puts "*** JASPER REPORTS ERROR :"
+        $stderr.puts "*** Unable to compile #{jrxml}"
+        $stderr.puts "*** #{e.inspect}" 
+        $stderr.puts "*" * 100
       end 
     end
   end
