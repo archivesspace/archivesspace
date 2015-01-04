@@ -26,7 +26,7 @@ end
 
 begin
   Sequel.connect(AppConfig[:db_url],
-                 :max_connections => AppConfig[:db_max_connections],
+                 :max_connections => 1,
                  #:loggers => [Logger.new($stderr)]
                  ) do |db|
     if ARGV.length > 0 and ARGV[0] == "nuke"
