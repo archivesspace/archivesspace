@@ -13,10 +13,9 @@ describe 'EAD converter' do
   let (:test_doc_1) {
     src = <<ANEAD
 <c id="1" level="file">
-  <unittitle>oh well</unittitle>
+  <unittitle>oh well<unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate></unittitle>
   <container id="cid1" type="Box" label="Text">1</container>
   <container parent="cid2" type="Folder"></container>
-  <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
   <c id="2" level="file">
     <unittitle>whatever</unittitle>
     <container id="cid3" type="Box" label="Text">FOO</container>
@@ -35,6 +34,17 @@ ANEAD
 
     parsed.length.should eq(3)
     parsed.find{|r| r['ref_id'] == '1'}['instances'][1]['container']['type_1'].should eq('Folder')
+  end
+  
+  it "should remove unitdate from unittitle" do
+    converter = EADConverter.new(test_doc_1)
+    converter.run
+    parsed = JSON(IO.read(converter.get_output_path))
+
+    parsed.length.should eq(3)
+    parsed.find{|r| r['ref_id'] == '1'}['title'].should eq('oh well')
+    parsed.find{|r| r['ref_id'] == '1'}['dates'][0]['expression'].should eq("1907-1911")
+  
   end
 
   it "should be link to existing agents with authority_id" do
