@@ -19,7 +19,7 @@ module ASConstants
       if version
         @VERSION = version.to_io.read.strip
       else # some servlet containers have a hard time finding the resource...
-        @VERSION = "V1.1.0"
+        @VERSION = "V1.1.1"
       end
     rescue
       @VERSION = "NO VERSION"
