@@ -23,7 +23,8 @@ class ASFop
    @source = source
    @xslt = File.read( StaticAssetFinder.new(File.join('stylesheets')).find('as-ead-pdf.xsl')) 
    # WHAT A HACK! but you can't pass in a URI as a variable? jeezus.  
-   @xslt.gsub!('<xsl:include href="as-helper-functions.xsl"/>', "<xsl:include href='#{File.join(ASUtils.find_base_directory, 'stylesheets', 'as-helper-functions.xsl')}'/>" ) 
+   filepath =  File.join(ASUtils.find_base_directory, 'stylesheets', 'as-helper-functions.xsl').gsub("\\", "/" )
+   @xslt.gsub!('<xsl:include href="as-helper-functions.xsl"/>', "<xsl:include href='#{filepath}'/>" ) 
   end
 
 
