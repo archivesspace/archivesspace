@@ -27,8 +27,11 @@ env:
     - DB=derby TASK=travis:selenium:public
     - TASK=dist
 
+before_install:
+  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
+  - "export DISPLAY=:99.0"
+
 before_script:
-  - "sh -e /etc/init.d/xvfb start"
   - sleep 3 
   - if [[ "$DB" == "mysql" ]]; then (mkdir lib; cd lib; curl -Oq http://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.24/mysql-connector-java-5.1.24.jar); fi
   - if [[ "$DB" == "mysql" ]]; then export JAVA_OPTS="-Daspace.config.db_url=jdbc:mysql://localhost:3306/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=root"; fi
