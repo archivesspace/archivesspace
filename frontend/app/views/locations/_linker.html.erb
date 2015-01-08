@@ -6,10 +6,10 @@
   end
 %>
 <hr/>
-<div class="control-group required">
-   <label class="control-label"><%= I18n.t("location._singular") %></label>
-   <div class="controls">
-       <div class="input-append linker-wrapper">
+<div class="form-group required">
+   <label class="control-label col-sm-2"><%= I18n.t("location._singular") %></label>
+   <div class="controls col-sm-8">
+       <div class="input-group linker-wrapper">
           <input type="text" class="linker"
             id="<%= form.id_for("ref") %>"
             data-label="<%= I18n.t("location._singular") %>"

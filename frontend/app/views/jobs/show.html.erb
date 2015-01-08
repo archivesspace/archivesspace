@@ -2,11 +2,11 @@
 
 <%= render_aspace_partial :partial => "jobs/show_templates" %>
 
-<div class="row-fluid job-status-<%= @job.status %>">
-  <div class="span3">
+<div class="row job-status-<%= @job.status %>">
+  <div class="col-md-3">
     <%= render_aspace_partial :partial => "sidebar" %>
   </div>
-  <div class="span9">
+  <div class="col-md-9">
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <%= readonly_context :job, @job do |readonly| %>
@@ -27,7 +27,7 @@
               <%= I18n.t("job._frontend.section.logs") %>
               <% if @job.status === "running" %>
                 <div class="btn-group pull-right">
-                  <button class="btn btn-small active btn-follow-log"><%= I18n.t("job._frontend.actions.follow_log") %></button>
+                  <button class="btn btn-sm active btn-follow-log"><%= I18n.t("job._frontend.actions.follow_log") %></button>
                 </div>
               <% end %>
             </h3>

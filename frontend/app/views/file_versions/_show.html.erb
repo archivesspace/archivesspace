@@ -6,14 +6,13 @@
   <h3><%= I18n.t("file_version._plural") %></h3>
   <div class="accordion details" id="<%= section_id %>_accordion">
     <% file_versions.each_with_index do | file_version, index | %>
-      <div class="accordion-group">
-        <div class="accordion-heading">
-          <div class="row-fluid accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_file_version_<%= index %>">
-            <div class="span1">
-              <span class="icon-chevron-right"></span>
-              <span class="icon-chevron-down"></span>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_file_version_<%= index %>">
+            <div class="col-md-1">
+              <span class="glyphicon"></span>
             </div>
-            <div class="span11">
+            <div class="col-md-11">
               <%= file_version['file_uri'] %>
             </div>
           </div>

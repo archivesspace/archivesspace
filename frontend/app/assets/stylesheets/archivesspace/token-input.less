@@ -13,7 +13,7 @@ ul.token-input-list {
   
   background-color: @inputBackground;
   border: 1px solid @inputBorder;
-  .border-radius(@inputBorderRadius);
+  .border-radius(4px);
   .box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
   @transition: border linear .2s, box-shadow linear .2s;
   .transition(@transition);
@@ -31,8 +31,9 @@ ul.token-input-list {
   border-color: #ee5f5b;
 }
 
-.input-append ul.token-input-list  {
-  .border-radius(@inputBorderRadius 0 0 @inputBorderRadius);
+.input-group ul.token-input-list  {
+  .border-radius(4px 0 0 4px);
+  height: 100%;
 }
 
 ul.token-input-list li {
@@ -76,7 +77,7 @@ li.token-input-token {
   padding: 2px;
   color: #555;
   display: block;
-  .border-radius(@inputBorderRadius);
+  .border-radius(4px);
 }
 
 li.token-input-token {
@@ -182,7 +183,7 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
 }
 
 .linker-wrapper.multiplicity-many li.token-input-input-token {
-  min-height: 28px;
+  min-height: 34px;
 }
 
 .token-input-input-token > input {
@@ -233,50 +234,87 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
 }
 .linker-wrapper {
   width: 100%;
-  max-width: 440px;
-  display:block !important;
 }
-.linker-wrapper.input-append {
+.linker-wrapper.input-group {
   .token-input-list {
     float: left;
   }
-  .btn-group {
+  .input-group-btn {
     float: left;
     .btn {
-      .border-radius(0 @inputBorderRadius @inputBorderRadius 0);
+      .border-radius(0 4px 4px 0);
     }
   }
 }
 .linker-wrapper.multiplicity-one {
   .token-input-list {
-    min-height: 28px;
+    min-height: 34px;
   }
 }
 
 .token-input-dropdown, .token-input-list, .token-list {
   .icon-token {
-    float: left;
-    .opacity(75);
-    margin: 2px 4px 0 0;
+    .icon;
   }
 
   .token-input-selected-token .icon-token {
     .opacity(100);
   }
 
-  .agent_person .icon-token {background-position: @iconAgentPersonBackgroundPosition;}
-  .agent_software .icon-token {background-position: @iconAgentSoftwareBackgroundPosition;}
-  .agent_corporate_entity .icon-token {background-position: @iconAgentCorporateEntityBackgroundPosition;}
-  .agent_family .icon-token {background-image: @iconAgentFamilyBackgroundImage; background-position: @iconAgentFamilyBackgroundPosition;}
-  .resource .icon-token {background-position: @iconResourceBackgroundPosition;}
-  .archival_object .icon-token {background-position: @iconArchivalObjectBackgroundPosition;}
-  .digital_object .icon-token {background-position: @iconDigitalObjectBackgroundPosition;}
-  .digital_object_component .icon-token {background-position: @iconDigitalObjectComponentBackgroundPosition;}
-  .accession .icon-token {background-position: @iconAccessionBackgroundPosition;}
-  .subject .icon-token {background-position: @iconSubjectBackgroundPosition;}
-  .classification .icon-token {background-position: @iconClassificationBackgroundPosition;}
-  .classification_term .icon-token {background-position: @iconClassificationTermBackgroundPosition;}
-  .location .icon-token {background-position: @iconLocationBackgroundPosition;}
+  .agent_person .icon-token:before {
+    content: "\e008";    
+  }
+
+  .agent_software .icon-token:before {
+    content: "\e136";
+  }
+
+  .agent_corporate_entity .icon-token:before {
+    content: "\e139";
+  }
+
+  .agent_family .icon-token:before {
+    .alt-icomoon;
+    content: "\e972";
+  }
+
+  .resource .icon-token:before {
+    .alt-icomoon;
+    content: "\ea71";
+  }
+
+  .archival_object .icon-token:before {
+    content:"\e022";
+  }
+
+  .digital_object .icon-token:before {
+    content:"\e117";
+  }
+
+  .digital_object_component .icon-token:before {
+    content:"\e040";
+  }
+
+  .accession .icon-token:before {
+    .alt-icomoon;
+    content: "\e99f";
+  }
+
+  .subject .icon-token:before {
+    content:"\e041";
+  }
+
+  .classification .icon-token:before {
+    content:"\e042";
+  }
+
+  .classification_term .icon-token:before {
+    content:"\e041";
+  }
+
+  .location .icon-token:before {
+    content:"\e165";
+  }
 }
 
 .linker-wrapper.sortable {
@@ -289,7 +327,7 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
     border: 1px dashed #CCC;
     padding: 2px;
     margin: 4px;
-    .border-radius(@inputBorderRadius);
+    .border-radius(4px);
   }
 }
 .token-list {

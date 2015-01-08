@@ -1,3 +1,8 @@
+.modal-jumbo {
+  width: 98%;
+}
+
+
 .modal {
   > form {
     margin-bottom: 0;
@@ -7,7 +12,6 @@
     .modal-body {
       max-height: none;
     }
-    width: ((@gridColumnWidth) * 12) + (@gridGutterWidth * (12 - 1)) - 14;
   }
 
   &.full {
@@ -28,6 +32,18 @@
     .btn-cancel {
       float: right;
     }
+  }
+}
+
+.modal-body {
+  overflow: auto;
+}
+
+
+.modal-header {
+  h3 {
+    margin-top: 0;
+    margin-bottom: 0;
   }
 }
 

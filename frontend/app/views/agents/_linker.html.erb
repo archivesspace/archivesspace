@@ -21,10 +21,10 @@
     linker_label = (multiplicity === "many") ? I18n.t("agent._plural") : I18n.t("agent._singular")
   end
 %>
-<div class="control-group <% if required %> required <% end %>">
-  <label class="control-label"><%= linker_label %></label>
-  <div class="controls">
-    <div class="input-append linker-wrapper">
+<div class="form-group <% if required %> required <% end %>">
+  <label class="control-label col-sm-2"><%= linker_label %></label>
+  <div class="controls col-sm-8">
+    <div class="input-group linker-wrapper">
       <input type="text" class="linker"
              id="<%= form.id_for("ref") %>"
              data-label="<%= I18n.t("agent._singular") %>"
@@ -39,8 +39,8 @@
              data-types='<%= linkable_types.to_json %>'
              data-exclude='<%= exclude_ids.to_json %>'
       />
-      <div class="btn-group pull-right">
-        <a class="btn dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
+      <div class="input-group-btn">
+        <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
           <% if user_can?('update_agent_record') %>

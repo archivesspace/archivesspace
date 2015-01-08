@@ -2,9 +2,8 @@
   event_types = JSONModel.enum_values("event_event_type") if event_types.blank?
 %>
 
-<div class="btn btn-inline-form">
   <div id="add-event-dropdown" class="btn-group dropdown" data-no-change-tracking="true" data-add-event-url="<%= url_for(:controller => :events, :action => :new, :record_uri => record.uri, :record_type => record.jsonmodel_type, :event_type => "${event_type}") %>">
-    <a class="btn btn-small dropdown-toggle add-event-action" data-toggle="dropdown" href="#" title="<%= I18n.t("actions.add_event") %>">
+    <a class="btn btn-sm btn-default dropdown-toggle add-event-action" data-toggle="dropdown" href="#" title="<%= I18n.t("actions.add_event") %>">
       <%= I18n.t("actions.add_event") %> <span class="caret"></span>
     </a>
     <ul class="dropdown-menu add-event-form open-aligned-right">
@@ -21,4 +20,4 @@
       </li>
     </ul>
   </div>
-</div>
+

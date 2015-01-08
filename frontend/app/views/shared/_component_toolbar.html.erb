@@ -2,23 +2,23 @@
    suppressible = true if suppressible.nil?
    supports_events = true if supports_events.nil?
 %>
-<div class="row-fluid">
-  <div class="span12">
+<div class="row">
+  <div class="col-md-12">
     <div class="record-toolbar">
       <% if (suppressible && !record.suppressed) || !suppressible %>
         <% if !['edit', 'update', 'create'].include?(controller.action_name) %>
           <div class="btn-group pull-left">
-            <%= link_to I18n.t("actions.edit"), parent_link, :class => "btn btn-small btn-primary" %>
+            <%= link_to I18n.t("actions.edit"), parent_link, :class => "btn btn-sm btn-primary" %>
           </div>
         <% end %>
         <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
           <div class="pull-left save-changes">
-            <button type="submit" class="btn btn-primary btn-small"><%= I18n.t("actions.save_prefix") %></button>
+            <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
           </div>
         <% end %>
         <% if ['edit', 'update'].include?(controller.action_name) %>
           <div class="pull-left revert-changes">
-            <%= link_to I18n.t("actions.revert"), parent_link, :class => "btn btn-small" %>
+            <%= link_to I18n.t("actions.revert"), parent_link, :class => "btn btn-sm btn-default" %>
             <%= I18n.t("actions.toolbar_disabled_message") %>
           </div>
         <% end %>
@@ -36,7 +36,7 @@
                 <%= button_confirm_action I18n.t("actions.unsuppress"),
                                           url_for(:action => :unsuppress, :id => record.id),
                                           {
-                                            :class => "btn btn-small unsuppress-record",
+                                            :class => "btn btn-sm unsuppress-record",
                                             :"data-title" => I18n.t("actions.unsuppress_confirm_title"),
                                             :"data-message" => I18n.t("actions.unsuppress_confirm_message"),
                                             :"data-confirm-btn-label" => "#{I18n.t("actions.unsuppress")}"
@@ -46,7 +46,7 @@
                 <%= button_confirm_action I18n.t("actions.suppress"),
                                           url_for(:action => :suppress, :id => record.id),
                                           {
-                                            :class => "btn btn-small btn-warning suppress-record",
+                                            :class => "btn btn-sm btn-warning suppress-record",
                                             :"data-title" => I18n.t("actions.suppress_confirm_title"),
                                             :"data-message" => I18n.t("actions.suppress_confirm_message"),
                                             :"data-confirm-btn-label" => "#{I18n.t("actions.suppress")}",

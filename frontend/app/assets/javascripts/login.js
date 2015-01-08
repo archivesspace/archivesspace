@@ -4,14 +4,15 @@ AS.LoginHelper = {
       var $form = $(this);
 
       var handleSuccess = function(json) {
-        $(".control-group", $form).removeClass("error");
+        $(".form-group", $form).removeClass("has-error");
         $(".alert-success", $form).show();
 
         $form.trigger("loginsuccess.aspace", [json]);
       };
 
       var handleError = function() {
-        $(".control-group", $form).addClass("error");
+        $(".form-group", $form).addClass("has-error");
+        $(".alert-danger", $form).show();
         $("#login", $form).removeAttr("disabled");
 
         $form.trigger("loginerror.aspace");

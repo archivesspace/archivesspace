@@ -40,7 +40,7 @@ module Selenium
 
   module Config
     def self.retries
-      500 
+      10
     end
   end
 
@@ -305,7 +305,7 @@ def logout
   ## Complete the logout process
   user_menu = $driver.find_elements(:css, '.user-container .dropdown-menu.pull-right').first
   if !user_menu || !user_menu.displayed?
-    $driver.find_element(:css, 'body').find_element(:css, '.user-container .btn').click
+    $driver.find_element(:css, 'body').find_element(:css, '.user-container .btn.dropdown-toggle').click
   end
 
   $driver.find_element(:link, "Logout").click
@@ -370,6 +370,7 @@ def selenium_init(backend_fn, frontend_fn)
     standalone = false
   end
 
+
   AppConfig[:backend_url] = $backend
 
   (@backend, @frontend) = [false, false]
@@ -404,6 +405,7 @@ def selenium_init(backend_fn, frontend_fn)
   system("rm #{File.join(Dir.tmpdir, '*.pdf')}")
   system("rm #{File.join(Dir.tmpdir, '*.xml')}")
 
+  puts "get profile"
   profile = Selenium::WebDriver::Firefox::Profile.new
   profile["browser.download.dir"] = Dir.tmpdir 
   profile["browser.download.folderList"] = 2
@@ -411,8 +413,10 @@ def selenium_init(backend_fn, frontend_fn)
   profile["browser.helperApps.neverAsk.saveToDisk"] = "application/pdf, application/xml"
   profile['pdfjs.disabled'] = true
 
-  
+  puts profile.inspect
+  puts "get driver"
   $driver = Selenium::WebDriver.for :firefox,:profile => profile
+  puts "got driver"
   $wait   = Selenium::WebDriver::Wait.new(:timeout => 10)
   $driver.manage.window.maximize
 end

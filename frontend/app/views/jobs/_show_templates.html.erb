@@ -2,24 +2,24 @@
   <section id="job_status" data-poll-url="<%= url_for(:controller => :jobs, :action => :status, :id => job.id) %>" data-current-status="<%= @job.status %>">
     <h3><%= I18n.t("job._frontend.section.status") %></h3>
 
-    <div class="job-status control-group">
+    <div class="job-status form-group">
       <label class="control-label"><%= I18n.t("job.status") %></label>
       <div class="controls label-only">
         <%= I18n.t("job.status_#{job.status}", :default => job.status) %>
       </div>
     </div>
-    <div class="control-group">
+    <div class="form-group">
       <label class="control-label"><%= I18n.t("job.time_submitted") %></label>
       <div class="controls label-only"><%= Time.parse(job.time_submitted).getlocal %></div>
     </div>
     <% if job.time_started %>
-      <div class="control-group">
+      <div class="form-group">
         <label class="control-label"><%= I18n.t("job.time_started") %></label>
         <div class="controls label-only"><%= Time.parse(job.time_started).getlocal %></div>
       </div>
     <% end %>
     <% if job.time_finished %>
-      <div class="control-group">
+      <div class="form-group">
         <label class="control-label"><%= I18n.t("job.time_finished") %></label>
         <div class="controls label-only"><%= Time.parse(job.time_finished).getlocal %></div>
       </div>
@@ -34,17 +34,17 @@
 
     <%= form.label_with_field "import_type", job['import_type'] %>
 
-    <div class="control-group">
+    <div class="form-group">
       <label class="control-label"><%= I18n.t("job.filenames") %></label>
       <div class="controls label-only"><%= job.filenames.join("<br/>").html_safe %></div>
     </div>
 
-    <div class="control-group">
+    <div class="form-group">
       <label class="control-label"><%= I18n.t("repository._singular") %></label>
       <div class="controls label-only"><%= resolve_readonly_link_to job.repository['_resolved']['repo_code'], job.repository['ref'] %></div>
     </div>
 
-    <div class="control-group">
+    <div class="form-group">
       <label class="control-label"><%= I18n.t("job.owner") %></label>
       <div class="controls label-only"><%= job.owner %></div>
     </div>
@@ -67,14 +67,14 @@
 --></div>
 
 <div id="template_job_failed_notice"><!--
-  <div class="alert alert-error">
+  <div class="alert alert-danger">
     <p><%= I18n.t("job._frontend.messages.status_changed_failed") %></p>
     <button class="btn btn-danger btn-refresh"><%= I18n.t("actions.refresh_page") %></button>
   </div>
 --></div>
 
 <div id="template_job_canceled_notice"><!--
-  <div class="alert alert-error">
+  <div class="alert alert-danger">
     <p><%= I18n.t("job._frontend.messages.status_canceled_completed") %></p>
     <button class="btn btn-danger btn-refresh"><%= I18n.t("actions.refresh_page") %></button>
   </div>

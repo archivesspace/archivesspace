@@ -1,23 +1,20 @@
 <% if user_can?('delete_event_record') %>
-  <div class="row-fluid">
-    <div class="span12">
-      <div class="record-toolbar">
-        <% if not @event.suppressed %>
-          <% if !['edit', 'update'].include?(controller.action_name) %>
-            <div class="btn-group pull-left">
-              <%= link_to I18n.t("actions.edit"), {:controller => :events, :action => :edit, :id => @event.id}, :class => "btn btn-small btn-primary" %>
-            </div>
-          <% end %>
-        <% end %>
+  <div class="record-toolbar">
+    <% if not @event.suppressed %>
+      <% if !['edit', 'update'].include?(controller.action_name) %>
+        <div class="btn-group pull-left">
+          <%= link_to I18n.t("actions.edit"), {:controller => :events, :action => :edit, :id => @event.id}, :class => "btn btn-sm btn-primary" %>
+        </div>
+      <% end %>
+    <% end %>
 
-        <div class="btn-toolbar pull-right">
-          <div class="btn-group">
-            <div class="btn btn-inline-form">
-              <%= button_delete_action url_for(:controller => :events, :action => :delete, :id => @event.id) %>
-            </div>
-          </div>
+    <div class="btn-toolbar pull-right">
+      <div class="btn-group">
+        <div class="btn btn-inline-form">
+          <%= button_delete_action url_for(:controller => :events, :action => :delete, :id => @event.id) %>
         </div>
       </div>
     </div>
+    <div class="clearfix"></div>
   </div>
 <% end %>

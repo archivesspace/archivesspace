@@ -6,33 +6,34 @@
    add_column(I18n.t("agent_name.source"), proc {|record| I18n.t("enumerations.name_source.#{record['source']}", :default => record['source']) if record['source']}, :sortable => true, :sort_by => "source")
    add_column(I18n.t("agent_name.rules"), proc {|record| I18n.t("enumerations.name_rule.#{record['rules']}", :default => record['rules']) if record['rules']}, :sortable => true, :sort_by => "rules")
 %>
-<div class="row-fluid">
-  <div class="span3">
-    <%= render_aspace_partial :partial => "search/filter" %>
+<div class="row">
+  <div class="col-md-3">
+    <div class="sidebar">
+      <%= render_aspace_partial :partial => "search/filter" %>
+    </div>
   </div>
-  <div class="span9">
+  <div class="col-md-9">
     <% if user_can?('update_agent_record') %>
-      <div class="row-fluid">
-        <div class="span12">
-          <div class="record-toolbar">
-            <div class="pull-right">
-              <div class="btn-group">
-                <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
-                  <%= I18n.t("agent._frontend.action.create") %>
-                  <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                  <li><%= link_to I18n.t("agent_person._singular"), :controller => :agents, :action => :new, :agent_type => :agent_person %></li>
-                  <li><%= link_to I18n.t("agent_family._singular"), :controller => :agents, :action => :new, :agent_type => :agent_family %></li>
-                  <li><%= link_to I18n.t("agent_corporate_entity._singular"), :controller => :agents, :action => :new, :agent_type => :agent_corporate_entity %></li>
-                  <li><%= link_to I18n.t("agent_software._singular"), :controller => :agents, :action => :new, :agent_type => :agent_software %></li>
-                </ul>
-              </div>
-              <% if user_can?('delete_agent_record') %>
-                <%= button_delete_multiple_action(:agents) %>
-              <% end %>
-            </div>
+      <div class="record-toolbar">
+        <div class="btn-group pull-right">
+          <div class="btn-group">
+            <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+              <%= I18n.t("agent._frontend.action.create") %>
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><%= link_to I18n.t("agent_person._singular"), :controller => :agents, :action => :new, :agent_type => :agent_person %></li>
+              <li><%= link_to I18n.t("agent_family._singular"), :controller => :agents, :action => :new, :agent_type => :agent_family %></li>
+              <li><%= link_to I18n.t("agent_corporate_entity._singular"), :controller => :agents, :action => :new, :agent_type => :agent_corporate_entity %></li>
+              <li><%= link_to I18n.t("agent_software._singular"), :controller => :agents, :action => :new, :agent_type => :agent_software %></li>
+            </ul>
+          </div>
+
+          <% if user_can?('delete_agent_record') %>
+            <%= button_delete_multiple_action(:agents) %>
+          <% end %>
         </div>
+        <br style="clear:both" />
       </div>
     <% end %>
     <div class="record-pane">

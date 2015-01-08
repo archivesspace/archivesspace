@@ -14,16 +14,16 @@ $(function() {
         if ($levelSelect.val() === "otherlevel") {
           $otherLevel.removeAttr("disabled");
           if (initialising === true) {
-            $otherLevel.closest(".control-group").show();
+            $otherLevel.closest(".form-group").show();
           } else {
-            $otherLevel.closest(".control-group").slideDown();
+            $otherLevel.closest(".form-group").slideDown();
           }
         } else {
           $otherLevel.attr("disabled", "disabled");
           if (initialising === true) {
-            $otherLevel.closest(".control-group").hide();
+            $otherLevel.closest(".form-group").hide();
           } else {
-            $otherLevel.closest(".control-group").slideUp();
+            $otherLevel.closest(".form-group").slideUp();
           }
         }
       };

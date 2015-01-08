@@ -23,9 +23,9 @@ en:
     link_to: Link To
     add_prefix: Add
     merge_confirm_title: Merge into this record?
-    merge_subject_confirm_message: "The subject '%{source}' will have the select records merged into it. All select records will be deleted and any linked records will be re-linked to this subject."
-    merge_agent_confirm_message: "The agent '%{source}' will have the select records merged into it. All select records will be deleted and any linked records will be re-linked to this agent."
-    merge_resource_confirm_message: "The resource '%{source}' will have the select records merged into it. All select records will be deleted and any linked records will be re-linked to this resource." 
+    merge_subject_confirm_message: "The subject '%{source}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this subject."
+    merge_agent_confirm_message: "The agent '%{source}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this agent."
+    merge_resource_confirm_message: "The resource '%{source}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this resource." 
     move: Move
     move_up_a_level: Up a Level
     move_up: Up

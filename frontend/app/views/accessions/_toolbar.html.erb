@@ -1,22 +1,22 @@
 <% if user_can?('update_accession_record') %>
-  <div class="row-fluid">
-    <div class="span12">
+  <div class="row">
+    <div class="col-md-12">
       <div class="record-toolbar">
         <% if not @accession.suppressed %>
           <% if !['edit', 'update'].include?(controller.action_name) %>
             <div class="btn-group pull-left">
-              <%= link_to I18n.t("actions.edit"), {:controller => :accessions, :action => :edit, :id => @accession.id}, :class => "btn btn-small btn-primary" %>
+              <%= link_to I18n.t("actions.edit"), {:controller => :accessions, :action => :edit, :id => @accession.id}, :class => "btn btn-sm btn-primary" %>
             </div>
           <% end %>
         <% end %>
         <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
           <div class="pull-left save-changes">
-            <button type="submit" class="btn btn-primary btn-small"><%= I18n.t("actions.save_prefix") %></button>
+            <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
           </div>
         <% end %>
         <% if ['edit', 'update'].include?(controller.action_name) %>
           <div class="pull-left revert-changes">
-            <%= link_to I18n.t("actions.revert"), {:controller => :accessions, :action => :edit, :id => @accession.id}, :class => "btn btn-small" %>
+            <%= link_to I18n.t("actions.revert"), {:controller => :accessions, :action => :edit, :id => @accession.id}, :class => "btn btn-sm btn-default" %>
             <%= I18n.t("actions.toolbar_disabled_message") %>
           </div>
         <% end %>
@@ -24,7 +24,7 @@
           <div class="btn-group">
             <% if @accession.publish %>
               <div class="btn btn-inline-form">
-                <%= link_to I18n.t("actions.view_published"), File.join(AppConfig[:public_proxy_url], @accession.uri).to_s, :target => "_blank", :class => "btn btn-small" %>
+                <%= link_to I18n.t("actions.view_published"), File.join(AppConfig[:public_proxy_url], @accession.uri).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
               </div>
             <% end %>
             <% if @accession_event_types && !@accession.suppressed %>
@@ -32,16 +32,16 @@
             <% end %>
             <% if not @accession.suppressed %>
               <div class="btn btn-inline-form">
-                <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+                <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
                   <%= I18n.t "actions.spawn" %>
                   <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu open-aligned-right">
                   <li>
-                    <%= link_to "<span class='icon-accession'></span> #{I18n.t("accession._singular")}".html_safe, :controller => :accessions, :action => :new, :accession_id => @accession.id %>
+                    <%= link_to "<span class='icomoon icon-accession'></span> #{I18n.t("accession._singular")}".html_safe, :controller => :accessions, :action => :new, :accession_id => @accession.id %>
                   </li>
                   <li>
-                    <%= link_to "<span class='icon-resource'></span> #{I18n.t("resource._singular")}".html_safe, :controller => :resources, :action => :new, :accession_id => @accession.id %>
+                    <%= link_to "<span class='icomoon icon-resource'></span> #{I18n.t("resource._singular")}".html_safe, :controller => :resources, :action => :new, :accession_id => @accession.id %>
                   </li>
                 </ul>
               </div>
@@ -65,7 +65,7 @@
                     <%= button_confirm_action I18n.t("actions.unsuppress"),
                                               url_for(:controller => :accessions, :action => :unsuppress, :id => @accession.id),
                                               {
-                                                :class => "btn btn-small unsuppress-record",
+                                                :class => "btn btn-sm unsuppress-record",
                                                 :"data-title" => I18n.t("actions.unsuppress_confirm_title"),
                                                 :"data-message" => I18n.t("actions.unsuppress_confirm_message"),
                                                 :"data-confirm-btn-label" => "#{I18n.t("actions.unsuppress")}"
@@ -75,7 +75,7 @@
                     <%= button_confirm_action I18n.t("actions.suppress"),
                                                 url_for(:controller => :accessions, :action => :suppress, :id => @accession.id),
                                                 {
-                                                  :class => "btn btn-small btn-warning suppress-record",
+                                                  :class => "btn btn-sm btn-warning suppress-record",
                                                   :"data-title" => I18n.t("actions.suppress_confirm_title"),
                                                   :"data-message" => I18n.t("actions.suppress_confirm_message"),
                                                   :"data-confirm-btn-label" => "#{I18n.t("actions.suppress")}",
@@ -95,6 +95,6 @@
         </div><!-- btn-toolbar pull-right -->
         <div class="clearfix"></div>
       </div><!-- record-toolbar -->
-    </div><!-- span12 -->
-  </div><!-- row-fluid -->
+    </div><!-- col-md-12 -->
+  </div><!-- row -->
 <% end %>

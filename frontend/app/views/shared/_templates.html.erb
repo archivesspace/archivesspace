@@ -1,12 +1,16 @@
 <div id="modal_custom_template"><!--
-   <div class="modal hide {if fill} ${fill}{/if}" id="${id}">
-      {if defined("title") && title.length > 0}
-        <div class="modal-header">
-          <a class="close" data-dismiss="modal">×</a>
-          <h3>${title|h}</h3>
-        </div>
-      {/if}
-      ${content}
+   <div class="modal {if fill} ${fill}{/if}" id="${id}">
+     <div class="modal-dialog {if dialogClass} ${dialogClass}{/if}">
+       <div class="modal-content">
+         {if defined("title") && title.length > 0}
+           <div class="modal-header">
+             <a class="close" data-dismiss="modal">×</a>
+             <h3>${title|h}</h3>
+           </div>
+         {/if}
+         ${content}
+       </div>
+     </div>
    </div>
 --></div>
 
@@ -26,7 +30,7 @@
    <div class="modal-footer">
       <button id="saveChangesButton" class="btn btn-primary"><%= I18n.t "save_changes_modal.save" %></button>
       <button id="dismissChangesButton" class="btn"><%= I18n.t "save_changes_modal.dismiss" %></button>
-      <button class="btn btn-cancel" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
+      <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
    </div>
 --></div>
 
@@ -38,7 +42,7 @@
    </div>
    <div class="modal-footer">
       <button id="confirmButton" class="btn {if defined('confirm_class') && confirm_class} ${confirm_class}{/if}">{if defined('confirm_label') && confirm_label}${confirm_label}{else}<%= I18n.t "actions.confirm" %>{/if}</button>
-      <button class="btn btn-cancel" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
+      <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
    </div>
 --></div>
 
@@ -57,14 +61,14 @@
    </div>
    <div class="modal-footer">
       <button id="addSelectedButton" class="btn btn-primary"><%= I18n.t "linker.link_to_prefix" %> ${label_plural}</button>
-      <button class="btn btn-cancel" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
+      <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
    </div>
 --></div>
 <div id="linker_createmodal_template"><!--
    <div class="modal-body linker-container"></div>
    <div class="modal-footer">
       <button id="createAndLinkButton" class="btn btn-primary"><%= I18n.t "linker.create_and_link_to_prefix" %> ${label}</button>
-      <button class="btn btn-cancel" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
+      <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
    </div>
 --></div>
 <div id="linker_browse_template"><!--
@@ -152,8 +156,8 @@
 <div id="subform_remove_confirmation_template"><!--
    <div class="pull-right subrecord-form-removal-confirmation">
     <div class="btn-group">
-      <button class="btn btn-mini cancel-removal"><%= I18n.t "actions.cancel" %></button>
-      <button class="btn btn-mini btn-primary confirm-removal"><%= I18n.t "actions.confirm_removal" %></button>
+      <button class="btn btn-xs btn-default cancel-removal"><%= I18n.t "actions.cancel" %></button>
+      <button class="btn btn-xs btn-primary confirm-removal"><%= I18n.t "actions.confirm_removal" %></button>
      </div>
    </div>
 --></div>
@@ -183,13 +187,13 @@
 --></div>
 
 <div id="update_monitor_save_failed_with_stale_record_template"><!--
-  <div class="alert alert-error update-monitor-error">
+  <div class="alert alert-danger update-monitor-error">
     <%= I18n.t("update_monitor.save_failed") %> - <%= I18n.t("update_monitor.stale_record") %>
   </div>
 --></div>
 
 <div id="update_monitor_stale_record_message_template"><!--
-  <div class="alert alert-error update-monitor-error">
+  <div class="alert alert-danger update-monitor-error">
     <%= I18n.t("update_monitor.stale_record") %>
   </div>
 --></div>
@@ -207,13 +211,13 @@
 --></div>
 
 <div id="as_nav_list_errors_item_template"><!--
-  <li class='alert-error update-monitor-error'>
-    <a href='#form_messages'><%= I18n.t("errors.sidebar_label") %> <span class='icon-chevron-right'></span></a>
+  <li class='alert-danger update-monitor-error'>
+    <a href='#form_messages'><%= I18n.t("errors.sidebar_label") %> <span class='glyphicon glyphicon-chevron-right'></span></a>
   </li>
 --></div>
 
 <div id="template_subrecord_collapse_action"><!--
-  <button class="btn btn-mini pull-right collapse-subrecord-toggle">
+  <button class="btn btn-xs pull-right collapse-subrecord-toggle">
     <span class="expand"><%= I18n.t("note._frontend.action.expand")%></span>
     <span class="collapse"><%= I18n.t("note._frontend.action.collapse")%></span>
   </button>

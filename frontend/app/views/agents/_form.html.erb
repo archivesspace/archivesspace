@@ -8,9 +8,9 @@
       <%= I18n.t("agent._frontend.section.basic_information") %>
       <%= link_to_help :topic => "#{@agent.agent_type}_basic_information" %>
     </h3>
-    <div class="control-group">
-      <label class="control-label"><%= I18n.t("agent.type") %></label>
-      <div class="controls label-only">
+    <div class="form-group">
+      <label class="col-sm-2 control-label"><%= I18n.t("agent.type") %></label>
+      <div class="col-sm-9 label-only">
         <%= form.hidden_input "agent_type", @agent.agent_type %>
         <strong><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></strong>
       </div>

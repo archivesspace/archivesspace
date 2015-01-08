@@ -31,8 +31,8 @@
      <% if custom_action_template %>
        <%= render :partial => custom_action_template %>
      <% else %>
-       <button class="btn btn-small pull-right show-all" style="display: none;"><%= I18n.t("#{i18n_prefix}.actions.show_all") %></button>
-       <button class="btn btn-small pull-right"><%= I18n.t("#{i18n_prefix}#{singular}._frontend.action.add") %></button>
+       <button class="btn btn-sm btn-default pull-right show-all" style="display: none;"><%= I18n.t("#{i18n_prefix}.actions.show_all") %></button>
+       <button class="btn btn-sm btn-default pull-right"><%= I18n.t("#{i18n_prefix}#{singular}._frontend.action.add") %></button>
      <% end %>
     <% end %>
 

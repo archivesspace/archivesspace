@@ -7,11 +7,11 @@
 
 <%= setup_context(:object => @collection_management, :controller => :collection_management_records, :title => title) %>
 
-<div class="row-fluid">
-   <div class="span3">
+<div class="row">
+   <div class="col-md-3">
       <%= render_aspace_partial :partial => "sidebar" %>
    </div>
-  <div class="span9">
+  <div class="col-md-9">
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <%= readonly_context :collection_management, @collection_management do |readonly| %>
@@ -22,59 +22,59 @@
           <section id="basic_information">
             <h3><%= I18n.t("collection_management_record._frontend.section.basic_information") %></h3>
   
-            <div class="row-fluid label-and-value">
-               <div class="span3">Id</div>
-               <div class="span9"><%= @collection_management.id %></div>
+            <div class="row label-and-value">
+               <div class="col-md-3">Id</div>
+               <div class="col-md-9"><%= @collection_management.id %></div>
             </div>
-            <div class="row-fluid label-and-value">
+            <div class="row label-and-value">
   
-               <div class="span3"><%= I18n.t("collection_management.cataloged_note") %></div>
-               <div class="span9"><%= @collection_management.cataloged_note %></div>
+               <div class="col-md-3"><%= I18n.t("collection_management.cataloged_note") %></div>
+               <div class="col-md-9"><%= @collection_management.cataloged_note %></div>
             </div>
-            <div class="row-fluid label-and-value">
+            <div class="row label-and-value">
   
-               <div class="span3"><%= I18n.t("collection_management.processing_hours_per_foot_estimate") %></div>
-               <div class="span9"><%= @collection_management.processing_hours_per_foot_estimate %></div>
+               <div class="col-md-3"><%= I18n.t("collection_management.processing_hours_per_foot_estimate") %></div>
+               <div class="col-md-9"><%= @collection_management.processing_hours_per_foot_estimate %></div>
             </div>
-            <div class="row-fluid label-and-value">
+            <div class="row label-and-value">
   
-               <div class="span3"><%= I18n.t("collection_management.processing_total_extent") %></div>
-               <div class="span9"><%= @collection_management.processing_total_extent %></div>
+               <div class="col-md-3"><%= I18n.t("collection_management.processing_total_extent") %></div>
+               <div class="col-md-9"><%= @collection_management.processing_total_extent %></div>
             </div>
-            <div class="row-fluid label-and-value">
+            <div class="row label-and-value">
   
-               <div class="span3"><%= I18n.t("collection_management.processing_total_extent_type") %></div>
-               <div class="span9"><%= I18n.t("collection_management.processing_total_extent_type_#{@collection_management.processing_total_extent_type}") %></div>
+               <div class="col-md-3"><%= I18n.t("collection_management.processing_total_extent_type") %></div>
+               <div class="col-md-9"><%= I18n.t("collection_management.processing_total_extent_type_#{@collection_management.processing_total_extent_type}") %></div>
             </div>
-            <div class="row-fluid label-and-value">
+            <div class="row label-and-value">
   
-               <div class="span3"><%= I18n.t("collection_management.processing_hours_total") %></div>
-               <div class="span9"><%= @collection_management.processing_hours_total %></div>
+               <div class="col-md-3"><%= I18n.t("collection_management.processing_hours_total") %></div>
+               <div class="col-md-9"><%= @collection_management.processing_hours_total %></div>
             </div>
-            <div class="row-fluid label-and-value">
+            <div class="row label-and-value">
   
-               <div class="span3"><%= I18n.t("collection_management.processing_plan") %></div>
-               <div class="span9"><%= @collection_management.processing_plan %></div>
+               <div class="col-md-3"><%= I18n.t("collection_management.processing_plan") %></div>
+               <div class="col-md-9"><%= @collection_management.processing_plan %></div>
             </div>
-            <div class="row-fluid label-and-value">
+            <div class="row label-and-value">
   
-               <div class="span3"><%= I18n.t("collection_management.processing_priority") %></div>
-               <div class="span9"><%= I18n.t("enumerations.collection_management_processing_priority.#{@collection_management.processing_priority}", :default => @collection_management.processing_priority) %></div>
+               <div class="col-md-3"><%= I18n.t("collection_management.processing_priority") %></div>
+               <div class="col-md-9"><%= I18n.t("enumerations.collection_management_processing_priority.#{@collection_management.processing_priority}", :default => @collection_management.processing_priority) %></div>
             </div>
-            <div class="row-fluid label-and-value">
+            <div class="row label-and-value">
   
-               <div class="span3"><%= I18n.t("collection_management.processing_status") %></div>
-               <div class="span9"><%= I18n.t("enumerations.collection_management_processing_status.#{@collection_management.processing_status}", :default => @collection_management.processing_status) %></div>
+               <div class="col-md-3"><%= I18n.t("collection_management.processing_status") %></div>
+               <div class="col-md-9"><%= I18n.t("enumerations.collection_management_processing_status.#{@collection_management.processing_status}", :default => @collection_management.processing_status) %></div>
             </div>
-            <div class="row-fluid label-and-value">
+            <div class="row label-and-value">
   
-               <div class="span3"><%= I18n.t("collection_management.processors") %></div>
-               <div class="span9"><%= @collection_management.processors %></div>
+               <div class="col-md-3"><%= I18n.t("collection_management.processors") %></div>
+               <div class="col-md-9"><%= @collection_management.processors %></div>
             </div>
-            <div class="row-fluid label-and-value">
+            <div class="row label-and-value">
   
-               <div class="span3"><%= I18n.t("collection_management.rights_determined") %></div>
-               <div class="span9"><%= @collection_management.rights_determined ? I18n.t("collection_management.rights_determined_true") : I18n.t("collection_management.rights_determined_false") %></div>
+               <div class="col-md-3"><%= I18n.t("collection_management.rights_determined") %></div>
+               <div class="col-md-9"><%= @collection_management.rights_determined ? I18n.t("collection_management.rights_determined_true") : I18n.t("collection_management.rights_determined_false") %></div>
   
             </div>
           </section>
@@ -83,15 +83,15 @@
             <h3><%= I18n.t("linked_record._plural") %></h3>
             <div class="subrecord-form-container">
               <div class="subrecord-form-fields">
-                <div class="row-fluid label-and-value">
-                   <div class="span3">
+                <div class="row label-and-value">
+                   <div class="col-md-3">
                     <% if @collection_management.linked_records.length > 1 %>
                       <%= I18n.t("linked_record.ref_plural") %>
                     <% else %>
                       <%= I18n.t("linked_record.ref") %>
                     <% end %>
                    </div>
-                   <div class="span9 token-list">
+                   <div class="col-md-9 token-list">
                      <% @collection_management.linked_records.each do | ref | %>
                       <%= render_token :object => ref,
                                         :label => ref["_resolved"]["title"],

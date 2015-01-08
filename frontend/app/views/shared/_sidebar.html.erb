@@ -5,11 +5,11 @@
   end
 %>
 
-<div id="archivesSpaceSidebar">
-  <ul class="nav nav-list as-nav-list">
+<div id="archivesSpaceSidebar" class="sidebar">
+  <ul class="nav list-group as-nav-list">
     <% if @exceptions %>
-      <li class="<% if @exceptions.has_key?(:errors)%>alert-error<% end %>">
-        <a href="#form_messages"><%= I18n.t("errors.sidebar_label") %>  <span class="icon-chevron-right"></span></a>
+      <li class="<% if @exceptions.has_key?(:errors)%>alert-danger<% end %>">
+        <a href="#form_messages"><%= I18n.t("errors.sidebar_label") %>  <span class="glyphicon glyphicon-chevron-right"></span></a>
       </li>
     <% end %>
 
@@ -17,7 +17,7 @@
       <li>
         <a href="#basic_information">
           <%= I18n.t("#{record_type}._frontend.section.basic_information") %>
-          <span class="icon-chevron-right"></span>
+          <span class="glyphicon glyphicon-chevron-right"></span>
         </a>
       </li>
     <% end %>
@@ -37,6 +37,7 @@
           <% else %>
             <button type="submit" class="btn btn-primary"><%= save_button_text %></button>
           <% end %>
+          <br style="clear:both" /> <!-- So dirty! -->
         </li>
       <% end %>
     <% end %>

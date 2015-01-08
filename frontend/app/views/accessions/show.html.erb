@@ -1,14 +1,14 @@
 <%= setup_context(:object => @accession) %>
 
-<div class="row-fluid">
-   <div class="span3">
+<div class="row">
+   <div class="col-md-3">
       <%= render_aspace_partial :partial => "sidebar" %>
    </div>
-   <div class="span9">
+   <div class="col-md-9">
     <%= render_aspace_partial :partial => "accessions/toolbar" %>
     <div class="record-pane">
       <%= readonly_context :accession, @accession do |readonly| %>
-          <h2><%= @accession.display_string %> <span class="label label-info"><%= I18n.t("accession._singular") %></span></h2>
+          <h2><%= @accession.display_string %> <span class="label label-info label-default"><%= I18n.t("accession._singular") %></span></h2>
   
           <%= render_aspace_partial :partial => "shared/flash_messages" %>
 

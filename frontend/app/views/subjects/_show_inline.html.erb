@@ -6,16 +6,16 @@
   <h3><%= I18n.t("subject._plural") %></h3>
   <div class="subrecord-form-container">
     <div class="subrecord-form-fields">
-      <div class="row-fluid">
-        <div class="span3"><strong><%= I18n.t("subject.authority_id") %></strong></div>
-        <div class="span8"><strong><%= I18n.t("subject.heading") %></strong></div>
+      <div class="row">
+        <div class="col-md-3"><strong><%= I18n.t("subject.authority_id") %></strong></div>
+        <div class="col-md-8"><strong><%= I18n.t("subject.heading") %></strong></div>
       </div>
       <% subjects.each_with_index do | subject, index | %>
-        <div class="row-fluid">
-          <div class="span3 pull1">
+        <div class="row">
+          <div class="col-md-3 pull1">
             <%= subject['_resolved']["authority_id"] %>
           </div>
-          <div class="span8 token-list">
+          <div class="col-md-8 token-list">
             <%= render_token :object => subject['_resolved'],
                              :label => subject['_resolved']['title'],
                              :type => "subject",

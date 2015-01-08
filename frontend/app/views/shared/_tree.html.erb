@@ -212,7 +212,6 @@
 
   <div id="tree_toolbar_template"><!--
     <div class="btn-toolbar">
-      <div class="btn-group"></div>
     </div>
   --></div>
 
@@ -221,14 +220,14 @@
   <div id="tree_nodenavigation_toolbar_template"><!--
     <div class="btn-group">
       {if defined('previous')}
-        <a href="#tree::${previous}" class="btn btn-mini btn-prev-tree-node"><span class="icon-arrow-left"></span></a>
+        <a href="#tree::${previous}" class="btn btn-xs btn-default btn-prev-tree-node"><span class="glyphicon glyphicon-arrow-left"></span></a>
       {else}
-        <a disabled="disabled" class="btn btn-mini btn-prev-tree-node"><span class="icon-arrow-left"></span></a>
+        <a class="btn btn-xs btn-default btn-prev-tree-node disabled"><span class="glyphicon glyphicon-arrow-left"></span></a>
       {/if}
       {if defined('next')}
-        <a href="#tree::${next}" class="btn btn-mini btn-next-tree-node"><span class="icon-arrow-right"></span></a>
+        <a href="#tree::${next}" class="btn btn-xs btn-default btn-next-tree-node"><span class="glyphicon glyphicon-arrow-right"></span></a>
       {else}
-        <a disabled="disabled" class="btn btn-mini btn-next-tree-node"><span class="icon-arrow-right"></span></a>
+        <a class="btn btn-xs btn-default btn-next-tree-node disabled"><span class="glyphicon glyphicon-arrow-right"></span></a>
       {/if}
     </div>
   --></div>
@@ -236,15 +235,14 @@
   <% if not read_only %>
 
     <div id="tree_nodeactions_toolbar_template"><!--
-      <div class="btn-group">
         <div class="btn-group">
           {if rules.hasOwnProperty("can_add_child")}
-            <a class="btn btn-mini add-child" rel="${rules.can_add_child.type}" href="javascript:void(0);" data-record-label="${rules.can_add_child.record_label}" title="${rules.can_add_child.action_label}">
+            <a class="btn btn-xs btn-default add-child" rel="${rules.can_add_child.type}" href="javascript:void(0);" data-record-label="${rules.can_add_child.record_label}" title="${rules.can_add_child.action_label}">
               ${rules.can_add_child.action_label}
             </a>
           {/if}
           {if rules.hasOwnProperty("can_add_sibling")}
-            <a class="btn btn-mini add-sibling" rel="${rules.can_add_sibling.type}" href="javascript:void(0);" data-record-label="${rules.can_add_child.record_label}" title="${rules.can_add_sibling.action_label}">
+            <a class="btn btn-xs btn-default add-sibling" rel="${rules.can_add_sibling.type}" href="javascript:void(0);" data-record-label="${rules.can_add_child.record_label}" title="${rules.can_add_sibling.action_label}">
               ${rules.can_add_sibling.action_label}
             </a>
           {/if}
@@ -252,37 +250,37 @@
       {if rules.hasOwnProperty("can_accept_paste_from_clipboard") || rules.hasOwnProperty("can_cut_to_clipboard")}
         <div class="btn-group">
           {if rules.hasOwnProperty("can_cut_to_clipboard") && rules.can_cut_to_clipboard}
-            <a href="#" class="btn btn-mini cut-node disabled"><%= I18n.t "actions.cut" %></a>
+            <a href="#" class="btn btn-xs btn-default cut-node disabled"><%= I18n.t "actions.cut" %></a>
           {/if}
           {if rules.hasOwnProperty("can_accept_paste_from_clipboard") && rules.can_accept_paste_from_clipboard}
-            <a href="#" class="btn btn-mini paste-node disabled"><%= I18n.t "actions.paste" %></a>
+            <a href="#" class="btn btn-xs btn-default paste-node disabled"><%= I18n.t "actions.paste" %></a>
           {/if}
         </div>
       {/if}
       {if rules.hasOwnProperty("can_move")}
         <div class="btn-group dropdown move-node-menu">
-          <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Move">
+          <a class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown" href="#" title="Move">
             <%= I18n.t "actions.move" %>
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
             {if !parent.hasClass("root")}
-              <li><a href="javascript:void(0);" class="move-node move-node-up-level" data-target-node-id="${parent.parents("li:first").attr("id")}" data-target-index="${parent.index()}"><span class="icon-arrow-left"></span> <%= I18n.t "actions.move_up_a_level" %></a></li>
+              <li><a href="javascript:void(0);" class="move-node move-node-up-level" data-target-node-id="${parent.parents("li:first").attr("id")}" data-target-index="${parent.index()}"><span class="glyphicon glyphicon-arrow-left"></span> <%= I18n.t "actions.move_up_a_level" %></a></li>
             {/if}
 
             {var children_count = parent.find("> ul > li").length}
             {if children_count > 1}
               {if node.index() > 0}
-                <li><a href="javascript:void(0);" class="move-node move-node-up" data-target-node-id="${parent.attr("id")}" data-target-index="${node.index()-1}"><span class="icon-arrow-up"></span> <%= I18n.t "actions.move_up" %></a></li>
+                <li><a href="javascript:void(0);" class="move-node move-node-up" data-target-node-id="${parent.attr("id")}" data-target-index="${node.index()-1}"><span class="glyphicon glyphicon-arrow-up"></span> <%= I18n.t "actions.move_up" %></a></li>
               {/if}
               {if node.index() < children_count - 1}
-                <li><a href="javascript:void(0);" class="move-node move-node-down" data-target-node-id="${parent.attr("id")}" data-target-index="${node.index()+1}"><span class="icon-arrow-down"></span> <%= I18n.t "actions.move_down" %></a></li>
+                <li><a href="javascript:void(0);" class="move-node move-node-down" data-target-node-id="${parent.attr("id")}" data-target-index="${node.index()+1}"><span class="glyphicon glyphicon-arrow-down"></span> <%= I18n.t "actions.move_down" %></a></li>
               {/if}
             {/if}
 
             {if defined('siblings') && siblings.length > 0}
               <li class="dropdown-submenu">
-                <a href="javascript:void(0);"><span class="icon-arrow-right"></span> <%= I18n.t "actions.move_down_into" %></a>
+                <a href="javascript:void(0);"><span class="glyphicon glyphicon-arrow-right"></span> <%= I18n.t "actions.move_down_into" %></a>
                 <ul class="dropdown-menu">
                 {for sibling in siblings}
                   <li><a href="javascript:void(0);" class="move-node move-node-down-into" data-target-node-id="${sibling.id}">${sibling.title}</a></li>
@@ -295,7 +293,7 @@
       {/if}
       {if rules.hasOwnProperty("can_transfer")}
         <div class="btn-group dropdown">
-          <a class="btn btn-mini dropdown-toggle transfer-node" data-toggle="dropdown" href="#" title="<%= I18n.t "actions.transfer" %>">
+          <a class="btn btn-xs btn-default dropdown-toggle transfer-node" data-toggle="dropdown" href="#" title="<%= I18n.t "actions.transfer" %>">
             <%= I18n.t "actions.transfer" %> <span class="caret"></span>
           </a>
           <ul class="dropdown-menu tree-transfer-form">
@@ -304,7 +302,7 @@
                 <%= form_context :transfer, {} do |form| %>
                 <fieldset>
                   <%= form.hidden_input "current_resource_id", "${root_object_id}" %>
-                  <div class="alert alert-error missing-ref-message" style="display: none;"><%= I18n.t "archival_object._frontend.messages.please_select_a_resource_for_transfer" %></div>
+                  <div class="alert alert-danger missing-ref-message" style="display: none;"><%= I18n.t "archival_object._frontend.messages.please_select_a_resource_for_transfer" %></div>
                   <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :exclude_ids => [root_record.id] }%>
                 </fieldset>
                 <div class="form-actions">
@@ -319,17 +317,16 @@
       {/if}
       {if rules.hasOwnProperty("rapid_data_entry")}
         <div class="btn-group">
-          <a class="btn btn-mini add-children" rel="${rules.rapid_data_entry.type}" href="javascript:void(0);" title="${rules.rapid_data_entry.action_label}">
+          <a class="btn btn-xs btn-default add-children" rel="${rules.rapid_data_entry.type}" href="javascript:void(0);" title="${rules.rapid_data_entry.action_label}">
             ${rules.rapid_data_entry.action_label}
           </a>
         </div>
       {/if}
-      </div>
     --></div>
 
     <div id="tree_finish_action_template"><!--
       <div class="pull-right">
-        <a href="${APP_PATH}${config.root_node_type}s/${config.root_object_id}${location.hash}" class="btn btn-mini btn-success"><%= I18n.t "actions.finish_editing" %></a>
+        <a href="${APP_PATH}${config.root_node_type}s/${config.root_object_id}${location.hash}" class="btn btn-xs btn-success"><%= I18n.t "actions.finish_editing" %></a>
       </div>
     --></div>
 

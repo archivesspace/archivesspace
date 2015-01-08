@@ -55,7 +55,7 @@ $(function() {
 
       $(".btn-cancel", $form).click(function() {
         // scroll back to the top
-        $("header").ScrollTo();
+        $.scrollTo("header")
       });
 
       // Move the loadedrecordform.aspace event to be before
@@ -99,7 +99,7 @@ $(function() {
           }
 
           // scroll back to the top
-          $("header").ScrollTo();
+          $.scrollTo("header");
         },
         error: function(obj, errorText, errorDesc) {
           $container.prepend("<div class='alert alert-error'><p>An error occurred saving this record.</p><pre>"+errorDesc+"</pre></div>");
@@ -142,7 +142,6 @@ $(function() {
     };
 
     var loadPaneForNode = function(nodeEl) {
-
       insertLoadingMessage();
 
       if (config.read_only) {
@@ -228,7 +227,8 @@ $(function() {
       if (indexOfCurrentNode+1 < allNodes.length) {
         data.next = allNodes.get(indexOfCurrentNode+1).id;
       }
-      $(".btn-toolbar > .btn-group:first", $toolbar).append(AS.renderTemplate("tree_nodenavigation_toolbar_template", data));
+
+      var x = $(".btn-toolbar", $toolbar).append(AS.renderTemplate("tree_nodenavigation_toolbar_template", data));
     };
 
 
@@ -253,8 +253,9 @@ $(function() {
             };
           }).toArray();
         }
+
         var toolbar_actions = $(AS.renderTemplate("tree_nodeactions_toolbar_template", data_for_toolbar));
-        $(".btn-toolbar > .btn-group:first", $toolbar).append(toolbar_actions);
+        $(".btn-toolbar", $toolbar).append(toolbar_actions);
 
         var finish_action = $(AS.renderTemplate("tree_finish_action_template", data_for_toolbar));
         $(".btn-toolbar", $toolbar).append(finish_action);
@@ -280,13 +281,13 @@ $(function() {
         });
 
         // init the cut and paste actions
-        if ($tree.data("clipboard")) {
-          // disable paste if current node is a child
-          if (nodeEl.closest($tree.data("clipboard")).length === 0) {
-            $(".paste-node", $toolbar).removeClass("disabled");
-          }
-        }
-        $(".cut-node", $toolbar).removeClass("disabled");
+        // if ($tree.data("clipboard")) {
+        //   // disable paste if current node is a child
+        //   if (nodeEl.closest($tree.data("clipboard")).length === 0) {
+        //     $(".paste-node", $toolbar).removeAttr("disabled");
+        //   }
+        // }
+        // $(".cut-node", $toolbar).removeAttr("disabled");
 
         // toggle action disabled/enabled based on status of tree
         enableDisableToolbarActions();
@@ -365,6 +366,8 @@ $(function() {
       $tree.jstree("create_node", parentNode, "last", {"attr":{"id": "new"}, "data": {"title": newNodeConfig.record_label}});
       $("#new", $tree).addClass("new").attr("rel", newNodeType).data("params", new_object_params || {});
       $("#new", $tree).find("a").attr("href", "#new");
+      $("#new", $tree).find("a").addClass('glyphicon glyphicon-asterisk');
+
       setHashForNode("new");
     };
 
@@ -852,7 +855,6 @@ $(function() {
         $tree.jstree("select_node", getPrimarySelectedNode());
 
         loadTreeActionsForNode(getPrimarySelectedNode());
-
         if (onTreeLoadCallback) onTreeLoadCallback();
       }).bind("before.jstree", function (event, data) {
         // check current form
@@ -933,6 +935,18 @@ $(function() {
         }
       }).on("after_open.jstree", function() {
         loadTreeActionsForNode(getPrimarySelectedNode());
+        $('li.resource > a .jstree-icon:first-child', $tree).addClass('glyphicon glyphicon-list-alt');
+        $('li.archival_object > a .jstree-icon:first-child', $tree).addClass('glyphicon glyphicon-file');
+
+        $('li.digital_object > a .jstree-icon:first-child', $tree).addClass('glyphicon glyphicon-folder-open');
+        $('li.digital_object_component > a .jstree-icon:first-child', $tree).addClass('glyphicon glyphicon-barcode');
+
+
+        $('li.classification > a .jstree-icon:first-child', $tree).addClass('glyphicon glyphicon-tags');
+        $('li.classification_term > a .jstree-icon:first-child', $tree).addClass('glyphicon glyphicon-tag');
+
+
+
       }).on("click", ".jstree-leaf a", function(event) {
         // only focus the tree node if the event originates
         // from a mouse click (otherwise it will be triggered
@@ -941,16 +955,20 @@ $(function() {
             $(this).focus();
         }
       });
+
     };
 
     initTree(function() {
       resizeArchivesTree();
       loadPaneForNode(getPrimarySelectedNode());
       setTimeout(function(){
-        getPrimarySelectedNode().ScrollTo({
+        $.scrollTo(getPrimarySelectedNode(), 0, {
           offsetTop: $tree.height() / 2
         });
       },0);
+
+
+
     });
     addTreeEventBindings();
 

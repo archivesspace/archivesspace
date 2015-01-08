@@ -116,7 +116,7 @@ module ASUtils
       :environment => java.lang.System.getenv.to_hash,
       :jvm_properties => java.lang.System.getProperties.to_hash,
       :globals => Hash[global_variables.map {|v| [v, eval(v.to_s)]}],
-      :appconfig => defined?(AppConfig) ? AppConfig.dump_sanitised : "not loaded",
+      :appconfig => defined?(AppConfig) ? AppConfig.dump_sanitized : "not loaded",
       :memory => {
         :free => runtime.freeMemory,
         :max => runtime.maxMemory,

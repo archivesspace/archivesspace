@@ -1,14 +1,11 @@
 <hr/>
 <% if @enumeration['editable']%>
-  <div class="row-fluid">
-    <div class="span12">
-      <div class="record-toolbar">
-        <div class="btn-group pull-right">
-          <%= link_to "#{I18n.t("actions.create")} #{I18n.t("enumeration.value")}", {:controller => :enumerations, :action => :new, :id => JSONModel(:enumeration).id_for(@enumeration["uri"])}, "data-toggle" => "modal-ajax", :class=> "btn btn-small" %>
-        </div>
-      </div>
-    </div>
+
+  <div class="btn-group pull-right">
+    <%= link_to "#{I18n.t("actions.create")} #{I18n.t("enumeration.value")}", {:controller => :enumerations, :action => :new, :id => JSONModel(:enumeration).id_for(@enumeration["uri"])}, "data-toggle" => "modal-ajax", :class=> "btn btn-sm btn-default" %>
   </div>
+  <br style="clear:both" /> <!-- So dirty! -->
+
 <% end %>
 
 
@@ -37,13 +34,13 @@
           <td>
             <div class="btn-group">
               <% if enum_value != @enumeration['default_value'] %>
-                <%= link_to I18n.t("actions.set_default"), {:controller => :enumerations, :action => :set_default, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => enum_value}, :method => :post, :class=> "btn btn-mini" %>
+                <%= link_to I18n.t("actions.set_default"), {:controller => :enumerations, :action => :set_default, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => enum_value}, :method => :post, :class=> "btn btn-xs btn-default" %>
               <% else %>
-                <%= link_to I18n.t("actions.unset_default"), {:controller => :enumerations, :action => :set_default, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => nil}, :method => :post, :class=> "btn btn-mini" %>
+                <%= link_to I18n.t("actions.unset_default"), {:controller => :enumerations, :action => :set_default, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => nil}, :method => :post, :class=> "btn btn-xs btn-default" %>
               <% end%>
               <% if @enumeration['editable'] && !Array(@enumeration['readonly_values']).include?(enum_value) %>
-                <%= link_to I18n.t("actions.merge"), {:controller => :enumerations, :action => :delete, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :merge => true, :value => enum_value}, "data-toggle" => "modal-ajax", :class=> "btn btn-mini btn-warning" %>
-                <%= link_to I18n.t("actions.delete"), {:controller => :enumerations, :action => :delete, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => enum_value}, "data-toggle" => "modal-ajax", :class=> "btn btn-mini btn-danger" %>
+                <%= link_to I18n.t("actions.merge"), {:controller => :enumerations, :action => :delete, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :merge => true, :value => enum_value}, "data-toggle" => "modal-ajax", :class=> "btn btn-xs btn-warning" %>
+                <%= link_to I18n.t("actions.delete"), {:controller => :enumerations, :action => :delete, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => enum_value}, "data-toggle" => "modal-ajax", :class=> "btn btn-xs btn-danger" %>
               <% end %>
             </div>
           </td>

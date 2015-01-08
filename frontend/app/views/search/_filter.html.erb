@@ -2,19 +2,19 @@
   <div class="well">
     <h5>
       <%= I18n.t "search_results.filtered_by" %>
-      <%= link_to I18n.t("search_results.clear_all"), build_search_params({"q" => "", "filter_term" => []}), :class => "btn btn-mini pull-right" %>
+      <%= link_to I18n.t("search_results.clear_all"), build_search_params({"q" => "", "filter_term" => []}), :class => "btn btn-xs pull-right" %>
     </h5>
     <ul>
       <% if @search_data.query? %>
         <li>
           <%= link_to @search_data.facet_label_for_query, build_search_params({"q" => ""}) %>
-          <%= link_to '<span class="icon icon-remove"></span>'.html_safe, build_search_params({"q" => ""}) %>
+          <%= link_to '<span class="glyphicon glyphicon-remove"></span>'.html_safe, build_search_params({"q" => ""}) %>
         </li>
       <% end %>
       <% if @search_data.filtered_terms? %>
         <% @search_data[:criteria]["filter_term[]"].each do | filter_term | %>
           <li>
-            <%= link_to "#{@search_data.facet_label_for_filter(filter_term)} <span class='icon icon-remove'></span>".html_safe, build_search_params({"remove_filter_term" => filter_term}) %>
+            <%= link_to "#{@search_data.facet_label_for_filter(filter_term)} <span class='glyphicon glyphicon-remove'></span>".html_safe, build_search_params({"remove_filter_term" => filter_term}) %>
           </li>
         <% end %>
       <% end %>
@@ -24,19 +24,19 @@
 
 <% if params["advanced"] != "true" %>
   <%= form_tag({}, :method => :get) do %>
-    <div class="input-append" style="width:100%">
-      <% build_search_params.reject{|k, v| k === "q"}.each do |k, v| %>
-        <% if v.kind_of? Array %>
-          <% v.each do |val| %>
-            <%= hidden_field_tag "#{k}[]", val %>
-          <% end %>
-        <% else %>
-          <%= hidden_field_tag k, v %>
+    <% build_search_params.reject{|k, v| k === "q"}.each do |k, v| %>
+      <% if v.kind_of? Array %>
+        <% v.each do |val| %>
+          <%= hidden_field_tag "#{k}[]", val %>
         <% end %>
+      <% else %>
+        <%= hidden_field_tag k, v %>
       <% end %>
-      <input class="text-filter-field" type="text" placeholder="<%= I18n.t("search_results.text_placeholder") %>" name="q" value="<%= params[:q] %>"/>
-      <div class="btn-group">
-        <button class="btn"><span class=" icon-search"></span></button>
+    <% end %>
+    <div class="input-group" style="width:100%">
+      <input class="text-filter-field form-control" type="text" placeholder="<%= I18n.t("search_results.text_placeholder") %>" name="q" value="<%= params[:q] %>"/>
+      <div class="input-group-btn">
+        <button class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
       </div>
     </div>
   <% end %>
@@ -47,7 +47,7 @@
   <ul>
     <% facets.each do |facet, facet_map| %>
       <li>
-        <%= link_to facet_map[:label], build_search_params({"add_filter_term" => facet_map[:filter_term]}) %> <span class="badge badge-info"><%= facet_map[:count] %></span>
+        <%= link_to facet_map[:label], build_search_params({"add_filter_term" => facet_map[:filter_term]}) %> <span class="badge"><%= facet_map[:count] %></span>
       </li>
     <% end %>
   </ul>

@@ -3,11 +3,11 @@
 <div id="object_container">
   <%= form_for @digital_object, :as => "digital_object", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
     <%= form_context :digital_object, @digital_object do |form| %>
-      <div class="row-fluid">
-         <div class="span3">
+      <div class="row">
+         <div class="col-md-3">
             <%= render_aspace_partial :partial => "digital_objects/sidebar" %>
-         </div> <!-- span3 -->
-        <div class="span9">
+         </div> <!-- col-md-3 -->
+        <div class="col-md-9">
           <%= render_aspace_partial :partial => "shared/toolbar_new_records" %>
           <div class="record-pane" id="object_container">
             <%= link_to_help :topic => "digital_object" %>
@@ -20,7 +20,7 @@
 
              <div class="form-actions">
                <button type="submit" class="btn btn-primary"><%= I18n.t("digital_object._frontend.action.save") %></button>
-                <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
+                <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
              </div>
            </div>
          </div>

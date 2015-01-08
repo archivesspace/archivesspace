@@ -1,55 +1,51 @@
 <% if user_can?('update_agent_record') %>
-  <div class="row-fluid">
-    <div class="span12">
-      <div class="record-toolbar">
-        <% if !['edit', 'update'].include?(controller.action_name) %>
-          <div class="btn-group pull-left">
-            <%= link_to I18n.t("actions.edit"), {:controller => :agents, :action => :edit, :id => @agent.id, :agent_type => @agent.agent_type}, :class => "btn btn-small btn-primary" %>
-          </div>
-        <% end %>
-        <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
-          <div class="pull-left save-changes">
-            <button type="submit" class="btn btn-primary btn-small"><%= I18n.t("actions.save_prefix") %></button>
-          </div>
-        <% end %>
+  <div class="record-toolbar">
+    <% if !['edit', 'update'].include?(controller.action_name) %>
+      <div class="btn-group pull-left">
+        <%= link_to I18n.t("actions.edit"), {:controller => :agents, :action => :edit, :id => @agent.id, :agent_type => @agent.agent_type}, :class => "btn btn-sm btn-primary" %>
+      </div>
+    <% end %>
+    <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
+      <div class="pull-left save-changes">
+        <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
+      </div>
+    <% end %>
 
-        <% if ['edit', 'update'].include?(controller.action_name) %>
-          <div class="pull-left revert-changes">
-            <%= link_to I18n.t("actions.revert"), {:controller => :agents, :action => :edit, :id => @agent.id}, :class => "btn btn-small" %>
-            <%= I18n.t("actions.toolbar_disabled_message") %>
-          </div>
-        <% end %>
+    <% if ['edit', 'update'].include?(controller.action_name) %>
+      <div class="pull-left revert-changes">
+        <%= link_to I18n.t("actions.revert"), {:controller => :agents, :action => :edit, :id => @agent.id}, :class => "btn btn-sm btn-default" %>
+        <%= I18n.t("actions.toolbar_disabled_message") %>
+      </div>
+    <% end %>
 
-        <div class="btn-toolbar pull-right">
-          <div class="btn-group">
-            <div class="btn btn-inline-form">
-              <%= link_to I18n.t("actions.export_eac"), {:controller => :exports, :action => :download_eac, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-small" %>
-            </div>
-            <% if @agent.publish %>
-          	  <div class="btn btn-inline-form">
-                <%= link_to I18n.t("actions.view_published"), File.join(AppConfig[:public_proxy_url], @agent.uri).to_s, :target => "_blank", :class => "btn btn-small" %>
-              </div>
-            <% end %>
-            <% if user_can?('merge_agent_record') %>
-              <%=
-                  render_aspace_partial :partial => "shared/merge_dropdown",
-                         :locals => {:record => @agent,
-                                     :extra_params => {:agent_type => @agent.agent_type},
-                                     :controller => :agents,
-                                     :confirmation_title => I18n.t("actions.merge_confirm_title"),
-                                     :confirmation_msg => I18n.t("actions.merge_agent_confirm_message",
-                                                                 :source => @agent.title)}
-              %>
-            <% end %>
-            <% if user_can?('delete_agent_record') %>
-              <div class="btn btn-inline-form">
-                <%= button_delete_action url_for(:controller => :agents, :action => :delete, :id => @agent.id) %>
-              </div>
-            <% end %>
-          </div>
+    <div class="btn-toolbar pull-right">
+      <div class="btn-group">
+        <div class="btn btn-inline-form">
+          <%= link_to I18n.t("actions.export_eac"), {:controller => :exports, :action => :download_eac, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-sm btn-default" %>
         </div>
-        <div class="clearfix"></div>
+        <% if @agent.publish %>
+          <div class="btn btn-inline-form">
+            <%= link_to I18n.t("actions.view_published"), File.join(AppConfig[:public_proxy_url], @agent.uri).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
+          </div>
+        <% end %>
+        <% if user_can?('merge_agent_record') %>
+          <%=
+          render_aspace_partial :partial => "shared/merge_dropdown",
+          :locals => {:record => @agent,
+                      :extra_params => {:agent_type => @agent.agent_type},
+                      :controller => :agents,
+                      :confirmation_title => I18n.t("actions.merge_confirm_title"),
+                      :confirmation_msg => I18n.t("actions.merge_agent_confirm_message",
+                                                  :source => @agent.title)}
+          %>
+        <% end %>
+        <% if user_can?('delete_agent_record') %>
+          <div class="btn btn-inline-form">
+            <%= button_delete_action url_for(:controller => :agents, :action => :delete, :id => @agent.id) %>
+          </div>
+        <% end %>
       </div>
     </div>
+    <div class="clearfix"></div>
   </div>
 <% end %>

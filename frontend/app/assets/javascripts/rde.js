@@ -235,7 +235,7 @@ $(function() {
               var $input = $("[id='"+$rde_form.data("jsonmodel-type")+"_children__"+$row.data("index")+"__"+name.replace(/\//g, "__")+"_']", $row);
               var $header = $($(".fieldset-labels th", $table).get($input.first().closest("td").index()));
 
-              $input.closest(".control-group").addClass("error");
+              $input.closest(".form-group").addClass("has-error");
 
               var $error = $("<div class='error'>");
 
@@ -245,7 +245,7 @@ $(function() {
                 $error.text($($(".fieldset-labels th", $table).get($input.closest("td").index())).text());
               }
               $error.append(" - ").append(error);
-              $error.append("<span class='icon icon-chevron-right'>");
+              $error.append("<span class='glyphicon glyphicon-chevron-right'>");
               $errorSummaryList.append($error);
 
               $error.data("target", $input.first().attr("id"));
@@ -692,7 +692,7 @@ $(function() {
           return isVisible($colHeader.attr("id"));
         });
         $select.multiselect({
-          buttonClass: 'btn btn-small',
+          buttonClass: 'btn btn-small btn-default',
           buttonWidth: 'auto',
           maxHeight: 300,
           buttonContainer: '<div class="btn-group" />',

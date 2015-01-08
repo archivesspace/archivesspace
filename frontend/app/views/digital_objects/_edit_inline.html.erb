@@ -1,10 +1,10 @@
 <%= form_for @digital_object, :as => "digital_object", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@digital_object)) do |f| %>
   <%= form_context :digital_object, @digital_object do |form| %>
-    <div class="row-fluid">
-      <div class="span3">
+    <div class="row">
+      <div class="col-md-3">
         <%= render_aspace_partial :partial => "digital_objects/sidebar" %>
       </div>
-      <div class="span9">
+      <div class="col-md-9">
         <%= render_aspace_partial :partial => "toolbar" %>
         <div class="record-pane">
           <%= link_to_help :topic => "digital_object" %>
@@ -15,7 +15,7 @@
           <%= render_aspace_partial :partial => "digital_objects/form_container", :locals => {:form => form} %>
            <div class="form-actions">
              <button type="submit" class="btn btn-primary"><%= I18n.t("digital_object._frontend.action.save") %></button>
-              <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
+              <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
            </div>
          </div>
       </div>

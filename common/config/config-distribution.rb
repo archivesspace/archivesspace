@@ -44,10 +44,12 @@ class AppConfig
   end
 
 
-  def self.dump_sanitised
+  def self.dump_sanitized
     Hash[@@parameters.map {|k, v|
            if k.to_s =~ /secret/
              [k, "[SECRET]"]
+           elsif v.is_a? (Proc)
+             [k, v.call]
            else
              v = v.to_s.gsub(/password=.*?[$&]/, '[SECRET]')
              [k, v]

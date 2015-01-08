@@ -1,10 +1,10 @@
 <%= form_for @archival_object, :as => "archival_object", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form', :id => 'archival_object_form'} do |f| %>
   <%= form_context :archival_object, @archival_object do |form| %>
-    <div class="row-fluid">
-      <div class="span3">
+    <div class="row">
+      <div class="col-md-3">
         <%= render_aspace_partial :partial => "sidebar" %>
       </div>
-      <div class="span9">
+      <div class="col-md-9">
         <%= render_aspace_partial :partial => "shared/toolbar_new_records" %>
         <div class="record-pane">
           <%= render_aspace_partial :partial => "archival_objects/form_container", :locals => {:form => form} %>
@@ -13,7 +13,7 @@
               <button type="submit" class="btn btn-primary"><%= I18n.t("archival_object._frontend.action.save") %></button>
               <button type="button" id="createPlusOne" class="btn btn-primary btn-plus-one createPlusOneBtn"><%= I18n.t("actions.save_plus_one") %></button>
             </div>
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
+            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
         </div>
       </div>

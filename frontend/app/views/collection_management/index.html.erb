@@ -5,11 +5,11 @@ add_column(I18n.t("collection_management.processing_priority"), proc {|record| I
 add_column(I18n.t("collection_management.processing_status"), proc {|record| I18n.t("enumerations.collection_management_processing_status.#{record['processing_status'] || 'none'}", :default => (record['processing_status'] || '--'))}, :sortable => true, :sort_by => "processing_status")
 add_column(I18n.t("collection_management.processing_hours_total_short"), proc {|record| record['processing_hours_total']}, :sortable => true, :sort_by => "processing_hours_total")
 %>
-<div class="row-fluid">
-  <div class="span3">
+<div class="row">
+  <div class="col-md-3">
     <%= render_aspace_partial :partial => "search/filter" %>
   </div>
-  <div class="span9">
+  <div class="col-md-9">
     <div class="record-pane">
       <%= link_to_help :topic => "search" %>
 

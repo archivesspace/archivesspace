@@ -17,33 +17,29 @@ $(function() {
     // so, this code hides dates if there is no value.
     var dates = $(":input[name$=\"[dates]\"]", $subform);
     if ( dates.val() == "") { 
-      dates.closest(".control-group").hide();
+      dates.closest(".form-group").hide();
     }
 
-		var disableSortName = function() {
-			$sortNameField.attr("readonly","readonly");
-			$sortNameField.prop('disabled', true);
-			$sortNameField.attr("readonly","readonly");
-			$userEnteredSortNameValue = $sortNameField[0].value;
-			$sortNameField[0].value = $checkbox.attr("display_text_when_checked");
-		}
+    var disableSortName = function() {
+      $sortNameField.attr("readonly","readonly");
+      $sortNameField.prop('disabled', true);
+      $sortNameField.attr("readonly","readonly");
+      $userEnteredSortNameValue = $sortNameField[0].value;
+      $sortNameField[0].value = $checkbox.attr("display_text_when_checked");
+    }
 
 
     if ($checkbox.is(":checked")) {
       disableSortName();
-      // $sortNameField.closest(".control-group").hide();
     }
 
     $checkbox.change(function() {
       if ($checkbox.is(":checked")) {
-				disableSortName();
-        // $sortNameField.attr("readonly","readonly");
-        // $sortNameField.closest(".control-group").hide();
+        disableSortName();
       } else {
-				$sortNameField.prop('disabled', false);
+        $sortNameField.prop('disabled', false);
         $sortNameField.removeAttr("readonly");
-				$sortNameField[0].value = $userEnteredSortNameValue;
-        // $sortNameField.closest(".control-group").show();
+        $sortNameField[0].value = $userEnteredSortNameValue;
       }
     });
 

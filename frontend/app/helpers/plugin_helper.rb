@@ -9,7 +9,7 @@ module PluginHelper
         result << '<li>'
         result << "<a href='##{jsonmodel_type}_#{name}_'>"
         result << I18n.t("plugins.#{plugin}._plural")
-        result << '<span class="icon-chevron-right"></span></a></li>'
+        result << '<span class="glyphicon glyphicon-chevron-right"></span></a></li>'
       end
     end
     result.html_safe

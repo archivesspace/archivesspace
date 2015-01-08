@@ -68,7 +68,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "repository_repository__name_"], "missing repo code")
       $driver.find_element(:css => "form#new_repository button[type='submit']").click
 
-      assert(5) { $driver.find_element(:css => "div.alert.alert-error").text.should eq('Repository Short Name - Property is required but was missing') }
+      assert(5) { $driver.find_element(:css => "div.alert.alert-danger").text.should eq('Repository Short Name - Property is required but was missing') }
     end
 
 
@@ -736,7 +736,13 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => '#accession_rights_statements_ .subrecord-form-heading .btn:not(.show-all)').click
       $driver.find_element(:id => "accession_rights_statements__0__rights_type_").select_option("intellectual_property")
       $driver.find_element(:id => "accession_rights_statements__0__ip_status_").select_option("copyrighted")
-      $driver.clear_and_send_keys([:id => "accession_rights_statements__0__jurisdiction__combobox"], ["AU", :return])
+      combo = $driver.find_element(:xpath => '//div[@class="combobox-container"][following-sibling::select/@id="accession_rights_statements__0__jurisdiction_"]//input[@type="text"]');
+      combo.clear
+      combo.click
+      combo.send_keys("AU")
+      combo.send_keys(:tab)
+
+      # $driver.clear_and_send_keys([:id => "accession_rights_statements__0__jurisdiction__combobox"], ["AU", :return])
       $driver.find_element(:id, "accession_rights_statements__0__active_").click
 
       # add an external document
@@ -764,7 +770,7 @@ describe "ArchivesSpace user interface" do
       $driver.click_and_wait_until_gone(:link => "Charles Darwin's second paperclip collection")
 
       # date should have come across
-      date_headings = $driver.blocking_find_elements(:css => '#accession_dates_ .accordion-heading')
+      date_headings = $driver.blocking_find_elements(:css => '#accession_dates_ .panel-heading')
       date_headings.length.should eq (1)
 
       # rights and external doc shouldn't
@@ -835,7 +841,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can see two extents on the saved Accession" do
-      extent_headings = $driver.blocking_find_elements(:css => '#accession_extents_ .accordion-heading')
+      extent_headings = $driver.blocking_find_elements(:css => '#accession_extents_ .panel-heading')
 
       extent_headings.length.should eq (2)
 
@@ -853,7 +859,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.click_and_wait_until_gone(:link => @accession_title)
 
-      extent_headings = $driver.blocking_find_elements(:css => '#accession_extents_ .accordion-heading')
+      extent_headings = $driver.blocking_find_elements(:css => '#accession_extents_ .panel-heading')
       extent_headings.length.should eq (1)
       assert(5) { extent_headings[0].text.should eq ("10 Files") }
     end
@@ -950,7 +956,7 @@ describe "ArchivesSpace user interface" do
       $driver.click_and_wait_until_gone(:link => @dates_accession_title)
 
       # check dates
-      date_headings = $driver.blocking_find_elements(:css => '#accession_dates_ .accordion-heading')
+      date_headings = $driver.blocking_find_elements(:css => '#accession_dates_ .panel-heading')
       date_headings.length.should eq (2)
     end
 
@@ -967,7 +973,7 @@ describe "ArchivesSpace user interface" do
 
       # check remaining date
       $driver.click_and_wait_until_gone(:link => @dates_accession_title)
-      date_headings = $driver.blocking_find_elements(:css => '#accession_dates_ .accordion-heading')
+      date_headings = $driver.blocking_find_elements(:css => '#accession_dates_ .panel-heading')
       date_headings.length.should eq (1)
     end
 
@@ -1067,7 +1073,11 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:id => "accession_rights_statements__0__rights_type_").select_option("intellectual_property")
       $driver.find_element(:id => "accession_rights_statements__0__ip_status_").select_option("copyrighted")
-      $driver.clear_and_send_keys([:id => "accession_rights_statements__0__jurisdiction__combobox"], ["AU", :return])
+      combo = $driver.find_element(:xpath => '//div[@class="combobox-container"][following-sibling::select/@id="accession_rights_statements__0__jurisdiction_"]//input[@type="text"]');
+      combo.clear
+      combo.click
+      combo.send_keys("AU")
+      combo.send_keys(:tab)
       $driver.find_element(:id, "accession_rights_statements__0__active_").click
 
       # add an external document
@@ -1301,7 +1311,7 @@ describe "ArchivesSpace user interface" do
     end
 
     after(:each) do
-	logout 
+      logout 
     end
 
     after(:all) do
@@ -1546,7 +1556,12 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => 'div.accession').text.should match(/enraged guinea pigs/)
 
       $driver.complete_4part_id("resource_id_%d_")
-      $driver.clear_and_send_keys([:id, "resource_language__combobox"], ["eng", :return])
+      combo = $driver.find_element(:xpath => '//div[@class="combobox-container"][following-sibling::select/@id="resource_language_"]//input[@type="text"]');
+      combo.clear
+      combo.click
+      combo.send_keys("eng")
+      combo.send_keys(:tab)
+
       $driver.find_element(:id, "resource_level_").select_option("collection")
 
       # no collection managment
@@ -1607,7 +1622,11 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:id => "resource_dates__0__date_type_").select_option("single")
       $driver.clear_and_send_keys([:id, "resource_dates__0__begin_"], "1978")
       
-      $driver.clear_and_send_keys([:id, "resource_language__combobox"], ["eng", :return])
+      combo = $driver.find_element(:xpath => '//div[@class="combobox-container"][following-sibling::select/@id="resource_language_"]//input[@type="text"]');
+      combo.clear
+      combo.click
+      combo.send_keys("eng")
+      combo.send_keys(:tab)
       $driver.find_element(:id, "resource_level_").select_option("collection")
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
       $driver.find_element(:id => "resource_extents__0__extent_type_").select_option("files")
@@ -1922,7 +1941,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can see two Extents on the saved Resource" do
-      extent_headings = $driver.blocking_find_elements(:css => '#resource_extents_ .accordion-heading')
+      extent_headings = $driver.blocking_find_elements(:css => '#resource_extents_ .panel-heading')
 
       extent_headings.length.should eq (2)
       assert(5) { extent_headings[0].text.should eq ("10 Files") }
@@ -1939,7 +1958,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:link, 'Close Record').click
 
-      extent_headings = $driver.blocking_find_elements(:css => '#resource_extents_ .accordion-heading')
+      extent_headings = $driver.blocking_find_elements(:css => '#resource_extents_ .panel-heading')
 
       extent_headings.length.should eq (1)
       assert(5) { extent_headings[0].text.should eq ("10 Files") }
@@ -2070,7 +2089,11 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id, "resource_title_"], "a resource with notes")
       $driver.complete_4part_id("resource_id_%d_")
-      $driver.clear_and_send_keys([:id, "resource_language__combobox"], ["eng", :return])
+      combo = $driver.find_element(:xpath => '//div[@class="combobox-container"][following-sibling::select/@id="resource_language_"]//input[@type="text"]');
+      combo.clear
+      combo.click
+      combo.send_keys("eng")
+      combo.send_keys(:tab)
       $driver.find_element(:id, "resource_level_").select_option("collection")
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
       $driver.find_element(:id => "resource_extents__0__extent_type_").select_option("files")
@@ -2245,7 +2268,11 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id, "resource_title_"], "a resource")
       $driver.complete_4part_id("resource_id_%d_")
-      $driver.clear_and_send_keys([:id, "resource_language__combobox"], ["eng", :return])
+      combo = $driver.find_element(:xpath => '//div[@class="combobox-container"][following-sibling::select/@id="resource_language_"]//input[@type="text"]');
+      combo.clear
+      combo.click
+      combo.send_keys("eng")
+      combo.send_keys(:tab)
       $driver.find_element(:id, "resource_level_").select_option("collection")
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
       $driver.find_element(:id => "resource_extents__0__extent_type_").select_option("files")
@@ -2469,8 +2496,9 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Digital Objects").click
       
-      $driver.clear_and_send_keys([:css, ".span3 .input-append input"], "Thing*" )
-      $driver.find_element(:css, ".span3 .icon-search").click 
+      $driver.clear_and_send_keys([:css, ".sidebar input.text-filter-field"], "Thing*" )
+      $driver.find_element(:css, ".sidebar input.text-filter-field + div button").click
+      # $driver.find_element(:css, ".span3 .icon-search").click 
 
       $driver.find_element_with_text('//tr', /Thing1/).find_element(:link, 'Edit').click
 
@@ -2621,7 +2649,7 @@ describe "ArchivesSpace user interface" do
     it "fails logins with invalid credentials" do
       login("oopsie", "daisies")
 
-      assert(5) { $driver.find_element(:css => "p.help-inline.login-message").text.should eq('Login attempt failed') }
+      assert(5) { $driver.find_element(:css => "p.alert-danger").text.should eq('Login attempt failed') }
 
       $driver.find_element(:link, "Sign In").click
     end
@@ -2653,11 +2681,10 @@ describe "ArchivesSpace user interface" do
     it "allows the admin user to become a different user" do
       login("admin", "admin")
 
-      $driver.find_element(:css, '.user-container .btn').click
+      $driver.find_element(:css, '.user-container a.btn').click
       $driver.find_element(:link, "Become User").click
       $driver.clear_and_send_keys([:id, "select-user"], @user)
       $driver.find_element(:css, "#new_become_user .btn-primary").click
-
       $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Successfully switched users/)
     end
 
@@ -2810,15 +2837,8 @@ describe "ArchivesSpace user interface" do
 
       $driver.click_and_wait_until_gone(:link => cm_accession_title)
 
-      assert(5) { $driver.find_element(:css => '#accession_collection_management__accordian div.span4:last-of-type').text.include?("IMPORTANT.") }
-    
-    
-    
-    
+      assert(5) { $driver.find_element(:css => '#accession_collection_management__accordian div:last-child').text.include?("IMPORTANT.") }
     end
-  
-  
-  
   end
 
 
@@ -2902,7 +2922,7 @@ describe "ArchivesSpace user interface" do
       @modal.find_element(:css, ".modal-footer .btn-primary").click
 
       # general message at the top
-      @modal.find_element_with_text('//div[contains(@class, "alert-error")]', /1 row\(s\) with an error \- click a row field to view the errors for that row/)
+      @modal.find_element_with_text('//div[contains(@class, "alert-danger")]', /1 row\(s\) with an error \- click a row field to view the errors for that row/)
 
       # simulate focusing the row (normally done when the user focuses on an :input within the row)
       $driver.execute_script("$('#archival_record_children_children__0__title_').closest('tr').addClass('last-focused')")
@@ -2916,7 +2936,7 @@ describe "ArchivesSpace user interface" do
       $driver.wait_for_ajax
 
       # general message at the top
-      @modal.find_element_with_text('//div[contains(@class, "alert-error")]', /1 row\(s\) with an error \- click a row field to view the errors for that row/)
+      @modal.find_element_with_text('//div[contains(@class, "alert-danger")]', /1 row\(s\) with an error \- click a row field to view the errors for that row/)
 
       # simulate focusing the row (normally done when the user focuses on an :input within the row)
       $driver.execute_script("$('#archival_record_children_children__0__title_').closest('tr').addClass('last-focused')")
@@ -2945,7 +2965,7 @@ describe "ArchivesSpace user interface" do
     end
 
     it "can access the RDE form when editing an archival object" do
-      $driver.find_element(:css, "#archives_tree_toolbar .icon-arrow-right").click
+      $driver.find_element(:css, "#archives_tree_toolbar .btn-next-tree-node").click
       $driver.wait_for_ajax
 
       $driver.find_element(:id, "archival_object_title_")
@@ -3175,7 +3195,7 @@ describe "ArchivesSpace user interface" do
       @modal.find_element(:css, ".modal-footer .btn-primary").click
 
       # general message at the top
-      @modal.find_element_with_text('//div[contains(@class, "alert-error")]', /1 row\(s\) with an error \- click a row field to view the errors for that row/)
+      @modal.find_element_with_text('//div[contains(@class, "alert-danger")]', /1 row\(s\) with an error \- click a row field to view the errors for that row/)
 
       # simulate focusing the row (normally done when the user focuses on an :input within the row)
       $driver.execute_script("$('#digital_record_children_children__0__title_').closest('tr').addClass('last-focused')")
@@ -3191,7 +3211,7 @@ describe "ArchivesSpace user interface" do
       $driver.wait_for_ajax
 
       # general message at the top
-      @modal.find_element_with_text('//div[contains(@class, "alert-error")]', /1 row\(s\) with an error \- click a row field to view the errors for that row/)
+      @modal.find_element_with_text('//div[contains(@class, "alert-danger")]', /1 row\(s\) with an error \- click a row field to view the errors for that row/)
 
       # simulate focusing the row (normally done when the user focuses on an :input within the row)
       $driver.execute_script("$('#digital_record_children_children__0__title_').closest('tr').addClass('last-focused')")
@@ -3216,7 +3236,7 @@ describe "ArchivesSpace user interface" do
     end
 
     it "can access the RDE form when editing an digital object" do
-      $driver.find_element(:css, "#archives_tree_toolbar .icon-arrow-right").click
+      $driver.find_element(:css, "#archives_tree_toolbar .btn-next-tree-node").click
       $driver.wait_for_ajax
 
       $driver.find_element(:id, "digital_object_component_title_")
@@ -3616,7 +3636,11 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id, "resource_title_"], "a resource")
       $driver.complete_4part_id("resource_id_%d_")
-      $driver.clear_and_send_keys([:id, "resource_language__combobox"], ["eng", :return])
+      combo = $driver.find_element(:xpath => '//div[@class="combobox-container"][following-sibling::select/@id="resource_language_"]//input[@type="text"]');
+      combo.clear
+      combo.click
+      combo.send_keys("eng")
+      combo.send_keys(:tab)
       $driver.find_element(:id, "resource_level_").select_option("collection")
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
       $driver.find_element(:id => "resource_extents__0__extent_type_").select_option("files")
@@ -3712,23 +3736,14 @@ describe "ArchivesSpace user interface" do
     before(:all) do
       login_as_repo_manager
 
-      @shared_keyword_1 = SecureRandom.hex
-      @shared_keyword_2 = SecureRandom.hex
-      @shared_keyword_3 = SecureRandom.hex
-      @shared_keyword_4 = SecureRandom.hex
-      @shared_keyword_5 = SecureRandom.hex
-      @shared_keyword_6 = SecureRandom.hex
-      @shared_keyword_7 = SecureRandom.hex
-      @shared_keyword_8 = SecureRandom.hex
-      @shared_keyword_9 = SecureRandom.hex
-      @shared_keyword_10 = SecureRandom.hex
+      @keywords = (0..9).to_a.map { SecureRandom.hex }
 
-      @accession_1_title = create_accession(:title => "#{@shared_keyword_1} #{@shared_keyword_5}", :publish => true)
-      @accession_2_title = create_accession(:title => "#{@shared_keyword_2} #{@shared_keyword_6}", :publish => false)
-      @resource_1_title = create_resource(:title => "#{@shared_keyword_1} #{@shared_keyword_7}", :publish => false)[1]
-      @resource_2_title = create_resource(:title => "#{@shared_keyword_3} #{@shared_keyword_8}", :publish => true)[1]
-      @digital_object_1_title = create_digital_object(:title => "#{@shared_keyword_1} #{@shared_keyword_9}")[1]
-      @digital_object_2_title = create_digital_object(:title => "#{@shared_keyword_4} #{@shared_keyword_10}")[1]
+      @accession_1_title = create_accession(:title => "#{@keywords[0]} #{@keywords[4]}", :publish => true)
+      @accession_2_title = create_accession(:title => "#{@keywords[1]} #{@keywords[5]}", :publish => false)
+      @resource_1_title = create_resource(:title => "#{@keywords[0]} #{@keywords[6]}", :publish => false)[1]
+      @resource_2_title = create_resource(:title => "#{@keywords[2]} #{@keywords[7]}", :publish => true)[1]
+      @digital_object_1_title = create_digital_object(:title => "#{@keywords[0]} #{@keywords[8]}")[1]
+      @digital_object_2_title = create_digital_object(:title => "#{@keywords[3]} #{@keywords[9]}")[1]
 
       run_index_round
     end
@@ -3751,11 +3766,11 @@ describe "ArchivesSpace user interface" do
 
 
     it "finds matches with one keyword field query" do
-      $driver.clear_and_send_keys([:id => "v0"], @shared_keyword_1)
+      $driver.clear_and_send_keys([:id => "v0"], @keywords[0])
 
       $driver.click_and_wait_until_gone(:css => ".advanced-search .btn-primary")
 
-      # result list should contain those items with the @shared_keyword_1 in the title
+      # result list should contain those items with the @keywords[0] in the title
       $driver.find_element_with_text("//td", /#{@accession_1_title}/)
       $driver.find_element_with_text("//td", /#{@resource_1_title}/)
       $driver.find_element_with_text("//td", /#{@digital_object_1_title}/)
@@ -3772,14 +3787,14 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => ".advanced-search-add-row-dropdown").click
       $driver.find_element(:css => ".advanced-search-add-text-row").click
 
-      $driver.clear_and_send_keys([:id => "v0"], @shared_keyword_1)
-      $driver.clear_and_send_keys([:id => "v1"], @shared_keyword_5)
+      $driver.clear_and_send_keys([:id => "v0"], @keywords[0])
+      $driver.clear_and_send_keys([:id => "v1"], @keywords[4])
       $driver.find_element(:id => "f1").select_option("title")
 
       $driver.click_and_wait_until_gone(:css => ".advanced-search .btn-primary")
 
-      # result list should contain those items with a keyword @shared_keyword_1
-      # and with the title containing @shared_keyword_5
+      # result list should contain those items with a keyword @keywords[0]
+      # and with the title containing @keywords[4]
       $driver.find_element_with_text("//td", /#{@accession_1_title}/)
 
       # and these results should no longer be there
@@ -3797,7 +3812,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.click_and_wait_until_gone(:css => ".advanced-search .btn-primary")
 
-      # result list should contain those items with both @shared_keyword_1 and @shared_keyword_5
+      # result list should contain those items with both @keywords[0] and @keywords[4]
       $driver.find_element_with_text("//td", /#{@accession_1_title}/)
       $driver.find_element_with_text("//td", /#{@resource_1_title}/)
       $driver.find_element_with_text("//td", /#{@digital_object_1_title}/)
@@ -3814,7 +3829,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.click_and_wait_until_gone(:css => ".advanced-search .btn-primary")
 
-      # result list should contain those items with both @shared_keyword_1 and NOT @shared_keyword_5
+      # result list should contain those items with both @keywords[0] and NOT @keywords[4]
       $driver.find_element_with_text("//td", /#{@resource_1_title}/)
       $driver.find_element_with_text("//td", /#{@digital_object_1_title}/)
       $driver.ensure_no_such_element(:xpath, "//td[contains(text(), '#{@accession_1_title}')]")
@@ -3847,7 +3862,7 @@ describe "ArchivesSpace user interface" do
 
     it "filters records based on a boolean search" do
       # Let's find all records with keyword 1
-      $driver.clear_and_send_keys([:id => "v0"], @shared_keyword_1)
+      $driver.clear_and_send_keys([:id => "v0"], @keywords[0])
       $driver.find_element(:id => "f0").select_option("title")
 
       $driver.click_and_wait_until_gone(:css => ".advanced-search .btn-primary")
@@ -3914,7 +3929,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "doesn't display when a normal search is performed" do
-      $driver.clear_and_send_keys([:id => "global-search-box"], @shared_keyword_1)
+      $driver.clear_and_send_keys([:id => "global-search-box"], @keywords[0])
       $driver.find_element(:id => "global-search-button").click
 
       $driver.ensure_no_such_element(:css => "form.advanced-search")
@@ -4059,7 +4074,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_elements(:link, "System Information").length.should eq(0)
       $driver.get(URI.join($frontend, "/system_info"))
       assert(5) { 
-        $driver.find_element(:css => ".alert.alert-error h2").text.should eq("Unable to Access Page")
+        $driver.find_element(:css => ".alert.alert-danger h2").text.should eq("Unable to Access Page")
       } 
    
     end
@@ -4072,12 +4087,7 @@ describe "ArchivesSpace user interface" do
       assert(5) { 
         $driver.find_element(:css => "h3.subrecord-form-heading").text.should eq("Frontend System Information")
       } 
-       
     
     end
-    
-
   end
-
-
 end

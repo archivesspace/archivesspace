@@ -1,6 +1,6 @@
 .form-horizontal {
   // Increase spacing between groups
-  .control-group {
+  .form-group {
     margin-bottom: 8px;
   }
 }
@@ -18,7 +18,7 @@ fieldset {
   margin-top: 5px;
 }
 
-.control-group {
+.form-group {
   margin: 0 !important;
   padding: 4px 0;
   .accordion {
@@ -60,9 +60,12 @@ fieldset {
       min-height: 5px;
     }
   }
+  .checkbox input {
+    margin-left: 0;
+  }
 }
 
-form .control-group {
+form .form-group {
   &.conditionally-required {
     > .control-label {
       background-image: asset-url('archivesspace/conditionally_required.png');
@@ -98,14 +101,13 @@ form .control-group {
   }
 }
 
-.control-group.active {
+.form-group.active {
   border-radius: 4px;
   background-color: #fafcff;
 }
 
-.control-group .controls.label-only {
-  line-height: 18px;
-  padding-top: 6px;
+.form-group .label-only {
+  padding-top: 7px;
 }
 
 .inline-subform {
@@ -115,7 +117,7 @@ form .control-group {
   border-bottom: 1px solid #E5E5E5;
 }
 
-.control-group .inline-subform {
+.form-group .inline-subform {
   margin-left: -180px;
 }
 
@@ -147,11 +149,15 @@ form .control-group {
   #gradient > .vertical(#F3F3F3, #EDEDED);
   border-bottom: 1px solid #DDD;
   padding-left: 10px;
+  line-height: 1.4;
+  overflow: auto;
+  /* padding-top: 10px; */
+  /* padding-bottom: 10px; */
 }
 
 .record-pane section h3 .btn.pull-right,
 .modal section h3 .btn.pull-right {
-  margin: 6px 6px 0 0;
+  margin: 6px 6px 6px 0;
   font-weight: normal;
 }
 
@@ -180,10 +186,10 @@ section h3 {
   line-height: 36px;
 }
 
-#new_subject .terms-container .row-fluid {
+#new_subject .terms-container .row {
   margin-bottom: 5px;
 
-  .control-group {
+  .form-group {
     padding: 0;
   }
 }
@@ -310,6 +316,7 @@ form #terms .subrecord-form-fields {
 
 ul.subrecord-form-list {
   margin: 0;
+  -webkit-padding-start: 0;
   > li {
     list-style: none;
     position: relative;
@@ -428,7 +435,7 @@ ul.subrecord-form-list {
   font-size: @baseFontSize;
   line-height: @baseLineHeight;
   color: @gray;
-  .border-radius(@inputBorderRadius);
+  .border-radius(4px);
   background-color: @inputBackground;
   border: 1px solid @inputBorder;
   .box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
@@ -498,66 +505,8 @@ ul.subrecord-form-list {
   clear: both;
 }
 
-.nav-list {
-  > li {
-    > a {
-      padding: 5px 10px !important;
-      font-size: 12px;
-      overflow: hidden;
-      &:hover {
-        .transition(opacity 0.5s);
-        .nav-list-submenu a {
-          .opacity(100);
-        }
-      }
-    }
-  }
-
-  .nav-list-submenu {
-    list-style: none;
-    margin: 0;
-  
-    a {
-      .transition(~"opacity 0.5s, background-color 0.5s");
-      width: 6px;
-      height: 6px;
-      border: 1px solid #CCC;
-      float: left;
-      margin-right: 2px;
-      margin-top: 2px;
-      .border-radius(3px);
-      .opacity(50);
-    }
-  
-    a:hover {
-      .transition(background-color 0.5s);
-      background-color: #AAA;
-    }
-  }
-  .alert-error {
-    a {
-      background-color: #f2dede !important;
-      border-color: #eed3d7 !important;
-      color: #b94a48 !important;
-    }
-    &.active {
-       a {
-         background-color: #b94a48 !important;
-         color: #FFF !important;
-       }
-    }
-  }
-
-  .nav-list-submenu-link {
-    &.has-errors {
-      background-color: #f2dede;
-      border-color: #b94a48;
-    }
-  }
-}
-
 #reportListing {
-  .accordion-heading {
+  .panel-heading {
     #gradient > .vertical(#F3F3F3, #EDEDED);
   }
 }
@@ -568,7 +517,7 @@ ul.subrecord-form-list {
     background-color: #F3F3F3;
     padding: 4px;
     width: 300px;
-    .border-radius(@inputBorderRadius @inputBorderRadius 0 0);
+    .border-radius(4px 4px 0 0);
     border: 1px solid @inputBorder;
     border-bottom: none;
 
@@ -581,7 +530,7 @@ ul.subrecord-form-list {
     clear: both;
     display: block;
     width: 310px;
-    .border-radius(0 0 @inputBorderRadius @inputBorderRadius);
+    .border-radius(0 0 4px 4px);
   }
 }
 
@@ -639,16 +588,29 @@ ul.subrecord-form-list {
   border-left: none;
   border-right: none;
   border-bottom: none;
-  .border-radius(0 0 @inputBorderRadius @inputBorderRadius);
+  .border-radius(0 0 4px 4px);
 
   > .subrecord-form-heading {
     .border-radius(0);
   }
 }
 
+//make date help appear inline
+
+.date-field {
+  float: left;
+}
+
 .help-inline {
   color: #888;
 }
+
+
+label {
+  font-weight: normal;
+}
+
+
 
 .identifier-display {
   .identifier-display-part {
@@ -690,13 +652,13 @@ ul.subrecord-form-list {
   padding: 10px;
 
   .controls {
-    margin-left: 0;
+    /* margin-left: 0; */
     clear: both;
   }
   .control-label {
-    width: 100%;
-    text-align: left;
-    margin-left: 0;
+    /* width: 100%; */
+    /* text-align: left; */
+    /* margin-left: 0; */
   }
   form {
     margin: 0;
@@ -723,6 +685,10 @@ ul.subrecord-form-list {
 
   .collapse-subrecord-toggle {
     margin: 6px 6px 0 0;
+    .collapse {
+      display: inline;
+      visibility: visible;
+    }
 
     .expand {
       display: none;
@@ -779,3 +745,11 @@ ul.subrecord-form-list {
     display: none;
   }
 }
+
+// four part id controls
+.form-group {
+  .id_0, .id_1, .id_2, .id_3 {
+    display: inline;
+  }
+}
+

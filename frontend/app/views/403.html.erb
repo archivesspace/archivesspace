@@ -2,7 +2,7 @@
   <%= setup_context :title => I18n.t("errors.error_403") %>
 <% end %>
 
-<div class="alert alert-error">
+<div class="alert alert-danger">
   <h2><%= I18n.t("errors.error_403") %></h2>
   <p><%= I18n.t("errors.error_403_message") %></p>
   <% if session[:user].nil? %>

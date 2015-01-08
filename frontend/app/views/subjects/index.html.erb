@@ -5,23 +5,22 @@
    title_column_header(I18n.t("subject.terms"))
 %>
 
-<div class="row-fluid">
-  <div class="span3">
-    <%= render_aspace_partial :partial => "search/filter" %>
+<div class="row">
+  <div class="col-md-3">
+    <div class="sidebar">
+      <%= render_aspace_partial :partial => "search/filter" %>
+    </div>
   </div>
-  <div class="span9">
+  <div class="col-md-9">
     <% if user_can?('update_subject_record') %>
-      <div class="row-fluid">
-        <div class="span12">
-          <div class="record-toolbar">
-            <div class="pull-right">
-              <%= link_to I18n.t("subject._frontend.action.create"), {:controller => :subjects, :action => :new}, :class => "btn btn-small" %>
-              <% if user_can?('delete_subject_record') %>
-                <%= button_delete_multiple_action(:subjects) %>
-              <% end %>
-            </div>
-          </div>
+      <div class="record-toolbar">
+        <div class="btn-group pull-right">
+          <%= link_to I18n.t("subject._frontend.action.create"), {:controller => :subjects, :action => :new}, :class => "btn btn-sm btn-default" %>
+          <% if user_can?('delete_subject_record') %>
+            <%= button_delete_multiple_action(:subjects) %>
+          <% end %>
         </div>
+        <br style="clear:both" /> <!-- So dirty! -->
       </div>
     <% end %>
 

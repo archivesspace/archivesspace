@@ -1,4 +1,6 @@
 <% if @search_data.results? %>
+  <%= render_aspace_partial :partial => "shared/pagination_summary" %>
+
   <table id="tabledSearchResults" class="table table-striped table-bordered table-condensed table-hover table-sortable table-search-results" <% if allow_multi_select? %>data-multiselect="true"<% end %>>
     <thead>
     <tr>
@@ -36,7 +38,6 @@
     </tr>
     </thead>
     <tbody>
-    <%= render_aspace_partial :partial => "shared/pagination_summary" %>
     <% @search_data['results'].each do |result| 
       deleted = (params.has_key?("deleted_uri") and Array(params["deleted_uri"]).include?(result["id"])) || false
     %>
@@ -81,17 +82,17 @@
         <% if !params[:linker] || params[:linker] === 'false' %>
           <td class="table-record-actions">
             <% if not deleted %>
-              <div class="btn-group" style="float: right">
-                <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => result["id"]}, :class => "btn btn-mini" %>
+              <div class="btn-group">
+                <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => result["id"]}, :class => "btn btn-xs btn-default" %>
                 <% if can_edit_search_result?(result) %>
-                  <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => result["id"]}, :class => "btn btn-mini btn-primary" %>
+                  <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => result["id"]}, :class => "btn btn-xs btn-primary" %>
                 <% end %>
               </div>
               <% if result['primary_type'] === "repository" and @repositories.any?{|r| r['uri'] === result['id']} %>
 
                 <% if current_repo['uri'] != result['id'] %>
                   <%= form_tag({:action => :select, :id => JSONModel(:repository).id_for(result['id'])}, {:style => "display: inline;"}) do |f| %>
-                    <button type="submit" class="btn btn-mini btn-success"><%= I18n.t("repository._frontend.action.select") %></button>
+                    <button type="submit" class="btn btn-xs btn-success"><%= I18n.t("repository._frontend.action.select") %></button>
                   <% end %>
                 <% end %>
               <% end %>

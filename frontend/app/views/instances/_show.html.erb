@@ -6,17 +6,16 @@
   <h3>Instances</h3>
   <div class="accordion details" id="instances_accordion">
     <% instances.each_with_index do | instance, index | %>
-      <div class="accordion-group">
-        <div class="accordion-heading">
-          <div class="row-fluid collapsed accordion-toggle" data-toggle="collapse" data-parent="#instances_accordion" href="#instance_<%= index %>">
-            <div class="span1">
-              <span class="icon-chevron-right"></span>
-              <span class="icon-chevron-down"></span>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row collapsed accordion-toggle" data-toggle="collapse" data-parent="#instances_accordion" href="#instance_<%= index %>">
+            <div class="col-md-1">
+              <span class="glyphicon"></span>
             </div>
-            <div class="span3">
+            <div class="col-md-3">
               <%= I18n.t("enumerations.instance_instance_type.#{instance['instance_type']}", :default => instance['instance_type']) %>
             </div>
-            <div class="span7">
+            <div class="col-md-7">
               <% if instance["instance_type"] === "digital_object" %>
                 <%= instance["digital_object"]["_resolved"]["title"] %>
               <% elsif instance["container"] and instance["container"].length > 0 %>
@@ -28,7 +27,7 @@
         <div id="instance_<%= index %>" class="accordion-body collapse">
           <%= read_only_view(instance) %>
           <% if instance["instance_type"] === "digital_object" %>
-            <div class="control-group">
+            <div class="form-group">
               <div class="control-label"><%= I18n.t("instance.digital_object") %></div>
               <div class="controls token-list">
                 <%= render_token :object => instance["digital_object"]["_resolved"],

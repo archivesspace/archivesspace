@@ -2,12 +2,12 @@
 
 <%= form_for @group, :as => "group", :url => {:action => :update, :id => @group.id}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@group)) do |f| %>
 
-<div class="row-fluid">
-  <div class="span3">
+<div class="row">
+  <div class="col-md-3">
   </div>
 
 
-  <div class="span9">
+  <div class="col-md-9">
     <%= render_aspace_partial :partial => "toolbar" %>
 
     <div class="record-pane">

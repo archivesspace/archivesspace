@@ -36,9 +36,9 @@
               <td><%= display_audit_info(record, :format => 'compact') %></td>
               <td class="table-record-actions">
                 <div class="btn-group pull-right">
-                  <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => event['ref']}, :class => "btn btn-mini" %>
+                  <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => event['ref']}, :class => "btn btn-xs btn-default" %>
                   <% if !event['_resolved']['suppressed'] %>
-                    <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => event['ref']}, :class => "btn btn-mini btn-primary" %>
+                    <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => event['ref']}, :class => "btn btn-xs btn-primary" %>
                   <% end %>
                 </div>
               </td>

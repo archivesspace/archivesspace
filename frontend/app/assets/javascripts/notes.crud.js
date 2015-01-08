@@ -105,7 +105,7 @@ $(function() {
 
 
       var initRemoveActionForSubRecord = function($subform) {
-        var removeBtn = $("<a href='javascript:void(0)' class='btn btn-mini pull-right subrecord-form-remove'><span class='icon-remove'></span></a>");
+        var removeBtn = $("<a href='javascript:void(0)' class='btn btn-default btn-xs pull-right subrecord-form-remove'><span class='glyphicon glyphicon-remove'></span></a>");
         $subform.prepend(removeBtn);
         removeBtn.on("click", function() {
           AS.confirmSubFormDelete($(this), function() {

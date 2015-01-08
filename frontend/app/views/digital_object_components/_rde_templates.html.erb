@@ -70,37 +70,37 @@
   <% first_row = form.current_context.first == "children[0]" %>
   <tr data-index="">
     <td data-col="status" class="status">
-      <span class="icon-exclamation-sign invalid"></span>
-      <span class="icon-ok valid"></span>
-      <div class="error-summary hide">
+      <span class="glyphicon glyphicon-exclamation-sign invalid"></span>
+      <span class="glyphicon glyphicon-ok valid"></span>
+      <div class="error-summary">
         <div class="error-summary-header">
           <span class="error-summary-header-text"><%= I18n.t("rde.messages.error_summary_header") %></span>
-          <a href="javascript:void(0);" class="hide-error-summary"><span class='icon icon-chevron-up'></span></a>
-          <a href="javascript:void(0);" class="show-error-summary"><span class='icon icon-chevron-down'></span></a>
+          <a href="javascript:void(0);" class="hide-error-summary"><span class='glyphicon glyphicon-chevron-up'></span></a>
+          <a href="javascript:void(0);" class="show-error-summary"><span class='glyphicon glyphicon-chevron-down'></span></a>
         </div>
         <div class="error-summary-list"></div>
       </div>
     </td>
 
-    <td data-col="colLabel" class="control-group"><%= form.textfield "label" %></td>
-    <td data-col="colTitle" class="control-group"><%= form.textfield "title" %></td>
-    <td data-col="colCompId" class="control-group"><%= form.textfield "component_id" %></td>
-    <td data-col="colPublish" class="control-group"><%= form.checkbox "publish", {}, user_prefs["publish"] %></td>
-    <td data-col="colLang" class="control-group">
+    <td data-col="colLabel" class="form-group"><%= form.textfield "label" %></td>
+    <td data-col="colTitle" class="form-group"><%= form.textfield "title" %></td>
+    <td data-col="colCompId" class="form-group"><%= form.textfield "component_id" %></td>
+    <td data-col="colPublish" class="form-group"><%= form.checkbox "publish", {}, user_prefs["publish"] %></td>
+    <td data-col="colLang" class="form-group">
       <%= form.select "language", jsonmodel_definition(:digital_object_component).options_for(form, "language", true) %>
     </td>
 
-    <td data-col="colDLabel" class="control-group">
+    <td data-col="colDLabel" class="form-group">
       <% form.push(form.set_index("dates[]", 0), begin digital_object_component["dates"][0] || {} rescue {} end) do %>
         <%= form.select "label", jsonmodel_definition(:date).options_for(form, "label", true) %>
       <% end %>
     </td>
-    <td data-col="colExpr" class="control-group">
+    <td data-col="colExpr" class="form-group">
       <% form.push(form.set_index("dates[]", 0), begin digital_object_component["dates"][0] || {} rescue {} end) do %>
         <%= form.textfield "expression" %>
       <% end %>
     </td>
-    <td data-col="colDType" class="control-group">
+    <td data-col="colDType" class="form-group">
       <% form.push(form.set_index("dates[]", 0), begin digital_object_component["dates"][0] || {} rescue {} end) do %>
         <%= form.select "date_type", jsonmodel_definition(:date).options_for(form, "date_type", true) %>
       <% end %>
@@ -108,74 +108,74 @@
         <span class="defer-to-section" id="<%= form.id_for(nil) %>"></span>
       <% end %>
     </td>
-    <td data-col="colDBegin" class="control-group">
+    <td data-col="colDBegin" class="form-group">
       <% form.push(form.set_index("dates[]", 0), begin digital_object_component["dates"][0] || {} rescue {} end) do %>
         <%= form.textfield "begin" %>
       <% end %>
     </td>
-    <td data-col="colDEnd" class="control-group">
+    <td data-col="colDEnd" class="form-group">
       <% form.push(form.set_index("dates[]", 0), begin digital_object_component["dates"][0] || {} rescue {} end) do %>
         <%= form.textfield "end" %>
       <% end %>
     </td>
-    <td data-col="colFUri" class="control-group">
+    <td data-col="colFUri" class="form-group">
       <% form.push(form.set_index("file_versions[]", 0), begin digital_object_component["file_versions"][0] || {} rescue {} end) do %>
         <%= form.textfield("file_uri") %>
       <% end %>
     </td>
-    <td data-col="colFPublish" class="control-group">
+    <td data-col="colFPublish" class="form-group">
       <% form.push(form.set_index("file_versions[]", 0), begin digital_object_component["file_versions"][0] || {} rescue {} end) do %>
         <%= form.checkbox "publish", {}, user_prefs["publish"] %>
       <% end %>
     </td>
-    <td data-col="colFUse" class="control-group">
+    <td data-col="colFUse" class="form-group">
       <% form.push(form.set_index("file_versions[]", 0), begin digital_object_component["file_versions"][0] || {} rescue {} end) do %>
         <%= form.select("use_statement", jsonmodel_definition(:file_version).options_for(form, "use_statement", true)) %>
       <% end %>
     </td>
-    <td data-col="colFActuate" class="control-group">
+    <td data-col="colFActuate" class="form-group">
       <% form.push(form.set_index("file_versions[]", 0), begin digital_object_component["file_versions"][0] || {} rescue {} end) do %>
         <%= form.select("xlink_actuate_attribute", jsonmodel_definition(:file_version).options_for(form, "xlink_actuate_attribute", true)) %>
       <% end %>
     </td>
-    <td data-col="colFShow" class="control-group">
+    <td data-col="colFShow" class="form-group">
       <% form.push(form.set_index("file_versions[]", 0), begin digital_object_component["file_versions"][0] || {} rescue {} end) do %>
         <%= form.select("xlink_show_attribute", jsonmodel_definition(:file_version).options_for(form, "xlink_show_attribute", true)) %>
       <% end %>
     </td>
-    <td data-col="colFFormat" class="control-group">
+    <td data-col="colFFormat" class="form-group">
       <% form.push(form.set_index("file_versions[]", 0), begin digital_object_component["file_versions"][0] || {} rescue {} end) do %>
         <%= form.select("file_format_name", jsonmodel_definition(:file_version).options_for(form, "file_format_name", true)) %>
       <% end %>
     </td>
-    <td data-col="colFVersion" class="control-group">
+    <td data-col="colFVersion" class="form-group">
       <% form.push(form.set_index("file_versions[]", 0), begin digital_object_component["file_versions"][0] || {} rescue {} end) do %>
         <%= form.textfield("file_format_version") %>
       <% end %>
     </td>
-    <td data-col="colFSize" class="control-group">
+    <td data-col="colFSize" class="form-group">
       <% form.push(form.set_index("file_versions[]", 0), begin digital_object_component["file_versions"][0] || {} rescue {} end) do %>
         <%= form.textfield("file_size_bytes") %>
       <% end %>
     </td>
-    <td data-col="colFCSum" class="control-group">
+    <td data-col="colFCSum" class="form-group">
       <% form.push(form.set_index("file_versions[]", 0), begin digital_object_component["file_versions"][0] || {} rescue {} end) do %>
         <%= form.textfield("checksum") %>
       <% end %>
     </td>
-    <td data-col="colFCSumM" class="control-group">
+    <td data-col="colFCSumM" class="form-group">
       <% form.push(form.set_index("file_versions[]", 0), begin digital_object_component["file_versions"][0] || {} rescue {} end) do %>
         <%= form.select("checksum_method", jsonmodel_definition(:file_version).options_for(form, "checksum_method", true)) %>
       <% end %>
     </td>
 
-    <td data-col="colNType1" class="control-group">
+    <td data-col="colNType1" class="form-group">
       <% form.push(form.set_index("notes[]", 0), begin digital_object_component["notes"][0] || {} rescue {} end) do %>
         <%= form.select("type", [""].concat(note_types_for("digital_object_component").map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
         <%= form.hidden_input "jsonmodel_type", "note_digital_object" %>
       <% end %>
     </td>
-    <td data-col="colNCont1" class="control-group">
+    <td data-col="colNCont1" class="form-group">
       <% form.push(form.set_index("notes[]", 0), begin digital_object_component["notes"][0] || {} rescue {} end) do %>
         <% form.push(form.set_index("content[]", 0), begin form["content"][0] || "" rescue "" end) do %>
           <%= form.textfield nil, form.obj %>
@@ -188,13 +188,13 @@
         <% end %>
       <% end %>
     </td>
-    <td data-col="colNType2" class="control-group">
+    <td data-col="colNType2" class="form-group">
       <% form.push(form.set_index("notes[]", 1), begin digital_object_component["notes"][1] || {} rescue {} end) do %>
         <%= form.select("type", [""].concat(note_types_for("digital_object_component").map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
         <%= form.hidden_input "jsonmodel_type", "note_digital_object" %>
       <% end %>
     </td>
-    <td data-col="colNCont2" class="control-group">
+    <td data-col="colNCont2" class="form-group">
       <% form.push(form.set_index("notes[]", 1), begin digital_object_component["notes"][1] || {} rescue {} end) do %>
         <% form.push(form.set_index("content[]", 0), begin form["content"][0] || "" rescue "" end) do %>
           <%= form.textfield nil, form.obj %>
@@ -207,13 +207,13 @@
         <% end %>
       <% end %>
     </td>
-    <td data-col="colNType3" class="control-group">
+    <td data-col="colNType3" class="form-group">
       <% form.push(form.set_index("notes[]", 2), begin digital_object_component["notes"][2] || {} rescue {} end) do %>
         <%= form.select("type", [""].concat(note_types_for("digital_object_component").map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
         <%= form.hidden_input "jsonmodel_type", "note_digital_object" %>
       <% end %>
     </td>
-    <td data-col="colNCont3" class="control-group">
+    <td data-col="colNCont3" class="form-group">
       <% form.push(form.set_index("notes[]", 2), begin digital_object_component["notes"][2] || {} rescue {} end) do %>
         <% form.push(form.set_index("content[]", 0), begin form["content"][0] || "" rescue "" end) do %>
           <%= form.textfield nil, form.obj %>
@@ -228,10 +228,10 @@
     </td>
 
 
-    <td data-col="" class="control-group">
+    <td data-col="" class="form-group">
       <div class="btn-group">
-        <button class="btn btn-success add-row"><span class="icon-plus icon-white"></span></button>
-        <% if !first_row %><button class="btn remove-row"><span class="icon-remove"></span></button><% end %>
+        <button class="btn btn-success add-row"><span class="glyphicon glyphicon-plus icon-white"></span></button>
+        <% if !first_row %><button class="btn remove-row"><span class="glyphicon glyphicon-remove"></span></button><% end %>
       </div>
     </td>
   </tr>

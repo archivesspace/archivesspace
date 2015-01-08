@@ -7,24 +7,23 @@
 
 %>
 
-<div class="row-fluid">
-  <div class="span3">
-    <%= render_aspace_partial :partial => "search/components_switch" %>
-    <%= render_aspace_partial :partial => "search/filter" %>
+<div class="row">
+  <div class="col-md-3">
+    <div class="sidebar">
+      <%= render_aspace_partial :partial => "search/components_switch" %>
+      <%= render_aspace_partial :partial => "search/filter" %>
+    </div>
   </div>
-  <div class="span9">
+  <div class="col-md-9">
     <% if user_can?('update_digital_object_record') %>
-      <div class="row-fluid">
-        <div class="span12">
-          <div class="record-toolbar">
-            <div class="pull-right">
-              <%= link_to I18n.t("digital_object._frontend.action.create"), {:controller => :digital_objects, :action => :new}, :class => "btn btn-small" %>
-              <% if user_can?("delete_archival_record") %>
-                <%= button_delete_multiple_action(:archival_records) %>
-              <% end %>
-            </div>
-          </div>
+      <div class="record-toolbar">
+        <div class="pull-right">
+          <%= link_to I18n.t("digital_object._frontend.action.create"), {:controller => :digital_objects, :action => :new}, :class => "btn btn-sm" %>
+          <% if user_can?("delete_archival_record") %>
+            <%= button_delete_multiple_action(:archival_records) %>
+          <% end %>
         </div>
+        <br style="clear:both" /> <!-- So dirty! -->
       </div>
     <% end %>
 

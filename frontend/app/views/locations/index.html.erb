@@ -10,21 +10,20 @@
    add_column(I18n.t("location._singular"), proc {|record| record['title']}, :sortable => true, :sort_by => 'title_sort')
 %>
 
-<div class="row-fluid">
-  <div class="span3">
-    <%= render_aspace_partial :partial => "search/filter" %>
+<div class="row">
+  <div class="col-md-3">
+    <div class="sidebar">
+      <%= render_aspace_partial :partial => "search/filter" %>
+    </div>
   </div>
-  <div class="span9">
+  <div class="col-md-9">
     <% if user_can?('update_location_record') %>
-      <div class="row-fluid">
-        <div class="span12">
-          <div class="record-toolbar">
-            <div class="btn-group pull-right">
-              <%= link_to I18n.t("location._frontend.action.create"), {:controller => :locations, :action => :new}, :class => "btn btn-small" %>
-              <%= link_to I18n.t("location._frontend.action.batch"), {:controller => :locations, :action => :batch}, :class => "btn btn-small" %>
-            </div>
-          </div>
+      <div class="record-toolbar">
+        <div class="btn-group pull-right">
+          <%= link_to I18n.t("location._frontend.action.create"), {:controller => :locations, :action => :new}, :class => "btn btn-sm btn-default" %>
+          <%= link_to I18n.t("location._frontend.action.batch"), {:controller => :locations, :action => :batch}, :class => "btn btn-sm btn-default" %>
         </div>
+        <br style="clear:both" /> <!-- So dirty! -->
       </div>
     <% end %>
 

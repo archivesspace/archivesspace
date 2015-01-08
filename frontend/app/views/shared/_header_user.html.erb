@@ -6,8 +6,9 @@
         <li>
           <%= form_tag({:controller => :repositories, :action => :select}) do |f| %>
             <fieldset>
-              <%= select_tag "id", options_for_select(@repositories.map {|repo| [repo.repo_code, repo.id]}, session[:repo_id]) %>
+              <%= select_tag "id", options_for_select(@repositories.map {|repo| [repo.repo_code, repo.id]}, session[:repo_id]), :class=>"form-control" %>
             </fieldset>
+            <br />
             <button class="btn btn-primary pull-left"><%= I18n.t("repository._frontend.action.select") %></button>
           <% end %>
         </li>
@@ -50,27 +51,30 @@
     </li>
   <% end %>
 
-  <li class="dropdown user-container">
-    <div class="input-append">
-      <span class="inset-label">
-        <span class="user-label has-popover" data-trigger="hover" data-placement="bottom" data-html='true' data-title='<span class="icon-user"></span> <%= CGI::escapeHTML(session[:user]) %>'>
-          <span class="icon-user"></span><%= session[:user] %>
+  <li class="user-container">
+    <div class="btn-group">
+      <button class="btn btn-default navbar-btn">
+        <span class="user-label has-popover" data-trigger="hover" data-placement="bottom" data-html='true' data-title='<span class="glyphicon glyphicon-user"></span> <%= CGI::escapeHTML(session[:user]) %>'>
+        <span class="glyphicon glyphicon-user"></span><%= session[:user] %>
         </span>
-      </span>
-      <a class="btn dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-      <ul class="dropdown-menu pull-right">
+      </button>
 
-        <li><%= link_to I18n.t("navbar.user_global_preferences"), :controller => :preferences, :action => :edit, :id => 0, :global => true %></li>
-        <% if session[:repo_id] %>
-          <li><%= link_to I18n.t("navbar.user_repo_preferences"), :controller => :preferences, :action => :edit, :id => 0 %></li>
-        <% end %>
-        <li class="divider"></li>
+      <div class="btn-group">
+        <a class="btn btn-default navbar-btn dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+        <ul class="dropdown-menu pull-right">
 
-        <% if user_can?('become_user') %>
-          <li><%= link_to I18n.t("navbar.become-user"), :controller => "session", :action => "select_user" %></li>
-        <% end %>
-        <li><%= link_to I18n.t("navbar.logout"), :controller => "session",:action => "logout"%></li>
-      </ul>
+          <li><%= link_to I18n.t("navbar.user_global_preferences"), :controller => :preferences, :action => :edit, :id => 0, :global => true %></li>
+          <% if session[:repo_id] %>
+            <li><%= link_to I18n.t("navbar.user_repo_preferences"), :controller => :preferences, :action => :edit, :id => 0 %></li>
+          <% end %>
+          <li class="divider"></li>
+
+          <% if user_can?('become_user') %>
+            <li><%= link_to I18n.t("navbar.become-user"), :controller => "session", :action => "select_user" %></li>
+          <% end %>
+          <li><%= link_to I18n.t("navbar.logout"), :controller => "session",:action => "logout"%></li>
+        </ul>
+      </div>
     </div>
   </li>
 <% else %>

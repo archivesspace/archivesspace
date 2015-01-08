@@ -4,18 +4,20 @@
   </div>
   <% if @search_data.sorted? %>
     <div class="pull-right" style="position: relative">
-      <span class="input-append">
+      <span class="btn-group">
         <label style="float: left;">&#160;<%= I18n.t("search_sorting.and") %>&#160;</label>
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-          <span class="inset-label"><%= @search_data.sorted_by_label(title_sort_label, 1) %></span>
-          <span class="btn btn-mini last"><span class="caret"></span></span>
+          <div class="btn-group">
+            <span class="btn btn-xs btn-default"><%= @search_data.sorted_by_label(title_sort_label, 1) %></span>
+            <span class="btn btn-xs btn-default last"><span class="caret"></span></span>
+          </div>
         </a>
         <ul class="dropdown-menu pull-right">
           <% if @search_data.weightable? %>
             <li><%= link_to I18n.t("search_sorting.relevance"), build_search_params("sort2" => "") %></li>
           <% end %>
           <% if show_title_column? && !@search_data.sorted_by?('title_sort') %>
-            <li class="dropdown-submenu pull-left">
+            <li class="dropdown-submenu">
               <%= link_to title_sort_label, build_search_params("sort2" => @search_data.sort_filter_for("title_sort")) %>
                 <ul class="dropdown-menu">
                   <li><%= link_to I18n.t("search_sorting.asc"), build_search_params("sort2" => "title_sort asc") %></li>
@@ -25,7 +27,7 @@
           <% end %>
           <% @search_data.sort_fields.each do |field| %>
             <% if !@search_data.sorted_by?(field) %>
-              <li class="dropdown-submenu pull-left">
+              <li class="dropdown-submenu">
                 <%= link_to I18n.t("search_sorting.#{field}"), build_search_params("sort2" => @search_data.sort_filter_for(field, "desc")) %>
                 <ul class="dropdown-menu">
                   <li><%= link_to I18n.t("search_sorting.asc"), build_search_params("sort2" => "#{field} asc") %></li>
@@ -40,18 +42,20 @@
   <% end %>
 
   <div class="pull-right" style="position: relative">
-    <span class="input-append">
+    <span class="btn-group">
       <label style="float: left;"><%= I18n.t("search_sorting.sort_by") %>&#160;</label>
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        <span class="inset-label"><%= @search_data.sorted_by_label(title_sort_label) %></span>
-        <span class="btn btn-mini last"><span class="caret"></span></span>
+        <div class="btn-group">
+          <span class="btn btn-default btn btn-xs"><%= @search_data.sorted_by_label(title_sort_label) %></span>
+          <span class="btn btn-xs btn-default last"><span class="caret"></span></span>
+        </div>
       </a>
       <ul class="dropdown-menu pull-right">
         <% if @search_data.weightable? %>
           <li><%= link_to I18n.t("search_sorting.relevance"), build_search_params("sort" => "") %></li>
         <% end %>
         <% if show_title_column? %>
-          <li class="dropdown-submenu pull-left">
+          <li class="dropdown-submenu">
             <%= link_to title_sort_label, build_search_params("sort" => @search_data.sort_filter_for("title_sort")) %>
             <ul class="dropdown-menu">
               <li><%= link_to I18n.t("search_sorting.asc"), build_search_params("sort" => "title_sort asc") %></li>
@@ -60,7 +64,7 @@
           </li>
         <% end %>
         <% @search_data.sort_fields.each do |field| %>
-          <li class="dropdown-submenu pull-left">
+          <li class="dropdown-submenu">
             <%= link_to I18n.t("search_sorting.#{field}"), build_search_params("sort" => @search_data.sort_filter_for(field, "desc")) %>
             <ul class="dropdown-menu">
               <li><%= link_to I18n.t("search_sorting.asc"), build_search_params("sort" => "#{field} asc") %></li>

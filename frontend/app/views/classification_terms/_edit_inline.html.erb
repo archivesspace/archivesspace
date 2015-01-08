@@ -1,16 +1,16 @@
 <%= form_for @classification_term, :as => "classification_term", :url => {:action => :update, :id => @classification_term.id}, :html => {:class => 'form-horizontal aspace-record-form', :id => 'classification_term_form'}.merge(update_monitor_params(@classification_term)) do |f| %>
   <%= form_context :classification_term, @classification_term do |form| %>
-    <div class="row-fluid">
-      <div class="span3">
+    <div class="row">
+      <div class="col-md-3">
         <%= render_aspace_partial :partial => "sidebar" %>
       </div>
-      <div class="span9">
+      <div class="col-md-9">
         <%= render_aspace_partial :partial => "toolbar" %>
         <div class="record-pane">
           <%= render_aspace_partial :partial => "classification_terms/form_container", :locals => {:form => form} %>
           <div class="form-actions">
             <button type="submit" class="btn btn-primary"><%= I18n.t("classification_term._frontend.action.save") %></button>
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
+            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
         </div>
       </div>

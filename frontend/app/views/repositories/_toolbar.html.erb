@@ -1,15 +1,15 @@
-<div class="row-fluid">
-  <div class="span12">
+<div class="row">
+  <div class="col-md-12">
     <div class="record-toolbar">
       <%  if user_can?('create_repository') && !['edit', 'update'].include?(controller.action_name) %>
         <div class="btn-group pull-left">
-          <%= link_to I18n.t("actions.edit"), {:controller => :repositories, :action => :edit, :id => @repository.id}, :class => "btn btn-small btn-primary" %>
+          <%= link_to I18n.t("actions.edit"), {:controller => :repositories, :action => :edit, :id => @repository.id}, :class => "btn btn-sm btn-primary" %>
         </div>
       <% end %>
       <div class="pull-right">
         <% if session[:repo_id] != @repository.id and @repositories.any?{|r| r['uri'] === @repository.uri} %>
           <%= form_for @repository, :as => "repository", :url => {:action => :select}, :html => {:style => "display: inline;"} do |f| %>
-            <button type="submit" class="btn btn-small btn-success"><%= I18n.t("repository._frontend.action.select") %></button>
+            <button type="submit" class="btn btn-sm btn-success"><%= I18n.t("repository._frontend.action.select") %></button>
           <% end %>
         <% end %>
         <% if user_can?('delete_repository') %>

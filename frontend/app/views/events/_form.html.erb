@@ -48,9 +48,9 @@
   <section id="event_linked_agents_">
     <h3><%= I18n.t("linked_agent._plural") %></h3>
 
-    <div class="control-group">
-      <div class="control-label"><%= I18n.t("linked_agent._plural") %></div>
-      <div class="controls token-list">
+    <div class="form-group">
+      <div class="control-label col-sm-2"><%= I18n.t("linked_agent._plural") %></div>
+      <div class="controls token-list col-sm-4">
         <% form['linked_agents'].each do |linked_agent| %>
           <%= render_token :object => linked_agent['_resolved'],
                            :label => linked_agent['_resolved']['title'],
@@ -70,9 +70,9 @@
   <section id="event_linked_records_">
     <h3><%= I18n.t("linked_record._plural") %></h3>
 
-    <div class="control-group">
-      <div class="control-label"><%= I18n.t("linked_record._plural") %></div>
-      <div class="controls token-list">
+    <div class="form-group">
+      <div class="control-label col-sm-2"><%= I18n.t("linked_record._plural") %></div>
+      <div class="controls token-list col-sm-4">
         <% form['linked_records'].each do |linked_record| %>
           <%= render_token :object => linked_record['_resolved'],
                            :label => linked_record['_resolved']['title'],

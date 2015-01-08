@@ -1,7 +1,7 @@
 <div class="job-create-form-wrapper">
   <% define_template("fileupload") do |form| %>
-    <span class="btn btn-success btn-small fileinput-button">
-      <span class="icon icon-plus icon-white"></span>
+    <span class="btn btn-success btn-sm fileinput-button">
+      <span class="glyphicon glyphicon-plus icon-white"></span>
       <span><%= I18n.t("job._frontend.actions.add_file") %></span>
       <input type="file" name="files[]" multiple="multiple">
     </span>
@@ -27,8 +27,8 @@
 
   <%= form_for @job, :as => "job", :url => {:action => :create}, :html => {:id => "jobfileupload", :class => 'form-horizontal aspace-record-form',  :multipart => true} do |f| %>
     <%= form_context :job, @job do |form| %>
-      <div class="row-fluid">
-        <div class="span12">
+      <div class="row">
+        <div class="col-md-12">
           <div class="record-pane">
             <%= link_to_help :topic => "job" %>
             <h2><%= I18n.t("job._frontend.actions.new") %></h2>
@@ -49,7 +49,7 @@
               <div class="btn-group">
                 <button type="submit" class="btn btn-primary"><%= I18n.t("job._frontend.actions.save") %></button>
               </div>
-              <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
+              <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
             </div>
           </div>
         </div>
@@ -60,7 +60,7 @@
   <div id="template_import_file"><!--
     <div class="import-file">
       <span class="import-filename">${filename}</span>
-      <span class="btn btn-mini btn-remove-file"><span class="icon icon-trash"></span></span>
+      <span class="btn btn-xs btn-remove-file"><span class="glyphicon glyphicon-trash"></span></span>
     </div>
   --></div>
 

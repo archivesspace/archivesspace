@@ -1,26 +1,23 @@
 <% if user_can?('update_location_record') %>
-  <div class="row-fluid">
-    <div class="span12">
-      <div class="record-toolbar">
-        <% if !['edit', 'update'].include?(controller.action_name) %>
-          <div class="pull-left">
-            <div class="btn-group">
-              <%= link_to I18n.t("actions.edit"), {:controller => :locations, :action => :edit, :id => @location.id}, :class => "btn btn-small btn-primary" %>
-            </div>
-          </div>
-        <% end %>
-        <% if ['edit', 'update'].include?(controller.action_name) %>
-          <div class="pull-left revert-changes">
-            <%= link_to I18n.t("actions.revert"), {:controller => :locations, :action => :edit, :id => @location.id}, :class => "btn btn-small" %>
-            <%= I18n.t("actions.toolbar_disabled_message") %>
-          </div>
-        <% end %>
-        <div class="btn-toolbar pull-right">
-          <div class="btn btn-inline-form">
-            <%= button_delete_action url_for(:controller => :locations, :action => :delete, :id => @location.id), {:"data-message" => I18n.t("location._frontend.action.delete_confirm_message"),} %>
-          </div>
+  <div class="record-toolbar">
+    <% if !['edit', 'update'].include?(controller.action_name) %>
+      <div class="pull-left">
+        <div class="btn-group">
+          <%= link_to I18n.t("actions.edit"), {:controller => :locations, :action => :edit, :id => @location.id}, :class => "btn btn-sm btn-primary" %>
         </div>
       </div>
+    <% end %>
+    <% if ['edit', 'update'].include?(controller.action_name) %>
+      <div class="pull-left revert-changes">
+        <%= link_to I18n.t("actions.revert"), {:controller => :locations, :action => :edit, :id => @location.id}, :class => "btn btn-sm btn-default" %>
+        <%= I18n.t("actions.toolbar_disabled_message") %>
+      </div>
+    <% end %>
+    <div class="btn-toolbar pull-right">
+      <div class="btn btn-inline-form">
+        <%= button_delete_action url_for(:controller => :locations, :action => :delete, :id => @location.id), {:"data-message" => I18n.t("location._frontend.action.delete_confirm_message"),} %>
+      </div>
     </div>
+    <div class="clearfix"></div>
   </div>
 <% end %>

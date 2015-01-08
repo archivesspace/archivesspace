@@ -1,8 +1,9 @@
 <%= setup_context :object => @user %>
 
 <%= form_for @user, :as => "createuser", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@user)) do |f| %>
-  <div class="row-fluid">
-     <div class="span12">
+  <div class="row">
+    <div class="col-md-1"></div>
+     <div class="col-md-11">
        <%= render_aspace_partial :partial => "toolbar" %>
        <div class="record-pane">
          <%= link_to_help :topic => "user" %>
@@ -12,7 +13,7 @@
 
            <div class="form-actions">
              <button id="create_account" type="submit" class="btn btn-primary"><%= I18n.t("user._frontend.section.edit_account_submit") %></button>
-             <%= link_to I18n.t("actions.cancel"), {:controller => :welcome}, :class => "btn btn-cancel" %>
+             <%= link_to I18n.t("actions.cancel"), {:controller => :welcome}, :class => "btn btn-cancel btn-default" %>
            </div>
          <% end %>
        </div>

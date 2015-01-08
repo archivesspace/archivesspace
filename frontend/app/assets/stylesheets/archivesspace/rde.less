@@ -1,5 +1,5 @@
 @import "archivesspace/variables";
-@import "twitter/bootstrap/mixins";
+@import "bootstrap/mixins";
 
 #rde_form {
   .sections {
@@ -51,13 +51,13 @@
     }
   }
   td {
-    &.control-group {
-      &.error {
+    &.form-group {
+      &.has-error {
         background-color: @errorBackground;
       }
     }
 
-    &.control-group {
+    &.form--group {
       min-width: 60px;
       select {
         width: 100%;
@@ -121,7 +121,10 @@
       background-color: white;
       padding: 10px;
       margin-top: -1px;
-      .border-radius(0 0 4px 4px);
+      .border-top-radius(0);
+      .border-right-radius(0);
+      .border-bottom-radius(4px);
+      .border-left-radius(0px);
     }
     .btn-cancel {
       float: none;
@@ -139,7 +142,6 @@
   }
 
   .error-summary {
-    display: none;
     position: absolute;
     .opacity(90);
     z-index: 1;
@@ -207,7 +209,10 @@
     .error-summary {
       display: block;
       margin-top: 0.9em;
-      .border-radius(0 0 4px 4px);
+      .border-top-radius(0);
+      .border-right-radius(0);
+      .border-bottom-radius(4px);
+      .border-left-radius(0px);
 
       .show-error-summary {
         padding: 4px;
@@ -221,7 +226,10 @@
       .error-summary {
         padding: 5px 10px;
         margin-top: 1.1em;
-        .border-radius(4px);
+        .border-top-radius(4px);
+        .border-right-radius(4px);
+        .border-bottom-radius(4px);
+        .border-left-radius(4px);
 
         .hide-error-summary, .error {
           display: block;

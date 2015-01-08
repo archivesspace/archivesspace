@@ -5,14 +5,14 @@
   <h3><%= heading_text %></h3>
   <div class="subrecord-form-container">
     <div class="subrecord-form-fields">
-      <div class="row-fluid">
-        <div class="span6"><strong><%= I18n.t("term.term") %></strong></div>
-        <div class="span6"><strong><%= I18n.t("term.term_type") %></strong></div>
+      <div class="row">
+        <div class="col-md-6"><strong><%= I18n.t("term.term") %></strong></div>
+        <div class="col-md-6"><strong><%= I18n.t("term.term_type") %></strong></div>
       </div>
       <% terms.each do | term | %>
-        <div class="row-fluid">
-          <div class="span6"><%= term["term"] %></div>
-          <div class="span6"><%= I18n.t("enumerations.subject_term_type.#{term["term_type"]}", :default => term["term_type"]) %></div>
+        <div class="row">
+          <div class="col-md-6"><%= term["term"] %></div>
+          <div class="col-md-6"><%= I18n.t("enumerations.subject_term_type.#{term["term_type"]}", :default => term["term_type"]) %></div>
         </div>
       <% end %>
     </div>

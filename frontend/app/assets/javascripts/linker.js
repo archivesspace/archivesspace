@@ -69,7 +69,11 @@ $(function() {
               $("#createAndLinkButton", $modal).removeAttr("disabled");
             }
           });
-          $(".alert", $modal).ScrollTo();
+          
+          // $(".alert", $modal).ScrollTo();
+
+          $modal.scrollTo(".alert");
+
           $modal.trigger("resize");
           $(document).triggerHandler("loadedrecordform.aspace", [$modal]);
         };
@@ -85,7 +89,7 @@ $(function() {
 
 
       var showLinkerCreateModal = function() {
-        AS.openCustomModal(config.modal_id, "Create "+ config.label, AS.renderTemplate("linker_createmodal_template", config), 'container', {}, this);
+        AS.openCustomModal(config.modal_id, "Create "+ config.label, AS.renderTemplate("linker_createmodal_template", config), 'large', {}, this);
         if ($(this).hasClass("linker-create-btn")) {
           renderCreateFormForObject($(this).data("target"));
         } else {
@@ -96,7 +100,6 @@ $(function() {
 
 
       var initAndShowLinkerBrowseModal = function() {
-
         var currentlySelected = {};
 
         var renderItemsInModal = function(page) {
@@ -199,7 +202,7 @@ $(function() {
           $this.triggerHandler("change");
         };
 
-        AS.openCustomModal(config.modal_id, "Browse "+ config.label_plural, AS.renderTemplate("linker_browsemodal_template",config), 'container', {}, this);
+        AS.openCustomModal(config.modal_id, "Browse "+ config.label_plural, AS.renderTemplate("linker_browsemodal_template",config), 'large', {}, this);
         renderItemsInModal();
         $("#"+config.modal_id).on("click","#addSelectedButton", addSelected);
         $("#"+config.modal_id).on("click", ".linker-list .pagination .navigation a", function() {
@@ -207,7 +210,6 @@ $(function() {
         });
         return false; // IE patch
       };
-
 
       var formatResults = function(searchData) {
         var formattedResults = [];
@@ -346,6 +348,7 @@ $(function() {
           $this.tokenInput(config.url, tokenInputConfig);
 
           $("> :input[type=text]", $(".token-input-input-token", $this.parent())).attr("placeholder", AS.linker_locales.hintText);
+          $("> :input[type=text]", $(".token-input-input-token", $this.parent())).addClass('form-control');
 
           $this.parent().addClass("multiplicity-"+config.multiplicity);
 

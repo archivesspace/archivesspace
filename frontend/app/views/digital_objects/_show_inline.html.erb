@@ -1,8 +1,8 @@
-<div class="row-fluid">
-  <div class="span3">
+<div class="row">
+  <div class="col-md-3">
     <%= render_aspace_partial :partial => "digital_objects/sidebar" %>
   </div>
-  <div class="span9">
+  <div class="col-md-9">
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <% define_template "digital_object", jsonmodel_definition(:digital_object) do |readonly, digital_object| %>
@@ -44,15 +44,15 @@
             <h3><%= I18n.t("linked_record._plural") %></h3>
             <div class="subrecord-form-container">
               <div class="subrecord-form-fields">
-                <div class="row-fluid label-and-value">
-                  <div class="span3">
+                <div class="row label-and-value">
+                  <div class="col-md-3">
                     <% if digital_object.linked_instances.length > 1 %>
                       <%= I18n.t("linked_record.ref_plural") %>
                     <% else %>
                       <%= I18n.t("linked_record.ref") %>
                     <% end %>
                   </div>
-                  <div class="span9 token-list">
+                  <div class="col-md-9 token-list">
                     <% digital_object.linked_instances.each do | ref | %>
                       <%= render_token :object => ref,
                                        :label => ref["_resolved"]["display_string"] || ref["_resolved"]["title"],

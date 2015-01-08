@@ -96,6 +96,9 @@ module ArchivesSpace
 
     config.assets.precompile += %w( *.js )
 
+    # Add fonts directory
+    config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
+
     # Allow overriding of the locales via the local folder(s)
     if not ASUtils.find_local_directories.blank?
       # i18n locales

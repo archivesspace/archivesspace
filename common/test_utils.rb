@@ -1,5 +1,6 @@
 require 'rbconfig'
 require 'socket'
+require 'net/http'
 
 module TestUtils
 
@@ -72,10 +73,17 @@ module TestUtils
       java_opts += " -Daspace.config=#{config_file}"
     end
 
+    build_args = ["backend:devserver:integration",
+            "-Daspace.backend.port=#{port}",
+            "-Daspace_integration_test=1"]
+
+    if config[:solr_port]
+      build_args.push("-Daspace.solr.port=#{config[:solr_port]}")
+      java_opts += " -Daspace.config.solr_url=http://localhost:#{config[:solr_port]}"
+    end
+
     pid = Process.spawn({:JAVA_OPTS => java_opts},
-                        "#{base}/../build/run", "backend:devserver:integration",
-                        "-Daspace.backend.port=#{port}",
-                        "-Daspace_integration_test=1")
+                        "#{base}/../build/run", *build_args)
 
     TestUtils.wait_for_url("http://localhost:#{port}")
 

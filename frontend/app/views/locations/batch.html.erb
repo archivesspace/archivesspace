@@ -2,11 +2,11 @@
 
 <%= form_for @location_batch, :as => "location_batch", :url => {:action => :batch_create}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
   <%= form_context :location_batch, @location_batch do |form| %>
-    <div class="row-fluid">
-      <div class="span3">
+    <div class="row">
+      <div class="col-md-3">
         <%= render_aspace_partial :partial => "locations/sidebar_batch" %>
       </div>
-      <div class="span9">
+      <div class="col-md-9">
         <div class="record-pane">
 
           <h2><%= I18n.t("location_batch._singular") %></h2>
@@ -46,7 +46,7 @@
             </button>
             <button type="button" class="btn preview-locations"><%= I18n.t("location_batch._frontend.action.preview") %></button>
 
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
+            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
         </div>
       </div>

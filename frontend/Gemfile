@@ -16,7 +16,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
   gem 'therubyrhino'
 
-  gem 'less-rails', '~> 2.3.3'
+  gem 'less-rails', '~> 2.6.0'
 end
 
 gem 'jquery-rails', '~> 3.1.0'

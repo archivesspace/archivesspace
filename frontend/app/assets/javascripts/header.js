@@ -89,7 +89,8 @@ $(function() {
     event.stopPropagation();
     event.preventDefault();
 
-    $(".nav .search-switcher").toggle();
+    $(".nav .search-switcher span").toggleClass('glyphicon-chevron-down');
+    $(".nav .search-switcher span").toggleClass('glyphicon-chevron-up');
     $advancedSearchContainer.slideToggle();
   });
 
@@ -97,7 +98,8 @@ $(function() {
     event.stopPropagation();
     event.preventDefault();
 
-    $(".nav .search-switcher").toggle();
+    $(".nav .search-switcher span").removeClass('glyphicon-chevron-up');
+    $(".nav .search-switcher span").addClass('glyphicon-chevron-down');
     $advancedSearchContainer.slideUp();
   });
 
@@ -105,10 +107,10 @@ $(function() {
     event.stopPropagation();
     event.preventDefault();
 
-    $(this).closest(".row-fluid").remove();
+    $(this).closest(".row").remove();
 
     // Ensure first row operator select only offers "NOT" value
-    var $firstOpSelect = $(".advanced-search-row-container >.row-fluid:first-child .advanced-search-row-op-input");
+    var $firstOpSelect = $(".advanced-search-row-container >.row:first-child .advanced-search-row-op-input");
     if ($firstOpSelect.length > 0) {
       var $newOpSelect = AS.renderTemplate("template_advanced_search_op_select", {first: true, index: $firstOpSelect.attr("name").replace("op", ""), query: {op: $firstOpSelect.val()}});
       $firstOpSelect.replaceWith($newOpSelect);
@@ -123,7 +125,7 @@ $(function() {
     event.stopPropagation();
     event.preventDefault();
 
-    var index = $(">.row-fluid", $advancedSearchRowContainer).length;
+    var index = $("input[id^='v']", $advancedSearchRowContainer).length;
 
     var adding_as_first_row = false;
     if (index == 0) {
@@ -148,18 +150,20 @@ $(function() {
       query: query
     }
 
+    console.log(field_data);
+
     var $row = $(AS.renderTemplate("template_advanced_search_row", {field_data: field_data}));
 
     $advancedSearchRowContainer.append($row);
 
     if (type == "date") {
       $("#v"+index, $row).on("change", function(event) {
-        $(this).closest(".control-group").removeClass("error");
+        $(this).closest(".form-group").removeClass("has-error");
 
         var value = $(this).val();
         var asDate = moment(value).format("YYYY-MM-DD");
         if (asDate == "Invalid date") {
-          $(this).closest(".control-group").addClass("error");
+          $(this).closest(".form-group").addClass("has-error");
           disableAdvancedSearch();
         } else {
           enableAdvancedSearch();

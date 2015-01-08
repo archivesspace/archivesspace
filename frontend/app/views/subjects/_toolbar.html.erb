@@ -1,44 +1,40 @@
 <% if user_can?('update_subject_record') %>
-  <div class="row-fluid">
-    <div class="span12">
-      <div class="record-toolbar">
-        <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
-          <div class="pull-left save-changes">
-            <button type="submit" class="btn btn-primary btn-small"><%= I18n.t("actions.save_prefix") %></button>
-          </div>
-        <% else %>
-          <div class="btn-group pull-left">
-            <%= link_to I18n.t("actions.edit"), {:controller => :subjects, :action => :edit, :id => @subject.id}, :class => "btn btn-small btn-primary" %>
-          </div>
-        <% end %>
-
-        <% if ['edit', 'update'].include?(controller.action_name) %>
-          <div class="pull-left revert-changes">
-            <%= link_to I18n.t("actions.revert"), {:controller => :subjects, :action => :edit, :id => @subject.id}, :class => "btn btn-small" %>
-            <%= I18n.t("actions.toolbar_disabled_message") %>
-          </div>
-        <% end %>
-
-        <div class="btn-group btn-toolbar pull-right">
-          <% if user_can?('merge_subject_record') %>
-            <%=
-                render_aspace_partial :partial => "shared/merge_dropdown",
-                       :locals => {:record => @subject,
-                                   :controller => :subjects,
-                                   :confirmation_title => I18n.t("actions.merge_confirm_title"),
-                                   :confirmation_msg => I18n.t("actions.merge_subject_confirm_message",
-                                                               :source => @subject.title)}
-            %>
-          <% end %>
-
-          <% if user_can?('delete_subject_record') %>
-            <div class="btn btn-inline-form">
-              <%= button_delete_action url_for(:controller => :subjects, :action => :delete, :id => @subject.id) %>
-            </div>
-          <% end %>
-        </div>
-        <div class="clearfix"></div>
+  <div class="record-toolbar">
+    <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
+      <div class="pull-left save-changes">
+        <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
       </div>
+    <% else %>
+      <div class="btn-group pull-left">
+        <%= link_to I18n.t("actions.edit"), {:controller => :subjects, :action => :edit, :id => @subject.id}, :class => "btn btn-sm btn-primary" %>
+      </div>
+    <% end %>
+
+    <% if ['edit', 'update'].include?(controller.action_name) %>
+      <div class="pull-left revert-changes">
+        <%= link_to I18n.t("actions.revert"), {:controller => :subjects, :action => :edit, :id => @subject.id}, :class => "btn btn-sm btn-default" %>
+        <%= I18n.t("actions.toolbar_disabled_message") %>
+      </div>
+    <% end %>
+
+    <div class="btn-group btn-toolbar pull-right">
+      <% if user_can?('merge_subject_record') %>
+        <%=
+        render_aspace_partial :partial => "shared/merge_dropdown",
+        :locals => {:record => @subject,
+                    :controller => :subjects,
+                    :confirmation_title => I18n.t("actions.merge_confirm_title"),
+                    :confirmation_msg => I18n.t("actions.merge_subject_confirm_message",
+                                                :source => @subject.title)}
+        %>
+      <% end %>
+
+      <% if user_can?('delete_subject_record') %>
+        <div class="btn btn-inline-form">
+          <%= button_delete_action url_for(:controller => :subjects, :action => :delete, :id => @subject.id) %>
+        </div>
+      <% end %>
     </div>
+    <div class="clearfix"></div>
   </div>
 <% end %>

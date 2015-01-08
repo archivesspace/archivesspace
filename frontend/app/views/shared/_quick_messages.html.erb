@@ -1,5 +1,5 @@
 <% if exceptions.has_key?("error") %>
-  <div class="alert alert-error">
+  <div class="alert alert-danger">
     <% exceptions["error"].each do |attr, messages| %>
       <div class="errors-for-attribute">
         <% messages.each do |msg| %>

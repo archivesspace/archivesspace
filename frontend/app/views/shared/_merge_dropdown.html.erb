@@ -4,9 +4,8 @@
    extra_params = {} if extra_params.blank?
 %>
 
-<div class="btn btn-inline-form">
   <div id="merge-dropdown" class="btn-group dropdown" data-no-change-tracking="true">
-    <a class="btn btn-small dropdown-toggle merge-action" data-toggle="dropdown" href="#" title="<%= I18n.t("actions.merge") %>">
+    <a class="btn btn-sm btn-default dropdown-toggle merge-action" data-toggle="dropdown" href="#" title="<%= I18n.t("actions.merge") %>">
       <%= I18n.t("actions.merge") %> <span class="caret"></span>
     </a>
     <ul class="dropdown-menu merge-form open-aligned-right">
@@ -15,7 +14,7 @@
         <%= form_context :merge, {} do |form| %>
 
         <fieldset>
-          <div class="alert alert-error missing-ref-message" style="display: none;"><%= I18n.t "#{singular}._frontend.messages.please_select_a_#{singular}_to_merge" %></div>
+          <div class="alert alert-danger missing-ref-message" style="display: none;"><%= I18n.t "#{singular}._frontend.messages.please_select_a_#{singular}_to_merge" %></div>
           <%= render_aspace_partial :partial => "#{controller}/linker", :locals => { :form => form,  :exclude_ids => [record.uri], :hide_create => true, :multiplicity => multiplicity }%>
         </fieldset>
         <div class="form-actions">
@@ -23,17 +22,17 @@
              button_confirm_action(I18n.t("actions.merge"),
                                    url_for({:controller => controller, :action => :merge, :id => record.id}.merge(extra_params)),
                                    {
-                                     :class => "btn pull-left merge-button",
+                                     :class => "btn pull-left merge-button btn-default",
                                      :"data-title" => confirmation_title,
                                      :"data-message" => confirmation_msg,
                                      :"data-confirm-btn-label" => "#{I18n.t("actions.merge")}",
-                                     :"data-confirm-btn-class" => "btn"
+                                     :"data-confirm-btn-class" => "btn btn-default"
                                    })
           %>
-          <a class="btn btn-cancel pull-right" href="#"><%= I18n.t("actions.cancel") %></a>
+          <a class="btn btn-cancel btn-default pull-right" href="#"><%= I18n.t("actions.cancel") %></a>
         </div>
         <% end %>
       </li>
     </ul>
   </div>
-</div>
+

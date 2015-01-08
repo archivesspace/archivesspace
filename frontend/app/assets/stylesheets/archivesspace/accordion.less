@@ -1,7 +1,18 @@
-/* accordion styles */
-.accordion {
+/* panel styles (BS 3) */
+
+.panel-heading .accordion-toggle div:first-child span:before {
+  font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+  content: "\e114";
+}
+
+.panel-heading .accordion-toggle.collapsed div:first-child span:before {
+  content: "\e080";
+}
+
+
+.panel-group {
   &.details {
-    .accordion-body {
+    .panel-collapse {
       background-color: #fafafa;
       &.in {
         padding-top: 8px;
@@ -9,26 +20,12 @@
       }
     }
   }
-  .accordion-body.collapse {
+  .panel-collapse.collapse {
     border-top: none;
   }
   .accordion-toggle {
-    .icon-chevron-down {
-      display: block;
-    }
-    .icon-chevron-right {
-      display: none;
-    }
-    &.row-fluid {
+    &.row {
       padding-bottom: 0;
-    }
-    &.collapsed {
-      .icon-chevron-down {
-        display: none;
-      }
-      .icon-chevron-right {
-        display: block;
-      }
     }
   }
 }

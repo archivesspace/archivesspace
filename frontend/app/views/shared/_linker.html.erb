@@ -1,0 +1,78 @@
+<!-- Shared Linker Partial -->
+
+<%
+  # Allow multiple subjects to be linked if it's an empty linker
+  multiplicity = "many" if multiplicity.blank?
+
+  if form.obj['ref'].blank?
+    selected_json = (multiplicity === "many") ? "[]" : "{}"
+  else
+    multiplicity = "one"
+    selected_json = form.obj['_resolved'].to_json
+  end
+
+  exclude_ids = [] if exclude_ids.blank?
+
+  required = (defined? optional) ? !optional : true
+
+  linkable_types = defined?(allowed_types) ? allowed_types : ["agent"]
+  creatable_types = defined?(allowed_types) ? allowed_types : ["agent_person", "agent_family", "agent_corporate_entity", "agent_software"]
+  hide_create = false if hide_create.blank?
+
+  if !defined?(linker_label)
+    linker_label = (multiplicity === "many") ? I18n.t("agent._plural") : I18n.t("agent._singular")
+  end
+  input_atts = {}
+
+  input_atts['id'] = form.id_for("ref")
+  input_atts['data-label'] = I18n.t("agent._singular")
+  input_atts['data-label-plural'] = I18n.t("agent._plural")
+  input_atts['data-path'] = form.path
+  input_atts['data-url'] = url_for :controller => :search, :action => :do_search, :format => :json
+  input_atts['data-browse-url'] = url_for :controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.AGENT_FACETS, :sort => "title_sort asc"
+  input_atts['data-selected'] = selected_json
+  input_atts['data-multiplicity'] = multiplicity
+  input_atts['data-types'] = linkable_types.to_json
+  input_atts['data-exclude'] = exclude_ids.to_json
+%>
+
+
+<div class="form-group <% if required %> required <% end %>">
+  <label class="control-label col-sm-2"><%= linker_label %></label>
+  <div class="controls col-sm-8">
+    <div class="input-group linker-wrapper">
+      <input type="text" class="linker"
+             id="<%= form.id_for("ref") %>"
+             data-label="<%= I18n.t("agent._singular") %>"
+             data-label_plural="<%= I18n.t("agent._plural") %>"
+             data-name="ref"
+             data-path="<%= form.path %>"
+             data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
+             data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.AGENT_FACETS, :sort => "title_sort asc" %>"
+             data-selected="<%= selected_json %>"
+             data-multiplicity="<%= multiplicity %>"
+             <% if multiplicity === "many" %>data-sortable="true"<% end %>
+             data-types='<%= linkable_types.to_json %>'
+             data-exclude='<%= exclude_ids.to_json %>'
+      />
+      <div class="input-group-btn">
+        <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
+          <% if user_can?('update_agent_record') %>
+            <li class="dropdown-submenu pull-left">
+              <% if !hide_create && user_can?('update_agent_record') %>
+              <a href="javascript:void(0);"><%= I18n.t("actions.create") %></a>
+              <% end %>
+              <ul class="dropdown-menu">
+                <% creatable_types.each do |agent_type| %>
+                <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :agents, :action => :new, :agent_type => agent_type.intern, :inline => true %>" class="linker-create-btn"><%= I18n.t("#{agent_type}._singular") %></a></li>
+                <% end %>
+              </ul>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

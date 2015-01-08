@@ -1,21 +1,19 @@
-<div class="row-fluid">
-  <div class="span12">
     <div class="record-toolbar">
       <% if !record.suppressed %>
         <% if !['edit', 'update', 'create'].include?(controller.action_name) %>
           <div class="btn-group pull-left">
-            <%= link_to I18n.t("actions.edit"), {:action => :edit, :id => record.id, :anchor => "#{record_type}_#{record.id}"}, :class => "btn btn-small btn-primary" %>
+            <%= link_to I18n.t("actions.edit"), {:action => :edit, :id => record.id, :anchor => "#{record_type}_#{record.id}"}, :class => "btn btn-sm btn-primary" %>
           </div>
         <% end %>
       <% end %>
       <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
         <div class="pull-left save-changes">
-          <button type="submit" class="btn btn-primary btn-small"><%= I18n.t("actions.save_prefix") %></button>
+          <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
         </div>
       <% end %>
       <% if ['edit', 'update'].include?(controller.action_name) %>
         <div class="pull-left revert-changes">
-          <%= link_to I18n.t("actions.revert"), {:action => :edit, :id => record.id}, :class => "btn btn-small" %>
+          <%= link_to I18n.t("actions.revert"), {:action => :edit, :id => record.id}, :class => "btn btn-sm btn-default" %>
           <%= I18n.t("actions.toolbar_disabled_message") %>
         </div>
       <% end %>
@@ -24,11 +22,11 @@
           <% if user_can?('update_event_record') && !record.suppressed %>
             <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => record} %>
           <% end %>
-          <div class="btn btn-inline-form">
+          <div class="btn-group">
             <%= button_confirm_action(I18n.t("actions.publish"),
                         url_for({:action => :publish, :id => record.id}),
                         {
-                          :class => "btn btn-small",
+                          :class => "btn btn-sm btn-default",
                           :"data-title" => I18n.t("actions.publish_confirm_title"),
                           :"data-message" => I18n.t("actions.publish_confirm_message"),
                           :"data-confirm-btn-label" => "#{I18n.t("actions.publish")}",
@@ -36,12 +34,12 @@
                         }) %>
           </div>
           <% if record.publish %>
-          	<div class="btn btn-inline-form">
-              <%= link_to I18n.t("actions.view_published"), File.join(AppConfig[:public_proxy_url], record.uri).to_s, :target => "_blank", :class => "btn btn-small" %>
+          	<div class="btn-group">
+              <%= link_to I18n.t("actions.view_published"), File.join(AppConfig[:public_proxy_url], record.uri).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
             </div>
           <% end %>
-          <div class="btn btn-inline-form">
-            <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+          <div class="btn-group">
+            <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
               <%= I18n.t("actions.export") %>
               <span class="caret"></span>
             </a>
@@ -71,39 +69,35 @@
             %>
           <% end %>
           <% if user_can?('suppress_archival_record') %>
-            <div class="btn btn-inline-form">
-              <% if record.suppressed %>
-                <%= button_confirm_action I18n.t("actions.unsuppress"),
-                                          url_for(:action => :unsuppress, :id => record.id),
-                                          {
-                                            :class => "btn btn-small unsuppress-record",
-                                            :"data-title" => I18n.t("actions.unsuppress_confirm_title"),
-                                            :"data-message" => I18n.t("actions.unsuppress_confirm_message"),
-                                            :"data-confirm-btn-label" => "#{I18n.t("actions.unsuppress")}"
-                                          }
-                %>
-              <% else %>
-                <%= button_confirm_action I18n.t("actions.suppress"),
-                                          url_for(:action => :suppress, :id => record.id),
-                                          {
-                                            :class => "btn btn-small btn-warning suppress-record",
-                                            :"data-title" => I18n.t("actions.suppress_confirm_title"),
-                                            :"data-message" => I18n.t("actions.suppress_confirm_message"),
-                                            :"data-confirm-btn-label" => "#{I18n.t("actions.suppress")}",
-                                            :"data-confirm-btn-class" => "btn-warning"
-                                          }
-                %>
-              <% end %>
-            </div>
+
+            <% if record.suppressed %>
+              <%= button_confirm_action I18n.t("actions.unsuppress"),
+              url_for(:action => :unsuppress, :id => record.id),
+                {
+                :class => "btn btn-sm btn-default unsuppress-record",
+                  :"data-title" => I18n.t("actions.unsuppress_confirm_title"),
+                  :"data-message" => I18n.t("actions.unsuppress_confirm_message"),
+                  :"data-confirm-btn-label" => "#{I18n.t("actions.unsuppress")}"
+                  }
+              %>
+            <% else %>
+              <%= button_confirm_action I18n.t("actions.suppress"),
+              url_for(:action => :suppress, :id => record.id),
+                {
+                :class => "btn btn-sm btn-warning suppress-record",
+                  :"data-title" => I18n.t("actions.suppress_confirm_title"),
+                  :"data-message" => I18n.t("actions.suppress_confirm_message"),
+                  :"data-confirm-btn-label" => "#{I18n.t("actions.suppress")}",
+                  :"data-confirm-btn-class" => "btn-warning"
+                    }
+              %>
+            <% end %>
+
           <% end %>
           <% if user_can?('delete_archival_record') %>
-          <div class="btn btn-inline-form">
             <%= button_delete_action url_for(:action => :delete, :id => record.id) %>
-          </div>
           <% end %>
         </div>
       </div>
       <div class="clearfix"></div>
     </div>
-  </div>
-</div>

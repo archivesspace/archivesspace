@@ -1,6 +1,6 @@
 en:
   help:
-    icon: "<span class='context-help-icon icon-question-sign'></span>"
+    icon: "<span class='context-help-icon glyphicon glyphicon-question-sign'></span>"
     help_center: ArchivesSpace Help Center
     default_tooltip: ArchivesSpace Help Center
     topics:

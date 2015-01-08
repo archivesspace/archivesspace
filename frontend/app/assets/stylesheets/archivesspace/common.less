@@ -7,6 +7,7 @@ body {
 h2 > .label {
   margin-top: @baseLineHeight / 2;
   vertical-align: top;
+  font-size: 40%;
 }
 
 .tab-content {
@@ -14,9 +15,8 @@ h2 > .label {
 }
 
 .record-pane {
+  margin-right: -15px;
   padding: 10px;
-  margin: 0;
-  border: 1px solid #EEE;
   border-top: none;
 
   h2 {
@@ -88,5 +88,33 @@ h2 > .label {
         .opacity(50);
       }
     }
+  }
+}
+
+td .btn-group {
+  display: flex;
+  white-space: nowrap;
+}
+
+#font {
+  #family {
+    .serif() {
+      font-family: @serifFontFamily;
+    }
+    .sans-serif() {
+      font-family: @sansFontFamily;
+    }
+    .monospace() {
+      font-family: @monoFontFamily;
+    }
+  }
+  .shorthand(@size: @baseFontSize, @weight: normal, @lineHeight: @baseLineHeight) {
+    font-size: @size;
+    font-weight: @weight;
+    line-height: @lineHeight;
+  }
+  .sans-serif(@size: @baseFontSize, @weight: normal, @lineHeight: @baseLineHeight) {
+    #font > #family > .sans-serif;
+    #font > .shorthand(@size, @weight, @lineHeight);
   }
 }

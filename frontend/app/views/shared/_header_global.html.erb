@@ -1,27 +1,28 @@
 <div class="container global-header">
-  <div class="navbar">
-    <div class="navbar-inner">
-      <div class="container">
-        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-global-collapse">
+  <nav class="navbar">
+    <div class="container">
+
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".nav-global-collapse">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <% if !session[:user] %>
-          <button type="button" class="btn pull-right btn-collapse-login" data-toggle="collapse" data-target=".nav-global-collapse">
-            <%= I18n.t("navbar.login") %>
-          </button>
-        <% end %>
-        <div class="nav-collapse nav-global-collapse collapse">
-            <%= link_to I18n.t("navbar.brand"), {:controller => :welcome, :action => :index}, :class => "brand" %>
-            <ul class="nav pull-right">
-             <%= render "shared/header_user" %>
-             <% if ArchivesSpaceHelp.enabled? %>
-               <li><%= link_to_help :link_opts => {"data-placement" => (session[:user] ? "left" : "bottom")} %></li>
-             <% end %>
-           </ul>
-          </div><!-- nav-collapse -->
-      </div><!-- container -->
-    </div><!-- /navbar-inner -->
-  </div>
+      </div>
+
+      <% if !session[:user] %>
+        <button type="button" class="btn btn-default pull-right btn-collapse-login navbar-btn" data-toggle="collapse" data-target=".nav-global-collapse">
+          <%= I18n.t("navbar.login") %>
+        </button>
+      <% end %>
+      <div class="navbar-collapse nav-global-collapse collapse navbar-right navbar-default">
+        <ul class="nav pull-right navbar-nav">
+          <%= render "shared/header_user" %>
+          <% if ArchivesSpaceHelp.enabled? %>
+            <li><%= link_to_help :link_opts => {"data-placement" => (session[:user] ? "left" : "bottom")} %></li>
+          <% end %>
+        </ul>
+      </div><!-- nav-collapse -->
+    </div>
+  </nav>
 </div>

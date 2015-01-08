@@ -6,9 +6,9 @@
       <% 
         container_location["jsonmodel_type"] = "container_location"
       %>
-      <%= read_only_view(container_location, :label_css => "span4") %>
+      <%= read_only_view(container_location, :label_css => "col-md-4") %>
       <% if container_location['_resolved'] %>
-        <div class="control-group">
+        <div class="form-group">
           <div class="control-label"><%= I18n.t("container_location.location") %></div>
           <div class="controls token-list">
             <%= render_token :object => container_location['_resolved'],

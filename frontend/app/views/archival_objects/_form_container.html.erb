@@ -33,7 +33,7 @@
         <%= form.label_and_select "level", form.possible_options_for("level", true) %>
         <%= form.label_and_textfield "other_level", :required => true %>
         <%= form.label_and_select "language", form.possible_options_for("language", true) %>
-        <div class="control-group">
+        <div class="form-group">
           <%= form.label "publish" %>
           <div class="controls">
             <%= form.checkbox "publish", {}, user_prefs["publish"] %>

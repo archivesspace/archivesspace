@@ -10,7 +10,7 @@
          end
       %>
       <div>
-        <span class="icon icon-<%= result["record"]["_resolved"]["jsonmodel_type"] %>" title="<%= I18n.t("#{result["record"]["_resolved"]["jsonmodel_type"]}._singular") %>"></span> <%= resolve_readonly_link_to record_title, result["record"]["ref"] %>
+        <span class="asicon icon-<%= result["record"]["_resolved"]["jsonmodel_type"] %>" title="<%= I18n.t("#{result["record"]["_resolved"]["jsonmodel_type"]}._singular") %>"></span> <%= resolve_readonly_link_to record_title, result["record"]["ref"] %>
       </div>
     <% end %>
   </div>

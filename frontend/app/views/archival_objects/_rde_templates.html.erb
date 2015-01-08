@@ -61,30 +61,30 @@
   <% first_row = form.current_context.first == "children[0]" %>
   <tr>
     <td data-col="status" class="status">
-      <span class="icon-exclamation-sign invalid"></span>
-      <span class="icon-ok valid"></span>
-      <div class="error-summary hide">
+      <span class="glyphicon glyphicon-exclamation-sign invalid"></span>
+      <span class="glyphicon glyphicon-ok valid"></span>
+      <div class="error-summary">
         <div class="error-summary-header">
           <span class="error-summary-header-text"><%= I18n.t("rde.messages.error_summary_header") %></span>
-          <a href="javascript:void(0);" class="hide-error-summary"><span class='icon icon-chevron-up'></span></a>
-          <a href="javascript:void(0);" class="show-error-summary"><span class='icon icon-chevron-down'></span></a>
+          <a href="javascript:void(0);" class="hide-error-summary"><span class='glyphicon glyphicon-chevron-up'></span></a>
+          <a href="javascript:void(0);" class="show-error-summary"><span class='glyphicon glyphicon-chevron-down'></span></a>
         </div>
         <div class="error-summary-list"></div>
       </div>
     </td>
-    <td data-col="colLevel" class="control-group"><%= form.select "level", form.possible_options_for("level", true) %></td>
-    <td data-col="colPublish" class="control-group"><%= form.checkbox "publish", {}, user_prefs["publish"] %></td>
-    <td data-col="colTitle" class="control-group"><%= form.textfield "title" %></td>
-    <td data-col="colCompId" class="control-group"><%= form.textfield "component_id" %></td>
-    <td data-col="colLang" class="control-group">
+    <td data-col="colLevel" class="form-group"><%= form.select "level", form.possible_options_for("level", true) %></td>
+    <td data-col="colPublish" class="form-group"><%= form.checkbox "publish", {}, user_prefs["publish"] %></td>
+    <td data-col="colTitle" class="form-group"><%= form.textfield "title" %></td>
+    <td data-col="colCompId" class="form-group"><%= form.textfield "component_id" %></td>
+    <td data-col="colLang" class="form-group">
       <%= form.select "language", jsonmodel_definition(:archival_object).options_for(form, "language", true) %>
     </td>
-    <td data-col="colExpr" class="control-group">
+    <td data-col="colExpr" class="form-group">
       <% form.push(form.set_index("dates[]", 0), begin archival_object["dates"][0] || {} rescue {} end) do %>
         <%= form.textfield "expression" %>
       <% end %>
     </td>
-    <td data-col="colDType" class="control-group">
+    <td data-col="colDType" class="form-group">
       <% form.push(form.set_index("dates[]", 0), begin archival_object["dates"][0] || {} rescue {} end) do %>
         <%= form.select "date_type", jsonmodel_definition(:date).options_for(form, "date_type", true) %>
       <% end %>
@@ -92,22 +92,22 @@
         <span id="<%= form.id_for(nil) %>"></span>
       <% end %>
     </td>
-    <td data-col="colDBegin" class="control-group">
+    <td data-col="colDBegin" class="form-group">
       <% form.push(form.set_index("dates[]", 0), begin archival_object["dates"][0] || {} rescue {} end) do %>
         <%= form.textfield "begin" %>
       <% end %>
     </td>
-    <td data-col="colDEnd" class="control-group">
+    <td data-col="colDEnd" class="form-group">
       <% form.push(form.set_index("dates[]", 0), begin archival_object["dates"][0] || {} rescue {} end) do %>
         <%= form.textfield "end" %>
       <% end %>
     </td>
-    <td data-col="colIType" class="control-group">
+    <td data-col="colIType" class="form-group">
       <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0] || {} rescue {} end) do %>
         <%= form.select "instance_type", jsonmodel_definition(:instance).options_for(form, 'instance_type', true).reject{|option_arr| option_arr[1] === 'digital_object'} %>
       <% end %>
     </td>
-    <td data-col="colCType1" class="control-group">
+    <td data-col="colCType1" class="form-group">
       <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0] || {} rescue {} end) do %>
         <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
           <%= form.select "type_1", jsonmodel_definition(:container).options_for(form, 'type_1', true) %>
@@ -117,55 +117,55 @@
         <% end %>
       <% end %>
     </td>
-    <td data-col="colCInd1" class="control-group">
+    <td data-col="colCInd1" class="form-group">
       <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0] || {} rescue {} end) do %>
         <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
           <%= form.textfield "indicator_1" %>
         <% end %>
       <% end %>
     </td>
-    <td data-col="colCBarc1" class="control-group">
+    <td data-col="colCBarc1" class="form-group">
       <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0] || {} rescue {} end) do %>
         <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
           <%= form.textfield "barcode_1" %>
         <% end %>
       <% end %>
     </td>
-    <td data-col="colCType2" class="control-group">
+    <td data-col="colCType2" class="form-group">
       <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0] || {} rescue {} end) do %>
         <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
           <%= form.select "type_2", jsonmodel_definition(:container).options_for(form, 'type_2', true) %>
         <% end %>
       <% end %>
     </td>
-    <td data-col="colCInd2" class="control-group">
+    <td data-col="colCInd2" class="form-group">
       <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0] || {} rescue {} end) do %>
         <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
           <%= form.textfield "indicator_2" %>
         <% end %>
       <% end %>
     </td>
-    <td data-col="colCType3" class="control-group">
+    <td data-col="colCType3" class="form-group">
       <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0] || {} rescue {} end) do %>
         <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
           <%= form.select "type_3", jsonmodel_definition(:container).options_for(form, 'type_3', true) %>
         <% end %>
       <% end %>
     </td>
-    <td data-col="colCInd3" class="control-group">
+    <td data-col="colCInd3" class="form-group">
       <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0] || {} rescue {} end) do %>
         <% form.push(form.set_index("container", 0), form["container"] || {}) do %>
           <%= form.textfield "indicator_3" %>
         <% end %>
       <% end %>
     </td>
-    <td data-col="colNType1" class="control-group">
+    <td data-col="colNType1" class="form-group">
       <% form.push(form.set_index("notes[]", 0), begin archival_object["notes"][0] || {} rescue {} end) do %>
         <%= form.select("type", [""].concat(note_types_for(:archival_object).map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
         <%= form.hidden_input "jsonmodel_type", "note_singlepart" %>
       <% end %>
     </td>
-    <td data-col="colNCont1" class="control-group">
+    <td data-col="colNCont1" class="form-group">
       <% form.push(form.set_index("notes[]", 0), begin archival_object["notes"][0] || {} rescue {} end) do %>
         <% form.push(form.set_index("content[]", 0), begin form["content"][0] || "" rescue "" end) do %>
           <%= form.textfield nil, form.obj %>
@@ -178,13 +178,13 @@
         <% end %>
       <% end %>
     </td>
-    <td data-col="colNType2" class="control-group">
+    <td data-col="colNType2" class="form-group">
       <% form.push(form.set_index("notes[]", 1), begin archival_object["notes"][1] || {} rescue {} end) do %>
         <%= form.select("type", [""].concat(note_types_for(:archival_object).map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
         <%= form.hidden_input "jsonmodel_type", "note_singlepart" %>
       <% end %>
     </td>
-    <td data-col="colNCont2" class="control-group">
+    <td data-col="colNCont2" class="form-group">
       <% form.push(form.set_index("notes[]", 1), begin archival_object["notes"][1] || {} rescue {} end) do %>
         <% form.push(form.set_index("content[]", 0), begin form["content"][0] || "" rescue "" end) do %>
           <%= form.textfield nil, form.obj %>
@@ -197,13 +197,13 @@
         <% end %>
       <% end %>
     </td>
-    <td data-col="colNType3" class="control-group">
+    <td data-col="colNType3" class="form-group">
       <% form.push(form.set_index("notes[]", 2), begin archival_object["notes"][2] || {} rescue {} end) do %>
         <%= form.select("type", [""].concat(note_types_for(:archival_object).map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
         <%= form.hidden_input "jsonmodel_type", "note_singlepart" %>
       <% end %>
     </td>
-    <td data-col="colNCont3" class="control-group">
+    <td data-col="colNCont3" class="form-group">
       <% form.push(form.set_index("notes[]", 2), begin archival_object["notes"][2] || {} rescue {} end) do %>
         <% form.push(form.set_index("content[]", 0), begin form["content"][0] || "" rescue "" end) do %>
           <%= form.textfield nil, form.obj %>
@@ -216,10 +216,10 @@
         <% end %>
       <% end %>
     </td>
-    <td data-col="actions" class="control-group">
+    <td data-col="actions" class="form-group">
       <div class="btn-group">
-        <button class="btn btn-success add-row"><span class="icon-plus icon-white"></span></button>
-        <% if !first_row %><button class="btn remove-row"><span class="icon-remove"></span></button><% end %>
+        <button class="btn btn-success add-row"><span class="glyphicon glyphicon-plus icon-white"></span></button>
+        <% if !first_row %><button class="btn remove-row btn-default"><span class="glyphicon glyphicon-remove"></span></button><% end %>
       </div>
     </td>
   </tr>

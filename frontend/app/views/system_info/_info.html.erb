@@ -1,5 +1,5 @@
-<div class='row-fluid record-pane'>
-  <div class='span3'> 
+<div class='row record-pane'>
+  <div class='col-md-3'> 
     <div id='archivesSpaceSidebar'> 
       <ul class='nav nav-list as-nav-list affix-top'>
         <% @info.keys.each do |key|  %>
@@ -8,7 +8,7 @@
       </ul>
     </div>
   </div>
-  <div class='span9'>
+  <div class='col-md-9'>
     <h3 class="subrecord-form-heading">
       <%= I18n.t("system_info.#{@app_context}") %>   
     </h3>
@@ -18,7 +18,7 @@
         <div class='subrecord-form-container form-horizontal'>
           <% if %w{ environment globals jvm_properties appconfig memory db_info  }.include?(key.to_s) %> 
             <% @info[key].each_pair do |k, v| %>
-              <div class='control-group'>
+              <div class='form-group'>
               <label class='control-label'><%= k %></label>
               <% if v.is_a?(Proc) %>
                 hi

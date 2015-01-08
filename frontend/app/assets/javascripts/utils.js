@@ -7,7 +7,7 @@ var AS = {};
 // initialise ajax modal
 $(function() {
   AS.openAjaxModal = function(href) {
-    $("body").append('<div class="modal hide" id="tempAjaxModal"></div>');
+    $("body").append('<div class="modal" id="tempAjaxModal"></div>');
 
     var $modal = $("#tempAjaxModal");
 
@@ -19,14 +19,14 @@ $(function() {
           $modal.remove();
           $modal = $(html);
 
-          $("body").append($modal.addClass("hide"));
+          $("body").append($modal);
         } else {
           $modal.append(html);
         }
 
-        $modal.on("shown",function() {
+        $modal.on("shown.bs.modal",function() {
           $modal.find("input[type!=hidden]:first").focus();
-        }).on("hidden", function() {
+        }).on("hidden.bs.modal", function() {
           $modal.remove();
         });
 
@@ -92,30 +92,28 @@ $(function() {
       return;
     }
     $(".nav-list-submenu").remove();
-    $("#archivesSpaceSidebar .nav-list > li").each(function() {
+    $("#archivesSpaceSidebar .as-nav-list > li").each(function() {
       var $nav = $(this);
       var $link = $("a", $nav);
       var $section = $($link.attr("href"));
       var $items = $(".subrecord-form-list:first > li", $section);
 
       var $submenu = getSubMenuHTML();
-      //if ($items.length > 1) {
-        for (var i=0; i<$items.length; i++) {
-          $submenu.append(getSubMenuItemHTML($items[i]));
-        }
-        $link.append($submenu);
-      //}
+      for (var i=0; i<$items.length; i++) {
+        $submenu.append(getSubMenuItemHTML($items[i]));
+      }
+      $link.append($submenu);
     });
   };
 
   var bindSidebarEvents = function() {
-    $("#archivesSpaceSidebar .nav-list").on("click", "> li > a", function(event) {
+    $("#archivesSpaceSidebar .as-nav-list").on("click", "> li > a", function(event) {
       event.preventDefault();
 
       var $target_item = $(this);
-      $($target_item.attr("href")).ScrollTo({
-        callback: function() {
-          $(".active", "#archivesSpaceSidebar").removeClass("active");
+      $.scrollTo($target_item.attr("href"), 1000, {
+        onAfter: function() {
+         $(".active", "#archivesSpaceSidebar").removeClass("active");
           var $active = $target_item.parents("li:first");
           $active.addClass("active");
         }
@@ -124,7 +122,7 @@ $(function() {
   };
 
    var initSidebar = function() {
-    $("#archivesSpaceSidebar .nav-list:not(.initialised)").each(function() {
+    $("#archivesSpaceSidebar .as-nav-list:not(.initialised)").each(function() {
       $.proxy(bindSidebarEvents, this)();
       $(this).affix({
         offset: {
@@ -143,8 +141,8 @@ $(function() {
 
         var $section = $($this.parent().closest("a").attr("href"));
         var $target = $($(".subrecord-form-list:first > li", $section)[$this.parent().index()]);
-        $target.ScrollTo({
-          callback: function() {
+        $.scrollTo($target, 1000, {
+          onAfter: function() {
             $(".active", "#archivesSpaceSidebar").removeClass("active");
             $this.parent().parent().closest("li").addClass("active");
           }
@@ -177,21 +175,19 @@ $(function() {
 });
 
 // date fields and datepicker initialisation
-$.fn.combobox.defaults.template = '<div class="combobox-container input-append"><input type="hidden" /><input type="text" autocomplete="off" /><span class="add-on btn dropdown-toggle" data-dropdown="dropdown"><span class="caret"/><span class="combobox-clear"><span class="icon-remove"></span></span></span></div>';
+$.fn.combobox.defaults.template = '<div class="combobox-container input-group"><input type="hidden" /><input type="text" autocomplete="off"/><span class="input-group-btn btn dropdown-toggle" data-dropdown="dropdown"><span class="caret"/><span class="combobox-clear"><span class="icon-remove"></span></span></span></div>';
 $(function() {
   var initDateFields = function(scope) {
     scope = scope || $(document.body);
     $(".date-field:not(.initialised)", scope).each(function() {
       var $dateInput = $(this);
-      $dateInput.wrap("<div class='input-append'></div>");
+      $dateInput.wrap("<div class='input-group date'></div>");
       $dateInput.addClass("initialised");
-      var $btn = $("<button type='button' class='btn'><span class='icon-calendar'></span></button>");
-      $dateInput.after($btn);
-      $btn.datepicker($dateInput.data()).on("changeDate", function() {
-          $dateInput.val($btn.data("date"));
-          $btn.datepicker("hide");
-          $dateInput.trigger("change");
-      });
+
+      var $addon = "<span class='input-group-addon'><i class='glyphicon glyphicon-calendar'></i></span>"
+      $dateInput.after($addon);
+
+      $dateInput.parent(".date").datepicker($dateInput.data());
     });
   };
   initDateFields();
@@ -301,8 +297,8 @@ $(function() {
           $this.off("mouseleave");
 
           $this.tooltip("show");
-          $(".tooltip-inner", $this.data("tooltip").$tip).prepend('<span class="tooltip-close icon-remove-circle icon-white"></span>');
-          $(".tooltip-close", $this.data("tooltip").$tip).click(function() {
+          $(".tooltip-inner", $this.data("bs.tooltip").$tip).prepend('<span class="tooltip-close glyphicon glyphicon-remove-circle icon-white"></span>');
+          $(".tooltip-close", $this.data("bs.tooltip").$tip).click(function() {
             $this.trigger("click");
           });
           openedViaClick = true;
@@ -347,6 +343,7 @@ $(function() {
 
 AS.templateCache = [];
 AS.renderTemplate = function(templateId, data) {
+
   if (!AS.templateCache[templateId]) {
     var templateNode = $("#"+templateId).get(0);
     if (templateNode) {
@@ -394,15 +391,33 @@ AS.openQuickModal = function(title, message) {
  *  id : String - id of the modal element
  *  title : String - to be applied as the modal header
  *  contents : String/HTML - the contents of the modal
- *  fillScreen : String/false - 'full'-98% of screen, 'container'-match the container width, false-standard modal size
+ *  size : String/false - 'full'-98% of screen, 'large' - larger modal, 'container' - match the container width, false-standard modal size
  *  modalOpts : object - any twitter bootstrap options to pass on the modal dialog upon init.
  *  initiatedBy : Element - the link/button that initiated the modal. This element will be focused again upon close.
  */
-AS.openCustomModal = function(id, title, contents, fillScreen, modalOpts, initiatedBy) {
-  $("body").append(AS.renderTemplate("modal_custom_template", {id:id,title:title,content: "", fill: fillScreen||false}));
+AS.openCustomModal = function(id, title, contents, modalSize, modalOpts, initiatedBy) {
+  var templateData = {
+    id:id,
+    title:title,
+    content: "", 
+  }
+
+  // phase out the class on .modal in favor of .modal-dialog
+  if (modalSize === 'large') {
+    templateData.dialogClass = 'modal-lg';
+    templateData.fill = false;
+  } else if (modalSize == 'full') {
+    templateData.dialogClass = 'modal-jumbo';
+    templateData.fill = false;
+  } else {
+    templateData.fill = modalSize;
+    templateData.dialogClass = false;
+  }
+ 
+  $("body").append(AS.renderTemplate("modal_custom_template", templateData));
   var $modal = $("#"+id);
-  $modal.append(contents);
-  $modal.on("hidden", function() {
+  $modal.find('.modal-content').append(contents);
+  $modal.on("hidden.bs.modal", function() {
     $modal.remove();
     $(window).unbind("resize", resizeModal);
 
@@ -413,19 +428,19 @@ AS.openCustomModal = function(id, title, contents, fillScreen, modalOpts, initia
 
   var resizeModal = function() {
     var height;
-    if (fillScreen === 'full') {
+    if (modalSize === 'full' || 'large') {
       height = $(window).height() - ($(window).height() * 0.03);
     } else {
       height = $(window).height() - ($(window).height() * 0.2);
     }
 
     $modal.height(height); // -20% for 10% top and bottom margins
-    var modalBodyHeight = $modal.height() - $(".modal-header", $modal).height() - $(".modal-footer", $modal).height() - 80;
+    var modalBodyHeight = $modal.height() - $(".modal-header", $modal).outerHeight() - $(".modal-footer", $modal).outerHeight() - 95;
     $(".modal-body", $modal).height(modalBodyHeight);
-    $modal.css("marginLeft", -$modal.width() / 2);
+    // $modal.css("marginLeft", -$modal.width() / 2);
   }
 
-  if (fillScreen) {
+  if (modalSize) {
     $modal.on("shown resize", resizeModal);
     $(window).resize(resizeModal);
   }
@@ -489,10 +504,10 @@ $.fn.setValuesFromObject = function(obj) {
 
 
 AS.addControlGroupHighlighting = function(parent) {
-  $(".control-group :input", parent).on("focus", function() {
-    $(this).parents(".control-group:first").addClass("active");
+  $(".form-group :input", parent).on("focus", function() {
+    $(this).parents(".form-group:first").addClass("active");
   }).on("blur", function() {
-    $(this).parents(".control-group:first").removeClass("active");
+    $(this).parents(".form-group:first").removeClass("active");
   });
 };
 
@@ -816,7 +831,7 @@ $(function() {
 
       // add a close icon to the alert
       var $close = $("<a>").attr("href", "javascript:void(0);").addClass("hide-alert");
-      $close.append($("<span>").addClass("icon icon-remove"));
+      $close.append($("<span>").addClass("glyphicon glyphicon-remove"));
       $close.click(handleCloseAlert);
 
       $alert.prepend($close);
