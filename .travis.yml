@@ -9,6 +9,8 @@ jdk:
 
 sudo: false
 
+sudo: false
+
 env:
   global:
     - INTEGRATION_LOGFILE=/var/tmp/aspace-integration.log
