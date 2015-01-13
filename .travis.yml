@@ -1,55 +1,51 @@
 language: java
-
 sudo: false
-
 jdk:
-  - openjdk7
-  - oraclejdk7
-  - oraclejdk8
-
-sudo: false
-
+- openjdk7
+- oraclejdk7
+- oraclejdk8
 env:
   global:
-    - INTEGRATION_LOGFILE=/var/tmp/aspace-integration.log
-    - DISPLAY=:99.0
-    - SCREENSHOT_ON_ERROR=1
+  - INTEGRATION_LOGFILE=/var/tmp/aspace-integration.log
+  - DISPLAY=:99.0
+  - SCREENSHOT_ON_ERROR=1
   matrix:
-  # These sets of environment variables determine which tasks to run and
-  # which database the tests will run against. The build script honors any 
-  # ArchivesSpace options set in JAVA_OPTS, so we don't need an additional
-  # configuration file for now.
-    - DB=mysql TASK=travis:test
-    - DB=derby TASK=travis:test
-    - DB=mysql TASK=travis:selenium
-    - DB=derby TASK=travis:selenium
-    - DB=mysql TASK=travis:selenium:public
-    - DB=derby TASK=travis:selenium:public
-    - TASK=dist
-
+  - DB=mysql TASK=travis:test
+  - DB=derby TASK=travis:test
+  - DB=mysql TASK=travis:selenium
+  - DB=derby TASK=travis:selenium
+  - DB=mysql TASK=travis:selenium:public
+  - DB=derby TASK=travis:selenium:public
+  - TASK=dist
 before_install:
-  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 2560x1700x24"
-  - "export DISPLAY=:99.0"
-
+- /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile
+  --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 2560x1700x24
+- export DISPLAY=:99.0
 before_script:
-  - sleep 3 
-  - if [[ "$DB" == "mysql" ]]; then (mkdir lib; cd lib; curl -Oq http://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.24/mysql-connector-java-5.1.24.jar); fi
-  - if [[ "$DB" == "mysql" ]]; then export JAVA_OPTS="-Daspace.config.db_url=jdbc:mysql://localhost:3306/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=root"; fi
-  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database archivesspace default character set utf8;"; fi
-
+- sleep 3
+- if [[ "$DB" == "mysql" ]]; then (mkdir lib; cd lib; curl -Oq http://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.24/mysql-connector-java-5.1.24.jar);
+  fi
+- if [[ "$DB" == "mysql" ]]; then export JAVA_OPTS="-Daspace.config.db_url=jdbc:mysql://localhost:3306/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=root";
+  fi
+- if [[ "$DB" == "mysql" ]]; then mysql -e "create database archivesspace default
+  character set utf8;"; fi
 branches:
-  # only:
-  #   - master
   except:
-    - gh-pages
-
+  - gh-pages
 script:
-  - build/run $TASK
-
+- build/run $TASK
 after_failure:
-  - build/run dump-file -Ddump.file=/var/tmp/aspace-integration.log
-
+- build/run dump-file -Ddump.file=/var/tmp/aspace-integration.log
 notifications:
-  irc: "irc.freenode.org#archivesspace"
-  # don't send email for now, until we know who we want to receive it
+  irc: irc.freenode.org#archivesspace
   email: false
+addons:
+  artifacts:
+    key:
+      secure: k6+P9jKYwWWw1PReUr3LSaoO0hhShBmI+xbj9ZN8qZIaqPa4kU4+gFIWcM7UyfZUnNL5+37OMbzz2BbKD1m12/vf2urIBLmxuHLLmy8OZRGYWa5v0J/fjYemQ7990eieIpIx2wRD5L/FVOM1Td/qpM/sYYOGo9GVXp7PWW8rK68=
+    secret:
+      secure: wm1XoK5GAuPJCDtE4t4PQlWhnSsemARPDdxmQ/KX5Cux1jIYtQWc1ZqPne56Hb7bhTksiAKMpYEpRWOkNwrlS8Bh/3AWvVAzGgHntYKxLjx8cq+25wpRVh++pRtpnkqh4MKpsC77daPItyBMAcsmwAuKFuxDn0IhWYU25fkwMH4=
+    bucket: travisartifacts
+    paths:
+    - /var/tmp/aspace-integration.log
+    - /var/tmp/*.png
