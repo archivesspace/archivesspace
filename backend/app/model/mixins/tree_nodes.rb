@@ -150,7 +150,7 @@ module TreeNodes
       self.refresh
       self.set_position_in_list(position, sequence) if position
     else
-      raise "Root not set for record #{self}"
+      raise "Root not set for record #{self.inspect}"
     end
   end
 
@@ -333,11 +333,17 @@ module TreeNodes
     # sequences
     def resequence(repo_id)
       RequestContext.open(:repo_id => repo_id) do
-        # we only need to resequence things that have a parent assigned to it. 
-        self.filter(~:position => nil, :repo_id => repo_id, ~:parent_id => nil, ~:root_record_id => nil )
+        # get all the objects that are parents but not at top level or orphans 
+        $stderr.puts "Resequencing for #{self.class.to_s} in repo #{repo_id}" 
+        self.filter(~:position => nil, :repo_id => repo_id, ~:parent_id => nil, ~:root_record_id => nil ).select(:parent_id).group(:parent_id)
             .each do |obj| 
-               obj.update_position_only(obj.parent_id, obj.position) 
+              $stderr.print "+" 
+              self.filter(:parent_id => obj.parent_id).order(:position).each_with_index do |child, i| 
+                $stderr.print "." 
+                child.update_position_only(child.parent_id, i) 
+            end 
         end 
+        $stderr.puts "*"  
       end 
     end
 
