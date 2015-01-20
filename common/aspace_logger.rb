@@ -17,7 +17,7 @@ class ASpaceLogger < Logger
   end
 
   def add_to_backlog( formatted_messsage )
-    return unless @recording 
+    return unless @recording.value == true
     if @backlog.value.length > 100
       flush_backlog
       stop_recording
@@ -35,12 +35,12 @@ class ASpaceLogger < Logger
   end
  
   def start_recording
-    return if @recording 
+    return if @recording.value == true 
     @recording.update { |r|  r = true } 
   end
   
   def stop_recording
-    return unless @recording 
+    return unless @recording.value == true 
     @recording.update { |r|  r = false } 
   end
 
