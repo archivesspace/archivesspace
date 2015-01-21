@@ -11,13 +11,13 @@ class ASpaceLogger < Logger
   end
 
   def add(severity, message = nil, progname = nil, &block)
-   orig = super(severity, message, progname, &block )
-   add_to_backlog(  format_message(format_severity(severity), Time.now, progname, message)) 
-   orig 
+   if @recording.value == true 
+      add_to_backlog(  format_message(format_severity(severity), Time.now, progname, message)) 
+   end 
+   super(severity, message, progname, &block )
   end
 
   def add_to_backlog( formatted_messsage )
-    return unless @recording.value == true
     if @backlog.value.length > 100
       flush_backlog
       stop_recording
