@@ -11,8 +11,9 @@ for dir in ../gems/gems/jruby-*; do
     JRUBY="$JRUBY:$dir/lib/*"
 done
 
+export GEM_PATH="../gems"
 
-
+echo $JRUBY
 java $JAVA_OPTS -cp "../lib/*$JRUBY" org.jruby.Main --1.9 ../launcher/tomcat/lib/configure-tomcat.rb "$tomcat"
 
 

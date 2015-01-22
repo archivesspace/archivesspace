@@ -4,6 +4,8 @@ SETLOCAL ENABLEDELAYEDEXPANSION
 
 cd /d %~dp0%
 
+set GEM_HOME=%~dp0%\..\gems
+
 set JRUBY=
 FOR /D %%c IN (..\gems\gems\jruby-*) DO (
   set JRUBY=!JRUBY!;%%c\lib\*

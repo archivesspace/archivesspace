@@ -4,7 +4,7 @@ require 'java'
 require 'fileutils'
 require 'uri'
 require 'securerandom'
-
+require 'nokogiri'
 
 class TomcatSetup
 
@@ -62,6 +62,21 @@ class TomcatSetup
     end
   end
 
+  def service_xml(service_name, port)
+<<EOF
+   <Service name="ArchivesSpace#{service_name}">
+    <Connector port="#{port}" protocol="HTTP/1.1" connectionTimeout="20000" />
+    <Engine name="ArchivesSpace#{service_name}" defaultHost="localhost">
+       <Host name="localhost" appBase="webapps-#{service_name.downcase}" unpackWARs="true" autoDeploy="false">
+       <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+       prefix="#{service_name.downcase}_access_log." suffix=".txt"
+       pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+       </Host>
+    </Engine>
+   </Service>
+EOF
+  end
+
 
   def copy_libs
     jars = Dir.glob(File.join(@base_dir, "gems", "gems", "jruby-jars*", "lib", "*.jar"))
@@ -94,23 +109,44 @@ class TomcatSetup
   def copy_reports
     loud_cp_r(File.join(@base_dir, "reports"), @tomcat_dir)
   end
-
+  
+  def backup_config
+    server_file = File.join(@tomcat_dir, "conf", "server.xml")
+    backup_file = "#{server_file}.#{Time.now.to_i}" 
+    $stderr.puts "~~~  Backing up Tomcat server.xml to #{backup_file}  ~~~" 
+    FileUtils.cp(server_file, backup_file) 
+  end
 
   def copy_config
     Dir.glob(File.join(@base_dir, "launcher", "tomcat", "files", "setenv*")).each do |setenv|
       loud_cp(setenv, File.join(@tomcat_dir, "bin"))
     end
 
+    server_file = File.join(@tomcat_dir, "conf", "server.xml")
+    server_xml = Nokogiri::XML(open(server_file))
 
-    server_xml = File.read(File.join(@base_dir, "launcher", "tomcat", "files", "server.xml"))
-
-    ['backend', 'frontend', 'public', 'solr', 'indexer'].each do |service|
-      server_xml = server_xml.gsub(/%#{service.upcase}_PORT%/,
-                                   port_for(service).to_s)
+    ['Backend', 'Frontend', 'Public', 'Solr', 'Indexer'].each do |service|
+      service_name = "ArchivesSpace#{service}"
+      port = port_for(service.downcase).to_s
+      
+      if server_xml.search("//Service[@name = '#{service_name}']").length > 0 
+        $stderr.puts "EXISTING CONFIGURATION FOR ArchivesSpace#{service_name}. NOT UPDATING"
+      elsif server_xml.search("//Connector[@port = '#{port}' ]").length > 0 
+        $stderr.puts "*" * 100 
+        $stderr.puts "YOUR TOMCAT CONFIGURATION ALREADY HAS A CONNECTOR DEFINED AT PORT #{port}. " 
+        $stderr.puts "PLEASE REVIEW YOUR TOMCAT CONFIGURATION ( #{server_file} ) AND EITHER REMOVE THE CONNECTOR OR CHANGE"  
+        $stderr.puts "ASPACE PORT DEFINITIONS IN YOUR CONFIG.RB FOR #{service_name}" 
+        $stderr.puts "*" * 100 
+        abort("CONFIGURATION NOT SUCCESSFUL" ) 
+      else
+        server_xml.search("//Server").first << service_xml(service, port )
+      end
     end
-
+    
+    backup_config 
     puts "Writing server.xml"
-    File.write(File.join(@tomcat_dir, "conf", "server.xml"), server_xml)
+    File.write(File.join(@tomcat_dir, "conf", "server.xml"), server_xml.to_xml)
+
 
     config = <<EOF
 AppConfig[:search_user_secret] = "#{SecureRandom.hex}"
