@@ -94,6 +94,10 @@ EOF
   def copy_plugins
     loud_cp_r(File.join(@base_dir, "plugins"), @tomcat_dir)
   end
+  
+  def copy_stylesheets
+    loud_cp_r(File.join(@base_dir, "stylesheets"), @tomcat_dir)
+  end
 
 
   def port_for(service)
@@ -172,6 +176,7 @@ EOF
     copy_wars
     copy_libs
     copy_plugins
+    copy_stylesheets 
     copy_reports
     copy_locales
     copy_config
