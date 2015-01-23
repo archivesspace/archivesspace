@@ -163,6 +163,8 @@ AppConfig[:enable_jasper] = true
 AppConfig[:compile_jasper] = false
 
 # There are some conditions that has caused tree nodes ( ArchivalObjects, DO
-# Components, and ClassificationTerms) to lose their Sequence pointers. This
-# will resequence these tree nodes on startup. 
+# Components, and ClassificationTerms) to lose their sequence pointers and
+# position setting. This will resequence these tree nodes prior to startup.
+# If is recogmended that this be used very infrequently and should not be set
+# to true for all startups ( as it will take a considerable amount of time )
 AppConfig[:resequence_on_startup] = false
