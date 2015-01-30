@@ -19,19 +19,24 @@ describe 'Accession converter' do
     @accessions = @records.select {|r| r['jsonmodel_type'] == 'accession' }
     @agents = @records.select { |a| a['jsonmodel_type'].include?('agent_')  } 
     @subjects = @records.select { |a| a['jsonmodel_type'] == 'subject'  } 
+    @dates = [] 
+    @accessions.each { |a| @dates = @dates +  a['dates'] } 
   end
 
-
   it "created one Accession record for each row in the CSV file" do
-    @accessions.count.should eq(10)
+    @accessions.count.should eq(18)
   end
 
   it "created a  Agent record if one is in the row" do
-    @agents.count.should eq(5)
+    @agents.count.should eq(8)
   end
   
   it "created a  Agent record if one is in the row" do
     @subjects.count.should eq(8)
+  end
+  
+  it "created a Date record if one is in the row" do
+    @dates.count.should eq(2)
   end
 
   it "maps accession_processing_started_date to collection_management.processing_started_date" do    
