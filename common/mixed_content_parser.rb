@@ -13,7 +13,7 @@ module MixedContentParser
 
 
     document = org.jsoup.Jsoup.parse(cleaned_content, base_uri, org.jsoup.parser.Parser.xmlParser())
-
+    document.outputSettings.escapeMode(Java::OrgJsoupNodes::Entities::EscapeMode.xhtml)
     # replace lb with br
     document.select("lb").tagName("br")
 
