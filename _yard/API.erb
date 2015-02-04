@@ -2,7 +2,7 @@
 As of <%= @time.inspect %> the following REST endpoints exist in the master branch of the development repository:
 
 <% @endpoints.each do | e | %>
-	
+
 ## <%= e[:method].upcase%> <%= e[:uri]%> 
 
 __Description__
@@ -11,6 +11,14 @@ __Description__
 
 
 __Parameters__
+
+<% if e[:paginated] %>
+	<%= "This endpoint is paginated. :page, :id_set, or :all_ids is required"  %> 
+	<%= "Integer page -- The page set to be returned" %>
+	<%= "Integer page_size -- The size of the set to be returned ( Optional. default set in AppConfig )" %>
+	<%= "Comma seperated list id_set -- A list of ids to request resolved objects ( Must be smaller than default page_size )" %>
+	<%= "Boolean all_ids -- Return a list of all object ids" %>
+<% end %>
 <% e[:params].each do |param| 
   opts = (param[3] or {})
   vs = opts[:validation] ? " -- #{opts[:validation][0]}" : "" %>
