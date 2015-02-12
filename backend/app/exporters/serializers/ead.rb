@@ -633,6 +633,16 @@ class EADSerializer < ASpaceExport::Serializer
               data.addresslines.each do |line|
                 xml.addressline { sanitize_mixed_content( line, xml, fragments) }  
               end
+              if data.repo.url 
+              	xml.addressline ( "URL: " ) { 
+              	  xml.extptr ( { 
+              	  				"xlink:href" => data.repo.url,
+              	  				"xlink:title" => data.repo.url,
+              	  				"xlink:type" => "simple",
+              	  				"xlink:show" => "new"
+              	  				} )
+              	 }
+              end
             }
           end
         }
