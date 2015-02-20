@@ -1,68 +1,66 @@
 <%= setup_context :title => "LCNAF Search" %>
 
-<div class="row-fluid">
-  <div class="span12">
-    <div class="record-pane">
-      <div class="row-fluid">
-        <div class="span8">
-          <h2><%= I18n.t("plugins.lcnaf.label") %></h2>
+<div class="row">
+  <div class="col-md-8">
+    <h2><%= I18n.t("plugins.lcnaf.label") %></h2>
 
-          <%= render_aspace_partial :partial => "shared/flash_messages" %>
+    <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
-          <%= form_tag({:controller => :lcnaf, :action => :search}, {:id => "lcnaf_search", :class => "form-search", :method => "GET"}) do |form| %>
+    <%= form_tag({:controller => :lcnaf, :action => :search}, {:id => "lcnaf_search", :class => "form-search", :method => "GET"}) do |form| %>
 
-          <div class='control-group required'>
-          <label for="lcnaf_service_oclc" class="radio">
-            <input type="radio" name="lcnaf_service" value="oclc" id="lcnaf_service_oclc" checked="true"/>
-            OCLC - http://alcme.oclc.org/srw/search/lcnaf
-          </label>
-          <br />
-          <label for="lcnaf_service_loc" class="radio">
-            <input type="radio" name="lcnaf_service" value="loc" label="lcnaf_service_loc"/>
-            LOC - http://id.loc.gov
-          </label>
-          </div>
-
-            <div class='control-group required'> 
-             <label class='control-label' for="family-name-search-query"><%= I18n.t("plugins.lcnaf.search.family_name") %></label>
-             <div class='controls'> 
-              <input type="text" name="family_name" class="family-name-search-query" id="family-name-search-query" class="input-large"></input>
-              </div>
-            </div>
-            <div class='control-group'> 
-              <label for="given-name-search-query"><%= I18n.t("plugins.lcnaf.search.given_name") %></label>
-              <div class='controls'> 
-                <input type="text" name="given_name"  id="given-name-search-query" class="input-large"></input>
-               </div>
-            </div>
-              
-            <div class='control-group'> 
-              <button type="submit" class="btn btn-primary">
-               <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %>
-               <%= I18n.t("plugins.lcnaf.actions.search") %>
-              </button>
-            </div>
-            <%= hidden_field_tag "page", @page %>
-            <%= hidden_field_tag "records_per_page", @records_per_page %>
-          <% end %>
-
-          <div id="results"></div>
-        </div>
-        <div class="span4">
-          <%= form_tag({:controller => :lcnaf, :action => :import}, {:id => "lcnaf_import"}) do |form| %>
-          <div class="selected-container" data-spy="affix">
-            <div class="alert alert-info"><%= I18n.t("plugins.lcnaf.messages.none_selected") %></div>
-            <div id="selected"></div>
-            <button id="import-selected" class="btn btn-primary" disabled="disabled">
-              <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %>
-              <%= I18n.t("plugins.lcnaf.actions.import") %>
-            </button>
-          </div>
-          <% end %>
-        </div>
+    <div class='control-group form-group required'>
+      <div class="radio">
+        <label for="lcnaf_service_oclc">
+          <input type="radio" name="lcnaf_service" value="oclc" id="lcnaf_service_oclc" checked="true">
+          OCLC - http://alcme.oclc.org/srw/search/lcnaf
+        </label>
+      </div>
+      <div class="radio">
+        <label for="lcnaf_service_loc">
+          <input type="radio" name="lcnaf_service" value="loc" label="lcnaf_service_loc">
+          LOC - http://id.loc.gov
+        </label>
       </div>
     </div>
+
+    <div class='control-group form-group required'> 
+      <label class='control-label' for="family-name-search-query"><%= I18n.t("plugins.lcnaf.search.family_name") %></label>
+      <div class='controls'> 
+        <input type="text" name="family_name" class="family-name-search-query" id="family-name-search-query" class="input-large"></input>
+      </div>
+    </div>
+    <div class='control-group form-group'> 
+      <label for="given-name-search-query"><%= I18n.t("plugins.lcnaf.search.given_name") %></label>
+      <div class='controls'> 
+        <input type="text" name="given_name"  id="given-name-search-query" class="input-large"></input>
+      </div>
+    </div>
+    
+    <div class='control-group form-group'> 
+      <button type="submit" class="btn btn-primary btn-default">
+        <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %>
+        <%= I18n.t("plugins.lcnaf.actions.search") %>
+      </button>
+    </div>
+    <%= hidden_field_tag "page", @page %>
+    <%= hidden_field_tag "records_per_page", @records_per_page %>
+    <% end %>
+
+    <div id="results"></div>
   </div>
+  <div class="col-md-4">
+    <%= form_tag({:controller => :lcnaf, :action => :import}, {:id => "lcnaf_import"}) do |form| %>
+    <div class="selected-container" data-spy="affix">
+      <div class="alert alert-info"><%= I18n.t("plugins.lcnaf.messages.none_selected") %></div>
+      <div id="selected"></div>
+      <button id="import-selected" class="btn btn-primary btn-default" disabled="disabled">
+        <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %>
+        <%= I18n.t("plugins.lcnaf.actions.import") %>
+      </button>
+    </div>
+    <% end %>
+  </div>
+
 </div>
 
 <script src="<%= "#{AppConfig[:frontend_prefix]}assets/lcnaf.js" %>"></script>
@@ -74,12 +72,12 @@
 
 <div id="template_lcnaf_result"><!--
   <div class="lcnaf-result">
-    <div class="row-fluid">
-      <div class="span2">
+    <div class="row">
+      <div class="col-md-2">
           <span class="pull-left alert alert-success hide"><%= I18n.t("plugins.lcnaf.messages.selected") %></span>
-          <button class="btn hide" data-lccn="${record.lccn}"><%= I18n.t("plugins.lcnaf.actions.select") %></button>
+          <button class="btn btn-default hide" data-lccn="${record.lccn}"><%= I18n.t("plugins.lcnaf.actions.select") %></button>
       </div>
-      <div class="span10 lcnaf-marc">
+      <div class="col-md-10 lcnaf-marc">
         <pre><code>${record.xml|h}</code></pre>
       </div>
     </div>
@@ -99,8 +97,8 @@
   <div class="row-fluid">
     <hr/>
     <div class="lcnaf-pagination text-center">
-      {if !at_start}<a href='<%= url_for :controller => :lcnaf, :action => :search %>${queryString}&page=${page - 1}&records_per_page=${records_per_page}' class="btn btn-small"><%= I18n.t("pagination.previous") %> <%= I18n.t("pagination.previous_label") %></a>{/if}
-      {if !at_end}<a href='<%= url_for :controller => :lcnaf, :action => :search %>${queryString}&page=${page + 1}&records_per_page=${records_per_page}' class="btn btn-small"><%= I18n.t("pagination.next_label") %> <%= I18n.t("pagination.next") %></a>{/if}
+      {if !at_start}<a href='<%= url_for :controller => :lcnaf, :action => :search %>${queryString}&page=${page - 1}&records_per_page=${records_per_page}' class="btn btn-small btn-default"><%= I18n.t("pagination.previous") %> <%= I18n.t("pagination.previous_label") %></a>{/if}
+      {if !at_end}<a href='<%= url_for :controller => :lcnaf, :action => :search %>${queryString}&page=${page + 1}&records_per_page=${records_per_page}' class="btn btn-small btn-default"><%= I18n.t("pagination.next_label") %> <%= I18n.t("pagination.next") %></a>{/if}
     </div>
   </div>
 --></div>
@@ -109,7 +107,7 @@
   <div data-lccn="${lccn}" class="lcnaf-selected">
     ${lccn}
     <input type="hidden" name="lccn[]" value="${lccn}"/>
-    <button class="btn btn-mini remove-selected pull-right"><span class="icon icon-trash"></span></button>
+    <button class="btn btn-mini btn-default btn-xs remove-selected pull-right"><span class="icon icon-trash glyphicon glyphicon-trash"></span></button>
   </div>
 --></div>
 

@@ -78,7 +78,7 @@ $(function() {
 
 
   var resizeSelectedBox = function() {
-    $selected.closest(".selected-container").width($selected.closest(".span4").width() - 30);
+    $selected.closest(".selected-container").width($selected.closest(".col-md-4").width() - 30);
   };
 
 
