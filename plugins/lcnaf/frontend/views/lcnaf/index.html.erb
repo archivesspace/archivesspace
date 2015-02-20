@@ -10,6 +10,19 @@
           <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
           <%= form_tag({:controller => :lcnaf, :action => :search}, {:id => "lcnaf_search", :class => "form-search", :method => "GET"}) do |form| %>
+
+          <div class='control-group required'>
+          <label for="lcnaf_service_oclc" class="radio">
+            <input type="radio" name="lcnaf_service" value="oclc" id="lcnaf_service_oclc" checked="true"/>
+            OCLC - http://alcme.oclc.org/srw/search/lcnaf
+          </label>
+          <br />
+          <label for="lcnaf_service_loc" class="radio">
+            <input type="radio" name="lcnaf_service" value="loc" label="lcnaf_service_loc"/>
+            LOC - http://id.loc.gov
+          </label>
+          </div>
+
             <div class='control-group required'> 
              <label class='control-label' for="family-name-search-query"><%= I18n.t("plugins.lcnaf.search.family_name") %></label>
              <div class='controls'> 
@@ -86,8 +99,8 @@
   <div class="row-fluid">
     <hr/>
     <div class="lcnaf-pagination text-center">
-      {if !at_start}<a href='<%= url_for :controller => :lcnaf, :action => :search %>?family_name=${query.query['local.FamilyName']}&given_name=${query.query['local.GivenName']}&page=${page - 1}&records_per_page=${records_per_page}' class="btn btn-small"><%= I18n.t("pagination.previous") %> <%= I18n.t("pagination.previous_label") %></a>{/if}
-      {if !at_end}<a href='<%= url_for :controller => :lcnaf, :action => :search %>?family_name=${query.query['local.FamilyName']}&given_name=${query.query['local.GivenName']}&page=${page + 1}&records_per_page=${records_per_page}' class="btn btn-small"><%= I18n.t("pagination.next_label") %> <%= I18n.t("pagination.next") %></a>{/if}
+      {if !at_start}<a href='<%= url_for :controller => :lcnaf, :action => :search %>${queryString}&page=${page - 1}&records_per_page=${records_per_page}' class="btn btn-small"><%= I18n.t("pagination.previous") %> <%= I18n.t("pagination.previous_label") %></a>{/if}
+      {if !at_end}<a href='<%= url_for :controller => :lcnaf, :action => :search %>${queryString}&page=${page + 1}&records_per_page=${records_per_page}' class="btn btn-small"><%= I18n.t("pagination.next_label") %> <%= I18n.t("pagination.next") %></a>{/if}
     </div>
   </div>
 --></div>
@@ -110,4 +123,12 @@
 
 <div id="template_lcnaf_import_success_message"><!--
   <div class="alert alert-success"><%= I18n.t("plugins.lcnaf.messages.import_success_message") %></div>
+--></div>
+
+<div id="template_lcnaf_service_locked_title"><!--<%= I18n.t("plugins.lcnaf.messages.service_locked") %>--></div>
+
+<div id="template_lcnaf_service_locked_message"><!--<%= I18n.t("plugins.lcnaf.messages.service_locked_message") %>--></div>
+
+<div id="template_lcnaf_search_error_title"><!--
+  <%= I18n.t("plugins.lcnaf.messages.search_error") %>
 --></div>

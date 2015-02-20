@@ -5,9 +5,13 @@ $(function() {
   var $results = $("#results");
   var $selected = $("#selected");
 
+  var $serviceSelector = $("input[name='lcnaf_service']");
+
   var selected_lccns = {};
 
   var renderResults = function(json) {
+    decorateResults(json);
+
     $results.empty();
     $results.append(AS.renderTemplate("template_lcnaf_result_summary", json));
     $.each(json.records, function(i, record) {
@@ -23,6 +27,19 @@ $(function() {
     $results.append(AS.renderTemplate("template_lcnaf_pagination", json));
     $('pre code', $results).each(function(i, e) {hljs.highlightBlock(e)});
   };
+
+
+  var decorateResults = function(resultsJson) {
+    //stringify the query here so templates don't need
+    //to worry about SRU vs OpenSearch
+    if (typeof(resultsJson.query) === 'string') {
+      // just use sru's family_name as the 
+      // sole openSearch field
+      resultsJson.queryString = '?family_name=' + resultsJson.query + '&lcnaf_service=loc';
+    } else {
+      resultsJson.queryString = '?family_name=' + resultsJson.query.query['local.FamilyName'] + '&given_name=' + resultsJson.query.query['local.GivenName'] + '&lcnaf_service=oclc';
+    }
+  }
 
 
   var selectedLCCNs = function() {
@@ -78,6 +95,11 @@ $(function() {
     success: function(json) {
       $(".btn", $searchForm).removeAttr("disabled").removeClass("disabled").removeClass("busy");
       renderResults(json);
+    },
+    error: function(err) {
+      $(".btn", $searchForm).removeAttr("disabled").removeClass("disabled").removeClass("busy");
+      var errBody = err.hasOwnProperty("responseText") ? err.responseText.replace(/\n/g, "") : "<pre>" + JSON.stringify(err) + "</pre>";
+      AS.openQuickModal(AS.renderTemplate("template_lcnaf_search_error_title"), JSON.stringify(errBody));
     }
   });
 
@@ -85,21 +107,33 @@ $(function() {
   $importForm.ajaxForm({
     dataType: "json",
     type: "POST",
-    beforeSubmit: function() {
+    beforeSubmit: function(data, $form, options) {
+
+      data.push({
+        name: 'lcnaf_service',
+        value: $serviceSelector.val(),
+      });
+
       $("#import-selected").attr("disabled", "disabled").addClass("disabled").addClass("busy");
+
     },
     success: function(json) {
-        $("#import-selected").removeClass("busy");
-        if (json.job_uri) {
-            AS.openQuickModal(AS.renderTemplate("template_lcnaf_import_success_title"), AS.renderTemplate("template_lcnaf_import_success_message"));
-            setTimeout(function() {
-              window.location = json.job_uri;
-            }, 2000);
-        } else {
-            // error
-            $("#import-selected").removeAttr("disabled").removeClass("disabled");
-            AS.openQuickModal(AS.renderTemplate("template_lcnaf_import_error_title"), json.error);
-        }
+      $("#import-selected").removeClass("busy");
+      if (json.job_uri) {
+        AS.openQuickModal(AS.renderTemplate("template_lcnaf_import_success_title"), AS.renderTemplate("template_lcnaf_import_success_message"));
+        setTimeout(function() {
+          window.location = json.job_uri;
+        }, 2000);
+      } else {
+        // error
+        $("#import-selected").removeAttr("disabled").removeClass("busy")
+        AS.openQuickModal(AS.renderTemplate("template_lcnaf_import_error_title"), json.error);
+      }
+    },
+    error: function(err) {
+      $(".btn", $importForm).removeAttr("disabled").removeClass("disabled").removeClass("busy");
+      var errBody = err.hasOwnProperty("responseText") ? err.responseText.replace(/\n/g, "") : "<pre>" + JSON.stringify(err) + "</pre>";
+      AS.openQuickModal(AS.renderTemplate("template_lcnaf_import_error_title"), JSON.stringify(errBody));
     }
   });
 
@@ -123,6 +157,17 @@ $(function() {
   $selected.on("click", ".remove-selected", function(event) {
     var lccn = $(this).parent().data("lccn");
     removeSelected(lccn);
+  });
+
+
+  $serviceSelector.on("click", function(event) {
+    if ($selected.children().length > 0) {
+      event.preventDefault();
+      AS.openQuickModal(AS.renderTemplate("template_lcnaf_service_locked_title"), AS.renderTemplate("template_lcnaf_service_locked_message"));
+    } else {
+      $('#given-name-search-query').prop('disabled', function(i, v) { return !v; });
+      $('.btn', '.lcnaf-result').prop('disabled', function(i, v) { return !v; });
+    }
   });
 
 
