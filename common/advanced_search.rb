@@ -71,7 +71,7 @@ class AdvancedSearch
       self[:visibility] = vals.map(&:to_s)
 
       self[:visibility].each do |val|
-        raise "Invalid advanced search field visibility: #{val}" unless ['staff', 'public'].include?(val)
+        raise "Invalid advanced search field visibility: #{val}" unless ['staff', 'public', 'api'].include?(val)
       end
     end
 
