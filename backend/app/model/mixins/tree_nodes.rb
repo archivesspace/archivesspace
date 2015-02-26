@@ -279,6 +279,17 @@ module TreeNodes
           if obj.parent_id
             json.parent = {'ref' => uri_for(node_record_type, obj.parent_id)}
           end
+
+          if obj.parent_name
+            # Calculate the absolute (gapless) position of this node.  This
+            # bridges the gap between the DB's view of position, which only
+            # cares that the positions order correctly, with the API's view,
+            # which speaks in absolute numbering (i.e. the first position is 0,
+            # the second position is 1, etc.)
+
+            json.position = obj.class.dataset.filter(:parent_name => obj.parent_name).where { position < obj.position }.count
+          end
+
         end
 
         if node_model.publishable?
