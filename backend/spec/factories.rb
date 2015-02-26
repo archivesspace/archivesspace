@@ -599,6 +599,9 @@ FactoryGirl.define do
     filenames { (0..3).map { generate(:alphanumstr) } }
   end
 
+  factory :json_find_and_replace_job, class: JSONModel(:find_and_replace_job) do
+  end
+
   factory :json_preference, class: JSONModel(:preference) do
     defaults { build(:json_defaults) }
   end
