@@ -83,6 +83,12 @@ module TreeNodes
   end
 
 
+  def absolute_position
+    relative_position = self.position
+    self.class.dataset.filter(:parent_name => self.parent_name).where { position < relative_position }.count
+  end
+
+
   def update_from_json(json, opts = {}, apply_nested_records = true)
     sequence = self.class.sequence_for(json)
 
@@ -287,7 +293,7 @@ module TreeNodes
             # which speaks in absolute numbering (i.e. the first position is 0,
             # the second position is 1, etc.)
 
-            json.position = obj.class.dataset.filter(:parent_name => obj.parent_name).where { position < obj.position }.count
+            json.position = obj.absolute_position
           end
 
         end
