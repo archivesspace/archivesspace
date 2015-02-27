@@ -17,7 +17,11 @@ class AdvancedSearch
 
   def self.solr_field_for(field)
     load_definitions
-    @fields.fetch(field.to_s).solr_field
+    field = @fields.fetch(field.to_s) do
+      raise "Unrecognized search field: #{field}"
+    end
+
+    field.solr_field
   end
 
 
@@ -67,7 +71,7 @@ class AdvancedSearch
       self[:visibility] = vals.map(&:to_s)
 
       self[:visibility].each do |val|
-        raise "Invalid advanced search field visibility: #{val}" unless ['staff', 'public'].include?(val)
+        raise "Invalid advanced search field visibility: #{val}" unless ['staff', 'public', 'api'].include?(val)
       end
     end
 

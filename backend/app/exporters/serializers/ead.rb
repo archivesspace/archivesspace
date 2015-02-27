@@ -615,7 +615,7 @@ class EADSerializer < ASpaceExport::Serializer
           xml.publisher { sanitize_mixed_content(data.repo.name,xml, fragments) } 
 
           if data.repo.image_url
-            xml.p {
+            xml.p ( { "id" => "logostmt" } ) {
               xml.extref ({"xlink:href" => data.repo.image_url,
                           "xlink:actuate" => "onLoad",
                           "xlink:show" => "embed",
@@ -632,6 +632,16 @@ class EADSerializer < ASpaceExport::Serializer
             xml.address {
               data.addresslines.each do |line|
                 xml.addressline { sanitize_mixed_content( line, xml, fragments) }  
+              end
+              if data.repo.url 
+              	xml.addressline ( "URL: " ) { 
+              	  xml.extptr ( { 
+              	  				"xlink:href" => data.repo.url,
+              	  				"xlink:title" => data.repo.url,
+              	  				"xlink:type" => "simple",
+              	  				"xlink:show" => "new"
+              	  				} )
+              	 }
               end
             }
           end
