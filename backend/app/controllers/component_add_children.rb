@@ -175,7 +175,7 @@ class ArchivesSpaceService < Sinatra::Base
       # final ordering ends up right.
       first_uri = params[:children][0]
       first_obj = child_class.get_or_die(child_class.my_jsonmodel.id_for(first_uri))
-      ordered = if first_obj.absolute_position < position
+      ordered = if target.id == first_obj.parent_id && first_obj.absolute_position < position
                   params[:children].each_with_index.to_a.reverse
                 else
                   params[:children].each_with_index
