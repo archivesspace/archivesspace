@@ -410,8 +410,12 @@ def selenium_init(backend_fn, frontend_fn)
   profile["browser.helperApps.alwaysAsk.force"] = false
   profile["browser.helperApps.neverAsk.saveToDisk"] = "application/pdf, application/xml"
   profile['pdfjs.disabled'] = true
-
   
+  
+  if ENV['FIREFOX_PATH']
+    Selenium::WebDriver::Firefox.path = ENV['FIREFOX_PATH'] 
+  end
+
   $driver = Selenium::WebDriver.for :firefox,:profile => profile
   $wait   = Selenium::WebDriver::Wait.new(:timeout => 10)
   $driver.manage.window.maximize

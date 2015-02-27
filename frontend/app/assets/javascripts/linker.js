@@ -173,8 +173,19 @@ $(function() {
                 event.preventDefault();
 
                 var $form = $(event.target);
+                var method = ($form.attr("method") || "get").toUpperCase();
 
-                $linkerBrowseContainer.load($form.attr("action")+".js?" + $(event.target).serialize(), initBrowseFormInputs);
+
+                if (method == "POST") {
+                  jQuery.post($form.attr("action") + ".js",
+                              $form.serializeArray(),
+                              function(html) {
+                                $linkerBrowseContainer.html(html);
+                                initBrowseFormInputs();
+                              });
+                } else {
+                  $linkerBrowseContainer.load($form.attr("action") + ".js?" + $form.serialize(), initBrowseFormInputs);
+                }
               });
 
               initBrowseFormInputs();
