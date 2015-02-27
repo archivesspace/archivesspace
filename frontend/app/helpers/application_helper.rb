@@ -41,7 +41,7 @@ module ApplicationHelper
       type = options[:type] || object["jsonmodel_type"]
       controller = options[:controller] || type.to_s.pluralize
 
-      title = options[:title] || object["title"] || object["username"]
+      title = (options[:title] || object["title"] || object["username"]).to_s
 
       breadcrumb_trail.push(["#{I18n.t("#{controller.to_s.singularize}._plural")}", {:controller => controller, :action => :index}])
 
