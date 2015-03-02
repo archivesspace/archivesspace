@@ -99,7 +99,10 @@ class BatchImportRunner
     if last_error
      
       ticker.log("\n\n" ) 
-      ticker.log( ( "!" * 48 ) +  "  IMPORT ERROR  " + ( "!" * 48 ) ) 
+      ticker.log( "!" * 50 ) 
+      ticker.log( "IMPORT ERROR" ) 
+      ticker.log( "!" * 50 ) 
+      ticker.log("\n\n" ) 
       
       if  last_error.respond_to?(:errors)
      
@@ -111,7 +114,7 @@ class BatchImportRunner
         
         if last_error.is_a?(Sequel::ValidationFailed) 
           ticker.log("\n" ) 
-          ticker.log("%" * 112 ) 
+          ticker.log("%" * 50 ) 
           ticker.log("\n Full Error Message:\n #{last_error.to_s}\n\n") 
         end 
         
@@ -124,9 +127,9 @@ class BatchImportRunner
           ticker.log("\n\n") 
         end 
       else
-        ticker.log("Error: #{last_error.inspect}")
+        ticker.log("Error: #{CGI.escapeHTML(  last_error.inspect )}")
       end
-      ticker.log("!" * 100 ) 
+      ticker.log("!" * 50 ) 
       raise last_error
     end
   end

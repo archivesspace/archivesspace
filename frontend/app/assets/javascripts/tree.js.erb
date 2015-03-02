@@ -579,9 +579,20 @@ $(function() {
 
       var urisOfNodesToMove = $.makeArray(jstreeMoveData.rslt.o.map(function(i, moved) {return $(moved).data("uri");}));
 
+      var index = jstreeMoveData.rslt.cp;
+
+      if ((jstreeMoveData.rslt.op == jstreeMoveData.rslt.np) &&
+          (jstreeMoveData.rslt.cop < jstreeMoveData.rslt.cp)) {
+        // We have moved a node downwards in the list.  Since the
+        // list will shift up as the node is plucked out, we need to
+        // adjust the target index for this.
+
+        index -= jstreeMoveData.rslt.o.length;
+      }
+
       var data_for_post = {
         children: urisOfNodesToMove,
-        index: jstreeMoveData.rslt.cp
+        index: index
       };
 
       $.ajax({

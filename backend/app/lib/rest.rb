@@ -97,6 +97,7 @@ module RESTHelpers
             :description => @description,
             :method => @method,
             :params => @required_params,
+            :paginated => @paginated,
             :returns => @returns
           }
         end
