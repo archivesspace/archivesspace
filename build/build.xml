@@ -92,6 +92,7 @@
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
       <arg line="--1.9 -S gem install bundler" />
+    
     </java>
 
     <antcall target="bundler"><param name="gemfile" value="../backend/Gemfile" /></antcall>
@@ -216,7 +217,7 @@
           <arg line="--warfile=${solr_file} --httpPort=${aspace.solr.port} --ajp13Port=-1" />
         </java>
       </daemons>
-
+      <record name="backend_test_log.out" action="start" />
       <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
             dir="../backend">
         <jvmarg line="-Daspace.config.backend_url=http://localhost:${aspace.backend.port} ${default_java_options} ${env.JAVA_OPTS} ${solr.properties}"/>
@@ -226,6 +227,7 @@
         <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
         <arg line="--1.9 app/main.rb ${aspace.backend.port}" />
       </java>
+      <record name="backend_test_log.out" action="stop" />
     </parallel>
   </target>
 
