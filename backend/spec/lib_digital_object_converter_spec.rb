@@ -32,6 +32,11 @@ describe 'Digital Object converter' do
   it "maps digital_object_processing_started_date to collection_management.processing_started_date" do    
     @digital_objects[0]['collection_management']['processing_started_date'].should match(/\d{4}-\d{2}-\d{2}/)
   end
+  
+  it "maps digital_object_file version information to the object" do    
+    @digital_objects[0]['file_versions'].length.should eq(1) 
+    @digital_objects[0]["file_versions"].should eq([{"jsonmodel_type"=>"file_version", "uri"=>nil, "file_uri"=>"http://aspace.me", "publish"=>nil, "use_statement"=>"It's all good", "xlink_actuate_attribute"=>"onRequest", "xlink_show_attribute"=>"embed", "file_format_name"=>"jpeg", "file_format_version"=>"1", "file_size_bytes"=>100, "checksum"=>"xxxxxxx", "checksum_method"=>"md5"}])
+  end
 
 
   describe "utf-8 encoding" do

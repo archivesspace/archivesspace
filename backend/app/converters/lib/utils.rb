@@ -126,6 +126,11 @@ module ASpaceImport
          lambda {|val|
            val.split("\n").map {|s| s.strip }.join("\n")
          }
+       
+       when :integer
+         lambda {|val|
+           val.to_i
+         }
 
        else
          raise "Can't handle #{property_type}"
