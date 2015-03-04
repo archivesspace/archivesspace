@@ -1,17 +1,26 @@
+require_relative 'job_runner'
 
+class FindAndReplaceRunner < JobRunner
 
-class FindAndReplaceRunner
-
-  def initialize(job, canceled = false)
+  def initialize(job)
     @job = job
-    @canceled = canceled
+    @json = Job.to_jsonmodel(job)
+  end
+
+  def self.instance_for(job)
+    if job.job_type == "find_and_replace_job"
+      self.new(job)
+    else
+      nil
+    end
   end
 
 
   def run
+    super
 
-    arguments = ASUtils.json_parse(@job.arguments)
-    scope = ASUtils.json_parse(@job.scope)
+    arguments = @json.job['arguments']
+    scope = @json.job['scope']
 
     parsed = JSONModel.parse_reference(scope['base_record_uri'])
     base_model = Kernel.const_get(parsed[:type].camelize)
@@ -35,7 +44,10 @@ class FindAndReplaceRunner
           next unless json[target_property]
           json[target_property].gsub!(find, replace)
 
-          target_model[id].update_from_json(json)
+          RequestContext.open(:current_username => @job.owner.username,
+                              :repo_id => @job.repo_id) do
+            target_model[id].update_from_json(json)
+          end
         end
 
       rescue JSONModel::ValidationException => e

@@ -144,15 +144,18 @@ AppConfig[:frontend_proxy_url] = proc { AppConfig[:frontend_url] }
 AppConfig[:public_proxy_url] = proc { AppConfig[:public_url] }
 
 AppConfig[:shared_storage] = proc { File.join(AppConfig[:data_directory], "shared") }
-AppConfig[:import_job_path] = proc { File.join(AppConfig[:shared_storage], "import_jobs") }
-AppConfig[:import_poll_seconds] = 5
-AppConfig[:background_job_poll_seconds] = proc { AppConfig[:import_poll_seconds] }
 
-AppConfig[:import_timeout_seconds] = 300
-AppConfig[:find_and_replace_timeout_seconds] = proc { AppConfig[:import_timeout_seconds] }
+# formerly known as :import_job_path
+AppConfig[:job_file_path] = proc { AppConfig.has_key?(:import_job_path) ? AppConfig[:import_job_path] : File.join(AppConfig[:shared_storage], "job_files") }
+
+# this too
+AppConfig[:job_poll_seconds] = proc { AppConfig.has_key?(:import_poll_seconds) ? AppConfig[:import_poll_seconds] : 5 }
+
+# and this
+AppConfig[:job_timeout_seconds] = proc { AppConfig.has_key?(:import_timeout_seconds) ? AppConfig[:import_timeout_seconds] : 300 }
 
 # By default, only allow jobs to be cancelled if we're running against MySQL (since we can rollback)
-AppConfig[:import_jobs_cancelable] = proc { (AppConfig[:db_url] != AppConfig.demo_db_url).to_s }
+AppConfig[:jobs_cancelable] = proc { (AppConfig[:db_url] != AppConfig.demo_db_url).to_s }
 
 AppConfig[:max_location_range] = 1000
 

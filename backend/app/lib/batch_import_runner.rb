@@ -1,6 +1,8 @@
 # prepare an import job run: orchestrates converting the input file's records,
 # runs the job and gathers its log output, handling any errors.
 
+require_relative 'job_runner'
+
 [File.expand_path("..", File.dirname(__FILE__)),
  *ASUtils.find_local_directories('backend')].each do |prefix|
   Dir.glob(File.join(prefix, "converters", "*.rb")).sort.each do |file|
@@ -37,11 +39,20 @@ class Ticker
 end
 
 
-class BatchImportRunner
+class BatchImportRunner < JobRunner
 
-  def initialize(job, import_canceled)
+  def initialize(job)
     @job = job
-    @import_canceled = import_canceled
+    @json = Job.to_jsonmodel(job)
+  end
+
+
+  def self.instance_for(job)
+    if job.job_type == "import_job"
+      self.new(job)
+    else
+      nil
+    end
   end
 
 
@@ -52,7 +63,7 @@ class BatchImportRunner
     batch = nil
     success = false
 
-    filenames = ASUtils.json_parse(@job.filenames || "[]")
+    filenames = @json.job['filenames'] || []
 
     # Wrap the import in a transaction if the DB supports MVCC
     begin
@@ -62,7 +73,7 @@ class BatchImportRunner
         begin
           @job.job_files.each_with_index do |input_file, i|
             ticker.log(("=" * 50) + "\n#{filenames[i]}\n" + ("=" * 50)) if filenames[i]
-            converter = Converter.for(@job.import_type, input_file.file_path)
+            converter = Converter.for(@json.job['import_type'], input_file.file_path)
             begin
               converter.run
 

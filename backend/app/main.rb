@@ -112,8 +112,7 @@ class ArchivesSpaceService < Sinatra::Base
       Notifications.init if ASpaceEnvironment.environment != :unit_test
 
 
-      BatchImportJobQueue.init if ASpaceEnvironment.environment != :unit_test
-    
+      BackgroundJobQueue.init if ASpaceEnvironment.environment != :unit_test
 
 
 

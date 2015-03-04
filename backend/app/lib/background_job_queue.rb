@@ -3,26 +3,23 @@
 
 require 'thread'
 require 'atomic'
+require_relative 'job_runner'
+require_relative 'find_and_replace_runner'
+
 require_relative 'batch_import_runner'
 
 
-class BatchImportJobQueue
+class BackgroundJobQueue
 
-  JOB_TIMEOUT_SECONDS = AppConfig[:import_timeout_seconds].to_i
-  FR_JOB_TIMEOUT_SECONDS = AppConfig[:find_and_replace_timeout_seconds].to_i
+  JOB_TIMEOUT_SECONDS = AppConfig[:job_timeout_seconds].to_i
 
   def find_stale_job
     DB.open do |db|
-      stale_job = ImportJob.any_repo.
-                            filter(:status => "running").
-                            where {
-        system_mtime <= (Time.now - JOB_TIMEOUT_SECONDS)
-      }.first ||
-        FindAndReplaceJob.any_repo.
+      stale_job = Job.any_repo.
         filter(:status => "running").
         where {
-        system_mtime <= (Time.now - FR_JOB_TIMEOUT_SECONDS)
-      }.first
+        system_mtime <= (Time.now - JOB_TIMEOUT_SECONDS)
+      }.first 
 
       if stale_job
         begin
@@ -42,15 +39,10 @@ class BatchImportJobQueue
   def find_queued_job
     while true
       DB.open do |db|
-        # job = ImportJob.any_repo.
-        #                 filter(:status => "queued").
-        #                 order(:time_submitted).first
 
-
-        job = [
-               ImportJob.any_repo.filter(:status => "queued").order(:time_submitted).first,
-               FindAndReplaceJob.any_repo.filter(:status => "queued").order(:time_submitted).last
-              ].compact.inject {|memo, obj| memo.time_submitted < obj.time_submitted ? memo : obj }
+        job = Job.any_repo.
+          filter(:status => "queued").
+          order(:time_submitted).first
 
         return unless job
 
@@ -75,7 +67,7 @@ class BatchImportJobQueue
   end
 
 
-  def run_pending_import
+  def run_pending_job
     job = get_next_job
 
     return if !job
@@ -103,14 +95,8 @@ class BatchImportJobQueue
     end
 
     begin
-      runner = case job.class.to_s # oops
-               when 'FindAndReplaceJob'
-                 FindAndReplaceRunner
-               when 'ImportJob'
-                 BatchImportRunner
-               end
-
-      runner.new(job, job_canceled).run
+      runner = JobRunner.for(job).canceled(job_canceled)
+      runner.run
 
       finished.value = true
       watchdog_thread.join
@@ -120,6 +106,7 @@ class BatchImportJobQueue
       else
         job.finish(:completed)
       end
+
     rescue
       Log.error("Job #{job.id} failed: #{$!} #{$@}")
       # If anything went wrong, make sure the watchdog thread still stops.
@@ -137,12 +124,12 @@ class BatchImportJobQueue
     Thread.new do
       while true
         begin
-          run_pending_import
+          run_pending_job
         rescue
           Log.error("Error in job manager thread: #{$!} #{$@}")
         end
 
-        sleep AppConfig[:background_job_poll_seconds].to_i
+        sleep AppConfig[:job_poll_seconds].to_i
       end
     end
   end
@@ -153,7 +140,6 @@ class BatchImportJobQueue
     begin
       while(true) do
         stale = find_stale_job
-        puts stale.inspect
         stale.finish(:canceled)
         break if stale.nil?
       end
@@ -161,8 +147,8 @@ class BatchImportJobQueue
     end
     
 
-    importer = BatchImportJobQueue.new
-    importer.start_background_thread
+    queue = BackgroundJobQueue.new
+    queue.start_background_thread
   end
 
 end

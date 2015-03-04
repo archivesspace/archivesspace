@@ -1,3 +1,4 @@
+
 require 'bundler'
 Bundler.require
 
@@ -38,7 +39,10 @@ class DB
                              #:loggers => [Logger.new($stderr)]
                              )
 
-      DBMigrator.nuke_database(@pool)
+      unless ENV['ASPACE_TEST_DB_PERSIST']
+        DBMigrator.nuke_database(@pool)
+      end
+
       DBMigrator.setup_database(@pool)
     end
   end
@@ -161,7 +165,7 @@ def make_test_repo(code = "ARCHIVESSPACE", org_code = "test")
   @repo_id
 end
 
-
+ 
 def make_test_user(username, name = "A test user", source = "local")
   create(:user, {:username => username, :name => name, :source => source})
 end
@@ -275,22 +279,33 @@ end
 RSpec.configure do |config|
   config.include Rack::Test::Methods
   config.include FactoryGirl::Syntax::Methods
+  config.treat_symbols_as_metadata_keys_with_true_values = true
 
-  # Roll back the database after each test
+#  Roll back the database after each test
   config.around(:each) do |example|
-    DB.open(true) do |db|
-      $testdb = db
-      as_test_user("admin") do
-        RequestContext.open do
-          $repo_id = $default_repo
-          $repo = JSONModel(:repository).uri_for($repo_id)
-          JSONModel::set_repository($repo_id)
-          RequestContext.put(:repo_id, $repo_id)
-          RequestContext.put(:current_username, "admin")
-          example.run
+
+    if example.metadata[:skip_db_open]
+      # Running test without opening the DB first or rolling back after!
+      example.run
+
+    else
+
+      DB.open(true) do |db|
+        $testdb = db
+        as_test_user("admin") do
+          RequestContext.open do
+            $repo_id = $default_repo
+            $repo = JSONModel(:repository).uri_for($repo_id)
+            JSONModel::set_repository($repo_id)
+            RequestContext.put(:repo_id, $repo_id)
+            RequestContext.put(:current_username, "admin")
+            example.run
+          end
         end
+        raise Sequel::Rollback
       end
-      raise Sequel::Rollback
+
     end
   end
+
 end

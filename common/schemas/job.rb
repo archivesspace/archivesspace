@@ -1,3 +1,8 @@
+JOB_TYPES = [
+             {"type" => "JSONModel(:import_job) object"},
+             {"type" => "JSONModel(:find_and_replace_job) object"}
+            ]
+
 {
   :schema => {
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
@@ -5,15 +10,18 @@
     "type" => "object",
     "uri" => "/repositories/:repo_id/jobs",
     "properties" => {
+
       "uri" => {"type" => "string", "required" => false},
 
-      "filenames" => {
-        "type" => "array",
+      "job_type" => {
+        "type" => "string",
         "ifmissing" => "error",
-        "minItems" => 1,
-        "items" => {
-          "type" => "string",
-        }
+        "minLength" => 1,
+        "dynamic_enum" => "job_type"
+      },
+
+      "job" => {
+        "type" => JOB_TYPES
       },
 
       "time_submitted" => {
@@ -41,11 +49,6 @@
         "enum" => ["running", "completed", "canceled", "queued", "failed"],
         "default" => "queued",
         "readonly" => true
-      },
-
-      "import_type" => {
-        "type" => "string",
-        "ifmissing" => "error"
       },
 
       "queue_position" => {

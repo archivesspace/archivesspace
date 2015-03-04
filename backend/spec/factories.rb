@@ -594,12 +594,22 @@ FactoryGirl.define do
     ref_id { generate(:vocab_refid) }
   end
 
-  factory :json_import_job, class: JSONModel(:job) do
+  factory :json_job, class: JSONModel(:job) do
+    job_type { ['import_job', 'find_and_replace_job'].sample }
+  end
+
+  factory :json_import_job, class: JSONModel(:import_job) do
     import_type { ['marcxml', 'ead_xml', 'eac_xml'].sample }
     filenames { (0..3).map { generate(:alphanumstr) } }
   end
 
   factory :json_find_and_replace_job, class: JSONModel(:find_and_replace_job) do
+    arguments { {:find => "/foo/", :replace => "bar"} }
+    scope { {
+      :jsonmodel_type => "extent",
+      :property => "container_summary",
+      :base_record_uri => "repositories/2/resources/1"
+    } }
   end
 
   factory :json_preference, class: JSONModel(:preference) do

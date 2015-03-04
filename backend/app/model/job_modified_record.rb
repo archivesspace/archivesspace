@@ -1,4 +1,4 @@
-class ImportJobCreatedRecord < Sequel::Model(:import_job_created_record)
+class JobModifiedRecord < Sequel::Model(:job_modified_record)
   include ASModel
 
   set_model_scope :global
