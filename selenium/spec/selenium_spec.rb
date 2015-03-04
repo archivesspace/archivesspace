@@ -2149,24 +2149,60 @@ describe "ArchivesSpace user interface" do
       assert(5) { 
         $driver.find_element(:css => '#resource_instances__0__container__container_locations__0__end_date_').attribute('value').should eq("")
       }
-            
-      $driver.find_element(:id, "resource_instances__0__container__container_locations__0__status_").select_option_with_text('Previous')
-      
-      assert(5) { 
-        $driver.find_element(:css => '#resource_instances__0__container__container_locations__0__end_date_').attribute('value').should eq(Time.now.strftime("%Y-%m-%d"))
-      }
+           
      
-      # you can transfer to a temporary location
-      $driver.find_element(:css => "form .record-pane button[type='submit']").click
-      $driver.find_element_with_text('//div[contains(@class, "alert-danger")]', /Status - Cannot transfer to previous if the location is temporary/) 
-      
-      $driver.find_element(:id, "resource_instances__0__container__container_locations__0__status_").select_option_with_text('Current')
       
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
       $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Resource a resource with instances updated/)
 
 
     end
+
+
+    it "can add a location to the instance with a temporary status" do
+      $driver.navigate.refresh
+      $driver.click_and_wait_until_gone(:css =>'#resource_instances_ .btn.collapse-subrecord-toggle')
+
+      
+    
+      # add a new location
+      $driver.find_element(:css => '#resource_instances__0__container__container_locations_ .subrecord-form-heading .btn:not(.show-all)').click
+      $driver.wait_for_ajax
+      assert(5) { 
+        $driver.find_element(:css => '#resource_instances__0__container__container_locations__1__start_date_').attribute('value').should eq(Time.now.strftime("%Y-%m-%d"))
+      }
+      
+      # transfer location to previous
+      assert(5) { 
+        $driver.find_element(:css => '#resource_instances__0__container__container_locations__1__end_date_').attribute('value').should eq("")
+      }
+      $driver.find_element(:id, "resource_instances__0__container__container_locations__1__status_").select_option_with_text('Previous')
+      
+      assert(5) { 
+        $driver.find_element(:css => '#resource_instances__0__container__container_locations__1__end_date_').attribute('value').should eq(Time.now.strftime("%Y-%m-%d"))
+      }
+     
+      # enter the modal dialog
+      $driver.find_element(:css, '#resource_instances__0__container__container_locations_ li.sort-enabled:not(#resource_instances__0__container__container_locations__0_) .dropdown-toggle').click
+      $driver.wait_for_ajax
+      $driver.find_element(:css, "#resource_instances__0__container__container_locations_  li.sort-enabled:not(#resource_instances__0__container__container_locations__0_) a.linker-create-btn").click
+      
+      $driver.find_element(:id, "location_temporary_question_").click
+      $driver.find_element(:id,"location_temporary_" ).select_option_with_text('Loan')
+      
+      $driver.clear_and_send_keys([:id, "location_building_"], "TEMP LOCATION")
+      $driver.clear_and_send_keys([:id, "location_barcode_"], "0987654321")
+      
+      $driver.wait_for_ajax
+      
+      $driver.find_element(:id => "createAndLinkButton").click
+      
+      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Resource a resource with instances updated/)
+    
+    end
+
+
 
   end
 

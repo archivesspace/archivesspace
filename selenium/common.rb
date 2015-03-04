@@ -40,7 +40,7 @@ module Selenium
 
   module Config
     def self.retries
-      10
+      500 
     end
   end
 

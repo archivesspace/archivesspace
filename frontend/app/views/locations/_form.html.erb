@@ -1,7 +1,8 @@
 <% define_template("location", jsonmodel_definition(:location)) do |form| %>
   <fieldset>
     <section id="basic_information">
-      <%= form.label_and_select "temporary", form.possible_options_for("temporary", true) %>
+    <%= form.label_and_boolean "temporary_question", {}, false %> 
+    <%= form.label_and_select "temporary", form.possible_options_for("temporary", true), :field_opts =>  { :disabled => true, :class => "location_temporary" } %>
       <hr/>
       <%= form.label_and_textfield "building" %>
       <%= form.label_and_textfield "floor" %>
