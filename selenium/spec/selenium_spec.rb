@@ -3693,6 +3693,17 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Batch Locations").click
 
       $driver.click_and_wait_until_gone(:css => "form#new_location_batch .btn-primary")
+     
+      # we don't want certain values in the form
+      assert(5) { $driver.ensure_no_such_element(:id, "location_batch_barcode_") }
+      assert(5) { $driver.ensure_no_such_element(:id, "location_batch_classification_") }
+      assert(5) { $driver.ensure_no_such_element(:id, "location_batch_coordinate_1_label_") }
+      assert(5) { $driver.ensure_no_such_element(:id, "location_batch_coordinate_1_indicator_") }
+      assert(5) { $driver.ensure_no_such_element(:id, "location_batch_coordinate_2_label_") }
+      assert(5) { $driver.ensure_no_such_element(:id, "location_batch_coordinate_2_indicator_") }
+      assert(5) { $driver.ensure_no_such_element(:id, "location_batch_coordinate_3_label_") }
+      assert(5) { $driver.ensure_no_such_element(:id, "location_batch_coordinate_3_indicator_") }
+      
 
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Building - Property is required but was missing/)
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Coordinate Range 1 - Property is required but was missing/)
