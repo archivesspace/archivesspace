@@ -1,14 +1,28 @@
 class ArchivesSpaceService < Sinatra::Base
 
+
   Endpoint.post('/repositories/:repo_id/jobs')
     .description("Create a new import job")
+    .params(["job", JSONModel(:job), "The job object", :body => true],
+            ["repo_id", :repo_id])
+    .permissions([:import_records])
+    .returns([200, :updated]) \
+  do
+    job = Job.create_from_json(params[:job], :user => current_user)
+
+    created_response(job, params[:job])
+  end
+
+
+  Endpoint.post('/repositories/:repo_id/jobs_with_files')
+    .description("Create a new import job and post input files")
     .params(["job", JSONModel(:job)],
             ["files", [UploadFile]],
             ["repo_id", :repo_id])
     .permissions([:import_records])
     .returns([200, :updated]) \
   do
-    job = ImportJob.create_from_json(params[:job], :user => current_user)
+    job = Job.create_from_json(params[:job], :user => current_user)
 
     params[:files].each do |file|
       job.add_file(file.tempfile)
@@ -30,13 +44,13 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.post('/repositories/:repo_id/jobs/:id/cancel')
-    .description("Cancel an import job")
+    .description("Cancel a job")
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:cancel_importer_job])
     .returns([200, :updated]) \
   do
-    job = ImportJob.get_or_die(params[:id])
+    job = Job.get_or_die(params[:id])
     job.cancel!
 
     updated_response(job)
@@ -50,7 +64,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "[(:job)]"]) \
   do
-    handle_listing(ImportJob, params, {}, [:status, :id])
+    handle_listing(Job, params, {}, [:status, :id])
   end
 
 
@@ -61,14 +75,14 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "[(:job)]"]) \
   do
-    running = CrudHelpers.scoped_dataset(ImportJob, :status => "running")
-    queued = CrudHelpers.scoped_dataset(ImportJob, :status => "queued")
+    running = CrudHelpers.scoped_dataset(Job, :status => "running")
+    queued = CrudHelpers.scoped_dataset(Job, :status => "queued")
 
     # Sort the running jobs newest to oldest, then show queued jobs oldest to
     # newest (since the oldest jobs run next)
     active = running.all.sort{|a,b| b.system_mtime <=> a.system_mtime} + queued.all.sort{|a,b| a.system_mtime <=> b.system_mtime}
 
-    listing_response(active, ImportJob)
+    listing_response(active, Job)
   end
 
 
@@ -80,7 +94,7 @@ class ArchivesSpaceService < Sinatra::Base
     .paginated(true)
     .returns([200, "[(:job)]"]) \
   do
-    handle_listing(ImportJob, params, Sequel.~(:status => ["running", "queued"]), Sequel.desc(:time_finished))
+    handle_listing(Job, params, Sequel.~(:status => ["running", "queued"]), Sequel.desc(:time_finished))
   end
 
 
@@ -92,7 +106,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "(:job)"]) \
   do
-    json_response(resolve_references(ImportJob.to_jsonmodel(params[:id]), params[:resolve]))
+    json_response(resolve_references(Job.to_jsonmodel(params[:id]), params[:resolve]))
   end
 
 
@@ -107,7 +121,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "The section of the import log between 'offset' and the end of file"]) \
   do
-    job = ImportJob.get_or_die(params[:id])
+    job = Job.get_or_die(params[:id])
     (stream, length) = job.get_output_stream(params[:offset])
 
     [
@@ -135,12 +149,12 @@ class ArchivesSpaceService < Sinatra::Base
     .paginated(true)
     .returns([200, "An array of created records"]) \
   do
-    job = ImportJob.get_or_die(params[:id])
+    job = Job.get_or_die(params[:id])
 
     # Collection management records aren't true top-level records.  I think they
     # need a bit of a rethink.  They're really nested records, so they shouldn't
     # have URIs in the first place.
-    handle_listing(ImportJobCreatedRecord,
+    handle_listing(JobCreatedRecord,
                    params,
                    Sequel.&(Sequel.~(Sequel.like(:record_uri, "%/collection_management/%")), {:job_id => job.id}),
                    Sequel.desc(:create_time))
