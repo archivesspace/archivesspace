@@ -2072,7 +2072,7 @@ describe "ArchivesSpace user interface" do
   end
 
 
-  describe "Resource intances and containers" do
+  describe "Resource instances and containers" do
 
     before(:all) do
      if !$test_repo
@@ -2202,6 +2202,14 @@ describe "ArchivesSpace user interface" do
     
     end
 
+    it "can be deleted" do
+       $driver.find_element(:css, ".delete-record.btn").click
+       $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
+       
+       #Ensure Accession no longer exists
+       assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Resource a resource with instances deleted") }
+
+    end
 
 
   end
@@ -3551,6 +3559,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Location").click
       $driver.find_element(:link, "Single Location").click
     end
+    
 
     it "displays error messages upon invalid location" do
       $driver.click_and_wait_until_gone(:css => "form#new_location .btn-primary")
@@ -3590,16 +3599,45 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element_with_text('//td', /129 W\. 81st St\, 5\, 5A \[Box XYZ\: XYZ0001\]/)
     end
+    
+    it "allows creation of a location with plus one stickies" do
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Location").click
+      $driver.find_element(:link, "Single Location").click
+      $driver.clear_and_send_keys([:id, "location_building_"], "123 Fake St")
+      $driver.clear_and_send_keys([:id, "location_floor_"], "13")
+      $driver.clear_and_send_keys([:id, "location_room_"], "237")
+      $driver.clear_and_send_keys([:id, "location_area_"], "37")
+
+      $driver.clear_and_send_keys([:id, "location_coordinate_1_label_"], "Box ABC")
+      $driver.clear_and_send_keys([:id, "location_coordinate_1_indicator_"], "ABC0001")
+
+      $driver.click_and_wait_until_gone(:css => "form#new_location .createPlusOneBtn")
+
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Location Created/)
+
+      # these are sticky
+      assert(5) { $driver.find_element(:id, "location_building_").attribute('value').should eq("123 Fake St") }
+      assert(5) { $driver.find_element(:id, "location_floor_").attribute('value').should eq("13") }
+      assert(5) { $driver.find_element(:id, "location_room_").attribute('value').should eq("237") }
+      assert(5) { $driver.find_element(:id, "location_area_").attribute('value').should eq("37") }
+    
+      # these are not
+      assert(5) { $driver.find_element(:id, "location_coordinate_1_label_").attribute('value').should eq("") }
+      assert(5) { $driver.find_element(:id, "location_coordinate_1_indicator_").attribute('value').should eq("") }
+      
+    end
 
     it "lists the new location for an archivist" do
       logout
-      login_as_archivist
+      login_as_archivist(true)
 
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Locations").click
 
       $driver.find_element_with_text('//td', /129 W\. 81st St\, 5\, 5A \[Box XYZ\: XYZ0001\]/)
     end
+
 
     it "doesn't offer location edit actions to an archivist" do
       assert(100) {
@@ -3614,6 +3652,7 @@ describe "ArchivesSpace user interface" do
         $driver.ensure_no_such_element(:link, "Edit")
       }
     end
+    
 
     it "lists the location in different repositories" do
       logout
@@ -3692,6 +3731,10 @@ describe "ArchivesSpace user interface" do
 
       run_index_round
       $driver.navigate.refresh
+
+      $driver.clear_and_send_keys([:css, ".sidebar input.text-filter-field"], "123*" )
+      $driver.find_element(:css, ".sidebar input.text-filter-field + div button").click
+
 
       $driver.find_element_with_text('//td', /123 Awesome Street \[Room: 1A, Shelf: 1\]/)
       $driver.find_element_with_text('//td', /123 Awesome Street \[Room: 1A, Shelf: 2\]/)

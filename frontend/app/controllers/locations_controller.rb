@@ -3,7 +3,8 @@ class LocationsController < ApplicationController
   set_access_control  "view_repository" => [:index, :show],
                       "update_location_record" => [:new, :edit, :create, :update, :batch, :batch_create, :delete]
 
-
+  LOCATION_STICKY_PARAMS = ["building", "floor", "room", "area" ]
+  
   def index
     @search_data = Search.for_type(session[:repo_id], "location", params_for_backend_search.merge({"facet[]" => SearchResultData.LOCATION_FACETS}))
   end
@@ -18,7 +19,8 @@ class LocationsController < ApplicationController
   end
 
   def new
-    @location = JSONModel(:location).new._always_valid!
+    location_params = params.inject({}) { |c, (k,v)| c[k] = v if LOCATION_STICKY_PARAMS.include?(k); c } 
+    @location = JSONModel(:location).new(location_params)._always_valid!
     render_aspace_partial :partial => "locations/new" if inline?
   end
 
@@ -37,8 +39,14 @@ class LocationsController < ApplicationController
                   return render :json => @location.to_hash if inline?
 
                   flash[:success] = I18n.t("location._frontend.messages.created")
-                  return redirect_to :controller => :locations, :action => :new if params.has_key?(:plus_one)
-
+                   if params.has_key?(:plus_one)
+                     sticky_params = { :controller => :locations, :action => :new} 
+                     @location.to_hash.each_pair do |k,v|
+                        sticky_params[k] = v if LOCATION_STICKY_PARAMS.include?(k)
+                     end
+                      
+                     return redirect_to sticky_params
+                   end 
                   redirect_to :controller => :locations, :action => :edit, :id => id
                 })
   end
