@@ -147,6 +147,7 @@ en:
         <p>Used to record an indicator such as a number or letter that uniquely identifies a location in combination with the associated coordinate label.</p>
     display_string: Display String
     has_unpublished_ancestor: Has Unpublished Ancestor?
+    holdings: Holdings 
     _singular: Location
     _plural: Locations
 
