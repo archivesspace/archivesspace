@@ -44,7 +44,7 @@
 
 <% @search_data.facets_for_filter.each do |facet_group, facets| %>
   <h5><%= I18n.t("search_results.filter.#{facet_group}", :default => facet_group) %></h5>
-  <ul>
+  <ul class="facet">
     <% facets.each do |facet, facet_map| %>
       <li>
         <%= link_to facet_map[:label], params_for_search({"add_filter_term" => facet_map[:filter_term]}) %> <span class="badge badge-info"><%= facet_map[:count] %></span>

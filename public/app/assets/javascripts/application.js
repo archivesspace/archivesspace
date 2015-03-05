@@ -8,3 +8,4 @@
 //= require record_tree
 //= require jquery.form
 //= require image_resize
+//= require facet

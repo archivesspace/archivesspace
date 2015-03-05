@@ -40,6 +40,8 @@ en:
     modified: Modified
     component_switch: Include Components
     filter:
+      show_fewer: Show fewer
+      show_more: Show more
       query: Text
       subjects: Subject
       primary_type: Type
