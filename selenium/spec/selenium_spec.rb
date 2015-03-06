@@ -2072,6 +2072,149 @@ describe "ArchivesSpace user interface" do
   end
 
 
+  describe "Resource instances and containers" do
+
+    before(:all) do
+     if !$test_repo
+       ($test_repo, $test_repo_uri) = create_test_repo("repo_#{Time.now.to_i}_#{$$}", "description")
+     end
+      
+      login("admin", "admin")
+    end
+
+
+    after(:all) do
+      logout
+    end
+
+    it "can attach instances to resources" do
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Resource").click
+
+      $driver.clear_and_send_keys([:id, "resource_title_"], "a resource with instances")
+      $driver.complete_4part_id("resource_id_%d_")
+      combo = $driver.find_element(:xpath => '//div[@class="combobox-container"][following-sibling::select/@id="resource_language_"]//input[@type="text"]');
+      combo.clear
+      combo.click
+      combo.send_keys("eng")
+      combo.send_keys(:tab)
+      $driver.find_element(:id, "resource_level_").select_option("collection")
+      $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
+      $driver.find_element(:id => "resource_extents__0__extent_type_").select_option("files")
+      
+      $driver.find_element(:id => "resource_dates__0__date_type_").select_option("single")
+      $driver.clear_and_send_keys([:id, "resource_dates__0__begin_"], "1978")
+        
+      $driver.find_element(:css => '#resource_instances_ .subrecord-form-heading .btn:not(.show-all)').click
+      $driver.find_element(:css => '#resource_instances__0__instance_type_').select_option('text')
+      $driver.clear_and_send_keys([:id, "resource_instances__0__container__barcode_1_"], "123456")
+
+      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Resource a resource with instances created/)
+
+    end
+
+    it "can add a location to the instance" do
+      $driver.find_element(:css => '#resource_instances_ .btn.collapse-subrecord-toggle').click
+      $driver.wait_for_ajax
+      $driver.find_element(:css => '#resource_instances__0__container__container_locations_ .subrecord-form-heading .btn:not(.show-all)').click
+      $driver.wait_for_ajax
+      assert(5) { 
+        $driver.find_element(:css => '#resource_instances__0__container__container_locations__0__start_date_').attribute('value').should eq(Time.now.strftime("%Y-%m-%d"))
+      }
+      
+      $driver.find_element(:css => '#resource_instances__0__container__container_locations_ .dropdown-toggle').click
+      $driver.wait_for_ajax
+      $driver.find_element(:css, "a.linker-create-btn").click
+      
+      
+      $driver.clear_and_send_keys([:id, "location_building_"], "1129 W. 81st St")
+      $driver.clear_and_send_keys([:id, "location_floor_"], "55")
+      $driver.clear_and_send_keys([:id, "location_room_"], "66 MOO")
+      $driver.clear_and_send_keys([:id, "location_coordinate_1_label_"], "Box XYZ")
+      $driver.clear_and_send_keys([:id, "location_coordinate_1_indicator_"], "XYZ0001")
+      $driver.click_and_wait_until_gone(:css => "#createAndLinkButton")
+     
+      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Resource a resource with instances updated/)
+    
+    end
+
+    it "has the start_date and end_date for locations properly set" do
+      $driver.find_element(:css => '#resource_instances_ .btn.collapse-subrecord-toggle').click
+      assert(5) { 
+        $driver.find_element(:css => '#resource_instances__0__container__container_locations__0__start_date_').attribute('value').should eq(Time.now.strftime("%Y-%m-%d"))
+      }
+      
+      assert(5) { 
+        $driver.find_element(:css => '#resource_instances__0__container__container_locations__0__end_date_').attribute('value').should eq("")
+      }
+           
+     
+      
+      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Resource a resource with instances updated/)
+
+
+    end
+
+
+    it "can add a location to the instance with a temporary status" do
+      $driver.navigate.refresh
+      $driver.click_and_wait_until_gone(:css =>'#resource_instances_ .btn.collapse-subrecord-toggle')
+
+      
+    
+      # add a new location
+      $driver.find_element(:css => '#resource_instances__0__container__container_locations_ .subrecord-form-heading .btn:not(.show-all)').click
+      $driver.wait_for_ajax
+      assert(5) { 
+        $driver.find_element(:css => '#resource_instances__0__container__container_locations__1__start_date_').attribute('value').should eq(Time.now.strftime("%Y-%m-%d"))
+      }
+      
+      # transfer location to previous
+      assert(5) { 
+        $driver.find_element(:css => '#resource_instances__0__container__container_locations__1__end_date_').attribute('value').should eq("")
+      }
+      $driver.find_element(:id, "resource_instances__0__container__container_locations__1__status_").select_option_with_text('Previous')
+      
+      assert(5) { 
+        $driver.find_element(:css => '#resource_instances__0__container__container_locations__1__end_date_').attribute('value').should eq(Time.now.strftime("%Y-%m-%d"))
+      }
+     
+      # enter the modal dialog
+      $driver.find_element(:css, '#resource_instances__0__container__container_locations_ li.sort-enabled:not(#resource_instances__0__container__container_locations__0_) .dropdown-toggle').click
+      $driver.wait_for_ajax
+      $driver.find_element(:css, "#resource_instances__0__container__container_locations_  li.sort-enabled:not(#resource_instances__0__container__container_locations__0_) a.linker-create-btn").click
+      
+      $driver.find_element(:id, "location_temporary_question_").click
+      $driver.find_element(:id,"location_temporary_" ).select_option_with_text('Loan')
+      
+      $driver.clear_and_send_keys([:id, "location_building_"], "TEMP LOCATION")
+      $driver.clear_and_send_keys([:id, "location_barcode_"], "0987654321")
+      
+      $driver.wait_for_ajax
+      
+      $driver.find_element(:id => "createAndLinkButton").click
+      
+      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Resource a resource with instances updated/)
+    
+    end
+
+    it "can be deleted" do
+       $driver.find_element(:css, ".delete-record.btn").click
+       $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
+       
+       #Ensure Accession no longer exists
+       assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Resource a resource with instances deleted") }
+
+    end
+
+
+  end
+
+
   describe "Notes" do
 
     before(:all) do
@@ -3416,6 +3559,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Location").click
       $driver.find_element(:link, "Single Location").click
     end
+    
 
     it "displays error messages upon invalid location" do
       $driver.click_and_wait_until_gone(:css => "form#new_location .btn-primary")
@@ -3455,16 +3599,45 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element_with_text('//td', /129 W\. 81st St\, 5\, 5A \[Box XYZ\: XYZ0001\]/)
     end
+    
+    it "allows creation of a location with plus one stickies" do
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Location").click
+      $driver.find_element(:link, "Single Location").click
+      $driver.clear_and_send_keys([:id, "location_building_"], "123 Fake St")
+      $driver.clear_and_send_keys([:id, "location_floor_"], "13")
+      $driver.clear_and_send_keys([:id, "location_room_"], "237")
+      $driver.clear_and_send_keys([:id, "location_area_"], "37")
+
+      $driver.clear_and_send_keys([:id, "location_coordinate_1_label_"], "Box ABC")
+      $driver.clear_and_send_keys([:id, "location_coordinate_1_indicator_"], "ABC0001")
+
+      $driver.click_and_wait_until_gone(:css => "form#new_location .createPlusOneBtn")
+
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Location Created/)
+
+      # these are sticky
+      assert(5) { $driver.find_element(:id, "location_building_").attribute('value').should eq("123 Fake St") }
+      assert(5) { $driver.find_element(:id, "location_floor_").attribute('value').should eq("13") }
+      assert(5) { $driver.find_element(:id, "location_room_").attribute('value').should eq("237") }
+      assert(5) { $driver.find_element(:id, "location_area_").attribute('value').should eq("37") }
+    
+      # these are not
+      assert(5) { $driver.find_element(:id, "location_coordinate_1_label_").attribute('value').should eq("") }
+      assert(5) { $driver.find_element(:id, "location_coordinate_1_indicator_").attribute('value').should eq("") }
+      
+    end
 
     it "lists the new location for an archivist" do
       logout
-      login_as_archivist
+      login_as_archivist(true)
 
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Locations").click
 
       $driver.find_element_with_text('//td', /129 W\. 81st St\, 5\, 5A \[Box XYZ\: XYZ0001\]/)
     end
+
 
     it "doesn't offer location edit actions to an archivist" do
       assert(100) {
@@ -3479,6 +3652,7 @@ describe "ArchivesSpace user interface" do
         $driver.ensure_no_such_element(:link, "Edit")
       }
     end
+    
 
     it "lists the location in different repositories" do
       logout
@@ -3519,6 +3693,17 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Batch Locations").click
 
       $driver.click_and_wait_until_gone(:css => "form#new_location_batch .btn-primary")
+     
+      # we don't want certain values in the form
+      assert(5) { $driver.ensure_no_such_element(:id, "location_batch_barcode_") }
+      assert(5) { $driver.ensure_no_such_element(:id, "location_batch_classification_") }
+      assert(5) { $driver.ensure_no_such_element(:id, "location_batch_coordinate_1_label_") }
+      assert(5) { $driver.ensure_no_such_element(:id, "location_batch_coordinate_1_indicator_") }
+      assert(5) { $driver.ensure_no_such_element(:id, "location_batch_coordinate_2_label_") }
+      assert(5) { $driver.ensure_no_such_element(:id, "location_batch_coordinate_2_indicator_") }
+      assert(5) { $driver.ensure_no_such_element(:id, "location_batch_coordinate_3_label_") }
+      assert(5) { $driver.ensure_no_such_element(:id, "location_batch_coordinate_3_indicator_") }
+      
 
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Building - Property is required but was missing/)
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Coordinate Range 1 - Property is required but was missing/)
@@ -3557,6 +3742,10 @@ describe "ArchivesSpace user interface" do
 
       run_index_round
       $driver.navigate.refresh
+
+      $driver.clear_and_send_keys([:css, ".sidebar input.text-filter-field"], "123*" )
+      $driver.find_element(:css, ".sidebar input.text-filter-field + div button").click
+
 
       $driver.find_element_with_text('//td', /123 Awesome Street \[Room: 1A, Shelf: 1\]/)
       $driver.find_element_with_text('//td', /123 Awesome Street \[Room: 1A, Shelf: 2\]/)

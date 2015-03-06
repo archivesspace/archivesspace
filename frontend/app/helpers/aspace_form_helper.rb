@@ -206,9 +206,15 @@ module AspaceFormHelper
           :"data-autoclose" => true
       })
 
+      if obj[name].blank? && opts[:default]
+        value = opts[:default]
+      else
+        value = obj[name]
+      end
+      
       opts[:col_size] = 4
 
-      date_input = textfield(name, obj[name], field_opts)
+      date_input = textfield(name, value, field_opts)
 
       label_with_field(name, date_input, opts)
     end

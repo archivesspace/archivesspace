@@ -40,7 +40,7 @@ module Selenium
 
   module Config
     def self.retries
-      10
+      500 
     end
   end
 
@@ -670,12 +670,12 @@ end
 
 
 # A few globals here to allow things to be re-used between nested suites.
-def login_as_archivist
+def login_as_archivist( create_new = false )
   if !$test_repo
     ($test_repo, $test_repo_uri) = create_test_repo("repo_#{SecureRandom.hex}", "description")
   end
 
-  if !$archivist_user
+  if !$archivist_user or create_new
     ($archivist_user, $archivist_pass) = create_user
     add_user_to_archivists($archivist_user, $test_repo_uri)
   end
