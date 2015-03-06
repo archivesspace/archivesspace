@@ -1,0 +1,1733 @@
+[
+            "atom:feed",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:title",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Library of Congress Authorities and Vocabulary Service: Search Results"
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "href" : "http://id.loc.gov/search/?q=franklin scheme:http://id.loc.gov/authorities/names&start=21&format=atom", 
+                "rel" : "self"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "href" : "http://id.loc.gov/search/?q=franklin scheme:http://id.loc.gov/authorities/names&start=41&format=atom", 
+                "rel" : "next"
+            }
+            
+            ],
+                            [
+            "atom:id",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "info:lc/search/?q=franklin+scheme:http://id.loc.gov/authorities/names"
+            ],
+                            [
+            "atom:updated",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "2015-02-19T13:56:13.14863-05:00"
+            ],
+                            [
+            "opensearch:totalResults",
+            {
+                "xmlns:opensearch" : "http://a9.com/-/spec/opensearch/1.1/"
+            }
+            ,
+                "5605"
+            ],
+                            [
+            "opensearch:startIndex",
+            {
+                "xmlns:opensearch" : "http://a9.com/-/spec/opensearch/1.1/"
+            }
+            ,
+                "21"
+            ],
+                            [
+            "opensearch:itemsPerPage",
+            {
+                "xmlns:opensearch" : "http://a9.com/-/spec/opensearch/1.1/"
+            }
+            ,
+                "20"
+            ],
+                            [
+            "atom:entry",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:title",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Edminster, C. Franklin (Clothier Franklin), -1932"
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "href" : "http://id.loc.gov/authorities/names/n91080304"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/rdf+xml", 
+                "href" : "http://id.loc.gov/authorities/names/n91080304.rdf"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/json", 
+                "href" : "http://id.loc.gov/authorities/names/n91080304.json"
+            }
+            
+            ],
+                            [
+            "atom:id",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "info:lc/authorities/names/n91080304"
+            ],
+                            [
+            "atom:author",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:name",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Library of Congress"
+            ]
+            ],
+                            [
+            "atom:updated",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "2013-03-11T00:00:00-04:00"
+            ],
+                            [
+            "dcterms:created",
+            {
+                "xmlns:dcterms" : "http://purl.org/dc/terms/"
+            }
+            ,
+                "1991-08-12T00:00:00-04:00"
+            ]
+            ],
+                            [
+            "atom:entry",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:title",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Shull, A. Franklin (Aaron Franklin), 1881-"
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "href" : "http://id.loc.gov/authorities/names/n87828117"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/rdf+xml", 
+                "href" : "http://id.loc.gov/authorities/names/n87828117.rdf"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/json", 
+                "href" : "http://id.loc.gov/authorities/names/n87828117.json"
+            }
+            
+            ],
+                            [
+            "atom:id",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "info:lc/authorities/names/n87828117"
+            ],
+                            [
+            "atom:author",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:name",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Library of Congress"
+            ]
+            ],
+                            [
+            "atom:updated",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "2013-03-13T00:00:00-04:00"
+            ],
+                            [
+            "dcterms:created",
+            {
+                "xmlns:dcterms" : "http://purl.org/dc/terms/"
+            }
+            ,
+                "1987-04-30T00:00:00-04:00"
+            ]
+            ],
+                            [
+            "atom:entry",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:title",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Wallis, B. Franklin (Benjamin Franklin), 1886-"
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "href" : "http://id.loc.gov/authorities/names/n87814777"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/rdf+xml", 
+                "href" : "http://id.loc.gov/authorities/names/n87814777.rdf"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/json", 
+                "href" : "http://id.loc.gov/authorities/names/n87814777.json"
+            }
+            
+            ],
+                            [
+            "atom:id",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "info:lc/authorities/names/n87814777"
+            ],
+                            [
+            "atom:author",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:name",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Library of Congress"
+            ]
+            ],
+                            [
+            "atom:updated",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "2013-03-13T00:00:00-04:00"
+            ],
+                            [
+            "dcterms:created",
+            {
+                "xmlns:dcterms" : "http://purl.org/dc/terms/"
+            }
+            ,
+                "1987-03-12T00:00:00-04:00"
+            ]
+            ],
+                            [
+            "atom:entry",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:title",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Mack, S. Franklin (Silas Franklin), 1899-"
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "href" : "http://id.loc.gov/authorities/names/no92012020"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/rdf+xml", 
+                "href" : "http://id.loc.gov/authorities/names/no92012020.rdf"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/json", 
+                "href" : "http://id.loc.gov/authorities/names/no92012020.json"
+            }
+            
+            ],
+                            [
+            "atom:id",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "info:lc/authorities/names/no92012020"
+            ],
+                            [
+            "atom:author",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:name",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Library of Congress"
+            ]
+            ],
+                            [
+            "atom:updated",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "2013-03-15T00:00:00-04:00"
+            ],
+                            [
+            "dcterms:created",
+            {
+                "xmlns:dcterms" : "http://purl.org/dc/terms/"
+            }
+            ,
+                "1992-05-07T00:00:00-04:00"
+            ]
+            ],
+                            [
+            "atom:entry",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:title",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Leavitt, C. Franklin (Cyrus Franklin), 1873-"
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "href" : "http://id.loc.gov/authorities/names/nr97010198"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/rdf+xml", 
+                "href" : "http://id.loc.gov/authorities/names/nr97010198.rdf"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/json", 
+                "href" : "http://id.loc.gov/authorities/names/nr97010198.json"
+            }
+            
+            ],
+                            [
+            "atom:id",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "info:lc/authorities/names/nr97010198"
+            ],
+                            [
+            "atom:author",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:name",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Library of Congress"
+            ]
+            ],
+                            [
+            "atom:updated",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "2013-03-07T00:00:00-04:00"
+            ],
+                            [
+            "dcterms:created",
+            {
+                "xmlns:dcterms" : "http://purl.org/dc/terms/"
+            }
+            ,
+                "1997-03-14T00:00:00-04:00"
+            ]
+            ],
+                            [
+            "atom:entry",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:title",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Brownell, Franklin (Peleg Franklin), 1856 or 1857-1946"
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "href" : "http://id.loc.gov/authorities/names/nr93012890"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/rdf+xml", 
+                "href" : "http://id.loc.gov/authorities/names/nr93012890.rdf"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/json", 
+                "href" : "http://id.loc.gov/authorities/names/nr93012890.json"
+            }
+            
+            ],
+                            [
+            "atom:id",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "info:lc/authorities/names/nr93012890"
+            ],
+                            [
+            "atom:author",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:name",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Library of Congress"
+            ]
+            ],
+                            [
+            "atom:updated",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "2013-03-15T00:00:00-04:00"
+            ],
+                            [
+            "dcterms:created",
+            {
+                "xmlns:dcterms" : "http://purl.org/dc/terms/"
+            }
+            ,
+                "1993-04-06T00:00:00-04:00"
+            ]
+            ],
+                            [
+            "atom:entry",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:title",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "LeFevre, Franklin D. (Franklin Dabler), 1905-"
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "href" : "http://id.loc.gov/authorities/names/no95002332"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/rdf+xml", 
+                "href" : "http://id.loc.gov/authorities/names/no95002332.rdf"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/json", 
+                "href" : "http://id.loc.gov/authorities/names/no95002332.json"
+            }
+            
+            ],
+                            [
+            "atom:id",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "info:lc/authorities/names/no95002332"
+            ],
+                            [
+            "atom:author",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:name",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Library of Congress"
+            ]
+            ],
+                            [
+            "atom:updated",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "1995-01-12T00:00:00-04:00"
+            ],
+                            [
+            "dcterms:created",
+            {
+                "xmlns:dcterms" : "http://purl.org/dc/terms/"
+            }
+            ,
+                "1995-01-12T00:00:00-04:00"
+            ]
+            ],
+                            [
+            "atom:entry",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:title",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Hurlbut, Franklin C. (Franklin Charles), 1920-"
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "href" : "http://id.loc.gov/authorities/names/no2009063044"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/rdf+xml", 
+                "href" : "http://id.loc.gov/authorities/names/no2009063044.rdf"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/json", 
+                "href" : "http://id.loc.gov/authorities/names/no2009063044.json"
+            }
+            
+            ],
+                            [
+            "atom:id",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "info:lc/authorities/names/no2009063044"
+            ],
+                            [
+            "atom:author",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:name",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Library of Congress"
+            ]
+            ],
+                            [
+            "atom:updated",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "2009-05-14T00:00:00-04:00"
+            ],
+                            [
+            "dcterms:created",
+            {
+                "xmlns:dcterms" : "http://purl.org/dc/terms/"
+            }
+            ,
+                "2009-04-22T00:00:00-04:00"
+            ]
+            ],
+                            [
+            "atom:entry",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:title",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Badgley, Franklin I. (Franklin Isley), 1914-"
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "href" : "http://id.loc.gov/authorities/names/n90690640"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/rdf+xml", 
+                "href" : "http://id.loc.gov/authorities/names/n90690640.rdf"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/json", 
+                "href" : "http://id.loc.gov/authorities/names/n90690640.json"
+            }
+            
+            ],
+                            [
+            "atom:id",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "info:lc/authorities/names/n90690640"
+            ],
+                            [
+            "atom:author",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:name",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Library of Congress"
+            ]
+            ],
+                            [
+            "atom:updated",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "1990-09-07T00:00:00-04:00"
+            ],
+                            [
+            "dcterms:created",
+            {
+                "xmlns:dcterms" : "http://purl.org/dc/terms/"
+            }
+            ,
+                "1990-09-07T00:00:00-04:00"
+            ]
+            ],
+                            [
+            "atom:entry",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:title",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Miller, Franklin J. (Franklin Jacob), 1934-"
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "href" : "http://id.loc.gov/authorities/names/no99052383"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/rdf+xml", 
+                "href" : "http://id.loc.gov/authorities/names/no99052383.rdf"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/json", 
+                "href" : "http://id.loc.gov/authorities/names/no99052383.json"
+            }
+            
+            ],
+                            [
+            "atom:id",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "info:lc/authorities/names/no99052383"
+            ],
+                            [
+            "atom:author",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:name",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Library of Congress"
+            ]
+            ],
+                            [
+            "atom:updated",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "1999-07-22T00:00:00-04:00"
+            ],
+                            [
+            "dcterms:created",
+            {
+                "xmlns:dcterms" : "http://purl.org/dc/terms/"
+            }
+            ,
+                "1999-07-22T00:00:00-04:00"
+            ]
+            ],
+                            [
+            "atom:entry",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:title",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Knudsen, H. Franklin (Harald Franklin)"
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "href" : "http://id.loc.gov/authorities/names/no2004087088"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/rdf+xml", 
+                "href" : "http://id.loc.gov/authorities/names/no2004087088.rdf"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/json", 
+                "href" : "http://id.loc.gov/authorities/names/no2004087088.json"
+            }
+            
+            ],
+                            [
+            "atom:id",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "info:lc/authorities/names/no2004087088"
+            ],
+                            [
+            "atom:author",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:name",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Library of Congress"
+            ]
+            ],
+                            [
+            "atom:updated",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "2004-09-09T00:00:00-04:00"
+            ],
+                            [
+            "dcterms:created",
+            {
+                "xmlns:dcterms" : "http://purl.org/dc/terms/"
+            }
+            ,
+                "2004-09-09T00:00:00-04:00"
+            ]
+            ],
+                            [
+            "atom:entry",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:title",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Parsons, H. Franklin (Henry Franklin), 1846-1913"
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "href" : "http://id.loc.gov/authorities/names/n97801731"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/rdf+xml", 
+                "href" : "http://id.loc.gov/authorities/names/n97801731.rdf"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/json", 
+                "href" : "http://id.loc.gov/authorities/names/n97801731.json"
+            }
+            
+            ],
+                            [
+            "atom:id",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "info:lc/authorities/names/n97801731"
+            ],
+                            [
+            "atom:author",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:name",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Library of Congress"
+            ]
+            ],
+                            [
+            "atom:updated",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "1997-05-22T00:00:00-04:00"
+            ],
+                            [
+            "dcterms:created",
+            {
+                "xmlns:dcterms" : "http://purl.org/dc/terms/"
+            }
+            ,
+                "1997-05-22T00:00:00-04:00"
+            ]
+            ],
+                            [
+            "atom:entry",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:title",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Parks, S. Franklin (Samuel Franklin)"
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "href" : "http://id.loc.gov/authorities/names/n2003077332"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/rdf+xml", 
+                "href" : "http://id.loc.gov/authorities/names/n2003077332.rdf"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/json", 
+                "href" : "http://id.loc.gov/authorities/names/n2003077332.json"
+            }
+            
+            ],
+                            [
+            "atom:id",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "info:lc/authorities/names/n2003077332"
+            ],
+                            [
+            "atom:author",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:name",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Library of Congress"
+            ]
+            ],
+                            [
+            "atom:updated",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "2003-10-01T00:00:00-04:00"
+            ],
+                            [
+            "dcterms:created",
+            {
+                "xmlns:dcterms" : "http://purl.org/dc/terms/"
+            }
+            ,
+                "2003-10-01T00:00:00-04:00"
+            ]
+            ],
+                            [
+            "atom:entry",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:title",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Folts, Franklin E. (Franklin Erton)"
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "href" : "http://id.loc.gov/authorities/names/no98081791"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/rdf+xml", 
+                "href" : "http://id.loc.gov/authorities/names/no98081791.rdf"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/json", 
+                "href" : "http://id.loc.gov/authorities/names/no98081791.json"
+            }
+            
+            ],
+                            [
+            "atom:id",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "info:lc/authorities/names/no98081791"
+            ],
+                            [
+            "atom:author",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:name",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Library of Congress"
+            ]
+            ],
+                            [
+            "atom:updated",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "1998-04-28T00:00:00-04:00"
+            ],
+                            [
+            "dcterms:created",
+            {
+                "xmlns:dcterms" : "http://purl.org/dc/terms/"
+            }
+            ,
+                "1998-04-28T00:00:00-04:00"
+            ]
+            ],
+                            [
+            "atom:entry",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:title",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Ray, J. Franklin (Jefferson Franklin), 1905-"
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "href" : "http://id.loc.gov/authorities/names/n79064795"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/rdf+xml", 
+                "href" : "http://id.loc.gov/authorities/names/n79064795.rdf"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/json", 
+                "href" : "http://id.loc.gov/authorities/names/n79064795.json"
+            }
+            
+            ],
+                            [
+            "atom:id",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "info:lc/authorities/names/n79064795"
+            ],
+                            [
+            "atom:author",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:name",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Library of Congress"
+            ]
+            ],
+                            [
+            "atom:updated",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "1984-03-22T00:00:00-04:00"
+            ],
+                            [
+            "dcterms:created",
+            {
+                "xmlns:dcterms" : "http://purl.org/dc/terms/"
+            }
+            ,
+                "1979-08-07T00:00:00-04:00"
+            ]
+            ],
+                            [
+            "atom:entry",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:title",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Hallett, Benjamin Franklin, 1797-1862"
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "href" : "http://id.loc.gov/authorities/names/nr90022253"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/rdf+xml", 
+                "href" : "http://id.loc.gov/authorities/names/nr90022253.rdf"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/json", 
+                "href" : "http://id.loc.gov/authorities/names/nr90022253.json"
+            }
+            
+            ],
+                            [
+            "atom:id",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "info:lc/authorities/names/nr90022253"
+            ],
+                            [
+            "atom:author",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:name",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Library of Congress"
+            ]
+            ],
+                            [
+            "atom:updated",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "2007-10-06T00:00:00-04:00"
+            ],
+                            [
+            "dcterms:created",
+            {
+                "xmlns:dcterms" : "http://purl.org/dc/terms/"
+            }
+            ,
+                "1990-10-26T00:00:00-04:00"
+            ]
+            ],
+                            [
+            "atom:entry",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:title",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Alcaraz del Castillo, Franklin"
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "href" : "http://id.loc.gov/authorities/names/n90621815"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/rdf+xml", 
+                "href" : "http://id.loc.gov/authorities/names/n90621815.rdf"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/json", 
+                "href" : "http://id.loc.gov/authorities/names/n90621815.json"
+            }
+            
+            ],
+                            [
+            "atom:id",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "info:lc/authorities/names/n90621815"
+            ],
+                            [
+            "atom:author",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:name",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Library of Congress"
+            ]
+            ],
+                            [
+            "atom:updated",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "2009-11-23T00:00:00-04:00"
+            ],
+                            [
+            "dcterms:created",
+            {
+                "xmlns:dcterms" : "http://purl.org/dc/terms/"
+            }
+            ,
+                "1990-03-17T00:00:00-04:00"
+            ]
+            ],
+                            [
+            "atom:entry",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:title",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Pease G. Y., Franklin, 1939-1999"
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "href" : "http://id.loc.gov/authorities/names/n80107167"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/rdf+xml", 
+                "href" : "http://id.loc.gov/authorities/names/n80107167.rdf"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/json", 
+                "href" : "http://id.loc.gov/authorities/names/n80107167.json"
+            }
+            
+            ],
+                            [
+            "atom:id",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "info:lc/authorities/names/n80107167"
+            ],
+                            [
+            "atom:author",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:name",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Library of Congress"
+            ]
+            ],
+                            [
+            "atom:updated",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "2007-09-10T00:00:00-04:00"
+            ],
+                            [
+            "dcterms:created",
+            {
+                "xmlns:dcterms" : "http://purl.org/dc/terms/"
+            }
+            ,
+                "1980-08-21T00:00:00-04:00"
+            ]
+            ],
+                            [
+            "atom:entry",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:title",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Elmore, F. H. (Franklin Harper), 1799-1850"
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "href" : "http://id.loc.gov/authorities/names/nr95007830"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/rdf+xml", 
+                "href" : "http://id.loc.gov/authorities/names/nr95007830.rdf"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/json", 
+                "href" : "http://id.loc.gov/authorities/names/nr95007830.json"
+            }
+            
+            ],
+                            [
+            "atom:id",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "info:lc/authorities/names/nr95007830"
+            ],
+                            [
+            "atom:author",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:name",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Library of Congress"
+            ]
+            ],
+                            [
+            "atom:updated",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "1996-12-03T00:00:00-04:00"
+            ],
+                            [
+            "dcterms:created",
+            {
+                "xmlns:dcterms" : "http://purl.org/dc/terms/"
+            }
+            ,
+                "1995-03-01T00:00:00-04:00"
+            ]
+            ],
+                            [
+            "atom:entry",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:title",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Nichols, Roy F. (Roy Franklin), 1896-1973"
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "href" : "http://id.loc.gov/authorities/names/n79139656"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/rdf+xml", 
+                "href" : "http://id.loc.gov/authorities/names/n79139656.rdf"
+            }
+            
+            ],
+                            [
+            "atom:link",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom", 
+                "rel" : "alternate", 
+                "type" : "application/json", 
+                "href" : "http://id.loc.gov/authorities/names/n79139656.json"
+            }
+            
+            ],
+                            [
+            "atom:id",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "info:lc/authorities/names/n79139656"
+            ],
+                            [
+            "atom:author",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                        [
+            "atom:name",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "Library of Congress"
+            ]
+            ],
+                            [
+            "atom:updated",
+            {
+                "xmlns:atom" : "http://www.w3.org/2005/Atom"
+            }
+            ,
+                "2009-02-11T00:00:00-04:00"
+            ],
+                            [
+            "dcterms:created",
+            {
+                "xmlns:dcterms" : "http://purl.org/dc/terms/"
+            }
+            ,
+                "1980-03-07T00:00:00-04:00"
+            ]
+            ]
+            ]
