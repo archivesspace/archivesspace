@@ -17,11 +17,12 @@
 
 .form-search,
 .selected-container {
-    border: 1px solid #DDD;
-    border-radius: 5px;
-    background-color: #F1F1F1;
-    padding: 10px;
+  border: 1px solid #DDD;
+  border-radius: 5px;
+  background-color: #F1F1F1;
+  padding: 10px;
 }
+
 
 #import-selected {
     width: 100%;
@@ -31,10 +32,6 @@
     margin: 10px 0 20px;
     max-height: 200px;
     overflow: auto;
-}
-
-.lcnaf-result .alert-success {
-    width: 34px;
 }
 
 .lcnaf-selected {
