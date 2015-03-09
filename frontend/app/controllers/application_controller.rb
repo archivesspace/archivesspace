@@ -138,7 +138,7 @@ class ApplicationController < ActionController::Base
       resolver = Resolver.new(target_uri)
       redirect_to(resolver.view_uri)
     rescue ValidationException => e
-      flash[:error] = e.errors
+      flash[:error] = e.errors.to_s
       redirect_to({:action => :show, :id => params[:id]}.merge(extra_params))
     rescue RecordNotFound => e
       flash[:error] = I18n.t("errors.error_404")
