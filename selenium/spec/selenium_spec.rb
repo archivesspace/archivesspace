@@ -1842,23 +1842,114 @@ describe "ArchivesSpace user interface" do
       $driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")
       
       parent = $driver.find_element(:xpath, "//div[@id='archives_tree']//li[a/@title='December']")
-      [ "Christmas albums", "Nog", "XMAS Tree decorations" ].each do |term|
-        parent.find_element_with_text(".//a", /#{term}/)
+      [ "Christmas albums", "XMAS Tree decorations",  "Nog" ].each_with_index do |ao, i|
+        assert(5) {
+          $driver.find_element( :xpath => "//div[@id='archives_tree']//li[a/@title='December']/ul/li[position() = #{i + 1}]/a/span/span[@class='title-column pull-left']").text.should eq(ao)
+        }
       end
     end
+    
+    it "can delete and move tree nodes and not have things lose their order" do
+      resource_url = $driver.current_url
       
+      logout
+      $driver.wait_for_ajax 
+      login( 'admin', 'admin')
+      $driver.wait_for_ajax 
+      select_repo($test_repo) 
+      $driver.get(resource_url)
+
+      # lets add some nodes 
+      [ "Fruit Cake", "Ham", "Coca-cola bears"].each do |ao|                                                                                       
+        $driver.click_and_wait_until_gone(:link, "Add Sibling")                                                                                    
+        $driver.clear_and_send_keys([:id, "archival_object_title_"], ao)                                                                           
+        $driver.find_element(:id, "archival_object_level_").select_option("item")                                                                  
+        $driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")                                                 
+      end 
+
+
+     # now lets move and delete some nodes
+     ["Ham", "Coca-cola bears"].each do |ao|   
+       target = $driver.find_element_with_text("//div[@id='archives_tree']//a", /Nog/)
+       dragger = $driver.find_element( :css => ".ui-resizable-handle.ui-resizable-s" )
+       $driver.action.drag_and_drop_by(dragger, 0, 100).perform
+       $driver.wait_for_ajax 
+       
+       source = $driver.find_element_with_text("//div[@id='archives_tree']//a", /#{ao}/)
+        $driver.action.drag_and_drop(source, target).perform
+        $driver.wait_for_ajax
+        $driver.find_element_with_text("//div[@id='archives_tree']//a", /#{ao}/).click
+        $driver.find_element(:link, "Move").click
+        $driver.find_element(:link, "Up a Level").click
+        sleep(5) 
+        $driver.wait_for_ajax
+        $driver.find_element(:css, ".delete-record.btn").click
+        $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
+        $driver.click_and_wait_until_gone(:link, "Edit") 
+        $driver.click_and_wait_until_gone(:css, "li.jstree-closed > ins")
+      end
+
+      # now lets add some move and move them around
+      [ "Santa Crap", "Japanese KFC", "Kalle Anka"].each do |ao|                                                                                       
+        $driver.find_element_with_text("//div[@id='archives_tree']//a", /Nog/).click
+        target = $driver.find_element_with_text("//div[@id='archives_tree']//a", /Nog/)
+        $driver.click_and_wait_until_gone(:link, "Add Sibling")                                                                                    
+        $driver.clear_and_send_keys([:id, "archival_object_title_"], ao)                                                                           
+        $driver.find_element(:id, "archival_object_level_").select_option("item")                                                                  
+        $driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")                                                 
+        
+        source = $driver.find_element_with_text("//div[@id='archives_tree']//a", /#{ao}/)
+      
+        $driver.action.drag_and_drop(source, target).perform
+        
+        $driver.wait_for_ajax
+      end 
+      
+
+      $driver.click_and_wait_until_gone(:link, 'Close Record')
+       
+      # now lets add some notes
+      [ "Santa Crap", "Japanese KFC", "Kalle Anka"].each do |ao|  
+        $driver.find_element_with_text("//div[@id='archives_tree']//a", /#{ao}/).click
+        # sanity check to make sure we're editing.. 
+        edit_btn = $driver.find_element_with_text("//div[@class='record-toolbar']/div/a",  /Edit/, true, true)
+
+        if edit_btn 
+          $driver.click_and_wait_until_gone(:link, 'Edit')
+        end 
+        $driver.wait_for_ajax
+        $driver.find_element(:css => '#notes .subrecord-form-heading .btn:not(.show-all)').click
+        $driver.find_last_element(:css => '#notes select.top-level-note-type:last-of-type').select_option("note_multipart")
+        $driver.clear_and_send_keys([:id, 'archival_object_notes__0__label_'], "A multipart note")
+        $driver.execute_script("$('#archival_object_notes__0__subnotes__0__content_').data('CodeMirror').setValue('Some note content')")
+        $driver.execute_script("$('#archival_object_notes__0__subnotes__0__content_').data('CodeMirror').save()")
+        $driver.click_and_wait_until_gone(:css => "form#archival_object_form button[type='submit']")
+        $driver.find_element(:link, 'Close Record').click
+      end
+      
+      # everything should be in the order we want it...
+      [ "Christmas albums", "XMAS Tree decorations", "Santa Crap",  "Japanese KFC","Kalle Anka", "Nog",  "Fruit Cake" ].each_with_index do |ao, i|
+        assert(5) {
+          $driver.find_element( :xpath => "//div[@id='archives_tree']//li[a/@title='December']/ul/li[position() = #{i + 1}]/a/span/span[@class='title-column pull-left']").text.should eq(ao)
+        }
+      end
+
+    end      
       
     it "can not reorder if logged in as a read only user" do
-
-      $driver.find_element(:link, 'Close Record').click
-      url = $driver.current_url
+     
+      # stupid hack to make sure we're on the view page. 
+      url = $driver.current_url.split("#").first
       
       logout
       login_as_viewer
       
       $driver.get(url)
-    
+      $driver.find_element(:xpath, "//div[@id='archives_tree']//a[@title='December']").click
+
       parent = $driver.find_element(:xpath, "//div[@id='archives_tree']//li[a/@title='December']")
+       
+      
       source = $driver.find_element_with_text("//div[@id='archives_tree']//a", /XMAS Tree decorations/)
       
       children = $driver.blocking_find_elements(:css => "span.tree-node-text").map{|span| span.text.strip}
@@ -2030,7 +2121,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "Baby AO")
       $driver.find_element(:id, "archival_object_level_").select_option("item")
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
-        
+      sleep(40)  
       assert(5){
        $driver.find_element_with_text("//div[@id='archives_tree']//li//span", /Baby AO/)
       } 

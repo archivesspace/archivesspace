@@ -175,8 +175,9 @@ module TreeNodes
     
    
     # All records under this one will be transferred too
-    children.each do |child|
-      child.transfer_to_repository(repository, transfer_group + [self])
+    children.each_with_index do |child, i|
+      child.transfer_to_repository(repository, transfer_group + [self]) 
+      child.update_position_only( child.parent_id, i ) 
     end
     
     RequestContext.open(:repo_id => repository.id ) do
@@ -228,7 +229,7 @@ module TreeNodes
     def create_from_json(json, opts = {})
       sequence = sequence_for(json)
       set_root_record(json, sequence, opts)
-      
+     
       obj = super
      
       migration = opts[:migration] ? opts[:migration].value : false
