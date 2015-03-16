@@ -601,4 +601,17 @@ describe 'Resources controller' do
     ao[:notes].first['items'].first['reference_ref']['ref'].should eq(linked_uri)
   end
 
+
+  it "can list the record types in the object's graph" do
+    extents = [build(:json_extent)]
+
+    resource = create(:json_resource, :extents => extents)
+    uri = JSONModel(:resource).uri_for(resource.id) + "/models_in_graph"
+
+    list = JSONModel::HTTP.get_json(uri)
+    list.should include('extent');
+    list.should_not include('subject');
+
+  end
+
 end

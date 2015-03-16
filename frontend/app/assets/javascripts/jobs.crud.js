@@ -2,6 +2,8 @@ $(function() {
 
   var initImportJobForm = function() {
     var $form = $('#jobfileupload');
+    var jobType;
+
 
     $(".btn:submit", $form).on("click", function(event) {
       event.stopPropagation();
@@ -110,26 +112,118 @@ $(function() {
           });
     };
 
-    $("#job_import_type_", $form).change(function() {
-      if ($(this).val() === "") {
-        $("#noImportTypeSelected", $form).show();
-        $("#job_filenames_", $form).hide();
 
-      } else {
+    $("#job_job_type_", $form).change(function() {
+
+      if ($(this).val() === "") {
+        //
+      } else if ($(this).val() === "find_and_replace_job") {
         $("#noImportTypeSelected", $form).hide();
-        $("#job_filenames_", $form)
+        $("#job_form_messages", $form)
+          .empty()
+          .html(AS.renderTemplate("template_find_and_replace_warning"));
+        $("#job_type_fields", $form)
+          .empty()
+          .html(AS.renderTemplate("template_find_and_replace_job", {id_path: "find_and_replace_job", path: "find_and_replace_job"}));
+
+        // init findAndReplaceForm
+        var $selectRecordType = $("#find_and_replace_job_record_type_");
+        var $selectProperty = $("#find_and_replace_job_property_");
+
+        $(".linker:not(.initialised)").linker();
+        $selectRecordType.attr('disabled', 'disabled');
+        $selectProperty.attr('disabled', 'disabled');
+
+        $("#find_and_replace_job_ref_").change(function() {
+          var resourceUri = $(this).val();
+          if (resourceUri.length) {
+            var id = resourceUri.slice(-1)
+            $.ajax({
+              url: "/resources/" + id + "/models_in_graph",
+              success: function(typeList) {
+                var oldVal = $selectRecordType.val();
+                $selectRecordType.empty();
+
+                $.each(typeList, function(index, valAndText) {
+                  var opts = { value: valAndText[0]};
+                  if (oldVal === valAndText[0])
+                    opts.selected = true;
+
+                  $selectRecordType.append($('<option>', opts)
+                                           .text(valAndText[1]));
+                });
+                $selectRecordType.removeAttr('disabled');
+                if (oldVal != $selectRecordType.val())
+                  $selectRecordType.triggerHandler('change');
+              }
+            });
+
+          }
+        });
+
+        $selectRecordType.change(function() {
+          var recordType = $(this).val();
+          $.ajax({
+            url: "/schema/" + recordType + "/properties?type=string&editable=true",
+            success : function(propertyList) {
+              $selectProperty.empty();
+
+              $.each(propertyList, function(index, valAndText) {
+                $selectProperty
+                  .append($('<option>', { value: valAndText[0] })
+                          .text(valAndText[1]));
+              });
+
+              $selectProperty.removeAttr('disabled');
+            }
+          });
+        });
+
+      } else if ($(this).val() === "import_job") {
+        // $("#noImportTypeSelected", $form).hide();
+        // $("#noImportTypeSelected", $form).show();
+        // $("#job_filenames_", $form).hide();
+
+        $("#job_type_fields", $form)
             .empty()
-            .append(AS.renderTemplate("template_fileupload"))
+            .html(AS.renderTemplate("template_import_job", {id_path: "import_job", path: "import_job"}))
             .slideDown();
 
-
         initFileUploadSection();
+
+
+        $("#job_import_type_", $form).change(function() {
+          if ($(this).val() === "") {
+            $("#noImportTypeSelected", $form).show();
+            $("#job_filenames_", $form).hide();
+
+          } else {
+            $("#noImportTypeSelected", $form).hide();
+            $("#job_filenames_", $form)
+              .empty()
+              .append(AS.renderTemplate("template_fileupload"))
+              .slideDown();
+
+
+            initFileUploadSection();
+          }
+        });
+        $("#job_import_type_", $form).trigger("change");
+
+
+
       }
     });
-    $("#job_import_type_", $form).trigger("change");
+
+    $("#job_job_type_", $form).trigger("change");
+
+
+
+
 
     var handleError = function(errorHTML) {
-      $(".content-pane > .container").html(errorHTML);
+
+      $(".job-create-form-wrapper").replaceWith(errorHTML);
       initImportJobForm();
     };
 
@@ -141,14 +235,31 @@ $(function() {
       beforeSubmit: function(arr, $form, options) {
         $(".btn, a, :input", $form).attr("disabled", "disabled").addClass("disabled");
         $progress.show();
-        $(".import-file.file-attached").each(function() {
-          var $input = $(this);
-          arr.push({
-            name: "files[]",
-            type: "file",
-            value: $input.data("file")
+
+        jobType = $('#job_job_type_', $form).val();
+
+        if (jobType === 'find_and_replace_job') {
+          for (var i=0; i < arr.length; i++) {
+
+            // : ( wish I knew how to make linker do this
+            if (arr[i].name === "find_and_replace_job[ref]") {
+              arr[i].name = "find_and_replace_job[base_record_uri]";
+            }
+          }
+
+
+        } else if (jobType === 'import_job') {
+          console.log("ATTACH");
+          $(".import-file.file-attached").each(function() {
+            var $input = $(this);
+            console.log($input);
+            arr.push({
+              name: "files[]",
+              type: "file",
+              value: $input.data("file")
+            });
           });
-        });
+        }
       },
       uploadProgress: function(event, position, total, percentComplete) {
         var percentVal = percentComplete + '%';
@@ -156,6 +267,7 @@ $(function() {
       },
       success: function(json, status, xhr) {
         var uri_to_resolve;
+
         if (typeof json === "string") {
           // In IE8 (older browsers), AjaxForm will use an iframe to deliver this POST.
           // When using an iframe it cannot handle JSON as a response type... so let us

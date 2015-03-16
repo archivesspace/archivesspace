@@ -391,7 +391,7 @@ module JSONSchemaUtils
     # A number of different types.  Match them up based on the value of the 'jsonmodel_type' property
     schema_types = possible_schemas.map {|schema| schema.is_a?(Hash) ? schema["type"] : schema}
 
-    jsonmodel_type = elt["jsonmodel_type"]
+    jsonmodel_type = elt["jsonmodel_type"] || elt[:jsonmodel_type]
 
     if !jsonmodel_type
       raise JSONModel::ValidationException.new(:errors => {"record" => ["Can't unambiguously match #{elt.inspect} against schema types: #{schema_types.inspect}. " +

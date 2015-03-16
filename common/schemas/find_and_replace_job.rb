@@ -6,40 +6,31 @@
 
     "properties" => {
 
-      "arguments" => {
-        "type" => "object",
-        "ifmissing" => "error",
-        "properties" => {
-          "find" => {
-            "type" => "string",
-            "ifmissing" => "error"
-          },
-          "replace" => {
-            "type" => "string",
-            "ifmissing" => "error"
-          }
-        }
+
+      "find" => {
+        "type" => "string",
+        "ifmissing" => "error"
       },
 
-      "scope" => {
-        "type" => "object",
-        "ifmissing" => "error",
-        "properties" => {
-          "jsonmodel_type" => {
-            "type" => "string",
-            "ifmissing" => "error"
-          },
-          "property" => {
-            "type" => "string",
-            "ifmissing" => "error"
-          },
-          "base_record_uri" => {
-            "type" => "string",
-            "ifmissing" => "error"
-          }
-        }
+      "replace" => {
+        "type" => "string",
+        "ifmissing" => "error"
       },
 
+      "record_type" => {
+        "type" => "string",
+        "ifmissing" => "error"
+      },
+
+      "property" => {
+        "type" => "string",
+        "ifmissing" => "error"
+      },
+
+      "base_record_uri" => {
+        "type" => "string",
+        "ifmissing" => "error"
+      }
     }
   }
 }

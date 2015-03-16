@@ -39,6 +39,21 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "A list of supported job types"]) \
   do
     show_hidden = false
+    # json_response(Converter.list_import_types(show_hidden))
+    e = Enumeration.filter(:name => 'job_type').first
+    json_response(Enumeration.to_jsonmodel(e).values)
+  end
+
+
+  # This should probably be encapsulated somewhere
+  # with other import-specific backend logic
+  Endpoint.get('/repositories/:repo_id/jobs/import_types')
+    .description("List all supported import job types")
+    .params(["repo_id", :repo_id])
+    .permissions([])
+    .returns([200, "A list of supported import types"]) \
+  do
+    show_hidden = false
     json_response(Converter.list_import_types(show_hidden))
   end
 

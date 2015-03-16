@@ -433,10 +433,10 @@ module JSONModel::Validations
 
 
   JSONModel(:find_and_replace_job).add_validation("only target properties on the target schemas") do |hash|
-    target_model = JSONModel(hash['scope']['jsonmodel_type'].intern)
-    target_property = hash['scope']['property']
+    target_model = JSONModel(hash['record_type'].intern)
+    target_property = hash['property']
 
-    target_model.schema['properties'].has_key?(target_property) ? [] : [["scope", "#{target_model.to_s} does not have a property named '#{target_property}'"]]
+    target_model.schema['properties'].has_key?(target_property) ? [] : [["property", "#{target_model.to_s} does not have a property named '#{target_property}'"]]
   end
 
 end

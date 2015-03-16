@@ -3,15 +3,15 @@ require_relative '../app/lib/find_and_replace_runner'
 require_relative '../app/lib/background_job_queue'
 
 def find_and_replace_job(resource_uri)
-  json = build(:json_job, 
+  json = build(:json_job,
                :job_type => 'find_and_replace_job',
-               :job => build(:json_find_and_replace_job, 
-                             :arguments => {:find => "/foo/", :replace => "bar"}, 
-                             :scope => {
-                               :jsonmodel_type => "extent",
-                               :property => "container_summary",
-                               :base_record_uri => resource_uri
-                             })
+               :job => build(:json_find_and_replace_job,
+                             :find => "/foo/",
+                             :replace => "bar",
+                             :record_type => "extent",
+                             :property => "container_summary",
+                             :base_record_uri => resource_uri
+                             )
                )
 
   json
@@ -48,7 +48,7 @@ describe 'Find and Replace job model' do
     resource1 = a_resource
 
     json = find_and_replace_job(resource1.uri)
-    json.job['scope']['property'] = "WHATEVER"
+    json.job['property'] = "WHATEVER"
     user = create_nobody_user
 
     expect {
@@ -75,7 +75,7 @@ describe 'Find and Replace job model' do
 
     job_runner = JobRunner.for(job)
     job_runner.run
-    
+
     Resource.to_jsonmodel(resource1.id).extents[0]['container_summary'].should eq('a box of bars')
     Resource.to_jsonmodel(resource2.id).extents[0]['container_summary'].should eq('a box of foos')
     ArchivalObject.to_jsonmodel(component1.id).extents[0]['container_summary'].should eq('a box of bars')

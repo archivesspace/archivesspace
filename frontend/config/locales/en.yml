@@ -850,9 +850,9 @@ en:
     _frontend:
       audit_data: Audit Data
       actions:
-        create: Create Import Job
-        save: Queue Import Job
-        new: New Import Job
+        create: Create Job
+        save: Queue Job
+        new: New Background Job
         cancel: Cancel Job
         add_file: Add file
         follow_log: Follow Log
@@ -875,3 +875,4 @@ en:
         queue_position_next: This import is next in the queue.
         queue_position: "This import is %{position} in the queue."
         drag_and_drop_hint: Drag and drop files here
+        find_and_replace_warning: Find and replace jobs can and will make major changes to your database. You are <strong>strongly</strong> advised to backup your database AND to run your job in a test instance before proceeding. There is no "undo".

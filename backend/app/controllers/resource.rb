@@ -107,4 +107,21 @@ class ArchivesSpaceService < Sinatra::Base
     updated_response(resource)
   end
 
+
+  Endpoint.get('/repositories/:repo_id/resources/:id/models_in_graph')
+    .description("Get a list of record types in the graph of a resource")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .returns([200, "OK"]) \
+  do
+    resource = Resource.get_or_die(params[:id])
+
+    graph = resource.object_graph
+
+    record_types = graph.models.map {|m| m.my_jsonmodel(true) }.compact.map {|j| j.record_type}
+
+    json_response(record_types)
+  end
+
 end

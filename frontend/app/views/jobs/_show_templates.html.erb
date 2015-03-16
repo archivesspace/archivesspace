@@ -29,15 +29,11 @@
 
 
 <% define_template "job", jsonmodel_definition(:job) do |form, job| %>
+
   <section id="basic_information">
     <h3><%= I18n.t("job._frontend.section.basic_information") %></h3>
 
     <%= form.label_with_field "import_type", job['import_type'] %>
-
-    <div class="form-group">
-      <label class="control-label"><%= I18n.t("job.filenames") %></label>
-      <div class="controls label-only"><%= job.filenames.join("<br/>").html_safe %></div>
-    </div>
 
     <div class="form-group">
       <label class="control-label"><%= I18n.t("repository._singular") %></label>
@@ -49,9 +45,39 @@
       <div class="controls label-only"><%= job.owner %></div>
     </div>
 
+    <% form.emit_template job.job['jsonmodel_type'], job.job %>
+
     <%= display_audit_info(@job) %>
   </section>
 <% end %>
+
+
+<% define_template "import_job", jsonmodel_definition(:import_job) do |form, job| %>
+
+    <div class="form-group">
+      <label class="control-label"><%= I18n.t("import_job.filenames") %></label>
+      <div class="controls label-only"><%= job['filenames'].join("<br/>").html_safe %></div>
+    </div>
+
+<% end %>
+
+
+<% define_template "find_and_replace_job", jsonmodel_definition(:find_and_replace_job) do |form, job| %>
+
+    <div class="form-group">
+      <label class="control-label"><%= I18n.t("find_and_replace_job.find") %></label>
+      <div class="controls label-only"><%= job['find'] %></div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label"><%= I18n.t("find_and_replace_job.replace") %></label>
+      <div class="controls label-only"><%= job['replace'] %></div>
+    </div>
+
+<% end %>
+
+
+
 
 <div id="template_job_running_notice"><!--
   <div class="alert alert-info">

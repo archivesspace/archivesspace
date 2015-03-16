@@ -14,6 +14,11 @@ require_relative "../app/model/db"
 require_relative "json_record_spec_helper"
 require_relative "custom_matchers"
 
+Dir.glob(File.join(File.dirname(__FILE__), '../', '../', 'common', 'lib', "*.jar")).each do |file|
+  require file
+end
+
+
 
 # Use an in-memory Derby DB for the test suite
 class DB

@@ -17,7 +17,7 @@ class Job < Sequel::Model(:job)
   one_to_many :job_files, :class => JobFile, :key => :job_id
   one_to_many :created_records, :class => JobCreatedRecord, :key => :job_id
   one_to_many :modified_records, :class => JobModifiedRecord, :key => :job_id
-  
+
 
   set_model_scope :repository
 
@@ -83,6 +83,8 @@ class Job < Sequel::Model(:job)
     jsons = super
     jsons.zip(objs).each do |json, obj|
       json.job = JSONModel(json.job_type.intern).from_json(obj.job_blob)
+      json.owner = obj.owner.username
+      json.queue_position = obj.queue_position if obj.status === "queued"
     end
 
     jsons
@@ -143,4 +145,4 @@ class Job < Sequel::Model(:job)
     end
   end
 
-end  
+end

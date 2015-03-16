@@ -604,12 +604,11 @@ FactoryGirl.define do
   end
 
   factory :json_find_and_replace_job, class: JSONModel(:find_and_replace_job) do
-    arguments { {:find => "/foo/", :replace => "bar"} }
-    scope { {
-      :jsonmodel_type => "extent",
-      :property => "container_summary",
-      :base_record_uri => "repositories/2/resources/1"
-    } }
+    find "/foo/"
+    replace "bar"
+    record_type "extent"
+    property "container_summary"
+    base_record_uri "repositories/2/resources/1"
   end
 
   factory :json_preference, class: JSONModel(:preference) do

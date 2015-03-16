@@ -150,8 +150,6 @@ $(function() {
       query: query
     }
 
-    console.log(field_data);
-
     var $row = $(AS.renderTemplate("template_advanced_search_row", {field_data: field_data}));
 
     $advancedSearchRowContainer.append($row);

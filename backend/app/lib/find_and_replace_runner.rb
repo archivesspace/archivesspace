@@ -19,19 +19,18 @@ class FindAndReplaceRunner < JobRunner
   def run
     super
 
-    arguments = @json.job['arguments']
-    scope = @json.job['scope']
+    job_data = @json.job
 
-    parsed = JSONModel.parse_reference(scope['base_record_uri'])
+    parsed = JSONModel.parse_reference(job_data['base_record_uri'])
     base_model = Kernel.const_get(parsed[:type].camelize)
     base_record = base_model.any_repo[parsed[:id]]
 
-    target_model = Kernel.const_get(scope['jsonmodel_type'].camelize)
-    target_property = scope['property']
+    target_model = Kernel.const_get(job_data['record_type'].camelize)
+    target_property = job_data['property']
     target_ids = base_record.object_graph.ids_for(target_model)
 
-    find = arguments['find'] =~ /^\/.+\/$/ ? Regexp.new(arguments['find'][1..-2]) : arguments['find']
-    replace = arguments['replace']
+    find = job_data['find'] =~ /^\/.+\/$/ ? Regexp.new(job_data['find'][1..-2]) : job_data['find']
+    replace = job_data['replace']
 
 
     DB.open(DB.supports_mvcc?,
@@ -42,12 +41,16 @@ class FindAndReplaceRunner < JobRunner
           json = target_model.to_jsonmodel(id)
 
           next unless json[target_property]
-          json[target_property].gsub!(find, replace)
+          result = json[target_property].gsub!(find, replace)
+
+          next if result.nil?
 
           RequestContext.open(:current_username => @job.owner.username,
                               :repo_id => @job.repo_id) do
             target_model[id].update_from_json(json)
           end
+
+          uri
         end
 
       rescue JSONModel::ValidationException => e
@@ -58,5 +61,4 @@ class FindAndReplaceRunner < JobRunner
     end
 
   end
-
 end

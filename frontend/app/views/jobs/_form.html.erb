@@ -1,4 +1,17 @@
 <div class="job-create-form-wrapper">
+  <% define_template("find_and_replace_job", jsonmodel_definition(:find_and_replace_job)) do |form| %>
+    <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :field_label => 'Base Resource Record' }%>
+
+    <%= form.label_and_select "record_type", [] %>
+    <%= form.label_and_select "property", [] %>
+
+    <%= form.label_and_textfield "find" %>
+    <%= form.label_and_textfield "replace" %>
+
+    <input id="find_and_replace_job_jsonmodel_type_" name="find_and_replace_job[jsonmodel_type]" type="hidden" value="find_and_replace_job">
+
+  <% end %>
+
   <% define_template("fileupload") do |form| %>
     <span class="btn btn-success btn-sm fileinput-button">
       <span class="glyphicon glyphicon-plus icon-white"></span>
@@ -10,25 +23,43 @@
     </div>
   <% end %>
 
-  <% define_template("job", jsonmodel_definition(:job)) do |form| %>
+  <% define_template("import_job", jsonmodel_definition(:import_job)) do |form| %>
     <section>
       <fieldset>
-        <%= form.label_and_select "import_type", @job_types %>
+          <%= form.label_and_select "import_type", @import_types %>
       </fieldset>
     </section>
-    <hr/>
-    <div class="alert alert-info" id="noImportTypeSelected"><%= I18n.t("job._frontend.messages.import_type_missing") %></div>
+
     <section id="job_filenames_">
       <% form.emit_template("fileupload") %>
       <% form.path("filenames") %>
     </section>
-    <hr/>
+
+    <input id="import_job_jsonmodel_type_" name="import_job[jsonmodel_type]" type="hidden" value="import_job">
+
   <% end %>
+
+  <% define_template("job", jsonmodel_definition(:job)) do |form| %>
+    <section>
+      <fieldset>
+        <%= form.label_and_select "job_type", @job_types %>
+      </fieldset>
+    </section>
+    <div id="job_form_messages">
+        <hr/>
+        <div class="alert alert-info" id="noImportTypeSelected"><%= I18n.t("job._frontend.messages.import_type_missing") %></div>
+        <hr/>
+    </div>
+
+
+    <div id="job_type_fields"></div>
+  <% end %>
+
+
+
 
   <%= form_for @job, :as => "job", :url => {:action => :create}, :html => {:id => "jobfileupload", :class => 'form-horizontal aspace-record-form',  :multipart => true} do |f| %>
     <%= form_context :job, @job do |form| %>
-      <div class="row">
-        <div class="col-md-12">
           <div class="record-pane">
             <%= link_to_help :topic => "job" %>
             <h2><%= I18n.t("job._frontend.actions.new") %></h2>
@@ -52,8 +83,7 @@
               <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
             </div>
           </div>
-        </div>
-      </div>
+
     <% end %>
   <% end %>
 
@@ -64,4 +94,9 @@
     </div>
   --></div>
 
-</div>
+
+  <div id="template_find_and_replace_warning"><!--
+    <hr/>
+    <div class="alert alert-danger"><%= I18n.t("job._frontend.messages.find_and_replace_warning") %></div>
+    <hr/>
+  --></div>
