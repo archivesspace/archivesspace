@@ -860,7 +860,7 @@ en:
         basic_information: Basic Information
         status: Job Status
         logs: Log
-        generated_uris: Imported Records
+        generated_uris: New & Modified Records
         active_jobs: Active Jobs
         archived_jobs: Archived Jobs
       messages:
@@ -876,3 +876,4 @@ en:
         queue_position: "This import is %{position} in the queue."
         drag_and_drop_hint: Drag and drop files here
         find_and_replace_warning: Find and replace jobs can and will make major changes to your database. You are <strong>strongly</strong> advised to backup your database AND to run your job in a test instance before proceeding. There is no "undo".
+        find_and_replace_instructions: Choose a base record to scope this find and replace operation. Then choose a record type to target and a property of that type. The operation will run in every target record in the tree of the base record, or in the base record itself if the target type is "Resource".

@@ -1,5 +1,7 @@
 <div class="job-create-form-wrapper">
   <% define_template("find_and_replace_job", jsonmodel_definition(:find_and_replace_job)) do |form| %>
+      <p><%= I18n.t("job._frontend.messages.find_and_replace_instructions") %></p>
+
     <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :field_label => 'Base Resource Record' }%>
 
     <%= form.label_and_select "record_type", [] %>

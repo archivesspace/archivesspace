@@ -2,6 +2,8 @@ class JobRunner
 
   class JobRunnerNotFound < StandardError; end
 
+  class BackgroundJobError < StandardError; end
+
   def self.for(job)
     @runners.each do |runner|
       runner = runner.instance_for(job)
@@ -20,6 +22,14 @@ class JobRunner
 
   def self.inherited(subclass)
     JobRunner.register_runner(subclass)
+  end
+
+
+  def initialize(job)
+    @job = job
+    RequestContext.open(:repo_id => @job.repo_id) do
+      @json = Job.to_jsonmodel(job)
+    end
   end
 
 

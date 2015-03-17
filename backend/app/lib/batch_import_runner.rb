@@ -41,12 +41,6 @@ end
 
 class BatchImportRunner < JobRunner
 
-  def initialize(job)
-    @job = job
-    @json = Job.to_jsonmodel(job)
-  end
-
-
   def self.instance_for(job)
     if job.job_type == "import_job"
       self.new(job)

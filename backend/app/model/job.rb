@@ -106,6 +106,15 @@ class Job < Sequel::Model(:job)
   end
 
 
+  def get_output_stream(offset = 0)
+    begin
+      file_store.get_output_stream(offset)
+    rescue
+      [StringIO.new(""), 0]
+    end
+  end
+
+
   def record_created_uris(uris)
     uris.each do |uri|
       add_created_record(:record_uri => uri)

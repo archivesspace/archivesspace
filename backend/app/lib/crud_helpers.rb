@@ -73,7 +73,6 @@ module CrudHelpers
   private
 
   def listing_response(dataset, model)
-    params ||= {}
 
     objs = dataset.respond_to?(:all) ? dataset.all : dataset
     jsons = model.sequel_to_jsonmodel(objs).map {|json|
