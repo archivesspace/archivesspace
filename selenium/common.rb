@@ -48,6 +48,7 @@ end
 
 
 class Selenium::WebDriver::Driver
+
   def wait_for_ajax
     try = 0
     while (self.execute_script("return document.readyState") != "complete" or
@@ -334,6 +335,64 @@ RSpec.configure do |c|
 end
 
 
+class RepositoryHelper
+
+  def initialize 
+    @test_repositories = {}
+  end
+
+
+  def create_test_repo(code, name, wait = true)
+    create_repo = URI("#{$backend}/repositories")
+
+    req = Net::HTTP::Post.new(create_repo.path)
+    req.body = "{\"repo_code\": \"#{code}\", \"name\": \"#{name}\"}"
+
+    response = admin_backend_request(req)
+    repo_uri = JSON.parse(response.body)['uri']
+
+
+    # Give the notification time to fire
+    sleep 5 if wait
+
+    @test_repositories[code] = repo_uri
+    
+    [code, repo_uri]
+  end
+
+
+  def select_repo(code)
+    $driver.find_element(:link, 'Select Repository').click
+    $driver.find_element(:css, '.select-a-repository').find_element(:id => "id").select_option_with_text(code)
+    $driver.find_element(:css, '.select-a-repository .btn-primary').click
+
+    if block_given?
+      $test_repo_old = $test_repo
+      $test_repo_uri_old = $test_repo_uri
+
+      $test_repo = code
+      $test_repo_uri = @test_repositories[code]
+
+      yield
+
+      $test_repo = $test_repo_old
+      $test_repo_uri = $test_repo_uri_old     
+    end
+  end
+end
+
+
+$repository_helper = RepositoryHelper.new
+
+def create_test_repo(*args)
+  $repository_helper.create_test_repo(*args)
+end
+
+def select_repo(code)
+  $repository_helper.select_repo(code)
+end
+
+
 def cleanup
   $driver.quit if $driver
 
@@ -464,21 +523,7 @@ def admin_backend_request(req)
 end
 
 
-def create_test_repo(code, name, wait = true)
-  create_repo = URI("#{$backend}/repositories")
 
-  req = Net::HTTP::Post.new(create_repo.path)
-  req.body = "{\"repo_code\": \"#{code}\", \"name\": \"#{name}\"}"
-
-  response = admin_backend_request(req)
-  repo_uri = JSON.parse(response.body)['uri']
-
-
-  # Give the notification time to fire
-  sleep 5 if wait
-
-  [code, repo_uri]
-end
 
 
 def create_user
@@ -494,11 +539,7 @@ def create_user
 end
 
 
-def select_repo(code)
-  $driver.find_element(:link, 'Select Repository').click
-  $driver.find_element(:css, '.select-a-repository').find_element(:id => "id").select_option_with_text(code)
-  $driver.find_element(:css, '.select-a-repository .btn-primary').click
-end
+
 
 
 def add_user_to_archivists(user, repo)
@@ -566,7 +607,7 @@ def create_digital_object(values = {})
 end
 
 
-def create_resource(values = {})
+def create_resource(values = {}, repo = nil)
   if !$test_repo
     ($test_repo, $test_repo_uri) = create_test_repo("repo_#{SecureRandom.hex}", "description")
   end
