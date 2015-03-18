@@ -131,8 +131,13 @@ describe 'User model' do
     new_user = create(:user)
 
     new_user.add_to_groups(group)
-    json = build(:json_import_job)
-    ImportJob.create_from_json(json, :repo_id => $repo_id, :user => new_user)
+    
+   json = build(:json_job,
+               :job_type => 'import_job',
+               :job => build(:json_import_job, :import_type => 'nonce')) 
+    
+    
+    Job.create_from_json(json, :repo_id => $repo_id, :user => new_user)
   
     RequestContext.open(:repo_id => Repository.global_repo_id) do
       Preference.create_from_json(build(:json_preference, :user_id => new_user.id))

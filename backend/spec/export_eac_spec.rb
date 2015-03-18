@@ -273,6 +273,11 @@ describe 'EAC Export' do
   describe "agent_family" do
 
     before(:all) do
+      @repo = create(:json_repo)
+      $old_repo_id = $repo_id
+      $repo_id = @repo.id
+      JSONModel.set_repository($repo_id)
+      
       @rec = create(:json_agent_family, 
                     :names => [
                                build(:json_name_family), 

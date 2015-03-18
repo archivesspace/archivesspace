@@ -21,7 +21,7 @@ describe 'Archival Object controller' do
 
   it "lets you list all archival objects" do
     create_list(:json_archival_object, 5)
-    JSONModel(:archival_object).all(:page => 1)['results'].count.should eq(5)
+    JSONModel(:archival_object).all(:page => 1)['results'].count.should >= 5
   end
 
 
