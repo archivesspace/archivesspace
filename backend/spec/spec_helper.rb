@@ -1,4 +1,3 @@
-
 require 'bundler'
 Bundler.require
 
@@ -170,7 +169,7 @@ def make_test_repo(code = "ARCHIVESSPACE", org_code = "test")
   @repo_id
 end
 
- 
+
 def make_test_user(username, name = "A test user", source = "local")
   create(:user, {:username => username, :name => name, :source => source})
 end
@@ -310,6 +309,18 @@ RSpec.configure do |config|
         raise Sequel::Rollback
       end
 
+    end
+
+    if ENV['ASPACE_TEST_DEBUG']
+      puts example.metadata[:description]
+
+      DB.open(true) do |db|
+        puts "----DB Artifacts: ---"
+        [:archival_object, :resource].each do |table|
+          puts db[table].all
+        end
+        puts "----------------------"
+      end
     end
   end
 
