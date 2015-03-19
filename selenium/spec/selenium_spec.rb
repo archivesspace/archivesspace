@@ -1926,9 +1926,9 @@ describe "ArchivesSpace user interface" do
 
       $driver.click_and_wait_until_gone(:link, 'Close Record')
 
-      sleep(10)
       # now lets add some notes
       [ "Santa Crap", "Japanese KFC", "Kalle Anka"].each do |ao|  
+        sleep(10)
         $driver.find_element_with_text("//div[@id='archives_tree']//a", /#{ao}/).click
         # sanity check to make sure we're editing.. 
         edit_btn = $driver.find_element_with_text("//div[@class='record-toolbar']/div/a",  /Edit/, true, true)
