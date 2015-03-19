@@ -5,6 +5,7 @@ ArchivesSpace::Application.routes.draw do
     match 'jobs/:id/log' => 'jobs#log', :via => [:get]
     match 'jobs/:id/status' => 'jobs#status', :via => [:get]
     match 'jobs/:id/records' => 'jobs#records', :via => [:get]
+    match 'jobs/:job_id/file/:id' => 'jobs#download_file', :via => [:get]
     resources :jobs
 
     match 'login' => "session#login", :via => :post
@@ -86,6 +87,7 @@ ArchivesSpace::Application.routes.draw do
     match 'resources/:id/container_labels' => 'exports#container_labels', :via => [:get]
     match 'resources/:id/download_marc' => 'exports#download_marc', :via => [:get]
     match 'resources/:id/download_ead' => 'exports#download_ead', :via => [:get]
+    match 'resources/:id/print_to_pdf' => 'exports#print_to_pdf', :via => [:get]
     match 'resources/:id' => 'resources#update', :via => [:post]
     match 'resources/:id/delete' => 'resources#delete', :via => [:post]
     match 'resources/:id/rde' => 'resources#rde', :via => [:get]

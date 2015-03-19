@@ -1,5 +1,17 @@
 module JobsHelper
 
+
+
+  def file_label(job_type)
+    if job_type == "print_to_pdf_job"
+      I18n.t("actions.download_pdf")
+    else
+      "File"
+    end
+  end
+
+
+
   def badge_class_for_status(status)
     if status === "running"
       "badge badge-info"

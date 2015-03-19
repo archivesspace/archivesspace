@@ -1345,6 +1345,7 @@ en:
     user_defined_enum_4:
       novalue: No value defined
     job_type:
+      print_to_pdf_job: Print To PDF 
       import_job: Import Data
       find_and_replace_job: Batch Find and Replace (Beta)
 

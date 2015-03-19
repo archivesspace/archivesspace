@@ -595,12 +595,16 @@ FactoryGirl.define do
   end
 
   factory :json_job, class: JSONModel(:job) do
-    job_type { ['import_job', 'find_and_replace_job'].sample }
+    job_type { ['import_job', 'find_and_replace_job', 'print_to_pdf_job'].sample }
   end
 
   factory :json_import_job, class: JSONModel(:import_job) do
     import_type { ['marcxml', 'ead_xml', 'eac_xml'].sample }
     filenames { (0..3).map { generate(:alphanumstr) } }
+  end
+  
+  factory :json_print_to_pdf_job, class: JSONModel(:print_to_pdf_job) do
+    source  { create(:json_resource).uri } 
   end
 
   factory :json_find_and_replace_job, class: JSONModel(:find_and_replace_job) do

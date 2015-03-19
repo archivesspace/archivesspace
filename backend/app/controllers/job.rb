@@ -155,6 +155,31 @@ class ArchivesSpaceService < Sinatra::Base
     ]
   end
 
+  Endpoint.get('/repositories/:repo_id/jobs/:id/output_files')
+    .description("Get a list of Job's output files by ID")
+    .params(["id", :id],
+            ["repo_id", :repo_id] )
+    .permissions([:view_repository])
+    .returns([200, "An array of output files"]) \
+  do
+    job = Job.get_or_die(params[:id])
+    files = JobFile.filter( :job_id => job.id ).select(:id).map {|f| f[:id] } 
+    json_response(files) 
+  
+  end
+  
+    Endpoint.get('/repositories/:repo_id/jobs/:id/output_files/:file_id')
+    .description("Get a Job's output file by ID")
+    .params(["id", :id],
+            ["file_id", :id], 
+            ["repo_id", :repo_id] )
+    .permissions([:view_repository])
+    .returns([200, "Returns the file"]) \
+  do
+    file = JobFile.filter(  :id => params[:file_id], :job_id => params[:id] ).select(:file_path).first
+    stream_response(IO.read(file[:file_path]))
+  
+  end
 
   Endpoint.get('/repositories/:repo_id/jobs/:id/records')
     .description("Get a Job's list of created URIs")

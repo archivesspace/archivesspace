@@ -76,6 +76,10 @@ en:
     publish_confirm_message: "<p>Performing this action will publish this record, any sub-records (External Documents, Notes, etc) and all components in the hierarchy.</p>"
     view_search_results: Go to Search Results
     view_published: View Published
+    print_to_pdf: Print Resource To PDF 
+    resource_to_pdf: Resource to Print
+    download_pdf: Download PDF
+  
 
   states:
     auto_generated: System generates when saved
@@ -863,6 +867,7 @@ en:
         generated_uris: New & Modified Records
         active_jobs: Active Jobs
         archived_jobs: Archived Jobs
+        files: Files 
       messages:
         status_changed_running: The import job has started running. Refreshing Page...
         status_changed_completed: The import job has completed.

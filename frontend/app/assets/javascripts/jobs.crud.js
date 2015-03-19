@@ -116,7 +116,22 @@ $(function() {
     $("#job_job_type_", $form).change(function() {
 
       if ($(this).val() === "") {
+        $("#job_form_messages", $form)
+          .empty()
         //
+      } else if ($(this).val() === "print_to_pdf_job") {
+
+        $("#job_form_messages", $form)
+          .empty()
+        $("#noImportTypeSelected", $form).hide();
+        $("#job_type_fields", $form)
+          .empty()
+          .html(AS.renderTemplate("template_print_to_pdf_job", {id_path: "print_to_pdf_job", path: "print_to_pdf_job"}));
+        
+        $(".linker:not(.initialised)").linker();
+        $selectRecordType.attr('disabled', 'disabled');
+        $selectProperty.attr('disabled', 'disabled');
+      
       } else if ($(this).val() === "find_and_replace_job") {
         $("#noImportTypeSelected", $form).hide();
         $("#job_form_messages", $form)
@@ -245,9 +260,16 @@ $(function() {
             if (arr[i].name === "find_and_replace_job[ref]") {
               arr[i].name = "find_and_replace_job[base_record_uri]";
             }
+          
           }
 
-
+        } else if ( jobType == 'print_to_pdf_job' ) {
+          // yep. copying this as well. no crazy about this 
+          for (var i=0; i < arr.length; i++) {
+            if (arr[i].name === "print_to_pdf_job[ref]") {
+                arr[i].name = "print_to_pdf_job[source]";
+              }
+          } 
         } else if (jobType === 'import_job') {
           console.log("ATTACH");
           $(".import-file.file-attached").each(function() {

@@ -13,6 +13,14 @@
     <input id="find_and_replace_job_jsonmodel_type_" name="find_and_replace_job[jsonmodel_type]" type="hidden" value="find_and_replace_job">
 
   <% end %>
+  
+  <% define_template("print_to_pdf_job", jsonmodel_definition(:print_to_pdf_job)) do |form| %>
+
+    <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :field_label => I18n.t("actions.resource_to_pdf") }%>
+    <input id="print_to_pdf_jsonmodel_type_" name="print_to_pdf_job[jsonmodel_type]" type="hidden" value="print_to_pdf_job">
+
+
+  <% end %>
 
   <% define_template("fileupload") do |form| %>
     <span class="btn btn-success btn-sm fileinput-button">
