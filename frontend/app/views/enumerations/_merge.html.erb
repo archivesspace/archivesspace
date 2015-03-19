@@ -1,6 +1,8 @@
 <%= form_for @enumeration, :as => "enumeration", :url => {:action => :merge, :id => JSONModel(:enumeration).id_for(@enumeration["uri"])}, :html => {:class => 'form-horizontal aspace-record-form', :id => "merge_enumeration"} do |f| %>
   <%= form_context :enumeration, @enumeration do |form| %>
-    <div class="modal-header">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal">×</button>
       <h3>
         <%= I18n.t("enumeration._frontend.action.merge_value") %>
