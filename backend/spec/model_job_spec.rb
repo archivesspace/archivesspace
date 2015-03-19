@@ -20,6 +20,7 @@ describe 'job model and job runners' do
     enum = Enumeration.find(:name => 'job_type')
     EnumerationValue.create(:value => 'nugatory_job', :enumeration_id => enum.id)
 
+    BackendEnumSource.cache_entry_for('job_type', true)
 
     JSONModel(:job).schema['properties']['job']['type'] = 'object'
 
@@ -68,6 +69,7 @@ describe 'job model and job runners' do
 
   after(:all) do
     EnumerationValue.filter(:value => 'nugatory_job').first.destroy
+    BackendEnumSource.cache_entry_for('job_type', true)
   end
 
 

@@ -556,44 +556,6 @@ describe 'Export Mappings' do
     end
 
 
-    it "maps subject.terms[0] to df 630-656 (' ', $)" do
-      @resource.subjects.each do |link|
-        subject = @subjects[link['ref']]
-        term = subject['terms'][0]
-        terms = subject['terms'][1..-1]
-        code, ind2 =  case term['term_type']
-        when 'uniform_title'
-          ['630', source_to_code(subject['source'])]
-        when 'temporal'
-          ['648', source_to_code(subject['source'])]
-        when 'topical'
-          ['650', source_to_code(subject['source'])]
-        when 'geographic', 'cultural_context'
-          ['651', source_to_code(subject['source'])]
-        when 'genre_form', 'style_period'
-          ['655', source_to_code(subject['source'])]
-        when 'occupation'
-          ['656', '7']
-        when 'function'
-          ['656', '7']
-        end
-
-        df = @doc.df(code, ' ', ind2)
-        df.sf_t('a').should include(term['term'])
-
-        terms.each do |t|
-          code = term_type_code(t)
-          df.sf_t(code).should include(t['term'])
-        end
-
-        if ind2 == '7'
-          df.sf_t('2').should include(subject['source'])
-        end
-
-      end
-    end
-
-
     it "maps secondary agents with 'creator' or 'source' role to df 700|710" do
       creators = @resource.linked_agents.select{|l| l['role'] == 'creator' || l['role'] == 'source'}[1..-1]
 

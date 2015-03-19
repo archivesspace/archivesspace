@@ -4,7 +4,7 @@ describe 'MARC Export' do
 
   describe "datafield 110 name mapping" do
 
-    before(:all) do
+    before(:each) do
       @name = build(:json_name_corporate_entity)
       agent = create(:json_agent_corporate_entity,
                     :names => [@name])
@@ -18,13 +18,6 @@ describe 'MARC Export' do
                          )
 
       @marc = get_marc(@resource)
-
-      # puts "SOURCE: #{@resource.inspect}"
-      # puts "RESULT: #{@marc.to_xml}"
-    end
-
-    after(:all) do
-      @resource.delete
     end
 
     it "maps primary_name to subfield 'a'" do
@@ -34,7 +27,7 @@ describe 'MARC Export' do
 
 
   describe "datafield 245 mapping" do
-    before(:all) do
+    before(:each) do
 
       @dates = ['inclusive', 'bulk'].map {|type|
         range = [nil, nil].map { generate(:yyyy_mm_dd) }.sort
@@ -53,14 +46,11 @@ describe 'MARC Export' do
                          :dates => @dates)
 
       @marc = get_marc(@resource)
-
-      # puts "SOURCE: #{@resource.inspect}"
-      # puts "RESULT: #{@marc.to_xml}"
     end
 
     it "maps the first inclusive date to subfield 'f'" do
       date = @dates.find{|d| d.date_type == 'inclusive'}
-      
+
       if date.expression
         @marc.should have_tag "datafield[@tag='245']/subfield[@code='f']" => "#{date.expression}"
       else
@@ -84,7 +74,7 @@ describe 'MARC Export' do
 
 
   describe "datafield 3xx mapping" do
-    before(:all) do
+    before(:each) do
 
       @notes = %w(arrangement fileplan).map { |type|
         build(:json_note_multipart,
@@ -98,9 +88,6 @@ describe 'MARC Export' do
                          :notes => @notes)
 
       @marc = get_marc(@resource)
-
-      # puts "SOURCE: #{@resource.inspect}"
-      # puts "RESULT: #{@marc.to_xml}"
     end
 
     it "creates a 300 field for each extent" do
@@ -129,43 +116,46 @@ describe 'MARC Export' do
         @marc.should have_tag "datafield[@tag='351']/subfield[@code='b'][1]" => note_content(note)
       end
     end
-  end    
+  end
 
   describe "datafield 65x mapping" do
     before(:all) do
 
-      @subjects = [] 
-      5.times {
-        @subjects << create(:json_subject)
+      @subjects = []
+      30.times {
+        subject = create(:json_subject)
+        # only count subjects that map to 65x fields
+        @subjects << subject unless ['uniform_title', 'temporal'].include?(subject.terms[0]['term_type'])
       }
      linked_subjects = @subjects.map {|s| {:ref => s.uri} }
 
-     
 
 
-      @extents = [ build(:json_extent)] 
+
+      @extents = [ build(:json_extent)]
       @resource = create(:json_resource,
                          :extents => @extents,
                          :subjects => linked_subjects)
 
       @marc = get_marc(@resource)
 
-       #puts "SOURCE: #{@resource.inspect}"
-       #puts "RESULT: #{@marc.to_xml}"
     end
 
     it "creates a 65x field for each subject" do
-      xmlnotes = [] 
+      xmlnotes = []
       (0..9).each do |i|
-        tag = "65#{i.to_s}"  
-        @marc.xpath("//xmlns:datafield[@tag = '#{tag}']").each { |x| xmlnotes << x  } 
+        tag = "65#{i.to_s}"
+        @marc.xpath("//xmlns:datafield[@tag = '#{tag}']").each { |x| xmlnotes << x  }
       end
-      xmlnotes.length.should eq(@subjects.length) 
+      puts xmlnotes.map{|n| n.inner_text }.inspect
+      puts @subjects.map{|s| s.to_hash }.inspect
+
+      xmlnotes.length.should eq(@subjects.length)
     end
-  end    
+  end
 
   describe "strips mixed content" do
-    before(:all) do
+    before(:each) do
 
       @dates = ['inclusive', 'bulk'].map {|type|
         range = [nil, nil].map { generate(:yyyy_mm_dd) }.sort
@@ -181,25 +171,15 @@ describe 'MARC Export' do
 
 
       @resource = create(:json_resource,
-                         :dates => @dates, 
-                         :id_0 => "999", 
+                         :dates => @dates,
+                         :id_0 => "999",
                          :title => "Foo <emph render='bold'>BAR</emph> Jones")
 
       @marc = get_marc(@resource)
-
-      # puts "SOURCE: #{@resource.inspect}"
-      # puts "RESULT: #{@marc.to_xml}"
     end
 
     it "should strip out the mixed content in title" do
-
-        @marc.should have_tag "datafield[@tag='245']/subfield[@code='a']" => "Foo  BAR  Jones"
-
-
+      @marc.should have_tag "datafield[@tag='245']/subfield[@code='a']" => "Foo  BAR  Jones"
     end
-
-
   end
-
-
 end

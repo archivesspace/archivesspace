@@ -43,14 +43,12 @@ describe 'EAC Export' do
                     )
 
       @eac = get_eac(@rec)
-
-      # puts "SOURCE: #{@rec.inspect}\n"
-      # puts "RESULT: #{@eac.to_xml}\n"
     end
 
     after(:all) do
       @rec.delete
     end
+
 
     it "exports EAC with the correct namespaces" do
       @eac.should have_namespaces({
@@ -190,9 +188,6 @@ describe 'EAC Export' do
                     )
 
       @eac = get_eac(@rec)
-
-      # puts "SOURCE: #{@rec.inspect}\n"
-      # puts "RESULT: #{@eac.to_xml}\n"
     end
 
     after(:all) do
@@ -526,7 +521,7 @@ describe 'EAC Export' do
   end
 
   describe "Relations" do
-    before(:all) do
+    before(:each) do
       @repo = create(:json_repo)
       $old_repo_id = $repo_id
       $repo_id = @repo.id
@@ -573,16 +568,9 @@ describe 'EAC Export' do
 
       @eac = get_eac(@rec)
 
-      # puts "SOURCE: #{@rec.inspect}\n"
-      # puts "RESULT: #{@eac.to_xml}\n"
     end
 
-    after(:all) do
-      [@rec, @resource, @digital_object, @resource_component, @linked_agent].each do |rec|
-        next if rec.nil?
-        rec.delete
-      end
-
+    after(:each) do
       $repo_id = $old_repo_id
       JSONModel.set_repository($repo_id)
     end

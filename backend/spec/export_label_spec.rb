@@ -71,12 +71,8 @@ describe 'Export Labels Mappings ' do
 
   describe "export labels" do
   
-    before(:all) do
-      as_test_user("admin") do
-        DB.open(true) do
-          load_export_fixtures
-        end
-      end
+    before(:each) do
+      load_export_fixtures
     end
 
     it "should have the proper values" do 
