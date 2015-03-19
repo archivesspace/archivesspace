@@ -39,14 +39,14 @@ class LocationsController < ApplicationController
                   return render :json => @location.to_hash if inline?
 
                   flash[:success] = I18n.t("location._frontend.messages.created")
-                   if params.has_key?(:plus_one)
+                  if params.has_key?(:plus_one)
                      sticky_params = { :controller => :locations, :action => :new} 
                      @location.to_hash.each_pair do |k,v|
                         sticky_params[k] = v if LOCATION_STICKY_PARAMS.include?(k)
                      end
                       
                      return redirect_to sticky_params
-                   end 
+                  end 
                   redirect_to :controller => :locations, :action => :edit, :id => id
                 })
   end
@@ -63,7 +63,8 @@ class LocationsController < ApplicationController
   end
 
   def batch
-    @location_batch = JSONModel(:location_batch).new
+    location_params = params.inject({}) { |c, (k,v)| c[k] = v if LOCATION_STICKY_PARAMS.include?(k); c } 
+    @location_batch = JSONModel(:location_batch).new(location_params)
   end
 
   def batch_create
@@ -94,6 +95,14 @@ class LocationsController < ApplicationController
         render_aspace_partial :partial => "locations/batch_preview", :locals => {:locations => batch_response}
       else
         flash[:success] = I18n.t("location_batch._frontend.messages.created", :number_created => batch_response.length)
+        if params.has_key?(:plus_one)
+           sticky_params = { :controller => :locations, :action => :batch} 
+           @location_batch.to_hash.each_pair do |k,v|
+              sticky_params[k] = v if LOCATION_STICKY_PARAMS.include?(k)
+           end
+            
+           return redirect_to sticky_params
+        end 
         redirect_to :action => :index
       end
     rescue JSONModel::ValidationException => e

@@ -3850,6 +3850,38 @@ describe "ArchivesSpace user interface" do
       $driver.find_element_with_text('//td', /123 Awesome Street \[Room: 1B, Shelf: 3\]/)
       $driver.find_element_with_text('//td', /123 Awesome Street \[Room: 1B, Shelf: 4\]/)
     end
+    
+    it "can create locations with +1 stickyness" do
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Locations").click
+      $driver.find_element(:link, "Batch Locations").click
+
+      $driver.click_and_wait_until_gone(:css => "form#new_location_batch .btn-primary")
+     
+      $driver.clear_and_send_keys([:id, "location_batch_building_"], "555 Fake Street")
+      $driver.clear_and_send_keys([:id, "location_batch_floor_"], "2nd")
+      $driver.clear_and_send_keys([:id, "location_batch_room_"], "201")
+      $driver.clear_and_send_keys([:id, "location_batch_area_"], "Corner")
+      $driver.clear_and_send_keys([:id, "location_batch_coordinate_1_range__label_"], "Room")
+      $driver.clear_and_send_keys([:id, "location_batch_coordinate_1_range__start_"], "1A")
+      $driver.clear_and_send_keys([:id, "location_batch_coordinate_1_range__end_"], "1B")
+      $driver.clear_and_send_keys([:id, "location_batch_coordinate_2_range__label_"], "Shelf")
+      $driver.clear_and_send_keys([:id, "location_batch_coordinate_2_range__start_"], "1")
+      $driver.clear_and_send_keys([:id, "location_batch_coordinate_2_range__end_"], "4")
+
+      $driver.wait_for_ajax
+      
+      $driver.click_and_wait_until_gone(:css => "form#new_location_batch .createPlusOneBtn")
+
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Locations Created/)
+      # these are sticky
+       assert(5) { $driver.find_element(:id, "location_batch_building_").attribute('value').should eq("555 Fake Street") }
+
+       assert(5) { $driver.find_element(:id,  "location_batch_floor_").attribute('value').should eq("2nd") }
+       assert(5) { $driver.find_element(:id,  "location_batch_room_").attribute('value').should eq("201") }
+       assert(5) { $driver.find_element(:id, "location_batch_area_").attribute('value').should eq("Corner") }
+      
+    end
 
   end
 
