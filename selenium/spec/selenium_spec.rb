@@ -1840,9 +1840,9 @@ describe "ArchivesSpace user interface" do
       $driver.action.drag_and_drop(source, parent ).perform
       # save the item
       $driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")
-      
+
       parent = $driver.find_element(:xpath, "//div[@id='archives_tree']//li[a/@title='December']")
-      [ "Christmas albums", "XMAS Tree decorations",  "Nog" ].each_with_index do |ao, i|
+      [ "Christmas albums", "Nog", "XMAS Tree decorations" ].each_with_index do |ao, i|
         assert(5) {
           $driver.find_element( :xpath => "//div[@id='archives_tree']//li[a/@title='December']/ul/li[position() = #{i + 1}]/a/span/span[@class='title-column pull-left']").text.should eq(ao)
         }
@@ -1907,7 +1907,8 @@ describe "ArchivesSpace user interface" do
       
 
       $driver.click_and_wait_until_gone(:link, 'Close Record')
-       
+
+      sleep(10)
       # now lets add some notes
       [ "Santa Crap", "Japanese KFC", "Kalle Anka"].each do |ao|  
         $driver.find_element_with_text("//div[@id='archives_tree']//a", /#{ao}/).click
@@ -1918,7 +1919,8 @@ describe "ArchivesSpace user interface" do
           $driver.click_and_wait_until_gone(:link, 'Edit')
         end 
         $driver.wait_for_ajax
-        $driver.find_element(:css => '#notes .subrecord-form-heading .btn:not(.show-all)').click
+        $driver.find_element_with_text("//button", /Add Note/).click
+        # $driver.find_element(:css => '#notes .subrecord-form-heading .btn:not(.show-all)').click
         $driver.find_last_element(:css => '#notes select.top-level-note-type:last-of-type').select_option("note_multipart")
         $driver.clear_and_send_keys([:id, 'archival_object_notes__0__label_'], "A multipart note")
         $driver.execute_script("$('#archival_object_notes__0__subnotes__0__content_').data('CodeMirror').setValue('Some note content')")
@@ -1928,7 +1930,7 @@ describe "ArchivesSpace user interface" do
       end
       
       # everything should be in the order we want it...
-      [ "Christmas albums", "XMAS Tree decorations", "Santa Crap",  "Japanese KFC","Kalle Anka", "Nog",  "Fruit Cake" ].each_with_index do |ao, i|
+      [ "Christmas albums", "Santa Crap", "Japanese KFC","Kalle Anka", "Nog", "XMAS Tree decorations", "Fruit Cake" ].each_with_index do |ao, i|
         assert(5) {
           $driver.find_element( :xpath => "//div[@id='archives_tree']//li[a/@title='December']/ul/li[position() = #{i + 1}]/a/span/span[@class='title-column pull-left']").text.should eq(ao)
         }

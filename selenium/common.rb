@@ -523,9 +523,6 @@ def admin_backend_request(req)
 end
 
 
-
-
-
 def create_user
   user = "test user_#{SecureRandom.hex}"
   pass = "pass_#{SecureRandom.hex}"
@@ -537,8 +534,6 @@ def create_user
 
   [user, pass]
 end
-
-
 
 
 
