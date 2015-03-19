@@ -1806,7 +1806,10 @@ describe "ArchivesSpace user interface" do
 
       source = $driver.find_element_with_text("//div[@id='archives_tree']//a", /Christmas cards/)
       target = $driver.find_element_with_text("//div[@id='archives_tree']//a", /Pony Express/)
-      $driver.action.drag_and_drop(source, target).perform
+      
+      y_off = target.location[:y] - source.location[:y] 
+      
+      $driver.action.drag_and_drop_by(source, 0, y_off).perform
       $driver.wait_for_ajax
       target = $driver.find_element_with_text("//div[@id='archives_tree']//li", /Pony Express/)
       target.find_element_with_text(".//a", /Christmas cards/)
@@ -1830,19 +1833,29 @@ describe "ArchivesSpace user interface" do
     end
    
     it "can reorder while editing another item and not lose the order" do
+      
+      pane_resize_handle = $driver.find_element(:css => ".ui-resizable-handle.ui-resizable-s")
+      10.times {
+        $driver.action.drag_and_drop_by(pane_resize_handle, 0, 30).perform
+      }
+      
       parent = $driver.find_element(:xpath, "//div[@id='archives_tree']//li[a/@title='December']")
-      source = $driver.find_element_with_text("//div[@id='archives_tree']//a", /Nog/)
       
       parent.find_element_with_text(".//a", /Tree decorations/).click
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "XMAS Tree decorations")
-     
+      
+      source = $driver.find_element_with_text("//div[@id='archives_tree']//a", /Nog/)
+      target = $driver.find_element_with_text("//div[@id='archives_tree']//a", /Tree decorations/)
+      y_off = target.location[:y] - source.location[:y] 
+      
       # now do a drag and drop
-      $driver.action.drag_and_drop(source, parent ).perform
+      $driver.action.drag_and_drop_by(source, 0, y_off).perform
+     
       # save the item
       $driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")
-      
+
       parent = $driver.find_element(:xpath, "//div[@id='archives_tree']//li[a/@title='December']")
-      [ "Christmas albums", "XMAS Tree decorations",  "Nog" ].each_with_index do |ao, i|
+      [ "Christmas albums", "Nog", "XMAS Tree decorations" ].each_with_index do |ao, i|
         assert(5) {
           $driver.find_element( :xpath => "//div[@id='archives_tree']//li[a/@title='December']/ul/li[position() = #{i + 1}]/a/span/span[@class='title-column pull-left']").text.should eq(ao)
         }
@@ -1870,44 +1883,50 @@ describe "ArchivesSpace user interface" do
 
      # now lets move and delete some nodes
      ["Ham", "Coca-cola bears"].each do |ao|   
-       target = $driver.find_element_with_text("//div[@id='archives_tree']//a", /Nog/)
+       # open the tree a little 
        dragger = $driver.find_element( :css => ".ui-resizable-handle.ui-resizable-s" )
        $driver.action.drag_and_drop_by(dragger, 0, 100).perform
        $driver.wait_for_ajax 
        
+       target = $driver.find_element_with_text("//div[@id='archives_tree']//a", /Nog/)
        source = $driver.find_element_with_text("//div[@id='archives_tree']//a", /#{ao}/)
-        $driver.action.drag_and_drop(source, target).perform
-        $driver.wait_for_ajax
-        $driver.find_element_with_text("//div[@id='archives_tree']//a", /#{ao}/).click
-        $driver.find_element(:link, "Move").click
-        $driver.find_element(:link, "Up a Level").click
-        sleep(5) 
-        $driver.wait_for_ajax
-        $driver.find_element(:css, ".delete-record.btn").click
-        $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
-        $driver.click_and_wait_until_gone(:link, "Edit") 
-        $driver.click_and_wait_until_gone(:css, "li.jstree-closed > ins")
+       y_off = target.location[:y] - source.location[:y] 
+       $driver.action.drag_and_drop_by(source, 0, y_off).perform
+       $driver.wait_for_ajax
+       
+       $driver.wait_for_ajax
+       $driver.find_element_with_text("//div[@id='archives_tree']//a", /#{ao}/).click
+       $driver.find_element(:link, "Move").click
+       $driver.find_element(:link, "Up a Level").click
+       sleep(5) 
+       $driver.wait_for_ajax
+       $driver.find_element(:css, ".delete-record.btn").click
+       $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
+       $driver.click_and_wait_until_gone(:link, "Edit") 
+       $driver.click_and_wait_until_gone(:css, "li.jstree-closed > ins")
       end
 
       # now lets add some move and move them around
       [ "Santa Crap", "Japanese KFC", "Kalle Anka"].each do |ao|                                                                                       
         $driver.find_element_with_text("//div[@id='archives_tree']//a", /Nog/).click
-        target = $driver.find_element_with_text("//div[@id='archives_tree']//a", /Nog/)
         $driver.click_and_wait_until_gone(:link, "Add Sibling")                                                                                    
         $driver.clear_and_send_keys([:id, "archival_object_title_"], ao)                                                                           
         $driver.find_element(:id, "archival_object_level_").select_option("item")                                                                  
         $driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")                                                 
         
+        target = $driver.find_element_with_text("//div[@id='archives_tree']//a", /Nog/)
         source = $driver.find_element_with_text("//div[@id='archives_tree']//a", /#{ao}/)
-      
-        $driver.action.drag_and_drop(source, target).perform
         
+        y_off = target.location[:y] - source.location[:y] 
+        $driver.action.drag_and_drop_by(source, 0, y_off).perform
         $driver.wait_for_ajax
+      
       end 
       
 
       $driver.click_and_wait_until_gone(:link, 'Close Record')
-       
+
+      sleep(10)
       # now lets add some notes
       [ "Santa Crap", "Japanese KFC", "Kalle Anka"].each do |ao|  
         $driver.find_element_with_text("//div[@id='archives_tree']//a", /#{ao}/).click
@@ -1918,7 +1937,8 @@ describe "ArchivesSpace user interface" do
           $driver.click_and_wait_until_gone(:link, 'Edit')
         end 
         $driver.wait_for_ajax
-        $driver.find_element(:css => '#notes .subrecord-form-heading .btn:not(.show-all)').click
+        $driver.find_element_with_text("//button", /Add Note/).click
+        # $driver.find_element(:css => '#notes .subrecord-form-heading .btn:not(.show-all)').click
         $driver.find_last_element(:css => '#notes select.top-level-note-type:last-of-type').select_option("note_multipart")
         $driver.clear_and_send_keys([:id, 'archival_object_notes__0__label_'], "A multipart note")
         $driver.execute_script("$('#archival_object_notes__0__subnotes__0__content_').data('CodeMirror').setValue('Some note content')")
@@ -1928,7 +1948,7 @@ describe "ArchivesSpace user interface" do
       end
       
       # everything should be in the order we want it...
-      [ "Christmas albums", "XMAS Tree decorations", "Santa Crap",  "Japanese KFC","Kalle Anka", "Nog",  "Fruit Cake" ].each_with_index do |ao, i|
+      [ "Christmas albums", "Santa Crap", "Japanese KFC","Kalle Anka", "Nog", "XMAS Tree decorations", "Fruit Cake" ].each_with_index do |ao, i|
         assert(5) {
           $driver.find_element( :xpath => "//div[@id='archives_tree']//li[a/@title='December']/ul/li[position() = #{i + 1}]/a/span/span[@class='title-column pull-left']").text.should eq(ao)
         }
@@ -1975,7 +1995,6 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Resources").click
       $driver.find_element_with_text('//tr', resource_regex).find_element(:link, 'Edit').click
     
-      system("rm #{File.join(Dir.tmpdir, '*_ead.xml')}")
 
       $driver.find_element(:link, "Export").click
       response = $driver.find_element(:link, "Download EAD").click
@@ -1996,6 +2015,7 @@ describe "ArchivesSpace user interface" do
        }
     end
 
+    
 
     it "shows our newly added Resource in the browse list" do
       run_index_round
