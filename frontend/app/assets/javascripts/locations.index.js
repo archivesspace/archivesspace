@@ -1,3 +1,4 @@
+//= require search
 $(function() {
 
   // this gets the location information from the solr backend.

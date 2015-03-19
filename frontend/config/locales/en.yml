@@ -256,6 +256,9 @@ en:
     agents:
       success: Agents deleted
       error: "Unable to delete agents:"
+    locations:
+      success: Locations deleted
+      error: "Unable to delete locations:"
 
   browser_support:
     bronze: ArchivesSpace does not fully support this browser.  Please consider upgrading your browser to the latest versions of either Chrome, Firefox or Internet Explorer.
