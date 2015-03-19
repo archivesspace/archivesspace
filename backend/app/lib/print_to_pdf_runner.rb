@@ -4,7 +4,6 @@ require_relative 'AS_fop'
 
 
 class PrintToPDFRunner < JobRunner
-  include JSONModel
 
 
 
@@ -20,15 +19,13 @@ class PrintToPDFRunner < JobRunner
   def run
     super
     begin 
+
       RequestContext.open( :repo_id => @job.repo_id) do
-      
         # why does this not work?
         #resource= JSONModel(:resource).find_by_uri(@json.job["source"])
-        
        
         parsed = JSONModel.parse_reference(@json.job["source"])
         resource = Resource.to_jsonmodel(parsed[:id]) 
-
         
 
         @job.write_output("Generating PDF for #{resource["title"]}  ")
