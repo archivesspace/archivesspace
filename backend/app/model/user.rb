@@ -231,7 +231,7 @@ class User < Sequel::Model(:user)
  
     # transfer all import jobs to the admin user
     admin_user = User.select(:id).where( :username => "admin" ).first
-    ImportJob.filter(:owner_id => self.id).update( :owner_id => admin_user.id )
+    Job.filter(:owner_id => self.id).update( :owner_id => admin_user.id )
     
     Preference.filter(:user_id => self.id).delete
     self.remove_all_group

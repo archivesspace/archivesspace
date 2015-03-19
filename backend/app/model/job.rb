@@ -3,28 +3,29 @@ require 'securerandom'
 require 'stringio'
 
 require_relative 'user'
-require_relative 'import_job_files'
-require_relative 'import_job_created_record'
 
-class ImportJob < Sequel::Model(:import_job)
+require_relative 'job_created_record'
+require_relative 'job_modified_record'
+require_relative 'job_files'
+
+
+class Job < Sequel::Model(:job)
   include ASModel
   corresponds_to JSONModel(:job)
 
-  one_to_many :job_files, :class => ImportJobFile, :key => :job_id
-  one_to_many :created_records, :class => ImportJobCreatedRecord, :key => :job_id
   many_to_one :owner, :key => :owner_id, :class => User
+  one_to_many :job_files, :class => JobFile, :key => :job_id
+  one_to_many :created_records, :class => JobCreatedRecord, :key => :job_id
+  one_to_many :modified_records, :class => JobModifiedRecord, :key => :job_id
+
 
   set_model_scope :repository
 
-  def before_destroy
-    self.job_files_dataset.delete
-    self.created_records_dataset.delete
-  end
 
   class JobFileStore
 
     def initialize(name)
-      @job_path = File.join(AppConfig[:import_job_path], name)
+      @job_path = File.join(AppConfig[:job_file_path], name)
       FileUtils.mkdir_p(@job_path)
       @output_path = File.join(@job_path, "output.log")
     end
@@ -74,24 +75,29 @@ class ImportJob < Sequel::Model(:import_job)
   def self.create_from_json(json, opts = {})
     super(json, opts.merge(:time_submitted => Time.now,
                            :owner_id => opts.fetch(:user).id,
-                           :filenames => ASUtils.to_json(json.filenames)))
+                           :job_blob => ASUtils.to_json(json.job)))
+  end
+
+
+  def self.sequel_to_jsonmodel(objs, opts = {})
+    jsons = super
+    jsons.zip(objs).each do |json, obj|
+      json.job = JSONModel(json.job_type.intern).from_json(obj.job_blob)
+      json.owner = obj.owner.username
+      json.queue_position = obj.queue_position if obj.status === "queued"
+    end
+
+    jsons
   end
 
 
   def file_store
-    @file_store ||= JobFileStore.new("import_job_#{id}")
+    @file_store ||= JobFileStore.new("#{job_type}_#{id}")
   end
 
 
   def add_file(io)
-    add_job_file(ImportJobFile.new(:file_path => file_store.store(io)))
-  end
-
-
-  def record_created_uris(uris)
-    uris.each do |uri|
-      add_created_record(:record_uri => uri)
-    end
+    add_job_file(JobFile.new(:file_path => file_store.store(io)))
   end
 
 
@@ -109,6 +115,28 @@ class ImportJob < Sequel::Model(:import_job)
   end
 
 
+  def record_created_uris(uris)
+    uris.each do |uri|
+      add_created_record(:record_uri => uri)
+    end
+  end
+
+
+  def record_modified_uris(uris)
+    uris.each do |uri|
+      add_modified_record(:record_uri => uri)
+    end
+  end
+
+
+  def queue_position
+    DB.open do |db|
+      job_id = self.id
+      db[:job].where { id < job_id }.where(:status => "queued").count
+    end
+  end
+
+
   def finish(status)
     file_store.close_output
 
@@ -119,39 +147,11 @@ class ImportJob < Sequel::Model(:import_job)
   end
 
 
-  def queue_position
-    DB.open do |db|
-      job_id = self.id
-      db[:import_job].where { id < job_id }.where(:status => "queued").count
-    end
-  end
-
-
-  def self.sequel_to_jsonmodel(objs, opts = {})
-    jsons = super
-
-    jsons.zip(objs).each do |json, obj|
-      filenames = ASUtils.json_parse(obj.filenames || "[]")
-      json.filenames = filenames
-      json.owner = obj.owner.username
-      json.queue_position = obj.queue_position if obj.status === "queued"
-    end
-
-    jsons
-  end
-
-
-  def remove_files
-    job_files.each do |file|
-      file_store.unlink(file.file_path)
-    end
-  end
-
-
   def cancel!
     if ["queued", "running"].include? self.status
       self.status = "canceled"
       self.save
     end
   end
+
 end

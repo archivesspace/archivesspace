@@ -83,6 +83,8 @@ end
 
 
 def get_eac(rec, repo_id = $repo_id)
+  repo_record = JSONModel(:repository).find($repo_id)
+  
   case rec.jsonmodel_type
   when 'agent_person'
     get_xml("/repositories/#{repo_id}/archival_contexts/people/#{rec.id}.xml")

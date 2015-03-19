@@ -147,7 +147,7 @@ en:
         <p>Used to record an indicator such as a number or letter that uniquely identifies a location in combination with the associated coordinate label.</p>
     display_string: Display String
     has_unpublished_ancestor: Has Unpublished Ancestor?
-    holdings: Holdings 
+    holdings: Holdings
     _singular: Location
     _plural: Locations
 
@@ -170,10 +170,10 @@ en:
         <p>REQUIRED FIELD. Indicates whether the location statement for this record is current or refers to a previous location for the described instance.</p>
     start_date: Start Date
     start_date_tooltip: |
-        <p>REQUIRED FIELD. Indicates the date at which the described instance was stored at this location, or a known date from which the materials were stored here.</p> 
+        <p>REQUIRED FIELD. Indicates the date at which the described instance was stored at this location, or a known date from which the materials were stored here.</p>
     end_date: End Date
     end_date_tooltip: |
-        <p>Indicates the date at which the described instance was moved from this location.</p> 
+        <p>Indicates the date at which the described instance was moved from this location.</p>
     note: Note
     note_tooltip: |
         <p>Used to record additional information about the instance and its relation to this location.</p>
@@ -203,7 +203,7 @@ en:
     # ref_tooltip is not displaying
     ref_tooltip: |
         <p>The Agent related to the material described in the record.</p>
-        <p>Agents may be searched using auto-complete, using a browse function, or may be created on demand.</p> 
+        <p>Agents may be searched using auto-complete, using a browse function, or may be created on demand.</p>
     terms: Terms
     title: Title
     _singular: Agent Link
@@ -260,14 +260,14 @@ en:
         <p>REQUIRED SUBRECORD: Associates one or more Agents as a participant in this Event.</p>
     linked_records_tooltip: |
         <p>REQUIRED SUBRECORD: Associates Accessions, Digital Objects, or Resources with this Event.</p>
-    types:      
+    types:
       accession: Accession
       accumulation: Accumulation
       acknowledgement: Acknowledgement
       acknowledgement_sent: Acknowledgement Sent
       agreement_signed: Agreement Signed
       agreement_received: Agreement Received
-      agreement_sent: Agreement Sent 
+      agreement_sent: Agreement Sent
       appraisal: Appraisal
       assessment: Assessment
       capture: Capture
@@ -416,7 +416,7 @@ en:
         </ul>
     dates: Dates
     dates_tooltip: |
-        <p>DEPRECIATED. PLEASE USE DATES OF EXISTENCE SECTION</p> 
+        <p>DEPRECIATED. PLEASE USE DATES OF EXISTENCE SECTION</p>
         <p>Dates of existence for the named entity.</p>
         <p>Examples:<p>
         <ul>
@@ -824,7 +824,7 @@ en:
     _singular: Extent
 
   container: &container_attributes
-    type_1: Container 1 Type 
+    type_1: Container 1 Type
     type_1_tooltip: &container_type_tooltip |
         <p>The type of the primary container in which the described material is housed.</p>
         <p>Values in this Controlled Value List may be modified.</p>
@@ -1021,19 +1021,19 @@ en:
 
   date_type_inclusive:
     <<: *date_attributes
- 
+
   date_type_range:
     <<: *date_attributes
 
   date_label:
     <<: *date_attributes
-    
+
   existence_date:
     <<: *date_attributes
-    
+
   usage_date:
     <<: *date_attributes
-    
+
   archival_record_date:
     <<: *date_attributes
 
@@ -1045,7 +1045,7 @@ en:
     accession_date: Accession Date
     accession_date_inline_help: e.g. YYYY-MM-DD
     accession_date_tooltip: |
-        <p>REQUIRED FIELD: The date the accession took place. It is not 
+        <p>REQUIRED FIELD: The date the accession took place. It is not
         necessarily the same date as when the record is created.</p>
     accession_id: Identifier
     accession_id_tooltip: |
@@ -1157,7 +1157,7 @@ en:
     title_tooltip: |
         <p>The title assigned to an accession or resource. The accession title
         need not be the same as the resource title. Moreover, a title need not
-        be expressed for the accession record, as it can be implicitly 
+        be expressed for the accession record, as it can be implicitly
         inherited from the resource record to which the accession is
         linked.</p>
         <p>See DACS 2.3.18-2.3.22</p>
@@ -1257,7 +1257,7 @@ en:
     ref_id_export_prefix: aspace_
     dates: Dates
     dates_tooltip: |
-        <p>CONDITIONALLY REQUIRED SUBRECORD. An Archival Object must have either a Title or a Date subrecord.</p> 
+        <p>CONDITIONALLY REQUIRED SUBRECORD. An Archival Object must have either a Title or a Date subrecord.</p>
     extents: Extents
     ref_id_auto_generation_message: "-- auto-generated upon save --"
     component_id: Component Unique Identifier
@@ -1355,6 +1355,9 @@ en:
     <<: *archival_object_attributes
     <<: *section_tooltips
     id_0: Identifier
+    id_1: Identifier 2
+    id_2: Identifier 3
+    id_3: Identifier 4
     id_0_tooltip: |
         <p>REQUIRED FIELD. The identification number assigned to each discrete Resource within a Repository.</p>
         <p>See DACS 2.1.3</p>
@@ -1663,7 +1666,7 @@ en:
     processors_tooltip: |
         <p>For listing staff to whom processing of the archival unit (accession, resource, or digital objects) has been assigned.</p>
     rights_determined: Rights determined?
-    rights_determined_tooltip: | 
+    rights_determined_tooltip: |
         <p>Indicates whether the rights for an archival unit (accession, resource, or digital object) have been determined and a rights record created and linked to the archival unit.</p>
     rights_determined_true: Yes
     rights_determined_false: No
@@ -1837,20 +1840,13 @@ en:
       You must either specify a barcode, a classification, or both a coordinate 1 label and coordinate 1 indicator
     location_must_be_unique_within_a_record: Must be unique within a record
     location_cannot_be_deleted_if_linked: Location Record is currently linked to one or more Instance records and cannot be deleted. Please link these instances to new locations before deleting the location record.
-    cannot_be_previous_if_location_is_not_temporary: Cannot transfer to previous if the location is not temporary. 
+    cannot_be_previous_if_location_is_not_temporary: Cannot transfer to previous if the location is not temporary.
     authority_id_must_be_unique: Authority ID is already in use
-    either_type_1_or_barcode_is_required: A container must contain Container 1 Type or Barcode. 
+    either_type_1_or_barcode_is_required: A container must contain Container 1 Type or Barcode.
   job:
-    _singular: Import Job
-    _plural: Import Jobs
-    import_type: Import Type
-    import_type_ead_xml: EAD
-    import_type_accession_csv: Accession CSV
-    import_type_digital_object_csv: Digital Object CSV
-    import_type_eac_xml: EAC
-    import_type_marcxml: MarcXML (Resource)
-    import_type_marcxml_accession: MarcXML (Accession)
-    import_type_marcxml_subjects_and_agents: MarcXML (Subjects and Agents Only)
+    _singular: Background Job
+    _plural: Background Jobs
+    job_type: Job Type
     status: Status
     status_completed: Completed
     status_queued: Queued
@@ -1861,7 +1857,26 @@ en:
     time_started: Time Started
     time_finished: Time Completed
     owner: Owner
+
+  import_job:
+    _singular: Import Job
     filenames: Import Files
+    import_type: Import Type
+    import_type_ead_xml: EAD
+    import_type_accession_csv: Accession CSV
+    import_type_digital_object_csv: Digital Object CSV
+    import_type_eac_xml: EAC
+    import_type_marcxml: MarcXML (Resource)
+    import_type_marcxml_accession: MarcXML (Accession)
+    import_type_marcxml_subjects_and_agents: MarcXML (Subjects and Agents Only)
+
+  find_and_replace_job:
+    _singular: Find and Replace Job
+    find: String to find
+    replace: Replacement string
+    jsonmodel_type: Record or subrecord type
+    record_type: Record or subrecord type
+    property: Target property
 
   advanced_search:
     type:

@@ -1,6 +1,6 @@
 class ResourcesController < ApplicationController
 
-  set_access_control  "view_repository" => [:index, :show, :tree],
+  set_access_control  "view_repository" => [:index, :show, :tree, :models_in_graph],
                       "update_resource_record" => [:new, :edit, :create, :update, :rde, :add_children, :publish, :accept_children],
                       "delete_archival_record" => [:delete],
                       "merge_archival_record" => [:merge],
@@ -209,6 +209,13 @@ class ResourcesController < ApplicationController
   end
 
 
+  def models_in_graph
+    list_uri = JSONModel(:resource).uri_for(params[:id]) + "/models_in_graph"
+    list = JSONModel::HTTP.get_json(list_uri)
+
+    render :json => list.map {|type| [type, I18n.t("#{type}._singular")]}
+  end
+
   private
 
   def fetch_tree
@@ -254,5 +261,6 @@ class ResourcesController < ApplicationController
 
     resource
   end
+
 
 end

@@ -40,18 +40,18 @@ describe 'Export Mappings' do
                         :type => 'bioghist',
                         :publish => true,
                        :persistent_id => "mixed_subnotes_tracter",
-                       :subnotes => [build(:json_note_text, { :publish => true, 
-                                                              :content => "note_text - The ship set ground on the shore of this uncharted desert isle"} ), 
-                                     build(:json_note_text, { :publish => true, 
+                       :subnotes => [build(:json_note_text, { :publish => true,
+                                                              :content => "note_text - The ship set ground on the shore of this uncharted desert isle"} ),
+                                     build(:json_note_text, { :publish => true,
                                                                 :content => "note_text - With:"}),
                                     build(:json_note_definedlist,{  :publish => true, :title => "note_definedlist",
                                                                       :items => [
                                                                         {:label => "First Mate", :value => "Gilligan" },
                                                                         {:label => "Captain",:value => "The Skipper"},
                                                                         {:label => "Etc.", :value => "The Professor and Mary Ann" }
-                                                                      ] 
+                                                                      ]
                                     }),
-                                    build(:json_note_text,{   :content => "note_text - Here on Gillgian's Island", :publish => true}) ]                                         
+                                    build(:json_note_text,{   :content => "note_text - Here on Gillgian's Island", :publish => true}) ]
     })
 
 
@@ -95,13 +95,13 @@ describe 'Export Mappings' do
 
 
   def test_mapping_template(doc, data, path, trib=nil)
-    
-    case path.slice(0) 
-    when '/' 
+
+    case path.slice(0)
+    when '/'
       path
     when '.'
-      path.slice!(0..1) 
-    else 
+      path.slice!(0..1)
+    else
       path.prepend("/#{doc.root.name}/")
     end
 
@@ -112,7 +112,7 @@ describe 'Export Mappings' do
       doc.should have_node(path)
       if trib.nil?
         node.should have_inner_text(data)
-      elsif trib == :markup 
+      elsif trib == :markup
         node.should have_inner_markup(data)
       else
         node.should have_attribute(trib, data)
@@ -187,16 +187,16 @@ describe 'Export Mappings' do
         DB.open(true) do
           load_export_fixtures
           @doc = get_xml_doc("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
-          
+
 
           @doc_nsless = Nokogiri::XML::Document.parse(@doc.to_xml)
           @doc_nsless.remove_namespaces!
           raise Sequel::Rollback
         end
       end
-       
 
-      @doc.errors.length.should == 0 
+
+      @doc.errors.length.should == 0
 
       # if the word Nokogiri appears in the XML file, we'll assume something
       # has gone wrong
@@ -254,15 +254,15 @@ end
             content = Nokogiri::XML::DocumentFragment.parse(note_content(note)).inner_text
             path = "#{desc_path}/#{note['type']}"
             path += id ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
-            
+
             if !note['persistent_id'].nil?
               mt(id, path, 'id')
             else
               mt(nil, path, 'id')
             end
-            
+
             mt(head_text, "#{path}/head")
-            regcontent = content.split(/\n\n|\r/).map { |c| ".*?[\r\n\n]*.*?#{c.strip}" } 
+            regcontent = content.split(/\n\n|\r/).map { |c| ".*?[\r\n\n]*.*?#{c.strip}" }
             mt(/^.*?#{head_text}.*?[\r\n\n]*.*?#{regcontent}.*?$/m, "#{path}")
           end
         end
@@ -291,12 +291,12 @@ end
             head_text = note['label']
             id = "aspace_" + note['persistent_id']
             content = note_content(note)
-            content.gsub!("<p>", "").gsub!("</p>", "").strip 
+            content.gsub!("<p>", "").gsub!("</p>", "").strip
             path = "bibliography"
             path += id ? "[@id='#{id}']" : "[p[contains(text(), #{content})]]"
             full_path = "#{desc_path}/#{path}"
-            
-            if !note['persistent_id'].nil? 
+
+            if !note['persistent_id'].nil?
               mt(id, full_path, 'id')
             else
               mt(nil, full_path, 'id')
@@ -319,12 +319,12 @@ end
             path = "index"
             path += id ? "[@id='#{id}']" : "[p[contains(text(), '#{content}')]]"
             full_path = "#{desc_path}/#{path}"
-            if note['persistent_id'] 
+            if note['persistent_id']
               mt(id, full_path, 'id')
             else
               mt(nil, full_path, 'id')
             end
-            
+
             mt(head_text, "#{full_path}/head")
             mt(content, "./#{path}/p/text()[contains( '#{content}')]")
 
@@ -419,16 +419,16 @@ end
             end
           end
         end
-      
+
         it "ensures subnotes[] order is respects, even if subnotes are of mixed types" do
-            
-            path = "//bioghist[@id = 'aspace_#{@mixed_subnotes_tracer['persistent_id']}']" 
+
+            path = "//bioghist[@id = 'aspace_#{@mixed_subnotes_tracer['persistent_id']}']"
             head_text = translate('enumerations._note_types',@mixed_subnotes_tracer['type'])
-          
+
             mt(head_text, "#{path}/head")
-            i = 2 # start at two since head is the first child 
+            i = 2 # start at two since head is the first child
             @mixed_subnotes_tracer["subnotes"].each do |note|
-              mt(/#{note["jsonmodel_type"]}/, "#{path}/*[text() != ''][#{i.to_s}]") 
+              mt(/#{note["jsonmodel_type"]}/, "#{path}/*[text() != ''][#{i.to_s}]")
               i = i + 1
             end
 
@@ -513,7 +513,7 @@ end
           path = "#{desc_path}/did/unitdate[#{count}]"
           normal = "#{date['begin']}/"
           normal += (date['date_type'] == 'single' || date['end'].nil? || date['end'] == date['begin']) ? date['begin'] : date['end']
-          type = %w(single inclusive).include?(date['date_type']) ? 'inclusive' : 'bulk' 
+          type = %w(single inclusive).include?(date['date_type']) ? 'inclusive' : 'bulk'
           value = if date['expression']
                     date['expression']
                   elsif date['date_type'] == 'bulk'
@@ -540,11 +540,11 @@ end
           notes.select {|n| n['type'] == 'abstract'}.each_with_index do |note, i|
             path = "#{desc_path}/did/abstract[#{i+1}]"
             mt(note_content(note), path)
-            if note['persistent_id'] 
+            if note['persistent_id']
               mt("aspace_" + note['persistent_id'], path, "id")
-            else 
+            else
               mt(nil, path, "id")
-            end 
+            end
           end
         end
 
@@ -553,12 +553,12 @@ end
           notes.select {|n| n['type'] == 'dimensions'}.each_with_index do |note, i|
             path = "#{desc_path}/did/physdesc[dimensions][#{i+1}]/dimensions"
             mt(note_content(note).gsub("<p>",'').gsub("</p>", ""), path, :markup)
-            if note['persistent_id'] 
+            if note['persistent_id']
               mt("aspace_" + note['persistent_id'], path, "id")
-            else 
+            else
               mt(nil, path, "id")
             end
-          end 
+          end
         end
 
 
@@ -566,9 +566,9 @@ end
           notes.select {|n| n['type'] == 'physdesc'}.each do |note|
             content = note_content(note)
             path = "#{desc_path}/did/physdesc[text()='#{content}']"
-            if note['persistent_id'] 
+            if note['persistent_id']
               mt("aspace_" + note['persistent_id'], path, "id")
-            else 
+            else
               mt(nil, path, "id")
             end
           end
@@ -579,9 +579,9 @@ end
           notes.select {|n| n['type'] == 'langmaterial'}.each_with_index do |note, i|
             content = note_content(note)
             path = "#{desc_path}/did/langmaterial[text()='#{content}']"
-            if note['persistent_id'] 
+            if note['persistent_id']
               mt("aspace_" + note['persistent_id'], path, "id")
-            else 
+            else
               mt(nil, path, "id")
             end
           end
@@ -592,9 +592,9 @@ end
           notes.select {|n| n['type'] == 'physloc'}.each_with_index do |note, i|
             path = "#{desc_path}/did/physloc[#{i+1}]"
             mt(note_content(note), path)
-            if note['persistent_id'] 
+            if note['persistent_id']
               mt("aspace_" + note['persistent_id'], path, "id")
-            else 
+            else
               mt(nil, path, "id")
             end
           end
@@ -605,9 +605,9 @@ end
           notes.select {|n| n['type'] == 'materialspec'}.each_with_index do |note, i|
             path = "#{desc_path}/did/materialspec[#{i+1}]"
             mt(note_content(note), path)
-            if !note['persistent_id'].nil? 
+            if !note['persistent_id'].nil?
               mt("aspace_" + note['persistent_id'], path, "id")
-            else 
+            else
               mt(nil, path, "id")
             end
           end
@@ -618,9 +618,9 @@ end
           notes.select {|n| n['type'] == 'physfacet'}.each_with_index do |note, i|
             path = "#{desc_path}/did/physdesc[physfacet][#{i+1}]/physfacet"
             mt(note_content(note), path)
-            if !note['persistent_id'].nil? 
+            if !note['persistent_id'].nil?
               mt("aspace_" + note['persistent_id'], path, "id")
-            else 
+            else
               mt(nil, path, "id")
             end
           end
@@ -730,7 +730,7 @@ end
       it "maps resource.finding_aid_title to filedesc/titlestmt/titleproper" do
         mt(@resource.finding_aid_title, "eadheader/filedesc/titlestmt/titleproper[not(@type)]")
       end
-      
+
       it "maps resource.finding_aid_filing_title to filedesc/titlestmt/titleproper" do
         mt(@resource.finding_aid_filing_title, "eadheader/filedesc/titlestmt/titleproper[@type = 'filing']")
       end
@@ -991,12 +991,8 @@ end
             content
           end
         end
-
-
       end
     end
-
   end
-
 
 end

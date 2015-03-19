@@ -2,8 +2,8 @@
   <thead>
   <tr>
     <th><%= I18n.t("job.status") %></th>
-    <th><%= I18n.t("job.import_type") %></th>
-    <th class="filenames"><%= I18n.t("job.filenames") %></th>
+    <th><%= I18n.t("job.job_type") %></th>
+    <th class="filenames"><%= I18n.t("import_job.filenames") %></th>
     <th class="audit-info"><%= I18n.t("job._frontend.audit_data") %></th>
     <th class="actions"></th>
   </tr>
@@ -19,8 +19,14 @@
           <% end %>
         </span>
       </td>
-      <td><%= I18n.t("job.import_type_#{job["import_type"]}", :default => job["import_type"]) %></td>
-      <td><%= job["filenames"].join("<br/>").html_safe %></td>
+      <td><%= I18n.t("job.job_type_#{job["job_type"]}", :default => job["job_type"]) %></td>
+      <td>
+        <% if job['job_type'] == 'import_job' %>
+          <%= job['job']["filenames"].join("<br/>").html_safe %>
+        <% else %>
+          --
+        <% end %>
+      </td>
       <td>
         <small>
           <dl>

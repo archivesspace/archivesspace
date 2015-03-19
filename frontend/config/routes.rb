@@ -97,6 +97,7 @@ ArchivesSpace::Application.routes.draw do
     match 'resources/:id/tree' => 'resources#tree', :via => [:get]
     match 'resources/:id/suppress' => 'resources#suppress', :via => [:post]
     match 'resources/:id/unsuppress' => 'resources#unsuppress', :via => [:post]
+    match 'resources/:id/models_in_graph' => 'resources#models_in_graph', :via => [:get]
 
     resources :classifications
     match 'classifications/:id' => 'classifications#update', :via => [:post]
@@ -167,6 +168,10 @@ ArchivesSpace::Application.routes.draw do
     match 'batch_delete/classifications' => 'batch_delete#classifications', :via => [:post]
 
     match 'generate_sequence' => 'utils#generate_sequence', :via => [:get]
+
+    match 'schema/:resource_type/properties' => 'utils#list_properties', :via => [:get]
+
+
 
     resources :preferences
     match 'preferences/:id' => 'preferences#update', :via => [:post]

@@ -11,18 +11,32 @@ class JobsController < ApplicationController
   end
 
   def new
+
     @job = JSONModel(:job).new._always_valid!
-    @job_types = Job.available_types.map {|e| [I18n.t("job.import_type_#{e['name']}"), e['name']]}
+
+    @job_types = job_types
+    @import_types = import_types
   end
 
   def create
+
+    job_data = case params['job']['job_type']
+               when 'find_and_replace_job'
+                 params['find_and_replace_job'].reject{|k,v| k === '_resolved'}
+               when 'import_job'
+                 params['import_job']
+               end
+
     begin
-      job = Job.new(params['job']['import_type'], Hash[Array(params['files']).reject(&:blank?).map {|file|
+      job = Job.new(params['job']['job_type'], job_data, Hash[Array(params['files']).reject(&:blank?).map {|file|
                                   [file.original_filename, file.tempfile]
                                 }])
+
     rescue JSONModel::ValidationException => e
       @exceptions = e.invalid_object._exceptions
       @job = e.invalid_object
+      @job_types = job_types
+      @import_types = import_types
 
       if params[:iframePOST] # IE saviour. Render the form in a textarea for the AjaxPost plugin to pick out.
         return render_aspace_partial :partial => "jobs/form_for_iframepost", :status => 400
@@ -87,4 +101,11 @@ class JobsController < ApplicationController
     [Integer(params[:page] || 1), 1].max
   end
 
+  def job_types
+    Job.available_types.map {|e| [I18n.t("enumerations.job_type.#{e}"), e]}
+  end
+
+  def import_types
+    Job.available_import_types.map {|e| [I18n.t("import_job.import_type_#{e['name']}"), e['name']]}
+  end
 end

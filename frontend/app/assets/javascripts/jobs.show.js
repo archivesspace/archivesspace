@@ -109,7 +109,7 @@ $(function() {
           var templateName = "template_job_"+json.status + "_notice";
           var $li = $("<li>");
           $li.append(AS.renderTemplate(templateName));
-          $("#archivesSpaceSidebar .nav-list").append($li);
+          $("#archivesSpaceSidebar .as-nav-list").append($li);
 
           // Auto-reload the page if status changed from 'queued'
           if (old_status === "queued") {
@@ -122,6 +122,9 @@ $(function() {
           $("#queueMessage").html(json.queue_position_message);
           STATUS_POLL = setTimeout(pollStatus, STATUS_POLL_INTERVAL);
         }
+      },
+      error: function(xhr) {
+        console.log(xhr.responseText);
       }
     });
   };

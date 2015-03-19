@@ -1,24 +1,39 @@
 class Job
 
-  def initialize(import_type, files_to_import)
-    @job = JSONModel(:job).from_hash(:import_type => import_type,
-                                     :filenames => files_to_import.keys)
+  def initialize(job_type, job_data, files_to_import)
+
+    if job_type == 'import_job'
+      job_data[:filenames] = files_to_import.keys
+    end
+
+    @job = JSONModel(:job).from_hash(:job_type => job_type,
+                                     :job => job_data)
 
     @files = files_to_import
   end
 
 
   def upload
-    upload_files = @files.each_with_index.map {|file, i|
-      (original_filename, stream) = file
-      ["files[#{i}]", UploadIO.new(stream, "text/plain", original_filename)]
-    }
+    unless @files.empty?
 
-    response = JSONModel::HTTP.post_form(JSONModel(:job).uri_for(nil),
-                                         Hash[upload_files].merge('job' => @job.to_json),
-                                         :multipart_form_data)
+      upload_files = @files.each_with_index.map {|file, i|
+        (original_filename, stream) = file
+        ["files[#{i}]", UploadIO.new(stream, "text/plain", original_filename)]
+      }
 
-    ASUtils.json_parse(response.body)
+      response = JSONModel::HTTP.post_form("#{JSONModel(:job).uri_for(nil)}_with_files",
+                                           Hash[upload_files].merge('job' => @job.to_json),
+                                           :multipart_form_data)
+
+      ASUtils.json_parse(response.body)
+
+    else
+
+      @job.save
+
+      {:uri => @job.uri}
+    end
+
   end
 
 
@@ -53,4 +68,8 @@ class Job
     JSONModel::HTTP.get_json(JSONModel(:job).uri_for("types"))
   end
 
+
+  def self.available_import_types
+    JSONModel::HTTP.get_json(JSONModel(:job).uri_for("import_types"))
+  end
 end
