@@ -2010,7 +2010,7 @@ describe "ArchivesSpace user interface" do
     it "exports and downloads the resource to pdf" do
       $driver.find_element_with_text("//div[@id='archives_tree']//a", /Pony Express/).click
       $driver.find_element(:link, "Export").click
-      expect(5) { 
+      expect { 
           $driver.find_element_with_text(:link, /Print Resource to PDF/) 
        }
     end
