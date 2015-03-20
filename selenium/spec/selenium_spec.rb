@@ -2002,6 +2002,19 @@ describe "ArchivesSpace user interface" do
       assert(5) { Dir.glob(File.join( Dir.tmpdir,"*_ead.xml" )).length.should eq(1) } 
       system("rm #{File.join(Dir.tmpdir, '*_ead.xml')}")
     end
+   
+    # this is a pretty weak test, but pdf functionality has been move down to
+    # jobs, where it's tested
+    # # this is a pretty weak test, but pdf functionality has been move down to
+    # jobs, where it's tested..
+    it "exports and downloads the resource to pdf" do
+      $driver.find_element_with_text("//div[@id='archives_tree']//a", /Pony Express/).click
+      $driver.find_element(:link, "Export").click
+      expect { 
+          $driver.find_element_with_text(:link, /Print Resource to PDF/) 
+       }
+    end
+
     
 
     it "shows our newly added Resource in the browse list" do
@@ -4413,6 +4426,33 @@ describe "ArchivesSpace user interface" do
 
         expect {
           $driver.find_element_with_text("//td", /find_and_replace_job/)
+        }.to_not raise_error
+
+      end
+
+    end
+    
+    it "can create a print to pdf job" do
+      select_repo(@job_repo) do
+
+        create_resource({:title => "#{$$}xxx_resource"})
+
+        run_index_round
+
+        $driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+        $driver.find_element(:link, "Background Jobs").click
+
+        $driver.find_element(:link, "Create Job").click
+
+        $driver.find_element(:id => "job_job_type_").select_option("print_to_pdf_job")
+
+        $driver.clear_and_send_keys([:id, "token-input-print_to_pdf_job_ref_"], "#{$$}xx")
+        $driver.find_element(:css => "form#jobfileupload button[type='submit']").click
+
+        $driver.find_element(:link, "Background Jobs").click
+
+        expect {
+          $driver.find_element_with_text("//td", /print_to_pdf_job/)
         }.to_not raise_error
 
       end

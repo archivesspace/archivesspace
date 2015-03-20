@@ -19,15 +19,12 @@
               <input type="checkbox" id="numbered-cs" name="numbered_cs" />
               <%= I18n.t("export_options.numbered_cs") %>&#160;
             </label>
-            <label class="checkbox" for="print-pdf">
-              <input type="checkbox" id="print-pdf" name="print_pdf" />
-              <%= I18n.t("export_options.print_pdf") %>&#160;
-            </label>
           </fieldset>
         </div>
       </li>
       <li><%= link_to I18n.t("actions.export_marc"), {:controller => :exports, :action => :download_marc, :id => @resource.id} %></li>
       <li><%= link_to I18n.t("actions.container_labels"), {:controller => :exports, :action => :container_labels, :id => @resource.id} %></li>
+      <li><%= link_to I18n.t("actions.print_to_pdf"), {:controller => :jobs,  :action => :new}, :target => "_blank" %></li>
     <% end %>
   <% end %>
 

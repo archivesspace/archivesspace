@@ -17,10 +17,12 @@ class ASFop
 
 
   attr_accessor :source
+  attr_accessor :output
   attr_accessor :xslt
 
-  def initialize(source)
+  def initialize(source, output= nil)  
    @source = source
+   @output = output ? output : ASUtils.tempfile('fop.pdf') 
    @xslt = File.read( StaticAssetFinder.new(File.join('stylesheets')).find('as-ead-pdf.xsl')) 
    # WHAT A HACK! but you can't pass in a URI as a variable? jeezus.  
    filepath =  File.join(ASUtils.find_base_directory, 'stylesheets', 'as-helper-functions.xsl').gsub("\\", "/" )
@@ -33,23 +35,18 @@ class ASFop
     transformer.transform(Saxon.XML(@source)).to_s
   end
 
+  # returns a temp file with the converted PDF
   def to_pdf
     begin 
       fo = StringIO.new(to_fo).to_inputstream  
-      
-      out = ASUtils.tempfile('fop.pdf') 
-      fop = FopFactory.newInstance.newFop(MimeConstants::MIME_PDF, out.to_outputstream)
-      
+      fop = FopFactory.newInstance.newFop(MimeConstants::MIME_PDF, @output.to_outputstream)
       transformer = TransformerFactory.newInstance.newTransformer()
       res = SAXResult.new(fop.getDefaultHandler)
-
       transformer.transform(StreamSource.new(fo), res)
-      out.rewind
-      out.read
     ensure
-     out.close
-     out.unlink
+     @output.close
     end
+    @output 
   end
 
 end
