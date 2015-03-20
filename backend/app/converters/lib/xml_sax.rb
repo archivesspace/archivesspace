@@ -166,7 +166,8 @@ module ASpaceImport
 
       def open_context(type, properties = {})
         obj = ASpaceImport::JSONModel(type).new
-        obj["import_context"]= "#{outer_xml.match(/^(.*?)\>/).to_s} ... #{ outer_xml.match(/\<\/(.*?)\>\Z/).to_s  }"
+        obj["import_context"]= pprint_current_node
+
         @contexts.push(type)
         @batch << obj
         @context_nodes[@node_name] ||= []
@@ -201,6 +202,12 @@ module ASpaceImport
 
       def outer_xml
         @node.outer_xml.strip
+      end
+
+      def pprint_current_node
+        Nokogiri::XML::Builder.new {|b|
+          b.send(@node.name.intern, @node.attributes).cdata(" ... ")
+        }.doc.root.to_s
       end
 
       def append(obj = context_obj, property, value)
