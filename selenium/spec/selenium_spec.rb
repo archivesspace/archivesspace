@@ -2,8 +2,6 @@ require_relative 'spec_helper'
 require_relative '../../indexer/app/lib/realtime_indexer'
 require_relative '../../indexer/app/lib/periodic_indexer'
 
-
-
 describe "ArchivesSpace user interface" do
 
   # Start the dev servers and Selenium
