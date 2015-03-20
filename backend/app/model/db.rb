@@ -29,7 +29,7 @@ class DB
         pool = Sequel.connect(AppConfig[:db_url],
                               :max_connections => AppConfig[:db_max_connections],
                               :test => true,
-                              #:loggers => [Logger.new($stderr)]
+                              :loggers => (AppConfig[:db_debug_log] ? [Logger.new($stderr)] : [])
                               )
 
         # Test if any tables exist

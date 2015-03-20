@@ -30,6 +30,11 @@ AppConfig[:allow_other_unmapped] = false
 
 AppConfig[:db_url] = proc { AppConfig.demo_db_url }
 AppConfig[:db_max_connections] = 10
+
+# Set to true to log all SQL statements.  Note that this will have a performance
+# impact!
+AppConfig[:db_debug_log] = false
+
 # Set to true if you have enabled MySQL binary logging
 AppConfig[:mysql_binlog] = false
 
