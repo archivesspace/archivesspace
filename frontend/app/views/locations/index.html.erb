@@ -1,5 +1,6 @@
 <%= setup_context(:title => I18n.t("location._plural")) %>
 <%
+   @show_multiselect_column = user_can?("administer_system")
   no_title!
 
    %w(building floor room area).each do |place|
@@ -23,6 +24,9 @@
         <div class="btn-group pull-right">
           <%= link_to I18n.t("location._frontend.action.create"), {:controller => :locations, :action => :new}, :class => "btn btn-sm btn-default" %>
           <%= link_to I18n.t("location._frontend.action.batch"), {:controller => :locations, :action => :batch}, :class => "btn btn-sm btn-default" %>
+           <% if user_can?("administer_system") %>
+             <%= button_delete_multiple_action(:locations) %>
+           <% end %>
         </div>
         <br style="clear:both" /> <!-- So dirty! -->
       </div>

@@ -168,6 +168,7 @@ ArchivesSpace::Application.routes.draw do
     match 'batch_delete/subjects' => 'batch_delete#subjects', :via => [:post]
     match 'batch_delete/agents' => 'batch_delete#agents', :via => [:post]
     match 'batch_delete/classifications' => 'batch_delete#classifications', :via => [:post]
+    match 'batch_delete/locations' => 'batch_delete#locations', :via => [:post]
 
     match 'generate_sequence' => 'utils#generate_sequence', :via => [:get]
 
