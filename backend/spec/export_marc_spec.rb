@@ -147,8 +147,8 @@ describe 'MARC Export' do
         tag = "65#{i.to_s}"
         @marc.xpath("//xmlns:datafield[@tag = '#{tag}']").each { |x| xmlnotes << x  }
       end
-      puts xmlnotes.map{|n| n.inner_text }.inspect
-      puts @subjects.map{|s| s.to_hash }.inspect
+      #puts xmlnotes.map{|n| n.inner_text }.inspect
+      #puts @subjects.map{|s| s.to_hash }.inspect
 
       xmlnotes.length.should eq(@subjects.length)
     end
