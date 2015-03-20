@@ -7,10 +7,12 @@ $backend = "http://localhost:#{$backend_port}"
 $frontend = "http://localhost:#{$frontend_port}"
 $expire = 300
 
-# for the indexers
-AppConfig[:solr_url] = "http://localhost:#{$solr_port}"
 
 $backend_start_fn = proc {
+
+  # for the indexers
+  AppConfig[:solr_url] = "http://localhost:#{$solr_port}"
+
   TestUtils::start_backend($backend_port,
                            {
                              :frontend_url => $frontend,
