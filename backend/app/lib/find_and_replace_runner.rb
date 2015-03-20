@@ -45,17 +45,17 @@ class FindAndReplaceRunner < JobRunner
         begin
 
           target_ids.each do |id|
-            json = target_model.to_jsonmodel(id)
-
-            next unless json[target_property]
-            result = json[target_property].gsub!(find, replace)
-
-            next if result.nil?
-
-            @job.write_output("Updating #{target_model.to_s}[#{id}].#{target_property}")
 
             RequestContext.open(:current_username => @job.owner.username,
                                 :repo_id => @job.repo_id) do
+              json = target_model.to_jsonmodel(id)
+
+              next unless json[target_property]
+              result = json[target_property].gsub!(find, replace)
+
+              next if result.nil?
+
+              @job.write_output("Updating #{target_model.to_s}[#{id}].#{target_property}")
 
               target_model[id].update_from_json(json)
 

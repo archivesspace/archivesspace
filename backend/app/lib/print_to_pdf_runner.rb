@@ -4,7 +4,7 @@ require_relative 'AS_fop'
 
 
 class PrintToPDFRunner < JobRunner
-
+#:include JSONModel
 
 
   def self.instance_for(job)
@@ -38,8 +38,9 @@ class PrintToPDFRunner < JobRunner
           :include_daos => true,
           :use_numbered_c_tags => false 
         }
-     
-        ead = ASpaceExport.model(:ead).from_resource(JSONModel(:resource).new(obj), opts)
+        
+        record = JSONModel(:resource).new(obj) 
+        ead = ASpaceExport.model(:ead).from_resource( record, opts)
         xml = "" 
         ASpaceExport.stream(ead).each { |x| xml << x }
         pdf = ASFop.new(xml).to_pdf  
