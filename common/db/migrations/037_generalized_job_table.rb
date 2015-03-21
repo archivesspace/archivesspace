@@ -126,17 +126,19 @@ Sequel.migration do
       add_foreign_key([:job_id], :job, :key => :id)
     end
 
-
+    drop_table(:import_job)
 
   end
 
 
   down do
     # sorry there's no going back
-    drop_table(:job)
+    # but we do need to recreate the table structure
+    # for db:nuke to work
     drop_table(:job_input_file) 
     drop_table(:job_created_record)  
     drop_table(:job_modified_record) 
+    drop_table(:job)
     
     # taken from migration 003
      create_table(:import_job) do
