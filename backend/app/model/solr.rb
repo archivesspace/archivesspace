@@ -229,6 +229,7 @@ class Solr
       add_solr_param(:facet, "true")
       unless @facet_fields.empty?
         add_solr_param(:"facet.field", @facet_fields)
+        add_solr_param(:"facet.limit", AppConfig[:solr_facet_limit])
       end
 
       if @query_type == :edismax

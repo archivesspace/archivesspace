@@ -4,6 +4,7 @@ AppConfig[:backup_directory] = proc { File.join(AppConfig[:data_directory], "dem
 AppConfig[:solr_index_directory] = proc { File.join(AppConfig[:data_directory], "solr_index") }
 AppConfig[:solr_home_directory] = proc { File.join(AppConfig[:data_directory], "solr_home") }
 AppConfig[:solr_indexing_frequency_seconds] = 30
+AppConfig[:solr_facet_limit] = 100
 
 AppConfig[:default_page_size] = 10
 AppConfig[:max_page_size] = 250
