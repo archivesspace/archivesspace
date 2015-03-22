@@ -1,5 +1,4 @@
 language: java
-sudo: false
 jdk:
 - openjdk7
 - oraclejdk7
@@ -35,19 +34,20 @@ branches:
 script:
 - build/run $TASK
 after_failure:
-- build/run dump-file -Ddump.file=/var/tmp/aspace-integration.log
+- sudo ls /var/log/*mysql*
+- sudo cat /var/log/mysql.err
+- sudo cat /var/log/mysql.log
+- sudo cat /var/log/mysql/error.log
+- sudo cat /var/log/mysql/slow.log
 notifications:
   irc: irc.freenode.org#archivesspace
   email: false
 addons:
   artifacts:
-    debug: true 
-    key:
-      secure: k6+P9jKYwWWw1PReUr3LSaoO0hhShBmI+xbj9ZN8qZIaqPa4kU4+gFIWcM7UyfZUnNL5+37OMbzz2BbKD1m12/vf2urIBLmxuHLLmy8OZRGYWa5v0J/fjYemQ7990eieIpIx2wRD5L/FVOM1Td/qpM/sYYOGo9GVXp7PWW8rK68=
-    secret:
-      secure: wm1XoK5GAuPJCDtE4t4PQlWhnSsemARPDdxmQ/KX5Cux1jIYtQWc1ZqPne56Hb7bhTksiAKMpYEpRWOkNwrlS8Bh/3AWvVAzGgHntYKxLjx8cq+25wpRVh++pRtpnkqh4MKpsC77daPItyBMAcsmwAuKFuxDn0IhWYU25fkwMH4=
-    bucket: astravisartifacts
+    debug: true
+    bucket: astravisartifacts 
     paths:
-    - $( ls /var/tmp/*.png | tr "\n" ":" ) 
-    - $( ls /tmp/*.png | tr "\n" ":" ) 
-    - /var/tmp/aspace-integration.log
+    - $( ls /var/tmp/*.png | tr "\n" ":" )
+    - $( ls /tmp/*.png | tr "\n" ":" )
+    - $( sudo ls /var/log/mysql/* | tr "\n" ":" )
+    - $( ls  /var/tmp/aspace-integration.log | tr "\n" ":" )

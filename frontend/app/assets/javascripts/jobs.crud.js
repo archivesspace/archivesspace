@@ -152,7 +152,7 @@ $(function() {
         $("#find_and_replace_job_ref_").change(function() {
           var resourceUri = $(this).val();
           if (resourceUri.length) {
-            var id = resourceUri.slice(-1)
+            var id = /\d+$/.exec(resourceUri)[0]
             $.ajax({
               url: "/resources/" + id + "/models_in_graph",
               success: function(typeList) {
