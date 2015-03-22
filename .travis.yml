@@ -1,5 +1,4 @@
 language: java
-sudo: false
 jdk:
 - openjdk7
 - oraclejdk7
@@ -34,6 +33,12 @@ branches:
   - gh-pages
 script:
 - build/run $TASK
+after_failure:
+  - sudo ls /var/log/*mysql*
+  - sudo cat /var/log/mysql.err
+  - sudo cat /var/log/mysql.log
+  - sudo cat /var/log/mysql/error.log
+  - sudo cat /var/log/mysql/slow.log
 notifications:
   irc: irc.freenode.org#archivesspace
   email: false
