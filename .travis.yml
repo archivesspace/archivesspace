@@ -34,19 +34,20 @@ branches:
 script:
 - build/run $TASK
 after_failure:
-  - sudo ls /var/log/*mysql*
-  - sudo cat /var/log/mysql.err
-  - sudo cat /var/log/mysql.log
-  - sudo cat /var/log/mysql/error.log
-  - sudo cat /var/log/mysql/slow.log
+- sudo ls /var/log/*mysql*
+- sudo cat /var/log/mysql.err
+- sudo cat /var/log/mysql.log
+- sudo cat /var/log/mysql/error.log
+- sudo cat /var/log/mysql/slow.log
 notifications:
   irc: irc.freenode.org#archivesspace
   email: false
 addons:
   artifacts:
-    debug: true 
+    debug: true
+    bucket: astravisartifacts 
     paths:
-    - $( ls /var/tmp/*.png | tr "\n" ":" ) 
-    - $( ls /tmp/*.png | tr "\n" ":" ) 
-    - $( ls /var/log/mysql/* | tr "\n" ":" ) 
-    - $( ls  /var/tmp/aspace-integration.log | tr "\n" ":" ) 
+    - $( ls /var/tmp/*.png | tr "\n" ":" )
+    - $( ls /tmp/*.png | tr "\n" ":" )
+    - $( sudo ls /var/log/mysql/* | tr "\n" ":" )
+    - $( ls  /var/tmp/aspace-integration.log | tr "\n" ":" )
