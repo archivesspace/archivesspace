@@ -4421,16 +4421,16 @@ describe "ArchivesSpace user interface" do
 
     before(:all) do
       @job_repo = "job_testing_repo#{Time.now.to_i}_#{$$}"
-      create_test_repo(@job_repo, @job_repo)
-
+      (moo, @job_repo_uri )= create_test_repo(@job_repo, @job_repo)
+      
       login("admin", "admin")
     end
 
 
     it "can create a find and replace job" do
       select_repo(@job_repo) do
-
-        create_resource({:title => "#{$$}xxx_resource"})
+        resource_title = "#{$$}xxx_resource" 
+        create_resource({:title => resource_title}, @job_repo_uri)
 
         run_index_round
 
@@ -4440,9 +4440,13 @@ describe "ArchivesSpace user interface" do
         $driver.find_element(:link, "Create Job").click
 
         $driver.find_element(:id => "job_job_type_").select_option("find_and_replace_job")
-
-        $driver.clear_and_send_keys([:id, "token-input-find_and_replace_job_ref_"], "#{$$}xx")
-        $driver.find_element(:css, "li.token-input-dropdown-item1").click
+        
+        token_input = $driver.find_element(:id,"token-input-find_and_replace_job_ref_")
+        token_input.clear
+        token_input.click
+        token_input.send_keys( resource_title) 
+        $driver.find_element(:css, "li.token-input-dropdown-item2").click
+        $driver.wait_for_ajax
 
         $driver.find_element(:id => "find_and_replace_job_property_").select_option("title")
 
@@ -4452,10 +4456,8 @@ describe "ArchivesSpace user interface" do
 
         $driver.find_element(:css => "form#jobfileupload button[type='submit']").click
 
-        $driver.find_element(:link, "Background Jobs").click
-
         expect {
-          $driver.find_element_with_text("//td", /find_and_replace_job/)
+          $driver.find_element_with_text("//h2", /Find and Replace/)
         }.to_not raise_error
 
       end
@@ -4463,10 +4465,11 @@ describe "ArchivesSpace user interface" do
     end
     
     it "can create a print to pdf job" do
-      select_repo(@job_repo) do
-
-        create_resource({:title => "#{$$}xxx_resource"})
-
+        select_repo(@job_repo) 
+        
+        resource_title = "#{$$}xxx_resource_job_test"
+        create_resource({:title => resource_title }, @job_repo_uri )
+        
         run_index_round
 
         $driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
@@ -4475,17 +4478,19 @@ describe "ArchivesSpace user interface" do
         $driver.find_element(:link, "Create Job").click
 
         $driver.find_element(:id => "job_job_type_").select_option("print_to_pdf_job")
-
-        $driver.clear_and_send_keys([:id, "token-input-print_to_pdf_job_ref_"], "#{$$}xx")
+        
+        token_input = $driver.find_element(:id,"token-input-print_to_pdf_job_ref_")
+        token_input.clear
+        token_input.click
+        token_input.send_keys( resource_title) 
+        $driver.find_element(:css, "li.token-input-dropdown-item2").click
+        
         $driver.find_element(:css => "form#jobfileupload button[type='submit']").click
 
-        $driver.find_element(:link, "Background Jobs").click
-
         expect {
-          $driver.find_element_with_text("//td", /print_to_pdf_job/)
+          $driver.find_element_with_text("//h2", /print_to_pdf_job/)
         }.to_not raise_error
 
-      end
 
     end
 

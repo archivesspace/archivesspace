@@ -365,14 +365,12 @@ class RepositoryHelper
     $driver.find_element(:link, 'Select Repository').click
     $driver.find_element(:css, '.select-a-repository').find_element(:id => "id").select_option_with_text(code)
     $driver.find_element(:css, '.select-a-repository .btn-primary').click
-
     if block_given?
       $test_repo_old = $test_repo
       $test_repo_uri_old = $test_repo_uri
 
       $test_repo = code
       $test_repo_uri = @test_repositories[code]
-
       yield
 
       $test_repo = $test_repo_old
@@ -388,8 +386,8 @@ def create_test_repo(*args)
   $repository_helper.create_test_repo(*args)
 end
 
-def select_repo(code)
-  $repository_helper.select_repo(code)
+def select_repo(code, &block)
+  $repository_helper.select_repo(code, &block)
 end
 
 
@@ -603,9 +601,13 @@ end
 
 
 def create_resource(values = {}, repo = nil)
-  if !$test_repo
+ 
+  # if we're passing a repo, we don't want to make a $test_repo, dig?
+  if !$test_repo_uri && repo.nil?
     ($test_repo, $test_repo_uri) = create_test_repo("repo_#{SecureRandom.hex}", "description")
   end
+     
+  repo ||= $test_repo_uri 
 
   default_values = {:title => "Test Resource #{SecureRandom.hex}",
     :id_0 => SecureRandom.hex, :level => "collection", :language => "eng",
@@ -613,7 +615,7 @@ def create_resource(values = {}, repo = nil)
     :extents => [{:portion => "whole", :number => "1", :extent_type => "files"}]}
   values_to_post = default_values.merge(values)
 
-  req = Net::HTTP::Post.new("#{$test_repo_uri}/resources")
+  req = Net::HTTP::Post.new("#{repo}/resources")
   req.body = values_to_post.to_json
 
   response = admin_backend_request(req)
