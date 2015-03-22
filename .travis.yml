@@ -34,8 +34,6 @@ branches:
   - gh-pages
 script:
 - build/run $TASK
-after_failure:
-- build/run dump-file -Ddump.file=/var/tmp/aspace-integration.log
 notifications:
   irc: irc.freenode.org#archivesspace
   email: false
@@ -46,4 +44,4 @@ addons:
     - $( ls /var/tmp/*.png | tr "\n" ":" ) 
     - $( ls /tmp/*.png | tr "\n" ":" ) 
     - $( ls /var/log/mysql/* | tr "\n" ":" ) 
-    - /var/tmp/aspace-integration.log
+    - $( ls  /var/tmp/aspace-integration.log | tr "\n" ":" ) 
