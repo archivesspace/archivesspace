@@ -1,0 +1,36 @@
+{
+  "name": "ArchivesSpaceFrontend",
+  "version": "1.2.0-a1",
+  "homepage": "https://github.com/archivesspace/archivesspace",
+  "authors": [
+    "Brian Hoffman <brianjhoffman@gmail.com>"
+  ],
+  "description": "Assets for Staff UI for ArchivesSpace",
+  "moduleType": [
+    "globals"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery.hotkeys": "git@github.com:jeresig/jquery.hotkeys.git#~0.2.0"
+  },
+  "install": {
+    "path": {
+      "js": "vendor/assets/javascripts"
+    },
+    "sources": {
+      "jquery.hotkeys": {
+        "mapping": [
+          {"bower_components/jquery.hotkeys/jquery.hotkeys.js": "../jquery.hotkeys.js"}
+          ]
+      }
+    },
+    "ignore": ["jquery"]
+  }
+}
