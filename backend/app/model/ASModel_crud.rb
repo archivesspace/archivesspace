@@ -12,7 +12,7 @@ module ASModel
     end
 
     Sequel.extension :inflector
-
+    Sequel.extension(:core_extensions)
 
     def self.set_audit_fields(json, obj)
       ['created_by', 'last_modified_by'].each do |field|
@@ -311,7 +311,7 @@ module ASModel
     # that they'll need to fetch the latest representation.
     #
     # For example, this flag is used when the user's data is combined with a
-    # system-generated ID to create a record.  The user needs to refetch to ensure
+
     # that their local copy of the record includes the system-generated data too.
     def system_modified?
       @system_modified

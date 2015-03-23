@@ -25,7 +25,7 @@ class ArchivesSpaceService < Sinatra::Base
     modified_since_time = Time.at(params[:modified_since])
 
     dataset = Tombstone.where { timestamp >= modified_since_time }
-    dataset = dataset.paginate(params[:page], params[:page_size])
+    dataset = dataset.extension(:pagination).paginate(params[:page], params[:page_size])
 
     response = {
       :first_page => dataset.page_range.first,

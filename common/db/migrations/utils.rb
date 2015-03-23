@@ -12,7 +12,7 @@ end
 module EachByPage
 
   def each_by_page(page_size = 1000)
-    self.each_page(page_size) do |page_ds|
+    self.extension(:pagination).each_page(page_size) do |page_ds|
       page_ds.each do |row|
         yield(row)
       end
