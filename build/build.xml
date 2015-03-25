@@ -503,7 +503,6 @@
     <mkdir dir="target/archivesspace/launcher" />
     <mkdir dir="target/archivesspace/scripts/rb" />
     <mkdir dir="target/archivesspace/stylesheets" />
-    <mkdir dir="target/archivesspace/plugins/aspace_feedback" />
     <mkdir dir="target/archivesspace/plugins/aspace-public-formats" />
     <mkdir dir="target/archivesspace/plugins/cat_in_a_box" />
     <mkdir dir="target/archivesspace/plugins/newrelic" />
@@ -554,9 +553,6 @@
       <fileset dir="../common/locales" />
     </copy>
 
-    <copy todir="target/archivesspace/plugins/aspace_feedback">
-      <fileset dir="../plugins/aspace_feedback"/>
-    </copy>
 
     <copy todir="target/archivesspace/plugins/newrelic">
       <fileset dir="../plugins/newrelic"/>
