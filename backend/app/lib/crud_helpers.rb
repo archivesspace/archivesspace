@@ -56,7 +56,7 @@ module CrudHelpers
 
     if pagination_data[:page]
       # Classic pagination mode
-      paginated = dataset.paginate(pagination_data[:page], pagination_data[:page_size])
+      paginated = dataset.extension(:pagination).paginate(pagination_data[:page], pagination_data[:page_size])
 
       listing_response(paginated, model)
 

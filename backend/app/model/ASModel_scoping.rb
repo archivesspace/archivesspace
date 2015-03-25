@@ -92,7 +92,7 @@ module ASModel
 
 
       def handle_publish_flag(ids, val)
-        ASModel.update_publish_flag(model.filter(:id => ids), val)
+        ASModel.update_publish_flag(self.filter(:id => ids), val)
       end
 
 

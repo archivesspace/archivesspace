@@ -2148,9 +2148,11 @@ describe "ArchivesSpace user interface" do
       select_repo($test_repo) 
       
       [ "Thing1", "Thing2"].each do |title| 
-        create_resource( :title => title  )
+        thing_uri, thing_title = create_resource( :title => title  )
+        10.times  { |i|  create_archival_object(:title => "#{thing_title}.#{i.to_s}", :dates => [{:expression => "1981 - present", :date_type => "single", :label => "creation"}], :resource => {:ref => thing_uri} ) } 
       end
       run_index_round
+      
 
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Resources").click
@@ -2168,7 +2170,13 @@ describe "ArchivesSpace user interface" do
       $driver.find_element_with_text("//h3", /Merge into this record\?/)
       $driver.find_element(:css, "button#confirmButton").click
       $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Resource\(s\) Merged/)
-
+      
+      ao_set = [ "Thing1", "Thing2"].collect {   |title|  set = []; 10.times { |i| set << "#{title}.#{i.to_s}" }; set  }.flatten 
+      ao_set.each_with_index do |ao,i|
+        assert(5) {
+          $driver.find_element( :xpath => "//div[@id ='archives_tree']//li[ a/@title[contains(., '#{ao}')] and position() = #{i + 1} ]//span[@class='title-column pull-left']" ) 
+        }
+      end
 
     end
 

@@ -79,7 +79,7 @@ class Selenium::WebDriver::Driver
         end
 
         return elt
-      rescue Selenium::WebDriver::Error::NoSuchElementError => e
+      rescue Selenium::WebDriver::Error::NoSuchElementError, Selenium::WebDriver::Error::StaleElementReferenceError => e
         if try < Selenium::Config.retries
           try += 1
           $sleep_time += 0.1

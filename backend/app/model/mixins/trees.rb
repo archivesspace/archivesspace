@@ -10,10 +10,9 @@ module Trees
   def adopt_children(old_parent)
     self.class.node_model.
          this_repo.filter(:root_record_id => old_parent.id,
-                          :parent_id => nil).each do |root_child|
-      root_child.set_root(self)
-    
-    end
+                          :parent_id => nil).order(:position).each do |root_child|
+                            root_child.set_root(self)
+                          end
   end
 
 
