@@ -119,7 +119,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     graph = resource.object_graph
 
-    record_types = graph.models.map {|m| m.my_jsonmodel(true) }.compact.map {|j| j.record_type}
+    record_types = graph.models.map {|m| m.my_jsonmodel(true) }.compact.map {|j| j.record_type}.reject {|t| t == 'resource' }
 
     json_response(record_types)
   end

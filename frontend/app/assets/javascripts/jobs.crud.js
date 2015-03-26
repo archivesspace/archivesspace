@@ -158,7 +158,8 @@ $(function() {
               success: function(typeList) {
                 var oldVal = $selectRecordType.val();
                 $selectRecordType.empty();
-
+                $selectRecordType.append($('<option>', {selected: true, disabled: true})
+                  .text(" -- select a record type --"));
                 $.each(typeList, function(index, valAndText) {
                   var opts = { value: valAndText[0]};
                   if (oldVal === valAndText[0])
