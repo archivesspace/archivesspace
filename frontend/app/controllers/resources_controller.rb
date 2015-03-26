@@ -211,7 +211,7 @@ class ResourcesController < ApplicationController
 
   def models_in_graph
     list_uri = JSONModel(:resource).uri_for(params[:id]) + "/models_in_graph"
-    list = JSONModel::HTTP.get_json(list_uri).map
+    list = JSONModel::HTTP.get_json(list_uri)
 
     render :json => list.map {|type|
       [type, I18n.t("#{type == 'archival_object' ? 'resource_component' : type}._singular")]
