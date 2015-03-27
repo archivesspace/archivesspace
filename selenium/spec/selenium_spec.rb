@@ -4456,11 +4456,13 @@ describe "ArchivesSpace user interface" do
         $driver.find_element(:css, "li.token-input-dropdown-item2").click
         $driver.wait_for_ajax
 
-        $driver.find_element(:id => "find_and_replace_job_property_").select_option("title")
+        $driver.find_element(:id => "find_and_replace_job_record_type_").select_option("extent")
 
-        $driver.find_element(:id => "find_and_replace_job_find_").send_keys("xxx")
+        $driver.find_element(:id => "find_and_replace_job_property_").select_option("container_summary")
 
-        $driver.find_element(:id => "find_and_replace_job_replace_").send_keys("yyy")
+        $driver.find_element(:id => "find_and_replace_job_find_").send_keys("abc")
+
+        $driver.find_element(:id => "find_and_replace_job_replace_").send_keys("def")
 
         $driver.find_element(:css => "form#jobfileupload button[type='submit']").click
 

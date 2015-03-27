@@ -180,7 +180,7 @@ class ResourcesController < ApplicationController
 
 
   def merge
-    handle_merge( params[:refs], 
+    handle_merge( params[:refs],
                   JSONModel(:resource).uri_for(params[:id]),
                   'resource')
   end
@@ -213,7 +213,9 @@ class ResourcesController < ApplicationController
     list_uri = JSONModel(:resource).uri_for(params[:id]) + "/models_in_graph"
     list = JSONModel::HTTP.get_json(list_uri)
 
-    render :json => list.map {|type| [type, I18n.t("#{type}._singular")]}
+    render :json => list.map {|type|
+      [type, I18n.t("#{type == 'archival_object' ? 'resource_component' : type}._singular")]
+    }
   end
 
   private
