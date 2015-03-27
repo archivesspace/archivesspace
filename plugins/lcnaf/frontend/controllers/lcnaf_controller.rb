@@ -29,7 +29,10 @@ class LcnafController < ApplicationController
     end
 
     begin
-      job = Job.new("marcxml_lcnaf_subjects_and_agents",
+      job = Job.new("import_job", {
+                      "import_type" => "marcxml_lcnaf_subjects_and_agents",
+                      "jsonmodel_type" => "import_job"
+                      },
                     {"lcnaf_import_#{SecureRandom.uuid}" => marcxml_file})
 
       response = job.upload
