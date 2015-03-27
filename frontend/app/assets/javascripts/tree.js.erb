@@ -123,6 +123,12 @@ $(function() {
       $(":input", $container).attr("disabled","disabled");
     };
 
+    var removeLoadingMessage = function() {
+      var loadingMsgEl = $('.tree-loading-notice') 
+      loadingMsgEl.fadeOut();
+      loadingMsgEl.remove();
+      $(":input", $container).removeAttr("disabled");
+    };
 
     var getPrimarySelectedNode = function() {
       return $(".primary-selected", $tree);
@@ -595,6 +601,9 @@ $(function() {
         index: index
       };
 
+      // We need to lock down the form whil the move is happening....
+      insertLoadingMessage();
+      
       $.ajax({
         url: APP_PATH+targetNodeEl.attr("rel")+"s/"+targetNodeEl.data("id")+"/accept_children",
         type: "POST",
@@ -617,7 +626,9 @@ $(function() {
 
           // Always update the currently selected node's position.. it may have changed!
           $("#"+$selected.attr("rel")+"_position_", $container).val($selected.index());
-
+          
+          // Let's unlock the form now 
+          removeLoadingMessage(); 
           // Also update the node's toolbar actions (as the move actions may have become out of sync)
           loadTreeActionsForNode($selected);
         },
@@ -784,7 +795,7 @@ $(function() {
         ui: {
           selected_parent_close: false,
           selected_parent_open: true,
-          select_limit: -1,
+          select_limit: 20,
           // if OS X, use meta for single select (as ctrl used for menu)
           select_multiple_modifier: (navigator.appVersion.indexOf("Mac") != -1) ? "meta" : "ctrl",
           disable_selecting_children: true
