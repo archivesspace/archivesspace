@@ -129,8 +129,6 @@ $(function() {
           .html(AS.renderTemplate("template_print_to_pdf_job", {id_path: "print_to_pdf_job", path: "print_to_pdf_job"}));
         
         $(".linker:not(.initialised)").linker();
-        $selectRecordType.attr('disabled', 'disabled');
-        $selectProperty.attr('disabled', 'disabled');
       
       } else if ($(this).val() === "find_and_replace_job") {
         $("#noImportTypeSelected", $form).hide();
