@@ -110,6 +110,7 @@ en:
     no_results_prefix: There were no search results for
     result_type: Record Type
     result_title: Title
+    result_identifier: Identifier 
     filtered_by: Filtered By
     modified: Last Modified by
     created: Created by

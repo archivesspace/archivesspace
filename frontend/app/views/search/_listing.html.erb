@@ -1,4 +1,5 @@
 <% if @search_data.results? %>
+  <% add_identifier_column if show_identifier_column? %> 
   <%= render_aspace_partial :partial => "shared/pagination_summary" %>
 
   <table id="tabledSearchResults" class="table table-striped table-bordered table-condensed table-hover table-sortable table-search-results" <% if allow_multi_select? %>data-multiselect="true"<% end %>>
