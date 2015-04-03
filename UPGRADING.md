@@ -20,8 +20,8 @@ Linux:
 
      $ mkdir archivesspace-1.1.1
      $ cd archivesspace-1.1.1
-     $ curl -O https://github.com/archivesspace/archivesspace/releases/download/v1.1.1/archivesspace-v1.1.1.zip
-     $ unzip -x archivesspace-v1.1.1.zip
+     $ curl -O https://github.com/archivesspace/archivesspace/releases/download/v1.2.0/archivesspace-v1.2.0.zip
+     $ unzip -x archivesspace-v1.2.0.zip
 
 ( The curl step is optional and simply downloads the distribution from github. You can also
  simply download the zip file in your browser and copy it to the directory ) 
