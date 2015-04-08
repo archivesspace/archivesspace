@@ -1,6 +1,7 @@
 //= require trimpath-template-1.0.38
 //= require bootstrap-datepicker
 //= require bootstrap-combobox
+//= require jquery.hotkeys
 
 var AS = {};
 
@@ -342,7 +343,7 @@ $(function() {
 
 
 AS.templateCache = [];
-AS.renderTemplate = function(templateId, data) {
+AS.renderTemplate = function(templateId, data, cb) {
 
   if (!AS.templateCache[templateId]) {
     var templateNode = $("#"+templateId).get(0);
@@ -846,4 +847,52 @@ $(function() {
 
     $(".alert:not(.with-hide-alert)").initCloseAlertAction();
   });
+});
+
+// shortcuts
+$(function() {
+  var initFormShortcuts = function() {
+    console.log("init form cuts");
+    var $form = $(this);
+
+    $.bind('keydown', 'shift+s', function() {
+      console.log("keydown");
+      console.log($form.data("form_changed"));
+//      $form.submit()
+    })
+  };
+
+  $(document).bind('formchanged.aspace', function(event) {
+    var $form = $('form.aspace-record-form');
+    if ($form.data("form_changed")) {
+      $(document).bind('keydown', 'ctrl+s', function() {
+        $form.submit()
+      });
+    }
+  })
+
+  $(document).bind('keydown', 'shift+/', function() {
+    if (!$('#ASModal').length) {
+      AS.openAjaxModal(APP_PATH + "shortcuts");
+    }
+    
+  });
+
+  $(document).bind('keydown', 'esc', function() {
+    if ($('#ASModal').length) {
+      $('#ASModal').remove();
+    }
+  });
+
+  $(document).bind('keydown', 'ctrl+x', function() {
+    console.log("ctrl x");
+    $(document).trigger("formclosed.aspace");
+  });
+
+  // $(document).bind("loadedrecordform.aspace", function(event, $container) {
+  //   console.log("call init");
+  //   console.log($container);
+  //   $.proxy(initFormShortcuts, $("form.aspace-record-form"))();
+  // });
+    
 });
