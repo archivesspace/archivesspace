@@ -93,16 +93,25 @@ $(function() {
           onFormElementChange(event);
         }
       });
+
+      var submitParentForm = function() {
+        $(this).parents("form.aspace-record-form").submit();
+      };
       $this.on("focusin", ":input", function(event) {
         $(event.target).parents(".subrecord-form").addClass("focus");
+        $(event.target).bind('keydown', 'ctrl+s', submitParentForm);
       });
       $this.on("focusout", ":input", function(event) {
         $(event.target).parents(".subrecord-form").removeClass("focus");
+        $this.unbind('keydown', submitParentForm);
       });
       $this.on("click", ":radio, :checkbox", onFormElementChange);
 
 
       $this.on("formchanged.aspace", function(event) {
+        if ($this.data("form_changed") === true) {
+          event.stopPropagation();
+        }
         $this.data("form_changed", true);
         $(".record-toolbar", $this).addClass("formchanged");
         $(".record-toolbar .btn-toolbar .btn", $this).addClass("disabled").attr("disabled","disabled");
@@ -127,8 +136,16 @@ $(function() {
 
       $(".record-toolbar .revert-changes .btn", $this).click(function() {
         $this.data("form_changed", false);
+        $this.trigger("formreverted.aspace");
         return true;
       });
+
+      $(".form-actions .btn-cancel", $this).click(function() {
+        $this.data("form_changed", false);
+        $this.trigger("formreverted.aspace");
+        return true;
+      });        
+
 
       $(window).bind("beforeunload", function(event) {
         if ($this.data("form_changed") === true) {

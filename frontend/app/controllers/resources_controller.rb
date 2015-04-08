@@ -223,7 +223,7 @@ class ResourcesController < ApplicationController
   def fetch_tree
     flash.keep # keep the flash... just in case this fires before the form is loaded
 
-    tree = {}
+    tree = []
 
     limit_to = params[:node_uri] || "root"
 
@@ -236,7 +236,11 @@ class ResourcesController < ApplicationController
       end
     end
 
-    parse_tree(JSONModel(:resource_tree).find(nil, :resource_id => params[:id], :limit_to => limit_to).to_hash(:validated), nil) do |node, parent|
+    tree = JSONModel(:resource_tree).find(nil, :resource_id => params[:id], :limit_to => limit_to).to_hash(:validated)
+
+    prepare_tree_nodes(tree) do |node|
+
+      node['text'] = node['title']
       node['level'] = I18n.t("enumerations.archival_record_level.#{node['level']}", :default => node['level'])
       node['instance_types'] = node['instance_types'].map{|instance_type| I18n.t("enumerations.instance_instance_type.#{instance_type}", :default => instance_type)}
       node['containers'].each{|container|
@@ -244,11 +248,33 @@ class ResourcesController < ApplicationController
         container["type_2"] = I18n.t("enumerations.container_type.#{container["type_2"]}", :default => container["type_2"]) if container["type_2"]
         container["type_3"] = I18n.t("enumerations.container_type.#{container["type_3"]}", :default => container["type_3"]) if container["type_3"]
       }
-      node['parent'] = "#{parent["node_type"]}_#{parent["id"]}" if parent
-      tree["#{node["node_type"]}_#{node["id"]}"] = node.merge("children" => node["children"].collect{|child| "#{child["node_type"]}_#{child["id"]}"})
+      node_db_id = node['id']
+
+      node['id'] = "#{node["node_type"]}_#{node["id"]}"
+
+      if node['has_children'] && node['children'].empty?
+        node['children'] = true
+      end
+
+      node['type'] = node['node_type']
+
+      node['li_attr'] = {
+        "data-uri" => node['record_uri'],
+        "data-id" => node_db_id,
+        "rel" => node['node_type']
+      }
+      node['a_attr'] = {
+        "href" => "#tree::#{node['id']}"
+      }
+
+      if node['node_type'] == 'resource' || node['record_uri'] == limit_to
+#        node['state'] = {'opened' => true}
+      end
+
     end
 
     tree
+
   end
 
 
