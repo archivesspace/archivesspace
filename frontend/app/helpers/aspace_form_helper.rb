@@ -203,7 +203,8 @@ module AspaceFormHelper
           :class => "date-field form-control",
           :"data-format" => "yyyy-mm-dd",
           :"data-date" => Date.today.strftime('%Y-%m-%d'),
-          :"data-autoclose" => true
+          :"data-autoclose" => true,
+          :"data-force-parse" => false
       })
 
       if obj[name].blank? && opts[:default]
