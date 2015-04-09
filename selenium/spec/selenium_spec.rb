@@ -1573,13 +1573,14 @@ describe "ArchivesSpace user interface" do
 
       notes_toggle[1].click
       $driver.find_element(:id => "resource_notes__1__content__0_").text.should match(/furious/)
+      
+      $driver.find_element(:id => "resource_dates__0__date_type_").select_option("single")
+      $driver.clear_and_send_keys([:id, "resource_dates__0__begin_"], "1978")
 
 
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
       $driver.find_element(:id => "resource_extents__0__extent_type_").select_option("files")
 
-      $driver.find_element(:id => "resource_dates__0__date_type_").select_option("single")
-      $driver.clear_and_send_keys([:id, "resource_dates__0__begin_"], "1978")
       
 
       $driver.find_element(:css => "form#resource_form button[type='submit']").click
@@ -1587,6 +1588,7 @@ describe "ArchivesSpace user interface" do
       # Success!
       assert(5) {
         $driver.find_element_with_text('//div', /Resource A box of enraged guinea pigs created/).should_not be_nil
+        $driver.find_element(:id, "resource_dates__0__begin_" ).attribute("value").should eq("1978") 
       }
     end
 
