@@ -20,7 +20,8 @@
   "dependencies": {
     "jquery.hotkeys": "git@github.com:jeresig/jquery.hotkeys.git#~0.2.0",
     "jstree": "git@github.com:vakata/jstree#~3.1.0",
-    "lodash": "~3.6.0"
+    "lodash": "~3.6.0",
+    "jquery.scrollTo": "~2.1.0"
   },
   "install": {
     "path": {
@@ -49,6 +50,13 @@
         "mapping": [
           {
             "bower_components/lodash/lodash.js": "../lodash.js"
+          }
+        ]
+      },
+      "jquery.scrollTo": {
+        "mapping": [
+          {
+            "bower_components/jquery.scrollTo/jquery.scrollTo.js": "../jquery.scrollTo.js"
           }
         ]
       }
