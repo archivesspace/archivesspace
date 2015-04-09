@@ -48,5 +48,20 @@ class ASFop
     end
     @output 
   end
+  
+  def to_pdf_stream
+    begin 
+      fo = StringIO.new(to_fo).to_inputstream  
+      fop = FopFactory.newInstance.newFop(MimeConstants::MIME_PDF, @output.to_outputstream)
+      transformer = TransformerFactory.newInstance.newTransformer()
+      res = SAXResult.new(fop.getDefaultHandler)
+      transformer.transform(StreamSource.new(fo), res)
+      @output.rewind
+      @output.read
+    ensure
+     @output.close
+     @output.unlink 
+    end
+  end
 
 end
