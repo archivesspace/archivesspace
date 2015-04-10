@@ -29,6 +29,11 @@
     };
 
 
+    this.primary = function(cb) {
+      cb(this.get_primary_selected(true));
+    }
+
+
     this.get_primary_selected_dom = function() {
       return this.get_node(this.get_primary_selected(), true);
     }

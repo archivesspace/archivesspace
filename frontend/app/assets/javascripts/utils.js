@@ -465,7 +465,7 @@ $.fn.serializeObject = function() {
   $(this).each(function() {
 
     if ($(this).is("form")) {
-      var a = this.serializeArray();
+      var a = $(this).serializeArray();
       $.each(a, function() {
         if (o[this.name] !== undefined) {
           if (!o[this.name].push) {
@@ -885,14 +885,59 @@ $(function() {
   });
 
   $(document).bind('keydown', 'ctrl+x', function() {
-    console.log("ctrl x");
     $(document).trigger("formclosed.aspace");
   });
 
-  // $(document).bind("loadedrecordform.aspace", function(event, $container) {
-  //   console.log("call init");
-  //   console.log($container);
-  //   $.proxy(initFormShortcuts, $("form.aspace-record-form"))();
-  // });
+  $(document).bind('keydown', 'shift+b', function() {
+    $('li.browse-container a.dropdown-toggle').trigger('click.bs.dropdown'); 
+  });
+
+  $(document).bind('keydown', 'shift+c', function() {
+    $('li.create-container a.dropdown-toggle').trigger('click.bs.dropdown'); 
+  });
+
+  var traverseMenuDown = function() {
+    var $current = $(this).find('ul li.active');
+    var $next = $current.length ? $current.next() : $(this).find('li:first');
+
+    if ($next.length){
+      $next.addClass('active');
+      $current.removeClass('active');
+    }  
+  };
+
+  var traverseMenuUp = function() {
+    var $current = $(this).find('ul li.active');
+    var $next = $current.length ? $current.prev() : $(this).find('li:last');
+
+    if ($next.length){
+      $next.addClass('active');
+      $current.removeClass('active');
+    }  
+  };
+
+  var clickActive = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var $active = $(this).find('ul li.active');
+    if ($active.length) {
+      $active.find('a:first')[0].click();
+    }
+  };
+
+
+  $('li.dropdown').on({
+    'shown.bs.dropdown': function() {
+      console.log("opening");
+      $(this).bind("keydown", 'down', traverseMenuDown);
+      $(this).bind("keydown", 'up', traverseMenuUp);
+      $(this).bind("keydown", 'return', clickActive);
+    },
+    'hide.bs.dropdown': function() {
+      $(this).unbind("keydown", traverseMenuDown);
+      $(this).unbind("keydown", traverseMenuUp);
+      $(this).unbind('keydown', clickActive);
+    }
+  });
     
 });

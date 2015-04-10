@@ -902,3 +902,5 @@ en:
       toggle_shortcuts: "Enable / disable keyboard shortcuts"
       save_record: "Save the record being edited"
       close_record: "Close a record being edited"
+      open_browse: "Open Browse menu"
+      open_create: "Open Create menu"

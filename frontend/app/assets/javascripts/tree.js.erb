@@ -3,6 +3,8 @@
 //= require jquery.hotkeys
 //= require jstree
 //= require jstree.primary_selected
+//= require jstree.select_limit
+
 
 $(function() {
   var tree;
@@ -149,7 +151,6 @@ $(function() {
 
 
   var extractNode = function(data, url) {
-    console.log("extractNode");
     var node_uri = url.match(/node_uri=([^&]*)/gm)[0].replace("node_uri=", "")
 
     if (node_uri === 'root') {
@@ -292,10 +293,11 @@ $(function() {
 
   var renderTreeNodeNavigation = function(event) {
     var node = tree.get_primary_selected(true);
+
     var data = { config: config }
     var indexOfCurrentNode = getNodePosition(node);
 
-    if (indexOfCurrentNode !== 0) {
+    if (indexOfCurrentNode && indexOfCurrentNode !== 0) {
       data.previous = previousSibling(node);
     }
     if (!isLastSibling(node)) {
@@ -317,7 +319,7 @@ $(function() {
         config: config,
         rules: config.rules[nodeEl.attr("rel")],
         node: nodeEl,
-        node_id: node.id,
+        node_id: node.id.replace(/.*_/, ''),
         root_object_id: config.root_object_id,
         up_level: node.parents.length > 2
       };
@@ -410,7 +412,6 @@ $(function() {
 
 
   var setHashForNode = function(node_id) {
-    console.log(node_id);
     if (node_id.indexOf("tree::") < 0) {
       node_id = "tree::"+node_id;
     }
@@ -425,7 +426,6 @@ $(function() {
 
 
   var onHashChange = function(){
-    console.log("onHashChange");
     
     var currentlyFocusedSelector;
 
@@ -454,10 +454,10 @@ $(function() {
     }
 
     tree.set_primary_selected(id_from_hash);
-      
-    _.tap(tree.get_primary_selected(true), function(node) {
+
+    tree.primary(function(node) {
       if (!node.state.opened) {
-        tree.open_node(tree.get_primary_selected());
+        tree.open_node(node);
       }
       loadPaneForNode(node);
       loadTreeActionsForNode(node);
@@ -536,7 +536,6 @@ $(function() {
     });
 
     $container.on("click", ".btn-cancel", function(event) {
-      console.log('revert changes');
       
       event.preventDefault();
       event.stopImmediatePropagation();
@@ -615,12 +614,15 @@ $(function() {
     // TRANSFER STUFF
     $(".archives-tree-container").on("click", ".transfer-node", function(event) {
       if ($(".tree-transfer-form", ".archives-tree-container")[0].style.display === "block") {
+
         $(".tree-transfer-form", ".archives-tree-container").css("display", "");
         $(".missing-ref-message", ".archives-tree-container .tree-transfer-form form").hide();
         $(".token-input-dropdown").hide();
       } else {
         $(".tree-transfer-form", ".archives-tree-container").css("display", "block");
         $(".tree-transfer-form form", ".archives-tree-container").unbind("submit").submit(function(event) {
+
+
           if ($(this).serializeObject()['transfer[ref]']) {
             // continue with the POST
             return;
@@ -723,24 +725,20 @@ $(function() {
   };
 
 
-
-
   // In JSTree you say where, relative to the pre-op tree,
   // you want moving nodes to go, and it takes care of the rest.
   // In AS Backend you say where you want the moved nodes to 
   // be in the tree after the move operation, and it takes care of the rest.
-  // Well, at least we're inconsistent.
   // When JSTree is done it sends us this data and we need to translate.
   //
-  // If the nodes moved 'down' (higher in the index):
-  // The position of the first node in the data is:
+  // If the nodes moved 'down' (higher in the index),
+  // the position of the first node in the data is:
   //   the former position of the node it bumped lower.
   // To translate this for ASpace:
   //   leader's position + the gap created by the splice - 1 for 
   //   the node that slid lower in the index.
 
   var moveNodes = function(collectedMoveData) {
-    console.log(collectedMoveData);
 
     //sanity check - shouldn't ever happen 
     if (_.uniq(_.map(collectedMoveData, function(md) {
@@ -786,11 +784,9 @@ $(function() {
       type: "POST",
       data: data_for_post,
       success: function(data) {
-        console.log("ajax success");
-        console.log(data);
         tree.refresh_primary_selected();
 
-        _.tap(tree.get_primary_selected(), function(node) {
+        tree.primary(function(node) {
           var nodeEl = tree.get_node(node, true);
 
         // If the reparented record's form is open, update its hidden field.
@@ -826,91 +822,10 @@ $(function() {
         AS.openQuickModal(AS.renderTemplate("tree_unable_to_move_message_template"), jqXHR.responseText);
       }
     });
-
-
-  };
-
-
-  var xmoveNodes = function(collectedMoveData) {
-    var d = $.Deferred();
-    console.log(collectedMoveData);
-
-    //sanity check - shouldn't ever happen 
-    if (_.uniq(_.map(collectedMoveData, function(md) {
-      return md.parent
-    })).length > 1)
-      d.reject("Moved nodes target different parents");
-
-
-    var targetNode = collectedMoveData[0].parent;
-    var targetNodeEl = tree.get_node(targetNode, true);
-
-    var urisOfNodesToMove = _.map(collectedMoveData, function(md) {
-      return md.node.original.record_uri;
-    });
-
-    var index = collectedMoveData[0].position;
-
-
-    // If we have moved a node downwards in the list... Since the
-    // list will shift up as the node is plucked out, we need to
-    // adjust the target index for this.
-    _.tap(collectedMoveData[0], function(leader) {
-      if ((leader.parent === leader.old_parent) &&
-          (leader.position > leader.old_position))
-        index -= collectedMoveData.length;
-    });
-
-    var data_for_post = {
-      children: urisOfNodesToMove,
-      index: index
-    };
-
-    $.ajax({
-      url: APP_PATH+targetNodeEl.attr("rel")+"s/"+targetNodeEl.data("id")+"/accept_children",
-      type: "POST",
-      data: data_for_post,
-      success: function(data) {
-        tree.refresh_primary_selected();
-        var $selected = tree.get_primary_selected_dom();
-
-        // If the reparented record's form is open, update its hidden field.
-        if (urisOfNodesToMove.indexOf($selected.data("uri")) >= 0) {
-          var hiddenInput = $("input.hidden-parent-uri", $container);
-
-          if (targetNodeEl.attr("rel") === $selected.attr("rel")) {
-            hiddenInput.attr('name', $selected.attr("rel") + '[parent][ref]');
-            hiddenInput.val(targetNodeEl.data("uri"));
-          } else {
-            hiddenInput.attr('name', $selected.attr("rel")+ '[parent]');
-            hiddenInput.val(null);
-          }
-        }
-
-        // Always update the currently selected node's position.. it may have changed!
-        $("#"+$selected.attr("rel")+"_position_", $container).val($selected.index());
-
-        // Also update the node's toolbar actions (as the move actions may have become out of sync)
-        loadTreeActionsForNode($selected);
-        d.resolve(true);
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        // Reset the tree.
-        tree.refresh();
-        d.reject("failed to move nodes");
-        // show a modal message
-        AS.openQuickModal(AS.renderTemplate("tree_unable_to_move_message_template"), jqXHR.responseText);
-      }
-    });
-
-    return d;
   };
 
 
   var confirmChanges = function(targetNodeEl) {
-    console.log("confirmChanges");
-    console.log(targetNodeEl);
-
     var d = $.Deferred();
 
     var parentIdFornew;
@@ -927,7 +842,6 @@ $(function() {
       $form.triggerHandler("submit");
 
       var onSubmitSuccess = function() {
-        console.log("onSubmitSuccess");
         $form.data("form_changed", false);
         setHashForNode(targetNodeEl.attr("id"));
         $("#saveYourChangesModal").modal("hide");
@@ -935,13 +849,11 @@ $(function() {
       };
 
       var onSubmitError = function() {
-        console.log("onSubmitError");
         $("#saveYourChangesModal").modal("hide");
         d.resolve(false);
       };
 
       $container.one("submitted", function(event, data) {
-        console.log(data);
         if (data.success) {
           onSubmitSuccess();
         } else {
@@ -1064,7 +976,6 @@ $(function() {
           });
         },
         check_callback: function(operation, node, node_parent, node_position) {
-          console.log("check: " + operation);
           switch(operation) {
           case "create_node":
             return true;
@@ -1090,6 +1001,12 @@ $(function() {
         },
         "resource": {
           "icon" : "glyphicon glyphicon-list-alt"
+        },
+        "digital_object_component": {
+          "icon" : "asicon icon-digital_object_component"
+        },
+        "digital_object": {
+          "icon" : "asicon icon-digital_object"
         }
       },
       themes: {
@@ -1158,16 +1075,14 @@ $(function() {
           $('.jstree-hovered', $tree).trigger("click");
         }
       },
-      plugins: [ "primary_selected", "types", "themes", "ui", "html_data", "crrm", "dnd", "hotkeys"]
+      plugins: [ "select_limit", "primary_selected", "types", "themes", "ui", "html_data", "crrm", "dnd", "hotkeys"]
     }).one("loaded.jstree", function() {
-      console.log("loaded.jstree");
 
       tree = $tree.jstree(true);
       AS.tree = tree; //just for debugging
 
       if (location.hash) {
         var node_id = location.hash.replace("#tree::","");
-        console.log(node_id);
         tree.select_node(node_id);
       }
 
@@ -1179,28 +1094,19 @@ $(function() {
         }
       }
       
-      _.tap(tree.get_primary_selected(), function(node) {
+      tree.primary(function(node) {
         tree.open_node(node);
         loadTreeActionsForNode(node);
       });
 
       onTreeLoadCallback();
-    }).bind("refresh.jstree", function() {
-      console.log("refresh.jstree");
-      
+    }).bind("refresh.jstree", function() {      
     }).bind("load_node.jstree", function (event, node, status) {
-      console.log("load_node.jstree");
     }).bind("deselect_all.jstree", function (event, data) {
-      console.log("deselect_all.jstree");
-      
     }).bind("create_node.jstree", function (event, node, parent, position) {
-        console.log("create_node.jstree");
     }).bind("before_open.jstree", function (event, data) {
-      console.log("before_open.jstree");
     }).bind("close_node.jstree", function (event, data) {
-      console.log("close_node.jstree");
     }).bind("select_node.jstree", function (event, data) {
-      console.log("select_node.jstree " + data.node.id);
 
       // if the form is dirty AND the selected node isn't the primary
       // then do a modal check
@@ -1221,7 +1127,6 @@ $(function() {
       }
 
     }).bind("deselect_node.jstree", function (event, data) {
-      console.log("deselect_node.jstree");
       var $node = $tree.jstree("get_node", data.node, true);
       if ($node.hasClass("primary-selected")) {
         // we don't want to allow deselection of the primary selected node
@@ -1231,8 +1136,6 @@ $(function() {
       }
 
     }).bind("move_node.jstree", function(event, data) {
-      console.log("move_node.jstree");
-
       if (move_timeout) { clearTimeout(move_timeout); }
 
       moved_nodes.push(data);
@@ -1243,9 +1146,10 @@ $(function() {
       
 
     }).bind("refreshtreenode.aspace", function(event, data) {
-      console.log("refreshtreenode.aspace");
 
       data.text = AS.renderTemplate("tree_node_" + data.node_type + "_template", {node: data});
+
+      data.type = data.node_type
 
       var nodeId = data.jsonmodel_type+"_"+data.id;
 
@@ -1272,17 +1176,15 @@ $(function() {
 
         var node = tree.create_node(parent, data, "last", function(node) {
 
-          changeHashSilently("#tree::"+nodeId);
-          loadTreeActionsForNode(node);
-
           if (isSelected) {
             tree.set_primary_selected(node);
           }
 
+          changeHashSilently("#tree::"+nodeId);
+          loadTreeActionsForNode(node);
         })
 
       } else {
-        console.log("rename existing node");
         // rename the existing node
         tree.rename_node(nodeId, data.text)
       }
@@ -1307,15 +1209,15 @@ $(function() {
   };
 
   initTree(function() {
-    // loadTreeActionsForNode(getPrimarySelectedNode());
     resizeArchivesTree();
-    loadPaneForNode(tree.get_primary_selected(true));
-    setTimeout(function(){
-      $.scrollTo(tree.get_primary_selected_dom(), 0, {
-        offsetTop: $tree.height() / 2
-      });
-    },0);
-
+    tree.primary(function(node) {
+      loadPaneForNode(node);
+      setTimeout(function(){
+        $tree.scrollTo($("#" + node.id), 0, {
+          offsetTop: $tree.height() / 2
+        });
+      },0);
+    });
   });
 
   addTreeEventBindings();
