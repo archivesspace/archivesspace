@@ -170,26 +170,46 @@ class ArchivesSpaceService < Sinatra::Base
       position = params[:position]
       parent_id = (target_class == child_class) ? params[:id] : nil
 
-      # We need to be careful about the order these get processed in.  If we're
-      # moving from low to high, we need to work backwards to make sure the
-      # final ordering ends up right.
+      # This has been flipped.  Due to changes in the tree_nodes, the values should
+      # be processed using the lowest to highest.  This reverses the previous process
+      # Does this cause any undo problems?
       first_uri = params[:children][0]
       first_obj = child_class.get_or_die(child_class.my_jsonmodel.id_for(first_uri))
-      ordered = if target.id == first_obj.parent_id && first_obj.absolute_position < position
-                  params[:children].each_with_index.to_a.reverse
-                else
-                  params[:children].each_with_index
-                end
 
-
-      ordered.each do |uri, i|
-        child = child_class.get_or_die(child_class.my_jsonmodel.id_for(uri))
-        child.update_position_only(parent_id, position + i)
+      ordered = nil
+      if target.id == first_obj.parent_id && first_obj.absolute_position < position
+        # We need to remove one from the position to prevent 
+        # position from being added one after the placement.
+        ordered = params[:children].each_with_index
+        position = position -1
+      else
+        # Flipped from previous -- need to reverse the 
+        # array when moving items up the tree.  This is 
+        # different from the previous build.
+        ordered = params[:children].each_with_index.to_a.reverse
       end
 
+      # Track the last child so that we can ensure that 
+      # all gaps are closed after the move process.
+      # In testing, this appears to scale as long
+      # as moved components stays below 20.
+      # Tested with infinite selection, and worked up 
+      # to 60 component moves at once.
+      lastchild = nil
+      ordered.each do |uri, i|
+        child = child_class.get_or_die(child_class.my_jsonmodel.id_for(uri))
+        
+        # This use to add one to each item, that was causing gaps.
+        child.update_position_only(parent_id, position)
+        lastchild = child
+      end
+
+      # close the gaps...does this scale?
+      unless lastchild.nil?
+         lastchild.close_gaps()
+      end
     end
 
     updated_response(target)
   end
-
 end
