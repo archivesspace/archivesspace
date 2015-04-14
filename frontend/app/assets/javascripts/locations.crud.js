@@ -3,9 +3,14 @@ $(function() {
      
   var init_location_form = function(form) { 
     var $form = $(form); 
-   
-    $temporary = $("#location_temporary_", $form);
-    $temporaryQuestion = $("#location_temporary_question_", $form);
+    
+    var newSelector = "#location";
+    if ( $form.selector === '#new_location_batch' ) { 
+        newSelector = "#location_batch"; 
+    }
+    
+    $temporary = $( newSelector + "_temporary_", $form);
+    $temporaryQuestion = $(newSelector + "_temporary_question_", $form);
     
     if ($temporary.val() != "") {
       $temporaryQuestion.prop('checked', true);
@@ -25,6 +30,11 @@ $(function() {
     // this inits the form in the new location page
     if ( $('#new_location').length > 0 ) {   
       init_location_form($("#new_location"));
+    }   
+    
+    // this inits the form in the new location batch page
+    if ( $('#new_location_batch').length > 0 ) {   
+      init_location_form($("#new_location_batch"));
     }   
     
     // this init the form in the modal

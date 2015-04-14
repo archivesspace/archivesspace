@@ -3,7 +3,6 @@ module CrudHelpers
   def handle_update(model, id, json, opts = {})
     obj = model.get_or_die(id)
     obj.update_from_json(json, opts)
-
     updated_response(obj, json)
   end
 

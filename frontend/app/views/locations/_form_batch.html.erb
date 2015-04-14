@@ -8,6 +8,11 @@
       <%= form.label_and_textfield "floor" %>
       <%= form.label_and_textfield "room" %>
       <%= form.label_and_textfield "area" %>
+      <% if @is_batch_update %> 
+        <% @location_batch.record_uris.each do |uri| %> 
+          <%= form.hidden_input "record_uris[]", uri %> 
+        <% end %>    
+      <% end %>
     </section>
   </fieldset>
 <% end %>

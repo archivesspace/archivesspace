@@ -118,9 +118,11 @@ ArchivesSpace::Application.routes.draw do
     match 'subjects/:id/delete' => 'subjects#delete', :via => [:post]
     match 'subjects/:id/merge' => 'subjects#merge', :via => [:post]
 
-    match 'locations/batch' => 'locations#batch', :via => [:get]
+    match 'locations/batch' => 'locations#batch', :via => [:get, :post]
     match 'locations/batch_create' => 'locations#batch_create', :via => [:post]
     match 'locations/batch_preview' => 'locations#batch_preview', :via => [:post]
+    match 'locations/batch_edit' => 'locations#batch_edit', :via => [:post]
+
     resources :locations
     match 'locations/:id' => 'locations#update', :via => [:post]
     match 'locations/:id/delete' => 'locations#delete', :via => [:post]
