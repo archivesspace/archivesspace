@@ -1,1 +1,0 @@
-#<JSONModel(:location) {"lock_version"=>"1", "building"=>"HEEY!", "floor"=>"66", "room"=>"11", "area"=>"ss", "coordinate_1_label"=>"bar", "coordinate_1_indicator"=>"4", "jsonmodel_type"=>"location", "external_ids"=>[]}>
