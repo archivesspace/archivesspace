@@ -271,6 +271,7 @@ module MarcXMLBaseMap
   def creators_and_sources
     {
       :map => {
+        "subfield[@code='e']" => :dates,  
         "subfield[@code='e']" => -> agent, node {
           agent['_role'] = case
                            when ['Auctioneer (auc)',
