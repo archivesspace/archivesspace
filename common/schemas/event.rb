@@ -8,6 +8,7 @@
       "uri" => {"type" => "string", "required" => false},
 
       "external_ids" => {"type" => "array", "items" => {"type" => "JSONModel(:external_id) object"}},
+      "external_documents" => {"type" => "array", "items" => {"type" => "JSONModel(:external_document) object"}},
 
       "event_type" => {
         "type" => "string",

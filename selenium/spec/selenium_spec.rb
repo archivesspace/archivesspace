@@ -1497,7 +1497,20 @@ describe "ArchivesSpace user interface" do
         $driver.find_element_with_text('//div', /Event Created/).should_not be_nil
       }
     end
-  
+ 
+    it "can add an external document to an Event" do
+      $driver.find_element(:css => '#event_external_documents_ .subrecord-form-heading .btn:not(.show-all)').click
+      $driver.clear_and_send_keys([:id, "event_external_documents__0__title_"], "My URI document")
+      $driver.clear_and_send_keys([:id, "event_external_documents__0__location_"], "http://archivesspace.org")
+      
+      $driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
+      
+      # check external documents
+      external_document_sections = $driver.blocking_find_elements(:css => '#event_external_documents_ .subrecord-form-wrapper')
+      external_document_sections.length.should eq (1)
+      external_document_sections[0].find_element(:link => "http://archivesspace.org")
+    end
+
 
     it "should be searchable" do
       run_index_round
