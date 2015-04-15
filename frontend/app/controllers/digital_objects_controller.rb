@@ -221,11 +221,34 @@ class DigitalObjectsController < ApplicationController
       end
     end
 
-    parse_tree(JSONModel(:digital_object_tree).find(nil, :digital_object_id => params[:id], :limit_to => limit_to).to_hash(:validated), nil) do |node, parent|
+    tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => params[:id], :limit_to => limit_to).to_hash(:validated)
+
+    prepare_tree_nodes(tree) do |node|
+
+      node['text'] = node['title']
       node['level'] = I18n.t("enumerations.digital_object_level.#{node['level']}", :default => node['level']) if node['level']
       node['digital_object_type'] = I18n.t("enumerations.digital_object_digital_object_type.#{node['digital_object_type']}", :default => node['digital_object_type']) if node['digital_object_type']
 
-      tree["#{node["node_type"]}_#{node["id"]}"] = node.merge("children" => node["children"].collect{|child| "#{child["node_type"]}_#{child["id"]}"})
+      node_db_id = node['id']
+
+      node['id'] = "#{node["node_type"]}_#{node["id"]}"
+
+      if node['has_children'] && node['children'].empty?
+        node['children'] = true
+      end
+
+      node['type'] = node['node_type']
+
+      node['li_attr'] = {
+        "data-uri" => node['record_uri'],
+        "data-id" => node_db_id,
+        "rel" => node['node_type']
+      }
+      node['a_attr'] = {
+        "href" => "#tree::#{node['id']}",
+        "title" => node["title"]
+      }
+
     end
 
     tree
