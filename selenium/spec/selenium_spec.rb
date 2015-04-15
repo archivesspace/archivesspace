@@ -1848,11 +1848,11 @@ describe "ArchivesSpace user interface" do
       target = $driver.find_element_with_text("//div[@id='archives_tree']//a", /Tree decorations/)
       y_off = target.location[:y] - source.location[:y] 
       
+      $driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")
+      
       # now do a drag and drop
       $driver.action.drag_and_drop_by(source, 0, y_off).perform
-     
       # save the item
-      $driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")
 
       parent = $driver.find_element(:xpath, "//div[@id='archives_tree']//li[a/@title='December']")
       [ "Christmas albums", "Nog", "XMAS Tree decorations" ].each_with_index do |ao, i|

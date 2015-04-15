@@ -25,44 +25,34 @@ module TreeNodes
       child.set_root(new_root)
     end
   end
+ 
 
-  # This method closes gaps within 
-  # the position list.  
-  def close_gaps()
-        siblings_ds = self.class.dataset.
-                      filter(:root_record_id => self.root_record_id,
-                      :parent_id => self.parent_id,
-                      ~:position => nil)
-
-        #Resequence below the insertion to minimize new openings
-        #this will remove all gaps, and works great if you only move
-        #one item in the tree.  However, if the item is a group, and is
-        #moved up the tree (low number group, to high), the positioning
-        #is fouled because the early positions are collapsed.  This would
-        #be better run after all changes are processed as part of a batch
-        #process.
-        tmp_position_index = -1
-
-        unless siblings_ds.nil?
-           siblings_ds.filter{position >= 0}.order(Sequel.asc(:position)).each do |row|
-               tmp_position_index = auto_inc_key(tmp_position_index)
-               row.update(:position => tmp_position_index)
-           end
-        end
+  def siblings
+    self.class.dataset.
+       filter(:root_record_id => self.root_record_id,
+              :parent_id => self.parent_id,
+              ~:position => nil)
   end
 
 
-  def set_position_in_list(target_position, sequence)
-    siblings_ds = self.class.dataset.
-                       filter(:root_record_id => self.root_record_id,
-                              :parent_id => self.parent_id,
-                              ~:position => nil)
+  def order_siblings
+    # add this to avoid DB constraints 
+    siblings.update(:parent_name => Sequel.lit(DB.concat('CAST(id as CHAR(10))', "'_temp'")))
+    
+    siblings.order(:position).each_with_index do |row, i| 
+          row.update(:position => i)
+    end
+    
+    siblings.update(:parent_name => self.parent_name )
+  end
 
+  def set_position_in_list(target_position, sequence)
+    
     # Find the position of the element we'll be inserted after.  If there are no
     # elements, or if our target position is zero, then we'll get inserted at
     # position zero.
     predecessor = if target_position > 0
-                    siblings_ds.filter(~:id => self.id).order(:position).limit(target_position).select(:position).all
+                    siblings.filter(~:id => self.id).order(:position).limit(target_position).select(:position).all
                   else
                     []
                   end
@@ -85,44 +75,26 @@ module TreeNodes
 
         # Sigh.  Work around:
         # http://stackoverflow.com/questions/5403437/atomic-multi-row-update-with-a-unique-constraint
-
-        # The original changes added to overcome the unique constraint issue
-        # appears to not work with this new method.  It might make sense to
-        # move these contraint handling to the application level, rather than
-        # the db level...but until then, what seemed to work well is simply
-        # padding the position values to ensure no dups occur.  Once replacements
-        # are completed, remove the pads.  This is like the old method, but
-        # is all integer-based, so I'm hoping this will be more efficient.
-
-        #this will be auto incremented within the filter
-        tmp_position_index = new_position
+        siblings.
+        filter { position >= new_position }.
+        update(:parent_name => Sequel.lit(DB.concat('CAST(id as CHAR(10))', "'_temp'")))
 
         # Do the update we actually wanted
-        # 10000 is a random number.  I'm sure there is a much 
-        # better method here.
-        siblings_ds.filter{position >= new_position}.order(Sequel.asc(:position)).each do |row|
-          tmp_position_index = auto_inc_key(tmp_position_index)
-          row.update(:position => tmp_position_index + 10000)
-        end
+        siblings.
+        filter { position >= new_position }.
+        update(:position => Sequel.lit('position + 1')) 
+
 
         # Puts it back again
-        siblings_ds.
+        siblings.
         filter { position >= new_position}.
-        update(:position => Sequel.lit('position - 10000'))
-
-
+        update(:parent_name => self.parent_name )
         # Now there's a gap at new_position ready for our element.
       }
     end
 
     raise "Failed to set the position for #{self}"
   end
-
-  # auto increment function
-  def auto_inc_key(val)
-     return val += 1
-  end
-
 
   def absolute_position
     relative_position = self.position
