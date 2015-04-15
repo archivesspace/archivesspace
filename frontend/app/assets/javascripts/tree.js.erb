@@ -12,6 +12,11 @@ $(function() {
     $container = $("#object_container"),
     $toolbar = $("#archives_tree_toolbar");
 
+  if($tree.length === 0) {
+    return;
+  }
+
+
   var moved_nodes = [];
   var move_timeout = null;
 
