@@ -270,10 +270,10 @@
 
             {var children_count = parent.children.length}
             {if children_count > 1}
-              {if node.index() > 0}
+              {if !is_first}
                 <li><a href="javascript:void(0);" class="move-node move-node-up" rel="up"><span class="glyphicon glyphicon-arrow-up"></span> <%= I18n.t "actions.move_up" %></a></li>
               {/if}
-              {if node.index() < children_count - 1}
+              {if !is_last}
                 <li><a href="javascript:void(0);" class="move-node move-node-down" rel="down"><span class="glyphicon glyphicon-arrow-down"></span> <%= I18n.t "actions.move_down" %></a></li>
               {/if}
             {/if}

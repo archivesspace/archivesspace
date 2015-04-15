@@ -264,7 +264,8 @@ class ResourcesController < ApplicationController
         "rel" => node['node_type']
       }
       node['a_attr'] = {
-        "href" => "#tree::#{node['id']}"
+        "href" => "#tree::#{node['id']}",
+        "title" => node["title"]
       }
 
       if node['node_type'] == 'resource' || node['record_uri'] == limit_to
