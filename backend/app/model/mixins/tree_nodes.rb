@@ -25,30 +25,46 @@ module TreeNodes
       child.set_root(new_root)
     end
   end
+ 
 
-  
+  def siblings
+    self.class.dataset.
+       filter(:root_record_id => self.root_record_id,
+              :parent_id => self.parent_id,
+              ~:position => nil)
+  end
+
+
+  def order_siblings
+    # add this to avoid DB constraints 
+    siblings.update(:parent_name => Sequel.lit(DB.concat('CAST(id as CHAR(10))', "'_temp'")))
+    
+    siblings.order(:position).each_with_index do |row, i| 
+          row.update(:position => i)
+    end
+    
+    siblings.update(:parent_name => self.parent_name )
+  end
 
   def set_position_in_list(target_position, sequence)
-    siblings_ds = self.class.dataset.
-                       filter(:root_record_id => self.root_record_id,
-                              :parent_id => self.parent_id,
-                              ~:position => nil)
-
+    
     # Find the position of the element we'll be inserted after.  If there are no
     # elements, or if our target position is zero, then we'll get inserted at
     # position zero.
     predecessor = if target_position > 0
-                    siblings_ds.filter(~:id => self.id).order(:position).limit(target_position).select(:position).all
+                    siblings.filter(~:id => self.id).order(:position).limit(target_position).select(:position).all
                   else
                     []
                   end
 
     new_position = !predecessor.empty? ? (predecessor.last[:position] + 1) : 0
 
+
     100.times do
       DB.attempt {
         # Go right to the database here to avoid bumping lock_version for tree changes.
         self.class.dataset.db[self.class.table_name].filter(:id => self.id).update(:position => new_position)
+
         return
       }.and_if_constraint_fails {
         # Someone's in our spot!  Move everyone out of the way and retry.
@@ -59,29 +75,26 @@ module TreeNodes
 
         # Sigh.  Work around:
         # http://stackoverflow.com/questions/5403437/atomic-multi-row-update-with-a-unique-constraint
-
-        # Disables the uniqueness constraint
-        siblings_ds.
+        siblings.
         filter { position >= new_position }.
         update(:parent_name => Sequel.lit(DB.concat('CAST(id as CHAR(10))', "'_temp'")))
 
         # Do the update we actually wanted
-        siblings_ds.
+        siblings.
         filter { position >= new_position }.
-        update(:position => Sequel.lit('position + 1'))
+        update(:position => Sequel.lit('position + 1')) 
+
 
         # Puts it back again
-        siblings_ds.
-        filter { position >= new_position }.
-        update(:parent_name => self.parent_name)
-
+        siblings.
+        filter { position >= new_position}.
+        update(:parent_name => self.parent_name )
         # Now there's a gap at new_position ready for our element.
       }
     end
 
     raise "Failed to set the position for #{self}"
   end
-
 
   def absolute_position
     relative_position = self.position

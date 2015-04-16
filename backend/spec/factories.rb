@@ -48,7 +48,7 @@ FactoryGirl.define do
   sequence(:repo_code) {|n| "ASPACE REPO #{n} -- #{rand(1000000)}"}
   sequence(:username) {|n| "username_#{n}"}
 
-  sequence(:alphanumstr) { (0..4).map{ rand(3)==1?rand(10):(65 + rand(25)).chr }.join }
+  sequence(:alphanumstr) { (0..4).map{ rand(3)==1?rand(1000):(65 + rand(25)).chr }.join }
   sequence(:good_markup) { "<p>I'm</p><p>GOOD</p><p>#{ generate(:alphanumstr)}</p>" }
   sequence(:whack_markup) { "I'm <p><br/>WACK " + generate(:alphanumstr) }
   sequence(:wild_markup) { "<p> I AM \n WILD \n ! \n ! " + generate(:alphanumstr) + "</p>" }

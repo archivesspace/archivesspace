@@ -170,26 +170,38 @@ class ArchivesSpaceService < Sinatra::Base
       position = params[:position]
       parent_id = (target_class == child_class) ? params[:id] : nil
 
-      # We need to be careful about the order these get processed in.  If we're
-      # moving from low to high, we need to work backwards to make sure the
-      # final ordering ends up right.
+      # This has been flipped.  Due to changes in the tree_nodes, the values should
+      # be processed using the lowest to highest.  This reverses the previous process
+      # Does this cause any undo problems?
       first_uri = params[:children][0]
       first_obj = child_class.get_or_die(child_class.my_jsonmodel.id_for(first_uri))
-      ordered = if target.id == first_obj.parent_id && first_obj.absolute_position < position
-                  params[:children].each_with_index.to_a.reverse
-                else
-                  params[:children].each_with_index
-                end
 
-
-      ordered.each do |uri, i|
-        child = child_class.get_or_die(child_class.my_jsonmodel.id_for(uri))
-        child.update_position_only(parent_id, position + i)
+      ordered = nil
+      if target.id == first_obj.parent_id && first_obj.absolute_position < position
+        # We need to remove one from the position to prevent 
+        # position from being added one after the placement.
+        ordered = params[:children].each_with_index.to_a.reverse
+        position = position - 1
+      else
+        # Flipped from previous -- need to reverse the 
+        # array when moving items up the tree.  This is 
+        # different from the previous build.
+        ordered = params[:children].each_with_index
       end
 
+
+      begin
+        last_child = nil 
+        ordered.each do |uri, i|
+          last_child = child_class.get_or_die(child_class.my_jsonmodel.id_for(uri))
+          last_child.update_position_only(parent_id, position + i )
+        end
+      ensure
+        # close the gaps...does this scale? 
+        last_child.order_siblings if last_child
+      end
     end
 
     updated_response(target)
   end
-
 end

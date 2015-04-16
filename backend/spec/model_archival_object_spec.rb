@@ -324,7 +324,7 @@ describe 'ArchivalObject model' do
   end
   
   it "you can resequence children" do
-    resource = create(:json_resource)
+    resource = create(:json_resource, :id_0 => rand(1000).to_s )
     ao = ArchivalObject.create_from_json( build(:json_archival_object, :resource => {:ref => resource.uri}))
 
     archival_object_1 = build(:json_archival_object)
