@@ -24,7 +24,8 @@
         <div class="btn-group pull-right">
           <%= link_to I18n.t("location._frontend.action.create"), {:controller => :locations, :action => :new}, :class => "btn btn-sm btn-default" %>
           <%= link_to I18n.t("location._frontend.action.batch"), {:controller => :locations, :action => :batch}, :class => "btn btn-sm btn-default" %>
-           <% if user_can?("administer_system") %>
+          <%= button_edit_multiple_action(:locations) %> 
+          <% if user_can?("administer_system") %>
              <%= button_delete_multiple_action(:locations) %>
            <% end %>
         </div>

@@ -63,23 +63,41 @@ class LocationsController < ApplicationController
   end
 
   def batch
-    location_params = params.inject({}) { |c, (k,v)| c[k] = v if LOCATION_STICKY_PARAMS.include?(k); c } 
-    @location_batch = JSONModel(:location_batch).new(location_params)
+    if request.post? # if it's a post, we're starting an update
+      @location_batch = JSONModel(:location_batch_update).new(params)
+    else # we're just creatinga new batch from scratch
+      location_params = params.inject({}) { |c, (k,v)| c[k] = v if LOCATION_STICKY_PARAMS.include?(k); c } 
+      @location_batch = JSONModel(:location_batch).new(location_params)
+    end 
   end
+
+  
 
   def batch_create
     begin
-      batch = cleanup_params_for_schema(params[:location_batch], JSONModel(:location_batch).schema)
+      if params[:location_batch][:record_uris] && params[:location_batch][:record_uris].length > 0   
+        batch = cleanup_params_for_schema(params[:location_batch], JSONModel(:location_batch_update).schema)
+        $stderr.puts batch.inspect 
+        @location_batch = JSONModel(:location_batch).from_hash(batch, false)
 
-      @location_batch = JSONModel(:location_batch).from_hash(batch, false)
+        uri = "#{JSONModel::HTTP.backend_url}/locations/batch_update"
+        response = JSONModel::HTTP.post_json(URI(uri), batch.to_json)
 
-      uri = "#{JSONModel::HTTP.backend_url}/locations/batch"
-      if params["dry_run"]
-        uri += "?dry_run=true"
+        batch_response = ASUtils.json_parse(response.body)
+      else 
+      
+        batch = cleanup_params_for_schema(params[:location_batch], JSONModel(:location_batch).schema)
+
+        @location_batch = JSONModel(:location_batch).from_hash(batch, false)
+
+        uri = "#{JSONModel::HTTP.backend_url}/locations/batch"
+        if params["dry_run"]
+          uri += "?dry_run=true"
+        end
+        response = JSONModel::HTTP.post_json(URI(uri), batch.to_json)
+
+        batch_response = ASUtils.json_parse(response.body)
       end
-      response = JSONModel::HTTP.post_json(URI(uri), batch.to_json)
-
-      batch_response = ASUtils.json_parse(response.body)
 
       if batch_response.kind_of?(Hash) and batch_response.has_key?("error")
         if params["dry_run"]

@@ -191,6 +191,25 @@ module ApplicationHelper
       :disabled => "disabled"
     })
   end
+  
+  def button_edit_multiple_action(target_controller, target_action = :batch, opts = {} )
+    label = opts[:label] || I18n.t("actions.edit_batch") 
+    btn_opts = { 
+      :"data-target" => url_for(:controller => target_controller, :action => target_action), 
+      :class => "btn btn-sm btn-default multiselect-enabled edit-batch",
+      :method => "post",
+      :type => "button",
+      :"data-multiselect" => "#tabledSearchResults",
+      :"data-confirmation" => true,
+      :"data-title" => I18n.t("actions.edit_multiple_confirm_title"),
+      :"data-message" => I18n.t("actions.edit_multiple_confirm_message"),
+      :"data-confirm-btn-label" => "#{I18n.t("actions.edit_multiple")}",
+      :"data-authenticity_token" => form_authenticity_token,
+      :disabled => "disabled"
+    }.merge(opts)
+
+    button_tag(label, btn_opts)
+  end
 
   def display_audit_info(hash, opts = {})
     fmt = opts[:format] || 'wide'

@@ -6,6 +6,13 @@
     "parent" => "location",
     "properties" => {
 
+      "locations" => {
+        "type" => "array",
+        "items" => {
+          "type" => "JSONModel(:location) uri"
+        }
+      },
+
       "coordinate_1_range" => {
         "type" => "object",
         "ifmissing" => "error",

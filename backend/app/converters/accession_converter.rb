@@ -339,7 +339,7 @@ class AccessionConverter < Converter
         # Not sure how best to handle this, assuming for now that the built-in ASpace agent exists:
         event.linked_agents << {'role' => 'executing_program', 'ref' => '/agents/software/1'}
         event.date = date
-        event.linked_records << {'role' => 'subject', 'ref' => accession.uri}
+        event.linked_records << {'role' => 'source', 'ref' => accession.uri}
       }
     }
   end
