@@ -136,13 +136,11 @@ $(function() {
 
       $(".record-toolbar .revert-changes .btn", $this).click(function() {
         $this.data("form_changed", false);
-        $this.trigger("formreverted.aspace");
         return true;
       });
 
       $(".form-actions .btn-cancel", $this).click(function() {
         $this.data("form_changed", false);
-        $this.trigger("formreverted.aspace");
         return true;
       });        
 

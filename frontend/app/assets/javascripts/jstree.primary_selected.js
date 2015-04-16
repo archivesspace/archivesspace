@@ -17,7 +17,6 @@
   $.jstree.plugins.primary_selected = function (options, parent) {
 
     this.ensure_sole_selected = function(obj) {
-      console.log("ensure_sole_selected " + obj.id);
       obj = this.get_node(obj);
 
       // important!
@@ -47,7 +46,6 @@
     };
 
     this.set_primary_selected = function(obj) {
-      console.log("set_primary_selected " + obj);
       if (obj === '#') {
         var root = this.get_node(obj);
         obj = root.children[0];

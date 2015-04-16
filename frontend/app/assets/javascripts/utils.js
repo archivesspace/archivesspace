@@ -852,14 +852,10 @@ $(function() {
 // shortcuts
 $(function() {
   var initFormShortcuts = function() {
-    console.log("init form cuts");
     var $form = $(this);
 
-    $.bind('keydown', 'shift+s', function() {
-      console.log("keydown");
-      console.log($form.data("form_changed"));
-//      $form.submit()
-    })
+    // $.bind('keydown', 'shift+s', function() {
+    // })
   };
 
   $(document).bind('formchanged.aspace', function(event) {
@@ -928,7 +924,6 @@ $(function() {
 
   $('li.dropdown').on({
     'shown.bs.dropdown': function() {
-      console.log("opening");
       $(this).bind("keydown", 'down', traverseMenuDown);
       $(this).bind("keydown", 'up', traverseMenuUp);
       $(this).bind("keydown", 'return', clickActive);

@@ -1,4 +1,4 @@
-require 'pry'
+# require 'pry'
 require_relative 'spec_helper'
 
 describe "ArchivesSpace user interface" do
@@ -401,7 +401,15 @@ describe "ArchivesSpace user interface" do
   describe "Agents" do
 
     before(:all) do
-      login_as_archivist
+      backend_login
+
+      @repo = create(:repo)
+
+      (@user, @pass) = create_user
+      add_user_to_archivists(@user, @repo.uri)
+
+      login(@user, @pass)
+      select_repo(@repo.repo_code)
     end
 
     after(:all) do
@@ -595,6 +603,7 @@ describe "ArchivesSpace user interface" do
       $driver.execute_script("$('#agent_notes__0__subnotes__0__content_').data('CodeMirror').save()")
 
       $driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
+
 
       $driver.click_and_wait_until_gone(:link => "My Custom Sort Name")
 
@@ -2319,6 +2328,8 @@ describe "ArchivesSpace user interface" do
 
       # Give it a child AO
       $driver.find_element(:link, "Add Child").click
+      $driver.wait_for_ajax
+
 
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "An Archival Object with notes")
       $driver.find_element(:id, "archival_object_level_").select_option("item")
@@ -2336,7 +2347,9 @@ describe "ArchivesSpace user interface" do
 
       $driver.blocking_find_elements(:css => '#notes > .subrecord-form-container > .subrecord-form-list > li').length.should eq(3)
 
+
       $driver.find_element(:link, "Revert Changes").click
+
 
       # Skip over "Save Your Changes" dialog i.e. don't save AO.
       $driver.find_element(:id, "dismissChangesButton").click
