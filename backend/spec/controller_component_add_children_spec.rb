@@ -41,17 +41,17 @@ describe 'Component Add Children controllers' do
 
   it "can keep the order even if the tree has been reworked" do
     children = []
-    1000.times { children << create(:json_archival_object, :resource => {:ref => resource.uri}, :parent => {:ref => ao.uri}).uri  }
+    100.times { children << create(:json_archival_object, :resource => {:ref => resource.uri}, :parent => {:ref => ao.uri}).uri  }
 
     tree = get_ao_tree(ao.id) 
-    tree.length.should eq(1000)
+    tree.length.should eq(100)
 
     # let's delete a chunk
     victims = children.slice!(19..38)
     perform_delete(victims)
     
     tree = get_ao_tree(ao.id) 
-    tree.length.should eq(980)
+    tree.length.should eq(80)
     
     tree.each_with_index do |child, i|
       child["uri"].should eq(children[i])
@@ -68,7 +68,7 @@ describe 'Component Add Children controllers' do
     # let's check out tree 
     
     tree = get_ao_tree(ao.id) 
-    tree.length.should eq(980)
+    tree.length.should eq(80)
     # check the new order 
     tree.each_with_index do |child, i|
       child["uri"].should eq(new_order[i])
@@ -87,7 +87,7 @@ describe 'Component Add Children controllers' do
     
     # let's check out tree again 
     tree = get_ao_tree(ao.id) 
-    tree.length.should eq(980)
+    tree.length.should eq(80)
     # check the new order 
     tree.each_with_index do |child, i|
       child["uri"].should eq(new_order[i])
