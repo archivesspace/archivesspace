@@ -5,11 +5,15 @@ en:
       outcome: Outcome
       transfer: Transfer
     linked_agent_archival_record_relators:
+      abr: Abridger
       act: Actor
+      adi: Art director
       adp: Adapter
       anl: Analyst
       anm: Animator
       ann: Annotator
+      ape: Appellee
+      apl: Appellant
       app: Applicant
       arc: Architect
       arr: Arranger
@@ -26,6 +30,7 @@ en:
       aud: Author of dialog
       aui: Author of introduction, etc.
       aus: Author of screenplay, etc.
+      ato: Autographer
       ant: Bibliographic antecedent
       bnd: Binder
       bdd: Binding designer
@@ -35,12 +40,16 @@ en:
       bjd: Bookjacket designer
       bpd: Bookplate designer
       bsl: Bookseller
+      brl: Braille embosser
+      brd: Broadcaster
       cll: Calligrapher
       ctg: Cartographer
+      cas: Caster
       cns: Censor
       chr: Choreographer
       cng: Cinematographer
       cli: Client
+      cor: Collection registrar
       clb: Collaborator
       col: Collector
       clt: Collotyper
@@ -71,6 +80,8 @@ en:
       crr: Corrector
       crp: Correspondent
       cst: Costume designer
+      cou: Court governed
+      crt: Court reporter
       cov: Cover designer
       cre: Creator
       cur: Curator of an exhibition
@@ -83,6 +94,7 @@ en:
       dft: Defendant-appellant
       dfe: Defendant-appellee
       dgg: Degree grantor
+      dgs: Degree supervisor
       dln: Delineator
       dpc: Depicted
       dpt: Depositor
@@ -95,8 +107,11 @@ en:
       drm: Draftsman
       dub: Dubious author
       edt: Editor
+      edc: Editor of compilation
+      edm: Editor of moving image work
       elg: Electrician
       elt: Electrotyper
+      enj: Enacting jurisdiction
       eng: Engineer
       egr: Engraver
       etr: Etcher
@@ -104,7 +119,11 @@ en:
       exp: Expert
       fac: Facsimilist
       fld: Field director
+      fmd: Film director
+      fds: Film distributor
       flm: Film editor
+      fmp: Film producer
+      fmk: Filmmaker
       fpy: First party
       frg: Forger
       fmo: Former owner
@@ -113,6 +132,7 @@ en:
       grt: Graphic technician
       hnr: Honoree
       hst: Host
+      his: Host institution
       ilu: Illuminator
       ill: Illustrator
       ins: Inscriber
@@ -120,6 +140,9 @@ en:
       ive: Interviewee
       ivr: Interviewer
       inv: Inventor
+      isb: Issuing body
+      jud: Judge
+      jug: Jurisdiction governed
       lbr: Laboratory
       ldr: Laboratory director
       lsa: Landscape architect
@@ -141,19 +164,23 @@ en:
       mfr: Manufacturer
       mrb: Marbler
       mrk: Markup editor
+      med: Medium
       mdc: Metadata contact
       mte: Metal-engraver
+      mtk: Minute taker
       mod: Moderator
       mon: Monitor
       mcp: Music copyist
       msd: Musical director
       mus: Musician
       nrt: Narrator
+      osp: Onscreen presenter
       opn: Opponent
       orm: Organizer of meeting
       org: Originator
       oth: Other
       own: Owner
+      pan: Panelist
       ppm: Papermaker
       pta: Patent applicant
       pth: Patent holder
@@ -165,12 +192,16 @@ en:
       ptt: Plaintiff-appellant
       pte: Plaintiff-appellee
       plt: Platemaker
+      pra: Praeses
+      pre: Presenter
       prt: Printer
       pop: Printer of plates
       prm: Printmaker
       prc: Process contact
       pro: Producer
+      prn: Production company
       pmn: Production manager
+      prs: Production designer
       prd: Production personnel
       prp: Production place
       prg: Programmer
@@ -181,6 +212,8 @@ en:
       pbl: Publisher
       pbd: Publishing director
       ppt: Puppeteer
+      rdd: Radio director
+      rpc: Radio producer
       rcp: Recipient
       rce: Recording engineer
       rcd: Recordist
@@ -196,6 +229,7 @@ en:
       rse: Respondent-appellee
       rpy: Responsible party
       rsg: Restager
+      rsr: Restorationist
       rev: Reviewer
       rbr: Rubricator
       sce: Scenarist
@@ -204,6 +238,7 @@ en:
       scl: Sculptor
       spy: Second party
       sec: Secretary
+      sll: Seller
       std: Set designer
       stg: Setting
       sgn: Signer
@@ -211,6 +246,7 @@ en:
       sds: Sound designer
       spk: Speaker
       spn: Sponsor
+      sgd: Stage director
       stm: Stage manager
       stn: Standards body
       str: Stereotyper
@@ -219,6 +255,8 @@ en:
       srv: Surveyor
       tch: Teacher
       tcd: Technical director
+      tld: Television director
+      tlp: Television producer
       ths: Thesis advisor
       trc: Transcriber
       trl: Translator
@@ -226,11 +264,18 @@ en:
       tyg: Typographer
       uvp: University place
       vdg: Videographer
+      vac: Voice actor
       voc: Vocalist
       wit: Witness
       wde: Wood-engraver
       wdc: Woodcutter
       wam: Writer of accompanying material
+      wac: Writer of added commentary
+      wal: Writer of added lyrics
+      wat: Writer of added text
+      win: Writer of introduction
+      wpr: Writer of preface
+      wst: Writer of supplementary textual content
     linked_agent_event_roles:
       authorizer: Authorizer
       executing_program: Executing Program
