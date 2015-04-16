@@ -40,18 +40,20 @@ $(function() {
     read_only: $(".archives-tree").data("read-only"),
     rules: $(".archives-tree").data("rules")
   };
+
   var initForm = function(html) {
     $container.html(html);
 
     var $form = $("form", $container);
 
-    if (location.hash !== "#tree::new") {
+    // if (location.hash !== "#tree::new") {
       $form.data("form_changed", false);
       $(".btn-primary", $form).attr("disabled", "disabled");
       $(".btn-cancel", $form).attr("disabled", "disabled");
-    } else {
-      $form.data("form_changed", true);
-    }
+    // } else {
+    //   $form.data("form_changed", true);
+    // }
+
 
     $form.on("formchanged.aspace", function() {
 
@@ -59,28 +61,21 @@ $(function() {
       $(".btn-cancel", $form).removeAttr("disabled");
     });
 
-    $container.one("formreverted.aspace", function(event, data) {
-      $(window).trigger('hashchange');
+    $form.on("formreverted.aspace", function(event, data) {
+
+      if ($("form", $container).data("form_changed")) {
+
+        var p = confirmChanges(tree.get_primary_selected());
+        p.done(function(proceed) {
+        if(proceed) {
+          $(window).trigger('hashchange');
+          $.scrollTo("header")
+        }
+        return;
+        });
+      }
+
     });
-
-
-    // We handle form reverts ourselves.
-    // There's a revert button above...
-    $(".record-toolbar .revert-changes .btn", $form).click(function() {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-      });
-
-    // ..and another down below
-    $(".btn-cancel", $form)
-      .html(AS.renderTemplate("tree_revert_changes_label_template"))
-      .click(function() {
-        // scroll back to the top
-        $.scrollTo("header")
-
-        event.preventDefault();
-        event.stopImmediatePropagation();
-      });
 
 
     $(".btn-plus-one", $form).click(function() {
@@ -102,6 +97,28 @@ $(function() {
     // can be bound to the form first.
     // See form.js
     $(document).triggerHandler("loadedrecordform.aspace", [$container]);
+
+
+    // We handle form reverts ourselves.
+    // There's a revert button above...
+    $(".record-toolbar .revert-changes .btn", $form).off().click(function(event) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      $form.trigger("formreverted.aspace");
+
+      });
+
+    // ..and another down below
+    $(".btn-cancel", $form)
+      .html(AS.renderTemplate("tree_revert_changes_label_template"))
+      .off()
+      .click(function(event) {
+        // scroll back to the top
+
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        $form.trigger("formreverted.aspace");
+      });
 
 
     $form.ajaxForm({
@@ -233,7 +250,7 @@ $(function() {
   }
 
   var loadPaneForNode = function(node) {
-    var nodeEl = tree.get_node(node, true);
+   var nodeEl = tree.get_node(node, true);
 
     insertLoadingMessage();
 
@@ -282,7 +299,7 @@ $(function() {
         type: "GET",
         success: function(html) {
           initForm(html);
-          $("form", $container).triggerHandler("formchanged.aspace");
+//          $("form", $container).triggerHandler("formchanged.aspace");
         },
         error: function() {
           $container.html("<div class='alert alert-error'><p>An error occurred loading this form.</p><pre>"+errorDesc+"</pre></div>");
@@ -438,7 +455,6 @@ $(function() {
 
 
   var onHashChange = function(){
-    
     var currentlyFocusedSelector;
 
     // if a toolbar action is clicked, let's refocus it
@@ -458,12 +474,6 @@ $(function() {
     }
 
     var id_from_hash = location.hash.replace("#tree::", "");
-
-    if ($("form", $container).data("form_changed")) {
-      confirmChanges($("#" + id_from_hash));
-      changeHashSilently("#tree::"+getPrimarySelectedNode().attr("id"));
-      return;
-    }
 
     tree.set_primary_selected(id_from_hash);
 
@@ -834,7 +844,10 @@ $(function() {
   };
 
 
-  var confirmChanges = function(targetNodeEl) {
+  var confirmChanges = function(target) {
+    var node = tree.get_node(target);
+    var targetNodeEl = tree.get_node(node, true);
+
     var d = $.Deferred();
 
     var parentIdFornew;
@@ -852,7 +865,7 @@ $(function() {
 
       var onSubmitSuccess = function() {
         $form.data("form_changed", false);
-        setHashForNode(targetNodeEl.attr("id"));
+        setHashForNode(node.id);
         $("#saveYourChangesModal").modal("hide");
         d.resolve(true);
       };
@@ -909,6 +922,12 @@ $(function() {
       //open the node if it's closed
       if (!obj.state.opened) {
         tree.open_node(obj);
+      }
+
+      //wipe out any "new" nodes if they're 
+      //still hanging around
+      if (obj.id != "new") {
+        tree.delete_node("new");
       }
 
       setHashForNode(tree.get_primary_selected());
@@ -1119,7 +1138,7 @@ $(function() {
       // if the form is dirty AND the selected node isn't the primary
       // then do a modal check
       if ($("form", $container).data("form_changed") && data.node.id != tree.get_primary_selected()) {
-        var p = confirmChanges(tree.get_primary_selected_dom());
+        var p = confirmChanges(tree.get_primary_selected());
         p.done(function(proceed) {
           if (proceed) {
             onSelectNode();

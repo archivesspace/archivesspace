@@ -26,6 +26,9 @@ $backend_start_fn = proc {
                              :session_expire_after_seconds => $expire,
                              :realtime_index_backlog_ms => 600000
                            })
+
+  AppConfig[:backend_url] = $backend
+
 }
 
 $frontend_start_fn = proc {
@@ -130,12 +133,16 @@ RSpec.configure do |config|
   config.include RepositoryHelperMethods
   config.include JSTreeHelperMethods
   config.include FactoryGirl::Syntax::Methods
+  # config.formatter = :documentation
 
   config.before(:all) do
-    puts "before all"
+
     selenium_init($backend_start_fn, $frontend_start_fn)
+    SeleniumFactories.init
     @indexer = RealtimeIndexer.new($backend, nil)
     @period = PeriodicIndexer.new
+
+
 
   end
 

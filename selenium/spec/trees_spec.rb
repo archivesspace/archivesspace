@@ -1,27 +1,15 @@
-require 'pry'
-
 require_relative 'spec_helper'
 
 describe "Tree UI" do
 
   before(:all) do
-    puts "ok"
     backend_login
 
     @repo = create(:repo)
     set_repo(@repo.uri)
-    puts @repo.inspect
 
     (@viewer_user, @viewer_pass) = create_user
     add_user_to_viewers(@viewer_user, @repo.uri)
-
-
-    # @r = create(:resource)
-    # @a1 = create(:archival_object, {:resource => {:ref => @r.uri}})
-    # @a2 = create(:archival_object, {:resource => {:ref => @r.uri}})
-    # @a3 = create(:archival_object, {:resource => {:ref => @r.uri}})
-
-    # run_all_indexers
   end
 
   before(:each) do
@@ -30,8 +18,6 @@ describe "Tree UI" do
     @a1 = create(:archival_object, {:resource => {:ref => @r.uri}})
     @a2 = create(:archival_object, {:resource => {:ref => @r.uri}})
     @a3 = create(:archival_object, {:resource => {:ref => @r.uri}})
-
-    puts @r.inspect
 
     login("admin", "admin")
     select_repo(@repo.repo_code)
