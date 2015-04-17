@@ -2696,6 +2696,11 @@ describe "ArchivesSpace user interface" do
 
   describe "Users and authentication" do
 
+    before(:all) do
+      @user = build(:user)
+    end
+
+
     after(:all) do
       logout
     end
@@ -2714,14 +2719,14 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Sign In").click
       $driver.find_element(:link, "Register now").click
 
-      $driver.clear_and_send_keys([:id, "user_username_"], @user)
-      $driver.clear_and_send_keys([:id, "user_name_"], @user)
+      $driver.clear_and_send_keys([:id, "user_username_"], @user.username)
+      $driver.clear_and_send_keys([:id, "user_name_"], @user.name)
       $driver.clear_and_send_keys([:id, "user_password_"], "testuser")
       $driver.clear_and_send_keys([:id, "user_confirm_password_"], "testuser")
 
       $driver.find_element(:id, 'create_account').click
 
-      assert(5) { $driver.find_element(:css => "span.user-label").text.should match(/#{@user}/) }
+      assert(5) { $driver.find_element(:css => "span.user-label").text.should match(/#{@user.username}/) }
     end
 
 
@@ -2738,7 +2743,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:css, '.user-container a.btn').click
       $driver.find_element(:link, "Become User").click
-      $driver.clear_and_send_keys([:id, "select-user"], @user)
+      $driver.clear_and_send_keys([:id, "select-user"], @user.username)
       $driver.find_element(:css, "#new_become_user .btn-primary").click
       $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Successfully switched users/)
     end

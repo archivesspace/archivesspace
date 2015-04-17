@@ -23,17 +23,29 @@ module SeleniumFactories
 
       to_create{|instance| instance.save}
 
+      sequence(:username) {|n| "testuser_#{n}_#{Time.now.to_i}"}
+      sequence(:user_name) {|n| "Test User #{n} #{Time.now}"}
+
+      sequence(:repo_code) {|n| "testrepo_#{n}_#{Time.now.to_i}"}
+      sequence(:repo_name) {|n| "Test Repo #{n} #{Time.now}"}
+
+
       sequence(:ref_id) {|n| "aspace_#{n}"}
       sequence(:id_0) {|n| "#{Time.now.to_i}_#{n}"}
 
       sequence(:archival_object_title) {|n| "Archival Object #{n} - #{Time.now}"}
 
       factory :repo, class: JSONModel(:repository) do
-        repo_code "TEST#{Time.now.to_i}"
-        name "TEST #{Time.now}"
+        repo_code { generate :repo_code }
+        name { generate :repo_name }
         org_code "123"
         image_url "http://foo.com/bar"
         url "http://foo.com"
+      end
+
+      factory :user, class: JSONModel(:user) do
+        username { generate :username }
+        name { generate :user_name}
       end
 
 

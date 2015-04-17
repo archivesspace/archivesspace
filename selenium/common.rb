@@ -441,9 +441,6 @@ def selenium_init(backend_fn, frontend_fn)
     $server_pids << frontend_fn.call
   end
 
-  @user = "testuser#{Time.now.to_i}_#{$$}"
-
-
   if ENV['TRAVIS'] && ENV['WITH_FIREFOX']
     puts "Loading stable version of Firefox and nodejs"
     Dir.chdir('/var/tmp') do
