@@ -15,7 +15,6 @@
 'common/schemas/*.rb'
 -
 README.md
-README_HTTPS.md
 README_PREFIX.md
 README_SOLR.md
 README_TOMCAT.md
@@ -39,4 +38,5 @@ plugins/local/PLUGINS_LOCAL_README.md
 plugins/newrelic/README_NEWRELIC.md
 plugins/PLUGINS_README.md
 public/config/locales/PUBLIC_LOCALES_README.md
+README_HTTPS.md
 build/BUILD_README.md
