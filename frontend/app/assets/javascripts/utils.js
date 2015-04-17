@@ -1,6 +1,7 @@
 //= require trimpath-template-1.0.38
 //= require bootstrap-datepicker
 //= require bootstrap-combobox
+//= require jquery.hotkeys
 
 var AS = {};
 
@@ -342,7 +343,7 @@ $(function() {
 
 
 AS.templateCache = [];
-AS.renderTemplate = function(templateId, data) {
+AS.renderTemplate = function(templateId, data, cb) {
 
   if (!AS.templateCache[templateId]) {
     var templateNode = $("#"+templateId).get(0);
@@ -464,7 +465,7 @@ $.fn.serializeObject = function() {
   $(this).each(function() {
 
     if ($(this).is("form")) {
-      var a = this.serializeArray();
+      var a = $(this).serializeArray();
       $.each(a, function() {
         if (o[this.name] !== undefined) {
           if (!o[this.name].push) {
@@ -846,4 +847,92 @@ $(function() {
 
     $(".alert:not(.with-hide-alert)").initCloseAlertAction();
   });
+});
+
+// shortcuts
+$(function() {
+  var initFormShortcuts = function() {
+    var $form = $(this);
+
+    // $.bind('keydown', 'shift+s', function() {
+    // })
+  };
+
+  $(document).bind('formchanged.aspace', function(event) {
+    var $form = $('form.aspace-record-form');
+    if ($form.data("form_changed")) {
+      $(document).bind('keydown', 'ctrl+s', function() {
+        $form.submit()
+      });
+    }
+  })
+
+  $(document).bind('keydown', 'shift+/', function() {
+    if (!$('#ASModal').length) {
+      AS.openAjaxModal(APP_PATH + "shortcuts");
+    }
+    
+  });
+
+  $(document).bind('keydown', 'esc', function() {
+    if ($('#ASModal').length) {
+      $('#ASModal').remove();
+    }
+  });
+
+  $(document).bind('keydown', 'ctrl+x', function() {
+    $(document).trigger("formclosed.aspace");
+  });
+
+  $(document).bind('keydown', 'shift+b', function() {
+    $('li.browse-container a.dropdown-toggle').trigger('click.bs.dropdown'); 
+  });
+
+  $(document).bind('keydown', 'shift+c', function() {
+    $('li.create-container a.dropdown-toggle').trigger('click.bs.dropdown'); 
+  });
+
+  var traverseMenuDown = function() {
+    var $current = $(this).find('ul li.active');
+    var $next = $current.length ? $current.next() : $(this).find('li:first');
+
+    if ($next.length){
+      $next.addClass('active');
+      $current.removeClass('active');
+    }  
+  };
+
+  var traverseMenuUp = function() {
+    var $current = $(this).find('ul li.active');
+    var $next = $current.length ? $current.prev() : $(this).find('li:last');
+
+    if ($next.length){
+      $next.addClass('active');
+      $current.removeClass('active');
+    }  
+  };
+
+  var clickActive = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var $active = $(this).find('ul li.active');
+    if ($active.length) {
+      $active.find('a:first')[0].click();
+    }
+  };
+
+
+  $('li.dropdown').on({
+    'shown.bs.dropdown': function() {
+      $(this).bind("keydown", 'down', traverseMenuDown);
+      $(this).bind("keydown", 'up', traverseMenuUp);
+      $(this).bind("keydown", 'return', clickActive);
+    },
+    'hide.bs.dropdown': function() {
+      $(this).unbind("keydown", traverseMenuDown);
+      $(this).unbind("keydown", traverseMenuUp);
+      $(this).unbind('keydown', clickActive);
+    }
+  });
+    
 });
