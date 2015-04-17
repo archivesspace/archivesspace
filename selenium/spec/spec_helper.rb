@@ -135,19 +135,18 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   # config.formatter = :documentation
 
-  config.before(:all) do
+  config.before(:suite) do
 
     selenium_init($backend_start_fn, $frontend_start_fn)
     SeleniumFactories.init
-    @indexer = RealtimeIndexer.new($backend, nil)
-    @period = PeriodicIndexer.new
-
-
-
   end
 
+  config.before(:all) do
+    @indexer = RealtimeIndexer.new($backend, nil)
+    @period = PeriodicIndexer.new
+  end
 
-  config.after(:all) do
+  config.after(:suite) do
     report_sleep
     cleanup
   end

@@ -192,7 +192,7 @@ $(function() {
         return (typeof(child.children) === 'object' && child.children.length > 0);
       }), url);
     }
-  };                      
+  };
 
 
   var getPrimarySelectedNode = function() {
@@ -230,7 +230,7 @@ $(function() {
   };
 
     var removeLoadingMessage = function() {
-      var loadingMsgEl = $('.tree-loading-notice') 
+      var loadingMsgEl = $('.tree-loading-notice')
       loadingMsgEl.fadeOut();
       loadingMsgEl.remove();
       $(":input", $container).removeAttr("disabled");
@@ -327,8 +327,13 @@ $(function() {
 
     if (indexOfCurrentNode && indexOfCurrentNode !== 0) {
       data.previous = previousSibling(node);
+    } else if (node.parent) {
+      data.previous = node.parent
     }
-    if (!isLastSibling(node)) {
+
+    if (node.children && node.children.length > 0) {
+      data.next = node.children[0];
+    } else if (!isLastSibling(node)) {
       data.next = nextSibling(node);
     }
 
@@ -479,10 +484,14 @@ $(function() {
 
     tree.primary(function(node) {
       if (!node.state.opened) {
-        tree.open_node(node);
+        tree.open_node(node, function(node) {
+          loadPaneForNode(node);
+          loadTreeActionsForNode(node);
+        });
+      } else {
+        loadPaneForNode(node);
+        loadTreeActionsForNode(node);
       }
-      loadPaneForNode(node);
-      loadTreeActionsForNode(node);
     });
 
     if (currentlyFocusedSelector) {
@@ -513,7 +522,7 @@ $(function() {
         "data-params": new_object_params ? new_object_params : ""
       }
     };
-      
+
     var node_id = tree.create_node(parent, newNode, "last");
 
     setHashForNode("new");
@@ -529,7 +538,7 @@ $(function() {
   var enableDisableToolbarActions = function() {
     if (tree.get_primary_selected(true).parents.length < 3) {
       $(".move-node-up-level", $toolbar).attr("disabled", "disabled").addClass("disabled");
-    } 
+    }
   };
 
 
@@ -558,7 +567,7 @@ $(function() {
     });
 
     $container.on("click", ".btn-cancel", function(event) {
-      
+
       event.preventDefault();
       event.stopImmediatePropagation();
       if ($(this).attr("disabled")) {
@@ -588,7 +597,7 @@ $(function() {
       });
     });
 
-    
+
     $(".archives-tree-container").on("click", ".move-node", function(event) {
       event.preventDefault();
       event.stopPropagation();
@@ -747,7 +756,7 @@ $(function() {
 
   // In JSTree you say where, relative to the pre-op tree,
   // you want moving nodes to go, and it takes care of the rest.
-  // In AS Backend you say where you want the moved nodes to 
+  // In AS Backend you say where you want the moved nodes to
   // be in the tree after the move operation, and it takes care of the rest.
   // When JSTree is done it sends us this data and we need to translate.
   //
@@ -755,12 +764,12 @@ $(function() {
   // the position of the first node in the data is:
   //   the former position of the node it bumped lower.
   // To translate this for ASpace:
-  //   leader's position + the gap created by the splice - 1 for 
+  //   leader's position + the gap created by the splice - 1 for
   //   the node that slid lower in the index.
 
   var moveNodes = function(collectedMoveData) {
 
-    //sanity check - shouldn't ever happen 
+    //sanity check - shouldn't ever happen
     if (_.uniq(_.map(collectedMoveData, function(md) {
       return md.parent
     })).length > 1) {
@@ -822,11 +831,11 @@ $(function() {
             }
           }
 
-          // Always update the currently selected node's position.. it may have changed!         
+          // Always update the currently selected node's position.. it may have changed!
           $("#"+nodeEl.attr("rel")+"_position_", $container).val(nodeEl.index());
 
-          // Let's unlock the form now 
-          removeLoadingMessage(); 
+          // Let's unlock the form now
+          removeLoadingMessage();
 
           // Also update the node's toolbar actions (as the move actions may have become out of sync)
           loadTreeActionsForNode(node);
@@ -924,7 +933,7 @@ $(function() {
         tree.open_node(obj);
       }
 
-      //wipe out any "new" nodes if they're 
+      //wipe out any "new" nodes if they're
       //still hanging around
       if (obj.id != "new") {
         tree.delete_node("new");
@@ -971,8 +980,8 @@ $(function() {
       });
     } else {
       data.text = AS.renderTemplate("tree_node_" + data.node_type + "_template", {node: data});
-      
-      if(_.has(data, "children") && _.isArray(data.children)) { 
+
+      if(_.has(data, "children") && _.isArray(data.children)) {
         renderNodeText(data.children) ;
       }
     }
@@ -1034,6 +1043,12 @@ $(function() {
         },
         "digital_object": {
           "icon" : "asicon icon-digital_object"
+        },
+        "classification": {
+          "icon" : "glyphicon glyphicon-file"
+        },
+        "classification_term": {
+          "icon" : "glyphicon glyphicon-file"
         }
       },
       themes: {
@@ -1120,19 +1135,13 @@ $(function() {
           tree.set_primary_selected('#');
         }
       }
-      
+
       tree.primary(function(node) {
         tree.open_node(node);
         loadTreeActionsForNode(node);
       });
 
       onTreeLoadCallback();
-    }).bind("refresh.jstree", function() {      
-    }).bind("load_node.jstree", function (event, node, status) {
-    }).bind("deselect_all.jstree", function (event, data) {
-    }).bind("create_node.jstree", function (event, node, parent, position) {
-    }).bind("before_open.jstree", function (event, data) {
-    }).bind("close_node.jstree", function (event, data) {
     }).bind("select_node.jstree", function (event, data) {
 
       // if the form is dirty AND the selected node isn't the primary
@@ -1170,7 +1179,7 @@ $(function() {
         moveNodes(moved_nodes);
         onSelectNode();
       }, 50);
-      
+
 
     }).bind("refreshtreenode.aspace", function(event, data) {
       var a_title = data.title || data.text;
@@ -1185,7 +1194,7 @@ $(function() {
         // drop the 'new' node and replace with a record node
 
         // This was added to make a test pass
-        // but something is amiss somewhere 
+        // but something is amiss somewhere
         if (data.uri && !data.record_uri) {
           data.record_uri = data.uri;
         }
