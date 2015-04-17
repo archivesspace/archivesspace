@@ -3,6 +3,7 @@ require 'java'
 require 'sequel'
 require 'sequel/plugins/optimistic_locking'
 Sequel.extension :pagination
+Sequel.extension :core_extensions
 
 require "db/db_migrator"
 
