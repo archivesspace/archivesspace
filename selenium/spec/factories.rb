@@ -8,6 +8,12 @@ module SeleniumFactories
 
   def self.init
 
+    @@inited ||= false
+
+    if @@inited
+      return true
+    end
+
     JSONModel::init(:client_mode => true,
                     :url => AppConfig[:backend_url])
 
@@ -60,6 +66,8 @@ module SeleniumFactories
         expression "1900s"
       end
 
-    end                
+    end
+
+    @@inited = true
   end
 end

@@ -1630,6 +1630,7 @@ describe "ArchivesSpace user interface" do
     it "reports warnings when updating a Resource with invalid data" do
       $driver.clear_and_send_keys([:id, "resource_title_"],"")
       $driver.find_element(:css => "form#resource_form button[type='submit']").click
+      puts "finding error"
       expect {
         $driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
       }.to_not raise_error
@@ -1640,9 +1641,8 @@ describe "ArchivesSpace user interface" do
 
     it "reports errors if adding an empty child to a Resource" do
       $driver.find_element(:link, "Add Child").click
-
-      $driver.clear_and_send_keys([:id, "archival_object_title_"], "")
-
+      $driver.clear_and_send_keys([:id, "archival_object_title_"], " ")
+      sleep(5)
       # False start: create an object without filling it out
       $driver.click_and_wait_until_gone(:id => "createPlusOne")
 
@@ -1707,9 +1707,13 @@ describe "ArchivesSpace user interface" do
 
 
     it "reports warnings when updating an Archival Object with invalid data" do
+      puts "THIS"
       aotitle = $driver.find_element(:css, "h2").text.sub(/ +Archival Object/, "")
+      $driver.find_element(:id, "archival_object_level_").select_option("item")
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "")
+      sleep(5)
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
+      $driver.wait_for_ajax
       expect {
         $driver.find_element_with_text('//div[contains(@class, "error")]', /Title - must not be an empty string/)
       }.to_not raise_error
@@ -2328,9 +2332,10 @@ describe "ArchivesSpace user interface" do
 
       # Give it a child AO
       $driver.find_element(:link, "Add Child").click
+      sleep(2)
       $driver.wait_for_ajax
 
-
+      
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "An Archival Object with notes")
       $driver.find_element(:id, "archival_object_level_").select_option("item")
 
@@ -2442,12 +2447,14 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Edit").click
     end
 
-    it "reports errors if adding an empty child to a Digital Object" do
+    it "reports errors if adding a child with no title to a Digital Object" do
       $driver.find_element(:link, "Add Child").click
+      $driver.wait_for_ajax
+      $driver.clear_and_send_keys([:id, "digital_object_component_component_id_"], "123")
+      sleep(2)
 
       # False start: create an object without filling it out
       $driver.click_and_wait_until_gone(:id => "createPlusOne")
-
       $driver.find_element_with_text('//div[contains(@class, "error")]', /you must provide/)
     end
 
@@ -2922,7 +2929,7 @@ describe "ArchivesSpace user interface" do
   end
 
 
-  describe  "RDE" do
+  describe "RDE" do
 
     before(:all) do
       login_as_archivist
@@ -3193,7 +3200,7 @@ describe "ArchivesSpace user interface" do
   end
 
 
-  describe  "Digital Object RDE" do
+  describe "Digital Object RDE" do
 
     before(:all) do
       login_as_archivist
