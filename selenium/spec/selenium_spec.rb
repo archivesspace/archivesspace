@@ -4285,6 +4285,10 @@ describe "ArchivesSpace user interface" do
     end
 
 
+    after(:all) do
+      logout
+    end
+
     it "can create a find and replace job" do
       select_repo(@job_repo) do
         resource_title = "#{$$}xxx_resource"
