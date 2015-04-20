@@ -1,6 +1,4 @@
 <%= setup_context :title => "Batch Locations", :trail => [[I18n.t("location._plural"), {:controller => :locations, :action => :index}]] %>
-<% @is_batch_update = @location_batch.jsonmodel_type == "location_batch_update" ? true : false %>
-<% @action = @is_batch_update ? "update" : "create" %> 
 
 <%= form_for @location_batch, :as => "location_batch", :url => {:action => :batch_create}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
   <%= form_context :location_batch, @location_batch do |form| %>

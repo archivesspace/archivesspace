@@ -3907,26 +3907,25 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, ".record-toolbar .btn.multiselect-enabled.edit-batch").click
       $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
 
-      $driver.clear_and_send_keys([:id, "location_batch_building_"], "71 Fakers Way") 
       $driver.clear_and_send_keys([:id, "location_batch_floor_"], "6th") 
       $driver.clear_and_send_keys([:id, "location_batch_room_"], "Studio 5") 
       $driver.clear_and_send_keys([:id, "location_batch_area_"], "The corner") 
 
       $driver.click_and_wait_until_gone(:css => "form#new_location_batch .btn-primary")
-      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /8 Locations Created/) 
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /8 Locations Updated/) 
       run_index_round
       $driver.navigate.refresh
-      $driver.clear_and_send_keys([:css, ".sidebar input.text-filter-field"], "71*")
+      $driver.clear_and_send_keys([:css, ".sidebar input.text-filter-field"], "1978*")
       $driver.find_element(:css, ".sidebar input.text-filter-field + div button").click 
    
-      $driver.find_element_with_text('//td', /71 Fakers Way, 6th, Studio 5, The corner \[Room: 1A, Shelf: 1\]/) 
-      $driver.find_element_with_text('//td', /71 Fakers Way, 6th, Studio 5, The corner \[Room: 1A, Shelf: 2\]/) 
-      $driver.find_element_with_text('//td', /71 Fakers Way, 6th, Studio 5, The corner \[Room: 1A, Shelf: 3\]/) 
-      $driver.find_element_with_text('//td', /71 Fakers Way, 6th, Studio 5, The corner \[Room: 1A, Shelf: 4\]/) 
-      $driver.find_element_with_text('//td', /71 Fakers Way, 6th, Studio 5, The corner \[Room: 1B, Shelf: 1\]/) 
-      $driver.find_element_with_text('//td', /71 Fakers Way, 6th, Studio 5, The corner \[Room: 1B, Shelf: 2\]/) 
-      $driver.find_element_with_text('//td', /71 Fakers Way, 6th, Studio 5, The corner \[Room: 1B, Shelf: 3\]/) 
-      $driver.find_element_with_text('//td', /71 Fakers Way, 6th, Studio 5, The corner \[Room: 1B, Shelf: 4\]/) 
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1A, Shelf: 1\]/) 
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1A, Shelf: 2\]/) 
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1A, Shelf: 3\]/) 
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1A, Shelf: 4\]/) 
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1B, Shelf: 1\]/) 
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1B, Shelf: 2\]/) 
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1B, Shelf: 3\]/) 
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1B, Shelf: 4\]/) 
 
 
     end
