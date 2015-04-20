@@ -91,10 +91,6 @@ describe "Tree UI" do
     target = $driver.find_element(:id, js_node(@a2).li_id)
     target.find_element(:id, js_node(@a1).li_id)
 
-    # pane_resize_handle = $driver.find_element(:css => ".ui-resizable-handle.ui-resizable-s")
-    # 10.times {
-    #   $driver.action.drag_and_drop_by(pane_resize_handle, 0, -20).perform
-    # }
   end
 
 
@@ -115,6 +111,7 @@ describe "Tree UI" do
 
     # now do a drag and drop
     $driver.action.drag_and_drop(moving, target).perform
+    $driver.wait_for_ajax
 
     # save the item
     $driver.click_and_wait_until_gone(:css => "form#archival_object_form button[type='submit']")
@@ -125,7 +122,6 @@ describe "Tree UI" do
       .find_element(:css => "i.jstree-icon").click
     sleep(5)
 
-
     $driver
       .find_element(:id => js_node(@a2).li_id)
       .find_element(:id => js_node(@a3).li_id).find_element(:css => "span.title-column").text.should match(/Resource Component/)
@@ -135,7 +131,6 @@ describe "Tree UI" do
     $driver
       .find_element(:id => js_node(@a2).li_id)
       .find_element(:id => js_node(@a3).li_id).find_element(:css => "span.title-column").text.should match(/Resource Component/)
-
 
   end
 
