@@ -38,7 +38,7 @@ describe 'Instance model' do
 
     expect {
       Instance.create_from_json(build(:json_instance, opts))
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
 
   end
 
@@ -52,7 +52,7 @@ describe 'Instance model' do
 
     expect {
       Instance.create_from_json(build(:json_instance, opts))
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
   end
 
   it "throws an error if no digital object is provided" do
@@ -62,7 +62,7 @@ describe 'Instance model' do
 
     expect {
       Instance.create_from_json(build(:json_instance, opts))
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
 
   end
 

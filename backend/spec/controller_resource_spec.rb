@@ -253,7 +253,7 @@ describe 'Resources controller' do
       err = $!
     end
 
-    err.should be_an_instance_of(ValidationException)
+    err.should be_an_instance_of(JSONModel::ValidationException)
     err.errors.keys.should eq(["instances/0/container/container_locations/0/status"])
   end
 
