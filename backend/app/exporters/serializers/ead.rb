@@ -621,11 +621,13 @@ class EADSerializer < ASpaceExport::Serializer
                           "xlink:show" => "embed",
                           "xlink:type" => "simple" 
                           })
-              if (data.finding_aid_date)
+                          }
+          end
+          if (data.finding_aid_date)
+            xml.p {
                   val = data.finding_aid_date   
                   xml.date {   sanitize_mixed_content( val, xml, fragments) }
-              end
-            }
+                  }
           end
 
           unless data.addresslines.empty?
