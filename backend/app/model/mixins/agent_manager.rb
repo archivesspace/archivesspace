@@ -175,7 +175,7 @@ module AgentManager
                       
 
           else
-            agent = find(:agent_sha1 => calculate_hash(json))
+            agent = find_matching(json)
           end
 
           if !agent
@@ -191,6 +191,11 @@ module AgentManager
           agent
         
         }
+      end
+
+
+      def find_matching(json)
+        find(:agent_sha1 => calculate_hash(json))
       end
 
 

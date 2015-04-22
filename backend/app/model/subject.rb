@@ -70,11 +70,7 @@ class Subject < Sequel::Model(:subject)
     DB.attempt {
       self.create_from_json(json)
     }.and_if_constraint_fails {|exception|
-      source_id = BackendEnumSource.id_for_value("subject_source", json.source)
-
-      subject = Subject.find(:vocab_id => JSONModel(:vocabulary).id_for(json.vocabulary),
-                             :terms_sha1 => generate_terms_sha1(json),
-                             :source_id => source_id)
+      subject = find_matching(json)
 
       if !subject
         # The subject exists but we can't find it.  This could mean it was
@@ -87,6 +83,15 @@ class Subject < Sequel::Model(:subject)
 
       subject
     }
+  end
+
+
+  def self.find_matching(json)
+    source_id = BackendEnumSource.id_for_value("subject_source", json.source)
+
+    Subject.find(:vocab_id => JSONModel(:vocabulary).id_for(json.vocabulary),
+                 :terms_sha1 => generate_terms_sha1(json),
+                 :source_id => source_id)
   end
 
 
