@@ -8,7 +8,9 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:update_subject_record])
     .returns([200, :updated]) \
   do
-    handle_update(Subject, params[:id], params[:subject])
+    with_record_conflict_reporting(Subject, params[:subject]) do
+      handle_update(Subject, params[:id], params[:subject])
+    end
   end
 
 
@@ -18,7 +20,9 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:update_subject_record])
     .returns([200, :created]) \
   do
-    handle_create(Subject, params[:subject])
+    with_record_conflict_reporting(Subject, params[:subject]) do
+      handle_create(Subject, params[:subject])
+    end
   end
 
 
