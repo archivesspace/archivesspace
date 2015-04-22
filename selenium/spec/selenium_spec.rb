@@ -178,8 +178,6 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, 'group_description_'], "Goo group to group goo")
       $driver.find_element(:id, "view_repository").click
       $driver.find_element(:css => "form#new_group button[type='submit']").click
-
-
       expect {
         $driver.find_element_with_text('//tr', /goo/)
       }.to_not raise_error
@@ -1707,7 +1705,6 @@ describe "ArchivesSpace user interface" do
 
 
     it "reports warnings when updating an Archival Object with invalid data" do
-      puts "THIS"
       aotitle = $driver.find_element(:css, "h2").text.sub(/ +Archival Object/, "")
       $driver.find_element(:id, "archival_object_level_").select_option("item")
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "")
