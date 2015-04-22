@@ -93,9 +93,9 @@ class JSONModelType
   def self.uri_and_remaining_options_for(id = nil, opts = {})
     # Some schemas (like name schemas) don't have a URI because they don't
     # need endpoints.  That's fine.
-                     if not self.schema['uri']
-                       return nil
-                     end
+    if not self.schema['uri']
+      return nil
+    end
 
     uri = self.schema['uri']
 
