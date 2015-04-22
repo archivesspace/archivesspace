@@ -30,7 +30,7 @@ class MODSModel < ASpaceExport::ExportModel
   @name_type_map = {
     'agent_person' => 'personal',
     'agent_family' => 'family',
-    'agent_corporate' => 'corporate',
+    'agent_corporate_entity' => 'corporate',
     'agent_software' => nil
   }
   
