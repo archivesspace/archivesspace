@@ -20,6 +20,9 @@
 
     <div class="btn-toolbar pull-right">
       <div class="btn-group">
+        <% if user_can?('update_event_record')  %>
+            <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => @agent} %>
+        <% end %>
         <div class="btn btn-inline-form">
           <%= link_to I18n.t("actions.export_eac"), {:controller => :exports, :action => :download_eac, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-sm btn-default" %>
         </div>
