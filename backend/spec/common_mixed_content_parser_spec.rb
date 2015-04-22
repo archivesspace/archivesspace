@@ -1,5 +1,4 @@
 require_relative '../../common/mixed_content_parser'
-require 'pry'
 
 Dir.glob(File.join(File.dirname(__FILE__), '../', '../', 'common', 'lib', "*.jar")).each do |file|
   require file
