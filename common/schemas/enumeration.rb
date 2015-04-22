@@ -10,6 +10,7 @@
       "name" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error"},
       "default_value" => {"type" => "string"},
       "editable" => {"type" => "boolean", "readonly" => true},
+      "enumeration_values" => {"type" => "array", "items" => {"type" => "JSONModel(:enumeration_value) object"}},
       "values" => {
         "type" => "array",
         "ifmissing" => "error",

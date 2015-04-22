@@ -513,6 +513,7 @@ en:
   enumeration:
     _frontend:
       messages:
+        value_updated: Value Updated 
         deleted: Value Deleted
         delete_error: Failed to delete Value
         delete_conflict: "Unable to delete Value as it's currently being referenced by a record"

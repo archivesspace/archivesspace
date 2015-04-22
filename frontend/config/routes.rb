@@ -160,6 +160,10 @@ ArchivesSpace::Application.routes.draw do
     match 'enumerations/destroy/:id' => 'enumerations#destroy', :via => [:post]
     match 'enumerations/merge/:id' => 'enumerations#merge', :via => [:post]
     resources :enumerations
+    
+    match 'enumerations/:id/enumeration_value/:enumeration_value_id' => 'enumerations#update_value', :via => [:post] 
+
+
 
     match 'reports' => 'reports#index', :via => [:get]
     match 'reports/download' => 'reports#download', :via => [:post]

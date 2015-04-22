@@ -131,6 +131,40 @@ describe "Enumeration controller" do
     obj.default_value.should be_nil
     
   end
+  
+  it "can suppress and unsuppress  values" do
+    obj = JSONModel(:enumeration).find(@enum_id)
+    
+    val = obj.enumeration_values[0]
+   
+    enum_val = JSONModel(:enumeration_value).find(val['id'])
+    enum_val.set_suppressed(true) 
+    
+    obj = nil
+    obj = JSONModel(:enumeration).find(@enum_id)
+    obj.values.should_not include(val["value"])
+    
+    enum_val.set_suppressed(false) 
+    
+    obj = nil
+    obj = JSONModel(:enumeration).find(@enum_id)
+    obj.values.should include(val["value"])
+    
+  end
+  
+  it "can change positions of  values" do
+    obj = JSONModel(:enumeration).find(@enum_id)
+    
+    val = obj.enumeration_values[0]
+   
+    enum_val = JSONModel(:enumeration_value).find(val['id'])
+    JSONModel::HTTP.post_form("#{enum_val.uri}/position", :position => obj.enumeration_values.length ) 
+    
+    obj = nil
+    obj = JSONModel(:enumeration).find(@enum_id)
+    obj.values.last.should eq(val["value"])
+    
+  end
     
 
 end
