@@ -63,8 +63,13 @@ class LocationsController < ApplicationController
   end
 
   def batch
+    @is_batch_update = false 
+    @action = "create" # we use this for some label in the view.. 
+    
     if request.post? # if it's a post, we're starting an update
-      @location_batch = JSONModel(:location_batch_update).new(params)
+      @is_batch_update = true 
+      @action = "update" # we use this for some label in the view.. 
+      @location_batch = JSONModel(:location_batch_update).new(params)._always_valid! 
     else # we're just creatinga new batch from scratch
       location_params = params.inject({}) { |c, (k,v)| c[k] = v if LOCATION_STICKY_PARAMS.include?(k); c } 
       @location_batch = JSONModel(:location_batch).new(location_params)
@@ -74,11 +79,11 @@ class LocationsController < ApplicationController
   
 
   def batch_create
+   
     begin
       if params[:location_batch][:record_uris] && params[:location_batch][:record_uris].length > 0   
         batch = cleanup_params_for_schema(params[:location_batch], JSONModel(:location_batch_update).schema)
-        $stderr.puts batch.inspect 
-        @location_batch = JSONModel(:location_batch).from_hash(batch, false)
+        @location_batch = JSONModel(:location_batch_update).from_hash(batch, false)._always_valid! 
 
         uri = "#{JSONModel::HTTP.backend_url}/locations/batch_update"
         response = JSONModel::HTTP.post_json(URI(uri), batch.to_json)
@@ -112,7 +117,14 @@ class LocationsController < ApplicationController
       if params["dry_run"]
         render_aspace_partial :partial => "locations/batch_preview", :locals => {:locations => batch_response}
       else
-        flash[:success] = I18n.t("location_batch._frontend.messages.created", :number_created => batch_response.length)
+        
+        # we want 'created' or 'updated' messages displayed
+        if @location_batch.jsonmodel_type == "location_batch_update" 
+          flash[:success] = I18n.t("location_batch._frontend.messages.updated", :number_created => batch_response.length)
+        else
+          flash[:success] = I18n.t("location_batch._frontend.messages.created", :number_created => batch_response.length)
+        end
+
         if params.has_key?(:plus_one)
            sticky_params = { :controller => :locations, :action => :batch} 
            @location_batch.to_hash.each_pair do |k,v|
