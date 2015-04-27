@@ -85,6 +85,7 @@ class Selenium::WebDriver::Driver
           $sleep_time += 0.1
           sleep 0.5
           puts "find_element: #{try} misses on selector '#{selectors}'.  Retrying..." if (try % 5) == 0
+
         else
           puts "Failed to find #{selectors}"
 
@@ -360,6 +361,8 @@ module RepositoryHelperMethods
 
 
   def select_repo(code)
+    code = code.respond_to?(:repo_code) ? code.repo_code : code
+
     $driver.find_element(:link, 'Select Repository').click
     $driver.find_element(:css, '.select-a-repository').find_element(:id => "id").select_option_with_text(code)
     $driver.find_element(:css, '.select-a-repository .btn-primary').click

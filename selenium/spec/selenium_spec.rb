@@ -1,11 +1,6 @@
-# require 'pry'
 require_relative 'spec_helper'
 
 describe "ArchivesSpace user interface" do
-
-
-  def self.xdescribe(*stuff)
-  end
 
   describe "Repositories" do
 
@@ -400,7 +395,6 @@ describe "ArchivesSpace user interface" do
 
     before(:all) do
       backend_login
-
       @repo = create(:repo)
 
       (@user, @pass) = create_user
@@ -1470,14 +1464,14 @@ describe "ArchivesSpace user interface" do
       }
     end
 
- 
+
     it "can add an external document to an Event" do
       $driver.find_element(:css => '#event_external_documents_ .subrecord-form-heading .btn:not(.show-all)').click
       $driver.clear_and_send_keys([:id, "event_external_documents__0__title_"], "My URI document")
       $driver.clear_and_send_keys([:id, "event_external_documents__0__location_"], "http://archivesspace.org")
-      
+
       $driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
-      
+
       # check external documents
       external_document_sections = $driver.blocking_find_elements(:css => '#event_external_documents_ .subrecord-form-wrapper')
       external_document_sections.length.should eq (1)
@@ -1499,9 +1493,39 @@ describe "ArchivesSpace user interface" do
   describe "Resources and archival objects" do
 
     before(:all) do
-      login_as_archivist
+      backend_login
+      @repo = create(:repo)
+      set_repo(@repo.uri)
+
+      (@user, @pass) = create_user
+      add_user_to_archivists(@user, @repo.uri)
+
+      login(@user, @pass)
+      select_repo(@repo.repo_code)
+
+      @accession = create(:accession, {
+                            :collection_management => build(:collection_management)
+                          })
+
+      @resource = create(:resource)
+
+      @archival_object = create(:archival_object, :resource => {'ref' => @resource.uri})
     end
 
+    before(:each) do
+
+    end
+
+    after(:each) do
+      # save us the trouble of worrying about form state when
+      # testing form errors
+      sleep(2)
+      $driver.get("#{$frontend}")
+      begin
+        $driver.switch_to.alert.accept
+      rescue Selenium::WebDriver::Error::NoAlertOpenError
+      end
+    end
 
     after(:all) do
       logout
@@ -1509,36 +1533,15 @@ describe "ArchivesSpace user interface" do
 
 
     it "can spawn a resource from an existing accession" do
-      $driver.find_element(:link, "Create").click
-      $driver.find_element(:link, "Accession").click
+      $driver.get("#{$frontend}#{@accession.uri.sub(/\/repositories\/\d+/, '')}")
 
-      # populate mandatory fields
-      $driver.clear_and_send_keys([:id, "accession_title_"], "A box of enraged guinea pigs")
-
-      $driver.complete_4part_id("accession_id_%d_")
-
-      $driver.clear_and_send_keys([:id, "accession_accession_date_"], "2012-01-01")
-      $driver.clear_and_send_keys([:id, "accession_content_description_"], "9 guinea pigs")
-      $driver.clear_and_send_keys([:id, "accession_condition_description_"], "furious")
-
-      # add a rights sub record
-      $driver.find_element(:css => '#accession_collection_management_ .subrecord-form-heading .btn:not(.show-all)').click
-
-      $driver.clear_and_send_keys([:id => "accession_collection_management__cataloged_note_"], ["HOBO CAMP!", :return])
-      $driver.find_element(:id => "accession_collection_management__processing_status_").select_option("completed")
-
-
-      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
-
-      # save
-      $driver.find_element(:css => "form#accession_form button[type='submit']").click
 
       # Spawn a resource from the accession we just created
       $driver.find_element(:link, "Spawn").click
       $driver.find_element(:link, "Resource").click
 
       # The relationship back to the original accession is prepopulated
-      $driver.find_element(:css => 'div.accession').text.should match(/enraged guinea pigs/)
+      $driver.find_element(:css => 'div.accession').text.should match(@accession.title)
 
       $driver.complete_4part_id("resource_id_%d_")
       combo = $driver.find_element(:xpath => '//div[@class="combobox-container"][following-sibling::select/@id="resource_language_"]//input[@type="text"]');
@@ -1556,14 +1559,13 @@ describe "ArchivesSpace user interface" do
       notes_toggle = $driver.blocking_find_elements(:css => "#notes .collapse-subrecord-toggle")
       notes_toggle[0].click
       $driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').toTextArea()")
-      assert(5) { $driver.find_element(:id => "resource_notes__0__subnotes__0__content_").attribute("value").should eq("9 guinea pigs") }
+      assert(5) { $driver.find_element(:id => "resource_notes__0__subnotes__0__content_").attribute("value").should eq(@accession.content_description) }
 
       notes_toggle[1].click
-      $driver.find_element(:id => "resource_notes__1__content__0_").text.should match(/furious/)
-      
+      $driver.find_element(:id => "resource_notes__1__content__0_").text.should match(@accession.condition_description)
+
       $driver.find_element(:id => "resource_dates__0__date_type_").select_option("single")
       $driver.clear_and_send_keys([:id, "resource_dates__0__begin_"], "1978")
-
 
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
       $driver.find_element(:id => "resource_extents__0__extent_type_").select_option("files")
@@ -1575,8 +1577,8 @@ describe "ArchivesSpace user interface" do
 
       # Success!
       assert(5) {
-        $driver.find_element_with_text('//div', /Resource A box of enraged guinea pigs created/).should_not be_nil
-        $driver.find_element(:id, "resource_dates__0__begin_" ).attribute("value").should eq("1978") 
+        $driver.find_element_with_text('//div', /Resource .* created/).should_not be_nil
+        $driver.find_element(:id, "resource_dates__0__begin_" ).attribute("value").should eq("1978")
       }
     end
 
@@ -1596,11 +1598,11 @@ describe "ArchivesSpace user interface" do
     end
 
 
-    resource_title = "Pony <emph render='italic'>Express</emph>"
-    resource_stripped = "Pony Express"
-    resource_regex = /^.*?\bPony\b.*?$/m
-
     it "can create a resource" do
+      resource_title = "Pony <emph render='italic'>Express</emph>"
+      resource_stripped = "Pony Express"
+      resource_regex = /^.*?\bPony\b.*?$/m
+
       $driver.find_element(:link, "Create").click
       $driver.find_element(:link, "Resource").click
 
@@ -1626,21 +1628,24 @@ describe "ArchivesSpace user interface" do
 
 
     it "reports warnings when updating a Resource with invalid data" do
+      $driver.get("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit")
+
       $driver.clear_and_send_keys([:id, "resource_title_"],"")
       $driver.find_element(:css => "form#resource_form button[type='submit']").click
-      puts "finding error"
       expect {
         $driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
       }.to_not raise_error
-      $driver.clear_and_send_keys([:id, "resource_title_"],(resource_title))
-      $driver.find_element(:css => "form#resource_form button[type='submit']").click
     end
 
 
     it "reports errors if adding an empty child to a Resource" do
+      $driver.get("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit")
+
       $driver.find_element(:link, "Add Child").click
+      $driver.wait_for_ajax
       $driver.clear_and_send_keys([:id, "archival_object_title_"], " ")
-      sleep(5)
+      $driver.wait_for_ajax
+
       # False start: create an object without filling it out
       $driver.click_and_wait_until_gone(:id => "createPlusOne")
 
@@ -1649,8 +1654,13 @@ describe "ArchivesSpace user interface" do
 
 
     it "reports error if title is empty and no date is provided" do
+      $driver.get("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit")
+
+      $driver.find_element(:link, "Add Child").click
+      $driver.wait_for_ajax
       $driver.find_element(:id, "archival_object_level_").select_option("item")
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "")
+      $driver.wait_for_ajax
 
       # False start: create an object without filling it out
       $driver.click_and_wait_until_gone(:id => "createPlusOne")
@@ -1661,8 +1671,10 @@ describe "ArchivesSpace user interface" do
 
 
     # Archival Object Trees
-
     it "can populate the archival object tree" do
+      $driver.get("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit")
+      $driver.find_element(:link, "Add Child").click
+
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "Lost mail")
       $driver.find_element(:id, "archival_object_level_").select_option("item")
 
@@ -1682,7 +1694,6 @@ describe "ArchivesSpace user interface" do
         $driver.click_and_wait_until_gone(:id => "createPlusOne")
       end
 
-
       elements = $driver.blocking_find_elements(:css => "li.jstree-leaf").map{|li| li.text.strip}
 
       ["January", "February", "December"].each do |month|
@@ -1692,20 +1703,24 @@ describe "ArchivesSpace user interface" do
 
 
     it "can cancel edits to Archival Objects" do
+      ao_id = @archival_object.uri.sub(/.*\//, '')
+      $driver.get("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit#tree::archival_object_#{ao_id}")
+
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "unimportant change")
-      $driver.find_element_with_text("//div[@id='archives_tree']//a", /December/).click
+      $driver.find_element(:id => js_node(@resource).a_id).click
+
       $driver.find_element(:id, "dismissChangesButton").click
 
-      # Last added node now selected (text will include the 'level' badge)
       assert(5) {
-        $driver.find_element(:css => "a.jstree-clicked .title-column").text.strip.should eq('December')
-        $driver.find_element(:css => "a.jstree-clicked .field-column-1").text.strip.should eq('Item')
+        $driver.find_element(:css => "a.jstree-clicked .title-column").text.strip.should eq(@resource.title)
       }
     end
 
 
     it "reports warnings when updating an Archival Object with invalid data" do
-      aotitle = $driver.find_element(:css, "h2").text.sub(/ +Archival Object/, "")
+      ao_id = @archival_object.uri.sub(/.*\//, '')
+      $driver.get("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit#tree::archival_object_#{ao_id}")
+
       $driver.find_element(:id, "archival_object_level_").select_option("item")
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "")
       sleep(5)
@@ -1714,44 +1729,41 @@ describe "ArchivesSpace user interface" do
       expect {
         $driver.find_element_with_text('//div[contains(@class, "error")]', /Title - must not be an empty string/)
       }.to_not raise_error
-      $driver.clear_and_send_keys([:id, "archival_object_title_"], aotitle)
-      $driver.find_element(:css => "form .record-pane button[type='submit']").click
     end
 
     it "can update an existing Archival Object" do
-      aotitle = $driver.find_element(:css, "h2").text.sub(/ +Archival Object/, "")
+      ao_id = @archival_object.uri.sub(/.*\//, '')
+      $driver.get("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit#tree::archival_object_#{ao_id}")
+
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "save this please")
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
       assert(5) { $driver.find_element(:css, "h2").text.should eq("save this please Archival Object") }
       assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq('Archival Object save this please updated') }
-      $driver.clear_and_send_keys([:id, "archival_object_title_"], aotitle)
+      $driver.clear_and_send_keys([:id, "archival_object_title_"], @archival_object.title)
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
     end
 
 
-    it "can add a child to an existing node and assign a Subject" do
-      $driver.find_element(:link, "Add Child").click
-
-      $driver.clear_and_send_keys([:id, "archival_object_title_"], "Christmas cards")
-      $driver.find_element(:id, "archival_object_level_").select_option("item")
+    it "can add a assign, remove, and reassign a Subject to an archival object" do
+      ao_id = @archival_object.uri.sub(/.*\//, '')
+      $driver.get("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit#tree::archival_object_#{ao_id}")
 
       $driver.find_element(:css => '#archival_object_subjects_ .subrecord-form-heading .btn:not(.show-all)').click
+      sleep(1)
 
-      $driver.find_element(:css, ".linker-wrapper a.btn").click
-      $driver.find_element(:css, "a.linker-create-btn").click
+      $driver.find_element(:css => "#archival_object_subjects_ .linker-wrapper a.btn").click
 
-      $driver.find_element(:css, ".modal #subject_terms_ .subrecord-form-heading .btn:not(.show-all)").click
+      $driver.find_element(:css => "#archival_object_subjects_ a.linker-create-btn").click
+
+      $driver.find_element(:css, ".modal #subject_terms_ .btn:not(.show-all)").click
 
       $driver.clear_and_send_keys([:id => "subject_terms__0__term_"], "#{$$}TestTerm123")
       $driver.clear_and_send_keys([:id => "subject_terms__1__term_"], "#{$$}FooTerm456")
       $driver.find_element(:id => "subject_source_").select_option("local")
 
       $driver.find_element(:id, "createAndLinkButton").click
-    end
 
-
-    it "can remove the linked Subject but find it using typeahead and re-add it" do
-      # remove the subject
+      # remove the linked Subject but find it using typeahead and re-add it" do
       $driver.find_element(:css, ".token-input-delete-token").click
 
       # search for the created subject
@@ -1769,19 +1781,17 @@ describe "ArchivesSpace user interface" do
 
 
     it "can view a read only Archival Object" do
+      ao_id = @archival_object.uri.sub(/.*\//, '')
+      $driver.get("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit#tree::archival_object_#{ao_id}")
+
       $driver.find_element(:link, 'Close Record').click
 
-      assert(5) { $driver.find_element(:css, ".record-pane h2").text.should eq("Christmas cards Archival Object") }
-
-      $driver.find_element(:link => "Edit").click
+      assert(5) { $driver.find_element(:css, ".record-pane h2").text.should eq("#{@archival_object.title} Archival Object") }
     end
 
 
     it "exports and downloads the resource to xml" do
-      $driver.find_element(:link, "Browse").click
-      $driver.find_element(:link, "Resources").click
-      $driver.find_element_with_text('//tr', resource_regex).find_element(:link, 'Edit').click
-
+      $driver.get("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}")
 
       $driver.find_element(:link, "Export").click
       response = $driver.find_element(:link, "Download EAD").click
@@ -1790,12 +1800,11 @@ describe "ArchivesSpace user interface" do
       system("rm #{File.join(Dir.tmpdir, '*_ead.xml')}")
     end
 
-    # this is a pretty weak test, but pdf functionality has been move down to
-    # jobs, where it's tested
     # # this is a pretty weak test, but pdf functionality has been move down to
     # jobs, where it's tested..
-    it "exports and downloads the resource to pdf" do
-      $driver.find_element_with_text("//div[@id='archives_tree']//a", /Pony Express/).click
+    it "displays a link for downloading pdf" do
+      $driver.get("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}")
+
       $driver.find_element(:link, "Export").click
       expect {
           $driver.find_element_with_text(:link, /Print Resource to PDF/)
@@ -1803,23 +1812,8 @@ describe "ArchivesSpace user interface" do
     end
 
 
-
-    it "shows our newly added Resource in the browse list" do
-      run_index_round
-      $driver.find_element(:link, "Browse").click
-      $driver.find_element(:link, "Resources").click
-
-      $driver.find_element_with_text('//td', /#{resource_stripped}/)
-    end
-
-
-
-    it "can edit a Resource and add another Extent" do
-      ## Check browse list for Resources
-      $driver.find_element(:link, "Browse").click
-      $driver.find_element(:link, "Resources").click
-
-      $driver.find_element_with_text('//tr', resource_regex).find_element(:link, 'Edit').click
+    it "can edit a Resource, add a second Extent, then remove it" do
+      $driver.get("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit")
 
       $driver.find_element(:css => '#resource_extents_ .subrecord-form-heading .btn:not(.show-all)').click
 
@@ -1831,20 +1825,16 @@ describe "ArchivesSpace user interface" do
       $driver.find_element_with_text('//div', /\bResource\b.*\bupdated\b/).should_not be_nil
 
       $driver.find_element(:link, 'Close Record').click
-    end
 
-
-    it "can see two Extents on the saved Resource" do
+      # it can see two Extents on the saved Resource
       extent_headings = $driver.blocking_find_elements(:css => '#resource_extents_ .panel-heading')
 
       extent_headings.length.should eq (2)
-      assert(5) { extent_headings[0].text.should eq ("10 Files") }
-      assert(5) { extent_headings[1].text.should eq ("5 Volumes") }
-    end
+      assert(5) { extent_headings[0].text.should match (/^\d.*/) }
+      assert(5) { extent_headings[1].text.should match (/^\d.*/) }
 
-
-    it "can remove an Extent when editing a Resource" do
-      $driver.click_and_wait_until_gone(:link, 'Edit')
+      # it can remove an Extent when editing a Resource
+      $driver.get("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit")
 
       $driver.blocking_find_elements(:css => '#resource_extents_ .subrecord-form-remove')[1].click
       $driver.find_element(:css => '#resource_extents_ .confirm-removal').click
@@ -1855,101 +1845,74 @@ describe "ArchivesSpace user interface" do
       extent_headings = $driver.blocking_find_elements(:css => '#resource_extents_ .panel-heading')
 
       extent_headings.length.should eq (1)
-      assert(5) { extent_headings[0].text.should eq ("10 Files") }
+      assert(5) { extent_headings[0].text.should match (/^\d.*/) }
+    end
+  end
+
+
+  describe "Merging and transfering resources" do
+
+    before(:all) do
+      backend_login
+      @repo = create(:repo)
+      set_repo(@repo.uri)
+
+      @target_repo = create(:repo)
+
+      login("admin", "admin")
+      select_repo(@repo.repo_code)
+
+      @resource = create(:resource)
+      @resource2 = create(:resource)
+      @resource3 = create(:resource)
+
+      @aoset2 = (0...10).map { create(:archival_object, :resource => {'ref' => @resource2.uri}) }
+      @aoset3 = (0...10).map { create(:archival_object, :resource => {'ref' => @resource3.uri}) }
+
+      run_periodic_index
     end
 
-    it "can transfer a resource to another repository" do
+    before(:each) do
+    end
 
-
+    after(:all) do
       logout
-      login("admin", "admin")
-      @target_repo_name = "target_#{Time.now.to_i}"
-      @target_repo_code, @target_repo_uri = create_test_repo(@target_repo_name, @target_repo_name, true)
+    end
 
-      select_repo($test_repo)
-      $driver.find_element(:link, "Browse").click
-      $driver.find_element(:link, "Resources").click
-      $driver.find_element_with_text('//tr', resource_regex).find_element(:link, 'Edit').click
+
+    it "can transfer a resource to another repository and open it for editing" do
+      $driver.get("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit")
 
       $driver.find_element(:link, "Transfer").click
-      $driver.find_element(:id, "transfer_ref_").select_option_with_text(@target_repo_name)
+      $driver.find_element(:id, "transfer_ref_").select_option_with_text(@target_repo.repo_code)
       $driver.find_element(:css => ".transfer-button").click
       $driver.find_element(:css, "#confirmButton").click
       $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Transfer Successful/)
 
       run_all_indexers
 
-      select_repo(@target_repo_code)
+      select_repo(@target_repo.repo_code)
 
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Resources").click
 
-      $driver.find_element_with_text('//td', /#{resource_stripped}/)
+      $driver.find_element_with_text('//td', /#{@resource.title}/)
 
+      $driver.get("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit")
     end
 
-    it "can edit and reorder after the transfer" do
-      $driver.find_element_with_text('//tr', resource_regex).find_element(:link, 'Edit').click
-
-      # first resize the tree pane (do it incrementally so it doesn't flip out...)
-      pane_resize_handle = $driver.find_element(:css => ".ui-resizable-handle.ui-resizable-s")
-      10.times {
-        $driver.action.drag_and_drop_by(pane_resize_handle, 0, 10).perform
-      }
-
-      source = $driver.find_element_with_text("//div[@id='archives_tree']//a", /December/)
-      target = $driver.find_element_with_text("//div[@id='archives_tree']//a", /Pony Express/)
-      $driver.action.drag_and_drop(source, target).perform
-      $driver.wait_for_ajax
-
-      target = $driver.find_element_with_text("//div[@id='archives_tree']//li", /Pony Express/)
-      target.find_element_with_text(".//a", /December/)
-
-      # refresh the page and verify that the change really stuck
-      $driver.navigate.refresh
-
-      target = $driver.find_element_with_text("//div[@id='archives_tree']//li", /Pony Express/)
-      target.find_element_with_text(".//a", /December/).click
-
-      $driver.clear_and_send_keys([:id, "archival_object_title_"], "save this please")
-      $driver.find_element(:css => "form .record-pane button[type='submit']").click
-      assert(5) { $driver.find_element(:css, "h2").text.should eq("save this please Archival Object") }
-      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq('Archival Object save this please updated') }
-
-      target = $driver.find_element_with_text("//div[@id='archives_tree']//li", /Pony Express/)
-      target.find_element_with_text(".//a", /save this please/).click
-
-      $driver.find_element(:link, "Add Child").click
-
-      $driver.clear_and_send_keys([:id, "archival_object_title_"], "Baby AO")
-      $driver.find_element(:id, "archival_object_level_").select_option("item")
-      $driver.find_element(:css => "form .record-pane button[type='submit']").click
-      sleep(40)
-      assert(5){
-       $driver.find_element_with_text("//div[@id='archives_tree']//li//span", /Baby AO/)
-      }
-    end
 
     it "can merge a resource into a resource" do
-      logout
-      login("admin", "admin")
+      select_repo(@repo.repo_code)
 
-      select_repo($test_repo)
-
-      [ "Thing1", "Thing2"].each do |title|
-        thing_uri, thing_title = create_resource( :title => title  )
-        10.times  { |i|  create_archival_object(:title => "#{thing_title}.#{i.to_s}", :dates => [{:expression => "1981 - present", :date_type => "single", :label => "creation"}], :resource => {:ref => thing_uri} ) }
-      end
-      run_index_round
-
-
-      $driver.find_element(:link, "Browse").click
-      $driver.find_element(:link, "Resources").click
-      $driver.find_element_with_text('//tr', /Thing1/).find_element(:link, 'Edit').click
+      $driver.get("#{$frontend}#{@resource2.uri.sub(/\/repositories\/\d+/, '')}/edit")
 
       $driver.find_element(:link, "Merge").click
 
-      $driver.clear_and_send_keys([:id, "token-input-merge_ref_"], "Thing2" )
+      # spaces in the search string seem to through off the token search, so:
+      search_string = @resource3.title.sub(/-\s.*/, "").strip
+      $driver.clear_and_send_keys([:id, "token-input-merge_ref_"], search_string )
+      sleep(1)
       $driver.find_element(:css, "li.token-input-dropdown-item2").click
 
       $driver.find_element(:css, "button.merge-button").click
@@ -1960,17 +1923,12 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, "button#confirmButton").click
       $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Resource\(s\) Merged/)
 
-      ao_set = [ "Thing1", "Thing2"].collect {   |title|  set = []; 10.times { |i| set << "#{title}.#{i.to_s}" }; set  }.flatten
-      ao_set.each_with_index do |ao,i|
+      (@aoset2 + @aoset3).each do |ao|
         assert(5) {
-          $driver.find_element( :xpath => "//div[@id ='archives_tree']//li[ a/@title[contains(., '#{ao}')] and position() = #{i + 1} ]//span[@class='title-column pull-left']" )
+          $driver.find_element(:id => js_node(ao).li_id)
         }
       end
-
     end
-
-
-
   end
 
 
@@ -2332,7 +2290,7 @@ describe "ArchivesSpace user interface" do
       sleep(2)
       $driver.wait_for_ajax
 
-      
+
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "An Archival Object with notes")
       $driver.find_element(:id, "archival_object_level_").select_option("item")
 
@@ -3670,48 +3628,48 @@ describe "ArchivesSpace user interface" do
       $driver.find_element_with_text('//td', /1978 Awesome Street \[Room: 1B, Shelf: 3\]/)
       $driver.find_element_with_text('//td', /1978 Awesome Street \[Room: 1B, Shelf: 4\]/)
     end
-    
-    
+
+
     it "can edit locations in batch" do
       logout
-      login_as_admin 
-      
+      login_as_admin
+
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Locations").click
-      
+
       $driver.clear_and_send_keys([:css, ".sidebar input.text-filter-field"], "1978*" )
       $driver.find_element(:css, ".sidebar input.text-filter-field + div button").click
 
-      
-     
+
+
       $driver.blocking_find_elements(:css, ".multiselect-column input").slice(0..7).each do |checkbox|
           checkbox.click
       end
-      
-      
-    
+
+
+
       $driver.find_element(:css, ".record-toolbar .btn.multiselect-enabled.edit-batch").click
       $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
 
-      $driver.clear_and_send_keys([:id, "location_batch_floor_"], "6th") 
-      $driver.clear_and_send_keys([:id, "location_batch_room_"], "Studio 5") 
-      $driver.clear_and_send_keys([:id, "location_batch_area_"], "The corner") 
+      $driver.clear_and_send_keys([:id, "location_batch_floor_"], "6th")
+      $driver.clear_and_send_keys([:id, "location_batch_room_"], "Studio 5")
+      $driver.clear_and_send_keys([:id, "location_batch_area_"], "The corner")
 
       $driver.click_and_wait_until_gone(:css => "form#new_location_batch .btn-primary")
-      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /8 Locations Updated/) 
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /8 Locations Updated/)
       run_index_round
       $driver.navigate.refresh
       $driver.clear_and_send_keys([:css, ".sidebar input.text-filter-field"], "1978*")
-      $driver.find_element(:css, ".sidebar input.text-filter-field + div button").click 
-   
-      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1A, Shelf: 1\]/) 
-      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1A, Shelf: 2\]/) 
-      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1A, Shelf: 3\]/) 
-      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1A, Shelf: 4\]/) 
-      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1B, Shelf: 1\]/) 
-      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1B, Shelf: 2\]/) 
-      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1B, Shelf: 3\]/) 
-      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1B, Shelf: 4\]/) 
+      $driver.find_element(:css, ".sidebar input.text-filter-field + div button").click
+
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1A, Shelf: 1\]/)
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1A, Shelf: 2\]/)
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1A, Shelf: 3\]/)
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1A, Shelf: 4\]/)
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1B, Shelf: 1\]/)
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1B, Shelf: 2\]/)
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1B, Shelf: 3\]/)
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1B, Shelf: 4\]/)
 
     end
 
@@ -4236,8 +4194,6 @@ describe "ArchivesSpace user interface" do
 
   describe "System Information" do
 
-
-
     after(:each) do
       logout
     end
@@ -4274,84 +4230,82 @@ describe "ArchivesSpace user interface" do
   describe "Jobs" do
 
     before(:all) do
-      @job_repo = "job_testing_repo#{Time.now.to_i}_#{$$}"
-      (moo, @job_repo_uri )= create_test_repo(@job_repo, @job_repo)
-
+      @repo = create(:repo)      
       login("admin", "admin")
+      select_repo(@repo)
     end
 
+    # avoid the dreaded StaleElementReferenceError
+    # by starting from the root page each time (?)
+    before(:each) do
+      $driver.get("#{$frontend}")
+    end
 
     after(:all) do
       logout
     end
 
     it "can create a find and replace job" do
-      select_repo(@job_repo) do
-        resource_title = "#{$$}xxx_resource"
-        create_resource({:title => resource_title}, @job_repo_uri)
 
-        run_index_round
+      resource_title = "#{$$}xxx_resource"
+      create_resource({:title => resource_title}, @repo.uri)
 
-        $driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
-        $driver.find_element(:link, "Background Jobs").click
+      run_index_round
 
-        $driver.find_element(:link, "Create Job").click
+      $driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+      $driver.find_element(:link, "Background Jobs").click
 
-        $driver.find_element(:id => "job_job_type_").select_option("find_and_replace_job")
+      $driver.find_element(:link, "Create Job").click
 
-        token_input = $driver.find_element(:id,"token-input-find_and_replace_job_ref_")
-        token_input.clear
-        token_input.click
-        token_input.send_keys( resource_title)
-        $driver.find_element(:css, "li.token-input-dropdown-item2").click
-        $driver.wait_for_ajax
+      $driver.find_element(:id => "job_job_type_").select_option("find_and_replace_job")
 
-        $driver.find_element(:id => "find_and_replace_job_record_type_").select_option("extent")
+      token_input = $driver.find_element(:id,"token-input-find_and_replace_job_ref_")
+      token_input.clear
+      token_input.click
+      token_input.send_keys( resource_title)
+      $driver.find_element(:css, "li.token-input-dropdown-item2").click
+      $driver.wait_for_ajax
 
-        $driver.find_element(:id => "find_and_replace_job_property_").select_option("container_summary")
+      $driver.find_element(:id => "find_and_replace_job_record_type_").select_option("extent")
 
-        $driver.find_element(:id => "find_and_replace_job_find_").send_keys("abc")
+      $driver.find_element(:id => "find_and_replace_job_property_").select_option("container_summary")
+      $driver.find_element(:id => "find_and_replace_job_find_").send_keys("abc")
 
-        $driver.find_element(:id => "find_and_replace_job_replace_").send_keys("def")
+      $driver.find_element(:id => "find_and_replace_job_replace_").send_keys("def")
 
-        $driver.find_element(:css => "form#jobfileupload button[type='submit']").click
+      $driver.find_element(:css => "form#jobfileupload button[type='submit']").click
 
-        expect {
-          $driver.find_element_with_text("//h2", /Find and Replace/)
-        }.to_not raise_error
-
-      end
+      expect {
+        $driver.find_element_with_text("//h2", /Find and Replace/)
+      }.to_not raise_error
 
     end
 
     it "can create a print to pdf job" do
-        select_repo(@job_repo)
 
-        resource_title = "#{$$}xxx_resource_job_test"
-        create_resource({:title => resource_title }, @job_repo_uri )
+      resource_title = "#{$$}xxx_resource_job_test"
+      create_resource({:title => resource_title }, @repo.uri )
 
-        run_index_round
+      run_index_round
 
-        $driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
-        $driver.find_element(:link, "Background Jobs").click
+      $driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+      $driver.find_element(:link, "Background Jobs").click
 
-        $driver.find_element(:link, "Create Job").click
+      $driver.find_element(:link, "Create Job").click
 
-        $driver.find_element(:id => "job_job_type_").select_option("print_to_pdf_job")
+      $driver.find_element(:id => "job_job_type_").select_option("print_to_pdf_job")
 
-        token_input = $driver.find_element(:id,"token-input-print_to_pdf_job_ref_")
-        token_input.clear
-        token_input.click
-        token_input.send_keys( resource_title)
-        $driver.find_element(:css, "li.token-input-dropdown-item2").click
+      token_input = $driver.find_element(:id,"token-input-print_to_pdf_job_ref_")
+      token_input.clear
+      token_input.click
+      token_input.send_keys( resource_title)
+      $driver.find_element(:css, "li.token-input-dropdown-item2").click
 
-        $driver.find_element(:css => "form#jobfileupload button[type='submit']").click
+      $driver.find_element(:css => "form#jobfileupload button[type='submit']").click
 
-        expect {
-          $driver.find_element_with_text("//h2", /print_to_pdf_job/)
-        }.to_not raise_error
-
-
+      expect {
+        $driver.find_element_with_text("//h2", /print_to_pdf_job/)
+      }.to_not raise_error
     end
 
   end

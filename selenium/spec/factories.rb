@@ -28,11 +28,13 @@ module SeleniumFactories
 
       sequence(:repo_code) {|n| "testrepo_#{n}_#{Time.now.to_i}"}
       sequence(:repo_name) {|n| "Test Repo #{n} #{Time.now}"}
+      sequence(:accession_id) {|n| "#{n}" } 
 
 
       sequence(:ref_id) {|n| "aspace_#{n}"}
       sequence(:id_0) {|n| "#{Time.now.to_i}_#{n}"}
 
+      sequence(:resource_title) { |n| "Resource #{n} - #{Time.now}" }
       sequence(:archival_object_title) {|n| "Archival Object #{n} - #{Time.now}"}
 
       factory :repo, class: JSONModel(:repository) do
@@ -48,9 +50,26 @@ module SeleniumFactories
         name { generate :user_name}
       end
 
+      factory :accession, class: JSONModel(:accession) do
+        title "Accession #{Time.now}"
+        id_0 { generate(:accession_id) }
+        id_1 { generate(:accession_id) }
+        id_2 { generate(:accession_id) }
+        id_3 { generate(:accession_id) }
+        content_description "9 guinea pigs"
+        condition_description "furious"
+        accession_date "1990-01-01"
+      end
+
+
+      factory :collection_management, class: JSONModel(:collection_management) do
+        cataloged_note "HOBO CAMP!"
+        processing_status "completed"
+      end
+
 
       factory :resource, class: JSONModel(:resource) do
-        title "Resource #{Time.now}"
+        title { generate :resource_title }
         id_0 { generate :id_0 } 
         extents { [build(:extent)] }
         dates { [build(:date)] }

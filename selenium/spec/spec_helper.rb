@@ -19,7 +19,7 @@ $backend_start_fn = proc {
   # for the indexers
   AppConfig[:solr_url] = "http://localhost:#{$solr_port}"
 
-  TestUtils::start_backend($backend_port,
+  pid = TestUtils::start_backend($backend_port,
                            {
                              :frontend_url => $frontend,
                              :solr_port => $solr_port,
@@ -29,11 +29,22 @@ $backend_start_fn = proc {
 
   AppConfig[:backend_url] = $backend
 
+  pid
+
 }
 
 $frontend_start_fn = proc {
-  TestUtils::start_frontend($frontend_port, $backend)
+  pid = TestUtils::start_frontend($frontend_port, $backend)
+
+  pid
 }
+
+module RSpecClassHelpers
+
+  def xdescribe(*args)
+  end
+end
+
 
 module ASpaceMethods
 
@@ -133,12 +144,12 @@ RSpec.configure do |config|
   config.include RepositoryHelperMethods
   config.include JSTreeHelperMethods
   config.include FactoryGirl::Syntax::Methods
-  # config.formatter = :documentation
+  config.extend RSpecClassHelpers
 
   config.before(:suite) do
-
     selenium_init($backend_start_fn, $frontend_start_fn)
     SeleniumFactories.init
+
   end
 
   config.before(:all) do
