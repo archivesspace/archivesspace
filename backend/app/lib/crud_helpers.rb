@@ -71,7 +71,7 @@ module CrudHelpers
   end
 
 
-  def with_record_conflict_reporting(model, json)
+  def self.with_record_conflict_reporting(model, json)
     begin
       yield
     rescue Sequel::ValidationFailed => e
@@ -84,6 +84,13 @@ module CrudHelpers
       end
 
       raise $!
+    end
+  end
+
+
+  def with_record_conflict_reporting(model, json)
+    CrudHelpers::with_record_conflict_reporting(model, json) do
+      yield
     end
   end
 
