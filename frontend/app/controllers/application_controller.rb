@@ -515,6 +515,12 @@ class ApplicationController < ActionController::Base
   end
 
 
+  def prepare_tree_nodes(node, &block)
+    node['children'].map{|child_node| prepare_tree_nodes(child_node, &block) }
+    block.call(node)
+  end
+
+
   def handle_transfer(model)
     old_uri = model.uri_for(params[:id])
     response = JSONModel::HTTP.post_form(model.uri_for(params[:id]) + "/transfer",

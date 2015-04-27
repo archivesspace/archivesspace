@@ -1,6 +1,6 @@
 class UtilsController  < ApplicationController
 
-  set_access_control  :public => [:generate_sequence],
+  set_access_control  :public => [:generate_sequence, :shortcuts],
                       "view_repository" => [:list_properties]
 
 
@@ -25,6 +25,11 @@ class UtilsController  < ApplicationController
     end
 
     render :json => list
+  end
+
+
+  def shortcuts
+    render_aspace_partial :partial => "shared/modal", :locals => {:title => I18n.t("shortcuts.quick_reference_window"), :partial => "shared/shortcuts", :large => true}
   end
 
 end

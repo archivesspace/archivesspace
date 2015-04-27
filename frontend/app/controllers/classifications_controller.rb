@@ -95,7 +95,9 @@ class ClassificationsController < ApplicationController
   private
 
   def fetch_tree
-    tree = {}
+    flash.keep
+
+    tree = []
 
     limit_to = params[:node_uri] || "root"
 
@@ -108,8 +110,32 @@ class ClassificationsController < ApplicationController
       end
     end
 
-    parse_tree(JSONModel(:classification_tree).find(nil, :classification_id => params[:id], :limit_to => limit_to).to_hash(:validated), nil) do |node, parent|
-      tree["#{node["node_type"]}_#{node["id"]}"] = node.merge("children" => node["children"].collect{|child| "#{child["node_type"]}_#{child["id"]}"})
+    tree = JSONModel(:classification_tree).find(nil, :classification_id => params[:id], :limit_to => limit_to).to_hash(:validated)
+
+    prepare_tree_nodes(tree) do |node|
+
+      node['text'] = node['title']
+
+      node_db_id = node['id']
+
+      node['id'] = "#{node["node_type"]}_#{node["id"]}"
+
+      if node['has_children'] && node['children'].empty?
+        node['children'] = true
+      end
+
+      node['type'] = node['node_type']
+
+      node['li_attr'] = {
+        "data-uri" => node['record_uri'],
+        "data-id" => node_db_id,
+        "rel" => node['node_type']
+      }
+      node['a_attr'] = {
+        "href" => "#tree::#{node['id']}",
+        "title" => node["title"]
+      }
+
     end
 
     tree

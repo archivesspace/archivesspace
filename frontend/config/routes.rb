@@ -176,7 +176,7 @@ ArchivesSpace::Application.routes.draw do
 
     match 'schema/:resource_type/properties' => 'utils#list_properties', :via => [:get]
 
-
+    match 'shortcuts' => 'utils#shortcuts', :via => [:get]
 
     resources :preferences
     match 'preferences/:id' => 'preferences#update', :via => [:post]
