@@ -12,7 +12,6 @@
       "editable" => {"type" => "boolean", "readonly" => true},
       "relationships" => {
         "type" => "array",
-        "ifmissing" => "error",
         "items" => {
           "type" => "string",
         }
