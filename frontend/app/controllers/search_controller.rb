@@ -36,7 +36,6 @@ class SearchController < ApplicationController
 
   def do_search
     @search_data = Search.all(session[:repo_id], params_for_backend_search.merge({"facet[]" => SearchResultData.BASE_FACETS.concat(params[:facets]||[]).uniq}))
-
     @display_identifier = params[:display_identifier] ? params[:display_identifier] : false
 
     respond_to do |format|

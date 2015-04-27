@@ -10,6 +10,13 @@
       "name" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error"},
       "default_value" => {"type" => "string"},
       "editable" => {"type" => "boolean", "readonly" => true},
+      "relationships" => {
+        "type" => "array",
+        "ifmissing" => "error",
+        "items" => {
+          "type" => "string",
+        }
+      },
       "values" => {
         "type" => "array",
         "ifmissing" => "error",

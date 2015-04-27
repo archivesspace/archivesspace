@@ -8,7 +8,6 @@
 
 <% end %>
 
-
 <h2><%= I18n.t("enumeration._singular") %>: <%= I18n.t("enumeration_names.#{@enumeration['name']}") %> (<%= @enumeration["name"] %>)</h2>
 
 <div class="enumeration-list">
@@ -18,6 +17,7 @@
       <th width="30%"><%= I18n.t("enumeration.value") %></th>
       <th><%= I18n.t("enumeration.translation") %></th>
       <th>Default</th>
+      <th width="70px"><!-- actions --></th>
       <th width="70px"><!-- actions --></th>
     </tr>
     </thead>
@@ -43,6 +43,10 @@
                 <%= link_to I18n.t("actions.delete"), {:controller => :enumerations, :action => :delete, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => enum_value}, "data-toggle" => "modal-ajax", :class=> "btn btn-xs btn-danger" %>
               <% end %>
             </div>
+          </td>
+          <td>
+            <div class='enum-value-search' data-url="<%= url_for({:controller => :search, :action => :do_search, :simple_filter => 
+              enumeration_simple_filter_params(@enumeration['relationships'], enum_value) }) %>"><i class='spinner'></i></div> 
           </td>
         </tr>
       <% end %>

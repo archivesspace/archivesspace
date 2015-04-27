@@ -22,6 +22,9 @@ class Enumeration < Sequel::Model(:enumeration)
     @enumeration_dependants[enum_name]
   end
 
+  def dependants
+    self.class.dependants_of(self.name) || [] 
+  end
 
   # Find all database records that refer to the enumeration value identified by
   # 'source_id' and repoint them to 'destination_id'.
@@ -140,7 +143,10 @@ class Enumeration < Sequel::Model(:enumeration)
 
       json['values'] = values.map {|v| v[:value]}
       json['readonly_values'] = values.map {|v| v[:value] if (v[:readonly] != 0)}.compact
-
+    
+      # this tells us where the enum is used.
+      json["relationships"] = obj.dependants.collect { |d| d.first[:property] }.uniq
+      
       if obj.default_value
         json['default_value'] = EnumerationValue[:id => obj.default_value][:value]
       end

@@ -177,6 +177,9 @@
    <field name="system_mtime" type="date" indexed="true" stored="true" multiValued="false"/>
    <field name="user_mtime" type="date" indexed="true" stored="true" multiValued="false"/>
 
+   <!-- Enum Fields -->
+   <dynamicField name="*_enum_s"  type="string"  indexed="true"  stored="true" multiValued="true"/>
+   
 
    <!-- Dynamic fields for site-specific use -->
    <dynamicField name="*_u_ustr"  type="string"  indexed="true"  stored="false" multiValued="true"/>
