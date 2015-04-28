@@ -364,6 +364,11 @@ en:
     _frontend:
       action:
         add: Add Contact
+  
+  telephone:
+    _frontend:
+      action:
+        add: Add Telephone Number
 
   agent_corporate_entity:
     _frontend:

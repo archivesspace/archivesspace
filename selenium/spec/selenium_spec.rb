@@ -541,6 +541,19 @@ describe "ArchivesSpace user interface" do
 
       assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("My Custom Sort Name Agent") }
     end
+    
+    it "can add multiple telephone numbers" do
+      $driver.find_element(:css => '#agent_agent_contacts__0__telephones_ .subrecord-form-heading .btn:not(.show-all)').click
+
+      $driver.clear_and_send_keys([:id, "agent_agent_contacts__0__telephones__0__number_"], "555-5555")
+      $driver.clear_and_send_keys([:id, "agent_agent_contacts__0__telephones__0__ext_"], "66")
+      
+      $driver.find_element(:css => '#agent_agent_contacts__0__telephones_ .subrecord-form-heading .btn:not(.show-all)').click
+      $driver.clear_and_send_keys([:id, "agent_agent_contacts__0__telephones__1__number_"], "999-9999")
+
+      $driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Agent Saved/)
+    end
 
 
     it "reports errors when updating a Person Agent with invalid data" do

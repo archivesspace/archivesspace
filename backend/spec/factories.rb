@@ -155,7 +155,6 @@ FactoryGirl.define do
                                     :authorized => 1,
                                     :json_schema_version => 1)
         a.add_agent_contact(:name => generate(:generic_name),
-                            :telephone => generate(:phone_number),
                             :address_1 => [nil, generate(:alphanumstr)].sample,
                             :address_2 => [nil, generate(:alphanumstr)].sample,
                             :address_3 => [nil, generate(:alphanumstr)].sample,
@@ -163,7 +162,7 @@ FactoryGirl.define do
                             :region => [nil, generate(:alphanumstr)].sample,
                             :country => [nil, generate(:alphanumstr)].sample,
                             :post_code => [nil, generate(:alphanumstr)].sample,
-                            :telephone => [nil, generate(:alphanumstr)].sample,
+                            #:telephones => [nil, build(:json_telephone)].sample,
                             :fax => [nil, generate(:alphanumstr)].sample,
                             :email => [nil, generate(:alphanumstr)].sample,
                             :email_signature => [nil, generate(:alphanumstr)].sample,
@@ -237,9 +236,15 @@ FactoryGirl.define do
     accession_date { generate(:yyyy_mm_dd) }
   end
 
+  factory :json_telephone, class: JSONModel(:telephone) do
+    number {  generate(:phone_number) }
+    ext { [nil, generate(:alphanumstr)].sample }
+
+  end
+
   factory :json_agent_contact, class: JSONModel(:agent_contact) do
     name { generate(:generic_name) }
-    telephone { generate(:phone_number) }
+    telephones { [build(:json_telephone)] }
     address_1 { [nil, generate(:alphanumstr)].sample }
     address_2 { [nil, generate(:alphanumstr)].sample }
     address_3 { [nil, generate(:alphanumstr)].sample }
@@ -247,7 +252,6 @@ FactoryGirl.define do
     region { [nil, generate(:alphanumstr)].sample }
     country { [nil, generate(:alphanumstr)].sample }
     post_code { [nil, generate(:alphanumstr)].sample }
-    telephone_ext { [nil, generate(:alphanumstr)].sample }
     fax { [nil, generate(:alphanumstr)].sample }
     email { [nil, generate(:alphanumstr)].sample }
     email_signature { [nil, generate(:alphanumstr)].sample }
