@@ -24,18 +24,19 @@ module SeleniumFactories
       to_create{|instance| instance.save}
 
       sequence(:username) {|n| "testuser_#{n}_#{Time.now.to_i}"}
-      sequence(:user_name) {|n| "Test User #{n} #{Time.now}"}
+      sequence(:user_name) {|n| "Test User #{n}"}
 
       sequence(:repo_code) {|n| "testrepo_#{n}_#{Time.now.to_i}"}
-      sequence(:repo_name) {|n| "Test Repo #{n} #{Time.now}"}
+      sequence(:repo_name) {|n| "Test Repo #{n}"}
       sequence(:accession_id) {|n| "#{n}" } 
 
 
       sequence(:ref_id) {|n| "aspace_#{n}"}
       sequence(:id_0) {|n| "#{Time.now.to_i}_#{n}"}
 
-      sequence(:resource_title) { |n| "Resource #{n} - #{Time.now}" }
-      sequence(:archival_object_title) {|n| "Archival Object #{n} - #{Time.now}"}
+      sequence(:accession_title) { |n| "Accession #{n}" }
+      sequence(:resource_title) { |n| "Resource #{n}" }
+      sequence(:archival_object_title) {|n| "Archival Object #{n}"}
 
       factory :repo, class: JSONModel(:repository) do
         repo_code { generate :repo_code }
@@ -51,7 +52,7 @@ module SeleniumFactories
       end
 
       factory :accession, class: JSONModel(:accession) do
-        title "Accession #{Time.now}"
+        title { generate(:accession_title) }
         id_0 { generate(:accession_id) }
         id_1 { generate(:accession_id) }
         id_2 { generate(:accession_id) }

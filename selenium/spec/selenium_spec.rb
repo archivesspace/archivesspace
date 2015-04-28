@@ -6,9 +6,9 @@ describe "ArchivesSpace user interface" do
 
     before(:all) do
       @test_repo_code_1 = "test1#{Time.now.to_i}_#{$$}"
-      @test_repo_name_1 = "test repository 1 - #{Time.now}"
+      @test_repo_name_1 = "test repository 1 - #{Time.now.utc}"
       @test_repo_code_2 = "test2#{Time.now.to_i}_#{$$}"
-      @test_repo_name_2 = "test repository 2 - #{Time.now}"
+      @test_repo_name_2 = "test repository 2 - #{Time.now.utc}"
 
       login("admin", "admin")
     end
@@ -68,7 +68,7 @@ describe "ArchivesSpace user interface" do
 
     it "automatically refreshes the repository list when a new repo gets added" do
       new_repo_code = "notificationtest1#{Time.now.to_i}_#{$$}"
-      new_repo_name = "notification test repository - #{Time.now}"
+      new_repo_name = "notification test repository - #{Time.now.utc}"
 
       create_test_repo(new_repo_code, new_repo_name)
 
