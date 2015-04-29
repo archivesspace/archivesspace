@@ -569,6 +569,10 @@ class EADConverter < Converter
       end
     end
 
+    with 'subtitle' do
+      next ignore if @ignore
+      set :finding_aid_subtitle, format_content( inndex_xml )
+    end
 
     with 'langusage' do
       set :finding_aid_language, format_content( inner_xml ) 
