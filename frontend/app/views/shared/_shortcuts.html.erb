@@ -1,0 +1,34 @@
+<% 
+  cuts = [
+          ["this_reference", "Shift ?"],
+          ["close_modal", "ESC"],
+          ["save_record", "Ctrl s"],
+          ["close_record", "Ctrl x"],
+          ["open_browse", "Shift b"],
+          ["open_create", "Shift c"]
+          ]
+  
+%>
+
+
+
+<div class="container-fluid">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Action</th>
+        <th>Shortcut</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% cuts.each do |cut| %>
+        <tr>
+          <td><%= I18n.t("shortcuts.actions.#{cut.shift}") %></td>
+          <td><%= cut.join(" then "); %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
