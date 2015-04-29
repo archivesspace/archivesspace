@@ -1513,15 +1513,7 @@ describe "ArchivesSpace user interface" do
     end
 
     before(:each) do
-      # save us the trouble of worrying about form state when
-      # testing form errors
-
-      begin
-        $driver.get("#{$frontend}")
-        sleep(2)
-        $driver.switch_to.alert.accept
-      rescue Selenium::WebDriver::Error::NoAlertOpenError
-      end
+      $driver.get("#{$frontend}")
     end
 
     after(:all) do
@@ -1647,6 +1639,9 @@ describe "ArchivesSpace user interface" do
       $driver.click_and_wait_until_gone(:id => "createPlusOne")
 
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Level of Description - Property is required but was missing/)
+
+      $driver.get("#{$frontend}")
+      $driver.switch_to.alert.accept
     end
 
 
@@ -1664,6 +1659,9 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Dates - one or more required \(or enter a Title\)/i)
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Title - must not be an empty string \(or enter a Date\)/i)
+
+      $driver.get("#{$frontend}")
+      $driver.switch_to.alert.accept
     end
 
 
@@ -1726,6 +1724,9 @@ describe "ArchivesSpace user interface" do
       expect {
         $driver.find_element_with_text('//div[contains(@class, "error")]', /Title - must not be an empty string/)
       }.to_not raise_error
+
+      $driver.get("#{$frontend}")
+      $driver.switch_to.alert.accept
     end
 
     it "can update an existing Archival Object" do
