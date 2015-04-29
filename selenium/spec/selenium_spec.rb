@@ -1513,15 +1513,12 @@ describe "ArchivesSpace user interface" do
     end
 
     before(:each) do
-
-    end
-
-    after(:each) do
       # save us the trouble of worrying about form state when
       # testing form errors
-      sleep(2)
-      $driver.get("#{$frontend}")
+
       begin
+        $driver.get("#{$frontend}")
+        sleep(2)
         $driver.switch_to.alert.accept
       rescue Selenium::WebDriver::Error::NoAlertOpenError
       end
