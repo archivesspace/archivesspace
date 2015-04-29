@@ -44,6 +44,11 @@
       #gradient > .vertical(#dcf1fa, #caecfa);
     }
 
+    /* Fix https://archivesspace.atlassian.net/browse/AR-1211 */
+    &.kiketable-th {
+      height: 30px !important;
+    }
+
     .kiketable-colsizable-handler {
       background-image: asset-url('archivesspace/drag_handle.png');
       border: none;
