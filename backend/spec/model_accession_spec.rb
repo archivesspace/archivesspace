@@ -304,9 +304,9 @@ describe 'Accession model' do
                            :description => "A classification")
 
     classification = Classification.create_from_json(classification)
-    accession = create_accession(:classification => {'ref' => classification.uri})
+    accession = create_accession(:classifications => [ {'ref' => classification.uri} ])
 
-    accession.related_records(:classification).title.should eq("top-level classification")
+    accession.related_records(:classification).first.title.should eq("top-level classification")
   end
 
 

@@ -4,9 +4,8 @@ module Classifications
   def self.included(base)
     base.include(Relationships)
     base.define_relationship(:name => :classification,
-                             :json_property => 'classification',
+                             :json_property => 'classifications',
                              :contains_references_to_types => proc {[Classification,
-                                                                     ClassificationTerm]},
-                             :is_array => false)
+                                                                     ClassificationTerm]})
   end
 end

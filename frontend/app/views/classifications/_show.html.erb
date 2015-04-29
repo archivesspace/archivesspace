@@ -1,0 +1,23 @@
+<section id="<%= section_id %>">
+  <h3><%= I18n.t("classification._plural") %></h3>
+  <div class="details">
+    <div id="<%= section_id %>_classifications">
+      <div class="subrecord-form-dummy">
+        <div class="subrecord-form-container">
+          <div class="subrecord-form-fields">
+            <div class="row">
+              <div class="col-md-4 token-list">
+              <% classifications.each do | classification | %>
+                <%= render_token :object => classification, 
+                :label => classification["_resolved"]["title"],
+                :type => classification["_resolved"]["jsonmodel_type"],
+                :uri => classification["_resolved"]["uri"] %>
+              <% end %> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

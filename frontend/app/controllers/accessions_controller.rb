@@ -103,10 +103,13 @@ class AccessionsController < ApplicationController
   # refactoring note: suspiciously similar to resources_controller.rb
   def fetch_resolved(id)
     accession = Accession.find(id, find_opts)
-
-    if accession['classification'] && accession['classification']['_resolved']
-      resolved = accession['classification']['_resolved']
-      resolved['title'] = ClassificationHelper.format_classification(resolved['path_from_root'])
+    
+    if accession['classifications'] 
+      accession['classifications'].each do |classification|
+        next unless classification['_resolved']
+        resolved = classification["_resolved"] 
+        resolved['title'] = ClassificationHelper.format_classification(resolved['path_from_root'])
+      end 
     end
 
     accession

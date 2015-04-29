@@ -256,9 +256,12 @@ class ResourcesController < ApplicationController
   def fetch_resolved(id)
     resource = JSONModel(:resource).find(id, find_opts)
 
-    if resource['classification'] && resource['classification']['_resolved']
-      resolved = resource['classification']['_resolved']
-      resolved['title'] = ClassificationHelper.format_classification(resolved['path_from_root'])
+    if resource['classifications'] 
+      resource['classifications'].each do |classification|
+        next unless classification['_resolved']
+        resolved = classification["_resolved"] 
+        resolved['title'] = ClassificationHelper.format_classification(resolved['path_from_root'])
+      end 
     end
 
     resource
