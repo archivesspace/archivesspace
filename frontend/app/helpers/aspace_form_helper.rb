@@ -645,8 +645,8 @@ module AspaceFormHelper
         end
         options.push([I18n.t(i18n_path, :default => v), v])
       end
-
-      options.sort {|a,b| a[0] <=> b[0]}
+      options
+      #options.sort {|a,b| a[0] <=> b[0]}
     end
 
     private

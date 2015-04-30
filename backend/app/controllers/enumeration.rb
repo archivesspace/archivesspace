@@ -57,5 +57,50 @@ class ArchivesSpaceService < Sinatra::Base
   do
      json_response(Enumeration.to_jsonmodel(params[:enum_id]))
   end
+  
+  Endpoint.get('/config/enumeration_values/:enum_val_id')
+    .description("Get an Enumeration Value")
+    .params(["enum_val_id", Integer, "The ID of the enumeration value to retrieve"])
+    .permissions([])
+    .returns([200, "(:enumeration_value)"]) \
+  do
+     json_response(EnumerationValue.to_jsonmodel(params[:enum_val_id]))
+  end
+  
+  Endpoint.post('/config/enumeration_values/:enum_val_id')
+    .description("Update an enumeration value")
+    .params(["enum_val_id", Integer, "The ID of the enumeration value to update"],
+            ["enumeration_value", JSONModel(:enumeration_value), "The enumeration value to update", :body => true])
+    .permissions([:system_config])
+    .returns([200, :updated],
+             [400, :error]) \
+  do
+    handle_update(EnumerationValue, params[:enum_val_id], params[:enumeration_value])
+  end
+  
+  Endpoint.post('/config/enumeration_values/:enum_val_id/position')
+    .description("Update the position of an ennumeration value")
+    .params(["enum_val_id", Integer, "The ID of the enumeration value to update"],
+            ["position", Integer, "The target position in the value list"])
+    .permissions([:system_config])
+    .returns([200, :updated],
+             [400, :error]) \
+  do
+    obj = EnumerationValue.get_or_die(params[:enum_val_id])
+    obj.update_position_only(params[:position])
+    json_response(obj)
+  end
+  
+  Endpoint.post('/config/enumeration_values/:enum_val_id/suppressed')
+    .description("Suppress this value")
+    .params(["enum_val_id", Integer, "The ID of the enumeration value to update"],
+            ["suppressed", BooleanParam, "Suppression state"]) 
+    .permissions([:system_config])
+    .returns([200, :suppressed],
+             [400, :error]) \
+  do
+    sup_state = EnumerationValue.handle_suppressed([ params[:enum_val_id] ], params[:suppressed]) 
+    suppressed_response(params[:enum_val_id], sup_state) 
+  end
 
 end
