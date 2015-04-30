@@ -593,6 +593,12 @@ $(function() {
             var currentIndex = $th.index();
             var $col = $($("col", $colgroup).get(currentIndex));
 
+            // show hidden stuff so we get the section headers right
+            // we'll reapply visibility at the end
+            if (!isVisible(colId) && targetIndex > 0) {
+              showColumn(currentIndex);
+            }
+
             if (targetIndex !== currentIndex) {
                 $th.insertBefore($("th", $row).get(targetIndex));
                 $col.insertBefore($("col", $colgroup).get(targetIndex));
@@ -611,6 +617,8 @@ $(function() {
               $sectionRow.append($("<th>").data("id", $th.data("section")).addClass("section-"+$th.data("section")).attr("colspan", "1").text(SECTION_DATA[$th.data("section")]));
             }
           });
+
+          applyPersistentVisibleColumns()
         }
       };
 
@@ -849,6 +857,14 @@ $(function() {
         $table.width($table.width() - $col.width());
         $col.hide();
       };
+
+
+      var showColumn = function(index) {
+        $table.showColumns(index+1);
+        var $col = $($("table colgroup col").get(index));
+        $table.width($table.width() + $col.width());
+        $col.show();
+      }
 
       var enableCell = function(colId, rowIndex) {
         var row = $("tbody tr")[rowIndex];
