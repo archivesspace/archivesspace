@@ -16,6 +16,7 @@
           "type" => "string",
         }
       },
+      "enumeration_values" => {"type" => "array", "items" => {"type" => "JSONModel(:enumeration_value) object"}},
       "values" => {
         "type" => "array",
         "ifmissing" => "error",

@@ -5,7 +5,7 @@ class Enumeration < Sequel::Model(:enumeration)
 
   set_model_scope :global
 
-  one_to_many :enumeration_value
+  one_to_many :enumeration_value, :order => [ :position, :value ]
 
   @enumeration_dependants = {}
 
@@ -37,14 +37,16 @@ class Enumeration < Sequel::Model(:enumeration)
 
     new_enum_value = self.enumeration_value.find {|val| val[:value] == new_value}
 
-    self.class.dependants_of(self.name).each do |definition, model|
+    dependants = self.class.dependants_of(self.name) ? self.class.dependants_of(self.name) : []
+    dependants.each do |definition, model|
       property_id = "#{definition[:property]}_id".intern
       model.filter(property_id => old_enum_value.id).update(property_id => new_enum_value.id,
                                                             :system_mtime => Time.now)
     end
 
     old_enum_value.delete
-
+    self.reload 
+    self.enumeration_value.each_with_index { |ev, i| ev.position = i; ev.save }
     self.class.broadcast_changes
   end
 
@@ -60,6 +62,7 @@ class Enumeration < Sequel::Model(:enumeration)
     incoming_values = Array(json['values'])
     existing_values = obj.enumeration_value.map {|val| val[:value]}
 
+    
     added_values = incoming_values - existing_values
     removed_values = existing_values - incoming_values
    
@@ -77,8 +80,8 @@ class Enumeration < Sequel::Model(:enumeration)
     end
 
 
-    added_values.each do |value|
-      obj.add_enumeration_value(:value => value)
+    added_values.each_with_index do |value, i|
+      obj.add_enumeration_value(:value => value, :position => (existing_values.length + i) )
     end
 
     removed_values.each do |value|
@@ -90,7 +93,14 @@ class Enumeration < Sequel::Model(:enumeration)
       }
     end
 
-
+    
+    enum_vals = EnumerationValue.filter( :enumeration_id => obj.id )
+    enum_vals.update(:position => Sequel.lit('position + 9999' ))
+    enum_vals.each_with_index do |ev, i|
+      ev.position = i
+      ev.save
+    end
+    
     broadcast_changes
 
     obj.refresh
@@ -134,19 +144,16 @@ class Enumeration < Sequel::Model(:enumeration)
     jsons = super
 
     jsons.zip(objs).each do |json, obj|
-      values = obj.enumeration_value.map {|enum_value|
-        {
-          :value => enum_value[:value],
-          :readonly => enum_value[:readonly]
-        }
-      }
 
-      json['values'] = values.map {|v| v[:value]}
-      json['readonly_values'] = values.map {|v| v[:value] if (v[:readonly] != 0)}.compact
-    
+      # we're keeping the values as just the not suppressed values.
+      # enumeration_values are only needed in situations where we are
+      # editing/updating the lists. 
+      json['values'] = obj.enumeration_value.map {|v| v[:value] unless v[:suppressed] == 1  }
+      json['readonly_values'] = obj.enumeration_value.map {|v| v[:value] if ( v[:readonly] != 0 && v[:suppressed] != 1  )}.compact
+      json['enumeration_values'] =  EnumerationValue.sequel_to_jsonmodel(obj.enumeration_value) 
       # this tells us where the enum is used.
       json["relationships"] = obj.dependants.collect { |d| d.first[:property] }.uniq
-      
+
       if obj.default_value
         json['default_value'] = EnumerationValue[:id => obj.default_value][:value]
       end

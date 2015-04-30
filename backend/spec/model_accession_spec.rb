@@ -1,4 +1,4 @@
-require 'spec_helper'
+require_relative 'spec_helper'
 
 describe 'Accession model' do
 
@@ -33,7 +33,7 @@ describe 'Accession model' do
                                          :id_3 => "5432"
                                        }), 
                                  :repo_id => $repo_id)
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 
@@ -219,7 +219,7 @@ describe 'Accession model' do
                                                    }
                                                    ),
                                              :repo_id => $repo_id)
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 
@@ -262,7 +262,7 @@ describe 'Accession model' do
                                                    }
                                                    ),
                                              :repo_id => $repo_id)
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
 
     expect {
       accession = Accession.create_from_json(build(:json_accession,
@@ -272,7 +272,7 @@ describe 'Accession model' do
                                                    }
                                                    ),
                                              :repo_id => $repo_id)
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
 
     expect {
       accession = Accession.create_from_json(build(:json_accession,
@@ -282,7 +282,7 @@ describe 'Accession model' do
                                                    }
                                                    ),
                                              :repo_id => $repo_id)
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
 
     expect {
       accession = Accession.create_from_json(build(:json_accession,
@@ -292,7 +292,7 @@ describe 'Accession model' do
                                                    }
                                                    ),
                                              :repo_id => $repo_id)
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
 
   end
 

@@ -16,7 +16,7 @@ if ENV['ASPACE_BACKEND_URL']
                   :url => ENV['ASPACE_BACKEND_URL'],
                   :priority => :high)
 
-  load 'factories.rb'
+  require_relative 'factories.rb'
 
   auth = JSONModel::HTTP.post_form('/users/admin/login', {:password => 'admin'})
   JSONModel::HTTP.current_backend_session = JSON.parse(auth.body)['session']
@@ -55,7 +55,6 @@ else
     end
   end
 
-  $repo_record = JSONModel(:repository).find($repo_id)
 end
 
 

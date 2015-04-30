@@ -251,11 +251,19 @@ module ApplicationHelper
   def clean_mixed_content(content)
     content = content.to_s
     return content if content.blank? 
-    MixedContentParser::parse(content, url_for(:root), { :wrap_blocks => false } )
+    MixedContentParser::parse(content, url_for(:root), { :wrap_blocks => false } ).to_s.html_safe
   end
 
   def proxy_localhost?
     AppConfig[:public_proxy_url] =~ /localhost/
+  end
+
+  def add_new_event_url(record)
+    if record.jsonmodel_type == "agent"
+      url_for(:controller => :events, :action => :new, :agent_uri => record.uri,  :event_type => "${event_type") 
+    else
+      url_for(:controller => :events, :action => :new, :record_uri => record.uri, :record_type => record.jsonmodel_type, :event_type => "${event_type}") 
+    end
   end
 
 end

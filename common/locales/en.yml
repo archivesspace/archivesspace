@@ -1716,6 +1716,9 @@ en:
         <p>The value for the Controlled Value List you wish to add or edit.</p>
         <p>Whenever possible, values should be in lower case and have underscores ("_") instead of spaces. Translations for the values should be added to the locales file.</p>
     translation: Translation
+    position: Position
+    suppress: Suppress
+    unsuppress: Unsuppress
     merge_into: Merge Into
     _singular: Controlled Value List
     _plural: Controlled Value lists
