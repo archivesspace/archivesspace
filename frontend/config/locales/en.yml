@@ -900,3 +900,14 @@ en:
         drag_and_drop_hint: Drag and drop files here
         find_and_replace_warning: Find and replace jobs can and will make major changes to your database. You are <strong>strongly</strong> advised to backup your database AND to run your job in a test instance before proceeding. There is no "undo".
         find_and_replace_instructions: Choose a base record to scope this find and replace operation. Then choose a record type to target and a property of that type. The operation will run in every target record in the tree of the base record, or in the base record itself if the target type is "Resource".
+
+  shortcuts:
+    quick_reference_window: "Quick Reference: Keyboard Shortcuts"
+    actions:
+      this_reference: "This shortcut reference"
+      close_modal: "Close a modal window (e.g., this one)"
+      toggle_shortcuts: "Enable / disable keyboard shortcuts"
+      save_record: "Save the record being edited"
+      close_record: "Close a record being edited"
+      open_browse: "Open Browse menu"
+      open_create: "Open Create menu"

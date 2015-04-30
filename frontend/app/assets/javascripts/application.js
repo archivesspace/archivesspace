@@ -21,5 +21,6 @@
 //= require utils
 //= require header
 //= require linker
+//= require lodash
 
 AS.tree_data = {};

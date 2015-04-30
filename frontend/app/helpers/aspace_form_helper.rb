@@ -811,4 +811,12 @@ module AspaceFormHelper
     }
   end
 
+
+  def error_params(exceptions)
+    {
+      :"data-form-errors" => (exceptions && exceptions.keys[0])
+    }
+  end
+
+
 end

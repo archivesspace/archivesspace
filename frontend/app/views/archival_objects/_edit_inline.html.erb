@@ -1,4 +1,4 @@
-<%= form_for @archival_object, :as => "archival_object", :url => {:action => :update, :id => @archival_object.id}, :html => {:class => 'form-horizontal aspace-record-form', :id => 'archival_object_form'}.merge(update_monitor_params(@archival_object)) do |f| %>
+<%= form_for @archival_object, :as => "archival_object", :url => {:action => :update, :id => @archival_object.id}, :html => {:class => 'form-horizontal aspace-record-form', :id => 'archival_object_form'}.merge(update_monitor_params(@archival_object)).merge(error_params(@exceptions)) do |f| %>
   <%= form_context :archival_object, @archival_object do |form| %>
     <div class="row">
       <div class="col-md-3">
