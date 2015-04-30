@@ -1,0 +1,17 @@
+{
+  "name": "ArchivesSpaceFrontend",
+  "version": "1.0.0",
+  "description": "Assets for Staff UI for ArchivesSpace",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "bower-installer": "^1.2.0"
+  }
+}

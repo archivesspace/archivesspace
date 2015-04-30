@@ -92,6 +92,7 @@
       display: block;
       padding: 2px 0px !important;
       border: 1px solid transparent;
+      line-height: 16px;
       height: auto !important;
       overflow: hidden;
 
@@ -105,7 +106,7 @@
         width: 120px;
         margin-left: 2px;
         color: #666;
-        padding-left: 2px;
+        padding-left: 4px;
         overflow: hidden;
 
         &.field-column-1 {
@@ -157,9 +158,10 @@
     a > .jstree-icon {
       display: inline-block;
       .ie7-restore-right-whitespace();
+      height: 100%;
       line-height: 14px;
       vertical-align: text-top;
-      padding-right: 20px;
+      /* padding-right: 20px; */
     }
   }
 
@@ -176,6 +178,10 @@
       max-width: 400px;
       max-height: 200px;
       overflow: auto;
+    }
+
+    a.move-node.disabled {
+      color: #ddd !important;
     }
   }
   .ui-resizable-handle {

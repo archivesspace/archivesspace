@@ -40,7 +40,7 @@ module Selenium
 
   module Config
     def self.retries
-      500 
+      500
     end
   end
 
@@ -85,6 +85,7 @@ class Selenium::WebDriver::Driver
           $sleep_time += 0.1
           sleep 0.5
           puts "find_element: #{try} misses on selector '#{selectors}'.  Retrying..." if (try % 5) == 0
+
         else
           puts "Failed to find #{selectors}"
 
@@ -115,12 +116,12 @@ class Selenium::WebDriver::Driver
 
 
   def ensure_no_such_text(xpath, pattern, noError = false, noRetry = true )
-    wait_for_ajax 
+    wait_for_ajax
     begin
       element = self.find_element(:tag_name => "body").find_element_with_text(xpath, pattern, noError, noRetry)
 
       if element.nil? or !element.displayed?
-        true 
+        true
       else
         raise "Element was supposed to be absent: #{xpath} #{pattern}"
       end
@@ -334,10 +335,8 @@ RSpec.configure do |c|
   c.fail_fast = true
 end
 
-
-class RepositoryHelper
-
-  def initialize 
+module RepositoryHelperMethods
+  def initialize
     @test_repositories = {}
   end
 
@@ -356,12 +355,14 @@ class RepositoryHelper
     sleep 5 if wait
 
     @test_repositories[code] = repo_uri
-    
+
     [code, repo_uri]
   end
 
 
   def select_repo(code)
+    code = code.respond_to?(:repo_code) ? code.repo_code : code
+
     $driver.find_element(:link, 'Select Repository').click
     $driver.find_element(:css, '.select-a-repository').find_element(:id => "id").select_option_with_text(code)
     $driver.find_element(:css, '.select-a-repository .btn-primary').click
@@ -374,9 +375,15 @@ class RepositoryHelper
       yield
 
       $test_repo = $test_repo_old
-      $test_repo_uri = $test_repo_uri_old     
+      $test_repo_uri = $test_repo_uri_old
     end
   end
+end
+
+
+
+class RepositoryHelper
+  include RepositoryHelperMethods
 end
 
 
@@ -437,9 +444,6 @@ def selenium_init(backend_fn, frontend_fn)
     $server_pids << frontend_fn.call
   end
 
-  @user = "testuser#{Time.now.to_i}_#{$$}"
-
-
   if ENV['TRAVIS'] && ENV['WITH_FIREFOX']
     puts "Loading stable version of Firefox and nodejs"
     Dir.chdir('/var/tmp') do
@@ -462,16 +466,16 @@ def selenium_init(backend_fn, frontend_fn)
   system("rm #{File.join(Dir.tmpdir, '*.pdf')}")
   system("rm #{File.join(Dir.tmpdir, '*.xml')}")
 
-  puts "get profile"
   profile = Selenium::WebDriver::Firefox::Profile.new
-  profile["browser.download.dir"] = Dir.tmpdir 
+  profile["browser.download.dir"] = Dir.tmpdir
   profile["browser.download.folderList"] = 2
   profile["browser.helperApps.alwaysAsk.force"] = false
   profile["browser.helperApps.neverAsk.saveToDisk"] = "application/pdf, application/xml"
   profile['pdfjs.disabled'] = true
-  
+
+
   if ENV['FIREFOX_PATH']
-    Selenium::WebDriver::Firefox.path = ENV['FIREFOX_PATH'] 
+    Selenium::WebDriver::Firefox.path = ENV['FIREFOX_PATH']
   end
 
   $driver = Selenium::WebDriver.for :firefox,:profile => profile
@@ -547,7 +551,7 @@ end
 def add_user_to_viewers(user, repo)
   add_user_to_group(user, repo, 'repository-viewers')
 end
-	
+
 
 def add_user_to_group(user, repo, group_code)
   req = Net::HTTP::Get.new("#{repo}/groups")
@@ -601,13 +605,13 @@ end
 
 
 def create_resource(values = {}, repo = nil)
- 
+
   # if we're passing a repo, we don't want to make a $test_repo, dig?
   if !$test_repo_uri && repo.nil?
     ($test_repo, $test_repo_uri) = create_test_repo("repo_#{SecureRandom.hex}", "description")
   end
-     
-  repo ||= $test_repo_uri 
+
+  repo ||= $test_repo_uri
 
   default_values = {:title => "Test Resource #{SecureRandom.hex}",
     :id_0 => SecureRandom.hex, :level => "collection", :language => "eng",
