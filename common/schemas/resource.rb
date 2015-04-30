@@ -42,6 +42,7 @@
 
       # Finding aid
       "finding_aid_title" => {"type" => "string", "maxLength" => 65000},
+      "finding_aid_subtitle" => {"type" => "string", "maxLength" => 65000},
       "finding_aid_filing_title" => {"type" => "string", "maxLength" => 65000},
       "finding_aid_date" => {"type" => "string", "maxLength" => 255},
       "finding_aid_author" => {"type" => "string", "maxLength" => 65000},

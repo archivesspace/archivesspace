@@ -135,7 +135,8 @@ describe 'Resource model' do
       :id_0 => "test",
       :id_1 => "4444",
       :ead_id => "test000",
-      :finding_aid_title => "Test"
+      :finding_aid_title => "Test",
+      :finding_aid_subtitle => "SubTest"
     }
     
     json = build(:json_resource, opts)
