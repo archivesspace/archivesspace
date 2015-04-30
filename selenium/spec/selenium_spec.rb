@@ -1530,6 +1530,11 @@ describe "ArchivesSpace user interface" do
     end
 
 
+    after(:all) do
+      logout
+    end
+
+
     it "can spawn a resource from an existing accession" do
       $driver.get("#{$frontend}#{@accession.uri.sub(/\/repositories\/\d+/, '')}")
 
@@ -3114,7 +3119,8 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:css, ".add-rows-form input"], "9")
 
       # this is stupid, but seems to be a flakey issue with Selenium,
-      # especailly when headless. The key is not being sent, so we'll try the
+      # especially when headless. The key is not being sent, so we'll try the
+      # up arrow method to add the rows
 
       stupid = @modal.find_element(:css, ".add-rows-form input").attribute('value')
       unless stupid == '9'
