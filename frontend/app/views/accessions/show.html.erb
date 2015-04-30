@@ -87,8 +87,8 @@
            <%= render_aspace_partial :partial => "collection_management/show", :locals => { :collection_management => @accession.collection_management, :context => readonly, :section_id => "accession_collection_management_" } %>
          <% end %>
 
-        <% if @accession.classification %>
-          <%= render_aspace_partial :partial => "classification/show", :locals => { :classification => @accession.classification, :context => readonly, :section_id => "resource_classification_" } %>
+        <% if @accession.classifications %>
+          <%= render_aspace_partial :partial => "classifications/show", :locals => { :classifications => @accession.classifications, :context => readonly, :section_id => "accession_classifications_" } %>
         <% end %>
 
         <%= render_aspace_partial :partial => "linked_events/show", :locals => { :linked_events => @accession.linked_events, :context => readonly, :section_id => "accession_linked_events_" } %>

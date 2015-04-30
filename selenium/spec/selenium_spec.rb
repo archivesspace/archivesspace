@@ -4127,12 +4127,20 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "resource_dates__0__begin_"], "1978")
 
       # Now add a classification
-      $driver.find_element(:css => '#resource_classification_ .subrecord-form-heading .btn:not(.show-all)').click
+      $driver.find_element(:css => '#resource_classifications_ .subrecord-form-heading .btn:not(.show-all)').click
 
       assert(5) {
         run_index_round
-        $driver.clear_and_send_keys([:id, "token-input-resource_classification__ref_"],
+        $driver.clear_and_send_keys([:id, "token-input-resource_classifications__0__ref_"],
                                     test_classification)
+        $driver.find_element(:css, "li.token-input-dropdown-item2").click
+      }
+      
+      $driver.find_element(:css => '#resource_classifications_ .subrecord-form-heading .btn:not(.show-all)').click
+      assert(5) {
+        run_index_round
+        $driver.clear_and_send_keys([:id, "token-input-resource_classifications__1__ref_"],
+                                    test_classification_term)
         $driver.find_element(:css, "li.token-input-dropdown-item2").click
       }
 
@@ -4140,6 +4148,7 @@ describe "ArchivesSpace user interface" do
       $driver.click_and_wait_until_gone(:link, "Close Record")
 
       $driver.find_element(:css => 'div.token.classification').text.should match(/#{test_classification}/)
+      $driver.find_element(:css => 'div.token.classification_term').text.should match(/#{test_classification_term}/)
     end
 
 
@@ -4156,11 +4165,11 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "accession_accession_date_"], "2013-06-11")
 
       # Now add a classification
-      $driver.find_element(:css => '#accession_classification_ .subrecord-form-heading .btn:not(.show-all)').click
+      $driver.find_element(:css => '#accession_classifications_ .subrecord-form-heading .btn:not(.show-all)').click
 
       assert(5) {
         run_index_round
-        $driver.clear_and_send_keys([:id, "token-input-accession_classification__ref_"],
+        $driver.clear_and_send_keys([:id, "token-input-accession_classifications__0__ref_"],
                                     test_classification)
         $driver.find_element(:css, "li.token-input-dropdown-item2").click
       }

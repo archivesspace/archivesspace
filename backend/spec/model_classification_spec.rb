@@ -4,13 +4,15 @@ describe 'Classification models' do
 
   let(:creator) { create(:json_agent_person) }
   let(:classification) { create_classification }
+  let(:resource) { create(:json_resource) }
 
   def create_classification
     classification = build(:json_classification,
                            :title => "top-level classification",
                            :identifier => "abcdef",
                            :description => "A classification",
-                           :creator => {'ref' => creator.uri})
+                           :creator => {'ref' => creator.uri},
+                          :linked_records => [ 'ref' => resource.uri ])
 
     Classification.create_from_json(classification)
   end

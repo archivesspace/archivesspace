@@ -35,21 +35,23 @@
       "accession_date" => {"type" => "date", "minLength" => 1, "ifmissing" => "error"},
 
       "publish" => {"type" => "boolean"},
-
-      "classification" => {
-        "type" => "object",
-        "subtype" => "ref",
-        "properties" => {
-          "ref" => {
-            "type" => [{"type" => "JSONModel(:classification) uri"},
-                       {"type" => "JSONModel(:classification_term) uri"}],
-            "ifmissing" => "error"
-          },
-          "_resolved" => {
-            "type" => "object",
-            "readonly" => "true"
-          }
-        }
+      "classifications" => {
+              "type" => "array",
+              "items" => {
+                "type" => "object",
+                "subtype" => "ref",
+                "properties" => {
+                  "ref" => {
+                    "type" => [ { "type" => "JSONModel(:classification) uri"},
+                                { "type" => "JSONModel(:classification_term) uri" }],
+                    "ifmissing" => "error"
+                  },
+                  "_resolved" => {
+                                "type" => "object",
+                                "readonly" => "true"
+                              }
+                }
+              }
       },
 
       "subjects" => {

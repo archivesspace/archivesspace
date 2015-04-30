@@ -168,7 +168,7 @@ class ApplicationController < ActionController::Base
   def find_opts
     {
       "resolve[]" => ["subjects", "related_resources", "linked_agents",
-                      "container_locations", "digital_object", "classification",
+                      "container_locations", "digital_object", "classifications",
                       "related_agents", "resource", "parent", "creator",
                       "linked_instances", "linked_records", "related_accessions",
                       "linked_events", "linked_events::linked_records",

@@ -9,7 +9,6 @@
 <%= hidden_field_tag "id", @classification.id %>
 
 <fieldset>
-
   <% define_template("classification", jsonmodel_definition(:classification)) do |form| %>
     <section id="basic_information">
       <h3><%= I18n.t("classification._frontend.section.basic_information") %></h3>
@@ -21,6 +20,8 @@
       <% form.push("creator", form["creator"] || {}) do %>
         <%= render_aspace_partial :partial => "agents/linker", :locals => {:form => form, :linker_label => I18n.t("classification.creator"), :optional => true, :multiplicity => "one"} %>
       <% end %>
+     
+      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_records"} %>
 
     </section>
   <% end %>

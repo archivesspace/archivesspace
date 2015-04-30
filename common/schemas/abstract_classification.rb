@@ -23,6 +23,26 @@
           }
         }
       },
+      
+      "linked_records" => {
+        "type" => "array",
+        "items" => {
+          "type" => "object",
+          "subtype" => "ref",
+          "properties" => {
+            "ref" => {
+              "type" => [
+                         {"type" => "JSONModel(:accession) uri"},
+                         {"type" => "JSONModel(:resource) uri"},
+                        ],
+            },
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
+          }
+        }
+      },
 
       "creator" => {
         "type" => "object",

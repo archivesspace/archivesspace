@@ -124,9 +124,9 @@ describe 'Resource model' do
                            :description => "A classification")
 
     classification = Classification.create_from_json(classification)
-    resource = create_resource(:classification => {'ref' => classification.uri})
+    resource = create_resource(:classifications =>[   {'ref' => classification.uri} ])
 
-    resource.related_records(:classification).title.should eq("top-level classification")
+    resource.related_records(:classification).first.title.should eq("top-level classification")
   end
 
   # See https://gist.github.com/anarchivist/7477913
