@@ -1,5 +1,5 @@
 <% define_template "rde_archival_object_sections" do |form| %>
-  <th data-id="basic" class="section-basic" colspan="5"><%= I18n.t("rde.sections.basic_information") %></th>
+  <th data-id="basic" class="section-basic" colspan="6"><%= I18n.t("rde.sections.basic_information") %></th>
   <th data-id="date" class="section-date" colspan="4" class="conditionally-required"><%= I18n.t("rde.sections.date") %></th>
   <th data-id="instance" class="section-instance" colspan="8"><%= I18n.t("rde.sections.instance") %></th>
   <th data-id="note" class="section-note" colspan="6"><%= I18n.t("rde.sections.notes") %></th>
@@ -7,6 +7,7 @@
 
 <% define_template "rde_archival_object_headers" do |form| %>
   <th id="colLevel" class="fieldset-label required sticky" data-section="basic"><%= I18n.t("archival_object.level") %></th>
+  <th id="colOtherLevel" class="fieldset-label sticky" data-section="basic"><%= I18n.t("archival_object.other_level") %></th>
   <th id="colPublish" class="fieldset-label sticky" data-section="basic"><%= I18n.t("archival_object.publish") %></th>
   <th id="colTitle" class="fieldset-label conditionally-required" data-section="basic"><%= I18n.t("archival_object.title") %></th>
   <th id="colCompId" class="fieldset-label" data-section="basic"><%= I18n.t("archival_object.component_id") %></th>
@@ -73,6 +74,7 @@
       </div>
     </td>
     <td data-col="colLevel" class="form-group"><%= form.select "level", form.possible_options_for("level", true) %></td>
+    <td data-col="colOtherLevel" class="form-group"><%= form.textfield "other_level" %></td>
     <td data-col="colPublish" class="form-group"><%= form.checkbox "publish", {}, user_prefs["publish"] %></td>
     <td data-col="colTitle" class="form-group"><%= form.textfield "title" %></td>
     <td data-col="colCompId" class="form-group"><%= form.textfield "component_id" %></td>
@@ -224,4 +226,3 @@
     </td>
   </tr>
 <% end %>
-
