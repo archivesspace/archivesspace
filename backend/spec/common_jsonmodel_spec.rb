@@ -51,7 +51,7 @@ describe 'JSON model' do
 
   
   it "can give a list of models" do
-    JSONModel(:testschema).models.keys.should include("testschema")
+    JSONModel.models.keys.should include("testschema")
   end
 
   
@@ -68,7 +68,7 @@ describe 'JSON model' do
   it "can recognize a valid url" do
     lambda {
       JSONModel(:testschema).from_hash({"elt_0" => "001", "url" => "http://www.foo.bar"})
-    }.should_not raise_error(ValidationException)
+    }.should_not raise_error(JSONModel::ValidationException)
   end
 
 
@@ -76,7 +76,7 @@ describe 'JSON model' do
 
     lambda {
       JSONModel(:testschema).from_hash({"elt_0" => "/!$"})
-    }.should raise_error(ValidationException)
+    }.should raise_error(JSONModel::ValidationException)
 
   end
 
@@ -99,7 +99,7 @@ describe 'JSON model' do
     exception = false
     begin
       JSONModel(:testschema).from_hash({"elt_0" => "/!$"})
-    rescue ValidationException => e
+    rescue JSONModel::ValidationException => e
       exception = e
     end
 
@@ -311,7 +311,7 @@ describe 'JSON model' do
 
     begin
       JSONModel(:testschema).from_hash({"elt_0" => "/!$"})
-    rescue ValidationException => ve
+    rescue JSONModel::ValidationException => ve
       ve.to_s.should match /^\#<:ValidationException: /
     end
 
@@ -400,7 +400,7 @@ describe 'JSON model' do
     # Resources don't allow language to be nil
     begin
       create(:json_resource, {:language => nil})      
-    rescue ValidationException => ve
+    rescue JSONModel::ValidationException => ve
       ve.to_s.should match /^\#<:ValidationException: /
     end
     
@@ -422,12 +422,12 @@ describe 'JSON model' do
     term.term_type = 'garbage'
     expect {
       term.save
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
 
     term.term_type = 'other_unmapped'
     expect {
       term.save
-    }.to_not raise_error(ValidationException)
+    }.to_not raise_error(JSONModel::ValidationException)
   end
 
 

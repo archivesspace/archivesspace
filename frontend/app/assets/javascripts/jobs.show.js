@@ -40,7 +40,7 @@ $(function() {
           var dataLength = data.length;
           $(".alert", $logSection).remove();
           $logSpool.slideDown();
-          $logSpool.append(data);
+          $logSpool.append($("<div>").text(data));
           offset +=dataLength;
 
           if (dataLength === 0) {

@@ -541,6 +541,19 @@ describe "ArchivesSpace user interface" do
 
       assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("My Custom Sort Name Agent") }
     end
+    
+    it "can add multiple telephone numbers" do
+      $driver.find_element(:css => '#agent_agent_contacts__0__telephones_ .subrecord-form-heading .btn:not(.show-all)').click
+
+      $driver.clear_and_send_keys([:id, "agent_agent_contacts__0__telephones__0__number_"], "555-5555")
+      $driver.clear_and_send_keys([:id, "agent_agent_contacts__0__telephones__0__ext_"], "66")
+      
+      $driver.find_element(:css => '#agent_agent_contacts__0__telephones_ .subrecord-form-heading .btn:not(.show-all)').click
+      $driver.clear_and_send_keys([:id, "agent_agent_contacts__0__telephones__1__number_"], "999-9999")
+
+      $driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Agent Saved/)
+    end
 
 
     it "reports errors when updating a Person Agent with invalid data" do
@@ -3073,7 +3086,7 @@ describe "ArchivesSpace user interface" do
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
     end
 
-    it "lets you add a new value to an enumeration and then you can use it" do
+    it "lets you add a new value to an enumeration, reorder it and then you can use it" do
       $driver.find_element(:link, 'System').click
       $driver.find_element(:link, "Manage Controlled Value Lists").click
 
@@ -3087,7 +3100,12 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "enumeration_value_"], "IMPORTANT.\n")
 
       $driver.find_element_with_text('//td', /^IMPORTANT\.$/)
-   
+     
+      # lets move important up the list
+      3.times do
+        $driver.find_element_with_text('//tr', /IMPORTANT/).find_element(:css, '.position-up').click
+      end
+
       # now lets make sure it's there
       $driver.find_element(:link, "Create").click
       $driver.find_element(:link, "Accession").click
@@ -3102,6 +3120,14 @@ describe "ArchivesSpace user interface" do
       #now add collection management
       $driver.find_element(:css => '#accession_collection_management_ .subrecord-form-heading .btn:not(.show-all)').click
 
+      # let's check the order of our values
+      ordered_values = ["IMPORTANT.", "High", "Low", "Medium"]
+      i = 0
+      $driver.find_element(:id => "accession_collection_management__processing_priority_").text.each_line do |val|
+        val.chomp.should eq(ordered_values[i])
+        i = i + 1 
+      end
+
       $driver.clear_and_send_keys([:id => "accession_collection_management__cataloged_note_"], ["DONE!", :return])
       $driver.find_element(:id => "accession_collection_management__processing_priority_").select_option("IMPORTANT.")
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
@@ -3110,6 +3136,64 @@ describe "ArchivesSpace user interface" do
 
       assert(5) { $driver.find_element(:css => '#accession_collection_management__accordian div:last-child').text.include?("IMPORTANT.") }
     end
+    
+    it "lets you see how many times the term has been used and search for it" do
+      $driver.find_element(:link, 'System').click
+      $driver.find_element(:link, "Manage Controlled Value Lists").click
+      run_index_round
+      
+      enum_select = $driver.find_element(:id => "enum_selector")
+      enum_select.select_option_with_text("Collection Management Processing Priority (collection_management_processing_priority)")
+      $driver.wait_for_ajax
+      $driver.find_element(:link, "1 related item.")
+       
+      
+    end   
+    
+    it "lets you suppress an enumeration value" do
+      $driver.find_element(:link, 'System').click
+      $driver.find_element(:link, "Manage Controlled Value Lists").click
+
+      enum_select = $driver.find_element(:id => "enum_selector")
+      enum_select.select_option_with_text("Collection Management Processing Priority (collection_management_processing_priority)")
+
+      # Wait for the table of enumerations to load
+      $driver.find_element(:css, '.enumeration-list')
+      
+      $driver.find_element(:link, 'Create Value').click
+      $driver.clear_and_send_keys([:id, "enumeration_value_"], "fooman\n")
+
+      foo = $driver.find_element_with_text('//tr', /fooman/)
+      foo.find_element(:link, "Suppress").click 
+
+      assert(5) {
+        $driver.find_element_with_text('//tr', /fooman/).find_element(:link, "Unsuppress").should_not be_nil 
+      }
+      # now lets make sure it's there
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Accession").click
+     
+      cm_accession_title = "CM Punk TEST2"
+      $driver.clear_and_send_keys([:id, "accession_title_"], cm_accession_title)
+      $driver.complete_4part_id("accession_id_%d_", $driver.generate_4part_id)
+      $driver.clear_and_send_keys([:id, "accession_accession_date_"], "2012-01-01")
+      $driver.clear_and_send_keys([:id, "accession_content_description_"], "STUFFZ")
+      $driver.clear_and_send_keys([:id, "accession_condition_description_"], "stuffy")
+     
+     
+      #now add collection management
+      $driver.find_element(:css => '#accession_collection_management_ .subrecord-form-heading .btn:not(.show-all)').click
+     
+      # make sure our suppressed value is not present
+      $driver.ensure_no_such_element(:xpath, "//option[@value='fooman']")
+     
+      # lets just finish up making the record and move on, shall we?
+      $driver.clear_and_send_keys([:id => "accession_collection_management__cataloged_note_"], ["DONE!", :return])
+      $driver.find_element(:id => "accession_collection_management__processing_priority_").select_option("IMPORTANT.")
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
+    
+    end
+  
   end
 
 
@@ -3907,26 +3991,25 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, ".record-toolbar .btn.multiselect-enabled.edit-batch").click
       $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
 
-      $driver.clear_and_send_keys([:id, "location_batch_building_"], "71 Fakers Way") 
       $driver.clear_and_send_keys([:id, "location_batch_floor_"], "6th") 
       $driver.clear_and_send_keys([:id, "location_batch_room_"], "Studio 5") 
       $driver.clear_and_send_keys([:id, "location_batch_area_"], "The corner") 
 
       $driver.click_and_wait_until_gone(:css => "form#new_location_batch .btn-primary")
-      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /8 Locations Created/) 
+      $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /8 Locations Updated/) 
       run_index_round
       $driver.navigate.refresh
-      $driver.clear_and_send_keys([:css, ".sidebar input.text-filter-field"], "71*")
+      $driver.clear_and_send_keys([:css, ".sidebar input.text-filter-field"], "1978*")
       $driver.find_element(:css, ".sidebar input.text-filter-field + div button").click 
    
-      $driver.find_element_with_text('//td', /71 Fakers Way, 6th, Studio 5, The corner \[Room: 1A, Shelf: 1\]/) 
-      $driver.find_element_with_text('//td', /71 Fakers Way, 6th, Studio 5, The corner \[Room: 1A, Shelf: 2\]/) 
-      $driver.find_element_with_text('//td', /71 Fakers Way, 6th, Studio 5, The corner \[Room: 1A, Shelf: 3\]/) 
-      $driver.find_element_with_text('//td', /71 Fakers Way, 6th, Studio 5, The corner \[Room: 1A, Shelf: 4\]/) 
-      $driver.find_element_with_text('//td', /71 Fakers Way, 6th, Studio 5, The corner \[Room: 1B, Shelf: 1\]/) 
-      $driver.find_element_with_text('//td', /71 Fakers Way, 6th, Studio 5, The corner \[Room: 1B, Shelf: 2\]/) 
-      $driver.find_element_with_text('//td', /71 Fakers Way, 6th, Studio 5, The corner \[Room: 1B, Shelf: 3\]/) 
-      $driver.find_element_with_text('//td', /71 Fakers Way, 6th, Studio 5, The corner \[Room: 1B, Shelf: 4\]/) 
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1A, Shelf: 1\]/) 
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1A, Shelf: 2\]/) 
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1A, Shelf: 3\]/) 
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1A, Shelf: 4\]/) 
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1B, Shelf: 1\]/) 
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1B, Shelf: 2\]/) 
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1B, Shelf: 3\]/) 
+      $driver.find_element_with_text('//td', /1978 Awesome Street, 6th, Studio 5, The corner \[Room: 1B, Shelf: 4\]/) 
 
 
     end

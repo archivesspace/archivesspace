@@ -30,6 +30,14 @@ module AspaceFormHelper
     end
 
 
+    def clean_mixed_content(content, root_url)
+      content = content.to_s
+      return content if content.blank?
+
+      MixedContentParser::parse(content, root_url, { :wrap_blocks => false } ).to_s.html_safe
+    end
+
+
     def readonly?
       false
     end
@@ -212,7 +220,7 @@ module AspaceFormHelper
       else
         value = obj[name]
       end
-      
+
       opts[:col_size] = 4
 
       date_input = textfield(name, value, field_opts)
@@ -351,7 +359,7 @@ module AspaceFormHelper
     end
 
     def label_and_fourpartid
-      field_html =  textfield("id_0", obj["id_0"], :class => "id_0 form-control", :size => 10) 
+      field_html =  textfield("id_0", obj["id_0"], :class => "id_0 form-control", :size => 10)
       field_html << textfield("id_1", obj["id_1"], :class => "id_1 form-control", :size => 10, :disabled => obj["id_0"].blank? && obj["id_1"].blank?)
       field_html << textfield("id_2", obj["id_2"], :class => "id_2 form-control", :size => 10, :disabled => obj["id_1"].blank? && obj["id_2"].blank?)
       field_html << textfield("id_3", obj["id_3"], :class => "id_3 form-control", :size => 10, :disabled => obj["id_2"].blank? && obj["id_3"].blank?)
@@ -483,19 +491,20 @@ module AspaceFormHelper
 
     def textfield(name = nil, value = "", opts =  {})
       return "" if value.blank?
-      opts[:escape] = true unless opts[:escape] == false 
+      opts[:escape] = true unless opts[:escape] == false
       opts[:base_url] ||= "/"
-      value =   MixedContentParser::parse(value, opts[:base_url]) if opts[:clean] == true
-      value =  @parent.preserve_newlines(value) if opts[:clean] == true
+      value = clean_mixed_content(value, opts[:base_url]) if opts[:clean] == true
+      value = @parent.preserve_newlines(value) if opts[:clean] == true
       value = CGI::escapeHTML(value) if opts[:escape]
       value.html_safe
     end
 
     def textarea(name = nil, value = "", opts =  {})
       return "" if value.blank?
-      opts[:escape] = true unless opts[:escape] == false 
+      opts[:escape] = true unless opts[:escape] == false
       opts[:base_url] ||= "/"
-      value =   MixedContentParser::parse(value, opts[:base_url]) if opts[:clean] == true
+      value = clean_mixed_content(value, opts[:base_url]) if opts[:clean] == true
+      Rails.logger.debug(value)
       value =  @parent.preserve_newlines(value) if opts[:clean] == true
       value = CGI::escapeHTML(value) if opts[:escape]
       value.html_safe
@@ -645,8 +654,8 @@ module AspaceFormHelper
         end
         options.push([I18n.t(i18n_path, :default => v), v])
       end
-
-      options.sort {|a,b| a[0] <=> b[0]}
+      options
+      #options.sort {|a,b| a[0] <=> b[0]}
     end
 
     private
@@ -790,7 +799,6 @@ module AspaceFormHelper
   def preserve_newlines(string)
     string.gsub(/\n/, '<br>')
   end
-
 
 
   def update_monitor_params(record)

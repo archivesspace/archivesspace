@@ -9,6 +9,7 @@ backend/doc
 doc
 config/config.rb
 *.swp
+*.out
 .idea
 /lib
 coverage

@@ -14,8 +14,10 @@
       "region" => {"type" => "string", "maxLength" => 65000},
       "country" => {"type" => "string", "maxLength" => 65000},
       "post_code" => {"type" => "string", "maxLength" => 65000},
-      "telephone" => {"type" => "string", "maxLength" => 65000},
-      "telephone_ext" => {"type" => "string", "maxLength" => 65000},
+      "telephones" =>{
+        "type" => "array",
+        "items" => {"type" => "JSONModel(:telephone) object"}
+      },
       "fax" => {"type" => "string", "maxLength" => 65000},
       "email" => {"type" => "string", "maxLength" => 65000},
       "email_signature" => {"type" => "string", "maxLength" => 65000},

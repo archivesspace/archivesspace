@@ -5,7 +5,7 @@
     "type" => "object",
     "parent" => "location",
     "properties" => {
-
+      "building" => {"type" => "string", "maxLength" => 255, "minLength" => 1, "ifmissing" => nil},
       "record_uris" => {
         "type" => "array",
         "items" => {

@@ -1,47 +1,58 @@
 require 'factory_girl'
 
-def sample(enum, exclude = [])
-  values = if enum.has_key?('enum')
-             enum['enum']
-           elsif enum.has_key?('dynamic_enum')
-             enum_source.values_for(enum['dynamic_enum'])
-           else
-             raise "Not sure how to sample this: #{enum.inspect}"
-           end
+module FactoryGirlSyntaxHelpers
 
-  exclude += ['other_unmapped']
+  def sample(enum, exclude = [])
+    values = if enum.has_key?('enum')
+               enum['enum']
+             elsif enum.has_key?('dynamic_enum')
+               enum_source.values_for(enum['dynamic_enum'])
+             else
+               raise "Not sure how to sample this: #{enum.inspect}"
+             end
 
-  values.reject{|i| exclude.include?(i) }.sample
-end
+    exclude += ['other_unmapped']
+
+    values.reject{|i| exclude.include?(i) }.sample
+  end
 
 
-def enum_source
-  if defined? BackendEnumSource
-    BackendEnumSource
-  else
-    JSONModel.init_args[:enum_source]
+  def enum_source
+    if defined? BackendEnumSource
+      BackendEnumSource
+    else
+      JSONModel.init_args[:enum_source]
+    end
+  end
+
+
+  def JSONModel(key)
+    JSONModel::JSONModel(key)
+  end
+
+
+  def nil_or_whatever
+    [nil, FactoryGirl.generate(:alphanumstr)].sample
+  end
+
+
+  def few_or_none(key)
+    arr = []
+    rand(4).times { arr << build(key) }
+    arr
   end
 end
 
 
-def JSONModel(key)
-  JSONModel::JSONModel(key)
-end
-
-
-def nil_or_whatever
-  [nil, generate(:alphanumstr)].sample
-end
-
-
-def few_or_none(key)
- arr = []
- rand(4).times { arr << build(key) }
- arr
-end
+FactoryGirl::SyntaxRunner.send(:include, FactoryGirlSyntaxHelpers)
+FactoryGirl::Syntax::Default::DSL.send(:include, FactoryGirlSyntaxHelpers)
 
 
 FactoryGirl.define do
+
+  def JSONModel(key)
+    JSONModel::JSONModel(key)
+  end
 
   to_create{|instance| instance.save}
 
@@ -49,10 +60,10 @@ FactoryGirl.define do
   sequence(:username) {|n| "username_#{n}"}
 
   sequence(:alphanumstr) { (0..4).map{ rand(3)==1?rand(1000):(65 + rand(25)).chr }.join }
-  sequence(:good_markup) { "<p>I'm</p><p>GOOD</p><p>#{ generate(:alphanumstr)}</p>" }
-  sequence(:whack_markup) { "I'm <p><br/>WACK " + generate(:alphanumstr) }
-  sequence(:wild_markup) { "<p> I AM \n WILD \n ! \n ! " + generate(:alphanumstr) + "</p>" }
-  sequence(:string) { generate(:alphanumstr) }
+  sequence(:good_markup) { "<p>I'm</p><p>GOOD</p><p>#{ FactoryGirl.generate(:alphanumstr)}</p>" }
+  sequence(:whack_markup) { "I'm <p><br/>WACK " + FactoryGirl.generate(:alphanumstr) }
+  sequence(:wild_markup) { "<p> I AM \n WILD \n ! \n ! " + FactoryGirl.generate(:alphanumstr) + "</p>" }
+  sequence(:string) { FactoryGirl.generate(:alphanumstr) }
   sequence(:generic_title) { |n| "Title: #{n}"}
   sequence(:html_title) { |n| "Title: <emph render='italic'>#{n}</emph>"}
   sequence(:generic_description) {|n| "Description: #{n}"}
@@ -88,7 +99,7 @@ FactoryGirl.define do
   sequence(:note_index_item_type) { sample(JSONModel(:note_index_item).schema['properties']['type'])}
   sequence(:note_bibliography_type) { sample(JSONModel(:note_bibliography).schema['properties']['type'])}
   sequence(:orderedlist_enumeration) { sample(JSONModel(:note_orderedlist).schema['properties']['enumeration']) }
-  sequence(:chronology_item) { {'event_date' => nil_or_whatever, 'events' => (0..rand(3)).map { generate(:alphanumstr) } } }
+  sequence(:chronology_item) { {'event_date' => nil_or_whatever, 'events' => (0..rand(3)).map { FactoryGirl.generate(:alphanumstr) } } }
 
   sequence(:event_type) { sample(JSONModel(:event).schema['properties']['event_type']) }
   sequence(:extent_type) { sample(JSONModel(:extent).schema['properties']['extent_type']) }
@@ -114,7 +125,7 @@ FactoryGirl.define do
   sequence(:relator) { sample(JSONModel(:abstract_archival_object).schema['properties']['linked_agents']['items']['properties']['relator']) }
   sequence(:subject_source) { sample(JSONModel(:subject).schema['properties']['source']) }
 
-  sequence(:vocab_name) {|n| "Vocabulary #{generate(:generic_title)} #{n} - #{Time.now}" }
+  sequence(:vocab_name) {|n| "Vocabulary #{n} - #{Time.now}" }
   sequence(:vocab_refid) {|n| "vocab_ref_#{n} - #{Time.now}"}
 
   sequence(:downtown_address) { "#{rand(200)} #{%w(E W).sample} #{(4..9).to_a.sample}th Street" }
@@ -138,8 +149,8 @@ FactoryGirl.define do
       image_url { generate(:url) }
       after(:create) do |r|
         $repo_id = r.id
-        $repo = JSONModel(:repository).uri_for(r.id)
-        JSONModel::set_repository($repo_id)
+        $repo = JSONModel.JSONModel(:repository).uri_for(r.id)
+        JSONModel.set_repository($repo_id)
         RequestContext.put(:repo_id, $repo_id)
       end
     end
@@ -155,7 +166,6 @@ FactoryGirl.define do
                                     :authorized => 1,
                                     :json_schema_version => 1)
         a.add_agent_contact(:name => generate(:generic_name),
-                            :telephone => generate(:phone_number),
                             :address_1 => [nil, generate(:alphanumstr)].sample,
                             :address_2 => [nil, generate(:alphanumstr)].sample,
                             :address_3 => [nil, generate(:alphanumstr)].sample,
@@ -163,7 +173,7 @@ FactoryGirl.define do
                             :region => [nil, generate(:alphanumstr)].sample,
                             :country => [nil, generate(:alphanumstr)].sample,
                             :post_code => [nil, generate(:alphanumstr)].sample,
-                            :telephone => [nil, generate(:alphanumstr)].sample,
+                            #:telephones => [nil, build(:json_telephone)].sample,
                             :fax => [nil, generate(:alphanumstr)].sample,
                             :email => [nil, generate(:alphanumstr)].sample,
                             :email_signature => [nil, generate(:alphanumstr)].sample,
@@ -202,7 +212,7 @@ FactoryGirl.define do
       id_1 { generate(:alphanumstr) }
       level { generate(:archival_record_level) }
       language { generate(:language) }
-    
+
     end
 
     factory :extent do
@@ -237,9 +247,15 @@ FactoryGirl.define do
     accession_date { generate(:yyyy_mm_dd) }
   end
 
+  factory :json_telephone, class: JSONModel(:telephone) do
+    number {  generate(:phone_number) }
+    ext { [nil, generate(:alphanumstr)].sample }
+
+  end
+
   factory :json_agent_contact, class: JSONModel(:agent_contact) do
     name { generate(:generic_name) }
-    telephone { generate(:phone_number) }
+    telephones { [build(:json_telephone)] }
     address_1 { [nil, generate(:alphanumstr)].sample }
     address_2 { [nil, generate(:alphanumstr)].sample }
     address_3 { [nil, generate(:alphanumstr)].sample }
@@ -247,7 +263,6 @@ FactoryGirl.define do
     region { [nil, generate(:alphanumstr)].sample }
     country { [nil, generate(:alphanumstr)].sample }
     post_code { [nil, generate(:alphanumstr)].sample }
-    telephone_ext { [nil, generate(:alphanumstr)].sample }
     fax { [nil, generate(:alphanumstr)].sample }
     email { [nil, generate(:alphanumstr)].sample }
     email_signature { [nil, generate(:alphanumstr)].sample }
@@ -337,7 +352,7 @@ FactoryGirl.define do
   factory :json_note_text, class: JSONModel(:note_text) do
     content { generate(:alphanumstr) }
   end
-  
+
   factory :json_note_text_gone_wilde, class: JSONModel(:note_text) do
     content { generate(:wild_markup) }
   end
@@ -520,7 +535,7 @@ FactoryGirl.define do
     type { generate(:multipart_note_type)}
     subnotes { [ build(:json_note_text, :publish => true) ] }
   end
-  
+
   factory :json_note_multipart_gone_wilde, class: JSONModel(:note_multipart) do
     type { generate(:multipart_note_type)}
     subnotes { [ build(:json_note_text_gone_wilde, :publish => true) ] }
@@ -540,7 +555,7 @@ FactoryGirl.define do
     dates { [build(:json_date)] }
     finding_aid_description_rules { [nil, generate(:finding_aid_description_rules)].sample }
     ead_id { nil_or_whatever }
-    finding_aid_date { generate(:alphanumstr) } 
+    finding_aid_date { generate(:alphanumstr) }
     finding_aid_language { nil_or_whatever }
     finding_aid_revision_date { nil_or_whatever }
     finding_aid_revision_description { nil_or_whatever }
@@ -602,9 +617,9 @@ FactoryGirl.define do
     import_type { ['marcxml', 'ead_xml', 'eac_xml'].sample }
     filenames { (0..3).map { generate(:alphanumstr) } }
   end
-  
+
   factory :json_print_to_pdf_job, class: JSONModel(:print_to_pdf_job) do
-    source  { create(:json_resource).uri } 
+    source  { create(:json_resource).uri }
   end
 
   factory :json_find_and_replace_job, class: JSONModel(:find_and_replace_job) do

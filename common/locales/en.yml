@@ -520,12 +520,6 @@ en:
     post_code: Post Code
     post_code_tooltip: |
         <p>Mail or zip code for the contact person’s address.</p>
-    telephone: Telephone
-    telephone_tooltip: |
-        <p>Telephone number for the contact person.</p>
-    telephone_ext: Telephone Extension
-    telephone_ext_tooltip: |
-        <p>Telephone number extension for the contact person.</p>
     fax: Fax
     fax_tooltip: |
         <p>Fax number for the contact person.</p>
@@ -540,7 +534,16 @@ en:
         <p>Additional notes or contact information for the contact person.</p>
     _singular: Contact
     _plural: Contact Details
-
+  
+  telephone: &telephone
+    _plural: Telephone Numbers 
+    number: Number
+    number_tooltip: |
+        <p>Telephone number for the contact person.</p>
+    ext: Telephone Extension
+    ext_tooltip: |
+        <p>Telephone number extension for the contact person.</p>
+  
   note_attributes: &note_attributes
     label: Label
     label_tooltip: |
@@ -1411,6 +1414,7 @@ en:
         <li>Inventory of the Papers of the Reese Family</li>
         <li>List of the Drawings and Models of the Simon and Simon Architectural Firm</li>
         </ul>
+    finding_aid_subtitle: Finding Aid Subtitle
     finding_aid_filing_title: Finding Aid Filing Title
     finding_aid_filing_title_tooltip: |
         <p>A modified version of the formal title of the finding aid. Designed to aid browsing and sorting of finding aid title lists.</p>
@@ -1716,6 +1720,9 @@ en:
         <p>The value for the Controlled Value List you wish to add or edit.</p>
         <p>Whenever possible, values should be in lower case and have underscores ("_") instead of spaces. Translations for the values should be added to the locales file.</p>
     translation: Translation
+    position: Position
+    suppress: Suppress
+    unsuppress: Unsuppress
     merge_into: Merge Into
     _singular: Controlled Value List
     _plural: Controlled Value lists

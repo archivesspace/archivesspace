@@ -19,7 +19,16 @@ class Converter
   # forcibly remove files in the event of an interruption
   def remove_files
     @batch.each_open_file_path do |path|
-      File.unlink(path)
+      3.times do |i| 
+        begin 
+          File.unlink(path)
+          break 
+        rescue Errno::EACCES # sometimes windows does not like this. let's wait and retry.
+          sleep(1) # just in case it's open by something else..
+          next unless i == 2 
+          $stderr.puts "Cannot remove #{path}...giving up."
+        end 
+      end
     end
   end
 

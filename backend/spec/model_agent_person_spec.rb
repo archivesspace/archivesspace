@@ -47,11 +47,11 @@ describe 'Agent model' do
 
     expect { n1 = build(:json_name_person, :authority_id => 'wooo', :source => nil).to_hash }.to raise_error(JSONModel::ValidationException)
 
-    JSONModel::strict_mode(false)
+    JSONModel.strict_mode(false)
 
     expect { n1 = build(:json_name_person, :authority_id => 'wooo').to_hash }.to_not raise_error
 
-    JSONModel::strict_mode(true)
+    JSONModel.strict_mode(true)
 
   end
 

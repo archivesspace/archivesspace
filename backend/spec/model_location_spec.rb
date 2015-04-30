@@ -48,7 +48,7 @@ describe 'Location model' do
   it "enforces at least one of barcode, classification or coordinate" do
     expect {
       create(:json_location, {:barcode => nil, :classification => nil, :coordinate_1_indicator => nil})
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 

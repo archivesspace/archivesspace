@@ -187,4 +187,15 @@ EOF
     end
   end
 
+  # find a nested key inside a hash
+  def self.search_nested(hash,key)
+    if hash.respond_to?(:key?) && hash.key?(key)
+      hash[key]
+    elsif hash.respond_to?(:each)
+      obj = nil
+      hash.find{ |*a| obj=self.search_nested(a.last,key) }
+      obj 
+    end
+  end
+
 end
