@@ -17,6 +17,10 @@ class Classification < Sequel::Model(:classification)
                       },
                       :is_array => false)
 
+  define_relationship(:name => :classification,
+                      :json_property => 'linked_records',
+                      :contains_references_to_types => proc {[Accession, Resource]})
+  
 
   def self.set_path_from_root(json)
     json['path_from_root'] = [{'title' => json.title, 'identifier' => json.identifier}]
