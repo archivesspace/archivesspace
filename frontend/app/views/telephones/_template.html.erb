@@ -1,0 +1,8 @@
+<% define_template "telephone", jsonmodel_definition(:telephone) do |form| %>
+  <div class="subrecord-form-inline subrecord-form-fields">
+    <div class="row">
+      <%= form.label_and_textfield "number" %>
+      <%= form.label_and_textfield "ext" %>
+    </div>
+  </div>
+<% end %>
