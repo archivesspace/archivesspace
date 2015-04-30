@@ -38,7 +38,6 @@ class RealtimeIndexer < CommonIndexer
         # Pick out updates that represent deleted records
         deletes = updates.find_all { |update| update['record'] == 'deleted' }
 
-        $stderr.puts "updating #{( updates - deletes ).inspect}"
         # Add the records that were created/updated
         index_records(updates - deletes)
 
