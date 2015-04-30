@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 class MockAuthenticationSource
+  include JSONModel
 
   def initialize(opts)
     @opts = opts

@@ -19,7 +19,7 @@ module ApplicationHelper
     else
       title = resource["display_string"]
     end
-    MixedContentParser::parse(title, url_for(:root))
+    MixedContentParser::parse(title, url_for(:root)).to_s.html_safe
   
   
   end

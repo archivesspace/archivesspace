@@ -3,17 +3,25 @@ require 'java'
 module MixedContentParser
 
   def self.parse(content, base_uri, opts = {} )
+    opts[:pretty_print] ||= false
+
     content.strip!
     content.chomp!
+
+    # create an empty document just to get an outputSettings object
+    # (seems like the API falls down when we do this directly...)
+    d = org.jsoup.Jsoup.parse("")
+    d.outputSettings.prettyPrint(opts[:pretty_print])
 
     # transform blocks of text seperated by line breaks into <p> wrapped blocks
     content = content.split("\n\n").inject("") { |c,n| c << "<p>#{n}</p>"  } if opts[:wrap_blocks]
 
-    cleaned_content = org.jsoup.Jsoup.clean(content, org.jsoup.safety.Whitelist.relaxed.addTags("emph", "lb").addAttributes("emph", "render"))
-
+    cleaned_content = org.jsoup.Jsoup.clean(content, base_uri, org.jsoup.safety.Whitelist.relaxed.addTags("emph", "lb").addAttributes("emph", "render"), d.outputSettings())
 
     document = org.jsoup.Jsoup.parse(cleaned_content, base_uri, org.jsoup.parser.Parser.xmlParser())
     document.outputSettings.escapeMode(Java::OrgJsoupNodes::Entities::EscapeMode.xhtml)
+    document.outputSettings.prettyPrint(opts[:pretty_print])
+
     # replace lb with br
     document.select("lb").tagName("br")
 
@@ -24,7 +32,7 @@ module MixedContentParser
         emph.tagName("span")
 
         # <emph> should render as <em> if there is no @render attribute. If there is, render as follows:
-        if emph.attr("render").blank?
+        if emph.attr("render").empty?
           emph.attr("class", "emph render-none")
 
         # render="nonproport": <code>

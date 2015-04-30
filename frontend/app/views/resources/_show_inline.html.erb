@@ -6,7 +6,8 @@
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <%= readonly_context :resource, @resource do |readonly| %>
-        <h2><%= clean_mixed_content(@resource.title).html_safe %> <span class="label label-info"><%= I18n.t("resource._singular") %></span></h2>
+
+        <h2><%= clean_mixed_content(@resource.title) %> <span class="label label-info"><%= I18n.t("resource._singular") %></span></h2>
 
         <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => readonly} %>
 
@@ -14,7 +15,7 @@
           <section id="basic_information">
             <h3><%= I18n.t("resource._frontend.section.basic_information") %></h3>
     
-            <%= readonly.label_and_textarea "title", :field_opts => { :clean => true, :base_url => url_for(:root) } %>
+            <%= readonly.label_and_textarea "title", :field_opts => { :clean => true, :base_url => url_for(:root), :escape => false} %>
             <% if resource.id_0 %><%= readonly.label_and_fourpartid %><% end %>
             <%= readonly.label_and_select "level", readonly.possible_options_for("level", true) %>
             <%= readonly.label_and_textfield "other_level" %>

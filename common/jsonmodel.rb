@@ -19,7 +19,7 @@ module JSONModel
     @@custom_validations
   end
 
-  def strict_mode(val)
+  def self.strict_mode(val)
     @@strict_mode = val
   end
 
@@ -70,6 +70,11 @@ module JSONModel
 
   # Yield all known JSONModel classes
   def models
+    @@models
+  end
+
+
+  def self.models
     @@models
   end
 
