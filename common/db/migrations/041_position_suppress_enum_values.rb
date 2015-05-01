@@ -24,9 +24,11 @@ Sequel.migration do
       add_column(:user_mtime, DateTime)
     end
     
-    self[:enumeration_value].order(:value).to_hash_groups(:enumeration_id).each_pair do |enum, vals|
-      vals.each_with_index { |val, i| self[:enumeration_value].filter(:value => val).update(:position => i, 
-                              :create_time => DateTime.now, :system_mtime => DateTime.now, :user_mtime => DateTime.now  ) }
+    self[:enumeration_value].order(:value).to_hash_groups(:enumeration_id).each_pair do |enum, rows|
+      rows.each_with_index { |row, i| 
+
+        self[:enumeration_value].filter(:value => row[:value], :enumeration_id => row[:enumeration_id]).update(:position => i, 
+                                                              :create_time => DateTime.now, :system_mtime => DateTime.now, :user_mtime => DateTime.now  ) }
     end
 
   end
