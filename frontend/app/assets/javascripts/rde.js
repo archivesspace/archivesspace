@@ -151,6 +151,7 @@ $(function() {
         });
 
         $currentRow.after($row);
+        initOtherLevelHandler(current_row_index);
         return $row;
       };
 
@@ -161,6 +162,7 @@ $(function() {
         }
       });
 
+      // TODO - use hotkeys for this?
       $modal.on("keydown", ":input, input[type='text']", function(event) {
         var $row = $(event.target).closest("tr");
         var $cell = $(event.target).closest("td");
@@ -178,8 +180,8 @@ $(function() {
           return true;
         } else if (event.keyCode === 37) { // left
           if (event.shiftKey) {
-            event.preventDefault();
-            $(":input:visible:first", $cell.prev()).focus();
+           event.preventDefault();
+            $(":input:visible:first", prevActiveCell($cell)).focus();
           }
         } else if (event.keyCode === 40) { // down
           if (event.shiftKey) {
@@ -198,7 +200,7 @@ $(function() {
         } else if (event.keyCode === 39) { // right
           if (event.shiftKey) {
             event.preventDefault();
-            $(":input:visible:first", $cell.next()).focus();
+            $(":input:visible:first", nextActiveCell($cell)).focus();
           }
         } else {
           // we're cool.
@@ -307,6 +309,7 @@ $(function() {
         initColumnShowHideWidget();
         initFillFeature();
         initShowInlineErrors();
+        initOtherLevelHandler();
       };
 
 
@@ -317,6 +320,26 @@ $(function() {
           $table.removeClass("show-inline-errors");
         }
       };
+
+
+      var initOtherLevelHandler = function(index) {
+        var index = index || 0;
+        var $select = $("td[data-col='colLevel']:eq("+index+") select");
+
+        if($select.val() === 'otherlevel') {
+          enableCell("colOtherLevel", index);
+        } else {
+          disableCell("colOtherLevel", index);
+        }
+
+        $select.change(function() {
+          if ($(this).val() === 'otherlevel') {
+            enableCell("colOtherLevel", index);
+          } else {
+            disableCell("colOtherLevel", index);
+          }
+        });
+      }
 
 
       var initAutoValidateFeature = function() {
@@ -570,6 +593,12 @@ $(function() {
             var currentIndex = $th.index();
             var $col = $($("col", $colgroup).get(currentIndex));
 
+            // show hidden stuff so we get the section headers right
+            // we'll reapply visibility at the end
+            if (!isVisible(colId) && targetIndex > 0) {
+              showColumn(currentIndex);
+            }
+
             if (targetIndex !== currentIndex) {
                 $th.insertBefore($("th", $row).get(targetIndex));
                 $col.insertBefore($("col", $colgroup).get(targetIndex));
@@ -588,6 +617,8 @@ $(function() {
               $sectionRow.append($("<th>").data("id", $th.data("section")).addClass("section-"+$th.data("section")).attr("colspan", "1").text(SECTION_DATA[$th.data("section")]));
             }
           });
+
+          applyPersistentVisibleColumns()
         }
       };
 
@@ -826,6 +857,50 @@ $(function() {
         $table.width($table.width() - $col.width());
         $col.hide();
       };
+
+
+      var showColumn = function(index) {
+        $table.showColumns(index+1);
+        var $col = $($("table colgroup col").get(index));
+        $table.width($table.width() + $col.width());
+        $col.show();
+      }
+
+      var enableCell = function(colId, rowIndex) {
+        var row = $("tbody tr")[rowIndex];
+        var cell = $("td[data-col='"+colId+"']", row);
+
+        cell.removeClass("disabled");
+        $('input', cell).removeAttr("disabled");
+      }
+
+      var disableCell = function(colId, rowIndex) {
+        var row = $("tbody tr")[rowIndex];
+        var cell = $("td[data-col='"+colId+"']", row);
+
+        cell.addClass("disabled");
+        $('input', cell).attr("disabled", "disabled");
+      };
+
+      var prevActiveCell = function($cell) {
+        var prev = $cell.prev();
+        if (prev.hasClass('disabled')) {
+          return prevActiveCell(prev);
+        } else {
+          return prev;
+        }
+      };
+
+
+      var nextActiveCell = function($cell) {
+        var next = $cell.next();
+        if (next.hasClass('disabled')) {
+          return nextActiveCell(next);
+        } else {
+          return next;
+        }
+      };
+
 
       var validateAllRows = function() {
         validateRows($("tbody tr", $table));

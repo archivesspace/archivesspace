@@ -1529,6 +1529,7 @@ describe "ArchivesSpace user interface" do
       $driver.get("#{$frontend}")
     end
 
+
     after(:all) do
       logout
     end
@@ -1564,6 +1565,7 @@ describe "ArchivesSpace user interface" do
       assert(5) { $driver.find_element(:id => "resource_notes__0__subnotes__0__content_").attribute("value").should eq(@accession.content_description) }
 
       notes_toggle[1].click
+
       $driver.find_element(:id => "resource_notes__1__content__0_").text.should match(@accession.condition_description)
 
       $driver.find_element(:id => "resource_dates__0__date_type_").select_option("single")
@@ -1571,6 +1573,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
       $driver.find_element(:id => "resource_extents__0__extent_type_").select_option("files")
+
 
       $driver.find_element(:id => "resource_dates__0__date_type_").select_option("single")
       $driver.clear_and_send_keys([:id, "resource_dates__0__begin_"], "1978")
@@ -1912,6 +1915,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.get("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit")
     end
+
 
 
     it "can merge a resource into a resource" do
@@ -3115,8 +3119,9 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:css, ".add-rows-form input"], "9")
 
       # this is stupid, but seems to be a flakey issue with Selenium,
-      # especailly when headless. The key is not being sent, so we'll try the
-      # up arror method to add the rows.
+      # especially when headless. The key is not being sent, so we'll try the
+      # up arrow method to add the rows
+
       stupid = @modal.find_element(:css, ".add-rows-form input").attribute('value')
       unless stupid == '9'
         9.times { @modal.find_element(:css, ".add-rows-form input").send_keys(:arrow_up) }
@@ -3220,26 +3225,25 @@ describe "ArchivesSpace user interface" do
 
       # check the first few headers now match the new order
       cells = @modal.find_elements(:css, "table .fieldset-labels th")
-      cells[1].attribute("id").should eq("colNType1")
-      cells[2].attribute("id").should eq("colIType")
-      cells[3].attribute("id").should eq("colLevel")
+      cells[2].attribute("id").should eq("colNType1")
+      cells[3].attribute("id").should eq("colIType")
+      cells[4].attribute("id").should eq("colOtherLevel")
 
       # check the section headers are correct
       cells = @modal.find_elements(:css, "table .sections th")
-      cells[1].text.should eq("Notes")
-      cells[1].attribute("colspan").should eq("1")
-      cells[2].text.should eq("Instance")
+      cells[2].text.should eq("Notes")
       cells[2].attribute("colspan").should eq("1")
-      cells[3].text.should eq("Basic Information")
-      cells[3].attribute("colspan").should eq("5")
+      cells[3].text.should eq("Instance")
+      cells[3].attribute("colspan").should eq("1")
+      cells[4].text.should eq("Basic Information")
+      cells[4].attribute("colspan").should eq("5")
 
       # check the form fields match the headers
       cells = @modal.find_elements(:css, "table tbody tr:first-child td")
-      cells[1].find_element(:id, "archival_record_children_children__0__notes__0__type_")
-      cells[2].find_element(:id, "archival_record_children_children__0__instances__0__instance_type_")
-      cells[3].find_element(:id, "archival_record_children_children__0__level_")
+      cells[2].find_element(:id, "archival_record_children_children__0__notes__0__type_")
+      cells[3].find_element(:id, "archival_record_children_children__0__instances__0__instance_type_")
+      cells[4].find_element(:id, "archival_record_children_children__0__other_level_")
     end
-
   end
 
 
@@ -4322,6 +4326,7 @@ describe "ArchivesSpace user interface" do
   describe "Jobs" do
 
     before(:all) do
+
       @repo = create(:repo)      
       login("admin", "admin")
       select_repo(@repo)
@@ -4338,7 +4343,6 @@ describe "ArchivesSpace user interface" do
     end
 
     it "can create a find and replace job" do
-
       resource_title = "#{$$}xxx_resource"
       create_resource({:title => resource_title}, @repo.uri)
 
@@ -4346,6 +4350,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
       $driver.find_element(:link, "Background Jobs").click
+
 
       $driver.find_element(:link, "Create Job").click
 
