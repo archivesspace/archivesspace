@@ -57,6 +57,8 @@ en:
     delete: Delete
     delete_confirm_title: Delete this Record?
     delete_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove the record from the database, including any references it has to other records.</p>"
+    delete_repository_confirm_title: Delete this Repository?
+    delete_repository_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove the <strong>repository</strong> and all associated records from the database, including any references it has to other records.</p>"
     delete_multiple: Delete Records
     delete_multiple_confirm_title: Delete Records?
     delete_multiple_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove these records from the database, including any references they have to other records.</p>"

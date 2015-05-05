@@ -95,7 +95,9 @@ class Repository < Sequel::Model(:repository)
 
   def delete
     
-    [ Group, Preference, Job ].each do |klass|
+    [ ClassificationTerm,  Classification, Event,  Accession, ArchivalObject, 
+      Resource, DigitalObjectComponent, DigitalObject, RightsStatement, Group, 
+      Preference, Job ].each do |klass|
         klass.send(:filter, :repo_id => self.id).each do |thingy|
           thingy.destroy
         end 

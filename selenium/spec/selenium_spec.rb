@@ -34,10 +34,58 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "repository_repository__name_"], @test_repo_name_1)
       $driver.find_element(:css => "form#new_repository button[type='submit']").click
     end
+    
+    it "Cannot delete the currently selected repository" do
+      run_index_round
+      $driver.find_element(:link, 'System').click
+      $driver.find_element(:link, "Manage Repositories").click
+      row = $driver.find_element_with_text('//tr', /Selected/ )
+      row.find_element(:link, 'Edit').click
+      $driver.ensure_no_such_element(:css, "button.delete-record")
+    end
+    
+    it "Can delete a repository" do
+     
+      if !$test_repo
+           ($test_repo, $test_repo_uri) = create_test_repo("repo_#{SecureRandom.hex}", "description")
+      end
+      
+      orig_repo = $test_repo 
+      new_repo_code = "deleteme1#{Time.now.to_i}_#{$$}"
+      new_repo_name = "DELETE ME - #{Time.now.utc}"
+
+
+      ( $test_repo, $test_repo_uri ) = create_test_repo(new_repo_code, new_repo_name)
+      
+      # lets add a user to the repo
+      ( tester, pass)  = create_user
+      add_user_to_managers(tester, $test_repo_uri) 
+
+      5.times do
+        create_accession(:title => "A test accession #{Time.now.to_i}_#{$$}") 
+        create_resource
+        create_digital_object
+        create_archival_object
+        create_classification
+      end
+      
+      run_index_round
+
+      $driver.find_element(:link, 'System').click
+      $driver.find_element(:link, "Manage Repositories").click
+      row = $driver.find_element_with_text('//tr', /#{new_repo_code}/ )
+      row.find_element(:link, 'Edit').click
+    
+      $driver.find_element(:css, ".delete-record.btn").click
+      $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
+      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Repository Deleted") }
+    
+    end
 
 
     it "can create a second repository" do
-      $driver.find_element(:link, "Repositories").click
+      $driver.find_element(:link, 'System').click
+      $driver.find_element(:link, "Manage Repositories").click
       $driver.find_element(:link, "Create Repository").click
       $driver.clear_and_send_keys([:id, "repository_repository__repo_code_"], @test_repo_code_2)
       $driver.clear_and_send_keys([:id, "repository_repository__name_"], @test_repo_name_2)
@@ -100,6 +148,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, '.pagination .active a').text.should eq('1')
       $driver.find_element(:link, '2')
     end
+    
 
   end
 
