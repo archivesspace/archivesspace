@@ -77,6 +77,9 @@ describe "ArchivesSpace user interface" do
       row.find_element(:link, 'Edit').click
     
       $driver.find_element(:css, ".delete-record.btn").click
+      $driver.clear_and_send_keys([:id, 'deleteRepoConfim'], new_repo_code ) 
+      $driver.wait_for_ajax 
+      
       $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
       assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Repository Deleted") }
     
