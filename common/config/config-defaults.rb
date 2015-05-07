@@ -30,7 +30,7 @@ AppConfig[:indexer_thread_count] = 4
 AppConfig[:allow_other_unmapped] = false
 
 AppConfig[:db_url] = proc { AppConfig.demo_db_url }
-AppConfig[:db_max_connections] = 10
+AppConfig[:db_max_connections] = proc { 20 + (AppConfig[:indexer_thread_count] * 2) }
 
 # Set to true to log all SQL statements.  Note that this will have a performance
 # impact!
