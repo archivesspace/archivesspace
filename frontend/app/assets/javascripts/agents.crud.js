@@ -2,6 +2,7 @@
 //= require notes.crud
 //= require dates.crud
 //= require related_agents.crud
+//= require rights_statements.crud
 //= require form
 //= require merge_dropdown
 //= require add_event_dropdown

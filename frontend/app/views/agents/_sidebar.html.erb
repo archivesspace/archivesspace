@@ -13,6 +13,7 @@
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'note', :property => 'notes', :anchor => "#{@agent.agent_type}_notes") %>
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'related_agent', :property => 'related_agents', :anchor => "#{@agent.agent_type}_related_agents") %>
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'external_document', :property => "external_documents", :anchor => "#{@agent.agent_type}_external_documents") %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'rights_statement', :property => 'rights_statements', :anchor => "#{@agent.agent_type}_rights_statements") %>
 
     <%= sidebar.render_for_view_only(:subrecord_type => 'search_embedded', :property => :none, :anchor => 'search_embedded') %>
 <% end %>
