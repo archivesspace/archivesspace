@@ -25,7 +25,7 @@
                           :action => :search,
                           :term_map => {term['record_uri'] => term['title']}.to_json
                         }.merge(params_for_search({
-                          "add_filter_term" => {"classification_uri" => term['record_uri']}.to_json
+                          "add_filter_term" => {"classification_uris" => term['record_uri']}.to_json
                         }))) %></li>
         <% if !term['children'].empty? %>
           <ul>

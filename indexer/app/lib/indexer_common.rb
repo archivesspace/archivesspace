@@ -27,7 +27,7 @@ class CommonIndexer
   @@records_with_children = []
   @@init_hooks = []
 
-  @@resolved_attributes = ['subjects', 'linked_agents', 'linked_records', 'classification', 'digital_object']
+  @@resolved_attributes = ['subjects', 'linked_agents', 'linked_records', 'classifications', 'digital_object']
 
   @@paused_until = Time.now 
 
@@ -282,9 +282,9 @@ class CommonIndexer
     add_document_prepare_hook {|doc, record|
       records_with_classifications = ['resource', 'accession']
 
-      if records_with_classifications.include?(doc['primary_type']) && record['record']['classification']
-        doc['classification_path'] = ASUtils.to_json(record['record']['classification']['_resolved']['path_from_root'])
-        doc['classification_uri'] = record['record']['classification']['ref']
+      if records_with_classifications.include?(doc['primary_type']) && record['record']['classifications'].length > 0
+        doc['classification_paths'] = record['record']['classifications'].map { |c| ASUtils.to_json(c['_resolved']['path_from_root']) }
+        doc['classification_uris'] = record['record']['classifications'].map { |c| c['ref'] }
       end
     }
 
