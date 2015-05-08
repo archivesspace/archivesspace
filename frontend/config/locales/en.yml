@@ -681,6 +681,11 @@ en:
     _frontend:
       action:
         add: Add Related Resource
+  
+  revision_statement:
+    _frontend:
+      action:
+        add: Add Revision Statement 
 
   repository:
     _frontend:

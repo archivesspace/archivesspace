@@ -344,6 +344,7 @@ describe "ArchivesSpace user interface" do
   describe "Subjects" do
 
     before(:all) do
+      $test_repo = nil # let's ensure we create a fresh repo 
       login_as_archivist
     end
 
@@ -2920,7 +2921,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => '#accession_collection_management_ .subrecord-form-heading .btn:not(.show-all)').click
 
       # let's check the order of our values
-      ordered_values = ["IMPORTANT.", "High", "Low", "Medium"]
+      ordered_values = ["IMPORTANT.", "High", "Medium", "Low"]
       i = 0
       $driver.find_element(:id => "accession_collection_management__processing_priority_").text.each_line do |val|
         val.chomp.should eq(ordered_values[i])

@@ -22,6 +22,7 @@ class Resource < Sequel::Model(:resource)
   include Classifications
   include Events
   include Publishable
+  include RevisionStatements
 
   enable_suppression
 

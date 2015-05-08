@@ -580,7 +580,9 @@ class EADConverter < Converter
 
 
     with 'revisiondesc' do
-      set :finding_aid_revision_description, format_content( inner_xml )
+      make :revision_statement
+      set :description, format_content( inner_xml )
+      set ancestor(:resource), :revision_statements, proxy
     end
 
 

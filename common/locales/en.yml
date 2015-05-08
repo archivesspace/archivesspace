@@ -1446,12 +1446,6 @@ en:
     finding_aid_series_statement: Series Statement
     finding_aid_series_statement_tooltip: |
         <p>Indicates any bibliographic series to which the finding aid belongs.</p>
-    finding_aid_revision_date: Revision Date
-    finding_aid_revision_date_tooltip: |
-        <p>Specifies the date the finding aid was last revised.</p>
-    finding_aid_revision_description: Revision Description
-    finding_aid_revision_description_tooltip: |
-        <p>A description of the last revision(s) done to the finding aid.</p>
     finding_aid_status: Finding Aid Status
     finding_aid_status_tooltip: |
         <p>Indicates the status of the finding aid.</p>
@@ -1464,6 +1458,16 @@ en:
   related_accession:
     _singular: Related Accession
     _plural: Related Accessions
+
+  revision_statement:
+    _singlular: Revision Statement
+    _plural: Revision Statements
+    date: Revision Date
+    date_tooltip: |
+        <p>Specifies the date the finding aid was last revised.</p>
+    description: Revision Description
+    description_tooltip: |
+        <p>A description of the last revision(s) done to the finding aid.</p>
 
   related_resource:
     _singular: Related Resource

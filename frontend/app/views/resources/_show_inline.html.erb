@@ -52,8 +52,6 @@
                 <%= readonly.label_and_textfield "finding_aid_sponsor" %>
                 <%= readonly.label_and_textarea "finding_aid_edition_statement" %>
                 <%= readonly.label_and_textarea "finding_aid_series_statement" %>
-                <%= readonly.label_and_textfield "finding_aid_revision_date" %>
-                <%= readonly.label_and_textarea "finding_aid_revision_description" %>
                 <%= readonly.label_and_select "finding_aid_status", readonly.possible_options_for("finding_aid_status", true) %>
                 <%= readonly.label_and_textarea "finding_aid_note" %>
               </div>
@@ -62,6 +60,9 @@
         <% end %>
 
         <% readonly.emit_template("resource", @resource) %>
+        <% if @resource.revision_statements.length > 0 %>
+          <%= render_aspace_partial :partial => "revision_statements/show", :locals => { :revision_statements => @resource.revision_statements, :section_id => "resource_revision_statements_" } %>
+        <% end %>
 
         <% if @resource.related_accessions.length > 0 %>
           <%= render_aspace_partial :partial => "related_accessions/show", :locals => { :related_accessions => @resource.related_accessions, :section_id => "resource_related_accessions_" } %>

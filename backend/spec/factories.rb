@@ -557,10 +557,14 @@ FactoryGirl.define do
     ead_id { nil_or_whatever }
     finding_aid_date { generate(:alphanumstr) }
     finding_aid_language { nil_or_whatever }
-    finding_aid_revision_date { nil_or_whatever }
-    finding_aid_revision_description { nil_or_whatever }
     ead_location { generate(:alphanumstr) }
     instances { [build(:json_instance), build(:json_instance)] }
+    revision_statements {  [build(:json_revision_statement)]  } 
+  end
+  
+  factory :json_revision_statement, class: JSONModel(:revision_statement) do
+    date { nil_or_whatever }
+    description { nil_or_whatever }
   end
 
   factory :json_repo, class: JSONModel(:repository) do
