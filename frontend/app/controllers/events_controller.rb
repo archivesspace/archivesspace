@@ -63,7 +63,11 @@ class EventsController < ApplicationController
                     if !params[:redirect_action].blank?
                       redirect_action = params[:redirect_action].intern
                     end
-                    redirect_to :controller => ref[:type].pluralize, :action => redirect_action, :id => ref[:id]
+                    if ref[:type].include?('agent_') 
+                      redirect_to :controller => "agents", :action => redirect_action, :id => ref[:id], :agent_type => ref[:type]
+                    else
+                      redirect_to :controller => ref[:type].pluralize, :action => redirect_action, :id => ref[:id]
+                    end
                   else
                     redirect_to :controller => :events, :action => :edit, :id => id
                   end
