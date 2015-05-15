@@ -69,6 +69,31 @@ module CrudHelpers
     end
   end
 
+
+  def self.with_record_conflict_reporting(model, json)
+    begin
+      yield
+    rescue Sequel::ValidationFailed => e
+      if e.errors && e.errors.any? {|key, errors| errors[0].end_with?("must be unique")}
+        existing_record = model.find_matching(json)
+
+        if existing_record
+          e.errors[:conflicting_record] = [existing_record.uri]
+        end
+      end
+
+      raise $!
+    end
+  end
+
+
+  def with_record_conflict_reporting(model, json)
+    CrudHelpers::with_record_conflict_reporting(model, json) do
+      yield
+    end
+  end
+
+
   private
 
   def listing_response(dataset, model)

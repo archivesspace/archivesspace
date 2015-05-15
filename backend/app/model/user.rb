@@ -20,10 +20,13 @@ class User < Sequel::Model(:user)
                   :name_order => 'direct',
                   :sort_name_auto_generate => true
               }])
-      agent_obj = AgentPerson.create_from_json(agent, :system_generated => true)
 
-      opts['agent_record_type'] = :agent_person
-      opts['agent_record_id'] = agent_obj.id
+      CrudHelpers.with_record_conflict_reporting(AgentPerson, agent) do
+        agent_obj = AgentPerson.create_from_json(agent, :system_generated => true)
+
+        opts['agent_record_type'] = :agent_person
+        opts['agent_record_id'] = agent_obj.id
+      end
     end
 
     obj = super(json, opts)

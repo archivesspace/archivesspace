@@ -7,7 +7,9 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :created],
              [400, :error]) \
   do
-    handle_create(AgentPerson, params[:agent])
+    with_record_conflict_reporting(AgentPerson, params[:agent]) do
+      handle_create(AgentPerson, params[:agent])
+    end
   end
 
 
@@ -30,7 +32,9 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :updated],
              [400, :error]) \
   do
-    handle_update(AgentPerson, params[:id], params[:agent])
+    with_record_conflict_reporting(AgentPerson, params[:agent]) do
+      handle_update(AgentPerson, params[:id], params[:agent])
+    end
   end
 
 
