@@ -54,14 +54,14 @@
           <%= form.label_and_textarea "finding_aid_sponsor" %>
           <%= form.label_and_textarea "finding_aid_edition_statement" %>
           <%= form.label_and_textarea "finding_aid_series_statement" %>
-          <%= form.label_and_textfield "finding_aid_revision_date" %>
-          <%= form.label_and_textarea "finding_aid_revision_description" %>
           <%= form.label_and_select "finding_aid_status", form.possible_options_for("finding_aid_status", true) %>
           <%= form.label_and_textarea "finding_aid_note" %>
         </fieldset>
       </div>
     </div>
   </section>
+  
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "revision_statements"} %>
 
 <% end %>
 

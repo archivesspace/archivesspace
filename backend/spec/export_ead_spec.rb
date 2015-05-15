@@ -844,12 +844,12 @@ end
         mt(data, "//profiledesc/descrules")
       end
 
-      it "maps resource.finding_aid_revision_date to revisiondesc/change/date" do
-        mt(@resource.finding_aid_revision_date, "//revisiondesc/change/date")
+      it "maps resource.revision_statements.date to revisiondesc/change/date" do
+        mt(@resource.revision_statements[0]["revision_date"], "//revisiondesc/change/date")
       end
 
       it "maps resource.finding_aid_revision_description to revisiondesc/change/item" do
-        mt(@resource.finding_aid_revision_description, "//revisiondesc/change/item")
+        mt(@resource.revision_statements[0]["description"], "//revisiondesc/change/item")
       end
     end
 

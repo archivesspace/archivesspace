@@ -31,6 +31,7 @@
       },
 
       "external_documents" => {"type" => "array", "items" => {"type" => "JSONModel(:external_document) object"}},
+      "rights_statements" => {"type" => "array", "items" => {"type" => "JSONModel(:rights_statement) object"}},
 
       "system_generated" => {
         "readonly" => true,

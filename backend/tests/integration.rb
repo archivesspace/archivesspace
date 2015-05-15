@@ -356,8 +356,6 @@ def run_tests(opts)
 
 
   puts "It refuses to delete a non-empty repository"
-  r = do_delete(url("/repositories/#{repo_id}"))
-  r.code == '409' or fail("Delete should not have succeeded", r)
   r = do_get(url("/repositories/#{repo_id}/groups"))
   (r[:body].count > 0) or fail("Groups should not be gone", r)
 

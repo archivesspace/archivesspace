@@ -586,6 +586,22 @@ def create_accession(values = {})
   title
 end
 
+def create_classification(values = {})
+  default_values = { :title => "Classification #{SecureRandom.hex}",
+                      :identifier => SecureRandom.hex
+                    }
+  values_to_post = default_values.merge(values)
+  req = Net::HTTP::Post.new("#{$test_repo_uri}/classifications")
+  req.body = values_to_post.to_json
+
+  response = admin_backend_request(req)
+
+  raise response.body if response.code != '200'
+  uri = JSON.parse(response.body)['uri']
+
+  [ uri, values_to_post[:title] ]
+end
+
 
 def create_digital_object(values = {})
   default_values = { :title => "Digital Object #{SecureRandom.hex}",

@@ -144,7 +144,8 @@
    <field name="classification_path" type="string" indexed="true" stored="true" multiValued="false" />
 
    <!-- Fields to allow view of linked records (for classifications/locations -->
-   <field name="classification_uri" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="classification_paths" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="classification_uris" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="location_uris" type="string" indexed="true" stored="true" multiValued="true" />
 
    <!-- Event properties required for facets -->

@@ -1,0 +1,8 @@
+<% define_template "revision_statement", jsonmodel_definition(:revision_statement) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="row">
+      <%= form.label_and_textfield "date" %>
+      <%= form.label_and_textfield "description" %>
+    </div>
+  </div>
+<% end %>

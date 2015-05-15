@@ -168,16 +168,16 @@ describe 'Repository controller' do
     end
 
 
-    it "will refuse to delete a repository with records" do
+    it "will not refuse to delete a repository with records" do
       victim_repo = make_test_repo("TARGET_REPO")
 
       create(:json_accession)
 
       expect {
         JSONModel(:repository).find(victim_repo).delete
-      }.to raise_error(ConflictException)
+      }.to_not raise_error(ConflictException)
 
-      Repository[:id => victim_repo].should_not be(nil)
+      Repository[:id => victim_repo].should be(nil)
     end
 
   end

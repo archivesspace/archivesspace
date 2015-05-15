@@ -676,18 +676,20 @@ class EADSerializer < ASpaceExport::Serializer
         end
       }
 
-      if data.finding_aid_revision_date || data.finding_aid_revision_description
-        xml.revisiondesc {
-          if data.finding_aid_revision_description && data.finding_aid_revision_description.strip.start_with?('<')
-            xml.text (fragments << data.finding_aid_revision_description)
-          else
-            xml.change {
-              rev_date = data.finding_aid_revision_date ? data.finding_aid_revision_date : "" 
-              xml.date (fragments <<  rev_date ) 
-              xml.item (fragments << data.finding_aid_revision_description) if data.finding_aid_revision_description
-            }
-          end
-        }
+      if data.revision_statements.length > 0
+        data.revision_statements.each do |rs|
+          xml.revisiondesc {
+            if rs['description'] && rs['description'].strip.start_with?('<')
+              xml.text (fragments << rs['description'] )
+            else
+              xml.change {
+                rev_date = rs['date'] ? rs['date'] : "" 
+                xml.date (fragments <<  rev_date ) 
+                xml.item (fragments << rs['description']) if rs['description']
+              }
+            end
+          }
+        end
       end
     }
   end
