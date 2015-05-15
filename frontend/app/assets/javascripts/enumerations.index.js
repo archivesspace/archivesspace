@@ -18,10 +18,11 @@ $(function() {
       var url = $this.data('url');
       itemCount = json["search_data"]["total_hits"];
       if ( itemCount == 1 ) { 
-          output = "1 related item."; 
+        output = "1 related item."; 
        } else if (itemCount > 0 ) {
         output = itemCount + " related items.";  
       } else {
+        $this.closest('tr').find('.btn-info').attr('disabled', false) 
         output = "Not used.";  
       } 
       $this.html("<a href='" + url + "'>" + output + "</a>"); 
