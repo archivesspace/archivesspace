@@ -101,7 +101,7 @@
         <% end %>
 
         <% if @resource.classifications %>
-          <%= render_aspace_partial :partial => "classifications/show", :locals => { :classifications => @resource.classifications, :context => readonly, :section_id => "resource_classification_" } %>
+          <%= render_aspace_partial :partial => "classifications/show", :locals => { :classifications => @resource.classifications, :context => readonly, :section_id => "resource_classifications_" } %>
         <% end %>
 
         <%= render_aspace_partial :partial => "linked_events/show", :locals => { :linked_events => @resource.linked_events, :context => readonly, :section_id => "resource_linked_events_" } %>
