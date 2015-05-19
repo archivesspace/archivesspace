@@ -206,6 +206,10 @@ en:
         <p>Agents may be searched using auto-complete, using a browse function, or may be created on demand.</p>
     terms: Terms
     title: Title
+    title_tooltip: |
+        <p>Optional field: Record here the authoritative title of a work in order to make a Name / Title heading for an agent linked as a creator or a subject:</p>
+        <p>For example,</p>
+        <ul><li>Shakespeare, William, 1564-1616. King Lear</li><li> Pound, Ezra, 1885-1972. Cantos</li><li> Lincoln, Abraham, 1809-1865. Emancipation Proclamation</li></ul>
     _singular: Agent Link
     _plural: Agent Links
 
