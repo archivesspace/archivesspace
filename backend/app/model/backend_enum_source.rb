@@ -20,8 +20,16 @@ class BackendEnumSource
           raise "Couldn't find enum: #{enum_name}" if !enum_id
 
           DB.attempt {
+            sibling = db[:enumeration_value].filter(:enumeration_id => enum_id).order(:position).last
+            if sibling
+              position = sibling[:position] + 1
+            else
+              position = 0
+            end
+            
             db[:enumeration_value].insert(:enumeration_id => enum_id,
-                                          :value => value)
+                                          :value => value,
+                                          :position => position)
             @@enum_value_cache.delete(enum_name)
             Enumeration.broadcast_changes
           }.and_if_constraint_fails do

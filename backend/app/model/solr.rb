@@ -170,7 +170,7 @@ class Solr
     def set_simple_filters(filter_terms)
       unless Array(filter_terms).empty?
         filter_terms.map{|str| 
-          add_solr_param(:fq, str.strip.gsub(" ", "\\ "))
+          add_solr_param(:fq, str.strip )
         }
       end
 

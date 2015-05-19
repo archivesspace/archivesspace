@@ -8,9 +8,8 @@ Sequel.migration do
     
     
     alter_table(:enumeration_value) do
-      add_column(:position, :integer )
+      add_column(:position, :integer, :null => false, :default => 0 )
       add_column(:suppressed, :integer, :default => 0) 
-      add_unique_constraint([:enumeration_id, :position], :name => "enumeration_position_uniq")
      
       # making enumeration_value a full fledged jsonmodel schema object
       add_column(:lock_version, :integer, :default => 0, :null => false) 
@@ -30,7 +29,11 @@ Sequel.migration do
         self[:enumeration_value].filter(:value => row[:value], :enumeration_id => row[:enumeration_id]).update(:position => i, 
                                                               :create_time => DateTime.now, :system_mtime => DateTime.now, :user_mtime => DateTime.now  ) }
     end
-
+    
+    alter_table(:enumeration_value) do
+      add_unique_constraint([:enumeration_id, :position], :name => "enumeration_position_uniq")
+    end 
+  
   end
 
   down do

@@ -101,6 +101,10 @@
         <% if @agent.external_documents.length > 0 %>
           <%= render_aspace_partial :partial => "external_documents/show", :locals => { :external_documents => @agent.external_documents, :section_id => "#{@agent.agent_type}_external_documents" } %>
         <% end %>
+        
+        <% if @agent.rights_statements.length > 0 %>
+          <%= render_aspace_partial :partial => "rights_statements/show", :locals => { :rights_statements => @agent.rights_statements, :section_id => "#{@agent.agent_type}_statements_"  } %>
+        <% end %>
 
         <%= show_plugins_for(@agent, readonly) %>
 
