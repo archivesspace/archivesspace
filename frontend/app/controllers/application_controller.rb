@@ -438,7 +438,7 @@ class ApplicationController < ActionController::Base
       # associations.  In these cases, split up the values and create
       # separate records to be created.
 
-      associations_to_expand = ['linked_agents', 'subjects']
+      associations_to_expand = ['linked_agents', 'subjects', 'classifications']
 
       associations_to_expand.each do |association|
         if hash.has_key?(association)
