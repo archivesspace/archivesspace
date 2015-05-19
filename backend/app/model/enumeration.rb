@@ -94,7 +94,7 @@ class Enumeration < Sequel::Model(:enumeration)
     end
 
     
-    enum_vals = EnumerationValue.filter( :enumeration_id => obj.id )
+    enum_vals = EnumerationValue.filter( :enumeration_id => obj.id ).order(:position)
     enum_vals.update(:position => Sequel.lit('position + 9999' ))
     enum_vals.each_with_index do |ev, i|
       ev.position = i
