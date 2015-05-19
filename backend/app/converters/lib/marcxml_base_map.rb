@@ -107,7 +107,7 @@ module MarcXMLBaseMap
       "subfield[@code='b']" => :number,
       "subfield[@code='c']" => :title,
 
-      "subfield[@code='d']" => sets_use_date_from_code_d,
+      "subfield[@code='d']" => :dates,
       "subfield[@code='f']" => adds_prefixed_qualifier('Date of work'),
       "subfield[@code='g']" => adds_prefixed_qualifier('Miscellaneous information'),
       "subfield[@code='h']" => adds_prefixed_qualifier('Medium'),
@@ -155,7 +155,7 @@ module MarcXMLBaseMap
     {
       "subfield[@code='a']" => :family_name,
       "subfield[@code='c']" => :qualifier,
-      "subfield[@code='d']" => sets_use_date_from_code_d,
+      "subfield[@code='d']" => :dates,
       "subfield[@code='f']" => adds_prefixed_qualifier('Date of work'),
       "subfield[@code='g']" => adds_prefixed_qualifier('Miscellaneous information'),
       "subfield[@code='q']" => adds_prefixed_qualifier('', ''),

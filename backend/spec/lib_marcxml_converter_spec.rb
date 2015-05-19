@@ -199,8 +199,8 @@ END
         @families.select{|f| f['names'][0]['qualifier'].match(/^FNames-Prefix-AT/)}.count.should eq(3)
       end
 
-      it "maps datafield[@tag='600' or @tag='700']/subfield[@code='d'] to agent_(family|person).names[].use_dates[].expression" do
-        @people.select{|p| p['names'][0]['use_dates'][0]['expression'] == 'PNames-Dates-AT'}.count.should eq(3)
+      it "maps datafield[@tag='600' or @tag='700']/subfield[@code='d'] to agent_(family|person).names[].dates" do
+        @people.select{|p| p['names'][0]['dates'] == 'PNames-Dates-AT'}.count.should eq(3)
       end
 
       it "prepends and maps datafield[@tag='600']/subfield[@code='g'] to agent_(family|person).names[].qualifier" do
@@ -353,10 +353,7 @@ END
 
       new_record['names'][0]['primary_name'].should eq("Davis")
       new_record['names'][0]['rest_of_name'].should eq("John W.")
-      new_record['names'][0]['use_dates'][0]['expression'].should eq("1873-1955")
-      new_record['names'][0]['use_dates'][0]['date_type'].should eq("range")
-      new_record['names'][0]['use_dates'][0]['begin'].should eq("1873")
-      new_record['names'][0]['use_dates'][0]['end'].should eq("1955")
+      new_record['names'][0]['dates'].should eq("1873-1955")
 
       # Unauthorized names are added too
       new_record['names'][1]['primary_name'].should eq("Davis")
