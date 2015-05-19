@@ -563,8 +563,8 @@ FactoryGirl.define do
   end
   
   factory :json_revision_statement, class: JSONModel(:revision_statement) do
-    date { nil_or_whatever }
-    description { nil_or_whatever }
+    date { generate(:alphanumstr) }
+    description { generate(:alphanumstr) }
   end
 
   factory :json_repo, class: JSONModel(:repository) do

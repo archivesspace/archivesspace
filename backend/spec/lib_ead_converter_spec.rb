@@ -209,7 +209,8 @@ ANEAD
     end
 
     it "maps '<revisiondesc>' correctly" do
-      @resource['revision_statements'][0]['description'].should eq("<change> <date>Resource-FindingAidRevisionDate-AT</date> <item>Resource-FindingAidRevisionDescription-AT</item> </change>")
+      @resource['revision_statements'][0]['description'].should eq("Resource-FindingAidRevisionDescription-AT")
+      @resource['revision_statements'][0]['date'].should eq("Resource-FindingAidRevisionDate-AT")
     end
 
     # NAMES

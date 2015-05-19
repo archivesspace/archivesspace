@@ -677,19 +677,19 @@ class EADSerializer < ASpaceExport::Serializer
       }
 
       if data.revision_statements.length > 0
-        data.revision_statements.each do |rs|
-          xml.revisiondesc {
-            if rs['description'] && rs['description'].strip.start_with?('<')
-              xml.text (fragments << rs['description'] )
-            else
-              xml.change {
-                rev_date = rs['date'] ? rs['date'] : "" 
-                xml.date (fragments <<  rev_date ) 
-                xml.item (fragments << rs['description']) if rs['description']
-              }
-            end
-          }
-        end
+        xml.revisiondesc {
+          data.revision_statements.each do |rs|
+              if rs['description'] && rs['description'].strip.start_with?('<')
+                xml.text (fragments << rs['description'] )
+              else
+                xml.change {
+                  rev_date = rs['date'] ? rs['date'] : "" 
+                  xml.date (fragments <<  rev_date ) 
+                  xml.item (fragments << rs['description']) if rs['description']
+                }
+              end
+          end
+        } 
       end
     }
   end

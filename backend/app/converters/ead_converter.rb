@@ -579,12 +579,18 @@ class EADConverter < Converter
     end
 
 
-    with 'revisiondesc' do
+    with 'revisiondesc/change' do
       make :revision_statement
-      set :description, format_content( inner_xml )
       set ancestor(:resource), :revision_statements, proxy
     end
 
+    with 'revisiondesc/change/item' do
+      set :description, format_content( inner_xml )
+    end
+    
+    with 'revisiondesc/change/date' do
+      set :date, format_content( inner_xml )
+    end
 
     with 'origination/corpname' do
       make_corp_template(:role => 'creator')

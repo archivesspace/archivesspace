@@ -845,7 +845,7 @@ end
       end
 
       it "maps resource.revision_statements.date to revisiondesc/change/date" do
-        mt(@resource.revision_statements[0]["revision_date"], "//revisiondesc/change/date")
+        mt(@resource.revision_statements[0]["date"], "//revisiondesc/change/date")
       end
 
       it "maps resource.finding_aid_revision_description to revisiondesc/change/item" do
