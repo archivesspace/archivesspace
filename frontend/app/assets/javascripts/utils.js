@@ -854,8 +854,6 @@ $(function() {
   var initFormShortcuts = function() {
     var $form = $(this);
 
-    // $.bind('keydown', 'shift+s', function() {
-    // })
   };
 
   $(document).bind('formchanged.aspace', function(event) {
@@ -876,7 +874,7 @@ $(function() {
 
   $(document).bind('keydown', 'esc', function() {
     if ($('#ASModal').length) {
-      $('#ASModal').remove();
+      $('#ASModal').modal('hide').data('bs.modal', null);
     }
   });
 
