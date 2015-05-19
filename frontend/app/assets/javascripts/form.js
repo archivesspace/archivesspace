@@ -167,4 +167,5 @@ $(function() {
   });
 
   $.proxy(initFormChangeDetection, $("form.aspace-record-form"))();
+
 });

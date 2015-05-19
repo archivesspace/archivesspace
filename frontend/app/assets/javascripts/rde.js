@@ -25,6 +25,7 @@ $(function() {
       var STICKY_COLUMN_IDS =  AS.prefixed_cookie(COOKIE_NAME_STICKY_COLUMN) ? JSON.parse(AS.prefixed_cookie(COOKIE_NAME_STICKY_COLUMN)) : null;
       var COLUMN_WIDTHS =  AS.prefixed_cookie(COOKIE_NAME_COLUMN_WIDTHS) ? JSON.parse(AS.prefixed_cookie(COOKIE_NAME_COLUMN_WIDTHS)) : null;
       var COLUMN_ORDER =  AS.prefixed_cookie(COOKIE_NAME_COLUMN_ORDER) ? JSON.parse(AS.prefixed_cookie(COOKIE_NAME_COLUMN_ORDER)) : null;
+      var DEFAULT_VALUES = {};
 
       // store section data
       var SECTION_DATA = {};
@@ -95,6 +96,7 @@ $(function() {
 
 
       var addRow = function(event) {
+
         var $currentRow = $(event.target).closest("tr");
         if ($currentRow.length === 0) {
           $currentRow = $("table tbody tr:last", $rde_form);
@@ -129,6 +131,9 @@ $(function() {
               } else {
                 $target.val($source.val());
               }
+            } else if (DEFAULT_VALUES[$th.attr('id')]) {
+              var $target = $(":input:first", $("td", $row).get(i));
+              $target.val(DEFAULT_VALUES[$th.attr('id')]);
             }
           }
 
@@ -305,6 +310,7 @@ $(function() {
         initAutoValidateFeature();
         applyColumnOrder();
         initColumnReorderFeature();
+        initRdeTemplates();
         applyPersistentStickyColumns();
         initColumnShowHideWidget();
         initFillFeature();
@@ -621,6 +627,277 @@ $(function() {
           applyPersistentVisibleColumns()
         }
       };
+
+
+      var templateList = null;
+      var initRdeTemplates = function() {
+        initSaveTemplateFeature();
+        loadRdeTemplateList(function() {
+          initManageTemplatesFeature();
+          initSelectTemplateFeature();
+        });
+      };
+
+      var loadRdeTemplateList = function(cb) {
+        var recordType = $rde_form.data("child-type");
+
+        $.ajax({
+          url: $rde_form.data("list-templates-uri"),
+          type: 'GET',
+          dataType: 'json',
+          success: function(_templateList_) {
+            templateList = _.filter(_templateList_, function(t) {
+              return t.record_type === recordType;
+            });
+            cb();
+          },
+          error: function(xhr, status, err) {
+            console.log(err);
+          }
+        });
+      };
+
+
+      var initSaveTemplateFeature = function() {
+        var $saveContainer = $("#saveTemplateForm", $modal);
+        var $containerToggle = $("button.save-template", $modal);
+        var $input = $("#templateName", $saveContainer);
+        var $btnSave = $(".btn-primary", $saveContainer);
+
+        // Setup global events
+        $containerToggle.off("click").on("click", function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          // toggle other panel if it is active
+          if (!$(this).hasClass("active")) {
+            $(".active", $(this).closest(".btn-group")).trigger("click");
+          }
+
+          $containerToggle.toggleClass("active");
+          $saveContainer.slideToggle();
+        });
+
+        $input.on('change keyup paste', function() {
+          if ($(this).val().length > 0) {
+            $btnSave.removeAttr("disabled").removeClass("disabled");
+          } else {
+            $btnSave.prop('disabled', true);
+          }
+        });
+
+        $btnSave.click(function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          var template = {
+            record_type: $rde_form.data("child-type"),
+            name: $input.val(),
+            order: [],
+            visible: [],
+            defaults: {},
+          }
+
+          var $firstRow = $("table tbody tr:first")
+
+         $("table .fieldset-labels th", $rde_form).each(function() {
+            var colId = $(this).attr("id");
+
+            template.order.push(colId);
+            if ($(this).is(":visible")) {
+              template.visible.push(colId);
+            }
+
+            var $cellOne =  $("td[data-col='"+colId+"']", $firstRow);
+
+           if ($("input", $cellOne).length) {
+             template.defaults[colId] = $("input", $cellOne).val();
+           } else if ($("select", $cellOne).length) {
+             template.defaults[colId] = $("select", $cellOne).val();
+           }
+
+
+          });
+
+          template.defaults = _.pick(template.defaults, function(n) {
+            return n.length > 0;
+          });
+
+          $.ajax({
+            url: $rde_form.data("save-template-uri"),
+            type: "POST",
+            data: {template: template},
+            dataType: "json",
+            success: function(data) {
+              loadRdeTemplateList(function() {
+                initManageTemplatesFeature();
+                initSelectTemplateFeature();
+              });
+              $containerToggle.toggleClass("active");
+              $saveContainer.slideToggle();
+            },
+            error: function(xhr, status, err) {
+              console.log(err);
+            }
+          });
+
+        });
+      };
+
+
+      var initManageTemplatesFeature = function() {
+        var $manageContainer = $("#manageTemplatesForm", $modal);
+        var $containerToggle = $("button.manage-templates", $modal);
+
+        var $templatesTable = $('table tbody', $manageContainer);
+
+        var templatesToDelete = [];
+
+        $containerToggle.off("click").on("click", function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          templatesToDelete = [];
+
+
+          // toggle other panel if it is active
+          if (!$(this).hasClass("active")) {
+            $(".active", $(this).closest(".btn-group")).trigger("click");
+          }
+
+          $templatesTable.empty();
+          renderTable();
+          $containerToggle.toggleClass("active");
+          $manageContainer.slideToggle();
+        });
+
+
+        $("button.btn-cancel", $manageContainer).off("click").on("click", function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          $containerToggle.toggleClass("active");
+          $manageContainer.slideToggle(function() {
+            templatesToDelete = [];
+          });
+        });
+
+
+        $("button.btn-primary", $manageContainer).off("click").on("click", function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          $.ajax({
+            url: $rde_form.data("list-templates-uri") + "/batch_delete",
+            type: 'POST',
+            dataType: 'json',
+            data: {ids: templatesToDelete},
+            success: function(updatedTemplateList) {
+              templateList = updatedTemplateList;
+              initSelectTemplateFeature();
+            },
+            error: function(xhr, status, err) {
+              console.log(err);
+            }
+          });
+
+          $containerToggle.toggleClass("active");
+          $manageContainer.slideToggle();
+        });
+
+
+        var renderTable = function() {
+          _.each(templateList, function(item) {
+            $templatesTable.append(AS.renderTemplate("rde_template_table_row", {item: item}));
+          });
+
+          $("button", $templatesTable).click(function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            var $id = $(this).closest("tr").data('templateId');
+
+            if (_.indexOf(templatesToDelete, $id) > -1) {
+              _.remove(templatesToDelete, $id)
+              $(this).text("Remove");
+            } else {
+              templatesToDelete.push($id);
+              $(this).text("Keep");
+            }
+          });
+        };
+
+
+        $.ajax({
+          url: $rde_form.data("list-templates-uri"),
+          type: 'GET',
+          dataType: 'json',
+          success: function(_templateList_) {
+            templateList = _templateList_;
+          }
+        });
+      };
+
+
+      var applyTemplate = function(template) {
+        COLUMN_ORDER = template.order;
+        VISIBLE_COLUMN_IDS = template.visible;
+        DEFAULT_VALUES = template.defaults;
+
+        applyColumnOrder();
+
+        var $firstRow = $("tbody tr:first");
+
+        _.each($("td", $firstRow), function(td) {
+          var $td = $( td );
+          var colId = $td.data('col');
+          var $$input = $(":input:first", $td)
+          if (DEFAULT_VALUES[colId] && ($$input.data('value-from-template') || $$input.val().length < 1)) {
+            $$input.val(DEFAULT_VALUES[colId]);
+            $$input.data('value-from-template', true);
+          }
+        });
+      };
+
+
+      var initSelectTemplateFeature = function() {
+
+        var $select = $("#rde_select_template");
+
+        $select.change(function() {
+          var id = $("option:selected", $select).val();
+          $.ajax({
+            url: $rde_form.data("template-base-uri") + "/" + id,
+            type: 'GET',
+            dataType: 'json',
+            success: function(template) {
+              applyTemplate(template);
+              $select.attr('data-style', 'btn-success');
+              $select.selectpicker('refresh');
+            }
+          });
+
+
+        });
+
+        var renderOptions = function() {
+          $select.empty();
+
+          $select.append($("<option>", {disabled : "disabled" , selected: 'selected'})
+                         .text($select.data('prompt-text')));
+
+          _.each(templateList, function(item) {
+
+            $select.append($("<option>", {value : item.id })
+                           .text(item.name));
+
+          });
+
+          $select.selectpicker('refresh');
+        };
+
+        renderOptions();
+      };
+
 
       var initColumnReorderFeature = function() {
         var $reorderContainer = $("#columnReorderForm", $modal);
@@ -986,6 +1263,8 @@ $(function() {
         validateAllRows();
       });
     });
+
+    $("select.selectpicker", $modal).selectpicker();
   };
 
   $(document).bind("rdeload.aspace", function(event, $node, $modal) {

@@ -185,6 +185,10 @@ ArchivesSpace::Application.routes.draw do
     resources :preferences
     match 'preferences/:id' => 'preferences#update', :via => [:post]
 
+    resources :rde_templates
+    match 'rde_templates/batch_delete' => 'rde_templates#batch_delete', :via => [:post]
+
+
     if Plugins.system_menu_items?
       scope '/plugins' do
         Plugins.system_menu_items.each do |plugin|

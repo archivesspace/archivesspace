@@ -43,6 +43,7 @@ class Repository < Sequel::Model(:repository)
                                                  "update_digital_object_record", "update_event_record", "view_repository",
                                                  "delete_archival_record", "suppress_archival_record",
                                                  "manage_subject_record", "manage_agent_record", "manage_vocabulary_record",
+                                                 "manage_rde_templates",
                                                  "import_records"]
                        },
                        {
