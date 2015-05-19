@@ -50,10 +50,16 @@ def create_enum(name, values, default = nil, editable = false, opts = {})
   id_of_default = nil
 
   readonly_values = Array(opts[:readonly_values])
+  # we updated the schema to include ordering for enum values. so, we will need
+  # those for future adding enums
+  include_position = self.schema(:enumeration_value).flatten.include?(:position)
+  
+  values.each_with_index do |value, i|
+    props = { :enumeration_id => id, :value => value, :readonly => readonly_values.include?(value) ? 1 : 0 } 
+    props[:position] = i if include_position
 
-  values.each do |value|
-    id_of_value = self[:enumeration_value].insert(:enumeration_id => id, :value => value,
-                                                  :readonly => readonly_values.include?(value) ? 1 : 0)
+    id_of_value =  self[:enumeration_value].insert(props)
+                                       
     id_of_default = id_of_value if value === default
   end
 

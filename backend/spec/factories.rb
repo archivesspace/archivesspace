@@ -174,7 +174,6 @@ FactoryGirl.define do
                             :country => [nil, generate(:alphanumstr)].sample,
                             :post_code => [nil, generate(:alphanumstr)].sample,
                             #:telephones => [nil, build(:json_telephone)].sample,
-                            :fax => [nil, generate(:alphanumstr)].sample,
                             :email => [nil, generate(:alphanumstr)].sample,
                             :email_signature => [nil, generate(:alphanumstr)].sample,
                             :note => [nil, generate(:alphanumstr)].sample,
@@ -248,6 +247,7 @@ FactoryGirl.define do
   end
 
   factory :json_telephone, class: JSONModel(:telephone) do
+    number_type { [nil, generate(:alphanumstr)].sample }
     number {  generate(:phone_number) }
     ext { [nil, generate(:alphanumstr)].sample }
 

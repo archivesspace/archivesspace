@@ -238,7 +238,7 @@ module AgentManager
 
         json.agent_contacts.each do |contact|
           fields << hash_chunk(JSONModel(:agent_contact).from_hash(contact),
-                               %w(name salutation telephone address_1 address_2 address_3 city region country post_code telephone_ext fax email email_signature note))
+                               %w(name salutation telephone address_1 address_2 address_3 city region country post_code email email_signature note))
         end
 
         json.external_documents.each do |doc|

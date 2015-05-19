@@ -1448,6 +1448,7 @@ en:
     note_multipart_type: Note Multipart Type
     note_orderedlist_enumeration: Note Orderedlist Enumeration
     note_singlepart_type: Note Singlepart Type
+    telephone_number_type: Telephone Number Type 
     resource_finding_aid_description_rules: Resource Finding Aid Description Rules
     resource_finding_aid_status: Resource Finding Aid Status
     resource_resource_type: Resource Resource Type

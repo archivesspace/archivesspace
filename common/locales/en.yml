@@ -541,6 +541,7 @@ en:
   
   telephone: &telephone
     _plural: Telephone Numbers 
+    number_type: Number Type 
     number: Number
     number_tooltip: |
         <p>Telephone number for the contact person.</p>
