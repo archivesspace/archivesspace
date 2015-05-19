@@ -108,7 +108,7 @@ class EADConverter < Converter
 
     # we need to ignore everything on titlepage
     %w{address author bibseries blockquote chronlist date edition list list/item list/defitem note
-      num p publisher sponsor subtitle table titleproper  }.each do |node_type|
+      num p publisher sponsor subtitle table titleproper subtitle  }.each do |node_type|
 
       with "titlepage/#{node_type}" do
         @ignore = true 
@@ -571,7 +571,7 @@ class EADConverter < Converter
 
     with 'subtitle' do
       next ignore if @ignore
-      set :finding_aid_subtitle, format_content( inndex_xml )
+      set :finding_aid_subtitle, format_content( inner_xml )
     end
 
     with 'langusage' do
