@@ -12,7 +12,7 @@
             <button type="submit" class="btn btn-sm btn-success"><%= I18n.t("repository._frontend.action.select") %></button>
           <% end %>
         <% end %>
-        <% if user_can?('delete_repository') && @repository.id != session[:repo_id]  %>
+        <% if user_can?('delete_repository') && @repository.id != session[:repo_id] && controller.action_name == 'edit'   %>
           <div class="btn-group">
             <div class="btn btn-inline-form">
               <%= button_delete_action url_for(:controller => :repositories, :action => :delete, :id => @repository.id), 
