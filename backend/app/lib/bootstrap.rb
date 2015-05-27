@@ -5,6 +5,16 @@ require 'sequel/plugins/optimistic_locking'
 Sequel.extension :pagination
 Sequel.extension :core_extensions
 
+
+# Turn off the 'after_commit' and 'after_rollback' hooks on Sequel::Model.
+# We don't use them anywhere, and they would otherwise cause a pair of
+# blocks to be stored in memory every time we call '.save' (which in turn
+# capture the record being saved and stop it being GC'd until the
+# transaction finally commits).  When we're doing large batch imports (and
+# committing at the end) that's a lot of memory!
+Sequel::Model.use_after_commit_rollback = false
+
+
 require "db/db_migrator"
 
 require 'fileutils'
