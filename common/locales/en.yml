@@ -7,6 +7,38 @@ en:
   boolean:
     "true": "True"
     "false": "False"
+  
+  user_defined: &user_defined_attributes
+    boolean_1: Boolean 1
+    boolean_2: Boolean 2
+    boolean_3: Boolean 3
+    integer_1: Integer 1
+    integer_2: Integer 2
+    integer_3: Integer 3
+    real_1: Real 1
+    real_2: Real 2
+    real_3: Real 3
+    string_1: String 1
+    string_2: String 2
+    string_3: String 3
+    string_4: String 4
+    text_1: Text 1
+    text_2: Text 2
+    text_3: Text 3
+    text_4: Text 4
+    text_5: Text 5
+    date_1: Date 1
+    date_1_inline_help: e.g. YYYY-MM-DD
+    date_2: Date 2
+    date_2_inline_help: e.g. YYYY-MM-DD
+    date_3: Date 3
+    date_3_inline_help: e.g. YYYY-MM-DD
+    enum_1: Controlled Value 1
+    enum_2: Controlled Value 2
+    enum_3: Controlled Value 3
+    enum_4: Controlled Value 4
+    _singular: User Defined
+    _plural: User Defined
 
   content_items:
     content: Content
@@ -43,6 +75,8 @@ en:
 
   digital_object: &digital_object_attributes
     <<: *section_tooltips
+    user_defined: 
+      <<: *user_defined_attributes 
     title: Title
     title_tooltip: |
         <p>A title expression for the digital object.  May be transcribed from the object, or inherited from a source resource/resource component record, or provided by the repository.</p>
@@ -1050,6 +1084,8 @@ en:
 
   accession:
     <<: *section_tooltips
+    user_defined: 
+      <<: *user_defined_attributes 
     accession_date: Accession Date
     accession_date_inline_help: e.g. YYYY-MM-DD
     accession_date_tooltip: |
@@ -1362,6 +1398,8 @@ en:
   resource:
     <<: *archival_object_attributes
     <<: *section_tooltips
+    user_defined: 
+      <<: *user_defined_attributes 
     id_0: Identifier
     id_1: Identifier 2
     id_2: Identifier 3
@@ -1687,37 +1725,6 @@ en:
     _singular: Collection Management
     _plural: Collection Management
 
-  user_defined:
-    boolean_1: Boolean 1
-    boolean_2: Boolean 2
-    boolean_3: Boolean 3
-    integer_1: Integer 1
-    integer_2: Integer 2
-    integer_3: Integer 3
-    real_1: Real 1
-    real_2: Real 2
-    real_3: Real 3
-    string_1: String 1
-    string_2: String 2
-    string_3: String 3
-    string_4: String 4
-    text_1: Text 1
-    text_2: Text 2
-    text_3: Text 3
-    text_4: Text 4
-    text_5: Text 5
-    date_1: Date 1
-    date_1_inline_help: e.g. YYYY-MM-DD
-    date_2: Date 2
-    date_2_inline_help: e.g. YYYY-MM-DD
-    date_3: Date 3
-    date_3_inline_help: e.g. YYYY-MM-DD
-    enum_1: Controlled Value 1
-    enum_2: Controlled Value 2
-    enum_3: Controlled Value 3
-    enum_4: Controlled Value 4
-    _singular: User Defined
-    _plural: User Defined
 
   enumeration:
     # tooltips not displaying

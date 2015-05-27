@@ -369,7 +369,10 @@ module AspaceFormHelper
 
 
     def label(name, opts = {}, classes = [])
-      prefix = opts[:plugin] ? 'plugins.' : ''
+      prefix = '' 
+      prefix << "#{opts[:contextual]}." if opts[:contextual] 
+      prefix << 'plugins.' if opts[:plugin]
+
       classes << 'control-label'
 
       options = {:class => classes.join(' '), :for => id_for(name)}
