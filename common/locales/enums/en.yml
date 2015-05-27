@@ -25,7 +25,7 @@ en:
       att: Attributed name
       auc: Auctioneer
       aut: Author
-      aqt: Author in quotations or text extracts
+      aqt: Author in quotations or text abstracts 
       aft: Author of afterword, colophon, etc.
       aud: Author of dialog
       aui: Author of introduction, etc.
@@ -116,7 +116,7 @@ en:
       egr: Engraver
       etr: Etcher
       evp: Event place
-      exp: Expert
+      exp: Appraiser
       fac: Facsimilist
       fld: Field director
       fmd: Film director
@@ -183,7 +183,7 @@ en:
       pan: Panelist
       ppm: Papermaker
       pta: Patent applicant
-      pth: Patent holder
+      pth: Patentee
       pat: Patron
       prf: Performer
       pma: Permitting agency
@@ -217,7 +217,7 @@ en:
       rcp: Recipient
       rce: Recording engineer
       rcd: Recordist
-      red: Redactor
+      red: Redaktor
       ren: Renderer
       rpt: Reporter
       rps: Repository
@@ -267,7 +267,7 @@ en:
       vac: Voice actor
       voc: Vocalist
       wit: Witness
-      wde: Wood-engraver
+      wde: Wood engraver
       wdc: Woodcutter
       wam: Writer of accompanying material
       wac: Writer of added commentary
