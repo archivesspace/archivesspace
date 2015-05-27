@@ -233,7 +233,9 @@ class CommonIndexer
       if doc['primary_type'] == 'event'
         doc['json'] = record['record'].to_json
         doc['event_type'] = record['record']['event_type']
+        doc['title'] = record['record']['event_type'] # adding this for emedded searches 
         doc['outcome'] = record['record']['outcome']
+        doc['linked_record_uris'] = record['record']['linked_records'].map { |c| c['ref'] }
       end
     }
 

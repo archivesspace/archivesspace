@@ -143,10 +143,11 @@
    <!-- A JSON blob representing the classification path -->
    <field name="classification_path" type="string" indexed="true" stored="true" multiValued="false" />
 
-   <!-- Fields to allow view of linked records (for classifications/locations -->
+   <!-- Fields to allow view of linked records (for classifications/locations/events -->
    <field name="classification_paths" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="classification_uris" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="location_uris" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="linked_record_uris" type="string" indexed="true" stored="true" multiValued="true" />
 
    <!-- Event properties required for facets -->
    <field name="event_type" type="string" indexed="true" stored="true" multiValued="false" />
