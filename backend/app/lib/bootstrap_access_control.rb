@@ -240,6 +240,11 @@ class ArchivesSpaceService
                       "The ability to merge archival records records",
                       :level => "repository")
 
+
+    Permission.define("manage_rde_templates",
+                      "The ability to create and delete RDE templates",
+                      :level => "repository")
+
   end
 
 

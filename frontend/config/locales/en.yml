@@ -826,6 +826,9 @@ en:
       reorder_toggle: Reorder Columns
       validate_rows: Validate Rows
       inline_errors_toggle: View Inline Errors
+      save_template: Save as Template
+      select_template: Choose Template
+      manage_templates: Remove Templates
     fill_column:
       basic: Basic
       sequence: Sequence
@@ -841,6 +844,11 @@ en:
       sequence_to_required: To is required
     reorder_columns:
       apply_order: Apply Column Order
+    save_template:
+      save_template: Save Template
+      template_name: Template name
+      confirm_removal: Confirm Removal
+    default_template: Default Template
     messages:
       error_prefix: Row
       success: "<div class='alert alert-success'>Children Created. Refreshing page...</div>"
@@ -848,6 +856,7 @@ en:
       rows_with_errors: "%{count} row(s) with an error - click a row field to view the errors for that row"
       rows_no_errors: "All rows are valid"
       error_summary_header: "Errors in row:"
+      select_prompt: Apply an RDE Template
     help:
       keyboard_shortcuts: |
                   <div><strong>Keyboard Shortcuts</strong></div>
@@ -869,7 +878,6 @@ en:
       reset: |
                   <div><strong>Reset Form</strong></div>
                   <div><small>Click <strong>Reset</strong> to clear the form and revert the sticky, visible and order of the columns to the default values.</small></div>
-
   update_monitor:
     save_failed: <strong>Failed to save your changes</strong>
     stale_record: This record has been updated by another user. Please refresh the page to access the latest version.

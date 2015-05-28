@@ -21,12 +21,14 @@
     "jquery.hotkeys": "git@github.com:jeresig/jquery.hotkeys.git#~0.2.0",
     "jstree": "git@github.com:vakata/jstree#~3.1.0",
     "lodash": "~3.6.0",
-    "jquery.scrollTo": "~2.1.0"
+    "jquery.scrollTo": "~2.1.0",
+    "bootstrap-select": "git@github.com:silviomoreto/bootstrap-select.git#v1.6.5"
   },
   "install": {
     "path": {
       "js": "vendor/assets/javascripts",
-      "css": "vendor/assets/stylesheets"
+      "css": "vendor/assets/stylesheets",
+      "map": "vendor/assets/stylesheets"
     },
     "sources": {
       "jquery.hotkeys": {
@@ -58,6 +60,23 @@
           {
             "bower_components/jquery.scrollTo/jquery.scrollTo.js": "../jquery.scrollTo.js"
           }
+        ]
+      },
+      "bootstrap-select": {
+        "mapping": [
+          {
+            "bower_components/bootstrap-select/dist/js/bootstrap-select.js": "../bootstrap-select.js"
+          },
+          {
+            "bower_components/bootstrap-select/dist/css/bootstrap-select.css": "bootstrap-select.css.less"
+          },
+          {
+            "bower_components/bootstrap-select/dist/css/bootstrap-select.css.map": "bootstrap-select.css.map"
+          }
+
+
+
+
         ]
       }
     },

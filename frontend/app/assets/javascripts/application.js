@@ -22,5 +22,6 @@
 //= require header
 //= require linker
 //= require lodash
+//= require bootstrap-select
 
 AS.tree_data = {};

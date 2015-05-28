@@ -28,7 +28,7 @@ module SeleniumFactories
 
       sequence(:repo_code) {|n| "testrepo_#{n}_#{Time.now.to_i}"}
       sequence(:repo_name) {|n| "Test Repo #{n}"}
-      sequence(:accession_id) {|n| "#{n}" } 
+      sequence(:accession_id) {|n| "#{n}" }
 
 
       sequence(:ref_id) {|n| "aspace_#{n}"}
@@ -37,6 +37,8 @@ module SeleniumFactories
       sequence(:accession_title) { |n| "Accession #{n}" }
       sequence(:resource_title) { |n| "Resource #{n}" }
       sequence(:archival_object_title) {|n| "Archival Object #{n}"}
+
+      sequence(:rde_template_name) {|n| "RDE Template #{n}_#{Time.now.to_i}"}
 
       factory :repo, class: JSONModel(:repository) do
         repo_code { generate :repo_code }
@@ -71,7 +73,7 @@ module SeleniumFactories
 
       factory :resource, class: JSONModel(:resource) do
         title { generate :resource_title }
-        id_0 { generate :id_0 } 
+        id_0 { generate :id_0 }
         extents { [build(:extent)] }
         dates { [build(:date)] }
         level "collection"
@@ -97,6 +99,18 @@ module SeleniumFactories
         self.end "1999-12-31"
         expression "1900s"
       end
+
+      factory :rde_template, class: JSONModel(:rde_template) do
+        record_type "archival_object"
+        name { generate(:rde_template_name) }
+        order []
+        visible { ["colLevel", "colOtherLevel", "colTitle", "colCompId", "colLang", "colExpr", "colDType", "colDBegin", "colDEnd", "colIType", "colCType1", "colCInd1", "colCBarc1", "colCType2", "colCInd2", "colCType3", "colCInd3", "colNType1", "colNCont1", "colNType2", "colNCont2", "colNType3", "colNCont3"]}
+        defaults { {
+          "colTitle" => "DEFAULT TITLE",
+          "colLevel" => "item"
+        } }
+      end
+
 
     end
 
