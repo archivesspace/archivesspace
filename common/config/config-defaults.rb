@@ -26,6 +26,7 @@ AppConfig[:cookie_prefix] = "archivesspace"
 # cores and/or more records per thread means more memory used).
 AppConfig[:indexer_records_per_thread] = 25
 AppConfig[:indexer_thread_count] = 4
+AppConfig[:indexer_solr_timeout_seconds] = 300
 
 AppConfig[:allow_other_unmapped] = false
 

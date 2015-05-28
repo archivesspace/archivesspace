@@ -380,6 +380,7 @@ class CommonIndexer
     req['X-ArchivesSpace-Session'] = @current_session
 
     Net::HTTP.start(url.host, url.port) do |http|
+      http.read_timeout = AppConfig[:indexer_solr_timeout_seconds].to_i
       http.request(req)
     end
   end
