@@ -94,7 +94,8 @@ $(function() {
         }
       });
 
-      var submitParentForm = function() {
+      var submitParentForm = function(e) {
+        e.preventDefault();
         $(this).parents("form.aspace-record-form").submit();
       };
       $this.on("focusin", ":input", function(event) {
