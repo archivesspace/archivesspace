@@ -4,6 +4,7 @@ class JSONReport < JasperReport
 
   def initialize(params)
     @repo_id = params[:repo_id] if params.has_key?(:repo_id) && params[:repo_id] != ""
+    @base_path = File.join(report_base, self.class.name ) 
     @datasource = Tempfile.new(self.class.name + '.data')
     
     ObjectSpace.define_finalizer( self, self.class.finalize(self) ) 
@@ -31,6 +32,8 @@ class JSONReport < JasperReport
     params[JsonQueryExecuterFactory::JSON_NUMBER_PATTERN] ||= "#,##0.##"       
     params[JsonQueryExecuterFactory::JSON_LOCALE] ||= Locale::ENGLISH          
     params[JRParameter::REPORT_LOCALE] ||= ::Locale::US
+    params["repositoryId"] = @repo_id
+    params["basePath"] = @base_path
     params
   end
   
@@ -81,12 +84,12 @@ class JSONReport < JasperReport
     @datasource.read.to_java_bytes
   end
   
-  def render(format)
+  def render(format, params = {} )
     if format == :json
       load_datasource 
       to_json
     elsif [:pdf, :html, :xlsx, :csv ].include?(format) 
-      fill
+      fill(params)
       self.send("to_#{format.to_s}")
     end
   end

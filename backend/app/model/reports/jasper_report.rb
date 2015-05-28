@@ -34,6 +34,7 @@ class JasperReport
 
   def initialize(params = {})
     @repo_id = params[:repo_id] if params.has_key?(:repo_id) && params[:repo_id] != ""
+    @base_path = File.join(report_base, self.class.name ) 
     ObjectSpace.define_finalizer( self, self.class.finalize(self) ) 
   end
 

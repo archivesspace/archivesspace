@@ -10,6 +10,8 @@ class JDBCReport < JasperReport
     params[JsonQueryExecuterFactory::JSON_NUMBER_PATTERN] ||= "#,##0.##"       
     params[JsonQueryExecuterFactory::JSON_LOCALE] ||= Locale::ENGLISH          
     params[JRParameter::REPORT_LOCALE] ||= ::Locale::US
+    params["repositoryId"] = @repo_id
+    params["basePath"] = @base_path
     params
   end
   
@@ -68,9 +70,9 @@ class JDBCReport < JasperReport
      JSON(json).to_java_bytes 
   end
   
-  def render(format)
+  def render(format, params = {})
     if [:pdf, :html, :xlsx, :csv, :json ].include?(format) 
-      fill
+      fill(params)
       self.send("to_#{format.to_s}")
     end
   end

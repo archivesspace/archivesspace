@@ -247,7 +247,7 @@ FactoryGirl.define do
   end
 
   factory :json_telephone, class: JSONModel(:telephone) do
-    number_type { [nil, generate(:alphanumstr)].sample }
+    number_type { [nil, 'business', 'home', 'cell', 'fax'].sample }
     number {  generate(:phone_number) }
     ext { [nil, generate(:alphanumstr)].sample }
 

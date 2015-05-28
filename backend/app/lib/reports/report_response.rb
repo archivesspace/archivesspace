@@ -22,7 +22,7 @@ class ReportResponse
 
   def generate
     if  @report.is_a?(JasperReport) 
-      String.from_java_bytes( @report.render(@format.to_sym) ) 
+      String.from_java_bytes( @report.render(@format.to_sym, @params) ) 
     else
       klass = Object.const_get("#{@format.upcase}Response")
       klass.send(:new, @report, @params).generate
