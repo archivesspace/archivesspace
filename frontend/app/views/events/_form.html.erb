@@ -75,7 +75,7 @@
       <div class="controls token-list col-sm-4">
         <% form['linked_records'].each do |linked_record| %>
           <%= render_token :object => linked_record['_resolved'],
-                           :label => linked_record['_resolved']['title'],
+                           :label => (linked_record['_resolved']['display_string'] || linked_record['_resolved']['title']),
                            :type => "location",
                            :uri => linked_record["ref"],
                            :placement => "top" %>
