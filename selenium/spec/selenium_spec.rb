@@ -2972,13 +2972,8 @@ describe "ArchivesSpace user interface" do
       #now add collection management
       $driver.find_element(:css => '#accession_collection_management_ .subrecord-form-heading .btn:not(.show-all)').click
 
-      # let's check the order of our values
-      ordered_values = ["IMPORTANT.", "High", "Medium", "Low"]
-      i = 0
-      $driver.find_element(:id => "accession_collection_management__processing_priority_").text.each_line do |val|
-        val.chomp.should eq(ordered_values[i])
-        i = i + 1 
-      end
+      # our new value should be #1!
+      $driver.find_element(:id => "accession_collection_management__processing_priority_").text.each_line.first.chomp.should eq("IMPORTANT.")
 
       $driver.clear_and_send_keys([:id => "accession_collection_management__cataloged_note_"], ["DONE!", :return])
       $driver.find_element(:id => "accession_collection_management__processing_priority_").select_option("IMPORTANT.")
