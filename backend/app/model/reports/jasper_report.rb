@@ -34,8 +34,8 @@ class JasperReport
 
   def initialize(params = {})
     @repo_id = params[:repo_id] if params.has_key?(:repo_id) && params[:repo_id] != ""
-    @base_path = File.join(report_base, self.class.name ) 
-    ObjectSpace.define_finalizer( self, self.class.finalize(self) ) 
+    @base_path = File.expand_path( File.dirname( report ) )
+    ObjectSpace.define_finalizer( self, self.class.finalize(self) )
   end
 
   def title
@@ -45,7 +45,7 @@ class JasperReport
   # the convention is that all report files ( primary and subreports)  will be located in
   # AS_BASE/reports/ClassNameReport
   def report_base
-    File.join('reports' )
+    File.join(  'reports' )
   end
 
   # the convention is that the compiled primary report will be located in
