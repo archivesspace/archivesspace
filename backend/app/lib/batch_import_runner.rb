@@ -69,12 +69,13 @@ class BatchImportRunner < JobRunner
             ticker.log(("=" * 50) + "\n#{filenames[i]}\n" + ("=" * 50)) if filenames[i]
             converter = Converter.for(@json.job['import_type'], input_file.file_path)
             begin
-              converter.run
+              RequestContext.open(:create_enums => true,
+                                  :current_username => @job.owner.username,
+                                  :repo_id => @job.repo_id) do
 
-              File.open(converter.get_output_path, "r") do |fh|
-                RequestContext.open(:create_enums => true,
-                                    :current_username => @job.owner.username,
-                                    :repo_id => @job.repo_id) do
+                converter.run
+
+                File.open(converter.get_output_path, "r") do |fh|
                   batch = StreamingImport.new(fh, ticker, @import_canceled)
                   batch.process
                   log_created_uris(batch)
