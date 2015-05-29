@@ -11,7 +11,7 @@ Sequel.migration do
 
       create_editable_enum('telephone_number_type', [ 'business', 'home', 'cell', 'fax' ])
       enum = self[:enumeration].filter(:name => 'telephone_number_type').select(:id).first 
-      fax = self[:enumeration_value].filter(:enumeration_id => enum[:id], :value => 'fax' )
+      fax = self[:enumeration_value].filter(:enumeration_id => enum[:id], :value => 'fax' ).select(:id).first
 
       self[:agent_contact].filter( Sequel.~(:fax => nil) ).each do |row|
         self[:telephone].insert( :agent_contact_id => row[:id], 
