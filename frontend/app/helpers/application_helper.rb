@@ -17,6 +17,13 @@ module ApplicationHelper
       scripts += javascript_include_tag "#{controller.controller_name}.batch" if File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js") ||  File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js.erb")
     end
 
+    if ["defaults", "update_defaults"].include?(controller.action_name)
+      ctrl_name = controller.controller_name == 'archival_objects' ? 'resources' : controller.controller_name
+
+      scripts += javascript_include_tag "#{ctrl_name}.crud" if File.exists?("#{Rails.root}/app/assets/javascripts/#{ctrl_name}.crud.js") ||  File.exists?("#{Rails.root}/app/assets/javascripts/#{ctrl_name}.crud.js.erb")
+    end
+
+
     scripts.html_safe
   end
 

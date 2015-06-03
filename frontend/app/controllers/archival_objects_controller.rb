@@ -3,7 +3,8 @@ class ArchivalObjectsController < ApplicationController
   set_access_control  "view_repository" => [:index, :show, :generate_sequence],
                       "update_resource_record" => [:new, :edit, :create, :update, :transfer, :rde, :add_children, :accept_children, :validate_rows],
                       "suppress_archival_record" => [:suppress, :unsuppress],
-                      "delete_archival_record" => [:delete]
+                      "delete_archival_record" => [:delete],
+                      "manage_repository" => [:defaults, :update_defaults]
 
 
 
@@ -11,6 +12,13 @@ class ArchivalObjectsController < ApplicationController
     @archival_object = JSONModel(:archival_object).new._always_valid!
     @archival_object.parent = {'ref' => JSONModel(:archival_object).uri_for(params[:archival_object_id])} if params.has_key?(:archival_object_id)
     @archival_object.resource = {'ref' => JSONModel(:resource).uri_for(params[:resource_id])} if params.has_key?(:resource_id)
+
+    if user_prefs['default_values']
+      defaults = DefaultValues.get 'archival_object'
+
+      @archival_object.update(defaults.values) if defaults
+    end
+
 
     return render_aspace_partial :partial => "archival_objects/new_inline" if inline?
 
@@ -88,6 +96,41 @@ class ArchivalObjectsController < ApplicationController
 
   def accept_children
     handle_accept_children(JSONModel(:archival_object))
+  end
+
+
+  def defaults
+    defaults = DefaultValues.get 'archival_object'
+
+    values = defaults ? defaults.form_values : {}
+
+    @archival_object = JSONModel(:archival_object).new(values)._always_valid!
+
+    @archival_object.display_string = I18n.t("default_values.form_title.archival_object")
+
+    render "defaults"
+  end
+
+
+  def update_defaults
+
+    begin
+      DefaultValues.from_hash({
+                                "record_type" => "archival_object",
+                                "lock_version" => params[:archival_object].delete('lock_version'),
+                                "defaults" => cleanup_params_for_schema(
+                                                                        params[:archival_object],
+                                                                        JSONModel(:archival_object).schema
+                                                                        )
+                              }).save
+
+      flash[:success] = I18n.t("default_values.messages.defaults_updated")
+      redirect_to :controller => :archival_objects, :action => :defaults
+    rescue Exception => e
+      flash[:error] = e.message
+      redirect_to :controller => :archival_objects, :action => :defaults
+    end
+
   end
 
 

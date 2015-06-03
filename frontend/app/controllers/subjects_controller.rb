@@ -2,7 +2,9 @@ class SubjectsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show],
                       "update_subject_record" => [:new, :edit, :create, :update, :merge],
-                      "delete_subject_record" => [:delete]
+                      "delete_subject_record" => [:delete],
+                      "manage_repository" => [:defaults, :update_defaults]
+
 
 
   def index
@@ -16,6 +18,13 @@ class SubjectsController < ApplicationController
 
   def new
     @subject = JSONModel(:subject).new({:vocab_id => JSONModel(:vocabulary).id_for(current_vocabulary["uri"]), :terms => [{}]})._always_valid!
+
+    if user_prefs['default_values']
+      defaults = DefaultValues.get 'subject'
+
+      @subject.update(defaults.values) if defaults
+    end
+
     render_aspace_partial :partial => "subjects/new" if inline?
   end
 
@@ -51,6 +60,36 @@ class SubjectsController < ApplicationController
                   redirect_to :controller => :subjects, :action => :edit, :id => id
                 })
   end
+
+  def defaults
+    defaults = DefaultValues.get 'subject'
+
+    values = defaults ? defaults.form_values : {:vocab_id => JSONModel(:vocabulary).id_for(current_vocabulary["uri"]), :terms => [{}]}
+
+    @subject = JSONModel(:subject).new(values)._always_valid!
+
+    render "defaults"
+  end
+
+  def update_defaults
+
+    begin
+      DefaultValues.from_hash({
+                                "record_type" => "subject",
+                                "lock_version" => params[:subject].delete('lock_version'),
+                                "defaults" => cleanup_params_for_schema(
+                                                                        params[:subject],
+                                                                        JSONModel(:subject).schema)
+                              }).save
+
+      flash[:success] = I18n.t("default_values.messages.defaults_updated")
+      redirect_to :controller => :subjects, :action => :defaults
+    rescue Exception => e
+      flash[:error] = e.message
+      redirect_to :controller => :subjects, :action => :defaults
+    end
+  end
+
 
   def terms_complete
     query = "#{params[:query]}".strip

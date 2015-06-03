@@ -35,3 +35,4 @@ build/demo_db_backups
 .bundle
 frontend/node_modules
 locales.diff
+frontend/bower_components

@@ -1,7 +1,7 @@
-<%= setup_context :object => @digital_object %>
+<%= setup_context :object => @digital_object, :title => I18n.t("actions.defaults") %>
 
 <div id="object_container">
-  <%= form_for @digital_object, :as => "digital_object", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
+  <%= form_for @digital_object, :as => "digital_object", :url => {:action => :update_defaults}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
     <%= form_context :digital_object, @digital_object do |form| %>
       <div class="row">
          <div class="col-md-3">
