@@ -7,8 +7,6 @@ class DefaultValues < Sequel::Model(:default_values)
   def self.create_or_update(json, repo_id, record_type)
     id = "#{repo_id}_#{record_type}"
 
-    p json
-
     if self[id]
       self[id].update_from_json(json)
     else
@@ -17,9 +15,6 @@ class DefaultValues < Sequel::Model(:default_values)
 
     self[id]
   end
-
-
-  require 'pry'
 
 
   def self.to_jsonmodel(obj, opts = {})
