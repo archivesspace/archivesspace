@@ -135,7 +135,7 @@ $(function() {
 
         // init any existing subforms
          
-        var subformsExisting = $("> .subrecord-form-container .subrecord-form-list > .subrecord-form-wrapper:not(.initialised)", $this) 
+        var subformsExisting = $("> .subrecord-form-container > .subrecord-form-list > .subrecord-form-wrapper:not(.initialised)", $this)
         
         if (subformsExisting.length > 4 ) { 
           $("> .subrecord-form-heading > .btn.show-all", $this).show(); 
@@ -156,7 +156,7 @@ $(function() {
             subformsExisting.slice(5).hide();
           } 
         }  
-          $("> .subrecord-form-container .subrecord-form-list > .subrecord-form-wrapper", $this).each(init_subform);
+          $("> .subrecord-form-container > .subrecord-form-list > .subrecord-form-wrapper", $this).each(init_subform);
 
       }
 
