@@ -4430,7 +4430,7 @@ describe "ArchivesSpace user interface" do
   describe "Jobs" do
 
     before(:all) do
-
+      backend_login
       @repo = create(:repo)      
       login("admin", "admin")
       select_repo(@repo)

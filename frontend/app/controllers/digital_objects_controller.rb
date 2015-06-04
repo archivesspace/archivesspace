@@ -5,7 +5,8 @@ class DigitalObjectsController < ApplicationController
                       "delete_archival_record" => [:delete],
                       "merge_archival_record" => [:merge],
                       "suppress_archival_record" => [:suppress, :unsuppress],
-                      "transfer_archival_record" => [:transfer]
+                      "transfer_archival_record" => [:transfer],
+                      "manage_repository" => [:defaults, :update_defaults]
 
 
   def index
@@ -37,8 +38,54 @@ class DigitalObjectsController < ApplicationController
   def new
     @digital_object = JSONModel(:digital_object).new({:title => I18n.t("digital_object.title_default", :default => "")})._always_valid!
 
+    if user_prefs['default_values']
+      defaults = DefaultValues.get 'digital_object'
+
+      if defaults
+        @digital_object.update(defaults.values)
+        @form_title = "#{I18n.t('actions.new_prefix')} #{I18n.t('digital_object._singular')}"
+      end
+    end
+
     return render_aspace_partial :partial => "digital_objects/new" if params[:inline]
   end
+
+
+  def defaults
+    defaults = DefaultValues.get 'digital_object'
+
+    values = defaults ? defaults.form_values : {:title => I18n.t("digital_object.title_default", :default => "")}
+
+    @digital_object = JSONModel(:digital_object).new(values)._always_valid!
+
+    @form_title = I18n.t("default_values.form_title.digital_object")
+
+    render "defaults"
+  end
+
+
+  def update_defaults
+
+    begin
+      DefaultValues.from_hash({
+                                "record_type" => "digital_object",
+                                "lock_version" => params[:digital_object].delete('lock_version'),
+                                "defaults" => cleanup_params_for_schema(
+                                                                        params[:digital_object],
+                                                                        JSONModel(:digital_object).schema
+                                                                        )
+                              }).save
+
+      flash[:success] = "Defaults updated"
+
+      redirect_to :controller => :digital_objects, :action => :defaults
+    rescue Exception => e
+      flash[:error] = e.message
+      redirect_to :controller => :digital_objects, :action => :defaults
+    end
+
+  end
+
 
 
   def edit

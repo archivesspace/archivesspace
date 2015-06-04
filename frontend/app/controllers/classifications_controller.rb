@@ -2,7 +2,8 @@ class ClassificationsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show, :tree],
                       "update_classification_record" => [:new, :edit, :create, :update, :accept_children],
-                      "delete_classification_record" => [:delete]
+                      "delete_classification_record" => [:delete],
+                      "manage_repository" => [:defaults, :update_defaults]
 
 
   def index
@@ -22,6 +23,12 @@ class ClassificationsController < ApplicationController
 
   def new
     @classification = JSONModel(:classification).new(:title => I18n.t("classification.title_default", :default => ""))._always_valid!
+
+    if user_prefs['default_values']
+      defaults = DefaultValues.get 'classification'
+      @classification.update(defaults.values) if defaults
+    end
+
 
     return render_aspace_partial :partial => "classifications/new_inline" if params[:inline]
   end
@@ -78,6 +85,38 @@ class ClassificationsController < ApplicationController
     flash[:success] = I18n.t("classification._frontend.messages.deleted", JSONModelI18nWrapper.new(:classification => classification))
     redirect_to(:controller => :classifications, :action => :index, :deleted_uri => classification.uri)
   end
+
+
+  def defaults
+    defaults = DefaultValues.get 'classification'
+
+    values = defaults ? defaults.form_values : {}
+
+    @classification = JSONModel(:classification).new(values)._always_valid!
+    @form_title = I18n.t("default_values.form_title.classification")
+
+    render "defaults"
+  end
+
+  def update_defaults
+
+    begin
+      DefaultValues.from_hash({
+                                "record_type" => "classification",
+                                "lock_version" => params[:classification].delete('lock_version'),
+                                "defaults" => cleanup_params_for_schema(
+                                                                        params[:classification],
+                                                                        JSONModel(:classification).schema)
+                              }).save
+
+      flash[:success] = I18n.t("default_values.messages.defaults_updated")
+      redirect_to :controller => :classifications, :action => :defaults
+    rescue Exception => e
+      flash[:error] = e.message
+      redirect_to :controller => :classifications, :action => :defaults
+    end
+  end
+
 
 
   def accept_children
