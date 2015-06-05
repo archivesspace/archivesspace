@@ -14,6 +14,7 @@
   <th id="colLang" class="fieldset-label sticky" data-section="basic"><%= I18n.t("archival_object.language") %></th>
   <th id="colExpr" class="fieldset-label sticky" data-section="date"><%= I18n.t("date.expression") %></th>
   <th id="colDType" class="fieldset-label sticky" data-section="date"><%= I18n.t("rde.date_type") %></th>
+  <th id="colDLabel" class="fieldset-label sticky" data-section="date"><%= I18n.t("date.label") %></th>
   <th id="colDBegin" class="fieldset-label sticky" data-section="date"><%= I18n.t("date.begin") %></th>
   <th id="colDEnd" class="fieldset-label sticky" data-section="date"><%= I18n.t("date.end") %></th>
   <th id="colIType" class="fieldset-label sticky" data-section="instance"><%= I18n.t("rde.instance_type") %></th>
@@ -35,6 +36,7 @@
 <% define_template "rde_archival_object_cols" do |form| %>
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='70' />
+  <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
@@ -92,6 +94,11 @@
       <% end %>
       <% form.push("dates", begin archival_object["dates"] || [] rescue [] end) do %>
         <span id="<%= form.id_for(nil) %>"></span>
+      <% end %>
+    </td>
+    <td data-col="colDLabel" class="form-group">
+      <% form.push(form.set_index("dates[]", 0), begin archival_object["dates"][0] || {} rescue {} end) do %>
+        <%= form.select "label", jsonmodel_definition(:date).options_for(form, "label", true) %>
       <% end %>
     </td>
     <td data-col="colDBegin" class="form-group">
