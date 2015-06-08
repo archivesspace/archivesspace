@@ -2,6 +2,21 @@ require_relative 'export_spec_helper'
 
 describe 'MARC Export' do
 
+  before(:all) do
+    $old_repo_id = $repo_id
+    @repo = create(:json_repo)
+    $repo_id = @repo.id
+
+    JSONModel.set_repository($repo_id)
+  end
+
+
+  after(:all) do
+    $repo_id = $old_repo_id
+    JSONModel.set_repository($repo_id)
+  end
+
+
   def note_test(resource, marc, note_types, dfcodes, sfcode, filters = {})
 
     notes = resource.notes.select{|n| note_types.include?(n['type'])}
@@ -170,6 +185,11 @@ describe 'MARC Export' do
 
     end
 
+    after(:all) do
+      @subjects.each {|s| s.delete }
+      @resource.delete
+    end
+
     it "creates a 65x field for each subject" do
       xmlnotes = []
       (0..9).each do |i|
@@ -240,6 +260,13 @@ describe 'MARC Export' do
       @marc2 = get_marc(@resource2)
       @marc3 = get_marc(@resource3)
 
+    end
+
+
+    after(:all) do
+      @resource1.delete
+      @resource2.delete
+      @resource3.delete
     end
 
     it "provides default values for record/leader: 00000np$ a2200000 u 4500" do
@@ -356,6 +383,12 @@ describe 'MARC Export' do
     end
 
 
+    after(:all) do
+      @resources.each {|r| r.delete}
+      @agents.each {|a| a.delete}
+    end
+
+
     it "maps the first creator to df[@tag='100'] when it's a person" do
       name = @agents[0]['names'][0]
       inverted = name['name_order'] == 'direct' ? '0' : '1'
@@ -460,6 +493,10 @@ describe 'MARC Export' do
                          :notes => full_note_set)
 
       @marc = get_marc(@resource)
+    end
+
+    after(:all) do
+      @resource.delete
     end
 
 

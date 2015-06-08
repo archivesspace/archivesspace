@@ -28,7 +28,7 @@ describe 'job model and job runners' do
     class NugatoryJobRunner < JobRunner
 
       @run_till_canceled = false
-      
+
 
       def initialize(job)
         @job = job
@@ -56,7 +56,7 @@ describe 'job model and job runners' do
       end
 
 
-      def run         
+      def run
         while self.class.run_till_canceled?
           break if @job_canceled && @job_canceled.value
           sleep(0.2)
@@ -66,10 +66,13 @@ describe 'job model and job runners' do
     end
   end
 
-
   after(:all) do
-    EnumerationValue.filter(:value => 'nugatory_job').first.destroy
-    BackendEnumSource.cache_entry_for('job_type', true)
+    RequestContext.open(:repo_id => $repo_id) do
+      as_test_user("admin") do
+        EnumerationValue.filter(:value => 'nugatory_job').first.destroy
+        BackendEnumSource.cache_entry_for('job_type', true)
+      end
+    end
   end
 
 
@@ -129,8 +132,8 @@ describe 'job model and job runners' do
       runner.instance_variable_get(:@job_canceled).value.should be_false
     end
   end
-  
-  
+
+
   describe "BackgroundJobQueue" do
 
     let(:q) {
@@ -143,10 +146,9 @@ describe 'job model and job runners' do
 
     after(:each) do
       as_test_user("admin") do
-        RequestContext.open do
-          RequestContext.put(:repo_id, $repo_id)
+        RequestContext.open(:repo_id => $repo_id) do
           RequestContext.put(:current_username, "admin")
-          
+
           @job.destroy
           User.filter(:username => 'jobber').first.destroy
         end
@@ -182,7 +184,7 @@ describe 'job model and job runners' do
       q.run_pending_job
 
       sleep(0.5)
-        
+
       Job.any_repo[job_id].status.should eq('completed')
     end
 
