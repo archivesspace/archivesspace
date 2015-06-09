@@ -17,7 +17,7 @@ describe "Default Form Values" do
     $driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
     $driver.find_element(:link, "My Repository Preferences").click
 
-    checkbox = $driver.find_element_orig(:id => "preference_defaults__default_values_")
+    checkbox = $driver.find_element(:id => "preference_defaults__default_values_")
 
     if !checkbox.attribute('checked')
       checkbox.click
@@ -51,7 +51,7 @@ describe "Default Form Values" do
 
     $driver.get("#{$frontend}/accessions/new")
 
-    $driver.find_element_orig(:css => "#accession_title_").text.should eq("DEFAULT TITLE")
+    $driver.find_element(:css => "#accession_title_").text.should eq("DEFAULT TITLE")
   end
 
 
