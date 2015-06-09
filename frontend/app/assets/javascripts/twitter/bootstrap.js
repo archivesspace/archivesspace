@@ -9,5 +9,4 @@
 //= require bootstrap/button
 //= require bootstrap/collapse
 //= require bootstrap/carousel
-//= require twitter/bootstrap/bootstrap-typeahead.archivesspace
 //= require twitter/bootstrap/bootstrap-affix.archivesspace

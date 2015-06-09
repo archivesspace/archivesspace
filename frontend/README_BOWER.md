@@ -40,5 +40,7 @@ On OSX, for example:
 
 Check everything into Git. We still version control the dist files. 
 
-   
+## Production!
+
+Don't forget - if you are adding assets that don't have a .js extension, you need to add them to frontend/config/environments/production.rb 
 
