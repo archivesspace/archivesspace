@@ -51,7 +51,9 @@ class JasperReport
   # the convention is that the compiled primary report will be located in
   # AS_BASE/reports/ClassNameReport/ClassNameReport.jasper
   def report 
-    StaticAssetFinder.new(report_base).find( self.class.name + ".jasper")
+    StaticAssetFinder.new(report_base).find_all( self.class.name + ".jasper").find do |f|  
+      File.basename(f, '.jasper') == self.class.name 
+    end
   end
 
   # this method compiles our jrxml files into jasper files
