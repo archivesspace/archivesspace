@@ -282,6 +282,13 @@ module JSONModel::Validations
     if !hash["processing_total_extent"].nil? and hash["processing_total_extent_type"].nil?
       errors << ["processing_total_extent_type", "is required if total extent is specified"]
     end
+    
+    [ "processing_hours_per_foot_estimate", "processing_total_extent", "processing_hours_total"  ].each do |k|
+        if !hash[k].nil? and hash[k] !~ /^\-?\d{0,9}(\.\d{1,5})?$/
+                  errors << [k, "must be a number with no more than nine digits and five decimal places"]
+        end
+    end
+
 
     errors
   end
@@ -438,5 +445,7 @@ module JSONModel::Validations
 
     target_model.schema['properties'].has_key?(target_property) ? [] : [["property", "#{target_model.to_s} does not have a property named '#{target_property}'"]]
   end
+
+
 
 end

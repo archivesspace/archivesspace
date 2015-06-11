@@ -57,12 +57,9 @@ class AccessionConverter < Converter
       'accession_use_restrictions' => 'accession.use_restrictions',
       'accession_use_restrictions_note' => 'accession.use_restrictions_note',
 
-      'accession_cataloged_note' => 'collection_management.cataloged_note',
       'accession_processing_hours_total' => 'collection_management.processing_hours_total',
       'accession_processing_plan' => 'collection_management.processing_plan',
       'accession_processing_priority' => 'collection_management.processing_priority',
-      'accession_processing_status' => 'collection_management.processing_status',
-      'accession_processing_started_date' => [  date_flip, 'collection_management.processing_started_date'] ,
       'accession_processing_total_extent' => 'collection_management.processing_total_extent',
       'accession_processing_total_extent_type' => 'collection_management.processing_total_extent_type',
       'accession_processors' => 'collection_management.processors',

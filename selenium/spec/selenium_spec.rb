@@ -1132,8 +1132,6 @@ describe "ArchivesSpace user interface" do
       # add a collection management sub record
       $driver.find_element(:css => '#accession_collection_management_ .subrecord-form-heading .btn:not(.show-all)').click
 
-      $driver.clear_and_send_keys([:id => "accession_collection_management__cataloged_note_"], ["DONE!", :return])
-      $driver.find_element(:id => "accession_collection_management__processing_status_").select_option("completed")
 
       # save changes
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
@@ -2979,7 +2977,6 @@ describe "ArchivesSpace user interface" do
       # our new value should be #1!
       $driver.find_element(:id => "accession_collection_management__processing_priority_").text.each_line.first.chomp.should eq("IMPORTANT.")
 
-      $driver.clear_and_send_keys([:id => "accession_collection_management__cataloged_note_"], ["DONE!", :return])
       $driver.find_element(:id => "accession_collection_management__processing_priority_").select_option("IMPORTANT.")
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
@@ -3039,7 +3036,6 @@ describe "ArchivesSpace user interface" do
       $driver.ensure_no_such_element(:xpath, "//option[@value='fooman']")
      
       # lets just finish up making the record and move on, shall we?
-      $driver.clear_and_send_keys([:id => "accession_collection_management__cataloged_note_"], ["DONE!", :return])
       $driver.find_element(:id => "accession_collection_management__processing_priority_").select_option("IMPORTANT.")
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
     
@@ -4342,7 +4338,44 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Collection Management").click
       assert(5) { $driver.find_element(:css => ".alert.alert-info").text.should eq("No records found") }
     end
+    
+    it "it should only allow numbers for some values" do
+      @accession_title = "Collection Management Test" 
+      # first create the title-less accession
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Accession").click
+      fourid = $driver.generate_4part_id
+      $stderr.puts(fourid)
+      $driver.complete_4part_id("accession_id_%d_", fourid)
+      $driver.clear_and_send_keys([:id, "accession_title_"], @accession_title)
+      # add a collection management sub record
+      $driver.find_element(:css => '#accession_collection_management_ .subrecord-form-heading .btn:not(.show-all)').click
 
+      $driver.clear_and_send_keys([:id, "accession_collection_management__processing_hours_per_foot_estimate_"], "a lot")
+      $driver.clear_and_send_keys([:id, "accession_collection_management__processing_total_extent_"], "even more")
+      $driver.find_element(:id => "accession_collection_management__processing_total_extent_type_").select_option("files")
+
+      # save changes
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
+      
+      expect {
+        $driver.find_element_with_text('//div[contains(@class, "error")]', /Processing hrs\/ft Estimate - Must be a number with no more than nine digits and five decimal places\./)
+        $driver.find_element_with_text('//div[contains(@class, "error")]', /Processing Total Extent - Must be a number with no more than nine digits and five decimal places\./)
+      }.to_not raise_error
+
+      $driver.clear_and_send_keys([:id, "accession_collection_management__processing_hours_per_foot_estimate_"], "10")
+      $driver.clear_and_send_keys([:id, "accession_collection_management__processing_total_extent_"], "40")
+
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
+
+      assert(5) { $driver.find_element(:css => '.record-pane h2').text.should eq("#{@accession_title} Accession") }
+      
+      $driver.find_element(:css => '#accession_collection_management_ .subrecord-form-remove').click
+      $driver.find_element(:css => '#accession_collection_management_ .confirm-removal').click
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
+
+
+    end
 
     it "is browseable even when its linked accession has no title" do
       # first create the title-less accession
@@ -4356,8 +4389,7 @@ describe "ArchivesSpace user interface" do
       # add a collection management sub record
       $driver.find_element(:css => '#accession_collection_management_ .subrecord-form-heading .btn:not(.show-all)').click
 
-      $driver.clear_and_send_keys([:id => "accession_collection_management__cataloged_note_"], ["yikes, my accession has no title", :return])
-      $driver.find_element(:id => "accession_collection_management__processing_status_").select_option("completed")
+      $driver.find_element(:id => "accession_collection_management__processing_priority_").select_option("high")
 
       # save changes
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
@@ -4366,7 +4398,6 @@ describe "ArchivesSpace user interface" do
       # check the CM page
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Collection Management").click
-
 
       expect {
         $driver.find_element_with_text('//td', /#{fourid}/ )
