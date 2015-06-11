@@ -1,7 +1,7 @@
 <%= link_to_help :topic => "classification" %>
 
 <h2>
-  <%= @classification_term.title.blank? ? I18n.t("classification_term._singular") : @classification_term.title %>
+  <%= @form_title ? @form_title : @classification_term.title.blank? ? I18n.t("classification_term._singular") : @classification_term.title %>
   <span class="label label-info"><%= I18n.t("classification_term._singular") %></span>
 </h2>
 

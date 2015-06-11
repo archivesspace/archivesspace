@@ -9,13 +9,13 @@ describe 'Export Labels Mappings ' do
   # FIXTURES
 
   def load_export_fixtures
-     instances = []    
+     instances = []
     #throw in a couple non-digital instances
     rand(3).times { instances << build(:json_instance) }
 
 
 
-    resource = create(:json_resource,  
+    resource = create(:json_resource,
                        :instances => instances,
                        :finding_aid_status => %w(completed in_progress under_revision unprocessed).sample
                        )
@@ -62,7 +62,7 @@ describe 'Export Labels Mappings ' do
 
 
     @labels = get_labels(@resource)
-  
+
   end
 
 
@@ -70,13 +70,13 @@ describe 'Export Labels Mappings ' do
 
 
   describe "export labels" do
-  
+
     before(:each) do
       load_export_fixtures
     end
 
-    it "should have the proper values" do 
-      # header, parent, 16 arch objs 
+    it "should have the proper values" do
+      # header, parent, 16 arch objs
       @labels.split("\r").length.should eq(18)
     end
   end

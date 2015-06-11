@@ -1,7 +1,7 @@
 <%= render(:layout => '/shared/sidebar',
            :locals => {
              :record_type => 'digital_object',
-             :record => @digital_object
+             :record => @digital_object || @digital_object_component
            }) do |sidebar| %>
 
 

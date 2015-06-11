@@ -39,11 +39,5 @@ describe 'Accession converter' do
     @dates.count.should eq(2)
   end
 
-  it "maps accession_processing_started_date to collection_management.processing_started_date" do    
-    @accessions[1]['collection_management']['processing_started_date'].should match(/\d{4}-\d{2}-\d{2}/)
-  end
-
-
-
 end
 

@@ -173,9 +173,10 @@ module JSONModel
       uri = URI("#{backend_url}#{uri}")
       uri.query = URI.encode_www_form(params)
 
+
       response = get_response(uri)
 
-      if response.is_a?(Net::HTTPSuccess) || response.status == 200
+      if response.is_a?(Net::HTTPSuccess) || response.code == '200'
         ASUtils.json_parse(response.body)
       else
         nil
@@ -421,7 +422,6 @@ module JSONModel
       # URL of the backend)
       def my_url(id = nil, opts = {})
         uri, remaining_opts = self.uri_and_remaining_options_for(id, opts)
-
         url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
 
         # Don't need to pass this as a URL parameter if it wasn't picked up by

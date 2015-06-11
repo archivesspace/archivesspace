@@ -31,6 +31,9 @@
     <% if user_can?('update_event_record') %>
       <div class="record-toolbar">
         <div class="btn-group pull-right">
+          <% if user_can?('manage_repository') %>
+              <%= link_to I18n.t("actions.edit_default_values"), {:controller => :events, :action => :defaults}, :class => "btn btn-sm btn-default" %>
+          <% end %>
           <%= link_to I18n.t("event._frontend.action.create"), {:controller => :events, :action => :new}, :class => "btn btn-sm btn-default" %>
         </div>
         <br style="clear:both" /> <!-- So dirty! -->

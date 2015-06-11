@@ -10,7 +10,7 @@ class JDBCReport < JasperReport
     params[JsonQueryExecuterFactory::JSON_NUMBER_PATTERN] ||= "#,##0.##"       
     params[JsonQueryExecuterFactory::JSON_LOCALE] ||= Locale::ENGLISH          
     params[JRParameter::REPORT_LOCALE] ||= ::Locale::US
-    params["repositoryId"] = @repo_id
+    params["repositoryId"] = @repo_id.to_java(:int)
     params["basePath"] = @base_path
     params
   end

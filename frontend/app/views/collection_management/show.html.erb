@@ -28,11 +28,6 @@
             </div>
             <div class="row label-and-value">
   
-               <div class="col-md-3"><%= I18n.t("collection_management.cataloged_note") %></div>
-               <div class="col-md-9"><%= @collection_management.cataloged_note %></div>
-            </div>
-            <div class="row label-and-value">
-  
                <div class="col-md-3"><%= I18n.t("collection_management.processing_hours_per_foot_estimate") %></div>
                <div class="col-md-9"><%= @collection_management.processing_hours_per_foot_estimate %></div>
             </div>
@@ -60,11 +55,6 @@
   
                <div class="col-md-3"><%= I18n.t("collection_management.processing_priority") %></div>
                <div class="col-md-9"><%= I18n.t("enumerations.collection_management_processing_priority.#{@collection_management.processing_priority}", :default => @collection_management.processing_priority) %></div>
-            </div>
-            <div class="row label-and-value">
-  
-               <div class="col-md-3"><%= I18n.t("collection_management.processing_status") %></div>
-               <div class="col-md-9"><%= I18n.t("enumerations.collection_management_processing_status.#{@collection_management.processing_status}", :default => @collection_management.processing_status) %></div>
             </div>
             <div class="row label-and-value">
   

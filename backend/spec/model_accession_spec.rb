@@ -196,17 +196,6 @@ describe 'Accession model' do
   end
 
 
-  it "allows accessions to be created with a collection management record" do
-    accession = Accession.create_from_json(build(:json_accession,
-                                                 :collection_management =>
-                                                    {
-                                                      "cataloged_note" => "just a note",
-                                                    }
-                                                 ),
-                                          :repo_id => $repo_id)
-
-    Accession[accession[:id]].collection_management.cataloged_note.should eq("just a note")
-  end
 
 
   it "reports an error if the accession's collection management record has a total extent that lacks a type" do
@@ -223,19 +212,6 @@ describe 'Accession model' do
   end
 
 
-  it "can store a collection management record with a processing started date" do
-    accession = Accession.create_from_json(build(:json_accession,
-                                                 :collection_management =>
-                                                 {
-                                                   "cataloging_note" => "just a note",
-                                                   "processing_started_date" => "2000-01-01"
-                                                 }
-                                                 ),
-                                           :repo_id => $repo_id)
-
-
-    Accession[accession[:id]].collection_management.processing_started_date.should_not be_nil
-  end
 
 
   it "allows accessions to be created with user defined fields" do

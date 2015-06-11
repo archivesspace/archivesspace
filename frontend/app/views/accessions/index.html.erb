@@ -16,7 +16,11 @@
   <div class="col-md-9">
     <% if user_can?('update_accession_record') %>
       <div class="record-toolbar">
-        <div class="pull-right">
+        <div class="btn-group pull-right">
+          <% if user_can?('manage_repository') %>
+              <%= link_to I18n.t("actions.edit_default_values"), {:controller => :accessions, :action => :defaults}, :class => "btn btn-sm btn-default" %>
+          <% end %>
+
           <%= link_to I18n.t("accession._frontend.action.create"), {:controller => :accessions, :action => :new}, :class => "btn btn-sm btn-default" %>
           <% if user_can?("delete_archival_record") %>
             <%= button_delete_multiple_action(:archival_records) %>

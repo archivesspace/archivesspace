@@ -66,8 +66,9 @@ module SeleniumFactories
 
 
       factory :collection_management, class: JSONModel(:collection_management) do
-        cataloged_note "HOBO CAMP!"
-        processing_status "completed"
+        processing_total_extent "10"
+        processing_total_extent_type "files"
+        processing_hours_per_foot_estimate "80"
       end
 
 

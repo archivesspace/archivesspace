@@ -2,7 +2,7 @@
   <th data-id="basic" class="section-basic" colspan="5"><%= I18n.t("rde.sections.basic_information") %></th>
   <th data-id="date" class="section-date" colspan="5" class="conditionally-required"><%= I18n.t("rde.sections.date") %></th>
   <th data-id="file" class="section-file" colspan="10"><%= I18n.t("rde.sections.file_version") %></th>
-  <th data-id="note" class="section-note" colspan="6"><%= I18n.t("rde.sections.notes") %></th>
+  <th data-id="note" class="section-note" colspan="9"><%= I18n.t("rde.sections.notes") %></th>
 <% end %>
 
 <% define_template "rde_digital_object_component_headers" do |form| %>
@@ -30,10 +30,13 @@
   <th id="colFCSumM" class="fieldset-label sticky" data-section="file"><%= I18n.t("file_version.checksum_method") %></th>
 
   <th id="colNType1" class="fieldset-label" data-section="note"><%= I18n.t("note._singular") %> 1</th>
+  <th id="colNLabel1" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.label") %> 1</th>
   <th id="colNCont1" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.content") %> 1</th>
   <th id="colNType2" class="fieldset-label" data-section="note"><%= I18n.t("note._singular") %> 2</th>
+  <th id="colNLabel2" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.label") %> 2</th>
   <th id="colNCont2" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.content") %> 2</th>
   <th id="colNType3" class="fieldset-label" data-section="note"><%= I18n.t("note._singular") %> 3</th>
+  <th id="colNLabel3" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.label") %> 3</th>
   <th id="colNCont3" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.content") %> 3</th>
 <% end %>
 
@@ -64,6 +67,10 @@
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width='150' />
+
 <% end %>
 
 <% define_template "rde_digital_object_component_row", jsonmodel_definition(:digital_object_component) do |form, digital_object_component| %>
@@ -175,6 +182,11 @@
         <%= form.hidden_input "jsonmodel_type", "note_digital_object" %>
       <% end %>
     </td>
+    <td data-col="colNLabel1" class="form-group">
+      <% form.push(form.set_index("notes[]", 0), begin digital_object_component["notes"][0] || {} rescue {} end) do %>
+          <%= form.textfield "label" %>
+      <% end %>
+    </td>
     <td data-col="colNCont1" class="form-group">
       <% form.push(form.set_index("notes[]", 0), begin digital_object_component["notes"][0] || {} rescue {} end) do %>
         <% form.push(form.set_index("content[]", 0), begin form["content"][0] || "" rescue "" end) do %>
@@ -194,6 +206,11 @@
         <%= form.hidden_input "jsonmodel_type", "note_digital_object" %>
       <% end %>
     </td>
+    <td data-col="colNLabel2" class="form-group">
+      <% form.push(form.set_index("notes[]", 1), begin digital_object_component["notes"][1] || {} rescue {} end) do %>
+          <%= form.textfield "label" %>
+      <% end %>
+    </td>
     <td data-col="colNCont2" class="form-group">
       <% form.push(form.set_index("notes[]", 1), begin digital_object_component["notes"][1] || {} rescue {} end) do %>
         <% form.push(form.set_index("content[]", 0), begin form["content"][0] || "" rescue "" end) do %>
@@ -211,6 +228,11 @@
       <% form.push(form.set_index("notes[]", 2), begin digital_object_component["notes"][2] || {} rescue {} end) do %>
         <%= form.select("type", [""].concat(note_types_for("digital_object_component").map {|value, hash| [hash[:i18n], value]}.sort{|a, b| a[0] <=> b[0]})) %>
         <%= form.hidden_input "jsonmodel_type", "note_digital_object" %>
+      <% end %>
+    </td>
+    <td data-col="colNLabel3" class="form-group">
+      <% form.push(form.set_index("notes[]", 2), begin digital_object_component["notes"][2] || {} rescue {} end) do %>
+          <%= form.textfield "label" %>
       <% end %>
     </td>
     <td data-col="colNCont3" class="form-group">
