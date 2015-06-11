@@ -13,9 +13,12 @@ en:
     container_labels: Download Container Labels
     create: Create
     cut: Cut
+    defaults: Default Values
     edit: Edit
     edit_batch: Edit Batch
     edit_groups: Edit Groups
+    edit_default_values: Edit Default Values
+    edit_default_archival_object_values: Edit Component Defaults
     export: Export
     view: View
     spawn: Spawn
@@ -318,6 +321,25 @@ en:
       missing_file: Please select an EAD file to upload
       error_prefix: Error importing file
       complete: Import Complete
+
+  default_values:
+    form_title:
+      archival_object: Component Record Defaults
+      resource: Resource Record Defaults
+      accession: Accession Record Defaults
+      subject: Subject Record Defaults
+      agent_person: Agent Record Defaults (Person)
+      agent_family: Agent Record Defaults (Family)
+      agent_corporate_entity: Agent Record Defaults (Corporate Entity)
+      agent_software: Agent Record Defaults (Software)
+      digital_object: Digital Object Defaults
+      digital_object_component: Digital Object Component Defaults
+      location: Location Record Defaults
+      event: Event Record Defaults
+      classification: Classification Record Defaults
+      classification_term: Classification Term Defaults
+    messages:
+      defaults_updated: Defaults Updated
 
   errors:
     sidebar_label: Errors and Warnings
@@ -926,3 +948,4 @@ en:
       close_record: "Close a record being edited"
       open_browse: "Open Browse menu"
       open_create: "Open Create menu"
+

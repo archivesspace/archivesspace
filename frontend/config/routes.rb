@@ -39,6 +39,8 @@ ArchivesSpace::Application.routes.draw do
     match 'groups/:id' => 'groups#update', :via => [:post]
     match 'groups/:id/delete' => 'groups#delete', :via => [:post]
 
+    match 'accessions/defaults' => 'accessions#defaults', :via => [:get]
+    match 'accessions/defaults' => 'accessions#update_defaults', :via => [:post]
     resources :accessions
     match 'accessions/:id' => 'accessions#update', :via => [:post]
     match 'accessions/:id/suppress' => 'accessions#suppress', :via => [:post]
@@ -48,6 +50,8 @@ ArchivesSpace::Application.routes.draw do
 
     match 'archival_objects/:id/transfer' => 'archival_objects#transfer', :via => [:post]
     match 'archival_objects/validate_rows' => 'archival_objects#validate_rows', :via => [:post]
+    match 'archival_objects/defaults' => 'archival_objects#defaults', :via => [:get]
+    match 'archival_objects/defaults' => 'archival_objects#update_defaults', :via => [:post]
     resources :archival_objects
     match 'archival_objects/:id' => 'archival_objects#update', :via => [:post]
     match 'archival_objects/:id/delete' => 'archival_objects#delete', :via => [:post]
@@ -57,6 +61,8 @@ ArchivesSpace::Application.routes.draw do
     match 'archival_objects/:id/suppress' => 'archival_objects#suppress', :via => [:post]
     match 'archival_objects/:id/unsuppress' => 'archival_objects#unsuppress', :via => [:post]
 
+    match 'digital_objects/defaults' => 'digital_objects#defaults', :via => [:get]
+    match 'digital_objects/defaults' => 'digital_objects#update_defaults', :via => [:post]
     resources :digital_objects
     match 'digital_objects/:id/download_dc' => 'exports#download_dc', :via => [:get]
     match 'digital_objects/:id/download_mets' => 'exports#download_mets', :via => [:get]
@@ -74,6 +80,8 @@ ArchivesSpace::Application.routes.draw do
     match 'digital_objects/:id/unsuppress' => 'digital_objects#unsuppress', :via => [:post]
 
     match 'digital_object_components/validate_rows' => 'digital_object_components#validate_rows', :via => [:post]
+    match 'digital_object_components/defaults' => 'digital_object_components#defaults', :via => [:get]
+    match 'digital_object_components/defaults' => 'digital_object_components#update_defaults', :via => [:post]
     resources :digital_object_components
     match 'digital_object_components/:id' => 'digital_object_components#update', :via => [:post]
     match 'digital_object_components/:id/delete' => 'digital_object_components#delete', :via => [:post]
@@ -83,6 +91,8 @@ ArchivesSpace::Application.routes.draw do
     match 'digital_object_components/:id/suppress' => 'digital_object_components#suppress', :via => [:post]
     match 'digital_object_components/:id/unsuppress' => 'digital_object_components#unsuppress', :via => [:post]
 
+    match 'resources/defaults' => 'resources#defaults', :via => [:get]
+    match 'resources/defaults' => 'resources#update_defaults', :via => [:post]
     resources :resources
     match 'resources/:id/container_labels' => 'exports#container_labels', :via => [:get]
     match 'resources/:id/download_marc' => 'exports#download_marc', :via => [:get]
@@ -101,17 +111,23 @@ ArchivesSpace::Application.routes.draw do
     match 'resources/:id/unsuppress' => 'resources#unsuppress', :via => [:post]
     match 'resources/:id/models_in_graph' => 'resources#models_in_graph', :via => [:get]
 
+    match 'classifications/defaults' => 'classifications#defaults', :via => [:get]
+    match 'classifications/defaults' => 'classifications#update_defaults', :via => [:post]
     resources :classifications
     match 'classifications/:id' => 'classifications#update', :via => [:post]
     match 'classifications/:id/delete' => 'classifications#delete', :via => [:post]
     match 'classifications/:id/accept_children' => 'classifications#accept_children', :via => [:post]
     match 'classifications/:id/tree' => 'classifications#tree', :via => [:get]
 
+    match 'classification_terms/defaults' => 'classification_terms#defaults', :via => [:get]
+    match 'classification_terms/defaults' => 'classification_terms#update_defaults', :via => [:post]
     resources :classification_terms
     match 'classification_terms/:id' => 'classification_terms#update', :via => [:post]
     match 'classification_terms/:id/delete' => 'classification_terms#delete', :via => [:post]
     match 'classification_terms/:id/accept_children' => 'classification_terms#accept_children', :via => [:post]
 
+    match 'subjects/defaults' => 'subjects#defaults', :via => [:get]
+    match 'subjects/defaults' => 'subjects#update_defaults', :via => [:post]
     resources :subjects
     match 'subjects/:id' => 'subjects#update', :via => [:post]
     match 'subjects/terms/complete' => 'subjects#terms_complete', :via => [:get]
@@ -123,10 +139,14 @@ ArchivesSpace::Application.routes.draw do
     match 'locations/batch_preview' => 'locations#batch_preview', :via => [:post]
     match 'locations/batch_edit' => 'locations#batch_edit', :via => [:post]
 
+    match 'locations/defaults' => 'locations#defaults', :via => [:get]
+    match 'locations/defaults' => 'locations#update_defaults', :via => [:post]
     resources :locations
     match 'locations/:id' => 'locations#update', :via => [:post]
     match 'locations/:id/delete' => 'locations#delete', :via => [:post]
 
+    match 'events/defaults' => 'events#defaults', :via => [:get]
+    match 'events/defaults' => 'events#update_defaults', :via => [:post]
     resources :events
     match 'events/:id' => 'events#update', :via => [:post]
     match 'events/:id/delete' => 'events#delete', :via => [:post]
@@ -135,6 +155,8 @@ ArchivesSpace::Application.routes.draw do
     match 'agents/:agent_type/name_form' => 'agents#name_form', :via => [:get]
     match 'agents/:agent_type/create' => 'agents#create', :via => [:post]
     match 'agents/:agent_type/new' => 'agents#new', :via => [:get]
+    match 'agents/:agent_type/defaults' => 'agents#defaults', :via => [:get]
+    match 'agents/:agent_type/defaults' => 'agents#update_defaults', :via => [:post]
     match 'agents/:agent_type/:id/edit' => 'agents#edit', :via => [:get]
     match 'agents/:agent_type/:id/update' => 'agents#update', :via => [:post]
     match 'agents/:agent_type/:id/download_eac' => 'exports#download_eac', :via => [:get]

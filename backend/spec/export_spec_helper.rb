@@ -64,7 +64,27 @@ end
 
 
 def get_marc(rec)
-  get_xml("/repositories/#{$repo_id}/resources/marc21/#{rec.id}.xml")
+  marc = get_xml("/repositories/#{$repo_id}/resources/marc21/#{rec.id}.xml")
+  marc.instance_eval do
+    def df(tag, ind1=nil, ind2=nil)
+      selector ="@tag='#{tag}'"
+      selector += " and @ind1='#{ind1}'" if ind1
+      selector += " and @ind2='#{ind2}'" if ind2
+      datafields = self.xpath("//xmlns:datafield[#{selector}]")
+      datafields.instance_eval do
+        def sf(code)
+          self.xpath("xmlns:subfield[@code='#{code}']")
+        end
+        def sf_t(code)
+          sf(code).inner_text
+        end
+      end
+
+      datafields
+    end
+  end
+
+  marc
 end
 
 

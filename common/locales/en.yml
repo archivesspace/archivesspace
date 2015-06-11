@@ -572,7 +572,7 @@ en:
         <p>Additional notes or contact information for the contact person.</p>
     _singular: Contact
     _plural: Contact Details
-  
+
   telephone: &telephone
     _plural: Telephone Numbers 
     number_type: Number Type 
@@ -582,7 +582,7 @@ en:
     ext: Telephone Extension
     ext_tooltip: |
         <p>Telephone number extension for the contact person.</p>
-  
+
   note_attributes: &note_attributes
     label: Label
     label_tooltip: |
@@ -1779,6 +1779,8 @@ en:
     show_suppressed_tooltip: Whether to show suppressed records that you have permission to see when browsing.
     publish: Publish?
     publish_tooltip: Whether to publish new records by default.
+    default_values: Pre-populate Records?
+    default_values_tooltip: Whether to pre-populate new Accession and Resource records with default values.
     accession_browse_section: Accession Browse Columns
     accession_browse_column_1: Column 1
     accession_browse_column_1_tooltip: The field to show in column 1.

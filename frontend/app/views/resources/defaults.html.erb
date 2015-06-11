@@ -1,0 +1,25 @@
+<%= setup_context :object => @resource, :title => I18n.t("actions.defaults") %>
+
+<div id="object_container">
+  <%= form_for @resource, :as => "resource", :url => {:action => :update_defaults}, :html => {:class => 'form-horizontal aspace-record-form', :id => "resource_form"} do |f| %>
+    <%= form_context :resource, @resource do |form| %>
+      <div class="row">
+         <div class="col-md-3">
+            <%= render_aspace_partial :partial => "resources/sidebar" %>
+         </div> <!-- col-md-3 -->
+         <div class="col-md-9">
+           <%= render_aspace_partial :partial => "shared/toolbar_new_records" %>
+           <div class="record-pane">
+
+             <%= render_aspace_partial :partial => "resources/form_container", :locals => {:form => form} %>
+
+             <div class="form-actions">
+                <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("resource._singular") %></button>
+                <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+             </div>
+           </div>
+         </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
