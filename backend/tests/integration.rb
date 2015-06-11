@@ -341,18 +341,6 @@ def run_tests(opts)
   r.code == '303' or r.code == '300' or fail("fetch by external ID", r)
 
 
-  puts "It can generate accession reports"
-  r = do_post({
-                :id_0 => "thisthat#{$me}",
-                :title => "This & That (#{$$})",
-                :accession_date => "2011-01-01"
-              }.to_json,
-              url("/repositories/#{repo_id}/accessions"))
-
-  ["pdf", "json", "xlsx", "csv"].each do |fmt|
-    r = do_get(url("/repositories/#{repo_id}/reports/unprocessed_accessions?format=#{fmt}"), true)
-    r.code == '200' or fail("Accession report (#{fmt})", r)
-  end
 
 
   puts "It refuses to delete a non-empty repository"
