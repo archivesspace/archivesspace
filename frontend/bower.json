@@ -22,7 +22,8 @@
     "jstree": "git@github.com:vakata/jstree#~3.1.0",
     "lodash": "~3.6.0",
     "jquery.scrollTo": "~2.1.0",
-    "bootstrap-select": "git@github.com:silviomoreto/bootstrap-select.git#v1.6.5"
+    "bootstrap-select": "git@github.com:silviomoreto/bootstrap-select.git#v1.6.5",
+    "bootstrap3-typeahead": "git@github.com:bassjobsen/Bootstrap-3-Typeahead.git#v3.1.1"
   },
   "install": {
     "path": {
@@ -52,6 +53,13 @@
         "mapping": [
           {
             "bower_components/lodash/lodash.js": "../lodash.js"
+          }
+        ]
+      },
+      "bootstrap3-typeahead": {
+        "mapping": [
+          {
+            "bower_components/bootstrap3-typeahead/bootstrap3-typeahead.js": "../bootstrap3-typeahead.js"
           }
         ]
       },
