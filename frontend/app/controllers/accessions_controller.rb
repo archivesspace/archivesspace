@@ -6,7 +6,6 @@ class AccessionsController < ApplicationController
                       "suppress_archival_record" => [:suppress, :unsuppress],
                       "delete_archival_record" => [:delete]
 
-  before_filter :set_event_types,  :only => [:show, :edit, :update]
 
 
   def index

@@ -29,9 +29,6 @@ describe 'Digital Object converter' do
   end
 
 
-  it "maps digital_object_processing_started_date to collection_management.processing_started_date" do    
-    @digital_objects[0]['collection_management']['processing_started_date'].should match(/\d{4}-\d{2}-\d{2}/)
-  end
   
   it "maps digital_object_file version information to the object" do    
     @digital_objects[0]['file_versions'].length.should eq(1) 

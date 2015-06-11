@@ -135,7 +135,7 @@ en:
       source: Source
       rules: Rules
       parent_type: Record Type
-      processing_priority: Priority
+      processing_priority: Processing Priority
       processing_status: Status
       publish: Published
       temporary: Temporary
@@ -161,7 +161,7 @@ en:
     title_sort: Title
     user_mtime: Modified
     primary_type: Record Type
-    processing_priority: Priority
+    processing_priority: Processing Priority
     processing_status: Status
     parent_id: Record Type
     create_time: Created

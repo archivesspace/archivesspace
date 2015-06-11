@@ -327,7 +327,6 @@ class CommonIndexer
           'primary_type' => 'collection_management',
           'json' => cm.to_json(:max_nesting => false),
           'processing_priority' => cm['processing_priority'],
-          'processing_status' => cm['processing_status'],
           'processing_hours_total' => cm['processing_hours_total'],
           'processing_funding_source' => cm['processing_funding_source'],
           'processors' => cm['processors'],
