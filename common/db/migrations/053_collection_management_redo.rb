@@ -110,7 +110,8 @@ Sequel.migration do
     alter_table(:collection_management) do
       drop_column(:cataloged_note)
       drop_column(:processing_started_date)
-      drop_column(:processing_status_id)
+      # dropping this is a PIA in mysql, so lets just leave it 
+      # drop_column(:processing_status_id)
     end
 
   end
