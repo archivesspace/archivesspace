@@ -47,8 +47,8 @@ def create_event_from_collection_management(dataset, event_type)
               :resource_id => row[:resource_id],
               :digital_object_id => row[:digital_object_id],
               :system_mtime => row[:system_mtime],
-              :user_mtime => row[:user_mtime]
-        
+              :user_mtime => row[:user_mtime],
+              :aspace_relationship_position => 0 
         ) 
       
         date_type_list = self[:enumeration].filter(:name => "date_type").get(:id)
@@ -72,13 +72,8 @@ def create_event_from_collection_management(dataset, event_type)
         user_agent_id = self[:user].filter( :username => row[:last_modified_by] ).get(:agent_record_id)
         agent_id = self[:agent_person].filter( :id => user_agent_id ).get(:id) 
         
-        pcount =  self[:linked_agents_rlshp].filter(:event_id => event).count
-        if pcount > 0
-         pcount += 1 
-        end
-
         self[:linked_agents_rlshp].insert( 
-                             :aspace_relationship_position => pcount, 
+                             :aspace_relationship_position => 0, 
                              :create_time => row[:create_time],
                              :system_mtime => row[:system_mtime],
                              :user_mtime => row[:user_mtime],
