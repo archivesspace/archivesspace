@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sub_digitalObjectChildren" pageWidth="612" pageHeight="792" columnWidth="582" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="1cb1b1c4-e95a-498a-be09-6e7ac5b36d86">
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<parameter name="basePath" class="java.lang.String">
+		<defaultValueExpression><![CDATA["base"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="parentBasePath" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{basePath}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="parentId" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="parentColumn" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["root_record_id"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     digital_object_component.`id` AS component_id,
+     digital_object_component.`root_record_id` AS digital_object_record_id,
+     digital_object_component.`parent_id` AS component_parent_id,
+     digital_object_component.`title` AS title,
+     digital_object_component.`label` AS label
+FROM
+     `digital_object_component` digital_object_component
+WHERE $P!{parentColumn} = $P{parentId}]]>
+	</queryString>
+	<field name="component_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="digital_object_record_id" class="java.lang.Integer"/>
+	<field name="component_parent_id" class="java.lang.Integer"/>
+	<field name="title" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="label" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="basePath" class="java.lang.String">
+		<variableExpression><![CDATA[$P{basePath}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="32" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+				<reportElement key="textField-1" positionType="Float" mode="Transparent" x="0" y="3" width="180" height="12" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="21612fa9-3b1f-4dac-bf0b-8793b6d34b64"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+				<reportElement key="textField-3" positionType="Float" mode="Transparent" x="0" y="3" width="180" height="12" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="314f3b79-14bc-421e-9472-a84e4270c25f">
+					<printWhenExpression><![CDATA[$F{title}.equals("") ? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{label}]]></textFieldExpression>
+			</textField>
+			<subreport isUsingCache="true" runToBottom="false">
+				<reportElement key="subreport-5" positionType="Float" mode="Transparent" x="182" y="3" width="337" height="12" isRemoveLineWhenBlank="true" forecolor="#000000" backcolor="#FFFFFF" uuid="c2af23d5-853a-4809-a4e9-500e3ff258e3"/>
+				<subreportParameter name="parentId">
+					<subreportParameterExpression><![CDATA[$F{component_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="parentColumn">
+					<subreportParameterExpression><![CDATA["digital_object_component_id"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="parentBasePath">
+					<subreportParameterExpression><![CDATA[$P{parentBasePath}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{parentBasePath} + "/sub_digitalObjectFileVersions.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport isUsingCache="false" runToBottom="false">
+				<reportElement key="subreport-5" positionType="Float" mode="Transparent" x="0" y="18" width="517" height="12" isRemoveLineWhenBlank="true" forecolor="#000000" backcolor="#FFFFFF" uuid="90166973-05a4-4da3-bf4d-3b07323dabcf"/>
+				<subreportParameter name="parentId">
+					<subreportParameterExpression><![CDATA[$F{component_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="parentColumn">
+					<subreportParameterExpression><![CDATA["parent_id"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="parentBasePath">
+					<subreportParameterExpression><![CDATA[$P{parentBasePath}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{parentBasePath} + "/sub_digitalObjectChildren.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
