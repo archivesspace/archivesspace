@@ -1,0 +1,3 @@
+report_type: jdbc
+uri_suffix: resources_deaccessions_list
+description: "Displays resource(s) and linked deaccession record(s). Report contains title, resource identifier, level, date range, linked deaccessions, creator names, and physical extent totals."
