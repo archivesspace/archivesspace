@@ -1,0 +1,3 @@
+report_type: jdbc
+uri_suffix: accessions_record
+description: "Displays key fields for selected accession record(s)."

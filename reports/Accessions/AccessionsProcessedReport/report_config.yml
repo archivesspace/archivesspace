@@ -1,0 +1,3 @@
+report_type: jdbc
+uri_suffix: accessions_processed
+description: "Displays only those accession(s) that have been processed based on the date processed field. Report contains accession number, linked resources, title, extent, cataloged, date processed, a count of the number of records selected with a date processed, and the total extent number for those records with date processed."

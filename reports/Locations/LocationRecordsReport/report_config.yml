@@ -1,0 +1,3 @@
+report_type: jdbc
+uri_suffix: location_records
+description: "Displays a list of locations, indicating any accessions or resources assigned to defined locations."

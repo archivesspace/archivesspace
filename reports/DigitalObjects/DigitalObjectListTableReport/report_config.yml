@@ -1,0 +1,3 @@
+report_type: jdbc
+uri_suffix: digital_object_list_table
+description: "Displays digital object(s) in table format.  Report contains title, digital object identifier, object type, dates and the title and identifier of linked resources."
