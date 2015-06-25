@@ -1667,7 +1667,7 @@ en:
         <ul>
         <li>Catalog record number: 21345672</li>
         </ul>
-    processing_hours_per_foot_estimate: Processing hrs/ft Estimate
+    processing_hours_per_foot_estimate: Processing hrs/unit Estimate
     processing_hours_per_foot_estimate_tooltip: |
         <p>The time a repository estimates that is required to process a unit of archival materials (e.g. a linear foot or an item in the case of digital objects).  The estimate may factor in, or not, the production of finding aids, catalog records, and other access products.</p>
     processing_total_extent: Processing Total Extent
