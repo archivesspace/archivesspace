@@ -107,11 +107,17 @@ module Notes
       super
     end
 
-
     def apply_notes(obj, json)
       if obj.note_dataset.first
-      	SubnoteMetadata.filter(:note_id => obj.note_dataset.select(:id)).delete
-      	obj.note_dataset.delete
+    	association = self.association_reflection(:note)                                                                            
+        # MySQL supports modifying joins, derby does not... 
+        begin 
+          SubnoteMetadata.join(:note, Sequel.qualify(:note, :id) => Sequel.qualify(:subnote_metadata, :note_id))                  
+             .filter( association[:key] => obj.id  ).delete 
+        rescue Sequel::InvalidOperation # for derby
+          SubnoteMetadata.filter(:note_id => obj.note_dataset.select(:id)).delete
+        end
+        obj.note_dataset.delete 
       end
       populate_persistent_ids(json)
 
@@ -132,16 +138,13 @@ module Notes
                                  :guid => m.fetch(:guid))
         end
 
-        # Persistent IDs exist in the context of the tree they belong to (or
-        # just their record, if there's no tree).
-
-        note_obj.add_persistent_ids(extract_persistent_ids(note),
-                                    *obj.persistent_id_context)
-
+	note_obj.add_persistent_ids(extract_persistent_ids(note),
+				     *obj.persistent_id_context)
+        
         obj.add_note(note_obj)
       end
-
-      obj
+        
+    	obj
     end
 
 
