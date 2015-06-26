@@ -4359,7 +4359,7 @@ describe "ArchivesSpace user interface" do
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
       
       expect {
-        $driver.find_element_with_text('//div[contains(@class, "error")]', /Processing hrs\/ft Estimate - Must be a number with no more than nine digits and five decimal places\./)
+        $driver.find_element_with_text('//div[contains(@class, "error")]', /Processing hrs\/unit Estimate - Must be a number with no more than nine digits and five decimal places\./)
         $driver.find_element_with_text('//div[contains(@class, "error")]', /Processing Total Extent - Must be a number with no more than nine digits and five decimal places\./)
       }.to_not raise_error
 
