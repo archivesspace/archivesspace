@@ -13,7 +13,7 @@ describe 'The ArchivesSpaceService app' do
     last_response.should be_ok
     json = JSON.parse(last_response.body)
     ( json.keys - [ "databaseProductName", "databaseProductVersion", "ruby_version",
-                    "host_os", "host_cpu", "build", "archivesSpaceVersion"] ).empty?.should be_true
+                    "host_os", "host_cpu", "build", "archivesSpaceVersion"] ).empty?.should be_truthy
   end
 
 end

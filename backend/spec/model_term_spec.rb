@@ -35,7 +35,7 @@ describe 'Term model' do
                                           "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
                                         }))
       end
-    }.should raise_error
+    }.should raise_error(Sequel::ValidationFailed)
   end
 
 end

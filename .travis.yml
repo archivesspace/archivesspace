@@ -11,8 +11,18 @@ env:
   matrix:
   - DB=mysql TASK=travis:test
   - DB=derby TASK=travis:test
-  - DB=mysql TASK=travis:selenium
-  - DB=derby TASK=travis:selenium
+  - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=1"
+  - DB=derby TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=1"
+  - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=2"
+  - DB=derby TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=2"
+  - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=3"
+  - DB=derby TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=3"
+  - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=4"
+  - DB=derby TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=4"
+  - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=5"
+  - DB=derby TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=5"
+  - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=6"
+  - DB=derby TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=6"
   - DB=mysql TASK=travis:selenium:public
   - DB=derby TASK=travis:selenium:public
   - TASK=dist
@@ -32,7 +42,7 @@ branches:
   except:
   - gh-pages
 script:
-- build/run $TASK
+- build/run $TASK $TASK_OPTS
 notifications:
   irc: irc.freenode.org#archivesspace
   email: false
@@ -43,5 +53,7 @@ addons:
     paths:
     - $( ls /var/tmp/*.png | tr "\n" ":" )
     - $( ls /tmp/*.png | tr "\n" ":" )
-    - $( sudo ls /var/log/mysql/* | tr "\n" ":" )
+    - $( ls /var/tmp/*.html | tr "\n" ":" )
+    - $( ls /var/log/mysql/* | tr "\n" ":" )
     - $( ls  /var/tmp/aspace-integration.log | tr "\n" ":" )
+sudo: false

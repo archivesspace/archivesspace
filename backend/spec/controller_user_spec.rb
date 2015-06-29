@@ -19,7 +19,7 @@ describe 'User controller' do
   it "allows admin users to create new users" do
     expect {
       build(:json_user).save(:password => '123')
-    }.to_not raise_error(AccessDeniedException)
+    }.to_not raise_error
   end
 
 
@@ -33,9 +33,9 @@ describe 'User controller' do
     a_user = create(:user)
     users = JSONModel(:user).all(:page => 1)['results']
 
-    users.any? { |user| user.username == "admin" }.should be_true
-    users.any? { |user| user.username == "test1" }.should be_true
-    users.any? { |user| user.username == a_user.username }.should be_true
+    users.any? { |user| user.username == "admin" }.should be_truthy
+    users.any? { |user| user.username == "test1" }.should be_truthy
+    users.any? { |user| user.username == a_user.username }.should be_truthy
   end
 
 
@@ -68,7 +68,7 @@ describe 'User controller' do
       as_anonymous_user do
         build(:json_user).save(:password => '123')
       end
-    }.to_not raise_error(AccessDeniedException)
+    }.to_not raise_error
   end
 
 

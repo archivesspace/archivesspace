@@ -1,17 +1,15 @@
-require_relative 'factories.rb'
+require_relative 'factories'
 
 require_relative "../common"
 require_relative '../../indexer/app/lib/realtime_indexer'
 require_relative '../../indexer/app/lib/periodic_indexer'
-
-
 
 $backend_port = TestUtils::free_port_from(3636)
 $frontend_port = TestUtils::free_port_from(4545)
 $solr_port = TestUtils::free_port_from(2989)
 $backend = "http://localhost:#{$backend_port}"
 $frontend = "http://localhost:#{$frontend_port}"
-$expire = 300
+$expire = 30000
 
 
 $backend_start_fn = proc {
@@ -60,9 +58,11 @@ module ASpaceMethods
 
 
   def do_http_request(url, req)
+
     req['X-ArchivesSpace-Session'] = @current_session
 
     Net::HTTP.start(url.host, url.port) do |http|
+      http.read_timeout = 1200
       http.request(req)
     end
   end
@@ -97,13 +97,45 @@ module ASpaceMethods
 
 
   def run_index_round
-    @last_sequence ||= 0
-    @last_sequence = @indexer.run_index_round(@last_sequence)
+    if ENV['ASPACE_INDEXER_URL']
+      url = URI.parse(ENV['ASPACE_INDEXER_URL'] + "/run_index_round")
+
+      request = Net::HTTP::Post.new(url.request_uri)
+      request.content_length = 0
+
+      tries = 5
+
+      begin
+
+        response = do_http_request(url, request)
+
+        response.code
+      rescue Timeout::Error
+        tries -= 1
+        retry if tries > 0
+      end
+
+    else
+      $last_sequence ||= 0
+      $last_sequence = $indexer.run_index_round($last_sequence)
+    end
   end
 
   def run_periodic_index
-    @period.run_index_round
+    if ENV['ASPACE_INDEXER_URL']
+      url = URI.parse(ENV['ASPACE_INDEXER_URL'] + "/run_periodic_index")
+
+      request = Net::HTTP::Post.new(url.request_uri)
+      request.content_length = 0
+
+      response = do_http_request(url, request)
+
+      response.code
+    else
+      $period.run_index_round
+    end
   end
+
 
   def run_all_indexers
     run_index_round
@@ -140,21 +172,26 @@ include FactoryGirl::Syntax::Methods
 
 RSpec.configure do |config|
 
+  config.fail_fast = false
+
+  config.expect_with(:rspec) do |c|
+    c.syntax = [:should, :expect]
+  end
+
   config.include ASpaceMethods
   config.include RepositoryHelperMethods
   config.include JSTreeHelperMethods
   config.include FactoryGirl::Syntax::Methods
   config.extend RSpecClassHelpers
+  config.verbose_retry = true
 
   config.before(:suite) do
     selenium_init($backend_start_fn, $frontend_start_fn)
     SeleniumFactories.init
-
-  end
-
-  config.before(:all) do
-    @indexer = RealtimeIndexer.new($backend, nil)
-    @period = PeriodicIndexer.new
+    if !ENV['ASPACE_INDEXER_URL'] # runs indexers in the same thread as the tests
+      $indexer = RealtimeIndexer.new($backend, nil)
+      $period = PeriodicIndexer.new
+    end
   end
 
   config.after(:suite) do

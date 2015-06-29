@@ -31,7 +31,7 @@ describe 'Resources controller' do
     expect {
       create(:json_resource,
              :id_0 => nil, :id_1 => nil, :id_2 => nil, :id_3 => nil)
-    }.to raise_error
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 
@@ -93,10 +93,10 @@ describe 'Resources controller' do
     end
 
     resources = JSONModel(:resource).all(:page => 1)['results']
-    resources.any? { |res| res.title == generate(:generic_title) }.should be_false
+    resources.any? { |res| res.title == generate(:generic_title) }.should == false
 
     powers.each do |p|
-      resources.any? { |res| res.title == p }.should be_true
+      resources.any? { |res| res.title == p }.should == true
     end
   end
 
@@ -243,18 +243,14 @@ describe 'Resources controller' do
 
     }
 
-    expect{ l.call(location_one) }.to raise_error
+    expect{ l.call(location_one) }.to raise_error { |error|
+
+      error.should be_a(JSONModel::ValidationException)
+      error.errors.keys.should eq(["instances/0/container/container_locations/0/status"])
+    }
+
+
     expect{ l.call(location_two) }.to_not raise_error
-
-    err = nil
-    begin
-      l.call(location_one)
-    rescue
-      err = $!
-    end
-
-    err.should be_an_instance_of(JSONModel::ValidationException)
-    err.errors.keys.should eq(["instances/0/container/container_locations/0/status"])
   end
 
 
@@ -442,7 +438,7 @@ describe 'Resources controller' do
 
     expect {
       resource.save
-    }.to raise_error
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 

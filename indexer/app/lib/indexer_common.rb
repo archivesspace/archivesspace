@@ -29,7 +29,7 @@ class CommonIndexer
 
   @@resolved_attributes = ['subjects', 'linked_agents', 'linked_records', 'classifications', 'digital_object']
 
-  @@paused_until = Time.now 
+  @@paused_until = Time.now
 
   def self.add_indexer_initialize_hook(&block)
     @@init_hooks << block
@@ -115,9 +115,9 @@ class CommonIndexer
   end
 
 
-
   def configure_doc_rules
-    
+
+
     add_delete_hook { |records, delete_request|
       records.each do |rec|
         if rec.include?("_collection_management")
@@ -125,13 +125,18 @@ class CommonIndexer
           delete_request[:delete] <<  {"id" => rec}
           delete_request[:delete] <<  {'query' => "parent_id:\"#{rec.split("#").first}\""}
         end
+
+        if rec.match(/repositories\/\d+\/collection_management\//)
+          delete_request[:delete] << {'query' => "cm_uri:\"#{rec}\""}
+        end
       end
      }
 
 
     add_document_prepare_hook { |doc,record|
      ["relator", "type", "role", "source", "rules", "acquisition_type", "resource_type", "processing_priority", "processing_status", "era", "calendar", "digital_object_type", "level", "processing_total_extent_type", "container_extent_type", "extent_type", "event_type", "type_1", "type_2", "type_3", "salutation", "outcome", "finding_aid_description_rules", "finding_aid_status", "instance_type", "use_statement", "checksum_method", "language", "date_type", "label", "certainty", "scope", "portion", "xlink_actuate_attribute", "xlink_show_attribute", "file_format_name", "temporary", "name_order", "country", "jurisdiction", "rights_type", "ip_status", "term_type", "enum_1", "enum_2", "enum_3", "enum_4", "relator_type", "job_type"].each do |field|
-       Array( ASUtils.search_nested(record["record"], field) ).each  { |val| doc["#{field}_enum_s"] ||= [];  doc["#{field}_enum_s"] << val } 
+       Array( ASUtils.search_nested(record["record"], field) ).each  { |val| doc["#{field}_enum_s"] ||= [];  doc["#{field}_enum_s"] << val }
+
      end
      Array( ASUtils.search_nested(record["record"], "items") ).each  do |val| 
        begin 
@@ -212,8 +217,8 @@ class CommonIndexer
 
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'resource'
-        doc['finding_aid_title'] = record['record']['finding_aid_title'] 
-        doc['finding_aid_filing_title'] = record['record']['finding_aid_filing_title'] 
+        doc['finding_aid_title'] = record['record']['finding_aid_title']
+        doc['finding_aid_filing_title'] = record['record']['finding_aid_filing_title']
         doc['identifier'] = (0...4).map {|i| record['record']["id_#{i}"]}.compact.join("-")
         doc['resource_type'] = record['record']['resource_type']
         doc['level'] = record['record']['level']
@@ -242,7 +247,7 @@ class CommonIndexer
       if doc['primary_type'] == 'event'
         doc['json'] = record['record'].to_json
         doc['event_type'] = record['record']['event_type']
-        doc['title'] = record['record']['event_type'] # adding this for emedded searches 
+        doc['title'] = record['record']['event_type'] # adding this for emedded searches
         doc['outcome'] = record['record']['outcome']
         doc['linked_record_uris'] = record['record']['linked_records'].map { |c| c['ref'] }
       end
@@ -335,6 +340,7 @@ class CommonIndexer
           'types' => ['collection_management'],
           'primary_type' => 'collection_management',
           'json' => cm.to_json(:max_nesting => false),
+          'cm_uri' => cm['uri'],
           'processing_priority' => cm['processing_priority'],
           'processing_hours_total' => cm['processing_hours_total'],
           'processing_funding_source' => cm['processing_funding_source'],
@@ -433,6 +439,7 @@ class CommonIndexer
 
 
   def delete_records(records)
+
     return if records.empty?
 
     req = Net::HTTP::Post.new("#{solr_url.path}/update")
@@ -506,13 +513,13 @@ class CommonIndexer
       doc = {}
 
       doc['id'] = uri
-     
+
       if ( !values["finding_aid_filing_title"].nil? && values["finding_aid_filing_title"].length > 0 )
-        doc['title'] = values["finding_aid_filing_title"] 
-      else 
+        doc['title'] = values["finding_aid_filing_title"]
+      else
         doc['title'] =  values['title']
-      end 
-        
+      end
+
       doc['primary_type'] = record_type
       doc['types'] = [record_type]
       doc['json'] = ASUtils.to_json(values)
@@ -598,7 +605,7 @@ class CommonIndexer
       end
     end
   end
-  
+
   def paused?
     self.singleton_class.class_variable_get(:@@paused_until) > Time.now
   end

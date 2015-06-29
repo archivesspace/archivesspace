@@ -54,7 +54,7 @@ describe 'Enumerations model' do
   it "throws an error if you link to an enumeration that doesn't really exist..." do
     expect {
       @model.new(:role => 'penguin')
-    }.to raise_error
+    }.to raise_error(RuntimeError)
   end
 
 
@@ -62,7 +62,7 @@ describe 'Enumerations model' do
     expect {
       Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'tomato_enum',
                                                                      :values => ['tomato', 'tomato']))
-    }.to raise_error
+    }.to raise_error Sequel::UniqueConstraintViolation
 
     #note: test fails in mysql if the :name value is repeated, even though the first order failed
     expect {
@@ -117,12 +117,12 @@ describe 'Enumerations model' do
   end
 
 
-  it "refuses to migrate from one enumeration set to another" do
+  it "can't migrate from one enumeration set to another" do
     obj = @model.create(:role => 'battlemage')
 
     expect {
       Enumeration[:name => 'test_role_enum'].migrate('battlemage', 'mushroom')
-    }.to raise_error
+    }.to raise_error(NotFoundException)
   end
 
  it "protects non-editable enums from being messed with" do

@@ -44,8 +44,8 @@ describe 'Find and Replace job model' do
   end
 
 
-  it "ensurers that the target property exists in the target schema" do
-    pending("this seems to not be working when run in the suite?") 
+  it "ensures that the target property exists in the target schema" do
+    skip("this seems to not be working when run in the suite?") 
     resource1 = a_resource
 
     json = find_and_replace_job(resource1.uri)

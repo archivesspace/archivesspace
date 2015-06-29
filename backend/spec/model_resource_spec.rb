@@ -23,7 +23,7 @@ describe 'Resource model' do
   it "reports an error if id_0 has no value" do
     opts = {:id_0 => nil}
     
-    expect { create_resource(opts) }.to raise_error
+    expect { create_resource(opts) }.to raise_error(JSONModel::ValidationException)
   end
 
 
@@ -57,12 +57,12 @@ describe 'Resource model' do
 
 
   it "throws an exception if extents is nil" do
-    expect { create_resource({:extents => nil}) }.to raise_error    
+    expect { create_resource({:extents => nil}) }.to raise_error(JSONModel::ValidationException)
   end
 
 
   it "throws an exception if extents is empty" do
-    expect { create_resource({:extents => []}) }.to raise_error
+    expect { create_resource({:extents => []}) }.to raise_error(JSONModel::ValidationException)
   end
 
 
@@ -72,7 +72,7 @@ describe 'Resource model' do
     expect {
       RequestContext.put(:repo_id, nil)
       Resource.to_jsonmodel(resource[:id])
-    }.to raise_error
+    }.to raise_error(RuntimeError)
   end
 
 
@@ -90,14 +90,14 @@ describe 'Resource model' do
   it "throws an error when no language is provided" do
     opts = {:language => nil}
 
-    expect { create_resource(opts) }.to raise_error
+    expect { create_resource(opts) }.to raise_error(JSONModel::ValidationException)
   end
 
 
   it "throws an error if 'level' is 'otherlevel' and 'other level' isn't provided" do
     opts = {:level => "otherlevel", :other_level => nil}
 
-    expect { create_resource(opts) }.to raise_error
+    expect { create_resource(opts) }.to raise_error(JSONModel::ValidationException)
   end
 
 
