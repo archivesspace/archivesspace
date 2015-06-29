@@ -6,7 +6,7 @@
 	<property name="ireport.encoding" value="UTF-8"/>
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="118"/>
+	<property name="ireport.y" value="76"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
@@ -30,7 +30,7 @@
 FROM
      `accession` accession
 WHERE
-     (accession.`repo_id` = $P{repositoryId} OR $P{repositoryId} = -1) ]]>
+     (accession.`repo_id` = $P{repositoryId} OR $P{repositoryId} = -1)]]>
 	</queryString>
 	<field name="accessionId" class="java.lang.Integer"/>
 	<field name="repo_id" class="java.lang.Integer">
@@ -233,7 +233,11 @@ WHERE
 					<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{accessionNumber}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{accessionNumber}.replace("[", "").
+replace("]","").
+replace("\"","").
+replace(",null", "").
+replace(",", ".")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
 				<reportElement key="textField" positionType="Float" x="0" y="23" width="390" height="15" isRemoveLineWhenBlank="true" forecolor="#000000" backcolor="#FFFFFF" uuid="e68646f5-ef62-4edf-93bb-818a7b60bf64"/>
