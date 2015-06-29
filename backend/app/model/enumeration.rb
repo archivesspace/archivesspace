@@ -81,7 +81,7 @@ class Enumeration < Sequel::Model(:enumeration)
 
 
     added_values.each_with_index do |value, i|
-      obj.add_enumeration_value(:value => value, :position => (existing_values.length + i) )
+      obj.add_enumeration_value(:value => value, :position => (existing_values.length + i + 1) )
     end
 
     removed_values.each do |value|
