@@ -30,8 +30,7 @@ group :test do
   gem "factory_girl", "~> 4.1.0"
   gem "ladle", "0.2.0"
   gem "simplecov", "0.7.1"
-  gem "rspec-core", "2.12.1"
-  gem "rspec", "2.12.0"
+  gem "rspec", "~> 3.3.0"
 end
 
 gem "net-http-persistent", "2.8"

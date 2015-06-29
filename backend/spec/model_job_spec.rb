@@ -2,20 +2,6 @@ require 'spec_helper'
 
 describe 'job model and job runners' do
 
-  let (:job) do
-    json = JSONModel(:job).from_hash({
-                                       :job_type => 'nugatory_job',
-                                       :job => {},
-                                     })
-
-    user = create_nobody_user
-
-    Job.create_from_json(json,
-                         :repo_id => $repo_id,
-                         :user => user)
-  end
-
-
   before(:all) do
     enum = Enumeration.find(:name => 'job_type')
     EnumerationValue.create(:value => 'nugatory_job', :enumeration_id => enum.id)
@@ -81,7 +67,22 @@ describe 'job model and job runners' do
   end
 
 
-  describe "Job" do
+  describe "Job and JobRunner" do
+
+    let(:job) {
+      user = create_nobody_user
+
+
+      json = JSONModel(:job).from_hash({
+                                         :job_type => 'nugatory_job',
+                                         :job => {},
+                                       })
+
+
+      Job.create_from_json(json,
+                           :repo_id => $repo_id,
+                           :user => user)
+    }
 
     it 'can get the status of a job' do
       job.status.should eq('queued')
@@ -107,7 +108,8 @@ describe 'job model and job runners' do
 
 
     it "can attach some input files to a job" do
-      job.stub(:file_store) do
+
+      allow(job).to receive(:file_store) do
         double(:store => "stored_path")
       end
 
@@ -116,10 +118,7 @@ describe 'job model and job runners' do
 
       job.job_files.map(&:file_path).should eq(["stored_path", "stored_path"])
     end
-  end
 
-
-  describe "JobRunner" do
 
     it 'can get the right runner for the job' do
       JobRunner.for(job).class.to_s.should eq('NugatoryJobRunner')
@@ -129,7 +128,7 @@ describe 'job model and job runners' do
     it 'runs a job and keeps track of its canceled state' do
       runner = JobRunner.for(job).canceled(Atomic.new(false))
       runner.run
-      runner.instance_variable_get(:@job_canceled).value.should be_false
+      runner.instance_variable_get(:@job_canceled).value.should == false
     end
   end
 
@@ -223,10 +222,11 @@ describe 'job model and job runners' do
 
       cancel_thread.join
 
-      @job.status.should eq('canceled')
+      job = Job.any_repo[job_id]
 
-      expect { @job.time_finished < Time.now }.to be_true
-
+      job.status.should eq('canceled')
+      job.time_finished.should_not be_nil
+      job.time_finished.should < Time.now
     end
 
   end

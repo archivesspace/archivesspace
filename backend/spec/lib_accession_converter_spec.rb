@@ -4,17 +4,16 @@ require 'csv'
 require_relative '../app/converters/accession_converter'
 
 describe 'Accession converter' do
-  let(:my_converter) {
-    AccessionConverter
-  }
 
-  let(:test_file) {
-    File.expand_path("../app/exporters/examples/accession/aspace_accession_import_template.csv",
-                     File.dirname(__FILE__))
-  }
+  def my_converter
+    AccessionConverter
+  end
 
 
   before(:all) do
+    test_file = File.expand_path("../app/exporters/examples/accession/aspace_accession_import_template.csv",
+                                 File.dirname(__FILE__))
+
     @records = convert(test_file)
     @accessions = @records.select {|r| r['jsonmodel_type'] == 'accession' }
     @agents = @records.select { |a| a['jsonmodel_type'].include?('agent_')  } 
