@@ -558,6 +558,8 @@ en:
     post_code: Post Code
     post_code_tooltip: |
         <p>Mail or zip code for the contact person’s address.</p>
+    telephone: Telephone
+    telephone_ext: Telephone Extension
     fax: Fax
     fax_tooltip: |
         <p>Fax number for the contact person.</p>

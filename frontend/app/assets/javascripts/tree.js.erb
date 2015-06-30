@@ -1143,7 +1143,9 @@ $(function() {
 
       onTreeLoadCallback();
     }).bind("select_node.jstree", function (event, data) {
-
+      
+      // lets clear out the moved_nodes 
+      moved_nodes = []; 
       // if the form is dirty AND the selected node isn't the primary
       // then do a modal check
       if ($("form", $container).data("form_changed") && data.node.id != tree.get_primary_selected()) {
@@ -1173,7 +1175,7 @@ $(function() {
 
     }).bind("move_node.jstree", function(event, data) {
       if (move_timeout) { clearTimeout(move_timeout); }
-
+      
       moved_nodes.push(data);
       move_timeout = setTimeout(function() {
         moveNodes(moved_nodes);

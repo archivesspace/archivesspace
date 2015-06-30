@@ -356,8 +356,24 @@ module TreeNodes
 
 
     def handle_delete(ids_to_delete)
-      self.filter(:id => ids_to_delete).update(:parent_id => nil)
-      super
+      ids = self.filter(:id => ids_to_delete )
+      # lets get a group of records that have unique parents or root_records
+      parents = ids.select_group(:parent_id, :root_record_id).all   
+      # we then nil out the parent id so deletes can do its thing 
+      ids.update(:parent_id => nil)
+      # trigger the deletes... 
+      obj = super
+      # now lets make sure there are no holes
+      parents.each do |parent|
+       children = self.filter(:root_record_id => parent[:root_record_id], :parent_id => parent[:parent_id], ~:position => nil )  
+       parent_name = children.get(:parent_name) 
+       children.update(:parent_name => Sequel.lit(DB.concat('CAST(id as CHAR(10))', "'_temp'"))) 
+       children.order(:position).each_with_index do |row, i|
+        row.update(:position => i)
+       end
+       children.update(:parent_name => parent_name) 
+      end
+      obj
     end
 
     # this requences the class, which updates the Sequence with correct
