@@ -73,8 +73,11 @@
             </div>
           </td>
           <td>
-            <div class='enum-value-search' data-url="<%= url_for({:controller => :search, :action => :do_search, :simple_filter => 
-              enumeration_simple_filter_params(@enumeration['relationships'], enum_value['value'] ) }) %>"><i class='spinner'></i></div> 
+            <% if @enumeration['relationships'].length > 0 and @enumeration['name'] != 'job_type' %>  
+              <div class='enum-value-search' data-url="<%= url_for({:controller => :search, :action => :do_search, :simple_filter => 
+                enumeration_simple_filter_params(@enumeration['relationships'], enum_value['value'] ) }) %>"><i class='spinner'></i>
+              </div> 
+            <% end %> 
           </td>
         </tr>
       <% end %>
