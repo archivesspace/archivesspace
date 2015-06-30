@@ -130,9 +130,14 @@ class CommonIndexer
 
 
     add_document_prepare_hook { |doc,record|
-     ["relator", "role", "source", "rules", "acquisition_type", "resource_type", "processing_priority", "processing_status", "era", "calendar", "digital_object_type", "level", "processing_total_extent_type", "container_extent_type", "extent_type", "event_type", "type_1", "type_2", "type_3", "salutation", "outcome", "finding_aid_description_rules", "finding_aid_status", "instance_type", "use_statement", "checksum_method", "language", "date_type", "label", "certainty", "scope", "portion", "xlink_actuate_attribute", "xlink_show_attribute", "file_format_name", "temporary", "name_order", "country", "jurisdiction", "rights_type", "ip_status", "term_type", "enum_1", "enum_2", "enum_3", "enum_4", "relator_type", "job_type"].each do |field|
+     ["relator", "type", "role", "source", "rules", "acquisition_type", "resource_type", "processing_priority", "processing_status", "era", "calendar", "digital_object_type", "level", "processing_total_extent_type", "container_extent_type", "extent_type", "event_type", "type_1", "type_2", "type_3", "salutation", "outcome", "finding_aid_description_rules", "finding_aid_status", "instance_type", "use_statement", "checksum_method", "language", "date_type", "label", "certainty", "scope", "portion", "xlink_actuate_attribute", "xlink_show_attribute", "file_format_name", "temporary", "name_order", "country", "jurisdiction", "rights_type", "ip_status", "term_type", "enum_1", "enum_2", "enum_3", "enum_4", "relator_type", "job_type"].each do |field|
        Array( ASUtils.search_nested(record["record"], field) ).each  { |val| doc["#{field}_enum_s"] ||= [];  doc["#{field}_enum_s"] << val } 
      end
+     Array( ASUtils.search_nested(record["record"], "items") ).each  do |val| 
+       next unless val.key?("type") 
+       doc["type_enum_s"] ||= []; 
+       doc["type_enum_s"] << val["type"]    
+    end 
     }
 
     add_document_prepare_hook {|doc, record|
