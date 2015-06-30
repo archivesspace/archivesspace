@@ -134,9 +134,13 @@ class CommonIndexer
        Array( ASUtils.search_nested(record["record"], field) ).each  { |val| doc["#{field}_enum_s"] ||= [];  doc["#{field}_enum_s"] << val } 
      end
      Array( ASUtils.search_nested(record["record"], "items") ).each  do |val| 
-       next unless val.key?("type") 
-       doc["type_enum_s"] ||= []; 
-       doc["type_enum_s"] << val["type"]    
+       begin 
+         next unless val.key?("type") 
+         doc["type_enum_s"] ||= []; 
+         doc["type_enum_s"] << val["type"]    
+      rescue
+        next
+      end
     end 
     }
 
