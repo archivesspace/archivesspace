@@ -287,7 +287,7 @@ describe "Tree UI" do
     $driver.click_and_wait_until_gone(:link, 'Close Record')
 
     # now lets add some notes
-    [ "Santa Crap", "Japanese KFC", "Kalle Anka"].each do |ao|
+    [ "Japanese KFC", "Kalle Anka", "Santa Crap"].each do |ao|
       sleep(10)
       $driver.find_element_with_text("//div[@id='archives_tree']//a", /#{ao}/).click
       # sanity check to make sure we're editing..
@@ -308,7 +308,7 @@ describe "Tree UI" do
     end
 
     # everything should be in the order we want it...
-    [ "Santa Crap", "Japanese KFC","Kalle Anka", "Fruit Cake" ].each_with_index do |ao, i|
+    [ "Kalle Anka", "Japanese KFC","Santa Crap", "Fruit Cake" ].each_with_index do |ao, i|
       assert(5) {
         $driver.find_element( :xpath => "//div[@id='archives_tree']//li[a/@title='Gifts']/ul/li[position() = #{i + 1}]/a/span/span[@class='title-column pull-left']").text.should eq(ao)
       }
