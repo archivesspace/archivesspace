@@ -768,7 +768,6 @@ $(function() {
   //   the node that slid lower in the index.
 
   var moveNodes = function(collectedMoveData) {
-
     //sanity check - shouldn't ever happen
     if (_.uniq(_.map(collectedMoveData, function(md) {
       return md.parent
@@ -1143,9 +1142,6 @@ $(function() {
 
       onTreeLoadCallback();
     }).bind("select_node.jstree", function (event, data) {
-      
-      // lets clear out the moved_nodes 
-      moved_nodes = []; 
       // if the form is dirty AND the selected node isn't the primary
       // then do a modal check
       if ($("form", $container).data("form_changed") && data.node.id != tree.get_primary_selected()) {
@@ -1179,6 +1175,8 @@ $(function() {
       moved_nodes.push(data);
       move_timeout = setTimeout(function() {
         moveNodes(moved_nodes);
+        // lets clear out the moved_nodes 
+        moved_nodes = []; 
         onSelectNode();
       }, 50);
 
