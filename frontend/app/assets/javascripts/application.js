@@ -18,6 +18,7 @@
 //= require bootstrap_overrides
 //= require jquery.form
 //= require jquery.scrollto
+//= require jquery.hotkeys
 //= require utils
 //= require header
 //= require linker

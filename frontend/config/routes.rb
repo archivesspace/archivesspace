@@ -203,12 +203,15 @@ ArchivesSpace::Application.routes.draw do
     match 'schema/:resource_type/properties' => 'utils#list_properties', :via => [:get]
 
     match 'shortcuts' => 'utils#shortcuts', :via => [:get]
+    match 'notes/note_order' => 'utils#note_order', :via =>[:get]
 
     resources :preferences
     match 'preferences/:id' => 'preferences#update', :via => [:post]
 
     resources :rde_templates
     match 'rde_templates/batch_delete' => 'rde_templates#batch_delete', :via => [:post]
+
+
 
 
     if Plugins.system_menu_items?

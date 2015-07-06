@@ -1816,6 +1816,7 @@ en:
     digital_object_browse_column_4_tooltip: The field to show in column 4.
     digital_object_browse_column_5: Column 5
     digital_object_browse_column_5_tooltip: The field to show in column 5.
+    note_order_section: Note Order
     accept_default_message: '> Accept Default:'
     no_value: '[no value]'
     _singular: Defaults

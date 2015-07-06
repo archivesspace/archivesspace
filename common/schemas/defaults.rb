@@ -103,6 +103,11 @@ digital_object_browse_column_enum = [
         "type" => "boolean",
         "required" => false,
         "default" => false
+      },
+
+      "note_order" => {
+        "type" => "array",
+        "items" => {"type" => "string"}
       }
 
     },

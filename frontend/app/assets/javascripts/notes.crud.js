@@ -264,7 +264,38 @@ $(function() {
         $(document).triggerHandler("subrecordcreated.aspace", ["note", $note_form]);
       };
 
+
+      var applyNoteOrder = function(event) {
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        var $target_subrecord_list = $(".subrecord-form-list:first", $this);
+
+        $.ajax({
+          url: APP_PATH+"notes/note_order",
+          type: "GET",
+          success: function(note_order) {
+
+            var $listed = $target_subrecord_list.children().detach()
+            var sorted = _.sortBy($listed, function(li) {
+              var type = $('select.note-type', $(li)).val();
+              return _.indexOf(note_order, type);
+            });
+
+            $(sorted).appendTo($target_subrecord_list);
+            $("form.aspace-record-form").triggerHandler("formchanged.aspace");
+          },
+          error: function(obj, errorText, errorDesc) {
+            $container.html("<div class='alert alert-error'><p>An error occurred loading note order list.</p><pre>"+errorDesc+"</pre></div>");
+          }
+        });
+
+      };
+
+
       var createTopLevelNote = function(event) {
+
         event.preventDefault();
         event.stopPropagation();
 
@@ -274,13 +305,13 @@ $(function() {
         // if it's inline, we need to bring a special template, since the
         // template has already been defined for the parent record....
         if ( is_inline == true ) {
-          var form_note_type =  $this.get(0).id; 
-          var inline_template = "template_" + form_note_type + "_note_type_selector_inline"; 
+          var form_note_type =  $this.get(0).id;
+          var inline_template = "template_" + form_note_type + "_note_type_selector_inline";
           var $subform = $(AS.renderTemplate(inline_template));
-        
-        } else {   
+
+        } else {
           var $subform = $(AS.renderTemplate("template_note_type_selector"));
-        } 
+        }
 
         $subform = $("<li>").data("type", $subform.data("type")).append($subform);
         $subform.attr("data-index", index);
@@ -303,7 +334,10 @@ $(function() {
         index++;
       };
 
-      $(".subrecord-form-heading:first .btn", $this).click(createTopLevelNote);
+      $(".subrecord-form-heading:first .btn.add-note", $this).click(createTopLevelNote);
+
+      $(".subrecord-form-heading:first .btn.apply-note-order", $this).click(applyNoteOrder);
+
 
       // initialising forms
       var $list = $("ul.subrecord-form-list:first", $this)
