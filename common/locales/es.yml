@@ -8,6 +8,38 @@
     "true": "Verdadero"
     "false": "Falso"
 
+  user_defined: &user_defined_attributes
+    boolean_1: Booleano 1
+    boolean_2: Booleano 2
+    boolean_3: Booleano 3
+    integer_1: Entero 1
+    integer_2: Entero 2
+    integer_3: Entero 3
+    real_1: Real 1
+    real_2: Real 2
+    real_3: Real 3
+    string_1: Cadena de caracteres 1
+    string_2: Cadena de caracteres 2
+    string_3: Cadena de caracteres 3
+    string_4: Cadena de caracteres 4
+    text_1: Texto 1
+    text_2: Texto 2
+    text_3: Texto 3
+    text_4: Texto 4
+    text_5: Texto 5
+    date_1: Fecha 1
+    date_1_inline_help: e.g. YYYY-MM-DD
+    date_2: Fecha 2
+    date_2_inline_help: e.g. YYYY-MM-DD
+    date_3: Fecha 3
+    date_3_inline_help: e.g. YYYY-MM-DD
+    enum_1: Valor controlado 1
+    enum_2: Valor controlado 2
+    enum_3: Valor controlado 3
+    enum_4: Valor controlado 4
+    _singular: Definido por el usuario
+    _plural: Definido por los usuarios
+
   content_items: 
     content: Contenido
     content_tooltip: |
@@ -21,13 +53,13 @@
         <p>Indica el alcance y la naturaleza física de los materiales que se está describiendo.</p>
         <p>Ver DACS 2.5</p>
     linked_agents_tooltip: |
-        <p>Autoridades asociados como un creador, fuente o tema de los materiales descritos para proporcionar información sobre su contexto.</p>
+        <p>Autoridades asociadas como un creador, fuente o tema de los materiales descritos para proporcionar información sobre su contexto.</p>
     subjects_tooltip: |
         <p>Utilizado para vincular los materias con los materiales descritos.</p>
     notes_tooltip: |
         <p>Información descriptiva adicional sobre los materiales descritos, generalmente en forma de texto o listas estructuradas.</p>
     external_documents_tooltip: |
-        <p>Enlaces a información en otros descripción o sismaterias de gestión, tales como archivos de donantes, procesamiento de planes, etc..</p>
+        <p>Enlaces a información en otros formatos, tales como archivos de donantes, etc..</p>
     rights_statements_tooltip: |
         <p>Información sobre la situación de los derechos de los materiales descritos y si hay restictions específicos o los permisos que se han indicado.</p>
     instances_tooltip: |
@@ -43,6 +75,8 @@
 
   digital_object: &digital_object_attributes
     <<: *section_tooltips
+    user_defined: 
+      <<: *user_defined_attributes
     title: Título
     title_tooltip: |
         <p>Una expresión de título para el objeto digital.  Puede ser transcrito desde el objeto, heredada de un registro de componente fuente recursos/recursos o proporcionados por el repositorio.</p>
@@ -59,10 +93,10 @@
         <p>Ejemplos</p>
         <ul>
         <li>http://hdl.handle.net/1813/13524</li>
-        </ul>       
+        </ul>
     publish: ¿Publicar?
     publish_tooltip: |
-        <p>Determina si este objeto Digital o componente se publicarán a interfaces públicas (patrón).</p>
+        <p>Determina si este objeto Digital o componente se publicarán en abierto.</p>
     level: VRA Core Level
     level_tooltip: |
         <p>Principalmente para uso en niveles múltiples registros obedientes VRA Core para indicar la descripción se trata de una colección, una obra o una imagen.</p>
@@ -177,10 +211,10 @@
     note: Nota
     note_tooltip: |
         <p>Utiliza para registrar información adicional acerca de la representación y su relación con este sitio.</p>
-    location: Ubicación
-    ref: Ubicación
-    _singular: Ubicación
-    _plural: Ubicaciones
+    location: URI
+    ref: URI
+    _singular: URI
+    _plural: URIs
 
   linked_record:
     role: Función
@@ -194,10 +228,10 @@
   linked_agent: &linked_agent_attributes
     role: Función
     role_tooltip: |
-        <p>CAMPO OBLIGATORIO. Una indicación de qué función (creador, fuente o tema) el autoridad tiene en lo que respecta a su relación con un determinado registro descripción.</p>
-    relator: Tipo de relación
+        <p>CAMPO OBLIGATORIO. Una indicación de qué función (autor, donante o materia) el autoridad tiene en lo que respecta a su relación con un determinado registro descripción.</p>
+    relator: Tipo de función
     relator_tooltip: |
-        <p>Una indicación de qué papel el autoridad tiene en lo que respecta a su función como se indica en cómo está ligado (por ejemplo, creador, fuente o tema) a un determinado registro descripción. Por ejemplo, un autoridad puede estar vinculado como creador a un registro, pero con el papel más específico de "ilustrador".</p>
+        <p>Una indicación de qué papel tiene la autoridad en lo que respecta a su función (por ejemplo, autor, donante o materia) a un determinado registro descripción. Por ejemplo, una autoridad puede estar vinculada como autor pero con el papel más específico de "ilustrador".</p>
         <p>Ver la lista de códigos MARC para relatores.</p>
     ref: Autoridad
     # ref_tooltip is not displaying: 
@@ -206,8 +240,12 @@
         <p>Las Autoridades pueden consultarse utilizando Autocompletar, usando una función de navegación, o pueden crearse en la demanda.</p>
     terms: Términos
     title: Título
-    _singular: Autoridad enlazada
-    _plural: Autoridades enlazadas
+    title_tooltip: |
+        <p>Campo opcional: Guarda aquí el título de una de sus obras para crear una autoridad con encabezamiento de título enlazado a su autor o materia</p>
+        <p>Por ejemplo,</p>
+        <ul><li>Shakespeare, William, 1564-1616. King Lear</li><li> Pound, Ezra, 1885-1972. Cantos</li><li> Lincoln, Abraham, 1809-1865. Emancipation Proclamation</li></ul>
+    _singular: Autoridad
+    _plural: Autoridades
 
   accession_linked_agent: 
     <<: *linked_agent_attributes
@@ -302,7 +340,7 @@
 
   deaccession:
     <<: *section_tooltips
-    scope: Parte
+    scope: Parte del fondo
     scope_tooltip: |
         <p>Se utiliza para especificar si una declaración de medida se refiere a la totalidad o parte de una determinada agregación descrita u objeto.</p>
     description: Descripción
@@ -521,11 +559,7 @@
     post_code_tooltip: |
         <p>Correo electrónico o código postal de la dirección de la persona de contacto.</p>
     telephone: Teléfono
-    telephone_tooltip: |
-        <p>Número de teléfono de la persona de contacto.</p>
     telephone_ext: Extensión telefónica
-    telephone_ext_tooltip: |
-        <p>Extensión del número telefónico de la persona de contacto.</p>
     fax: Fax
     fax_tooltip: |
         <p>Número de fax para la persona de contacto.</p>
@@ -541,6 +575,16 @@
     _singular: Contacto
     _plural: Los datos de contacto
 
+  telephone: &telephone
+    _plural: Números de teléfono
+    number_type: Tipo de número
+    number: Número
+    number_tooltip: |
+        <p>Número de teléfono de la persona de contacto.</p>
+    ext: Extension telefónica
+    ext_tooltip: |
+        <p>Extensión del número de teléfono de la persona de contacto.</p>
+
   note_attributes: &note_attributes
     label: Etiqueta
     label_tooltip: |
@@ -554,7 +598,7 @@
     item_singular: Item
     publish: ¿Publicar?
     publish_tooltip: |
-        <p>Determina si esta nota al público (patrón) interfaces.</p>
+        <p>Determina si esta nota se publica.</p>
     title: Título
     title_tooltip: |
       <p>Un elemento para grabar una etiqueta específica, o título, para el subnote.</p>
@@ -733,7 +777,7 @@
         <p>Un identificador para un archivo asociado a un objeto digital, accesible en la web o en un directorio de archivos.</p>
     publish: ¿Publicar?
     publish_tooltip: |
-        <p>Determina si la versión de este archivo se publica a interfaces públicas (patrón).</p>
+        <p>Determina si la versión de este archivo se publica.</p>
     use_statement: Declaración de uso
     use_statement_tooltip: |
         <p>Un descriptor que indique el uso al que se destine el archivo digital (por ejemplo, una imagen en miniatura).</p>
@@ -783,36 +827,35 @@
     identifier: Identificador
 
   extent: &extent_attributes
-    portion: Parte
+    portion: Parte del fondo
     portion_tooltip: |
         <p>Se utiliza para especificar si una declaración de medida se refiere a la totalidad o parte de una determinada agregación descrita u objeto.</p>
         <p>Cualquier agregación descrita u objeto con una sentencia de grado debe tener una declaración de medida con la parte establecida en "todo".</p>
         <p>Ver DACS 2.5.7</p>
-    number: Número
+    number: Cantidad
     number_tooltip: |
-        <p>Un valor numérico para indicar el número de unidades en la declaración del alcance, por ejemplo, 5, 11.5, 245. Utilizado en conjunción con el tipo de medida para proporcionar una declaración estructurada grado.</p>
+        <p>Un valor numérico para indicar el volumen de las unidades del fondo, por ejemplo, 5, 11.5, 245. Se utiliza en conjunción con el tipo de medida que se selecciona a continuación.</p>
         <p>Ver DACS 2.5</p>
     extent_type: Tipo
     extent_type_tooltip: &extent_type_tooltip |
         <p>Un término que indica el tipo de unidad que se utiliza para medir el grado de materiales descritos.</p>
         <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
         <p>Ver DACS 2.5</p>
-    container_summary: Resumen de contenedor
+    container_summary: Resumen
     container_summary_tooltip: |
-        <p>Una lista de envase y tipos de envase los materiales descritos en el registro del componente de la vivienda.</p>
+        <p>Descripción de la extensión del fondo (contenedor).</p>
         <p>Ejemplos</p>
         <ul>
-        <li>10 cartones récord, 6 archivos de cajas, 3 carpetas de gran tamaño.</li>
-        <li>12 cajas de zapatos.</li>
-        <li>4 archivos de cajas, tubos de 32.</li>
+        <li>10 metros lineales, 6 Gigabytes de correos electrónicos.</li>
+        <li>12 cajas.</li>
         </ul>
     physical_details: Detalles físicos
     physical_details_tooltip: |
         <p>Otros detalles físicos de los materiales describen, por ejemplo, negativos analógicos, b&w.</p>
         <p>Ver DACS 2.5</p>
-    dimensions: Tamaño
+    dimensions: Dimensiones
     dimensions_tooltip: |
-        <p>Tamaño de los materiales descritos.</p>
+        <p>Dimensiones de los materiales descritos.</p>
         <p>Ver DACS 2.5</p>
         <p>Ejemplos</p>
         <ul>
@@ -820,8 +863,8 @@
         <li>7 1/4 x 3 1/2 pulg.</li>
         <li>cinta de 1/2 pulg.</li>
         </ul>
-    _plural: Cantidades de materiales
-    _singular: Cantidad de material
+    _plural: Extensión
+    _singular: Extensión
 
   container: &container_attributes
     type_1: Tipo de contenedor 1 
@@ -860,17 +903,17 @@
     title: Título
     title_tooltip: |
         <p>El título de un documento externo que se hace referencia en el Acta de adquisición. El documento puede ser de cualquier forma o contenido. Un archivo de acceso web, un archivo de acceso de red, un archivo en el mismo equipo que la aplicación, etc..</p>
-    location: Ubicación
+    location: URI
     location_tooltip: |
-        <p>La ubicación del archivo, idealmente un URI puede resolver.</p>
+        <p>La ubicación del archivo, idealmente una URI.</p>
         <p>Ejemplos</p>
         <ul>
         <li>http</li>
-        <li>archivo</li>
+        <li>//srvsicso/docs</li>
         </ul>
     publish: ¿Publicar?
     publish_tooltip: |
-        <p>Determina si se publica este documento externo a interfaces públicas (patrón).</p>
+        <p>Determina si se publica este documento externo.</p>
     document_link: Documento Link
     _plural: Documentos externos
     _singular: Documento externo
@@ -880,10 +923,10 @@
     identifier_tooltip: |
         <p>Identifica la declaración de los derechos dentro del dominio del repositorio. Identificadores de la declaración de los derechos son generalmente generadas automáticamente por la aplicación.</p>
     identifier_auto_generate_message: "--generado automáticamente al guardar..."
-    rights_type: Tipo de derechos
+    rights_type: Tipo de norma
     rights_type_tooltip: |
         <p>La base para la declaración de los derechos lograda.Se permiten cuatro bases
-    rights_type_message: Por favor seleccione un tipo de derechos
+    rights_type_message: Por favor seleccione un tipo de norma
     active: Activo
     active_tooltip: |
         <p>Indica si un registro de los derechos está activa o inactiva.</p>
@@ -945,8 +988,8 @@
         <ul>
         <li>Póngase en contacto con la familia del donante si se solicita acceso antes de que llegue la fecha de finalización de la restricción.</li>
         </ul>
-    _plural: Declaraciones de derechos
-    _singular: Declaración de los derechos
+    _plural: Normativas
+    _singular: Normativa
 
   rights_type_intellectual_property: 
     <<: *rights_statement_attributes
@@ -971,17 +1014,18 @@
     date_type_message: Seleccione un tipo para introducir fecha normalizada o intervalo de fechas
     expression: Expresión
     expression_tooltip: |
-        <p>CAMPO OBLIGATORIO CONDICIONAL
+        <p>Campo obligatorio en caso de no disponer de fecha normalizada</p>
         <p>Ver DACS 2.4</p>
-        <p>Ejemplos</p>
+        <p>Ejemplos:</p>
         <ul>
         <li>1968</li>
         <li>1979-1993</li>
-        <li>1785-1960, a granel 1916-1958</li>
+        <li>1785-1960, en sentido amplio 1916-1958</li>
         <li>1827, 1952-1978</li>
         <li>alrededor de 1870-1879</li>
         <li>17 de marzo de 1906</li>
         <li>sin fecha</li>
+        <li>desconocido <em>(para eventos)</em></li>
         <li>desconocido <em>(para eventos)</em></li>
         </ul>
     begin: Comienzo
@@ -998,13 +1042,13 @@
         <p>Ver 2.4.7-2.4.16 DACS</p>
         <p>Años A.D. se expresan con cuatro dígitos.</p>
         <p>Años antes de Cristo se expresan como un número negativo, por ejemplo,-214 para 214 A.C.</p>
-    certainty: Fechas probables
+    certainty: Fiabilidad de la fecha
     certainty_tooltip: |
-        <p>El nivel de confianza de la información dada en un comunicado de fecha. Esta información es opcional y sólo se debe agregar al calificar la información de fecha como potencialmente incierto basado en la descripción o las reglas de catalogación en uso.</p>
+        <p>El nivel de confianza de la información dada en una fecha. Esta información es opcional y sólo se debe agregar al calificar la información de fecha como potencialmente incierto basado en la descripción o las reglas de catalogación en uso.</p>
         <p>Ver EAD atributo "certeza".</p>
-    era: Época
+    era: Era
     era_tooltip: |
-        <p>Período durante el cual años contados y calcula las fechas, como A.C. o C.E. El valor "ce" es el valor por defecto.</p>
+        <p>Período de las fechas, como A.C. o C.E. El valor "ce" es el valor por defecto.</p>
         <p>Ver EAD atributo "época".</p>
     calendar: Calendario
     calendar_tooltip: |
@@ -1042,6 +1086,8 @@
 
   accession: 
     <<: *section_tooltips
+    user_defined: 
+      <<: *user_defined_attributes 
     accession_date: Fecha de entrada
     accession_date_inline_help: por ejemplo AAAA-MM-DD
     accession_date_tooltip: |
@@ -1070,7 +1116,7 @@
         <p>Una descripción de los tipos de documentos y contenidos tópicos de la
         accession.</p>: 
         <p>Ver 3.1.4-3.1.7 DACS</p>
-        <p>Ejemplos</p>        
+        <p>Ejemplos</p>
         <p>Diez cajas de materiales que contengan notas de campo, diarios, y
         drafts of maps documenting Mr. Smith's 10 years in residence at the: 
         Otay Mesa Ranch.</p>: 
@@ -1078,13 +1124,13 @@
     condition_description_tooltip: |
         <p>Una descripción de la condición física de los contenidos de la
         accession, including any special handling requirements.</p>: 
-        <p>Ejemplos</p>        
+        <p>Ejemplos</p>
         <p>Los mapas en la casilla 4 son frágiles y varios están cubiertas de moho.
         Inhalation guards should be worn during processing.</p>: 
     disposition: Disposición
     disposition_tooltip: |
         <p>Una nota para describir cómo un acta de ingreso particular que han sido asignada a diferentes recursos.</p>
-        <p>Ejemplos</p>        
+        <p>Ejemplos</p>
         <p>Las fotografías fueron separadas y asignadas a las fotografías 025.</p>
         <p>Las cartas a William Colton agregaron a la colección de correspondencia William Colton, mientras que los mapas de corrientes locales del país fueron agregados a los registros de la colección del Condado de río.</p>
     general_note: Nota general
@@ -1136,7 +1182,7 @@
     use_restrictions_note: Nota de las restricciones de uso
     use_restrictions_note_tooltip: |
         <p>Una declaración indicando que los materiales tienen restricciones de uso, cómo pueden utilizarse los materiales, lo que la autoridad de la restricción es y por cuánto tiempo la restricción estará en efecto. Información adicional también puede grabarse en un subregistro de derechos.</p>
-        <p>Ejemplos</p>        
+        <p>Ejemplos</p>
         <p>En la casilla 33 manuscritos son frágiles; fotocopias deben utilizarse en su lugar.</p>
     acquisition_type: Tipo de acta de ingreso
     acquisition_type_tooltip: |
@@ -1151,7 +1197,7 @@
     publish: ¿Publicar?
     publish_help: Mira esto si desea publicar esta entrada al público.
     publish_tooltip: |
-        <p>Determina si se publicará este acta de ingreso a interfaces públicas (patrón).</p>
+        <p>Determina si se publicará este acta de ingreso.</p>
     restrictions: ¿Restricciones?
     restrictions_tooltip: |
         <p>Indicación de si se aplican restricciones al acta de ingreso.</p>
@@ -1292,13 +1338,13 @@
         </ul>
     publish: ¿Publicar?
     publish_tooltip: |
-        <p>Determina si este recurso será publicado a las interfaces públicas (patrón).</p>
+        <p>Determina si este fondo será publicado.</p>
     restrictions: ¿Restricciones?
     restrictions_apply: ¿Se aplican restricciones?
     restrictions_tooltip: |
-        <p>Indica si los materiales descritos se limitan en modo alguno. Descripción adicional de la restricción debe proporcionarse en notas apropiadas o declaraciones de derechos para el registro donde se produce la restricción.</p>
+        <p>Indica si los materiales descritos tienen algún tipo de limitación legal. En la nota apropiada se describirá la restricción o normativa en cuestión.</p>
         <p>Ver DACS 4.1-4.4</p>
-    repository_processing_note: Repositorio procesamiento Nota
+    repository_processing_note: Nota relativa al proceso técnico
     automate_title: Generar automáticamente el título
     language: Idioma
     language_tooltip: |
@@ -1357,6 +1403,8 @@
   resource:
     <<: *archival_object_attributes
     <<: *section_tooltips
+    user_defined:
+       <<: *user_defined_attributes
     id_0: Identificador
     id_0_tooltip: |
         <p>REQUIRED FIELD. The identification number assigned to each discrete Resource within a Repository.</p>
@@ -1386,23 +1434,23 @@
     resource_type_tooltip: |
         <p>Una lista de términos utilizados por un repositorio para categorizar sus recursos en tipos básicos.</p>
         <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
-    repository_processing_note: Repositorio procesamiento Nota
+    repository_processing_note: Nota relativa al proceso técnico
     extents_tooltip: |
         <p>SUBREGISTRO REQUERIDO
         <p>Ver DACS 2.5</p>
     related_accessions_tooltip: |
-        <p>Utilizado para vincular las accesiones asociadas con este recurso.</p>
+        <p>Utilizado para vincular las actas de ingreso asociadas con este fondo.</p>
     repository_processing_note_tooltip: |
-        <p>Un campo de aplicaciones específicas para registrar información sobre el procesamiento de los materiales. Esta nota no está incluida en las exportaciones ni informes y no está poblada por las importaciones.</p>
-    ead_id: ID DE EAD
+        <p>Un campo para registrar información específica sobre el proceso técnico de los materiales. Esta nota es de uso interno y no se exporta en el instrumento de descripción.</p>
+    ead_id: Identificador EAD
     ead_id_tooltip: |
-        <p>El identificador de la EAD generado a partir de la descripción del recurso, normalmente un nombre de archivo. Debe ser único dentro del contexto del repositorio.</p>
-    ead_location: Ubicación de EAD
+        <p>El identificador del EAD generado a partir de la descripción del recurso, normalmente un nombre de archivo. Debe ser único dentro del contexto del repositorio.</p>
+    ead_location: URI
     ead_location_tooltip: |
-        <p>La ubicación de la EAD generada a partir de la descripción del recurso, una declaración del directorio de archivo o una dirección URL de la web. La situación termina normalmente.</p>
+        <p>La ubicación del EAD, por ejemplo la dirección URI.</p>
     finding_aid_tooltip: |
         <p>Utilizado para grabar los datos administrativos sobre la representación de descripción archivística, generalmente para cuando la descripción se exporta en descripción archivística codificada (EAD).</p>
-    finding_aid_title: Título del finding aid
+    finding_aid_title: Título del instrumento de descripción
     finding_aid_title_tooltip: |
         <p>El título (bibliográfico) para la ayuda de encontrar asociado con este recurso.</p>
         <p>Ejemplos</p>
@@ -1411,55 +1459,60 @@
         <li>Inventario de los documentos de la familia de Reese</li>
         <li>Lista de los dibujos y modelos de la firma arquitectónica Simon y Simon</li>
         </ul>
-    finding_aid_filing_title: Título formal del finding aid
+    finding_aid_subtitle: Subtítulo del instrumento de descripción
+    finding_aid_filing_title: Título abreviado del instrumento de descripción
     finding_aid_filing_title_tooltip: |
-        <p>Una versión modificada del título formal de la ayuda del hallazgo. Diseñado para facilitar la navegación y la clasificación de encontrar ayuda título listas.</p>
+        <p>Una versión modificada del título formal de la ayuda del hallazgo. Diseñado para facilitar la navegación.</p>
         <p>Ejemplos</p>
         <ul>
         <li>Wayne (Bruce M.) Papeles</li>
         <li>Familia Rooney papeles</li>
         <li>Partido comunista de los registros de los Estados Unidos</li>
         </ul>
-    finding_aid_date: Fecha del finding aid
+    finding_aid_date: Fecha del instrumento de descripción
     finding_aid_date_tooltip: |
         <p>La expresión de la fecha para cuando se generó la actual ayuda de hallazgo de la descripción del recurso.</p>
-    finding_aid_author: Autor del finding aid
+    finding_aid_author: Autor del instrumento de descripción
     finding_aid_author_tooltip: |
         <p>Los nombres (s) de los autoridades responsables de crear el contenido de la ayuda de encontrar o su codificación.</p>
     finding_aid_description_rules: Reglas de Descripción
     finding_aid_description_rules_tooltip: |
         <p>Indica las reglas descriptivas usadas para guiar la descripción del recurso.</p>
         <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
-    finding_aid_language: Lenguaje de descripción
+    finding_aid_language: Lengua del instrumento de descripción
     finding_aid_language_tooltip: |
-        <p>Indica que todas las lenguas presentes en el hallazgo ayuda generada a partir de la descripción del recurso.</p>
+        <p>Indica todas las lenguas presentes en el instrumento de descripción.</p>
     finding_aid_sponsor: Patrocinador
     finding_aid_sponsor_tooltip: |
-        <p>Indica a cualquier patrocinadores que contribuyeron a la descripción de la ayuda del hallazgo.</p>
-    finding_aid_edition_statement: Declaración de edición
+        <p>Indica patrocinadores que contribuyeron a la descripción.</p>
+    finding_aid_edition_statement: Mención de edición
     finding_aid_edition_statement_tooltip: |
-        <p>Para registrar información sobre la edición del hallazgo ayuda.</p>
-    finding_aid_series_statement: Declaración de serie
+        <p>Para registrar información sobre la edición.</p>
+    finding_aid_series_statement: Mención de serie
     finding_aid_series_statement_tooltip: |
-        <p>Indica que cualquier serie bibliográfica a la que pertenece el hallazgo ayuda.</p>
-    finding_aid_revision_date: Fecha de revisión
-    finding_aid_revision_date_tooltip: |
-        <p>Especifica la fecha de que la ayuda del hallazgo fue última revisión.</p>
-    finding_aid_revision_description: Descripción de la revisión
-    finding_aid_revision_description_tooltip: |
-        <p>El último número de revisión hecho para ayudar a encontrar una descripción.</p>
-    finding_aid_status: Estado del finding aid
+        <p>Indica cualquier serie bibliográfica a la que pertenece.</p>
+    finding_aid_status: Estado del instrumento de descripción
     finding_aid_status_tooltip: |
         <p>Indica el estado de la ayuda del hallazgo.</p>
-    finding_aid_note: Nota del finding aid
+    finding_aid_note: Nota del instrumento de descripción
     finding_aid_note_tooltip: |
-        <p>Para la grabación de cualquier información adicional sobre el hallazgo ayuda (no el recurso descrito) no cubierto por el otro buscar ayuda datos elementos.</p>
+        <p>Para información adicional sobre el instrumento de descripción (no el recurso descrito).</p>
     _singular: Fondo
     _plural: Fondos
 
   related_accession: 
     _singular: Acta de ingreso relacionada
     _plural: Actas de ingreso relacionadas
+
+  revision_statement:
+    _singlular: Revision Statement
+    _plural: Revision Statements
+    date: Revision Date
+    date_tooltip: |
+        <p>Specifies the date the instrumento de descripción was last revised.</p>
+    description: Revision Description
+    description_tooltip: |
+        <p>A description of the last revision(s) done to the instrumento de descripción.</p>
 
   related_resource: 
     _singular: Fondos relacionados
@@ -1496,7 +1549,7 @@
     parent_institution_name: Nombre de la institución matriz
     parent_institution_name_tooltip: |
         <p>El nombre de la institución del padre que el repositorio es una parte.</p>
-        <p>Ejemplos</p>        
+        <p>Ejemplos</p>
         <ul>
         <li>Universidad de Illinois <em>(para los archivos de la Universidad de Illinois)</em></li>
         <li>Universidad de Nueva York <em>(para Tamiment biblioteca y archivos laborales Robert F. Wagner)</em></li>
@@ -1612,11 +1665,11 @@
     cataloged_note: Nota de catalogación
     cataloged_note_tooltip: |
         <p>Una nota acerca de catalogación de la unidad de archivo (acta de ingreso, recurso, objeto digital), incluyendo la provisión de identificadores de registro de catálogo.</p>
-        <p>Ejemplos</p>        
+        <p>Ejemplos</p>
         <ul>
         <li>Número de registro del Catálogo</li>
         </ul>
-    processing_hours_per_foot_estimate: Procesamiento estimación hrs/ft
+    processing_hours_per_foot_estimate: Procesamiento estimación hrs/unidades
     processing_hours_per_foot_estimate_tooltip: |
         <p>El tiempo un repositorio estima que es necesaria para procesar una unidad de material de archivo (por ejemplo un pie lineal o un elemento en el caso de objetos digitales).  La estimación posible factor, o no, la producción de encontrar SIDA, registros del catálogo y otros productos de acceso.</p>
     processing_total_extent: Extensión total de procesamiento
@@ -1632,13 +1685,13 @@
     processing_plan: Plan de procesamiento
     processing_plan_tooltip: |
         <p>Para la grabación de un plan para el procesamiento de la unidad de archivo. El plan puede incluir un esquema de la disposición de la unidad de archivo, así como las instrucciones de cómo tratar a objetos particulares en la unidad de archivo.  El plan también podría especificar asignaciones diferentes para el personal del repositorio diferente.</p>
-        <p>Ejemplos</p>        
+        <p>Ejemplos</p>
         <ul>
         <li>Tema organizar alfabéticamente y archivos de proyecto cronológicamente.</li>
         <li>Los estudiantes de Margaret creará registros descriptivos.</li>
         <li>Gerente de proyecto será revisar, salida y cargar la ayuda encontrar codificados.</li>
         </ul>
-    processing_priority: Prioridad
+    processing_priority: Prioridad para su procesamiento
     processing_priority_tooltip: |
         <p>Indica la prioridad asignada a la elaboración de una unidad de archivo.</p>
         <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
@@ -1674,38 +1727,6 @@
     _singular: Gestión de la colección
     _plural: Gestión de las colecciones
 
-  user_defined: 
-    boolean_1: Boolean 1
-    boolean_2: 2 booleano
-    boolean_3: 3 booleanos
-    integer_1: Entero 1
-    integer_2: Entero 2
-    integer_3: Entero 3
-    real_1: 1 real
-    real_2: 2 real
-    real_3: 3 reales
-    string_1: Cadena 1
-    string_2: Cadena 2
-    string_3: Cadena 3
-    string_4: Cadena 4
-    text_1: Texto 1
-    text_2: Texto 2
-    text_3: Texto 3
-    text_4: Texto 4
-    text_5: Texto 5
-    date_1: Fecha 1
-    date_1_inline_help: por ejemplo AAAA-MM-DD
-    date_2: Fecha 2
-    date_2_inline_help: por ejemplo AAAA-MM-DD
-    date_3: Fecha 3
-    date_3_inline_help: por ejemplo AAAA-MM-DD
-    enum_1: Valor controlado 1
-    enum_2: Valor controlado 2
-    enum_3: Valor controlado 3
-    enum_4: Valor controlado 4
-    _singular: Definidos por el usuario
-    _plural: Definidos por el usuario
-
   enumeration: 
     # tooltips not displaying: 
     name: Nombre
@@ -1716,6 +1737,9 @@
         <p>El valor de la lista de valores controlados que desee agregar o editar.</p>
         <p>Siempre que sea posible, los valores deben ser en minúscula y tener caracteres de subrayado ("_") en vez de espacios. Traducciones para los valores se deben agregar al archivo locales.</p>
     translation: Traducción
+    position: Posición
+    suppress: Bloquear
+    unsuppress: Desbloquear
     merge_into: Combinar en
     _singular: Lista de valores controlados
     _plural: Listas de valor controladas
@@ -1756,6 +1780,8 @@
     show_suppressed_tooltip: Si se muestran registros bloqueados que tiene permiso para ver al navegar.
     publish: ¿Publicar?
     publish_tooltip: Si desea publicar nuevos registros por defecto.
+    default_values: ¿Pre-popular registros?
+    default_values_tooltip: Si quiere pre-popular un nuevo Fondo o Acta de ingreso
     accession_browse_section: Navegar columnas de entrada
     accession_browse_column_1: Columna 1
     accession_browse_column_1_tooltip: El campo para mostrar en la columna 1.
@@ -1842,7 +1868,8 @@
     location_cannot_be_deleted_if_linked: Ubicación actualmente está vinculada a uno o más registros de representación y no puede ser bloqueado. Por favor, enlace estas instancias a nuevas ubicaciones antes de eliminar el registro del lugar.
     cannot_be_previous_if_location_is_not_temporary: No se puede transferir a la anterior si la situación es temporal. 
     authority_id_must_be_unique: Identificador de autoridad ya está en uso
-    either_type_1_or_barcode_is_required: Un envase debe contener 1 tipo de envase o código de barras. 
+    either_type_1_or_barcode_is_required: Un envase debe contener 1 tipo de envase o código de barras.
+    must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Debe ser un número con no más de 9 dígitos y 5 decimales.   
 
   job:
     _singular: Tarea en el background
@@ -1913,3 +1940,6 @@
     frontend_log: Registro de frontend
     backend_info: Información del sistema de back-end
     backend_log: Registro de backend
+
+  resource_component:
+   _singular: Componente de recurso
