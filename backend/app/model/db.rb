@@ -6,6 +6,12 @@ class DB
   Sequel.database_timezone = :utc
   Sequel.typecast_timezone = :utc
 
+  # When performing a query like ds.filter(:col => []), don't turn it into
+  # SELECT ... WHERE col != col.  MySQL doesn't optimize this at all and
+  # performs a full table scan.
+  Sequel.extension :empty_array_ignore_nulls
+
+
   SUPPORTED_DATABASES = [
                          {
                            :pattern => /jdbc:mysql/,
@@ -335,6 +341,11 @@ eof
 
 
   def self.supports_mvcc?
+    ![:derby, :h2].include?(@pool.database_type)
+  end
+
+
+  def self.supports_join_updates?
     ![:derby, :h2].include?(@pool.database_type)
   end
 
