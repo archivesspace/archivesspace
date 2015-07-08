@@ -1,0 +1,18 @@
+JSON Schema: Group
+/repositories/:repo_id/groups
+Properties
+
+string	uri
+
+string (max length: 255)	group_code
+
+string (max length: 65000)	description
+
+array (string)	member_usernames
+
+array (string)	grants_permissions
+
+
+
+
+

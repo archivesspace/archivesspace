@@ -1,7 +1,7 @@
 ---
 title: Generating API documentation 
 layout: en
-permalink: /archivesspace/user/generating-api-documentation/ 
+permalink: /user/generating-api-documentation/ 
 ---
 
 To generate documentation for backend endpoints:

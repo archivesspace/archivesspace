@@ -1,0 +1,14 @@
+JSON Schema: Agent_corporate_entity
+/agents/corporate_entities
+Properties
+
+array (JSONModel(:name_corporate_entity) object)	names
+
+JSONModel(:name_corporate_entity) object	display_name
+
+array ([{"type"=>"JSONModel(:agent_relationship_subordinatesuperior) object"}, {"type"=>"JSONModel(:agent_relationship_earlierlater) object"}, {"type"=>"JSONModel(:agent_relationship_associative) object"}])	related_agents
+
+
+
+
+

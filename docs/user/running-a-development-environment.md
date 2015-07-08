@@ -1,7 +1,7 @@
 ---
 title: Running a development environment 
 layout: en
-permalink: /archivesspace/user/running-a-development-environment/ 
+permalink: /user/running-a-development-environment/ 
 ---
 
 To run a development instance of all ArchivesSpace components:

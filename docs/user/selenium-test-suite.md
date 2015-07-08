@@ -1,7 +1,7 @@
 ---
 title: Selenium test suite 
 layout: en
-permalink: /archivesspace/user/selenium-test-suite/ 
+permalink: /user/selenium-test-suite/ 
 ---
 
 ## Before running:

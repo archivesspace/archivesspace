@@ -1,7 +1,7 @@
 ---
 title: You may have other plugins 
 layout: en
-permalink: /archivesspace/user/you-may-have-other-plugins/ 
+permalink: /user/you-may-have-other-plugins/ 
 ---
 AppConfig[:plugins] = ['local', 'newrelic']
 

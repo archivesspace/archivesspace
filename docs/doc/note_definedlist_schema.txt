@@ -1,0 +1,14 @@
+JSON Schema: Note_definedlist
+
+Properties
+
+string (max length: 16384)	title
+
+boolean	publish
+
+array (Object (label, value))	items
+
+
+
+
+

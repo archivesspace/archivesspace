@@ -1,4 +1,5 @@
 exclude: [bin, CNAME, Gemfile, Gemfile.lock, README.md, slate]
+baseurl: /archivesspace
 markdown: kramdown
 permalink: :title
 safe: true

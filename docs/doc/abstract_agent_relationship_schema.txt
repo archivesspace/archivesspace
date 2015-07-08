@@ -1,0 +1,12 @@
+JSON Schema: Abstract_agent_relationship
+
+Properties
+
+string (max length: 65000)	description
+
+JSONModel(:date) object	dates
+
+
+
+
+

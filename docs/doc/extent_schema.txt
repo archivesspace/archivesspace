@@ -1,0 +1,20 @@
+JSON Schema: Extent
+
+Properties
+
+string	portion
+
+string (max length: 255)	number
+
+string	extent_type
+
+string (max length: 65000)	container_summary
+
+string (max length: 65000)	physical_details
+
+string (max length: 255)	dimensions
+
+
+
+
+

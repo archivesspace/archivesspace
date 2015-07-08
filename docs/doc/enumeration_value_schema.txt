@@ -1,0 +1,16 @@
+JSON Schema: Enumeration_value
+/config/enumeration_values
+Properties
+
+string	uri
+
+string (max length: 255)	value
+
+integer	position
+
+boolean	suppressed
+
+
+
+
+

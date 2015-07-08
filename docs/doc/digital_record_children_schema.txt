@@ -1,0 +1,10 @@
+JSON Schema: Digital_record_children
+
+Properties
+
+array (JSONModel(:digital_object_component) object)	children
+
+
+
+
+

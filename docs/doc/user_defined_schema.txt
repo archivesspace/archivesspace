@@ -1,0 +1,58 @@
+JSON Schema: User_defined
+
+Properties
+
+boolean	boolean_1
+
+boolean	boolean_2
+
+boolean	boolean_3
+
+string	integer_1
+
+string	integer_2
+
+string	integer_3
+
+string	real_1
+
+string	real_2
+
+string	real_3
+
+string (max length: 255)	string_1
+
+string (max length: 255)	string_2
+
+string (max length: 255)	string_3
+
+string (max length: 255)	string_4
+
+string (max length: 65000)	text_1
+
+string (max length: 65000)	text_2
+
+string (max length: 65000)	text_3
+
+string (max length: 65000)	text_4
+
+string (max length: 65000)	text_5
+
+date	date_1
+
+date	date_2
+
+date	date_3
+
+string	enum_1
+
+string	enum_2
+
+string	enum_3
+
+string	enum_4
+
+
+
+
+

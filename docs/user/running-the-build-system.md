@@ -1,7 +1,7 @@
 ---
 title: Running the build system 
 layout: en
-permalink: /archivesspace/user/running-the-build-system/ 
+permalink: /user/running-the-build-system/ 
 ---
 
 To run the build system, use the `build/run` script from your

@@ -1,0 +1,28 @@
+JSON Schema: Digital_object
+/repositories/:repo_id/digital_objects
+Properties
+
+string (max length: 255)	digital_object_id
+
+string	level
+
+string	digital_object_type
+
+array (JSONModel(:file_version) object)	file_versions
+
+boolean	restrictions
+
+object	tree
+
+array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_digital_object) object"}])	notes
+
+JSONModel(:collection_management) object	collection_management
+
+JSONModel(:user_defined) object	user_defined
+
+array (Object (ref, _resolved))	linked_instances
+
+
+
+
+

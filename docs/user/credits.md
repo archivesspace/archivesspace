@@ -1,7 +1,7 @@
 ---
 title: Credits 
 layout: en
-permalink: /archivesspace/user/credits/ 
+permalink: /user/credits/ 
 ---
 
 ArchivesSpace 1.0 has been developed by [Hudson Molonglo](http://www.hudsonmolonglo.com)

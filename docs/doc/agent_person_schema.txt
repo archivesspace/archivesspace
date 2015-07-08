@@ -1,0 +1,14 @@
+JSON Schema: Agent_person
+/agents/people
+Properties
+
+array (JSONModel(:name_person) object)	names
+
+JSONModel(:name_person) object	display_name
+
+array ([{"type"=>"JSONModel(:agent_relationship_parentchild) object"}, {"type"=>"JSONModel(:agent_relationship_earlierlater) object"}, {"type"=>"JSONModel(:agent_relationship_associative) object"}])	related_agents
+
+
+
+
+

@@ -1,0 +1,14 @@
+JSON Schema: Default_values
+/repositories/:repo_id/default_values/:record_type
+Properties
+
+string	uri
+
+string	record_type
+
+object	defaults
+
+
+
+
+

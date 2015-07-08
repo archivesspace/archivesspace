@@ -1,0 +1,32 @@
+JSON Schema: Abstract_agent
+
+Properties
+
+string	uri
+
+string	title
+
+boolean	is_linked_to_published_record
+
+string	agent_type
+
+array (JSONModel(:agent_contact) object)	agent_contacts
+
+array (string)	linked_agent_roles
+
+array (JSONModel(:external_document) object)	external_documents
+
+array (JSONModel(:rights_statement) object)	rights_statements
+
+boolean	system_generated
+
+array ([{"type"=>"JSONModel(:note_bioghist) object"}])	notes
+
+array (JSONModel(:date) object)	dates_of_existence
+
+boolean	publish
+
+
+
+
+

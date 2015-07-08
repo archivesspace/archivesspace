@@ -1,0 +1,14 @@
+JSON Schema: Date_field_query
+
+Properties
+
+string	comparator
+
+string	field
+
+date	value
+
+
+
+
+

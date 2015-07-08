@@ -1,0 +1,12 @@
+JSON Schema: Agent_software
+/agents/software
+Properties
+
+JSONModel(:name_software) object	display_name
+
+array (JSONModel(:name_software) object)	names
+
+
+
+
+

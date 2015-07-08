@@ -1,0 +1,16 @@
+JSON Schema: Note_orderedlist
+
+Properties
+
+string (max length: 16384)	title
+
+boolean	publish
+
+string	enumeration
+
+array (string)	items
+
+
+
+
+
