@@ -70,30 +70,30 @@
     <h2>Menu</h2>
     <nav>
       <ul>
-        <li><a href="/user/system-requirements/">System Requirements</a></li>
-        <li><a href="/user/getting-started/">Getting started</a></li>
-        <li><a href="/user/configuring-archivesspace/">Configuring ArchivesSpace</a></li>
-        <li><a href="/user/upgrading-to-a-new-release-of-archivesspace/">Upgrading ArchivesSpace</a></li>
-        <li><a href="/user/running-archivesspace-as-a-unix-daemon/">Running ArchivesSpace as a Unix daemon</a></li>
-        <li><a href="/user/running-archivesspace-as-a-windows-service/">Running ArchivesSpace as a Windows Service</a></li>
-        <li><a href="/user/running-archivesspace-under-tomcat/">Running ArchivesSpace under Tomcat</a></li>
-        <li><a href="/user/running-archivesspace-against-mysql/">Setting up MySQL for Production</a></li>
-        <li><a href="/user/backup-and-recovery/">Backup and Recovery</a></li>
-        <li><a href="/user/re-creating-indexes/">Re-creating your indexes</a></li>
-        <li><a href="/user/resetting-passwords/">Resetting Passwords</a></li>
-        <li><a href="/user/configuring-ldap-authentication/">Configuring LDAP authentication</a></li>
-        <li><a href="/user/archivesspace-plug-ins-readme/">Plugins and Local Customizations</a></li>
-        <li><a href="/user/running-archivesspace-under-a-prefix/">Deploying under a URL prefix</a></li>
-        <li><a href="/user/running-archivesspace-with-external-solr/">Using an external Solr index</a></li>
-        <li><a href="/user/application-monitoring-with-new-relic/">Monitoring with New Relic</a></li>
+        <li><a href="./user/system-requirements/">System Requirements</a></li>
+        <li><a href="./user/getting-started/">Getting started</a></li>
+        <li><a href="./user/configuring-archivesspace/">Configuring ArchivesSpace</a></li>
+        <li><a href="./user/upgrading-to-a-new-release-of-archivesspace/">Upgrading ArchivesSpace</a></li>
+        <li><a href="./user/running-archivesspace-as-a-unix-daemon/">Running ArchivesSpace as a Unix daemon</a></li>
+        <li><a href="./user/running-archivesspace-as-a-windows-service/">Running ArchivesSpace as a Windows Service</a></li>
+        <li><a href="./user/running-archivesspace-under-tomcat/">Running ArchivesSpace under Tomcat</a></li>
+        <li><a href="./user/running-archivesspace-against-mysql/">Setting up MySQL for Production</a></li>
+        <li><a href="./user/backup-and-recovery/">Backup and Recovery</a></li>
+        <li><a href="./user/re-creating-indexes/">Re-creating your indexes</a></li>
+        <li><a href="./user/resetting-passwords/">Resetting Passwords</a></li>
+        <li><a href="./user/configuring-ldap-authentication/">Configuring LDAP authentication</a></li>
+        <li><a href="./user/archivesspace-plug-ins-readme/">Plugins and Local Customizations</a></li>
+        <li><a href="./user/running-archivesspace-under-a-prefix/">Deploying under a URL prefix</a></li>
+        <li><a href="./user/running-archivesspace-with-external-solr/">Using an external Solr index</a></li>
+        <li><a href="./user/application-monitoring-with-new-relic/">Monitoring with New Relic</a></li>
       </ul>
       <h2>Developer Guides</h2>
       <ul>
-        <li><a href="/user/archivesspace-architecture-overview">Architecture Overview</a></li>
-        <li><a href="/api">The API</a></li>
-        <li><a href="/user/archivesspace-build-system">Building ArchivesSpace</a></li>
-        <li><a href="/user/selenium-test-suite">Running Selenium Tests</a></li>
-        <li><a href="/doc">Ruby YARD Documentation</a></li>
+        <li><a href="./user/archivesspace-architecture-overview">Architecture Overview</a></li>
+        <li><a href="./api">The API</a></li>
+        <li><a href="./user/archivesspace-build-system">Building ArchivesSpace</a></li>
+        <li><a href="./user/selenium-test-suite">Running Selenium Tests</a></li>
+        <li><a href="./doc">Ruby YARD Documentation</a></li>
         <li><div class="status-circle status">Status:</div>
           <a href="https://travis-ci.org/archivesspace/archivesspace">Travis CI Status</a>
         </li>
@@ -145,117 +145,6 @@ and to keep things simple the following are assumed:</p>
 <p>Unless otherwise stated, it is assumed that you have root access on
 your machines, and all commands are to be run as root (or with sudo).</p>
 
-<h2 id="step-1-restrict-access-to-application-urls">Step 1: restrict access to application urls</h2>
-
-<p>The standard ArchivesSpace distribution consists of four separate web
-applications. By default, the applications are assigned to the following
-urls:</p>
-
-<ul>
-  <li>
-    <p>Backend - <code>http://localhost:8089</code></p>
-  </li>
-  <li>
-    <p>Frontend (staff UI) - <code>http://localhost:8080</code></p>
-  </li>
-  <li>
-    <p>Public (read-only UI) - <code>http://localhost:8081</code> </p>
-  </li>
-  <li>
-    <p>Solr (search middleware) - <code>http://localhost:8090</code></p>
-  </li>
-</ul>
-
-<p>These assignments can be altered through edits to the configuration file
-located at <code>archivesspace/config/config.rb</code> in the standard distribution.</p>
-
-<p>Since the four component applications must be able to communicate with each
-other over HTTP, the first step will be to restrict access to ports <code>8089</code>,
- <code>8080</code>, <code>8081</code>, and <code>8090</code> to the localhost. On a Linux server, this can be
- done using iptables:</p>
-
-<pre><code> iptables -A INPUT -p tcp -s localhost --dport 8089 -j ACCEPT
- iptables -A INPUT -p tcp --dport 8089 -j DROP
- iptables -A INPUT -p tcp -s localhost --dport 8080 -j ACCEPT
- iptables -A INPUT -p tcp --dport 8080 -j DROP
- iptables -A INPUT -p tcp -s localhost --dport 8081 -j ACCEPT
- iptables -A INPUT -p tcp --dport 8081 -j DROP
- iptables -A INPUT -p tcp -s localhost --dport 8090 -j ACCEPT
- iptables -A INPUT -p tcp --dport 8090 -j DROP
-</code></pre>
-
-<p>Once this is done, it should be possible to start up the application without
-exposing it to the outside world.</p>
-
-<h2 id="step-2-use-modssl-and-modproxy-to-serve-archivesspace-over-https">Step 2: use mod_ssl and mod_proxy to serve ArchivesSpace over HTTPS</h2>
-
-<p>In order for archivists and researchers to access the application, there will
-need to be two URLs that are exposed to the outside world, and per the main
-requirement of this exercise, those URLs will need to begin with <code>https://</code>.
-Let’s assume that they will be:</p>
-
-<ul>
-  <li>
-    <p><code>https://staff.myarchive.org</code> - for archival staff</p>
-  </li>
-  <li>
-    <p><code>https://research.myarchive.org</code> - for the public </p>
-  </li>
-</ul>
-
-<p>Start by ensuring that Apache is configured to handle HTTPS requests. Locate
-the <code>httpd.conf</code> file and ensure that it contains this line (or similar):</p>
-
-<pre><code> LoadModule ssl_module modules/mod_ssl.so
-</code></pre>
-
-<p>If it is commented out, uncomment it.</p>
-
-<p>Likewise, ensure that the Apache mod_proxy module is enabled:</p>
-
-<pre><code> LoadModule proxy_module modules/mod_proxy.so
-</code></pre>
-
-<p>The following edits can be made in the httpd.conf file itself; however, it is
-conventional to use the <code>Include</code> directive to load them from a file
-named <code>ssl.conf</code>, <code>httpd-ssl.conf</code>, or the like. Example:</p>
-
-<pre><code> Include "/path/to/apache/extra/ssl.conf"
-</code></pre>
-
-<p>Make sure Apache is listening on port 443 (or whatever port you choose):</p>
-
-<pre><code> Listen 443
-</code></pre>
-
-<p>Finally, use the <code>NameVirtualHost</code> and <code>VirtualHost</code> directives to proxy
-requests to the actual application urls. Example:</p>
-
-<pre><code> NameVirtualHost *:443
-
- &lt;VirtualHost *:443&gt;
-   ServerName staff.myarchive.org
-   SSLEngine On
-   SSLCertificateFile "/path/to/your/cert.crt"
-   SSLCertificateKeyFile "/path/to/your/key.key"
-   ProxyPreserveHost On
-   ProxyPass / http://localhost:8080/
-   ProxyPassReverse / http://localhost:8080/
- &lt;/VirtualHost&gt;
- &lt;VirtualHost *:443&gt;
-   ServerName research.myarchive.org
-   SSLEngine On
-   SSLCertificateFile "/path/to/your/cert.crt"
-   SSLCertificateKeyFile "/path/to/your/key.key"
-   ProxyPreserveHost On
-   ProxyPass / http://localhost:8081/
-   ProxyPassReverse / http://localhost:8081/
- &lt;/VirtualHost&gt;
-</code></pre>
-
-<p>More information about configuring Apache for SSL can be found at
-http://httpd.apache.org/docs/current/ssl/ssl_howto.html.  You should read
-that documentation before attempting to configure SSL.</p>
 
         </main>
       </div><!-- /#content -->
