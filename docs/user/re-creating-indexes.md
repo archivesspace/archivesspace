@@ -1,7 +1,7 @@
 ---
 title: Re-creating indexes 
 layout: en
-permalink: /user/re-creating-indexes/ 
+permalink: /archivesspace/user/re-creating-indexes/ 
 ---
 
 ArchivesSpace keeps track of what has been indexed by using the files

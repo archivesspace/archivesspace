@@ -1,7 +1,7 @@
 ---
 title: Running ArchivesSpace as a Windows Service 
 layout: en
-permalink: /user/running-archivesspace-as-a-windows-service/ 
+permalink: /archivesspace/user/running-archivesspace-as-a-windows-service/ 
 ---
 
 Running ArchivesSpace as a Windows service requires some additional 

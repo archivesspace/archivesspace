@@ -1,7 +1,7 @@
 ---
 title: Configuring ArchivesSpace 
 layout: en
-permalink: /user/configuring-archivesspace/ 
+permalink: /archivesspace/user/configuring-archivesspace/ 
 ---
 
 The primary configuration for ArchivesSpace is done in the config/config.rb

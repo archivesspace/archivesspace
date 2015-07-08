@@ -1,7 +1,7 @@
 ---
 title: Backup and recovery 
 layout: en
-permalink: /user/backup-and-recovery/ 
+permalink: /archivesspace/user/backup-and-recovery/ 
 ---
 
 ## Creating backups using the provided script

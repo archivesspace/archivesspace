@@ -1,7 +1,7 @@
 ---
 title: Resetting passwords 
 layout: en
-permalink: /user/resetting-passwords/ 
+permalink: /archivesspace/user/resetting-passwords/ 
 ---
 
 Under the `scripts` directory you will find a script that lets you

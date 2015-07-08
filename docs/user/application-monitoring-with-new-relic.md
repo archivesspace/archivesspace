@@ -1,7 +1,7 @@
 ---
 title: Application monitoring with New Relic 
 layout: en
-permalink: /user/application-monitoring-with-new-relic/ 
+permalink: /archivesspace/user/application-monitoring-with-new-relic/ 
 ---
 =====================================
 

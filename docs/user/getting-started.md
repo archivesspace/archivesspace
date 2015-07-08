@@ -1,7 +1,7 @@
 ---
 title: Getting started 
 layout: en
-permalink: /user/getting-started/ 
+permalink: /archivesspace/user/getting-started/ 
 ---
 
 The quickest way to get ArchivesSpace up and running is to download

@@ -1,7 +1,7 @@
 ---
 title: Running the tests 
 layout: en
-permalink: /user/running-the-tests/ 
+permalink: /archivesspace/user/running-the-tests/ 
 ---
 
 ArchivesSpace uses a combination of RSpec, integration and Selenium

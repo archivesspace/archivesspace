@@ -1,7 +1,7 @@
 ---
 title: Running ArchivesSpace under a prefix 
 layout: en
-permalink: /user/running-archivesspace-under-a-prefix/ 
+permalink: /archivesspace/user/running-archivesspace-under-a-prefix/ 
 ---
 ------------------------------------
 

@@ -1,7 +1,7 @@
 ---
 title: Upgrading to a new release of ArchivesSpace 
 layout: en
-permalink: /user/upgrading-to-a-new-release-of-archivesspace/ 
+permalink: /archivesspace/user/upgrading-to-a-new-release-of-archivesspace/ 
 ---
 
 ### Please also see [UPGRADING_1.1.1.md](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.1.1.md)  for special considerations when upgrading to v1.1.1

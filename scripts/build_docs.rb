@@ -11,7 +11,7 @@ FileUtils::mkdir_p outdir
         next unless sec.length > 0 
         title = sec.lines.first.chomp
         next unless title.length > 0 
-        permalink = "/user/#{title.downcase.gsub(" ", "-")}/"
+        permalink = "/archivesspace/user/#{title.downcase.gsub(" ", "-")}/"
         File.open(File.join(outdir, "#{title.downcase.gsub(" ", "-")}.md"), 'w') do |file|
           md = <<EOF
 ---
