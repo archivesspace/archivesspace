@@ -1,0 +1,783 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: ASpaceExport::ArchivalObjectDescriptionHelpers
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!ASpaceExport/ArchivalObjectDescriptionHelpers.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (A)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../ASpaceExport.html" title="ASpaceExport (module)">ASpaceExport</a></span></span>
+     &raquo; 
+    <span class="title">ArchivalObjectDescriptionHelpers</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="../schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: ASpaceExport::ArchivalObjectDescriptionHelpers
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+    <dt class="r1">Included in:</dt>
+    <dd class="r1"><span class='object_link'><a href="../EADModel.html" title="EADModel (class)">EADModel</a></span></dd>
+    
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">backend/app/exporters/lib/export_helpers.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Convenience methods that will work for resource
+or archival_object models during serialization</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#archdesc_dates-instance_method" title="#archdesc_dates (instance method)">- (Object) <strong>archdesc_dates</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#archdesc_note_types-instance_method" title="#archdesc_note_types (instance method)">- (Object) <strong>archdesc_note_types</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#bibliographies-instance_method" title="#bibliographies (instance method)">- (Object) <strong>bibliographies</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#controlaccess_linked_agents-instance_method" title="#controlaccess_linked_agents (instance method)">- (Object) <strong>controlaccess_linked_agents</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#controlaccess_subjects-instance_method" title="#controlaccess_subjects (instance method)">- (Object) <strong>controlaccess_subjects</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#did_note_types-instance_method" title="#did_note_types (instance method)">- (Object) <strong>did_note_types</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#index_item_type_map-instance_method" title="#index_item_type_map (instance method)">- (Object) <strong>index_item_type_map</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#indexes-instance_method" title="#indexes (instance method)">- (Object) <strong>indexes</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="archdesc_dates-instance_method">
+  
+    - (<tt>Object</tt>) <strong>archdesc_dates</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 115</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_archdesc_dates identifier id'>archdesc_dates</span>
+  <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_@archdesc_dates ivar id'>@archdesc_dates</span>
+    <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_dates identifier id'>dates</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_dates identifier id'>dates</span> <span class='orop op'>||</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_dates identifier id'>dates</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_date identifier id'>date</span><span class='bitor op'>|</span>
+      <span class='rubyid_normal identifier id'>normal</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span>
+      <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'begin'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+        <span class='rubyid_normal identifier id'>normal</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{date['begin']}/&quot;</span>
+        <span class='rubyid_normal_suffix identifier id'>normal_suffix</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'date_type'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>'single'</span> <span class='orop op'>||</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'end'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'end'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'begin'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'begin'</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'end'</span><span class='rbrack token'>]</span>
+        <span class='rubyid_normal identifier id'>normal</span> <span class='opasgn op'>+=</span> <span class='rubyid_normal_suffix identifier id'>normal_suffix</span> <span class='integer val'>? </span><span class='rubyid_normal_suffix identifier id'>normal_suffix</span> <span class='colon op'>:</span> <span class='string val'>&quot;&quot;</span>
+      <span class='rubyid_end end kw'>end</span>
+      <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='dstring node'>%w(single inclusive)</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'date_type'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='string val'>'inclusive'</span> <span class='colon op'>:</span> <span class='string val'>'bulk'</span> 
+      <span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'expression'</span><span class='rbrack token'>]</span>
+                <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'expression'</span><span class='rbrack token'>]</span>
+              <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'date_type'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>'bulk'</span>
+                <span class='string val'>'bulk'</span>
+              <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'end'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'end'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'begin'</span><span class='rbrack token'>]</span>
+                <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'begin'</span><span class='rbrack token'>]</span>
+              <span class='rubyid_else else kw'>else</span>
+                <span class='dstring node'>&quot;#{date['begin']}-#{date['end']}&quot;</span>
+              <span class='rubyid_end end kw'>end</span>
+
+      <span class='rubyid_atts identifier id'>atts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_type identifier id'>type</span><span class='rbrace token'>}</span>
+      <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:normal</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_normal identifier id'>normal</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_normal identifier id'>normal</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+
+      <span class='rubyid_results identifier id'>results</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:content</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_content identifier id'>content</span><span class='comma token'>,</span> <span class='symbol val'>:atts</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_atts identifier id'>atts</span><span class='rbrace token'>}</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_@archdesc_dates ivar id'>@archdesc_dates</span> <span class='assign token'>=</span> <span class='rubyid_results identifier id'>results</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_@archdesc_dates ivar id'>@archdesc_dates</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="archdesc_note_types-instance_method">
+  
+    - (<tt>Object</tt>) <strong>archdesc_note_types</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+6
+7
+8</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 6</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_archdesc_note_types identifier id'>archdesc_note_types</span>
+  <span class='dstring node'>%w(accruals appraisal arrangement bioghist accessrestrict legalstatus userestrict custodhist altformavail originalsloc fileplan odd acqinfo otherfindaid phystech prefercite processinfo relatedmaterial scopecontent separatedmaterial)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="bibliographies-instance_method">
+  
+    - (<tt>Object</tt>) <strong>bibliographies</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+16
+17
+18</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 16</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_bibliographies identifier id'>bibliographies</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_n identifier id'>n</span><span class='lbrack token'>[</span><span class='string val'>'jsonmodel_type'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>'note_bibliography'</span><span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="controlaccess_linked_agents-instance_method">
+  
+    - (<tt>Object</tt>) <strong>controlaccess_linked_agents</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 41</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_controlaccess_linked_agents identifier id'>controlaccess_linked_agents</span>
+  <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_@controlaccess_linked_agents ivar id'>@controlaccess_linked_agents</span>
+    <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_linked identifier id'>linked</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_linked_agents identifier id'>linked_agents</span> <span class='orop op'>||</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_linked identifier id'>linked</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_link identifier id'>link</span><span class='comma token'>,</span> <span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span>
+
+      <span class='rubyid_role identifier id'>role</span> <span class='assign token'>=</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>'relator'</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>'relator'</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='lparen token'>(</span><span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>'role'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>'source'</span> <span class='question op'>?</span> <span class='string val'>'fmo'</span> <span class='colon op'>:</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
+
+      <span class='rubyid_agent identifier id'>agent</span> <span class='assign token'>=</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>'_resolved'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_dup identifier id'>dup</span>
+      <span class='rubyid_sort_name identifier id'>sort_name</span> <span class='assign token'>=</span> <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='string val'>'display_name'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'sort_name'</span><span class='rbrack token'>]</span>
+      <span class='rubyid_rules identifier id'>rules</span> <span class='assign token'>=</span> <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='string val'>'display_name'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'rules'</span><span class='rbrack token'>]</span>
+      <span class='rubyid_source identifier id'>source</span> <span class='assign token'>=</span> <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='string val'>'display_name'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'source'</span><span class='rbrack token'>]</span>
+      <span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='rubyid_sort_name identifier id'>sort_name</span><span class='dot token'>.</span><span class='rubyid_dup identifier id'>dup</span>
+
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>'terms'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
+        <span class='rubyid_content identifier id'>content</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot; -- &quot;</span>
+        <span class='rubyid_content identifier id'>content</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>'terms'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_t identifier id'>t</span><span class='bitor op'>|</span> <span class='rubyid_t identifier id'>t</span><span class='lbrack token'>[</span><span class='string val'>'term'</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>' -- '</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+
+      <span class='rubyid_node_name identifier id'>node_name</span> <span class='assign token'>=</span> <span class='rubyid_case case kw'>case</span> <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='string val'>'agent_type'</span><span class='rbrack token'>]</span>
+                  <span class='rubyid_when when kw'>when</span> <span class='string val'>'agent_person'</span><span class='semicolon token'>;</span> <span class='string val'>'persname'</span>
+                  <span class='rubyid_when when kw'>when</span> <span class='string val'>'agent_family'</span><span class='semicolon token'>;</span> <span class='string val'>'famname'</span>
+                  <span class='rubyid_when when kw'>when</span> <span class='string val'>'agent_corporate_entity'</span><span class='semicolon token'>;</span> <span class='string val'>'corpname'</span>
+                  <span class='rubyid_end end kw'>end</span>
+
+      <span class='rubyid_atts identifier id'>atts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+      <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:role</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_role identifier id'>role</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_role identifier id'>role</span>
+      <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:source</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_source identifier id'>source</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_source identifier id'>source</span>
+      <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:rules</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_rules identifier id'>rules</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_rules identifier id'>rules</span>
+
+      <span class='rubyid_results identifier id'>results</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:node_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_node_name identifier id'>node_name</span><span class='comma token'>,</span> <span class='symbol val'>:atts</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_atts identifier id'>atts</span><span class='comma token'>,</span> <span class='symbol val'>:content</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_content identifier id'>content</span><span class='rbrace token'>}</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_@controlaccess_linked_agents ivar id'>@controlaccess_linked_agents</span> <span class='assign token'>=</span> <span class='rubyid_results identifier id'>results</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_@controlaccess_linked_agents ivar id'>@controlaccess_linked_agents</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="controlaccess_subjects-instance_method">
+  
+    - (<tt>Object</tt>) <strong>controlaccess_subjects</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 81</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_controlaccess_subjects identifier id'>controlaccess_subjects</span>
+  <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_@controlaccess_subjects ivar id'>@controlaccess_subjects</span>
+    <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_linked identifier id'>linked</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_subjects identifier id'>subjects</span> <span class='orop op'>||</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_linked identifier id'>linked</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_link identifier id'>link</span><span class='bitor op'>|</span>
+      <span class='rubyid_subject identifier id'>subject</span> <span class='assign token'>=</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>'_resolved'</span><span class='rbrack token'>]</span>
+
+      <span class='rubyid_node_name identifier id'>node_name</span> <span class='assign token'>=</span> <span class='rubyid_case case kw'>case</span> <span class='rubyid_subject identifier id'>subject</span><span class='lbrack token'>[</span><span class='string val'>'terms'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'term_type'</span><span class='rbrack token'>]</span>
+                  <span class='rubyid_when when kw'>when</span> <span class='string val'>'function'</span><span class='semicolon token'>;</span> <span class='string val'>'function'</span>
+                  <span class='rubyid_when when kw'>when</span> <span class='string val'>'genre_form'</span> <span class='orop op'>||</span> <span class='string val'>'style_period'</span><span class='semicolon token'>;</span>  <span class='string val'>'genreform'</span>
+                  <span class='rubyid_when when kw'>when</span> <span class='string val'>'geographic'</span><span class='orop op'>||</span> <span class='string val'>'cultural_context'</span><span class='semicolon token'>;</span> <span class='string val'>'geogname'</span>
+                  <span class='rubyid_when when kw'>when</span> <span class='string val'>'occupation'</span><span class='semicolon token'>;</span>  <span class='string val'>'occupation'</span>
+                  <span class='rubyid_when when kw'>when</span> <span class='string val'>'topical'</span><span class='semicolon token'>;</span> <span class='string val'>'subject'</span>
+                  <span class='rubyid_when when kw'>when</span> <span class='string val'>'uniform_title'</span><span class='semicolon token'>;</span> <span class='string val'>'title'</span>
+                  <span class='rubyid_else else kw'>else</span><span class='semicolon token'>;</span> <span class='rubyid_nil nil kw'>nil</span>
+                  <span class='rubyid_end end kw'>end</span>
+
+      <span class='rubyid_next next kw'>next</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_node_name identifier id'>node_name</span>
+
+      <span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='rubyid_subject identifier id'>subject</span><span class='lbrack token'>[</span><span class='string val'>'terms'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_t identifier id'>t</span><span class='bitor op'>|</span> <span class='rubyid_t identifier id'>t</span><span class='lbrack token'>[</span><span class='string val'>'term'</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>' -- '</span><span class='rparen token'>)</span>
+
+      <span class='rubyid_atts identifier id'>atts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+      <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='string val'>'source'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_subject identifier id'>subject</span><span class='lbrack token'>[</span><span class='string val'>'source'</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_subject identifier id'>subject</span><span class='lbrack token'>[</span><span class='string val'>'source'</span><span class='rbrack token'>]</span>
+
+      <span class='rubyid_results identifier id'>results</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:node_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_node_name identifier id'>node_name</span><span class='comma token'>,</span> <span class='symbol val'>:atts</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_atts identifier id'>atts</span><span class='comma token'>,</span> <span class='symbol val'>:content</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_content identifier id'>content</span><span class='rbrace token'>}</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_@controlaccess_subjects ivar id'>@controlaccess_subjects</span> <span class='assign token'>=</span> <span class='rubyid_results identifier id'>results</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_@controlaccess_subjects ivar id'>@controlaccess_subjects</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="did_note_types-instance_method">
+  
+    - (<tt>Object</tt>) <strong>did_note_types</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+11
+12
+13</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 11</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_did_note_types identifier id'>did_note_types</span>
+  <span class='dstring node'>%w(abstract dimensions physdesc langmaterial physloc materialspec physfacet)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="index_item_type_map-instance_method">
+  
+    - (<tt>Object</tt>) <strong>index_item_type_map</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 26</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_index_item_type_map identifier id'>index_item_type_map</span>
+  <span class='lbrace token'>{</span>
+    <span class='string val'>'corporate_entity'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'corpname'</span><span class='comma token'>,</span>
+    <span class='string val'>'genre_form'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'genreform'</span><span class='comma token'>,</span>
+    <span class='string val'>'name'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'name'</span><span class='comma token'>,</span>
+    <span class='string val'>'occupation'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'occupation'</span><span class='comma token'>,</span>
+    <span class='string val'>'person'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'persname'</span><span class='comma token'>,</span>
+    <span class='string val'>'subject'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'subject'</span><span class='comma token'>,</span>
+    <span class='string val'>'family'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'famname'</span><span class='comma token'>,</span>
+    <span class='string val'>'function'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'function'</span><span class='comma token'>,</span>
+    <span class='string val'>'geographic_name'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'geogname'</span><span class='comma token'>,</span>
+    <span class='string val'>'title'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'title'</span>
+  <span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="indexes-instance_method">
+  
+    - (<tt>Object</tt>) <strong>indexes</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+21
+22
+23</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 21</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_indexes identifier id'>indexes</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_n identifier id'>n</span><span class='lbrack token'>[</span><span class='string val'>'jsonmodel_type'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>'note_index'</span><span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version V1.3.0 Documentation Generated on Wed Jul  8 16:25:36 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

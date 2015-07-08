@@ -1,0 +1,210 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Selenium test suite - ArchivesSpace</title>
+    <link rel="stylesheet" href="/assets/stylesheets/main.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" defer></script>
+    <script src="/assets/javascripts/site.js" type="text/javascript" charset="utf-8" defer></script>
+    <script src="/assets/javascripts/main.js" type="text/javascript" charset="utf-8" defer></script>
+    <link rel="alternate" type="application/atom+xml" href="/blog.xml">
+  </head>
+  <body>
+    <div class="wrapper">
+
+      <header class="top">
+  <div class="row topbar">
+    <h1 id="logo" class="logo">
+  <a href="http://archivesspace.org/" title="ArchivesSpace">ArchivesSpace</a>
+</h1>
+
+    <nav>
+      <ul id="navigation" class="navigation">
+        <li><a href="https://archivesspace.atlassian.net/wiki/display/ADC/ArchivesSpace">Wiki</a></li>
+        <li><a href="http://docs.archivesspace.org">User Docs</a></li>
+        <li class="toggle"><button type="button" id="toggle-menu" class="button--teal">Menu</button></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+      <div id="content" class="row">
+
+        <div id="sidebar" class="sidebar">
+  <div>
+    <!-- <h2>Search</h2> -->
+    <div class="searchbox">
+      <form>
+        <input type="text" id="st-search-input" class="searchbox-input" placeholder="Search the docs" />
+      </form>
+      <script type="text/javascript">
+          (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+            (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+            e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+            })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+              _st('install','R97A3uv-TMx4aozWwT1Y','2.0.0');
+            </script>
+    
+    </div>
+  </div>
+  <!-- <section>
+    <h2>Newsletter</h2>
+    <div id="mc_embed_signup" style="margin-left: 1.5em; margin-top: 0.5em;">
+      <form
+         action="http://travis-ci.us7.list-manage.com/subscribe/post?u=8ce724a4c9af4dace663cd39c&amp;id=44f8dff14c"
+         method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate"
+         target="_blank" novalidate>
+        <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required/>
+        <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+      </form>
+    </div>
+  </section>
+  <section>
+    <h2><a href="http://travis-ci.com/?utm_source=docs.travis-ci.org&utm_medium=referral&utm_content=textlink&utm_campaign=docsite_sidebar">Travis CI for Private Repositories</a></h2>
+  </section> -->
+
+  <section>
+    <h2>Menu</h2>
+    <nav>
+      <ul>
+        <li><a href="/user/system-requirements/">System Requirements</a></li>
+        <li><a href="/user/getting-started/">Getting started</a></li>
+        <li><a href="/user/configuring-archivesspace/">Configuring ArchivesSpace</a></li>
+        <li><a href="/user/upgrading-to-a-new-release-of-archivesspace/">Upgrading ArchivesSpace</a></li>
+        <li><a href="/user/running-archivesspace-as-a-unix-daemon/">Running ArchivesSpace as a Unix daemon</a></li>
+        <li><a href="/user/running-archivesspace-as-a-windows-service/">Running ArchivesSpace as a Windows Service</a></li>
+        <li><a href="/user/running-archivesspace-under-tomcat/">Running ArchivesSpace under Tomcat</a></li>
+        <li><a href="/user/running-archivesspace-against-mysql/">Setting up MySQL for Production</a></li>
+        <li><a href="/user/backup-and-recovery/">Backup and Recovery</a></li>
+        <li><a href="/user/re-creating-indexes/">Re-creating your indexes</a></li>
+        <li><a href="/user/resetting-passwords/">Resetting Passwords</a></li>
+        <li><a href="/user/configuring-ldap-authentication/">Configuring LDAP authentication</a></li>
+        <li><a href="/user/archivesspace-plug-ins-readme/">Plugins and Local Customizations</a></li>
+        <li><a href="/user/running-archivesspace-under-a-prefix/">Deploying under a URL prefix</a></li>
+        <li><a href="/user/running-archivesspace-with-external-solr/">Using an external Solr index</a></li>
+        <li><a href="/user/application-monitoring-with-new-relic/">Monitoring with New Relic</a></li>
+      </ul>
+      <h2>Developer Guides</h2>
+      <ul>
+        <li><a href="/user/archivesspace-architecture-overview">Architecture Overview</a></li>
+        <li><a href="/api">The API</a></li>
+        <li><a href="/user/archivesspace-build-system">Building ArchivesSpace</a></li>
+        <li><a href="/user/selenium-test-suite">Running Selenium Tests</a></li>
+        <li><a href="/doc">Ruby YARD Documentation</a></li>
+        <li><div class="status-circle status">Status:</div>
+          <a href="https://travis-ci.org/archivesspace/archivesspace">Travis CI Status</a>
+        </li>
+      </ul>
+    </nav>
+  </section>
+  <section>
+    <h2>Contact</h2>
+    <ul>
+      <li><a href="https://twitter.com/archivesspace">Twitter</a></li>
+      <li><a href="irc://chat.freenode.net/%23archivesspace">IRC</a></li>
+      <li><a href="http://github.com/archivesspace">GitHub</a></li>
+    </ul>
+  </section>
+  <section>
+    <h2>Contributing</h2>
+    <p>This documentation site is open source.
+      The <a href="https://github.com/archivesspace/archivesspace/tree/gh-pages">README in our Git repository</a> explains how to contribute.</p>
+      <p>This documentation was based on the <a href="https://travis-ci.org">Travis CI</a> documentation. It uses <a href="https://github.com/jekyll/jekyll">Jekyll</a> and <a href="https://github.com/tripit/slate">Slate</a></p>
+  </section>
+</div><!-- /#sidebar -->
+
+
+        <main id="main" class="main">
+          
+            <h1 class="title">Selenium test suite</h2>
+          
+          <h2 id="before-running">Before running:</h2>
+
+<p>Run the bootstrap build task to configure JRuby and all required
+dependencies:</p>
+
+<pre><code> $ cd ..
+ $ build/run bootstrap
+</code></pre>
+
+<p>Note: all example code assumes you are running from your ArchivesSpace
+project directory.</p>
+
+<h2 id="running-the-tests">Running the tests:</h2>
+
+<p>Run the full suite:</p>
+
+<pre><code> $ build/run selenium:test
+</code></pre>
+
+<p>The full suite can take a while to run. If you just want to run one
+group of tests, use the <em>example</em> property:</p>
+
+<pre><code> $ build/run selenium:test -Dexample='ArchivesSpace user interface Repositories'
+</code></pre>
+
+<p>See <em>spec/selenium_spec.rb</em> to find the <em>describe</em> blocks that define
+groups of tests that can be run independently. As a rule, individual
+examples cannot be run in isolation because each group is a sequence
+of dependent steps.</p>
+
+<h2 id="using-an-already-running-instance-of-archivesspace">Using an already running instance of ArchivesSpace:</h2>
+
+<p>By default the selenium task will start up its own instances of the
+backend and frontend. To use instances already running, set the
+following environment variables:</p>
+
+<pre><code> $ export ASPACE_BACKEND_URL=http://localhost:xxxx
+ $ export ASPACE_FRONTEND_URL=http://localhost:xxxx
+</code></pre>
+
+<h2 id="taking-a-screenshot-of-the-interface-if-a-test-produces-an-error">Taking a screenshot of the interface if a test produces an error:</h2>
+
+<p>This can be helpful for debugging. To enable, set the following
+environment variable:</p>
+
+<pre><code> $ export SCREENSHOT_ON_ERROR=1
+</code></pre>
+
+<p>The screenshot will be saved to /tmp</p>
+
+<h2 id="interacting-with-selenium-on-the-command-line">Interacting with selenium on the command line:</h2>
+
+<p>To initialize the selenium environment for IRB:</p>
+
+<pre><code> $ ./selenium/scripts/selenium-irb.sh
+</code></pre>
+
+<p>When the initialization is complete, an instance of firefox will be
+running under selenium control, and you will be presented with an IRB
+prompt. Now you can say things like:</p>
+
+<pre><code> &gt; login('admin', 'admin')
+ &gt; $driver.find_element(:css, '.repository-container .btn').click
+ &gt; $driver.find_element(:link, "Create a Repository").click
+ &gt; $driver.clear_and_send_keys([:id, "repository_repo_code_"], 'REPO_1')
+ &gt; $driver.clear_and_send_keys([:id, "repository_description_"], 'First Repo')
+ &gt; $driver.find_element(:css =&gt; "form#new_repository input[type='submit']").click
+ &gt; logout
+ &gt; cleanup
+ &gt; quit
+</code></pre>
+
+<p>Be sure to <code>cleanup</code> before quitting as this will kill the frontend,
+backend and firefox</p>
+
+
+        </main>
+      </div><!-- /#content -->
+
+      <footer>
+  <div class="row">
+  </div>
+</footer>
+
+    </div><!-- /.wrapper -->
+  </body>
+</html>

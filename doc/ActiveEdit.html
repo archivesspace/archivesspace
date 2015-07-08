@@ -1,0 +1,374 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: ActiveEdit
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!ActiveEdit.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (A)</a> &raquo;
+    
+    
+    <span class="title">ActiveEdit</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: ActiveEdit
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Sequel::Model</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Sequel::Model</li>
+          
+            <li class="next">ActiveEdit</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">backend/app/model/active_edit.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="EXPIRE_SECONDS-constant" class="">EXPIRE_SECONDS =
+          <div class="docstring">
+  <div class="discussion">
+    <p>If we haven&#8217;t seen an update from a client in this amount of time, assume
+they&#8217;ve stopped editing.</p>
+
+<p>This value needs to be at least as much as the client interval plus the
+SYNC_WITH_BACKEND_SECONDS value from the frontend.  We add a bit of a margin
+so that we&#8217;re not expiring messages immediately after receiving them.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='integer val'>30</span>
+</pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#lock_versions_for-class_method" title="lock_versions_for (class method)">+ (Object) <strong>lock_versions_for</strong>(uris) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_with-class_method" title="update_with (class method)">+ (Object) <strong>update_with</strong>(active_edits) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="lock_versions_for-class_method">
+  
+    + (<tt>Object</tt>) <strong>lock_versions_for</strong>(uris) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/active_edit.rb', line 42</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_lock_versions_for identifier id'>lock_versions_for</span><span class='lparen token'>(</span><span class='rubyid_uris identifier id'>uris</span><span class='rparen token'>)</span>
+  <span class='rubyid_record_groups identifier id'>record_groups</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+
+  <span class='rubyid_uris identifier id'>uris</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_uri identifier id'>uri</span><span class='bitor op'>|</span>
+    <span class='rubyid_parsed identifier id'>parsed</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_next next kw'>next</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_parsed identifier id'>parsed</span>
+
+    <span class='rubyid_model identifier id'>model</span> <span class='assign token'>=</span> <span class='rubyid_Kernel constant id'>Kernel</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='rubyid_parsed identifier id'>parsed</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_camelize identifier id'>camelize</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_record_groups identifier id'>record_groups</span><span class='lbrack token'>[</span><span class='rubyid_model identifier id'>model</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+    <span class='rubyid_record_groups identifier id'>record_groups</span><span class='lbrack token'>[</span><span class='rubyid_model identifier id'>model</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_parsed identifier id'>parsed</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_uri identifier id'>uri</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_record_groups identifier id'>record_groups</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='rubyid_records identifier id'>records</span><span class='bitor op'>|</span>
+    <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_records identifier id'>records</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+          <span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:id</span><span class='comma token'>,</span> <span class='symbol val'>:lock_version</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_row identifier id'>row</span><span class='bitor op'>|</span>
+      <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='rubyid_records identifier id'>records</span><span class='lbrack token'>[</span><span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:lock_version</span><span class='rbrack token'>]</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_result identifier id'>result</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update_with-class_method">
+  
+    + (<tt>Object</tt>) <strong>update_with</strong>(active_edits) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/active_edit.rb', line 11</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_update_with identifier id'>update_with</span><span class='lparen token'>(</span><span class='rubyid_active_edits identifier id'>active_edits</span><span class='rparen token'>)</span>
+  <span class='comment val'># Add the new ones</span>
+  <span class='rubyid_active_edits identifier id'>active_edits</span><span class='lbrack token'>[</span><span class='string val'>'active_edits'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_edit identifier id'>edit</span><span class='bitor op'>|</span>
+    <span class='rubyid_ActiveEdit constant id'>ActiveEdit</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span><span class='lparen token'>(</span><span class='symbol val'>:uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_edit identifier id'>edit</span><span class='lbrack token'>[</span><span class='string val'>'uri'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                      <span class='symbol val'>:operator</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_edit identifier id'>edit</span><span class='lbrack token'>[</span><span class='string val'>'user'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                      <span class='symbol val'>:timestamp</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_edit identifier id'>edit</span><span class='lbrack token'>[</span><span class='string val'>'time'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># Expire the old ones</span>
+  <span class='rubyid_ActiveEdit constant id'>ActiveEdit</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span> <span class='lbrace token'>{</span> <span class='rubyid_timestamp identifier id'>timestamp</span> <span class='lt op'>&lt;</span> <span class='lparen token'>(</span><span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span> <span class='minus op'>-</span> <span class='rubyid_EXPIRE_SECONDS constant id'>EXPIRE_SECONDS</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
+
+  <span class='comment val'># Tally up the remaining ones</span>
+  <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+
+  <span class='comment val'># Keep track of when each URI was last edited by each user</span>
+  <span class='rubyid_ActiveEdit constant id'>ActiveEdit</span><span class='dot token'>.</span><span class='rubyid_order identifier id'>order</span><span class='lparen token'>(</span><span class='symbol val'>:timestamp</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_edit identifier id'>edit</span><span class='bitor op'>|</span>
+    <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='rubyid_edit identifier id'>edit</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='symbol val'>:edited_by</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
+    <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='rubyid_edit identifier id'>edit</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:edited_by</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_edit identifier id'>edit</span><span class='dot token'>.</span><span class='rubyid_operator identifier id'>operator</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_edit identifier id'>edit</span><span class='dot token'>.</span><span class='rubyid_timestamp identifier id'>timestamp</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># Record the current lock version for each URI</span>
+  <span class='rubyid_lock_versions identifier id'>lock_versions</span> <span class='assign token'>=</span> <span class='rubyid_lock_versions_for identifier id'>lock_versions_for</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_uri identifier id'>uri</span><span class='bitor op'>|</span>
+    <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:lock_version</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_lock_versions identifier id'>lock_versions</span><span class='lbrack token'>[</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_result identifier id'>result</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version V1.3.0 Documentation Generated on Wed Jul  8 16:25:43 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

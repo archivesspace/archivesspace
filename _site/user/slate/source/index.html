@@ -1,0 +1,4307 @@
+<h1 id="introduction">Introduction</h1>
+
+<p>This is the documentation for the ArchivesSpace RESTful API. This documents the endpoints that are used by the backend server to edit records in the application.</p>
+
+<p>This example API documentation page was created with <a href="http://github.com/tripit/slate">Slate</a>. </p>
+
+<h1 id="authentication">Authentication</h1>
+
+<blockquote>
+  <p>To authorize, use this code:</p>
+</blockquote>
+
+<!-- 
+```ruby
+require 'kittn'
+
+api = Kittn::APIClient.authorize!('meowmeowmeow')
+```
+
+```python
+import kittn
+
+api = kittn.authorize('meowmeowmeow')
+```
+-->
+
+<blockquote>
+  <p>Example Request:</p>
+</blockquote>
+
+<pre><code class="language-shell"># With shell, you can just pass the correct header with each request
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+</code></pre>
+
+<blockquote>
+  <p>Example Response:</p>
+</blockquote>
+
+<pre><code class="language-json">{
+   "session":"9528190655b979f00817a5d38f9daf07d1686fed99a1d53dd2c9ff2d852a0c6e",
+   "user":{
+      "lock_version":6,
+      "username":"admin",
+      "name":"Administrator",
+      "is_system_user":true,
+      "create_time":"2015-05-08T13:10:06Z",
+      "system_mtime":"2015-07-07T10:21:53Z",
+      "user_mtime":"2015-07-07T10:21:53Z",
+      "jsonmodel_type":"user",
+      "groups":[
+
+      ],
+      "is_admin":true,
+      "uri":"/users/1",
+      "agent_record":{
+         "ref":"/agents/people/1"
+      },
+      "permissions":{
+         "/repositories/1":[
+            "update_location_record",
+            "delete_vocabulary_record",
+            "update_subject_record",
+            "delete_subject_record",
+            "update_agent_record",
+            "delete_agent_record",
+            "update_vocabulary_record",
+            "merge_subject_record",
+            "merge_agent_record",
+            "administer_system",
+            "become_user",
+            "cancel_importer_job",
+            "create_repository",
+            "delete_archival_record",
+            "delete_classification_record",
+            "delete_event_record",
+            "delete_repository",
+            "import_records",
+            "index_system",
+            "manage_agent_record",
+            "manage_repository",
+            "manage_subject_record",
+            "manage_users",
+            "manage_vocabulary_record",
+            "mediate_edits",
+            "merge_agents_and_subjects",
+            "merge_archival_record",
+            "suppress_archival_record",
+            "system_config",
+            "transfer_archival_record",
+            "transfer_repository",
+            "update_accession_record",
+            "update_classification_record",
+            "update_digital_object_record",
+            "update_event_record",
+            "update_resource_record",
+            "view_all_records",
+            "view_repository",
+            "view_suppressed"
+         ],
+         "_archivesspace":[
+            "administer_system",
+            "become_user",
+            "cancel_importer_job",
+            "create_repository",
+            "delete_archival_record",
+            "delete_classification_record",
+            "delete_event_record",
+            "delete_repository",
+            "import_records",
+            "index_system",
+            "manage_agent_record",
+            "manage_repository",
+            "manage_subject_record",
+            "manage_users",
+            "manage_vocabulary_record",
+            "mediate_edits",
+            "merge_agents_and_subjects",
+            "merge_archival_record",
+            "suppress_archival_record",
+            "system_config",
+            "transfer_archival_record",
+            "transfer_repository",
+            "update_accession_record",
+            "update_classification_record",
+            "update_digital_object_record",
+            "update_event_record",
+            "update_resource_record",
+            "view_all_records",
+            "view_repository",
+            "view_suppressed",
+            "update_location_record",
+            "delete_vocabulary_record",
+            "update_subject_record",
+            "delete_subject_record",
+            "update_agent_record",
+            "delete_agent_record",
+            "update_vocabulary_record",
+            "merge_subject_record",
+            "merge_agent_record"
+         ]
+      }
+   }
+}
+</code></pre>
+
+<blockquote>
+  <p>It’s a good idea to save the “session” id, since this will be used for later requests. </p>
+</blockquote>
+
+<p>Most requests to the ArchivesSpace backend requires a user to be authenticated.
+This can be done with a simple POST request to the /users/:user_name/login
+endpoint, with :user_name and :password parameters being supplied.</p>
+
+<p>The JSON that is returned will have a session key, which can be stored and used
+for other requests. Sessions will expire after an hour, although you can change this in your config.rb file.</p>
+
+<h1 id="archivesspace-rest-api">ArchivesSpace REST API</h1>
+<p>As of 2015-07-07 19:58:59 +0200 the following REST endpoints exist in the master branch of the development repository:</p>
+
+<h2 id="post-agentscorporateentities">POST /agents/corporate_entities</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a corporate entity agent</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:agent_corporate_entity) &lt;request body&gt; -- The record to create
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-agentscorporateentities">GET /agents/corporate_entities</h2>
+
+<p><strong>Description</strong></p>
+
+<p>List all corporate entity agents</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:agent_corporate_entity)]
+</code></pre>
+
+<h2 id="post-agentscorporateentitiesid">POST /agents/corporate_entities/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update a corporate entity agent</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+JSONModel(:agent_corporate_entity) &lt;request body&gt; -- The updated record
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-agentscorporateentitiesid">GET /agents/corporate_entities/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a corporate entity by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- ID of the corporate entity agent
+
+[String] resolve -- A list of references to resolve and embed in the response
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:agent)
+404 -- Not found
+</code></pre>
+
+<h2 id="delete-agentscorporateentitiesid">DELETE /agents/corporate_entities/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete a corporate entity agent</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- ID of the corporate entity agent
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- deleted
+</code></pre>
+
+<h2 id="post-agentsfamilies">POST /agents/families</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a family agent</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:agent_family) &lt;request body&gt; -- The record to create
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-agentsfamilies">GET /agents/families</h2>
+
+<p><strong>Description</strong></p>
+
+<p>List all family agents</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:agent_family)]
+</code></pre>
+
+<h2 id="delete-agentsfamiliesid">DELETE /agents/families/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete an agent family</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- ID of the family agent
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- deleted
+</code></pre>
+
+<h2 id="get-agentsfamiliesid">GET /agents/families/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a family by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- ID of the family agent
+
+[String] resolve -- A list of references to resolve and embed in the response
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:agent)
+404 -- Not found
+</code></pre>
+
+<h2 id="post-agentsfamiliesid">POST /agents/families/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update a family agent</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+JSONModel(:agent_family) &lt;request body&gt; -- The updated record
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-agentspeople">GET /agents/people</h2>
+
+<p><strong>Description</strong></p>
+
+<p>List all person agents</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:agent_person)]
+</code></pre>
+
+<h2 id="post-agentspeople">POST /agents/people</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a person agent</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:agent_person) &lt;request body&gt; -- The record to create
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="post-agentspeopleid">POST /agents/people/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update a person agent</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+JSONModel(:agent_person) &lt;request body&gt; -- The updated record
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-agentspeopleid">GET /agents/people/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a person by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- ID of the person agent
+
+[String] resolve -- A list of references to resolve and embed in the response
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:agent)
+404 -- Not found
+</code></pre>
+
+<h2 id="delete-agentspeopleid">DELETE /agents/people/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete an agent person</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- ID of the person agent
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- deleted
+</code></pre>
+
+<h2 id="post-agentssoftware">POST /agents/software</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a software agent</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:agent_software) &lt;request body&gt; -- The record to create
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-agentssoftware">GET /agents/software</h2>
+
+<p><strong>Description</strong></p>
+
+<p>List all software agents</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:agent_software)]
+</code></pre>
+
+<h2 id="post-agentssoftwareid">POST /agents/software/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update a software agent</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+JSONModel(:agent_software) &lt;request body&gt; -- The updated record
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-agentssoftwareid">GET /agents/software/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a software agent by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- ID of the software agent
+
+[String] resolve -- A list of references to resolve and embed in the response
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:agent)
+404 -- Not found
+</code></pre>
+
+<h2 id="delete-agentssoftwareid">DELETE /agents/software/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete a software agent</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- ID of the software agent
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- deleted
+</code></pre>
+
+<h2 id="post-batchdelete">POST /batch_delete</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Carry out delete requests against a list of records</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>[String] record_uris -- A list of record uris
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- deleted
+</code></pre>
+
+<h2 id="get-by-external-id">GET /by-external-id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>List records by their external ID(s)</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>String eid -- An external ID to find
+
+[String] type -- The record type to search (useful if IDs may be shared between different types)
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>303 -- A redirect to the URI named by the external ID (if there's only one)
+300 -- A JSON-formatted list of URIs if there were multiple matches
+404 -- No external ID matched
+</code></pre>
+
+<h2 id="post-configenumerationvaluesenumvalid">POST /config/enumeration_values/:enum_val_id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update an enumeration value</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer enum_val_id -- The ID of the enumeration value to update
+
+JSONModel(:enumeration_value) &lt;request body&gt; -- The enumeration value to update
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-configenumerationvaluesenumvalid">GET /config/enumeration_values/:enum_val_id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get an Enumeration Value</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer enum_val_id -- The ID of the enumeration value to retrieve
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:enumeration_value)
+</code></pre>
+
+<h2 id="post-configenumerationvaluesenumvalidposition">POST /config/enumeration_values/:enum_val_id/position</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update the position of an ennumeration value</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer enum_val_id -- The ID of the enumeration value to update
+
+Integer position -- The target position in the value list
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="post-configenumerationvaluesenumvalidsuppressed">POST /config/enumeration_values/:enum_val_id/suppressed</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Suppress this value</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer enum_val_id -- The ID of the enumeration value to update
+
+RESTHelpers::BooleanParam suppressed -- Suppression state
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Suppressed", :id =&gt; (id of updated object), :suppressed_state =&gt; (true|false)}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="post-configenumerations">POST /config/enumerations</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create an enumeration</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:enumeration) &lt;request body&gt; -- The record to create
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-configenumerations">GET /config/enumerations</h2>
+
+<p><strong>Description</strong></p>
+
+<p>List all defined enumerations</p>
+
+<p><strong>Parameters</strong></p>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:enumeration)]
+</code></pre>
+
+<h2 id="post-configenumerationsenumid">POST /config/enumerations/:enum_id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update an enumeration</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer enum_id -- The ID of the enumeration to update
+
+JSONModel(:enumeration) &lt;request body&gt; -- The enumeration to update
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-configenumerationsenumid">GET /config/enumerations/:enum_id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get an Enumeration</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer enum_id -- The ID of the enumeration to retrieve
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:enumeration)
+</code></pre>
+
+<h2 id="post-configenumerationsmigration">POST /config/enumerations/migration</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Migrate all records from using one value to another</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:enumeration_migration) &lt;request body&gt; -- The migration request
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-currentglobalpreferences">GET /current_global_preferences</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get the global Preferences records for the current user.</p>
+
+<p><strong>Parameters</strong></p>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {(:preference)}
+</code></pre>
+
+<h2 id="get-delete-feed">GET /delete-feed</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a stream of deleted records</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- a list of URIs that were deleted
+</code></pre>
+
+<h2 id="post-locations">POST /locations</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a Location</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:location) &lt;request body&gt; -- The record to create
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+</code></pre>
+
+<h2 id="get-locations">GET /locations</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of locations</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:location)]
+</code></pre>
+
+<h2 id="post-locationsid">POST /locations/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update a Location</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+JSONModel(:location) &lt;request body&gt; -- The updated record
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+</code></pre>
+
+<h2 id="get-locationsid">GET /locations/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Location by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:location)
+</code></pre>
+
+<h2 id="delete-locationsid">DELETE /locations/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete a Location</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- deleted
+</code></pre>
+
+<h2 id="post-locationsbatch">POST /locations/batch</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a Batch of Locations</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>RESTHelpers::BooleanParam dry_run -- If true, don't create the locations, just list them
+
+JSONModel(:location_batch) &lt;request body&gt; -- The location batch data to generate all locations
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+</code></pre>
+
+<h2 id="post-locationsbatchupdate">POST /locations/batch_update</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update a Location</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:location_batch_update) &lt;request body&gt; -- The location batch data to update all locations
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+</code></pre>
+
+<h2 id="post-mergerequestsagent">POST /merge_requests/agent</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Carry out a merge request against Agent records</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:merge_request) &lt;request body&gt; -- A merge request
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+</code></pre>
+
+<h2 id="post-mergerequestsdigitalobject">POST /merge_requests/digital_object</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Carry out a merge request against Digital_Object records</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer repo_id -- The Repository ID -- The Repository must exist
+
+JSONModel(:merge_request) &lt;request body&gt; -- A merge request
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+</code></pre>
+
+<h2 id="post-mergerequestsresource">POST /merge_requests/resource</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Carry out a merge request against Resource records</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer repo_id -- The Repository ID -- The Repository must exist
+
+JSONModel(:merge_request) &lt;request body&gt; -- A merge request
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+</code></pre>
+
+<h2 id="post-mergerequestssubject">POST /merge_requests/subject</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Carry out a merge request against Subject records</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:merge_request) &lt;request body&gt; -- A merge request
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+</code></pre>
+
+<h2 id="get-notifications">GET /notifications</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a stream of notifications</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer last_sequence -- The last sequence number seen
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- a list of notifications
+</code></pre>
+
+<h2 id="get-permissions">GET /permissions</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of Permissions</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>String level -- The permission level to get (one of: repository, global, all) -- Must be one of repository, global, all
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:permission)]
+</code></pre>
+
+<h2 id="get-reports">GET /reports</h2>
+
+<p><strong>Description</strong></p>
+
+<p>List all reports</p>
+
+<p><strong>Parameters</strong></p>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- report list in json
+</code></pre>
+
+<h2 id="get-reportsstatic">GET /reports/static/*</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a static asset for a report</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>String splat -- The requested asset
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- the asset
+</code></pre>
+
+<h2 id="post-repositories">POST /repositories</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a Repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:repository) &lt;request body&gt; -- The record to create
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+403 -- access_denied
+</code></pre>
+
+<h2 id="get-repositories">GET /repositories</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of Repositories</p>
+
+<p><strong>Parameters</strong></p>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:repository)]
+</code></pre>
+
+<h2 id="post-repositoriesid">POST /repositories/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update a repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+JSONModel(:repository) &lt;request body&gt; -- The updated record
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+</code></pre>
+
+<h2 id="get-repositoriesid">GET /repositories/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Repository by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:repository)
+404 -- Not found
+</code></pre>
+
+<h2 id="delete-repositoriesrepoid">DELETE /repositories/:repo_id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete a Repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- deleted
+</code></pre>
+
+<h2 id="get-repositoriesrepoidaccessions">GET /repositories/:repo_id/accessions</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of Accessions for a Repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<pre><code>Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:accession)]
+</code></pre>
+
+<h2 id="post-repositoriesrepoidaccessions">POST /repositories/:repo_id/accessions</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create an Accession</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:accession) &lt;request body&gt; -- The record to create
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+</code></pre>
+
+<h2 id="get-repositoriesrepoidaccessionsid">GET /repositories/:repo_id/accessions/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get an Accession by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+
+[String] resolve -- A list of references to resolve and embed in the response
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:accession)
+</code></pre>
+
+<h2 id="delete-repositoriesrepoidaccessionsid">DELETE /repositories/:repo_id/accessions/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete an Accession</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- deleted
+</code></pre>
+
+<h2 id="post-repositoriesrepoidaccessionsid">POST /repositories/:repo_id/accessions/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update an Accession</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+JSONModel(:accession) &lt;request body&gt; -- The updated record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+</code></pre>
+
+<h2 id="post-repositoriesrepoidaccessionsidsuppressed">POST /repositories/:repo_id/accessions/:id/suppressed</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Suppress this record</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+RESTHelpers::BooleanParam suppressed -- Suppression state
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Suppressed", :id =&gt; (id of updated object), :suppressed_state =&gt; (true|false)}
+</code></pre>
+
+<h2 id="post-repositoriesrepoidaccessionsidtransfer">POST /repositories/:repo_id/accessions/:id/transfer</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Transfer this record to a different repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+String target_repo -- The URI of the target repository
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- moved
+</code></pre>
+
+<h2 id="get-repositoriesrepoidarchivalcontextscorporateentitiesidfmtmetadata">GET /repositories/:repo_id/archival_contexts/corporate_entities/:id.:fmt/metadata</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get metadata for an EAC-CPF export of a corporate entity</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- The export metadata
+</code></pre>
+
+<h2 id="get-repositoriesrepoidarchivalcontextscorporateentitiesidxml">GET /repositories/:repo_id/archival_contexts/corporate_entities/:id.xml</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get an EAC-CPF representation of a Corporate Entity</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:agent)
+</code></pre>
+
+<h2 id="get-repositoriesrepoidarchivalcontextsfamiliesidfmtmetadata">GET /repositories/:repo_id/archival_contexts/families/:id.:fmt/metadata</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get metadata for an EAC-CPF export of a family</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- The export metadata
+</code></pre>
+
+<h2 id="get-repositoriesrepoidarchivalcontextsfamiliesidxml">GET /repositories/:repo_id/archival_contexts/families/:id.xml</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get an EAC-CPF representation of a Family</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:agent)
+</code></pre>
+
+<h2 id="get-repositoriesrepoidarchivalcontextspeopleidfmtmetadata">GET /repositories/:repo_id/archival_contexts/people/:id.:fmt/metadata</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get metadata for an EAC-CPF export of a person</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- The export metadata
+</code></pre>
+
+<h2 id="get-repositoriesrepoidarchivalcontextspeopleidxml">GET /repositories/:repo_id/archival_contexts/people/:id.xml</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get an EAC-CPF representation of an Agent</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:agent)
+</code></pre>
+
+<h2 id="get-repositoriesrepoidarchivalcontextssoftwaresidfmtmetadata">GET /repositories/:repo_id/archival_contexts/softwares/:id.:fmt/metadata</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get metadata for an EAC-CPF export of a software</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- The export metadata
+</code></pre>
+
+<h2 id="get-repositoriesrepoidarchivalcontextssoftwaresidxml">GET /repositories/:repo_id/archival_contexts/softwares/:id.xml</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get an EAC-CPF representation of a Software agent</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:agent)
+</code></pre>
+
+<h2 id="get-repositoriesrepoidarchivalobjects">GET /repositories/:repo_id/archival_objects</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of Archival Objects for a Repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<pre><code>Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:archival_object)]
+</code></pre>
+
+<h2 id="post-repositoriesrepoidarchivalobjects">POST /repositories/:repo_id/archival_objects</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create an Archival Object</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:archival_object) &lt;request body&gt; -- The record to create
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="delete-repositoriesrepoidarchivalobjectsid">DELETE /repositories/:repo_id/archival_objects/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete an Archival Object</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- deleted
+</code></pre>
+
+<h2 id="get-repositoriesrepoidarchivalobjectsid">GET /repositories/:repo_id/archival_objects/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get an Archival Object by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+
+[String] resolve -- A list of references to resolve and embed in the response
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:archival_object)
+404 -- Not found
+</code></pre>
+
+<h2 id="post-repositoriesrepoidarchivalobjectsid">POST /repositories/:repo_id/archival_objects/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update an Archival Object</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+JSONModel(:archival_object) &lt;request body&gt; -- The updated record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="post-repositoriesrepoidarchivalobjectsidacceptchildren">POST /repositories/:repo_id/archival_objects/:id/accept_children</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Move existing Archival Objects to become children of an Archival Object</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>[String] children -- The children to move to the Archival Object
+
+Integer id -- The ID of the Archival Object to move children to
+
+Integer position -- The index for the first child to be moved to
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+409 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="post-repositoriesrepoidarchivalobjectsidchildren">POST /repositories/:repo_id/archival_objects/:id/children</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Batch create several Archival Objects as children of an existing Archival Object</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:archival_record_children) &lt;request body&gt; -- The children to add to the archival object
+
+Integer id -- The ID of the archival object to add children to
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+409 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-repositoriesrepoidarchivalobjectsidchildren">GET /repositories/:repo_id/archival_objects/:id/children</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get the children of an Archival Object</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- a list of archival object references
+404 -- Not found
+</code></pre>
+
+<h2 id="post-repositoriesrepoidarchivalobjectsidparent">POST /repositories/:repo_id/archival_objects/:id/parent</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Set the parent/position of an Archival Object in a tree</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer parent -- The parent of this node in the tree
+
+Integer position -- The position of this node in the tree
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="post-repositoriesrepoidarchivalobjectsidsuppressed">POST /repositories/:repo_id/archival_objects/:id/suppressed</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Suppress this record</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+RESTHelpers::BooleanParam suppressed -- Suppression state
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Suppressed", :id =&gt; (id of updated object), :suppressed_state =&gt; (true|false)}
+</code></pre>
+
+<h2 id="post-repositoriesrepoidbatchimports">POST /repositories/:repo_id/batch_imports</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Import a batch of records</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>body_stream batch_import -- The batch of records
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+
+String migration -- param to indicate we are using a migrator
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+409 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-repositoriesrepoidclassificationterms">GET /repositories/:repo_id/classification_terms</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of Classification Terms for a Repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<pre><code>Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:classification_term)]
+</code></pre>
+
+<h2 id="post-repositoriesrepoidclassificationterms">POST /repositories/:repo_id/classification_terms</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a Classification Term</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:classification_term) &lt;request body&gt; -- The record to create
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="post-repositoriesrepoidclassificationtermsid">POST /repositories/:repo_id/classification_terms/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update a Classification Term</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+JSONModel(:classification_term) &lt;request body&gt; -- The updated record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="delete-repositoriesrepoidclassificationtermsid">DELETE /repositories/:repo_id/classification_terms/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete a Classification Term</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- deleted
+</code></pre>
+
+<h2 id="get-repositoriesrepoidclassificationtermsid">GET /repositories/:repo_id/classification_terms/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Classification Term by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+
+[String] resolve -- A list of references to resolve and embed in the response
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:classification_term)
+404 -- Not found
+</code></pre>
+
+<h2 id="post-repositoriesrepoidclassificationtermsidacceptchildren">POST /repositories/:repo_id/classification_terms/:id/accept_children</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Move existing Classification Terms to become children of another Classification Term</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>[String] children -- The children to move to the Classification Term
+
+Integer id -- The ID of the Classification Term to move children to
+
+Integer position -- The index for the first child to be moved to
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+409 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-repositoriesrepoidclassificationtermsidchildren">GET /repositories/:repo_id/classification_terms/:id/children</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get the children of a Classification Term</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- a list of classification term references
+404 -- Not found
+</code></pre>
+
+<h2 id="post-repositoriesrepoidclassificationtermsidparent">POST /repositories/:repo_id/classification_terms/:id/parent</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Set the parent/position of a Classification Term in a tree</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer parent -- The parent of this node in the tree
+
+Integer position -- The position of this node in the tree
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-repositoriesrepoidclassifications">GET /repositories/:repo_id/classifications</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of Classifications for a Repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<pre><code>Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:classification)]
+</code></pre>
+
+<h2 id="post-repositoriesrepoidclassifications">POST /repositories/:repo_id/classifications</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a Classification</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:classification) &lt;request body&gt; -- The record to create
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="post-repositoriesrepoidclassificationsid">POST /repositories/:repo_id/classifications/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update a Classification</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+JSONModel(:classification) &lt;request body&gt; -- The updated record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-repositoriesrepoidclassificationsid">GET /repositories/:repo_id/classifications/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Classification</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+
+[String] resolve -- A list of references to resolve and embed in the response
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:classification)
+</code></pre>
+
+<h2 id="delete-repositoriesrepoidclassificationsid">DELETE /repositories/:repo_id/classifications/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete a Classification</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- deleted
+</code></pre>
+
+<h2 id="post-repositoriesrepoidclassificationsidacceptchildren">POST /repositories/:repo_id/classifications/:id/accept_children</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Move existing Classification Terms to become children of a Classification</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>[String] children -- The children to move to the Classification
+
+Integer id -- The ID of the Classification to move children to
+
+Integer position -- The index for the first child to be moved to
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+409 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-repositoriesrepoidclassificationsidtree">GET /repositories/:repo_id/classifications/:id/tree</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Classification tree</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- OK
+</code></pre>
+
+<h2 id="post-repositoriesrepoidcomponenttransfers">POST /repositories/:repo_id/component_transfers</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Transfer components from one resource to another</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>String target_resource -- The URI of the resource to transfer into
+
+String component -- The URI of the archival object to transfer
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+409 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-repositoriesrepoidcurrentpreferences">GET /repositories/:repo_id/current_preferences</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get the Preferences records for the current repository and user.</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {(:preference)}
+</code></pre>
+
+<h2 id="get-repositoriesrepoiddefaultvaluesrecordtype">GET /repositories/:repo_id/default_values/:record_type</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get default values for a record type</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer repo_id -- The Repository ID -- The Repository must exist
+
+String record_type -- 
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="post-repositoriesrepoiddefaultvaluesrecordtype">POST /repositories/:repo_id/default_values/:record_type</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Save defaults for a record type</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:default_values) &lt;request body&gt; -- The default values set
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+
+String record_type -- 
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-repositoriesrepoiddigitalobjectcomponents">GET /repositories/:repo_id/digital_object_components</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of Digital Object Components for a Repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<pre><code>Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:digital_object_component)]
+</code></pre>
+
+<h2 id="post-repositoriesrepoiddigitalobjectcomponents">POST /repositories/:repo_id/digital_object_components</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create an Digital Object Component</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:digital_object_component) &lt;request body&gt; -- The record to create
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="post-repositoriesrepoiddigitalobjectcomponentsid">POST /repositories/:repo_id/digital_object_components/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update an Digital Object Component</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+JSONModel(:digital_object_component) &lt;request body&gt; -- The updated record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="delete-repositoriesrepoiddigitalobjectcomponentsid">DELETE /repositories/:repo_id/digital_object_components/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete a Digital Object Component</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- deleted
+</code></pre>
+
+<h2 id="get-repositoriesrepoiddigitalobjectcomponentsid">GET /repositories/:repo_id/digital_object_components/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get an Digital Object Component by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+
+[String] resolve -- A list of references to resolve and embed in the response
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:digital_object_component)
+404 -- Not found
+</code></pre>
+
+<h2 id="post-repositoriesrepoiddigitalobjectcomponentsidacceptchildren">POST /repositories/:repo_id/digital_object_components/:id/accept_children</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Move existing Digital Object Components to become children of a Digital Object Component</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>[String] children -- The children to move to the Digital Object Component
+
+Integer id -- The ID of the Digital Object Component to move children to
+
+Integer position -- The index for the first child to be moved to
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+409 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="post-repositoriesrepoiddigitalobjectcomponentsidchildren">POST /repositories/:repo_id/digital_object_components/:id/children</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Batch create several Digital Object Components as children of an existing Digital Object Component</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:digital_record_children) &lt;request body&gt; -- The children to add to the digital object component
+
+Integer id -- The ID of the digital object component to add children to
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+409 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-repositoriesrepoiddigitalobjectcomponentsidchildren">GET /repositories/:repo_id/digital_object_components/:id/children</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get the children of an Digital Object Component</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:digital_object_component)]
+404 -- Not found
+</code></pre>
+
+<h2 id="post-repositoriesrepoiddigitalobjectcomponentsidparent">POST /repositories/:repo_id/digital_object_components/:id/parent</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Set the parent/position of an Digital Object Component in a tree</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer parent -- The parent of this node in the tree
+
+Integer position -- The position of this node in the tree
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="post-repositoriesrepoiddigitalobjectcomponentsidsuppressed">POST /repositories/:repo_id/digital_object_components/:id/suppressed</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Suppress this record</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+RESTHelpers::BooleanParam suppressed -- Suppression state
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Suppressed", :id =&gt; (id of updated object), :suppressed_state =&gt; (true|false)}
+</code></pre>
+
+<h2 id="get-repositoriesrepoiddigitalobjects">GET /repositories/:repo_id/digital_objects</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of Digital Objects for a Repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<pre><code>Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:digital_object)]
+</code></pre>
+
+<h2 id="post-repositoriesrepoiddigitalobjects">POST /repositories/:repo_id/digital_objects</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a Digital Object</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:digital_object) &lt;request body&gt; -- The record to create
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-repositoriesrepoiddigitalobjectsid">GET /repositories/:repo_id/digital_objects/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Digital Object</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+
+[String] resolve -- A list of references to resolve and embed in the response
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:digital_object)
+</code></pre>
+
+<h2 id="post-repositoriesrepoiddigitalobjectsid">POST /repositories/:repo_id/digital_objects/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update a Digital Object</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+JSONModel(:digital_object) &lt;request body&gt; -- The updated record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="delete-repositoriesrepoiddigitalobjectsid">DELETE /repositories/:repo_id/digital_objects/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete a Digital Object</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- deleted
+</code></pre>
+
+<h2 id="post-repositoriesrepoiddigitalobjectsidacceptchildren">POST /repositories/:repo_id/digital_objects/:id/accept_children</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Move existing Digital Object components to become children of a Digital Object</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>[String] children -- The children to move to the Digital Object
+
+Integer id -- The ID of the Digital Object to move children to
+
+Integer position -- The index for the first child to be moved to
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+409 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="post-repositoriesrepoiddigitalobjectsidchildren">POST /repositories/:repo_id/digital_objects/:id/children</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Batch create several Digital Object Components as children of an existing Digital Object</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:digital_record_children) &lt;request body&gt; -- The component children to add to the digital object
+
+Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+409 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="post-repositoriesrepoiddigitalobjectsidpublish">POST /repositories/:repo_id/digital_objects/:id/publish</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Publish a digital object and all its sub-records and components</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="post-repositoriesrepoiddigitalobjectsidsuppressed">POST /repositories/:repo_id/digital_objects/:id/suppressed</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Suppress this record</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+RESTHelpers::BooleanParam suppressed -- Suppression state
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Suppressed", :id =&gt; (id of updated object), :suppressed_state =&gt; (true|false)}
+</code></pre>
+
+<h2 id="post-repositoriesrepoiddigitalobjectsidtransfer">POST /repositories/:repo_id/digital_objects/:id/transfer</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Transfer this record to a different repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+String target_repo -- The URI of the target repository
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- moved
+</code></pre>
+
+<h2 id="get-repositoriesrepoiddigitalobjectsidtree">GET /repositories/:repo_id/digital_objects/:id/tree</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Digital Object tree</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- OK
+</code></pre>
+
+<h2 id="get-repositoriesrepoiddigitalobjectsdublincoreidfmtmetadata">GET /repositories/:repo_id/digital_objects/dublin_core/:id.:fmt/metadata</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get metadata for a Dublin Core export</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- The export metadata
+</code></pre>
+
+<h2 id="get-repositoriesrepoiddigitalobjectsdublincoreidxml">GET /repositories/:repo_id/digital_objects/dublin_core/:id.xml</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Dublin Core representation of a Digital Object </p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:digital_object)
+</code></pre>
+
+<h2 id="get-repositoriesrepoiddigitalobjectsmetsidfmtmetadata">GET /repositories/:repo_id/digital_objects/mets/:id.:fmt/metadata</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get metadata for a METS export</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- The export metadata
+</code></pre>
+
+<h2 id="get-repositoriesrepoiddigitalobjectsmetsidxml">GET /repositories/:repo_id/digital_objects/mets/:id.xml</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a METS representation of a Digital Object </p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:digital_object)
+</code></pre>
+
+<h2 id="get-repositoriesrepoiddigitalobjectsmodsidfmtmetadata">GET /repositories/:repo_id/digital_objects/mods/:id.:fmt/metadata</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get metadata for a MODS export</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- The export metadata
+</code></pre>
+
+<h2 id="get-repositoriesrepoiddigitalobjectsmodsidxml">GET /repositories/:repo_id/digital_objects/mods/:id.xml</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a MODS representation of a Digital Object </p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:digital_object)
+</code></pre>
+
+<h2 id="post-repositoriesrepoidevents">POST /repositories/:repo_id/events</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create an Event</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:event) &lt;request body&gt; -- The record to create
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-repositoriesrepoidevents">GET /repositories/:repo_id/events</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of Events for a Repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<pre><code>Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:event)]
+</code></pre>
+
+<h2 id="post-repositoriesrepoideventsid">POST /repositories/:repo_id/events/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update an Event</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+JSONModel(:event) &lt;request body&gt; -- The updated record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+</code></pre>
+
+<h2 id="get-repositoriesrepoideventsid">GET /repositories/:repo_id/events/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get an Event by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+
+[String] resolve -- A list of references to resolve and embed in the response
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:event)
+404 -- Not found
+</code></pre>
+
+<h2 id="delete-repositoriesrepoideventsid">DELETE /repositories/:repo_id/events/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete an event record</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- deleted
+</code></pre>
+
+<h2 id="post-repositoriesrepoideventsidsuppressed">POST /repositories/:repo_id/events/:id/suppressed</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Suppress this record from non-managers</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+RESTHelpers::BooleanParam suppressed -- Suppression state
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Suppressed", :id =&gt; (id of updated object), :suppressed_state =&gt; (true|false)}
+</code></pre>
+
+<h2 id="get-repositoriesrepoidgroups">GET /repositories/:repo_id/groups</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of groups for a repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer repo_id -- The Repository ID -- The Repository must exist
+
+String group_code -- Get groups by group code
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:resource)]
+</code></pre>
+
+<h2 id="post-repositoriesrepoidgroups">POST /repositories/:repo_id/groups</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a group within a repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:group) &lt;request body&gt; -- The record to create
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+409 -- conflict
+</code></pre>
+
+<h2 id="delete-repositoriesrepoidgroupsid">DELETE /repositories/:repo_id/groups/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete a group by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:group)
+404 -- Not found
+</code></pre>
+
+<h2 id="get-repositoriesrepoidgroupsid">GET /repositories/:repo_id/groups/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a group by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+
+RESTHelpers::BooleanParam with_members -- If 'true' (the default) return the list of members with the group
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:group)
+404 -- Not found
+</code></pre>
+
+<h2 id="post-repositoriesrepoidgroupsid">POST /repositories/:repo_id/groups/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update a group</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+JSONModel(:group) &lt;request body&gt; -- The updated record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+
+RESTHelpers::BooleanParam with_members -- If 'true' (the default) replace the membership list with the list provided
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+400 -- {:error =&gt; (description of error)}
+409 -- conflict
+</code></pre>
+
+<h2 id="post-repositoriesrepoidjobs">POST /repositories/:repo_id/jobs</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a new import job</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:job) &lt;request body&gt; -- The job object
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+</code></pre>
+
+<h2 id="get-repositoriesrepoidjobs">GET /repositories/:repo_id/jobs</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of Jobs for a Repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<pre><code>Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:job)]
+</code></pre>
+
+<h2 id="get-repositoriesrepoidjobsid">GET /repositories/:repo_id/jobs/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Job by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+[String] resolve -- A list of references to resolve and embed in the response
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:job)
+</code></pre>
+
+<h2 id="post-repositoriesrepoidjobsidcancel">POST /repositories/:repo_id/jobs/:id/cancel</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Cancel a job</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+</code></pre>
+
+<h2 id="get-repositoriesrepoidjobsidlog">GET /repositories/:repo_id/jobs/:id/log</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Job’s log by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+
+RESTHelpers::NonNegativeInteger offset -- The byte offset of the log file to show
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- The section of the import log between 'offset' and the end of file
+</code></pre>
+
+<h2 id="get-repositoriesrepoidjobsidoutputfiles">GET /repositories/:repo_id/jobs/:id/output_files</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of Job’s output files by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- An array of output files
+</code></pre>
+
+<h2 id="get-repositoriesrepoidjobsidoutputfilesfileid">GET /repositories/:repo_id/jobs/:id/output_files/:file_id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Job’s output file by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer file_id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- Returns the file
+</code></pre>
+
+<h2 id="get-repositoriesrepoidjobsidrecords">GET /repositories/:repo_id/jobs/:id/records</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Job’s list of created URIs</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- An array of created records
+</code></pre>
+
+<h2 id="get-repositoriesrepoidjobsactive">GET /repositories/:repo_id/jobs/active</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of all active Jobs for a Repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>[String] resolve -- A list of references to resolve and embed in the response
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:job)]
+</code></pre>
+
+<h2 id="get-repositoriesrepoidjobsarchived">GET /repositories/:repo_id/jobs/archived</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of all archived Jobs for a Repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<pre><code>[String] resolve -- A list of references to resolve and embed in the response
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:job)]
+</code></pre>
+
+<h2 id="get-repositoriesrepoidjobsimporttypes">GET /repositories/:repo_id/jobs/import_types</h2>
+
+<p><strong>Description</strong></p>
+
+<p>List all supported import job types</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- A list of supported import types
+</code></pre>
+
+<h2 id="get-repositoriesrepoidjobstypes">GET /repositories/:repo_id/jobs/types</h2>
+
+<p><strong>Description</strong></p>
+
+<p>List all supported import job types</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- A list of supported job types
+</code></pre>
+
+<h2 id="post-repositoriesrepoidjobswithfiles">POST /repositories/:repo_id/jobs_with_files</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a new import job and post input files</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:job) job -- 
+
+[RESTHelpers::UploadFile] files -- 
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+</code></pre>
+
+<h2 id="get-repositoriesrepoidpreferences">GET /repositories/:repo_id/preferences</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of Preferences for a Repository and optionally a user</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer repo_id -- The Repository ID -- The Repository must exist
+
+Integer user_id -- The username to retrieve defaults for
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:preference)]
+</code></pre>
+
+<h2 id="post-repositoriesrepoidpreferences">POST /repositories/:repo_id/preferences</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a Preferences record</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:preference) &lt;request body&gt; -- The record to create
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="delete-repositoriesrepoidpreferencesid">DELETE /repositories/:repo_id/preferences/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete a Preferences record</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- deleted
+</code></pre>
+
+<h2 id="post-repositoriesrepoidpreferencesid">POST /repositories/:repo_id/preferences/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update a Preferences record</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+JSONModel(:preference) &lt;request body&gt; -- The updated record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-repositoriesrepoidpreferencesid">GET /repositories/:repo_id/preferences/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Preferences record</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:preference)
+</code></pre>
+
+<h2 id="get-repositoriesrepoidpreferencesdefaults">GET /repositories/:repo_id/preferences/defaults</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get the default set of Preferences for a Repository and optionally a user</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer repo_id -- The Repository ID -- The Repository must exist
+
+String username -- The username to retrieve defaults for
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (defaults)
+</code></pre>
+
+<h2 id="post-repositoriesrepoidrdetemplates">POST /repositories/:repo_id/rde_templates</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create an RDE template</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:rde_template) &lt;request body&gt; -- The record to create
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-repositoriesrepoidrdetemplates">GET /repositories/:repo_id/rde_templates</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of RDE Templates</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:rde_template)]
+</code></pre>
+
+<h2 id="get-repositoriesrepoidrdetemplatesid">GET /repositories/:repo_id/rde_templates/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get an RDE template record</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:rde_template)
+</code></pre>
+
+<h2 id="delete-repositoriesrepoidrdetemplatesid">DELETE /repositories/:repo_id/rde_templates/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete an RDE Template</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- deleted
+</code></pre>
+
+<h2 id="get-repositoriesrepoidresourcedescriptionsidfmtmetadata">GET /repositories/:repo_id/resource_descriptions/:id.:fmt/metadata</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get export metadata for a Resource Description</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+
+String fmt -- Format of the request
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- The export metadata
+</code></pre>
+
+<h2 id="get-repositoriesrepoidresourcedescriptionsidpdf">GET /repositories/:repo_id/resource_descriptions/:id.pdf</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get an EAD representation of a Resource</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+RESTHelpers::BooleanParam include_unpublished -- Include unpublished records
+
+RESTHelpers::BooleanParam include_daos -- Include digital objects in dao tags
+
+RESTHelpers::BooleanParam numbered_cs -- Use numbered &lt;c&gt; tags in ead
+
+RESTHelpers::BooleanParam print_pdf -- Print EAD to pdf
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:resource)
+</code></pre>
+
+<h2 id="get-repositoriesrepoidresourcedescriptionsidxml">GET /repositories/:repo_id/resource_descriptions/:id.xml</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get an EAD representation of a Resource</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+RESTHelpers::BooleanParam include_unpublished -- Include unpublished records
+
+RESTHelpers::BooleanParam include_daos -- Include digital objects in dao tags
+
+RESTHelpers::BooleanParam numbered_cs -- Use numbered &lt;c&gt; tags in ead
+
+RESTHelpers::BooleanParam print_pdf -- Print EAD to pdf
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:resource)
+</code></pre>
+
+<h2 id="get-repositoriesrepoidresourcelabelsidfmtmetadata">GET /repositories/:repo_id/resource_labels/:id.:fmt/metadata</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get export metadata for Resource labels</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- The export metadata
+</code></pre>
+
+<h2 id="get-repositoriesrepoidresourcelabelsidtsv">GET /repositories/:repo_id/resource_labels/:id.tsv</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a tsv list of printable labels for a Resource</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:resource)
+</code></pre>
+
+<h2 id="post-repositoriesrepoidresources">POST /repositories/:repo_id/resources</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a Resource</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:resource) &lt;request body&gt; -- The record to create
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-repositoriesrepoidresources">GET /repositories/:repo_id/resources</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of Resources for a Repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<pre><code>Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:resource)]
+</code></pre>
+
+<h2 id="get-repositoriesrepoidresourcesid">GET /repositories/:repo_id/resources/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Resource</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+
+[String] resolve -- A list of references to resolve and embed in the response
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:resource)
+</code></pre>
+
+<h2 id="post-repositoriesrepoidresourcesid">POST /repositories/:repo_id/resources/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update a Resource</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+JSONModel(:resource) &lt;request body&gt; -- The updated record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="delete-repositoriesrepoidresourcesid">DELETE /repositories/:repo_id/resources/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete a Resource</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- deleted
+</code></pre>
+
+<h2 id="post-repositoriesrepoidresourcesidacceptchildren">POST /repositories/:repo_id/resources/:id/accept_children</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Move existing Archival Objects to become children of a Resource</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>[String] children -- The children to move to the Resource
+
+Integer id -- The ID of the Resource to move children to
+
+Integer position -- The index for the first child to be moved to
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+409 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="post-repositoriesrepoidresourcesidchildren">POST /repositories/:repo_id/resources/:id/children</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Batch create several Archival Objects as children of an existing Resource</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:archival_record_children) &lt;request body&gt; -- The children to add to the resource
+
+Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+409 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-repositoriesrepoidresourcesidmodelsingraph">GET /repositories/:repo_id/resources/:id/models_in_graph</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of record types in the graph of a resource</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- OK
+</code></pre>
+
+<h2 id="post-repositoriesrepoidresourcesidpublish">POST /repositories/:repo_id/resources/:id/publish</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Publish a resource and all its sub-records and components</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="post-repositoriesrepoidresourcesidsuppressed">POST /repositories/:repo_id/resources/:id/suppressed</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Suppress this record</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+RESTHelpers::BooleanParam suppressed -- Suppression state
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Suppressed", :id =&gt; (id of updated object), :suppressed_state =&gt; (true|false)}
+</code></pre>
+
+<h2 id="post-repositoriesrepoidresourcesidtransfer">POST /repositories/:repo_id/resources/:id/transfer</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Transfer this record to a different repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+String target_repo -- The URI of the target repository
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- moved
+</code></pre>
+
+<h2 id="get-repositoriesrepoidresourcesidtree">GET /repositories/:repo_id/resources/:id/tree</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Resource tree</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+String limit_to -- An Archival Object URI or 'root'
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- OK
+</code></pre>
+
+<h2 id="get-repositoriesrepoidresourcesmarc21idfmtmetadata">GET /repositories/:repo_id/resources/marc21/:id.:fmt/metadata</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get metadata for a MARC21 export</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- The export metadata
+</code></pre>
+
+<h2 id="get-repositoriesrepoidresourcesmarc21idxml">GET /repositories/:repo_id/resources/marc21/:id.xml</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a MARC 21 representation of a Resource</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:resource)
+</code></pre>
+
+<h2 id="get-repositoriesrepoidsearch">GET /repositories/:repo_id/search</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Search this repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<pre><code>Integer repo_id -- The Repository ID -- The Repository must exist
+
+String q -- A search query string
+
+JSONModel(:advanced_query) aq -- A json string containing the advanced query
+
+[String] type -- The record type to search (defaults to all types if not specified)
+
+String sort -- The attribute to sort and the direction e.g. &amp;sort=title desc&amp;...
+
+[String] facet -- The list of the fields to produce facets for
+
+[String] filter_term -- A json string containing the term/value pairs to be applied as filters.  Of the form: {"fieldname": "fieldvalue"}.
+
+[String] simple_filter -- A simple direct filter to be applied as a filter. Of the form 'primary_type:accession OR primary_type:agent_person'.
+
+[String] exclude -- A list of document IDs that should be excluded from results
+
+String root_record -- Search within a collection of records (defined by the record at the root of the tree)
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- 
+</code></pre>
+
+<h2 id="post-repositoriesrepoidtransfer">POST /repositories/:repo_id/transfer</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Transfer this record to a different repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>String target_repo -- The URI of the target repository
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- moved
+</code></pre>
+
+<h2 id="get-repositoriesrepoidusersid">GET /repositories/:repo_id/users/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a user’s details including their groups for the current repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The username id to fetch
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:user)
+</code></pre>
+
+<h2 id="post-repositorieswithagent">POST /repositories/with_agent</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a Repository with an agent representation</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:repository_with_agent) &lt;request body&gt; -- The record to create
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+403 -- access_denied
+</code></pre>
+
+<h2 id="post-repositorieswithagentid">POST /repositories/with_agent/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update a repository with an agent representation</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+JSONModel(:repository_with_agent) &lt;request body&gt; -- The updated record
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+</code></pre>
+
+<h2 id="get-repositorieswithagentid">GET /repositories/with_agent/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Repository by ID, including its agent representation</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:repository_with_agent)
+404 -- Not found
+</code></pre>
+
+<h2 id="get-search">GET /search</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Search this archive</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<pre><code>String q -- A search query string
+
+JSONModel(:advanced_query) aq -- A json string containing the advanced query
+
+[String] type -- The record type to search (defaults to all types if not specified)
+
+String sort -- The attribute to sort and the direction e.g. &amp;sort=title desc&amp;...
+
+[String] facet -- The list of the fields to produce facets for
+
+[String] filter_term -- A json string containing the term/value pairs to be applied as filters.  Of the form: {"fieldname": "fieldvalue"}.
+
+[String] simple_filter -- A simple direct filter to be applied as a filter. Of the form 'primary_type:accession OR primary_type:agent_person'.
+
+[String] exclude -- A list of document IDs that should be excluded from results
+
+String root_record -- Search within a collection of records (defined by the record at the root of the tree)
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- 
+</code></pre>
+
+<h2 id="get-searchpublishedtree">GET /search/published_tree</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Find the tree view for a particular archival record</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>String node_uri -- The URI of the archival record to find the tree view for
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- OK
+404 -- Not found
+</code></pre>
+
+<h2 id="get-searchrepositories">GET /search/repositories</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Search across repositories</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<pre><code>String q -- A search query string
+
+JSONModel(:advanced_query) aq -- A json string containing the advanced query
+
+[String] type -- The record type to search (defaults to all types if not specified)
+
+String sort -- The attribute to sort and the direction e.g. &amp;sort=title desc&amp;...
+
+[String] facet -- The list of the fields to produce facets for
+
+[String] filter_term -- A json string containing the term/value pairs to be applied as filters.  Of the form: {"fieldname": "fieldvalue"}.
+
+[String] simple_filter -- A simple direct filter to be applied as a filter. Of the form 'primary_type:accession OR primary_type:agent_person'.
+
+[String] exclude -- A list of document IDs that should be excluded from results
+
+String root_record -- Search within a collection of records (defined by the record at the root of the tree)
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- 
+</code></pre>
+
+<h2 id="get-searchsubjects">GET /search/subjects</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Search across subjects</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<pre><code>String q -- A search query string
+
+JSONModel(:advanced_query) aq -- A json string containing the advanced query
+
+[String] type -- The record type to search (defaults to all types if not specified)
+
+String sort -- The attribute to sort and the direction e.g. &amp;sort=title desc&amp;...
+
+[String] facet -- The list of the fields to produce facets for
+
+[String] filter_term -- A json string containing the term/value pairs to be applied as filters.  Of the form: {"fieldname": "fieldvalue"}.
+
+[String] simple_filter -- A simple direct filter to be applied as a filter. Of the form 'primary_type:accession OR primary_type:agent_person'.
+
+[String] exclude -- A list of document IDs that should be excluded from results
+
+String root_record -- Search within a collection of records (defined by the record at the root of the tree)
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- 
+</code></pre>
+
+<h2 id="post-subjects">POST /subjects</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a Subject</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:subject) &lt;request body&gt; -- The record to create
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+</code></pre>
+
+<h2 id="get-subjects">GET /subjects</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of Subjects</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:subject)]
+</code></pre>
+
+<h2 id="delete-subjectsid">DELETE /subjects/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete a Subject</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- deleted
+</code></pre>
+
+<h2 id="get-subjectsid">GET /subjects/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Subject by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:subject)
+</code></pre>
+
+<h2 id="post-subjectsid">POST /subjects/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update a Subject</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+JSONModel(:subject) &lt;request body&gt; -- The updated record
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+</code></pre>
+
+<h2 id="get-terms">GET /terms</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of Terms matching a prefix</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>String q -- The prefix to match
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:term)]
+</code></pre>
+
+<h2 id="get-update-feed">GET /update-feed</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a stream of updated records</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer last_sequence -- The last sequence number seen
+
+[String] resolve -- A list of references to resolve and embed in the response
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- a list of records and sequence numbers
+</code></pre>
+
+<h2 id="post-updatemonitor">POST /update_monitor</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Refresh the list of currently known edits</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:active_edits) &lt;request body&gt; -- The list of active edits
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- A list of records, the user editing it and the lock version for each
+</code></pre>
+
+<h2 id="post-users">POST /users</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a local user</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>String password -- The user's password
+
+[String] groups -- Array of groups URIs to assign the user to
+
+JSONModel(:user) &lt;request body&gt; -- The record to create
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="get-users">GET /users</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of users</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:resource)]
+</code></pre>
+
+<h2 id="delete-usersid">DELETE /users/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete a user</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The user to delete
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- deleted
+</code></pre>
+
+<h2 id="get-usersid">GET /users/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a user’s details (including their current permissions)</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The username id to fetch
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:user)
+</code></pre>
+
+<h2 id="post-usersid">POST /users/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update a user’s account</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+String password -- The user's password
+
+[String] groups -- Array of groups URIs to assign the user to
+
+RESTHelpers::BooleanParam remove_groups -- Remove all groups from the user for the current repo_id if true
+
+Integer repo_id -- The Repository groups to clear
+
+JSONModel(:user) &lt;request body&gt; -- The updated record
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+400 -- {:error =&gt; (description of error)}
+</code></pre>
+
+<h2 id="post-usersusernamebecome-user">POST /users/:username/become-user</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Become a different user</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Username username -- The username to become
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- Accepted
+404 -- User not found
+</code></pre>
+
+<h2 id="post-usersusernamelogin">POST /users/:username/login</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Log in</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Username username -- Your username
+
+String password -- Your password
+
+RESTHelpers::BooleanParam expiring -- true if the created session should expire
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- Login accepted
+403 -- Login failed
+</code></pre>
+
+<h2 id="get-userscomplete">GET /users/complete</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of system users</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>String query -- A prefix to search for
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- A list of usernames
+</code></pre>
+
+<h2 id="get-userscurrent-user">GET /users/current-user</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get the currently logged in user</p>
+
+<p><strong>Parameters</strong></p>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- (:user)
+404 -- Not logged in
+</code></pre>
+
+<h2 id="get-version">GET /version</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get the ArchivesSpace application version</p>
+
+<p><strong>Parameters</strong></p>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- ArchivesSpace (version)
+</code></pre>
+
+<h2 id="post-vocabularies">POST /vocabularies</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a Vocabulary</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>JSONModel(:vocabulary) &lt;request body&gt; -- The record to create
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Created", :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+</code></pre>
+
+<h2 id="get-vocabularies">GET /vocabularies</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of Vocabularies</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>String ref_id -- An alternate, externally-created ID for the vocabulary
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:vocabulary)]
+</code></pre>
+
+<h2 id="post-vocabulariesid">POST /vocabularies/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update a Vocabulary</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+
+JSONModel(:vocabulary) &lt;request body&gt; -- The updated record
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- {:status =&gt; "Updated", :id =&gt; (id of updated object)}
+</code></pre>
+
+<h2 id="get-vocabulariesid">GET /vocabularies/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Vocabulary by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- OK
+</code></pre>
+
+<h2 id="get-vocabulariesidterms">GET /vocabularies/:id/terms</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of Terms for a Vocabulary</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre><code>Integer id -- The ID of the record
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre><code>200 -- [(:term)]
+</code></pre>
+
