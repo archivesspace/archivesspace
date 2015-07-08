@@ -1,0 +1,16 @@
+JSON Schema: Permission
+/permissions
+Properties
+
+string	uri
+
+string (max length: 255)	permission_code
+
+string (max length: 65000)	description
+
+string	level
+
+
+
+
+

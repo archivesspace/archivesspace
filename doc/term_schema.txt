@@ -1,0 +1,16 @@
+JSON Schema: Term
+/terms
+Properties
+
+string	uri
+
+string (max length: 255)	term
+
+string	term_type
+
+JSONModel(:vocabulary) uri	vocabulary
+
+
+
+
+

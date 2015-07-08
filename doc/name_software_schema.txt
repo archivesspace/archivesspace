@@ -1,0 +1,14 @@
+JSON Schema: Name_software
+
+Properties
+
+string (max length: 65000)	software_name
+
+string (max length: 65000)	version
+
+string (max length: 65000)	manufacturer
+
+
+
+
+

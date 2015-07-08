@@ -1,0 +1,24 @@
+JSON Schema: Date
+
+Properties
+
+string	date_type
+
+string	label
+
+string	certainty
+
+string (max length: 255)	expression
+
+string (max length: 255)	begin
+
+string (max length: 255)	end
+
+string	era
+
+string	calendar
+
+
+
+
+

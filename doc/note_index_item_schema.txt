@@ -1,0 +1,18 @@
+JSON Schema: Note_index_item
+
+Properties
+
+string (max length: 65000)	value
+
+string	type
+
+string (max length: 65000)	reference
+
+string (max length: 65000)	reference_text
+
+object	reference_ref
+
+
+
+
+

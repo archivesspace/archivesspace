@@ -1,7 +1,7 @@
 ---
 title: ArchivesSpace README 
 layout: en
-permalink: /archivesspace/user/archivesspace-readme/ 
+permalink: /user/archivesspace-readme/ 
 ---
 --------------------
 

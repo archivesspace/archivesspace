@@ -1,7 +1,7 @@
 ---
 title: Building a distribution 
 layout: en
-permalink: /archivesspace/user/building-a-distribution/ 
+permalink: /user/building-a-distribution/ 
 ---
 
 To build an ArchivesSpace release, use the `build_release` script from

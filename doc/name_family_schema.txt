@@ -1,0 +1,12 @@
+JSON Schema: Name_family
+
+Properties
+
+string (max length: 65000)	family_name
+
+string (max length: 65000)	prefix
+
+
+
+
+

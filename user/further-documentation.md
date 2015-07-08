@@ -1,7 +1,7 @@
 ---
 title: Further documentation 
 layout: en
-permalink: /archivesspace/user/further-documentation/ 
+permalink: /user/further-documentation/ 
 ---
 
 Additional documentation can be found on the ArchivesSpace

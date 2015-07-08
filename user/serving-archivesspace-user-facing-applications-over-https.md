@@ -1,7 +1,7 @@
 ---
 title: Serving ArchivesSpace user-facing applications over HTTPS 
 layout: en
-permalink: /archivesspace/user/serving-archivesspace-user-facing-applications-over-https/ 
+permalink: /user/serving-archivesspace-user-facing-applications-over-https/ 
 ---
 ==============================================================
 

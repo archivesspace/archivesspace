@@ -1,0 +1,30 @@
+JSON Schema: Event
+/repositories/:repo_id/events
+Properties
+
+string	uri
+
+array (JSONModel(:external_id) object)	external_ids
+
+array (JSONModel(:external_document) object)	external_documents
+
+string	event_type
+
+JSONModel(:date) object	date
+
+string	timestamp
+
+string	outcome
+
+string (max length: 16384)	outcome_note
+
+boolean	suppressed
+
+array (Object (role, ref, _resolved))	linked_agents
+
+array (Object (role, ref, _resolved))	linked_records
+
+
+
+
+

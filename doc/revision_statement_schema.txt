@@ -1,0 +1,14 @@
+JSON Schema: Revision_statement
+/revision_statement
+Properties
+
+string	uri
+
+string (max length: 255)	date
+
+string (max length: 65000)	description
+
+
+
+
+

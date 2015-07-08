@@ -1,0 +1,10 @@
+JSON Schema: Note_abstract
+
+Properties
+
+array (string)	content
+
+
+
+
+

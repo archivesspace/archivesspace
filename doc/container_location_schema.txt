@@ -1,0 +1,20 @@
+JSON Schema: Container_location
+
+Properties
+
+string	status
+
+date	start_date
+
+date	end_date
+
+string	note
+
+JSONModel(:location) uri	ref
+
+object	_resolved
+
+
+
+
+

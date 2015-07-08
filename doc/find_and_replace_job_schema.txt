@@ -1,0 +1,18 @@
+JSON Schema: Find_and_replace_job
+
+Properties
+
+string	find
+
+string	replace
+
+string	record_type
+
+string	property
+
+string	base_record_uri
+
+
+
+
+

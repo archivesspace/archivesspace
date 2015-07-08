@@ -1,0 +1,14 @@
+JSON Schema: Agent_relationship_subordinatesuperior
+
+Properties
+
+string	relator
+
+[{"type"=>"JSONModel(:agent_corporate_entity) uri"}]	ref
+
+object	_resolved
+
+
+
+
+

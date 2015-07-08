@@ -1,0 +1,28 @@
+JSON Schema: Repository
+/repositories
+Properties
+
+string	uri
+
+string (max length: 255)	repo_code
+
+string (max length: 255)	name
+
+string (max length: 255)	org_code
+
+string	country
+
+string (max length: 255)	parent_institution_name
+
+string (max length: 255)	url
+
+string (max length: 255)	image_url
+
+string (max length: 65000)	contact_persons
+
+object	agent_representation
+
+
+
+
+

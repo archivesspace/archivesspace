@@ -1,7 +1,7 @@
 ---
 title: Running ArchivesSpace as a Unix daemon 
 layout: en
-permalink: /archivesspace/user/running-archivesspace-as-a-unix-daemon/ 
+permalink: /user/running-archivesspace-as-a-unix-daemon/ 
 ---
 
 The `archivesspace.sh` startup script doubles as an init script.  If

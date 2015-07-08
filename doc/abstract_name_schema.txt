@@ -1,0 +1,28 @@
+JSON Schema: Abstract_name
+
+Properties
+
+string (max length: 255)	authority_id
+
+string (max length: 255)	dates
+
+array (JSONModel(:date) object)	use_dates
+
+string (max length: 255)	qualifier
+
+string	source
+
+string	rules
+
+boolean	authorized
+
+boolean	is_display_name
+
+string (max length: 255)	sort_name
+
+boolean	sort_name_auto_generate
+
+
+
+
+

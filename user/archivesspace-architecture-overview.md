@@ -1,7 +1,7 @@
 ---
 title: ArchivesSpace Architecture overview 
 layout: en
-permalink: /archivesspace/user/archivesspace-architecture-overview/ 
+permalink: /user/archivesspace-architecture-overview/ 
 ---
 
 ## The ArchivesSpace API

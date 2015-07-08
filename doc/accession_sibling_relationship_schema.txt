@@ -1,0 +1,16 @@
+JSON Schema: Accession_sibling_relationship
+
+Properties
+
+string	relator
+
+string	relator_type
+
+JSONModel(:accession) uri	ref
+
+object	_resolved
+
+
+
+
+

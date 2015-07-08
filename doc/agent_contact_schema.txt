@@ -1,0 +1,36 @@
+JSON Schema: Agent_contact
+
+Properties
+
+string (max length: 65000)	name
+
+string	salutation
+
+string (max length: 65000)	address_1
+
+string (max length: 65000)	address_2
+
+string (max length: 65000)	address_3
+
+string (max length: 65000)	city
+
+string (max length: 65000)	region
+
+string (max length: 65000)	country
+
+string (max length: 65000)	post_code
+
+array (JSONModel(:telephone) object)	telephones
+
+string (max length: 65000)	fax
+
+string (max length: 65000)	email
+
+string (max length: 65000)	email_signature
+
+string (max length: 65000)	note
+
+
+
+
+

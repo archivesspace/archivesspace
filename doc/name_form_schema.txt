@@ -1,0 +1,14 @@
+JSON Schema: Name_form
+/agents/:agent_id/name_forms
+Properties
+
+string	uri
+
+string	kind
+
+string	sort_name
+
+
+
+
+
