@@ -1,7 +1,7 @@
 ---
 title: Running ArchivesSpace with external Solr 
 layout: en
-permalink: /user/running-archivesspace-with-external-solr/ 
+permalink: /archivesspace/user/running-archivesspace-with-external-solr/ 
 ---
 -------------------------------------------------------------
 

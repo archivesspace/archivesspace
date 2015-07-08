@@ -1,7 +1,7 @@
 ---
 title: Plug-ins and local customizations 
 layout: en
-permalink: /user/plug-ins-and-local-customizations/ 
+permalink: /archivesspace/user/plug-ins-and-local-customizations/ 
 ---
 
 Under your `archivesspace` directory there is a directory called `plugins`.

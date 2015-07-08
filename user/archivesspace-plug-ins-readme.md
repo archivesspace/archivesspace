@@ -1,7 +1,7 @@
 ---
 title: ArchivesSpace Plug-ins README 
 layout: en
-permalink: /user/archivesspace-plug-ins-readme/ 
+permalink: /archivesspace/user/archivesspace-plug-ins-readme/ 
 ---
 -----------------------------
 

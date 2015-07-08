@@ -1,7 +1,7 @@
 ---
 title: License 
 layout: en
-permalink: /user/license/ 
+permalink: /archivesspace/user/license/ 
 ---
 
 ArchivesSpace is released under the [Educational Community License,

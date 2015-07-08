@@ -1,7 +1,7 @@
 ---
 title: Running ArchivesSpace against MySQL 
 layout: en
-permalink: /user/running-archivesspace-against-mysql/ 
+permalink: /archivesspace/user/running-archivesspace-against-mysql/ 
 ---
 
 Out of the box, the ArchivesSpace distribution runs against an

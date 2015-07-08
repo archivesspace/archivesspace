@@ -1,7 +1,7 @@
 ---
 title: Bootstrapping 
 layout: en
-permalink: /user/bootstrapping/ 
+permalink: /archivesspace/user/bootstrapping/ 
 ---
 
 The bootstrap task:

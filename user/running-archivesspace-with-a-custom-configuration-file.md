@@ -1,7 +1,7 @@
 ---
 title: Running ArchivesSpace with a custom configuration file 
 layout: en
-permalink: /user/running-archivesspace-with-a-custom-configuration-file/ 
+permalink: /archivesspace/user/running-archivesspace-with-a-custom-configuration-file/ 
 ---
 
 Under your `archivesspace` directory you will see a directory called

@@ -1,7 +1,7 @@
 ---
 title: Coverage reports 
 layout: en
-permalink: /user/coverage-reports/ 
+permalink: /archivesspace/user/coverage-reports/ 
 ---
 
 You can run the coverage reports using:

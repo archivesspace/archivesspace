@@ -1,7 +1,7 @@
 ---
 title: Running ArchivesSpace under Tomcat 
 layout: en
-permalink: /user/running-archivesspace-under-tomcat/ 
+permalink: /archivesspace/user/running-archivesspace-under-tomcat/ 
 ---
 ----------------------------------
 

@@ -1,7 +1,7 @@
 ---
 title: Configuring LDAP authentication 
 layout: en
-permalink: /user/configuring-ldap-authentication/ 
+permalink: /archivesspace/user/configuring-ldap-authentication/ 
 ---
 
 ArchivesSpace can manage its own user directory, but can also be
