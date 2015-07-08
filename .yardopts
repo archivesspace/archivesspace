@@ -2,6 +2,7 @@
 --markup=markdown
 --exclude build/gems
 --exclude build/target
+--output-dir docs/doc
 --legacy
 -e ./_yard/yard-aspace.rb
 '*.rb'

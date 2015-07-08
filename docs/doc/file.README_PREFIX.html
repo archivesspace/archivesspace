@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+<title>
+  File: README_PREFIX
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!file.README_PREFIX.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README_PREFIX</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><h2 id="running-archivesspace-under-a-prefix">Running ArchivesSpace under a prefix</h2>
+
+<p>It&#8217;s recommended to run each ArchivesSpace instance with its own host name on the root path e.g. http://myarchivesspace.example.com/.</p>
+
+<p>However, if you are required run ArchivesSpace under a prefix e.g. http://example.com/myarchivesspace, then there will be a few extra steps to your deployment.</p>
+
+<ol>
+  <li>
+    <p>For the version you&#8217;re working with, go to the Github repository e.g. http://github.com/archivesspace/archivesspace/tree/v1.0.2 and click the <code>Download ZIP</code> button on the right of the screen.  This will download the ArchivesSpace source code to your machine.</p>
+  </li>
+  <li>
+    <p>When you unzip this file it will create a directory containing the source code of the application.  In this directory, create a sub-directory called <code>config</code> containing a file <code>config.rb</code>.  Edit this file and add the following line(s) with your desired deployment URL including the prefix:</p>
+
+    <p>AppConfig[:frontend_url] = &#8220;http://example.com/myarchivesspace&#8221;
+  AppConfig[:public_url] = &#8220;http://example.com/mypublicarchivesspace&#8221;</p>
+  </li>
+  <li>
+    <p>Open a command prompt and change directory to your unpacked ArchivesSpace directory.  Run the following command:</p>
+
+    <p>unix$ build/run dist
+  windows&gt; build\run.bat dist</p>
+  </li>
+  <li>
+    <p>This will create a custom ArchivesSpace deployment that will support the prefix you defined.  Follow the Getting Started instructions to deploy this package as normal.</p>
+  </li>
+</ol>
+</div></div>
+
+    <div id="footer">
+  ArchivesSpace Version V1.3.0 Documentation Generated on Wed Jul  8 16:25:29 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>
