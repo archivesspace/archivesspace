@@ -17,6 +17,7 @@ end
 def serialize(object)
   
   options.object = object
+  options.basepath = "./docs/doc"
   
   options.serializer = YARD::Serializers::FileSystemSerializer.new(:basepath => options.basepath, :extension => 'txt')
   
