@@ -834,6 +834,7 @@ en:
     sections:
       basic_information: Basic Information
       date: Date
+      extent: Extent
       instance: Instance
       notes: Notes
       file_version: File Version
