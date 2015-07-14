@@ -57,6 +57,7 @@ AppConfig[:solr_url] = "http://localhost:8090"
 AppConfig[:indexer_url] = "http://localhost:8091"
 AppConfig[:public_url] = "http://localhost:8081"
 AppConfig[:public_prefix] = proc { "#{URI(AppConfig[:public_url]).path}/".gsub(%r{/+$}, "/") }
+AppConfig[:docs_url] = "http://localhost:8888"
 
 # Setting any of the four keys below to false will prevent the associated
 # applications from starting. Temporarily disabling the frontend and public
@@ -68,6 +69,7 @@ AppConfig[:enable_frontend] = true
 AppConfig[:enable_public] = true
 AppConfig[:enable_solr] = true
 AppConfig[:enable_indexer] = true
+AppConfig[:enable_docs] = true
 
 # Some use cases want the ability to shutdown the Jetty service using Jetty's 
 # ShutdownHandler, which allows a POST request to a specific URI to signal

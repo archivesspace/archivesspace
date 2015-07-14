@@ -511,6 +511,7 @@
 
     <mkdir dir="target/archivesspace/config" />
     <mkdir dir="target/archivesspace/data" />
+    <mkdir dir="target/archivesspace/docs" />
     <mkdir dir="target/archivesspace/wars" />
     <mkdir dir="target/archivesspace/gems" />
     <mkdir dir="target/archivesspace/lib" />
@@ -568,6 +569,9 @@
       <fileset dir="../common/locales" />
     </copy>
 
+    <copy todir="target/archivesspace/docs">
+      <fileset dir="../docs" />
+    </copy>
 
     <copy todir="target/archivesspace/plugins/newrelic">
       <fileset dir="../plugins/newrelic"/>
