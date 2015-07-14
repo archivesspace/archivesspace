@@ -81,10 +81,8 @@ needs, we recommend you use the standard method described in README.md
 <p>However, if you have a burning desire to use Tomcat, the steps are:</p>
 
 <ul>
-  <li>
-    <p>Download the archivesspace zip distribution, and the Tomcat
-distribution.</p>
-  </li>
+  <li>Download the archivesspace zip distribution, and the Tomcat
+distribution.</li>
   <li>
     <p>Unpack the archivesspace distribution and modify the
 config/config.rb file to point to your MySQL database (if you&#8217;re
@@ -98,16 +96,10 @@ using MySQL).  Something like:</p>
     <p>AppConfig[:enable_solr] = false
   AppConfig[:solr_url] = &#8220;http://some.solr.org:8983/solr/archivesspace&#8221;</p>
   </li>
-  <li>
-    <p>Unpack the Tomcat distribution</p>
-  </li>
-  <li>
-    <p>From your &#8216;archivesspace&#8217; directory, use the &#8216;configure-tomcat.sh&#8217;
-script to copy everything over to your Tomcat directory</p>
-  </li>
-  <li>
-    <p>Install the MySQL connector into Tomcat&#8217;s &#8216;lib&#8217; directory.</p>
-  </li>
+  <li>Unpack the Tomcat distribution</li>
+  <li>From your &#8216;archivesspace&#8217; directory, use the &#8216;configure-tomcat.sh&#8217;
+script to copy everything over to your Tomcat directory</li>
+  <li>Install the MySQL connector into Tomcat&#8217;s &#8216;lib&#8217; directory.</li>
 </ul>
 
 <p>On my system, that looks like this:</p>
@@ -258,7 +250,7 @@ are the most useful.</p>
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version V1.3.0 Documentation Generated on Wed Jul  8 20:10:42 2015 by
+  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:45:52 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

@@ -13,3 +13,7 @@ Windows (XP, Windows 7, Windows 8, Windows Server 2008 & 2012 ).
 
 MySQL is not required, but is **strongly** recommended for production use.
 
+**The embedded database is for testing purposes only. You should use MySQL for
+any data intended for production, including data in a test instance that you
+intend to move over to a production instance.**
+
