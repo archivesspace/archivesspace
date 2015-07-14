@@ -68,14 +68,14 @@
 
     <div id="content"><div id='filecontents'><h1 id="archivesspace-build-system">ArchivesSpace Build System</h1>
 
-<h1 id="running-the-build-system">Running the build system</h1>
+<h2 id="running-the-build-system">Running the build system</h2>
 
 <p>To run the build system, use the <code>build/run</code> script from your
 ArchivesSpace project directory.  This will display a list of all
 available build tasks.  This document describes a few of the important
 ones.</p>
 
-<h1 id="bootstrapping">Bootstrapping</h1>
+<h2 id="bootstrapping">Bootstrapping</h2>
 
 <p>The bootstrap task:</p>
 
@@ -85,7 +85,7 @@ ones.</p>
 <p>Will bootstrap your development environment by downloading all
 dependencies&#8211;JRuby, Gems, Solr, etc..</p>
 
-<h1 id="running-a-development-environment">Running a development environment</h1>
+<h2 id="running-a-development-environment">Running a development environment</h2>
 
 <p>To run a development instance of all ArchivesSpace components:</p>
 
@@ -100,7 +100,7 @@ dependencies&#8211;JRuby, Gems, Solr, etc..</p>
 <pre class="code ruby"><code class="ruby"> <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>db:</span><span class='rubyid_nuke identifier id'>nuke</span>
 </code></pre>
 
-<h1 id="running-the-tests">Running the tests</h1>
+<h2 id="running-the-tests">Running the tests</h2>
 
 <p>ArchivesSpace uses a combination of RSpec, integration and Selenium
 tests.  You will need to have Firefox on your path.  Then, to run all
@@ -128,7 +128,7 @@ To do this, run:</p>
 <pre class="code ruby"><code class="ruby"> <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>backend:</span><span class='rubyid_test identifier id'>test</span> <span class='minus op'>-</span><span class='rubyid_Dexample constant id'>Dexample</span><span class='assign token'>=</span><span class='string val'>&quot;does something important&quot;</span>
 </code></pre>
 
-<h1 id="coverage-reports">Coverage reports</h1>
+<h2 id="coverage-reports">Coverage reports</h2>
 
 <p>You can run the coverage reports using:</p>
 
@@ -139,7 +139,7 @@ To do this, run:</p>
 finishes, produces a set of HTML reports within the <code>coverage</code>
 directory in your ArchivesSpace project directory.</p>
 
-<h1 id="building-a-distribution">Building a distribution</h1>
+<h2 id="building-a-distribution">Building a distribution</h2>
 
 <p>To build an ArchivesSpace release, use the <code>build_release</code> script from
 your project directory:</p>
@@ -147,7 +147,7 @@ your project directory:</p>
 <pre class="code ruby"><code class="ruby"> <span class='rubyid_scripts identifier id'>scripts</span><span class='div op'>/</span><span class='rubyid_build_release identifier id'>build_release</span>
 </code></pre>
 
-<h1 id="generating-api-documentation">Generating API documentation</h1>
+<h2 id="generating-api-documentation">Generating API documentation</h2>
 
 <p>To generate documentation for backend endpoints:</p>
 
@@ -158,7 +158,7 @@ your project directory:</p>
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version V1.3.0 Documentation Generated on Wed Jul  8 20:10:44 2015 by
+  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:45:54 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

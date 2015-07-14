@@ -4,8 +4,8 @@ layout: en
 permalink: /user/upgrading-to-a-new-release-of-archivesspace/ 
 ---
 
-### Please also see [UPGRADING_1.1.1.md](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.1.1.md)  for special considerations when upgrading to v1.1.1
-### Please also see [UPGRADING_1.1.0.md](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.1.0.md)  for special considerations when upgrading to v1.1.0
+** Please also see [UPGRADING_1.1.1.md](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.1.1.md) for special considerations when upgrading to v1.1.1**
+** Please also see [UPGRADING_1.1.0.md](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.1.0.md) for special considerations when upgrading to v1.1.0**
 
 
 ## Create a backup of your ArchivesSpace instance
@@ -45,11 +45,8 @@ You will need to bring across the following files and directories from
 your original ArchivesSpace installation:
 
   * the `data` directory
-
   * the `config` directory (see **Configuration note** below)
-
   * your `lib/mysql-connector*.jar` file (if using MySQL)
-
   * any plugins and local modifications you have installed in your `plugins` directory
 
 For example, on Mac OS X or Linux:

@@ -2,18 +2,18 @@
   <div>
     <!-- <h2>Search</h2> -->
     <div class="searchbox">
-      <form>
-        <input type="text" id="st-search-input" class="searchbox-input" placeholder="Search the docs" />
+      <form onsubmit='google_site_search()'>
+        <input type="text" id="google-search" class="searchbox-input" placeholder="Search the docs" />
       </form>
-      <script type="text/javascript">
-          (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
-            (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
-            e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
-            })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
 
-              _st('install','R97A3uv-TMx4aozWwT1Y','2.0.0');
-            </script>
-    
+      <script language="Javascript" type="text/javascript">
+          function google_site_search()
+            {
+                var query = document.getElementById("google-search").value;
+                  window.open("http://google.com/search?q=" + query
+                  + "%20site:" + "http://archivesspace.github.io/archivesspace");
+                  }
+                </script>
     </div>
   </div>
   <!-- <section>
@@ -72,6 +72,7 @@
       <li><a href="https://twitter.com/archivesspace">Twitter</a></li>
       <li><a href="irc://chat.freenode.net/%23archivesspace">IRC</a></li>
       <li><a href="http://github.com/archivesspace">GitHub</a></li>
+      <li><a href="mailto:ArchivesSpaceHome@lyrasis.org">Email</a></li>
     </ul>
   </section>
   <section>

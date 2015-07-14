@@ -87,6 +87,10 @@ Windows (XP, Windows 7, Windows 8, Windows Server 2008 &amp; 2012 ).</p>
 
 <p>MySQL is not required, but is <strong>strongly</strong> recommended for production use.</p>
 
+<p><strong>The embedded database is for testing purposes only. You should use MySQL for
+any data intended for production, including data in a test instance that you
+intend to move over to a production instance.</strong></p>
+
 <h1 id="getting-started">Getting started</h1>
 
 <p>The quickest way to get ArchivesSpace up and running is to download
@@ -339,13 +343,9 @@ instance to a <code>.zip</code> file.  You can run:</p>
 <p>and the script will generate a file containing:</p>
 
 <ul>
-  <li>
-    <p>A snapshot of the demo database (if you&#8217;re using the demo
-database)</p>
-  </li>
-  <li>
-    <p>A snapshot of the Solr index and related indexer files</p>
-  </li>
+  <li>A snapshot of the demo database (if you&#8217;re using the demo
+database)</li>
+  <li>A snapshot of the Solr index and related indexer files</li>
 </ul>
 
 <p>If you are running against MySQL and have <code>mysqldump</code> installed, you
@@ -395,12 +395,8 @@ following configuration settings:</p>
 need to restore:</p>
 
 <ul>
-  <li>
-    <p>Your database (either the demo database or MySQL)</p>
-  </li>
-  <li>
-    <p>The search indexes and related indexer files</p>
-  </li>
+  <li>Your database (either the demo database or MySQL)</li>
+  <li>The search indexes and related indexer files</li>
 </ul>
 
 <p>Of the two, the database backup is the most crucial&#8211;search indexes
@@ -445,25 +441,17 @@ the time needed to get your system running again.</p>
 ArchivesSpace indexer:</p>
 
 <ul>
-  <li>
-    <p>solr.backup-[timestamp]/snapshot.[timestamp] &#8211; a snapshot of the
-index files.</p>
-  </li>
-  <li>
-    <p>solr.backup-[timestamp]/indexer_state &#8211; the files used by the
-indexer to remember what it last indexed.</p>
-  </li>
+  <li>solr.backup-[timestamp]/snapshot.[timestamp] &#8211; a snapshot of the
+index files.</li>
+  <li>solr.backup-[timestamp]/indexer_state &#8211; the files used by the
+indexer to remember what it last indexed.</li>
 </ul>
 
 <p>To restore these directories from backup:</p>
 
 <ul>
-  <li>
-    <p>Copy your index snapshot to <code>/path/to/archivesspace/data/solr_index/index</code></p>
-  </li>
-  <li>
-    <p>Copy your indexer_state backup to <code>/path/to/archivesspace/data/indexer_state</code></p>
-  </li>
+  <li>Copy your index snapshot to <code>/path/to/archivesspace/data/solr_index/index</code></li>
+  <li>Copy your indexer_state backup to <code>/path/to/archivesspace/data/indexer_state</code></li>
 </ul>
 
 <p>For example:</p>
@@ -656,7 +644,7 @@ LYRASIS, and contributions from diverse persons in the archives community.</p>
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version V1.3.0 Documentation Generated on Wed Jul  8 20:10:42 2015 by
+  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:45:52 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

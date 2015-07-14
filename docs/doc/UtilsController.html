@@ -172,6 +172,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#note_order-instance_method" title="#note_order (instance method)">- (Object) <strong>note_order</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#shortcuts-instance_method" title="#shortcuts (instance method)">- (Object) <strong>shortcuts</strong> </a>
     
 
@@ -304,6 +327,39 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="note_order-instance_method">
+  
+    - (<tt>Object</tt>) <strong>note_order</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+35
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/utils_controller.rb', line 35</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_note_order identifier id'>note_order</span>
+  <span class='rubyid_prefs identifier id'>prefs</span> <span class='assign token'>=</span> <span class='rubyid_user_prefs identifier id'>user_prefs</span>
+  <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_prefs identifier id'>prefs</span><span class='lbrack token'>[</span><span class='string val'>'note_order'</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="shortcuts-instance_method">
   
     - (<tt>Object</tt>) <strong>shortcuts</strong> 
@@ -339,7 +395,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version V1.3.0 Documentation Generated on Wed Jul  8 20:11:04 2015 by
+  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:46:18 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

@@ -38,6 +38,8 @@ string	digital_object_browse_column_5
 
 boolean	default_values
 
+array (string)	note_order
+
 
 
 

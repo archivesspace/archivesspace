@@ -1,7 +1,7 @@
 ArchivesSpace Build System
 ==========================
 
-# Running the build system
+## Running the build system
 
 To run the build system, use the `build/run` script from your
 ArchivesSpace project directory.  This will display a list of all
@@ -9,7 +9,7 @@ available build tasks.  This document describes a few of the important
 ones.
 
 
-# Bootstrapping
+## Bootstrapping
 
 The bootstrap task:
 
@@ -19,7 +19,7 @@ Will bootstrap your development environment by downloading all
 dependencies--JRuby, Gems, Solr, etc..
 
 
-# Running a development environment
+## Running a development environment
 
 To run a development instance of all ArchivesSpace components:
 
@@ -33,7 +33,7 @@ You can also clear your database and search indexes with:
      build/run db:nuke
 
 
-# Running the tests
+## Running the tests
 
 ArchivesSpace uses a combination of RSpec, integration and Selenium
 tests.  You will need to have Firefox on your path.  Then, to run all
@@ -58,7 +58,7 @@ or a single example with:
      build/run backend:test -Dexample="does something important"
 
 
-# Coverage reports
+## Coverage reports
 
 You can run the coverage reports using:
 
@@ -69,14 +69,14 @@ finishes, produces a set of HTML reports within the `coverage`
 directory in your ArchivesSpace project directory.
 
 
-# Building a distribution
+## Building a distribution
 
 To build an ArchivesSpace release, use the `build_release` script from
 your project directory:
 
      scripts/build_release
 
-# Generating API documentation
+## Generating API documentation
 
 To generate documentation for backend endpoints:
 

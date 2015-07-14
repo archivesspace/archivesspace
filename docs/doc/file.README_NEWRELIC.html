@@ -73,11 +73,8 @@
 <p><strong>To use with ArchivesSpace you must:</strong></p>
 
 <ul>
-  <li>
-    <p>Signup for an account at newrelic (there is a free tier and paid plans)</p>
-  </li>
-  <li>
-    <p>Edit config.rb to:</p>
+  <li>Signup for an account at newrelic (there is a free tier and paid plans)</li>
+  <li>Edit config.rb to:
     <ul>
       <li>activate the <code>newrelic</code> plugin</li>
       <li>add the New Relic license key</li>
@@ -89,7 +86,7 @@
 <p>For example, in config.rb:</p>
 
 <p>```
-# You may have other plugins
+## You may have other plugins
 AppConfig[:plugins] = [&#8216;local&#8217;, &#8216;newrelic&#8217;]</p>
 
 <p>AppConfig[:newrelic_key] = &#8220;enteryourkeyhere&#8221;
@@ -98,26 +95,27 @@ AppConfig[:newrelic_app_name] = &#8220;ArchivesSpace&#8221;
 
 <ul>
   <li>
-    <p>Install the New Relic agent library by initializing the plugin:</p>
-
-    <p># For Linux/OSX
+    <p>Install the New Relic agent library by initializing the plugin:
+```
+  ## For Linux/OSX
    $ scripts/initialize-plugin.sh newrelic</p>
 
-    <p># For Windows
-   % scripts\initialize-plugin.bat newrelic</p>
+    <p>## For Windows
+   % scripts\initialize-plugin.bat newrelic
+```</p>
   </li>
   <li>
     <p>Start, or restart ArchivesSpace to pick up the configuration.</p>
-
-    <p>Within a few minutes the application should be visible in the New Relic dashboard with data being collected.</p>
   </li>
 </ul>
+
+<p>Within a few minutes the application should be visible in the New Relic dashboard with data being collected.</p>
 
 <hr />
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version V1.3.0 Documentation Generated on Wed Jul  8 20:10:43 2015 by
+  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:45:54 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>
