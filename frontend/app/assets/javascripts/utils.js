@@ -1,7 +1,6 @@
 //= require trimpath-template-1.0.38
 //= require bootstrap-datepicker
 //= require bootstrap-combobox
-//= require jquery.hotkeys
 
 var AS = {};
 
@@ -672,8 +671,6 @@ AS.prefixed_cookie = function(cookie_name, value) {
     args[0] = COOKIE_PREFIX + '_' + args[0];
     return $.cookie.apply(this, args);
 };
-
-
 
 
 // Sub Record Sorting
