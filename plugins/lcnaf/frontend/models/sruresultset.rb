@@ -24,6 +24,7 @@ class SRUResultSet
     @hit_count = doc.xpath("//searchRetrieveResponse/numberOfRecords").text().to_i
     @records = doc.xpath("//recordData/record").map {|record|
       {
+        :title => record.xpath("./datafield[@tag='100']/subfield[@code='a']").text().strip,
         :xml => record.to_xml(:indent => 2),
         :lccn => record.xpath("./datafield[@tag='010']/subfield[@code='a']").text().gsub(' ', '')
       }

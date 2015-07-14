@@ -37,6 +37,9 @@ $(function() {
       // sole openSearch field
       resultsJson.queryString = '?family_name=' + resultsJson.query + '&lcnaf_service=loc';
     } else {
+       if ( resultsJson.query.query['local.GivenName'] === undefined ) {
+        resultsJson.query.query['local.GivenName'] = "";  
+      }
       resultsJson.queryString = '?family_name=' + resultsJson.query.query['local.FamilyName'] + '&given_name=' + resultsJson.query.query['local.GivenName'] + '&lcnaf_service=oclc';
     }
   }
@@ -56,6 +59,7 @@ $(function() {
     var $result = $("[data-lccn="+lccn+"]", $results);
     if ($result.length > 0) {
       $result.removeClass("hide");
+      $(".alert-success", $result).removeClass("alert-success").addClass("alert-info");
       $result.siblings(".alert").addClass("hide");
     }
 
@@ -70,7 +74,8 @@ $(function() {
     $selected.append(AS.renderTemplate("template_lcnaf_selected", {lccn: lccn}))
 
     $(".alert-success", $result).removeClass("hide");
-    $("button", $result).addClass("hide");
+    $("button.select-record", $result).addClass("hide");
+    $(".alert-info", $result).removeClass("alert-info").addClass("alert-success");
 
     $selected.siblings(".alert-info").addClass("hide");
     $("#import-selected").removeAttr("disabled", "disabled");
@@ -142,17 +147,21 @@ $(function() {
     event.preventDefault();
 
     $.getJSON($(this).attr("href"), function(json) {
-      $results.ScrollTo();
+      $("body").scrollTo(0); 
       renderResults(json);
     });
-  }).on("click", ".lcnaf-result button", function(event) {
+  }).on("click", ".lcnaf-result button.select-record", function(event) {
     var lccn = $(this).data("lccn");
     if (selected_lccns[lccn]) {
       removeSelected(lccn);
     } else {
       addSelected(lccn, $(this).closest(".lcnaf-result"));
     }
-  });
+  }).on("click", ".lcnaf-result button.show-record", function(e) {
+         e.preventDefault();
+         $(this).siblings(".lcnaf-marc").removeClass("hide");
+         $(this).addClass("hide");     
+  }); 
 
   $selected.on("click", ".remove-selected", function(event) {
     var lccn = $(this).parent().data("lccn");
@@ -165,6 +174,7 @@ $(function() {
       event.preventDefault();
       AS.openQuickModal(AS.renderTemplate("template_lcnaf_service_locked_title"), AS.renderTemplate("template_lcnaf_service_locked_message"));
     } else {
+      $("#lcnaf_search input.lcnaf-name-input").val(''); 
       $('#given-name-search-query').prop('disabled', function(i, v) { return !v; });
       $('.btn', '.lcnaf-result').prop('disabled', function(i, v) { return !v; });
     }
