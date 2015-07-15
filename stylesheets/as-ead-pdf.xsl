@@ -265,7 +265,12 @@
         -->
         <xsl:apply-templates select="local:parseDate(.)"/>
     </xsl:template>
-    <!-- This template can be modified to include repository specific icons, use the template as a example.  -->
+    <!--
+        This template can be modified to include repository specific icons,
+        use the template as an example. PDF exports only support this single
+        icon template for an image in this directory specified by filename
+        i.e. src="myicon.png"
+    -->
     <xsl:template name="icon">
         <fo:block text-align="left" margin-left="-.75in" margin-top="-.5in">
             <fo:external-graphic src="archivesspace.small.png" content-height="75%" content-width="75%"/>
