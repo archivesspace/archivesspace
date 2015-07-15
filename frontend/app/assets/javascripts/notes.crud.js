@@ -279,7 +279,17 @@ $(function() {
 
             var $listed = $target_subrecord_list.children().detach()
             var sorted = _.sortBy($listed, function(li) {
+
               var type = $('select.note-type', $(li)).val();
+              //Some note types don't have a select, so try to work it out another way
+              if (_.isUndefined(type)) {
+                if ($('select.top-level-note-type', $(li))) {
+                  type = $('select.top-level-note-type', $(li)).val().replace(/^note_/, '')
+                } else {
+                  type = $('.subrecord-form-fields', $(li)).data('type').replace(/^note_/, '')
+                }
+              }
+
               return _.indexOf(note_order, type);
             });
 

@@ -7,8 +7,6 @@ $(function() {
   var el = document.getElementById('note-order-preference-list');
   sortable = Sortable.create(el, {});
 
-  console.log(sortable.toArray());
-
   $('form#new_preference').submit(function(event) {
 
    _.each(sortable.toArray(), function(note_type, i) {
@@ -21,9 +19,6 @@ $(function() {
      }).appendTo(event.target);
    });
 
-    console.log(event.target);
-
   });
-
 
 });
