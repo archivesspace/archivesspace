@@ -16,13 +16,13 @@ describe 'Repository model' do
                                                                           :name => "My new test repository")) }.to_not raise_error
 
     expect { Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "TESTREPO",
-                                                                          :name => "Another description")) }.to raise_error
+                                                                          :name => "Another description")) }.to raise_error(Sequel::ValidationFailed)
   end
 
 
   it "enforces required fields" do
 
-    expect { Repository.create_from_json(JSONModel(:repository).from_hash(:name => "My new test repository")) }.to raise_error
+    expect { Repository.create_from_json(JSONModel(:repository).from_hash(:name => "My new test repository")) }.to raise_error(JSONModel::ValidationException)
 
   end
 

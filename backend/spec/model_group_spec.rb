@@ -20,7 +20,7 @@ describe 'Group model' do
     expect {
       Group.create_from_json(build(:json_group, opts), :repo_id => $repo_id)
       Group.create_from_json(build(:json_group, opts), :repo_id => $repo_id)
-    }.to raise_error
+    }.to raise_error(Sequel::ValidationFailed)
 
     # No problems here
     expect {
@@ -38,7 +38,7 @@ describe 'Group model' do
 
     expect {
       Group.create_from_json(build(:json_group, opts), :repo_id => $repo_id)
-    }.to raise_error
+    }.to raise_error(Sequel::ValidationFailed)
   end
 
 
@@ -77,7 +77,7 @@ describe 'Group model' do
 
     expect {
       group = Group.create_from_json(build(:json_group, :grants_permissions => ['fnoob_is_not_seriously_a_perm']), :repo_id => repo1.id)
-    }.to raise_error
+    }.to raise_error(RuntimeError)
   end
 
 end

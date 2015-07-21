@@ -5,16 +5,15 @@ require 'converter_spec_helper'
 require_relative '../app/converters/digital_object_converter'
 
 describe 'Digital Object converter' do
-  let(:my_converter) {
-    DigitalObjectConverter
-  }
 
-  let(:test_file) {
-    File.expand_path("../app/exporters/examples/digital_object/aspace_digital_object_import_template.csv",
-                     File.dirname(__FILE__))
-  }
+  def my_converter
+    DigitalObjectConverter
+  end
+
 
   before(:all) do
+    test_file = File.expand_path("../app/exporters/examples/digital_object/aspace_digital_object_import_template.csv",
+                                 File.dirname(__FILE__))
     @records = convert(test_file)
     @digital_objects = @records.select {|r| r['jsonmodel_type'] == 'digital_object' }
   end

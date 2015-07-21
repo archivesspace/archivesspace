@@ -65,7 +65,7 @@ describe 'Agent model' do
                 }
               )
 
-    expect { n1.to_hash }.to_not raise_error(JSONModel::ValidationException)
+    expect { n1.to_hash }.to_not raise_error
 
     agent = AgentPerson.create_from_json(build(:json_agent_person, :names => [n1]))
 

@@ -9,8 +9,8 @@ describe 'Record Publishing' do
                                                 'resource' => {'ref' => resource.uri},
                                                 'publish' => true))
 
-    ArchivalObject.to_jsonmodel(obj).publish.should be_true
-    ArchivalObject.to_jsonmodel(obj).has_unpublished_ancestor.should be_true
+    ArchivalObject.to_jsonmodel(obj).publish.should be_truthy
+    ArchivalObject.to_jsonmodel(obj).has_unpublished_ancestor.should be_truthy
   end
 
 
@@ -26,10 +26,10 @@ describe 'Record Publishing' do
                                                   'parent' => {'ref' => parent.uri},
                                                   'publish' => true))
 
-    ArchivalObject.to_jsonmodel(parent).publish.should be_false
-    ArchivalObject.to_jsonmodel(parent).has_unpublished_ancestor.should be_false
-    ArchivalObject.to_jsonmodel(child).publish.should be_true
-    ArchivalObject.to_jsonmodel(child).has_unpublished_ancestor.should be_true
+    ArchivalObject.to_jsonmodel(parent).publish.should be_falsey
+    ArchivalObject.to_jsonmodel(parent).has_unpublished_ancestor.should be_falsey
+    ArchivalObject.to_jsonmodel(child).publish.should be_truthy
+    ArchivalObject.to_jsonmodel(child).has_unpublished_ancestor.should be_truthy
   end
 
 
@@ -40,8 +40,8 @@ describe 'Record Publishing' do
                                                 'digital_object' => {'ref' => digital_object.uri},
                                                 'publish' => true))
 
-    DigitalObjectComponent.to_jsonmodel(obj).publish.should be_true
-    DigitalObjectComponent.to_jsonmodel(obj).has_unpublished_ancestor.should be_true
+    DigitalObjectComponent.to_jsonmodel(obj).publish.should be_truthy
+    DigitalObjectComponent.to_jsonmodel(obj).has_unpublished_ancestor.should be_truthy
   end
 
 
@@ -57,10 +57,10 @@ describe 'Record Publishing' do
                                                   'parent' => {'ref' => parent.uri},
                                                   'publish' => true))
 
-    DigitalObjectComponent.to_jsonmodel(parent).publish.should be_false
-    DigitalObjectComponent.to_jsonmodel(parent).has_unpublished_ancestor.should be_false
-    DigitalObjectComponent.to_jsonmodel(child).publish.should be_true
-    DigitalObjectComponent.to_jsonmodel(child).has_unpublished_ancestor.should be_true
+    DigitalObjectComponent.to_jsonmodel(parent).publish.should be_falsey
+    DigitalObjectComponent.to_jsonmodel(parent).has_unpublished_ancestor.should be_falsey
+    DigitalObjectComponent.to_jsonmodel(child).publish.should be_truthy
+    DigitalObjectComponent.to_jsonmodel(child).has_unpublished_ancestor.should be_truthy
   end
 
 end

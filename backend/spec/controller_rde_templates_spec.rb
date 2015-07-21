@@ -39,7 +39,7 @@ describe "RDE Templates" do
     templates = JSONModel(:rde_template).all
 
     %w(one two three).each do |name|
-      templates.any? {|res| res.name == name}.should be_true
+      templates.any? {|res| res.name == name}.should == true
     end
 
   end

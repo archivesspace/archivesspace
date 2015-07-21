@@ -4,13 +4,14 @@ require 'converter_spec_helper'
 require_relative '../app/converters/marcxml_accession_converter'
 
 describe 'MARCXML Accession converter' do
-  let(:my_converter) {
+
+  def my_converter
     MarcXMLAccessionConverter
-  }
+  end
 
 
   describe "Basic MARCXML to Accession Record mappings" do
-    let (:test_doc_1) {
+    def test_doc_1
       src = <<END
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
       <collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -85,9 +86,9 @@ describe 'MARCXML Accession converter' do
 END
 
       get_tempfile_path(src)
-    }
+    end
 
-    let (:test_doc_2) {
+    def test_doc_2
       src = <<END
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
       <collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -159,7 +160,7 @@ END
 END
 
       get_tempfile_path(src)
-    }
+    end
 
 
     before(:all) do
@@ -197,13 +198,13 @@ END
     end
 
     it "sets use_restrictions based on 540" do
-      @accession['use_restrictions'].should be_true
-      @accession2['use_restrictions'].should be_false
+      @accession['use_restrictions'].should be_truthy
+      @accession2['use_restrictions'].should be_falsey
     end
 
     it "sets access_restrictions based on 506@ind1" do
-      @accession['access_restrictions'].should be_false
-      @accession2['access_restrictions'].should be_true
+      @accession['access_restrictions'].should be_falsey
+      @accession2['access_restrictions'].should be_truthy
     end
   end
 end
