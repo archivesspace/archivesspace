@@ -245,12 +245,12 @@ describe "RDE" do
 
     # move Note Type 1 to the first position
     @modal.find_element(:id, "columnOrder").select_option("colNType1")
-    18.times { @modal.find_element(:id, "columnOrderUp").click }
+    24.times { @modal.find_element(:id, "columnOrderUp").click }
 
     # move Instance Type to the second position
     @modal.find_element(:id, "columnOrder").select_option("colNType1") # deselect Note Type 1
     @modal.find_element(:id, "columnOrder").select_option("colIType")
-    10.times { @modal.find_element(:id, "columnOrderUp").click }
+    16.times { @modal.find_element(:id, "columnOrderUp").click }
 
     # apply the new order
     $driver.click_and_wait_until_gone(:css, "#columnReorderForm .btn-primary")
@@ -499,12 +499,12 @@ describe "Digital Object RDE" do
 
     # move Note Type 1 to the first position
     @modal.find_element(:id, "columnOrder").select_option("colNType1")
-    20.times { @modal.find_element(:id, "columnOrderUp").click }
+    26.times { @modal.find_element(:id, "columnOrderUp").click }
 
     # move Instance Type to the second position
     @modal.find_element(:id, "columnOrder").select_option("colNType1") # deselect Note Type 1
     @modal.find_element(:id, "columnOrder").select_option("colFUri")
-    10.times { @modal.find_element(:id, "columnOrderUp").click }
+    16.times { @modal.find_element(:id, "columnOrderUp").click }
 
     # apply the new order
     $driver.click_and_wait_until_gone(:css, "#columnReorderForm .btn-primary")

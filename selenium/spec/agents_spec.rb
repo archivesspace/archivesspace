@@ -205,7 +205,7 @@ describe "Agents" do
 
   it "can add a Biog/Hist note to an Agent" do
     $driver.click_and_wait_until_gone(:link, 'Edit')
-    $driver.find_element(:css => '#agent_person_notes .subrecord-form-heading .btn:not(.show-all)').click
+    $driver.find_element(:css => '#agent_person_notes .subrecord-form-heading .btn.add-note').click
     $driver.blocking_find_elements(:css => '#agent_person_notes .top-level-note-type')[0].select_option("note_bioghist")
 
     # ensure note form displayed

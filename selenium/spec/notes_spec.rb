@@ -29,7 +29,7 @@ describe "Notes" do
 
   it "can attach notes to resources" do
     add_note = proc do |type|
-      $driver.find_element(:css => '#notes .subrecord-form-heading .btn:not(.show-all)').click
+      $driver.find_element(:css => '#notes .subrecord-form-heading .btn.add-note').click
       $driver.find_last_element(:css => '#notes select.top-level-note-type:last-of-type').select_option(type)
     end
 
@@ -129,7 +129,7 @@ describe "Notes" do
 
     bibliography_content = "Top-level bibliography content"
 
-    $driver.find_element(:css => '#notes > .subrecord-form-heading .btn:not(.show-all)').click
+    $driver.find_element(:css => '#notes > .subrecord-form-heading .btn.add-note').click
     $driver.find_last_element(:css => 'select.top-level-note-type').select_option("note_bibliography")
 
     $driver.clear_and_send_keys([:id, 'resource_notes__6__label_'], "Top-level bibliography label")
@@ -223,7 +223,7 @@ describe "Notes" do
 
     # Add some notes to it
     add_note = proc do |type|
-      $driver.find_element(:css => '#notes .subrecord-form-heading .btn:not(.show-all)').click
+      $driver.find_element(:css => '#notes .subrecord-form-heading .btn.add-note').click
       $driver.find_last_element(:css => '#notes select.top-level-note-type').select_option(type)
     end
 
@@ -252,7 +252,7 @@ describe "Notes" do
     $driver.clear_and_send_keys([:id, "digital_object_digital_object_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
 
     # Add a Summary note
-    $driver.find_element(:css => '#notes .subrecord-form-heading .btn:not(.show-all)').click
+    $driver.find_element(:css => '#notes .subrecord-form-heading .btn.add-note').click
     $driver.find_last_element(:css => '#notes select.top-level-note-type').select_option_with_text("Summary")
 
     $driver.clear_and_send_keys([:id, 'digital_object_notes__0__label_'], "Summary label")

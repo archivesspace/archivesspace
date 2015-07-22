@@ -19,6 +19,8 @@ class ArchivalRecordChildren < JSONModel(:archival_record_children)
 
 
   def self.clean_instances(child)
+    return unless child["instances"]
+
     if child["instances"][0]["container"].reject{|k,v| v.blank?}.empty?
       child["instances"][0].delete("container")
     end
