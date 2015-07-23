@@ -146,7 +146,7 @@ describe "Accessions" do
     # add the second extent
     $driver.find_element(:css => '#accession_extents_ .subrecord-form-heading .btn:not(.show-all)').click
     $driver.clear_and_send_keys([:id, 'accession_extents__1__number_'], "10")
-    $driver.find_element(:id => "accession_extents__1__extent_type_").select_option("files")
+    $driver.find_element(:id => "accession_extents__1__extent_type_").select_option("cassettes")
 
 
     $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
