@@ -84,7 +84,7 @@ describe "Collection Management" do
 
     $driver.clear_and_send_keys([:id, "accession_collection_management__processing_hours_per_foot_estimate_"], "a lot")
     $driver.clear_and_send_keys([:id, "accession_collection_management__processing_total_extent_"], "even more")
-    $driver.find_element(:id => "accession_collection_management__processing_total_extent_type_").select_option("files")
+    $driver.find_element(:id => "accession_collection_management__processing_total_extent_type_").select_option("cassettes")
 
     # save changes
     $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")

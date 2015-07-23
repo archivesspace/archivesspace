@@ -28,7 +28,7 @@ describe "Resource instances and containers" do
     combo.send_keys(:tab)
     $driver.find_element(:id, "resource_level_").select_option("collection")
     $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
-    $driver.find_element(:id => "resource_extents__0__extent_type_").select_option("files")
+    $driver.find_element(:id => "resource_extents__0__extent_type_").select_option("cassettes")
 
     $driver.find_element(:id => "resource_dates__0__date_type_").select_option("single")
     $driver.clear_and_send_keys([:id, "resource_dates__0__begin_"], "1978")

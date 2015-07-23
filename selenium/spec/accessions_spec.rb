@@ -146,7 +146,7 @@ describe "Accessions" do
     # add the second extent
     $driver.find_element(:css => '#accession_extents_ .subrecord-form-heading .btn:not(.show-all)').click
     $driver.clear_and_send_keys([:id, 'accession_extents__1__number_'], "10")
-    $driver.find_element(:id => "accession_extents__1__extent_type_").select_option("files")
+    $driver.find_element(:id => "accession_extents__1__extent_type_").select_option("cassettes")
 
 
     $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
@@ -163,7 +163,7 @@ describe "Accessions" do
     extent_headings.length.should eq (2)
 
     assert(5) { extent_headings[0].text.should eq ("5 Volumes") }
-    assert(5) { extent_headings[1].text.should eq ("10 Files") }
+    assert(5) { extent_headings[1].text.should eq ("10 Cassettes") }
   end
 
 
@@ -178,7 +178,7 @@ describe "Accessions" do
 
     extent_headings = $driver.blocking_find_elements(:css => '#accession_extents_ .panel-heading')
     extent_headings.length.should eq (1)
-    assert(5) { extent_headings[0].text.should eq ("10 Files") }
+    assert(5) { extent_headings[0].text.should eq ("10 Cassettes") }
   end
 
 
