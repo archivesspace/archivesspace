@@ -10,6 +10,7 @@
   background-image: none;
 }
 
+
 .archives-tree-container {
   margin: -14px -15px 10px -15px !important;
   padding: 10px 0 10px 0;
@@ -164,7 +165,22 @@
       /* padding-right: 20px; */
     }
   }
-
+  
+  .spinner {
+      display: none; 
+      position: absolute;
+      top: 25%;
+      left: 50%;
+      padding-right: 0 !important;
+      font-size: 30px;
+      margin-right: 10px !important;
+  }
+  
+  #archives_tree_overlay {
+    z-index: 100;
+    opacity: 0.1; 
+  }
+  
   #archives_tree_toolbar {
     padding: 0 15px;
 
