@@ -96,22 +96,20 @@ $(function() {
 
       var submitParentForm = function(e) {
         e.preventDefault();
-        $(this).parents("form.aspace-record-form").submit();
+        var input = $("<input>").attr("type", "hidden").attr("name", "ignorewarnings").val("true");
+        $("form.aspace-record-form").append($(input));
+        $("form.aspace-record-form").submit();
+        return false;
       };
-      $this.on("focusin", ":input", function(event) {
-        $(event.target).parents(".subrecord-form").addClass("focus");
-        $(event.target).bind('keydown', 'ctrl+s', submitParentForm);
-      });
-      $this.on("focusout", ":input", function(event) {
-        $(event.target).parents(".subrecord-form").removeClass("focus");
-        $this.unbind('keydown', submitParentForm);
-      });
-      $this.on("click", ":radio, :checkbox", onFormElementChange);
 
+      $this.on("click", ":radio, :checkbox", onFormElementChange);
 
       $this.on("formchanged.aspace", function(event) {
         if ($this.data("form_changed") === true) {
           event.stopPropagation();
+        } else {
+          $(document).bind('keydown', 'ctrl+s', submitParentForm);
+          $(":input", event.target).bind('keydown', 'ctrl+s', submitParentForm);
         }
         $this.data("form_changed", true);
         $(".record-toolbar", $this).addClass("formchanged");
@@ -126,6 +124,7 @@ $(function() {
         $this.data("form_changed", false);
         $this.data("update-monitor-paused", true);
         $this.off("change keyup formchanged.aspace");
+        $(document).unbind("keydown", submitParentForm);
         $(":input[type='submit'], :input.btn-primary", $this).attr("disabled","disabled");
         if ($(this).data("createPlusOne")) {
           var $input = $("<input>").attr("type", "hidden").attr("name", "plus_one").val("true");

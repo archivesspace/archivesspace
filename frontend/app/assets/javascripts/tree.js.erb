@@ -15,7 +15,6 @@ $(function() {
     return;
   }
 
-
   var moved_nodes = [];
   var move_timeout = null;
 
@@ -390,7 +389,7 @@ $(function() {
       var $closeRecordButton = $(AS.renderTemplate("tree_finish_action_template", data_for_toolbar));
 
       // check before closing a dirty form
-      $closeRecordButton.click(function() {
+      $closeRecordButton.click(function(event) {
         event.preventDefault();
         event.stopImmediatePropagation();
 
