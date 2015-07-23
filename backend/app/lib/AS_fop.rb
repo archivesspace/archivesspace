@@ -27,6 +27,14 @@ class ASFop
    # WHAT A HACK! but you can't pass in a URI as a variable? jeezus.  
    filepath =  File.join(ASUtils.find_base_directory, 'stylesheets', 'as-helper-functions.xsl').gsub("\\", "/" )
    @xslt.gsub!('<xsl:include href="as-helper-functions.xsl"/>', "<xsl:include href='#{filepath}'/>" ) 
+
+   # ... ALSO UPDATE PATH TO ICON
+   stylesheets = File.dirname(filepath)
+   icon = @xslt.match("<fo:external-graphic src=\"(.*)\"")
+   if icon
+     icon = icon[1] # the match
+     @xslt.gsub!("<fo:external-graphic src=\"#{icon}\"", "<fo:external-graphic src=\"#{stylesheets}/#{icon}\"")
+   end
   end
 
 
