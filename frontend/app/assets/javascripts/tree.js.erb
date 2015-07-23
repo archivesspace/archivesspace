@@ -176,6 +176,15 @@ $(function() {
     $(":input", $container).attr("disabled","disabled");
   };
 
+  var insertOverlay = function() {
+    $("#archives_tree_overlay").height('100%');
+    $(".archives-tree-container .spinner").show();
+  }
+  
+  var removeOverlay = function() {
+    $("#archives_tree_overlay").height('0%');
+    $(".archives-tree-container .spinner").hide();
+  }
 
   var extractNode = function(data, url) {
     var node_uri = url.match(/node_uri=([^&]*)/gm)[0].replace("node_uri=", "")
@@ -804,41 +813,50 @@ $(function() {
 
     // We need to lock down the form whil the move is happening....
     insertLoadingMessage();
-
+    insertOverlay(); 
     $.ajax({
       url: APP_PATH+targetNode.type+"s/"+targetNode.id.replace(/.*_/, '')+"/accept_children",
       type: "POST",
       data: data_for_post,
-      success: function(data) {
-        tree.refresh_primary_selected();
+      success: function(data, status, jqXHR) {
 
-        tree.primary(function(node) {
-          var nodeEl = tree.get_node(node, true);
+        // if we get back position from the backend that's different than
+        // the index from the frontend, we mihgt have a problem so let's refresh
+        // the tree
+        if ( data_for_post.index !== data.position ){
+          tree.refresh();
+          AS.openQuickModal(AS.renderTemplate("tree_unable_to_move_message_template"), jqXHR.responseText);
+        } else {  
+          tree.refresh_primary_selected();
+          tree.primary(function(node) {
+            var nodeEl = tree.get_node(node, true);
+          // If the reparented record's form is open, update its hidden field.
+            if (urisOfNodesToMove.indexOf(node.original.record_uri) >= 0) {
 
-        // If the reparented record's form is open, update its hidden field.
-          if (urisOfNodesToMove.indexOf(node.original.record_uri) >= 0) {
+              var hiddenInput = $("input.hidden-parent-uri", $container);
 
-            var hiddenInput = $("input.hidden-parent-uri", $container);
-
-            if (targetNode.type === node.type) {
-              hiddenInput.attr('name', node.type + '[parent][ref]');
-              hiddenInput.val(targetNode.original.record_uri);
-            } else {
-              hiddenInput.attr('name', node.type + '[parent]');
-              hiddenInput.val(null);
+              if (targetNode.type === node.type) {
+                hiddenInput.attr('name', node.type + '[parent][ref]');
+                hiddenInput.val(targetNode.original.record_uri);
+              } else {
+                hiddenInput.attr('name', node.type + '[parent]');
+                hiddenInput.val(null);
+              }
             }
-          }
 
-          // Always update the currently selected node's position.. it may have changed!
-          $("#"+nodeEl.attr("rel")+"_position_", $container).val(nodeEl.index());
+            // Always update the currently selected node's position.. it may have changed!
+            $("#"+nodeEl.attr("rel")+"_position_", $container).val(nodeEl.index());
 
-          // Let's unlock the form now
-          removeLoadingMessage();
+            // Let's unlock the form now
+            removeLoadingMessage();
 
-          // Also update the node's toolbar actions (as the move actions may have become out of sync)
-          loadTreeActionsForNode(node);
-        });
-
+            // Also update the node's toolbar actions (as the move actions may have become out of sync)
+            loadTreeActionsForNode(node);
+            // lets give the thing at least one second so we don't cause any seizures with flashing annimation.  
+            setTimeout( removeOverlay, 1000); 
+          
+          });
+        }
       },
       error: function(jqXHR, textStatus, errorThrown) {
         // Reset the tree.
@@ -1175,7 +1193,7 @@ $(function() {
       move_timeout = setTimeout(function() {
         moveNodes(moved_nodes);
         // lets clear out the moved_nodes 
-        moved_nodes = []; 
+        moved_nodes = [];
         onSelectNode();
       }, 50);
 
