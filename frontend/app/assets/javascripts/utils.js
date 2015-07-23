@@ -237,7 +237,7 @@ $(function() {
   var initPopovers = function(scope) {
     scope = scope || $(document.body);
     $(".has-popover:not(.initialised)", scope)
-      .popover(popoverOptions) 
+      .popover(popoverOptions)
       .click(function(e) {
         e.preventDefault();
       }).addClass("initialised");
@@ -400,7 +400,7 @@ AS.openCustomModal = function(id, title, contents, modalSize, modalOpts, initiat
   var templateData = {
     id:id,
     title:title,
-    content: "", 
+    content: "",
   }
 
   // phase out the class on .modal in favor of .modal-dialog
@@ -414,7 +414,7 @@ AS.openCustomModal = function(id, title, contents, modalSize, modalOpts, initiat
     templateData.fill = modalSize;
     templateData.dialogClass = false;
   }
- 
+
   $("body").append(AS.renderTemplate("modal_custom_template", templateData));
   var $modal = $("#"+id);
   $modal.find('.modal-content').append(contents);
@@ -578,7 +578,7 @@ AS.initAddAsYouGoActions = function($form, $list) {
     }
 
     var btnsToReplicate =  $(".subrecord-form-heading:first > .btn, .subrecord-form-heading:first > .custom-action > .btn", $form)
-    btnsToReplicate = btnsToReplicate.map( function() { 
+    btnsToReplicate = btnsToReplicate.map( function() {
         var $btn = $(this);
         if ( $btn.hasClass('show-all') && numberOfSubRecords() < 5   )
           return;
@@ -590,7 +590,7 @@ AS.initAddAsYouGoActions = function($form, $list) {
 
     btnsToReplicate.each(function() {
       var $btn = $(this);
-      
+
       var $a = $("<a href='#'>+</a>");
       var btnText = $btn.val().length ? $btn.val() : $btn.text();
       $a.css("width", Math.floor(fillToPercentage / btnsToReplicate.length) + "%");
@@ -856,20 +856,11 @@ $(function() {
 
   };
 
-  $(document).bind('formchanged.aspace', function(event) {
-    var $form = $('form.aspace-record-form');
-    if ($form.data("form_changed")) {
-      $(document).bind('keydown', 'ctrl+s', function() {
-        $form.submit()
-      });
-    }
-  })
-
   $(document).bind('keydown', 'shift+/', function() {
     if (!$('#ASModal').length) {
       AS.openAjaxModal(APP_PATH + "shortcuts");
     }
-    
+
   });
 
   $(document).bind('keydown', 'esc', function() {
@@ -883,12 +874,23 @@ $(function() {
   });
 
   $(document).bind('keydown', 'shift+b', function() {
-    $('li.browse-container a.dropdown-toggle').trigger('click.bs.dropdown'); 
+    $('li.browse-container a.dropdown-toggle').trigger('click.bs.dropdown');
   });
 
   $(document).bind('keydown', 'shift+c', function() {
-    $('li.create-container a.dropdown-toggle').trigger('click.bs.dropdown'); 
+    $('li.create-container a.dropdown-toggle').trigger('click.bs.dropdown');
   });
+
+  $(window).bind('keydown', function(event) {
+    if (event.ctrlKey || event.metaKey) {
+      switch (String.fromCharCode(event.which).toLowerCase()) {
+      case 's':
+        event.preventDefault();
+        console.log('ctrl-s');
+        break;
+      }
+    }
+});
 
   var traverseMenuDown = function() {
     var $current = $(this).find('ul li.active');
@@ -897,7 +899,7 @@ $(function() {
     if ($next.length){
       $next.addClass('active');
       $current.removeClass('active');
-    }  
+    }
   };
 
   var traverseMenuUp = function() {
@@ -907,7 +909,7 @@ $(function() {
     if ($next.length){
       $next.addClass('active');
       $current.removeClass('active');
-    }  
+    }
   };
 
   var clickActive = function(e) {
@@ -932,5 +934,5 @@ $(function() {
       $(this).unbind('keydown', clickActive);
     }
   });
-    
+
 });
