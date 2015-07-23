@@ -109,7 +109,6 @@
     <td data-col="colLang" class="form-group">
       <%= form.select "language", jsonmodel_definition(:digital_object_component).options_for(form, "language", true) %>
     </td>
-
     <td data-col="colDLabel" class="form-group">
       <% form.push(form.set_index("dates[]", 0), begin digital_object_component["dates"][0] || {} rescue {} end) do %>
         <%= form.select "label", jsonmodel_definition(:date).options_for(form, "label", true) %>
@@ -138,7 +137,6 @@
         <%= form.textfield "end" %>
       <% end %>
     </td>
-    <!-- Extent -->
     <td data-col="colEPortion" class="form-group">
       <% form.push(form.set_index("extents[]", 0), begin archival_object["extents"][0] || {} rescue {} end) do %>
         <%= form.select "portion", jsonmodel_definition(:extent).options_for(form, "portion", true) %>
@@ -172,8 +170,6 @@
         <%= form.textfield "dimensions" %>
       <% end %>
     </td>
-    <!-- / Extent -->
-
     <td data-col="colFUri" class="form-group">
       <% form.push(form.set_index("file_versions[]", 0), begin digital_object_component["file_versions"][0] || {} rescue {} end) do %>
         <%= form.textfield("file_uri") %>
