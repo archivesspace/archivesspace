@@ -13,8 +13,12 @@
     container_labels: Descargar etiquetas del contenedor
     create: Crear
     cut: Cortar
+    defaults: Valores por defecto
     edit: Editar
+    edit_batch: Editar en bloque
     edit_groups: Editar grupos
+    edit_default_values: Editar valores por defecto
+    edit_default_archival_object_values: Editar Componentes por defecto
     export: Exportar
     view: Ver
     spawn: Heredar
@@ -56,9 +60,14 @@
     delete: Borrar
     delete_confirm_title: ¿Desea eliminar este registro?
     delete_confirm_message: "<p>Por favor, ser conscientes de que <strong>no puede deshacer esta acción</strong>.</p><p>Esta acción eliminará el registro de la base de datos, incluyendo cualquier referencia que se tiene con otros registros.</p>"
+    delete_repository_confirm_title: ¿Borrar este repositorio?
+    delete_repository_confirm_message: "<p><strong>No puedes deshacer este cambio</strong>.</p><p>Esta acción eliminará el <strong>repositorio</strong> y todos los registros asociados incluidas las referencias a otros registros.</p><p>Para seguir adelante por favor indica '%{repository}' abajo:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
     delete_multiple: Borrar registros
     delete_multiple_confirm_title: ¿Borrar registros?
     delete_multiple_confirm_message: "<p>Por favor, ser conscientes de que <strong>no puede deshacer esta acción</strong>.</p><p>Esta acción eliminará estos registros de la base de datos, incluyendo referencias tienen a otros registros.</p>"
+    edit_multiple: Editar múltiples registros
+    edit_multiple_confirm_title: ¿Editar registros?
+    edit_multiple_confirm_message: "<p>Esto actualizará múltiples registros.</p>"
     export_eac: Descargar EAC-CPF
     export_ead: Descargar EAD
     export_mods: Descargar MODS
@@ -109,6 +118,7 @@
     no_results_prefix: No hay resultados de la búsqueda
     result_type: Tipo de registro
     result_title: Título
+    result_identifier: Identificador
     filtered_by: Filtrado por
     modified: Modificado por
     created: Creado por
@@ -127,7 +137,7 @@
       source: Fuente
       rules: Reglas
       parent_type: Tipo de registro
-      processing_priority: Prioridad de procesamiento
+      processing_priority: Prioridad de procesado
       processing_status: Estado de procesamiento
       publish: Publicado
       temporary: Temporal
@@ -153,7 +163,7 @@
     title_sort: Título
     user_mtime: Modificado
     primary_type: Tipo de registro
-    processing_priority: Prioridad
+    processing_priority: Prioridad de procesado
     processing_status: Estado
     parent_id: Tipo de registro
     create_time: Creado
@@ -177,8 +187,8 @@
     level: Nivel de Descripción
     language: Idioma
     restrictions: Restricciones
-    ead_id: ID DE EAD
-    finding_aid_status: Estado del finding aid
+    ead_id: Identificador EAD
+    finding_aid_status: Estado del instrumento de descripción
     digital_object_id: ID de objeto digital
     digital_object_type: Tipo de objeto digital
     publish: Publicar
@@ -283,8 +293,8 @@
   linker:
     link_to_prefix: Enlace a
     create_and_link_to_prefix: Crear y vincular
-    hint_text: Tipo para buscar registros disponibles...
-    placeholder: Tipo para buscar registros disponibles...
+    hint_text: Empieza a escribir para buscar registros disponibles...
+    placeholder: Empieza a escribir para buscar registros disponibles...
     no_results: No hay resultados coincidentes.  Trate de 'Examinar'.
     searching: Buscando...
     delete: "x"
@@ -310,6 +320,25 @@
       missing_file: Por favor, seleccione un archivo EAD para cargar
       error_prefix: Archivo de importación de error
       complete: Importación completa
+
+  default_values:
+    form_title:
+      archival_object: Registros de documentos de archivo por defecto
+      resource: Registros de fondos por defecto
+      accession: Registros de acta de ingreso por defecto
+      subject: Registros de materia por defecto
+      agent_person: Registros de autoridad por defecto (Persona)
+      agent_family: Registros de autoridad por defecto (Familia)
+      agent_corporate_entity: Registros de autoridad por defecto (Entidades)
+      agent_software: Registros de autoridad por defecto (Software)
+      digital_object: Objetos digitales por defecto
+      digital_object_component: Componentes de objetos digitales por defecto
+      location: Registros de ubicación por defecto
+      event: Registros de eventos por defecto
+      classification: Registros de clasificación por defecto
+      classification_term: Términos de clasificación por defecto
+    messages:
+      defaults_updated: Valores por defecto actualizados
 
   errors:
     sidebar_label: Errores y advertencias
@@ -358,6 +387,11 @@
     _frontend:
       action:
         add: Agregar contacto
+
+  telephone:
+    _frontend:
+      action:
+        add: Agregar número de teléfono
 
   agent_corporate_entity:
     _frontend:
@@ -507,6 +541,7 @@
   enumeration:
     _frontend:
       messages:
+        value_updated: Valor actualizado
         deleted: Valor eliminado
         delete_error: No se pudo eliminar el valor
         delete_conflict: "No se puede eliminar el valor como lo es actualmente que se hace referencia mediante un registro"
@@ -592,7 +627,8 @@
         add_child: Añadir hijo
         add_sibling: Añadir hermano
         create: Crear ubicación
-        batch: Lote ubicaciones
+        batch: Crear lote de ubicaciones
+        batch_edit: Editar lote de ubicaciones
         save: Guardar ubicación
         single: Ubicación única
         delete_confirm_message: "<p>Tenga en cuenta <strong>no se puede deshacer esta acción.</strong>.</p><p>Si esta ubicación está actualmente vinculada a una o más instancias no se puede eliminar.</p>"
@@ -604,12 +640,15 @@
         ranges: Rangos de coordenadas
       messages:
         created: "<strong>%{number_created} ubicaciones</strong> creado"
-        location_info: "Definir los valores base que serán aplicados a todas las ubicaciones generadas a partir de las <strong>Coordenadas rangos</strong> por debajo."
+        updated: "<strong>%{number_created} ubicaciones</strong> Actualizado"
+        location_batch_info: "Definir los valores base que serán aplicados a todas las ubicaciones generadas a partir de las <strong>Coordenadas rangos</strong> por debajo."
+        location_batch_update_info: "Por favor introduce los valores que quieres aplicar abajo."
         ranges_info: "Tenga en cuenta que cualquier coordenados campos entró en la anterior <strong>Base ubicación</strong> serán reemplazados con los valores generados por las gamas más abajo.  Un máximo de ubicaciones %{max_range} será creado."
         number_to_create: Número de ubicaciones
         warning: Dependiendo del tamaño de sus gamas, este proceso puede tardar unos minutos para completar.
       action:
         create: Crear ubicaciones
+        update: Actualiza ubicaciones
         preview: Muestras de las ubicaciones
         preview_short: Vista previa
         creating: Lote en progreso...
@@ -664,6 +703,11 @@
       action:
         add: Añadir fondos
 
+  revision_statement:
+    _frontend:
+      action:
+        add: Agregar nota de revisión 
+
   repository:
     _frontend:
       messages:
@@ -707,7 +751,7 @@
         suppressed_info: Se suprimieron y no se pueden editar fondos
       section:
         basic_information: Información básica
-        finding_aid: Datos del finding aid
+        finding_aid: Datos del instrumento de descripción
       action:
         add_child: Agregar hijo
         rapid_data_entry: Entrada de datos rápida
@@ -746,7 +790,7 @@
         please_select_a_subject_to_merge: Por favor, seleccione un materia
       section:
         basic_information: Información básica
-        terms: Términos y subdivisiones
+        terms: Descriptores
         search_embedded: Registros vinculados
       action:
         create: Crear materia
@@ -803,6 +847,9 @@
       reorder_toggle: Reordenar las columnas
       validate_rows: Validar las filas
       inline_errors_toggle: Ver errores en línea
+      save_template: Guardar como plantilla
+      select_template: Elegir plantilla
+      manage_templates: Eliminar plantilla
     fill_column:
       basic: Básico
       sequence: Secuencia
@@ -818,6 +865,11 @@
       sequence_to_required: Necesarias
     reorder_columns:
       apply_order: Aplicar orden de columna
+    save_template:
+      save_template: Guardar plantilla
+      template_name: Nombre de plantilla
+      confirm_removal: Cofirmar eliminación
+    default_template: Plantilla por defecto
     messages:
       error_prefix: Fila
       success: "<div class='alert alert-success'>Hijos creados. Actualiza la página...</div>"
@@ -825,6 +877,7 @@
       rows_with_errors: "%{count} filas con un error - haga clic en un campo de fila para ver los errores de esa fila"
       rows_no_errors: "Todas las filas son válidas"
       error_summary_header: "Errores en fila"
+      select_prompt: Aplicar una plantilla RDE
     help:
       keyboard_shortcuts: |
                   <div><strong>Atajos de teclado</strong></div>
@@ -884,3 +937,14 @@
         drag_and_drop_hint: Arrastrar y soltar archivos aquí
         find_and_replace_warning: Find and replace jobs can and will make major changes to your database. You are <strong>strongly</strong> advised to backup your database AND to run your job in a test instance before proceeding. There is no "undo".
         find_and_replace_instructions: Choose a base record to scope this find and replace operation. Then choose a record type to target and a property of that type. The operation will run in every target record in the tree of the base record, or in the base record itself if the target type is "Resource".
+
+  shortcuts:
+    quick_reference_window: "Referencia: accesos directos del teclado "
+    actions:
+      this_reference: "Referencia de acceso directo"
+      close_modal: "Cerrar una ventana (e.g., esta misma)"
+      toggle_shortcuts: "Activar / desactivar accesos directos del teclado"
+      save_record: "Guardar el registro que se está editando"
+      close_record: "Cerrar el registro que se está editando"
+      open_browse: "Abrir el menú de navegación"
+      open_create: "Abrir el menú de creación"

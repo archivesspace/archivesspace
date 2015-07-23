@@ -7,7 +7,7 @@
       # Accession help tooltips
       accession: Ayuda sobre acta de ingreso
       accession_basic_information: Ayuda sobre información básica
-      accession_extents: Ayuda en cantidad de material
+      accession_extents: Ayuda en extensión
       accession_dates: Ayuda en las fechas
       accession_related_resources: Ayuda sobre recursos relacionados
       accession_linked_agents: Ayuda sobre autoridad enlaces
@@ -23,7 +23,7 @@
       resource: Ayuda sobre recursos
       resource_basic_information: Ayuda sobre información básica
       resource_dates: Ayuda en las fechas
-      resource_extents: Ayuda en cantidad de material de recursos
+      resource_extents: Ayuda en extensión de recursos
       resource_finding_aid: Ayudar en la búsqueda de ayuda
       resource_related_accessions: Ayuda sobre acta de ingreso relacionadas
       resource_linked_agents: Ayuda sobre autoridad enlaces
@@ -40,7 +40,7 @@
       archival_object: Ayuda sobre objetos de archiving
       archival_object_basic_information: Ayuda sobre información básica
       archival_object_dates: Ayuda en las fechas
-      archival_object_extents: Ayuda en cantidad de material de objetos de archivo
+      archival_object_extents: Ayuda en extensión de objetos de archivo
       archival_object_finding_aid: Ayudar en la búsqueda de ayuda
       archival_object_related_accessions: Ayuda sobre entradas relacionadas
       archival_object_linked_agents: Ayuda sobre autoridad enlaces
@@ -57,7 +57,7 @@
       digital_object: Ayuda sobre objeto Digital
       digital_object_basic_information: Ayuda sobre información básica
       digital_object_dates: Ayuda en las fechas
-      digital_object_extents: Ayuda en cantidad de material de objetos digitales
+      digital_object_extents: Ayuda en extensión de objetos digitales
       digital_object_finding_aid: Ayudar en la búsqueda de ayuda
       digital_object_related_accessions: Ayuda sobre entradas relacionadas
       digital_object_linked_agents: Ayuda sobre autoridad enlaces
@@ -90,7 +90,7 @@
       # Subjects
       subject: Ayuda sobre materias
       subject_basic_information: Ayuda sobre información básica
-      subject_terms: Ayuda sobre términos y subdivisiones
+      subject_terms: Ayuda sobre descriptores
       subject_external_documents: Ayuda sobre documentos externos
       # Agent Persons
       agent_person: Ayudar a las personas (autoridad)

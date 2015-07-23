@@ -4,12 +4,16 @@
       source: Fuente
       outcome: Resultado
       transfer: Transferencia
-    linked_agent_archival_record_relators: 
+    linked_agent_archival_record_relators:
+      abr: Agregador
       act: Actor
+      adi: Director Artístico
       adp: Adaptador
       anl: Analista
       anm: Animador
       ann: Anotador
+      ape: Appellee
+      apl: Appellant
       app: Solicitante
       arc: Arquitecto
       arr: Arreglista
@@ -26,6 +30,7 @@
       aud: Autor del cuadro de diálogo
       aui: Autor de introducción, etc..
       aus: Autor del guión, etc..
+      ato: Autographer
       ant: Antecedente bibliográfico
       bnd: Encuadernador
       bdd: Diseñador de encuadernación
@@ -35,12 +40,16 @@
       bjd: Diseñador de Bookjacket
       bpd: Diseñador Bookplate
       bsl: Librero
+      brl: Impresor de braille
+      brd: Locutor
       cll: Calígrafo
       ctg: Cartógrafo
+      cas: Caster
       cns: Censor
       chr: Coreógrafo
       cng: Director de fotografía
       cli: Cliente
+      cor: Registrador de la Colección
       clb: Colaborador
       col: Colector
       clt: Collotyper
@@ -71,6 +80,8 @@
       crr: Corrector
       crp: Corresponsal
       cst: Diseñadora de vestuario
+      cou: Regidor de las Cortes
+      crt: Reportero de las Cortes
       cov: Diseñador de la cubierta
       cre: Creador
       cur: Curador de la exposición
@@ -83,6 +94,7 @@
       dft: Acusado-recurrente
       dfe: Acusado-apelado
       dgg: Grado otorgante
+      dgs: Supervisor de grado
       dln: Delineador
       dpc: Representado
       dpt: Depositante
@@ -95,8 +107,11 @@
       drm: Delineante
       dub: Autor dudoso
       edt: Editor
+      edc: Editor de compilación
+      edm: Editor de trabajo de imágenes en movimiento
       elg: Electricista
       elt: Electrotyper
+      enj: Promulgador de la jurisdicción
       eng: Ingeniero
       egr: Grabador
       etr: Desbastador
@@ -104,7 +119,11 @@
       exp: Experto
       fac: Facsimilist
       fld: Director de campo
-      flm: Redactor de la película
+      fmd: Director de cine
+      fds: Distribuidor de cine
+      flm: Editor de cine
+      fmp: Productor de cine
+      fmk: Cineasta
       fpy: Primer partido
       frg: Falsificador
       fmo: Antiguo dueño
@@ -113,6 +132,7 @@
       grt: Técnico gráfico
       hnr: Homenajeado
       hst: Anfitrión
+      his: Institución anfitriona
       ilu: Iluminador
       ill: Ilustrador
       ins: Inscriber
@@ -120,6 +140,9 @@
       ive: Entrevistado
       ivr: Entrevistador
       inv: Inventor
+      isb: Organismo emisor
+      jud: Juez
+      jug: Jurisdiction governed
       lbr: Laboratorio
       ldr: Director del laboratorio
       lsa: Arquitecto paisajista
@@ -141,19 +164,23 @@
       mfr: Fabricante
       mrb: Marbler
       mrk: Editor de marcado
+      med: Medium
       mdc: Contacto de metadatos
-      mte: Metal-grabador
+      mte: Grabador de metal
+      mtk: Minute taker
       mod: Moderador
       mon: Monitor
       mcp: Copista de música
       msd: Director musical
       mus: Músico
       nrt: Narrador
+      osp: Presentador
       opn: Opositor
       orm: Organizador de la reunión
       org: Originador
       oth: Otros
       own: Propietario
+      pan: Panelista
       ppm: Papelero
       pta: Solicitante de patente
       pth: Titular de la patente
@@ -165,12 +192,16 @@
       ptt: Parte demandante-recurrente
       pte: Demandante-apelado
       plt: Platemaker
+      pra: Presidente
+      pre: Presentador
       prt: Impresora
       pop: Impresora de placas
       prm: Grabador
       prc: Proceso contacto
       pro: Productor
+      prn: Compañia de producción
       pmn: Gerente de producción
+      prs: Diseñador de producción
       prd: Personal de producción
       prp: Lugar de producción
       prg: Programador
@@ -181,6 +212,8 @@
       pbl: Editor
       pbd: Director editorial
       ppt: Titiritero
+      rdd: Director de radio
+      rpc: Productor de radio
       rcp: Destinatario
       rce: Ingeniero de grabación
       rcd: Ingeniero
@@ -196,6 +229,7 @@
       rse: Demandado-apelado
       rpy: Responsable
       rsg: Restager
+      rsr: Restorationist
       rev: Revisor
       rbr: Rubricator
       sce: Scenarist
@@ -204,6 +238,7 @@
       scl: Escultor
       spy: Segunda parte
       sec: Secretaria
+      sll: Seller
       std: Escenógrafo
       stg: Ajuste
       sgn: Firmante
@@ -213,12 +248,15 @@
       spn: Patrocinador
       stm: Director de escena
       stn: Cuerpo de normas
+      sgd: Director de escena
       str: Stereotyper
       stl: Narrador
       sht: Soporte de host
       srv: Topógrafo
       tch: Profesor
       tcd: Director técnico
+      tld: Director de televisión
+      tlp: Productor de televisión
       ths: Asesor de tesis
       trc: Transcriptor
       trl: Translator
@@ -226,11 +264,18 @@
       tyg: Tipógrafo
       uvp: Lugar de la Universidad
       vdg: Videógrafo
+      vac: Doblador
       voc: Vocalista
       wit: Testigo
-      wde: Madera-grabador
+      wde: Grabador de madera
       wdc: Leñador
       wam: Escritor de acompañamiento material
+      wac: Escritor de comentario añadido
+      wal: Escritor de letras añadidas
+      wat: Escritor de texto añadido
+      win: Escritor de introducción
+      wpr: Escritor de prefacio
+      wst: Escritor de contexto suplementario
     linked_agent_event_roles: 
       authorizer: Autorizador
       executing_program: Programa en ejecución
@@ -254,17 +299,17 @@
       dacs: "Describing Archives: A Content Standard"
       rda: Resource Description and Access
     extent_extent_type: 
-      cassettes: Cassettes
-      cubic_feet: Pies cúbicos
+      cassettes: Casetes
+      cubic_feet: Metros cúbicos
       files: Archivos
       gigabytes: Gigabytes
       leaves: Hojas
-      linear_feet: Pies lineales
+      linear_feet: Metros lineales
       megabytes: Megabytes
       photographic_prints: Impresiones fotográficas
       photographic_slides: Diapositivas fotográficas
       reels: Carretes
-      sheets: Hojas
+      sheets: Partituras
       terabytes: Terabytes
       volumes: Volúmenes
     collection_management_processing_priority: 
@@ -334,15 +379,15 @@
       papers: Papeles
       records: Registros
     resource_finding_aid_description_rules: 
-      aacr: Reglas de catalogación angloamericanas
-      cco: Catalogación de bienes culturales
-      dacs: "Describir archivos"
-      rad: Reglas para la descripción archivística
+      aacr: Reglas de catalogación angloamericanas (AACR)
+      cco: Catalogación de bienes culturales (CCO)
+      dacs: Descripción de archivos (DACS)
+      rad: Reglas para la descripción archivística (RAD)
       isadg: Norma internacional de descripción archivística - General (ISADG)
     resource_finding_aid_status: 
       completed: Completado
       in_progress: En proceso
-      under_revision: Bajo revisión
+      under_revision: En revisión
       unprocessed: Sin procesar
     instance_instance_type: 
       accession: Acta de ingreso
@@ -933,35 +978,36 @@
       current: Actual
       previous: Anterior
     date_type: 
-      expression: Expresión
+      expression: Formato
       single: Individual
-      bulk: Fechas en bloque
-      inclusive: Fechas extremas
-      range: Gama
+      bulk: Fechas extremas
+      inclusive: Fechas de creación fondo
+      range: Rango
     date_label: 
+      record_keeping: Mantenimiento de Registros
       broadcast: Difusión
-      copyright: Derechos de autor
+      copyright: Copyright
       creation: Creación
       deaccession: Expurgo
-      agent_relation: Relación de autoridad
-      digitized: Digitalizado
+      agent_relation: Relación con autoridad
+      digitized: Digitalización
       existence: Existencia
       event: Evento
-      issued: Emitido
-      modified: Modificado
+      issued: Emisión
+      modified: Modificación
       publication: Publicación
-      usage: Uso
-      other: Otros
+      usage: Utilización
+      other: Otras
     date_certainty: 
       approximate: Aproximada
       inferred: Deducida
       questionable: Cuestionable
     extent_portion: 
-      whole: Todo
-      part: Parte
+      whole: Total
+      part: Parcial
     deaccession_scope: 
-      whole: Todo
-      part: Parte
+      whole: Total
+      part: Parcial
     file_version_xlink_actuate_attribute: 
       none: Ninguno
       other: otros
@@ -1286,7 +1332,7 @@
       legalstatus: Nota de situación jurídica
       summary: Nota de resumen
       edition: Nota de edición
-      extent: Nota de cantidad de material
+      extent: Nota de extensión
       note: Nota general
       inscription: Nota de inscripción
       langmaterial: Nota de idioma de materiales
@@ -1303,8 +1349,8 @@
     note_singlepart_type: 
       <<: *note_type_definitions
     linked_agent_role: 
-      creator: Creador
-      source: Fuente
+      creator: Autor
+      source: Donante
       subject: Materia
     agent_relationship_associative_relator: 
       is_associative_with: Associative with Related
@@ -1348,6 +1394,7 @@
       print_to_pdf_job: Imprimir en PDF
       import_job: Importar Datos
       find_and_replace_job: Busca y reemplaza en bloque (Beta)
+
 
   enumeration_names: 
     accession_acquisition_type: Tipo de acta de ingreso
@@ -1401,8 +1448,9 @@
     note_multipart_type: Nota tipo multiparte
     note_orderedlist_enumeration: Nota ordenada (enumeración)
     note_singlepart_type: Nota Singlepart tipo
-    resource_finding_aid_description_rules: Normas sobre finding aids
-    resource_finding_aid_status: Estado del finding aid del fondo
+    telephone_number_type: Tipo de número de teléfono
+    resource_finding_aid_description_rules: Normas sobre instrumentos de descripción
+    resource_finding_aid_status: Estado del instrumento de descripción del fondo
     resource_resource_type: Tipo de fondos
     rights_statement_ip_status: Declaración de derechos IP Status
     rights_statement_rights_type: Declaración de los derechos derechos tipo
