@@ -34,6 +34,9 @@ class UtilsController  < ApplicationController
 
   def note_order
     prefs = user_prefs
+    if prefs['note_order'].empty?
+      prefs['note_order'] = view_context.note_types_for(:resource).keys
+    end
     render :json => prefs['note_order']
   end
 

@@ -113,6 +113,9 @@ $(function() {
               $subform.parent().remove()
             } else {
               $subform.remove();
+              if( $(".subrecord-form-list:first", $this).children("li").length < 2 ) {
+                $(".subrecord-form-heading:first .btn.apply-note-order", $this).attr("disabled", "disabled");
+              }
             }
 
             $this.parents("form:first").triggerHandler("formchanged.aspace");
@@ -276,15 +279,35 @@ $(function() {
           url: APP_PATH+"notes/note_order",
           type: "GET",
           success: function(note_order) {
-
             var $listed = $target_subrecord_list.children().detach()
             var sorted = _.sortBy($listed, function(li) {
+
               var type = $('select.note-type', $(li)).val();
+              //Some note types don't have a select, so try to work it out another way
+              if (_.isUndefined(type)) {
+                if ($('select.top-level-note-type', $(li)).length) {
+                  type = $('select.top-level-note-type', $(li)).val().replace(/^note_/, '')
+                } else {
+                  type = $('.subrecord-form-fields', $(li)).data('type').replace(/^note_/, '')
+                }
+              }
+
               return _.indexOf(note_order, type);
             });
 
+            var oldOrder = _.map($listed, function(li) {
+              return $(li).data("index");
+            });
+
+            var newOrder = _.map(sorted, function(li) {
+              return $(li).data("index");
+            });
+
+            if (!_.isEqual(oldOrder, newOrder)) {
+              $("form.aspace-record-form").triggerHandler("formchanged.aspace");
+            }
+
             $(sorted).appendTo($target_subrecord_list);
-            $("form.aspace-record-form").triggerHandler("formchanged.aspace");
           },
           error: function(obj, errorText, errorDesc) {
             $container.html("<div class='alert alert-error'><p>An error occurred loading note order list.</p><pre>"+errorDesc+"</pre></div>");
@@ -320,6 +343,11 @@ $(function() {
 
         AS.initSubRecordSorting($target_subrecord_list);
 
+        if ($target_subrecord_list.children("li").length > 1) {
+           $(".subrecord-form-heading:first .btn.apply-note-order", $this).removeAttr("disabled");
+        }
+
+
         $(document).triggerHandler("subrecordcreated.aspace", ["note", $subform]);
 
         $(":input:visible:first", $subform).focus();
@@ -338,6 +366,11 @@ $(function() {
 
       $(".subrecord-form-heading:first .btn.apply-note-order", $this).click(applyNoteOrder);
 
+      var $target_subrecord_list = $(".subrecord-form-list:first", $this);
+
+      if ($target_subrecord_list.children("li").length > 1) {
+        $(".subrecord-form-heading:first .btn.apply-note-order", $this).removeAttr("disabled");
+      }
 
       // initialising forms
       var $list = $("ul.subrecord-form-list:first", $this)
