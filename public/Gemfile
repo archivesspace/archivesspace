@@ -1,21 +1,23 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.19'
+gem 'rails', '3.2.22'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
+  gem 'coffee-script', '= 2.3.0'
+  gem 'coffee-script-source', '= 1.8.0'
 
   gem 'uglifier', '>= 1.0.3'
   gem 'therubyrhino'
+  gem 'less-rails', '~> 2.6.0'
 
-  gem 'less-rails', "~> 2.3.3"
 end
 
 gem 'jquery-rails', '~> 3.1.0'
 gem "json", "1.8.0"
 gem 'json-schema', '1.0.10'
-gem "jruby-jars", "= 1.7.18"
+gem "jruby-jars", "= 1.7.21"
 
 gem 'atomic', '= 1.0.1'
 gem "puma", "2.8.2"

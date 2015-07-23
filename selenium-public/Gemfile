@@ -7,7 +7,7 @@ group "test" do
 	gem "rspec", "~> 3.3.0"
 end
 
-
+gem "json", "1.8.0"
 gem 'multi_json', '1.10.0'
 gem "rubyzip", "1.0.0"
 gem "zip-zip", "0.3"

@@ -9,6 +9,7 @@ source "http://rubygems.org"
 #   eval File.read('../frontend/Gemfile'), nil, '../frontend/Gemfile'
 # end
 
+gem "json", "1.8.0"
 gem 'multi_json', '1.10.0'
 gem 'rubyzip', '1.0.0'
 

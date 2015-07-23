@@ -1,6 +1,7 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.19'
+gem 'rails', '3.2.22'
+
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -12,7 +13,8 @@ gem 'activerecord-jdbcsqlite3-adapter'
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
-
+  gem 'coffee-script', '= 2.3.0'
+  gem 'coffee-script-source', '= 1.8.0'
   gem 'uglifier', '>= 1.0.3'
   gem 'therubyrhino'
 
