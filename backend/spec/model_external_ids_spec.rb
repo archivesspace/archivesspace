@@ -32,7 +32,7 @@ describe 'External ID model' do
     record.delete
 
     # Gone now, so raises an error on reload.
-    expect { external_id.reload }.to raise_error
+    expect { external_id.reload }.to raise_error(Sequel::Error)
 
   end
 end

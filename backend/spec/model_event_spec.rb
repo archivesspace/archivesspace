@@ -14,7 +14,7 @@ describe 'Event model' do
     
     expect {
       create(:json_event)
-    }.to_not raise_error(JSONModel::ValidationException)
+    }.to_not raise_error
     
   end
 
@@ -30,7 +30,7 @@ describe 'Event model' do
     
     expect {
       create(:json_event, opts)
-    }.to_not raise_error(JSONModel::ValidationException)   
+    }.to_not raise_error
 
   end
 

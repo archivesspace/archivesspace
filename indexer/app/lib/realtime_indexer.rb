@@ -49,7 +49,7 @@ class RealtimeIndexer < CommonIndexer
       end
     rescue Timeout::Error
       # Doesn't matter...
-                       rescue
+    rescue
       reset_session
       puts "#{$!.inspect}"
       puts $@.join("\n")

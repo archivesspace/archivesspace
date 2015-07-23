@@ -24,10 +24,10 @@ describe 'Date model' do
 
   it "allows incomplete dates in compliance with ISO 8601" do
     opts = {:begin => '0123', :end => '0123'}
-    expect { create_date(opts) }.to_not raise_error(JSONModel::ValidationException)
+    expect { create_date(opts) }.to_not raise_error
 
     opts = {:begin => '2012-12', :end => '2012-12'}
-    expect { create_date(opts) }.to_not raise_error(JSONModel::ValidationException)
+    expect { create_date(opts) }.to_not raise_error
   end
 
 
@@ -68,11 +68,11 @@ describe 'Date model' do
 
     # and at different levels of specificity in the same year
     opts = {:begin => "1999", :end => "1999-12"}
-    expect { create_date(opts) }.to_not raise_error(JSONModel::ValidationException)
+    expect { create_date(opts) }.to_not raise_error
 
     # and at different levels of specificity in the same month
     opts = {:begin => "1999-12-01", :end => "1999-12"}
-    expect { create_date(opts) }.to_not raise_error(JSONModel::ValidationException)
+    expect { create_date(opts) }.to_not raise_error
   end
 
 

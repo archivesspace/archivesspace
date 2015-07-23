@@ -5,9 +5,10 @@ require 'converter_spec_helper'
 require_relative '../app/converters/ead_converter'
 
 describe 'EAD converter' do
-  let(:my_converter) {
+
+  def my_converter
     EADConverter
-  }
+  end
 
 
   let (:test_doc_1) {
@@ -26,6 +27,8 @@ ANEAD
 
     get_tempfile_path(src)
   }
+
+
   
   it "should be able to manage empty tags" do
     converter = EADConverter.new(test_doc_1)
@@ -72,9 +75,9 @@ ANEAD
 
 
   describe "EAD Import Mappings" do
-    let(:test_file) {
+    def test_file
       File.expand_path("../app/exporters/examples/ead/at-tracer.xml", File.dirname(__FILE__))
-    }
+    end
 
     before(:all) do
       parsed = convert(test_file)
@@ -600,8 +603,8 @@ ANEAD
   end
 
   describe "Mapping the EAD @audience attribute" do
-    let (:test_doc) {
-          src = <<ANEAD
+    def test_doc
+      src = <<ANEAD
 <ead>
   <archdesc level="collection" audience="internal">
   <did>
@@ -632,7 +635,7 @@ ANEAD
 ANEAD
 
       get_tempfile_path(src)
-    }
+    end
 
     before do
       parsed = convert(test_doc)
@@ -651,8 +654,8 @@ ANEAD
   end
 
   describe "Non redundant mapping" do
-    let (:test_doc) {
-          src = <<ANEAD
+    def test_doc
+      src = <<ANEAD
 <ead>
   <archdesc level="collection">
     <did>
@@ -695,7 +698,7 @@ ANEAD
 ANEAD
 
       get_tempfile_path(src)
-    }
+    end
 
     before do
       parsed = convert(test_doc)
@@ -727,8 +730,8 @@ ANEAD
 
   # https://www.pivotaltracker.com/story/show/65722286
   describe "Mapping the unittitle tag" do
-    let (:test_doc) {
-          src = <<ANEAD
+    def test_doc
+      src = <<ANEAD
 <ead>
   <archdesc level="collection" audience="internal">
     <did>
@@ -745,7 +748,7 @@ ANEAD
 ANEAD
 
       get_tempfile_path(src)
-    }
+    end
 
     it "maps the unittitle tag correctly" do
       json = convert(test_doc)
@@ -757,8 +760,8 @@ ANEAD
 
 
   describe "Mapping the langmaterial tag" do
-    let (:test_doc) {
-          src = <<ANEAD
+    def test_doc
+      src = <<ANEAD
 <ead>
   <archdesc level="collection" audience="internal">
     <did>
@@ -778,7 +781,7 @@ ANEAD
 ANEAD
 
       get_tempfile_path(src)
-    }
+    end
 
     it "should map the langcode to language, and the language text to a note" do
       json = convert(test_doc)
@@ -792,7 +795,7 @@ ANEAD
 
 
   describe "extent and physdesc mapping logic" do
-    let(:doc1) {
+    def doc1
       src = <<ANEAD
 <ead>
   <archdesc level="collection" audience="internal">
@@ -815,10 +818,10 @@ ANEAD
 ANEAD
 
       get_tempfile_path(src)
-    }
+    end
 
-    let (:doc2) {
-          src = <<ANEAD
+    def doc2
+      src = <<ANEAD
 <ead>
   <archdesc level="collection" audience="internal">
     <did>
@@ -838,10 +841,10 @@ ANEAD
 ANEAD
 
       get_tempfile_path(src)
-    }
+    end
 
-    let (:doc3) {
-          src = <<ANEAD
+    def doc3
+      src = <<ANEAD
 <ead>
   <archdesc level="collection" audience="internal">
     <did>
@@ -863,7 +866,7 @@ ANEAD
 ANEAD
 
       get_tempfile_path(src)
-    }
+    end
 
     before(:all) do
       @resource1 = convert(doc1).select {|rec| rec['jsonmodel_type'] == 'resource'}.last
@@ -889,12 +892,11 @@ ANEAD
   end
 
  describe "DAO and DAOGROUPS" do
-    let(:test_file) {
-      File.expand_path("../app/exporters/examples/ead/ead-dao-test.xml", File.dirname(__FILE__))
-    }
    
    before(:all) do 
-     parsed = convert(test_file)
+      test_file = File.expand_path("../app/exporters/examples/ead/ead-dao-test.xml", File.dirname(__FILE__))
+      parsed = convert(test_file)
+
       @digital_objects = parsed.select {|rec| rec['jsonmodel_type'] == 'digital_object'}
       @notes = @digital_objects.inject([]) { |c, rec| c + rec["notes"] } 
       @resources = parsed.select {|rec| rec['jsonmodel_type'] == 'resource'}
@@ -923,13 +925,10 @@ ANEAD
 
  
   describe "EAD With frontpage" do
-    
-    let(:test_file) {
-      File.expand_path("../app/exporters/examples/ead/vmi.xml", File.dirname(__FILE__))
-    }
-
 
     before(:all) do
+      test_file = File.expand_path("../app/exporters/examples/ead/vmi.xml", File.dirname(__FILE__))
+
       @parsed = convert(test_file)
       @resource = @parsed.select {|rec| rec['jsonmodel_type'] == 'resource'}.last
       @archival_objects = @parsed.select {|rec| rec['jsonmodel_type'] == 'archival_object'}

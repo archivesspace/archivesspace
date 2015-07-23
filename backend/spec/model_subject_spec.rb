@@ -98,7 +98,7 @@ describe 'Subject model' do
 
     expect {
       create(:json_subject, {:vocabulary => vocab.uri})
-    }.to_not raise_error(JSONModel::ValidationException)
+    }.to_not raise_error
 
     expect {
       create(:json_subject, {:vocabulary => vocab.uri, :source => "local", :authority_id => heading_id})
@@ -113,11 +113,11 @@ describe 'Subject model' do
     
     expect {
       create(:json_subject, {:vocabulary => vocab.uri, :source => "local", :authority_id => "H0w N0w Br0wn C9w"})
-    }.to_not raise_error(JSONModel::ValidationException)
+    }.to_not raise_error
 
     expect {
       create(:json_subject, {:vocabulary => vocab.uri, :source => "local", :authority_id => " Ke$ha!!"})
-    }.to_not raise_error(JSONModel::ValidationException)
+    }.to_not raise_error
 
   end
   

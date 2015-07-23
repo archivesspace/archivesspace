@@ -43,7 +43,7 @@ describe 'ASModel Object Graph' do
     resource = Resource.create_from_json(build(:json_resource,
                                                :extents => [build(:json_extent)]))
 
-    resource.object_graph.each.map {|model, _| model}.include?(Extent).should be_true
+    resource.object_graph.each.map {|model, _| model}.include?(Extent).should be_truthy
   end
 
 

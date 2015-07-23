@@ -364,6 +364,7 @@
 
 
   <!-- Selenium -->
+  <!-- !! Replaced with selenium:staff !! see below -->
   <target name="selenium:test" depends="set-classpath, frontend:clean" description="Run the Selenium tests">
     <property name="spec" value=""/>
     <property name="example" value=""/>
@@ -407,6 +408,25 @@
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
       <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order default -f d  ${example-arg} spec/${spec} ${plugin-selenium-dirs}" />
+    </java>
+  </target>
+
+  <!-- TODO: add plugin support -->
+  <target name="selenium:staff" depends="set-classpath, frontend:clean" description="Run integration tests on the staff UI">
+    <property name="cores" value="2"/>
+    <property name="groups" value=""/>
+    <condition property="only-group-arg" value="only_group=${groups}" else="">
+      <length string="${groups}"
+              when="gt" length="0" />
+    </condition>
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
+          failonerror="true"
+          dir="../selenium">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS} -Xmx64m -XX:MaxPermSize=96m"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <arg line="--1.9 -S rake integration:staff cores=${cores} ${only-group-arg}" />
     </java>
   </target>
 
@@ -487,6 +507,14 @@
   <target name="travis:selenium" depends="set-classpath, bootstrap">
     <antcall target="db:migrate" />
     <antcall target="selenium:test" />
+    <antcall target="travis:db:nuke" />
+  </target>
+
+  <!-- ^- Replaced by -v -->
+
+  <target name="travis:selenium:staff" depends="set-classpath, bootstrap">
+    <antcall target="db:migrate" />
+    <antcall target="selenium:staff" />
     <antcall target="travis:db:nuke" />
   </target>
 

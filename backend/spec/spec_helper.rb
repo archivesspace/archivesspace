@@ -3,6 +3,7 @@ Bundler.require
 
 require 'sinatra'
 require 'java'
+require 'rspec'
 
 if ENV['COVERAGE_REPORTS'] == 'true'
   require 'aspace_coverage'
@@ -163,7 +164,10 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include SpecHelperMethods
   config.include JSONModel
-  config.treat_symbols_as_metadata_keys_with_true_values = true
+
+  config.expect_with(:rspec) do |c|
+    c.syntax = [:should, :expect]
+  end
 
   # inclusions not in effect here
   config.before(:suite) do

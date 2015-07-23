@@ -39,8 +39,8 @@ describe "ArchivesSpace Public interface" do
   def self.xdescribe(*stuff)
   end
 
-  after(:each) do |group|
-    if group.example.exception and ENV['SCREENSHOT_ON_ERROR']
+  after(:each) do |example|
+    if example.exception and ENV['SCREENSHOT_ON_ERROR']
       SeleniumTest.save_screenshot
     end
   end

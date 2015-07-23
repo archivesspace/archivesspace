@@ -31,7 +31,7 @@ describe 'Vocabulary controller' do
 
     vocabulary.uri = "/vocabularies/999999"
 
-    expect { vocabulary.save }.to raise_error
+    expect { vocabulary.save }.to raise_error(RecordNotFound)
   end
 
 
