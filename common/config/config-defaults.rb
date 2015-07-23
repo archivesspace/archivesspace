@@ -125,7 +125,7 @@ AppConfig[:report_pdf_font_paths] = proc { ["#{AppConfig[:backend_url]}/reports/
 AppConfig[:report_pdf_font_family] = "\"DejaVu Sans\", sans-serif"
 
 # Plug-ins to load. They will load in the order specified
-AppConfig[:plugins] = ['local',  'aspace-public-formats']
+AppConfig[:plugins] = ['local',  'lcnaf', 'aspace-public-formats']
 
 # URL to direct the feedback link
 # You can remove this from the footer by making the value blank. 
