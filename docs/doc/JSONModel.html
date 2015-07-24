@@ -1,0 +1,2027 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: JSONModel
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!JSONModel.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (J)</a> &raquo;
+    
+    
+    <span class="title">JSONModel</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: JSONModel
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+    <dt class="r1">Included in:</dt>
+    <dd class="r1"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="ArchivesSpaceTypeAttribute.html" title="ArchivesSpaceTypeAttribute (class)">ArchivesSpaceTypeAttribute</a></span>, <span class='object_link'><a href="ComponentTransfer.html" title="ComponentTransfer (module)">ComponentTransfer</a></span>, <span class='object_link'><a href="ComponentTransfer.html" title="ComponentTransfer (module)">ComponentTransfer</a></span>, <span class='object_link'><a href="DBAuth.html" title="DBAuth (class)">DBAuth</a></span>, <span class='object_link'><a href="DCModel.html" title="DCModel (class)">DCModel</a></span>, <span class='object_link'><a href="JSONModel/Validations.html" title="JSONModel::Validations (module)">Validations</a></span>, <span class='object_link'><a href="LDAPAuth.html" title="LDAPAuth (class)">LDAPAuth</a></span>, <span class='object_link'><a href="MARCModel.html" title="MARCModel (class)">MARCModel</a></span>, <span class='object_link'><a href="METSModel.html" title="METSModel (class)">METSModel</a></span>, <span class='object_link'><a href="MODSModel.html" title="MODSModel (class)">MODSModel</a></span>, <span class='object_link'><a href="MODSSerializer.html" title="MODSSerializer (class)">MODSSerializer</a></span>, <span class='object_link'><a href="MockAuthenticationSource.html" title="MockAuthenticationSource (class)">MockAuthenticationSource</a></span>, <span class='object_link'><a href="NestedRecordResolver.html" title="NestedRecordResolver (class)">NestedRecordResolver</a></span>, <span class='object_link'><a href="PrintToPDFRunner.html" title="PrintToPDFRunner (class)">PrintToPDFRunner</a></span>, <span class='object_link'><a href="RESTHelpers.html" title="RESTHelpers (module)">RESTHelpers</a></span>, <span class='object_link'><a href="RelatedAgents.html" title="RelatedAgents (module)">RelatedAgents</a></span>, <span class='object_link'><a href="StreamingImport.html" title="StreamingImport (class)">StreamingImport</a></span>, <span class='object_link'><a href="URIResolver.html" title="URIResolver (module)">URIResolver</a></span>, <span class='object_link'><a href="URIResolver/URIResolver.html" title="URIResolver::URIResolver (class)">URIResolver::URIResolver</a></span></dd>
+    
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">common/jsonmodel.rb<span class="defines">,<br />
+  common/jsonmodel_client.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="JSONModel/Client.html" title="JSONModel::Client (module)">Client</a></span>, <span class='object_link'><a href="JSONModel/HTTP.html" title="JSONModel::HTTP (module)">HTTP</a></span>, <span class='object_link'><a href="JSONModel/Notification.html" title="JSONModel::Notification (module)">Notification</a></span>, <span class='object_link'><a href="JSONModel/Validations.html" title="JSONModel::Validations (module)">Validations</a></span>
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="JSONModel/ValidationException.html" title="JSONModel::ValidationException (class)">ValidationException</a></span>
+    
+  
+    
+  
+</p>
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="models-classvariable" class="">@@models =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+</pre></dd>
+      
+        <dt id="custom_validations-classvariable" class="">@@custom_validations =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+</pre></dd>
+      
+        <dt id="strict_mode-classvariable" class="">@@strict_mode =
+          
+        </dt>
+        <dd><pre class="code"><span class='rubyid_false false kw'>false</span>
+</pre></dd>
+      
+        <dt id="error_handlers-classvariable" class="">@@error_handlers =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+</pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_error_handler-class_method" title="add_error_handler (class method)">+ (Object) <strong>add_error_handler</strong>(&amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all-class_method" title="all (class method)">+ (Object) <strong>all</strong>(uri, type_descriptor) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Grab an array of JSON objects from &#8216;uri&#8217; and use the &#8216;type_descriptor&#8217; property of each object to cast it into a JSONModel.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#allow_unmapped_enum_value-class_method" title="allow_unmapped_enum_value (class method)">+ (Object) <strong>allow_unmapped_enum_value</strong>(val, magic_value = 'other_unmapped') </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#backend_url-class_method" title="backend_url (class method)">+ (Object) <strong>backend_url</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#client_mode%3F-class_method" title="client_mode? (class method)">+ (Boolean) <strong>client_mode?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#custom_validations-class_method" title="custom_validations (class method)">+ (Object) <strong>custom_validations</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#destroy_model-class_method" title="destroy_model (class method)">+ (Object) <strong>destroy_model</strong>(type) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enum_default_value-class_method" title="enum_default_value (class method)">+ (Object) <strong>enum_default_value</strong>(name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enum_values-class_method" title="enum_values (class method)">+ (Object) <strong>enum_values</strong>(name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#handle_error-class_method" title="handle_error (class method)">+ (Object) <strong>handle_error</strong>(err) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#init-class_method" title="init (class method)">+ (Object) <strong>init</strong>(opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#JSONModel-class_method" title="JSONModel (class method)">+ (Object) <strong>JSONModel</strong>(source) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_schema-class_method" title="load_schema (class method)">+ (Object) <strong>load_schema</strong>(schema_name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#models-class_method" title="models (class method)">+ (Object) <strong>models</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_jsonmodel_ref-class_method" title="parse_jsonmodel_ref (class method)">+ (Object) <strong>parse_jsonmodel_ref</strong>(ref) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_reference-class_method" title="parse_reference (class method)">+ (Object) <strong>parse_reference</strong>(reference, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Parse a URI reference like /repositories/123/archival_objects/500 into =&gt; 500, :type =&gt; :archival_object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#repository-class_method" title="repository (class method)">+ (Object) <strong>repository</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The currently selected repository (if any).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#repository_for-class_method" title="repository_for (class method)">+ (Object) <strong>repository_for</strong>(reference) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#schema_src-class_method" title="schema_src (class method)">+ (Object) <strong>schema_src</strong>(schema_name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_repository-class_method" title="set_repository (class method)">+ (Object) <strong>set_repository</strong>(id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Set the repository that subsequent operations will apply to.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#strict_mode-class_method" title="strict_mode (class method)">+ (Object) <strong>strict_mode</strong>(val) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#strict_mode%3F-class_method" title="strict_mode? (class method)">+ (Boolean) <strong>strict_mode?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#with_repository-class_method" title="with_repository (class method)">+ (Object) <strong>with_repository</strong>(id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#JSONModel-instance_method" title="#JSONModel (instance method)">- (Object) <strong>JSONModel</strong>(source) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#models-instance_method" title="#models (instance method)">- (Object) <strong>models</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Yield all known JSONModel classes.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="add_error_handler-class_method">
+  
+    + (<tt>Object</tt>) <strong>add_error_handler</strong>(&amp;block) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+52
+53
+54</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 52</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_add_error_handler identifier id'>add_error_handler</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='rubyid_@@error_handlers ivar id'>@@error_handlers</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_block identifier id'>block</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="all-class_method">
+  
+    + (<tt>Object</tt>) <strong>all</strong>(uri, type_descriptor) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Grab an array of JSON objects from &#8216;uri&#8217; and use the &#8216;type_descriptor&#8217;
+property of each object to cast it into a JSONModel.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+23
+24
+25
+26
+27</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 23</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_type_descriptor identifier id'>type_descriptor</span><span class='rparen token'>)</span>
+  <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
+    <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='rubyid_type_descriptor identifier id'>type_descriptor</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="allow_unmapped_enum_value-class_method">
+  
+    + (<tt>Object</tt>) <strong>allow_unmapped_enum_value</strong>(val, magic_value = 'other_unmapped') 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 130</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_allow_unmapped_enum_value identifier id'>allow_unmapped_enum_value</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='comma token'>,</span> <span class='rubyid_magic_value identifier id'>magic_value</span> <span class='assign token'>=</span> <span class='string val'>'other_unmapped'</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_Array constant id'>Array</span>
+    <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_elt identifier id'>elt</span><span class='bitor op'>|</span> <span class='rubyid_allow_unmapped_enum_value identifier id'>allow_unmapped_enum_value</span><span class='lparen token'>(</span><span class='rubyid_elt identifier id'>elt</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_Hash constant id'>Hash</span>
+    <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_k identifier id'>k</span> <span class='eq op'>==</span> <span class='string val'>'enum'</span>
+        <span class='rubyid_v identifier id'>v</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_magic_value identifier id'>magic_value</span>
+       <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_allow_unmapped_enum_value identifier id'>allow_unmapped_enum_value</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="backend_url-class_method">
+  
+    + (<tt>Object</tt>) <strong>backend_url</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+41
+42
+43
+44
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 41</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_backend_url identifier id'>backend_url</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_Module constant id'>Module</span><span class='dot token'>.</span><span class='rubyid_const_defined? fid id'>const_defined?</span><span class='lparen token'>(</span><span class='symbol val'>:BACKEND_SERVICE_URL</span><span class='rparen token'>)</span>
+    <span class='rubyid_BACKEND_SERVICE_URL constant id'>BACKEND_SERVICE_URL</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_init_args identifier id'>init_args</span><span class='lbrack token'>[</span><span class='symbol val'>:url</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="client_mode?-class_method">
+  
+    + (<tt>Boolean</tt>) <strong>client_mode?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+301
+302
+303</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 301</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_client_mode? fid id'>client_mode?</span>
+  <span class='rubyid_@@init_args ivar id'>@@init_args</span><span class='lbrack token'>[</span><span class='symbol val'>:client_mode</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="custom_validations-class_method">
+  
+    + (<tt>Object</tt>) <strong>custom_validations</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+18
+19
+20</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 18</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_custom_validations identifier id'>custom_validations</span>
+  <span class='rubyid_@@custom_validations ivar id'>@@custom_validations</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="destroy_model-class_method">
+  
+    + (<tt>Object</tt>) <strong>destroy_model</strong>(type) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+105
+106
+107</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 105</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_destroy_model identifier id'>destroy_model</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
+  <span class='rubyid_@@models ivar id'>@@models</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="enum_default_value-class_method">
+  
+    + (<tt>Object</tt>) <strong>enum_default_value</strong>(name) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+296
+297
+298</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 296</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_enum_default_value identifier id'>enum_default_value</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
+  <span class='rubyid_@@init_args ivar id'>@@init_args</span><span class='lbrack token'>[</span><span class='symbol val'>:enum_source</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_default_value_for identifier id'>default_value_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="enum_values-class_method">
+  
+    + (<tt>Object</tt>) <strong>enum_values</strong>(name) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+291
+292
+293</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 291</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_enum_values identifier id'>enum_values</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
+  <span class='rubyid_@@init_args ivar id'>@@init_args</span><span class='lbrack token'>[</span><span class='symbol val'>:enum_source</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_values_for identifier id'>values_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="handle_error-class_method">
+  
+    + (<tt>Object</tt>) <strong>handle_error</strong>(err) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+56
+57
+58
+59
+60</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 56</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_handle_error identifier id'>handle_error</span><span class='lparen token'>(</span><span class='rubyid_err identifier id'>err</span><span class='rparen token'>)</span>
+  <span class='rubyid_@@error_handlers ivar id'>@@error_handlers</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_handler identifier id'>handler</span><span class='bitor op'>|</span>
+    <span class='rubyid_handler identifier id'>handler</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_err identifier id'>err</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="init-class_method">
+  
+    + (<tt>Object</tt>) <strong>init</strong>(opts = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 223</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_init identifier id'>init</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_@@init_args ivar id'>@@init_args</span> <span class='opasgn op'>||=</span> <span class='rubyid_nil nil kw'>nil</span>
+
+  <span class='comment val'># Skip initialisation if this model has already been loaded.</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@@init_args ivar id'>@@init_args</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:strict_mode</span><span class='rparen token'>)</span>
+    <span class='rubyid_@@strict_mode ivar id'>@@strict_mode</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_@@init_args ivar id'>@@init_args</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:enum_source</span><span class='rparen token'>)</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:client_mode</span><span class='rbrack token'>]</span>
+      <span class='rubyid_require_relative identifier id'>require_relative</span> <span class='string val'>'jsonmodel_client'</span>
+      <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:enum_source</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_Client constant id'>Client</span><span class='colon2 op'>::</span><span class='rubyid_EnumSource constant id'>EnumSource</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;Required JSONModel.init arg :enum_source was missing&quot;</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># Load all JSON schemas from the schemas subdirectory</span>
+  <span class='comment val'># Create a model class for each one.</span>
+  <span class='rubyid_Dir constant id'>Dir</span><span class='dot token'>.</span><span class='rubyid_glob identifier id'>glob</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_dirname identifier id'>dirname</span><span class='lparen token'>(</span><span class='rubyid___FILE__ __file__ kw'>__FILE__</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                     <span class='string val'>&quot;schemas&quot;</span><span class='comma token'>,</span>
+                     <span class='string val'>&quot;*.rb&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_sort identifier id'>sort</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_schema identifier id'>schema</span><span class='bitor op'>|</span>
+    <span class='rubyid_schema_name identifier id'>schema_name</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_basename identifier id'>basename</span><span class='lparen token'>(</span><span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span> <span class='string val'>&quot;.rb&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_load_schema identifier id'>load_schema</span><span class='lparen token'>(</span><span class='rubyid_schema_name identifier id'>schema_name</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_require_relative identifier id'>require_relative</span> <span class='string val'>&quot;validations&quot;</span>
+
+  <span class='comment val'># For dynamic enums, automatically slot in the 'other_unmapped' string as an allowable value</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@@init_args ivar id'>@@init_args</span><span class='lbrack token'>[</span><span class='symbol val'>:allow_other_unmapped</span><span class='rbrack token'>]</span>
+    <span class='rubyid_enum_wrapper identifier id'>enum_wrapper</span> <span class='assign token'>=</span> <span class='rubyid_Struct constant id'>Struct</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:enum_source</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_@@init_args ivar id'>@@init_args</span><span class='lbrack token'>[</span><span class='symbol val'>:enum_source</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_def def kw'>def</span> <span class='rubyid_enum_wrapper identifier id'>enum_wrapper</span><span class='dot token'>.</span><span class='rubyid_valid? fid id'>valid?</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
+      <span class='rubyid_value identifier id'>value</span> <span class='eq op'>==</span> <span class='string val'>'other_unmapped'</span> <span class='orop op'>||</span> <span class='rubyid_enum_source identifier id'>enum_source</span><span class='dot token'>.</span><span class='rubyid_valid? fid id'>valid?</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_def def kw'>def</span> <span class='rubyid_enum_wrapper identifier id'>enum_wrapper</span><span class='dot token'>.</span><span class='rubyid_editable? fid id'>editable?</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
+      <span class='rubyid_enum_source identifier id'>enum_source</span><span class='dot token'>.</span><span class='rubyid_editable? fid id'>editable?</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_def def kw'>def</span> <span class='rubyid_enum_wrapper identifier id'>enum_wrapper</span><span class='dot token'>.</span><span class='rubyid_values_for identifier id'>values_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
+      <span class='rubyid_enum_source identifier id'>enum_source</span><span class='dot token'>.</span><span class='rubyid_values_for identifier id'>values_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='lbrack token'>[</span><span class='string val'>'other_unmapped'</span><span class='rbrack token'>]</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_def def kw'>def</span> <span class='rubyid_enum_wrapper identifier id'>enum_wrapper</span><span class='dot token'>.</span><span class='rubyid_default_value_for identifier id'>default_value_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
+      <span class='rubyid_enum_source identifier id'>enum_source</span><span class='dot token'>.</span><span class='rubyid_default_value_for identifier id'>default_value_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_@@init_args ivar id'>@@init_args</span><span class='lbrack token'>[</span><span class='symbol val'>:enum_source</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_enum_wrapper identifier id'>enum_wrapper</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_true true kw'>true</span>
+
+<span class='rubyid_rescue rescue kw'>rescue</span>
+  <span class='comment val'># If anything went wrong we're not initialised.</span>
+  <span class='rubyid_@@init_args ivar id'>@@init_args</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_$! gvar id'>$!</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="JSONModel-class_method">
+  
+    + (<tt>Object</tt>) <strong>JSONModel</strong>(source) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+57
+58
+59
+60
+61
+62
+63</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 57</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_source identifier id'>source</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_@@models ivar id'>@@models</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_source identifier id'>source</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span>
+    <span class='rubyid_load_schema identifier id'>load_schema</span><span class='lparen token'>(</span><span class='rubyid_source identifier id'>source</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_@@models ivar id'>@@models</span><span class='lbrack token'>[</span><span class='rubyid_source identifier id'>source</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rbrack token'>]</span> <span class='rubyid_or or kw'>or</span> <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;JSONModel not found for #{source}&quot;</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_schema-class_method">
+  
+    + (<tt>Object</tt>) <strong>load_schema</strong>(schema_name) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 145</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_load_schema identifier id'>load_schema</span><span class='lparen token'>(</span><span class='rubyid_schema_name identifier id'>schema_name</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_@@models ivar id'>@@models</span><span class='lbrack token'>[</span><span class='rubyid_schema_name identifier id'>schema_name</span><span class='rbrack token'>]</span>
+
+    <span class='rubyid_old_verbose identifier id'>old_verbose</span> <span class='assign token'>=</span> <span class='rubyid_$VERBOSE gvar id'>$VERBOSE</span>
+    <span class='rubyid_$VERBOSE gvar id'>$VERBOSE</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+    <span class='rubyid_src identifier id'>src</span> <span class='assign token'>=</span> <span class='rubyid_schema_src identifier id'>schema_src</span><span class='lparen token'>(</span><span class='rubyid_schema_name identifier id'>schema_name</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_src identifier id'>src</span>
+
+    <span class='rubyid_entry identifier id'>entry</span> <span class='assign token'>=</span> <span class='rubyid_eval identifier id'>eval</span><span class='lparen token'>(</span><span class='rubyid_src identifier id'>src</span><span class='rparen token'>)</span>
+    <span class='rubyid_$VERBOSE gvar id'>$VERBOSE</span> <span class='assign token'>=</span> <span class='rubyid_old_verbose identifier id'>old_verbose</span>
+
+    <span class='rubyid_parent identifier id'>parent</span> <span class='assign token'>=</span> <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='symbol val'>:schema</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;parent&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_parent identifier id'>parent</span>
+      <span class='rubyid_load_schema identifier id'>load_schema</span><span class='lparen token'>(</span><span class='rubyid_parent identifier id'>parent</span><span class='rparen token'>)</span>
+
+      <span class='rubyid_base identifier id'>base</span> <span class='assign token'>=</span> <span class='rubyid_@@models ivar id'>@@models</span><span class='lbrack token'>[</span><span class='rubyid_parent identifier id'>parent</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
+      <span class='rubyid_properties identifier id'>properties</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_deep_merge identifier id'>deep_merge</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='comma token'>,</span> <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='symbol val'>:schema</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+      <span class='comment val'># Maybe we'll eventually want the version of a schema to be</span>
+      <span class='comment val'># automatically set to max(my_version, parent_version), but for now...</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='symbol val'>:schema</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;version&quot;</span><span class='rbrack token'>]</span> <span class='lt op'>&lt;</span> <span class='rubyid_@@models ivar id'>@@models</span><span class='lbrack token'>[</span><span class='rubyid_parent identifier id'>parent</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_schema_version identifier id'>schema_version</span>
+        <span class='rubyid_raise identifier id'>raise</span> <span class='lparen token'>(</span><span class='string val'>&quot;Can't inherit from a JSON schema whose version is newer than ours &quot;</span> <span class='plus op'>+</span>
+               <span class='dstring node'>&quot;(our (#{schema_name}) version: #{entry[:schema]['version']}; &quot;</span> <span class='plus op'>+</span>
+               <span class='dstring node'>&quot;parent (#{parent}) version: #{@@models[parent].schema_version})&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+
+      <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='symbol val'>:schema</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_properties identifier id'>properties</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='comment val'># All records have a lock_version property that we use for optimistic concurrency control.</span>
+    <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='symbol val'>:schema</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;lock_version&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;integer&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;string&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;required&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='rbrace token'>}</span>
+
+    <span class='comment val'># All records must indicate their model type</span>
+    <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='symbol val'>:schema</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;jsonmodel_type&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span><span class='rbrace token'>}</span>
+
+    <span class='comment val'># All records have audit fields</span>
+    <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='symbol val'>:schema</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;created_by&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrace token'>}</span>
+    <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='symbol val'>:schema</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;last_modified_by&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrace token'>}</span>
+    <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='symbol val'>:schema</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;user_mtime&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;date-time&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrace token'>}</span>
+    <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='symbol val'>:schema</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;system_mtime&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;date-time&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrace token'>}</span>
+    <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='symbol val'>:schema</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;create_time&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;date-time&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrace token'>}</span>
+
+    <span class='comment val'># Records may include a reference to the repository that contains them</span>
+    <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='symbol val'>:schema</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;repository&quot;</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span>
+      <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;object&quot;</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;subtype&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;ref&quot;</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;true&quot;</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;properties&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;ref&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+          <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:repository) uri&quot;</span><span class='comma token'>,</span>
+          <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span><span class='comma token'>,</span>
+          <span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;true&quot;</span>
+        <span class='rbrace token'>}</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;_resolved&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+          <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;object&quot;</span><span class='comma token'>,</span>
+          <span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;true&quot;</span>
+        <span class='rbrace token'>}</span>
+      <span class='rbrace token'>}</span>
+    <span class='rbrace token'>}</span>
+
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_@@init_args ivar id'>@@init_args</span><span class='lbrack token'>[</span><span class='symbol val'>:allow_other_unmapped</span><span class='rbrack token'>]</span>
+      <span class='rubyid_allow_unmapped_enum_value identifier id'>allow_unmapped_enum_value</span><span class='lparen token'>(</span><span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='symbol val'>:schema</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_find_local_directories identifier id'>find_local_directories</span><span class='lparen token'>(</span><span class='dstring node'>&quot;schemas/#{schema_name}_ext.rb&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+            <span class='rubyid_select identifier id'>select</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_path identifier id'>path</span><span class='bitor op'>|</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_exists? fid id'>exists?</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='dot token'>.</span>
+            <span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_schema_extension identifier id'>schema_extension</span><span class='bitor op'>|</span>
+      <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='symbol val'>:schema</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_deep_merge identifier id'>deep_merge</span><span class='lparen token'>(</span><span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='symbol val'>:schema</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                                                        <span class='rubyid_eval identifier id'>eval</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='rubyid_schema_extension identifier id'>schema_extension</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_model_for identifier id'>create_model_for</span><span class='lparen token'>(</span><span class='rubyid_schema_name identifier id'>schema_name</span><span class='comma token'>,</span> <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='symbol val'>:schema</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="models-class_method">
+  
+    + (<tt>Object</tt>) <strong>models</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+77
+78
+79</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 77</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_models identifier id'>models</span>
+  <span class='rubyid_@@models ivar id'>@@models</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_jsonmodel_ref-class_method">
+  
+    + (<tt>Object</tt>) <strong>parse_jsonmodel_ref</strong>(ref) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+306
+307
+308
+309
+310
+311
+312</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 306</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parse_jsonmodel_ref identifier id'>parse_jsonmodel_ref</span><span class='lparen token'>(</span><span class='rubyid_ref identifier id'>ref</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_ref identifier id'>ref</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_String constant id'>String</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_ref identifier id'>ref</span> <span class='match op'>=~</span> <span class='regexp val'>/JSONModel\(:([a-zA-Z_\-]+)\) (.*)/</span>
+    <span class='lbrack token'>[</span><span class='rubyid_$1 nth_ref id'>$1</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='comma token'>,</span> <span class='rubyid_$2 nth_ref id'>$2</span><span class='rbrack token'>]</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_reference-class_method">
+  
+    + (<tt>Object</tt>) <strong>parse_reference</strong>(reference, opts = {}) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Parse a URI reference like /repositories/123/archival_objects/500 into</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 93</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_reference identifier id'>reference</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_@@models ivar id'>@@models</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_model identifier id'>model</span><span class='bitor op'>|</span>
+    <span class='rubyid_id identifier id'>id</span> <span class='assign token'>=</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_reference identifier id'>reference</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='comma token'>,</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_id identifier id'>id</span>
+      <span class='rubyid_return return kw'>return</span> <span class='lbrace token'>{</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='symbol val'>:repository</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_repository_for identifier id'>repository_for</span><span class='lparen token'>(</span><span class='rubyid_reference identifier id'>reference</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_nil nil kw'>nil</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="repository-class_method">
+  
+    + (<tt>Object</tt>) <strong>repository</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>The currently selected repository (if any)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+16
+17
+18</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 16</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_repository identifier id'>repository</span>
+  <span class='rubyid_Thread constant id'>Thread</span><span class='dot token'>.</span><span class='rubyid_current identifier id'>current</span><span class='lbrack token'>[</span><span class='symbol val'>:selected_repo_id</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="repository_for-class_method">
+  
+    + (<tt>Object</tt>) <strong>repository_for</strong>(reference) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+82
+83
+84
+85
+86
+87
+88</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 82</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_repository_for identifier id'>repository_for</span><span class='lparen token'>(</span><span class='rubyid_reference identifier id'>reference</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_reference identifier id'>reference</span> <span class='match op'>=~</span> <span class='regexp val'>/^(\/repositories\/[0-9]+)\//</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_$1 nth_ref id'>$1</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="schema_src-class_method">
+  
+    + (<tt>Object</tt>) <strong>schema_src</strong>(schema_name) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 110</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_schema_src identifier id'>schema_src</span><span class='lparen token'>(</span><span class='rubyid_schema_name identifier id'>schema_name</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_schema_name identifier id'>schema_name</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span> <span class='nmatch op'>!~</span> <span class='regexp val'>/\A[0-9A-Za-z_-]+\z/</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Invalid schema name: #{schema_name}&quot;</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='lbrack token'>[</span><span class='mult op'>*</span><span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_find_local_directories identifier id'>find_local_directories</span><span class='lparen token'>(</span><span class='string val'>'schemas'</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+   <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_dirname identifier id'>dirname</span><span class='lparen token'>(</span><span class='rubyid___FILE__ __file__ kw'>__FILE__</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='string val'>&quot;schemas&quot;</span><span class='rparen token'>)</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_dir identifier id'>dir</span><span class='bitor op'>|</span>
+
+    <span class='rubyid_schema identifier id'>schema</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_dir identifier id'>dir</span><span class='comma token'>,</span> <span class='dstring node'>&quot;#{schema_name}.rb&quot;</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_exists? fid id'>exists?</span><span class='lparen token'>(</span><span class='rubyid_schema identifier id'>schema</span><span class='rparen token'>)</span>
+      <span class='rubyid_return return kw'>return</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='rubyid_schema identifier id'>schema</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_nil nil kw'>nil</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_repository-class_method">
+  
+    + (<tt>Object</tt>) <strong>set_repository</strong>(id) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Set the repository that subsequent operations will apply to.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+10
+11
+12</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 10</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set_repository identifier id'>set_repository</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='rubyid_Thread constant id'>Thread</span><span class='dot token'>.</span><span class='rubyid_current identifier id'>current</span><span class='lbrack token'>[</span><span class='symbol val'>:selected_repo_id</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_id identifier id'>id</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="strict_mode-class_method">
+  
+    + (<tt>Object</tt>) <strong>strict_mode</strong>(val) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+22
+23
+24</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 22</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_strict_mode identifier id'>strict_mode</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
+  <span class='rubyid_@@strict_mode ivar id'>@@strict_mode</span> <span class='assign token'>=</span> <span class='rubyid_val identifier id'>val</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="strict_mode?-class_method">
+  
+    + (<tt>Boolean</tt>) <strong>strict_mode?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+27
+28
+29</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 27</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_strict_mode? fid id'>strict_mode?</span>
+  <span class='rubyid_@@strict_mode ivar id'>@@strict_mode</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="with_repository-class_method">
+  
+    + (<tt>Object</tt>) <strong>with_repository</strong>(id) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+30
+31
+32
+33
+34
+35
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 30</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_with_repository identifier id'>with_repository</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='rubyid_old_repo identifier id'>old_repo</span> <span class='assign token'>=</span> <span class='rubyid_Thread constant id'>Thread</span><span class='dot token'>.</span><span class='rubyid_current identifier id'>current</span><span class='lbrack token'>[</span><span class='symbol val'>:selected_repo_id</span><span class='rbrack token'>]</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set_repository identifier id'>set_repository</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+    <span class='rubyid_yield yield kw'>yield</span>
+  <span class='rubyid_ensure ensure kw'>ensure</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set_repository identifier id'>set_repository</span><span class='lparen token'>(</span><span class='rubyid_old_repo identifier id'>old_repo</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="JSONModel-instance_method">
+  
+    - (<tt>Object</tt>) <strong>JSONModel</strong>(source) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 66</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_source identifier id'>source</span><span class='rparen token'>)</span>
+  <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_source identifier id'>source</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="models-instance_method">
+  
+    - (<tt>Object</tt>) <strong>models</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Yield all known JSONModel classes</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+72
+73
+74</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 72</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_models identifier id'>models</span>
+  <span class='rubyid_@@models ivar id'>@@models</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:46:02 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

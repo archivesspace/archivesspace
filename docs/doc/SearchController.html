@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: SearchController
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!SearchController.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (S)</a> &raquo;
+    
+    
+    <span class="title">SearchController</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: SearchController
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="ApplicationController.html" title="ApplicationController (class)">ApplicationController</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ActionController::Base</li>
+          
+            <li class="next"><span class='object_link'><a href="ApplicationController.html" title="ApplicationController (class)">ApplicationController</a></span></li>
+          
+            <li class="next">SearchController</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">frontend/app/controllers/search_controller.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#advanced_search-instance_method" title="#advanced_search (instance method)">- (Object) <strong>advanced_search</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#do_search-instance_method" title="#do_search (instance method)">- (Object) <strong>do_search</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="ApplicationController.html" title="ApplicationController (class)">ApplicationController</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="ApplicationController.html#can_access%3F-class_method" title="ApplicationController.can_access? (method)">can_access?</a></span>, <span class='object_link'><a href="ApplicationController.html#permission_mappings-class_method" title="ApplicationController.permission_mappings (method)">permission_mappings</a></span>, <span class='object_link'><a href="ApplicationController.html#set_access_control-class_method" title="ApplicationController.set_access_control (method)">set_access_control</a></span></p>
+
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="advanced_search-instance_method">
+  
+    - (<tt>Object</tt>) <strong>advanced_search</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/search_controller.rb', line 7</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_advanced_search identifier id'>advanced_search</span>
+  <span class='rubyid_criteria identifier id'>criteria</span> <span class='assign token'>=</span> <span class='rubyid_params_for_backend_search identifier id'>params_for_backend_search</span>
+
+  <span class='rubyid_queries identifier id'>queries</span> <span class='assign token'>=</span> <span class='rubyid_advanced_search_queries identifier id'>advanced_search_queries</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_field identifier id'>field</span><span class='bitor op'>|</span> <span class='rubyid_field identifier id'>field</span><span class='lbrack token'>[</span><span class='string val'>&quot;value&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_field identifier id'>field</span><span class='lbrack token'>[</span><span class='string val'>&quot;value&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;&quot;</span><span class='rbrace token'>}</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_queries identifier id'>queries</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+    <span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='string val'>&quot;aq&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_AdvancedQueryBuilder constant id'>AdvancedQueryBuilder</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_queries identifier id'>queries</span><span class='comma token'>,</span> <span class='symbol val'>:staff</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_build_query identifier id'>build_query</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span>
+    <span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='string val'>'facet[]'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_SearchResultData constant id'>SearchResultData</span><span class='dot token'>.</span><span class='rubyid_BASE_FACETS constant id'>BASE_FACETS</span>
+  <span class='rubyid_end end kw'>end</span>
+
+
+  <span class='rubyid_@search_data ivar id'>@search_data</span> <span class='assign token'>=</span> <span class='rubyid_Search constant id'>Search</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='lparen token'>(</span><span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_criteria identifier id'>criteria</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_respond_to identifier id'>respond_to</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_format identifier id'>format</span><span class='bitor op'>|</span>
+    <span class='rubyid_format identifier id'>format</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span> <span class='lbrace token'>{</span>
+      <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@search_data ivar id'>@search_data</span>
+    <span class='rbrace token'>}</span>
+    <span class='rubyid_format identifier id'>format</span><span class='dot token'>.</span><span class='rubyid_js identifier id'>js</span> <span class='lbrace token'>{</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:listing_only</span><span class='rbrack token'>]</span>
+        <span class='rubyid_render_aspace_partial identifier id'>render_aspace_partial</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;search/listing&quot;</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_render_aspace_partial identifier id'>render_aspace_partial</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;search/results&quot;</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rbrace token'>}</span>
+    <span class='rubyid_format identifier id'>format</span><span class='dot token'>.</span><span class='rubyid_html identifier id'>html</span> <span class='lbrace token'>{</span>
+      <span class='rubyid_render identifier id'>render</span> <span class='string val'>&quot;search/do_search&quot;</span>
+    <span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="do_search-instance_method">
+  
+    - (<tt>Object</tt>) <strong>do_search</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/search_controller.rb', line 37</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_do_search identifier id'>do_search</span>
+  <span class='rubyid_@search_data ivar id'>@search_data</span> <span class='assign token'>=</span> <span class='rubyid_Search constant id'>Search</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='lparen token'>(</span><span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_params_for_backend_search identifier id'>params_for_backend_search</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='string val'>&quot;facet[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_SearchResultData constant id'>SearchResultData</span><span class='dot token'>.</span><span class='rubyid_BASE_FACETS constant id'>BASE_FACETS</span><span class='dot token'>.</span><span class='rubyid_concat identifier id'>concat</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:facets</span><span class='rbrack token'>]</span><span class='orop op'>||</span><span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uniq identifier id'>uniq</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_@display_identifier ivar id'>@display_identifier</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:display_identifier</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:display_identifier</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_false false kw'>false</span>
+
+  <span class='rubyid_respond_to identifier id'>respond_to</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_format identifier id'>format</span><span class='bitor op'>|</span>
+    <span class='rubyid_format identifier id'>format</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span> <span class='lbrace token'>{</span>
+      <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@search_data ivar id'>@search_data</span>
+    <span class='rbrace token'>}</span>
+    <span class='rubyid_format identifier id'>format</span><span class='dot token'>.</span><span class='rubyid_js identifier id'>js</span> <span class='lbrace token'>{</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:listing_only</span><span class='rbrack token'>]</span>
+        <span class='rubyid_render_aspace_partial identifier id'>render_aspace_partial</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;search/listing&quot;</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_render_aspace_partial identifier id'>render_aspace_partial</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;search/results&quot;</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rbrace token'>}</span>
+    <span class='rubyid_format identifier id'>format</span><span class='dot token'>.</span><span class='rubyid_html identifier id'>html</span> <span class='lbrace token'>{</span>
+    <span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:46:18 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

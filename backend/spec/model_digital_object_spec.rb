@@ -17,7 +17,7 @@ describe 'Digital object model' do
     json2 = build(:json_digital_object, :digital_object_id => '123')
 
     expect { DigitalObject.create_from_json(json1, :repo_id => $repo_id) }.to_not raise_error
-    expect { DigitalObject.create_from_json(json2, :repo_id => $repo_id) }.to raise_error
+    expect { DigitalObject.create_from_json(json2, :repo_id => $repo_id) }.to raise_error(Sequel::ValidationFailed)
   end
 
 

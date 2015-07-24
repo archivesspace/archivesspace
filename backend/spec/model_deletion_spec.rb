@@ -162,7 +162,7 @@ describe "Deletion of Archival Records" do
   it "won't delete a system user" do
     expect {
       User[:username => "admin"].delete
-    }.to raise_error
+    }.to raise_error(AccessDeniedException)
   end
 
 

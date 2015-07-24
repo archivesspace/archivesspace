@@ -1,0 +1,12 @@
+JSON Schema: Note_text
+
+Properties
+
+string (max length: 65000)	content
+
+boolean	publish
+
+
+
+
+

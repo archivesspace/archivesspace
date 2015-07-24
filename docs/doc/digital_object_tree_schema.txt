@@ -1,0 +1,16 @@
+JSON Schema: Digital_object_tree
+/repositories/:repo_id/digital_objects/:digital_object_id/tree
+Properties
+
+string (max length: 255)	level
+
+string (max length: 255)	digital_object_type
+
+array (object)	file_versions
+
+array (JSONModel(:digital_object_tree) object)	children
+
+
+
+
+

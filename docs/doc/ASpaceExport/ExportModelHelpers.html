@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: ASpaceExport::ExportModelHelpers
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!ASpaceExport/ExportModelHelpers.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (E)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../ASpaceExport.html" title="ASpaceExport (module)">ASpaceExport</a></span></span>
+     &raquo; 
+    <span class="title">ExportModelHelpers</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="../schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: ASpaceExport::ExportModelHelpers
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+    <dt class="r1">Included in:</dt>
+    <dd class="r1"><span class='object_link'><a href="ExportModel.html" title="ASpaceExport::ExportModel (class)">ExportModel</a></span></dd>
+    
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">backend/app/exporters/lib/export_helpers.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#extract_date_string-instance_method" title="#extract_date_string (instance method)">- (Object) <strong>extract_date_string</strong>(date) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#extract_note_content-instance_method" title="#extract_note_content (instance method)">- (Object) <strong>extract_note_content</strong>(note) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_subnotes_by_type-instance_method" title="#get_subnotes_by_type (instance method)">- (Object) <strong>get_subnotes_by_type</strong>(obj, note_type) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="extract_date_string-instance_method">
+  
+    - (<tt>Object</tt>) <strong>extract_date_string</strong>(date) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+170
+171
+172
+173
+174
+175
+176
+177
+178</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 170</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_extract_date_string identifier id'>extract_date_string</span><span class='lparen token'>(</span><span class='rubyid_date identifier id'>date</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'expression'</span><span class='rbrack token'>]</span>
+    <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'expression'</span><span class='rbrack token'>]</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'end'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'end'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'begin'</span><span class='rbrack token'>]</span>
+    <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'begin'</span><span class='rbrack token'>]</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='dstring node'>&quot;#{date['begin']} - #{date['end']}&quot;</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="extract_note_content-instance_method">
+  
+    - (<tt>Object</tt>) <strong>extract_note_content</strong>(note) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+181
+182
+183
+184
+185
+186
+187</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 181</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_extract_note_content identifier id'>extract_note_content</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>'content'</span><span class='rbrack token'>]</span>
+    <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>'content'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot; &quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_get_subnotes_by_type identifier id'>get_subnotes_by_type</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='string val'>'note_text'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_sn identifier id'>sn</span><span class='bitor op'>|</span> <span class='rubyid_sn identifier id'>sn</span><span class='lbrack token'>[</span><span class='string val'>'content'</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot; &quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\n +/</span><span class='comma token'>,</span> <span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_subnotes_by_type-instance_method">
+  
+    - (<tt>Object</tt>) <strong>get_subnotes_by_type</strong>(obj, note_type) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+190
+191
+192</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 190</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_subnotes_by_type identifier id'>get_subnotes_by_type</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_note_type identifier id'>note_type</span><span class='rparen token'>)</span>
+  <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>'subnotes'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_sn identifier id'>sn</span><span class='bitor op'>|</span> <span class='rubyid_sn identifier id'>sn</span><span class='lbrack token'>[</span><span class='string val'>'jsonmodel_type'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_note_type identifier id'>note_type</span><span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:45:59 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

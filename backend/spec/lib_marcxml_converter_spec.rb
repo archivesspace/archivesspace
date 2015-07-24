@@ -4,13 +4,13 @@ require 'converter_spec_helper'
 require_relative '../app/converters/marcxml_converter'
 
 describe 'MARCXML converter' do
-  let(:my_converter) {
-    MarcXMLConverter
-  }
 
+  def my_converter
+    MarcXMLConverter
+  end
 
   describe "Basic MARCXML to ASPACE mappings" do
-    let (:test_doc_1) {
+    def test_doc_1
       src = <<END
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
       <collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -68,7 +68,7 @@ describe 'MARCXML converter' do
 END
 
       get_tempfile_path(src)
-    }
+    end
 
 
     before(:all) do
@@ -415,7 +415,7 @@ marc
 
 
   describe "Name Order handling" do
-    let(:name_order_test_doc) {
+    def name_order_test_doc
       src = <<ROTFL
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -476,7 +476,7 @@ marc
 ROTFL
 
       get_tempfile_path(src)
-    }
+    end
 
     before(:all) do
       converter = MarcXMLConverter.for_subjects_and_agents_only(name_order_test_doc)
@@ -534,7 +534,7 @@ OMFG
       get_tempfile_path(src)
     }
 
-    before(:all) do
+    before(:each) do
       json = convert(date_dupes_test_doc)
       @resource = json.last
     end

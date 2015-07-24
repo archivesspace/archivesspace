@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+<title>
+  File: FRONTEND_README_BOWER
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!file.FRONTEND_README_BOWER.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: FRONTEND_README_BOWER</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><h1 id="managing-frontend-assets-with-bower">Managing Frontend Assets with Bower</h1>
+
+<p>This is aimed at developers and applies to the &#8216;frontend&#8217; application only.</p>
+
+<p>If you wish to add static assets to the core project (i.e., javascript, css, less files) please use <code>bower</code> to add and install them so we know what&#8217;s what and when to upgrade.</p>
+
+<h1 id="general-setup">General Setup</h1>
+
+<h2 id="step-1-install-npm">Step 1: install npm</h2>
+
+<p>On OSX, for example:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_brew identifier id'>brew</span> <span class='rubyid_install identifier id'>install</span> <span class='rubyid_npm identifier id'>npm</span>
+</code></pre>
+
+<h2 id="step-2-install-bower">Step 2: install Bower</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_npm identifier id'>npm</span> <span class='rubyid_install identifier id'>install</span> <span class='rubyid_bower identifier id'>bower</span> <span class='minus op'>-</span><span class='rubyid_g identifier id'>g</span>
+</code></pre>
+
+<h2 id="step-3-install-components">Step 3: install components</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_bower identifier id'>bower</span> <span class='rubyid_install identifier id'>install</span>
+</code></pre>
+
+<h1 id="adding-a-static-asset-to-aspace-frontend-staff-ui">Adding a static asset to ASpace Frontend (Staff UI)</h1>
+
+<h2 id="step-1-add-the-component">Step 1: add the component</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_bower identifier id'>bower</span> <span class='rubyid_install identifier id'>install</span> <span class='lt op'>&lt;</span><span class='rubyid_PACKAGE constant id'>PACKAGE</span> <span class='rubyid_NAME constant id'>NAME</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_save identifier id'>save</span>
+</code></pre>
+
+<h2 id="step-2-map-bower--rails">Step 2: map Bower &gt; Rails</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_Edit constant id'>Edit</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_bower identifier id'>bower</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span> <span class='rubyid_file identifier id'>file</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_map identifier id'>map</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_assets identifier id'>assets</span> <span class='rubyid_you identifier id'>you</span> <span class='rubyid_want identifier id'>want</span> <span class='rubyid_from identifier id'>from</span> <span class='rubyid_bower_components identifier id'>bower_components</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_assets identifier id'>assets</span><span class='dot token'>.</span> <span class='rubyid_See constant id'>See</span> <span class='rubyid_examples identifier id'>examples</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_bower identifier id'>bower</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span>
+</code></pre>
+
+<h2 id="step-3-install-assets">Step 3: Install assets</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_alias alias kw'>alias</span> <span class='rubyid_npm identifier id'>npm</span><span class='minus op'>-</span><span class='rubyid_exec identifier id'>exec</span><span class='assign token'>=</span><span class='string val'>'PATH=$(npm bin):$PATH'</span>
+<span class='rubyid_npm identifier id'>npm</span><span class='minus op'>-</span><span class='rubyid_exec identifier id'>exec</span> <span class='rubyid_bower identifier id'>bower</span><span class='minus op'>-</span><span class='rubyid_installer identifier id'>installer</span>
+</code></pre>
+
+<h2 id="step-4-check-assets-in">Step 4: Check assets in</h2>
+
+<p>Check everything into Git. We still version control the dist files. </p>
+
+<h2 id="production">Production!</h2>
+
+<p>Don&#8217;t forget - if you are adding assets that don&#8217;t have a .js extension, you need to add them to frontend/config/environments/production.rb </p>
+</div></div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:45:54 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

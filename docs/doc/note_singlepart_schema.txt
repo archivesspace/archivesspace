@@ -1,0 +1,12 @@
+JSON Schema: Note_singlepart
+
+Properties
+
+array (string)	content
+
+string	type
+
+
+
+
+

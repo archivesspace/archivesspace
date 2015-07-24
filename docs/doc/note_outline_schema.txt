@@ -1,0 +1,12 @@
+JSON Schema: Note_outline
+
+Properties
+
+boolean	publish
+
+array (JSONModel(:note_outline_level) object)	levels
+
+
+
+
+

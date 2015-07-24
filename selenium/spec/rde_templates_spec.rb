@@ -13,8 +13,7 @@ describe "RDE Templates" do
 
   before(:each) do
 
-    login("admin", "admin")
-    select_repo(@repo.repo_code)
+    login_to_repo("admin", "admin", @repo)
 
     $driver.get("#{$frontend}#{@r.uri.sub(/\/repositories\/\d+/, '')}/edit")
     $driver.wait_for_ajax
@@ -95,7 +94,7 @@ describe "RDE Templates" do
     $driver.wait_for_ajax
 
     assert(10) {
-      $driver.find_elements(:css => "select#rde_select_template option").map {|x| x.attribute("value") }.include?(template.id).should be_false
+      $driver.find_elements(:css => "select#rde_select_template option").map {|x| x.attribute("value") }.include?(template.id).should be_falsey
     }
 
   end

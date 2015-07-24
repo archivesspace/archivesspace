@@ -19,8 +19,8 @@ describe "Tree UI" do
     @a2 = create(:archival_object, {:resource => {:ref => @r.uri}})
     @a3 = create(:archival_object, {:resource => {:ref => @r.uri}})
 
-    login("admin", "admin")
-    select_repo(@repo.repo_code)
+
+    login_to_repo('admin', 'admin', @repo)
 
     $driver.get("#{$frontend}#{@r.uri.sub(/\/repositories\/\d+/, '')}/edit")
     $driver.wait_for_ajax
@@ -203,8 +203,7 @@ describe "Tree UI" do
     url = "#{$frontend}#{@r.uri.sub(/\/repositories\/\d+/, '')}"
 
     logout
-    login(@viewer_user, @viewer_pass) #actually doesn't matter
-    select_repo(@repo.repo_code)
+    login_to_repo(@viewer_user, @viewer_pass, @repo)
 
     $driver.get(url)
 

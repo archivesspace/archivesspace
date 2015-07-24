@@ -11,8 +11,7 @@ describe "Default Form Values" do
     (@archivist_user, @archivist_pass) = create_user
     add_user_to_archivists(@archivist_user, @repo.uri)
 
-    login("admin", "admin")
-    select_repo(@repo.repo_code)
+    login_to_repo("admin", "admin", @repo)
 
     $driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
     $driver.find_element(:link, "My Repository Preferences").click
@@ -30,8 +29,7 @@ describe "Default Form Values" do
 
 
   before(:each) do
-    login("admin", "admin")
-    select_repo(@repo.repo_code)
+    login_to_repo("admin", "admin", @repo)
   end
 
 
@@ -57,8 +55,7 @@ describe "Default Form Values" do
 
   it "won't let a regular archivist edit default accession values" do
     logout
-    login(@archivist_user, @archivist_pass)
-    select_repo(@repo.repo_code)
+    login_to_repo(@archivist_user, @archivist_pass, @repo.repo_code)
 
     $driver.get("#{$frontend}/accessions")    
 

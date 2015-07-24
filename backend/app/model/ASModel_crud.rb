@@ -270,6 +270,11 @@ module ASModel
         break if object_graph.models.length == successfully_deleted_models.length
 
         unless progressed
+          if last_error && DB.is_retriable_exception(last_error)
+            # Give us a chance to retry after a deadlock
+            raise last_error
+          end
+
           raise ConflictException.new("Record deletion failed: #{last_error}")
         end
       end

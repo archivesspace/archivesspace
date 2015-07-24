@@ -1,6 +1,7 @@
 <% define_template "rde_digital_object_component_sections" do |form| %>
   <th data-id="basic" class="section-basic" colspan="5"><%= I18n.t("rde.sections.basic_information") %></th>
   <th data-id="date" class="section-date" colspan="5" class="conditionally-required"><%= I18n.t("rde.sections.date") %></th>
+  <th data-id="extent" class="section-extent" colspan="6" class="conditionally-required"><%= I18n.t("rde.sections.extent") %></th>
   <th data-id="file" class="section-file" colspan="10"><%= I18n.t("rde.sections.file_version") %></th>
   <th data-id="note" class="section-note" colspan="9"><%= I18n.t("rde.sections.notes") %></th>
 <% end %>
@@ -17,6 +18,13 @@
   <th id="colDType" class="fieldset-label sticky" data-section="date"><%= I18n.t("rde.date_type") %></th>
   <th id="colDBegin" class="fieldset-label sticky" data-section="date"><%= I18n.t("date.begin") %></th>
   <th id="colDEnd" class="fieldset-label sticky" data-section="date"><%= I18n.t("date.end") %></th>
+
+  <th id="colEPortion" class="fieldset-label sticky" data-section="extent"><%= I18n.t("extent.portion") %></th>
+  <th id="colENumber" class="fieldset-label sticky" data-section="extent"><%= I18n.t("extent.number") %></th>
+  <th id="colEType" class="fieldset-label sticky" data-section="extent"><%= I18n.t("extent.extent_type") %></th>
+  <th id="colEContainer" class="fieldset-label sticky" data-section="extent"><%= I18n.t("extent.container_summary") %></th>
+  <th id="colEPhysical" class="fieldset-label sticky" data-section="extent"><%= I18n.t("extent.physical_details") %></th>
+  <th id="colEDimensions" class="fieldset-label sticky" data-section="extent"><%= I18n.t("extent.dimensions") %></th>
 
   <th id="colFUri" class="fieldset-label" data-section="file"><%= I18n.t("file_version.file_uri") %></th>
   <th id="colFPublish" class="fieldset-label sticky" data-section="file"><%= I18n.t("file_version.publish") %></th>
@@ -70,7 +78,12 @@
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
-
+  <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width='150' />
 <% end %>
 
 <% define_template "rde_digital_object_component_row", jsonmodel_definition(:digital_object_component) do |form, digital_object_component| %>
@@ -96,7 +109,6 @@
     <td data-col="colLang" class="form-group">
       <%= form.select "language", jsonmodel_definition(:digital_object_component).options_for(form, "language", true) %>
     </td>
-
     <td data-col="colDLabel" class="form-group">
       <% form.push(form.set_index("dates[]", 0), begin digital_object_component["dates"][0] || {} rescue {} end) do %>
         <%= form.select "label", jsonmodel_definition(:date).options_for(form, "label", true) %>
@@ -123,6 +135,39 @@
     <td data-col="colDEnd" class="form-group">
       <% form.push(form.set_index("dates[]", 0), begin digital_object_component["dates"][0] || {} rescue {} end) do %>
         <%= form.textfield "end" %>
+      <% end %>
+    </td>
+    <td data-col="colEPortion" class="form-group">
+      <% form.push(form.set_index("extents[]", 0), begin archival_object["extents"][0] || {} rescue {} end) do %>
+        <%= form.select "portion", jsonmodel_definition(:extent).options_for(form, "portion", true) %>
+      <% end %>
+      <% form.push("extents", begin archival_object["extents"] || [] rescue [] end) do %>
+        <span id="<%= form.id_for(nil) %>"></span>
+      <% end %>
+    </td>
+    <td data-col="colENumber" class="form-group">
+      <% form.push(form.set_index("extents[]", 0), begin archival_object["extents"][0] || {} rescue {} end) do %>
+        <%= form.textfield "number" %>
+      <% end %>
+    </td>
+    <td data-col="colEType" class="form-group">
+      <% form.push(form.set_index("extents[]", 0), begin archival_object["extents"][0] || {} rescue {} end) do %>
+        <%= form.select "extent_type", jsonmodel_definition(:extent).options_for(form, "extent_type", true) %>
+      <% end %>
+    </td>
+    <td data-col="colEContainer" class="form-group">
+      <% form.push(form.set_index("extents[]", 0), begin archival_object["extents"][0] || {} rescue {} end) do %>
+        <%= form.textfield "container_summary" %>
+      <% end %>
+    </td>
+    <td data-col="colEPhysical" class="form-group">
+      <% form.push(form.set_index("extents[]", 0), begin archival_object["extents"][0] || {} rescue {} end) do %>
+        <%= form.textfield "physical_details" %>
+      <% end %>
+    </td>
+    <td data-col="colEDimensions" class="form-group">
+      <% form.push(form.set_index("extents[]", 0), begin archival_object["extents"][0] || {} rescue {} end) do %>
+        <%= form.textfield "dimensions" %>
       <% end %>
     </td>
     <td data-col="colFUri" class="form-group">

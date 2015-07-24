@@ -1,0 +1,40 @@
+JSON Schema: Location
+/locations
+Properties
+
+string	uri
+
+string	title
+
+array (JSONModel(:external_id) object)	external_ids
+
+string (max length: 255)	building
+
+string (max length: 255)	floor
+
+string (max length: 255)	room
+
+string (max length: 255)	area
+
+string (max length: 255)	barcode
+
+string (max length: 255)	classification
+
+string (max length: 255)	coordinate_1_label
+
+string (max length: 255)	coordinate_1_indicator
+
+string (max length: 255)	coordinate_2_label
+
+string (max length: 255)	coordinate_2_indicator
+
+string (max length: 255)	coordinate_3_label
+
+string (max length: 255)	coordinate_3_indicator
+
+string	temporary
+
+
+
+
+

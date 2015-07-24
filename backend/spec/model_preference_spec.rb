@@ -24,11 +24,6 @@ describe 'Preference model' do
       'length' => 1,
       'happy' => true,
     }
-#    @glob_pref = {
-#      'color' => 'white',
-#      'length' => 3,
-#      'happy' => true,
-#    }
     @glob_user_pref = {
       'color' => 'black',
       'length' => 3,
@@ -63,30 +58,30 @@ describe 'Preference model' do
     user = create(:user, :username => 'somebody')
 
     RequestContext.open(:repo_id => Repository.global_repo_id) do
-#      Preference.create_from_json(build(:json_preference, :defaults => @glob_pref))
+
       expect {
-        Preference.create_from_json(build(:json_preference, :defaults => @glob_pref))
-      }.to raise_error
+        Preference.create_from_json(build(:json_preference))
+      }.to raise_error(Sequel::UniqueConstraintViolation)
 
       Preference.create_from_json(build(:json_preference, :defaults => @glob_user_pref),
                                   :user_id => user.id)
       expect {
         Preference.create_from_json(build(:json_preference, :defaults => @glob_user_pref),
                                     :user_id => user.id)
-      }.to raise_error
+      }.to raise_error(Sequel::UniqueConstraintViolation)
     end
 
     Preference.create_from_json(build(:json_preference, :defaults => @repo_pref))
     expect {
       Preference.create_from_json(build(:json_preference, :defaults => @repo_pref))
-    }.to raise_error
+    }.to raise_error(Sequel::UniqueConstraintViolation)
 
     Preference.create_from_json(build(:json_preference, :defaults => @repo_user_pref),
                                 :user_id => user.id)
     expect {
       Preference.create_from_json(build(:json_preference, :defaults => @repo_user_pref),
                                   :user_id => user.id)
-    }.to raise_error
+    }.to raise_error(Sequel::UniqueConstraintViolation)
   end
 
 

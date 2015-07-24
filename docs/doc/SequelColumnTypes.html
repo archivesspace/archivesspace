@@ -1,0 +1,726 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: SequelColumnTypes
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!SequelColumnTypes.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (S)</a> &raquo;
+    
+    
+    <span class="title">SequelColumnTypes</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: SequelColumnTypes
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+    <dt class="r1">Included in:</dt>
+    <dd class="r1"><span class='object_link'><a href="Sequel/Schema/AlterTableGenerator.html" title="Sequel::Schema::AlterTableGenerator (class)">Sequel::Schema::AlterTableGenerator</a></span>, <span class='object_link'><a href="Sequel/Schema/CreateTableGenerator.html" title="Sequel::Schema::CreateTableGenerator (class)">Sequel::Schema::CreateTableGenerator</a></span></dd>
+    
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">common/db/db_migrator.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Sequel uses a nice DSL for creating tables but not for altering tables.  The
+definitions below try to provide a reasonable experience for both cases.
+Creation is the normal:</p>
+
+<p>HalfLongString :title, :null =&gt; true</p>
+
+<p>while altering is (to add a column):</p>
+
+<p>HalfLongString :title</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#apply_mtime_columns-instance_method" title="#apply_mtime_columns (instance method)">- (Object) <strong>apply_mtime_columns</strong>(create_time = true) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#apply_name_columns-instance_method" title="#apply_name_columns (instance method)">- (Object) <strong>apply_name_columns</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#BlobField-instance_method" title="#BlobField (instance method)">- (Object) <strong>BlobField</strong>(field, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_column-instance_method" title="#create_column (instance method)">- (Object) <strong>create_column</strong>(*column_def) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#DynamicEnum-instance_method" title="#DynamicEnum (instance method)">- (Object) <strong>DynamicEnum</strong>(field, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#HalfLongString-instance_method" title="#HalfLongString (instance method)">- (Object) <strong>HalfLongString</strong>(field, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#LongString-instance_method" title="#LongString (instance method)">- (Object) <strong>LongString</strong>(field, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#MediumBlobField-instance_method" title="#MediumBlobField (instance method)">- (Object) <strong>MediumBlobField</strong>(field, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#TextBlobField-instance_method" title="#TextBlobField (instance method)">- (Object) <strong>TextBlobField</strong>(field, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#TextField-instance_method" title="#TextField (instance method)">- (Object) <strong>TextField</strong>(field, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="apply_mtime_columns-instance_method">
+  
+    - (<tt>Object</tt>) <strong>apply_mtime_columns</strong>(create_time = true) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 139</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_apply_mtime_columns identifier id'>apply_mtime_columns</span><span class='lparen token'>(</span><span class='rubyid_create_time identifier id'>create_time</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+  <span class='rubyid_String constant id'>String</span> <span class='symbol val'>:created_by</span>
+  <span class='rubyid_String constant id'>String</span> <span class='symbol val'>:last_modified_by</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_create_time identifier id'>create_time</span>
+    <span class='rubyid_DateTime constant id'>DateTime</span> <span class='symbol val'>:create_time</span><span class='comma token'>,</span> <span class='symbol val'>:null</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_DateTime constant id'>DateTime</span> <span class='symbol val'>:system_mtime</span><span class='comma token'>,</span> <span class='symbol val'>:null</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='symbol val'>:index</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_DateTime constant id'>DateTime</span> <span class='symbol val'>:user_mtime</span><span class='comma token'>,</span> <span class='symbol val'>:null</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='symbol val'>:index</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="apply_name_columns-instance_method">
+  
+    - (<tt>Object</tt>) <strong>apply_name_columns</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+128
+129
+130
+131
+132
+133
+134
+135
+136</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 128</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_apply_name_columns identifier id'>apply_name_columns</span>
+  <span class='rubyid_String constant id'>String</span> <span class='symbol val'>:authority_id</span><span class='comma token'>,</span> <span class='symbol val'>:null</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_String constant id'>String</span> <span class='symbol val'>:dates</span><span class='comma token'>,</span> <span class='symbol val'>:null</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_TextField constant id'>TextField</span> <span class='symbol val'>:qualifier</span><span class='comma token'>,</span> <span class='symbol val'>:null</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_DynamicEnum constant id'>DynamicEnum</span> <span class='symbol val'>:source_id</span><span class='comma token'>,</span> <span class='symbol val'>:null</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_DynamicEnum constant id'>DynamicEnum</span> <span class='symbol val'>:rules_id</span><span class='comma token'>,</span> <span class='symbol val'>:null</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_TextField constant id'>TextField</span> <span class='symbol val'>:sort_name</span><span class='comma token'>,</span> <span class='symbol val'>:null</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_Integer constant id'>Integer</span> <span class='symbol val'>:sort_name_auto_generate</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="BlobField-instance_method">
+  
+    - (<tt>Object</tt>) <strong>BlobField</strong>(field, opts = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+112
+113
+114</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 112</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_BlobField constant id'>BlobField</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_create_column identifier id'>create_column</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_ColumnDefs constant id'>ColumnDefs</span><span class='dot token'>.</span><span class='rubyid_blobField identifier id'>blobField</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create_column-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_column</strong>(*column_def) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+84
+85
+86
+87
+88
+89
+90</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 84</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_create_column identifier id'>create_column</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_column_def identifier id'>column_def</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:column</span><span class='rparen token'>)</span>
+    <span class='rubyid_column identifier id'>column</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_column_def identifier id'>column_def</span><span class='rparen token'>)</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_add_column identifier id'>add_column</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_column_def identifier id'>column_def</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="DynamicEnum-instance_method">
+  
+    - (<tt>Object</tt>) <strong>DynamicEnum</strong>(field, opts = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+122
+123
+124
+125</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 122</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_DynamicEnum constant id'>DynamicEnum</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span>
+  <span class='rubyid_foreign_key identifier id'>foreign_key</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rubyid_field identifier id'>field</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:enumeration_value</span><span class='comma token'>,</span> <span class='symbol val'>:key</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:id</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="HalfLongString-instance_method">
+  
+    - (<tt>Object</tt>) <strong>HalfLongString</strong>(field, opts = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+102
+103
+104</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 102</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_HalfLongString constant id'>HalfLongString</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_create_column identifier id'>create_column</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_ColumnDefs constant id'>ColumnDefs</span><span class='dot token'>.</span><span class='rubyid_halfLongString identifier id'>halfLongString</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="LongString-instance_method">
+  
+    - (<tt>Object</tt>) <strong>LongString</strong>(field, opts = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+98
+99
+100</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 98</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_LongString constant id'>LongString</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_create_column identifier id'>create_column</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_ColumnDefs constant id'>ColumnDefs</span><span class='dot token'>.</span><span class='rubyid_longString identifier id'>longString</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="MediumBlobField-instance_method">
+  
+    - (<tt>Object</tt>) <strong>MediumBlobField</strong>(field, opts = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+117
+118
+119</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 117</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_MediumBlobField constant id'>MediumBlobField</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_create_column identifier id'>create_column</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_ColumnDefs constant id'>ColumnDefs</span><span class='dot token'>.</span><span class='rubyid_mediumBlobField identifier id'>mediumBlobField</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="TextBlobField-instance_method">
+  
+    - (<tt>Object</tt>) <strong>TextBlobField</strong>(field, opts = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+107
+108
+109</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 107</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_TextBlobField constant id'>TextBlobField</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_create_column identifier id'>create_column</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_ColumnDefs constant id'>ColumnDefs</span><span class='dot token'>.</span><span class='rubyid_textBlobField identifier id'>textBlobField</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="TextField-instance_method">
+  
+    - (<tt>Object</tt>) <strong>TextField</strong>(field, opts = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+93
+94
+95</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 93</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_TextField constant id'>TextField</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_create_column identifier id'>create_column</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_ColumnDefs constant id'>ColumnDefs</span><span class='dot token'>.</span><span class='rubyid_textField identifier id'>textField</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:46:03 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

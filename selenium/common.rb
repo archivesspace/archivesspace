@@ -4,6 +4,7 @@ require "json"
 require "selenium-webdriver"
 require "digest"
 require "rspec"
+require "rspec/retry"
 require 'test_utils'
 require 'config/config-distribution'
 require 'securerandom'
@@ -40,7 +41,7 @@ module Selenium
 
   module Config
     def self.retries
-      500
+      100
     end
   end
 
@@ -65,6 +66,60 @@ class Selenium::WebDriver::Driver
     raise_javascript_errors
   end
 
+  def find_paginated_element(*selectors)
+
+    start_page = self.current_url
+
+    try = 0
+    while true
+
+      begin
+        elt = self.find_element_orig(*selectors)
+
+        if not elt.displayed?
+          raise Selenium::WebDriver::Error::NoSuchElementError.new("Not visible (yet?)")
+        end
+
+        return elt
+
+      rescue Selenium::WebDriver::Error::NoSuchElementError
+        puts "#{test_group_prefix}find_element failed: trying to turn the page"
+        self.find_element_orig(:css => "a[title='Next']").click
+        retry
+      rescue Selenium::WebDriver::Error::NoSuchElementError
+        if try < Selenium::Config.retries
+          try += 1
+          sleep 0.5
+          self.navigate.to(start_page)
+          puts "#{test_group_prefix}find_paginated_element: #{try} misses on selector '#{selectors}'.  Retrying..." if (try % 5) == 0
+        else
+          raise Selenium::WebDriver::Error::NoSuchElementError.new(selectors.inspect)
+        end
+      end
+    end
+  end
+
+
+  def attempt(times, &block)
+
+    tries = times
+
+    begin
+      block.call(self)
+    rescue Exception => e
+      if tries > 0
+        tries -= 1
+        $sleep_time += 0.1
+        sleep 0.5
+        puts "Attempts remaining: #{tries}"
+        retry
+      else
+        raise e
+      end
+    end
+  end
+
+
   alias :find_element_orig :find_element
   def find_element(*selectors)
     wait_for_ajax
@@ -84,7 +139,7 @@ class Selenium::WebDriver::Driver
           try += 1
           $sleep_time += 0.1
           sleep 0.5
-          puts "find_element: #{try} misses on selector '#{selectors}'.  Retrying..." if (try % 5) == 0
+          puts "#{test_group_prefix}find_element: #{try} misses on selector '#{selectors}'.  Retrying..." if (try % 5) == 0
 
         else
           puts "Failed to find #{selectors}"
@@ -169,7 +224,6 @@ class Selenium::WebDriver::Driver
     end
   end
 
-
   def generate_4part_id
     Digest::MD5.hexdigest("#{Time.now}#{SecureRandom.uuid}#{$$}").scan(/.{6}/)[0...1]
   end
@@ -186,14 +240,23 @@ class Selenium::WebDriver::Driver
 
 
   def find_element_with_text(xpath, pattern, noError = false, noRetry = false)
-    self.find_element(:tag_name => "body").find_element_with_text(xpath, pattern, noError, noRetry)
+    tries = 0
+
+    begin
+      self.find_element(:tag_name => "body").find_element_with_text(xpath, pattern, noError, noRetry)
+    rescue Selenium::WebDriver::Error::StaleElementReferenceError
+      if tries < Selenium::Config.retries
+        tries += 1
+        retry
+      end
+    end
   end
 
 
   def clear_and_send_keys(selector, keys)
     Selenium::Config.retries.times do
       begin
-        elt = self.find_element(*selector)
+        elt = self.find_element_orig(*selector)
         elt.clear
         elt.send_keys(keys)
         break
@@ -207,6 +270,15 @@ class Selenium::WebDriver::Driver
   def raise_javascript_errors
     errors = $driver.execute_script("return window.hasOwnProperty('TEST_ERRORS') ? TEST_ERRORS : []")
     raise "Javascript errors present: #{errors.inspect}" if errors.length > 0
+  end
+
+  def test_group_prefix
+    if ENV['TEST_ENV_NUMBER']
+      number = ENV['TEST_ENV_NUMBER'].empty? ? 1 : ENV['TEST_ENV_NUMBER']
+      "[#{number}] "
+    else
+      ""
+    end
   end
 
 end
@@ -267,6 +339,7 @@ class Selenium::WebDriver::Element
     Selenium::Config.retries.times do |try|
 
       matches = self.find_elements(:xpath => xpath)
+
       begin
         matches.each do | match |
           return match if match.text =~ pattern
@@ -285,6 +358,11 @@ class Selenium::WebDriver::Element
     end
 
     return nil if noError
+
+    if ENV['SCREENSHOT_ON_ERROR']
+      SeleniumTest.save_screenshot
+    end
+
     raise Selenium::WebDriver::Error::NoSuchElementError.new("Could not find element for xpath: #{xpath} pattern: #{pattern}")
   end
 
@@ -294,11 +372,12 @@ end
 
 def login(user, pass)
   $driver.navigate.to $frontend
-
+  $driver.wait_for_ajax
   $driver.find_element(:link, "Sign In").click
   $driver.clear_and_send_keys([:id, 'user_username'], user)
   $driver.clear_and_send_keys([:id, 'user_password'], pass)
   $driver.find_element(:id, 'login').click
+  $driver.wait_for_ajax
 end
 
 
@@ -331,15 +410,7 @@ def debug_repl
 end
 
 
-RSpec.configure do |c|
-  c.fail_fast = true
-end
-
 module RepositoryHelperMethods
-  def initialize
-    @test_repositories = {}
-  end
-
 
   def create_test_repo(code, name, wait = true)
     create_repo = URI("#{$backend}/repositories")
@@ -354,6 +425,7 @@ module RepositoryHelperMethods
     # Give the notification time to fire
     sleep 5 if wait
 
+    @test_repositories ||= {}
     @test_repositories[code] = repo_uri
 
     [code, repo_uri]
@@ -378,11 +450,33 @@ module RepositoryHelperMethods
       $test_repo_uri = $test_repo_uri_old
     end
   end
+
+
+  def login_to_repo(user, pass, repo)
+    begin
+      logout
+    rescue # maybe we were already logged out
+    end
+
+    $driver.attempt(5) {|attempt|
+      login(user, pass)
+      select_repo(repo)
+    }
+  end
+
+
+  def generate_4part_id
+    Digest::MD5.hexdigest("#{Time.now}#{SecureRandom.uuid}#{$$}").scan(/.{6}/)[0...1]
+  end
 end
 
 
 
 class RepositoryHelper
+  def initialize
+    @test_repositories = {}
+  end
+
   include RepositoryHelperMethods
 end
 
@@ -492,7 +586,7 @@ def assert(times = nil, &block)
     block.call
   rescue
     try += 1
-    if try < times
+    if try < times #&& !ENV['ASPACE_TEST_NO_RETRIES']
       $sleep_time += 0.1
       sleep 0.5
       retry
@@ -632,7 +726,7 @@ def create_resource(values = {}, repo = nil)
   default_values = {:title => "Test Resource #{SecureRandom.hex}",
     :id_0 => SecureRandom.hex, :level => "collection", :language => "eng",
     :dates => [ { :date_type => "single", :label => "creation", :expression => "1945" } ],
-    :extents => [{:portion => "whole", :number => "1", :extent_type => "files"}]}
+    :extents => [{:portion => "whole", :number => "1", :extent_type => "cassettes"}]}
   values_to_post = default_values.merge(values)
 
   req = Net::HTTP::Post.new("#{repo}/resources")
@@ -800,11 +894,5 @@ module SeleniumTest
     outfile = "/tmp/#{Time.now.to_i}_#{$$}.png"
     puts "Saving screenshot to #{outfile}"
     $driver.save_screenshot(outfile)
-
-    if ENV['TRAVIS']
-      # Send it back to the hudmol devserver
-      system('curl', '-H', 'Content-Type: application/octet-stream',
-             '--data-binary', "@#{outfile}", 'http://aspace.hudmol.com/cgi-bin/store.cgi')
-    end
   end
 end

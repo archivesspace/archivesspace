@@ -1,0 +1,270 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: MixedContentParser
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!MixedContentParser.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (M)</a> &raquo;
+    
+    
+    <span class="title">MixedContentParser</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: MixedContentParser
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">common/mixed_content_parser.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse-class_method" title="parse (class method)">+ (Object) <strong>parse</strong>(content, base_uri, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="parse-class_method">
+  
+    + (<tt>Object</tt>) <strong>parse</strong>(content, base_uri, opts = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/mixed_content_parser.rb', line 5</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_content identifier id'>content</span><span class='comma token'>,</span> <span class='rubyid_base_uri identifier id'>base_uri</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span> <span class='rparen token'>)</span>
+  <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:pretty_print</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_false false kw'>false</span>
+
+  <span class='rubyid_content identifier id'>content</span><span class='dot token'>.</span><span class='rubyid_strip! fid id'>strip!</span>
+  <span class='rubyid_content identifier id'>content</span><span class='dot token'>.</span><span class='rubyid_chomp! fid id'>chomp!</span>
+
+  <span class='comment val'># create an empty document just to get an outputSettings object</span>
+  <span class='comment val'># (seems like the API falls down when we do this directly...)</span>
+  <span class='rubyid_d identifier id'>d</span> <span class='assign token'>=</span> <span class='rubyid_org identifier id'>org</span><span class='dot token'>.</span><span class='rubyid_jsoup identifier id'>jsoup</span><span class='dot token'>.</span><span class='rubyid_Jsoup constant id'>Jsoup</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_d identifier id'>d</span><span class='dot token'>.</span><span class='rubyid_outputSettings identifier id'>outputSettings</span><span class='dot token'>.</span><span class='rubyid_prettyPrint identifier id'>prettyPrint</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:pretty_print</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+  <span class='comment val'># transform blocks of text seperated by line breaks into &lt;p&gt; wrapped blocks</span>
+  <span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='rubyid_content identifier id'>content</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>&quot;\n\n&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_inject identifier id'>inject</span><span class='lparen token'>(</span><span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_c identifier id'>c</span><span class='comma token'>,</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_c identifier id'>c</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;&lt;p&gt;#{n}&lt;/p&gt;&quot;</span>  <span class='rbrace token'>}</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:wrap_blocks</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_cleaned_content identifier id'>cleaned_content</span> <span class='assign token'>=</span> <span class='rubyid_org identifier id'>org</span><span class='dot token'>.</span><span class='rubyid_jsoup identifier id'>jsoup</span><span class='dot token'>.</span><span class='rubyid_Jsoup constant id'>Jsoup</span><span class='dot token'>.</span><span class='rubyid_clean identifier id'>clean</span><span class='lparen token'>(</span><span class='rubyid_content identifier id'>content</span><span class='comma token'>,</span> <span class='rubyid_base_uri identifier id'>base_uri</span><span class='comma token'>,</span> <span class='rubyid_org identifier id'>org</span><span class='dot token'>.</span><span class='rubyid_jsoup identifier id'>jsoup</span><span class='dot token'>.</span><span class='rubyid_safety identifier id'>safety</span><span class='dot token'>.</span><span class='rubyid_Whitelist constant id'>Whitelist</span><span class='dot token'>.</span><span class='rubyid_relaxed identifier id'>relaxed</span><span class='dot token'>.</span><span class='rubyid_addTags identifier id'>addTags</span><span class='lparen token'>(</span><span class='string val'>&quot;emph&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;lb&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_addAttributes identifier id'>addAttributes</span><span class='lparen token'>(</span><span class='string val'>&quot;emph&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;render&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_d identifier id'>d</span><span class='dot token'>.</span><span class='rubyid_outputSettings identifier id'>outputSettings</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_document identifier id'>document</span> <span class='assign token'>=</span> <span class='rubyid_org identifier id'>org</span><span class='dot token'>.</span><span class='rubyid_jsoup identifier id'>jsoup</span><span class='dot token'>.</span><span class='rubyid_Jsoup constant id'>Jsoup</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_cleaned_content identifier id'>cleaned_content</span><span class='comma token'>,</span> <span class='rubyid_base_uri identifier id'>base_uri</span><span class='comma token'>,</span> <span class='rubyid_org identifier id'>org</span><span class='dot token'>.</span><span class='rubyid_jsoup identifier id'>jsoup</span><span class='dot token'>.</span><span class='rubyid_parser identifier id'>parser</span><span class='dot token'>.</span><span class='rubyid_Parser constant id'>Parser</span><span class='dot token'>.</span><span class='rubyid_xmlParser identifier id'>xmlParser</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_document identifier id'>document</span><span class='dot token'>.</span><span class='rubyid_outputSettings identifier id'>outputSettings</span><span class='dot token'>.</span><span class='rubyid_escapeMode identifier id'>escapeMode</span><span class='lparen token'>(</span><span class='rubyid_Java constant id'>Java</span><span class='colon2 op'>::</span><span class='rubyid_OrgJsoupNodes constant id'>OrgJsoupNodes</span><span class='colon2 op'>::</span><span class='rubyid_Entities constant id'>Entities</span><span class='colon2 op'>::</span><span class='rubyid_EscapeMode constant id'>EscapeMode</span><span class='dot token'>.</span><span class='rubyid_xhtml identifier id'>xhtml</span><span class='rparen token'>)</span>
+  <span class='rubyid_document identifier id'>document</span><span class='dot token'>.</span><span class='rubyid_outputSettings identifier id'>outputSettings</span><span class='dot token'>.</span><span class='rubyid_prettyPrint identifier id'>prettyPrint</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:pretty_print</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+  <span class='comment val'># replace lb with br</span>
+  <span class='rubyid_document identifier id'>document</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='string val'>&quot;lb&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_tagName identifier id'>tagName</span><span class='lparen token'>(</span><span class='string val'>&quot;br&quot;</span><span class='rparen token'>)</span>
+
+  <span class='comment val'># tweak the emph tags</span>
+  <span class='lbrack token'>[</span> <span class='string val'>&quot;emph&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;title&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;unitdate&quot;</span>  <span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_tag identifier id'>tag</span><span class='bitor op'>|</span> 
+    <span class='rubyid_document identifier id'>document</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='rubyid_tag identifier id'>tag</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span> <span class='rubyid_emph identifier id'>emph</span> <span class='bitor op'>|</span>
+      <span class='comment val'># make all emph's a span</span>
+      <span class='rubyid_emph identifier id'>emph</span><span class='dot token'>.</span><span class='rubyid_tagName identifier id'>tagName</span><span class='lparen token'>(</span><span class='string val'>&quot;span&quot;</span><span class='rparen token'>)</span>
+
+      <span class='comment val'># &lt;emph&gt; should render as &lt;em&gt; if there is no @render attribute. If there is, render as follows:</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_emph identifier id'>emph</span><span class='dot token'>.</span><span class='rubyid_attr identifier id'>attr</span><span class='lparen token'>(</span><span class='string val'>&quot;render&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+        <span class='rubyid_emph identifier id'>emph</span><span class='dot token'>.</span><span class='rubyid_attr identifier id'>attr</span><span class='lparen token'>(</span><span class='string val'>&quot;class&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;emph render-none&quot;</span><span class='rparen token'>)</span>
+
+      <span class='comment val'># render=&quot;nonproport&quot;: &lt;code&gt;</span>
+      <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_emph identifier id'>emph</span><span class='dot token'>.</span><span class='rubyid_attr identifier id'>attr</span><span class='lparen token'>(</span><span class='string val'>&quot;render&quot;</span><span class='rparen token'>)</span> <span class='eqq op'>===</span> <span class='string val'>&quot;nonproport&quot;</span>
+        <span class='rubyid_emph identifier id'>emph</span><span class='dot token'>.</span><span class='rubyid_attr identifier id'>attr</span><span class='lparen token'>(</span><span class='string val'>&quot;class&quot;</span><span class='comma token'>,</span> <span class='dstring node'>&quot;emph render-#{emph.attr(&quot;render&quot;)}&quot;</span><span class='rparen token'>)</span>
+        <span class='rubyid_emph identifier id'>emph</span><span class='dot token'>.</span><span class='rubyid_tagName identifier id'>tagName</span><span class='lparen token'>(</span><span class='string val'>&quot;code&quot;</span><span class='rparen token'>)</span>
+        <span class='rubyid_emph identifier id'>emph</span><span class='dot token'>.</span><span class='rubyid_removeAttr identifier id'>removeAttr</span><span class='lparen token'>(</span><span class='string val'>&quot;render&quot;</span><span class='rparen token'>)</span>
+
+      <span class='comment val'># set a class so CSS can style based on the render value</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_emph identifier id'>emph</span><span class='dot token'>.</span><span class='rubyid_attr identifier id'>attr</span><span class='lparen token'>(</span><span class='string val'>&quot;class&quot;</span><span class='comma token'>,</span> <span class='dstring node'>&quot;emph render-#{emph.attr(&quot;render&quot;)}&quot;</span><span class='rparen token'>)</span>
+        <span class='rubyid_emph identifier id'>emph</span><span class='dot token'>.</span><span class='rubyid_removeAttr identifier id'>removeAttr</span><span class='lparen token'>(</span><span class='string val'>&quot;render&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_document identifier id'>document</span><span class='dot token'>.</span><span class='rubyid_toString identifier id'>toString</span><span class='lparen token'>(</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:46:03 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

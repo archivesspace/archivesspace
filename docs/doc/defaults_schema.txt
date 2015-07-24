@@ -1,0 +1,46 @@
+JSON Schema: Defaults
+
+Properties
+
+boolean	show_suppressed
+
+boolean	publish
+
+string	accession_browse_column_1
+
+string	accession_browse_column_2
+
+string	accession_browse_column_3
+
+string	accession_browse_column_4
+
+string	accession_browse_column_5
+
+string	resource_browse_column_1
+
+string	resource_browse_column_2
+
+string	resource_browse_column_3
+
+string	resource_browse_column_4
+
+string	resource_browse_column_5
+
+string	digital_object_browse_column_1
+
+string	digital_object_browse_column_2
+
+string	digital_object_browse_column_3
+
+string	digital_object_browse_column_4
+
+string	digital_object_browse_column_5
+
+boolean	default_values
+
+array (string)	note_order
+
+
+
+
+

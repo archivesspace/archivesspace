@@ -1,0 +1,38 @@
+JSON Schema: User
+/users
+Properties
+
+string	uri
+
+string (max length: 255)	username
+
+string (max length: 255)	name
+
+boolean	is_system_user
+
+object	permissions
+
+array (JSONModel(:group) uri)	groups
+
+string (max length: 255)	email
+
+string (max length: 255)	first_name
+
+string (max length: 255)	last_name
+
+string (max length: 255)	telephone
+
+string (max length: 255)	title
+
+string (max length: 255)	department
+
+string (max length: 65000)	additional_contact
+
+object	agent_record
+
+boolean	is_admin
+
+
+
+
+

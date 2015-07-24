@@ -1,6 +1,6 @@
 class UtilsController  < ApplicationController
 
-  set_access_control  :public => [:generate_sequence, :shortcuts],
+  set_access_control  :public => [:generate_sequence, :shortcuts, :note_order],
                       "view_repository" => [:list_properties]
 
 
@@ -30,6 +30,14 @@ class UtilsController  < ApplicationController
 
   def shortcuts
     render_aspace_partial :partial => "shared/modal", :locals => {:title => I18n.t("shortcuts.quick_reference_window"), :partial => "shared/shortcuts", :large => true}
+  end
+
+  def note_order
+    prefs = user_prefs
+    if prefs['note_order'].empty?
+      prefs['note_order'] = view_context.note_types_for(:resource).keys
+    end
+    render :json => prefs['note_order']
   end
 
 end

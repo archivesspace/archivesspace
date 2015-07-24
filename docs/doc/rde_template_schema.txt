@@ -1,0 +1,20 @@
+JSON Schema: Rde_template
+/repositories/:repo_id/rde_templates
+Properties
+
+string	uri
+
+string	name
+
+string	record_type
+
+array (string)	order
+
+array (string)	visible
+
+object	defaults
+
+
+
+
+

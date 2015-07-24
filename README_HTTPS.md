@@ -18,7 +18,7 @@ Unless otherwise stated, it is assumed that you have root access on
 your machines, and all commands are to be run as root (or with sudo).
 
 
-# Step 1: restrict access to application urls
+## Step 1: restrict access to application urls
 
 The standard ArchivesSpace distribution consists of four separate web
 applications. By default, the applications are assigned to the following
@@ -52,7 +52,7 @@ other over HTTP, the first step will be to restrict access to ports `8089`,
 Once this is done, it should be possible to start up the application without
 exposing it to the outside world.
 
-# Step 2: use mod\_ssl and mod\_proxy to serve ArchivesSpace over HTTPS
+## Step 2: use mod\_ssl and mod\_proxy to serve ArchivesSpace over HTTPS
 
 In order for archivists and researchers to access the application, there will
 need to be two URLs that are exposed to the outside world, and per the main

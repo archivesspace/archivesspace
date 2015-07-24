@@ -77,6 +77,10 @@ module TestUtils
             "-Daspace.backend.port=#{port}",
             "-Daspace_integration_test=1"]
 
+    if ENV['GEM_HOME']
+      build_args << "-Dgem_home=#{ENV['GEM_HOME']}"
+    end
+
     if config[:solr_port]
       build_args.push("-Daspace.solr.port=#{config[:solr_port]}")
       java_opts += " -Daspace.config.solr_url=http://localhost:#{config[:solr_port]}"
@@ -97,9 +101,14 @@ module TestUtils
     java_opts = "-Xmx256M -XX:MaxPermSize=128M -Daspace.config.backend_url=#{backend_url}"
     java_opts += build_config_string(config)
 
+    build_args = ["frontend:devserver:integration", "-Daspace.frontend.port=#{port}"]
+
+    if ENV['GEM_HOME']
+      build_args << "-Dgem_home=#{ENV['GEM_HOME']}"
+    end
+
     pid = Process.spawn({:JAVA_OPTS => java_opts, :TEST_MODE => "true"},
-                        "#{base}/../build/run", "frontend:devserver:integration",
-                        "-Daspace.frontend.port=#{port}")
+                        "#{base}/../build/run", *build_args)
 
     TestUtils.wait_for_url("http://localhost:#{port}")
 

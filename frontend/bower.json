@@ -23,7 +23,8 @@
     "lodash": "~3.6.0",
     "jquery.scrollTo": "~2.1.0",
     "bootstrap-select": "git@github.com:silviomoreto/bootstrap-select.git#v1.6.5",
-    "bootstrap3-typeahead": "git@github.com:bassjobsen/Bootstrap-3-Typeahead.git#v3.1.1"
+    "bootstrap3-typeahead": "git@github.com:bassjobsen/Bootstrap-3-Typeahead.git#v3.1.1",
+    "Sortable": "git@github.com:RubaXa/Sortable.git#v1.2.0"
   },
   "install": {
     "path": {
@@ -77,6 +78,13 @@
           },
           {
             "bower_components/bootstrap-select/dist/css/bootstrap-select.css": "bootstrap-select.css.less"
+          }
+        ]
+      },
+      "Sortable": {
+        "mapping": [
+          {
+            "bower_components/Sortable/Sortable.js": "../Sortable.js"
           }
         ]
       }

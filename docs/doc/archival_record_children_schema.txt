@@ -1,0 +1,10 @@
+JSON Schema: Archival_record_children
+
+Properties
+
+array (JSONModel(:archival_object) object)	children
+
+
+
+
+

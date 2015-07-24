@@ -1,0 +1,28 @@
+JSON Schema: Digital_object_component
+/repositories/:repo_id/digital_object_components
+Properties
+
+string (max length: 255)	component_id
+
+string (max length: 255)	label
+
+string (max length: 16384)	title
+
+string (max length: 8192)	display_string
+
+array (JSONModel(:file_version) object)	file_versions
+
+object	parent
+
+object	digital_object
+
+integer	position
+
+array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_digital_object) object"}])	notes
+
+boolean	has_unpublished_ancestor
+
+
+
+
+

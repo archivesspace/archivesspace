@@ -39,7 +39,7 @@ describe 'REST interface' do
                                         "condition_description" => "The condition description",
                                         "accession_date" => "2012-05-03").save
       end
-    }.to_not raise_error(AccessDeniedException)
+    }.to_not raise_error
   end
 
 
@@ -56,15 +56,15 @@ describe 'REST interface' do
 
     expect {
       JSONModel(:accession).all(:page => 1, :page_size => -1)
-    }.to raise_error
+    }.to raise_error(ArgumentError)
 
     expect {
       JSONModel(:accession).all(:page => -1)
-    }.to raise_error
+    }.to raise_error(ArgumentError)
 
     expect {
       JSONModel(:accession).all(:modified_since => -1)
-    }.to raise_error
+    }.to raise_error(ArgumentError)
 
     JSONModel(:accession).all(:page => 1, :page_size => too_many)['results'].size.should eq(nice_amount)
 
@@ -79,7 +79,7 @@ describe 'REST interface' do
 
     expect {
       JSONModel(:group).find(id, 'with_members' => 'moo')
-    }.to raise_error
+    }.to raise_error(RuntimeError)
 
     expect {
       JSONModel(:group).find(id, 'with_members' => nil)
@@ -95,16 +95,16 @@ describe 'REST interface' do
 
     expect {
       JSONModel(:group).find('not an integer')
-    }.to raise_error
+    }.to raise_error(RuntimeError)
   end
 
 
   it "returns a list of all Endpoints" do
     expect {
       endpoint = RESTHelpers::Endpoint.all.first
-      endpoint[:uri].nil?.should be_false
-      endpoint[:method].nil?.should be_false
-      endpoint[:returns].nil?.should be_false
+      endpoint[:uri].nil?.should == false
+      endpoint[:method].nil?.should == false
+      endpoint[:returns].nil?.should == false
     }.to_not raise_error
   end
 

@@ -1,0 +1,16 @@
+JSON Schema: Location_batch
+
+Properties
+
+array (JSONModel(:location) uri)	locations
+
+object	coordinate_1_range
+
+object	coordinate_2_range
+
+object	coordinate_3_range
+
+
+
+
+

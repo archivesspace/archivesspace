@@ -1,0 +1,14 @@
+JSON Schema: Instance
+
+Properties
+
+string	instance_type
+
+JSONModel(:container) object	container
+
+object	digital_object
+
+
+
+
+

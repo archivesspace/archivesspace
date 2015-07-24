@@ -56,6 +56,22 @@
         out.html_safe
       %>
 
+      <h3><%= I18n.t "defaults.note_order_section" %></h3>
+
+      <%=
+        out = "<ul id='note-order-preference-list' class='list-group'>"
+        order = @current_prefs['defaults']['note_order'] ||  []
+
+        order = order.empty? ? note_types_for(:resource).keys : order
+
+        order.each do |type|
+          out  += "<li data-id='#{type}' class='list-group-item'><span class='glyphicon glyphicon-menu-hamburger'></span> #{I18n.t('enumerations._note_types.'+type)}</li>"
+        end
+        out += "</ul>"
+        out.html_safe
+      %>
+
+
       <%= form.hidden_input "junk", "bin me please" %>
    </div>
 <% end %>

@@ -1,5 +1,5 @@
 source "http://rubygems.org"
 
 gem "atomic", '= 1.0.1'
-gem 'rack', '1.4.5'
+gem 'rack', '1.4.7'
 gem "sinatra", '1.3.6', :require => false

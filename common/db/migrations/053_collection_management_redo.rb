@@ -112,6 +112,10 @@ Sequel.migration do
   end
 
   down do
+    alter_table(:collection_management) do
+      add_column(:processing_started_date, Date, :null => true)
+      add_column(:cataloged_note, String, :null => true)
+    end
   end
 
 end

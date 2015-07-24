@@ -23,7 +23,25 @@ class SRUResultSet
 
     @hit_count = doc.xpath("//searchRetrieveResponse/numberOfRecords").text().to_i
     @records = doc.xpath("//recordData/record").map {|record|
+      title = "#{record.xpath("./datafield[@tag='100']/subfield[@code='a']").text().strip} "
+      if record.xpath("./datafield[@tag='100']/subfield[@code='b']")
+        title << "#{record.xpath("./datafield[@tag='100']/subfield[@code='b']").text.strip} " 
+      end
+      
+      if record.xpath("./datafield[@tag='100']/subfield[@code='c']")
+        title << record.xpath("./datafield[@tag='100']/subfield[@code='c']").inject("") { |result, node| "#{node.text.strip} " } 
+      end
+      
+      if record.xpath("./datafield[@tag='100']/subfield[@code='q']")
+        title << "#{record.xpath("./datafield[@tag='100']/subfield[@code='q']").text.strip} " 
+      end
+      
+      if record.xpath("./datafield[@tag='100']/subfield[@code='d']")
+        title << "#{record.xpath("./datafield[@tag='100']/subfield[@code='d']").text.strip} " 
+      end
+      
       {
+        :title => title.strip, 
         :xml => record.to_xml(:indent => 2),
         :lccn => record.xpath("./datafield[@tag='010']/subfield[@code='a']").text().gsub(' ', '')
       }

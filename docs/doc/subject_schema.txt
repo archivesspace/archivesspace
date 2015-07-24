@@ -1,0 +1,30 @@
+JSON Schema: Subject
+/subjects
+Properties
+
+string	uri
+
+string	title
+
+array (JSONModel(:external_id) object)	external_ids
+
+boolean	is_linked_to_published_record
+
+boolean	publish
+
+string	source
+
+string	scope_note
+
+array (JSONModel(:term) uri_or_object)	terms
+
+JSONModel(:vocabulary) uri	vocabulary
+
+string (max length: 255)	authority_id
+
+array (JSONModel(:external_document) object)	external_documents
+
+
+
+
+

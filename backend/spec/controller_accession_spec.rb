@@ -21,7 +21,7 @@ describe 'Accession controller' do
     acc = build(:json_accession)
     acc.uri = "#{$repo}/accessions/9999"
 
-    expect { acc.save }.to raise_error
+    expect { acc.save }.to raise_error(RecordNotFound)
   end
 
 

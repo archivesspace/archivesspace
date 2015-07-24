@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page.title }} {% unless page.short_title%}- ArchivesSpace{% endunless %}</title>
+    <link rel="stylesheet" href="{{ "/assets/stylesheets/main.css" | prepend: site.baseurl }}">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" defer></script>
+    <script src="{{ "/assets/javascripts/site.js" | prepend: site.baseurl }}" type="text/javascript" charset="utf-8" defer></script>
+    <script src="{{ "/assets/javascripts/main.js" | prepend: site.baseurl }}" type="text/javascript" charset="utf-8" defer></script>
+    <link rel="alternate" type="application/atom+xml" href="/blog.xml">
+  </head>
+  <body>
+    <div class="wrapper">
+
+      {% include header.html %}
+
+      <div id="content" class="row">
+
+        {% include sidebar.html %}
+
+        <main id="main" class="main">
+          {% unless page.no_header %}
+            <h1 class="title">{{ page.title }}</h2>
+          {% endunless %}
+          {{ content }}
+        </main>
+      </div><!-- /#content -->
+
+      {% include footer.html %}
+    </div><!-- /.wrapper -->
+  </body>
+</html>

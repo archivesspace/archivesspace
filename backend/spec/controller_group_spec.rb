@@ -75,7 +75,7 @@ describe 'Group controller' do
 
     groups = JSONModel(:group).all({}, {:repo_id => repo_one.id})
 
-    groups.map(&:group_code).include?("group-in-repo2").should be_false
+    groups.map(&:group_code).include?("group-in-repo2").should be_falsey
   end
 
 
@@ -128,9 +128,9 @@ describe 'Group controller' do
 
     groups = JSONModel(:group).all
 
-    groups.any? { |group| group.group_code == "supergroup" }.should be_true
-    groups.any? { |group| group.group_code == "groupthink" }.should be_true
-    groups.any? { |group| group.group_code == "groupygroup" }.should be_true
+    groups.any? { |group| group.group_code == "supergroup" }.should be_truthy
+    groups.any? { |group| group.group_code == "groupthink" }.should be_truthy
+    groups.any? { |group| group.group_code == "groupygroup" }.should be_truthy
   end
 
 
@@ -152,7 +152,7 @@ describe 'Group controller' do
       as_test_user('underling') do
         JSONModel(:group).all
       end
-    }.to raise_error
+    }.to raise_error(AccessDeniedException)
   end
 
 end

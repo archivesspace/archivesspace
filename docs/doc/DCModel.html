@@ -1,0 +1,1805 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: DCModel
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!DCModel.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (D)</a> &raquo;
+    
+    
+    <span class="title">DCModel</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: DCModel
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="ASpaceExport/ExportModel.html" title="ASpaceExport::ExportModel (class)">ASpaceExport::ExportModel</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="ASpaceExport/ExportModel.html" title="ASpaceExport::ExportModel (class)">ASpaceExport::ExportModel</a></span></li>
+          
+            <li class="next">DCModel</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">backend/app/exporters/models/dc.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#creators-instance_method" title="#creators (instance method)">- (Object) <strong>creators</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute creators.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dates-instance_method" title="#dates (instance method)">- (Object) <strong>dates</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute dates.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#identifier-instance_method" title="#identifier (instance method)">- (Object) <strong>identifier</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute identifier.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#language-instance_method" title="#language (instance method)">- (Object) <strong>language</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute language.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#subjects-instance_method" title="#subjects (instance method)">- (Object) <strong>subjects</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute subjects.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#title-instance_method" title="#title (instance method)">- (Object) <strong>title</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute title.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#type-instance_method" title="#type (instance method)">- (Object) <strong>type</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute type.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#DESCRIPTIVE_NOTE_TYPES-class_method" title="DESCRIPTIVE_NOTE_TYPES (class method)">+ (Object) <strong>DESCRIPTIVE_NOTE_TYPES</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#FORMAT_NOTE_TYPES-class_method" title="FORMAT_NOTE_TYPES (class method)">+ (Object) <strong>FORMAT_NOTE_TYPES</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#from_archival_object-class_method" title="from_archival_object (class method)">+ (Object) <strong>from_archival_object</strong>(obj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#from_digital_object-class_method" title="from_digital_object (class method)">+ (Object) <strong>from_digital_object</strong>(obj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#RELATION_NOTE_TYPES-class_method" title="RELATION_NOTE_TYPES (class method)">+ (Object) <strong>RELATION_NOTE_TYPES</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#RIGHTS_NOTE_TYPES-class_method" title="RIGHTS_NOTE_TYPES (class method)">+ (Object) <strong>RIGHTS_NOTE_TYPES</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#SOURCE_NOTE_TYPES-class_method" title="SOURCE_NOTE_TYPES (class method)">+ (Object) <strong>SOURCE_NOTE_TYPES</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each_description-instance_method" title="#each_description (instance method)">- (Object) <strong>each_description</strong> {|repo_info| ... }</a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each_format-instance_method" title="#each_format (instance method)">- (Object) <strong>each_format</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each_relation-instance_method" title="#each_relation (instance method)">- (Object) <strong>each_relation</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each_rights-instance_method" title="#each_rights (instance method)">- (Object) <strong>each_rights</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each_source-instance_method" title="#each_source (instance method)">- (Object) <strong>each_source</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#handle_agents-instance_method" title="#handle_agents (instance method)">- (Object) <strong>handle_agents</strong>(linked_agents) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#handle_date-instance_method" title="#handle_date (instance method)">- (Object) <strong>handle_date</strong>(dates) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#handle_rights-instance_method" title="#handle_rights (instance method)">- (Object) <strong>handle_rights</strong>(rights_statements) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#handle_subjects-instance_method" title="#handle_subjects (instance method)">- (Object) <strong>handle_subjects</strong>(subjects) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (DCModel) <strong>initialize</strong>(obj) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of DCModel.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-class_method" title="JSONModel.JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#all-class_method" title="JSONModel.all (method)">all</a></span>, <span class='object_link'><a href="JSONModel.html#allow_unmapped_enum_value-class_method" title="JSONModel.allow_unmapped_enum_value (method)">allow_unmapped_enum_value</a></span>, <span class='object_link'><a href="JSONModel.html#backend_url-class_method" title="JSONModel.backend_url (method)">backend_url</a></span>, <span class='object_link'><a href="JSONModel.html#client_mode%3F-class_method" title="JSONModel.client_mode? (method)">client_mode?</a></span>, <span class='object_link'><a href="JSONModel.html#custom_validations-class_method" title="JSONModel.custom_validations (method)">custom_validations</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#enum_default_value-class_method" title="JSONModel.enum_default_value (method)">enum_default_value</a></span>, <span class='object_link'><a href="JSONModel.html#enum_values-class_method" title="JSONModel.enum_values (method)">enum_values</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#load_schema-class_method" title="JSONModel.load_schema (method)">load_schema</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#models-class_method" title="JSONModel.models (method)">models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_jsonmodel_ref-class_method" title="JSONModel.parse_jsonmodel_ref (method)">parse_jsonmodel_ref</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#repository-class_method" title="JSONModel.repository (method)">repository</a></span>, <span class='object_link'><a href="JSONModel.html#repository_for-class_method" title="JSONModel.repository_for (method)">repository_for</a></span>, <span class='object_link'><a href="JSONModel.html#schema_src-class_method" title="JSONModel.schema_src (method)">schema_src</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-class_method" title="JSONModel.strict_mode (method)">strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode%3F-class_method" title="JSONModel.strict_mode? (method)">strict_mode?</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="ASpaceExport/ExportModel.html" title="ASpaceExport::ExportModel (class)">ASpaceExport::ExportModel</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="ASpaceExport/ExportModel.html#apply_map-instance_method" title="ASpaceExport::ExportModel#apply_map (method)">#apply_map</a></span>, <span class='object_link'><a href="ASpaceExport/ExportModel.html#inherited-class_method" title="ASpaceExport::ExportModel.inherited (method)">inherited</a></span>, <span class='object_link'><a href="ASpaceExport/ExportModel.html#model_for-class_method" title="ASpaceExport::ExportModel.model_for (method)">model_for</a></span>, <span class='object_link'><a href="ASpaceExport/ExportModel.html#model_for%3F-class_method" title="ASpaceExport::ExportModel.model_for? (method)">model_for?</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="ASpaceExport/ExportModelHelpers.html" title="ASpaceExport::ExportModelHelpers (module)">ASpaceExport::ExportModelHelpers</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="ASpaceExport/ExportModelHelpers.html#extract_date_string-instance_method" title="ASpaceExport::ExportModelHelpers#extract_date_string (method)">#extract_date_string</a></span>, <span class='object_link'><a href="ASpaceExport/ExportModelHelpers.html#extract_note_content-instance_method" title="ASpaceExport::ExportModelHelpers#extract_note_content (method)">#extract_note_content</a></span>, <span class='object_link'><a href="ASpaceExport/ExportModelHelpers.html#get_subnotes_by_type-instance_method" title="ASpaceExport::ExportModelHelpers#get_subnotes_by_type (method)">#get_subnotes_by_type</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="DCModel (class)">DCModel</a></span></tt>) <strong>initialize</strong>(obj) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns a new instance of DCModel</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+27
+28
+29
+30
+31
+32
+33
+34</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 27</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+  <span class='rubyid_@creators ivar id'>@creators</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@subjects ivar id'>@subjects</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@sources ivar id'>@sources</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@dates ivar id'>@dates</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@rights ivar id'>@rights</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@json ivar id'>@json</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="creators=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="creators-instance_method">
+  
+    - (<tt>Object</tt>) <strong>creators</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute creators</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_creators identifier id'>creators</span>
+  <span class='rubyid_@creators ivar id'>@creators</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="dates=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="dates-instance_method">
+  
+    - (<tt>Object</tt>) <strong>dates</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute dates</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+10
+11
+12</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 10</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_dates identifier id'>dates</span>
+  <span class='rubyid_@dates ivar id'>@dates</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="identifier=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="identifier-instance_method">
+  
+    - (<tt>Object</tt>) <strong>identifier</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute identifier</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+7
+8
+9</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 7</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_identifier identifier id'>identifier</span>
+  <span class='rubyid_@identifier ivar id'>@identifier</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="language=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="language-instance_method">
+  
+    - (<tt>Object</tt>) <strong>language</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute language</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+12
+13
+14</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 12</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_language identifier id'>language</span>
+  <span class='rubyid_@language ivar id'>@language</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="subjects=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="subjects-instance_method">
+  
+    - (<tt>Object</tt>) <strong>subjects</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute subjects</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+9
+10
+11</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 9</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_subjects identifier id'>subjects</span>
+  <span class='rubyid_@subjects ivar id'>@subjects</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="title=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="title-instance_method">
+  
+    - (<tt>Object</tt>) <strong>title</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute title</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+6
+7
+8</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 6</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_title identifier id'>title</span>
+  <span class='rubyid_@title ivar id'>@title</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="type=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="type-instance_method">
+  
+    - (<tt>Object</tt>) <strong>type</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute type</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+11
+12
+13</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 11</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_type identifier id'>type</span>
+  <span class='rubyid_@type ivar id'>@type</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="DESCRIPTIVE_NOTE_TYPES-class_method">
+  
+    + (<tt>Object</tt>) <strong>DESCRIPTIVE_NOTE_TYPES</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62
+63</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 60</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_DESCRIPTIVE_NOTE_TYPES constant id'>DESCRIPTIVE_NOTE_TYPES</span>
+  <span class='rubyid_@descriptive_note_type ivar id'>@descriptive_note_type</span> <span class='opasgn op'>||=</span> <span class='dstring node'>%w(bioghist prefercite)</span>
+  <span class='rubyid_@descriptive_note_type ivar id'>@descriptive_note_type</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="FORMAT_NOTE_TYPES-class_method">
+  
+    + (<tt>Object</tt>) <strong>FORMAT_NOTE_TYPES</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+70
+71
+72
+73</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 70</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_FORMAT_NOTE_TYPES constant id'>FORMAT_NOTE_TYPES</span>
+  <span class='rubyid_@format_note_type ivar id'>@format_note_type</span> <span class='opasgn op'>||=</span> <span class='dstring node'>%w(dimensions physdesc)</span>
+  <span class='rubyid_@format_note_type ivar id'>@format_note_type</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="from_archival_object-class_method">
+  
+    + (<tt>Object</tt>) <strong>from_archival_object</strong>(obj) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+37
+38
+39
+40
+41
+42
+43
+44</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 37</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_archival_object identifier id'>from_archival_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_dc identifier id'>dc</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_dc identifier id'>dc</span><span class='dot token'>.</span><span class='rubyid_apply_map identifier id'>apply_map</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_@archival_object_map ivar id'>@archival_object_map</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_dc identifier id'>dc</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="from_digital_object-class_method">
+  
+    + (<tt>Object</tt>) <strong>from_digital_object</strong>(obj) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 47</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_digital_object identifier id'>from_digital_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_dc identifier id'>dc</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_archival_object identifier id'>from_archival_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_dc identifier id'>dc</span><span class='dot token'>.</span><span class='rubyid_apply_map identifier id'>apply_map</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_@digital_object_map ivar id'>@digital_object_map</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_dc identifier id'>dc</span><span class='dot token'>.</span><span class='rubyid_identifier identifier id'>identifier</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{AppConfig[:backend_url]}#{obj.uri}&quot;</span>
+
+  <span class='rubyid_dc identifier id'>dc</span><span class='dot token'>.</span><span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_digital_object_type identifier id'>digital_object_type</span>
+
+  <span class='rubyid_dc identifier id'>dc</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="RELATION_NOTE_TYPES-class_method">
+  
+    + (<tt>Object</tt>) <strong>RELATION_NOTE_TYPES</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+80
+81
+82
+83</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 80</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_RELATION_NOTE_TYPES constant id'>RELATION_NOTE_TYPES</span>
+  <span class='rubyid_@relation_note_type ivar id'>@relation_note_type</span> <span class='opasgn op'>||=</span> <span class='dstring node'>%w(relatedmaterial)</span>
+  <span class='rubyid_@relation_note_type ivar id'>@relation_note_type</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="RIGHTS_NOTE_TYPES-class_method">
+  
+    + (<tt>Object</tt>) <strong>RIGHTS_NOTE_TYPES</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+65
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 65</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_RIGHTS_NOTE_TYPES constant id'>RIGHTS_NOTE_TYPES</span>
+  <span class='rubyid_@rights_note_type ivar id'>@rights_note_type</span> <span class='opasgn op'>||=</span> <span class='dstring node'>%w(accessrestrict userestrict)</span>
+  <span class='rubyid_@rights_note_type ivar id'>@rights_note_type</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="SOURCE_NOTE_TYPES-class_method">
+  
+    + (<tt>Object</tt>) <strong>SOURCE_NOTE_TYPES</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+75
+76
+77
+78</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 75</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_SOURCE_NOTE_TYPES constant id'>SOURCE_NOTE_TYPES</span>
+  <span class='rubyid_@source_note_type ivar id'>@source_note_type</span> <span class='opasgn op'>||=</span> <span class='dstring node'>%w(originalsloc)</span>
+  <span class='rubyid_@source_note_type ivar id'>@source_note_type</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="each_description-instance_method">
+  
+    - (<tt>Object</tt>) <strong>each_description</strong> {|repo_info| ... }
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>repo_info</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 85</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_each_description identifier id'>each_description</span>
+  <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_DESCRIPTIVE_NOTE_TYPES constant id'>DESCRIPTIVE_NOTE_TYPES</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span>
+      <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_extract_note_content identifier id'>extract_note_content</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_repo identifier id'>repo</span> <span class='assign token'>=</span> <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_repository identifier id'>repository</span><span class='lbrack token'>[</span><span class='string val'>'_resolved'</span><span class='rbrack token'>]</span>
+  <span class='rubyid_repo_info identifier id'>repo_info</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;Digital object made available by #{repo['name']}&quot;</span>
+  <span class='rubyid_repo_info identifier id'>repo_info</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot; (#{repo['url']})&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_repo identifier id'>repo</span><span class='lbrack token'>[</span><span class='string val'>'url'</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_repo_info identifier id'>repo_info</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="each_format-instance_method">
+  
+    - (<tt>Object</tt>) <strong>each_format</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+107
+108
+109
+110
+111
+112
+113</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 107</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_each_format identifier id'>each_format</span>
+  <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_FORMAT_NOTE_TYPES constant id'>FORMAT_NOTE_TYPES</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span>
+      <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_extract_note_content identifier id'>extract_note_content</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="each_relation-instance_method">
+  
+    - (<tt>Object</tt>) <strong>each_relation</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+123
+124
+125
+126
+127
+128
+129</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 123</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_each_relation identifier id'>each_relation</span>
+  <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_RELATION_NOTE_TYPES constant id'>RELATION_NOTE_TYPES</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span>
+      <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_extract_note_content identifier id'>extract_note_content</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="each_rights-instance_method">
+  
+    - (<tt>Object</tt>) <strong>each_rights</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+99
+100
+101
+102
+103
+104
+105</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 99</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_each_rights identifier id'>each_rights</span>
+  <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_RIGHTS_NOTE_TYPES constant id'>RIGHTS_NOTE_TYPES</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span>
+      <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_extract_note_content identifier id'>extract_note_content</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="each_source-instance_method">
+  
+    - (<tt>Object</tt>) <strong>each_source</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+115
+116
+117
+118
+119
+120
+121</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 115</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_each_source identifier id'>each_source</span>
+  <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_SOURCE_NOTE_TYPES constant id'>SOURCE_NOTE_TYPES</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span>
+      <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_extract_note_content identifier id'>extract_note_content</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="handle_agents-instance_method">
+  
+    - (<tt>Object</tt>) <strong>handle_agents</strong>(linked_agents) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 132</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_agents identifier id'>handle_agents</span><span class='lparen token'>(</span><span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='rparen token'>)</span>
+  <span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_link identifier id'>link</span><span class='bitor op'>|</span>
+
+    <span class='rubyid_role identifier id'>role</span> <span class='assign token'>=</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>'role'</span><span class='rbrack token'>]</span>
+    <span class='rubyid_agent identifier id'>agent</span> <span class='assign token'>=</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>'_resolved'</span><span class='rbrack token'>]</span>
+
+    <span class='rubyid_case case kw'>case</span> <span class='rubyid_role identifier id'>role</span>
+    <span class='rubyid_when when kw'>when</span> <span class='string val'>'creator'</span>        
+      <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='string val'>'names'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_creators identifier id'>creators</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_n identifier id'>n</span><span class='lbrack token'>[</span><span class='string val'>'sort_name'</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
+    <span class='rubyid_when when kw'>when</span> <span class='string val'>'subject'</span>
+      <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='string val'>'names'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_subjects identifier id'>subjects</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_n identifier id'>n</span><span class='lbrack token'>[</span><span class='string val'>'sort_name'</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="handle_date-instance_method">
+  
+    - (<tt>Object</tt>) <strong>handle_date</strong>(dates) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+148
+149
+150
+151
+152</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 148</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_date identifier id'>handle_date</span><span class='lparen token'>(</span><span class='rubyid_dates identifier id'>dates</span><span class='rparen token'>)</span>
+  <span class='rubyid_dates identifier id'>dates</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_date identifier id'>date</span><span class='bitor op'>|</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_dates identifier id'>dates</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_extract_date_string identifier id'>extract_date_string</span><span class='lparen token'>(</span><span class='rubyid_date identifier id'>date</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="handle_rights-instance_method">
+  
+    - (<tt>Object</tt>) <strong>handle_rights</strong>(rights_statements) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 155</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_rights identifier id'>handle_rights</span><span class='lparen token'>(</span><span class='rubyid_rights_statements identifier id'>rights_statements</span><span class='rparen token'>)</span>
+  <span class='rubyid_rights_statements identifier id'>rights_statements</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_rs identifier id'>rs</span><span class='bitor op'>|</span>
+    
+    <span class='rubyid_case case kw'>case</span> <span class='rubyid_rs identifier id'>rs</span><span class='lbrack token'>[</span><span class='string val'>'rights_type'</span><span class='rbrack token'>]</span>
+    
+    <span class='rubyid_when when kw'>when</span> <span class='string val'>'license'</span>
+      <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='string val'>'rights'</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;License: #{rs.license_identifier_terms}&quot;</span>
+    <span class='rubyid_end end kw'>end</span>
+    
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_rs identifier id'>rs</span><span class='lbrack token'>[</span><span class='string val'>'permissions'</span><span class='rbrack token'>]</span>
+      <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='string val'>'rights'</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;Permissions: #{rs.permissions}&quot;</span>
+    <span class='rubyid_end end kw'>end</span>
+    
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_rs identifier id'>rs</span><span class='lbrack token'>[</span><span class='string val'>'restrictions'</span><span class='rbrack token'>]</span>
+      <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='string val'>'rights'</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;Restriction: #{rs.restrictions}&quot;</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>  
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="handle_subjects-instance_method">
+  
+    - (<tt>Object</tt>) <strong>handle_subjects</strong>(subjects) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+174
+175
+176
+177
+178</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/dc.rb', line 174</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_subjects identifier id'>handle_subjects</span><span class='lparen token'>(</span><span class='rubyid_subjects identifier id'>subjects</span><span class='rparen token'>)</span>
+  <span class='rubyid_subjects identifier id'>subjects</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_s identifier id'>s</span><span class='bitor op'>|</span> <span class='rubyid_s identifier id'>s</span><span class='lbrack token'>[</span><span class='string val'>'_resolved'</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_subject identifier id'>subject</span><span class='bitor op'>|</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_subjects identifier id'>subjects</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_subject identifier id'>subject</span><span class='lbrack token'>[</span><span class='string val'>'terms'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_t identifier id'>t</span><span class='bitor op'>|</span> <span class='rubyid_t identifier id'>t</span><span class='lbrack token'>[</span><span class='string val'>'term'</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>'--'</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:46:09 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

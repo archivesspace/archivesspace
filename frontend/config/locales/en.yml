@@ -686,6 +686,7 @@ en:
         note_definedlist_item: Add Item
         expand: Expand
         collapse: Collapse
+        apply_note_order: Apply Standard Note Order
 
   related_accession:
     _frontend:
@@ -833,6 +834,7 @@ en:
     sections:
       basic_information: Basic Information
       date: Date
+      extent: Extent
       instance: Instance
       notes: Notes
       file_version: File Version

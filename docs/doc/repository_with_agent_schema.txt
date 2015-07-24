@@ -1,0 +1,14 @@
+JSON Schema: Repository_with_agent
+/repositories/with_agent
+Properties
+
+string	uri
+
+JSONModel(:repository) object	repository
+
+JSONModel(:agent_corporate_entity) object	agent_representation
+
+
+
+
+

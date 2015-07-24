@@ -1,0 +1,647 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: MODSSerializer
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!MODSSerializer.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (M)</a> &raquo;
+    
+    
+    <span class="title">MODSSerializer</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: MODSSerializer
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="ASpaceExport/Serializer.html" title="ASpaceExport::Serializer (class)">ASpaceExport::Serializer</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="ASpaceExport/Serializer.html" title="ASpaceExport::Serializer (class)">ASpaceExport::Serializer</a></span></li>
+          
+            <li class="next">MODSSerializer</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">backend/app/exporters/serializers/mods.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#serialize-instance_method" title="#serialize (instance method)">- (Object) <strong>serialize</strong>(mods, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#serialize_mods-instance_method" title="#serialize_mods (instance method)">- (Object) <strong>serialize_mods</strong>(mods, xml) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#serialize_mods_inner-instance_method" title="#serialize_mods_inner (instance method)">- (Object) <strong>serialize_mods_inner</strong>(mods, xml) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#serialize_name-instance_method" title="#serialize_name (instance method)">- (Object) <strong>serialize_name</strong>(name, xml) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#serialize_note-instance_method" title="#serialize_note (instance method)">- (Object) <strong>serialize_note</strong>(note, xml) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-class_method" title="JSONModel.JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#all-class_method" title="JSONModel.all (method)">all</a></span>, <span class='object_link'><a href="JSONModel.html#allow_unmapped_enum_value-class_method" title="JSONModel.allow_unmapped_enum_value (method)">allow_unmapped_enum_value</a></span>, <span class='object_link'><a href="JSONModel.html#backend_url-class_method" title="JSONModel.backend_url (method)">backend_url</a></span>, <span class='object_link'><a href="JSONModel.html#client_mode%3F-class_method" title="JSONModel.client_mode? (method)">client_mode?</a></span>, <span class='object_link'><a href="JSONModel.html#custom_validations-class_method" title="JSONModel.custom_validations (method)">custom_validations</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#enum_default_value-class_method" title="JSONModel.enum_default_value (method)">enum_default_value</a></span>, <span class='object_link'><a href="JSONModel.html#enum_values-class_method" title="JSONModel.enum_values (method)">enum_values</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#load_schema-class_method" title="JSONModel.load_schema (method)">load_schema</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#models-class_method" title="JSONModel.models (method)">models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_jsonmodel_ref-class_method" title="JSONModel.parse_jsonmodel_ref (method)">parse_jsonmodel_ref</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#repository-class_method" title="JSONModel.repository (method)">repository</a></span>, <span class='object_link'><a href="JSONModel.html#repository_for-class_method" title="JSONModel.repository_for (method)">repository_for</a></span>, <span class='object_link'><a href="JSONModel.html#schema_src-class_method" title="JSONModel.schema_src (method)">schema_src</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-class_method" title="JSONModel.strict_mode (method)">strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode%3F-class_method" title="JSONModel.strict_mode? (method)">strict_mode?</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="ASpaceExport/Serializer.html" title="ASpaceExport::Serializer (class)">ASpaceExport::Serializer</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="ASpaceExport/Serializer.html#inherited-class_method" title="ASpaceExport::Serializer.inherited (method)">inherited</a></span>, <span class='object_link'><a href="ASpaceExport/Serializer.html#serializer_for-class_method" title="ASpaceExport::Serializer.serializer_for (method)">serializer_for</a></span>, <span class='object_link'><a href="ASpaceExport/Serializer.html#serializer_for%3F-class_method" title="ASpaceExport::Serializer.serializer_for? (method)">serializer_for?</a></span>, <span class='object_link'><a href="ASpaceExport/Serializer.html#with_namespace-class_method" title="ASpaceExport::Serializer.with_namespace (method)">with_namespace</a></span></p>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="serialize-instance_method">
+  
+    - (<tt>Object</tt>) <strong>serialize</strong>(mods, opts = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+6
+7
+8
+9
+10
+11
+12
+13</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 6</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize identifier id'>serialize</span><span class='lparen token'>(</span><span class='rubyid_mods identifier id'>mods</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_builder identifier id'>builder</span> <span class='assign token'>=</span> <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='colon2 op'>::</span><span class='rubyid_Builder constant id'>Builder</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:encoding</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;UTF-8&quot;</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_xml identifier id'>xml</span><span class='bitor op'>|</span>
+    <span class='rubyid_serialize_mods identifier id'>serialize_mods</span><span class='lparen token'>(</span><span class='rubyid_mods identifier id'>mods</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>     
+  <span class='rubyid_end end kw'>end</span>
+  
+  <span class='rubyid_builder identifier id'>builder</span><span class='dot token'>.</span><span class='rubyid_to_xml identifier id'>to_xml</span> 
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="serialize_mods-instance_method">
+  
+    - (<tt>Object</tt>) <strong>serialize_mods</strong>(mods, xml) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 15</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_mods identifier id'>serialize_mods</span><span class='lparen token'>(</span><span class='rubyid_mods identifier id'>mods</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_root_args identifier id'>root_args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>'version'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'3.4'</span><span class='rbrace token'>}</span>
+  <span class='rubyid_root_args identifier id'>root_args</span><span class='lbrack token'>[</span><span class='string val'>'xmlns'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>'http://www.loc.gov/mods/v3'</span> 
+  
+  <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_mods identifier id'>mods</span><span class='lparen token'>(</span><span class='rubyid_root_args identifier id'>root_args</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
+    <span class='rubyid_serialize_mods_inner identifier id'>serialize_mods_inner</span><span class='lparen token'>(</span><span class='rubyid_mods identifier id'>mods</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
+  <span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="serialize_mods_inner-instance_method">
+  
+    - (<tt>Object</tt>) <strong>serialize_mods_inner</strong>(mods, xml) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 26</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_mods_inner identifier id'>serialize_mods_inner</span><span class='lparen token'>(</span><span class='rubyid_mods identifier id'>mods</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_titleInfo identifier id'>titleInfo</span> <span class='lbrace token'>{</span>
+    <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span> <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span>
+  <span class='rbrace token'>}</span>
+  
+  <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_typeOfResource identifier id'>typeOfResource</span> <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_type_of_resource identifier id'>type_of_resource</span>
+  
+
+  <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_language identifier id'>language</span> <span class='lbrace token'>{</span>
+    <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_languageTerm identifier id'>languageTerm</span><span class='lparen token'>(</span><span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'code'</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+      <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_language_term identifier id'>language_term</span>
+    <span class='rbrace token'>}</span>
+    
+  <span class='rbrace token'>}</span>
+  
+  <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_physicalDescription identifier id'>physicalDescription</span><span class='lbrace token'>{</span>
+    <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_extents identifier id'>extents</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_extent identifier id'>extent</span><span class='bitor op'>|</span>
+      <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_extent identifier id'>extent</span> <span class='rubyid_extent identifier id'>extent</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rbrace token'>}</span>
+  
+  <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_note identifier id'>note</span><span class='dot token'>.</span><span class='rubyid_wrapping_tag identifier id'>wrapping_tag</span>
+      <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='dot token'>.</span><span class='rubyid_wrapping_tag identifier id'>wrapping_tag</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+        <span class='rubyid_serialize_note identifier id'>serialize_note</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
+      <span class='rbrace token'>}</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_serialize_note identifier id'>serialize_note</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_repo_note identifier id'>repo_note</span> <span class='assign token'>=</span> <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_repository_note identifier id'>repository_note</span><span class='rparen token'>)</span>
+    <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_note identifier id'>note</span><span class='lparen token'>(</span><span class='symbol val'>:displayLabel</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_repo_note identifier id'>repo_note</span><span class='dot token'>.</span><span class='rubyid_label identifier id'>label</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+      <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='rubyid_repo_note identifier id'>repo_note</span><span class='dot token'>.</span><span class='rubyid_content identifier id'>content</span>
+    <span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_subjects identifier id'>subjects</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_subject identifier id'>subject</span><span class='bitor op'>|</span>
+    <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_subject identifier id'>subject</span><span class='lparen token'>(</span><span class='symbol val'>:authority</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_subject identifier id'>subject</span><span class='lbrack token'>[</span><span class='string val'>'source'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+      <span class='rubyid_subject identifier id'>subject</span><span class='lbrack token'>[</span><span class='string val'>'terms'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_term identifier id'>term</span><span class='bitor op'>|</span>
+        <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_topic identifier id'>topic</span> <span class='rubyid_term identifier id'>term</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
+  
+  <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_names identifier id'>names</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span>
+
+    <span class='rubyid_case case kw'>case</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>'role'</span><span class='rbrack token'>]</span>
+    <span class='rubyid_when when kw'>when</span> <span class='string val'>'subject'</span>
+      <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_subject identifier id'>subject</span> <span class='lbrace token'>{</span>
+        <span class='rubyid_serialize_name identifier id'>serialize_name</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
+      <span class='rbrace token'>}</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_serialize_name identifier id'>serialize_name</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+  
+  <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_parts identifier id'>parts</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_part identifier id'>part</span><span class='bitor op'>|</span>
+    <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_part identifier id'>part</span><span class='lparen token'>(</span><span class='symbol val'>:ID</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_part identifier id'>part</span><span class='lbrack token'>[</span><span class='string val'>'id'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+      <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_detail identifier id'>detail</span> <span class='lbrace token'>{</span>
+        <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span> <span class='rubyid_part identifier id'>part</span><span class='lbrack token'>[</span><span class='string val'>'title'</span><span class='rbrack token'>]</span>
+      <span class='rbrace token'>}</span>
+    <span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># flattened tree</span>
+  <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_each_related_item identifier id'>each_related_item</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_item identifier id'>item</span><span class='bitor op'>|</span>
+    <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_relatedItem identifier id'>relatedItem</span><span class='lparen token'>(</span><span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'constituent'</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+      <span class='rubyid_serialize_mods_inner identifier id'>serialize_mods_inner</span><span class='lparen token'>(</span><span class='rubyid_item identifier id'>item</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
+    <span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="serialize_name-instance_method">
+  
+    - (<tt>Object</tt>) <strong>serialize_name</strong>(name, xml) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 101</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_name identifier id'>serialize_name</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
+  <span class='rubyid_atts identifier id'>atts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+  <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:authority</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>'source'</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>'source'</span><span class='rbrack token'>]</span>
+  <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span><span class='lparen token'>(</span><span class='rubyid_atts identifier id'>atts</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+    <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>'parts'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_part identifier id'>part</span><span class='bitor op'>|</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_part identifier id'>part</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span>
+        <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_namePart identifier id'>namePart</span><span class='lparen token'>(</span><span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_part identifier id'>part</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+          <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='rubyid_part identifier id'>part</span><span class='lbrack token'>[</span><span class='string val'>'content'</span><span class='rbrack token'>]</span>
+        <span class='rbrace token'>}</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_namePart identifier id'>namePart</span> <span class='rubyid_part identifier id'>part</span><span class='lbrack token'>[</span><span class='string val'>'content'</span><span class='rbrack token'>]</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_role identifier id'>role</span> <span class='lbrace token'>{</span>
+      <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_roleTerm identifier id'>roleTerm</span><span class='lparen token'>(</span><span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'text'</span><span class='comma token'>,</span> <span class='symbol val'>:authority</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'marcrelator'</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+        <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>'role'</span><span class='rbrack token'>]</span>
+      <span class='rbrace token'>}</span>
+    <span class='rbrace token'>}</span>
+  <span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="serialize_note-instance_method">
+  
+    - (<tt>Object</tt>) <strong>serialize_note</strong>(note, xml) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+123
+124
+125
+126
+127
+128
+129
+130
+131</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 123</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_note identifier id'>serialize_note</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
+  <span class='rubyid_atts identifier id'>atts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_note identifier id'>note</span><span class='dot token'>.</span><span class='rubyid_type identifier id'>type</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_note identifier id'>note</span><span class='dot token'>.</span><span class='rubyid_type identifier id'>type</span>
+  <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:displayLabel</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_note identifier id'>note</span><span class='dot token'>.</span><span class='rubyid_label identifier id'>label</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_note identifier id'>note</span><span class='dot token'>.</span><span class='rubyid_label identifier id'>label</span>
+
+  <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='dot token'>.</span><span class='rubyid_tag identifier id'>tag</span><span class='comma token'>,</span> <span class='rubyid_atts identifier id'>atts</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+    <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='rubyid_note identifier id'>note</span><span class='dot token'>.</span><span class='rubyid_content identifier id'>content</span>
+  <span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:46:14 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

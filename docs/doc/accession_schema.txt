@@ -1,0 +1,86 @@
+JSON Schema: Accession
+/repositories/:repo_id/accessions
+Properties
+
+string	uri
+
+array (JSONModel(:external_id) object)	external_ids
+
+string (max length: 8192)	title
+
+string (max length: 8192)	display_string
+
+string (max length: 255)	id_0
+
+string (max length: 255)	id_1
+
+string (max length: 255)	id_2
+
+string (max length: 255)	id_3
+
+string (max length: 65000)	content_description
+
+string (max length: 65000)	condition_description
+
+string (max length: 65000)	disposition
+
+string (max length: 65000)	inventory
+
+string (max length: 65000)	provenance
+
+array ([{"type"=>"JSONModel(:accession_parts_relationship) object"}, {"type"=>"JSONModel(:accession_sibling_relationship) object"}])	related_accessions
+
+date	accession_date
+
+boolean	publish
+
+array (Object (ref, _resolved))	classifications
+
+array (Object (ref, _resolved))	subjects
+
+array (Object (ref, _resolved))	linked_events
+
+array (JSONModel(:extent) object)	extents
+
+array (JSONModel(:date) object)	dates
+
+array (JSONModel(:external_document) object)	external_documents
+
+array (JSONModel(:rights_statement) object)	rights_statements
+
+array (JSONModel(:deaccession) object)	deaccessions
+
+JSONModel(:collection_management) object	collection_management
+
+JSONModel(:user_defined) object	user_defined
+
+array (Object (ref, _resolved))	related_resources
+
+boolean	suppressed
+
+string	acquisition_type
+
+string	resource_type
+
+boolean	restrictions_apply
+
+string (max length: 65000)	retention_rule
+
+string (max length: 65000)	general_note
+
+boolean	access_restrictions
+
+string (max length: 65000)	access_restrictions_note
+
+boolean	use_restrictions
+
+string (max length: 65000)	use_restrictions_note
+
+array (Object (role, terms, title, relator, ref, _resolved))	linked_agents
+
+array (JSONModel(:instance) object)	instances
+
+
+
+
+

@@ -18,6 +18,10 @@ Windows (XP, Windows 7, Windows 8, Windows Server 2008 & 2012 ).
 
 MySQL is not required, but is **strongly** recommended for production use.
 
+**The embedded database is for testing purposes only. You should use MySQL for
+any data intended for production, including data in a test instance that you
+intend to move over to a production instance.**
+
 # Getting started
 
 The quickest way to get ArchivesSpace up and running is to download
@@ -257,7 +261,6 @@ and the script will generate a file containing:
 
   * A snapshot of the demo database (if you're using the demo
     database)
-
   * A snapshot of the Solr index and related indexer files
 
 If you are running against MySQL and have `mysqldump` installed, you
@@ -307,7 +310,6 @@ When recovering an ArchivesSpace installation from backup, you will
 need to restore:
 
   * Your database (either the demo database or MySQL)
-
   * The search indexes and related indexer files
 
 Of the two, the database backup is the most crucial--search indexes
@@ -355,14 +357,12 @@ ArchivesSpace indexer:
 
   * solr.backup-[timestamp]/snapshot.[timestamp] -- a snapshot of the
     index files.
-
   * solr.backup-[timestamp]/indexer_state -- the files used by the
     indexer to remember what it last indexed.
 
 To restore these directories from backup:
 
   * Copy your index snapshot to `/path/to/archivesspace/data/solr_index/index`
-
   * Copy your indexer_state backup to `/path/to/archivesspace/data/indexer_state`
 
 For example:
@@ -514,9 +514,6 @@ customize ArchivesSpace, please see the README in the `plugins` directory.
 
 [Upgrading to a new release of ArchivesSpace](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING.md)
 
-Version specific considerations:
-
-- [1.1.0](UPGRADING_1.1.0.md)
 
 # Monitoring with New Relic
 

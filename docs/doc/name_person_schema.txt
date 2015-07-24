@@ -1,0 +1,24 @@
+JSON Schema: Name_person
+
+Properties
+
+string (max length: 255)	primary_name
+
+string (max length: 16384)	title
+
+string	name_order
+
+string (max length: 65000)	prefix
+
+string (max length: 65000)	rest_of_name
+
+string (max length: 65000)	suffix
+
+string (max length: 65000)	fuller_form
+
+string (max length: 255)	number
+
+
+
+
+

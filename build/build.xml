@@ -364,6 +364,7 @@
 
 
   <!-- Selenium -->
+  <!-- !! Replaced with selenium:staff !! see below -->
   <target name="selenium:test" depends="set-classpath, frontend:clean" description="Run the Selenium tests">
     <property name="spec" value=""/>
     <property name="example" value=""/>
@@ -410,6 +411,25 @@
     </java>
   </target>
 
+  <!-- TODO: add plugin support -->
+  <target name="selenium:staff" depends="set-classpath, frontend:clean" description="Run integration tests on the staff UI">
+    <property name="cores" value="2"/>
+    <property name="groups" value=""/>
+    <condition property="only-group-arg" value="only_group=${groups}" else="">
+      <length string="${groups}"
+              when="gt" length="0" />
+    </condition>
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
+          failonerror="true"
+          dir="../selenium">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS} -Xmx64m -XX:MaxPermSize=96m"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <arg line="--1.9 -S rake integration:staff cores=${cores} ${only-group-arg}" />
+    </java>
+  </target>
+
 
   <target name="doc:yard" depends="set-classpath" description="Generate the full YARD documentation">
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
@@ -445,6 +465,19 @@
       <arg line="--1.9 build/gems/bin/yardoc -f txt" />
     </java>
   </target>
+  
+  <target name="doc:build" depends="set-classpath, doc:yard" description="Generate documentation for endpoints">
+    <property name="match" value=""/>
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" 
+          dir="..">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <arg line="--1.9 -Iapp scripts/build_docs.rb"/>
+      <arg value="${match}"/>
+    </java>
+  </target>
 
 
   <target name="dump-file">
@@ -477,6 +510,14 @@
     <antcall target="travis:db:nuke" />
   </target>
 
+  <!-- ^- Replaced by -v -->
+
+  <target name="travis:selenium:staff" depends="set-classpath, bootstrap">
+    <antcall target="db:migrate" />
+    <antcall target="selenium:staff" />
+    <antcall target="travis:db:nuke" />
+  </target>
+
   <target name="travis:selenium:public" depends="set-classpath, bootstrap">
     <antcall target="db:migrate" />
     <antcall target="selenium:public:test" />
@@ -498,6 +539,7 @@
 
     <mkdir dir="target/archivesspace/config" />
     <mkdir dir="target/archivesspace/data" />
+    <mkdir dir="target/archivesspace/docs" />
     <mkdir dir="target/archivesspace/wars" />
     <mkdir dir="target/archivesspace/gems" />
     <mkdir dir="target/archivesspace/lib" />
@@ -555,6 +597,9 @@
       <fileset dir="../common/locales" />
     </copy>
 
+    <copy todir="target/archivesspace/docs">
+      <fileset dir="../docs" />
+    </copy>
 
     <copy todir="target/archivesspace/plugins/newrelic">
       <fileset dir="../plugins/newrelic"/>

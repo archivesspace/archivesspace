@@ -1,0 +1,30 @@
+JSON Schema: File_version
+
+Properties
+
+string	identifier
+
+string (max length: 16384)	file_uri
+
+boolean	publish
+
+string	use_statement
+
+string	xlink_actuate_attribute
+
+string	xlink_show_attribute
+
+string	file_format_name
+
+string (max length: 255)	file_format_version
+
+integer	file_size_bytes
+
+string (max length: 255)	checksum
+
+string	checksum_method
+
+
+
+
+

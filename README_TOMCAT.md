@@ -15,23 +15,18 @@ However, if you have a burning desire to use Tomcat, the steps are:
 
   * Download the archivesspace zip distribution, and the Tomcat
     distribution.
-
   * Unpack the archivesspace distribution and modify the
     config/config.rb file to point to your MySQL database (if you're
     using MySQL).  Something like:
 
       AppConfig[:db_url] = "jdbc:mysql://localhost:3306/archivesspace?user=as&password=as123&useUnicode=true&characterEncoding=UTF-8"
-
   * Also in config/config.rb disable embedded solr and set solr url if you want to use an [external Solr instance](README_SOLR.md)
 
       AppConfig[:enable_solr] = false
       AppConfig[:solr_url] = "http://some.solr.org:8983/solr/archivesspace"
-
   * Unpack the Tomcat distribution
-
   * From your 'archivesspace' directory, use the 'configure-tomcat.sh'
     script to copy everything over to your Tomcat directory
-
   * Install the MySQL connector into Tomcat's 'lib' directory.
 
 

@@ -20,7 +20,7 @@ describe 'ASModel' do
 
     expect {
       TestModel.set_model_scope(:banana)
-    }.to raise_error
+    }.to raise_error(RuntimeError)
   end
 
 

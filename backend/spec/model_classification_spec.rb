@@ -92,7 +92,7 @@ describe 'Classification models' do
                                  :title => "same titles",
                                  :identifier => "same IDs",
                                  :parent => {'ref' => term1.uri})
-    }.to_not raise_error(Sequel::ValidationFailed)
+    }.to_not raise_error
   end
 
 

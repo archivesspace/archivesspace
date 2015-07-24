@@ -1,0 +1,16 @@
+JSON Schema: Name_corporate_entity
+
+Properties
+
+string (max length: 65000)	primary_name
+
+string (max length: 65000)	subordinate_name_1
+
+string (max length: 65000)	subordinate_name_2
+
+string (max length: 255)	number
+
+
+
+
+

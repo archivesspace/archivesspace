@@ -1,0 +1,14 @@
+JSON Schema: Note_index
+
+Properties
+
+array (string)	content
+
+string	type
+
+array ([{"type"=>"JSONModel(:note_index_item) object"}])	items
+
+
+
+
+
