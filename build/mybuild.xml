@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+
+<project name="MyArchivesSpace" basedir="."  default="help" >
+
+<import file="build.xml" />
+
+
+<target name="properties" description="set-classpath and echo all properties"  depends="set-classpath">
+	<echoproperties/>
+</target>
+
+
+<target name="devserver:all"  description="run all servers in development mode">
+	<record name="test_log.out.tmp" action="start" />	
+	<parallel>
+		<daemons>
+			<antcall target="backend:devserver" />
+			<antcall target="indexer" />
+			<antcall target="public:devserver" />
+		</daemons>
+
+		<antcall target="frontend:devserver" />
+	</parallel>
+	<record name="test_log.out.tmp" action="stop" />	
+</target>
+
+
+  <target name="build-zip" depends="set-classpath"
+          description="Bundle everything up into a zip file">
+    <delete failonerror="false" dir="target" />
+
+    <mkdir dir="target/archivesspace/config" />
+    <mkdir dir="target/archivesspace/data" />
+    <mkdir dir="target/archivesspace/wars" />
+    <mkdir dir="target/archivesspace/gems" />
+    <mkdir dir="target/archivesspace/lib" />
+    <mkdir dir="target/archivesspace/logs" />
+    <mkdir dir="target/archivesspace/launcher" />
+    <mkdir dir="target/archivesspace/scripts/rb" />
+    <mkdir dir="target/archivesspace/stylesheets" />
+    <mkdir dir="target/archivesspace/plugins/aspace-public-formats" />
+    <mkdir dir="target/archivesspace/plugins/cat_in_a_box" />
+    <mkdir dir="target/archivesspace/plugins/newrelic" />
+    <mkdir dir="target/archivesspace/plugins/refid_rules" />
+    <mkdir dir="target/archivesspace/plugins/lcnaf" />
+    <mkdir dir="target/archivesspace/plugins/local/indexer" />
+    <mkdir dir="target/archivesspace/plugins/local/schemas" />
+    <mkdir dir="target/archivesspace/plugins/local/backend/model/mixins" />
+    <mkdir dir="target/archivesspace/plugins/local/backend/model/reports" />
+    <mkdir dir="target/archivesspace/plugins/local/backend/controllers" />
+    <mkdir dir="target/archivesspace/plugins/local/frontend/views" />
+    <mkdir dir="target/archivesspace/plugins/local/frontend/locales" />
+    <mkdir dir="target/archivesspace/plugins/local/public/views" />
+    <mkdir dir="target/archivesspace/plugins/local/public/locales" />
+    <mkdir dir="target/archivesspace/locales" />
+
+    <tstamp />
+    <property name="version" value="${DSTAMP}-${TSTAMP}"/>
+    <delete file="../common/ARCHIVESSPACE_VERSION" />
+    <echo file="../common/ARCHIVESSPACE_VERSION">${version}</echo>
+    <echo>Building version: ${version}</echo>
+
+    <jar jarfile="target/archivesspace/lib/common.jar">
+      <fileset dir="../common" excludes="lib/*" />
+    </jar>
+
+    <copy todir="target/archivesspace/lib">
+      <fileset dir="../common/lib" />
+    </copy>
+
+    <copy file="solr.war" todir="target/archivesspace/wars" />
+    <copy file="../backend/backend.war" todir="target/archivesspace/wars" />
+    <copy file="../frontend/frontend.war" todir="target/archivesspace/wars" />
+    <copy file="../public/public.war" todir="target/archivesspace/wars" />
+    <copy file="../indexer/indexer.war" todir="target/archivesspace/wars" />
+
+    <copy file="scripts/migrate_db.rb" todir="target/archivesspace/scripts/rb" />
+
+    <copy todir="target/archivesspace/gems">
+      <fileset dir="gems" excludes="cache/*,doc/*,gems/jruby-jars-1.7.11/lib/*.dev.jar,gems/saxon-xslt-0.5.1-java/spec/" />
+    </copy>
+
+    <copy todir="target/archivesspace/launcher">
+      <fileset dir="../launcher" excludes="backup/*" />
+    </copy>
+
+    <copy todir="target/archivesspace/locales">
+      <fileset dir="../common/locales" />
+    </copy>
+
+    <copy todir="target/archivesspace/plugins/local" verbose="true" >
+      <fileset dir="../plugins/local" >
+        <exclude name="**/.gitignore" />
+      </fileset>
+    </copy>
+
+    <copy todir="target/archivesspace/plugins/newrelic">
+      <fileset dir="../plugins/newrelic"/>
+    </copy>
+
+    <copy todir="target/archivesspace/plugins/cat_in_a_box">
+      <fileset dir="../plugins/cat_in_a_box"/>
+    </copy>
+
+    <copy todir="target/archivesspace/plugins/refid_rules">
+      <fileset dir="../plugins/refid_rules"/>
+    </copy>
+
+    <copy todir="target/archivesspace/plugins/lcnaf">
+      <fileset dir="../plugins/lcnaf"/>
+    </copy>
+    
+    <copy todir="target/archivesspace/plugins/aspace-public-formats">
+      <fileset dir="../plugins/aspace-public-formats"/>
+    </copy>
+
+    <copy todir="target/archivesspace/stylesheets">
+      <fileset dir="../stylesheets"/>
+    </copy>
+
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <arg line="-Iapp/lib --1.9 scripts/export_config.rb target/archivesspace/config/config.rb" />
+    </java>
+
+	<concat destfile="target/archivesspace/config/config.rb" append="true" >
+		<filelist dir="../common/config" files="config.my"/>
+	</concat>
+
+    <zip zipfile="../archivesspace-${version}.zip" level="9">
+      <zipfileset dir="target" /> <!-- excludes="**/mysql-connector-java*.jar" /> -->
+      <zipfileset dir=".." includes="README.md" prefix="archivesspace" filemode="644" />
+      <zipfileset dir=".." includes="UPGRADING.md" prefix="archivesspace" filemode="644" />
+      <zipfileset dir=".." includes="COPYING" prefix="archivesspace" filemode="644" />
+      <zipfileset dir="../clustering" prefix="archivesspace/clustering" filemode="755" />
+      <zipfileset dir="../reports" prefix="archivesspace/reports" filemode="755" />
+      <zipfileset dir="../launcher" includes="archivesspace.sh" prefix="archivesspace" filemode="755" />
+      <zipfileset dir="../launcher" includes="archivesspace.bat" prefix="archivesspace" filemode="644" />
+      <zipfileset dir="../launcher/scripts" includes="find-base.sh" prefix="archivesspace/scripts" filemode="755" />
+      <zipfileset dir="../launcher/scripts" includes="setup-database.sh" prefix="archivesspace/scripts" filemode="755" />
+      <zipfileset dir="../launcher/scripts" includes="setup-database.bat" prefix="archivesspace/scripts" filemode="755" />
+      <zipfileset dir="../launcher/tomcat" includes="configure-tomcat.sh" prefix="archivesspace/scripts" filemode="755" />
+      <zipfileset dir="../launcher/tomcat" includes="configure-tomcat.bat" prefix="archivesspace/scripts" filemode="644" />
+      <zipfileset dir="../launcher/plugin_gems" includes="initialize-plugin.sh" prefix="archivesspace/scripts" filemode="755" />
+      <zipfileset dir="../launcher/plugin_gems" includes="initialize-plugin.bat" prefix="archivesspace/scripts" filemode="644" />
+      <zipfileset dir="../launcher/password_reset" includes="password-reset.sh" prefix="archivesspace/scripts" filemode="755" />
+      <zipfileset dir="../launcher/password_reset" includes="password-reset.bat" prefix="archivesspace/scripts" filemode="644" />
+      <zipfileset dir="../launcher/backup" includes="backup.sh" prefix="archivesspace/scripts" filemode="755" />
+      <zipfileset dir="../launcher/backup" includes="backup.bat" prefix="archivesspace/scripts" filemode="644" />
+      <zipfileset dir="../launcher/ead_export" includes="ead_export.sh" prefix="archivesspace/scripts" filemode="755" />
+      <zipfileset dir="../launcher/ead_export" includes="ead_export.bat" prefix="archivesspace/scripts" filemode="644" />
+    </zip>
+  </target>
+
+
+</project>
