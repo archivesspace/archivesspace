@@ -1,3 +1,4 @@
+# frontend/lib/tasks/rake_jruby_complete_patch.rake 
 # Icky to have to do this, but had trouble with the recursive calls to Rake
 # running with jruby-complete.jar.
 
@@ -15,7 +16,8 @@ namespace :assets do
   def ruby_rake_task(task, fork = true)
     env    = ENV['RAILS_ENV'] || 'production'
     groups = ENV['RAILS_GROUPS'] || 'assets'
-    args   = [task,"RAILS_ENV=#{env}","RAILS_GROUPS=#{groups}"]
+    relative_url_root = ENV['RAILS_RELATIVE_URL_ROOT'] || "/" 
+    args   = [task,"RAILS_ENV=#{env}","RAILS_GROUPS=#{groups}", "RAILS_RELATIVE_URL_ROOT=#{relative_url_root}"]
 
     if fork
       sh(($rake_cmd + args).join(" "))
