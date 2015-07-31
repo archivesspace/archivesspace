@@ -1,6 +1,5 @@
 require_relative 'spec_helper'
 
-
 describe "Events" do
 
   before(:all) do
@@ -13,8 +12,10 @@ describe "Events" do
     add_user_to_archivists(@archivist_user, @repo.uri)
 
     @accession = create(:accession, :title => "Events link to this accession")
-    agent_uri, @agent_name = create_agent("Geddy Lee")
-    run_index_round
+    # @agent_uri, @agent_name = create_agent("Geddy Lee")
+    @agent = create(:agent_person)
+
+    run_all_indexers
 
     login_to_repo(@archivist_user, @archivist_pass, @repo)
   end
@@ -25,9 +26,11 @@ describe "Events" do
   end
 
 
-  it "creates an event and links it to an agent and an agent as a source" do
-    $driver.find_element(:link, "Create").click
-    $driver.find_element(:link, "Event").click
+  it "creates an event and links it to an agent and an agent as a source", :retry => 2, :retry_wait => 10 do
+    # $driver.find_element(:link, "Create").click
+    # $driver.find_element(:link, "Event").click
+    $driver.navigate.to("#{$frontend}/events/new")
+
     $driver.find_element(:id, "event_event_type_").select_option('accession')
     $driver.find_element(:id, "event_outcome_").select_option("pass")
     $driver.clear_and_send_keys([:id, "event_outcome_note_"], "OK, that's another lie: all test subjects perished.")
@@ -54,7 +57,7 @@ describe "Events" do
     token_input = record_subform.find_element(:id, "token-input-event_linked_records__0__ref_")
     token_input.clear
     token_input.click
-    token_input.send_keys("Geddy")
+    token_input.send_keys(@agent.names.first['primary_name'])
     $driver.find_element(:css, "li.token-input-dropdown-item2").click
 
     $driver.find_element(:css => "form#new_event button[type='submit']").click
@@ -63,17 +66,15 @@ describe "Events" do
     assert(5) {
       $driver.find_element_with_text('//div', /Event Created/).should_not be_nil
     }
+
     run_all_indexers
+
+    $driver.attempt(5) {|driver| 
+      driver.navigate.to("#{$frontend}/agents/agent_person/#{@agent.uri.sub(/.*\//, '')}")
+    }
 
     expect {
       assert(10) {
-        $driver.find_element(:link, "Browse").click
-        $driver.find_element(:link, "Agents").click
-
-        $driver.clear_and_send_keys([:css, ".sidebar input.text-filter-field"], "Geddy*" )
-        $driver.find_element(:css, ".sidebar input.text-filter-field + div button").click
-        $driver.find_element_with_text('//tr', /Geddy/).find_element(:link, 'View').click
-    
         $driver.find_element_with_text('//td', /accession/)
       }
     }.not_to raise_error
@@ -98,7 +99,7 @@ describe "Events" do
     token_input = agent_subform.find_element(:id, "token-input-event_linked_agents__0__ref_")
     token_input.clear
     token_input.click
-    token_input.send_keys("Geddy")
+    token_input.send_keys(@agent.names.first['primary_name'])
     $driver.find_element(:css, "li.token-input-dropdown-item2").click
 
     $driver.find_element(:id, "event_linked_records__0__role_").select_option('source')

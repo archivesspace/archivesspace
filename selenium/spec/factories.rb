@@ -1,7 +1,57 @@
 require 'factory_girl'
 require 'jsonmodel'
+require 'securerandom'
+
 
 include JSONModel
+
+module FactoryGirlSyntaxHelpers
+
+  def sample(enum, exclude = [])
+    values = if enum.has_key?('enum')
+               enum['enum']
+             elsif enum.has_key?('dynamic_enum')
+               enum_source.values_for(enum['dynamic_enum'])
+             else
+               raise "Not sure how to sample this: #{enum.inspect}"
+             end
+
+    exclude += ['other_unmapped']
+
+    values.reject{|i| exclude.include?(i) }.sample
+  end
+
+
+  def enum_source
+    if defined? BackendEnumSource
+      BackendEnumSource
+    else
+      JSONModel.init_args[:enum_source]
+    end
+  end
+
+
+  def JSONModel(key)
+    JSONModel::JSONModel(key)
+  end
+
+
+  def nil_or_whatever
+    [nil, FactoryGirl.generate(:alphanumstr)].sample
+  end
+
+
+  def few_or_none(key)
+    arr = []
+    rand(4).times { arr << build(key) }
+    arr
+  end
+end
+
+
+FactoryGirl::SyntaxRunner.send(:include, FactoryGirlSyntaxHelpers)
+FactoryGirl::Syntax::Default::DSL.send(:include, FactoryGirlSyntaxHelpers)
+
 
 
 module SeleniumFactories
@@ -30,6 +80,11 @@ module SeleniumFactories
       sequence(:repo_name) {|n| "Test Repo #{n}"}
       sequence(:accession_id) {|n| "#{n}" }
 
+      sequence(:word) {|n| "TEST_#{n}_#{SecureRandom.hex}" } 
+      sequence(:generic_name) {|n| "TEST_NAME_#{n}_#{SecureRandom.hex}"}
+      sequence(:sort_name) {|n| "SORT_NAME_#{n}_#{SecureRandom.hex}"}
+      sequence(:name_rule) { sample(JSONModel(:abstract_name).schema['properties']['rules']) }
+  sequence(:name_source) { sample(JSONModel(:abstract_name).schema['properties']['source']) }
 
       sequence(:ref_id) {|n| "aspace_#{n}"}
       sequence(:id_0) {|n| "#{Time.now.to_i}_#{n}"}
@@ -63,7 +118,6 @@ module SeleniumFactories
         condition_description "furious"
         accession_date "1990-01-01"
       end
-
 
       factory :collection_management, class: JSONModel(:collection_management) do
         processing_total_extent "10"
@@ -111,6 +165,30 @@ module SeleniumFactories
           "colLevel" => "item"
         } }
       end
+
+      factory :agent_person, class: JSONModel(:agent_person) do
+        agent_type 'agent_person'
+        names { [ build(:name_person) ] }
+        dates_of_existence { [build(:date, :label => 'existence')] }
+      end
+
+      factory :name_person, class: JSONModel(:name_person) do
+        rules { generate(:name_rule) }
+        source { generate(:name_source) }
+        primary_name { generate(:generic_name) }
+        sort_name { generate(:sort_name) }
+        name_order { %w(direct inverted).sample }
+        number { generate(:word) }
+        sort_name_auto_generate true
+        dates { generate(:word) }
+        qualifier { generate(:word) }
+        fuller_form { generate(:word) }
+        prefix { [nil, generate(:word)].sample }
+        title { [nil, generate(:word)].sample }
+        suffix { [nil, generate(:word)].sample }
+        rest_of_name { [nil, generate(:word)].sample }
+      end
+
 
 
     end
