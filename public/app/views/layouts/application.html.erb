@@ -35,7 +35,7 @@
   <script>
     FRONTEND_URL = "<%= j(AppConfig[:frontend_proxy_url]) %>";
     PUBLIC_URL = "<%= j(AppConfig[:public_proxy_url]) %>";
-    APP_PATH = "<%= j(root_path) %>";
+    APP_PATH = "<%= j(AppConfig[:frontend_proxy_prefix]) %>";
     FACET_SHOW_FEWER = "<%= I18n.t("search_results.filter.show_fewer") %>";
     FACET_SHOW_MORE = "<%= I18n.t("search_results.filter.show_more") %>";
   </script>
