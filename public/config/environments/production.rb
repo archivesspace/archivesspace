@@ -26,7 +26,7 @@ ArchivesSpacePublic::Application.configure do
   config.assets.digest = true
 
   # If a prefix has been specified, use it!
-  config.assets.prefix = AppConfig[:public_prefix] + "assets"
+  config.assets.prefix = AppConfig[:public_proxy_prefix] + "assets"
   config.assets.manifest = File.join(Rails.public_path, "assets")
 
   # Specifies the header that your server uses for sending files

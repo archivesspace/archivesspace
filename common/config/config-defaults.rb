@@ -52,11 +52,22 @@ AppConfig[:solr_backup_number_to_keep] = 1
 
 AppConfig[:backend_url] = "http://localhost:8089"
 AppConfig[:frontend_url] = "http://localhost:8080"
+
+# Proxy URLs
+# If you are serving user-facing applications via proxy
+# (i.e., another domain or port, or via https, or for a prefix) it is
+# recommended that you record those URLs in your configuration
+AppConfig[:frontend_proxy_url] = proc { AppConfig[:frontend_url] }
+AppConfig[:public_proxy_url] = proc { AppConfig[:public_url] }
+
+# Don't override _prefix or _proxy_prefix unless you know what you're doing
 AppConfig[:frontend_prefix] = proc { "#{URI(AppConfig[:frontend_url]).path}/".gsub(%r{/+$}, "/") }
+AppConfig[:frontend_proxy_prefix] = proc { "#{URI(AppConfig[:frontend_proxy_url]).path}/".gsub(%r{/+$}, "/") }
 AppConfig[:solr_url] = "http://localhost:8090"
 AppConfig[:indexer_url] = "http://localhost:8091"
 AppConfig[:public_url] = "http://localhost:8081"
 AppConfig[:public_prefix] = proc { "#{URI(AppConfig[:public_url]).path}/".gsub(%r{/+$}, "/") }
+AppConfig[:public_proxy_prefix] = proc { "#{URI(AppConfig[:public_proxy_url]).path}/".gsub(%r{/+$}, "/") }
 AppConfig[:docs_url] = "http://localhost:8888"
 
 # Setting any of the four keys below to false will prevent the associated
@@ -71,12 +82,12 @@ AppConfig[:enable_solr] = true
 AppConfig[:enable_indexer] = true
 AppConfig[:enable_docs] = true
 
-# Some use cases want the ability to shutdown the Jetty service using Jetty's 
+# Some use cases want the ability to shutdown the Jetty service using Jetty's
 # ShutdownHandler, which allows a POST request to a specific URI to signal
 # server shutdown. The prefix for this URI path is set to /xkcd to reduce the
 # possibility of a collision in the path configuration. So, full path would be
-# /xkcd/shutdown?token={randomly generated password} 
-# The launcher creates a password to use this, which is stored 
+# /xkcd/shutdown?token={randomly generated password}
+# The launcher creates a password to use this, which is stored
 # in the data directory. This is not turned on by default.
 #
 AppConfig[:use_jetty_shutdown_handler] = false
@@ -128,11 +139,11 @@ AppConfig[:report_pdf_font_family] = "\"DejaVu Sans\", sans-serif"
 AppConfig[:plugins] = ['local',  'lcnaf', 'aspace-public-formats']
 
 # URL to direct the feedback link
-# You can remove this from the footer by making the value blank. 
+# You can remove this from the footer by making the value blank.
 AppConfig[:feedback_url] = "http://archivesspace.org/feedback"
 
 
-# 
+#
 # The following are used by the aspace-public-formats plugin
 # https://github.com/archivesspace/aspace-public-formats
 AppConfig[:public_formats_resource_links] = []
@@ -149,12 +160,6 @@ AppConfig[:help_enabled] = true
 AppConfig[:help_url] = "http://docs.archivesspace.org"
 AppConfig[:help_topic_prefix] = "/Default_CSH.htm#"
 
-# Proxy URLs 
-# If you are serving user-facing applications via proxy
-# (i.e., another domain or port, or via https) it is 
-# recommended that you record those URLs in your configuration
-AppConfig[:frontend_proxy_url] = proc { AppConfig[:frontend_url] }
-AppConfig[:public_proxy_url] = proc { AppConfig[:public_url] }
 
 AppConfig[:shared_storage] = proc { File.join(AppConfig[:data_directory], "shared") }
 
@@ -174,11 +179,11 @@ AppConfig[:max_location_range] = 1000
 
 
 # Jasper Reports
-# (https://community.jaspersoft.com/project/jasperreports-library) 
+# (https://community.jaspersoft.com/project/jasperreports-library)
 # require compilation. This can be done at startup. Please note, if you are
 # using Java 8 and you want to compile at startup, keep this setting at false,
 # but be sure to use the JDK version.
-AppConfig[:enable_jasper] = true 
+AppConfig[:enable_jasper] = true
 AppConfig[:compile_jasper] = false
 
 # There are some conditions that has caused tree nodes ( ArchivalObjects, DO
@@ -194,3 +199,4 @@ AppConfig[:demo_data_url] = "https://s3-us-west-2.amazonaws.com/archivesspacedem
 
 # Expose external ids in the frontend
 AppConfig[:show_external_ids] = false
+
