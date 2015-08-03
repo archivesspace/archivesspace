@@ -78,12 +78,10 @@ describe 'Resource model' do
 
   it "can be created with an instance" do
     opts = {:instances => [build(:json_instance)]}
-
     resource = create_resource(opts)
-
     Resource[resource[:id]].instance.length.should eq(1)
     Resource[resource[:id]].instance[0].instance_type.should eq(opts[:instances][0]['instance_type'])
-    Resource[resource[:id]].instance[0].container.first.type_1.should eq(opts[:instances][0]['container']['type_1'])
+    Resource.to_jsonmodel(resource[:id])['instances'][0]["container"]["type_1"].should eq('box')
   end
 
 

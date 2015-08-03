@@ -1,11 +1,11 @@
 require_relative 'converter'
-
+require_relative 'lib/converter_extra_container_values'
 class EADConverter < Converter
 
   require 'securerandom'
   require_relative 'lib/xml_sax'
   include ASpaceImport::XML::SAX
-
+  include ConverterExtraContainerValues
 
   def self.import_types(show_hidden = false)
     [
