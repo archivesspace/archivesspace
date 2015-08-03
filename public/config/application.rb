@@ -28,7 +28,7 @@ module ArchivesSpacePublic
 
     config.paths["app/controllers"].concat(ASUtils.find_local_directories("public/controllers"))
 
-    config.action_controller.relative_url_root = AppConfig[:public_proxy_prefix]
+    config.action_controller.relative_url_root = AppConfig[:public_proxy_prefix].sub(/\/$/, '')
 
 
     # Only load the plugins named here, in the order given (default is alphabetical).

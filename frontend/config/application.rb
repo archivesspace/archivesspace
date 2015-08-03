@@ -37,8 +37,7 @@ module ArchivesSpace
     config.paths["app/models"].concat(ASUtils.find_local_directories("frontend/models"))
 
     # Tell rails if the application is being deployed under a prefix
-    config.action_controller.relative_url_root = AppConfig[:frontend_proxy_prefix]
-
+    config.action_controller.relative_url_root = AppConfig[:frontend_proxy_prefix].sub(/\/$/, '')
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
