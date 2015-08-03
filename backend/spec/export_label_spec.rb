@@ -41,7 +41,7 @@ describe 'Export Labels Mappings ' do
       a = create(:json_archival_object_normal,  :resource => {:ref => @resource.uri},
                  :parent => parent ? {:ref => parent} : nil,
                  :instances => [ build(:json_instance,
-                                       :container => build(:json_container, :barcode_1 => "123") )
+                                       :container => build(:json_container, :barcode_1 => nil) )
                                 ]
     )
       a = JSONModel(:archival_object).find(a.id)
