@@ -311,7 +311,7 @@ describe 'Managed Container compatibility' do
 
     expect {
       accession = create_accession({"instances" => [instance]})
-    }.to_not raise_error(ValidationException)
+    }.to_not raise_error
   end
 
 
@@ -434,7 +434,7 @@ describe 'Managed Container compatibility' do
 
     expect {
       create_resource({"instances" => [instance]})
-    }.to_not raise_error(ValidationException)
+    }.to_not raise_error
   end
 
 end

@@ -25,9 +25,9 @@ end
 
 
 def stub_barcode_length(min, max)
-  AppConfig.stub(:[]).and_call_original
-  AppConfig.stub(:has_key?).and_call_original
+  allow(AppConfig).to receive(:[]).and_call_original
+  allow(AppConfig).to receive(:has_key?).and_call_original
 
-  AppConfig.stub(:has_key?).with(:container_management_barcode_length).and_return(true)
-  AppConfig.stub(:[]).with(:container_management_barcode_length).and_return({:system_default => {:min => min, :max => max}})
+  allow(AppConfig).to receive(:has_key?).with(:container_management_barcode_length).and_return(true)
+  allow(AppConfig).to receive(:[]).with(:container_management_barcode_length).and_return({:system_default => {:min => min, :max => max}})
 end
