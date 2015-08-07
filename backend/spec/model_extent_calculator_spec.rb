@@ -148,7 +148,7 @@ describe 'Extent Calculator model' do
     ext_cal = ExtentCalculator.new(resource)
     expect {
       ext_cal.units = :cubits
-    }.to raise_error
+    }.to raise_error(RuntimeError)
   end
 
 
@@ -163,7 +163,7 @@ describe 'Extent Calculator model' do
     (resource, grandparent, parent, child) = create_tree(a_box_without_a_profile)
     expect {
       ext_cal = ExtentCalculator.new(ArchivalObject[child.id], true)
-    }.to raise_error
+    }.to raise_error(RuntimeError)
   end
 
 

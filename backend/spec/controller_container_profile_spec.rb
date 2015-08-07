@@ -42,7 +42,7 @@ it "allows container profiles to be deleted" do
     cp = build(:json_container_profile)
     cp.uri = "/container_profiles/9999"
 
-    expect { cp.save }.to raise_error
+    expect { cp.save }.to raise_error(RecordNotFound)
   end
 
 
