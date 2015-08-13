@@ -1,17 +1,20 @@
 //= require dates.crud
-
+//= require linker
 $(function() {
 
   $.fn.init_related_agents_form = function() {
     $(this).each(function() {
 
       var $this = $(this);
-
+      $(".linker", $this).linker();
       if ($this.hasClass("initialised")) {
         return;
       }
 
       $this.addClass("initialised");
+
+      $('ul.subrecord-form-list > li', $this).show();
+      $(".linker", $this).triggerHandler("formshowall.aspace");
 
       var index = $(".subrecord-form-fields", $this).length;
 
@@ -70,6 +73,7 @@ $(function() {
 
         $subsubform = $("<li>").data("type", $subsubform.data("type")).append($subsubform);
         $subsubform.attr("data-index", index);
+        $subsubform.show(); 
         $target_subrecord_list.append($subsubform);
 
         initRemoveActionForSubRecord($subsubform);
@@ -110,6 +114,7 @@ $(function() {
     });
 
     $("section.related-agents-form.subrecord-form:not(.initialised)").init_related_agents_form();
+     
   });
 
 

@@ -1,4 +1,7 @@
 //= require form
+//= require linker
+//= require notes.crud
+//= require subrecord.too_many.js
 
 $(function() {
 
@@ -7,20 +10,17 @@ $(function() {
 
       var $this = $(this);
 
-      if ($this.hasClass("initialised")) {
+      if ( ( $this.hasClass("initialised") && $this.is(":visible") ) || $this.hasClass('too-many') )  {
         return;
       }
 
-      $this.addClass("initialised");
 
       $this.data("form_index", $("> .subrecord-form-container .subrecord-form-fields", $this).length);
 
+      
 
-      var numberOfSubRecords = function() {
-        return $(".subrecord-form-list:first li", $this).length;
-      };
 
-      var init = function() {
+      var init = function(callback) {
 
         // Proxy the event onto the subrecord's form
         // This is used by utils.js to initialise the asYouGo
@@ -28,7 +28,11 @@ $(function() {
         $(document).on("subrecordcreated.aspace", function(e, object_name, formel) {
           formel.triggerHandler(e);
         });
+        $(document).on("showall.aspace", function(e, object_name, formel) {
+          formel.triggerHandler(e);
+        });
 
+        
         var init_subform = function() {
           var $subform = $(this);
 
@@ -37,6 +41,7 @@ $(function() {
           }
 
           $subform.addClass("initialised");
+          
 
           var addRemoveButton = function() {
             var removeBtn = $("<a href='javascript:void(0)' class='btn btn-default btn-xs pull-right subrecord-form-remove'><span class='glyphicon glyphicon-remove'></span></a>");
@@ -88,7 +93,7 @@ $(function() {
           //init any sub sub record forms
           $(".subrecord-form:not(.initialised)", formEl).init_subrecord_form();
 
-          $(":input:visible:first", formEl).focus();
+          $(":input:first", formEl).focus();
 
           $this.data("form_index", $this.data("form_index")+1);
         };
@@ -125,6 +130,7 @@ $(function() {
             var formEl = $(AS.renderTemplate($this.data("template"), index_data));
             addAndInitForm(formEl, $target_subrecord_list);
           });
+          callback();
         };
         
 
@@ -132,49 +138,46 @@ $(function() {
 
         AS.initAddAsYouGoActions($this, $list);
         AS.initSubRecordSorting($list);
-
-        // init any existing subforms
-         
-        var subformsExisting = $("> .subrecord-form-container > .subrecord-form-list > .subrecord-form-wrapper:not(.initialised)", $this)
-        
-        if (subformsExisting.length > 4 ) { 
-          $("> .subrecord-form-heading > .btn.show-all", $this).show(); 
-          $($this).on("click", "> .subrecord-form-heading > .btn.show-all", function(event) {
-            this.disabled = true;  
-            
-            event.preventDefault(); 
-            subformsExisting.show(); 
-            subformsExisting.each(init_subform);
-            $("a.has-label.show-all", $this).hide();
-          });
-         
-          if ($this.data("custom-action") === true ) {
-            subformsExisting.each(init_subform);
-          } else {  
-            
-            subformsExisting.slice(0,4).each(init_subform);
-            subformsExisting.slice(5).hide();
-          } 
-        }  
-          $("> .subrecord-form-container > .subrecord-form-list > .subrecord-form-wrapper", $this).each(init_subform);
-
+       
+        $("> .subrecord-form-container > .subrecord-form-list > .subrecord-form-wrapper:not(.initialised):visible", $this).each(init_subform);
+       
       }
-
-      init();
+      
+      var numberOfSubRecords = function() {
+        return $(".subrecord-form-list:first > li", $this).length;
+      };
+      
+      tooManyRecords = AS.initTooManySubRecords($this, numberOfSubRecords(), init );
+      
+      if ( tooManyRecords === false ) {
+        $this.addClass("initialised");
+        init(function() { $(document).trigger("loadedrecordsubforms.aspace", $this);  });
+      } 
+    
     })
   };
 
 
   $(document).ready(function() {
-    $(document).bind("loadedrecordform.aspace", function(event, $container) {
+    
+    $(document).bind("loadedrecordform.aspace", function(event, $container) { 
+      $("#basic_information:not(.initialised)", $container).init_subrecord_form();
+      // now go through all the subrecord-form  
       $(".subrecord-form[data-subrecord-form]:not(.initialised)", $container).init_subrecord_form();
     });
-
+      
+    // this just makes sure we're initalizing the subforms. 
     $(".subrecord-form[data-subrecord-form]:not(.initialised)").init_subrecord_form();
 
     $(document).on("subrecordmonkeypatch.aspace", function(event, subform) {
       $(".subrecord-form[data-subrecord-form]", subform).init_subrecord_form();
     });
+   
+    // and let's make sure that we've fired the initalise.
+    $oc = $("#object_container:not(.initialised)"); 
+    if ( $oc.length ) {
+      $(document).triggerHandler("loadedrecordform.aspace", [$oc]);  
+    }  
   });
 
 });

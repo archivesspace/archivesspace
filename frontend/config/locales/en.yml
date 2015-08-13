@@ -88,7 +88,7 @@ en:
     print_to_pdf: Print Resource To PDF 
     resource_to_pdf: Resource to Print
     download_pdf: Download PDF
-  
+    click_to_show: Please click to load records. 
 
   states:
     auto_generated: System generates when saved

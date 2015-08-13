@@ -1274,6 +1274,11 @@ $(function() {
   initTree(function() {
     resizeArchivesTree();
     tree.primary(function(node) {
+      // if the hash is not set, the loadPaneForNode will set it. but we do not
+      // want to retrigger the call for the record. 
+      if ( location.hash.length === 0 ) { 
+        $(window).data("ignore-hashchange", true);
+      }   
       loadPaneForNode(node);
       setTimeout(function(){
         $tree.scrollTo($("#" + node.id), 0, {
