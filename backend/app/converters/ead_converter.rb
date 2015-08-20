@@ -52,15 +52,6 @@ class EADConverter < Converter
   	     .strip
   end
   
- 
-  def ignore?
-    @ignore
-  end
-  
-  # the act of ignoring is simply switching the ignore to false. 
-  def no_longer_ignore 
-    @ignore = false
-  end
 
   # alright, wtf.
   # sometimes notes can have things like  lists jammed in them. we need to break those 
@@ -109,19 +100,7 @@ class EADConverter < Converter
       make :resource
     end
 
-
-    # we need to ignore everything on titlepage
-    %w{address author bibseries blockquote chronlist date edition list list/item list/defitem note
-      num p publisher sponsor subtitle table titleproper subtitle  }.each do |node_type|
-
-      with "titlepage/#{node_type}" do
-        @ignore = true 
-      end
-     
-
-      
-
-    end
+    ignore "titlepage"
 
 
     with 'archdesc' do
@@ -319,7 +298,6 @@ class EADConverter < Converter
        prefercite processinfo relatedmaterial scopecontent \
        separatedmaterial userestrict ).each do |note|
       with note do |node|
-        no_longer_ignore 
         content = inner_xml.tap {|xml|
           xml.sub!(/<head>.*?<\/head>/m, '')
           # xml.sub!(/<list [^>]*>.*?<\/list>/m, '')
@@ -366,7 +344,6 @@ class EADConverter < Converter
 
 
     with 'chronlist' do
-      next no_longer_ignore if ignore? 
       if  ancestor(:note_multipart)
         left_overs = insert_into_subnotes 
       else 
@@ -404,7 +381,6 @@ class EADConverter < Converter
 
 
     with 'list' do
-      next no_longer_ignore if ignore? 
        
       if  ancestor(:note_multipart)
         left_overs = insert_into_subnotes 
@@ -443,24 +419,20 @@ class EADConverter < Converter
 
 
     with 'list/head' do |node|
-      next no_longer_ignore if ignore? 
       set :title, format_content( inner_xml ) 
     end
 
 
     with 'defitem' do |node|
-      next no_longer_ignore if ignore? 
       context_obj.items << {}
     end
 
     with 'defitem/label' do |node|
-      next no_longer_ignore if ignore? 
       context_obj.items.last['label'] = format_content( inner_xml ) if context == :note_definedlist
     end
 
 
     with 'defitem/item' do |node|
-      next no_longer_ignore if ignore? 
       context_obj.items.last['value'] =   format_content( inner_xml ) if context == :note_definedlist
     end
 
@@ -476,7 +448,6 @@ class EADConverter < Converter
 
 
     with 'date' do
-      next no_longer_ignore if ignore? 
       if context == :note_chronology
         date = inner_xml
         context_obj.items.last['event_date'] = date
@@ -534,7 +505,6 @@ class EADConverter < Converter
 
 
     with 'author' do
-      next no_longer_ignore if ignore? 
       set :finding_aid_author, inner_xml
     end
 
@@ -561,13 +531,11 @@ class EADConverter < Converter
 
 
     with 'sponsor' do
-      next no_longer_ignore if ignore? 
       set :finding_aid_sponsor, format_content( inner_xml )
     end
 
 
     with 'titleproper' do
-      next no_longer_ignore if ignore? 
       type = att('type')
       case type
       when 'filing'
@@ -578,7 +546,6 @@ class EADConverter < Converter
     end
 
     with 'subtitle' do
-      next no_longer_ignore if ignore?
       set :finding_aid_subtitle, format_content( inner_xml )
     end
 
