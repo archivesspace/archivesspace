@@ -17,6 +17,9 @@
 
       <% if @location.external_ids.length > 0 && show_external_ids? %>
         <%= render_aspace_partial :partial => "external_ids/show", :locals => { :external_ids => @location.external_ids, :section_id => "location_external_ids_" } %>
+
+      <%= readonly_context :location, @location do |readonly| %>
+        <%= show_plugins_for(@location, readonly) %>
       <% end %>
     </div>
   </div>
