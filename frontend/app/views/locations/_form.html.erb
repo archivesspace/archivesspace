@@ -25,3 +25,5 @@
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @location, :form => form} %>
 <% form.emit_template("location") %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>
+
+<%= form_plugins_for("location", form) %>
