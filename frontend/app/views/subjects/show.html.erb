@@ -31,9 +31,9 @@
         <%= render_aspace_partial :partial => "external_documents/show", :locals => { :external_documents => @subject.external_documents, :section_id => "subject_external_documents_" } %>
       <% end %>
 
-      <%= show_plugins_for(@subject, readonly) %>
-
       <%= render_aspace_partial :partial => "search/embedded", :locals => {:record => @subject, :filter_term => {"subjects" => @subject.title}.to_json, :heading_text => I18n.t("subject._frontend.section.search_embedded")} %>
+
+      <%= show_plugins_for(@subject, readonly) %>
     <% end %>
    </div>
   </div>

@@ -14,6 +14,10 @@
       <%= read_only_view(@location.to_hash) %>
 
       <%= render_aspace_partial :partial => "search/embedded", :locals => {:record => @location, :filter_term => {"location_uris" => @location.uri}.to_json, :heading_text => I18n.t("location._frontend.section.search_embedded")} %>
+
+      <%= readonly_context :location, @location do |readonly| %>
+        <%= show_plugins_for(@location, readonly) %>
+      <% end %>
     </div>
   </div>
 </div>
