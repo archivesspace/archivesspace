@@ -824,6 +824,8 @@ $(function() {
       // If we have moved a node downwards in the list... Since the
       // list will shift up as the node is plucked out, we need to
       // adjust the target index for this.
+      // TO DO: if the position is the last in the list, this will screw it
+      // up.
       if ((leader.parent === leader.old_parent) &&
         (leader.position > leader.old_position)) {
         targetPosition -= collectedMoveData.length - 1;
@@ -884,10 +886,8 @@ $(function() {
             // Always update the currently selected node's position.. it may have changed!
             $("#"+nodeEl.attr("rel")+"_position_", $container).val(nodeEl.index());
 
-            // if we already have a list of desired_children, we keep that
-            
             if  ( desired_children.length === 0 ){
-              desired_children = targetNode.children;
+               desired_children = targetNode.children;
             } 
             
             
@@ -901,6 +901,7 @@ $(function() {
             // now let's  unlock da the form
             tree.refresh_node(targetNode); 
             $(document).triggerHandler("unlockform.aspace", [$container]);
+            
           
           });
         
@@ -911,7 +912,7 @@ $(function() {
         tree.refresh();
 
         // show a modal message
-        AS.openQuickModal(AS.renderTemplate("tree_unable_to_move_message_template"), jqXHR.responseText);
+        AS.openQuickModal(AS.renderTemplate("tree_unable_to_move_message_template"));
       }
     });
   };
@@ -984,8 +985,11 @@ $(function() {
 
     if (tree.get_selected().length > 1) {
       $.each(tree.get_selected(), function(i, node_id) {
-        tree.get_node(node_id, true).addClass("selected");
+        $nodeEl = tree.get_node(node_id, true);
+        $nodeEl.addClass("selected");
+        $('.selected-order', $nodeEl).html( i + 1 ).show(); 
       });
+  
       $tree.trigger("treemultipleselected.aspace");
     } else if (tree.get_selected().length === 1) {
       tree.set_primary_selected(tree.get_selected()[0]);
@@ -1005,7 +1009,12 @@ $(function() {
 
       setHashForNode(tree.get_primary_selected());
 
-      tree.get_primary_selected_dom().addClass("selected");
+      $nodeEl =  tree.get_primary_selected_dom();
+      $nodeEl.addClass("selected");
+
+      $('.selected-order').empty(); 
+      $('.selected-order:first', $nodeEl).html( 1 ).show(); 
+      
       tree.hover_node(tree.get_primary_selected());
       $tree.trigger("treesingleselected.aspace");
     }
@@ -1240,10 +1249,10 @@ $(function() {
       move_timeout = setTimeout(function() {
         moveNodes(moved_nodes);
         // lets clear out the moved_nodes 
+        
         moved_nodes = [];
         onSelectNode();
       }, 50);
-
 
     }).bind("refreshtreenode.aspace", function(event, data) {
       var a_title = data.title || data.text;
@@ -1351,8 +1360,7 @@ $(function() {
     }); 
     
     if ( happy_family === false ) { 
-      alert("NOT A HAPPY FAMILY! Please check your node order");
-      // moveNodes( desired_children  ); 
+      AS.openQuickModal(AS.renderTemplate("tree_move_ordering_problem_message_template"), desired_children);
     }  
     // we're good! 
     desired_children = []; 

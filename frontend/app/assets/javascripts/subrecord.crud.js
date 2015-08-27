@@ -15,13 +15,7 @@ $(function() {
       }
 
 
-      $this.data("form_index", $("> .subrecord-form-container .subrecord-form-fields", $this).length);
-
-      
-
-
       var init = function(callback) {
-
         // Proxy the event onto the subrecord's form
         // This is used by utils.js to initialise the asYouGo
         // behaviour (quick addition of subrecords)
@@ -39,7 +33,6 @@ $(function() {
           if ($subform.hasClass("initialised")) {
             return;
           }
-
           $subform.addClass("initialised");
           
 
@@ -114,6 +107,7 @@ $(function() {
 
             $(document).triggerHandler("subrecordcreaterequest.aspace", [$this.data("object-name"), $(this).data(), index_data, $target_subrecord_list, addAndInitForm]);
           });
+          callback(); 
         } else {
 
           $($this).on("click", "> .subrecord-form-heading > .btn:not(.show-all)", function(event) {
@@ -138,7 +132,8 @@ $(function() {
 
         AS.initAddAsYouGoActions($this, $list);
         AS.initSubRecordSorting($list);
-       
+
+        
         $("> .subrecord-form-container > .subrecord-form-list > .subrecord-form-wrapper:not(.initialised):visible", $this).each(init_subform);
        
       }
