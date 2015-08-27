@@ -24,3 +24,10 @@ group "test" do
   gem "net-http-persistent", "2.8"
   gem "multipart-post", "1.2.0"
 end
+
+
+gemfile_local = File.join(File.dirname(__FILE__), 'Gemfile.local')
+if File.readable?(gemfile_local)
+  puts "Loading #{gemfile_local}..." if $DEBUG
+  instance_eval(File.read(gemfile_local))
+end

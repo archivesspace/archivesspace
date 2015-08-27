@@ -1,0 +1,24 @@
+<%= setup_context(:title => I18n.t("container_profile._plural")) %>
+
+<div class="row">
+  <div class="col-md-3">
+    <div class="sidebar">
+      <%= render_aspace_partial :partial => "search/filter" %>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <div class="record-toolbar">
+      <div class="btn-group pull-right">
+        <%= link_to I18n.t("container_profile._frontend.action.create"), {:controller => :container_profiles, :action => :new}, :class => "btn btn-sm btn-default" %>
+      </div>
+      <br style="clear:both" />
+    </div>
+    <div class="record-pane">
+
+      <h2><%= I18n.t("container_profile._plural") %></h2>
+
+      <%= render_aspace_partial :partial => "listing" %>
+
+    </div>
+  </div>
+</div>

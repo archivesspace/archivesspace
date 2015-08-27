@@ -93,6 +93,12 @@
         "mapping": [
           {
             "bower_components/jquery.tablesorter/dist/js/jquery.tablesorter.min.js": "../jquery.tablesorter.min.js"
+          },
+          {
+            "bower_components/jquery.tablesorter/dist/js/jquery.tablesorter.widgets.min.js": "../jquery.tablesorter.widgets.min.js"
+          },
+          {
+            "bower_components/jquery.tablesorter/dist/css/theme.bootstrap.min.css": "theme.bootstrap.min.css"
           }
         ]
       }
