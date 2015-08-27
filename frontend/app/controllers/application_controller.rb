@@ -174,7 +174,8 @@ class ApplicationController < ActionController::Base
                       "related_agents", "resource", "parent", "creator",
                       "linked_instances", "linked_records", "related_accessions",
                       "linked_events", "linked_events::linked_records",
-                      "linked_events::linked_agents"]
+                      "linked_events::linked_agents",
+                      "top_container", "container_profile"]
     }
   end
 

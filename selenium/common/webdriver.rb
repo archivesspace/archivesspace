@@ -21,11 +21,13 @@ module DriverMixin
     end
   end
 
+
   def wait_until_gone(*selector)
       timeout = 5
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { !self.find_element_orig(*selector).displayed? }
   end
+
 
   def test_group_prefix
     if ENV['TEST_ENV_NUMBER']
@@ -70,7 +72,6 @@ module Selenium
 
 # hack to allow Selenium to run offline
     module Platform
-
       class << self
         alias :ip_orig :ip
 
@@ -269,8 +270,6 @@ module Selenium
           puts e
         end
       end
-
-
     end
 
 

@@ -19,6 +19,7 @@
       <% end %>
       <div class="btn-toolbar pull-right">
         <div class="btn-group">
+          <%= render_aspace_partial :partial => "extent_calculator/toolbar_button", :locals => {:record => record} %>
           <% if user_can?('update_event_record') && !record.suppressed %>
             <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => record} %>
           <% end %>
