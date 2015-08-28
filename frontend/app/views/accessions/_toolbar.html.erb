@@ -22,6 +22,7 @@
         <% end %>
         <div class="btn-toolbar pull-right">
           <div class="btn-group">
+            <%= render_aspace_partial :partial => "extent_calculator/toolbar_button", :locals => {:record => @accession} %>
             <% if @accession.publish %>
               <div class="btn btn-inline-form">
                 <%= link_to I18n.t("actions.view_published"), File.join(AppConfig[:public_proxy_url], @accession.uri).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>

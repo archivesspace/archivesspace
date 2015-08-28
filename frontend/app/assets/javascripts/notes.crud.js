@@ -1,5 +1,6 @@
 //= require mixed_content.js
 //= require subrecord.collapsible.js
+//= require notes_override.crud.js
 
 $(function() {
 

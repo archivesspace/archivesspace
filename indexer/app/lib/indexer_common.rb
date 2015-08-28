@@ -76,7 +76,7 @@ class CommonIndexer
     end
   end
   
-  def generate_permutations_for_identifier(identifer)
+  def self.generate_permutations_for_identifier(identifer)
     return [] if identifer.nil?
 
     [

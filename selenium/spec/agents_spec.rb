@@ -99,7 +99,6 @@ describe "Agents" do
 
     $driver.clear_and_send_keys([:id, "agent_names__1__primary_name_"], "Hendrix")
     $driver.clear_and_send_keys([:id, "agent_names__1__rest_of_name_"], "Jimi")
-
   end
 
 
@@ -255,7 +254,7 @@ describe "Agents" do
   end
 
 
-  it "displays the agent in the agent's index page" do
+  it "displays the agent in the agents index page" do
     run_index_round
 
     path = URI.encode('/agents?filter_term[]={"primary_type":"agent_person"}&sort=create_time+desc')

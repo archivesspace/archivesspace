@@ -1,0 +1,20 @@
+<% if user_can?('update_container_profile_record') %>
+  <div class="record-toolbar">
+    <% if !['edit', 'update', 'new', 'create'].include?(controller.action_name) %>
+      <div class="btn-group pull-left">
+        <%= link_to I18n.t("actions.edit"), {:controller => :container_profiles, :action => :edit, :id => @container_profile.id}, :class => "btn btn-sm btn-primary" %>
+      </div>
+    <% end %>
+    <% if !['new', 'create'].include?(controller.action_name) %>
+      <div class="btn-toolbar pull-right">
+        <div class="btn-group">
+          <div class="btn btn-inline-form">
+            <%= button_delete_action url_for(:controller => :container_profiles, :action => :delete, :id => @container_profile.id) unless @container_profile.id.nil? %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <div class="clearfix"></div>
+  </div>
+
+<% end %>

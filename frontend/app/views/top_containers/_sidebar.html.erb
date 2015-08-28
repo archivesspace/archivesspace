@@ -1,0 +1,12 @@
+<%= render(:layout => '/shared/sidebar',
+           :locals => {
+             :record_type => 'top_container',
+             :record => @top_container,
+             :suppress_basic_information => true
+           }) do |sidebar| %>
+
+  <%= sidebar.render_for_view_only(:subrecord_type => 'basic_information', :property => :none, :anchor => 'basic_information') %>
+  <%= sidebar.render_for_view_only(:subrecord_type => 'active_restrictions', :property => :none, :anchor => 'rights_restrictions') %>
+  <%= sidebar.render_for_view_only(:subrecord_type => 'linked_records', :property => :none, :anchor => 'search_embedded') %>
+
+<% end %>

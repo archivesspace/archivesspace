@@ -2,10 +2,12 @@ require_relative 'spec_helper'
 
 describe "Enumeration Management" do
   before(:all) do
-    if !$test_repo
-      ($test_repo, $test_repo_uri) = create_test_repo("repo_#{Time.now.to_i}_#{$$}", "description")
-    end
-    login("admin", "admin")
+    backend_login
+
+    @repo = create(:repo, :repo_code => "enumeration_test_#{Time.now.to_i}")
+    set_repo(@repo.uri)
+
+    login_to_repo("admin", "admin", @repo)
   end
 
 
@@ -112,6 +114,7 @@ describe "Enumeration Management" do
   end
 
   it "lets you add a new value to an enumeration, reorder it and then you can use it" do
+
     $driver.find_element(:link, 'System').click
     $driver.find_element(:link, "Manage Controlled Value Lists").click
 
@@ -125,7 +128,7 @@ describe "Enumeration Management" do
     $driver.clear_and_send_keys([:id, "enumeration_value_"], "IMPORTANT.\n")
 
     $driver.find_element_with_text('//td', /^IMPORTANT\.$/)
-    
+
     # lets move important up the list
     3.times do
       $driver.find_element_with_text('//tr', /IMPORTANT/).find_element(:css, '.position-up').click

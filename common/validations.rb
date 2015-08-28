@@ -1,5 +1,6 @@
 require 'date'
 require 'time'
+require 'barcode_check'
 
 module JSONModel::Validations
   extend JSONModel
@@ -203,7 +204,7 @@ module JSONModel::Validations
   def self.check_container_location(hash)
     errors = []
 
-    errors << ["end_date", "is required"] if hash["end_date"].nil? and hash["status"] == "previous"
+    errors << ["end_date", "is required if status is previous"] if hash["end_date"].nil? and hash["status"] == "previous"
 
     errors
   end

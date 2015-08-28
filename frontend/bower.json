@@ -24,7 +24,8 @@
     "jquery.scrollTo": "~2.1.0",
     "bootstrap-select": "git@github.com:silviomoreto/bootstrap-select.git#v1.6.5",
     "bootstrap3-typeahead": "git@github.com:bassjobsen/Bootstrap-3-Typeahead.git#v3.1.1",
-    "Sortable": "git@github.com:RubaXa/Sortable.git#v1.2.0"
+    "Sortable": "git@github.com:RubaXa/Sortable.git#v1.2.0",
+    "jquery.tablesorter": "~2.23.2"
   },
   "install": {
     "path": {
@@ -87,7 +88,21 @@
             "bower_components/Sortable/Sortable.js": "../Sortable.js"
           }
         ]
+      },
+      "jquery.tablesorter": {
+        "mapping": [
+          {
+            "bower_components/jquery.tablesorter/dist/js/jquery.tablesorter.min.js": "../jquery.tablesorter.min.js"
+          },
+          {
+            "bower_components/jquery.tablesorter/dist/js/jquery.tablesorter.widgets.min.js": "../jquery.tablesorter.widgets.min.js"
+          },
+          {
+            "bower_components/jquery.tablesorter/dist/css/theme.bootstrap.min.css": "theme.bootstrap.min.css"
+          }
+        ]
       }
+
     },
     "ignore": [
       "jquery"
