@@ -137,7 +137,6 @@ module Selenium
         begin
           block.call(self)
         rescue Exception => e
-          binding.pry
           if tries > 0
             tries -= 1
             $sleep_time += 0.1

@@ -97,7 +97,7 @@ describe "Resource instances and containers" do
 
     $driver.navigate.to("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit")
     $driver.find_element(:css => '#resource_instances_ .subrecord-form-heading .btn[data-instance-type="sub-container"').click
-    $driver.find_element(:css => '#resource_instances__0__instance_type_').select_option('text')
+    $driver.find_element(:id => 'resource_instances__0__instance_type_').select_option('text')
 
     # new
     elt = $driver.test_find_element(:id => "resource_instances__0__container_")
