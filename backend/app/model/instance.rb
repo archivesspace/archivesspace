@@ -3,6 +3,7 @@ class Instance < Sequel::Model(:instance)
   corresponds_to JSONModel(:instance)
 
   include Relationships
+  include SubContainers
 
   set_model_scope :global
 

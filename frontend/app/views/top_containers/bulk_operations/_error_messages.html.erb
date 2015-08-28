@@ -1,0 +1,13 @@
+<% if exceptions.has_key?("error") %>
+  <div class="alert alert-error" data-uri="<%= exceptions["uri"] %>">
+    <% exceptions["error"].each do |attr, messages| %>
+      <div class="errors-for-attribute">
+        <% messages.each do |msg| %>
+          <div class="error">
+            <%= I18n.t("#{jsonmodel}.#{attr}") %> - <%= msg %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

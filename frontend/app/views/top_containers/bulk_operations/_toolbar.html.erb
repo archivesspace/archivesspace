@@ -1,0 +1,18 @@
+<div class="record-toolbar bulk-operation-toolbar">
+  <div class="btn-toolbar pull-right">
+    <div class="bulk-actions" class="btn-group">
+      <a class="btn btn-sm btn-default dropdown-toggle disabled" data-toggle="dropdown" href="#">
+        <%= I18n.t("top_container._frontend.bulk_operations.title") %>
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu pull-right">
+        <li><a id="bulkActionUpdateIlsHolding" href="javascript:void(0)"><%= I18n.t("top_container._frontend.bulk_operations.update_ils_holding_ids")%></a></li>
+        <li><a id="bulkActionUpdateContainerProfile" href="javascript:void(0)"><%= I18n.t("top_container._frontend.bulk_operations.update_container_profiles")%></a></li>
+        <li><a id="bulkActionUpdateLocation" href="javascript:void(0)"><%= I18n.t("top_container._frontend.bulk_operations.update_locations")%></a></li>
+        <li><a id="showBulkActionRapidBarcodeEntry" href="javascript:void(0);"><%= I18n.t("top_container._frontend.bulk_operations.rapid_barcode_entry")%></a></li>
+        <li><a id="bulkActionDelete" href="javascript:void(0)"><span class="text-error"><%= I18n.t("top_container._frontend.bulk_operations.batch_delete")%></span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</div>

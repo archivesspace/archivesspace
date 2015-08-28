@@ -25,11 +25,25 @@
            'jsonmodel_type' => @resource.jsonmodel_type,
            'node_type' => @resource.jsonmodel_type,
            'instance_types' => @resource.instances.map{|instance| I18n.t("enumerations.instance_instance_type.#{instance['instance_type']}", :default => instance['instance_type'])},
-           'containers' => @resource.to_hash["instances"].map{|instance| instance["container"]}.compact.map {|container|
-             container["type_1"] = I18n.t("enumerations.container_type.#{container["type_1"]}", :default => container["type_1"]) if container["type_1"]
-             container["type_2"] = I18n.t("enumerations.container_type.#{container["type_2"]}", :default => container["type_2"]) if container["type_2"]
-             container["type_3"] = I18n.t("enumerations.container_type.#{container["type_3"]}", :default => container["type_3"]) if container["type_3"]
-             container
+           'containers' => @resource.to_hash["instances"].map{|instance| instance["sub_container"]}.compact.map {|sub_container|
+             properties = {}
+             if sub_container["top_container"]
+               top_container = sub_container["top_container"]["_resolved"]
+               # if _resolved comes from search result, then need to parse JSON
+               if top_container["json"]
+                 top_container = ASUtils.json_parse(top_container["json"])
+               end
+               properties["type_1"] = "Container"
+               properties["indicator_1"] = top_container["indicator"]
+               if top_container["barcode"]
+                 properties["indicator_1"] += " [#{top_container["barcode"]}]"
+               end
+             end
+             properties["type_2"] = I18n.t("enumerations.container_type.#{sub_container["type_2"]}", :default => sub_container["type_2"])
+             properties["indicator_2"] =sub_container["indicator_2"]
+             properties["type_3"] = I18n.t("enumerations.container_type.#{sub_container["type_3"]}", :default => sub_container["type_3"])
+             properties["indicator_3"] =sub_container["indicator_3"]
+             properties
            },
            'replace_new_node' => false
          }

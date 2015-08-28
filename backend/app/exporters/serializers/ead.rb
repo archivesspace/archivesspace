@@ -1,10 +1,10 @@
 require 'nokogiri'
 require 'securerandom'
-
+require_relative "../lib/serialize_extra_container_values" 
 class EADSerializer < ASpaceExport::Serializer
   serializer_for :ead
 
-
+  include SerializeExtraContainerValues
   def prefix_id(id)
     if id.nil? or id.empty? or id == 'null'   
       ""

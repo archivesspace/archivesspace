@@ -1,3 +1,43 @@
+<%
+  def local_access_restriction_types_for_options
+    JSONModel.enum_values("restriction_type").map {|type|
+      [I18n.t("enumerations.restriction_type.#{type}", type), type]
+    }.sort_by(&:first)
+  end
+%>
+
+<% define_template "rights_restriction", jsonmodel_definition(:rights_restriction) do |form| %>
+  <%= form.label_and_date("begin") %>
+  <%= form.label_and_date("end") %>
+  <div class="control-group">
+    <%= form.label("local_access_restriction_type") %>
+    <div class="controls">
+      <% if form.readonly? %>
+        <ul>
+          <% Array.wrap(form.obj['local_access_restriction_type']).
+                   map{|type| I18n.t("enumerations.restriction_type.#{type}",type)}.
+                   sort.each do |type| %>
+            <li><%= type %></li>
+          <% end %>
+        </ul>
+      <% else %>
+        <%= select_tag(form.path("local_access_restriction_type[]"),
+                       options_for_select(local_access_restriction_types_for_options, form.obj['local_access_restriction_type']),
+                       {
+                         :id => form.id_for("local_access_restriction_type"),
+                         :multiple => "multiple",
+                         :class => "span12",
+                         :size => local_access_restriction_types_for_options.length
+                       })
+        %>
+        <span class="help-inline"><%= I18n.t("rights_restriction.local_access_restriction_type_inline_help") %></span>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+
+
 <div id="template_note_summary"><!--
   <div class="subrecord-summary-title">
     {if type != ""}
@@ -213,6 +253,16 @@
           multipart_notes.map {|value, hash| [hash[:i18n], value]},
           :field_opts => {:class => "note-type"}) %>
       <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
+
+      <% if form.readonly? && ["accessrestrict", "userestrict"].include?(form.obj["type"]) %>
+        <section id="notes_restriction">
+      <% else %>
+        <section id="notes_restriction" style="display: none">
+      <% end %>
+        <% form.push("rights_restriction", form.obj["rights_restriction"] || {}) do |form| %>
+          <% form.emit_template("rights_restriction") %>
+        <% end %>
+      </section>
 
       <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
         <h5 class="subrecord-form-heading">

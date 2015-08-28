@@ -12,6 +12,10 @@
         "ifmissing" => "error",
         "dynamic_enum" => "note_multipart_type"
       },
+      
+      "rights_restriction" => {
+        "type" => "JSONModel(:rights_restriction) object"
+      },
 
       "subnotes" => {
         "type" => "array",
