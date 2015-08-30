@@ -14,6 +14,7 @@ $(function() {
         return;
       }
 
+      $this.data("form_index", $("> .subrecord-form-container .subrecord-form-fields", $this).length);
 
       var init = function(callback) {
         // Proxy the event onto the subrecord's form

@@ -397,8 +397,7 @@ $(function() {
       $('.btn-success', $closeRecordButton).click(function(event) {
         event.preventDefault();
         event.stopImmediatePropagation();
-
-        var location = $('a', $(this)).attr('href');
+        var location =  $(this).attr('href');
         if ($("form", $container).data("form_changed")) {
           var p = confirmChanges(tree.get_primary_selected_dom());
           p.done(function(proceed) {
