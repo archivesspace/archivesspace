@@ -94,7 +94,7 @@ describe "Tree UI" do
   end
 
 
-  it "can reorder the tree while editing a node" do
+  it "can not reorder the tree while editing a node" do
 
     pane_resize_handle = $driver.find_element(:css => ".ui-resizable-handle.ui-resizable-s")
     10.times {
@@ -121,16 +121,29 @@ describe "Tree UI" do
     $driver.find_element(:id => js_node(@a2).li_id)
       .find_element(:css => "i.jstree-icon").click
     sleep(5)
+    
+    expect {
 
-    $driver
-      .find_element(:id => js_node(@a2).li_id)
-      .find_element(:id => js_node(@a3).li_id).find_element(:css => "span.title-column").text.should match(/Resource Component/)
-
+      $driver
+        .find_element(:id => js_node(@a2).li_id)
+        .find_element(:id => js_node(@a3).li_id).find_element(:css => "span.title-column").text.should_not match(/Resource Component/)
+    }.to raise_error
+    
     # if we refresh the parent should now be open
     $driver.navigate.refresh
-    $driver
-      .find_element(:id => js_node(@a2).li_id)
-      .find_element(:id => js_node(@a3).li_id).find_element(:css => "span.title-column").text.should match(/Resource Component/)
+    
+    expect  { 
+      $driver
+        .find_element(:id => js_node(@a2).li_id)
+        .find_element(:id => js_node(@a3).li_id).find_element(:css => "span.title-column").text.should_not match(/Resource Component/)
+    }.to raise_error
+   
+    # but it should have saved...just not moved. 
+    expect  { 
+      $driver
+        .find_element(:id => js_node(@a3).li_id).find_element(:css => "span.title-column").text.should match(/Resource Component/)
+    }.to_not raise_error
+
 
   end
 
@@ -308,8 +321,9 @@ describe "Tree UI" do
 
     # everything should be in the order we want it...
     [ "Kalle Anka", "Japanese KFC","Santa Crap", "Fruit Cake" ].each_with_index do |ao, i|
+      ao.delete!("1")
       assert(5) {
-        $driver.find_element( :xpath => "//div[@id='archives_tree']//li[a/@title='Gifts']/ul/li[position() = #{i + 1}]/a/span/span[@class='title-column pull-left']").text.should eq(ao)
+        $driver.find_element( :xpath => "//div[@id='archives_tree']//li[a/@title='Gifts']/ul/li[position() = #{i + 1}]/a/span/span[@class='title-column pull-left']").text.should match(/#{ao}/)
       }
     end
   end
