@@ -1254,6 +1254,9 @@ $(function() {
       }, 50);
 
     }).bind("refreshtreenode.aspace", function(event, data) {
+      
+      AS.tree_data.moveable = true; 
+      
       var a_title = data.title || data.text;
 
       data.text = AS.renderTemplate("tree_node_" + data.node_type + "_template", {node: data});
