@@ -268,7 +268,6 @@ describe "Agents" do
 
 
   it "returns agents in search results and shows their types correctly" do
-    run_index_round
 
     $driver.clear_and_send_keys([:id, "global-search-box"], "Hendrix")
     $driver.find_element(:id => 'global-search-button').click

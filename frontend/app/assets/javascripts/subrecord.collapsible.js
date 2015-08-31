@@ -27,7 +27,10 @@ AS.initSubRecordCollapsible = function($form, func_generateSummary) {
       $container.hide();
       $summary.fadeIn();
     } else {
-      $container.slideDown();
+      
+      $container.slideDown( "slow", function() {
+       $(document).trigger("expandcontainer.aspace", $container) }
+      );
       $summary.hide();
     }
 

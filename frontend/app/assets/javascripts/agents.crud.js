@@ -115,8 +115,15 @@ $(function() {
     $(document).triggerHandler("subrecordcreated.aspace", ["term", $("#terms", $subform)]);
   };
 
-
-
+  // We need to trigger this event here, since there is not tree.js to do it
+  // for us. 
+  $(document).ready(function() {
+    if ($("#form_agent").length) {
+      $(document).triggerHandler("loadedrecordform.aspace", [$("#form_agent")] ); 
+      $(document).triggerHandler("loadedrecordsubforms.aspace", [$("#form_agent")] ); 
+    }
+  });
+  
   $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     if (object_name === "name") {
       init_name_form($(subform));

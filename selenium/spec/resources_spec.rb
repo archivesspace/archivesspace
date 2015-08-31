@@ -223,7 +223,7 @@ describe "Resources and archival objects" do
     $driver.find_element(:id, "dismissChangesButton").click
 
     assert(5) {
-      $driver.find_element(:css => "a.jstree-clicked .title-column").text.strip.should eq(@resource.title)
+      $driver.find_element(:css => "a.jstree-clicked .title-column").text.strip.should eq(@resource.title.delete("1").chomp)
     }
   end
 

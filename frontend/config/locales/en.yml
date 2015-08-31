@@ -57,6 +57,7 @@ en:
     unsuppress_confirm_title: Unsuppress this Record?
     unsuppress_confirm_message: "false"
     unable_to_move_message: "Unable to Move Record"
+    move_ordering_problem_message: "Record Move Ordering Issue"
     delete: Delete
     delete_confirm_title: Delete this Record?
     delete_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove the record from the database, including any references it has to other records.</p>"
@@ -79,7 +80,7 @@ en:
     finish_editing: Close Record
     merge: Merge
     form_changes_message: "<small><span class='muted'>You have unsaved changes</span></small>"
-    toolbar_disabled_message: "<small><span class='muted'>You have unsaved changes - Save or Revert to access toolbar</span></small>"
+    toolbar_disabled_message: "<small><span class='muted'>You have unsaved changes - Save or Revert to access toolbar and record tree</span></small>"
     publish: Publish All
     publish_confirm_title: Publish?
     publish_confirm_message: "<p>Performing this action will publish this record, any sub-records (External Documents, Notes, etc) and all components in the hierarchy.</p>"
@@ -88,7 +89,7 @@ en:
     print_to_pdf: Print Resource To PDF 
     resource_to_pdf: Resource to Print
     download_pdf: Download PDF
-  
+    click_to_show: Please click to load records. 
 
   states:
     auto_generated: System generates when saved
