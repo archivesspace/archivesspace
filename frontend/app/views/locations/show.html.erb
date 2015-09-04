@@ -14,6 +14,10 @@
       <%= read_only_view(@location.to_hash) %>
 
       <%= render_aspace_partial :partial => "search/embedded", :locals => {:record => @location, :filter_term => {"location_uris" => @location.uri}.to_json, :heading_text => I18n.t("location._frontend.section.search_embedded")} %>
+
+      <% if @location.external_ids.length > 0 && show_external_ids? %>
+        <%= render_aspace_partial :partial => "external_ids/show", :locals => { :external_ids => @location.external_ids, :section_id => "location_external_ids_" } %>
+      <% end %>
     </div>
   </div>
 </div>

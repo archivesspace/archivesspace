@@ -14,4 +14,6 @@
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'rights_statement', :property => 'rights_statements') %>
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'instance', :property => 'instances') %>
     <%= sidebar.render_for_view_only(:subrecord_type => 'linked_event', :property => 'linked_events') %>
+
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'external_id', :property => 'external_ids') if show_external_ids? && sidebar.show_external_ids_sidebar_entry? %>
 <% end %>

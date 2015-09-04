@@ -23,6 +23,9 @@
       </div>
       <div id="<%= section_id %>_collection_management" class="accordion-body collapse">
         <%= read_only_view(collection_management) %>
+        <% if ASUtils.wrap(collection_management["external_ids"]).length > 0 && show_external_ids? %>
+          <%= render_aspace_partial :partial => "external_ids/show", :locals => { :external_ids => collection_management["external_ids"], :section_id => "collection_management_external_ids_" } %>
+        <% end %>
       </div>
     </div>
   </div>

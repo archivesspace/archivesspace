@@ -191,3 +191,6 @@ AppConfig[:resequence_on_startup] = false
 # This is a URL that points to some demo data that can be used for testing,
 # teaching, etc. To use this, set an OS environment variable of ASPACE_DEMO = true
 AppConfig[:demo_data_url] = "https://s3-us-west-2.amazonaws.com/archivesspacedemo/latest-demo-data.zip" 
+
+# Expose external ids in the frontend
+AppConfig[:show_external_ids] = false

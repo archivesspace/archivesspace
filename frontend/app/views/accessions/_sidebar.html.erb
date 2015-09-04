@@ -18,5 +18,6 @@
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'classification', :property => 'classifications') %>
     <%= sidebar.render_for_view_only(:subrecord_type => 'linked_event', :property => 'linked_events') %>
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'user_defined', :property => 'user_defined') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'external_id', :property => 'external_ids') if show_external_ids? && sidebar.show_external_ids_sidebar_entry? %>
 
 <% end %>
