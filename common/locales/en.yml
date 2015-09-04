@@ -919,6 +919,13 @@ en:
     _plural: External Documents
     _singular: External Document
 
+  external_id:
+    _plural: External IDs
+    _singular: External ID
+    source: Source
+    external_id: External ID
+
+
   rights_statement: &rights_statement_attributes
     identifier: Identifier
     identifier_tooltip: |

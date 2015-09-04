@@ -313,10 +313,12 @@ en:
       terabytes: Terabytes
       volumes: Volumes
     collection_management_processing_priority:
+      none: Not specified
       high: High
       medium: Medium
       low: Low
     collection_management_processing_status:
+      none: Not specified
       new: New
       in_progress: In Progress
       completed: Completed
