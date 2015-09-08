@@ -158,47 +158,4 @@ describe "Digital Objects" do
     $driver.find_element_with_text("//div", /Mixed Materials/) # not mixed_materials
   end
 
-  it "can merge a DO into a DO" do
-    logout
-    login_to_repo("admin", "admin", $test_repo)
-
-    [ "Thing1", "Thing2"].each do |title|
-      create_digital_object(:title => title  )
-    end
-
-    assert(10) {
-
-      run_index_round
-
-      $driver.find_element(:link, "Browse").click
-      $driver.find_element(:link, "Digital Objects").click
-
-      $driver.clear_and_send_keys([:css, ".sidebar input.text-filter-field"], "Thing*" )
-      $driver.find_element(:css, ".sidebar input.text-filter-field + div button").click
-
-      $driver.find_element_with_text('//tr', /Thing1/).find_element(:link, 'Edit').click
-
-      $driver.find_element(:link, "Merge").click
-
-      $driver.clear_and_send_keys([:id, "token-input-merge_ref_"], "Thing2" )
-      $driver.find_element(:css, "li.token-input-dropdown-item2").click
-
-      $driver.find_element(:css, "button.merge-button").click
-
-      $driver.wait_for_ajax
-
-      $driver.find_element_with_text("//h3", /Merge into this record\?/)
-      $driver.find_element(:css, "button#confirmButton").click
-    }
-
-    $driver.wait_for_ajax
-
-    expect {
-      assert(10) {
-        $driver.navigate.refresh
-        $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Digital object\(s\) Merged/)
-      }
-    }.not_to raise_error
-  end
-
 end
