@@ -282,6 +282,12 @@ module Selenium
           puts e
         end
       end
+
+
+      def get_edit_page(json_obj)
+        $driver.get("#{$frontend}#{json_obj.uri.sub(/\/repositories\/\d+/, '')}/edit")
+      end
+
     end
 
 
