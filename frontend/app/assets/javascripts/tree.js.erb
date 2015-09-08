@@ -457,6 +457,7 @@ $(function() {
 
 
   var setHashForNode = function(node_id) {
+
     if (node_id.indexOf("tree::") < 0) {
       tree_node_id = "tree::"+node_id;
     } else { tree_node_id = node_id }
@@ -464,11 +465,12 @@ $(function() {
     // if the hash is empty or is the same, this is the first time the page has been loaded...so we don't need to 
     // retrigger the onHashChange callback. or is its #resource_3 and the hash is being changed to 
     // tree::resource_3. ugh.  
+
     if ( location.hash.length < 1 || location.hash === "#" + node_id || location.hash === node_id || location.hash === tree_node_id ) {
       changeHashSilently(tree_node_id); 
     } else {   
       location.hash = tree_node_id;
-    }   
+    }
   };
 
 
@@ -858,7 +860,7 @@ $(function() {
       data: data_for_post,
       success: function(data, status, jqXHR) {
         // if we get back position from the backend that's different than
-        // the index from the frontend, we mihgt have a problem so let's refresh
+        // the index from the frontend, we might have a problem so let's refresh
         // the tree
         if ( data_for_post.index !== data.position ){
           tree.refresh();
@@ -898,7 +900,12 @@ $(function() {
             }, 1000); 
             
             // now let's  unlock da the form
-            tree.refresh_node(targetNode); 
+
+            // I took this out 
+            // because it's causing the tree data
+            // to reload when it doesn't have to - BH
+            // tree.refresh_node(targetNode); 
+
             $(document).triggerHandler("unlockform.aspace", [$container]);
             
           
