@@ -12,7 +12,6 @@ FactoryGirl.define do
   sequence(:repo_code) {|n| "ASPACE REPO #{n} -- #{rand(1000000)}"}
   sequence(:username) {|n| "username_#{n}"}
 
-  sequence(:alphanumstr) { (0..4).map{ rand(3)==1?rand(1000):(65 + rand(25)).chr }.join }
   sequence(:good_markup) { "<p>I'm</p><p>GOOD</p><p>#{ FactoryGirl.generate(:alphanumstr)}</p>" }
   sequence(:whack_markup) { "I'm <p><br/>WACK " + FactoryGirl.generate(:alphanumstr) }
   sequence(:wild_markup) { "<p> I AM \n WILD \n ! \n ! " + FactoryGirl.generate(:alphanumstr) + "</p>" }
@@ -28,7 +27,6 @@ FactoryGirl.define do
   sequence(:phone_number) { (3..5).to_a[rand(3)].times.map { (3..5).to_a[rand(3)].times.map { rand(9) }.join }.join(' ') }
   sequence(:yyyy_mm_dd) { Time.at(rand * Time.now.to_i).to_s.sub(/\s.*/, '') }
   sequence(:hh_mm) { t = Time.now; "#{t.hour}:#{t.min}" }
-  sequence(:number) { rand(100).to_s }
   sequence(:url) {|n| "http://www.example-#{n}.com"}
   sequence(:barcode) { 20.times.map { rand(2)}.join }
   sequence(:indicator) { (2+rand(3)).times.map { (2+rand(3)).times.map {rand(9)}.join }.join('-') }
