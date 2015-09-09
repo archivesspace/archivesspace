@@ -15,6 +15,10 @@ describe "Merging and transfering resources" do
     @resource2 = create(:resource)
     @resource3 = create(:resource)
 
+    @do1 = create(:digital_object)
+    @do2 = create(:digital_object)
+    @do3 = create(:digital_object)
+
     @aoset2 = (0...10).map { create(:archival_object, :resource => {'ref' => @resource2.uri}) }
     @aoset3 = (0...10).map { create(:archival_object, :resource => {'ref' => @resource3.uri}) }
 
@@ -78,5 +82,30 @@ describe "Merging and transfering resources" do
         $driver.find_element(:id => js_node(ao).li_id)
       }
     end
+  end
+
+
+  it "can merge a digital object into a digital object", :retry => 2, :retry_wait => 10 do
+
+    select_repo(@repo.repo_code)
+
+    $driver.get_edit_page(@do1)
+
+    $driver.find_element(:link, "Merge").click
+
+    # spaces in the search string seem to through off the token search, so:
+    search_string = @do2.title.sub(/-\s.*/, "").strip
+    $driver.clear_and_send_keys([:id, "token-input-merge_ref_"], search_string )
+    sleep(1)
+    $driver.find_element(:css, "li.token-input-dropdown-item2").click
+
+    $driver.find_element(:css, "button.merge-button").click
+
+    $driver.wait_for_ajax
+
+    $driver.find_element_with_text("//h3", /Merge into this record\?/)
+    $driver.find_element(:css, "button#confirmButton").click
+    $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Digital object\(s\) Merged/i)
+
   end
 end

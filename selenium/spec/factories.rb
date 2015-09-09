@@ -1,5 +1,6 @@
-require 'factory_girl'
 require 'jsonmodel'
+require 'factory_girl'
+require 'spec/lib/factory_girl_helpers'
 
 include JSONModel
 
@@ -37,8 +38,12 @@ module SeleniumFactories
       sequence(:accession_title) { |n| "Accession #{n}" }
       sequence(:resource_title) { |n| "Resource #{n}" }
       sequence(:archival_object_title) {|n| "Archival Object #{n}"}
+      sequence(:digital_object_title) {|n| "Digital Object #{n}"}
+      sequence(:digital_object_component_title) {|n| "Digital Object #{n}"}
+
 
       sequence(:rde_template_name) {|n| "RDE Template #{n}_#{Time.now.to_i}"}
+
 
       factory :repo, class: JSONModel(:repository) do
         repo_code { generate :repo_code }
@@ -86,6 +91,34 @@ module SeleniumFactories
         ref_id { generate(:ref_id) }
         level "item"
       end
+
+
+      factory :digital_object, class: JSONModel(:digital_object) do
+        title { generate :digital_object_title }
+        language { "eng" }
+        digital_object_id { generate(:ref_id) }
+        extents { [build(:extent)] }
+        file_versions { [build(:file_version)] }
+        dates { few_or_none(:date) }
+      end
+
+      factory :digital_object_component, class: JSONModel(:digital_object_component) do
+        component_id { generate(:alphanumstr) }
+        title { generate :digital_object_component_title }
+      end
+
+      factory :file_version, class: JSONModel(:file_version) do
+        file_uri "http://example.com/1"
+        use_statement { generate(:use_statement) }
+        xlink_actuate_attribute { generate(:xlink_actuate_attribute) }
+        xlink_show_attribute { generate(:xlink_show_attribute) }
+        file_format_name { generate(:file_format_name) }
+        file_format_version { generate(:alphanumstr) }
+        file_size_bytes { generate(:number).to_i }
+        checksum { generate(:alphanumstr) }
+        checksum_method { generate(:checksum_method) }
+      end
+
 
       factory :extent, class: JSONModel(:extent) do
         portion "whole"
