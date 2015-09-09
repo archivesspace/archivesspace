@@ -1,5 +1,4 @@
 require_relative 'spec_helper'
-require_relative '../../indexer/app/lib/periodic_indexer'
 
 describe "ArchivesSpace Public interface" do
 
