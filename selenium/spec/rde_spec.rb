@@ -191,21 +191,19 @@ describe "RDE" do
     $driver.click_and_wait_until_gone(:css, "#fill_basic .btn-primary")
 
     # all should have item as the level
-    assert {
-      @modal.find_element(:id, "archival_record_children_children__0__level_").get_select_value.should eq("item")
-      @modal.find_element(:id, "archival_record_children_children__1__level_").get_select_value.should eq("item")
-      @modal.find_element(:id, "archival_record_children_children__2__level_").get_select_value.should eq("item")
-      @modal.find_element(:id, "archival_record_children_children__3__level_").get_select_value.should eq("item")
-      @modal.find_element(:id, "archival_record_children_children__4__level_").get_select_value.should eq("item")
-      @modal.find_element(:id, "archival_record_children_children__5__level_").get_select_value.should eq("item")
-      @modal.find_element(:id, "archival_record_children_children__6__level_").get_select_value.should eq("item")
-      @modal.find_element(:id, "archival_record_children_children__7__level_").get_select_value.should eq("item")
-      @modal.find_element(:id, "archival_record_children_children__8__level_").get_select_value.should eq("item")
-      @modal.find_element(:id, "archival_record_children_children__9__level_").get_select_value.should eq("item")
-    }
+    @modal.find_element(:id, "archival_record_children_children__0__level_").get_select_value.should eq("item")
+    @modal.find_element(:id, "archival_record_children_children__1__level_").get_select_value.should eq("item")
+    @modal.find_element(:id, "archival_record_children_children__2__level_").get_select_value.should eq("item")
+    @modal.find_element(:id, "archival_record_children_children__3__level_").get_select_value.should eq("item")
+    @modal.find_element(:id, "archival_record_children_children__4__level_").get_select_value.should eq("item")
+    @modal.find_element(:id, "archival_record_children_children__5__level_").get_select_value.should eq("item")
+    @modal.find_element(:id, "archival_record_children_children__6__level_").get_select_value.should eq("item")
+    @modal.find_element(:id, "archival_record_children_children__7__level_").get_select_value.should eq("item")
+    @modal.find_element(:id, "archival_record_children_children__8__level_").get_select_value.should eq("item")
+    @modal.find_element(:id, "archival_record_children_children__9__level_").get_select_value.should eq("item")
   end
 
-  it "can perform a sequence fill" do
+  it "can perform a sequence fill", :retry => 2, :retry_wait => 10 do
     @modal = $driver.find_element(:id => "rapidDataEntryModal")
 
     @modal.find_element(:css, ".btn.fill-column").click
@@ -224,18 +222,16 @@ describe "RDE" do
     $driver.click_and_wait_until_gone(:css, "#fill_sequence .btn-primary")
 
     # check the component id for each row matches the sequence
-    assert {
-      @modal.find_element(:id, "archival_record_children_children__0__component_id_").attribute("value").should eq("ABC1")
-      @modal.find_element(:id, "archival_record_children_children__1__component_id_").attribute("value").should eq("ABC2")
-      @modal.find_element(:id, "archival_record_children_children__2__component_id_").attribute("value").should eq("ABC3")
-      @modal.find_element(:id, "archival_record_children_children__3__component_id_").attribute("value").should eq("ABC4")
-      @modal.find_element(:id, "archival_record_children_children__4__component_id_").attribute("value").should eq("ABC5")
-      @modal.find_element(:id, "archival_record_children_children__5__component_id_").attribute("value").should eq("ABC6")
-      @modal.find_element(:id, "archival_record_children_children__6__component_id_").attribute("value").should eq("ABC7")
-      @modal.find_element(:id, "archival_record_children_children__7__component_id_").attribute("value").should eq("ABC8")
-      @modal.find_element(:id, "archival_record_children_children__8__component_id_").attribute("value").should eq("ABC9")
-      @modal.find_element(:id, "archival_record_children_children__9__component_id_").attribute("value").should eq("ABC10")
-    }
+    @modal.find_element(:id, "archival_record_children_children__0__component_id_").attribute("value").should eq("ABC1")
+    @modal.find_element(:id, "archival_record_children_children__1__component_id_").attribute("value").should eq("ABC2")
+    @modal.find_element(:id, "archival_record_children_children__2__component_id_").attribute("value").should eq("ABC3")
+    @modal.find_element(:id, "archival_record_children_children__3__component_id_").attribute("value").should eq("ABC4")
+    @modal.find_element(:id, "archival_record_children_children__4__component_id_").attribute("value").should eq("ABC5")
+    @modal.find_element(:id, "archival_record_children_children__5__component_id_").attribute("value").should eq("ABC6")
+    @modal.find_element(:id, "archival_record_children_children__6__component_id_").attribute("value").should eq("ABC7")
+    @modal.find_element(:id, "archival_record_children_children__7__component_id_").attribute("value").should eq("ABC8")
+    @modal.find_element(:id, "archival_record_children_children__8__component_id_").attribute("value").should eq("ABC9")
+    @modal.find_element(:id, "archival_record_children_children__9__component_id_").attribute("value").should eq("ABC10")
   end
 
   it "can perform a column reorder" do

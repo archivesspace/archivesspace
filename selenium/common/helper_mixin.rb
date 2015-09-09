@@ -19,8 +19,8 @@ module RepositoryHelperMethods
       $driver.find_element(:css, 'body').find_element_orig(:css, '.user-container .btn.dropdown-toggle').click
     end
 
-    $driver.find_element(:link, "Logout").click
-    $driver.find_element(:link, "Sign In")
+    $driver.find_element_orig(:link, "Logout").click
+    $driver.find_element_orig(:link, "Sign In")
   end
 
   def create_test_repo(code, name, wait = true)

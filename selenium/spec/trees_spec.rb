@@ -27,8 +27,10 @@ describe "Tree UI" do
   end
 
 
-  after(:each) do
-    logout
+  after(:all) do
+    $driver.attempt(5) {
+      logout
+    }
   end
 
 

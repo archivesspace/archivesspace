@@ -12,6 +12,8 @@ describe "Digital Objects" do
     @do_child1 = create(:digital_object_component, {:digital_object => {:ref => @do.uri}})
     @do_child2 = create(:digital_object_component, {:digital_object => {:ref => @do.uri}})
 
+    @do2 = create(:digital_object)
+
     (@user, @pass) = create_user
     add_user_to_archivists(@user, @repo.uri)
 
@@ -74,14 +76,11 @@ describe "Digital Objects" do
     $driver.find_element(:link, "Edit").click
   end
 
-  it "reports errors if adding a child with no title to a Digital Object" do
-
-    $driver.attempt(10) { |attempt|
-      attempt.navigate.refresh
-      attempt.find_element(:link, "Add Child").click
-      attempt.wait_for_ajax
-      attempt.find_element(:id, "digital_object_component_component_id_")
-    }
+  it "reports errors if adding a child with no title to a Digital Object", :retry => 2, :retry_wait => 10 do
+    $driver.get_edit_page(@do2)
+    $driver.find_element(:link, "Add Child").click
+    $driver.wait_for_ajax
+    $driver.find_element(:id, "digital_object_component_component_id_")
 
     $driver.clear_and_send_keys([:id, "digital_object_component_component_id_"], "123")
     sleep(2)
@@ -94,7 +93,12 @@ describe "Digital Objects" do
 
   # Digital Object Component Nodes in Tree
 
-  it "can populate the digital object component tree" do
+  it "can populate the digital object component tree", :retry => 2, :retry_wait => 10 do
+    $driver.get_edit_page(@do2)
+    $driver.find_element(:link, "Add Child").click
+    $driver.wait_for_ajax
+    $driver.find_element(:id, "digital_object_component_component_id_")
+
     $driver.clear_and_send_keys([:id, "digital_object_component_title_"], "JPEG 2000 Verson of Image")
     $driver.clear_and_send_keys([:id, "digital_object_component_component_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
 
