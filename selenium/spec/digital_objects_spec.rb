@@ -3,7 +3,19 @@ require_relative 'spec_helper'
 describe "Digital Objects" do
 
   before(:all) do
-    login_as_archivist
+    backend_login
+
+    @repo = create(:repo)
+    set_repo(@repo.uri)
+
+    @do = create(:digital_object)
+    @do_child1 = create(:digital_object_component, {:digital_object => {:ref => @do.uri}})
+    @do_child2 = create(:digital_object_component, {:digital_object => {:ref => @do.uri}})
+
+    (@user, @pass) = create_user
+    add_user_to_archivists(@user, @repo.uri)
+
+    login_to_repo(@user, @pass, @repo)
   end
 
 
@@ -118,7 +130,9 @@ describe "Digital Objects" do
 
   end
 
-  it "can drag and drop reorder a Digital Object" do
+  it "can drag and drop reorder a Digital Object", :retry => 2, :retry_wait => 10 do
+    $driver.get("#{$frontend}#{@do.uri.sub(/\/repositories\/\d+/, '')}/edit#tree::digital_object_component_#{@do_child1.id}")
+
     # create grand child
     $driver.find_element(:link, "Add Child").click
 
@@ -134,28 +148,22 @@ describe "Digital Objects" do
 
     #drag to become sibling of parent
     source = $driver.find_element_with_text("//div[@id='archives_tree']//a", /ICO/)
-    target = $driver.find_element_with_text("//div[@id='archives_tree']//a", /Pony Express Digital Image/)
+    target = $driver.find_element_with_text("//div[@id='archives_tree']//a", /#{@do.title}/)
     $driver.action.drag_and_drop(source, target).perform
     $driver.wait_for_ajax
 
-    target = $driver.find_element_with_text("//div[@id='archives_tree']//li", /Pony Express Digital Image/)
+    target = $driver.find_element_with_text("//div[@id='archives_tree']//li", /#{@do.title}/)
     target.find_element_with_text(".//a", /ICO/)
 
     # refresh the page and verify that the change really stuck
     $driver.navigate.refresh
 
-    target = $driver.find_element_with_text("//div[@id='archives_tree']//li", /Pony Express Digital Image/)
+    target = $driver.find_element_with_text("//div[@id='archives_tree']//li", /#{@do.title}/)
     target.find_element_with_text(".//a", /ICO/)
 
     $driver.click_and_wait_until_gone(:link, "Close Record")
-    $driver.find_element(:xpath, "//a[@title='#{digital_object_title}']").click
+    $driver.find_element(:xpath, "//a[@title='#{@do.title}']").click
 
-    $driver.find_element_with_text("//h2", /#{digital_object_title}/)
+    $driver.find_element_with_text("//h2", /#{@do.title}/)
   end
-
-
-  it "applies i18n to the show view" do
-    $driver.find_element_with_text("//div", /Mixed Materials/) # not mixed_materials
-  end
-
 end

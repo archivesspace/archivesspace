@@ -39,6 +39,8 @@ module SeleniumFactories
       sequence(:resource_title) { |n| "Resource #{n}" }
       sequence(:archival_object_title) {|n| "Archival Object #{n}"}
       sequence(:digital_object_title) {|n| "Digital Object #{n}"}
+      sequence(:digital_object_component_title) {|n| "Digital Object #{n}"}
+
 
       sequence(:rde_template_name) {|n| "RDE Template #{n}_#{Time.now.to_i}"}
 
@@ -98,6 +100,11 @@ module SeleniumFactories
         extents { [build(:extent)] }
         file_versions { [build(:file_version)] }
         dates { few_or_none(:date) }
+      end
+
+      factory :digital_object_component, class: JSONModel(:digital_object_component) do
+        component_id { generate(:alphanumstr) }
+        title { generate :digital_object_component_title }
       end
 
       factory :file_version, class: JSONModel(:file_version) do
