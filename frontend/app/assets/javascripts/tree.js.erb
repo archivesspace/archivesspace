@@ -78,7 +78,9 @@ $(function() {
     });
 
 
-    $(".btn-plus-one", $form).click(function() {
+    $(".btn-plus-one", $form).click( function(event) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
       var createPlusOne = function(event, data) {
         if (data.success) {
           $(".archives-tree-container .add-sibling").trigger("click");
