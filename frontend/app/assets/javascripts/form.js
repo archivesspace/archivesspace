@@ -82,7 +82,6 @@ $(function() {
       $unlock.on("click", function(event) {
         event.preventDefault();
         event.stopImmediatePropagation();
-        $(this).removeClass('locked'); 
         $(window).trigger('hashchange');
       });
       $("#archives_form_overlay", $(this) ).append($unlock);

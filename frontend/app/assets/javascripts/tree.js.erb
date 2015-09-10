@@ -478,13 +478,14 @@ $(function() {
 
   var changeHashSilently = function(newHash) {
     $(window).data("ignore-hashchange", true);
+    $('.locked').removeClass('locked');
     location.hash = newHash;
   };
 
 
   var onHashChange = function(){
     var currentlyFocusedSelector;
-
+    $('.locked').removeClass('locked');
     // if a toolbar action is clicked, let's refocus it
     // up re-render (it will be replaced with a new toolbar
     // for the selected node)
