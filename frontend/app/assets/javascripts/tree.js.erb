@@ -887,10 +887,7 @@ $(function() {
             // Always update the currently selected node's position.. it may have changed!
             $("#"+nodeEl.attr("rel")+"_position_", $container).val(nodeEl.index());
 
-            if  ( desired_children.length === 0 ){
-               desired_children = targetNode.children;
-            } 
-            
+            desired_children = targetNode.children;
             
             // lets give the thing at least one second so we don't cause any seizures with flashing annimation.  
             setTimeout( function() { 
@@ -901,11 +898,15 @@ $(function() {
             
             // now let's  unlock da the form
 
-            // I took this out 
-            // because it's causing the tree data
-            // to reload when it doesn't have to - BH
-            // tree.refresh_node(targetNode); 
-
+            // trying this again. if the target node is the root, 
+            // let's just refresh the whole dang tree. 
+            if ( targetNode.parent === "#" ) {
+              tree.refresh(); 
+            } else {
+            // otherwise, just refresh that level... 
+              tree.refresh_node(targetNode); 
+            }
+            
             $(document).triggerHandler("unlockform.aspace", [$container]);
             
           
@@ -1367,7 +1368,6 @@ $(function() {
     happy_family = desired_children.length == data.node.children.length && desired_children.every(function(element, index) {
         return element === data.node.children[index]; 
     }); 
-    
     if ( happy_family === false ) { 
       AS.openQuickModal(AS.renderTemplate("tree_move_ordering_problem_message_template"), desired_children);
     }  

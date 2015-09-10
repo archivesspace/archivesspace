@@ -71,6 +71,7 @@ $(function() {
   var lockForm = function() {
     $(this).each(function() {
       $(".form-overlay", $(this) ).height('100%').fadeIn();
+      $(this).addClass('locked'); 
     }); 
   }
   
@@ -78,14 +79,14 @@ $(function() {
     $(this).each(function() {
       
       var $unlock = $(AS.renderTemplate("form_overlay_unlock_template"));
-      $unlock.hide(); 
       $unlock.on("click", function(event) {
         event.preventDefault();
         event.stopImmediatePropagation();
+        $(this).removeClass('locked'); 
         $(window).trigger('hashchange');
       });
       $("#archives_form_overlay", $(this) ).append($unlock);
-      $unlock.fadeIn(); 
+      $(".alert", $unlock).fadeIn(); 
     }); 
   }
     
