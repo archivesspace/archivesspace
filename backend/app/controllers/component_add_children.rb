@@ -181,7 +181,6 @@ class ArchivesSpaceService < Sinatra::Base
         # We need to remove one from the position to prevent 
         # position from being added one after the placement.
         ordered = params[:children].each_with_index.to_a.reverse
-        position = position - 1
       else
         # Flipped from previous -- need to reverse the 
         # array when moving items up the tree.  This is 
@@ -198,6 +197,7 @@ class ArchivesSpaceService < Sinatra::Base
         end
       ensure
         # close the gaps...does this scale? 
+        # going to say no that this doesn't 
         last_child.order_siblings if last_child
       end
     end

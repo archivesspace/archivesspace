@@ -83,7 +83,7 @@ describe 'Component Add Children controllers' do
     the_move = JSONModel::HTTP::post_form("#{ao.uri}/accept_children", {"children[]" => movers, "position" => 20})
     the_move.should be_ok 
 
-    new_order = children.slice(0..18) + movers + children.drop(19)
+    new_order = children.slice(0..19) + movers + children.drop(20)
     
     # let's check out tree again 
     tree = get_ao_tree(ao.id) 
