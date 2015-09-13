@@ -35,12 +35,12 @@ $(function() {
     if (typeof(resultsJson.query) === 'string') {
       // just use sru's family_name as the 
       // sole openSearch field
-      resultsJson.queryString = '?family_name=' + resultsJson.query + '&lcnaf_service=loc';
+      resultsJson.queryString = '?family_name=' + resultsJson.query + '&lcnaf_service=' + $("input[name='lcnaf_service']:checked").val();
     } else {
        if ( resultsJson.query.query['local.GivenName'] === undefined ) {
         resultsJson.query.query['local.GivenName'] = "";  
       }
-      resultsJson.queryString = '?family_name=' + resultsJson.query.query['local.FamilyName'] + '&given_name=' + resultsJson.query.query['local.GivenName'] + '&lcnaf_service=oclc';
+      resultsJson.queryString = '?family_name=' + resultsJson.query.query['local.FamilyName'] + '&given_name=' + resultsJson.query.query['local.GivenName'] + '&lcnaf_service=' + $("input[name='lcnaf_service']:checked").val();
     }
   }
 
@@ -116,7 +116,7 @@ $(function() {
 
       data.push({
         name: 'lcnaf_service',
-        value: $serviceSelector.val(),
+        value:   $("input[name='lcnaf_service']:checked").val(),
       });
 
       $("#import-selected").attr("disabled", "disabled").addClass("disabled").addClass("busy");
