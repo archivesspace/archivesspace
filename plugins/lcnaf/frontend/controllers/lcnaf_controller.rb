@@ -50,7 +50,7 @@ class LcnafController < ApplicationController
     when 'oclc'
       query = SRUQuery.name_search(params[:family_name], params[:given_name]  )
       searcher.search(query, params[:page].to_i, params[:records_per_page].to_i)
-    when 'loc'
+    when 'loc', 'lcnaf', 'lcsh'
       searcher.search(params[:family_name], params[:page].to_i, params[:records_per_page].to_i)
     end
   end
@@ -60,8 +60,10 @@ class LcnafController < ApplicationController
     case params[:lcnaf_service]
     when 'oclc'
       SRUSearcher.new('http://alcme.oclc.org/srw/search/lcnaf')
-    when 'loc'
-      OpenSearcher.new('http://id.loc.gov/search/')
+    when  'lcnaf'
+      OpenSearcher.new('http://id.loc.gov/search/', LCNAF)
+    when 'lcsh'
+      OpenSearcher.new('http://id.loc.gov/search/', LCSH)
     end
   end
 end

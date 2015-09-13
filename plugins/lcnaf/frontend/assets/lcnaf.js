@@ -6,6 +6,8 @@ $(function() {
   var $selected = $("#selected");
 
   var $serviceSelector = $("input[name='lcnaf_service']");
+  
+  console.log( $serviceSelector );
 
   var selected_lccns = {};
 
@@ -35,7 +37,7 @@ $(function() {
     if (typeof(resultsJson.query) === 'string') {
       // just use sru's family_name as the 
       // sole openSearch field
-      resultsJson.queryString = '?family_name=' + resultsJson.query + '&lcnaf_service=loc';
+      resultsJson.queryString = '?family_name=' + resultsJson.query + '&lcnaf_service=' + $("input[name='lcnaf_service']:checked").val();
     } else {
        if ( resultsJson.query.query['local.GivenName'] === undefined ) {
         resultsJson.query.query['local.GivenName'] = "";  

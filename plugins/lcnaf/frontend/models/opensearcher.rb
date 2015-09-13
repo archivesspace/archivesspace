@@ -3,15 +3,18 @@ require 'nokogiri'
 require 'asutils'
 require_relative 'opensearchresultset'
 
+LCNAF='http://id.loc.gov/authorities/names'
+LCSH='http://id.loc.gov/authorities/subjects'
+
 class OpenSearcher
   attr_accessor :scheme
 
 
   class OpenSearchException < StandardError; end
 
-  def initialize(base_url)
+  def initialize(base_url, scheme=LCNAF )
     @base_url = base_url
-    @scheme = 'http://id.loc.gov/authorities/names'
+    @scheme = scheme
   end
 
 
