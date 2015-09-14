@@ -12,7 +12,7 @@ class OpenSearcher
 
   class OpenSearchException < StandardError; end
 
-  def initialize(base_url, scheme=LCNAF )
+  def initialize(base_url, scheme )
     @base_url = base_url
     @scheme = scheme
   end
@@ -32,9 +32,10 @@ class OpenSearcher
 
   def results_to_marcxml_file(lccns)
     tempfile = ASUtils.tempfile('lcnaf_import')
-    tempfile.write("<collection>\n")
+    #tempfile.write("<collection>\n")
 
     lccns.each do |lccn|
+      lccn.sub!( 'info:lc/authorities/subjects/', '')
       uri = URI("#{@scheme}/#{lccn}.marcxml.xml")
 
       response = Net::HTTP.get_response(uri)
@@ -52,7 +53,7 @@ class OpenSearcher
       tempfile.write(doc)
     end
 
-    tempfile.write("\n</collection>")
+    # tempfile.write("\n</collection>")
 
     tempfile.flush
     tempfile.rewind
