@@ -11,7 +11,7 @@ describe "User Preferences" do
     run_all_indexers
 
     @driver = Driver.new
-    @driver.login_to_repo('admin', 'admin', @repo)
+    @driver.login_to_repo($admin, @repo)
   end
 
 
@@ -27,12 +27,12 @@ describe "User Preferences" do
 
       @driver.find_element(:id => "preference_defaults__accession_browse_column_1_").select_option_with_text("Acquisition Type")
       @driver.find_element(:css => 'button[type="submit"]').click
-      $wait.until { @driver.find_element(:css => ".alert-success") }
+      @driver.find_element(:css => ".alert-success")
     }
 
     @driver.find_element(:link => 'Browse').click
     @driver.find_element(:link => 'Accessions').click
-    $wait.until { @driver.find_element(:link => "Create Accession") }
+    @driver.find_element(:link => "Create Accession")
 
     cells = @driver.find_elements(:css, "table th")
     cells[1].text.should eq("Title")

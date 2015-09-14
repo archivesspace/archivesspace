@@ -17,13 +17,13 @@ describe "Accessions" do
     @accession_title = "Exciting new stuff - \u2603 - #{Time.now.to_i}"
     @me = "#{$$}.#{Time.now.to_i}"
 
-    @shared_4partid = generate_4part_id
+    @shared_4partid = generate(:four_part_id)
 
     @dates_accession_title = "Accession_#{Time.now.to_i}"
-    @dates_4partid = generate_4part_id
+    @dates_4partid = generate(:four_part_id)
 
     @exdocs_accession_title = "Accession_#{Time.now.to_i}"
-    @exdocs_4partid = generate_4part_id
+    @exdocs_4partid = generate(:four_part_id)
 
     run_all_indexers
 

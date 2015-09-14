@@ -101,11 +101,12 @@ describe "Repositories" do
   end
 
   it "automatically refreshes the repository list when a new repo gets added" do
-    repo = create(:repo, :repo_code => "notificationtest1#{Time.now.to_i}_#{$$}")
+    repo = create(:repo)
 
-    @driver.navigate.refresh
-
-    @driver.find_element(:link, 'Select Repository').click
-    assert(5) { @driver.find_element(:css, '.select-a-repository').select_option_with_text(repo.repo_code) }
+    assert(5) { 
+      @driver.navigate.refresh
+      @driver.find_element(:link, 'Select Repository').click
+      @driver.find_element(:css, '.select-a-repository').select_option_with_text(repo.repo_code) 
+    }
   end
 end

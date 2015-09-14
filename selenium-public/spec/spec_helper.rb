@@ -26,6 +26,7 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 
   config.before(:suite) do
+    selenium_init($backend_start_fn, $frontend_start_fn)
     SeleniumFactories.init
   end
 

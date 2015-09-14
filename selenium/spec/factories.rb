@@ -68,7 +68,7 @@ module SeleniumFactories
 
 
       sequence(:rde_template_name) {|n| "RDE Template #{n}_#{Time.now.to_i}"}
-
+      sequence(:four_part_id) { Digest::MD5.hexdigest("#{Time.now}#{SecureRandom.uuid}#{$$}").scan(/.{6}/)[0...1] }
 
       factory :repo, class: JSONModel(:repository) do
         repo_code { generate :repo_code }
