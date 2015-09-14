@@ -2,8 +2,10 @@ require 'jsonmodel'
 require 'factory_girl'
 require 'spec/lib/factory_girl_helpers'
 
-include JSONModel
+require_relative '../common/backend_client_mixin'
 
+include BackendClientMethods
+include JSONModel
 
 module SeleniumFactories
 
@@ -16,21 +18,44 @@ module SeleniumFactories
     end
 
     JSONModel::init(:client_mode => true,
-                    :url => AppConfig[:backend_url])
-
-
+                    :url => AppConfig[:backend_url],
+                    :priority => :high)
 
     FactoryGirl.define do
 
-      to_create{|instance| instance.save}
+      to_create{|instance|
+        try_again = true
+        begin
+          instance.save
+        rescue Exception => e
+          if e.class.name == "AccessDeniedException" && try_again
+            try_again = false
+            url = URI.parse(AppConfig[:backend_url] + "/users/admin/login")
+            request = Net::HTTP::Post.new(url.request_uri)
+            request.set_form_data("expiring" => "false",
+                                  "password" => "admin")
+            response = do_http_request(url, request)
+
+            if response.code == '200'
+              auth = ASUtils.json_parse(response.body)
+
+              JSONModel::HTTP.current_backend_session = auth['session']
+              retry
+            else
+              raise "Authentication to backend failed: #{response.body}"
+            end
+          else
+            raise e
+          end
+        end
+      }
 
       sequence(:username) {|n| "testuser_#{n}_#{Time.now.to_i}"}
-      sequence(:user_name) {|n| "Test User #{n}"}
+      sequence(:user_name) {|n| "Test User #{n}_#{Time.now.to_i}"}
 
       sequence(:repo_code) {|n| "testrepo_#{n}_#{Time.now.to_i}"}
       sequence(:repo_name) {|n| "Test Repo #{n}"}
       sequence(:accession_id) {|n| "#{n}" }
-
 
       sequence(:ref_id) {|n| "aspace_#{n}"}
       sequence(:id_0) {|n| "#{Time.now.to_i}_#{n}"}
@@ -145,7 +170,43 @@ module SeleniumFactories
         } }
       end
 
+      factory :name_person, class: JSONModel(:name_person) do
+        rules { generate(:name_rule) }
+        source { generate(:name_source) }
+        primary_name { generate(:generic_name) }
+        rest_of_name { generate(:generic_name) }
+        sort_name { generate(:sort_name) }
+        name_order { %w(direct inverted).sample }
+        number { generate(:alphanumstr) }
+        sort_name_auto_generate true
+        dates { generate(:alphanumstr) }
+        qualifier { generate(:alphanumstr) }
+      end
 
+      factory :agent_person, class: JSONModel(:agent_person) do
+        agent_type 'agent_person'
+        names { [build(:name_person)] }
+        dates_of_existence { [build(:date, :label => 'existence')] }
+      end
+
+      factory :subject, class: JSONModel(:subject) do
+        terms { [build(:term)] }
+        vocabulary { create(:vocab).uri }
+        authority_id { generate(:url) }
+        scope_note { generate(:alphanumstr) }
+        source { generate(:subject_source) }
+      end
+
+      factory :term, class: JSONModel(:term) do
+        term { generate(:term) }
+        term_type { generate(:term_type) }
+        vocabulary { create(:vocab).uri }
+      end
+
+      factory :vocab, class: JSONModel(:vocabulary) do
+        name { generate(:vocab_name) }
+        ref_id { generate(:vocab_refid) }
+      end
     end
 
     @@inited = true

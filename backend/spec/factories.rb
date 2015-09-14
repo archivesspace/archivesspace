@@ -19,24 +19,16 @@ FactoryGirl.define do
   sequence(:generic_title) { |n| "Title: #{n}"}
   sequence(:html_title) { |n| "Title: <emph render='italic'>#{n}</emph>"}
   sequence(:generic_description) {|n| "Description: #{n}"}
-  sequence(:generic_name) {|n| "Name Number #{n}"}
   sequence(:container_type) {|n| sample(JSONModel(:container).schema['properties']['type_1'])}
-  sequence(:sort_name) { |n| "SORT #{('a'..'z').to_a[rand(26)]} - #{n}" }
   sequence(:archival_object_language) {|n| sample(JSONModel(:abstract_archival_object).schema['properties']['language']) }
 
   sequence(:phone_number) { (3..5).to_a[rand(3)].times.map { (3..5).to_a[rand(3)].times.map { rand(9) }.join }.join(' ') }
   sequence(:yyyy_mm_dd) { Time.at(rand * Time.now.to_i).to_s.sub(/\s.*/, '') }
   sequence(:hh_mm) { t = Time.now; "#{t.hour}:#{t.min}" }
-  sequence(:url) {|n| "http://www.example-#{n}.com"}
   sequence(:barcode) { 20.times.map { rand(2)}.join }
   sequence(:indicator) { (2+rand(3)).times.map { (2+rand(3)).times.map {rand(9)}.join }.join('-') }
 
-  sequence(:name_rule) { sample(JSONModel(:abstract_name).schema['properties']['rules']) }
-  sequence(:name_source) { sample(JSONModel(:abstract_name).schema['properties']['source']) }
   sequence(:level) { %w(series subseries item)[rand(3)] }
-  sequence(:term) { |n| "Term #{n}" }
-  sequence(:term_type) { sample(JSONModel(:term).schema['properties']['term_type']) }
-
 
 
   # AS Models
@@ -467,9 +459,9 @@ FactoryGirl.define do
     finding_aid_language { nil_or_whatever }
     ead_location { generate(:alphanumstr) }
     instances { [build(:json_instance), build(:json_instance)] }
-    revision_statements {  [build(:json_revision_statement)]  } 
+    revision_statements {  [build(:json_revision_statement)]  }
   end
-  
+
   factory :json_revision_statement, class: JSONModel(:revision_statement) do
     date { generate(:alphanumstr) }
     description { generate(:alphanumstr) }

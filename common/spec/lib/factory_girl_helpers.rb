@@ -96,5 +96,14 @@ FactoryGirl.define do
 
   sequence(:downtown_address) { "#{rand(200)} #{%w(E W).sample} #{(4..9).to_a.sample}th Street" }
 
+  sequence(:name_rule) { sample(JSONModel(:abstract_name).schema['properties']['rules']) }
+  sequence(:name_source) { sample(JSONModel(:abstract_name).schema['properties']['source']) }
 
+  sequence(:generic_name) {|n| "Name Number #{n}"}
+  sequence(:sort_name) { |n| "SORT #{('a'..'z').to_a[rand(26)]} - #{n}" }
+
+  sequence(:term) { |n| "Term #{n}" }
+  sequence(:term_type) { sample(JSONModel(:term).schema['properties']['term_type']) }
+
+  sequence(:url) {|n| "http://www.example-#{n}.com"}
 end

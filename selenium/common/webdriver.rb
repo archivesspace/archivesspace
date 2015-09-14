@@ -1,3 +1,5 @@
+require 'selenium-webdriver'
+
 module DriverMixin
   def click_and_wait_until_gone(*selector)
     element = self.find_element(*selector)
@@ -63,7 +65,7 @@ module Selenium
 
 # hack to allow Selenium to run offline
     module Platform
-  
+
       class << self
         alias :ip_orig :ip
 
@@ -125,26 +127,6 @@ module Selenium
             else
               raise Selenium::WebDriver::Error::NoSuchElementError.new(selectors.inspect)
             end
-          end
-        end
-      end
-
-
-      def attempt(times, &block)
-
-        tries = times
-
-        begin
-          block.call(self)
-        rescue Exception => e
-          if tries > 0
-            tries -= 1
-            $sleep_time += 0.1
-            sleep 0.5
-            puts "Attempts remaining: #{tries}"
-            retry
-          else
-            raise e
           end
         end
       end
@@ -263,7 +245,7 @@ module Selenium
 
 
       def raise_javascript_errors
-        errors = $driver.execute_script("return window.hasOwnProperty('TEST_ERRORS') ? TEST_ERRORS : []")
+        errors = self.execute_script("return window.hasOwnProperty('TEST_ERRORS') ? TEST_ERRORS : []")
         raise "Javascript errors present: #{errors.inspect}" if errors.length > 0
       end
 
@@ -275,7 +257,7 @@ module Selenium
 
           if elt.displayed?
             return elt
-          else 
+          else
             raise "Can't find #{selectors}"
           end
         rescue Exception => e
@@ -283,10 +265,6 @@ module Selenium
         end
       end
 
-
-      def get_edit_page(json_obj)
-        $driver.get("#{$frontend}#{json_obj.uri.sub(/\/repositories\/\d+/, '')}/edit")
-      end
 
     end
 
@@ -414,7 +392,7 @@ module Selenium
 
           if elt.displayed?
             return elt
-          else 
+          else
             raise "Can't find #{selectors}"
           end
         rescue Exception => e

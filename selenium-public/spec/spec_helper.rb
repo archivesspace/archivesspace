@@ -1,3 +1,4 @@
+require_relative '../../selenium/spec/factories'
 require_relative "../../selenium/common"
 require_relative '../../indexer/app/lib/periodic_indexer'
 
@@ -21,5 +22,22 @@ $frontend_start_fn = proc {
 }
 
 RSpec.configure do |config|
-  config.include RepositoryHelperMethods
+  config.include BackendClientMethods
+  config.include FactoryGirl::Syntax::Methods
+
+  config.before(:suite) do
+    SeleniumFactories.init
+  end
+
+  if ENV['ASPACE_TEST_WITH_PRY']
+    require 'pry'
+    config.around(:each) do |example|
+      example.run
+      if example.exception
+        puts "FAILED: #{example.exception}"
+        binding.pry
+      end
+    end
+  end
+
 end
