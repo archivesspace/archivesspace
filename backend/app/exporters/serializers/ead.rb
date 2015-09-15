@@ -17,7 +17,7 @@ class EADSerializer < ASpaceExport::Serializer
  
   def handle_linebreaks(content)
     # if there's already p tags, just leave as is 
-    return content if ( content.strip.start_with?("<p") or content.strip.length < 1 ) 
+    return content if ( content.strip =~ /^<p(\s|\/|>)/ or content.strip.length < 1 ) 
     blocks = content.split("\n\n").select { |b| !b.strip.empty? }
     if blocks.length > 1
       content = blocks.inject("") { |c,n| c << "<p>#{n.chomp}</p>"  }
