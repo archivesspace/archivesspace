@@ -24,7 +24,7 @@ class LcnafController < ApplicationController
   def import
     if params[:lcnaf_service] == 'oclc'
       marcxml_file = searcher.results_to_marcxml_file(SRUQuery.lccn_search(params[:lccn]))
-    elsif params[:lcnaf_service] == 'lcnaf' || params[:lcnaf_service] == 'lcsh' 
+    elsif params[:lcnaf_service] == 'lcnaf' || params[:lcnaf_service] == 'lcsh'
       marcxml_file = searcher.results_to_marcxml_file(params[:lccn])
     end
 

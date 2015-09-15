@@ -6,8 +6,6 @@ $(function() {
   var $selected = $("#selected");
 
   var $serviceSelector = $("input[name='lcnaf_service']");
-  
-  console.log( $serviceSelector );
 
   var selected_lccns = {};
 
@@ -118,7 +116,7 @@ $(function() {
 
       data.push({
         name: 'lcnaf_service',
-          value:   $("input[name='lcnaf_service']:checked").val(),  // value: $serviceSelector.val()
+        value:   $("input[name='lcnaf_service']:checked").val(),
       });
 
       $("#import-selected").attr("disabled", "disabled").addClass("disabled").addClass("busy");

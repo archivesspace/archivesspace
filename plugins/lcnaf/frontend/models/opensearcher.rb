@@ -32,7 +32,6 @@ class OpenSearcher
 
   def results_to_marcxml_file(lccns)
     tempfile = ASUtils.tempfile('lcnaf_import')
-    #tempfile.write("<collection>\n")
 
     lccns.each do |lccn|
       lccn.sub!( 'info:lc/authorities/subjects/', '')
@@ -52,8 +51,6 @@ class OpenSearcher
 
       tempfile.write(doc)
     end
-
-    # tempfile.write("\n</collection>")
 
     tempfile.flush
     tempfile.rewind
