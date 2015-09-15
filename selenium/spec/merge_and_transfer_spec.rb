@@ -16,7 +16,6 @@ describe "Merging and transfering resources" do
 
     @do1 = create(:digital_object)
     @do2 = create(:digital_object)
-    @do3 = create(:digital_object)
 
     @aoset2 = (0...10).map { create(:archival_object, :resource => {'ref' => @resource2.uri}) }
     @aoset3 = (0...10).map { create(:archival_object, :resource => {'ref' => @resource3.uri}) }
@@ -50,7 +49,7 @@ describe "Merging and transfering resources" do
 
 
 
-  it "can merge a resource into a resource", :retry => 2, :retry_wait => 10 do
+  it "can merge a resource into a resource", :retry => 3, :retry_wait => 20 do
     @driver.select_repo(@repo)
 
     @driver.get_edit_page(@resource2)
@@ -79,9 +78,9 @@ describe "Merging and transfering resources" do
   end
 
 
-  it "can merge a digital object into a digital object", :retry => 2, :retry_wait => 10 do
+  it "can merge a digital object into a digital object", :retry => 3, :retry_wait => 20 do
 
-    @driver.select_repo(@repo.repo_code)
+    @driver.select_repo(@repo)
 
     @driver.get_edit_page(@do1)
 
