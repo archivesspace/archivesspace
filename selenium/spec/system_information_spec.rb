@@ -11,7 +11,7 @@ describe "System Information" do
   end
 
 
-  after(:each) do
+  after(:all) do
     @driver.quit
   end
 
@@ -27,7 +27,7 @@ describe "System Information" do
 
   end
 
-  it "should let the admin see this" do
+  it "should let the admin see this", :retry => 2, :retry_wait => 10 do
     @driver.login_to_repo($admin, @repo)
 
     @driver.find_element(:link, "System").click
@@ -35,6 +35,5 @@ describe "System Information" do
     assert(5) {
       @driver.find_element(:css => "h3.subrecord-form-heading").text.should eq("Frontend System Information")
     }
-
   end
 end

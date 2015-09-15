@@ -122,17 +122,22 @@ describe "Locations" do
   end
 
 
-  it "lists the location in different repositories" do
+  it "lists the location in different repositories", :retry => 2, :retry_wait => 10 do
+    repo = create(:repo)
+
     @driver.logout.login($admin)
 
-    repo = create(:repo)
-    @driver.navigate.refresh
-    @driver.select_repo(repo.repo_code)
+    assert(5) {
+      @driver.navigate.refresh
+      @driver.select_repo(repo.repo_code)
+    }
 
     @driver.find_element(:link, "Browse").click
     @driver.find_element(:link, "Locations").click
 
-    @driver.find_element_with_text('//td', /129 W\. 81st St\, 5\, 5A \[Box XYZ\: XYZ0001\]/)
+    expect {
+      @driver.find_paginated_element(:xpath => "//tr[.//*[contains(text(), '129 W. 81st St, 5, 5A [Box XYZ: XYZ0001]')]]")
+      }.to_not raise_error
   end
 
   describe "Location batch" do
