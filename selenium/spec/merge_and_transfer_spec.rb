@@ -14,8 +14,8 @@ describe "Merging and transfering resources" do
     @resource2 = create(:resource)
     @resource3 = create(:resource)
 
-    @do1 = create(:digital_object)
-    @do2 = create(:digital_object)
+
+    @digital_objects = (0...6).map {|i| create(:digital_object)}
 
     @aoset2 = (0...10).map { create(:archival_object, :resource => {'ref' => @resource2.uri}) }
     @aoset3 = (0...10).map { create(:archival_object, :resource => {'ref' => @resource3.uri}) }
@@ -77,17 +77,18 @@ describe "Merging and transfering resources" do
     end
   end
 
-
   it "can merge a digital object into a digital object", :retry => 3, :retry_wait => 20 do
+    # get a new pair each time in case the test fails
+    # after the target is merged
+    merger = @digital_objects.shift
+    target = @digital_objects.shift
 
-    @driver.select_repo(@repo)
-
-    @driver.get_edit_page(@do1)
+    @driver.get_edit_page(merger)
 
     @driver.find_element(:link, "Merge").click
 
     # spaces in the search string seem to through off the token search, so:
-    search_string = @do2.title.sub(/-\s.*/, "").strip
+    search_string = target.title.sub(/-\s.*/, "").strip
     @driver.clear_and_send_keys([:id, "token-input-merge_ref_"], search_string )
     sleep(1)
     @driver.find_element(:css, "li.token-input-dropdown-item2").click
@@ -98,7 +99,7 @@ describe "Merging and transfering resources" do
 
     @driver.find_element_with_text("//h3", /Merge into this record\?/)
     @driver.find_element(:css, "button#confirmButton").click
-    @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Digital object\(s\) Merged/i)
-
+    assert(5) { @driver.find_element(:css => "div.alert.alert-success").text.should eq("Digital object(s) Merged") }
+    end
   end
 end
