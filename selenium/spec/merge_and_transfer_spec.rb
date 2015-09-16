@@ -100,6 +100,5 @@ describe "Merging and transfering resources" do
     @driver.find_element_with_text("//h3", /Merge into this record\?/)
     @driver.find_element(:css, "button#confirmButton").click
     assert(5) { @driver.find_element(:css => "div.alert.alert-success").text.should eq("Digital object(s) Merged") }
-    end
   end
 end
