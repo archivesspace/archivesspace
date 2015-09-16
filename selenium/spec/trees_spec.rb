@@ -327,4 +327,154 @@ describe "Tree UI" do
       }
     end
   end
+
+  it "can make and mess with bigger trees" do
+
+    # let's make some children
+    children = [] 
+    10.times { |i|  children << create(:archival_object, :title => i.to_s,  :resource => {:ref => @r.uri}, :parent => {:ref => @a1.uri}).uri  }
+    $driver.navigate.refresh
+    
+    # go to the page.. 
+    $driver.find_element( :xpath => "//a[@title='#{@a1.title}']").click
+    $driver.wait_for_ajax
+   
+    # lets make the pane nice and big...
+    last =  $driver.find_elements(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li/a").last
+    first =  $driver.find_elements(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li/a").first
+    pane_size = last.location[:y] - first.location[:y]
+    pane_resize_handle = $driver.find_element(:css => ".ui-resizable-handle.ui-resizable-s")
+    $driver.action.drag_and_drop_by(pane_resize_handle, 0, ( pane_size * 2 ) ).perform
+  
+    # we cycle these nodes around in a circle.
+    3.times do
+      a =  $driver.find_elements(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li/a")[-3]
+      b =  $driver.find_elements(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li/a").last
+      target =  $driver.find_elements(
+                 :xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li").first
+      offset = ( ( target.location[:y] - a.location[:y] ) - 7 ) 
+      $driver.action.click(a).key_down(:shift).click(b).key_up(:shift).drag_and_drop_by(a, 0, offset).perform
+      $driver.wait_for_ajax
+    end
+
+    # everything should be normal
+    (1..9).each do |i|
+      assert(5) {
+        $driver.find_element( :xpath => "//li[a/@title='#{@a1.title}']/ul/li[position() = #{i}]/a/span/span[@class='title-column pull-left']").text.should match(/#{i.to_s}/)
+      }
+    end
+   
+    # now lets cycles in reverse
+    3.times do
+      a =  $driver.find_elements(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li/a").first
+      b =  $driver.find_elements(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li/a")[2]
+      target =  $driver.find_elements(
+                 :xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li").last
+      offset = ( ( target.location[:y] - a.location[:y] ) + 7 ) 
+      $driver.action.click(a).key_down(:shift).click(b).key_up(:shift).drag_and_drop_by(a, 0, offset).perform
+      $driver.wait_for_ajax
+    end
+    
+    # back to normal 
+    (0..9).each do |i|
+      assert(5) {
+        $driver.find_element( :xpath => "//li[a/@title='#{@a1.title}']/ul/li[position() = #{i + 1 }]/a/span/span[@class='title-column pull-left']").text.should match(/#{i.to_s}/)
+      }
+    end
+   
+    # now lets stick some in the middle
+    2.times do
+      a =  $driver.find_elements(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li/a").first
+      b =  $driver.find_elements(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li/a")[2]
+      target =  $driver.find_elements(
+                 :xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li")[5]
+      offset = ( ( target.location[:y] - a.location[:y] ) + 7 ) 
+      $driver.action.click(a).key_down(:shift).click(b).key_up(:shift).drag_and_drop_by(a, 0, offset).perform
+      $driver.wait_for_ajax
+    end
+    
+    # and again back to normal 
+    (0..9).each do |i|
+      assert(5) {
+        $driver.find_element( :xpath => "//li[a/@title='#{@a1.title}']/ul/li[position() = #{i + 1 }]/a/span/span[@class='title-column pull-left']").text.should match(/#{i.to_s}/)
+      }
+    end
+    
+    # and now let's move them up a level and do it all again...
+    a =  $driver.find_elements(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li/a").first
+    b =  $driver.find_elements(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li/a").last
+    target =  $driver.find_element(
+                 :xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']")
+
+    offset = ( ( target.location[:y] - a.location[:y] ) - 7 ) 
+    $driver.action.click(a).key_down(:shift).click(b).key_up(:shift).drag_and_drop_by(a, 0, offset).perform
+   
+    # heres the new order of our AOs. all on one level
+    new_order = (0..9).to_a + [ @a1.title, @a2.title, @a3.title ]
+   
+    # let's check that everything is as expected
+    new_order.each_with_index do |v, i|   
+    assert(5) {
+        $driver.find_element( :xpath => "//li[a/@title='#{@r.title}']/ul/li[position() = #{i + 1 }]/a/span/span[@class='title-column pull-left']").text.should match(/#{v}/)
+      }
+    end
+ 
+    # let's cycle bottom to top
+    4.times do
+      new_order = new_order.pop(3) + new_order  
+      a =  $driver.find_elements(:xpath => "//li[a/@title='#{@r.title}']/ul/li/a")[-3]
+      b =  $driver.find_elements(:xpath => "//li[a/@title='#{@r.title}']/ul/li/a").last
+      target =  $driver.find_elements(
+                 :xpath => "//li[a/@title='#{@r.title}']/ul/li").first
+      offset = ( ( target.location[:y] - a.location[:y] ) - 7 ) 
+      $driver.action.click(a).key_down(:shift).click(b).key_up(:shift).drag_and_drop_by(a, 0, offset).perform
+      $driver.wait_for_ajax
+      new_order.each_with_index do |v, i|   
+        assert(5) {
+          $driver.find_element( :xpath => "//li[a/@title='#{@r.title}']/ul/li[position() = #{i + 1 }]/a/span/span[@class='title-column pull-left']").text.should match(/#{v}/)
+         }
+      end
+    end
+    
+    # let's cycle top to bottom
+    4.times do
+      n = new_order.shift(3) 
+      new_order =  new_order + n 
+      a =  $driver.find_elements(:xpath => "//li[a/@title='#{@r.title}']/ul/li/a").first
+      b =  $driver.find_elements(:xpath => "//li[a/@title='#{@r.title}']/ul/li/a")[2]
+      target =  $driver.find_elements(
+                 :xpath => "//li[a/@title='#{@r.title}']/ul/li").last
+      offset = ( ( target.location[:y] - a.location[:y] ) + 7 ) 
+      $driver.action.click(a).key_down(:shift).click(b).key_up(:shift).drag_and_drop_by(a, 0, offset).perform
+      $driver.wait_for_ajax
+      new_order.each_with_index do |v, i|   
+        assert(5) {
+          $driver.find_element( :xpath => "//li[a/@title='#{@r.title}']/ul/li[position() = #{i + 1 }]/a/span/span[@class='title-column pull-left']").text.should match(/#{v}/)
+         }
+      end
+    end
+    
+    # let's move top 3 into the middle and see if that works 
+    2.times do
+      n = new_order.shift(3) 
+      new_order.insert(3, n).flatten!
+
+      a =  $driver.find_elements(:xpath => "//li[a/@title='#{@r.title}']/ul/li/a").first
+      b =  $driver.find_elements(:xpath => "//li[a/@title='#{@r.title}']/ul/li/a")[2]
+      target =  $driver.find_elements(
+                 :xpath => "//li[a/@title='#{@r.title}']/ul/li")[5]
+      offset = ( ( target.location[:y] - a.location[:y] ) + 7 ) 
+      $driver.action.click(a).key_down(:shift).click(b).key_up(:shift).drag_and_drop_by(a, 0, offset).perform
+      $driver.wait_for_ajax
+      new_order.each_with_index do |v, i|   
+        assert(5) {
+          $driver.find_element( :xpath => "//li[a/@title='#{@r.title}']/ul/li[position() = #{i + 1 }]/a/span/span[@class='title-column pull-left']").text.should match(/#{v}/)
+         }
+      end
+    end
+
+
+  end
+
+
 end
