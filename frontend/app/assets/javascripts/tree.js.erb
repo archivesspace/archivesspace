@@ -902,9 +902,11 @@ $(function() {
             // now let's  unlock da the form
 
             // trying this again. if the target node is the root, 
-            // let's just refresh the whole dang tree. 
+            // we need to get the parent and then refresh it in
+            // a slightly different way...
             if ( targetNode.parent === "#" ) {
-              tree.refresh(); 
+              parent = tree.get_node(tree.get_parent(desired_children[0])); 
+              tree.refresh_node(parent); 
             } else {
             // otherwise, just refresh that level... 
               tree.refresh_node(targetNode); 
@@ -1367,6 +1369,7 @@ $(function() {
 
   
   $tree.bind("refresh_node.jstree", function(event, data) {
+    
     if ( desired_children.length == 0 ) { return;  } 
     happy_family = desired_children.length == data.node.children.length && desired_children.every(function(element, index) {
         return element === data.node.children[index]; 
