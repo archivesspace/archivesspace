@@ -95,6 +95,7 @@ describe "Record Lifecycle" do
     $driver.get($accession_url)
     # Delete the accession
     $driver.find_element(:css, ".delete-record.btn").click
+    $driver.find_element_with_text('//h3', /#{@accession_title}/)
     $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
 
     #Ensure Accession no longer exists

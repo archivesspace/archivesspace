@@ -58,9 +58,9 @@ en:
     unsuppress_confirm_message: "false"
     unable_to_move_message: "Unable to Move Record"
     delete: Delete
-    delete_confirm_title: Delete this Record?
+    delete_confirm_title: "Delete this Record? %{title}"
     delete_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove the record from the database, including any references it has to other records.</p>"
-    delete_repository_confirm_title: Delete this Repository?
+    delete_repository_confirm_title: "Delete this Repository? %{name}"
     delete_repository_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove the <strong>repository</strong> and all associated records from the database, including any references it has to other records.</p><p>To continue please enter '%{repository}' below:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
     delete_multiple: Delete Records
     delete_multiple_confirm_title: Delete Records?
