@@ -92,7 +92,7 @@ class ArchivesSpaceService < Sinatra::Base
 
       require_relative "model/ASModel"
       
-      if AppConfig[:enable_jasper] 
+      if AppConfig[:enable_jasper] && DB.supports_jasper? 
         require_relative 'model/reports/jasper_report' 
         require_relative 'model/reports/jasper_report_register' 
         JasperReport.compile if AppConfig[:compile_jasper] 
