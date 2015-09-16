@@ -87,8 +87,8 @@ module ASpaceExport
 
           node_name = case subject['terms'][0]['term_type']
                       when 'function'; 'function'
-                      when 'genre_form' || 'style_period';  'genreform'
-                      when 'geographic'|| 'cultural_context'; 'geogname'
+                      when 'genre_form', 'style_period';  'genreform'
+                      when 'geographic', 'cultural_context'; 'geogname'
                       when 'occupation';  'occupation'
                       when 'topical'; 'subject'
                       when 'uniform_title'; 'title'
