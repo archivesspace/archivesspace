@@ -11,9 +11,11 @@ describe "Batch Import Controller" do
     batch_array = []
 
     types = [:json_resource, :json_archival_object]
+
+    ids = (0..10).to_a
     10.times do
       obj = build(types.sample)
-      obj.uri = obj.class.uri_for(rand(100000), {:repo_id => $repo_id})
+      obj.uri = obj.class.uri_for(ids.shift, {:repo_id => $repo_id})
       batch_array << obj.to_hash(:raw)
     end
 

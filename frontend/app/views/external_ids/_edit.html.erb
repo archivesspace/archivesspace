@@ -1,0 +1,16 @@
+<% if ASUtils.wrap(form["external_ids"]).length > 0 %>
+  <div class="subrecord-form-container">
+    <% if show_external_ids? %>
+      <%= render_aspace_partial :partial => "external_ids/show", :locals=>{:section_id => form.id_for("external_ids"), :external_ids => form["external_ids"]} %>
+    <% end %>
+
+    <% define_template "external_id" do |form| %>
+      <%= form.hidden_input("source") %>
+      <%= form.hidden_input("external_id") %>
+    <% end %>
+
+    <%= form.list_for(form["external_ids"], "external_ids[]") do |item| %>
+      <% form.emit_template("external_id", item) %>
+    <% end %>
+  </div>
+<% end %>

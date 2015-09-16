@@ -273,4 +273,7 @@ module ApplicationHelper
     end
   end
 
+  def show_external_ids?
+    AppConfig[:show_external_ids] == true
+  end
 end
