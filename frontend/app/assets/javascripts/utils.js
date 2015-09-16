@@ -84,7 +84,7 @@ $(function() {
       // show the sub record bits
       return;
     }
-    $(".nav-list-submenu").remove();
+    $(".nav-list-record-count").remove();
     $("#archivesSpaceSidebar .as-nav-list > li").each(function() {
       var $nav = $(this);
       var $link = $("a", $nav);
