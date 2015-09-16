@@ -36,10 +36,13 @@ describe "Collection Management" do
     $driver.find_element(:css => '#accession_collection_management_ .subrecord-form-heading .btn:not(.show-all)').click
     $driver.find_element(:id => "accession_collection_management__processing_priority_").select_option("high")
 
-    # save changes
-    $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
+    # save changes (twice to trigger an update also)
+    2.times {
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
+      sleep(1)
+    }
 
-    run_index_round
+    run_all_indexers
     # check the CM page
     $driver.find_element(:link, "Browse").click
     $driver.find_element(:link, "Collection Management").click
