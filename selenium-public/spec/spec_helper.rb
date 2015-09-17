@@ -1,4 +1,7 @@
+require_relative '../../selenium/spec/factories'
 require_relative "../../selenium/common"
+require_relative '../../indexer/app/lib/periodic_indexer'
+
 
 $backend_port = TestUtils::free_port_from(3636)
 $public_port = TestUtils::free_port_from(4546)
@@ -17,3 +20,25 @@ $backend_start_fn = proc {
 $frontend_start_fn = proc {
   TestUtils::start_public($public_port, $backend)
 }
+
+RSpec.configure do |config|
+  config.include BackendClientMethods
+  config.include FactoryGirl::Syntax::Methods
+
+  config.before(:suite) do
+    selenium_init($backend_start_fn, $frontend_start_fn)
+    SeleniumFactories.init
+  end
+
+  if ENV['ASPACE_TEST_WITH_PRY']
+    require 'pry'
+    config.around(:each) do |example|
+      example.run
+      if example.exception
+        puts "FAILED: #{example.exception}"
+        binding.pry
+      end
+    end
+  end
+
+end

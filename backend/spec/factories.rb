@@ -1,52 +1,5 @@
 require 'factory_girl'
-
-module FactoryGirlSyntaxHelpers
-
-  def sample(enum, exclude = [])
-    values = if enum.has_key?('enum')
-               enum['enum']
-             elsif enum.has_key?('dynamic_enum')
-               enum_source.values_for(enum['dynamic_enum'])
-             else
-               raise "Not sure how to sample this: #{enum.inspect}"
-             end
-
-    exclude += ['other_unmapped']
-
-    values.reject{|i| exclude.include?(i) }.sample
-  end
-
-
-  def enum_source
-    if defined? BackendEnumSource
-      BackendEnumSource
-    else
-      JSONModel.init_args[:enum_source]
-    end
-  end
-
-
-  def JSONModel(key)
-    JSONModel::JSONModel(key)
-  end
-
-
-  def nil_or_whatever
-    [nil, FactoryGirl.generate(:alphanumstr)].sample
-  end
-
-
-  def few_or_none(key)
-    arr = []
-    rand(4).times { arr << build(key) }
-    arr
-  end
-end
-
-
-FactoryGirl::SyntaxRunner.send(:include, FactoryGirlSyntaxHelpers)
-FactoryGirl::Syntax::Default::DSL.send(:include, FactoryGirlSyntaxHelpers)
-
+require 'spec/lib/factory_girl_helpers'
 
 FactoryGirl.define do
 
@@ -59,7 +12,6 @@ FactoryGirl.define do
   sequence(:repo_code) {|n| "ASPACE REPO #{n} -- #{rand(1000000)}"}
   sequence(:username) {|n| "username_#{n}"}
 
-  sequence(:alphanumstr) { (0..4).map{ rand(3)==1?rand(1000):(65 + rand(25)).chr }.join }
   sequence(:good_markup) { "<p>I'm</p><p>GOOD</p><p>#{ FactoryGirl.generate(:alphanumstr)}</p>" }
   sequence(:whack_markup) { "I'm <p><br/>WACK " + FactoryGirl.generate(:alphanumstr) }
   sequence(:wild_markup) { "<p> I AM \n WILD \n ! \n ! " + FactoryGirl.generate(:alphanumstr) + "</p>" }
@@ -67,68 +19,16 @@ FactoryGirl.define do
   sequence(:generic_title) { |n| "Title: #{n}"}
   sequence(:html_title) { |n| "Title: <emph render='italic'>#{n}</emph>"}
   sequence(:generic_description) {|n| "Description: #{n}"}
-  sequence(:generic_name) {|n| "Name Number #{n}"}
   sequence(:container_type) {|n| sample(JSONModel(:container).schema['properties']['type_1'])}
-  sequence(:sort_name) { |n| "SORT #{('a'..'z').to_a[rand(26)]} - #{n}" }
   sequence(:archival_object_language) {|n| sample(JSONModel(:abstract_archival_object).schema['properties']['language']) }
 
   sequence(:phone_number) { (3..5).to_a[rand(3)].times.map { (3..5).to_a[rand(3)].times.map { rand(9) }.join }.join(' ') }
   sequence(:yyyy_mm_dd) { Time.at(rand * Time.now.to_i).to_s.sub(/\s.*/, '') }
   sequence(:hh_mm) { t = Time.now; "#{t.hour}:#{t.min}" }
-  sequence(:number) { rand(100).to_s }
-  sequence(:url) {|n| "http://www.example-#{n}.com"}
   sequence(:barcode) { 20.times.map { rand(2)}.join }
   sequence(:indicator) { (2+rand(3)).times.map { (2+rand(3)).times.map {rand(9)}.join }.join('-') }
 
-  sequence(:name_rule) { sample(JSONModel(:abstract_name).schema['properties']['rules']) }
-  sequence(:name_source) { sample(JSONModel(:abstract_name).schema['properties']['source']) }
   sequence(:level) { %w(series subseries item)[rand(3)] }
-  sequence(:term) { |n| "Term #{n}" }
-  sequence(:term_type) { sample(JSONModel(:term).schema['properties']['term_type']) }
-
-  sequence(:agent_role) { sample(JSONModel(:event).schema['properties']['linked_agents']['items']['properties']['role']) }
-  sequence(:record_role) { sample(JSONModel(:event).schema['properties']['linked_records']['items']['properties']['role']) }
-
-  sequence(:date_type) { sample(JSONModel(:date).schema['properties']['date_type']) }
-  sequence(:date_lable) { sample(JSONModel(:date).schema['properties']['label']) }
-
-  sequence(:multipart_note_type) { sample(JSONModel(:note_multipart).schema['properties']['type'])}
-  sequence(:digital_object_note_type) { sample(JSONModel(:note_digital_object).schema['properties']['type'])}
-  sequence(:singlepart_note_type) { sample(JSONModel(:note_singlepart).schema['properties']['type'])}
-  sequence(:note_index_type) { sample(JSONModel(:note_index).schema['properties']['type'])}
-  sequence(:note_index_item_type) { sample(JSONModel(:note_index_item).schema['properties']['type'])}
-  sequence(:note_bibliography_type) { sample(JSONModel(:note_bibliography).schema['properties']['type'])}
-  sequence(:orderedlist_enumeration) { sample(JSONModel(:note_orderedlist).schema['properties']['enumeration']) }
-  sequence(:chronology_item) { {'event_date' => nil_or_whatever, 'events' => (0..rand(3)).map { FactoryGirl.generate(:alphanumstr) } } }
-
-  sequence(:event_type) { sample(JSONModel(:event).schema['properties']['event_type']) }
-  sequence(:extent_type) { sample(JSONModel(:extent).schema['properties']['extent_type']) }
-  sequence(:portion) { sample(JSONModel(:extent).schema['properties']['portion']) }
-  sequence(:instance_type) { sample(JSONModel(:instance).schema['properties']['instance_type'], ['digital_object']) }
-
-  sequence(:rights_type) { sample(JSONModel(:rights_statement).schema['properties']['rights_type']) }
-  sequence(:ip_status) { sample(JSONModel(:rights_statement).schema['properties']['ip_status']) }
-  sequence(:jurisdiction) { sample(JSONModel(:rights_statement).schema['properties']['jurisdiction']) }
-
-  sequence(:container_location_status) { sample(JSONModel(:container_location).schema['properties']['status']) }
-  sequence(:temporary_location_type) { sample(JSONModel(:location).schema['properties']['temporary']) }
-
-  sequence(:use_statement) { sample(JSONModel(:file_version).schema['properties']['use_statement']) }
-  sequence(:checksum_method) { sample(JSONModel(:file_version).schema['properties']['checksum_method']) }
-  sequence(:xlink_actuate_attribute) { sample(JSONModel(:file_version).schema['properties']['xlink_actuate_attribute']) }
-  sequence(:xlink_show_attribute) { sample(JSONModel(:file_version).schema['properties']['xlink_show_attribute']) }
-  sequence(:file_format_name) { sample(JSONModel(:file_version).schema['properties']['file_format_name']) }
-  sequence(:language) { sample(JSONModel(:resource).schema['properties']['language']) }
-  sequence(:archival_record_level) { sample(JSONModel(:resource).schema['properties']['level'], ['otherlevel']) }
-  sequence(:finding_aid_description_rules) { sample(JSONModel(:resource).schema['properties']['finding_aid_description_rules']) }
-
-  sequence(:relator) { sample(JSONModel(:abstract_archival_object).schema['properties']['linked_agents']['items']['properties']['relator']) }
-  sequence(:subject_source) { sample(JSONModel(:subject).schema['properties']['source']) }
-
-  sequence(:vocab_name) {|n| "Vocabulary #{n} - #{Time.now}" }
-  sequence(:vocab_refid) {|n| "vocab_ref_#{n} - #{Time.now}"}
-
-  sequence(:downtown_address) { "#{rand(200)} #{%w(E W).sample} #{(4..9).to_a.sample}th Street" }
 
 
   # AS Models
@@ -559,9 +459,9 @@ FactoryGirl.define do
     finding_aid_language { nil_or_whatever }
     ead_location { generate(:alphanumstr) }
     instances { [build(:json_instance), build(:json_instance)] }
-    revision_statements {  [build(:json_revision_statement)]  } 
+    revision_statements {  [build(:json_revision_statement)]  }
   end
-  
+
   factory :json_revision_statement, class: JSONModel(:revision_statement) do
     date { generate(:alphanumstr) }
     description { generate(:alphanumstr) }
