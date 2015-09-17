@@ -43,8 +43,6 @@ namespace :integration do
     ENV['ASPACE_INDEXER_URL'] = "http://localhost:#{indexer_port}"
 
     begin
-      puts "PSpec opts: #{parallel_spec_opts.inspect}"
-      puts "Cores #{cores}"
       ParallelTests::CLI.new.run(parallel_spec_opts + ["--test-options", "--format 'ParallelFormatterOut' --format 'ParallelFormatterHTML'", "-n", cores, dir])
 
     ensure

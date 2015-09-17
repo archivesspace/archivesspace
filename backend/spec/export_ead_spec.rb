@@ -621,8 +621,8 @@ describe "EAD export mappings" do
       def node_name_for_term_type(type)
         case type
         when 'function'; 'function'
-        when 'genre_form' || 'style_period';  'genreform'
-        when 'geographic'|| 'cultural_context'; 'geogname'
+        when 'genre_form', 'style_period';  'genreform'
+        when 'geographic', 'cultural_context'; 'geogname'
         when 'occupation';  'occupation'
         when 'topical'; 'subject'
         when 'uniform_title'; 'title'

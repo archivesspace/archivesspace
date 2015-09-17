@@ -20,8 +20,8 @@ class ParallelFormatterOut < RSpec::Core::Formatters::DocumentationFormatter
 
 
   def dump_failures(notification)
-    # return if notification.failure_notifications.empty?
-    # output.puts thread_id + notification.fully_formatted_failed_examples
+    return if notification.failure_notifications.empty?
+    output.puts thread_id + notification.fully_formatted_failed_examples
   end
 
 
