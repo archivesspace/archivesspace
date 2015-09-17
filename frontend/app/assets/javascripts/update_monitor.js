@@ -98,7 +98,11 @@ $(function() {
             clearAnyMonitorErrors()
           }
         },
-        "json")
+        "json").fail(function(jqXHR, textStatus, errorThrown) {
+          if (jqXHR.status === 500) {
+            window.location.replace(FRONTEND_URL);
+          }
+        });
     };
 
     poll();

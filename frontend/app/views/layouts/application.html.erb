@@ -24,6 +24,7 @@
   <script>
     APP_PATH = "<%= j(AppConfig[:frontend_prefix]) %>";
     COOKIE_PREFIX = "<%= j(AppConfig[:cookie_prefix]) %>";
+    FRONTEND_URL = "<%= j(AppConfig[:frontend_proxy_url]) %>";
   </script>
 
   <%= javascript_include_tag "application" %>
