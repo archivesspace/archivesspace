@@ -117,7 +117,7 @@ class MARCModel < ASpaceExport::ExportModel
     string += date['end'] ? date['end'][0..3] : "    "
     string += "xx"
     18.times { string += ' ' }
-    string += obj.language
+    string += (obj.language || '|||')
     string += ' d'
 
     string
