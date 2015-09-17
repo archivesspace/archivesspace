@@ -187,6 +187,7 @@ class PeriodicIndexer < CommonIndexer
 
       if !deletes['results'].empty?
         did_something = true
+        deletes['results'] = deletes['results'].delete_if { |rec| rec.match(/(#{@@records_with_children.join('|')})/) }
       end
 
       delete_records(deletes['results'])
