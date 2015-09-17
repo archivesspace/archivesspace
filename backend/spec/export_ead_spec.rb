@@ -43,10 +43,10 @@ describe "EAD export mappings" do
                                      :subnotes => [build(:json_note_text, { :publish => true,
                                                            :content => "note_text - The ship set ground on the shore of this uncharted desert isle"} ),
                                                    build(:json_note_text, { :publish => true,
-                                                           :content => "note_text - With:"}),
+                                                           :content => "<p id='whatisthisfoolishness' >note_text - With:</p>"}),
                                                    build(:json_note_definedlist,{  :publish => true, :title => "note_definedlist",
                                                            :items => [
-                                                                      {:label => "First Mate", :value => "Gilligan" },
+                                                                      {:label => "First Mate", :value => "<persname encodinganalog='600$a' source='lcnaf'>Gilligan</persname>" },
                                                                       {:label => "Captain",:value => "The Skipper"},
                                                                       {:label => "Etc.", :value => "The Professor and Mary Ann" }
                                                                      ]
@@ -402,7 +402,7 @@ describe "EAD export mappings" do
             mt(dl['title'], "#{dl_path}/head")
             dl['items'].each_with_index do |item, j|
               mt(item['label'], "#{dl_path}/defitem[#{j+1}]/label")
-              mt(item['value'], "#{dl_path}/defitem[#{j+1}]/item")
+              mt(item['value'], "#{dl_path}/defitem[#{j+1}]/item",  :markup)
             end
           end
         end
