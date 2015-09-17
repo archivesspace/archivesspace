@@ -3,15 +3,18 @@ require 'nokogiri'
 require 'asutils'
 require_relative 'opensearchresultset'
 
+LCNAF='http://id.loc.gov/authorities/names'
+LCSH='http://id.loc.gov/authorities/subjects'
+
 class OpenSearcher
   attr_accessor :scheme
 
 
   class OpenSearchException < StandardError; end
 
-  def initialize(base_url)
+  def initialize(base_url, scheme )
     @base_url = base_url
-    @scheme = 'http://id.loc.gov/authorities/names'
+    @scheme = scheme
   end
 
 
@@ -32,6 +35,7 @@ class OpenSearcher
     tempfile.write("<collection>\n")
 
     lccns.each do |lccn|
+      lccn.sub!( 'info:lc/authorities/subjects/', '')
       uri = URI("#{@scheme}/#{lccn}.marcxml.xml")
 
       response = Net::HTTP.get_response(uri)
@@ -46,7 +50,7 @@ class OpenSearcher
       doc.remove_namespaces!
       doc.encoding = 'utf-8'
 
-      tempfile.write(doc)
+      tempfile.write(doc.root)
     end
 
     tempfile.write("\n</collection>")
