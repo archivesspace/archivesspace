@@ -154,7 +154,7 @@ module TreeNodes
     if self[:root_record_id]
       root_uri = self.class.uri_for(self.class.root_record_type.intern, self[:root_record_id])
       parent_uri = parent_id ? self.class.uri_for(self.class.node_record_type.intern, parent_id) : nil
-      sequence = "#{root_uri}_#{parent_uri}_children_position"
+      sequence = "#{parent_uri}_children_position"
 
       parent_name = if parent_id
                       "#{parent_id}@#{self.class.node_record_type}"
@@ -255,7 +255,7 @@ module TreeNodes
     def sequence_for(json)
       if json[root_record_type]
         if json.parent
-          "#{json[root_record_type]['ref']}_#{json.parent['ref']}_children_position"
+          "#{json.parent['ref']}_children_position"
         else
           "#{json[root_record_type]['ref']}__children_position"
         end
