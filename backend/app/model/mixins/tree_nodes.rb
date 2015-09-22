@@ -234,7 +234,7 @@ module TreeNodes
         if json.parent
           "#{json.parent['ref']}_children_position"
         else
-          "#{json[root_record_type]['ref']}__children_position"
+          "#{json[root_record_type]['ref']}_children_position"
         end
       end
     end
