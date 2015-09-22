@@ -370,6 +370,7 @@ en:
       migration: Migration
       normalization: Normalization
       processed: Processed
+      processing_new: Processing New
       publication: Publication
       replication: Replication
       rights_transferred: Rights Transferred
