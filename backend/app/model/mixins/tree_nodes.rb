@@ -153,7 +153,7 @@ module TreeNodes
   def update_position_only(parent_id, position)
     if self[:root_record_id]
       root_uri = self.class.uri_for(self.class.root_record_type.intern, self[:root_record_id])
-      parent_uri = parent_id ? self.class.uri_for(self.class.node_record_type.intern, parent_id) : nil
+      parent_uri = parent_id ? self.class.uri_for(self.class.node_record_type.intern, parent_id) : root_uri
       sequence = "#{parent_uri}_children_position"
 
       parent_name = if parent_id
