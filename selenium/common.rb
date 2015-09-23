@@ -123,9 +123,9 @@ end
 
 
 module SeleniumTest
-  def self.save_screenshot
+  def self.save_screenshot(driver)
     outfile = "/tmp/#{Time.now.to_i}_#{$$}.png"
     puts "Saving screenshot to #{outfile}"
-    $driver.save_screenshot(outfile)
+    driver.save_screenshot(outfile)
   end
 end

@@ -7,10 +7,6 @@
 
    <div class="col-md-12" style="padding: 30px;">
       <h1><%= I18n.t "welcome.heading" %></h1>
-      <% if session["user"] %>
-        <p><%= I18n.t "welcome.message_logged_in" %></p>
-      <% else %>
-        <p><%= I18n.t "welcome.message" %></p>
-      <% end %>
-   </div>
+      <%= welcome_message %> 
+    </div>
 </div>

@@ -157,7 +157,7 @@ module Selenium
               puts "Failed to find #{selectors}"
 
               if ENV['SCREENSHOT_ON_ERROR']
-                SeleniumTest.save_screenshot
+                SeleniumTest.save_screenshot(self)
               end
 
               raise e
@@ -376,7 +376,7 @@ module Selenium
               puts "Failed to find #{selectors}"
 
               if ENV['SCREENSHOT_ON_ERROR']
-                SeleniumTest.save_screenshot
+                SeleniumTest.save_screenshot(self)
               end
 
               raise e

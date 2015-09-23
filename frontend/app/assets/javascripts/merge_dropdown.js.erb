@@ -1,6 +1,10 @@
+//= require linker 
 $(function () {
 
   var init = function () {
+    
+    $("#merge-dropdown .linker:not(.initialised)").linker();
+    
     $('.merge-form .btn-cancel').on('click', function () {
       $('.merge-action').trigger("click");
     });

@@ -377,11 +377,11 @@ $(function() {
 });
 
 $(document).ready(function() {
-  $(document).bind("loadedrecordform.aspace", function(event, $container) {
-    $(".linker:not(.initialised)", $container).linker();
+  $(document).bind("loadedrecordsubforms.aspace", function(event, $container) {
+    $(".linker-wrapper:visible > .linker:not(.initialised)", $container).linker();
   });
 
-  $(".linker:not(.initialised)").linker();
+  // we can go ahead and init dropdowns ( such as those in the toolbars ) 
 
   $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     $(".linker:not(.initialised)", subform).linker();

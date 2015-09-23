@@ -69,20 +69,13 @@ $(function() {
 
 // sidebar action
 $(function() {
-  var getSubMenuHTML = function() {
-    return $("<ul class='nav-list-submenu'></ul>");
-  };
-
-  var getSubMenuItemHTML = function(anItem) {
-    var $li = $("<li>");
-    var $link = $("<a>");
-    $link.addClass("nav-list-submenu-link");
-    $link.attr("href", "javascript:void(0);");
-    if ($(".error", anItem).length > 0) {
-      $link.addClass("has-errors");
-    }
-    $li.append($link);
-    return $li;
+  
+  var getSubMenuHTML = function(numberOfRecords) {
+    if ( numberOfRecords < 1 ) { 
+      return ''; 
+    } else {
+      return  $("<span class='nav-list-record-count badge'>" + numberOfRecords + "</span>") 
+     }
   };
 
   var refreshSidebarSubMenus = function() {
@@ -91,39 +84,20 @@ $(function() {
       // show the sub record bits
       return;
     }
-    $(".nav-list-submenu").remove();
+    $(".nav-list-record-count").remove();
     $("#archivesSpaceSidebar .as-nav-list > li").each(function() {
       var $nav = $(this);
       var $link = $("a", $nav);
       var $section = $($link.attr("href"));
       var $items = $(".subrecord-form-list:first > li", $section);
 
-      var $submenu = getSubMenuHTML();
-      for (var i=0; i<$items.length; i++) {
-        $submenu.append(getSubMenuItemHTML($items[i]));
-      }
+      var $submenu = getSubMenuHTML($items.length);
       $link.append($submenu);
-    });
-  };
-
-  var bindSidebarEvents = function() {
-    $("#archivesSpaceSidebar .as-nav-list").on("click", "> li > a", function(event) {
-      event.preventDefault();
-
-      var $target_item = $(this);
-      $.scrollTo($target_item.attr("href"), 1000, {
-        onAfter: function() {
-         $(".active", "#archivesSpaceSidebar").removeClass("active");
-          var $active = $target_item.parents("li:first");
-          $active.addClass("active");
-        }
-      });
     });
   };
 
    var initSidebar = function() {
     $("#archivesSpaceSidebar .as-nav-list:not(.initialised)").each(function() {
-      $.proxy(bindSidebarEvents, this)();
       $(this).affix({
         offset: {
           top: function() {
@@ -131,22 +105,6 @@ $(function() {
           },
           bottom: 100
         }
-      });
-
-      $(this).on("click", ".nav-list-submenu-link", function(event) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-
-        var $this = $(this);
-
-        var $section = $($this.parent().closest("a").attr("href"));
-        var $target = $($(".subrecord-form-list:first > li", $section)[$this.parent().index()]);
-        $.scrollTo($target, 1000, {
-          onAfter: function() {
-            $(".active", "#archivesSpaceSidebar").removeClass("active");
-            $this.parent().parent().closest("li").addClass("active");
-          }
-        });
       });
 
       $(this).addClass("initialised");

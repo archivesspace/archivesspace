@@ -17,6 +17,8 @@ $(function() {
 
   var moved_nodes = [];
   var move_timeout = null;
+  
+  var desired_children = []; // this is where we'll store what we want/think the children will be ordered. 
 
   // use of loadedrecordform event to ok tree tweaks
   $(document).bind("loadedrecordform.aspace", function() {
@@ -76,7 +78,9 @@ $(function() {
     });
 
 
-    $(".btn-plus-one", $form).click(function() {
+    $(".btn-plus-one", $form).click( function(event) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
       var createPlusOne = function(event, data) {
         if (data.success) {
           $(".archives-tree-container .add-sibling").trigger("click");
@@ -175,14 +179,17 @@ $(function() {
     $(":input", $container).attr("disabled","disabled");
   };
 
-  var insertOverlay = function() {
+
+  var insertTreeOverlay = function() {
     $("#archives_tree_overlay").height('100%');
-    $(".archives-tree-container .spinner").show();
+  }
+
+  var removeTreeOverlay = function() {
+    $("#archives_tree_overlay").height('0%');
   }
   
-  var removeOverlay = function() {
-    $("#archives_tree_overlay").height('0%');
-    $(".archives-tree-container .spinner").hide();
+  var toggleTreeSpinner = function(){
+    $(".archives-tree-container .spinner").toggle();
   }
 
   var extractNode = function(data, url) {
@@ -389,11 +396,10 @@ $(function() {
       var $closeRecordButton = $(AS.renderTemplate("tree_finish_action_template", data_for_toolbar));
 
       // check before closing a dirty form
-      $closeRecordButton.click(function(event) {
+      $('.btn-success', $closeRecordButton).click(function(event) {
         event.preventDefault();
         event.stopImmediatePropagation();
-
-        var location = $('a', $(this)).attr('href');
+        var location =  $(this).attr('href');
         if ($("form", $container).data("form_changed")) {
           var p = confirmChanges(tree.get_primary_selected_dom());
           p.done(function(proceed) {
@@ -453,22 +459,33 @@ $(function() {
 
 
   var setHashForNode = function(node_id) {
+
     if (node_id.indexOf("tree::") < 0) {
-      node_id = "tree::"+node_id;
+      tree_node_id = "tree::"+node_id;
+    } else { tree_node_id = node_id }
+
+    // if the hash is empty or is the same, this is the first time the page has been loaded...so we don't need to 
+    // retrigger the onHashChange callback. or is its #resource_3 and the hash is being changed to 
+    // tree::resource_3. ugh.  
+
+    if ( location.hash.length < 1 || location.hash === "#" + node_id || location.hash === node_id || location.hash === tree_node_id ) {
+      changeHashSilently(tree_node_id); 
+    } else {   
+      location.hash = tree_node_id;
     }
-    location.hash = node_id;
   };
 
 
   var changeHashSilently = function(newHash) {
     $(window).data("ignore-hashchange", true);
+    $('.locked').removeClass('locked');
     location.hash = newHash;
   };
 
 
   var onHashChange = function(){
     var currentlyFocusedSelector;
-
+    $('.locked').removeClass('locked');
     // if a toolbar action is clicked, let's refocus it
     // up re-render (it will be replaced with a new toolbar
     // for the selected node)
@@ -718,6 +735,8 @@ $(function() {
       $tree.data("clipboard", null);
       $(this).addClass("disabled");
       $(".cut-to-clipboard", $tree).removeClass("cut-to-clipboard");
+      
+
     });
 
     // Rapid Data Entry
@@ -729,8 +748,13 @@ $(function() {
 
       $(document).triggerHandler("rdeshow.aspace", [$selected, $(this)]);
     });
-
-
+    
+    $(".archives-tree-container").on("click", '.refresh-tree',  function(event) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      tree.refresh(); 
+    });
+    
     $(window).hashchange(onHashChange);
 
 
@@ -775,57 +799,77 @@ $(function() {
   //   the node that slid lower in the index.
 
   var moveNodes = function(collectedMoveData) {
-    //sanity check - shouldn't ever happen
+    
+    var targetPosition;
+    
+    // let's lock down the tree 
+    insertTreeOverlay(); 
+    toggleTreeSpinner();
+
+    // now let's lock down the form
+    $(document).triggerHandler("lockform.aspace", [$container]);
+    
+    // if we've been given an array of string ids, that's the order we want them in.  
+    if ( typeof collectedMoveData[0] === "string"  ) {
+      collectedMoveData = _.map(collectedMoveData, function(node_id) { 
+        return tree.get_node(node_id);
+      } );    
+      // we're just sticking this in there as we see it.
+      targetPosition = 0; 
+    } else {  
+      // alright, we've got selected objects.  sort by position under the new parent
+      collectedMoveData = _.sortBy(collectedMoveData, function(data) {
+        return data.position;
+      });
+      
+      var leader = collectedMoveData[0];
+      targetPosition = leader.position;
+
+      // If we have moved a node downwards in the list... Since the
+      // list will shift up as the node is plucked out, we need to
+      // adjust the target index for this.
+      // TO DO: if the position is the last in the list, this will screw it
+      // up.
+      if ((leader.parent === leader.old_parent) &&
+        (leader.position > leader.old_position)) {
+        targetPosition -= collectedMoveData.length - 1;
+      }
+    }
+    
+    var targetNode = tree.get_node(collectedMoveData[0].parent);
+    var targetNodeEl = tree.get_node(targetNode, true);
+    
+    //sanity check - shouldn't ever happen as there should always be just one
+    //parent.
     if (_.uniq(_.map(collectedMoveData, function(md) {
       return md.parent
     })).length > 1) {
       return false;
     }
 
-    var targetNode = tree.get_node(collectedMoveData[0].parent);
-    var targetNodeEl = tree.get_node(targetNode, true);
-
-    // sort by position under the new parent
-    collectedMoveData = _.sortBy(collectedMoveData, function(data) {
-      return data.position;
-    });
-
-    var leader = collectedMoveData[0];
-    var targetPosition = leader.position;
-
-    // If we have moved a node downwards in the list... Since the
-    // list will shift up as the node is plucked out, we need to
-    // adjust the target index for this.
-    if ((leader.parent === leader.old_parent) &&
-        (leader.position > leader.old_position)) {
-      targetPosition -= collectedMoveData.length - 1;
-    }
-
     var urisOfNodesToMove = _.map(collectedMoveData, function(data) {
-      return data.node.original.record_uri;
+      if ( _.has(data, 'node') ) {
+        return data.node.original.record_uri;
+      } else { return data.original.record_uri;  }   
     });
 
     var data_for_post = {
       children: urisOfNodesToMove,
       index: targetPosition
     };
-
-    // We need to lock down the form whil the move is happening....
-    insertLoadingMessage();
-    insertOverlay(); 
     $.ajax({
       url: APP_PATH+targetNode.type+"s/"+targetNode.id.replace(/.*_/, '')+"/accept_children",
       type: "POST",
       data: data_for_post,
       success: function(data, status, jqXHR) {
-
         // if we get back position from the backend that's different than
-        // the index from the frontend, we mihgt have a problem so let's refresh
+        // the index from the frontend, we might have a problem so let's refresh
         // the tree
         if ( data_for_post.index !== data.position ){
           tree.refresh();
           AS.openQuickModal(AS.renderTemplate("tree_unable_to_move_message_template"), jqXHR.responseText);
         } else {  
+           
           tree.refresh_primary_selected();
           tree.primary(function(node) {
             var nodeEl = tree.get_node(node, true);
@@ -846,15 +890,33 @@ $(function() {
             // Always update the currently selected node's position.. it may have changed!
             $("#"+nodeEl.attr("rel")+"_position_", $container).val(nodeEl.index());
 
-            // Let's unlock the form now
-            removeLoadingMessage();
-
-            // Also update the node's toolbar actions (as the move actions may have become out of sync)
-            loadTreeActionsForNode(node);
+            desired_children = targetNode.children;
+            
             // lets give the thing at least one second so we don't cause any seizures with flashing annimation.  
-            setTimeout( removeOverlay, 1000); 
+            setTimeout( function() { 
+             // desired_children = []; 
+              removeTreeOverlay(); 
+              toggleTreeSpinner(); 
+            }, 1000); 
+            
+            // now let's  unlock da the form
+
+            // trying this again. if the target node is the root, 
+            // we need to get the parent and then refresh it in
+            // a slightly different way...
+            if ( targetNode.parent === "#" ) {
+              parent = tree.get_node(tree.get_parent(desired_children[0])); 
+              tree.refresh_node(parent); 
+            } else {
+            // otherwise, just refresh that level... 
+              tree.refresh_node(targetNode); 
+            }
+            
+            $(document).triggerHandler("unlockform.aspace", [$container]);
+            
           
           });
+        
         }
       },
       error: function(jqXHR, textStatus, errorThrown) {
@@ -862,7 +924,7 @@ $(function() {
         tree.refresh();
 
         // show a modal message
-        AS.openQuickModal(AS.renderTemplate("tree_unable_to_move_message_template"), jqXHR.responseText);
+        AS.openQuickModal(AS.renderTemplate("tree_unable_to_move_message_template"));
       }
     });
   };
@@ -935,8 +997,11 @@ $(function() {
 
     if (tree.get_selected().length > 1) {
       $.each(tree.get_selected(), function(i, node_id) {
-        tree.get_node(node_id, true).addClass("selected");
+        $nodeEl = tree.get_node(node_id, true);
+        $nodeEl.addClass("selected");
+        $('.selected-order', $nodeEl).html( i + 1 ).show(); 
       });
+  
       $tree.trigger("treemultipleselected.aspace");
     } else if (tree.get_selected().length === 1) {
       tree.set_primary_selected(tree.get_selected()[0]);
@@ -956,7 +1021,12 @@ $(function() {
 
       setHashForNode(tree.get_primary_selected());
 
-      tree.get_primary_selected_dom().addClass("selected");
+      $nodeEl =  tree.get_primary_selected_dom();
+      $nodeEl.addClass("selected");
+
+      $('.selected-order').empty(); 
+      $('.selected-order:first', $nodeEl).html( 1 ).show(); 
+      
       tree.hover_node(tree.get_primary_selected());
       $tree.trigger("treesingleselected.aspace");
     }
@@ -1187,17 +1257,19 @@ $(function() {
 
     }).bind("move_node.jstree", function(event, data) {
       if (move_timeout) { clearTimeout(move_timeout); }
-      
       moved_nodes.push(data);
       move_timeout = setTimeout(function() {
         moveNodes(moved_nodes);
         // lets clear out the moved_nodes 
+        
         moved_nodes = [];
         onSelectNode();
       }, 50);
 
-
     }).bind("refreshtreenode.aspace", function(event, data) {
+      
+      AS.tree_data.moveable = true; 
+      
       var a_title = data.title || data.text;
 
       data.text = AS.renderTemplate("tree_node_" + data.node_type + "_template", {node: data});
@@ -1274,6 +1346,11 @@ $(function() {
   initTree(function() {
     resizeArchivesTree();
     tree.primary(function(node) {
+      // if the hash is not set, the loadPaneForNode will set it. but we do not
+      // want to retrigger the call for the record. 
+      if ( location.hash.length === 0 ) { 
+        $(window).data("ignore-hashchange", true);
+      }   
       loadPaneForNode(node);
       setTimeout(function(){
         $tree.scrollTo($("#" + node.id), 0, {
@@ -1284,9 +1361,34 @@ $(function() {
   });
 
   addTreeEventBindings();
-
+  
+  
   AS.refreshTreeNode = function(data) {
     $tree.triggerHandler("refreshtreenode.aspace", [data]);
   };
+
+  
+  $tree.bind("refresh_node.jstree", function(event, data) {
+    
+    if ( desired_children.length == 0 ) { return;  } 
+    happy_family = desired_children.length == data.node.children.length && desired_children.every(function(element, index) {
+        return element === data.node.children[index]; 
+    }); 
+    if ( happy_family === false ) { 
+      AS.openQuickModal(AS.renderTemplate("tree_move_ordering_problem_message_template"), desired_children);
+    }  
+    // we're good! 
+    desired_children = []; 
+  });
+
+  // this sets the tree into readonly mode but does not 'lock' it.
+  $(document).bind("readonlytree.aspace", function(event) {
+    AS.tree_data.moveable = false; 
+  });
+  
+  $(document).bind("formreverted.aspace", function(event) {
+    AS.tree_data.moveable = true; 
+    $('.refresh-tree').click();
+  });
 
 });

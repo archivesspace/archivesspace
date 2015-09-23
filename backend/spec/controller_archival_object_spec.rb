@@ -24,6 +24,12 @@ describe 'Archival Object controller' do
     JSONModel(:archival_object).all(:page => 1)['results'].count.should eq(5)
   end
 
+  it "gives you a better error if a uri is jacked" do
+    expect { 
+      create(:json_archival_object, :resource => {:ref => "/bad/uri"}, :title => "AO1")
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
 
   it "lets you reorder sibling archival objects" do
     resource = create(:json_resource)

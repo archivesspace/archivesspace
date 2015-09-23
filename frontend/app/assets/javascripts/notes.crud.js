@@ -1,5 +1,6 @@
 //= require mixed_content.js
 //= require subrecord.collapsible.js
+//= require subrecord.too_many.js
 
 $(function() {
 
@@ -9,11 +10,10 @@ $(function() {
 
       var $this = $(this);
 
-      if ($this.hasClass("initialised")) {
+      if ($this.hasClass("initialised") || $this.hasClass("too-many") ) {
         return;
       }
-
-      $this.addClass("initialised");
+        
 
       var index = $(".subrecord-form-fields", $this).length;
 
@@ -371,19 +371,30 @@ $(function() {
       if ($target_subrecord_list.children("li").length > 1) {
         $(".subrecord-form-heading:first .btn.apply-note-order", $this).removeAttr("disabled");
       }
-
-      // initialising forms
-      var $list = $("ul.subrecord-form-list:first", $this)
-      AS.initSubRecordSorting($list);
-      AS.initAddAsYouGoActions($this, $list);
-
-      if ($(".subrecord-form-list > .subrecord-form-wrapper > .subrecord-form-fields", $this).length) {
-        $(".subrecord-form-list > .subrecord-form-wrapper > .subrecord-form-fields", $this).each(function() {
-          initNoteForm($(this), false);
-        });
+     
+      var initRemoveActions = function() {
         $(".subrecord-form-inline", $this).each(function() {
           initRemoveActionForSubRecord($(this));
         });
+      } 
+
+      var initNoteForms = function($noteForm ) { 
+        // initialising forms
+        var $list = $("ul.subrecord-form-list:first", $this)
+        AS.initSubRecordSorting($list);
+        AS.initAddAsYouGoActions($this, $list);
+        $(".subrecord-form-list > .subrecord-form-wrapper:visible > .subrecord-form-fields:not('.initialised')", $noteForm).each(function() {
+          initNoteForm($(this), false);
+        });
+        initRemoveActions();
+      }
+      
+      $existingNotes = $(".subrecord-form-list:first > .subrecord-form-wrapper", $this);
+      tooManyNotes = AS.initTooManySubRecords($this, $existingNotes.length, initNoteForms );
+
+      if (tooManyNotes === false ) {
+        $this.addClass("initialised");
+        initNoteForms($this);
       }
     });
   };
@@ -394,7 +405,7 @@ $(function() {
       $("section.notes-form.subrecord-form:not(.initialised)", $container).init_notes_form();
     });
 
-    $("section.notes-form.subrecord-form:not(.initialised)").init_notes_form();
+   // $("section.notes-form.subrecord-form:not(.initialised)").init_notes_form();
   });
 
 });

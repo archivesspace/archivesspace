@@ -172,6 +172,12 @@ AppConfig[:jobs_cancelable] = proc { (AppConfig[:db_url] != AppConfig.demo_db_ur
 
 AppConfig[:max_location_range] = 1000
 
+# Schema Info check
+# ASpace backend will not start if the db's schema_info version is not set
+# correctly for this version of ASPACE. This is to ensure that all the
+# migrations have run and completed before starting the app. You can override
+# this check here. Do so at your own peril. 
+AppConfig[:ignore_schema_info_check] = false
 
 # Jasper Reports
 # (https://community.jaspersoft.com/project/jasperreports-library) 

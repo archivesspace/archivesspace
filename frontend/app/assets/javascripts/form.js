@@ -67,6 +67,28 @@ $(function() {
 
 // add form change detection
 $(function() {
+
+  var lockForm = function() {
+    $(this).each(function() {
+      $(".form-overlay", $(this) ).height('100%').fadeIn();
+      $(this).addClass('locked'); 
+    }); 
+  }
+  
+  var showUnlockForm = function() {
+    $(this).each(function() {
+      
+      var $unlock = $(AS.renderTemplate("form_overlay_unlock_template"));
+      $unlock.on("click", function(event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        $(window).trigger('hashchange');
+      });
+      $("#archives_form_overlay", $(this) ).append($unlock);
+      $(".alert", $unlock).fadeIn(); 
+    }); 
+  }
+    
   var ignoredKeycodes = [37,39,9];
 
   var initFormChangeDetection = function() {
@@ -76,14 +98,19 @@ $(function() {
       if ($this.data("changedDetectionEnabled")) {
         return;
       }
-
+      
       $this.data("form_changed", $this.data("form_changed") || false);
       $this.data("changedDetectionEnabled", true);
+
+      // this is the overlay we can use to lock the form. 
+      $("> .form-context > .row > .col-md-9", $this).prepend('<div id="archives_form_overlay"><div class="modal-backdrop in form-overlay"></div></div>');
+      $("> .form-context > .row > .col-md-3 .form-actions", $this).prepend('<div id="archives_form_actions_overlay" class="modal-backdrop in form-overlay"></div>');
 
 
       var onFormElementChange = function(event) {
         if ($(event.target).parents("*[data-no-change-tracking='true']").length === 0) {
           $this.trigger("formchanged.aspace");
+          $this.trigger("readonlytree.aspace");
         }
       };
       $this.on("change keyup", ":input", function(event) {
@@ -164,6 +191,15 @@ $(function() {
 
   $(document).bind("loadedrecordform.aspace", function(event, $container) {
     $.proxy(initFormChangeDetection, $("form.aspace-record-form", $container))();
+  });
+ 
+  // we need to lock the form because somethingis happening
+  $(document).bind("lockform.aspace", function(event, $container) {
+    $.proxy(lockForm, [$container] )();   
+  });
+  // and now the thing is done, so we can now allow the user to unlock it. 
+  $(document).bind("unlockform.aspace", function(event, $container) {
+    $.proxy(showUnlockForm, [$container] )();   
   });
 
   $.proxy(initFormChangeDetection, $("form.aspace-record-form"))();

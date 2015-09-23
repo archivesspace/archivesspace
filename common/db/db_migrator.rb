@@ -180,10 +180,33 @@ class DBMigrator
   end
 
   def self.setup_database(db)
-    $db_type = db.database_type
-    Sequel::Migrator.run(db, MIGRATIONS_DIR)
-    PLUGIN_MIGRATIONS.each { |plugin| Sequel::Migrator.run(db, PLUGIN_MIGRATION_DIRS[plugin],
-                                                           :table => "#{plugin}_schema_info") }
+    begin 
+      $db_type = db.database_type
+      Sequel::Migrator.run(db, MIGRATIONS_DIR)
+      PLUGIN_MIGRATIONS.each { |plugin| Sequel::Migrator.run(db, PLUGIN_MIGRATION_DIRS[plugin],
+                                                             :table => "#{plugin}_schema_info") }
+    rescue Exception => e
+     $stderr.puts <<EOF
+     
+     #{ 3.times { $stderr.puts "!" * 100  } } 
+     
+     
+     Database migration error. 
+     Your upgrade has encountered a problem. 
+     You must resolve these issues before the database migration can complete.
+     
+     
+     Error: 
+     #{e.inspect}
+     #{e.message}
+     #{e.backtrace.join("\n")}
+
+     
+     #{ 3.times { $stderr.puts "!" * 100  } }
+EOF
+     
+     raise e
+    end
   end
 
 

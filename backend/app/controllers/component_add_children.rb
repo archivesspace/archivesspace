@@ -175,17 +175,16 @@ class ArchivesSpaceService < Sinatra::Base
       # Does this cause any undo problems?
       first_uri = params[:children][0]
       first_obj = child_class.get_or_die(child_class.my_jsonmodel.id_for(first_uri))
-
-      ordered = nil
-      if target.id == first_obj.parent_id && first_obj.absolute_position < position
-        # We need to remove one from the position to prevent 
-        # position from being added one after the placement.
+     
+     
+      # ok, we are keeping it in the same parent and moving down the list, we
+      # need to reverse to make sure the placement happens correctly.
+      # If the first_obj doesn't have a parent_id, that means it's at the top
+      # of the food chain, so we can check if the target is a Tree, not a TreeNode. 
+      # Otherwise, we are moving into another parent.
+      if ( target.id == first_obj.parent_id || ( target.class.included_modules.include?(Trees) && first_obj.parent_id.nil? ) )  && first_obj.absolute_position < position
         ordered = params[:children].each_with_index.to_a.reverse
-        position = position - 1
       else
-        # Flipped from previous -- need to reverse the 
-        # array when moving items up the tree.  This is 
-        # different from the previous build.
         ordered = params[:children].each_with_index
       end
 
@@ -197,7 +196,7 @@ class ArchivesSpaceService < Sinatra::Base
           last_child.update_position_only(parent_id, position + i )
         end
       ensure
-        # close the gaps...does this scale? 
+        # close out the gaps.  
         last_child.order_siblings if last_child
       end
     end
