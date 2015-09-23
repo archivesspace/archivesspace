@@ -39,7 +39,6 @@ GEM
       sequel
     rack-test (0.6.3)
       rack (>= 1.0)
-    rake (10.4.2)
     rjack-jackson (1.8.11.0-java)
     rspec (3.3.0)
       rspec-core (~> 3.3.0)
