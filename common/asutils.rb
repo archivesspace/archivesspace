@@ -82,7 +82,7 @@ module ASUtils
     [java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
      java.lang.System.get_property("catalina.base"),
      File.join(*[File.dirname(__FILE__), "..", root].compact)].find {|dir|
-      Dir.exists?(dir)
+      dir && Dir.exists?(dir)
     }
   end
 
