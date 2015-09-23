@@ -36,3 +36,4 @@ build/demo_db_backups
 frontend/node_modules
 locales.diff
 frontend/bower_components
+Gemfile.local

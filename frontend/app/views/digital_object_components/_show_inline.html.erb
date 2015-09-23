@@ -56,6 +56,10 @@
 
         <%= render_aspace_partial :partial => "linked_events/show", :locals => { :linked_events => digital_object_component.linked_events, :context => readonly, :section_id => "digital_object_component_linked_events_" } %>
 
+        <% if digital_object_component.external_ids.length > 0 && show_external_ids? %>
+          <%= render_aspace_partial :partial => "external_ids/show", :locals => { :external_ids => digital_object_component.external_ids, :context => readonly, :section_id => "digital_object_component_external_ids_" } %>
+        <% end %>
+
         <%= show_plugins_for(@digital_object_component, readonly) %>
 
       <% end %>

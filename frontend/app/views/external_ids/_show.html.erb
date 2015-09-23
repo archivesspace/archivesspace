@@ -1,0 +1,26 @@
+<%
+   section_id = "visible_external_ids" if section_id.blank?
+%>
+<section id="<%= section_id %>" class="subrecord-form-dummy">
+  <h3><%= I18n.t("external_id._plural")%></h3>
+  <div class="subrecord-form-container">
+    <div class="subrecord-form-fields">
+      <table class="table table-striped table-bordered table-condensed table-hover">
+        <thead>
+        <tr>
+          <td><%= I18n.t("external_id.source") %></td>
+          <td><%= I18n.t("external_id.external_id") %></td>
+        </tr>
+        </thead>
+        <tbody>
+        <% ASUtils.wrap(external_ids).each do |external_id| %>
+          <tr>
+            <td><%= external_id['source'] %></td>
+            <td><%= external_id['external_id'] %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

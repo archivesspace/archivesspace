@@ -37,137 +37,6 @@ $frontend_start_fn = proc {
   pid
 }
 
-module RSpecClassHelpers
-
-  def xdescribe(*args)
-  end
-end
-
-
-module ASpaceMethods
-
-  def set_repo(repo)
-    if repo.respond_to?(:uri)
-      set_repo(repo.uri)
-    elsif repo.is_a?(String) && repo.match(/^\/repositories\/\d+/)
-      set_repo(JSONModel(:repository).id_for(repo))
-    else
-      JSONModel.set_repository(repo)
-    end
-  end
-
-
-  def do_http_request(url, req)
-
-    req['X-ArchivesSpace-Session'] = @current_session
-
-    Net::HTTP.start(url.host, url.port) do |http|
-      http.read_timeout = 1200
-      http.request(req)
-    end
-  end
-
-
-  def backend_login
-    if @current_session
-      return @current_session
-    end
-
-    username = "admin"
-    password = "admin"
-
-    url = URI.parse($backend + "/users/#{username}/login")
-
-    request = Net::HTTP::Post.new(url.request_uri)
-    request.set_form_data("expiring" => "false",
-                          "password" => password)
-
-    response = do_http_request(url, request)
-
-    if response.code == '200'
-      auth = ASUtils.json_parse(response.body)
-
-      @current_session = auth['session']
-      JSONModel::HTTP.current_backend_session = auth['session']
-
-    else
-      raise "Authentication to backend failed: #{response.body}"
-    end
-  end
-
-
-  def run_index_round
-    if ENV['ASPACE_INDEXER_URL']
-      url = URI.parse(ENV['ASPACE_INDEXER_URL'] + "/run_index_round")
-
-      request = Net::HTTP::Post.new(url.request_uri)
-      request.content_length = 0
-
-      tries = 5
-
-      begin
-
-        response = do_http_request(url, request)
-
-        response.code
-      rescue Timeout::Error
-        tries -= 1
-        retry if tries > 0
-      end
-
-    else
-      $last_sequence ||= 0
-      $last_sequence = $indexer.run_index_round($last_sequence)
-    end
-  end
-
-  def run_periodic_index
-    if ENV['ASPACE_INDEXER_URL']
-      url = URI.parse(ENV['ASPACE_INDEXER_URL'] + "/run_periodic_index")
-
-      request = Net::HTTP::Post.new(url.request_uri)
-      request.content_length = 0
-
-      response = do_http_request(url, request)
-
-      response.code
-    else
-      $period.run_index_round
-    end
-  end
-
-
-  def run_all_indexers
-    run_index_round
-    run_periodic_index
-  end
-end
-
-
-module JSTreeHelperMethods
-
-  class JSNode
-    def initialize(obj)
-      @obj = obj
-    end
-
-    def li_id
-      "#{@obj.jsonmodel_type}_#{@obj.class.id_for(@obj.uri)}"
-    end
-
-    def a_id
-      "#{self.li_id}_anchor"
-    end
-
-  end
-
-
-  def js_node(obj)
-    JSNode.new(obj)
-  end
-end
-
-
 include FactoryGirl::Syntax::Methods
 
 RSpec.configure do |config|
@@ -178,8 +47,7 @@ RSpec.configure do |config|
     c.syntax = [:should, :expect]
   end
 
-  config.include ASpaceMethods
-  config.include RepositoryHelperMethods
+  config.include BackendClientMethods
   config.include JSTreeHelperMethods
   config.include FactoryGirl::Syntax::Methods
   config.extend RSpecClassHelpers
@@ -187,8 +55,10 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     selenium_init($backend_start_fn, $frontend_start_fn)
+    $admin = BackendClientMethods::ASpaceUser.new('admin', 'admin')
     SeleniumFactories.init
-    if !ENV['ASPACE_INDEXER_URL'] # runs indexers in the same thread as the tests
+    # runs indexers in the same thread as the tests if necessary
+    if !ENV['ASPACE_INDEXER_URL']
       $indexer = RealtimeIndexer.new($backend, nil)
       $period = PeriodicIndexer.new
     end
@@ -197,6 +67,17 @@ RSpec.configure do |config|
   config.after(:suite) do
     report_sleep
     cleanup
+  end
+
+  if ENV['ASPACE_TEST_WITH_PRY']
+    require 'pry'
+    config.around(:each) do |example|
+      example.run
+      if example.exception
+        puts "FAILED: #{example.exception}"
+        binding.pry
+      end
+    end
   end
 
 end

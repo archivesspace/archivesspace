@@ -57,6 +57,9 @@
 
         <%= render_aspace_partial :partial => "linked_events/show", :locals => { :linked_events => archival_object.linked_events, :context => readonly, :section_id => "archival_object_linked_events_" } %>
 
+        <% if archival_object.external_ids.length > 0 && show_external_ids? %>
+          <%= render_aspace_partial :partial => "external_ids/show", :locals => { :external_ids => archival_object.external_ids, :context => readonly, :section_id => "archival_object_external_ids_" } %>
+        <% end %>
 
         <%= show_plugins_for(@archival_object, readonly) %>
       <% end %>

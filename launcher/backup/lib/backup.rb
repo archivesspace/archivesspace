@@ -45,6 +45,7 @@ class ArchivesSpaceBackup
         "--port=#{port}",
         "--user=#{username}",
         "--password=#{password}",
+        "--routines",
         "--single-transaction",
         "--quick",
       ]
