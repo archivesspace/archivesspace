@@ -144,7 +144,7 @@ end
 
 
 def digital_object_note_set
-  ["summary", "bioghist", "accessrestrict", "userestrict", "custodhist", "dimensions", "edition", "extent", "alformavail", "originalsloc", "note", "acqinfo", "inscription", "langmaterial", "legalstatus", "physdesc", "prefercite", "processinfo", "relatedmaterial"].map do |type|
+  ["summary", "bioghist", "accessrestrict", "userestrict", "custodhist", "dimensions", "edition", "extent", "altformavail", "originalsloc", "note", "acqinfo", "inscription", "langmaterial", "legalstatus", "physdesc", "prefercite", "processinfo", "relatedmaterial"].map do |type|
     build(:json_note_digital_object, {
             :publish => true,
             :type => type
