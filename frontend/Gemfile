@@ -29,10 +29,6 @@ gem 'json-schema', '1.0.10'
 gem 'useragent'
 
 gem "jruby-jars", "= 1.7.21"
-
-gem 'warbler', "1.4.2"
-
-
 gem 'atomic', '= 1.0.1'
 
 
@@ -40,6 +36,10 @@ group :test do
   gem 'rspec', '~> 3.3.0'
   gem 'rspec-rails'
   gem 'simplecov', "0.7.1"
+end
+
+group :development do
+  gem 'warbler', "1.4.2"
 end
 
 gem "puma", "2.8.2"
@@ -52,8 +52,7 @@ gem "zip-zip", "0.3"
 
 gem "nokogiri", '~> 1.6.1'
 
+require 'asutils'
 
 # Allow plugins to provide their own Gemfiles too.
-#
-require 'asutils'
 ASUtils.load_plugin_gems(self)
