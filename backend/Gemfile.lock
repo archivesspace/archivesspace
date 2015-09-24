@@ -93,7 +93,6 @@ PLATFORMS
   java
 
 DEPENDENCIES
-  activesupport (= 3.2.19)
   atomic (= 1.0.1)
   axlsx (= 2.0.1)
   bcrypt (= 3.1.7)
