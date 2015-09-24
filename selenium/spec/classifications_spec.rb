@@ -3,6 +3,8 @@ require_relative 'spec_helper'
 describe "Classifications" do
 
   before(:all) do
+    @repo = create(:repo)
+    set_repo(@repo)
     @classification_agent = create(:agent_person)
     @agent_sort_name = @classification_agent.names.first['sort_name']
 
@@ -133,4 +135,25 @@ describe "Classifications" do
 
     @driver.find_element(:css => 'div.token.classification').text.should match(/#{test_classification}/)
   end
+
+  it "has the linked records on the classifications view page" do
+
+    resource = create(:resource)
+
+    classification = create(:classification,  {:linked_records =>[ {:ref => resource.uri} ] })
+    term = create(:classification_term,
+                  {  :classification => {'ref' => classification.uri} })
+    accession = create(:accession, { :classifications => [ { :ref => term.uri } ] })
+
+    run_all_indexers
+
+    @driver.get_view_page(classification)
+
+    @driver.find_element(:css, "#search_embedded").text.should match(/#{resource.title}/)
+    @driver.find_element(:id, js_node(term).a_id).click
+    @driver.wait_for_ajax 
+    @driver.find_element(:css, "#search_embedded").text.should match(/#{accession.title}/)
+
+  end
+
 end
