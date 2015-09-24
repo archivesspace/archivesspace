@@ -31,7 +31,7 @@ class DB
       end
 
       begin
-        Log.info("Connecting to database: #{AppConfig[:db_url]}. Max connections: #{AppConfig[:db_max_connections]}")
+        Log.info("Connecting to database: #{AppConfig[:db_url_redacted]}. Max connections: #{AppConfig[:db_max_connections]}")
         pool = Sequel.connect(AppConfig[:db_url],
                               :max_connections => AppConfig[:db_max_connections],
                               :test => true,

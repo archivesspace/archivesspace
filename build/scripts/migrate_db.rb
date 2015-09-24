@@ -39,7 +39,7 @@ begin
 
     end
 
-    puts "Running migrations against #{AppConfig[:db_url]}"
+    puts "Running migrations against #{AppConfig[:db_url_redacted]}"
     DBMigrator.setup_database(db)
     puts "All done."
   end

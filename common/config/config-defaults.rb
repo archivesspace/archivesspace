@@ -31,6 +31,7 @@ AppConfig[:indexer_solr_timeout_seconds] = 300
 AppConfig[:allow_other_unmapped] = false
 
 AppConfig[:db_url] = proc { AppConfig.demo_db_url }
+AppConfig[:db_url_redacted] = proc { AppConfig[:db_url].gsub(/(user|password)=(.*?)&/, '\1=[REDACTED]&') }
 AppConfig[:db_max_connections] = proc { 20 + (AppConfig[:indexer_thread_count] * 2) }
 
 # Set to true to log all SQL statements.  Note that this will have a performance
