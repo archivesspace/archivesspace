@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   rescue_from ArchivesSpace::SessionGone, :with => :destroy_user_session
   rescue_from ArchivesSpace::SessionExpired, :with => :destroy_user_session
   rescue_from RecordNotFound, :with => :render_404
+  rescue_from AccessDeniedException, :with => :render_403
 
   # Allow overriding of templates via the local folder(s)
   if not ASUtils.find_local_directories.blank?
