@@ -9,10 +9,10 @@ GEM
       htmlentities (~> 4.3.1)
       nokogiri (>= 1.4.1)
       rubyzip (~> 1.0.0)
-    backports (3.6.5)
+    backports (3.6.6)
     bcrypt (3.1.7-java)
     diff-lcs (1.2.5)
-    eventmachine (1.0.7-java)
+    eventmachine (1.0.8-java)
     factory_girl (4.1.0)
       activesupport (>= 3.0.0)
     htmlentities (4.3.4)
@@ -39,6 +39,7 @@ GEM
       sequel
     rack-test (0.6.3)
       rack (>= 1.0)
+    rake (10.4.2)
     rjack-jackson (1.8.11.0-java)
     rspec (3.3.0)
       rspec-core (~> 3.3.0)
@@ -59,7 +60,7 @@ GEM
       tzinfo (>= 0.3.22)
     saxerator (0.9.5)
       nokogiri (>= 1.4.0)
-    saxon-xslt (0.5.1-java)
+    saxon-xslt (0.7.1-java)
     sequel (4.20.0)
     simplecov (0.7.1)
       multi_json (~> 1.0)
@@ -97,6 +98,7 @@ DEPENDENCIES
   axlsx (= 2.0.1)
   bcrypt (= 3.1.7)
   factory_girl (~> 4.1.0)
+  i18n (>= 0.6.4)
   jdbc-derby (= 10.6.2.1)
   jdbc-mysql (= 5.1.13)
   jruby-jars (= 1.7.21)
@@ -124,3 +126,6 @@ DEPENDENCIES
   tzinfo (= 0.3.39)
   warbler (= 1.4.2)
   zip-zip (= 0.3)
+
+BUNDLED WITH
+   1.10.6
