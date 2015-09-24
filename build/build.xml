@@ -92,7 +92,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
-      <arg line="--1.9 -S gem install bundler -v 1.7.12" />
+      <arg line="--1.9 -S gem install bundler -v 1.10.6" />
     </java>
 
     <antcall target="bundler">
