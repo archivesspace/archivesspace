@@ -338,6 +338,7 @@ describe "Tree UI" do
       offset = ( ( target.location[:y] - a.location[:y] ) - 7 ) 
       @driver.action.click(a).key_down(:shift).click(b).key_up(:shift).drag_and_drop_by(a, 0, offset).perform
       @driver.wait_for_ajax
+      @driver.wait_until_gone(:css, ".spinner") 
     end
 
     # everything should be normal
@@ -356,6 +357,7 @@ describe "Tree UI" do
       offset = ( ( target.location[:y] - a.location[:y] ) + 7 ) 
       @driver.action.click(a).key_down(:shift).click(b).key_up(:shift).drag_and_drop_by(a, 0, offset).perform
       @driver.wait_for_ajax
+      @driver.wait_until_gone(:css, ".spinner") 
     end
     
     # back to normal 
@@ -374,6 +376,7 @@ describe "Tree UI" do
       offset = ( ( target.location[:y] - a.location[:y] ) + 7 ) 
       @driver.action.click(a).key_down(:shift).click(b).key_up(:shift).drag_and_drop_by(a, 0, offset).perform
       @driver.wait_for_ajax
+      @driver.wait_until_gone(:css, ".spinner") 
     end
     
     # and again back to normal 
@@ -391,6 +394,8 @@ describe "Tree UI" do
 
     offset = ( ( target.location[:y] - a.location[:y] ) - 7 ) 
     @driver.action.click(a).key_down(:shift).click(b).key_up(:shift).drag_and_drop_by(a, 0, offset).perform
+    @driver.wait_for_ajax
+    @driver.wait_until_gone(:css, ".spinner") 
    
     # heres the new order of our AOs. all on one level
     new_order = (0..9).to_a + [ @a1.title, @a2.title, @a3.title ]
@@ -412,6 +417,7 @@ describe "Tree UI" do
       offset = ( ( target.location[:y] - a.location[:y] ) - 7 ) 
       @driver.action.click(a).key_down(:shift).click(b).key_up(:shift).drag_and_drop_by(a, 0, offset).perform
       @driver.wait_for_ajax
+      @driver.wait_until_gone(:css, ".spinner") 
       new_order.each_with_index do |v, i|   
         assert(5) {
           @driver.find_element( :xpath => "//li[a/@title='#{@r.title}']/ul/li[position() = #{i + 1 }]/a/span/span[@class='title-column pull-left']").text.should match(/#{v}/)
@@ -430,6 +436,7 @@ describe "Tree UI" do
       offset = ( ( target.location[:y] - a.location[:y] ) + 7 ) 
       @driver.action.click(a).key_down(:shift).click(b).key_up(:shift).drag_and_drop_by(a, 0, offset).perform
       @driver.wait_for_ajax
+      @driver.wait_until_gone(:css, ".spinner") 
       new_order.each_with_index do |v, i|   
         assert(5) {
           @driver.find_element( :xpath => "//li[a/@title='#{@r.title}']/ul/li[position() = #{i + 1 }]/a/span/span[@class='title-column pull-left']").text.should match(/#{v}/)
@@ -449,6 +456,7 @@ describe "Tree UI" do
       offset = ( ( target.location[:y] - a.location[:y] ) + 7 ) 
       @driver.action.click(a).key_down(:shift).click(b).key_up(:shift).drag_and_drop_by(a, 0, offset).perform
       @driver.wait_for_ajax
+      @driver.wait_until_gone(:css, ".spinner") 
       new_order.each_with_index do |v, i|   
         assert(5) {
           @driver.find_element( :xpath => "//li[a/@title='#{@r.title}']/ul/li[position() = #{i + 1 }]/a/span/span[@class='title-column pull-left']").text.should match(/#{v}/)

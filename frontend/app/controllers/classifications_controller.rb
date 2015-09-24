@@ -137,8 +137,12 @@ class ClassificationsController < ApplicationController
     flash.keep
 
     tree = []
+    limit_to = if  params[:node_uri] && !params[:node_uri].include?("/classifications/") 
+                 params[:node_uri]
+               else
+                 "root"
+               end
 
-    limit_to = params[:node_uri] || "root"
 
     if !params[:hash].blank?
       node_id = params[:hash].sub("tree::", "").sub("#", "")

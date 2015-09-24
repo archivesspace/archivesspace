@@ -257,7 +257,11 @@ class DigitalObjectsController < ApplicationController
   def fetch_tree
     tree = {}
 
-    limit_to = params[:node_uri] || "root"
+    limit_to = if  params[:node_uri] && !params[:node_uri].include?("/digital_objects/") 
+                 params[:node_uri]
+               else
+                 "root"
+               end
 
     if !params[:hash].blank?
       node_id = params[:hash].sub("tree::", "").sub("#", "")
