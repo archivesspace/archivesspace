@@ -346,7 +346,7 @@ module Selenium
         return nil if noError
 
         if ENV['SCREENSHOT_ON_ERROR']
-          SeleniumTest.save_screenshot
+          SeleniumTest.save_screenshot(self)
         end
 
         raise Selenium::WebDriver::Error::NoSuchElementError.new("Could not find element for xpath: #{xpath} pattern: #{pattern}")
