@@ -85,7 +85,7 @@ class ArchivesSpaceService < Sinatra::Base
       if !DB.connected?
         Log.error("***** DATABASE CONNECTION FAILED *****\n" +
                   "\n" +
-                  "ArchivesSpace could not connect to your specified database URL (#{AppConfig[:db_url]}).\n\n" +
+                  "ArchivesSpace could not connect to your specified database URL (#{AppConfig[:db_url_redacted]}).\n\n" +
                   "Please check your configuration and try again.")
         raise "Database connection failed"
       end
