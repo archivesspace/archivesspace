@@ -65,6 +65,8 @@ module SeleniumFactories
       sequence(:archival_object_title) {|n| "Archival Object #{n}"}
       sequence(:digital_object_title) {|n| "Digital Object #{n}"}
       sequence(:digital_object_component_title) {|n| "Digital Object #{n}"}
+      sequence(:classification_title) {|n| "Classification #{n}"}
+      sequence(:classification_term_title) {|n| "Classification Term #{n}"}
 
 
       sequence(:rde_template_name) {|n| "RDE Template #{n}_#{Time.now.to_i}"}
@@ -206,6 +208,18 @@ module SeleniumFactories
       factory :vocab, class: JSONModel(:vocabulary) do
         name { generate(:vocab_name) }
         ref_id { generate(:vocab_refid) }
+      end
+      
+      factory :classification, class: JSONModel(:classification) do
+        identifier { generate(:alphanumstr) }
+        title { generate(:classification_title) }
+        description { generate(:alphanumstr) }
+      end
+
+      factory :classification_term, class: JSONModel(:classification_term) do
+        identifier { generate(:alphanumstr) }
+        title { generate(:classification_term_title) }
+        description { generate(:alphanumstr) }
       end
     end
 
