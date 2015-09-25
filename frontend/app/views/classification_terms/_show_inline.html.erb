@@ -25,7 +25,7 @@
         </section>
       <% end %>
 
-      <%= render_aspace_partial :partial => "search/embedded", :locals => {:filter_term => {"classification_uri" => @classification_term.uri}.to_json, :heading_text => I18n.t("classification_term._frontend.section.search_embedded")} %>
+      <%= render_aspace_partial :partial => "search/embedded", :locals => {:filter_term => {"classification_uris" => @classification_term.uri}.to_json, :heading_text => I18n.t("classification_term._frontend.section.search_embedded")} %>
 
     </div>
   </div>
