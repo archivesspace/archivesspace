@@ -83,26 +83,85 @@ it "can identify and report conflicting identifiers" do
   end
   
 
-  it "can delete a repo even if it has preferences and import jobs" do
+  it "can delete a repo even if it has preferences and import jobs and stuff" do
 
     repo = Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "TESTREPO2",
                                                                         :name => "electric boogaloo"))
 
+    RequestContext.open(:repo_id => repo.id) do
+      dobj = DigitalObject.create_from_json( build(:json_digital_object, :repo_id => repo.id ) ) 
+      DigitalObjectComponent.create_from_json( build(:json_digital_object_component, 
+                                                     :digital_object => { :ref => dobj.uri }) )
+      
+      resource = Resource.create_from_json( build(:json_resource, :repo_id => repo.id ))
+      ArchivalObject.create_from_json( build(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO1" ), :repo_id => repo.id  )
+    
+      classification = build(:json_classification,
+               :title => "top-level classification",
+               :identifier => "abcdef",
+               :description => "A classification",
+               :linked_records => [ 'ref' => resource.uri ])
+      Classification.create_from_json(classification)
+
+
+      accession = Accession.create_from_json( build(:json_accession), :repo_id => repo.id )
+      
+      event = build(:json_event, :linked_records => [{'ref' => accession.uri, 'role' => generate(:record_role ) }] )
+      Event.create_from_json( event, :repo_id => repo.id ) 
+
+    end
+
     group = Group.create_from_json(build(:json_group), :repo_id => repo.id)
     new_user = create(:user)
-
     new_user.add_to_groups(group)
+   
+    # ripping off from job spec
+    converter = Class.new(Converter) do
+      def self.instance_for(type, input_file)
+          self.new(input_file) if type == 'nonce'
+      end
+
+      def run
+        obj = ASpaceImport::JSONModel(:accession).new
+        obj.title = IO.read(@input_file)
+        obj.id_0 = '1234'
+        obj.accession_date = '2010-10-10'
+        @batch << obj
+        @batch.flush
+      end
+    
+    end
+    # new we register it. 
+    Converter.register_converter(converter)
+   
+    # let's add a temp file
+    tmp = ASUtils.tempfile("doc-#{Time.now.to_i}")
+    tmp.write("foobar")
+    tmp.rewind
+   
+    # build out our job
     json = build(:json_job,
                 :job_type => 'import_job',
-                :job => build(:json_import_job, :import_type => 'nonce')) 
-    
-    
-    Job.create_from_json(json, :repo_id => repo.id, :user => new_user)
+                :job => build(:json_import_job, 
+                              :filenames => [tmp.path], 
+                              :import_type => 'nonce'))  
+    jobber = create_nobody_user  
+    job = Job.create_from_json(json, :repo_id => repo.id, :user => jobber)
+    job.add_file(tmp) # add the temp file 
+
+    # run the job. We should now have 
+    job_runner = JobRunner.for(job)
+    job_runner.run
   
+    # we should have a JobCreatedRecord and a JobFile record
+    job.created_records.count.should eq(1)
+   
+    # let's make a preference too
     RequestContext.open(:repo_id => repo.id) do
       Preference.create_from_json(build(:json_preference, :user_id => new_user.id))
     end
-    
+   
+    #now let's delete this sucka
     RequestContext.open(:repo_id => repo.id) do
       repo.delete
       new_user.delete
