@@ -3,14 +3,17 @@ require_relative 'spec_helper'
 describe "Classifications" do
 
   before(:all) do
-    @repo = create(:repo)
+    
+    @repo = create(:repo, :repo_code => "classification_test_#{Time.now.to_i}")
     set_repo(@repo)
+
     @classification_agent = create(:agent_person)
     @agent_sort_name = @classification_agent.names.first['sort_name']
 
     @driver = Driver.new.login($admin)
 
     run_index_round
+    @driver.select_repo(@repo.repo_code)
   end
 
 
@@ -138,21 +141,20 @@ describe "Classifications" do
 
   it "has the linked records on the classifications view page" do
 
-    resource = create(:resource)
+    a_resource = create(:resource)
 
-    classification = create(:classification,  {:linked_records =>[ {:ref => resource.uri} ] })
-    term = create(:classification_term,
-                  {  :classification => {'ref' => classification.uri} })
-    accession = create(:accession, { :classifications => [ { :ref => term.uri } ] })
+    a_classification = create(:classification,  {:linked_records =>[ {:ref => a_resource.uri} ] })
+    a_term = create(:classification_term,
+                  {  :classification => {'ref' => a_classification.uri} })
+    an_accession = create(:accession, { :classifications => [ { :ref => a_term.uri } ] })
 
     run_all_indexers
-
-    @driver.get_view_page(classification)
-
-    @driver.find_element(:css, "#search_embedded").text.should match(/#{resource.title}/)
-    @driver.find_element(:id, js_node(term).a_id).click
+    
+    @driver.get_view_page(a_classification)
+    @driver.find_element(:css, "#search_embedded").text.should match(/#{a_resource.title}/)
+    @driver.find_element(:id, js_node(a_term).a_id).click
     @driver.wait_for_ajax 
-    @driver.find_element(:css, "#search_embedded").text.should match(/#{accession.title}/)
+    @driver.find_element(:css, "#search_embedded").text.should match(/#{an_accession.title}/)
 
   end
 

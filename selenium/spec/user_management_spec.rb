@@ -29,6 +29,8 @@ describe "User management" do
 
   it "can create a user account" do
     @driver.login($admin)
+    @driver.wait_for_ajax 
+    
     @driver.find_element(:link, 'System').click
     @driver.find_element(:link, "Manage Users").click
 

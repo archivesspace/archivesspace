@@ -68,6 +68,7 @@ describe "Tree UI" do
 
     @driver.action.drag_and_drop_by(source, 0, y_off).perform
     @driver.wait_for_ajax
+    @driver.wait_until_gone(:css, ".spinner") 
 
 
     target = @driver.find_element(:id, js_node(@a2).li_id)
@@ -100,6 +101,7 @@ describe "Tree UI" do
 
     @driver.find_element(:id, js_node(@a3).a_id).click
     @driver.wait_for_ajax
+    @driver.wait_until_gone(:css, ".spinner") 
 
     @driver.clear_and_send_keys([:id, "archival_object_title_"], @a3.title.sub(/Archival Object/, "Resource Component"))
 
@@ -109,6 +111,7 @@ describe "Tree UI" do
     # now do a drag and drop
     @driver.action.drag_and_drop(moving, target).perform
     @driver.wait_for_ajax
+    @driver.wait_until_gone(:css, ".spinner") 
     
 
     # save the item
@@ -145,6 +148,9 @@ describe "Tree UI" do
 
       @driver.find_element(:link, "Move").click
       @driver.find_element_with_text("//a", /Down Into/).click
+      
+      @driver.wait_for_ajax
+      @driver.wait_until_gone(:css, ".spinner") 
 
       @driver.find_element(:css => "div.move-node-menu")
         .find_element(:xpath => ".//a[@data-target-node-id='#{js_node(@a1).li_id}']")
@@ -174,6 +180,9 @@ describe "Tree UI" do
       @driver.find_element_with_text("//a", /Up a Level/).click
 
       @driver.wait_for_ajax
+      @driver.wait_until_gone(:css, ".spinner") 
+      
+      
     end
 
 
@@ -247,6 +256,7 @@ describe "Tree UI" do
       y_off = target.location[:y] - source.location[:y]
       @driver.action.drag_and_drop_by(source, 0, y_off - 10).perform
       @driver.wait_for_ajax
+      @driver.wait_until_gone(:css, ".spinner") 
       sleep(5)
 
       @driver.wait_for_ajax
@@ -254,6 +264,7 @@ describe "Tree UI" do
       @driver.find_element(:link, "Move").click
       @driver.find_element(:link, "Up").click
       @driver.wait_for_ajax
+      @driver.wait_until_gone(:css, ".spinner") 
       sleep(5)
 
       @driver.find_element(:css, ".delete-record.btn").click
@@ -277,6 +288,7 @@ describe "Tree UI" do
       y_off = target.location[:y] - source.location[:y]
       @driver.action.drag_and_drop_by(source, 0, y_off).perform
       @driver.wait_for_ajax
+      @driver.wait_until_gone(:css, ".spinner") 
     end
 
     @driver.click_and_wait_until_gone(:link, 'Close Record')
