@@ -87,29 +87,27 @@ it "can identify and report conflicting identifiers" do
 
     repo = Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "TESTREPO2",
                                                                         :name => "electric boogaloo"))
-
-    RequestContext.open(:repo_id => repo.id) do
-      dobj = DigitalObject.create_from_json( build(:json_digital_object, :repo_id => repo.id ) ) 
-      DigitalObjectComponent.create_from_json( build(:json_digital_object_component, 
-                                                     :digital_object => { :ref => dobj.uri }) )
-      
-      resource = Resource.create_from_json( build(:json_resource, :repo_id => repo.id ))
-      ArchivalObject.create_from_json( build(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO1" ), :repo_id => repo.id  )
+    JSONModel.set_repository(repo.id)
+    a_resource = create(:json_resource, { :extents => [build(:json_extent)] }) 
+    accession = create(:json_accession, :repo_id => repo.id,
+                        :related_resources => [ {:ref => a_resource.uri } ])
+    dobj = create(:json_digital_object ) 
+    create(:json_digital_object_component, 
+            :digital_object => { :ref => dobj.uri })
     
-      classification = build(:json_classification,
-               :title => "top-level classification",
-               :identifier => "abcdef",
-               :description => "A classification",
-               :linked_records => [ 'ref' => resource.uri ])
-      Classification.create_from_json(classification)
+    resource = create(:json_resource, {                                                                                                                                                     
+                        :extents => [build(:json_extent)],                                                                                                                                  
+                        :related_accessions => [{ :ref => accession.uri }]                                                                                                                                                                  
+    }) 
+    create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO1"  )
+  
+    classification = create(:json_classification,
+             :title => "top-level classification",
+             :identifier => "abcdef",
+             :description => "A classification",
+             :linked_records => [ 'ref' => resource.uri ])
+    event = create(:json_event, :linked_records => [{'ref' => accession.uri, 'role' => generate(:record_role ) }] )
 
-
-      accession = Accession.create_from_json( build(:json_accession), :repo_id => repo.id )
-      
-      event = build(:json_event, :linked_records => [{'ref' => accession.uri, 'role' => generate(:record_role ) }] )
-      Event.create_from_json( event, :repo_id => repo.id ) 
-
-    end
 
     group = Group.create_from_json(build(:json_group), :repo_id => repo.id)
     new_user = create(:user)
