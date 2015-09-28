@@ -38,7 +38,12 @@ module ReportHelper
       begin 
         [200, report_header(report, format) ,  ReportResponse.new(report, format, report_params).generate ] 
       rescue => e
-        [404,{"Content-Type" => "application/json; charset=UTF-8"}  , [  { "error" =>{  report.class.name => [ e.inspect ] }}.to_json ] ]
+        [404,{"Content-Type" => "application/json; charset=UTF-8"}  ,
+          [  {  "error" =>{  report.class.name => [ e.inspect ], 
+                "message" => [ e.message ], 
+                "backtrace" => [  e.backtrace.join("\n") ] }}.to_json 
+          ]
+        ]
       end 
     end 
       

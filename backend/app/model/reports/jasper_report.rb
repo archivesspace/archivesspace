@@ -45,7 +45,7 @@ class JasperReport
   # the convention is that all report files ( primary and subreports)  will be located in
   # AS_BASE/reports/ClassNameReport
   def report_base
-    File.expand_path( File.join( ASUtils.find_base_directory, 'reports' ))
+    "reports" 
   end
 
   # the convention is that the compiled primary report will be located in
