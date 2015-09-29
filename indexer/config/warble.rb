@@ -17,7 +17,7 @@ Warbler::Config.new do |config|
   config.includes = FileList["Gemfile", "Gemfile.lock"]
 
   # Additional files/directories to exclude
-  # config.excludes = FileList["lib/tasks/*"]
+  config.excludes = FileList[".bundle/install.log"]
 
   # Additional Java .jar files to include.  Note that if .jar files are placed
   # in lib (and not otherwise excluded) then they need not be mentioned here.
