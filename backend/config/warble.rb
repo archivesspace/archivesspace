@@ -11,10 +11,12 @@ Warbler::Config.new do |config|
   config.features = []
 
   # Application directories to be included in the webapp.
-  config.dirs = %w(app)
+  # We need .bundle (and Gemfile.lock) because Bundler.require uses .bundle to determine
+  # gem groups
+  config.dirs = %w(app .bundle)
 
   # Additional files/directories to include, above those in config.dirs
-  config.includes = FileList["Gemfile"]
+  config.includes = FileList["Gemfile", "Gemfile.lock"]
 
   # Additional files/directories to exclude
   # config.excludes = FileList["lib/tasks/*"]

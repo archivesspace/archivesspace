@@ -1,4 +1,4 @@
-require 'bundler'
+require 'bundler/setup'
 Bundler.require
 
 if ENV['COVERAGE_REPORTS'] && ENV["ASPACE_INTEGRATION"] == "true"
