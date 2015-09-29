@@ -252,29 +252,6 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#ignore-instance_method" title="#ignore (instance method)">- (Object) <strong>ignore</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>the act of ignoring is simply switching the ignore to false.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#insert_into_subnotes-instance_method" title="#insert_into_subnotes (instance method)">- (Object) <strong>insert_into_subnotes</strong>(split_tag = 'list') </a>
     
 
@@ -449,6 +426,11 @@
       <pre class="lines">
 
 
+97
+98
+99
+100
+101
 102
 103
 104
@@ -1025,35 +1007,10 @@
 675
 676
 677
-678
-679
-680
-681
-682
-683
-684
-685
-686
-687
-688
-689
-690
-691
-692
-693
-694
-695
-696
-697
-698
-699
-700
-701
-702
-703</pre>
+678</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 102</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 97</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_configure identifier id'>configure</span>
 
@@ -1061,16 +1018,7 @@
     <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:resource</span>
   <span class='rubyid_end end kw'>end</span>
 
-
-  <span class='comment val'># we need to ignore everything on titlepage</span>
-  <span class='dstring node'>%w{address author bibseries blockquote chronlist date edition list list/item list/defitem note
-    num p publisher sponsor subtitle table titleproper subtitle  }</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_node_type identifier id'>node_type</span><span class='bitor op'>|</span>
-
-    <span class='rubyid_with identifier id'>with</span> <span class='dstring node'>&quot;titlepage/#{node_type}&quot;</span> <span class='rubyid_do do kw'>do</span>
-      <span class='rubyid_@ignore ivar id'>@ignore</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span> 
-    <span class='rubyid_end end kw'>end</span>
-
-  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_ignore identifier id'>ignore</span> <span class='string val'>&quot;titlepage&quot;</span>
 
 
   <span class='rubyid_with identifier id'>with</span> <span class='string val'>'archdesc'</span> <span class='rubyid_do do kw'>do</span>
@@ -1314,7 +1262,6 @@
 
 
   <span class='rubyid_with identifier id'>with</span> <span class='string val'>'chronlist'</span> <span class='rubyid_do do kw'>do</span>
-    <span class='rubyid_next next kw'>next</span> <span class='rubyid_ignore identifier id'>ignore</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@ignore ivar id'>@ignore</span> 
     <span class='rubyid_if if kw'>if</span>  <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:note_multipart</span><span class='rparen token'>)</span>
       <span class='rubyid_left_overs identifier id'>left_overs</span> <span class='assign token'>=</span> <span class='rubyid_insert_into_subnotes identifier id'>insert_into_subnotes</span> 
     <span class='rubyid_else else kw'>else</span> 
@@ -1352,7 +1299,6 @@
 
 
   <span class='rubyid_with identifier id'>with</span> <span class='string val'>'list'</span> <span class='rubyid_do do kw'>do</span>
-    <span class='rubyid_next next kw'>next</span> <span class='rubyid_ignore identifier id'>ignore</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@ignore ivar id'>@ignore</span> 
      
     <span class='rubyid_if if kw'>if</span>  <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:note_multipart</span><span class='rparen token'>)</span>
       <span class='rubyid_left_overs identifier id'>left_overs</span> <span class='assign token'>=</span> <span class='rubyid_insert_into_subnotes identifier id'>insert_into_subnotes</span> 
@@ -1391,24 +1337,20 @@
 
 
   <span class='rubyid_with identifier id'>with</span> <span class='string val'>'list/head'</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_node identifier id'>node</span><span class='bitor op'>|</span>
-    <span class='rubyid_next next kw'>next</span> <span class='rubyid_ignore identifier id'>ignore</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@ignore ivar id'>@ignore</span> 
     <span class='rubyid_set identifier id'>set</span> <span class='symbol val'>:title</span><span class='comma token'>,</span> <span class='rubyid_format_content identifier id'>format_content</span><span class='lparen token'>(</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span> <span class='rparen token'>)</span> 
   <span class='rubyid_end end kw'>end</span>
 
 
   <span class='rubyid_with identifier id'>with</span> <span class='string val'>'defitem'</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_node identifier id'>node</span><span class='bitor op'>|</span>
-    <span class='rubyid_next next kw'>next</span> <span class='rubyid_ignore identifier id'>ignore</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@ignore ivar id'>@ignore</span> 
     <span class='rubyid_context_obj identifier id'>context_obj</span><span class='dot token'>.</span><span class='rubyid_items identifier id'>items</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_with identifier id'>with</span> <span class='string val'>'defitem/label'</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_node identifier id'>node</span><span class='bitor op'>|</span>
-    <span class='rubyid_next next kw'>next</span> <span class='rubyid_ignore identifier id'>ignore</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@ignore ivar id'>@ignore</span> 
     <span class='rubyid_context_obj identifier id'>context_obj</span><span class='dot token'>.</span><span class='rubyid_items identifier id'>items</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='lbrack token'>[</span><span class='string val'>'label'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_format_content identifier id'>format_content</span><span class='lparen token'>(</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span> <span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_context identifier id'>context</span> <span class='eq op'>==</span> <span class='symbol val'>:note_definedlist</span>
   <span class='rubyid_end end kw'>end</span>
 
 
   <span class='rubyid_with identifier id'>with</span> <span class='string val'>'defitem/item'</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_node identifier id'>node</span><span class='bitor op'>|</span>
-    <span class='rubyid_next next kw'>next</span> <span class='rubyid_ignore identifier id'>ignore</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@ignore ivar id'>@ignore</span> 
     <span class='rubyid_context_obj identifier id'>context_obj</span><span class='dot token'>.</span><span class='rubyid_items identifier id'>items</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='lbrack token'>[</span><span class='string val'>'value'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span>   <span class='rubyid_format_content identifier id'>format_content</span><span class='lparen token'>(</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span> <span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_context identifier id'>context</span> <span class='eq op'>==</span> <span class='symbol val'>:note_definedlist</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -1424,7 +1366,6 @@
 
 
   <span class='rubyid_with identifier id'>with</span> <span class='string val'>'date'</span> <span class='rubyid_do do kw'>do</span>
-    <span class='rubyid_next next kw'>next</span> <span class='rubyid_ignore identifier id'>ignore</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@ignore ivar id'>@ignore</span> 
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_context identifier id'>context</span> <span class='eq op'>==</span> <span class='symbol val'>:note_chronology</span>
       <span class='rubyid_date identifier id'>date</span> <span class='assign token'>=</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span>
       <span class='rubyid_context_obj identifier id'>context_obj</span><span class='dot token'>.</span><span class='rubyid_items identifier id'>items</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='lbrack token'>[</span><span class='string val'>'event_date'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_date identifier id'>date</span>
@@ -1482,7 +1423,6 @@
 
 
   <span class='rubyid_with identifier id'>with</span> <span class='string val'>'author'</span> <span class='rubyid_do do kw'>do</span>
-    <span class='rubyid_next next kw'>next</span> <span class='rubyid_ignore identifier id'>ignore</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@ignore ivar id'>@ignore</span> 
     <span class='rubyid_set identifier id'>set</span> <span class='symbol val'>:finding_aid_author</span><span class='comma token'>,</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -1509,13 +1449,11 @@
 
 
   <span class='rubyid_with identifier id'>with</span> <span class='string val'>'sponsor'</span> <span class='rubyid_do do kw'>do</span>
-    <span class='rubyid_next next kw'>next</span> <span class='rubyid_ignore identifier id'>ignore</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@ignore ivar id'>@ignore</span> 
     <span class='rubyid_set identifier id'>set</span> <span class='symbol val'>:finding_aid_sponsor</span><span class='comma token'>,</span> <span class='rubyid_format_content identifier id'>format_content</span><span class='lparen token'>(</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span> <span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
 
   <span class='rubyid_with identifier id'>with</span> <span class='string val'>'titleproper'</span> <span class='rubyid_do do kw'>do</span>
-    <span class='rubyid_next next kw'>next</span> <span class='rubyid_ignore identifier id'>ignore</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@ignore ivar id'>@ignore</span> 
     <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>'type'</span><span class='rparen token'>)</span>
     <span class='rubyid_case case kw'>case</span> <span class='rubyid_type identifier id'>type</span>
     <span class='rubyid_when when kw'>when</span> <span class='string val'>'filing'</span>
@@ -1526,7 +1464,6 @@
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_with identifier id'>with</span> <span class='string val'>'subtitle'</span> <span class='rubyid_do do kw'>do</span>
-    <span class='rubyid_next next kw'>next</span> <span class='rubyid_ignore identifier id'>ignore</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@ignore ivar id'>@ignore</span>
     <span class='rubyid_set identifier id'>set</span> <span class='symbol val'>:finding_aid_subtitle</span><span class='comma token'>,</span> <span class='rubyid_format_content identifier id'>format_content</span><span class='lparen token'>(</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span> <span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -1831,47 +1768,6 @@ actually want to ever see them.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="ignore-instance_method">
-  
-    - (<tt>Object</tt>) <strong>ignore</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>the act of ignoring is simply switching the ignore to false.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-57
-58
-59</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 57</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_ignore identifier id'>ignore</span> 
-  <span class='rubyid_@ignore ivar id'>@ignore</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
   <h3 class="signature " id="insert_into_subnotes-instance_method">
   
     - (<tt>Object</tt>) <strong>insert_into_subnotes</strong>(split_tag = 'list') 
@@ -1898,6 +1794,11 @@ out, but keep the narrative order of the notes.</p>
       <pre class="lines">
 
 
+59
+60
+61
+62
+63
 64
 65
 66
@@ -1926,15 +1827,10 @@ out, but keep the narrative order of the notes.</p>
 89
 90
 91
-92
-93
-94
-95
-96
-97</pre>
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 64</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 59</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_insert_into_subnotes identifier id'>insert_into_subnotes</span><span class='lparen token'>(</span><span class='rubyid_split_tag identifier id'>split_tag</span> <span class='assign token'>=</span> <span class='string val'>'list'</span><span class='rparen token'>)</span>
     <span class='rubyid_subnotes identifier id'>subnotes</span> <span class='assign token'>=</span>  <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:note_multipart</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_subnotes identifier id'>subnotes</span> 
@@ -2067,26 +1963,26 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-706
-707
-708
-709
-710
-711
-712
-713
-714
-715
-716
-717
-718
-719
-720
-721
-722</pre>
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 706</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 681</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_corp_template identifier id'>make_corp_template</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> 
@@ -2126,26 +2022,26 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-725
-726
-727
-728
-729
-730
-731
-732
-733
-734
-735
-736
-737
-738
-739
-740
-741</pre>
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 725</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 700</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_family_template identifier id'>make_family_template</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> 
@@ -2185,27 +2081,27 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-744
-745
-746
-747
-748
-749
-750
-751
-752
-753
-754
-755
-756
-757
-758
-759
-760
-761</pre>
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 744</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 719</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_person_template identifier id'>make_person_template</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> 
@@ -2236,7 +2132,7 @@ which greatly helps the performance.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:46:13 2015 by
+  ArchivesSpace Version v1.4.0-rc8 Documentation Generated on Mon Sep 28 17:34:58 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

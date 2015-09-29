@@ -792,7 +792,12 @@ dependencies first.</p>
 281
 282
 283
-284</pre>
+284
+285
+286
+287
+288
+289</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 236</span>
@@ -834,6 +839,11 @@ dependencies first.</p>
     <span class='rubyid_break break kw'>break</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_object_graph identifier id'>object_graph</span><span class='dot token'>.</span><span class='rubyid_models identifier id'>models</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='eq op'>==</span> <span class='rubyid_successfully_deleted_models identifier id'>successfully_deleted_models</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span>
 
     <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_progressed identifier id'>progressed</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_last_error identifier id'>last_error</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_is_retriable_exception identifier id'>is_retriable_exception</span><span class='lparen token'>(</span><span class='rubyid_last_error identifier id'>last_error</span><span class='rparen token'>)</span>
+        <span class='comment val'># Give us a chance to retry after a deadlock</span>
+        <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_last_error identifier id'>last_error</span>
+      <span class='rubyid_end end kw'>end</span>
+
       <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_ConflictException constant id'>ConflictException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Record deletion failed: #{last_error}&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
@@ -927,11 +937,6 @@ report this to the client we just want to tell them that the value for
       <pre class="lines">
 
 
-294
-295
-296
-297
-298
 299
 300
 301
@@ -939,10 +944,15 @@ report this to the client we just want to tell them that the value for
 303
 304
 305
-306</pre>
+306
+307
+308
+309
+310
+311</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 294</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 299</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_map_validation_to_json_property identifier id'>map_validation_to_json_property</span><span class='lparen token'>(</span><span class='rubyid_columns identifier id'>columns</span><span class='comma token'>,</span> <span class='rubyid_property identifier id'>property</span><span class='rparen token'>)</span>
   <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
@@ -978,12 +988,12 @@ report this to the client we just want to tell them that the value for
       <pre class="lines">
 
 
-321
-322
-323</pre>
+326
+327
+328</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 321</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 326</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_mark_as_system_modified identifier id'>mark_as_system_modified</span>
   <span class='rubyid_@system_modified ivar id'>@system_modified</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
@@ -1113,12 +1123,12 @@ report this to the client we just want to tell them that the value for
       <pre class="lines">
 
 
-316
-317
-318</pre>
+321
+322
+323</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 316</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 321</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_system_modified? fid id'>system_modified?</span>
   <span class='rubyid_@system_modified ivar id'>@system_modified</span>
@@ -1294,7 +1304,7 @@ report this to the client we just want to tell them that the value for
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:45:55 2015 by
+  ArchivesSpace Version v1.4.0-rc8 Documentation Generated on Mon Sep 28 17:34:42 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

@@ -142,10 +142,34 @@ prompt. Now you can say things like:</p>
 
 <p>Be sure to <code>cleanup</code> before quitting as this will kill the frontend,
 backend and firefox</p>
+
+<h2 id="interacting-with-selenium-using-pry">Interacting with selenium using pry</h2>
+
+<p>Add the following to &#8216;selenium/Gemfile.local&#8217;</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_gem identifier id'>gem</span> <span class='string val'>'pry'</span>
+</code></pre>
+
+<p>Run:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_bundle identifier id'>bundle</span> <span class='rubyid_install identifier id'>install</span>
+</code></pre>
+
+<p>Type:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_pry identifier id'>pry</span> <span class='minus op'>-</span><span class='rubyid_r identifier id'>r</span> <span class='rubyid_driver identifier id'>driver</span><span class='minus op'>-</span><span class='rubyid_pry identifier id'>pry</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span>
+</code></pre>
+
+<p>Example: create a repo and login to it</p>
+
+<pre class="code ruby"><code class="ruby"><span class='gt op'>&gt;</span> <span class='rubyid_backend_login identifier id'>backend_login</span>
+<span class='gt op'>&gt;</span> <span class='rubyid_repo identifier id'>repo</span> <span class='assign token'>=</span> <span class='rubyid_create identifier id'>create</span><span class='lparen token'>(</span><span class='symbol val'>:repo</span><span class='rparen token'>)</span>
+<span class='gt op'>&gt;</span> <span class='rubyid_$driver gvar id'>$driver</span><span class='dot token'>.</span><span class='rubyid_login_to_repo identifier id'>login_to_repo</span><span class='lparen token'>(</span><span class='string val'>'admin'</span><span class='comma token'>,</span> <span class='string val'>'admin'</span><span class='comma token'>,</span> <span class='rubyid_repo identifier id'>repo</span><span class='rparen token'>)</span>
+</code></pre>
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:45:52 2015 by
+  ArchivesSpace Version v1.4.0-rc8 Documentation Generated on Mon Sep 28 17:34:40 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

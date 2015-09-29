@@ -890,7 +890,7 @@
   <span class='rubyid_string identifier id'>string</span> <span class='opasgn op'>+=</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'end'</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'end'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='dot2 op'>..</span><span class='integer val'>3</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='string val'>&quot;    &quot;</span>
   <span class='rubyid_string identifier id'>string</span> <span class='opasgn op'>+=</span> <span class='string val'>&quot;xx&quot;</span>
   <span class='float val'>18</span><span class='dot token'>.</span><span class='rubyid_times identifier id'>times</span> <span class='lbrace token'>{</span> <span class='rubyid_string identifier id'>string</span> <span class='opasgn op'>+=</span> <span class='string val'>' '</span> <span class='rbrace token'>}</span>
-  <span class='rubyid_string identifier id'>string</span> <span class='opasgn op'>+=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_language identifier id'>language</span>
+  <span class='rubyid_string identifier id'>string</span> <span class='opasgn op'>+=</span> <span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_language identifier id'>language</span> <span class='orop op'>||</span> <span class='string val'>'|||'</span><span class='rparen token'>)</span>
   <span class='rubyid_string identifier id'>string</span> <span class='opasgn op'>+=</span> <span class='string val'>' d'</span>
 
   <span class='rubyid_string identifier id'>string</span>
@@ -2186,7 +2186,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:46:12 2015 by
+  ArchivesSpace Version v1.4.0-rc8 Documentation Generated on Mon Sep 28 17:34:57 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

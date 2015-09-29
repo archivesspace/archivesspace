@@ -68,30 +68,69 @@
 
     <div id="content"><div id='filecontents'><h2 id="running-archivesspace-under-a-prefix">Running ArchivesSpace under a prefix</h2>
 
-<p>It&#8217;s recommended to run each ArchivesSpace instance with its own host name on the root path e.g. http://myarchivesspace.example.com/.</p>
+<p>This document describes a simple approach for those wishing to deviate from the recommended
+practive of running each user-facing ArchivesSpace application on its own subdomain, and instead
+serve each application under a prefix, e.g.</p>
 
-<p>However, if you are required run ArchivesSpace under a prefix e.g. http://example.com/myarchivesspace, then there will be a few extra steps to your deployment.</p>
+<pre class="code ruby"><code class="ruby"><span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/aspace.myarchive.org/s</span><span class='rubyid_taff identifier id'>taff</span>
+<span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/aspace.myarchive.org/</span><span class='rubyid_public identifier id'>public</span>
+</code></pre>
 
-<ol>
-  <li>For the version you&#8217;re working with, go to the Github repository e.g. http://github.com/archivesspace/archivesspace/tree/v1.0.2 and click the <code>Download ZIP</code> button on the right of the screen.  This will download the ArchivesSpace source code to your machine.</li>
+<p>This configuration described in this document is one possible approach,
+and to keep things simple the following are assumed:</p>
+
+<ul>
   <li>
-    <p>When you unzip this file it will create a directory containing the source code of the application.  In this directory, create a sub-directory called <code>config</code> containing a file <code>config.rb</code>.  Edit this file and add the following line(s) with your desired deployment URL including the prefix:</p>
-
-    <p>AppConfig[:frontend_url] = &#8220;http://example.com/myarchivesspace&#8221;
-  AppConfig[:public_url] = &#8220;http://example.com/mypublicarchivesspace&#8221;</p>
+    <p>ArchivesSpace is running on a single Linux server</p>
   </li>
   <li>
-    <p>Open a command prompt and change directory to your unpacked ArchivesSpace directory.  Run the following command:</p>
-
-    <p>unix$ build/run dist
-  windows&gt; build\run.bat dist</p>
+    <p>The server is running the Apache 2.2+ webserver</p>
   </li>
-  <li>This will create a custom ArchivesSpace deployment that will support the prefix you defined.  Follow the Getting Started instructions to deploy this package as normal.</li>
-</ol>
+</ul>
+
+<p>Unless otherwise stated, it is assumed that you have root access on
+your machines, and all commands are to be run as root (or with sudo).</p>
+
+<h2 id="step-1-setup-proxies-in-your-apache-configuration">Step 1: Setup proxies in your Apache configuration</h2>
+
+<p>The following edits can be made in the httpd.conf file itself, or in an included file:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_ProxyPass constant id'>ProxyPass</span> <span class='regexp val'>/staff http:/</span><span class='div op'>/</span><span class='label val'>localhost:</span><span class='integer val'>8080</span><span class='div op'>/</span>
+<span class='rubyid_ProxyPassReverse constant id'>ProxyPassReverse</span> <span class='regexp val'>/staff http:/</span><span class='div op'>/</span><span class='label val'>localhost:</span><span class='integer val'>8080</span><span class='div op'>/</span>
+<span class='rubyid_ProxyPass constant id'>ProxyPass</span> <span class='regexp val'>/public http:/</span><span class='div op'>/</span><span class='label val'>localhost:</span><span class='integer val'>8081</span><span class='div op'>/</span>
+<span class='rubyid_ProxyPassReverse constant id'>ProxyPassReverse</span> <span class='regexp val'>/public http:/</span><span class='div op'>/</span><span class='label val'>localhost:</span><span class='integer val'>8081</span><span class='div op'>/</span>
+</code></pre>
+
+<p>Now restart Apache.</p>
+
+<h2 id="step-2-install-and-configure-archivesspace">Step 2: Install and configure ArchivesSpace</h2>
+
+<p>Follow the instructions in the main README to download and install ArchiveSpace.</p>
+
+<p>Open the file <code>archivesspace/config/config.rb</code> and add the following lines:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:frontend_proxy_url</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>'http://aspace.myarchive.org/staff'</span>
+<span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:public_proxy_url</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>'http://aspace.myarchive.org/public'</span>
+</code></pre>
+
+<p>(Note: These lines should NOT begin with a &#8216;#&#8217; character.)</p>
+
+<p>Start ArchivesSpace.</p>
+
+<h2 id="step-3-optional-lock-down-ports-8080-and-8081">Step 3: (Optional) Lock down ports 8080 and 8081</h2>
+
+<p>By default, the staff and public applications are accessible on ports 8080 and 8081</p>
+
+<pre class="code ruby"><code class="ruby"><span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/aspace.myarchive.org:8080
+http:/</span><span class='div op'>/</span><span class='rubyid_aspace identifier id'>aspace</span><span class='dot token'>.</span><span class='rubyid_myarchive identifier id'>myarchive</span><span class='dot token'>.</span><span class='label val'>org:</span><span class='integer val'>8081</span>
+</code></pre>
+
+<p>Since these are not the URLs at which users should access the application, you will probably
+want to close them off. See README_HTTPS for more information on closing ports using iptables.</p>
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:45:52 2015 by
+  ArchivesSpace Version v1.4.0-rc8 Documentation Generated on Mon Sep 28 17:34:40 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

@@ -1382,29 +1382,99 @@ to the updated instance and update their mtime.</p>
 720
 721
 722
-723</pre>
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 705</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_touch_mtime_of_anyone_related_to identifier id'>touch_mtime_of_anyone_related_to</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
-      <span class='rubyid_now identifier id'>now</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
+  <span class='rubyid_now identifier id'>now</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
 
-      <span class='rubyid_relationships identifier id'>relationships</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_relationship_defn identifier id'>relationship_defn</span><span class='bitor op'>|</span>
-        <span class='rubyid_models identifier id'>models</span> <span class='assign token'>=</span> <span class='rubyid_relationship_defn identifier id'>relationship_defn</span><span class='dot token'>.</span><span class='rubyid_participating_models identifier id'>participating_models</span>
-        <span class='rubyid_if if kw'>if</span> <span class='rubyid_models identifier id'>models</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='rparen token'>)</span>
-          <span class='rubyid_their_ref_columns identifier id'>their_ref_columns</span> <span class='assign token'>=</span> <span class='rubyid_relationship_defn identifier id'>relationship_defn</span><span class='dot token'>.</span><span class='rubyid_reference_columns_for identifier id'>reference_columns_for</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='rparen token'>)</span>
-          <span class='rubyid_my_ref_columns identifier id'>my_ref_columns</span> <span class='assign token'>=</span> <span class='rubyid_relationship_defn identifier id'>relationship_defn</span><span class='dot token'>.</span><span class='rubyid_reference_columns_for identifier id'>reference_columns_for</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span>
-          <span class='rubyid_their_ref_columns identifier id'>their_ref_columns</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_their_col identifier id'>their_col</span><span class='bitor op'>|</span>
-            <span class='rubyid_my_ref_columns identifier id'>my_ref_columns</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_my_col identifier id'>my_col</span><span class='bitor op'>|</span>
-              <span class='rubyid_ids_to_touch identifier id'>ids_to_touch</span> <span class='assign token'>=</span> <span class='rubyid_relationship_defn identifier id'>relationship_defn</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='rubyid_their_col identifier id'>their_col</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span>
-                             <span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='rubyid_my_col identifier id'>my_col</span><span class='rparen token'>)</span>
-              <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ids_to_touch identifier id'>ids_to_touch</span><span class='rparen token'>)</span><span class='dot token'>.</span>
-                   <span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:system_mtime</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_now identifier id'>now</span><span class='rparen token'>)</span>
+  <span class='rubyid_relationships identifier id'>relationships</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_relationship_defn identifier id'>relationship_defn</span><span class='bitor op'>|</span>
+    <span class='rubyid_models identifier id'>models</span> <span class='assign token'>=</span> <span class='rubyid_relationship_defn identifier id'>relationship_defn</span><span class='dot token'>.</span><span class='rubyid_participating_models identifier id'>participating_models</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_models identifier id'>models</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='rparen token'>)</span>
+      <span class='rubyid_their_ref_columns identifier id'>their_ref_columns</span> <span class='assign token'>=</span> <span class='rubyid_relationship_defn identifier id'>relationship_defn</span><span class='dot token'>.</span><span class='rubyid_reference_columns_for identifier id'>reference_columns_for</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='rparen token'>)</span>
+      <span class='rubyid_my_ref_columns identifier id'>my_ref_columns</span> <span class='assign token'>=</span> <span class='rubyid_relationship_defn identifier id'>relationship_defn</span><span class='dot token'>.</span><span class='rubyid_reference_columns_for identifier id'>reference_columns_for</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span>
+      <span class='rubyid_their_ref_columns identifier id'>their_ref_columns</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_their_col identifier id'>their_col</span><span class='bitor op'>|</span>
+        <span class='rubyid_my_ref_columns identifier id'>my_ref_columns</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_my_col identifier id'>my_col</span><span class='bitor op'>|</span>
+
+          <span class='comment val'># Example: if we're updating a subject record and want to update</span>
+          <span class='comment val'># the timestamps of any linked archival object records:</span>
+          <span class='comment val'>#</span>
+          <span class='comment val'>#  * self = ArchivalObject</span>
+          <span class='comment val'>#  * relationship_defn is subject_rlshp</span>
+          <span class='comment val'>#  * obj = #&lt;Subject instance that was updated&gt;</span>
+          <span class='comment val'>#  * their_col = subject_rlshp.subject_id</span>
+          <span class='comment val'>#  * my_col = subject_rlshp.archival_object_id</span>
+
+          <span class='rubyid_if if kw'>if</span> <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_supports_join_updates? fid id'>supports_join_updates?</span>
+
+            <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span> <span class='eq op'>==</span> <span class='symbol val'>:agent_software</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_relationship_defn identifier id'>relationship_defn</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span> <span class='eq op'>==</span> <span class='symbol val'>:linked_agents_rlshp</span>
+              <span class='comment val'># Terrible to have to do this, but the MySQL optimizer refuses</span>
+              <span class='comment val'># to use the primary key on agent_software because it (often)</span>
+              <span class='comment val'># only has one row.</span>
+              <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
+                <span class='rubyid_id_str identifier id'>id_str</span> <span class='assign token'>=</span> <span class='rubyid_Integer constant id'>Integer</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+
+                <span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_run identifier id'>run</span><span class='lparen token'>(</span><span class='string val'>&quot;UPDATE `agent_software` FORCE INDEX (PRIMARY) &quot;</span> <span class='plus op'>+</span>
+                       <span class='string val'>&quot; INNER JOIN `linked_agents_rlshp` &quot;</span> <span class='plus op'>+</span>
+                       <span class='string val'>&quot;ON (`linked_agents_rlshp`.`agent_software_id` = `agent_software`.`id`) &quot;</span> <span class='plus op'>+</span>
+                       <span class='string val'>&quot;SET `agent_software`.`system_mtime` = NOW() &quot;</span> <span class='plus op'>+</span>
+                       <span class='dstring node'>&quot;WHERE (`linked_agents_rlshp`.`archival_object_id` = #{id_str})&quot;</span><span class='rparen token'>)</span>
+              <span class='rubyid_end end kw'>end</span>
+            <span class='rubyid_else else kw'>else</span>
+              <span class='comment val'># MySQL will optimize this much more aggressively</span>
+              <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_relationship_defn identifier id'>relationship_defn</span><span class='comma token'>,</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='rubyid_relationship_defn identifier id'>relationship_defn</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span><span class='comma token'>,</span> <span class='rubyid_my_col identifier id'>my_col</span><span class='rparen token'>)</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span><span class='comma token'>,</span> <span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+                <span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='rubyid_relationship_defn identifier id'>relationship_defn</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span><span class='comma token'>,</span> <span class='rubyid_their_col identifier id'>their_col</span><span class='rparen token'>)</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+                <span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span><span class='comma token'>,</span> <span class='symbol val'>:system_mtime</span><span class='rparen token'>)</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_now identifier id'>now</span><span class='rparen token'>)</span>
             <span class='rubyid_end end kw'>end</span>
+
+          <span class='rubyid_else else kw'>else</span>
+            <span class='rubyid_ids_to_touch identifier id'>ids_to_touch</span> <span class='assign token'>=</span> <span class='rubyid_relationship_defn identifier id'>relationship_defn</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='rubyid_their_col identifier id'>their_col</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+                           <span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='rubyid_my_col identifier id'>my_col</span><span class='rparen token'>)</span>
+            <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ids_to_touch identifier id'>ids_to_touch</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+              <span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:system_mtime</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_now identifier id'>now</span><span class='rparen token'>)</span>
           <span class='rubyid_end end kw'>end</span>
         <span class='rubyid_end end kw'>end</span>
       <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1450,7 +1520,7 @@ to the updated instance and update their mtime.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:45:59 2015 by
+  ArchivesSpace Version v1.4.0-rc8 Documentation Generated on Mon Sep 28 17:34:46 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>
