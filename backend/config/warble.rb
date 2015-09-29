@@ -20,7 +20,7 @@ Warbler::Config.new do |config|
 
   # Additional files/directories to exclude
   # config.excludes = FileList["lib/tasks/*"]
-  config.excludes = FileList["app/exporters/examples/**/*"]
+  config.excludes = FileList["app/exporters/examples/**/*", ".bundle/install.log"]
 
   # Additional Java .jar files to include.  Note that if .jar files are placed
   # in lib (and not otherwise excluded) then they need not be mentioned here.
