@@ -191,7 +191,7 @@ AppConfig[:ignore_schema_info_check] = false
 # using Java 8 and you want to compile at startup, keep this setting at false,
 # but be sure to use the JDK version.
 AppConfig[:enable_jasper] = true
-AppConfig[:compile_jasper] = false
+AppConfig[:compile_jasper] = true
 
 # There are some conditions that has caused tree nodes ( ArchivalObjects, DO
 # Components, and ClassificationTerms) to lose their sequence pointers and

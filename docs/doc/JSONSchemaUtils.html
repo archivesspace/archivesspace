@@ -188,6 +188,10 @@
 
        <span class='rubyid_if if kw'>if</span> <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:state</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='eq op'>==</span> <span class='integer val'>1</span>
          <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='dstring node'>&quot;Must be a #{desired_type} (you provided a #{actual_type})&quot;</span><span class='rbrack token'>]</span>
+         <span class='comment val'># a little better messages for malformed uri </span>
+         <span class='rubyid_if if kw'>if</span> <span class='rubyid_desired_type identifier id'>desired_type</span> <span class='match op'>=~</span> <span class='regexp val'>/uri$/</span>
+          <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot; (malformed or invalid uri? check if referenced object exists.)&quot;</span>
+         <span class='rubyid_end end kw'>end</span>
        <span class='rubyid_else else kw'>else</span>
          <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='dstring node'>&quot;Must be one of: #{msgs[:state][fragment_join(path)].join (&quot;, &quot;)} (you provided a #{actual_type})&quot;</span><span class='rbrack token'>]</span>
        <span class='rubyid_end end kw'>end</span>
@@ -481,10 +485,6 @@
       <pre class="lines">
 
 
-356
-357
-358
-359
 360
 361
 362
@@ -500,10 +500,14 @@
 372
 373
 374
-375</pre>
+375
+376
+377
+378
+379</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 356</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 360</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_apply_schema_defaults identifier id'>apply_schema_defaults</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='rparen token'>)</span>
   <span class='rubyid_fn identifier id'>fn</span> <span class='assign token'>=</span> <span class='rubyid_proc identifier id'>proc</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='bitor op'>|</span>
@@ -546,10 +550,6 @@
       <pre class="lines">
 
 
-318
-319
-320
-321
 322
 323
 324
@@ -557,10 +557,14 @@
 326
 327
 328
-329</pre>
+329
+330
+331
+332
+333</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 318</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 322</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_drop_empty_elements identifier id'>drop_empty_elements</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
@@ -609,10 +613,6 @@ client, but are not part of the data model.</p>
       <pre class="lines">
 
 
-338
-339
-340
-341
 342
 343
 344
@@ -624,10 +624,14 @@ client, but are not part of the data model.</p>
 350
 351
 352
-353</pre>
+353
+354
+355
+356
+357</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 338</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 342</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_drop_unknown_properties identifier id'>drop_unknown_properties</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span> <span class='rubyid_drop_readonly identifier id'>drop_readonly</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_fn identifier id'>fn</span> <span class='assign token'>=</span> <span class='rubyid_proc identifier id'>proc</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='bitor op'>|</span>
@@ -676,10 +680,6 @@ client, but are not part of the data model.</p>
       <pre class="lines">
 
 
-175
-176
-177
-178
 179
 180
 181
@@ -688,10 +688,14 @@ client, but are not part of the data model.</p>
 184
 185
 186
-187</pre>
+187
+188
+189
+190
+191</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 175</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 179</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_extract_suberrors identifier id'>extract_suberrors</span><span class='lparen token'>(</span><span class='rubyid_errors identifier id'>errors</span><span class='rparen token'>)</span>
   <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='rubyid_Array constant id'>Array</span><span class='lbrack token'>[</span><span class='rubyid_errors identifier id'>errors</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_flatten identifier id'>flatten</span>
@@ -795,12 +799,12 @@ client, but are not part of the data model.</p>
       <pre class="lines">
 
 
-313
-314
-315</pre>
+317
+318
+319</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 313</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 317</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_is_blank? fid id'>is_blank?</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_obj identifier id'>obj</span> <span class='eq op'>==</span> <span class='string val'>&quot;&quot;</span> <span class='orop op'>||</span> <span class='rubyid_obj identifier id'>obj</span> <span class='eq op'>==</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -842,10 +846,6 @@ the node in the record tree.</p>
       <pre class="lines">
 
 
-237
-238
-239
-240
 241
 242
 243
@@ -914,10 +914,14 @@ the node in the record tree.</p>
 306
 307
 308
-309</pre>
+309
+310
+311
+312
+313</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 237</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 241</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_map_hash_with_schema identifier id'>map_hash_with_schema</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span> <span class='rubyid_transformations identifier id'>transformations</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_record identifier id'>record</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
@@ -1029,10 +1033,6 @@ them into a structured format like:</p>
       <pre class="lines">
 
 
-198
-199
-200
-201
 202
 203
 204
@@ -1057,10 +1057,14 @@ them into a structured format like:</p>
 223
 224
 225
-226</pre>
+226
+227
+228
+229
+230</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 198</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 202</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parse_schema_messages identifier id'>parse_schema_messages</span><span class='lparen token'>(</span><span class='rubyid_messages identifier id'>messages</span><span class='comma token'>,</span> <span class='rubyid_validator identifier id'>validator</span><span class='rparen token'>)</span>
 
@@ -1165,7 +1169,7 @@ them into a structured format like:</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:46:03 2015 by
+  ArchivesSpace Version v1.4.0-rc8 Documentation Generated on Mon Sep 28 17:34:49 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

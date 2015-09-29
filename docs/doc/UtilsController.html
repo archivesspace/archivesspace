@@ -344,13 +344,19 @@
 35
 36
 37
-38</pre>
+38
+39
+40
+41</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/utils_controller.rb', line 35</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_note_order identifier id'>note_order</span>
   <span class='rubyid_prefs identifier id'>prefs</span> <span class='assign token'>=</span> <span class='rubyid_user_prefs identifier id'>user_prefs</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_prefs identifier id'>prefs</span><span class='lbrack token'>[</span><span class='string val'>'note_order'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+    <span class='rubyid_prefs identifier id'>prefs</span><span class='lbrack token'>[</span><span class='string val'>'note_order'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_view_context identifier id'>view_context</span><span class='dot token'>.</span><span class='rubyid_note_types_for identifier id'>note_types_for</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span>
+  <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_prefs identifier id'>prefs</span><span class='lbrack token'>[</span><span class='string val'>'note_order'</span><span class='rbrack token'>]</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -395,7 +401,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:46:18 2015 by
+  ArchivesSpace Version v1.4.0-rc8 Documentation Generated on Mon Sep 28 17:35:02 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

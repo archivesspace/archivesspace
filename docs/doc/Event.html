@@ -98,7 +98,7 @@
   
     
       <dt class="r2">Includes:</dt>
-      <dd class="r2"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="Agents.html" title="Agents (module)">Agents</a></span>, <span class='object_link'><a href="ExternalDocuments.html" title="ExternalDocuments (module)">ExternalDocuments</a></span>, <span class='object_link'><a href="Relationships.html" title="Relationships (module)">Relationships</a></span></dd>
+      <dd class="r2"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="Agents.html" title="Agents (module)">Agents</a></span>, <span class='object_link'><a href="ExternalDocuments.html" title="ExternalDocuments (module)">ExternalDocuments</a></span>, <span class='object_link'><a href="ExternalIDs.html" title="ExternalIDs (module)">ExternalIDs</a></span>, <span class='object_link'><a href="Relationships.html" title="Relationships (module)">Relationships</a></span></dd>
       
     
   
@@ -289,6 +289,17 @@
   
   
   
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="ExternalIDs.html" title="ExternalIDs (module)">ExternalIDs</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="ExternalIDs.html#included-class_method" title="ExternalIDs.included (method)">included</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
   <h3 class="inherited">Methods included from <span class='object_link'><a href="ExternalDocuments.html" title="ExternalDocuments (module)">ExternalDocuments</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="ExternalDocuments.html#included-class_method" title="ExternalDocuments.included (method)">included</a></span></p>
 
@@ -357,7 +368,6 @@
       <pre class="lines">
 
 
-107
 108
 109
 110
@@ -389,10 +399,11 @@
 136
 137
 138
-139</pre>
+139
+140</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/event.rb', line 107</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/event.rb', line 108</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_for_archival_record_merge identifier id'>for_archival_record_merge</span><span class='lparen token'>(</span><span class='rubyid_target identifier id'>target</span><span class='comma token'>,</span> <span class='rubyid_victims identifier id'>victims</span><span class='rparen token'>)</span>
   <span class='rubyid_user identifier id'>user</span> <span class='assign token'>=</span> <span class='rubyid_User constant id'>User</span><span class='lbrack token'>[</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:current_username</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
@@ -448,7 +459,6 @@
       <pre class="lines">
 
 
-91
 92
 93
 94
@@ -461,10 +471,11 @@
 101
 102
 103
-104</pre>
+104
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/event.rb', line 91</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/event.rb', line 92</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_for_cataloging identifier id'>for_cataloging</span><span class='lparen token'>(</span><span class='rubyid_agent_uri identifier id'>agent_uri</span><span class='comma token'>,</span> <span class='rubyid_record_uri identifier id'>record_uri</span><span class='rparen token'>)</span>
   <span class='comment val'>#build event</span>
@@ -511,7 +522,6 @@
       <pre class="lines">
 
 
-68
 69
 70
 71
@@ -531,10 +541,11 @@
 85
 86
 87
-88</pre>
+88
+89</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/event.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/event.rb', line 69</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_for_component_transfer identifier id'>for_component_transfer</span><span class='lparen token'>(</span><span class='rubyid_archival_object_uri identifier id'>archival_object_uri</span><span class='comma token'>,</span> <span class='rubyid_source_resource_uri identifier id'>source_resource_uri</span><span class='comma token'>,</span> <span class='rubyid_target_resource_uri identifier id'>target_resource_uri</span><span class='rparen token'>)</span>
   <span class='comment val'># first get the current user</span>
@@ -578,7 +589,6 @@
       <pre class="lines">
 
 
-142
 143
 144
 145
@@ -601,10 +611,11 @@
 162
 163
 164
-165</pre>
+165
+166</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/event.rb', line 142</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/event.rb', line 143</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_for_repository_transfer identifier id'>for_repository_transfer</span><span class='lparen token'>(</span><span class='rubyid_old_repo identifier id'>old_repo</span><span class='comma token'>,</span> <span class='rubyid_new_repo identifier id'>new_repo</span><span class='comma token'>,</span> <span class='rubyid_record identifier id'>record</span><span class='rparen token'>)</span>
   <span class='rubyid_event identifier id'>event</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
@@ -651,7 +662,6 @@
       <pre class="lines">
 
 
-51
 52
 53
 54
@@ -661,10 +671,11 @@
 58
 59
 60
-61</pre>
+61
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/event.rb', line 51</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/event.rb', line 52</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_jsons identifier id'>jsons</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -727,7 +738,6 @@
       <pre class="lines">
 
 
-40
 41
 42
 43
@@ -735,10 +745,11 @@
 45
 46
 47
-48</pre>
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/event.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/event.rb', line 41</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_has_active_linked_records? fid id'>has_active_linked_records?</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_related_records identifier id'>related_records</span><span class='lparen token'>(</span><span class='symbol val'>:event_link</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_linked_record identifier id'>linked_record</span><span class='bitor op'>|</span>
@@ -760,7 +771,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:46:06 2015 by
+  ArchivesSpace Version v1.4.0-rc8 Documentation Generated on Mon Sep 28 17:34:52 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

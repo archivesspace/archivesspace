@@ -76,5 +76,23 @@ prompt. Now you can say things like:
 Be sure to `cleanup` before quitting as this will kill the frontend,
 backend and firefox
 
+## Interacting with selenium using pry
 
+Add the following to 'selenium/Gemfile.local'
+
+     gem 'pry'
+
+Run:
+
+     bundle install
+
+Type:
+
+    pry -r driver-pry.rb
+
+Example: create a repo and login to it
+
+    > backend_login
+    > repo = create(:repo)
+    > $driver.login_to_repo('admin', 'admin', repo)
 

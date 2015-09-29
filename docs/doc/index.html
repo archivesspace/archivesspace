@@ -363,7 +363,9 @@ recover.</p>
 <p>If you are running MySQL, the <code>mysqldump</code> utility can dump the database
 schema and data to a file.  It&#8217;s a good idea to run this with the
 <code>--single-transaction</code> option to avoid locking your database tables
-while your backups run.</p>
+while your backups run. It is also essential to use the <code>--routines</code>
+flag, which will include functions and stored procedures in the
+backup (which ArchivesSpace uses at least for Jasper reports).</p>
 
 <p>If you are running with the demo database, you can create periodic
 database snapshots using the following configuration settings:</p>
@@ -602,12 +604,6 @@ customize ArchivesSpace, please see the README in the <code>plugins</code> direc
 
 <p><a href="https://github.com/archivesspace/archivesspace/blob/master/UPGRADING.md">Upgrading to a new release of ArchivesSpace</a></p>
 
-<p>Version specific considerations:</p>
-
-<ul>
-  <li><a href="UPGRADING_1.1.0.md">1.1.0</a></li>
-</ul>
-
 <h1 id="monitoring-with-new-relic">Monitoring with New Relic</h1>
 
 <p><a href="https://github.com/archivesspace/archivesspace/blob/master/plugins/newrelic/README_NEWRELIC.md">Configuring ArchivesSpace to integrate with New Relic</a></p>
@@ -644,7 +640,7 @@ LYRASIS, and contributions from diverse persons in the archives community.</p>
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:45:52 2015 by
+  ArchivesSpace Version v1.4.0-rc8 Documentation Generated on Mon Sep 28 17:34:39 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

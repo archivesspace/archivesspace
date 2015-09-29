@@ -749,11 +749,11 @@
       <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 97</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
-  
-  <span class='lbrack token'>[</span> <span class='rubyid_ClassificationTerm constant id'>ClassificationTerm</span><span class='comma token'>,</span>  <span class='rubyid_Classification constant id'>Classification</span><span class='comma token'>,</span> <span class='rubyid_Event constant id'>Event</span><span class='comma token'>,</span>   <span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='comma token'>,</span> 
-    <span class='rubyid_Resource constant id'>Resource</span><span class='comma token'>,</span> <span class='rubyid_DigitalObjectComponent constant id'>DigitalObjectComponent</span><span class='comma token'>,</span> <span class='rubyid_DigitalObject constant id'>DigitalObject</span><span class='comma token'>,</span> <span class='rubyid_Accession constant id'>Accession</span><span class='comma token'>,</span>  <span class='rubyid_Group constant id'>Group</span><span class='comma token'>,</span> 
-    <span class='rubyid_Preference constant id'>Preference</span><span class='comma token'>,</span> <span class='rubyid_Job constant id'>Job</span> <span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_klass identifier id'>klass</span><span class='bitor op'>|</span>
-      <span class='rubyid_klass identifier id'>klass</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='symbol val'>:filter</span><span class='comma token'>,</span> <span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_destroy identifier id'>destroy</span>
+ 
+  <span class='comment val'># this is very expensive...probably need to come up with something</span>
+  <span class='comment val'># better...</span>
+  <span class='lbrack token'>[</span> <span class='rubyid_Classification constant id'>Classification</span><span class='comma token'>,</span> <span class='rubyid_Event constant id'>Event</span><span class='comma token'>,</span> <span class='rubyid_Resource constant id'>Resource</span><span class='comma token'>,</span> <span class='rubyid_DigitalObject constant id'>DigitalObject</span><span class='comma token'>,</span> <span class='rubyid_Accession constant id'>Accession</span> <span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_klass identifier id'>klass</span><span class='bitor op'>|</span>
+    <span class='rubyid_klass identifier id'>klass</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='symbol val'>:filter</span><span class='comma token'>,</span> <span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span> <span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_destroy identifier id'>destroy</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_super super kw'>super</span>
@@ -808,7 +808,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:46:08 2015 by
+  ArchivesSpace Version v1.4.0-rc8 Documentation Generated on Mon Sep 28 17:34:54 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

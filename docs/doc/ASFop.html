@@ -331,10 +331,7 @@
 24
 25
 26
-27
-28
-29
-30</pre>
+27</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/AS_fop.rb', line 23</span>
@@ -343,9 +340,6 @@
  <span class='rubyid_@source ivar id'>@source</span> <span class='assign token'>=</span> <span class='rubyid_source identifier id'>source</span>
  <span class='rubyid_@output ivar id'>@output</span> <span class='assign token'>=</span> <span class='rubyid_output identifier id'>output</span> <span class='integer val'>? </span><span class='rubyid_output identifier id'>output</span> <span class='colon op'>:</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_tempfile identifier id'>tempfile</span><span class='lparen token'>(</span><span class='string val'>'fop.pdf'</span><span class='rparen token'>)</span> 
  <span class='rubyid_@xslt ivar id'>@xslt</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span><span class='lparen token'>(</span> <span class='rubyid_StaticAssetFinder constant id'>StaticAssetFinder</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>'stylesheets'</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='string val'>'as-ead-pdf.xsl'</span><span class='rparen token'>)</span><span class='rparen token'>)</span> 
- <span class='comment val'># WHAT A HACK! but you can't pass in a URI as a variable? jeezus.  </span>
- <span class='rubyid_filepath identifier id'>filepath</span> <span class='assign token'>=</span>  <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_find_base_directory identifier id'>find_base_directory</span><span class='comma token'>,</span> <span class='string val'>'stylesheets'</span><span class='comma token'>,</span> <span class='string val'>'as-helper-functions.xsl'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;\\&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;/&quot;</span> <span class='rparen token'>)</span>
- <span class='rubyid_@xslt ivar id'>@xslt</span><span class='dot token'>.</span><span class='rubyid_gsub! fid id'>gsub!</span><span class='lparen token'>(</span><span class='string val'>'&lt;xsl:include href=&quot;as-helper-functions.xsl&quot;/&gt;'</span><span class='comma token'>,</span> <span class='dstring node'>&quot;&lt;xsl:include href='#{filepath}'/&gt;&quot;</span> <span class='rparen token'>)</span> 
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -509,16 +503,16 @@
       <pre class="lines">
 
 
-33
-34
-35
-36</pre>
+30
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/AS_fop.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/AS_fop.rb', line 30</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_fo identifier id'>to_fo</span>
-  <span class='rubyid_transformer identifier id'>transformer</span> <span class='assign token'>=</span> <span class='rubyid_Saxon constant id'>Saxon</span><span class='dot token'>.</span><span class='rubyid_XSLT constant id'>XSLT</span><span class='lparen token'>(</span><span class='rubyid_@xslt ivar id'>@xslt</span><span class='rparen token'>)</span>
+  <span class='rubyid_transformer identifier id'>transformer</span> <span class='assign token'>=</span> <span class='rubyid_Saxon constant id'>Saxon</span><span class='dot token'>.</span><span class='rubyid_XSLT constant id'>XSLT</span><span class='lparen token'>(</span><span class='rubyid_@xslt ivar id'>@xslt</span><span class='comma token'>,</span> <span class='label val'>system_id:</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_find_base_directory identifier id'>find_base_directory</span><span class='comma token'>,</span> <span class='string val'>'stylesheets'</span><span class='comma token'>,</span> <span class='string val'>'as-ead-pdf.xsl'</span><span class='rparen token'>)</span> <span class='rparen token'>)</span>
   <span class='rubyid_transformer identifier id'>transformer</span><span class='dot token'>.</span><span class='rubyid_transform identifier id'>transform</span><span class='lparen token'>(</span><span class='rubyid_Saxon constant id'>Saxon</span><span class='dot token'>.</span><span class='rubyid_XML constant id'>XML</span><span class='lparen token'>(</span><span class='rubyid_@source ivar id'>@source</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -552,6 +546,9 @@
       <pre class="lines">
 
 
+36
+37
+38
 39
 40
 41
@@ -562,16 +559,17 @@
 46
 47
 48
-49
-50</pre>
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/AS_fop.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/AS_fop.rb', line 36</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_pdf identifier id'>to_pdf</span>
   <span class='rubyid_begin begin kw'>begin</span> 
-    <span class='rubyid_fo identifier id'>fo</span> <span class='assign token'>=</span> <span class='rubyid_StringIO constant id'>StringIO</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_to_fo identifier id'>to_fo</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_inputstream identifier id'>to_inputstream</span>  
-    <span class='rubyid_fop identifier id'>fop</span> <span class='assign token'>=</span> <span class='rubyid_FopFactory constant id'>FopFactory</span><span class='dot token'>.</span><span class='rubyid_newInstance identifier id'>newInstance</span><span class='dot token'>.</span><span class='rubyid_newFop identifier id'>newFop</span><span class='lparen token'>(</span><span class='rubyid_MimeConstants constant id'>MimeConstants</span><span class='colon2 op'>::</span><span class='rubyid_MIME_PDF constant id'>MIME_PDF</span><span class='comma token'>,</span> <span class='rubyid_@output ivar id'>@output</span><span class='dot token'>.</span><span class='rubyid_to_outputstream identifier id'>to_outputstream</span><span class='rparen token'>)</span>
+    <span class='rubyid_fo identifier id'>fo</span> <span class='assign token'>=</span> <span class='rubyid_StringIO constant id'>StringIO</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_to_fo identifier id'>to_fo</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_inputstream identifier id'>to_inputstream</span>
+    <span class='rubyid_fopfac identifier id'>fopfac</span> <span class='assign token'>=</span> <span class='rubyid_FopFactory constant id'>FopFactory</span><span class='dot token'>.</span><span class='rubyid_newInstance identifier id'>newInstance</span>
+    <span class='rubyid_fopfac identifier id'>fopfac</span><span class='dot token'>.</span><span class='rubyid_setBaseURL identifier id'>setBaseURL</span><span class='lparen token'>(</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_find_base_directory identifier id'>find_base_directory</span><span class='comma token'>,</span> <span class='string val'>'stylesheets'</span><span class='rparen token'>)</span> <span class='rparen token'>)</span> 
+    <span class='rubyid_fop identifier id'>fop</span> <span class='assign token'>=</span> <span class='rubyid_fopfac identifier id'>fopfac</span><span class='dot token'>.</span><span class='rubyid_newFop identifier id'>newFop</span><span class='lparen token'>(</span><span class='rubyid_MimeConstants constant id'>MimeConstants</span><span class='colon2 op'>::</span><span class='rubyid_MIME_PDF constant id'>MIME_PDF</span><span class='comma token'>,</span> <span class='rubyid_@output ivar id'>@output</span><span class='dot token'>.</span><span class='rubyid_to_outputstream identifier id'>to_outputstream</span><span class='rparen token'>)</span> 
     <span class='rubyid_transformer identifier id'>transformer</span> <span class='assign token'>=</span> <span class='rubyid_TransformerFactory constant id'>TransformerFactory</span><span class='dot token'>.</span><span class='rubyid_newInstance identifier id'>newInstance</span><span class='dot token'>.</span><span class='rubyid_newTransformer identifier id'>newTransformer</span><span class='lparen token'>(</span><span class='rparen token'>)</span>
     <span class='rubyid_res identifier id'>res</span> <span class='assign token'>=</span> <span class='rubyid_SAXResult constant id'>SAXResult</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_fop identifier id'>fop</span><span class='dot token'>.</span><span class='rubyid_getDefaultHandler identifier id'>getDefaultHandler</span><span class='rparen token'>)</span>
     <span class='rubyid_transformer identifier id'>transformer</span><span class='dot token'>.</span><span class='rubyid_transform identifier id'>transform</span><span class='lparen token'>(</span><span class='rubyid_StreamSource constant id'>StreamSource</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_fo identifier id'>fo</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_res identifier id'>res</span><span class='rparen token'>)</span>
@@ -601,6 +599,7 @@
       <pre class="lines">
 
 
+51
 52
 53
 54
@@ -613,11 +612,10 @@
 61
 62
 63
-64
-65</pre>
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/AS_fop.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/AS_fop.rb', line 51</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_pdf_stream identifier id'>to_pdf_stream</span>
   <span class='rubyid_begin begin kw'>begin</span> 
@@ -644,7 +642,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.3.1-dev10 Documentation Generated on Tue Jul 14 11:46:05 2015 by
+  ArchivesSpace Version v1.4.0-rc8 Documentation Generated on Mon Sep 28 17:34:51 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

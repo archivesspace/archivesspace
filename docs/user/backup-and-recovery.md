@@ -33,7 +33,9 @@ recover.
 If you are running MySQL, the `mysqldump` utility can dump the database
 schema and data to a file.  It's a good idea to run this with the
 `--single-transaction` option to avoid locking your database tables
-while your backups run.
+while your backups run. It is also essential to use the `--routines`
+flag, which will include functions and stored procedures in the
+backup (which ArchivesSpace uses at least for Jasper reports).
 
 If you are running with the demo database, you can create periodic
 database snapshots using the following configuration settings:
