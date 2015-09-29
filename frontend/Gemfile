@@ -38,10 +38,6 @@ group :test do
   gem 'simplecov', "0.7.1"
 end
 
-group :development do
-  gem 'warbler', "1.4.2"
-end
-
 gem "puma", "2.8.2"
 
 gem "net-http-persistent", "2.8"

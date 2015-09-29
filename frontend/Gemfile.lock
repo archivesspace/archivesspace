@@ -57,7 +57,6 @@ GEM
     jquery-ui-rails (4.2.1)
       railties (>= 3.2.16)
     jruby-jars (1.7.21)
-    jruby-rack (1.1.19)
     json (1.8.0-java)
     json-schema (1.0.10)
     less (2.6.0)
@@ -150,11 +149,6 @@ GEM
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     useragent (0.15.2)
-    warbler (1.4.2)
-      jruby-jars (>= 1.5.6, < 2.0)
-      jruby-rack (>= 1.0.0)
-      rake (>= 0.9.6)
-      rubyzip (>= 0.9, < 1.1)
     zip-zip (0.3)
       rubyzip (>= 1.0.0)
 
@@ -186,7 +180,6 @@ DEPENDENCIES
   therubyrhino
   uglifier (>= 1.0.3)
   useragent
-  warbler (= 1.4.2)
   zip-zip (= 0.3)
 
 BUNDLED WITH
