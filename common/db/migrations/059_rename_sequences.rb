@@ -13,7 +13,7 @@ Sequel.migration do
     count = self[:sequence].count
     i = 0;
 
-    self[:sequence].each do |row|
+    self[:sequence].order(:value).each do |row|
       i += 1
 
       if i % 1000 == 0
@@ -21,6 +21,7 @@ Sequel.migration do
       end
 
       name = row[:sequence_name]
+      value = row[:value]
 
       # Fix sequence names for children of the root record
       if name.match(/__/)
@@ -31,8 +32,9 @@ Sequel.migration do
 
       repo_id, root_record_type, root_id, record_type, tree_node_id = $1, $2, $3, $4, $5
 
-      all_sequences = self[:sequence].where(Sequel.like(:sequence_name, "%\_/repositories/#{repo_id}/#{record_type}s/#{tree_node_id}\_children\_position")).order(:value)
+      all_sequences = self[:sequence].where("value >= #{value}").where(Sequel.like(:sequence_name, "%\_/repositories/#{repo_id}/#{record_type}s/#{tree_node_id}\_children\_position"))
 
+      next unless all_sequences.count > 0 # already gone
       next unless all_sequences.select(:sequence_name).first[:sequence_name] == name
 
       sequence_val = if all_sequences.count > 1
