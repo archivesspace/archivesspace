@@ -1,6 +1,9 @@
 require 'bundler/setup'
 Bundler.require
 
+Rack::Utils.key_space_limit = 655360 # x10 Rack default
+Rack::Utils.param_depth_limit = 200 # x2 Rack default
+
 if ENV['COVERAGE_REPORTS'] && ENV["ASPACE_INTEGRATION"] == "true"
   require 'aspace_coverage'
   ASpaceCoverage.start('backend_integration')
