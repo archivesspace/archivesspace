@@ -45,7 +45,7 @@
       return full ? this.get_node(obj_id) : obj_id
     };
 
-    this.set_primary_selected = function(obj) {
+    this.set_primary_selected = function(obj, cb) {
       if (obj === '#') {
         var root = this.get_node(obj);
         obj = root.children[0];
@@ -81,6 +81,11 @@
       // those listenting to 'select_node'
       // can know what's up
       this.ensure_sole_selected(obj);
+
+      if (typeof(cb) != 'undefined') {
+        cb(obj);
+      }
+
     };
 
 
