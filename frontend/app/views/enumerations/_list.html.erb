@@ -26,7 +26,7 @@
       <% @enumeration["enumeration_values"].each_with_index do |enum_value, i| %>
         <tr>
           <td><%= enum_value["value"] %></td>
-          <td><%= I18n.t("enumerations.#{@enumeration["name"]}.#{enum_value["value"]}", :default => enum_value['value']) %></td>
+          <td><%= I18n.t({:enumeration => @enumeration['name'], :value => enum_value['value']}, :default => enum_value['value']) %></td>
           <td> 
             <%= enum_value["position"] %> 
             <% unless i == 0 %>   
