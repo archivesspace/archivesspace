@@ -53,6 +53,7 @@ describe "Resources and archival objects" do
     # condition and content descriptions have come across as notes fields
     notes_toggle = @driver.blocking_find_elements(:css => "#notes .collapse-subrecord-toggle")
     notes_toggle[0].click
+    @driver.wait_for_ajax
     @driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').toTextArea()")
     assert(5) { @driver.find_element(:id => "resource_notes__0__subnotes__0__content_").attribute("value").should eq(@accession.content_description) }
 
