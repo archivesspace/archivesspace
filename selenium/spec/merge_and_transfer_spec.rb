@@ -76,6 +76,34 @@ describe "Merging and transfering resources" do
       }
     end
   end
+  
+  it "can merge an archival objects into a resource", :retry => 3, :retry_wait => 20 do
+    @driver.select_repo(@repo)
+
+    @driver.get_edit_page(@aoset2.first)
+
+    @driver.find_element(:link, "Transfer").click
+
+    # spaces in the search string seem to through off the token search, so:
+    search_string = @resource2.title.sub(/-\s.*/, "").strip
+    @driver.clear_and_send_keys([:id, "token-input-transfer_ref_"], search_string )
+    sleep(1)
+    @driver.find_element(:css, "li.token-input-dropdown-item2").click
+
+    @driver.find_element(:css, "button.transfer-button").click
+
+
+    @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Successfully transferred Archival Object/)
+
+    @driver.wait_for_ajax
+    @driver.get_edit_page(@resource2)
+    (@aoset2 + @aoset3).each do |ao|
+      assert(5) {
+        @driver.find_element(:id => js_node(ao).li_id)
+      }
+    end
+  end
+
 
   it "can merge a digital object into a digital object", :retry => 3, :retry_wait => 20 do
     # get a new pair each time in case the test fails
