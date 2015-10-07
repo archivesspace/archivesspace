@@ -6,7 +6,7 @@
 	<property name="ireport.encoding" value="UTF-8"/>
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="129"/>
+	<property name="ireport.y" value="167"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
@@ -32,7 +32,7 @@
      GetEnumValueUF(T2.`processing_status_id`) AS processingStatus,
      T2.`processing_plan` AS processingPlan,
      T2.`processors` AS processors,
-     T2.`processing_started_date` AS processingStartedDate
+     GetAccessionProcessingStartedDate(T1.`id`) AS processingStartedDate
 FROM
      `accession` T1
 LEFT OUTER JOIN
@@ -59,7 +59,7 @@ WHERE
 	<field name="processors" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="processingStartedDate" class="java.sql.Date"/>
+	<field name="processingStartedDate" class="java.lang.String"/>
 	<variable name="TEST_PROCESSINGPLAN" class="java.lang.Integer" calculation="Sum">
 		<variableExpression><![CDATA[$F{processingPlan}.equals("") ? Integer.valueOf(0) : Integer.valueOf(1)]]></variableExpression>
 	</variable>
