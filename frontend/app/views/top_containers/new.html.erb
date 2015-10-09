@@ -25,6 +25,12 @@
   <% end %>
 <% end %>
 
-<script src="<%= "#{AppConfig[:frontend_prefix]}assets/linker.js" %>"></script>
+<script src="<%= "#{AppConfig[:frontend_prefix]}assets/form.js" %>"></script>
+<script>
+  $(function() {
+        $(".linker:not(.initialised)", $("#new_top_container")).linker();
+
+  });
+</script>
 <script src="<%= "#{AppConfig[:frontend_prefix]}assets/subrecord.crud.js" %>"></script>
 <script src="<%= "#{AppConfig[:frontend_prefix]}assets/form.js" %>"></script>

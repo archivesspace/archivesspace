@@ -60,7 +60,7 @@ describe "Locations" do
     @driver.find_element(:link, "Browse").click
     @driver.find_element(:link, "Locations").click
 
-    @driver.find_element_with_text('//td', /129 W\. 81st St\, 5\, 5A \[Box XYZ\: XYZ0001\]/)
+    @driver.find_paginated_element(:xpath => "//tr[.//*[contains(text(), '129 W. 81st St, 5, 5A [Box XYZ: XYZ0001]')]]")
   end
 
   it "allows creation of a location with plus one stickies" do
@@ -103,7 +103,8 @@ describe "Locations" do
     @driver.find_element(:link, "Browse").click
     @driver.find_element(:link, "Locations").click
 
-    @driver.find_element_with_text('//td', /129 W\. 81st St\, 5\, 5A \[Box XYZ\: XYZ0001\]/)
+
+    @driver.find_paginated_element(:xpath => "//tr[.//*[contains(text(), '129 W. 81st St, 5, 5A [Box XYZ: XYZ0001]')]]")
   end
 
 

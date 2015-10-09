@@ -6,3 +6,9 @@
 <% end %>
 
 <script src="<%= "#{AppConfig[:frontend_prefix]}assets/form.js" %>"></script>
+<script>
+  $(function() {
+        $(".linker:not(.initialised)", $("#new_top_container")).linker();
+
+  });
+</script>
