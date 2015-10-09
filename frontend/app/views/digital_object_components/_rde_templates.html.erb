@@ -121,7 +121,7 @@
     </td>
     <td data-col="colDType" class="form-group">
       <% form.push(form.set_index("dates[]", 0), begin digital_object_component["dates"][0] || {} rescue {} end) do %>
-        <%= form.select "date_type", jsonmodel_definition(:date).options_for(form, "date_type", true) %>
+        <%= form.select "date_type", jsonmodel_definition(:date).options_for(form, "date_type", true, {:exclude => ['range']}) %>
       <% end %>
       <% form.push("dates", begin digital_object_component["dates"] || [] rescue [] end) do %>
         <span class="defer-to-section" id="<%= form.id_for(nil) %>"></span>
