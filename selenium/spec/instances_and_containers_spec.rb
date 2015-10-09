@@ -33,7 +33,7 @@ describe "Resource instances and containers" do
   end
 
   before(:each) do
-    $driver.navigate.to("#{$frontend}")
+    @driver.navigate.to("#{$frontend}")
   end
 
 
@@ -93,7 +93,7 @@ describe "Resource instances and containers" do
   it "can attach instances to resources and create containers and locations along the way" do
 
     @driver.navigate.to("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit")
-    @driver.find_element(:css => '#resource_instances_ .subrecord-form-heading .btn[data-instance-type="sub-container"').click
+    @driver.find_element(:css => '#resource_instances_ .subrecord-form-heading .btn[data-instance-type="sub-container"]').click
     @driver.find_element(:css => '#resource_instances__0__instance_type_').select_option('text')
 
     # new
@@ -106,7 +106,7 @@ describe "Resource instances and containers" do
     modal.find_element(:css => '#top_container_barcode_').send_keys("1234567")
 
     elt = modal.find_element(:css => '#top_container_container_locations_')
-    elt.find_element(:css => 'h3:nth-child(1) > button:nth-child(2)').click
+    elt.find_element(:css => 'h3 > button').click
 
     assert(5) {
       elt.find_element(:css => '#top_container_container_locations__0__start_date_').attribute('value').should eq(Time.now.strftime("%Y-%m-%d"))
@@ -146,7 +146,7 @@ describe "Resource instances and containers" do
     @driver.navigate.to("#{$frontend}#{@container.uri.sub(/\/repositories\/\d+/, '')}/edit")
 
     section = @driver.find_element(:id => 'top_container_container_locations_')
-    section.find_element(:css => "button.btn-sm:nth-child(2)").click
+    section.find_element(:css => "button.btn-sm:nth-child(1)").click
 
     new_loc = @driver.find_element(:css => "li.sort-enabled[data-index='1']")
 
