@@ -9,4 +9,7 @@
 
 <script>
   $(document).trigger("loadedrecordform.aspace", [$("#topContainerBrowseContainer")]);
+  $(function() {
+        $(".linker:not(.initialised)", $("#topContainerBrowseContainer")).linker();
+  });
 </script>
