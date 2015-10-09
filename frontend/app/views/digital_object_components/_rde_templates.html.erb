@@ -233,8 +233,10 @@
       <% end %>
     </td>
     <td data-col="colNCont1" class="form-group">
+      <% content = begin digital_object_component["notes"][0]["jsonmodel_type"] == "note_multipart" ? digital_object_component["notes"][0]["subnotes"][0]['content'] : digital_object_component["notes"][0]["content"][0] rescue "" end %>
+
       <% form.push(form.set_index("notes[]", 0), begin digital_object_component["notes"][0] || {} rescue {} end) do %>
-        <% form.push(form.set_index("content[]", 0), begin form["content"][0] || "" rescue "" end) do %>
+        <% form.push(form.set_index("content[]", 0), begin content || "" rescue "" end) do %>
           <%= form.textfield nil, form.obj %>
         <% end %>
         <% form.push("content", begin digital_object_component["content"] || [] rescue [] end) do %>
@@ -257,8 +259,10 @@
       <% end %>
     </td>
     <td data-col="colNCont2" class="form-group">
+      <% content = begin digital_object_component["notes"][1]["jsonmodel_type"] == "note_multipart" ? digital_object_component["notes"][1]["subnotes"][0]['content'] : digital_object_component["notes"][1]["content"][0] rescue "" end %>
+
       <% form.push(form.set_index("notes[]", 1), begin digital_object_component["notes"][1] || {} rescue {} end) do %>
-        <% form.push(form.set_index("content[]", 0), begin form["content"][0] || "" rescue "" end) do %>
+        <% form.push(form.set_index("content[]", 0), begin content || "" rescue "" end) do %>
           <%= form.textfield nil, form.obj %>
         <% end %>
         <% form.push("content", begin digital_object_component["content"] || [] rescue [] end) do %>
@@ -281,8 +285,10 @@
       <% end %>
     </td>
     <td data-col="colNCont3" class="form-group">
+      <% content = begin digital_object_component["notes"][2]["jsonmodel_type"] == "note_multipart" ? digital_object_component["notes"][2]["subnotes"][0]['content'] : digital_object_component["notes"][2]["content"][0] rescue "" end %>
+
       <% form.push(form.set_index("notes[]", 2), begin digital_object_component["notes"][2] || {} rescue {} end) do %>
-        <% form.push(form.set_index("content[]", 0), begin form["content"][0] || "" rescue "" end) do %>
+        <% form.push(form.set_index("content[]", 0), begin content || "" rescue "" end) do %>
           <%= form.textfield nil, form.obj %>
         <% end %>
         <% form.push("content", begin digital_object_component["content"] || [] rescue [] end) do %>
