@@ -90,6 +90,7 @@ FactoryGirl.define do
 
   sequence(:relator) { sample(JSONModel(:abstract_archival_object).schema['properties']['linked_agents']['items']['properties']['relator']) }
   sequence(:subject_source) { sample(JSONModel(:subject).schema['properties']['source']) }
+  sequence(:resource_agent_role) { sample(JSONModel(:abstract_archival_object).schema['properties']['linked_agents']['items']['properties']['role']) }
 
   sequence(:vocab_name) {|n| "Vocabulary #{n} - #{Time.now}" }
   sequence(:vocab_refid) {|n| "vocab_ref_#{n} - #{Time.now}"}

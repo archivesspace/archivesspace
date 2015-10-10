@@ -127,7 +127,6 @@ $(function() {
         $("#job_type_fields", $form)
           .empty()
           .html(AS.renderTemplate("template_print_to_pdf_job", {id_path: "print_to_pdf_job", path: "print_to_pdf_job"}));
-
         $(".linker:not(.initialised)").linker();
 
       } else if ($(this).val() === "find_and_replace_job") {

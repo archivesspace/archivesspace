@@ -133,6 +133,11 @@ module SeleniumFactories
         component_id { generate(:alphanumstr) }
         title { generate :digital_object_component_title }
       end
+      
+      factory :instance_digital, class: JSONModel(:instance) do
+        instance_type 'digital_object'
+        digital_object { { "ref" => create(:digital_object).uri } } 
+      end
 
       factory :file_version, class: JSONModel(:file_version) do
         file_uri "http://example.com/1"

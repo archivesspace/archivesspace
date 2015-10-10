@@ -277,6 +277,13 @@ module Selenium
         end
       end
 
+      # for some reason, find :css sometimes doesn't like names with [ ] 
+      def find_input_by_name( name )
+        find_elements(:css, "input" ).each do |input|
+          return input if ( input.attribute("name") == name )
+        end
+        raise Selenium::WebDriver::Error::NoSuchElementError
+      end
 
     end
 

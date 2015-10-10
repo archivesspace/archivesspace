@@ -357,4 +357,78 @@ describe "Resources and archival objects" do
     extent_headings.length.should eq (1)
     assert(5) { extent_headings[0].text.should match (/^\d.*/) }
   end
+
+  it "can have a lot of associated records that do not show in the field but are not lost" do
+
+    subjects = []
+    accessions = []
+    classifications = []
+    dos = []
+    instances = [] 
+    agents = []
+     
+    10.times do |i| 
+      subjects << create(:subject) 
+      accessions << create(:accession)
+      classifications << create(:classification)
+      dos << create(:digital_object)
+      instances = dos.map { |d| { :instance_type => 'digital_object', :digital_object => { :ref => d.uri }  } }
+      agents << create(:agent_person)  
+    end
+    
+    linked_agents =  agents.map { |a| { :ref => a.uri, 
+                                        :role =>  generate(:resource_agent_role),
+                                        :relator =>  generate(:relator) 
+                                      } }
+    # lets make sure we have at least one creato r with a title
+    linked_agents.find { |a| a[:role] == "creator" }[:title] = generate(:alphanumstr)    
+    
+    resource = create(:resource, {
+                      :linked_agents => linked_agents,
+                      :subjects => subjects.map {|s| { :ref => s.uri }},
+                      :related_accessions => accessions.map { |a| {:ref => a.uri } },
+                      :instances => instances,
+                      :classifications => classifications.map { |c| { :ref => c.uri } }
+                     
+                    })
+    # let's go to the edit page 
+    @driver.get_edit_page(resource)
+   
+    # now lets make a small change...
+    @driver.find_element(:css => '#resource_extents_ .subrecord-form-heading .btn:not(.show-all)').click
+    @driver.clear_and_send_keys([:id, 'resource_extents__1__number_'], "5")
+    @driver.find_element(:id => "resource_extents__1__extent_type_").select_option("volumes")
+    
+    # submit it 
+    @driver.find_element(:css => "form#resource_form button[type='submit']").click
+    
+    # no errors!  
+    @driver.find_element_with_text('//div', /\bResource\b.*\bupdated\b/).should_not be_nil
+    
+    # let's open all all the too-manys and make sure everything is still
+    # there.. 
+    @driver.find_elements(:css => ".alert-too-many").each { |c| c.click }
+    @driver.wait_until_gone(:css, ".spinner") 
+   
+    [ subjects, accessions, classifications, dos ].each do |klass|
+      klass.each do |a|
+        @driver.find_element(:id => a[:uri].gsub("/", "_" )).text.should match(/#{ a[:display_title] }/)
+      end
+    end 
+   
+    # agents are weird. 
+    linked_agents.each_with_index do |a, i|
+      assert(5) { @driver.find_element(:css => "#resource_linked_agents__#{i.to_s}__role_").get_select_value.should eq(a[:role]) } 
+      if (a.has_key?(:title)) 
+        assert(5) { @driver.find_element(:css => "#resource_linked_agents__#{i.to_s}__title_").attribute('value').should eq(a[:title]) } 
+      end
+      # y this no work?  
+      # @driver.find_element(:css, "input[name='resource\[linked_agents\]\[#{i.to_s}\]\[relator\]']" ).attribute("value").should eq(a[:relator])
+      # fu.  
+      assert(5) { @driver.find_input_by_name("resource[linked_agents][#{i.to_s}][relator]" ).attribute('value').should eq(a[:relator]) }
+      assert(5) { @driver.find_element(:css => "#resource_linked_agents__#{i.to_s}_ .linker-wrapper .token-input-token").text.should match(/#{  agents[i][:primary_name] }/) } 
+    end
+
+  end
+
 end

@@ -22,6 +22,21 @@
              data-multiplicity="one"
              data-types='["digital_object"]'
       />
+      
+      <% if form.obj.has_key?('_resolved') %>
+          
+            <input type="text" 
+              class='prelinker' 
+              name="<%= form.path %>[_resolved]"
+              value="<%= selected_json %>" />
+              
+            <input type="text" 
+              class='prelinker' 
+              name="<%= form.path %>[ref]"
+              value="<%= form.obj["ref"] %>" />
+
+      <% end %>
+      
       <div class="input-group-btn">
         <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
         <ul class="dropdown-menu">
