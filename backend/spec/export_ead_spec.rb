@@ -56,7 +56,7 @@ describe "EAD export mappings" do
 
 
     resource = create(:json_resource,  :linked_agents => build_linked_agents(@agents),
-                      :notes => build_archival_object_notes(100) + [@mixed_subnotes_tracer],
+                      :notes => build_archival_object_notes(10) + [@mixed_subnotes_tracer],
                       :subjects => @subjects.map{|ref, s| {:ref => ref}},
                       :instances => instances,
                       :finding_aid_status => %w(completed in_progress under_revision unprocessed).sample,
@@ -76,8 +76,6 @@ describe "EAD export mappings" do
                  :linked_agents => build_linked_agents(@agents),
                  :instances => [build(:json_instance_digital), build(:json_instance)],
                  :subjects => @subjects.map{|ref, s| {:ref => ref}}.shuffle
-
-
                  )
 
       a = JSONModel(:archival_object).find(a.id)

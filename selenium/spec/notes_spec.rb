@@ -149,6 +149,7 @@ describe "Notes" do
   it "can wrap note content text with EAD mark up" do
     # expand the first note
     @driver.find_element(:css => '#notes .collapse-subrecord-toggle').click
+    @driver.wait_for_ajax
 
     # select some text
     @driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').setValue('ABC')")

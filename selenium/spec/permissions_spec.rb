@@ -11,6 +11,11 @@ describe "Permissions" do
   end
 
 
+  after(:all) do
+    @driver.logout.quit
+  end
+
+
   it "allows archivists to edit major record types by default" do
     @driver.login_to_repo(@archivist, @repo)
     @driver.find_element(:link => 'Create').click

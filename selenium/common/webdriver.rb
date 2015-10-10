@@ -137,6 +137,13 @@ module Selenium
       end
 
 
+      def element_finder(*selectors)
+        lambda {
+          self.find_element(*selectors)
+        }
+      end
+
+
       alias :find_element_orig :find_element
       def find_element(*selectors)
         wait_for_ajax

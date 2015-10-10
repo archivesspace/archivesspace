@@ -28,11 +28,7 @@ gem 'json-schema', '1.0.10'
 
 gem 'useragent'
 
-gem "jruby-jars", "= 1.7.21"
-
-gem 'warbler', "1.4.2"
-
-
+gem "jruby-jars", "= 1.7.22"
 gem 'atomic', '= 1.0.1'
 
 
@@ -52,8 +48,7 @@ gem "zip-zip", "0.3"
 
 gem "nokogiri", '~> 1.6.1'
 
+require 'asutils'
 
 # Allow plugins to provide their own Gemfiles too.
-#
-require 'asutils'
 ASUtils.load_plugin_gems(self)
