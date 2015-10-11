@@ -35,7 +35,7 @@ GEM
     nokogiri (1.6.6.2-java)
     puma (2.8.2-java)
       rack (>= 1.1, < 2.0)
-    rack (1.6.4)
+    rack (1.4.7)
     rack-protection (1.5.3)
       rack
     rack-session-sequel (0.0.1)
@@ -114,7 +114,7 @@ DEPENDENCIES
   net-ldap (= 0.6.1)
   nokogiri (~> 1.6.1)
   puma (= 2.8.2)
-  rack (~> 1.6.4)
+  rack (= 1.4.7)
   rack-session-sequel (= 0.0.1)
   rjack-jackson (= 1.8.11.0)
   rspec (~> 3.3.0)
