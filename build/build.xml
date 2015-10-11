@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="ArchivesSpace" default="help">
+<project name="ArchivesSpace" default="help" xmlns:if="ant:if"  xmlns:unless="ant:unless" >
 
   <property name="jruby_url" value="http://jruby.org.s3.amazonaws.com/downloads/1.7.22/jruby-complete-1.7.22.jar" />
   <property name="jruby_file" value="jruby-complete-1.7.22.jar" />
