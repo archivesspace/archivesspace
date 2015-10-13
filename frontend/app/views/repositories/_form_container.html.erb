@@ -26,9 +26,7 @@
       <%= form.label_and_textfield "region" %>
       <%= form.label_and_textfield "country" %>
       <%= form.label_and_textfield "post_code" %>
-      <%= form.label_and_textfield "telephone" %>
-      <%= form.label_and_textfield "telephone_ext" %>
-      <%= form.label_and_textfield "fax" %>
+      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => { :form => form,  :name => "telephones", :heading_size => "h5" } %>
       <%= form.label_and_textfield "email" %>
       <%= form.label_and_textfield "email_signature" %>
       <%= form.label_and_textarea "note" %>
