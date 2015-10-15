@@ -642,9 +642,7 @@
     <echo message="copying all plugins for local dist build..." if:true="${local_build}" />
     <copy todir="target/archivesspace/plugins" verbose="true" if:true="${local_build}" >
         <!-- include all plugins for local build -->
-        <fileset dir="../plugins" >
-            <exclude name="**/.gitignore" />
-        </fileset>
+        <fileset dir="../plugins" />
     </copy>
 
 
