@@ -58,9 +58,9 @@
     unsuppress_confirm_message: "falso"
     unable_to_move_message: "No se pudo mover el registro"
     delete: Borrar
-    delete_confirm_title: ¿Desea eliminar este registro?
+    delete_confirm_title: ¿Desea eliminar este registro? %{title}
     delete_confirm_message: "<p>Por favor, ser conscientes de que <strong>no puede deshacer esta acción</strong>.</p><p>Esta acción eliminará el registro de la base de datos, incluyendo cualquier referencia que se tiene con otros registros.</p>"
-    delete_repository_confirm_title: ¿Borrar este repositorio?
+    delete_repository_confirm_title: ¿Borrar este repositorio? %{name}
     delete_repository_confirm_message: "<p><strong>No puedes deshacer este cambio</strong>.</p><p>Esta acción eliminará el <strong>repositorio</strong> y todos los registros asociados incluidas las referencias a otros registros.</p><p>Para seguir adelante por favor indica '%{repository}' abajo:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
     delete_multiple: Borrar registros
     delete_multiple_confirm_title: ¿Borrar registros?
@@ -79,7 +79,7 @@
     finish_editing: Finalizar edición
     merge: Fusión
     form_changes_message: "<small><span class='muted'>Hay cambios sin guardar</span></small>"
-    toolbar_disabled_message: "<small><span class='muted'>Se han salido sin guardar los cambios - Guarda o vuelve atrás </span></small>"
+    toolbar_disabled_message: "<small><span class='muted'>No se han guardado los cambios - Guarda o vuelve atrás </span></small>"
     publish: Publicar todos
     publish_confirm_title: ¿Publicar?
     publish_confirm_message: "<p>Realizar esta acción va a publicar este documento, los registros secundarios (documentos externos, notas, etc.) y todos los componentes de la jerarquía.</p>"
@@ -88,6 +88,11 @@
     print_to_pdf: Imprimir Fondos en PDF
     resource_to_pdf: Fondo a imprimir
     download_pdf: Descargar PDF
+    click_to_show: Pulsa para cargar los registros.
+
+
+  database_warning:
+   message: "<p><strong>Advertencia de base de datos:</strong> Estas utilizando la base de datos (Apache Derby) habilitada para pruebas. Le recomendamos utilizar MySQL para sistemas en producción.</p>"
 
   states:
     auto_generated: Generado automáticamente
@@ -685,6 +690,7 @@
         note_definedlist_item: Agregar elemento
         expand: Ampliar
         collapse: Colapsar
+        apply_note_order: Aplicar el orden de notas estandar
 
   related_accession:
     _frontend:
@@ -832,6 +838,7 @@
     sections:
       basic_information: Información básica
       date: Fecha
+      extent: Extensión
       instance: Representación
       notes: Notas
       file_version: Versión del archivo

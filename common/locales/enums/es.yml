@@ -313,10 +313,12 @@
       terabytes: Terabytes
       volumes: Volúmenes
     collection_management_processing_priority: 
+      none: Sin especificar
       high: Alta
       medium: Medio
       low: Baja
     collection_management_processing_status: 
+      none: Sin especificar
       new: Nuevo
       in_progress: En progreso
       completed: Completado
@@ -367,6 +369,7 @@
       message_digest_calculation: Mensaje Digest cálculo
       migration: Migración
       normalization: Normalización
+      processing_new: Nuevo Procesado
       processed: Procesado
       publication: Publicación
       replication: Replicación
