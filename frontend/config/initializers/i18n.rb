@@ -1,3 +1,5 @@
+require 'aspace_i18n_enumeration_support'
+
 module I18n
 
   # Override the I18n string pattern to take into account
@@ -36,34 +38,6 @@ module I18n
     results.nil? ? "" : results.html_safe
   end
 
-  def self.t_raw(*args)
-    key = args[0]
-    default = if args[1].is_a?(String)
-                args[1]
-              else
-                (args[1] || {}).fetch(:default, "")
-              end
-
-    # String
-    if key && key.kind_of?(String) && key.end_with?(".")
-      return default
-    end
-
-    # Hash / Enumeration Value
-    if key && key.kind_of?(Hash) && key.has_key?(:enumeration)
-      backend  = config.backend
-      locale   = config.locale
-      # Null character to cope with enumeration values containing dots.  Eugh.
-      translation =  backend.send(:lookup, locale, ['enumerations', key[:enumeration], key[:value]].join("\0"), [], {:separator => "\0"}) || default
-      
-      unless translation.blank?
-        return translation
-      end
-    end
-
-
-    self.translate(*args)
-  end
 end
 
 I18n.exception_handler = :try_really_hard_to_find_a_key

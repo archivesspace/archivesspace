@@ -26,6 +26,7 @@ require_relative 'exceptions'
 require_relative 'logging'
 require 'config/config-distribution'
 require_relative 'username'
+require_relative 'aspace_i18n'
 
 
 class ASpaceEnvironment

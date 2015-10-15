@@ -771,7 +771,7 @@ module AspaceFormHelper
 
       if schema and schema["properties"].has_key?(property)
         if (schema["properties"][property].has_key?('dynamic_enum'))
-          value = I18n.t("#{prefix}enumerations.#{schema["properties"][property]["dynamic_enum"]}.#{value}", :default => value)
+          value = I18n.t({:enumeration => schema["properties"][property]["dynamic_enum"], :value => value}, :default => value)
         elsif schema["properties"][property].has_key?("enum")
           value = I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}_#{value}", :default => value)
         elsif schema["properties"][property]["type"] === "boolean"

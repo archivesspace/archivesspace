@@ -17,8 +17,6 @@ module ASpaceExport
     Dir.glob(File.dirname(__FILE__) + '/../serializers/*.rb', &method(:require))
     Dir.glob(File.dirname(__FILE__) + '/../models/*.rb', &method(:require))
 
-    I18n.enforce_available_locales = false # do not require locale to be in available_locales for export
-    I18n.load_path += ASUtils.find_locales_directories(File.join("enums", "#{AppConfig[:locale]}.yml"))
     @@initialized = true
   end
 
