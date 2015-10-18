@@ -698,7 +698,7 @@ $(function() {
             defaults: {},
           }
 
-          var $firstRow = $("table tbody tr:first")
+          var $firstRow = $("table tbody tr:first", $rde_form);
 
          $("table .fieldset-labels th", $rde_form).each(function() {
             var colId = $(this).attr("id");
@@ -845,7 +845,7 @@ $(function() {
 
         applyColumnOrder();
 
-        var $firstRow = $("tbody tr:first");
+        var $firstRow = $("tbody tr:first", $rde_form);
 
         _.each($("td", $firstRow), function(td) {
           var $td = $( td );
