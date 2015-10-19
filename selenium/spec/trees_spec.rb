@@ -327,7 +327,7 @@ describe "Tree UI" do
 
     # let's make some children
     children = []
-    10.times { |i|  children << create(:archival_object, :title => i.to_s,  :resource => {:ref => @r.uri}, :parent => {:ref => @a1.uri}).uri  }
+    9.times { |i|  children << create(:archival_object, :title => i.to_s,  :resource => {:ref => @r.uri}, :parent => {:ref => @a1.uri}).uri  }
     @driver.navigate.refresh
 
     # go to the page..
@@ -343,8 +343,8 @@ describe "Tree UI" do
 
     # we cycle these nodes around in a circle.
     3.times do
-      a =  @driver.element_finder(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li[8]/a")
-      b =  @driver.element_finder(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li[10]/a")
+      a =  @driver.element_finder(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li[7]/a")
+      b =  @driver.element_finder(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li[9]/a")
       target =  @driver.find_elements(
                  :xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li").first
       offset = ( ( target.location[:y] - a.call.location[:y] ) - 7 )
@@ -359,9 +359,9 @@ describe "Tree UI" do
     end
 
     # everything should be normal
-    (1..9).each do |i|
+    (0..8).each do |i|
       assert(5) {
-        @driver.find_element( :xpath => "//li[a/@title='#{@a1.title}']/ul/li[position() = #{i}]/a/span/span[@class='title-column pull-left']").text.should match(/#{i.to_s}/)
+        @driver.find_element( :xpath => "//li[a/@title='#{@a1.title}']/ul/li[position() = #{i + 1}]/a/span/span[@class='title-column pull-left']").text.should match(/#{i.to_s}/)
       }
     end
 
@@ -384,7 +384,7 @@ describe "Tree UI" do
     end
 
     # back to normal
-    (0..9).each do |i|
+    (0..8).each do |i|
       assert(5) {
         @driver.find_element( :xpath => "//li[a/@title='#{@a1.title}']/ul/li[position() = #{i + 1 }]/a/span/span[@class='title-column pull-left']").text.should match(/#{i.to_s}/)
       }
@@ -408,9 +408,9 @@ describe "Tree UI" do
     end
 
     # and again back to normal
-    (0..9).each do |i|
+    (0..8).each do |i|
       assert(5) {
-        @driver.find_element( :xpath => "//li[a/@title='#{@a1.title}']/ul/li[position() = #{i + 1 }]/a/span/span[@class='title-column pull-left']").text.should match(/#{i.to_s}/)
+        @driver.find_element( :xpath => "//li[a/@title='#{@a1.title}']/ul/li[position() = #{i + 1}]/a/span/span[@class='title-column pull-left']").text.should match(/#{i.to_s}/)
       }
     end
 
@@ -426,7 +426,7 @@ describe "Tree UI" do
     @driver.wait_until_gone(:css, ".spinner")
 
     # heres the new order of our AOs. all on one level
-    new_order = (0..9).to_a + [ @a1.title, @a2.title, @a3.title ]
+    new_order = (0..8).to_a + [ @a1.title, @a2.title, @a3.title ]
 
     # let's check that everything is as expected
     new_order.each_with_index do |v, i|
