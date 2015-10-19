@@ -4,6 +4,19 @@ require 'securerandom'
 class EADSerializer < ASpaceExport::Serializer
   serializer_for :ead
 
+  # Allow plugins to hook in to record processing by providing their own
+  # serialization step (a class with a 'call' method accepting the arguments
+  # defined in `run_serialize_step`.
+  def self.add_serialize_step(serialize_step)
+    @extra_serialize_steps ||= []
+    @extra_serialize_steps << serialize_step
+  end
+
+  def self.run_serialize_step(data, xml, fragments, context)
+    Array(@extra_serialize_steps).each do |step|
+      step.new.call(data, xml, fragments, context)
+    end
+  end
 
   def prefix_id(id)
     if id.nil? or id.empty? or id == 'null'   
@@ -124,6 +137,8 @@ class EADSerializer < ASpaceExport::Serializer
               serialize_container(instance, xml, @fragments)
             end
 
+            EADSerializer.run_serialize_step(data, xml, @fragments, :did)
+
           }# </did>
             
           data.digital_objects.each do |dob|
@@ -137,6 +152,8 @@ class EADSerializer < ASpaceExport::Serializer
           serialize_indexes(data, xml, @fragments)
 
           serialize_controlaccess(data, xml, @fragments)
+
+          EADSerializer.run_serialize_step(data, xml, @fragments, :archdesc)
 
           xml.dsc {
 
@@ -211,6 +228,8 @@ class EADSerializer < ASpaceExport::Serializer
         serialize_dates(data, xml, fragments)
         serialize_did_notes(data, xml, fragments)
 
+        EADSerializer.run_serialize_step(data, xml, fragments, :did)
+
         # TODO: Clean this up more; there's probably a better way to do this.
         # For whatever reason, the old ead_containers method was not working
         # on archival_objects (see migrations/models/ead.rb).
@@ -233,6 +252,8 @@ class EADSerializer < ASpaceExport::Serializer
       serialize_indexes(data, xml, fragments)
 
       serialize_controlaccess(data, xml, fragments)
+
+      EADSerializer.run_serialize_step(data, xml, fragments, :archdesc)
 
       data.children_indexes.each do |i|
         xml.text(

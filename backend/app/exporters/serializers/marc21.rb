@@ -10,10 +10,23 @@ class MARCSerializer < ASpaceExport::Serializer
     builder
   end
 
+  # Allow plugins to wrap the MARC record with their own behavior.  Gives them
+  # the chance to change the leader, 008, add extra data fields, etc.
+  def self.add_decorator(decorator)
+    @decorators ||= []
+    @decorators << decorator
+  end
+
+  def self.decorate_record(record)
+    Array(@decorators).reduce(record) {|result, decorator|
+      decorator.new(result)
+    }
+  end
+
 
   def serialize(marc, opts = {})
 
-    builder = build(marc, opts)
+    builder = build(MARCSerializer.decorate_record(marc), opts)
 
     builder.to_xml
   end
