@@ -30,6 +30,7 @@ gem "warbler", "1.4.9", :group => :build
 group :test do
   gem "factory_girl", "~> 4.1.0"
   gem "rspec", "~> 3.3.0"
+  gem "rspec-core", "~> 3.3.0"
   gem "ladle", "0.2.0"
   gem "simplecov", "0.7.1"
 end
