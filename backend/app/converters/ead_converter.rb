@@ -247,8 +247,12 @@ class EADConverter < Converter
       dimensions_texts = []
       physfacet_texts = []
     
-      # If there is already a portion specified, use it
-      portion = att('altrender') || 'whole'
+      # If there is already a portion of 'part' specified, use it
+      if att('altrender').downcase == 'part'
+        portion = 'part'
+      else
+        portion = 'whole'
+      end
     
       physdesc.children.each do |child|
         # "extent" can have one of two kinds of semantic meanings: either a true extent with number and type,
