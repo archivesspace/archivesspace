@@ -504,9 +504,7 @@ $(function() {
 
     var id_from_hash = location.hash.replace("#tree::", "");
 
-    tree.set_primary_selected(id_from_hash);
-
-    tree.primary(function(node) {
+    tree.set_primary_selected(id_from_hash, function(node) {
       if (!node.state.opened) {
         tree.open_node(node, function(node) {
           loadPaneForNode(node);
