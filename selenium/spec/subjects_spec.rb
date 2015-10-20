@@ -52,8 +52,8 @@ describe "Subjects" do
 
   it "can reorder the terms and have them maintain order" do
 
-    first = SecureRandom.hex
-    second = SecureRandom.hex
+    first = "first_#{SecureRandom.hex}"
+    second = "second_#{SecureRandom.hex}"
 
     @driver.find_element(:link => 'Create').click
     @driver.find_element(:link => 'Subject').click
@@ -68,7 +68,8 @@ describe "Subjects" do
     source = @driver.find_element( :css => "#subject_terms__1_ .drag-handle" )
 
     @driver.action.drag_and_drop_by(source, 0, -100).perform
-    @driver.wait_for_ajax
+    sleep(5)
+    @driver.find_element(:css => "form .record-pane button[type='submit']").click
     @driver.find_element(:css => "form .record-pane button[type='submit']").click
 
     assert(5) { @driver.find_element(:css => '.record-pane h2').text.should eq("#{second} -- #{first} Subject") }
