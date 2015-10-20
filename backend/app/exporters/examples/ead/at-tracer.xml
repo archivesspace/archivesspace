@@ -67,7 +67,7 @@
             </langmaterial>
             <container id="cid1" type="Box" label="Text">1</container>
             <container parent="cid1" type="Folder">1</container>
-            <physdesc altrender="Part">
+            <physdesc altrender="part">
                 <extent>5.0 Linear feet</extent>
                 <extent>Resource-ContainerSummary-AT</extent>
                 <physfacet>Resource-PhysicalFacet-AT</physfacet>
