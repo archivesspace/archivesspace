@@ -63,6 +63,15 @@ describe "Locations" do
     @driver.find_element_with_text('//td', /129 W\. 81st St\, 5\, 5A \[Box XYZ\: XYZ0001\]/)
   end
 
+  it "allows the new location to be viewed in non-edit mode" do
+    @driver.find_element(:link, "Browse").click
+    @driver.find_element(:link, "Locations").click
+    @driver.clear_and_send_keys([:css, ".sidebar input.text-filter-field"], "129*" )
+    @driver.find_element(:css, ".sidebar input.text-filter-field + div button").click
+    @driver.find_element(:link, "Edit").click
+    assert(5) { @driver.find_element(:css, '.record-pane h2').text.should match(/129 W\. 81st St/) }
+  end
+  
   it "allows creation of a location with plus one stickies" do
     @driver.find_element(:link, "Create").click
     @driver.find_element(:link, "Location").click
