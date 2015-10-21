@@ -3,7 +3,9 @@ source "http://rubygems.org"
 
 
 group :test do
-	gem "selenium-webdriver", "2.45.0"
+  gem "rack", "~> 1.4.7"
+  gem "activesupport", "~> 3.2.22" 
+  gem "selenium-webdriver", "2.45.0"
 	gem "rspec", "~> 3.3.0"
   gem "rspec-retry"
   gem "json-schema", "1.0.10"

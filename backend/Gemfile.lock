@@ -118,6 +118,7 @@ DEPENDENCIES
   rack-session-sequel (= 0.0.1)
   rjack-jackson (= 1.8.11.0)
   rspec (~> 3.3.0)
+  rspec-core (~> 3.3.0)
   rubyzip (= 1.0.0)
   rufus-lru (= 1.0.5)
   rufus-scheduler (~> 2.0.24)
@@ -130,6 +131,3 @@ DEPENDENCIES
   tzinfo (= 0.3.39)
   warbler (= 1.4.9)
   zip-zip (= 0.3)
-
-BUNDLED WITH
-   1.10.6

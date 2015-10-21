@@ -145,9 +145,12 @@ describe "Tree UI" do
     [@a2, @a3].each do |sibling|
       @driver.find_element(:id => js_node(sibling).a_id).click
       @driver.wait_for_ajax
+      @driver.wait_until_gone(:css, ".spinner")
 
       @driver.find_element(:link, "Move").click
-      @driver.find_element_with_text("//a", /Down Into/).click
+      
+      el = @driver.find_element_with_text("//a", /Down Into/)
+      @driver.mouse.move_to el
 
       @driver.wait_for_ajax
       @driver.wait_until_gone(:css, ".spinner")
@@ -157,12 +160,14 @@ describe "Tree UI" do
         .click
 
       @driver.wait_for_ajax
+      @driver.wait_until_gone(:css, ".spinner")
+      sleep(2)
     end
 
     2.times {|i|
       @driver.find_element(:id => js_node(@a1).a_id).click
       @driver.wait_for_ajax
-
+      @driver.wait_until_gone(:css, ".spinner")
       [@a2, @a3].each do |child|
         @driver.find_element(:id => js_node(@a1).li_id)
           .find_element(:id => js_node(child).li_id)
@@ -175,6 +180,7 @@ describe "Tree UI" do
     [@a2, @a3].each do |child|
       @driver.find_element(:id => js_node(child).a_id).click
       @driver.wait_for_ajax
+      @driver.wait_until_gone(:css, ".spinner")
 
       @driver.find_element(:link, "Move").click
       @driver.find_element_with_text("//a", /Up a Level/).click
@@ -182,7 +188,7 @@ describe "Tree UI" do
       @driver.wait_for_ajax
       @driver.wait_until_gone(:css, ".spinner")
 
-
+      sleep(2)
     end
 
 
@@ -242,32 +248,43 @@ describe "Tree UI" do
       @driver.find_element(:id, "archival_object_level_").select_option("item")
       @driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")
     end
+      
+    # open the tree a little
+    dragger = @driver.find_element(:css => ".ui-resizable-handle.ui-resizable-s" )
+    @driver.action.drag_and_drop_by(dragger, 0, 300).perform
+    @driver.wait_for_ajax
 
 
     # now lets move and delete some nodes
     ["Ham", "Coca-cola bears"].each do |ao|
-      # open the tree a little
-      dragger = @driver.find_element(:css => ".ui-resizable-handle.ui-resizable-s" )
-      @driver.action.drag_and_drop_by(dragger, 0, 100).perform
-      @driver.wait_for_ajax
 
       target = @driver.find_element_with_text("//div[@id='archives_tree']//a", /Gifts/)
       source = @driver.find_element_with_text("//div[@id='archives_tree']//a", /#{ao}/)
       y_off = target.location[:y] - source.location[:y]
+     
+      sleep(5)
       @driver.action.drag_and_drop_by(source, 0, y_off - 10).perform
-      @driver.wait_for_ajax
       @driver.wait_until_gone(:css, ".spinner")
-      sleep(5)
 
-      @driver.wait_for_ajax
+      @driver.find_element_with_text("//div[@id='archives_tree']//a", /Gifts/).click
       @driver.find_element_with_text("//div[@id='archives_tree']//a", /#{ao}/).click
+      sleep(2) 
       @driver.find_element(:link, "Move").click
+      sleep(2) 
       @driver.find_element(:link, "Up").click
+      sleep(2) 
       @driver.wait_for_ajax
       @driver.wait_until_gone(:css, ".spinner")
       sleep(5)
-
+      
+      @driver.find_element_with_text("//div", /Please click to load records/).click
+      
+      @driver.find_element(:css, ".alert-info").click
+      @driver.wait_for_ajax
       @driver.find_element(:css, ".delete-record.btn").click
+      @driver.wait_for_ajax
+      sleep(2) 
+
       @driver.find_element(:css, "#confirmChangesModal #confirmButton").click
       @driver.click_and_wait_until_gone(:link, "Edit")
       @driver.click_and_wait_until_gone(:css, "li.jstree-closed > i.jstree-icon")
