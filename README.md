@@ -9,7 +9,7 @@ IRC: #archivesspace ( chat.freenode.net )
 
 # System requirements
 
-* Java 1.6 or higher; Java 1.7 recommended. Currently,  Java 1.8 requires removal of Jasper libraries from the Java classpath. 
+* Java 1.6 or higher; Java 1.7 or 1.8 recommended.
 * At least 1024 MB RAM allocated to the application
 * A [supported browser](https://github.com/archivesspace/archivesspace/wiki/Supported-browsers)
 
