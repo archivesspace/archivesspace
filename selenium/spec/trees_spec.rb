@@ -364,7 +364,7 @@ describe "Tree UI" do
       b =  @driver.element_finder(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li[9]/a")
       target =  @driver.find_elements(
                  :xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li").first
-      offset = ( ( target.location[:y] - a.call.location[:y] ) - 7 )
+      offset = ( ( target.location[:y] - a.call.location[:y] ) - 9 )
       a.call.click
       @driver.action.key_down(:shift).perform
       b.call.click
@@ -413,7 +413,7 @@ describe "Tree UI" do
       b =  @driver.element_finder(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li[3]/a")
       target =  @driver.find_elements(
                  :xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li")[5]
-      offset = ( ( target.location[:y] - a.call.location[:y] ) + 14 )
+      offset = ( ( target.location[:y] - a.call.location[:y] ) + 7 )
       a.call.click
       @driver.action.key_down(:shift).perform
       b.call.click
@@ -437,7 +437,7 @@ describe "Tree UI" do
     target =  @driver.find_element(
                  :xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']")
 
-    offset = ( ( target.location[:y] - a.location[:y] ) - 7 )
+    offset = ( ( target.location[:y] - a.location[:y] ) - 9 )
     @driver.action.click(a).key_down(:shift).click(b).key_up(:shift).drag_and_drop_by(a, 0, offset).perform
     @driver.wait_for_ajax
     @driver.wait_until_gone(:css, ".spinner")
@@ -459,7 +459,7 @@ describe "Tree UI" do
       b =  @driver.find_elements(:xpath => "//li[a/@title='#{@r.title}']/ul/li/a").last
       target =  @driver.find_elements(
                  :xpath => "//li[a/@title='#{@r.title}']/ul/li").first
-      offset = ( ( target.location[:y] - a.location[:y] ) - 7 )
+      offset = ( ( target.location[:y] - a.location[:y] ) - 9 )
       @driver.action.click(a).key_down(:shift).click(b).key_up(:shift).drag_and_drop_by(a, 0, offset).perform
       @driver.wait_for_ajax
       @driver.wait_until_gone(:css, ".spinner")
@@ -478,7 +478,7 @@ describe "Tree UI" do
       b =  @driver.find_elements(:xpath => "//li[a/@title='#{@r.title}']/ul/li/a")[2]
       target =  @driver.find_elements(
                  :xpath => "//li[a/@title='#{@r.title}']/ul/li").last
-      offset = ( ( target.location[:y] - a.location[:y] ) + 7 )
+      offset = ( ( target.location[:y] - a.location[:y] ) + 9 )
       @driver.action.click(a).key_down(:shift).click(b).key_up(:shift).drag_and_drop_by(a, 0, offset).perform
       @driver.wait_for_ajax
       @driver.wait_until_gone(:css, ".spinner")
