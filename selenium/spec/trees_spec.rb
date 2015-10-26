@@ -413,7 +413,7 @@ describe "Tree UI" do
       b =  @driver.element_finder(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li[3]/a")
       target =  @driver.find_elements(
                  :xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li")[5]
-      offset = ( ( target.location[:y] - a.call.location[:y] ) + 7 )
+      offset = ( ( target.location[:y] - a.call.location[:y] ) + 14 )
       a.call.click
       @driver.action.key_down(:shift).perform
       b.call.click
