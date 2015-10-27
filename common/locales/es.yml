@@ -918,6 +918,13 @@
     _plural: Documentos externos
     _singular: Documento externo
 
+  external_id:
+    _plural: ID Externo
+    _singular: IDs Externos
+    source: Fuente
+    external_id: ID Externo
+
+
   rights_statement: &rights_statement_attributes
     identifier: Identificador
     identifier_tooltip: |
@@ -1681,14 +1688,14 @@
     processing_hours_total: Procesamiento total horas
     processing_hours_total_short: Total de horas
     processing_hours_total_tooltip: |
-        <p>El resultado numérico de multiplicar "Procesamiento horas por pie estimación" por "Grado total de procesamiento"</p>
+        <p>El resultado numérico de multiplicar "Horas estimadas de procesamiento por metro" por "Grado total de procesamiento". El valor puede sobreescribirse para reflejar el tiempo real de procesamiento y no un valor basado en una estimación"</p>
     processing_plan: Plan de procesamiento
     processing_plan_tooltip: |
-        <p>Para la grabación de un plan para el procesamiento de la unidad de archivo. El plan puede incluir un esquema de la disposición de la unidad de archivo, así como las instrucciones de cómo tratar a objetos particulares en la unidad de archivo.  El plan también podría especificar asignaciones diferentes para el personal del repositorio diferente.</p>
+        <p>Para la grabación de un plan de procesamiento de la unidad de archivo. El plan puede incluir un esquema de la disposición de la unidad de archivo, así como las instrucciones de cómo tratar a objetos particulares en la unidad de archivo.  El plan también podría especificar asignaciones diferentes para el personal del repositorio diferente.</p>
         <p>Ejemplos</p>
         <ul>
         <li>Tema organizar alfabéticamente y archivos de proyecto cronológicamente.</li>
-        <li>Los estudiantes de Margaret creará registros descriptivos.</li>
+        <li>Los estudiantes de Margaret crearán registros descriptivos.</li>
         <li>Gerente de proyecto será revisar, salida y cargar la ayuda encontrar codificados.</li>
         </ul>
     processing_priority: Prioridad para su procesamiento
@@ -1815,6 +1822,7 @@
     digital_object_browse_column_4_tooltip: El campo para mostrar en la columna 4.
     digital_object_browse_column_5: Columna 5
     digital_object_browse_column_5_tooltip: El campo para mostrar en la columna 5.
+    note_order_section: Orden de las notas
     accept_default_message: ' > Acepte por defecto:'
     no_value: '[ningún valor]'
     _singular: Valores predeterminados
