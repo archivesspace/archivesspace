@@ -40,11 +40,19 @@ written to the file `logs/archivesspace.out` (by default).
 make sure that there are no spaces in any part of the path name in which the
 ArchivesSpace directory is located.
 
-The first time it starts, the system will take a minute or so to start
-up.  Once it is ready, you should be able to point your browser to
-http://localhost:8080/ and access the ArchivesSpace staff interface.
+## Start ArchivesSpace
 
-To start using the application, log in using the adminstrator account:
+The first time it starts, the system will take a minute or so to start
+up.  Once it is ready, confirm that ArchivesSpace is running correctly by 
+accessing the following URLs in your browser:
+
+  - http://localhost:8089/ -- the backend
+  - http://localhost:8080/ -- the staff interface
+  - http://localhost:8081/ -- the public interface
+  - http://localhost:8090/ -- the Solr admin console
+
+To start using the Staff interface application, log in using the adminstrator 
+account:
 
 * Username: `admin`
 * Password: `admin`

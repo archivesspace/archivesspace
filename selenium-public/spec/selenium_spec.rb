@@ -84,7 +84,7 @@ describe "ArchivesSpace Public interface" do
 
     it "shows Title (default)  in the sort pulldown" do
       @driver.find_element(:link, "Repositories").click
-      @driver.find_element(:xpath, "//a[span = 'Title Ascending']").click
+      @driver.find_element(:xpath, "//a/span[ text() = 'Title Ascending']").click
       @driver.find_element(:link, "Title" )
       @driver.ensure_no_such_element(:link, "Term")
     end
@@ -330,7 +330,7 @@ describe "ArchivesSpace Public interface" do
 
     it "shows the Agent Name in the sort pulldown" do
       @driver.find_element(:link, "Names").click
-      @driver.find_element(:xpath, "//a[span = 'Agent Name Ascending']").click
+      @driver.find_element(:xpath, "//a/span[ text()  = 'Agent Name Ascending']").click
       @driver.find_element(:link, "Agent Name" )
       @driver.ensure_no_such_element(:link, "Title")
     end
@@ -365,7 +365,7 @@ describe "ArchivesSpace Public interface" do
 
     it "shows the Term  in the sort pulldown" do
       @driver.find_element(:link, "Subjects").click
-      @driver.find_element(:xpath, "//a[span = 'Terms Ascending']").click
+      @driver.find_element(:xpath, "//a/span[ text()  = 'Terms Ascending']").click
       @driver.find_element(:link, "Terms" )
       @driver.ensure_no_such_element(:link, "Title")
     end

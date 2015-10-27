@@ -365,6 +365,7 @@ describe "Accessions" do
     @driver.find_element(:css => '#accession_subjects_ .subrecord-form-heading .btn:not(.show-all)').click
 
     @driver.find_element(:css => '#accession_subjects_ .dropdown-toggle').click
+    sleep(2)
 
     @driver.find_element(:css, "a.linker-create-btn").click
 

@@ -130,9 +130,15 @@ describe "Resources and archival objects" do
 
     @driver.find_element(:id, "resource_title_")
     @driver.clear_and_send_keys([:id, "resource_title_"],"")
+    
     sleep(5)
-    @driver.click_and_wait_until_gone(:css => "form#resource_form button[type='submit']")
-    @driver.wait_for_ajax
+    if  @driver.find_element(:css => "form#resource_form button[type='submit']").enabled?
+      $stderr.puts "Can't find the button" 
+      sleep(5)
+      @driver.find_elements(:css => "form#resource_form button[type='submit']")[1].click
+    end
+    
+    
     expect {
       @driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
     }.to_not raise_error
@@ -147,8 +153,11 @@ describe "Resources and archival objects" do
     @driver.clear_and_send_keys([:id, "archival_object_title_"], " ")
     @driver.wait_for_ajax
 
+    unless @driver.find_element(:id => "createPlusOne")
+      sleep(5)
+    end
     # False start: create an object without filling it out
-    @driver.click_and_wait_until_gone(:id => "createPlusOne")
+    @driver.find_element(:id => "createPlusOne").click
 
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Level of Description - Property is required but was missing/)
 
@@ -168,9 +177,9 @@ describe "Resources and archival objects" do
     @driver.wait_for_ajax
 
     # False start: create an object without filling it out
-    @driver.click_and_wait_until_gone(:id => "createPlusOne")
-
+    @driver.find_element(:id => "createPlusOne").click
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Dates - one or more required \(or enter a Title\)/i)
+
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Title - must not be an empty string \(or enter a Date\)/i)
 
     @driver.find_element(:link, "Revert Changes").click

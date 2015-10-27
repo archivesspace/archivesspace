@@ -77,7 +77,7 @@ IRC: #archivesspace ( chat.freenode.net )</p>
 <h1 id="system-requirements">System requirements</h1>
 
 <ul>
-  <li>Java 1.6 or higher; Java 1.7 recommended. Currently,  Java 1.8 requires removal of Jasper libraries from the Java classpath. </li>
+  <li>Java 1.6 or higher; Java 1.7 or 1.8 recommended.</li>
   <li>At least 1024 MB RAM allocated to the application</li>
   <li>A <a href="https://github.com/archivesspace/archivesspace/wiki/Supported-browsers">supported browser</a></li>
 </ul>
@@ -107,7 +107,7 @@ You can check your Java version by running the command:</p>
 <p>Currently, if you want to use Java 1.8, you will need to remove the
 jdt-compiler jar library from the java classpath ( lib directory of
 your ArchivesSpace directory). This will disable the use of Jasper
-reports ( but not regular reports).  </p>
+reports ( but not regular reports).</p>
 
 <p>When you extract the <code>.zip</code> file, it will create a directory called
 <code>archivesspace</code>.  To run the system, just execute the appropriate
@@ -132,11 +132,21 @@ written to the file <code>logs/archivesspace.out</code> (by default).</p>
 make sure that there are no spaces in any part of the path name in which the
 ArchivesSpace directory is located.</p>
 
-<p>The first time it starts, the system will take a minute or so to start
-up.  Once it is ready, you should be able to point your browser to
-http://localhost:8080/ and access the ArchivesSpace staff interface.</p>
+<h2 id="start-archivesspace">Start ArchivesSpace</h2>
 
-<p>To start using the application, log in using the adminstrator account:</p>
+<p>The first time it starts, the system will take a minute or so to start
+up.  Once it is ready, confirm that ArchivesSpace is running correctly by 
+accessing the following URLs in your browser:</p>
+
+<ul>
+  <li>http://localhost:8089/ &#8211; the backend</li>
+  <li>http://localhost:8080/ &#8211; the staff interface</li>
+  <li>http://localhost:8081/ &#8211; the public interface</li>
+  <li>http://localhost:8090/ &#8211; the Solr admin console</li>
+</ul>
+
+<p>To start using the Staff interface application, log in using the adminstrator 
+account:</p>
 
 <ul>
   <li>Username: <code>admin</code></li>
@@ -156,7 +166,7 @@ file. By default, this file contains the default settings, which are indicated
 by commented out lines ( indicated by the &#8220;#&#8221; in the file ). You can adjust these 
 settings by adding new lines that change the default and restarting 
 ArchivesSpace. Be sure that your new settings are not commented out 
-( i.e. do NOT start with a &#8220;#&#8221; ), otherwise the settings will not take effect. </p>
+( i.e. do NOT start with a &#8220;#&#8221; ), otherwise the settings will not take effect.</p>
 
 <h1 id="running-archivesspace-as-a-unix-daemon">Running ArchivesSpace as a Unix daemon</h1>
 
@@ -189,7 +199,7 @@ that the system runs under, JVM options, and so on.</p>
 <h1 id="running-archivesspace-as-a-windows-service">Running ArchivesSpace as a Windows Service</h1>
 
 <p>Running ArchivesSpace as a Windows service requires some additional 
-configuration. </p>
+configuration.</p>
 
 <p>A popular method is to use Tomcat, which ships with a script that 
 configures Tomcat as a service. For more information, please see :
@@ -197,11 +207,11 @@ configures Tomcat as a service. For more information, please see :
 
 <p>You can also use Apache [procrun]((http://commons.apache.org/proper/commons-daemon/procrun.html) to configure ArchivesSpace. We have 
 provided a service.bat script that will attempt to configure 
-procrun for you (under <code>launcher\service.bat</code>). </p>
+procrun for you (under <code>launcher\service.bat</code>).</p>
 
 <p>To run this script, first you need to <a href="http://www.apache.org/dist/commons/daemon/binaries/windows/">download procrun</a>.
 Extract the files and copy the prunsrv.exe and prunmgr.exe to your
-ArchivesSpace directory. </p>
+ArchivesSpace directory.</p>
 
 <p>You also need to be sure that Java in your system path and also to set <code>JAVA_HOME</code> as a global environment variable. 
 To add Java to your path, edit you %PATH% environment variable to include the directory of
@@ -216,14 +226,14 @@ Be sure that the MySQL connector jar file is in the lib directory, in order for
 the service setup script to add it to the application&#8217;s classpath.</p>
 
 <p>Lastly, for the service to shutdown cleanly, uncomment and change these lines in
-config/config.rb: </p>
+config/config.rb:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:use_jetty_shutdown_handler</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span> 
 <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:jetty_shutdown_path</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;/xkcd&quot;</span>
 </code></pre>
 
 <p>This enables a shutdown hook for Jetty to respond to when the shutdown action
-is taken. </p>
+is taken.</p>
 
 <p>You can now execute the batch script from your ArchivesSpace root directory from
 the command line with <code>launcher\service.bat</code>. This  will configure the service and
@@ -248,7 +258,7 @@ system tray with:</p>
 
 <p>Please see the <a href="http://commons.apache.org/proper/commons-daemon/procrun.html">procrun
 documentation</a>
-for more information. </p>
+for more information.</p>
 
 <h1 id="running-archivesspace-with-a-custom-configuration-file">Running ArchivesSpace with a custom configuration file</h1>
 
@@ -315,20 +325,8 @@ ArchivesSpace requires.  Run this with:</p>
 <pre class="code ruby"><code class="ruby"><span class='rubyid_scripts identifier id'>scripts</span><span class='div op'>/</span><span class='rubyid_setup identifier id'>setup</span><span class='minus op'>-</span><span class='rubyid_database identifier id'>database</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span>  <span class='comment val'># or setup-database.bat under Windows</span>
 </code></pre>
 
-<h2 id="start-archivesspace">Start ArchivesSpace</h2>
-
-<p>Once your database is configured, start the application using
-<code>archivesspace.sh</code> (or <code>archivesspace.bat</code> under Windows).</p>
-
-<p>Confirm that ArchivesSpace is running correctly by accessing the
-following URLs in your browser:</p>
-
-<ul>
-  <li>http://localhost:8089/ &#8211; the backend</li>
-  <li>http://localhost:8080/ &#8211; the staff interface</li>
-  <li>http://localhost:8081/ &#8211; the public interface</li>
-  <li>http://localhost:8090/ &#8211; the Solr admin console</li>
-</ul>
+<p>You can now follow the instructions in the &#8220;Getting Started&#8221; section to start
+your ArchivesSpace application.</p>
 
 <h1 id="backup-and-recovery">Backup and recovery</h1>
 
@@ -513,7 +511,7 @@ matches.</p>
 
 <p>With this configuration, ArchivesSpace performs authentication by
 connecting to <code>ldap://ldap.example.com:389/</code>, binding anonymously,
-searching the <code>ou=people,dc=example,dc=com</code> tree for <code>uid = &lt;username&gt;</code>. </p>
+searching the <code>ou=people,dc=example,dc=com</code> tree for <code>uid = &lt;username&gt;</code>.</p>
 
 <p>If the user is found, ArchivesSpace authenticates them by
 binding using the password specified.  Finally, the <code>:attribute_map</code>
@@ -622,7 +620,7 @@ architecture notes, is published at
 
 <h1 id="contributing">Contributing</h1>
 
-<p>Contributors are welcome! Please read about our <a href="https://github.com/archivesspace/archivesspace/tree/master/contributing">Contributor License Agreement</a> for more information. </p>
+<p>Contributors are welcome! Please read about our <a href="https://github.com/archivesspace/archivesspace/tree/master/contributing">Contributor License Agreement</a> for more information.</p>
 
 <h1 id="license">License</h1>
 
@@ -640,7 +638,7 @@ LYRASIS, and contributions from diverse persons in the archives community.</p>
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version v1.4.0-rc8 Documentation Generated on Mon Sep 28 17:34:39 2015 by
+  ArchivesSpace Version v1.4.2-rc2 Documentation Generated on Fri Oct 23 11:18:45 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

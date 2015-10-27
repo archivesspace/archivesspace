@@ -58,17 +58,7 @@ ArchivesSpace requires.  Run this with:
 
     scripts/setup-database.sh  # or setup-database.bat under Windows
 
-## Start ArchivesSpace
-
-Once your database is configured, start the application using
-`archivesspace.sh` (or `archivesspace.bat` under Windows).
-
-Confirm that ArchivesSpace is running correctly by accessing the
-following URLs in your browser:
-
-  - http://localhost:8089/ -- the backend
-  - http://localhost:8080/ -- the staff interface
-  - http://localhost:8081/ -- the public interface
-  - http://localhost:8090/ -- the Solr admin console
+You can now follow the instructions in the "Getting Started" section to start
+your ArchivesSpace application. 
 
 

@@ -1,16 +1,21 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    activesupport (3.2.22)
+      i18n (~> 0.6, >= 0.6.4)
+      multi_json (~> 1.0)
     atomic (1.0.1-java)
     childprocess (0.5.6)
       ffi (~> 1.0, >= 1.0.11)
     diff-lcs (1.2.5)
     ffi (1.9.10-java)
+    i18n (0.7.0)
     json (1.8.0-java)
     json-schema (1.0.10)
     multi_json (1.10.0)
     multipart-post (1.2.0)
     net-http-persistent (2.8)
+    rack (1.4.7)
     rspec (3.3.0)
       rspec-core (~> 3.3.0)
       rspec-expectations (~> 3.3.0)
@@ -40,12 +45,14 @@ PLATFORMS
   java
 
 DEPENDENCIES
+  activesupport (~> 3.2.22)
   atomic (= 1.0.1)
   json (= 1.8.0)
   json-schema (= 1.0.10)
   multi_json (= 1.10.0)
   multipart-post (= 1.2.0)
   net-http-persistent (= 2.8)
+  rack (~> 1.4.7)
   rspec (~> 3.3.0)
   rspec-retry
   rubyzip (= 1.0.0)
