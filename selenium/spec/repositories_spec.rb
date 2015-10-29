@@ -33,6 +33,35 @@ describe "Repositories" do
     @driver.find_element(:css => "form#new_repository button[type='submit']").click
   end
 
+  it "can add telephone numbers" do
+    @driver.find_element(:link, 'Edit').click
+    
+    @driver.find_element_with_text('//button', /Add Telephone Number/).click
+    
+    @driver.clear_and_send_keys([:id, "repository_agent_representation__agent_contacts__0__telephones__0__number_"], "555-5555")
+    @driver.clear_and_send_keys([:id, "repository_agent_representation__agent_contacts__0__telephones__0__ext_"], "66")
+    
+    @driver.find_element_with_text('//button', /Add Telephone Number/).click
+
+    @driver.clear_and_send_keys([:id, "repository_agent_representation__agent_contacts__0__telephones__1__number_"], "999-9999")
+
+    @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
+    @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Repository Saved/)
+   
+    assert(5) { @driver.find_element(:id => "repository_agent_representation__agent_contacts__0__telephones__0_").text.should
+                                                          match(/555\-5555/) 
+    }
+    
+    assert(5) { @driver.find_element(:id => "repository_agent_representation__agent_contacts__0__telephones__0_").text.should
+                                                          match(/66/) 
+    }
+    
+    assert(5) { @driver.find_element(:id => "repository_agent_representation__agent_contacts__0__telephones__1_").text.should
+                                                          match(/999\-9999/) 
+    }
+
+  end
+
   it "Cannot delete the currently selected repository" do
     run_index_round
     @driver.select_repo(@test_repo_code_1)
