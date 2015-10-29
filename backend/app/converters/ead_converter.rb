@@ -1,11 +1,13 @@
 require_relative 'converter'
-
+require_relative 'lib/converter_extra_container_values'
 class EADConverter < Converter
 
   require 'securerandom'
   require_relative 'lib/xml_sax'
   include ASpaceImport::XML::SAX
 
+  # This is included down below #configure since the mixin add to the method..
+  #include ConverterExtraContainerValues
 
   def self.import_types(show_hidden = false)
     [
@@ -694,6 +696,11 @@ class EADConverter < Converter
    end
   
   end
+ 
+  # We have to put this down here so the mixin doesn't freeeeaaak
+  include ConverterExtraContainerValues
+  
+  
   # Templates Section
 
   def make_corp_template(opts)

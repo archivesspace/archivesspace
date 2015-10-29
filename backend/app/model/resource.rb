@@ -23,6 +23,9 @@ class Resource < Sequel::Model(:resource)
   include Events
   include Publishable
   include RevisionStatements
+  include ReindexTopContainers
+  include RightsRestrictionNotes 
+  include MapToAspaceContainer
 
   enable_suppression
 

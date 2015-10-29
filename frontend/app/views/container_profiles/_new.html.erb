@@ -1,0 +1,6 @@
+<%= form_for @container_profile, :as => "container_profile", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
+  <%= form_context :container_profile, @container_profile do |form| %>
+    <%= hidden_field "inline", "true" %>
+    <%= render_aspace_partial :partial => "form", :locals => {:form => form} %>
+  <% end %>
+<% end %>

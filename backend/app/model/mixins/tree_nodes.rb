@@ -213,7 +213,7 @@ module TreeNodes
     # All records under this one will be transferred too
     children.each_with_index do |child, i|
       child.transfer_to_repository(repository, transfer_group + [self]) 
-      child.update_position_only( child.parent_id, i ) 
+    #  child.update_position_only( child.parent_id, i ) 
     end
     
     RequestContext.open(:repo_id => repository.id ) do

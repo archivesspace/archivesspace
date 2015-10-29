@@ -1,0 +1,22 @@
+<%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @container_profile, :form => form} %>
+
+<% define_template("container_profile", jsonmodel_definition(:container_profile)) do |form| %>
+  <section id="basic_information">
+    <h3>
+      <%= I18n.t("container_profile._frontend.section.basic_information") %>
+      <%= link_to_help :topic => "container_profile_basic_information" %>
+    </h3>
+    <fieldset>
+      <%= form.label_and_textfield "name" %>
+      <%= form.label_and_textfield "url" %>
+      <%= form.label_and_select "dimension_units", form.possible_options_for("dimension_units") %>
+      <%= form.label_and_select "extent_dimension", form.possible_options_for("extent_dimension") %>
+      <%= form.label_and_textfield "depth" %>
+      <%= form.label_and_textfield "height" %>
+      <%= form.label_and_textfield "width" %>
+    </fieldset>
+  </section>
+<% end %>
+
+<% form.emit_template("container_profile") %>
+

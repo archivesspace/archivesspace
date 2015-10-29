@@ -788,8 +788,8 @@ module AspaceFormHelper
       end
 
       html << "<div class='form-group'>"
-      html << "<div class='control-label col-md-3'>#{I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}")}</div>"
-      html << "<div class='label-only col-md-9'>#{value}</div>"
+      html << "<div class='control-label col-sm-2'>#{I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}")}</div>"
+      html << "<div class='label-only col-sm-8'>#{value}</div>"
       html << "</div>"
 
     end

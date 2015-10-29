@@ -105,6 +105,7 @@ module SearchHelper
 
 
   def can_edit_search_result?(record)
+    return user_can?('update_container_record', record['id']) if record['primary_type'] === "top_container"
     return user_can?('manage_repository', record['id']) if record['primary_type'] === "repository"
     return user_can?('update_location_record') if record['primary_type'] === "location"
     return user_can?('update_subject_record') if record['primary_type'] === "subject"

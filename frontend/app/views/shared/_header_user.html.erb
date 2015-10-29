@@ -29,6 +29,8 @@
         <% if user_can?('administer_system') %>
           <li><%= link_to I18n.t("navbar.system_info"), :controller => :system_info, :action => :show %></li>
         <% end %>
+        <li><%= link_to I18n.t("navbar.manage_container_profiles"), :controller => :container_profiles, :action => :index %></li>
+
         <li class="divider"></li>
       <% end %>
 
