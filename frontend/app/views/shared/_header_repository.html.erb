@@ -112,6 +112,7 @@
                     <li><%= link_to I18n.t("navbar.manage_groups"), :controller => :groups, :action => :index %></li>
                     <li><%= link_to I18n.t("user._frontend.section.manage_access"), :controller => :users, :action => :manage_access %></li>
                     <li><%= link_to I18n.t("navbar.repo_preferences"), :controller => :preferences, :action => :edit, :id => 0, :repo => true %></li>
+                    <li><%= link_to I18n.t("navbar.manage_top_containers"), :controller => :top_containers, :action => :index %></li>
                     <li class="divider"></li>
                   <% end %>
                   <% if user_can?('transfer_repository') && @repositories.length > 1 %>

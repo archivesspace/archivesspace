@@ -213,8 +213,24 @@ ArchivesSpace::Application.routes.draw do
       resources :rde_templates
       match 'rde_templates/batch_delete' => 'rde_templates#batch_delete', :via => [:post]
 
+      resources :container_profiles
+      match('container_profiles/search/typeahead' => 'container_profiles#typeahead', :via => [:get])
+      match('container_profiles/bulk_operations/update_barcodes' => 'top_containers#update_barcodes', :via => [:post])
 
+      match('container_profiles/:id' => 'container_profiles#update', :via => [:post])
+      match('container_profiles/:id/delete' => 'container_profiles#delete', :via => [:post])
 
+      resources :top_containers
+      match('top_containers/search/typeahead' => 'top_containers#typeahead', :via => [:get])
+      match('top_containers/bulk_operations/search' => 'top_containers#bulk_operations', :via => [:get])
+      match('top_containers/bulk_operations/search' => 'top_containers#bulk_operation_search', :via => [:post])
+      match('top_containers/bulk_operations/browse' => 'top_containers#bulk_operations_browse', :via => [:get, :post])
+      match('top_containers/bulk_operations/update' => 'top_containers#bulk_operation_update', :via => [:post])
+      match('top_containers/batch_delete' => 'top_containers#batch_delete', :via => [:post])
+      match('top_containers/:id' => 'top_containers#update', :via => [:post])
+      match('top_containers/:id/delete' => 'top_containers#delete', :via => [:post])
+
+      match('extent_calculator' => 'extent_calculator#report', :via => [:get])
 
       if Plugins.system_menu_items?
         scope '/plugins' do

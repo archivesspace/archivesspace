@@ -125,7 +125,7 @@ describe 'Resources controller' do
 
     JSONModel(:resource).find(id).instances.length.should eq(1)
     JSONModel(:resource).find(id).instances[0]["instance_type"].should eq(opts[:instance_type])
-    JSONModel(:resource).find(id).instances[0]["container"]["type_1"].should eq(opts[:container]['type_1'])
+    JSONModel(:resource).find(id).instances[0]["container"]["type_1"].should eq('box')
   end
 
 
@@ -214,7 +214,6 @@ describe 'Resources controller' do
                       })
 
     obj = JSONModel(:resource).find(resource.id)
-
     obj['instances'][0]['container']['container_locations'][0]['status'] = 'current'
     obj.save
   end
@@ -246,7 +245,7 @@ describe 'Resources controller' do
     expect{ l.call(location_one) }.to raise_error { |error|
 
       error.should be_a(JSONModel::ValidationException)
-      error.errors.keys.should eq(["instances/0/container/container_locations/0/status"])
+      error.errors.keys.should eq(["container_locations/0/status"])
     }
 
 

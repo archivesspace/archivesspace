@@ -293,6 +293,32 @@ FactoryGirl.define do
     container_extent { generate (:number) }
     container_extent_type { sample(JSONModel(:container).schema['properties']['container_extent_type']) }
   end
+  
+  factory :json_top_container, class: JSONModel(:top_container) do
+    indicator { generate(:alphanumstr) }
+    barcode { generate(:alphanumstr)[0..4] }
+    ils_holding_id { generate(:alphanumstr) }
+    ils_item_id { generate(:alphanumstr) }
+    exported_to_ils { Time.now.iso8601 }
+  end
+
+  factory :json_container_profile, class: JSONModel(:container_profile) do
+    name { generate(:alphanumstr) }
+    url { generate(:alphanumstr) }
+    dimension_units { sample(JSONModel(:container_profile).schema['properties']['dimension_units']) }
+    extent_dimension { sample(JSONModel(:container_profile).schema['properties']['extent_dimension']) }
+    depth { rand(100).to_s }
+    height { rand(100).to_s }
+    width { rand(100).to_s }
+  end
+
+  factory :json_sub_container, class: JSONModel(:sub_container) do
+    type_2 { sample(JSONModel(:sub_container).schema['properties']['type_2']) }
+    indicator_2 { generate(:alphanumstr) }
+    type_3 { sample(JSONModel(:sub_container).schema['properties']['type_3']) }
+    indicator_3 { generate(:alphanumstr) }
+  end
+
 
   factory :json_date, class: JSONModel(:date) do
     date_type { generate(:date_type) }

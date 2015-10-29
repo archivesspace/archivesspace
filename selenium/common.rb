@@ -19,7 +19,6 @@ require_relative 'common/driver'
 $server_pids = []
 $sleep_time = 0.0
 
-
 module Selenium
   module Config
     def self.retries

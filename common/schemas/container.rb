@@ -4,6 +4,8 @@
     "version" => 1,
     "type" => "object",
     "properties" => {
+      
+      "container_profile_key" => {"type" => "string"},
 
       "type_1" => {"type" => "string", "dynamic_enum" => "container_type", "required" => false},
       "indicator_1" => {"type" => "string", "maxLength" => 255, "minLength" => 1, "required" => false },

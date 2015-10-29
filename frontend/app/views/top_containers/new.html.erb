@@ -1,0 +1,36 @@
+<%= setup_context(:object => @top_container, :controller => :top_containers, :type => :top_container) %>
+
+<%= form_for @top_container, :as => "top_container", :url => {:controller => :top_containers, :action => :create}, :html => {:class => 'form-horizontal aspace-record-form', :id => "new_top_container_form"} do |f| %>
+  <%= form_context :top_container, @top_container do |form| %>
+    <div class="row-fluid">
+      <div class="span3">
+        <%= render_aspace_partial :partial => "sidebar" %>
+      </div>
+      <div class="span9">
+        <%= render_aspace_partial :partial => "shared/toolbar_new_records" %>
+        <div class="record-pane">
+          <%= link_to_help :topic => "top_container" %>
+          <h2><%= I18n.t("actions.new_prefix") %> <%= I18n.t("top_container._singular") %> <span class="label label-info"><%= I18n.t("top_container._singular") %></span></h2>
+
+          <%= render_aspace_partial :partial => "form", :locals => {:form => form} %>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary"><%= I18n.t("top_container._frontend.action.save") %></button>
+            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<script src="<%= "#{AppConfig[:frontend_prefix]}assets/form.js" %>"></script>
+<script>
+  $(function() {
+        $(".linker:not(.initialised)", $("#new_top_container")).linker();
+
+  });
+</script>
+<script src="<%= "#{AppConfig[:frontend_prefix]}assets/subrecord.crud.js" %>"></script>
+<script src="<%= "#{AppConfig[:frontend_prefix]}assets/form.js" %>"></script>

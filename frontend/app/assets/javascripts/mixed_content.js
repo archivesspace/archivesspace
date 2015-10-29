@@ -16,7 +16,6 @@ $(function() {
 
       var selected;
 
-      $this.addClass("initialised");
       var noteTypes = generateNoteTypes($this);  
       var tagList = generateTagWhitelist(noteTypes);
 
@@ -73,6 +72,7 @@ $(function() {
       });
 
       $this.data("CodeMirror", $editor);
+      $this.addClass("initialised");
 
       var onWrapActionChange = function(event) {
         if ($editor.somethingSelected() && $wrapWithActionSelect.val() != "") {
