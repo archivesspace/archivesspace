@@ -1,0 +1,20 @@
+<% define_template "sub_container", jsonmodel_definition(:sub_container) do |form| %>
+  <div>
+    <hr/>
+
+    <% form.push("top_container", form.obj["top_container"] || {}) do %>
+      <%= render_aspace_partial :partial => "top_containers/linker", :locals => {:form => form, :label => I18n.t("top_container._singular")} %>
+    <% end %>
+
+    <hr/>
+
+    <%= form.label_and_select "type_2", form.possible_options_for('type_2', true) %>
+    <%= form.label_and_textfield  "indicator_2" %>
+
+    <hr/>
+
+    <%= form.label_and_select "type_3", form.possible_options_for('type_3', true) %>
+    <%= form.label_and_textfield  "indicator_3" %>
+  </div>
+<% end %>
+

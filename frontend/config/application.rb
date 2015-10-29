@@ -130,6 +130,14 @@ module ArchivesSpace
 end
 
 
+# force load our JSONModels so the are registered rather than lazy initialised
+# we need this for parse_reference to work
+
+Rails.application.config.after_initialize do
+  JSONModel(:top_container)
+  JSONModel(:sub_container)
+  JSONModel(:container_profile)
+end
 
 # Load plugin init.rb files (if present)
 ASUtils.find_local_directories('frontend').each do |dir|

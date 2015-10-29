@@ -69,8 +69,10 @@ AbstractRelationship = Class.new(Sequel::Model) do
     end
    
     # some objects ( like events? ) seem to leak their ids into the mix. 
-    values.reject! { |key| key == :id or key == "id" }
-
+    values.reject! { |key| key == :id or key == "id"  }
+    if ( obj1.is_a?(Location) or obj2.is_a?(Location) )
+      values.reject! { |key| key == :jsonmodel_type or key == "jsonmodel_type"  }
+    end 
     self.create(values)
   end
 

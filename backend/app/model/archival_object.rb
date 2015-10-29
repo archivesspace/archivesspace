@@ -18,6 +18,10 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include ComponentsAddChildren
   include Events
   include Publishable
+  include ReindexTopContainers
+  include ArchivalObjectSeries
+  include RightsRestrictionNotes
+  include MapToAspaceContainer
 
   enable_suppression
 

@@ -26,6 +26,8 @@ require_relative 'lib/resequencer'
 
 require 'solr_snapshotter'
 
+require 'barcode_check'
+
 require 'uri'
 require 'sinatra/base'
 

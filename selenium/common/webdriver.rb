@@ -21,11 +21,13 @@ module DriverMixin
     end
   end
 
+
   def wait_until_gone(*selector)
       timeout = 5
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { !self.find_element_orig(*selector).displayed? }
   end
+
 
   def test_group_prefix
     if ENV['TEST_ENV_NUMBER']
@@ -70,7 +72,6 @@ module Selenium
 
 # hack to allow Selenium to run offline
     module Platform
-
       class << self
         alias :ip_orig :ip
 
@@ -290,6 +291,19 @@ module Selenium
 
     class Element
       include DriverMixin
+
+      def wait_for_class(className)
+        try = 0
+        while !self.attribute('class').split(" ").include? className
+          if (try > Selenium::Config.retries)
+            puts "Retry limit hit on wait_for_class.  Going ahead anyway."
+            break
+          end
+        end
+        sleep(0.5)
+        try += 1
+      end
+
 
       def select_option(value)
         self.find_elements(:tag_name => "option").each do |option|

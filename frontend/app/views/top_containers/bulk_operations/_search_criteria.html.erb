@@ -1,0 +1,61 @@
+<%
+  form_target = {:controller => :top_containers, :action => :bulk_operations} if form_target.nil?
+%>
+<div class="row">
+  <div class="col-md-12">
+    <%= render_aspace_partial :partial => "shared/flash_messages" %>
+  </div>
+
+  <div class="col-md-12" style="padding: 30px;">
+    <h1><%= I18n.t("top_container._plural") %></h1>
+    <%= form_tag(form_target, {:class => "form-horizontal", :id => "bulk-operation-form"}) do |f| %>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="q"><%= I18n.t("top_container._frontend.bulk_operations.keyword_criteria") %></label>
+        <div class="controls col-sm-8">
+          <%= text_field_tag "q", params["q"], :class => "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="collection_resource"><%= I18n.t("top_container._frontend.bulk_operations.collection_resource_singular") %></label>
+        <div class="controls col-sm-8">
+          <%= render_aspace_partial :partial => "top_containers/bulk_operations/collection_resource_linker" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="collection_accession"><%= I18n.t("top_container._frontend.bulk_operations.collection_accession_singular") %></label>
+        <div class="controls col-sm-8">
+          <%= render_aspace_partial :partial => "top_containers/bulk_operations/collection_accession_linker" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="container_profile"><%= I18n.t("container_profile._singular") %></label>
+        <div class="controls col-sm-8">
+          <%= render_aspace_partial :partial => "top_containers/bulk_operations/container_profile_linker" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="location"><%= I18n.t("location._singular") %></label>
+        <div class="controls col-sm-8">
+          <%= render_aspace_partial :partial => "top_containers/bulk_operations/location_linker" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="location"><%= I18n.t("top_container.exported_to_ils") %></label>
+        <div class="controls col-sm-4">
+          <select name="exported" class="form-control"><option></option><option value="yes"><%= I18n.t("top_container._frontend.bulk_operations.exported_to_ils_true") %></option><option value="no"><%= I18n.t("top_container._frontend.bulk_operations.exported_to_ils_false") %></option></select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="location"><%= I18n.t("top_container._frontend.bulk_operations.empty") %></label>
+        <div class="controls col-sm-4">
+          <select name="empty" class="form-control"><option></option><option value="yes"><%= I18n.t("top_container._frontend.bulk_operations.empty_true") %></option><option value="no"><%= I18n.t("top_container._frontend.bulk_operations.empty_false") %></option></select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="controls">
+          <%= submit_tag I18n.t("top_container._frontend.bulk_operations.search"), :class => "btn btn-primary pull-right" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -245,6 +245,23 @@ class ArchivesSpaceService
                       "The ability to create and delete RDE templates",
                       :level => "repository")
 
+    Permission.define("update_container_record",
+                  "The ability to create and update container records",
+                  :level => "repository")
+
+    Permission.define("manage_container_record",
+                  "The ability to delete and bulk update container records",
+                  :level => "repository")
+
+    Permission.define("manage_container_profile_record",
+                  "The ability to create, modify and delete a container profile record",
+                  :level => "repository")
+
+    Permission.define("update_container_profile_record",
+                  "The ability to create/update/delete container profile records",
+                  :implied_by => 'manage_container_profile_record',
+                  :level => "global")
+
   end
 
 
