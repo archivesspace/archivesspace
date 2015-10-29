@@ -1397,6 +1397,19 @@ en:
       print_to_pdf_job: Print To PDF 
       import_job: Import Data
       find_and_replace_job: Batch Find and Replace (Beta)
+    dimension_units:
+      inches: Inches
+      feet: Feet
+      yards: Yards
+      millimeters: Millimeters
+      centimeters: Centimeters
+      meters: Meters
+    restriction_type:
+      RestrictedSpecColl: 1 - Donor/university imposed access restriction
+      RestrictedCurApprSpecColl: 2 - Repository imposed access restriction
+      RestrictedFragileSpecColl: 3 - Restricted fragile
+      InProcessSpecColl: 4 - Restricted in-process
+      ColdStorageBrbl: 5 - Other
 
 
   enumeration_names:
@@ -1464,3 +1477,5 @@ en:
     user_defined_enum_3: User Defined Enum 3
     user_defined_enum_4: User Defined Enum 4
     job_type: Job Type
+    dimension_units: Dimension Units
+    restriction_type: Local Access Restriction Type

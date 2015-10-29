@@ -72,6 +72,9 @@ module SeleniumFactories
       sequence(:rde_template_name) {|n| "RDE Template #{n}_#{Time.now.to_i}"}
       sequence(:four_part_id) { Digest::MD5.hexdigest("#{Time.now}#{SecureRandom.uuid}#{$$}").scan(/.{6}/)[0...1] }
 
+      sequence(:top_container_indicator) {|n| "Container #{n}"}
+      sequence(:building) {|n| "Maggie's #{n}th Farm_#{Time.now.to_i}" }
+
       factory :repo, class: JSONModel(:repository) do
         repo_code { generate :repo_code }
         name { generate :repo_name }
@@ -177,6 +180,7 @@ module SeleniumFactories
         } }
       end
 
+
       factory :name_person, class: JSONModel(:name_person) do
         rules { generate(:name_rule) }
         source { generate(:name_source) }
@@ -208,6 +212,20 @@ module SeleniumFactories
         term { generate(:term) }
         term_type { generate(:term_type) }
         vocabulary { create(:vocab).uri }
+      end
+
+      factory :top_container, class: JSONModel(:top_container) do
+        indicator { generate(:top_container_indicator) }
+      end
+
+      factory :container_location, class: JSONModel(:container_location) do
+        status "current"
+        start_date "2015-01-01"
+      end
+
+      factory :location, class: JSONModel(:location) do
+        building { generate(:building) }
+        barcode "8675309"
       end
 
       factory :vocab, class: JSONModel(:vocabulary) do

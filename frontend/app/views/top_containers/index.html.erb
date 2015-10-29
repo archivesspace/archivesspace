@@ -1,0 +1,26 @@
+<%= setup_context(:title => I18n.t("top_container._plural")) %>
+
+<%= render_aspace_partial :partial => "top_containers/bulk_operations/search_criteria" %>
+<br/>
+<div class="row bulk-operation-results-wrapper" style="display: none">
+  <div class="col-md-12">
+    <%= render_aspace_partial :partial => "top_containers/bulk_operations/toolbar" %>
+    <div class="record-pane" id="bulk-operation-results"></div>
+    <%= render_aspace_partial :partial => "top_containers/bulk_operations/toolbar" %>
+  </div>
+</div>
+
+<div id="template_bulk_operation_loading"><!--
+  <center><i class='spinner'></i></center>
+--></div>
+<div id="template_bulk_operation_error_message"><!--
+  <div id="alertBucket" class="alert alert-error">
+    ${message}
+  </div>
+--></div>
+
+<script src="<%= "#{AppConfig[:frontend_prefix]}assets/jquery.tablesorter.min.js" %>"></script>
+<script src="<%= "#{AppConfig[:frontend_prefix]}assets/jquery.tablesorter.widgets.min.js" %>"></script>
+<script src="<%= "#{AppConfig[:frontend_prefix]}assets/top_containers.bulk.js" %>"></script>
+
+<%= render_aspace_partial :partial => "top_containers/bulk_operations/bulk_action_templates" %>

@@ -151,6 +151,7 @@ describe "Notes" do
     @driver.find_element(:css => '#notes .collapse-subrecord-toggle').click
     @driver.wait_for_ajax
 
+    @driver.find_element_orig(:css, '#resource_notes__0__subnotes__0__content_').wait_for_class("initialised");
     # select some text
     @driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').setValue('ABC')")
     @driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').setSelection({line: 0, ch: 0}, {line: 0, ch: 3})")

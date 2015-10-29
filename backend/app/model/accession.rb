@@ -21,7 +21,9 @@ class Accession < Sequel::Model(:accession)
   include Transferable
   include Events
   include Publishable
-
+  include ReindexTopContainers 
+  include MapToAspaceContainer
+  
   agent_role_enum("linked_agent_role")
   agent_relator_enum("linked_agent_archival_record_relators")
 

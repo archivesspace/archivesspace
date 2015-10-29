@@ -191,7 +191,7 @@ describe 'JSON model' do
 
   it "knows a bad uri when it sees one" do
 
-    expect { JSONModel(:testschema).id_for("/moo/moo") }.to raise_error
+    expect { JSONModel(:testschema).id_for("/moo/moo") }.to raise_error(RuntimeError)
 
   end
 

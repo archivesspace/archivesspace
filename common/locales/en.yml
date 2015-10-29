@@ -1401,6 +1401,9 @@ en:
       manage_vocabulary_record: create/update/delete vocabulary records
       import_records: initiate import jobs
       cancel_importer_job: cancel an import job
+      update_container_record: create/update top container records
+      manage_container_record: delete/bulk update top container records
+      manage_container_profile_record: create/update/delete container profile records
     _singular: Group
     _plural: Groups
 
@@ -1879,6 +1882,15 @@ en:
     authority_id_must_be_unique: Authority ID is already in use
     either_type_1_or_barcode_is_required: A container must contain Container 1 Type or Barcode.
     must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Must be a number with no more than nine digits and five decimal places. 
+    container_2_requires_both_a_type_and_indicator: You must provide an Indicator if you provide a Type
+    container_3_requires_both_a_type_and_indicator: You must provide an Indicator if you provide a Type
+    container_2_is_required_if_container_3_is_provided: You must provide a Child Container if you provide a Grandchild Container
+    a_barcode_must_be_unique_within_a_repository: A barcode must be unique within a repository
+    container_profile_name_not_unique: Container Profile name must be unique
+    must_be_a_number_with_no_more_than_2_decimal_places: Must be a number with no more than 2 decimal places
+    length_must_be_within_the_range_set_in_configuration: Length must be within the range set in configuration
+    is_required_if_status_is_previous: is required if 'Status' is 'Previous'
+
   job:
     _singular: Background Job
     _plural: Background Jobs

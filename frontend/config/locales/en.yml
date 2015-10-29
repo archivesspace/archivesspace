@@ -29,7 +29,7 @@ en:
     merge_confirm_title: Merge into this record?
     merge_subject_confirm_message: "The subject '%{source}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this subject."
     merge_agent_confirm_message: "The agent '%{source}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this agent."
-    merge_resource_confirm_message: "The resource '%{source}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this resource." 
+    merge_resource_confirm_message: "The resource '%{source}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this resource."
     move: Move
     move_up_a_level: Up a Level
     move_up: Up
@@ -86,11 +86,10 @@ en:
     publish_confirm_message: "<p>Performing this action will publish this record, any sub-records (External Documents, Notes, etc) and all components in the hierarchy.</p>"
     view_search_results: Go to Search Results
     view_published: View Published
-    print_to_pdf: Print Resource To PDF 
+    print_to_pdf: Print Resource To PDF
     resource_to_pdf: Resource to Print
     download_pdf: Download PDF
     click_to_show: Please click to load records. 
-
 
   database_warning:
     message: "<p><strong>Database Warning:</strong> You are currently using the embedded database (Apache Derby). The embedded database is for testing/demo purposes only. You should use MySQL for any data intended for production, including data in a test instance that you intend to move over to a production instance.</p>"
@@ -124,7 +123,7 @@ en:
     no_results_prefix: There were no search results for
     result_type: Record Type
     result_title: Title
-    result_identifier: Identifier 
+    result_identifier: Identifier
     filtered_by: Filtered By
     modified: Last Modified by
     created: Created by
@@ -159,6 +158,13 @@ en:
       title: Title
       creators_text: Creator
       notes: Notes
+      container_profile_width_u_sstr: Width
+      container_profile_height_u_sstr: Height
+      container_profile_depth_u_sstr: Depth
+      container_profile_dimension_units_u_sstr: Dimension Units
+    help:
+      row_selection: Click a row to select it for bulk operations. Hold alt while clicking a checkbox to select, or unselect, multple previous rows.
+
 
   search_sorting:
     sort_by: "Sort by:"
@@ -245,6 +251,8 @@ en:
     repositories_manage: Manage Repositories
     manage_groups: Manage Groups
     manage_users: Manage Users
+    manage_container_profiles: Manage Container Profiles
+    manage_top_containers: Manage Top Containers
     manage_enumerations: Manage Controlled Value Lists
     user_global_preferences: My Global Preferences
     user_repo_preferences: My Repository Preferences
@@ -377,7 +385,7 @@ en:
         created: Agent Created
         updated: Agent Saved
         deleted: Agent Deleted
-        merge_description: Select below agents to merge into 
+        merge_description: Select below agents to merge into
         merged: Agent(s) Merged
         please_select_a_agent_to_merge: Please select an agent
       section:
@@ -393,7 +401,7 @@ en:
     _frontend:
       action:
         add: Add Contact
-  
+
   telephone:
     _frontend:
       action:
@@ -547,7 +555,7 @@ en:
   enumeration:
     _frontend:
       messages:
-        value_updated: Value Updated 
+        value_updated: Value Updated
         deleted: Value Deleted
         delete_error: Failed to delete Value
         delete_conflict: "Unable to delete Value as it's currently being referenced by a record"
@@ -634,7 +642,7 @@ en:
         add_sibling: Add Sibling
         create: Create Location
         batch: Create Batch Locations
-        batch_edit: Edit Batch Locations 
+        batch_edit: Edit Batch Locations
         save: Save Location
         single: Single Location
         delete_confirm_message: "<p>Please be aware you <strong>cannot undo this action.</strong>.</p><p> If this Location is currently linked to one or more instances it cannot be deleted.</p>"
@@ -654,7 +662,7 @@ en:
         warning: Depending on the size of your ranges, this process may take a few minutes to complete.
       action:
         create: Create Locations
-        update: Update Locations 
+        update: Update Locations
         preview: Preview Locations
         preview_short: Preview
         creating: Batch In Progress...
@@ -709,11 +717,11 @@ en:
     _frontend:
       action:
         add: Add Related Resource
-  
+
   revision_statement:
     _frontend:
       action:
-        add: Add Revision Statement 
+        add: Add Revision Statement
 
   repository:
     _frontend:
@@ -929,7 +937,7 @@ en:
         generated_uris: New & Modified Records
         active_jobs: Active Jobs
         archived_jobs: Archived Jobs
-        files: Files 
+        files: Files
       messages:
         status_changed_running: The import job has started running. Refreshing Page...
         status_changed_completed: The import job has completed.
@@ -956,3 +964,143 @@ en:
       open_browse: "Open Browse menu"
       open_create: "Open Create menu"
 
+  instance_container:
+    container: Container
+
+  sub_container:
+    top_container: Top Container
+    type_2: Child Type
+    indicator_2: Child Indicator
+    type_3: Grandchild Type
+    indicator_3: Grandchild Indicator
+    _singular: Sub Container
+    _plural: Sub Containers
+    _frontend:
+      action:
+        add: Add Container Instance
+
+  top_container:
+    indicator: Indicator
+    barcode: Barcode
+    ils_holding_id: ILS Holding ID
+    ils_item_id: ILS Item ID
+    exported_to_ils: Exported to ILS
+    not_exported: Not exported
+    legacy_restricted: Legacy Restricted?
+    restricted: Restricted?
+    parent: Parent Container
+
+    managed_container_2_type: Child Container Type
+    managed_container_2_indicator: Child Container Indicator
+    managed_container_3_type: Grandchild Container Type
+    managed_container_3_indicator: Grandchild Container Indicator
+
+    barcode_length_for_this_repository: "Barcode length for this repository:"
+    characters: characters
+
+    batch_delete:
+      success: Top Containers successfully deleted
+      error: There was a problem deleting Top Containers
+
+    _singular: Top Container
+    _plural: Top Containers
+
+    _frontend:
+      section:
+        active_restrictions: Active Restrictions
+        linked_records: Linked Records
+        basic_information: Container Information
+      action:
+        add: Add Top Container
+        create: Create a Top Container
+        save: Save Top Container
+      messages:
+        created: Top Container Created
+        updated: Top Container Updated
+        filter_required: Please provide a filter
+        max_results_limit_reached: Not all results have been listed. Please refine your search.
+        max_results_limit_details: "Showing <strong>%{visible}</strong> of <strong>%{num_found}</strong> matching results"
+        results_summary: "Matching results: <strong>%{num_found}</strong>"
+        bulk_selection_sort_help: Click a column to set the sort ordering.  Hold shift to sort by multiple columns.
+        bulk_action_success: Top Containers successfully updated
+        bulk_action_success_info: Please be aware it may take a moment before changes are reflected in the search results.
+        no_active_restrictions: No Active Restrictions
+      bulk_operations:
+        title: Bulk Operations
+        collection_singular: Resource/Accession
+        collection_plural: Resources/Accessions
+        collection_resource_singular: Resource
+        collection_resource_plural: Resources
+        collection_accession_singular: Accession
+        collection_accession_plural: Accessions
+        series: Series
+        current_location: Current Location
+        keyword_criteria: Keyword
+        exported_to_ils_true: "Yes"
+        exported_to_ils_false: "No"
+        empty: Unassociated containers
+        empty_true: "Yes"
+        empty_false: "No"
+        search: Search
+        update_ils_holding_ids: Update ILS Holding IDs
+        update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected containers.
+        update_container_profiles: Update Container Profiles
+        update_container_profiles_help: Choose a Container Profile for all selected containers.
+        update_locations: Update Locations
+        update_locations_help: Choose a Location for all selected containers.
+        rapid_barcode_entry: Rapid Barcode Entry
+        rapid_barcode_entry_existing_barcode: Existing Barcode
+        rapid_barcode_entry_new_barcode: New Barcode
+        batch_delete: Delete Top Containers
+        batch_delete_help: Delete all selected containers.
+        update_n_records: "Update %{n} records"
+        delete_n_records: "Delete %{n} records"
+
+  container_profile:
+    _singular: Container Profile
+    _plural: Container Profiles
+    _frontend:
+      action:
+        save: Save Container Profile
+        edit: Edit Container Profile
+        create: Create Container Profile
+      messages:
+        created: Container Profile Created
+        updated: Container Profile Updated
+      section:
+        basic_information: Basic Information
+    name: Name
+    url: URL
+    dimension_units: Dimension Units
+    extent_dimension: Extent Dimension
+    extent_dimension_depth: Depth
+    extent_dimension_height: Height
+    extent_dimension_width: Width
+    depth: Depth
+    height: Height
+    width: Width
+  rights_restriction:
+    begin: Restriction Begin
+    end: Restriction End
+    local_access_restriction_type: Local Access Restriction Type
+    local_access_restriction_type_inline_help: "Hold down  CTRL (Windows) / Command (Mac) to select multiple options or deselect an option"
+    linked_records: Linked Record
+    restriction_note_type: Note Type
+
+  extent_calculator:
+    no_object_message: Please specify an object to run the extent calculator on.
+    report_title: Calculated Extent Report
+    container_profile_header: Container Profile
+    count_header: Count
+    extent_header: Extent
+    no_profile: <span class="text-error">NO PROFILE</span>
+    all_containers_label: All Containers
+    timestamp_label: Report generated at
+    extent_record_header: Extent Record
+    create_extent: Create Extent
+    calculate_extent: Calculate Extent
+    create_extent_record_message: Run the Extent Calculator in edit mode to have the option of creating an extent record based on the report.
+    waiting_for_report_message: Calculating extent ...
+    container_summary_type:
+      _singular: container
+      _plural: containers

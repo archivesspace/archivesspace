@@ -1,0 +1,163 @@
+<div id="bulk_action_test_selection"><!--
+  <ul>
+  {for container in selection}
+    <li><strong>${container[1]}</strong>&nbsp;&nbsp;&nbsp;${container[0]}</li>
+  {/for}
+  </ul>
+--></div>
+
+<div id="bulk_action_update_ils_holding"><!--
+  <%= form_tag({:controller => :top_containers, :action => :bulk_operation_update}, {:class => "form-horizontal", :id => "bulk_update_form" }) do |f| %>
+    <div class="modal-body">
+        <div class="alert alert-info" id="alertBucket"><%= I18n.t("top_container._frontend.bulk_operations.update_ils_holding_ids_help") %></div>
+
+        <div class="selected-record-list well">
+            <ul>
+                {for container in selection}
+                <li>${container.display_string}</li>
+                {/for}
+            </ul>
+        </div>
+
+        {for container in selection}
+          <input type="hidden" name="update_uris[]" value="${container.uri}">
+        {/for}
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="ils_holding_id"><%= I18n.t("top_container.ils_holding_id") %></label>
+                <div class="controls">
+                    <%= text_field_tag "ils_holding_id", params["ils_holding_id"], :style => "width: 80%;" %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary"><%= I18n.t("top_container._frontend.bulk_operations.update_n_records", {:n => "${selection.length}"}) %></button>
+        <button class="btn btn-cancel" data-dismiss="modal"><%= I18n.t("actions.cancel") %></button>
+    </div>
+  <% end %>
+--></div>
+
+<div id="bulk_action_update_container_profile"><!--
+  <%= form_tag({:controller => :top_containers, :action => :bulk_operation_update}, {:class => "form-horizontal", :id => "bulk_update_form" }) do |f| %>
+    <div class="modal-body">
+        <div class="alert alert-info" id="alertBucket"><%= I18n.t("top_container._frontend.bulk_operations.update_container_profiles_help") %></div>
+
+        <div class="selected-record-list well">
+            <ul>
+                {for container in selection}
+                <li>${container.display_string}</li>
+                {/for}
+            </ul>
+        </div>
+
+        {for container in selection}
+          <input type="hidden" name="update_uris[]" value="${container.uri}">
+        {/for}
+        <input type="hidden" name="container_profile_uri" value="">
+        <div class="span8">
+          <div class="control-group">
+            <label class="control-label" for="container_profile"><%= I18n.t("container_profile._singular") %></label>
+            <div class="controls">
+              <%= render_aspace_partial :partial => "top_containers/bulk_operations/container_profile_linker" %>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary"><%= I18n.t("top_container._frontend.bulk_operations.update_n_records", {:n => "${selection.length}"}) %></button>
+        <button class="btn btn-cancel" data-dismiss="modal"><%= I18n.t("actions.cancel") %></button>
+    </div>
+  <% end %>
+--></div>
+
+<div id="bulk_action_update_location"><!--
+  <%= form_tag({:controller => :top_containers, :action => :bulk_operation_update}, {:class => "form-horizontal", :id => "bulk_update_form" }) do |f| %>
+    <div class="modal-body">
+        <div class="alert alert-info" id="alertBucket"><%= I18n.t("top_container._frontend.bulk_operations.update_locations_help") %></div>
+
+        <div class="selected-record-list well">
+            <ul>
+                {for container in selection}
+                <li>${container.display_string}</li>
+                {/for}
+            </ul>
+        </div>
+
+        {for container in selection}
+          <input type="hidden" name="update_uris[]" value="${container.uri}">
+        {/for}
+        <input type="hidden" name="location_uri" value="">
+        <div class="span8">
+          <div class="control-group">
+            <label class="control-label" for="location"><%= I18n.t("location._singular") %></label>
+            <div class="controls">
+              <%= render_aspace_partial :partial => "top_containers/bulk_operations/location_linker" %>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary"><%= I18n.t("top_container._frontend.bulk_operations.update_n_records", {:n => "${selection.length}"}) %></button>
+        <button class="btn btn-cancel" data-dismiss="modal"><%= I18n.t("actions.cancel") %></button>
+    </div>
+  <% end %>
+--></div>
+
+<div id="bulk_action_delete"><!--
+  <%= form_tag({:controller => :top_containers, :action => :batch_delete}, {:class => "form-horizontal", :id => "batch_delete_form" }) do |f| %>
+    <div class="modal-body">
+        <div class="alert alert-info" id="alertBucket"><%= I18n.t("top_container._frontend.bulk_operations.batch_delete_help") %></div>
+
+        <div class="selected-record-list well">
+            <ul>
+                {for container in selection}
+                <li>
+                  ${container.display_string}
+                  <input type="hidden" name="record_uris[]" value="${container.uri}">
+                </li>
+                {/for}
+            </ul>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-danger"><%= I18n.t("top_container._frontend.bulk_operations.delete_n_records", {:n => "${selection.length}"}) %></button>
+        <button class="btn btn-cancel" data-dismiss="modal"><%= I18n.t("actions.cancel") %></button>
+    </div>
+  <% end %>
+
+--></div>
+
+<div id="template_bulk_barcode_action_dialog"><!--
+  <%= form_tag({:controller => :top_containers, :action => :update_barcodes}, {:class => "form-horizontal", :id => "bulk_update_form" }) do |f| %>
+  <div class="modal-body">
+    <div id="alertBucket"></div>
+    <table class="table table-striped table-bordered table-condensed table-hover">
+    <thead>
+      <tr>
+        <th><%= I18n.t("top_container._frontend.bulk_operations.collection_singular") %></th>
+        <th><%= I18n.t("top_container._frontend.bulk_operations.series") %></th>
+        <th><%= I18n.t("container_profile._singular") %></th>
+        <th><%= I18n.t("top_container.indicator") %></th>
+        <th><%= I18n.t("top_container._frontend.bulk_operations.rapid_barcode_entry_existing_barcode") %></th>
+        <th><%= I18n.t("top_container._frontend.bulk_operations.rapid_barcode_entry_new_barcode") %></th>
+      </tr>
+    </thead>
+    {for container in selection}
+      <tr>
+        <td>${container.row.find(".top-container-collection").html()}</td>
+        <td>${container.row.find(".top-container-series").html()}</td>
+        <td>${container.row.find(".top-container-profile").html()}</td>
+        <td>${container.row.find(".top-container-indicator").html()}</td>
+        <td>${container.row.find(".top-container-barcode").text().trim()}</td>
+        <td><input type="text" name="${container.uri}" value="" /><input type="hidden" name="update_uris[]" value="${container.uri}"/></td>
+      </tr>
+    {/for}
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary"><%= I18n.t("top_container._frontend.bulk_operations.update_n_records", {:n => "${selection.length}"}) %></button>
+    <button class="btn btn-cancel" data-dismiss="modal"><%= I18n.t("actions.cancel") %></button>
+  </div>
+  <% end %>
+--></div>

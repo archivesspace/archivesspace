@@ -1,0 +1,14 @@
+<%= form_for @top_container, :as => "top_container", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form', :id => "new_top_container"} do |f| %>
+  <%= form_context :top_container, @top_container do |form| %>
+    <%= hidden_field "inline", "true" %>
+    <%= render_aspace_partial :partial => "form", :locals => {:form => form} %>
+  <% end %>
+<% end %>
+
+<script src="<%= "#{AppConfig[:frontend_prefix]}assets/form.js" %>"></script>
+<script>
+  $(function() {
+        $(".linker:not(.initialised)", $("#new_top_container")).linker();
+
+  });
+</script>

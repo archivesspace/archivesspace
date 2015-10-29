@@ -1,22 +1,21 @@
-<%= render_aspace_partial :partial => "container/template" %>
+<%= render_aspace_partial :partial => "sub_containers/template" %>
 
 <div id="template_instance_summary"><!--
   <div class="subrecord-summary-title">
-    {if instance_type != ""}${instance_type}{else}____{/if}:
-    {if type_1 != ""}${type_1}{else}____{/if}
-    {if indicator_1 != ""}${indicator_1}{else}____{/if}{if type_2 != "" || indicator_2 != ""},
-    {if type_2 != ""}${type_2}{else}____{/if}
-    {if indicator_2 != ""}${indicator_2}{else}____{/if}{/if}
+    {if instance_type != ""}${instance_type}{else}____{/if}
   </div>
 --></div>
 
 <% define_template "instance_container", jsonmodel_definition(:instance) do |form| %>
   <div class="subrecord-form-fields">
     <div class="subrecord-form-container">
+      <input type="hidden" id="__dummy___instance_type____" value="digital_object"/>
       <%= form.label_and_select "instance_type", form.possible_options_for('instance_type', true).reject{|option_arr| option_arr[1] === 'digital_object'} %>
-      <%= form.fields_for(form["container"] || {}, "container") do |item| %>
-        <% form.emit_template("container", item) %>
-      <% end %>
+      <section id="<%= form.id_for("container") %>">
+        <%= form.fields_for(form["sub_container"] || {}, "sub_container") do |item| %>
+          <% form.emit_template("sub_container", item) %>
+        <% end %>
+      </section>
     </div>
   </div>
 <% end %>
@@ -39,7 +38,7 @@
 
 
 <% define_template "instance", jsonmodel_definition(:instance) do |form| %>
-  <% if form["container"] %>
+  <% if form["sub_container"] %>
     <% form.emit_template("instance_container") %>
   <% elsif form["instance_type"] === "digital_object" %>
     <% form.emit_template("instance_digital_object") %>
