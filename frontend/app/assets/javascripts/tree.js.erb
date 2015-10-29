@@ -624,12 +624,19 @@ $(function() {
       event.preventDefault();
       event.stopPropagation();
 
-      var nodesToMove = getSelectedNodes(true, true);
-      var leadNode = nodesToMove[0];
+      var nodesToMove;
+      var leadNode;
 
+      var getNodesToMove = function() {
+        nodesToMove = getSelectedNodes(true, true);
+        leadNode = nodesToMove[0];
+      } 
+      getNodesToMove(); 
+      
       switch($(this).attr('rel')) {
 
       case "down":
+        if ( leadNode === undefined  ) {  getNodesToMove(); }
         var targetParent = leadNode.parent
         var targetPosition = getNodePosition(leadNode) + nodesToMove.length + 1;
 
@@ -638,6 +645,7 @@ $(function() {
 
       case "up":
 
+        if ( leadNode === undefined  ) {  getNodesToMove(); }
         var targetParent = leadNode.parent
         var targetPosition = getNodePosition(leadNode) - 1;
 
