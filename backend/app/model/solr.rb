@@ -16,8 +16,6 @@ class Solr
   end
 
 
-
-
   class Query
 
     def self.create_match_all_query
@@ -293,6 +291,7 @@ class Solr
 
         page_size = query.page_size
 
+        result['page_size'] = page_size
         result['first_page'] = 1
         result['last_page'] = (json['response']['numFound'] / page_size.to_f).ceil
         result['this_page'] = (json['response']['start'] / page_size) + 1
