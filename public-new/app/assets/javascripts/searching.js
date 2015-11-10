@@ -8,8 +8,6 @@ var SearchResults = Backbone.PageableCollection.extend({
   url: "/search",
 
   parseRecords: function(data) {
-    console.log("SERVER SEARCH RESULTS");
-    console.log(data);
     return data.search_data.results
   },
 
