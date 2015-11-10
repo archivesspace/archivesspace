@@ -7,6 +7,24 @@ This is a development project to replace the ArchivesSpace Public UI in Spring 2
 
 You can make the `public:devserver` ant task point to this application by doing `export ASPACE_PUBLIC_DEV=true`.
 
+To get the development server running using the standard development build tools, do this:
+
+* Open two terminal windows
+* In each window:
+
+     `cd archivesspace`
+     `export ASPACE_PUBLIC_DEV=true`
+
+* In window 1:
+     `./build/run boostrap`
+     `./build/run backend:devserver`
+
+* In window 2:
+     `./build/run public:devserver`
+
+Point your browser to `http://localhost:3001`
+
+
 # Development Notes
 
 See the `README_BOWER.md` file in the `frontend` for guidelines on managing frontend assets.
