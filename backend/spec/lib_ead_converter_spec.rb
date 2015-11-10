@@ -602,6 +602,47 @@ ANEAD
     end
   end
 
+  describe "Mapping '<unitid>' without altering content" do
+    def test_doc
+      src = <<ANEAD
+<ead>
+  <archdesc level="collection" audience="internal">
+  <did>
+       <descgrp>
+          <processinfo/>
+      </descgrp>
+      <unittitle>unitid test</unittitle>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
+      <unitid>Resource_ID/AT-thing.stuff</unitid>
+      <physdesc>
+       (folders 14–15 of 15 folders)
+        <extent>5.0 Linear feet</extent>
+      </physdesc>
+    </did>
+    <dsc>
+    <c id="1" level="file" audience="internal">
+      <unittitle>oh well</unittitle>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
+    </c>
+    </dsc>
+  </archdesc>
+</ead>
+ANEAD
+
+      get_tempfile_path(src)
+    end
+
+    before do
+      parsed = convert(test_doc)
+      @resource = parsed.find{|r| r['jsonmodel_type'] == 'resource'}
+      @components = parsed.select{|r| r['jsonmodel_type'] == 'archival_object'}
+    end
+
+    it "captures unitid content verbatim" do
+      expect(@resource["id_0"]).to eq("Resource_ID/AT-thing.stuff")
+    end
+  end
+
   describe "Mapping the EAD @audience attribute" do
     def test_doc
       src = <<ANEAD
