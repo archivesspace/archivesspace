@@ -1,0 +1,957 @@
+﻿es:
+  actions:
+    add: Añadir 
+    add_event: Agregar evento
+    automate: Generar automáticamente
+    batch: Lote
+    browse: Navegar
+    cancel: Cancelar
+    close: Cerrar
+    continue: Continuar
+    confirm: Confirmar
+    confirm_removal: Confirmar eliminación
+    container_labels: Descargar etiquetas del contenedor
+    create: Crear
+    cut: Cortar
+    defaults: Valores por defecto
+    edit: Editar
+    edit_batch: Editar en bloque
+    edit_groups: Editar grupos
+    edit_default_values: Editar valores por defecto
+    edit_default_archival_object_values: Editar Componentes por defecto
+    export: Exportar
+    view: Ver
+    spawn: Heredar
+    show_all: Mostrar todo
+    transfer_record: Transferir
+    link_to: Enlazar a
+    add_prefix: Añadir
+    merge_confirm_title: ¿Se combinan en este registro?
+    merge_subject_confirm_message: "La materia '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a esta materia."
+    merge_agent_confirm_message: "La autoridad '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a este autoridad."
+    merge_resource_confirm_message: "El fondo '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a este fondo." 
+    move: Mover
+    move_up_a_level: Un nivel
+    move_up: Arriba
+    move_down: Abajo
+    move_down_into: Abajo en...
+    paste: Pegar
+    remove: Quitar
+    refresh_page: Cargar página de nuevo
+    new_prefix: Nuevo
+    save_prefix: Guardar
+    save_plus_one: "+ 1"
+    save_anyway: Guardar
+    select: Seleccionar
+    set_default: Marcar como predeterminado
+    suppress: Bloquear
+    suppress_confirm_title: ¿Bloquear este registro?
+    suppress_confirm_message: "Mientras que un registro bloqueado permanecerá en la base de datos, se convertirá en ocultos a la mayoría de los usuarios y a la mayoría de las funciones de carácter."
+    transfer: Transferencia
+    transfer_confirm_title: ¿La transferencia de este registro?
+    transfer_confirm_message: "El registro '%{target}' se transferirá en el repositorio seleccionado"
+    transfer_successful: Transferencia exitosa.  Los registros pueden tardar un momento en aparecer en el repositorio de destino mientras nueva indexación se lleva a cabo.
+    transfer_failed: Transferencia fallida
+    unset_default: Desactivada por defecto
+    unsuppress: Desactivar
+    unsuppress_confirm_title: ¿Bloquear este registro?
+    unsuppress_confirm_message: "falso"
+    unable_to_move_message: "No se pudo mover el registro"
+    delete: Borrar
+    delete_confirm_title: ¿Desea eliminar este registro? %{title}
+    delete_confirm_message: "<p>Por favor, ser conscientes de que <strong>no puede deshacer esta acción</strong>.</p><p>Esta acción eliminará el registro de la base de datos, incluyendo cualquier referencia que se tiene con otros registros.</p>"
+    delete_repository_confirm_title: ¿Borrar este repositorio? %{name}
+    delete_repository_confirm_message: "<p><strong>No puedes deshacer este cambio</strong>.</p><p>Esta acción eliminará el <strong>repositorio</strong> y todos los registros asociados incluidas las referencias a otros registros.</p><p>Para seguir adelante por favor indica '%{repository}' abajo:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
+    delete_multiple: Borrar registros
+    delete_multiple_confirm_title: ¿Borrar registros?
+    delete_multiple_confirm_message: "<p>Por favor, ser conscientes de que <strong>no puede deshacer esta acción</strong>.</p><p>Esta acción eliminará estos registros de la base de datos, incluyendo referencias tienen a otros registros.</p>"
+    edit_multiple: Editar múltiples registros
+    edit_multiple_confirm_title: ¿Editar registros?
+    edit_multiple_confirm_message: "<p>Esto actualizará múltiples registros.</p>"
+    export_eac: Descargar EAC-CPF
+    export_ead: Descargar EAD
+    export_mods: Descargar MODS
+    export_mets: Descargar METS
+    export_marc: Descargar MARCXML
+    export_dc: Descargar DC
+    loading: Cargando...
+    revert: Revertir los cambios
+    finish_editing: Finalizar edición
+    merge: Fusión
+    form_changes_message: "<small><span class='muted'>Hay cambios sin guardar</span></small>"
+    toolbar_disabled_message: "<small><span class='muted'>No se han guardado los cambios - Guarda o vuelve atrás </span></small>"
+    publish: Publicar todos
+    publish_confirm_title: ¿Publicar?
+    publish_confirm_message: "<p>Realizar esta acción va a publicar este documento, los registros secundarios (documentos externos, notas, etc.) y todos los componentes de la jerarquía.</p>"
+    view_search_results: Ir a los resultados de búsqueda
+    view_published: Ver publicados
+    print_to_pdf: Imprimir Fondos en PDF
+    resource_to_pdf: Fondo a imprimir
+    download_pdf: Descargar PDF
+    click_to_show: Pulsa para cargar los registros.
+
+
+  database_warning:
+   message: "<p><strong>Advertencia de base de datos:</strong> Estas utilizando la base de datos (Apache Derby) habilitada para pruebas. Le recomendamos utilizar MySQL para sistemas en producción.</p>"
+
+  states:
+    auto_generated: Generado automáticamente
+
+  export_options:
+    include_unpublished: Incluir sin publicar
+    include_daos: Incluir etiquetas &lt; dao &gt;
+    numbered_cs: Utilice etiquetas numeradas &lt; c &gt;
+    print_pdf: Imprimir en PDF
+
+  pagination:
+    first: Primero
+    last: Último
+    previous: "&#171;"
+    previous_label: Anterior
+    next: «&#187;»
+    next_label: Próxima
+    summary_prefix: Mostrando
+    summary_offset_connector: "-"
+    summary_total_connector: de
+    summary_suffix: Resultados
+    page_prefix: Página
+    page_connector: de
+
+  search_results:
+    title: Resultados de la búsqueda
+    no_results: Registros no encontrados
+    no_results_prefix: No hay resultados de la búsqueda
+    result_type: Tipo de registro
+    result_title: Título
+    result_identifier: Identificador
+    filtered_by: Filtrado por
+    modified: Modificado por
+    created: Creado por
+    text_placeholder: Filtrar por texto
+    clear_all: Borrar todo
+    component_switch: Mostrar componentes
+    filter:
+      query: Búsqueda
+      subjects: Materia
+      primary_type: Tipo de registro
+      digital_object_type: Tipo de objeto digital
+      level: Nivel
+      classification_path: Clasificación
+      accession_date_year: Fecha de entrada
+      creators: Creador
+      source: Fuente
+      rules: Reglas
+      parent_type: Tipo de registro
+      processing_priority: Prioridad de procesado
+      processing_status: Estado de procesamiento
+      publish: Publicado
+      temporary: Temporal
+      outcome: Resultado
+      event_type: Tipo de evento
+      first_term_type: Tipo del término (primero)
+      classification_uri: Clasificación
+      location_uris: Ubicación
+      agents: Autoridades
+      creators: Creadores
+      fullrecord: Palabra clave
+      subjects_text: Materia
+      title: Título
+      creators_text: Creador
+      notes: Notas
+
+  search_sorting:
+    sort_by: "Ordenar por"
+    and: "y"
+    asc: Ascendente
+    desc: Descendente
+    relevance: Relevancia
+    title_sort: Título
+    user_mtime: Modificado
+    primary_type: Tipo de registro
+    processing_priority: Prioridad de procesado
+    processing_status: Estado
+    parent_id: Tipo de registro
+    create_time: Creado
+    authority_id: Identificador de autoridad
+    source: Fuente
+    rules: Reglas
+    outcome: Resultado
+    event_type: Tipo
+    identifier: Identificador
+    select: Seleccione
+    building: Edificio
+    floor: Piso
+    room: Habitación
+    area: Área
+    resource_type: Tipo de fondo
+    acquisition_type: Tipo de entrada
+    accession_date: Fecha de entrada
+    restrictions_apply: Se aplican restricciones
+    access_restrictions: Restricciones de acceso
+    use_restrictions: Restricciones de uso
+    level: Nivel de Descripción
+    language: Idioma
+    restrictions: Restricciones
+    ead_id: Identificador EAD
+    finding_aid_status: Estado del instrumento de descripción
+    digital_object_id: ID de objeto digital
+    digital_object_type: Tipo de objeto digital
+    publish: Publicar
+
+  advanced_search:
+    operator:
+      AND: "Y"
+      OR: "O"
+      NOT: "No"
+    date_operator:
+      equal: es igual a
+      greater_than: mayor que
+      lesser_than: menos de
+    boolean_field:
+      true_value: "Verdadero"
+      false_value: "Falso"
+    button_text: Búsqueda
+    reset: Limpiar
+    nav_switcher:
+      show: Mostrar avanzadas
+      hide: Ocultar avanzadas
+    index_switcher:
+      show: Mostrar búsqueda avanzada
+      hide: Ocultar búsqueda avanzada
+
+  become-user:
+    become-user: Convertirse en usuario
+    failed: Error al cambiar al usuario especificado
+    success: Usuarios con éxito conmutados
+
+  navbar:
+    become-user: Convertirse en usuario
+    brand: ArchivesSpace
+    create: Crear
+    import: Importar
+    import_eac: Archivo de EAC
+    import_ead: Archivo de EAD
+    import_marcxml: MARCXML
+    import_marcxml_subjects_and_agents: MARCXML (materias y autoridades)
+    import_accession_csv: Acta de ingreso en CSV
+    import_digital_object_csv: Objeto digital en CSV
+    search_all: Todos los registros
+    search_placeholder: Buscar todos los registros
+    search_button_title: Buscar todos los registros
+    show_advanced_search_button_title: Mostrar búsqueda avanzada
+    hide_advanced_search_button_title: Ocultar búsqueda avanzada
+    plugins: Plug-ins
+    repositories_manage: Gestionar repositorios
+    manage_groups: Administrar grupos
+    manage_users: Gestionar usuarios
+    manage_enumerations: Administrar listas de valores controlados
+    user_global_preferences: Mis preferencias globales
+    user_repo_preferences: Mis preferencias de repositorio
+    repo_preferences: Valores predeterminados de preferencia de usuario
+    manage_user_access: Administrar el acceso de usuario
+    logout: Salir
+    login: Iniciar sesión
+    login_expired_link: Por favor %{link} otra vez.
+    login_fail: Fallo de inicio de sesión
+    login_success: Inicio de sesión correcto. Redireccionando...
+    register: Regístrese ahora
+    register_prefix: ¿Necesita una cuenta?
+    list_reports: Informes
+    global_admin: Sistema
+    system_info: Información del sistema
+  session:
+    gone: No se encontró su sesión backend
+    expired: Su sesión expiró debido a la inactividad
+    inline_login_title: Sesión caducada
+
+  batch_delete:
+    archival_records:
+      success: Registros eliminados
+      error: "No se puede eliminar registros"
+    subjects:
+      success: Materias eliminadas
+      error: "No se puede eliminar materias"
+    agents:
+      success: Autoridades eliminadas
+      error: "No se puede eliminar autoridades"
+    locations:
+      success: Ubicaciones eliminadas
+      error: "No se puede eliminar ubicaciones:"
+
+  browser_support:
+    bronze: ArchivesSpace no admite totalmente este navegador.  Por favor considere actualizar su navegador a las últimas versiones de Chrome, Firefox o Internet Explorer.
+    unknown: ArchivesSpace no admite totalmente este navegador.  Por favor considere actualizar su navegador a las últimas versiones de Chrome, Firefox o Internet Explorer.
+
+  welcome:
+    heading: Bienvenido a ArchivesSpace
+    message: Tu herramienta de administración de archivos.
+    message_logged_in: Tu herramienta de administración de archivos.
+
+  breadcrumb:
+    home: Página de inicio
+
+  save_changes_modal:
+    body: Tienes algunos cambios pendientes. Por favor guarde estos cambios para continuar.
+    save: Guardar cambios
+    dismiss: Descartar cambios
+
+  linker:
+    link_to_prefix: Enlace a
+    create_and_link_to_prefix: Crear y vincular
+    hint_text: Empieza a escribir para buscar registros disponibles...
+    placeholder: Empieza a escribir para buscar registros disponibles...
+    no_results: No hay resultados coincidentes.  Trate de 'Examinar'.
+    searching: Buscando...
+    delete: "x"
+
+  mixed_content:
+    wrap_prefix: "Envolver con"
+    help: "De tipo mixto activado contenido--' <' para elementos o texto resaltado envolver"
+
+  import:
+    eac_title: Importar un archivo de EAC
+    ead_title: Importar un archivo de EAD
+    marcxml_title: Importar un archivo MARCXML
+    marcxml_subjects_and_agents_title: Materias y autoridades de importación desde un archivo MARCXML
+    accession_csv_title: Importación de registros de actas de ingresos desde un archivo CSV
+    digital_object_csv_title: Importación de registros de objeto Digital desde un archivo CSV
+    import_report: Informe de importación
+    import_another: Importar archivo de otro
+    file_select: Seleccione un archivo para cargarlo
+    submit: Importación
+    submit_busy_message: Importando...
+    messages:
+      missing_repo: Debes seleccionar un repositorio antes de importar
+      missing_file: Por favor, seleccione un archivo EAD para cargar
+      error_prefix: Archivo de importación de error
+      complete: Importación completa
+
+  default_values:
+    form_title:
+      archival_object: Registros de documentos de archivo por defecto
+      resource: Registros de fondos por defecto
+      accession: Registros de acta de ingreso por defecto
+      subject: Registros de materia por defecto
+      agent_person: Registros de autoridad por defecto (Persona)
+      agent_family: Registros de autoridad por defecto (Familia)
+      agent_corporate_entity: Registros de autoridad por defecto (Entidades)
+      agent_software: Registros de autoridad por defecto (Software)
+      digital_object: Objetos digitales por defecto
+      digital_object_component: Componentes de objetos digitales por defecto
+      location: Registros de ubicación por defecto
+      event: Registros de eventos por defecto
+      classification: Registros de clasificación por defecto
+      classification_term: Términos de clasificación por defecto
+    messages:
+      defaults_updated: Valores por defecto actualizados
+
+  errors:
+    sidebar_label: Errores y advertencias
+    error_403: Incapaz de acceder la página
+    error_403_message: "Has intentado acceder a la página ya no existan o que no tenga permiso para verlo."
+    error_404: Registros no encontrados
+    error_404_message: "El récord que has intentado acceder ya no existan o que no tenga permiso para ver."
+
+  accession:
+    _frontend:
+      messages:
+        created: Acta de ingreso <strong>%{accession.display_string}</strong> creada
+        unsuppressed: Acta de ingreso <strong>%{accession.display_string}</strong> desbloqueada
+        updated: Acta de ingreso <strong>%{accession.display_string}</strong> actualizada
+        suppressed: Acta de ingreso <strong>%{accession.display_string}</strong> bloqueada
+        suppressed_info: Acta de ingreso se bloquea y no se pueden editar
+        deleted: Acta de ingreso <strong>%{accession.display_string}</strong> borrada
+        transfer_description: Transferencia de este acta de ingreso a...
+        transfer_target: Seleccione un repositorio al que transferir
+        spawned: "Este acta de ingreso ha sido generada de entrada <strong>%{accession.display_string}</strong>"
+      section:
+        basic_information: Información básica
+      action:
+        create: Crear acta de ingreso
+        save: Guardar el acta de ingreso
+
+  agent: &agent_attributes
+    _frontend:
+      messages:
+        created: Autoridad creada
+        updated: Autoridad guardada
+        deleted: Autoridad eliminada
+        merge_description: Seleccione a continuación las autoridades a unificar 
+        merged: Autoridad(es) se unificaron
+        please_select_a_agent_to_merge: Por favor seleccione una autoridad
+      section:
+        basic_information: Información básica
+        dates_of_existence: Fechas de existencia
+        name: Formas conocidas
+        contacts: Los datos de contacto
+        search_embedded: Registros vinculados
+      action:
+        create: Crear autoridad
+
+  agent_contact:
+    _frontend:
+      action:
+        add: Agregar contacto
+
+  telephone:
+    _frontend:
+      action:
+        add: Agregar número de teléfono
+
+  agent_corporate_entity:
+    _frontend:
+      action:
+        save: Guardar la entidad corporativa
+
+  agent_family:
+    _frontend:
+      action:
+        save: Guardar familia
+
+  agent_person:
+    _frontend:
+      action:
+        save: Guardar persona
+
+  agent_software:
+    _frontend:
+      action:
+        save: Guardar Software
+
+  archival_object:
+    _frontend:
+      messages:
+        created: Documento de archivo <strong>%{archival_object.display_string}</strong> del fondo <strong>%{resource.title}</strong> creado
+        created_with_parent: Documento de archivo <strong>%{archival_object.display_string}</strong> creado como niño de <strong>%{parent.display_string}</strong> del fondo <strong>%{resource.title}</strong>
+        updated: Documento de archivo <strong>{archival_object.display_string} %</strong> actualizado
+        updated_with_parent: Documento de archivo <strong>{archival_object.display_string} %</strong> actualizado
+        please_select_a_resource_for_transfer: Por favor, elija un fondo
+        transfer_success: Transferido con éxito el objeto de archivo <strong>%{archival_object.display_string}</strong> al fondo <strong>%{resource.title}</strong>
+        transfer_error: "No se puede transferir objeto de archivo debido a un error o conflicto"
+        deleted: "Documento de archivo <strong>{archival_object.display_string} %</strong> eliminado"
+        unsuppressed: Documento de archivo <strong>%{archival_object.title}</strong> desbloqueado
+        suppressed: Documento de archivo <strong>%{archival_object.title}</strong> bloqueado
+        suppressed_info: Documento de archivo se bloquea y no se pueden editar
+        has_unpublished_ancestor: Por favor tenga en cuenta que este registro tiene un padre que es inédito.
+      section:
+        basic_information: Información básica
+      action:
+        add_child: Agregar hijo
+        add_sibling: Añadir hermano
+        save: Guardar objeto de archivo
+
+  classification:
+    _frontend:
+      messages:
+        created: "Clasificación <strong>%{classification.title}</strong> creada"
+        updated: "Clasificación <strong>%{classification.title}</strong> actualizada"
+        deleted: "Clasificación <strong>%{classification.title}</strong> borrada"
+      section:
+        basic_information: Información básica
+        search_embedded: Registros vinculados
+      action:
+        add_child: Agregar hijo
+        create: Crear clasificación
+        save: Guardar clasificación
+        add: Agregue clasificación
+
+  classification_term:
+    _frontend:
+      messages:
+        created: "Término de clasificación <strong>%{classification_term.title}</strong> creado"
+        created_with_parent: "Término de clasificación <strong>%{classification_term.title}</strong> creado"
+        updated: "Término de clasificación <strong>%{classification_term.title}</strong> actualizado"
+        deleted: "Término de clasificación <strong>%{classification_term.title}</strong> borrado"
+      section:
+        basic_information: Información básica
+        search_embedded: Registros vinculados
+      action:
+        add_child: Agregar hijo
+        add_sibling: Añadir hermano
+        save: Guardar el término clasificación
+
+  collection_management: &collection_management_attributes
+    _frontend:
+      title_prefix: Procesamiento
+      action:
+        add: Agregar campos de gestión de colección
+
+  container:
+    _frontend:
+      action:
+        add: Agregar contenedor
+
+  container_location:
+    _frontend:
+      action:
+        add: Añadir ubicación
+
+  date:
+    _frontend:
+      action:
+        add: Agregar fecha
+
+  dates_of_existence:
+    _frontend:
+      action:
+        add: Agregar fecha
+
+  deaccession:
+    _frontend:
+      action:
+        add: Añadir expurgo
+
+  digital_object:
+    _frontend:
+      messages:
+        created: "Objeto digital <strong>%{digital_object.title}</strong> creado"
+        updated: "Objeto digital <strong>%{digital_object.title}</strong> actualizado"
+        deleted: "Objeto digital <strong>%{digital_object.title}</strong> borrado"
+        published: "El objeto Digital <strong>%{digital_object.title}</strong>subregistros y sus componentes han sido publicados"
+        merge_description: Seleccionar objetos digitales más abajo para fusionar en
+        please_select_a_digital_object_to_merge: Por favor, seleccione un objeto digital
+        merged: Objetos digitales unificados
+        transfer_description: Transferencia de este fondo a...
+        transfer_target: Seleccione un repositorio para transferir a
+        unsuppressed: Objetos digitales <strong>%{digital_object.title}</strong> desbloqueado
+        suppressed: Objetos digitales <strong>%{digital_object.title}</strong> bloqueado
+        suppressed_info: Objeto digital se suprime y no se pueden editar
+      section:
+        basic_information: Información básica
+      action:
+        add_child: Agregar hijo
+        create: Crear objeto Digital
+        save: Guardar objeto Digital
+        rapid_data_entry: Entrada de datos de forma rápida
+
+  digital_object_component:
+    _frontend:
+      messages:
+        created_with_parent: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong> creado como hijo de <strong>%{parent.display_string}</strong> del objeto Digital <strong>%{digital_object.title}</strong>
+        created: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong> creado el objeto Digital <strong>%{digital_object.title}</strong>
+        updated_with_parent: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong> actualizado
+        updated: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong> actualizado
+        deleted: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong> borrado
+        unsuppressed: Desbloqueados componentes de objeto digital <strong>%{digital_object_component.display_string}</strong>
+        suppressed: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong> bloqueado
+        suppressed_info: Componente objeto digital se bloquea y no se pueden editar
+        has_unpublished_ancestor: Por favor tenga en cuenta que este registro tiene un padre que es inédito.
+      section:
+        basic_information: Información básica
+      action:
+        add_child: Agregar hijo
+        add_sibling: Añadir hermano
+        save: Guardar objeto Digital componente
+
+  enumeration:
+    _frontend:
+      messages:
+        value_updated: Valor actualizado
+        deleted: Valor eliminado
+        delete_error: No se pudo eliminar el valor
+        delete_conflict: "No se puede eliminar el valor como lo es actualmente que se hace referencia mediante un registro"
+        default_set: Conjunto de valores predeterminado
+        created: Valor creado
+        create_error: No se pudo crear valor
+        merged: Valor combinado
+        merge_tip: Este valor se puede combinar con otro
+        merge_error: No se pudo combinar el valor
+        no_selection: Por favor, seleccione una lista de valores controlados
+        name_selector: Nombre de lista
+        name_selector_tooltip: |
+            <p>La lista de valores controlada para editar.</p>
+        no_name_provided: Seleccione una lista de valores antes de crear un nuevo valor
+      action:
+        create_value: Crear valor
+        delete_value: Eliminar valor
+        merge_value: Combinar valor
+
+  event:
+    _frontend:
+      messages:
+        created: Evento creado
+        updated: Evento guardado
+        deleted: Evento eliminado
+        suppressed_info: Evento se bloquea y no se pueden editar
+      section:
+        basic_information: Información básica
+        date: Fecha/hora del evento
+      action:
+        save: Guardar el evento
+        create: Crear evento
+
+  extent:
+    _frontend:
+      action:
+        add: Agregar punto
+
+  external_document:
+    _frontend:
+      action:
+        add: Añadir documento externo
+
+  file_version:
+    _frontend:
+      action:
+        add: Añadir la versión del archivo
+
+  group:
+    _frontend:
+      action:
+        create: Crear grupo
+        save: Guardar grupo
+
+  instance:
+    _frontend:
+      messages:
+        select_a_type: Por favor, seleccione un tipo de representación
+      action:
+        add_digital_object: Agregar objeto Digital
+        add: Añadir representación
+
+  linked_agent:
+    _frontend:
+      action:
+        add: Añadir enlace autoridad
+
+  linked_record:
+    _frontend:
+      action:
+        add: Añadir el enlace al registro
+
+  location:
+    _frontend:
+      messages:
+        created: Ubicación creada
+        updated: Ubicación
+        deleted: Ubicación eliminada
+      section:
+        basic_information: Información básica
+        search_embedded: Registros vinculados
+      action:
+        add_child: Añadir hijo
+        add_sibling: Añadir hermano
+        create: Crear ubicación
+        batch: Crear lote de ubicaciones
+        batch_edit: Editar lote de ubicaciones
+        save: Guardar ubicación
+        single: Ubicación única
+        delete_confirm_message: "<p>Tenga en cuenta <strong>no se puede deshacer esta acción.</strong>.</p><p>Si esta ubicación está actualmente vinculada a una o más instancias no se puede eliminar.</p>"
+
+  location_batch:
+    _frontend:
+      section:
+        location: Seleccione la ubicación base
+        ranges: Rangos de coordenadas
+      messages:
+        created: "<strong>%{number_created} ubicaciones</strong> creado"
+        updated: "<strong>%{number_created} ubicaciones</strong> Actualizado"
+        location_batch_info: "Definir los valores base que serán aplicados a todas las ubicaciones generadas a partir de las <strong>Coordenadas rangos</strong> por debajo."
+        location_batch_update_info: "Por favor introduce los valores que quieres aplicar abajo."
+        ranges_info: "Tenga en cuenta que cualquier coordenados campos entró en la anterior <strong>Base ubicación</strong> serán reemplazados con los valores generados por las gamas más abajo.  Un máximo de ubicaciones %{max_range} será creado."
+        number_to_create: Número de ubicaciones
+        warning: Dependiendo del tamaño de sus gamas, este proceso puede tardar unos minutos para completar.
+      action:
+        create: Crear ubicaciones
+        update: Actualiza ubicaciones
+        preview: Muestras de las ubicaciones
+        preview_short: Vista previa
+        creating: Lote en progreso...
+
+  name:
+    _frontend:
+      section:
+        use_date: Fecha (s) del nombre de uso
+      action:
+        add: Agregar un formulario de nombre
+        make_authorized: Convertir en nombre autorizado
+        make_display_name: Convertir en nombre a presentar en pantalla
+
+  note:
+    _frontend:
+      preview:
+        raw: Texto
+        raw_title: El contenido de la nota
+        parsed: Texto formateado
+        parsed_title: Cómo se visualizará la nota
+      messages:
+        select_a_note_type: "<em>Por favor seleccione un tipo de nota</em>"
+      action:
+        add: Agregar Nota
+        add_content_item: Añadir elemento de contenido
+        add_note_orderedlist: Agregar elemento
+        add_sub_note: Agregar sub nota
+        add_note_index_item: Agregar elemento
+        add_note_chronology_item: Agregar evento
+        add_event: Agregar evento
+        add_note_bibliography_item: Agregar elemento
+        add_note_outline_level_item: Agregar elemento
+        add_note_outline_level_level: Añadir nivel
+        note_definedlist_item: Agregar elemento
+        expand: Ampliar
+        collapse: Colapsar
+        apply_note_order: Aplicar el orden de notas estandar
+
+  related_accession:
+    _frontend:
+      action:
+        add: Añadir acta de ingreso relacionada
+
+  related_agent:
+    _frontend:
+      messages:
+        select_a_type: "<em>Por favor seleccione un tipo de relación</em>"
+      action:
+        add: Agregue la autoridad relacionada
+
+  related_resource:
+    _frontend:
+      action:
+        add: Añadir fondos
+
+  revision_statement:
+    _frontend:
+      action:
+        add: Agregar nota de revisión 
+
+  repository:
+    _frontend:
+      messages:
+        created: Repositorio creado
+        updated: Repositorio actualizado
+        deleted: Repositorio eliminado
+        selected: Repositorio seleccionado
+        selected_short: Seleccionado
+        changed: Ahora está activado el repositorio <strong>%{repository.repo_code}</strong>
+        create_first_repository: "Para crear su primer repositorio, haga clic en el menú del <strong>sistema</strong> anterior y luego <strong>Gestionar repositorios</strong>."
+        no_access_to_repositories: "<p>No tiene acceso a los repositorios.</p><p>Póngase en contacto con el administrador del sistema para solicitar el acceso.</p>"
+        continue_with_transfer: ¿Continuar con la transferencia?
+        transfer_failed: Transferencia no se pudo completar debido a los siguientes errores
+        transfer_target: Seleccione un repositorio al que transferir
+        transfer_warning: <strong>ADVERTENCIA</strong>
+        cannot_delete_nonempty: No se puede eliminar - repositorio no vacío
+      section:
+        all_fields: Campos de repositorio
+        transfer: Repositorio de transferencia
+      action:
+        select: Seleccione repositorio
+        create: Crear repositorios
+        save: Guardar repositorio
+        create: Crear repositorios
+
+  resource:
+    _frontend:
+      messages:
+        created: "Fondo <strong>%{resource.title}</strong> creado"
+        updated: "fondo <strong>%{resource.title}</strong> actualizado"
+        spawned: "Ha sido generado un nuevo fondo de acta de ingreso <strong>%{accession.display_string}</strong>"
+        deleted: "Fondo <strong>%{resource.title}</strong> borrado"
+        published: "El fondo <strong>%{resource.title}</strong>subregistros y sus componentes han sido publicados"
+        merge_description: Seleccione los fondos abajo para fusionar en
+        please_select_a_resource_to_merge: Por favor, seleccione un fondo
+        merged: Los fondos se fusionaron
+        transfer_description: Transferencia de este fondo para...
+        transfer_target: Seleccione un repositorio para transferir a
+        unsuppressed: Fondo <strong>%{resource.title}</strong> suprimidas
+        suppressed: Fondo <strong>%{resource.title}</strong> bloqueado
+        suppressed_info: Se suprimieron y no se pueden editar fondos
+      section:
+        basic_information: Información básica
+        finding_aid: Datos del instrumento de descripción
+      action:
+        add_child: Agregar hijo
+        rapid_data_entry: Entrada de datos rápida
+        create: Crear fondo
+        save: Guardar fondos
+        delete_multiple: Eliminar fondos
+
+  preference:
+    _frontend:
+      messages:
+        updated: "Preferencias actualizadas"
+
+  rights_statement:
+    _frontend:
+      action:
+        add: Agregue la declaración de los derechos
+
+  term:
+    _frontend:
+      messages:
+        preview_pending: Vista previa de la materia
+      action:
+        add: Añadir término/subdivisión
+
+  transfer:
+    ref: Repositorio de destino
+
+  subject:
+    _frontend:
+      messages:
+        created: Materia creada
+        updated: Materia guardada
+        deleted: Materia borrada
+        merged: La(s) materia(s) se fusionaron
+        merge_description: Seleccione materias abajo para fusionar en
+        please_select_a_subject_to_merge: Por favor, seleccione un materia
+      section:
+        basic_information: Información básica
+        terms: Descriptores
+        search_embedded: Registros vinculados
+      action:
+        create: Crear materia
+        save: Guardar materia
+        add: Agregar materia
+
+  user:
+    _frontend:
+      messages:
+        created: Usuario creado
+        updated: Usuario actualizado
+        deleted: Usuario borrado
+        error_update: Usuario no guardado
+        error_create: Usuario no creado
+      section:
+        manage_access: Administrar el acceso de usuario
+        account: Cuenta
+        edit_account: Editar cuenta
+        edit_account_submit: Actualizar la cuenta
+      action:
+        create_account: Crear cuenta
+        update_account: Actualizar la cuenta
+        create: Crear usuario
+
+  user_defined:
+    _frontend:
+      action:
+        add: Agregar campos definidos por el usuario
+
+  use_date:
+    _frontend:
+      action:
+        add: Añadir fecha de uso
+
+  rde:
+    date_type: Tipo de fecha
+    instance_type: Tipo de representación
+    column_label: Columna
+    sections:
+      basic_information: Información básica
+      date: Fecha
+      extent: Extensión
+      instance: Representación
+      notes: Notas
+      file_version: Versión del archivo
+    actions:
+      add_row: Agregar fila
+      add_rows: Agregar filas
+      submit: Guardar filas
+      reset: LIMPIAR
+      showhide_prefix: "Columnas"
+      showhide_suffix: visible
+      showhide_none: Todas las columnas filtradas
+      fill_toggle: Rellene la columna
+      reorder_toggle: Reordenar las columnas
+      validate_rows: Validar las filas
+      inline_errors_toggle: Ver errores en línea
+      save_template: Guardar como plantilla
+      select_template: Elegir plantilla
+      manage_templates: Eliminar plantilla
+    fill_column:
+      basic: Básico
+      sequence: Secuencia
+      fill_value: Rellenar
+      select_a_column: Por favor, seleccione una columna
+      apply_basic_fill: Aplicar relleno
+      apply_sequence_fill: Aplicar la secuencia
+      sequence_count_warning: Hay más filas que elementos en la secuencia.
+      preview_sequence: Valores de secuencia de vista previa
+      sequence_summary: "%{count} elementos de la secuencia"
+      sequence_summary_with_maxsize: "Para sus filas %{limit}, los valores de secuencia de %{count} son"
+      sequence_from_required: Requeridas
+      sequence_to_required: Necesarias
+    reorder_columns:
+      apply_order: Aplicar orden de columna
+    save_template:
+      save_template: Guardar plantilla
+      template_name: Nombre de plantilla
+      confirm_removal: Cofirmar eliminación
+    default_template: Plantilla por defecto
+    messages:
+      error_prefix: Fila
+      success: "<div class='alert alert-success'>Hijos creados. Actualiza la página...</div>"
+      no_rows: Por favor, introduzca valores para al menos una fila
+      rows_with_errors: "%{count} filas con un error - haga clic en un campo de fila para ver los errores de esa fila"
+      rows_no_errors: "Todas las filas son válidas"
+      error_summary_header: "Errores en fila"
+      select_prompt: Aplicar una plantilla RDE
+    help:
+      keyboard_shortcuts: |
+                  <div><strong>Atajos de teclado</strong></div>
+                  <div class="row"><small><span class="span3">Salto de celda a celda: Mayús + teclas de flecha
+                  <div class="row"><small><span class="span3">Crear una nueva linea: Mayús + Retorno
+      sticky_columns: |
+                  <div><strong>Columnas pegajosas </strong></div>
+                  <div><small>Columnas resaltadas son pegajosas y se replicarán cuando se agregan nuevas filas. Alternar 'pegajosa' haciendo clic en el encabezado de la tabla correspondiente.</small></div>
+                  <div><small>Al hacer clic en <strong> Añadir fila </ strong> copiará los valores de la última fila; La fila de <strong> + </strong> para copiar los valores de la fila centrado actualmente.</small></div>
+      fill_column: |
+                  <div><strong>Llenar la Columna - Básico</strong></div>
+                  <div><small>Para llenar una columna con un valor único, haga clic en <strong> Rellenar Columna </ strong> y en el <strong> Basic </strong> seleccionar el objetivo <strong> Columna </ strong>, introduzca la deseada <strong> Llene valor </strong> y haga clic en <strong> Aplicar relleno</strong>.</small></div>
+                  <br/>
+                  <div><strong>Rellenar Columna - Secuencia</strong></div>
+                  <div><small>Para solicitar una secuencia de una columna, haga clic en <strong> Rellenar Columna </strong> y bajo la <strong> Secuencia de </strong> seleccionar el objetivo <strong> Columna </strong> y finalice el <strong> Rellenar Valor </strong> campos para generar la secuencia que usted desea. Un mensaje de advertencia aparecerá si la secuencia generada no cumplirá el número de filas de la forma.</small></div>
+      resize_and_reorder_columns: |
+                  <div><strong>Reordenar Columnas</strong></div>
+                  <div><small>Click <strong>Reordenar columnas </strong>, seleccione la fila (s) que desea reordenar y utilizar los / abajo botones de flecha arriba para cambiar su posición en la lista. Cuando feliz con su nuevo pedido, haga clic en <strong> Aplicar orden de las columnas</strong></small></div>
+      reset: |
+                  <div><strong>Limpiar Formulario</strong></div>
+                  <div><small>Click <strong>Cambiar</strong> para borrar el formulario y revertir la pegajosa, visible y el orden de las columnas a los valores predeterminados.</small></div>
+
+  update_monitor:
+    save_failed: <strong>Error al guardar los cambios</strong>
+    stale_record: Este documento ha sido actualizado por otro usuario. Por favor, actualice la página para acceder a la versión más reciente.
+    other_editors: "Este documento se está editando actualmente por otro usuario.  Por favor, póngase en contacto con los usuarios siguientes para asegurar que sin conflictos se producen"
+    repository_changed: "Este registro no puede guardarse, porque ha cambiado su repositorio activo. Para guardar este registro, abra otra ventana y restablecer su repositorio activo."
+  job:
+    _frontend:
+      audit_data: Datos de auditoría
+      actions:
+        create: Crear tarea
+        save: Guardar tarea
+        new: Nueva tarea en el background
+        cancel: Cancelar tarea
+        add_file: Agregar archivo
+        follow_log: Siga el Log
+      section:
+        basic_information: Información básica
+        status: Estado de trabajo
+        logs: Registro
+        generated_uris: "Registros nuevos y modificados"
+        active_jobs: Trabajos activos
+        archived_jobs: Trabajos archivados
+        files: Files
+      messages:
+        status_changed_running: El trabajo de importación ha comenzado. Actualiza la página...
+        status_changed_completed: Ha completado el trabajo de importación.
+        status_changed_failed: El trabajo de importación ha fallado.
+        status_changed_canceled: El trabajo de importación ha sido cancelado.
+        no_active_jobs: No hay trabajos de importación activos.
+        no_archived_jobs: No hay trabajos de importación archivados.
+        upload_successful: Imagen subida con exito. Redirigiendo a la página de trabajo...
+        import_type_missing: Por favor, seleccione un tipo de importación
+        queue_position_next: Esta importación es la siguiente.
+        queue_position: "Esta importación es la {posición} % en la cola."
+        drag_and_drop_hint: Arrastrar y soltar archivos aquí
+        find_and_replace_warning: Find and replace jobs can and will make major changes to your database. You are <strong>strongly</strong> advised to backup your database AND to run your job in a test instance before proceeding. There is no "undo".
+        find_and_replace_instructions: Choose a base record to scope this find and replace operation. Then choose a record type to target and a property of that type. The operation will run in every target record in the tree of the base record, or in the base record itself if the target type is "Resource".
+
+  shortcuts:
+    quick_reference_window: "Referencia: accesos directos del teclado "
+    actions:
+      this_reference: "Referencia de acceso directo"
+      close_modal: "Cerrar una ventana (e.g., esta misma)"
+      toggle_shortcuts: "Activar / desactivar accesos directos del teclado"
+      save_record: "Guardar el registro que se está editando"
+      close_record: "Cerrar el registro que se está editando"
+      open_browse: "Abrir el menú de navegación"
+      open_create: "Abrir el menú de creación"
