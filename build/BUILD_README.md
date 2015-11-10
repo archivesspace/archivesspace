@@ -28,6 +28,8 @@ To run a development instance of all ArchivesSpace components:
      build/run public:devserver
      build/run indexer
 
+These should be run in different terminal sessions and do not need to be run
+in a specific order or are all required.
 You can also clear your database and search indexes with:
 
      build/run db:nuke
