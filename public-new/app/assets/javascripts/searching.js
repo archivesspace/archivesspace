@@ -172,7 +172,6 @@ var SearchResultsView = Backbone.View.extend({
   },
 
   render: function() {
-    console.log(this.collection);
     var $el = this.$el;
     $el.html("<h2>Search results</h2>");
     this.collection.forEach(function(item) {
@@ -184,33 +183,10 @@ var SearchResultsView = Backbone.View.extend({
     });
 
     var pagerTmpl = _.template($('#search-pager-tmpl').html());
-
-    console.log("SEARCH RESULT STATE");
-    console.log(this.collection.state);
     $el.append(pagerTmpl(this.collection));
-
   }
 });
 
-
-// function renderResults(searchResults) {
-//   // maybe easier to stick everything in searchResultsView
-//   var containerView = new ContainerView({
-//     mainWidth: 9,
-//     sidebarWidth: 3
-//   });
-      
-//   var searchResultsView = new SearchResultsView({
-//     collection: searchResults
-//   });
-//   var sideBar = new SearchFacetsView({
-//     collection: searchResults
-//   });
-  
-//   $("#main-content").html(searchResultsView.$el.html());
-//   $("#sidebar").html(sideBar.$el.html());
-
-// };
 
 // Search Form on Landing Page
 var SearchBoxView = Backbone.View.extend({
@@ -225,17 +201,8 @@ var SearchBoxView = Backbone.View.extend({
   },
   search: function (e) {
     e.preventDefault();
-    //TODO- get actual params from form
-    var searchResults = new SearchResults([], {
-      queryParams: {
-        q: 'resource'
-      }
-    });
 
-    searchResults.fetch().then(function() {
-      // console.log(searchResults.toJSON());
-      renderResults(searchResults);
-    }); //TODO catch etc.
+    app.router.navigate('/search?' + $('#search-form').serialize(), {trigger: true});
   }
 
 });

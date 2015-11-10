@@ -61,6 +61,8 @@ var app = app || {};
       app.debug = searchResults;
       $('#wait-modal').foundation('reveal', 'open');
       searchResults.fetch({data: searchParams}).then(function() {
+        $("#search-box").remove();
+
         var containerView = new ContainerView({
           mainWidth: 9,
           sidebarWidth: 3
