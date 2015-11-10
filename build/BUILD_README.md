@@ -21,12 +21,14 @@ dependencies--JRuby, Gems, Solr, etc..
 
 ## Running a development environment
 
-To run a development instance of all ArchivesSpace components:
+To run a development instance of all ArchivesSpace components, open terminal windows and run each of the following processes:  
 
      build/run backend:devserver
      build/run frontend:devserver
      build/run public:devserver
      build/run indexer
+
+If these process are run in separate terminal windows, you can monitor the responses for each service.  This is useful when debugging.
 
 You can also clear your database and search indexes with:
 
@@ -82,4 +84,4 @@ To generate documentation for backend endpoints:
 
     build/run doc:yard
 
-The generated HTML will be placed in the `doc` directory in your archivesspace root.
+The generated HTML will be placed in the `doc` directory in your archivesspace root.  Documentation will be automatically generated from the files you have added or modified.
