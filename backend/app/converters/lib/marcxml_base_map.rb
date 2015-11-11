@@ -289,6 +289,7 @@ module MarcXMLBaseMap
         },
         "self::datafield" => {
           :map => {
+            "//controlfield[@tag='001']" => :authority_id, 
             "@ind1" => sets_name_order_from_ind1,
             "subfield[@code='v']" => adds_prefixed_qualifier('Form subdivision'),
             "subfield[@code='x']" => adds_prefixed_qualifier('General subdivision'),

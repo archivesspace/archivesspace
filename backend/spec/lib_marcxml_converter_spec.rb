@@ -351,6 +351,7 @@ END
 
       new_record = json.last
 
+      new_record['names'][0]['authority_id'].should eq("n88218900")
       new_record['names'][0]['primary_name'].should eq("Davis")
       new_record['names'][0]['rest_of_name'].should eq("John W.")
       new_record['names'][0]['dates'].should eq("1873-1955")
