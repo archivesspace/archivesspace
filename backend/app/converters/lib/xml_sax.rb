@@ -218,7 +218,7 @@ module ASpaceImport
 
 
       def inner_xml
-        @node.inner_xml.strip
+        @node.inner_xml.gsub("&","&amp;").strip
       end
 
       def outer_xml
