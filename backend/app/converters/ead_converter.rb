@@ -136,7 +136,7 @@ class EADConverter < Converter
           # end
           set obj, :id_0, inner_xml
         when 'archival_object'
-          set obj, :component_id, inner_xml.gsub(/[\/_\-.]/, '_')
+          set obj, :component_id, inner_xml
         end
       end
     end
