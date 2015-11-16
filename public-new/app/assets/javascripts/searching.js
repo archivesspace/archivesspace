@@ -1,11 +1,13 @@
 var app = app || {};
 
+var RAILS_API = "/api";
+
 var SearchResultItem = Backbone.Model.extend({});
   
 var SearchResults = Backbone.PageableCollection.extend({
   model: SearchResultItem,
 
-  url: "/search",
+  url: RAILS_API+"/search",
 
   parseRecords: function(data) {
     return data.search_data.results
@@ -52,7 +54,7 @@ var SearchResults = Backbone.PageableCollection.extend({
 
 
   getRemoveFilterURL: function(filterToRemove) {
-    var url = "/search?page=1";
+    var url = RAILS_API+"/search?page=1";
     var filterKeys = _.filter(['q','filter_term[]'], function(k) {
       return k != filterToRemove;
     });
@@ -74,7 +76,7 @@ var SearchResults = Backbone.PageableCollection.extend({
 
 
   getAddFilterURL: function(filterToAdd) {
-    var url = "/search?page=1";
+    var url = RAILS_API+"/search?page=1";
     _.forOwn(_.pick(this.state.criteria, ['q', 'filter_term[]']), function(value, key) {
       if(_.isArray(value)) {
         _.forEach(value, function(filter) {
@@ -90,7 +92,7 @@ var SearchResults = Backbone.PageableCollection.extend({
 
 
   getPageURL: function(page) {
-    var url = "/search?page="+page;
+    var url = RAILS_API+"/search?page="+page;
     _.forOwn(_.pick(this.state.criteria, ['q']), function(n, key) { 
       url += "&"+key+"="+n; 
     });
@@ -185,6 +187,26 @@ var SearchResultsView = Backbone.View.extend({
     var pagerTmpl = _.template($('#search-pager-tmpl').html());
     $el.append(pagerTmpl(this.collection));
   }
+});
+
+
+//Search Toolbar on Results Page
+var SearchToolbarView = Backbone.View.extend({
+  el: "#search-box",
+  initialize: function() {
+    var tmpl = _.template($('#search-toolbar-tmpl').html());
+    this.$el.html(tmpl());
+    return this;
+  },
+  events: {
+    "click #search-button" : "search"
+  },
+  search: function (e) {
+    e.preventDefault();
+
+    app.router.navigate('/search?' + $('#search-form').serialize(), {trigger: true});
+  }
+
 });
 
 

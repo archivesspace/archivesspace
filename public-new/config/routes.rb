@@ -3,14 +3,14 @@ ArchivesSpacePublic::Application.routes.draw do
   [AppConfig[:public_proxy_prefix], AppConfig[:public_prefix]].uniq.each do |prefix|
 
     scope prefix do
-      
-      root :to => "site#index"
 
-      match 'repositories/:repo_id/resources/:id' => 'records#resource', :via => [:get]
+      root "site#index"
 
-      match 'search' => 'search#search', :via => [:get]
+      match 'api/repositories/:repo_id/resources/:id' => 'records#resource', :via => [:get]
 
-      match '(*url)' => "site#index", :via => [:get]
+      match 'api/search' => 'search#search', :via => [:get]
+
+      get '/(*url)' => "site#index"
 
 
   # The priority is based upon order of creation: first created -> highest priority.

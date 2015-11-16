@@ -1,5 +1,6 @@
 var app = app || {};
 
+_.templateSettings.evaluate = /{([\s\S]+?)}/g;
 
 var HeaderView = Backbone.View.extend({
   el: "#header",

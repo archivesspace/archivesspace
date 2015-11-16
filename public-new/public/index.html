@@ -71,9 +71,9 @@
     <div class="row">
       <p>&nbsp;</p>
       <!-- main content -->
-      <div id="main-content" class="medium-<%= mainWidth %> columns"></div>
+      <div id="main-content" class="medium-${mainWidth } columns"></div>
       <!-- sidebar -->
-      <div id="sidebar" class="medium-<%=sidebarWidth %> columns"></div>
+      <div id="sidebar" class="medium-${sidebarWidth } columns"></div>
     </div>
   </script>
 
@@ -86,7 +86,7 @@
   </script>
 
 
-  <!-- search box -->
+  <!-- search box (welcome page)-->
   <script type="text/template" id="search-box-tmpl">
     <div class="row panel">
       <h3>Search the archives</h3>
@@ -126,6 +126,45 @@
     </div>
   </script>
 
+
+  <!-- search toolbar -->
+  <script type="text/template" id="search-toolbar-tmpl">
+    <div class="row first-row panel">
+      <p class="small-12 columns">Your search for <span class="searchterm1">Maria Mitchell</span> AND <span class="searchterm2">astronomy</span> yielded 153 results.</p>
+      <p class="medium-6 columns">Change number of results displayed at once:
+        <button href="#" data-dropdown="numberresults" aria-controls="numberresults" aria-expanded="false" class="button dropdown tiny">20</button><br>
+        <ul id="numberresults" data-dropdown-content class="f-dropdown" aria-hidden="true">
+          <li><a href="#">40</a></li>
+          <li><a href="#">60</a></li>
+          <li><a href="#">100</a></li>
+        </ul>
+      </p>
+      <p class="medium-6 columns">Sort by: 
+        <button href="#" data-dropdown="relevance" aria-controls="relevance" aria-expanded="false" class="button dropdown tiny">Relevance</button><br>
+        <ul id="relevance" data-dropdown-content class="f-dropdown" aria-hidden="true">
+          <li><a href="#">Title</a></li>
+          <li><a href="#">Date added</a></li>
+          <li><a href="#">Date of material</a></li>
+          <li><a href="#">Anything else?</a></li>
+        </ul>
+      </p>
+      <div class="medium-6 columns">
+        Search controls:
+        <ul class="button-group ">
+          <li><a href="01landing.html" class="button small">New search</a></li>
+          <li><a href="02searchresultsmodify.html" class="button small">Revise current search</a></li>
+        </ul>
+      </div>
+      <div class="medium-6 columns text-right">
+        Display search results as:
+        <ul class="button-group text-right">
+          <li><a href="02searchresults.html" class="button small fi-list-thumbnails disabled"> All items</a></li>
+          <li><a href="02searchresultstree.html" class="button small fi-page-multiple"> Collections</a></li>
+          <li><a href="02searchresultsgrid.html" class="button small fi-thumbnails"> Digital items</a></li>
+        </ul>
+      </div>
+    </div>
+  </script>
 
 
   <!-- record -->
@@ -404,9 +443,9 @@
     <h3 data-tooltip aria-haspopup="true" class="has-tip" title="These results include each term individually using the OR modifier.">Search terms <i class="fi-info"></i></h3>
     <div>
       <ul class="applied-filters side-nav">
-        <% forEachAppliedFilterWithLabel(function(filter, label) { %>
-        <li class="remove"><a href="<%= getRemoveFilterURL(filter) %>"><%= label %></a></li>
-        <% }); %>
+        {forEachAppliedFilterWithLabel(function(filter, label) { }
+        <li class="remove"><a href="${getRemoveFilterURL(filter) }">${label }</a></li>
+        {}); }
       </ul>
     </div>
     <h3 data-tooltip aria-haspopup="true" class="has-tip" title="This filter narrow the results down based on the date the original object was created, authored, or otherwise came into existence. They do not correlate to when the record itself was created. Date searches may not be all inclusive because some dates are too vague to be machine readable. Those records cannot be caught by this filter.">Dates to include <i class="fi-info"></i></h3>
@@ -419,15 +458,15 @@
       </div>
     <h3 data-tooltip aria-haspopup="true" class="has-tip" title="Following are additional filters available based on your current search parameters. These options will narrow your results down to each specific category.">Additional filters <i class="fi-info"></i></h3>
     <div>
-      <% eachUsableFacetGroup(function(facets, facetGroup) { %>
+      {eachUsableFacetGroup(function(facets, facetGroup) { }
       <span class="definition"># of records</span>
-      <h5><%= facetGroup %></h5>
+      <h5>${facetGroup }</h5>
       <ul class="facet-group side-nav">
-        <% _.forOwn(facets, function(facetMap, facet) { %>
-        <li><a href="<%= getAddFilterURL(facetMap.filter_term) %>"><%= facetMap.label %><span class="recordnumber"><%= facetMap.count %></span></a></li>
-        <% }); %>
+        {_.forOwn(facets, function(facetMap, facet) { }
+        <li><a href="${getAddFilterURL(facetMap.filter_term) }">${facetMap.label }<span class="recordnumber">${facetMap.count }</span></a></li>
+        {}); }
       </ul>
-      <% }); %>
+      {}); }
     </div>
   </script>
 
@@ -435,7 +474,7 @@
   <!-- Search result row -->
   <script type="text/template" id="search-result-row-tmpl">
     <div class="recordrow">
-      <h3><a href="03record-collection.html"><%= title %></a></h3>
+      <h3><a href="03record-collection.html">${title }</a></h3>
       <div class="recordtype"><span class="collection"><i class="fi-clipboard small"> </i> Collection</span> &nbsp; | &nbsp; <strong>Identifier:</strong> ABCDEFGHIJKL</div>
       <div class="recordsummary">Maecenas faucibus mollis <span class="searchterm2">astronomy</span>. Maecenas sed diam eget risus varius blandit sit amet non magna. Vestibulum id ligula porta semper.</div>
       <div class="recorddate"><strong>Date(s):</strong> 1903-1943</div>
@@ -463,15 +502,16 @@
   <!-- Search Pager -->
   <script type="text/template" id="search-pager-tmpl">
     <ul class="pagination" role="menubar" aria-label="Pagination">      
-      <li class='arrow<%= hasPreviousPage() ? "'>": " unavailable' aria-disabled='true'>"%><a href="<%= hasPreviousPage() ? getPreviousPageURL() : ''%>">&#171; Previous</a></li>
-          <% _.times((getPagerEnd() - getPagerStart() + 1), function(n) {%>
+      <li class='arrow${hasPreviousPage() ? "'>": " unavailable' aria-disabled='true'>"}<a href="${hasPreviousPage() ? getPreviousPageURL() : ''}">&#171; Previous</a></li>
+          { console.log("FOO"); }
+          {_.times((getPagerEnd() - getPagerStart() + 1), function(n) {}
 <li>
-  <% if(n + getPagerStart() === state.currentPage) { %>
-  <li><%= n+getPagerStart() %></li>
-  <% } else { %>
-  <a href="<%= getPageURL((n + getPagerStart())) %>"><%= n+getPagerStart() %></a></li>
-<% } %>
-  <% }); %>
+  {if(n + getPagerStart() === state.currentPage) { }
+  <li>${n+getPagerStart() }</li>
+  {} else { }
+  <a href="${getPageURL((n + getPagerStart())) }">${n+getPagerStart() }</a></li>
+{} }
+  {}); }
       <!-- <li class="current"><a href="">1</a></li> -->
       <!-- <li><a href="">2</a></li> -->
       <!-- <li><a href="">3</a></li> -->
@@ -479,7 +519,7 @@
       <!-- <li class="unavailable" aria-disabled="true"><a href="">…</a></li> -->
       <!-- <li><a href="">12</a></li> -->
       <!-- <li><a href="">13</a></li> -->
-      <li class='arrow<%= hasNextPage() ? "'>": " unavailable' aria-disabled='true'>"%><a href="<%= hasNextPage() ? getNextPageURL() : ''%>">Next &#187;</a></li>
+      <li class='arrow${hasNextPage() ? "'>": " unavailable' aria-disabled='true'>"}<a href="${hasNextPage() ? getNextPageURL() : ''}">Next &#187;</a></li>
     </ul>
   </script>
 

@@ -59,9 +59,14 @@ var app = app || {};
       });
 
       app.debug = searchResults;
+
       $('#wait-modal').foundation('reveal', 'open');
       searchResults.fetch({data: searchParams}).then(function() {
-        $("#search-box").remove();
+        $("#search-box").empty();
+        var searchToolbarView = new SearchToolbarView({
+          collection: searchResults,
+          searchParams: searchParams
+        });
 
         var containerView = new ContainerView({
           mainWidth: 9,
