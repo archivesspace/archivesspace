@@ -454,7 +454,7 @@ class MARCModel < ASpaceExport::ExportModel
                   when 'abstract'
                     ['520', '3', ' ', 'a']
                   when 'prefercite'
-                    ['534', '8', ' ', 'a']
+                    ['524', '8', ' ', 'a']
                   when 'acqinfo'
                     ind1 = note['publish'] ? '1' : '0'
                     ['541', ind1, ' ', 'a']
