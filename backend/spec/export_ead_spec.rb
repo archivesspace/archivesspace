@@ -39,7 +39,7 @@ describe "EAD export mappings" do
     @mixed_subnotes_tracer = build("json_note_multipart", {
                                      :type => 'bioghist',
                                      :publish => true,
-                                     :persistent_id => "mixed_subnotes_tracter",
+                                     :persistent_id => "mixed_subnotes_tracer",
                                      :subnotes => [build(:json_note_text, { :publish => true,
                                                            :content => "note_text - The ship set ground on the shore of this uncharted desert isle"} ),
                                                    build(:json_note_text, { :publish => true,
@@ -51,12 +51,25 @@ describe "EAD export mappings" do
                                                                       {:label => "Etc.", :value => "The Professor and Mary Ann" }
                                                                      ]
                                                          }),
-                                                   build(:json_note_text,{   :content => "note_text - Here on Gillgian's Island", :publish => true}) ]
+                                                   build(:json_note_text,{   :content => "note_text - Here on Gillgian's Island", :publish => true}) ,
+                                                  ]
                                    })
+
+    @another_note_tracer = build("json_note_multipart", {
+                              :type => 'bioghist',
+                              :publish => true,
+                              :persistent_id => "another_note_tracer",
+                              :subnotes => [
+                                            build(:json_note_chronology, {
+                                                    :title => "my life story",
+                                                    :items => [{'event_date' => "1900", 'events' => ["LIFE &amp; DEATH"]}]
+                                                  }),
+                                           ]
+                            })
 
 
     resource = create(:json_resource,  :linked_agents => build_linked_agents(@agents),
-                      :notes => build_archival_object_notes(10) + [@mixed_subnotes_tracer],
+                      :notes => build_archival_object_notes(10) + [@mixed_subnotes_tracer, @another_note_tracer],
                       :subjects => @subjects.map{|ref, s| {:ref => ref}},
                       :instances => instances,
                       :finding_aid_status => %w(completed in_progress under_revision unprocessed).sample,
@@ -249,6 +262,7 @@ describe "EAD export mappings" do
 
           mt(head_text, "#{path}/head")
           regcontent = content.split(/\n\n|\r/).map { |c| ".*?[\r\n\n]*.*?#{c.strip}" }
+          next if regcontent.empty?
           mt(/^.*?#{head_text}.*?[\r\n\n]*.*?#{regcontent}.*?$/m, "#{path}")
         end
       end
@@ -358,7 +372,8 @@ describe "EAD export mappings" do
               next unless item.has_key?('events')
               item['events'].each_with_index do |event, k|
                 event_path = "#{item_path}/eventgrp/event[#{k+1}]"
-                mt(event, event_path)
+                # Nokogiri 'helpfully' reads "&amp;" into "&" when it parses the doc
+                mt(event.gsub("&amp;", "&"), event_path)
               end
             end
           end
@@ -406,7 +421,7 @@ describe "EAD export mappings" do
         end
       end
 
-      it "ensures subnotes[] order is respects, even if subnotes are of mixed types" do
+      it "ensures subnotes[] order is respected, even if subnotes are of mixed types" do
 
         path = "//bioghist[@id = 'aspace_#{@mixed_subnotes_tracer['persistent_id']}']"
         head_text = translate('enumerations._note_types',@mixed_subnotes_tracer['type'])
@@ -418,6 +433,14 @@ describe "EAD export mappings" do
           i = i + 1
         end
 
+      end
+
+
+      it "doesn't double-escape '&amp;' in a chronitem event on export" do
+        path = "//bioghist[@id = 'aspace_#{@another_note_tracer['persistent_id']}']/chronlist/chronitem/eventgrp/event"
+
+        # we are really testing that the raw XML doesn't container '&amp;amp;'
+        mt("LIFE & DEATH", path)
       end
     end
 
@@ -980,5 +1003,3 @@ describe "EAD export mappings" do
     end
   end
 end
-
-

@@ -1,6 +1,6 @@
 require 'nokogiri'
 require 'securerandom'
-require_relative "../lib/serialize_extra_container_values" 
+require_relative "../lib/serialize_extra_container_values"
 class EADSerializer < ASpaceExport::Serializer
   serializer_for :ead
 
@@ -19,20 +19,20 @@ class EADSerializer < ASpaceExport::Serializer
   end
 
   include SerializeExtraContainerValues
-  
+
   def prefix_id(id)
-    if id.nil? or id.empty? or id == 'null'   
+    if id.nil? or id.empty? or id == 'null'
       ""
-    elsif id =~ /^#{@id_prefix}/ 
+    elsif id =~ /^#{@id_prefix}/
       id
-    else 
+    else
       "#{@id_prefix}#{id}"
-    end 
+    end
   end
- 
+
   def handle_linebreaks(content)
-    # if there's already p tags, just leave as is 
-    return content if ( content.strip =~ /^<p(\s|\/|>)/ or content.strip.length < 1 ) 
+    # if there's already p tags, just leave as is
+    return content if ( content.strip =~ /^<p(\s|\/|>)/ or content.strip.length < 1 )
     blocks = content.split("\n\n").select { |b| !b.strip.empty? }
     if blocks.length > 1
       content = blocks.inject("") { |c,n| c << "<p>#{n.chomp}</p>"  }
@@ -47,28 +47,28 @@ class EADSerializer < ASpaceExport::Serializer
   end
 
   def sanitize_mixed_content(content, context, fragments, allow_p = false  )
-#    return "" if content.nil? 
-    # br's should be self closing 
+#    return "" if content.nil?
+    # br's should be self closing
     content = content.gsub("<br>", "<br/>").gsub("</br>", '')
-    # lets break the text, if it has linebreaks but no p tags.  
-    
-    if allow_p 
-      content = handle_linebreaks(content) 
+    # lets break the text, if it has linebreaks but no p tags.
+
+    if allow_p
+      content = handle_linebreaks(content)
     else
       content = strip_p(content)
     end
-    
-    begin 
+
+    begin
       if ASpaceExport::Utils.has_html?(content)
-         context.text( fragments << content )
+        context.text( fragments << content )
       else
-        context.text content
+        context.text content.gsub("&amp;", "&") #thanks, Nokogiri
       end
     rescue
       context.cdata content
     end
   end
-  
+
   def stream(data)
     @stream_handler = ASpaceExport::StreamHandler.new
     @fragments = ASpaceExport::RawXMLHandler.new
@@ -77,7 +77,7 @@ class EADSerializer < ASpaceExport::Serializer
     @id_prefix = I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')
 
     doc = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
-      begin 
+      begin
 
       xml.ead(                  'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
                  'xsi:schemaLocation' => 'urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd',
@@ -101,11 +101,11 @@ class EADSerializer < ASpaceExport::Serializer
         atts.reject! {|k, v| v.nil?}
 
         xml.archdesc(atts) {
-            
+
 
 
           xml.did {
-          
+
 
             if (val = data.language)
               xml.langmaterial {
@@ -122,7 +122,7 @@ class EADSerializer < ASpaceExport::Serializer
             end
 
             if (val = data.title)
-              xml.unittitle  {   sanitize_mixed_content(val, xml, @fragments) } 
+              xml.unittitle  {   sanitize_mixed_content(val, xml, @fragments) }
             end
 
             serialize_origination(data, xml, @fragments)
@@ -142,7 +142,7 @@ class EADSerializer < ASpaceExport::Serializer
             EADSerializer.run_serialize_step(data, xml, @fragments, :did)
 
           }# </did>
-            
+
           data.digital_objects.each do |dob|
                 serialize_digital_object(dob, xml, @fragments)
           end
@@ -169,30 +169,30 @@ class EADSerializer < ASpaceExport::Serializer
           }
         }
       }
-    
+
     rescue => e
       xml.text  "ASPACE EXPORT ERROR : YOU HAVE A PROBLEM WITH YOUR EXPORT OF YOUR RESOURCE. THE FOLLOWING INFORMATION MAY HELP:\n
                 MESSAGE: #{e.message.inspect}  \n
                 TRACE: #{e.backtrace.inspect} \n "
     end
- 
-    
-    
+
+
+
     end
     doc.doc.root.add_namespace nil, 'urn:isbn:1-931666-22-9'
 
     Enumerator.new do |y|
       @stream_handler.stream_out(doc, @fragments, y)
     end
-  
-    
+
+
   end
-  
+
   # this extracts <head> content and returns it. optionally, you can provide a
   # backup text node that will be returned if there is no <head> nodes in the
   # content
   def extract_head_text(content, backup = "")
-    content ||= ""  
+    content ||= ""
     match = content.strip.match(/<head( [^<>]+)?>(.+?)<\/head>/)
     if match.nil? # content has no head so we return it as it
       return [content, backup ]
@@ -202,7 +202,7 @@ class EADSerializer < ASpaceExport::Serializer
   end
 
   def serialize_child(data, xml, fragments, c_depth = 1)
-    begin 
+    begin
     return if data["publish"] === false && !@include_unpublished
 
     tag_name = @use_numbered_c_tags ? :"c#{c_depth.to_s.rjust(2, '0')}" : :c
@@ -218,7 +218,7 @@ class EADSerializer < ASpaceExport::Serializer
 
       xml.did {
         if (val = data.title)
-          xml.unittitle {  sanitize_mixed_content( val,xml, fragments) } 
+          xml.unittitle {  sanitize_mixed_content( val,xml, fragments) }
         end
 
         if !data.component_id.nil? && !data.component_id.empty?
@@ -237,7 +237,7 @@ class EADSerializer < ASpaceExport::Serializer
         # on archival_objects (see migrations/models/ead.rb).
 
         data.instances.each do |inst|
-          case 
+          case
           when inst.has_key?('container') && !inst['container'].nil?
             serialize_container(inst, xml, fragments)
           when inst.has_key?('digital_object') && !inst['digital_object']['_resolved'].nil?
@@ -293,7 +293,7 @@ class EADSerializer < ASpaceExport::Serializer
          atts.reject! {|k, v| v.nil?}
 
           xml.send(node_name, atts) {
-            sanitize_mixed_content(sort_name, xml, fragments ) 
+            sanitize_mixed_content(sort_name, xml, fragments )
           }
         }
       end
@@ -306,14 +306,14 @@ class EADSerializer < ASpaceExport::Serializer
 
         data.controlaccess_subjects.each do |node_data|
           xml.send(node_data[:node_name], node_data[:atts]) {
-            sanitize_mixed_content( node_data[:content], xml, fragments, ASpaceExport::Utils.include_p?(node_data[:node_name]) ) 
+            sanitize_mixed_content( node_data[:content], xml, fragments, ASpaceExport::Utils.include_p?(node_data[:node_name]) )
           }
         end
 
 
         data.controlaccess_linked_agents.each do |node_data|
           xml.send(node_data[:node_name], node_data[:atts]) {
-            sanitize_mixed_content( node_data[:content], xml, fragments,ASpaceExport::Utils.include_p?(node_data[:node_name]) ) 
+            sanitize_mixed_content( node_data[:content], xml, fragments,ASpaceExport::Utils.include_p?(node_data[:node_name]) )
           }
         end
 
@@ -339,12 +339,12 @@ class EADSerializer < ASpaceExport::Serializer
           sn['items'].each do |item|
             xml.chronitem {
               if (val = item['event_date'])
-                xml.date {   sanitize_mixed_content( val, xml, fragments) } 
+                xml.date { sanitize_mixed_content( val, xml, fragments) }
               end
               if item['events'] && !item['events'].empty?
                 xml.eventgrp {
                   item['events'].each do |event|
-                    xml.event {   sanitize_mixed_content(event,xml, fragments) }  
+                    xml.event { sanitize_mixed_content(event, xml, fragments) }
                   end
                 }
               end
@@ -357,7 +357,7 @@ class EADSerializer < ASpaceExport::Serializer
           xml.head { sanitize_mixed_content(title, xml, fragments) }  if title
 
           sn['items'].each do |item|
-            xml.item { sanitize_mixed_content(item,xml, fragments)} 
+            xml.item { sanitize_mixed_content(item,xml, fragments)}
           end
         }
       when 'note_definedlist'
@@ -368,7 +368,7 @@ class EADSerializer < ASpaceExport::Serializer
             xml.defitem {
               xml.label { sanitize_mixed_content(item['label'], xml, fragments) } if item['label']
               xml.item { sanitize_mixed_content(item['value'],xml, fragments )} if item['value']
-            } 
+            }
           end
         }
       end
@@ -377,15 +377,15 @@ class EADSerializer < ASpaceExport::Serializer
 
   def serialize_container(inst, xml, fragments)
     containers = []
-    @parent_id = nil 
+    @parent_id = nil
     (1..3).each do |n|
       atts = {}
       next unless inst['container'].has_key?("type_#{n}") && inst['container'].has_key?("indicator_#{n}")
-      @container_id = prefix_id(SecureRandom.hex) 
-      
-      atts[:parent] = @parent_id unless @parent_id.nil? 
-      atts[:id] = @container_id 
-      @parent_id = @container_id 
+      @container_id = prefix_id(SecureRandom.hex)
+
+      atts[:parent] = @parent_id unless @parent_id.nil?
+      atts[:id] = @container_id
+      @parent_id = @container_id
 
       atts[:type] = inst['container']["type_#{n}"]
       text = inst['container']["indicator_#{n}"]
@@ -393,7 +393,7 @@ class EADSerializer < ASpaceExport::Serializer
         atts[:label] = I18n.t("enumerations.instance_instance_type.#{inst['instance_type']}", :default => inst['instance_type'])
       end
       xml.container(atts) {
-         sanitize_mixed_content(text, xml, fragments)  
+         sanitize_mixed_content(text, xml, fragments)
       }
     end
   end
@@ -403,7 +403,7 @@ class EADSerializer < ASpaceExport::Serializer
     file_versions = digital_object['file_versions']
     title = digital_object['title']
     date = digital_object['dates'][0] || {}
-    
+
     atts = digital_object["publish"] === false ? {:audience => 'internal'} : {}
 
     content = ""
@@ -418,8 +418,8 @@ class EADSerializer < ASpaceExport::Serializer
       end
     end
     atts['xlink:title'] = digital_object['title'] if digital_object['title']
-    
-    
+
+
     if file_versions.empty?
       atts['xlink:href'] = digital_object['digital_object_id']
       atts['xlink:actuate'] = 'onRequest'
@@ -437,7 +437,7 @@ class EADSerializer < ASpaceExport::Serializer
         }
       end
     end
-    
+
   end
 
 
@@ -449,7 +449,7 @@ class EADSerializer < ASpaceExport::Serializer
         xml.physdesc({:altrender => e['portion']}.merge(audatt)) {
           if e['number'] && e['extent_type']
             xml.extent({:altrender => 'materialtype spaceoccupied'}) {
-              sanitize_mixed_content("#{e['number']} #{I18n.t('enumerations.extent_extent_type.'+e['extent_type'], :default => e['extent_type'])}", xml, fragments)  
+              sanitize_mixed_content("#{e['number']} #{I18n.t('enumerations.extent_extent_type.'+e['extent_type'], :default => e['extent_type'])}", xml, fragments)
             }
           end
           if e['container_summary']
@@ -470,7 +470,7 @@ class EADSerializer < ASpaceExport::Serializer
       next if node_data["publish"] === false && !@include_unpublished
       audatt = node_data["publish"] === false ? {:audience => 'internal'} : {}
       xml.unitdate(node_data[:atts].merge(audatt)){
-        sanitize_mixed_content( node_data[:content],xml, fragments ) 
+        sanitize_mixed_content( node_data[:content],xml, fragments )
       }
     end
   end
@@ -484,14 +484,14 @@ class EADSerializer < ASpaceExport::Serializer
       audatt = note["publish"] === false ? {:audience => 'internal'} : {}
       content = ASpaceExport::Utils.extract_note_text(note, @include_unpublished)
 
-      att = { :id => prefix_id(note['persistent_id']) }.reject {|k,v| v.nil? || v.empty? || v == "null" } 
+      att = { :id => prefix_id(note['persistent_id']) }.reject {|k,v| v.nil? || v.empty? || v == "null" }
       att ||= {}
 
       case note['type']
       when 'dimensions', 'physfacet'
         xml.physdesc(audatt) {
           xml.send(note['type'], att) {
-            sanitize_mixed_content( content, xml, fragments, ASpaceExport::Utils.include_p?(note['type'])  ) 
+            sanitize_mixed_content( content, xml, fragments, ASpaceExport::Utils.include_p?(note['type'])  )
           }
         }
       else
@@ -505,14 +505,14 @@ class EADSerializer < ASpaceExport::Serializer
   def serialize_note_content(note, xml, fragments)
     return if note["publish"] === false && !@include_unpublished
     audatt = note["publish"] === false ? {:audience => 'internal'} : {}
-    content = note["content"] 
+    content = note["content"]
 
     atts = {:id => prefix_id(note['persistent_id']) }.reject{|k,v| v.nil? || v.empty? || v == "null" }.merge(audatt)
-    
+
     head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note['type']}", :default => note['type'])
-    content, head_text = extract_head_text(content, head_text) 
+    content, head_text = extract_head_text(content, head_text)
     xml.send(note['type'], atts) {
-      xml.head { sanitize_mixed_content(head_text, xml, fragments) } unless ASpaceExport::Utils.headless_note?(note['type'], content ) 
+      xml.head { sanitize_mixed_content(head_text, xml, fragments) } unless ASpaceExport::Utils.headless_note?(note['type'], content )
       sanitize_mixed_content(content, xml, fragments, ASpaceExport::Utils.include_p?(note['type']) ) if content
       if note['subnotes']
         serialize_subnotes(note['subnotes'], xml, fragments, ASpaceExport::Utils.include_p?(note['type']))
@@ -530,7 +530,7 @@ class EADSerializer < ASpaceExport::Serializer
       audatt = note["publish"] === false ? {:audience => 'internal'} : {}
       if note['type'] == 'legalstatus'
         xml.accessrestrict(audatt) {
-          serialize_note_content(note, xml, fragments) 
+          serialize_note_content(note, xml, fragments)
         }
       else
         serialize_note_content(note, xml, fragments)
@@ -543,15 +543,15 @@ class EADSerializer < ASpaceExport::Serializer
     data.bibliographies.each do |note|
       next if note["publish"] === false && !@include_unpublished
       content = ASpaceExport::Utils.extract_note_text(note, @include_unpublished)
-      note_type = note["type"] ? note["type"] : "bibliography" 
+      note_type = note["type"] ? note["type"] : "bibliography"
       head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note_type}", :default => note_type )
       audatt = note["publish"] === false ? {:audience => 'internal'} : {}
-      
+
       atts = {:id => prefix_id(note['persistent_id']) }.reject{|k,v| v.nil? || v.empty? || v == "null" }.merge(audatt)
 
       xml.bibliography(atts) {
-        xml.head { sanitize_mixed_content(head_text, xml, fragments) } 
-        sanitize_mixed_content( content, xml, fragments, true) 
+        xml.head { sanitize_mixed_content(head_text, xml, fragments) }
+        sanitize_mixed_content( content, xml, fragments, true)
         note['items'].each do |item|
           xml.bibref { sanitize_mixed_content( item, xml, fragments) }  unless item.empty?
         end
@@ -573,7 +573,7 @@ class EADSerializer < ASpaceExport::Serializer
       end
       atts = {:id => prefix_id(note["persistent_id"]) }.reject{|k,v| v.nil? || v.empty? || v == "null" }.merge(audatt)
 
-      content, head_text = extract_head_text(content, head_text) 
+      content, head_text = extract_head_text(content, head_text)
       xml.index(atts) {
         xml.head { sanitize_mixed_content(head_text,xml,fragments ) } unless head_text.nil?
         sanitize_mixed_content(content, xml, fragments, true)
@@ -582,7 +582,7 @@ class EADSerializer < ASpaceExport::Serializer
           xml.indexentry {
             atts = item['reference'] ? {:target => prefix_id( item['reference']) } : {}
             if (val = item['value'])
-              xml.send(node_name) {  sanitize_mixed_content(val, xml, fragments )} 
+              xml.send(node_name) {  sanitize_mixed_content(val, xml, fragments )}
             end
             if (val = item['reference_text'])
               xml.ref(atts) {
@@ -626,7 +626,7 @@ class EADSerializer < ASpaceExport::Serializer
           xml.subtitle {  sanitize_mixed_content(data.finding_aid_subtitle, xml, fragments) } unless data.finding_aid_subtitle.nil?
           xml.author { sanitize_mixed_content(data.finding_aid_author, xml, fragments) }  unless data.finding_aid_author.nil?
           xml.sponsor { sanitize_mixed_content( data.finding_aid_sponsor, xml, fragments) } unless data.finding_aid_sponsor.nil?
-      
+
         }
 
         unless data.finding_aid_edition_statement.nil?
@@ -636,20 +636,20 @@ class EADSerializer < ASpaceExport::Serializer
         end
 
         xml.publicationstmt {
-          xml.publisher { sanitize_mixed_content(data.repo.name,xml, fragments) } 
+          xml.publisher { sanitize_mixed_content(data.repo.name,xml, fragments) }
 
           if data.repo.image_url
             xml.p ( { "id" => "logostmt" } ) {
               xml.extref ({"xlink:href" => data.repo.image_url,
                           "xlink:actuate" => "onLoad",
                           "xlink:show" => "embed",
-                          "xlink:type" => "simple" 
+                          "xlink:type" => "simple"
                           })
                           }
           end
           if (data.finding_aid_date)
             xml.p {
-                  val = data.finding_aid_date   
+                  val = data.finding_aid_date
                   xml.date {   sanitize_mixed_content( val, xml, fragments) }
                   }
           end
@@ -657,17 +657,17 @@ class EADSerializer < ASpaceExport::Serializer
           unless data.addresslines.empty?
             xml.address {
               data.addresslines.each do |line|
-                xml.addressline { sanitize_mixed_content( line, xml, fragments) }  
+                xml.addressline { sanitize_mixed_content( line, xml, fragments) }
               end
-              if data.repo.url 
-              	xml.addressline ( "URL: " ) { 
-              	  xml.extptr ( { 
-              	  				"xlink:href" => data.repo.url,
-              	  				"xlink:title" => data.repo.url,
-              	  				"xlink:type" => "simple",
-              	  				"xlink:show" => "new"
-              	  				} )
-              	 }
+              if data.repo.url
+                xml.addressline ( "URL: " ) {
+                  xml.extptr ( {
+                          "xlink:href" => data.repo.url,
+                          "xlink:title" => data.repo.url,
+                          "xlink:type" => "simple",
+                          "xlink:show" => "new"
+                          } )
+                 }
               end
             }
           end
@@ -676,14 +676,14 @@ class EADSerializer < ASpaceExport::Serializer
         if (data.finding_aid_series_statement)
           val = data.finding_aid_series_statement
           xml.seriesstmt {
-            sanitize_mixed_content(  val, xml, fragments, true ) 
+            sanitize_mixed_content(  val, xml, fragments, true )
           }
         end
         if ( data.finding_aid_note )
-            val = data.finding_aid_note 
-            xml.notestmt { xml.note { sanitize_mixed_content(  val, xml, fragments, true )} }  
+            val = data.finding_aid_note
+            xml.notestmt { xml.note { sanitize_mixed_content(  val, xml, fragments, true )} }
         end
-       
+
       }
 
       xml.profiledesc {
@@ -695,7 +695,7 @@ class EADSerializer < ASpaceExport::Serializer
         end
 
         if (val = data.descrules)
-          xml.descrules { sanitize_mixed_content(val, xml, fragments) } 
+          xml.descrules { sanitize_mixed_content(val, xml, fragments) }
         end
       }
 
@@ -706,13 +706,13 @@ class EADSerializer < ASpaceExport::Serializer
                 xml.text (fragments << rs['description'] )
               else
                 xml.change {
-                  rev_date = rs['date'] ? rs['date'] : "" 
-                  xml.date (fragments <<  rev_date ) 
+                  rev_date = rs['date'] ? rs['date'] : ""
+                  xml.date (fragments <<  rev_date )
                   xml.item (fragments << rs['description']) if rs['description']
                 }
               end
           end
-        } 
+        }
       end
     }
   end
