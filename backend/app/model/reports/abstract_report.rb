@@ -2,13 +2,29 @@ require_relative 'report_manager'
 
 class AbstractReport
   include ReportManager::Mixin
+  
+  attr_accessor :repo_id
+  attr_accessor :format
+  attr_accessor :params
 
   def initialize(params)
+    # sanity check, please. 
+    params = params.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
     @repo_id = params[:repo_id] if params.has_key?(:repo_id) && params[:repo_id] != ""
+    @format = params[:format] if params.has_key?(:format) && params[:format] != "" 
+    @params = params 
+  end
+
+  def get_binding
+    binding
   end
 
   def title
     self.class.name
+  end
+
+  def report
+    self
   end
 
   def template

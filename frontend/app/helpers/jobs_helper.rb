@@ -5,11 +5,12 @@ module JobsHelper
   def file_label(job_type)
     if job_type == "print_to_pdf_job"
       I18n.t("actions.download_pdf")
+    elsif job_type == "report_job" 
+      I18n.t("actions.download_report")
     else
       "File"
     end
   end
-
 
 
   def badge_class_for_status(status)

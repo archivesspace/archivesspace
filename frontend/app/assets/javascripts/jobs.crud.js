@@ -119,6 +119,31 @@ $(function() {
         $("#job_form_messages", $form)
           .empty()
         //
+      } else if ($(this).val() === "report_job") {
+        $("#job_form_messages", $form)
+          .empty()
+          .html(AS.renderTemplate("template_report_instructions"));
+        // we disable to form...
+        $('.form-actions .btn-primary').addClass('disabled'); 
+        $("#noImportTypeSelected", $form).hide();
+        $("#job_type_fields", $form)
+          .empty()
+          .html(AS.renderTemplate("template_report_job"));
+        $(".linker:not(.initialised)").linker();
+        $(document).triggerHandler("subrecordcreated.aspace", ["date", $form]); 
+        $('.select-record', $form).on("click", function(event) { 
+          $('.accordion-toggle').click();
+          $('.form-actions .btn-primary').removeClass('disabled'); 
+          event.preventDefault(); 
+          var report = $(this).data('report');
+          var $listing = $(this).parent();
+          $(this).siblings(".selected-message").removeClass("hide")
+          $(this).addClass("hide")
+          $listing.removeClass('alert-info').addClass('alert-success'); 
+          $listing.parent().siblings('.report-listing').fadeOut('slow', function() { $(this).remove(); });
+        });
+      
+      
       } else if ($(this).val() === "print_to_pdf_job") {
 
         $("#job_form_messages", $form)

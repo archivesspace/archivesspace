@@ -31,10 +31,12 @@ class JasperReport
   attr_accessor :jrprint
   attr_accessor :export_file
   attr_accessor :data_source
+  attr_accessor :format
 
   def initialize(params = {})
     @repo_id = params[:repo_id] if params.has_key?(:repo_id) && params[:repo_id] != ""
     @base_path = File.dirname(self.class.report)
+    @format = params[:format] if params.has_key?(:format) && params[:format] != "" 
     ObjectSpace.define_finalizer( self, self.class.finalize(self) )
   end
 

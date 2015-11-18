@@ -85,6 +85,15 @@
 
 <% end %>
 
+<% define_template "report_job", jsonmodel_definition(:report_job) do |form, job| %>
+
+    <div class="form-group">
+      <label class="control-label"><%= I18n.t("actions.resource_to_pdf")  %></label>
+      <div class="controls label-only"><%= job['report_type'] %></div>
+    </div>
+
+<% end %>
+
 
 
 

@@ -43,7 +43,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", Integer, "ID of the corporate entity agent"],
             ["resolve", :resolve])
     .permissions([])
-    .returns([200, "(:agent)"],
+    .returns([200, "(:agent_corporate_entity)"],
              [404, "Not found"]) \
   do
     json_response(resolve_references(AgentCorporateEntity.to_jsonmodel(AgentCorporateEntity.get_or_die(params[:id])),

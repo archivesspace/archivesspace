@@ -16,7 +16,8 @@ class CSVResponse
 
   # just added for the generic response
   def generate
-    self 
+    output = "" 
+    self.each { |r| output << r } 
   end
 
 end
