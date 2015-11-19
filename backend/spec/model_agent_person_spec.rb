@@ -13,6 +13,16 @@ describe 'Agent model' do
   end
 
 
+  it "doesn't have a leading whitespace in the sort name" do
+
+    n1 = build(:json_name_person, :rest_of_name => nil)
+
+    agent = AgentPerson.create_from_json(build(:json_agent_person, :names => [n1]))
+
+    AgentPerson[agent[:id]].name_person.first[:sort_name].should match(Regexp.new("^#{n1.primary_name}.*"))
+  end
+
+
   it "allows agents to have a linked contact details" do
 
     c1 = build(:json_agent_contact)
