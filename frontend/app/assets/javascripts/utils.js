@@ -412,6 +412,8 @@ AS.openCustomModal = function(id, title, contents, modalSize, modalOpts, initiat
 
   $modal.modal('show');
 
+  $(".linker:not(.initialised)", $modal).linker();
+
   return $modal;
 };
 

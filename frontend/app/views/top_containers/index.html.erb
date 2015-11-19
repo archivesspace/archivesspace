@@ -19,8 +19,16 @@
   </div>
 --></div>
 
-<script src="<%= "#{AppConfig[:frontend_prefix]}assets/jquery.tablesorter.min.js" %>"></script>
-<script src="<%= "#{AppConfig[:frontend_prefix]}assets/jquery.tablesorter.widgets.min.js" %>"></script>
-<script src="<%= "#{AppConfig[:frontend_prefix]}assets/top_containers.bulk.js" %>"></script>
+<script src="<%= "#{AppConfig[:frontend_proxy_prefix]}assets/jquery.tablesorter.min.js" %>"></script>
+<script src="<%= "#{AppConfig[:frontend_proxy_prefix]}assets/jquery.tablesorter.widgets.min.js" %>"></script>
+<script src="<%= "#{AppConfig[:frontend_proxy_prefix]}assets/top_containers.bulk.js" %>"></script>
+
+<script>
+  $(document).trigger("loadedrecordform.aspace", [$(".bulk-operations-search-criteria")]);
+  $(function() {
+        $(".linker:not(.initialised)", $(".bulk-operations-search-criteria")).linker();
+  });
+</script>
+
 
 <%= render_aspace_partial :partial => "top_containers/bulk_operations/bulk_action_templates" %>
