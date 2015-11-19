@@ -66,6 +66,70 @@
   <% end %>
 
 
+  <% define_template("report_job", jsonmodel_definition(:report_job)) do |form| %>
+
+      <div class="col-md-12">
+          <h2>Reports</h2>
+
+          <div class="accordion" id="reportListing">
+            
+            <% @report_data["reports"].values.each do | report | %>
+              <div class='report-listing'>
+                <div class="alert alert-info">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#reportListing" href="#reportListing_<%= report["uri_suffix"] %>">
+                    <%= I18n.t("reports.#{report["model"]}", :default => report["model"]) %>
+                  </a>
+                  <button class="pull-right btn btn-default  hide selected-message" disabled>Selected</span>
+                  <button class="pull-right btn btn-default select-record" data-report="<%= report['uri_suffix'] %>">Select</button>
+                  <a class="pull-right btn btn-default accordion-toggle" data-toggle="collapse" data-parent="#reportListing" href="#reportListing_<%= report["uri_suffix"] %>" >
+                    <%= I18n.t("job.show_description") %>
+                  </a>
+                </div>
+                <div id="reportListing_<%= report["uri_suffix"] %>" class="accordion-body collapse">
+                  <div class="accordion-inner">
+                    <p><%= report['description'] %></p>
+                    <hr/>
+                    <input id='report_type_' name='report_job[report_type]' type='hidden' value='<%= report['uri_suffix'] %>' />
+                    <% report_params = report["params"].reject{|p| ["format", "repo_id"].include?(p[0])} %>
+                    
+                    <% if report_params.length > 0 %>
+                       <% report_params.each do | param | %>
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label"><%= I18n.t("reports.parameters.#{param[0]}", :default => param[0]) %></label>
+                          <div class="col-sm-9">
+                            <% if param[1] === "Date" %>
+                              <%= text_field_tag "job[job_params][#{param[0]}]", nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd'  %> 
+                            <% elsif param[1] === "String" && param.length > 3 && param[3].has_key?("enumeration") %>
+                              <%= select_tag( "job[job_params][#{param[0]}]", options_for_select(
+                                                      JSONModel.enum_values(param[3]["enumeration"]).map{|v| [I18n.t("enumerations.#{param[3]["enumeration"]}.#{v}", :default => v), v]},
+                                             )) %>
+                            <% else %>
+                              <%= text_field_tag "job[job_params][#{param[0]}]", nil  , :class => 'form-control' %>
+                            <% end %>
+                          </div>
+                        </div> 
+                      <% end %>
+                    <% end %>
+                    <hr/>
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label">Format</label>
+                      <div class="col-sm-9">
+                        <% formats = @report_data["formats"] || %w{ json csv xlsx html pdf } %>
+                        <%= select_tag("report_job[format]", options_for_select(formats.map{|format| [I18n.t("reports.formats.#{format}", :default => format), format]}, nil), :class => 'form-control') %>
+                      </div>
+                    </div>
+                        
+                  </div>
+                </div> 
+              </div> 
+            <% end %> 
+          
+          </div>
+          <input id="report_job_jsonmodel_type_" name="report_job[jsonmodel_type]" type="hidden" value="report_job"> 
+      </div>
+  <% end %>
+
+
 
 
   <%= form_for @job, :as => "job", :url => {:action => :create}, :html => {:id => "jobfileupload", :class => 'form-horizontal aspace-record-form',  :multipart => true} do |f| %>
@@ -108,5 +172,11 @@
   <div id="template_find_and_replace_warning"><!--
     <hr/>
     <div class="alert alert-danger"><%= I18n.t("job._frontend.messages.find_and_replace_warning") %></div>
+    <hr/>
+  --></div>
+
+  <div id="template_report_instructions"><!--
+    <hr/>
+    <div class="alert alert-success"><%= I18n.t("job._frontend.messages.report_instructions") %></div>
     <hr/>
   --></div>

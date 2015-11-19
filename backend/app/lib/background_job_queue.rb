@@ -6,7 +6,7 @@ require 'atomic'
 require_relative 'job_runner'
 require_relative 'find_and_replace_runner'
 require_relative 'print_to_pdf_runner'
-
+require_relative 'reports_runner'
 require_relative 'batch_import_runner'
 
 

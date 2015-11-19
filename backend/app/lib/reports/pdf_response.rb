@@ -7,7 +7,7 @@ class PDFResponse
   def initialize(report, params )
     @report = report
     @html_report = params[:html_report].call 
-    @base_url = params[:base_url]
+    @base_url = params[:base_url] || "/"
   end
 
   def generate
@@ -43,7 +43,7 @@ class PDFResponse
   def render_pdf(dom, output)
     renderer = org.xhtmlrenderer.pdf.ITextRenderer.new
 
-    renderer.set_document(dom, base_url)
+    renderer.set_document(dom, @base_url)
     renderer.layout
 
     renderer.create_pdf(output)

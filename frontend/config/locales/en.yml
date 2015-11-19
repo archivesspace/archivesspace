@@ -89,6 +89,7 @@ en:
     print_to_pdf: Print Resource To PDF
     resource_to_pdf: Resource to Print
     download_pdf: Download PDF
+    download_report: Download Report
     click_to_show: Please click to load records. 
 
   database_warning:
@@ -952,6 +953,7 @@ en:
         drag_and_drop_hint: Drag and drop files here
         find_and_replace_warning: Find and replace jobs can and will make major changes to your database. You are <strong>strongly</strong> advised to backup your database AND to run your job in a test instance before proceeding. There is no "undo".
         find_and_replace_instructions: Choose a base record to scope this find and replace operation. Then choose a record type to target and a property of that type. The operation will run in every target record in the tree of the base record, or in the base record itself if the target type is "Resource".
+        report_instructions: Choose a report to run by using the <b>Select</b> button. 
 
   shortcuts:
     quick_reference_window: "Quick Reference: Keyboard Shortcuts"

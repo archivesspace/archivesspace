@@ -73,9 +73,15 @@ class Job < Sequel::Model(:job)
 
 
   def self.create_from_json(json, opts = {})
+    if json.job_params == "null" 
+      json.job_params = ""
+    end
+    
     super(json, opts.merge(:time_submitted => Time.now,
                            :owner_id => opts.fetch(:user).id,
-                           :job_blob => ASUtils.to_json(json.job)))
+                           :job_blob => ASUtils.to_json(json.job),
+                           :job_params => ASUtils.to_json(json.job_params) 
+                          ))
   end
 
 

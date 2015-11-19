@@ -1905,6 +1905,7 @@ en:
     time_started: Time Started
     time_finished: Time Completed
     owner: Owner
+    show_description: Show Description
 
   import_job:
     _singular: Import Job

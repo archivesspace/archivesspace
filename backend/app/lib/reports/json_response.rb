@@ -19,6 +19,7 @@ class JSONResponse
   end
 
   def generate
-    self 
+    output = "" 
+    self.each { |r| output << r } 
   end
 end

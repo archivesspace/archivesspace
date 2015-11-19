@@ -1,13 +1,14 @@
 class Job
 
-  def initialize(job_type, job_data, files_to_import)
+  def initialize(job_type, job_data, files_to_import, job_params = {})
 
     if job_type == 'import_job'
       job_data[:filenames] = files_to_import.keys
     end
 
     @job = JSONModel(:job).from_hash(:job_type => job_type,
-                                     :job => job_data)
+                                     :job => job_data,
+                                     :job_params =>  ASUtils.to_json(job_params) )
 
     @files = files_to_import
   end
