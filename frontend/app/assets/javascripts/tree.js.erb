@@ -897,12 +897,14 @@ $(function() {
             $("#"+nodeEl.attr("rel")+"_position_", $container).val(nodeEl.index());
 
             desired_children = targetNode.children;
-            
+
+            var selected = tree.get_selected();
             // lets give the thing at least one second so we don't cause any seizures with flashing annimation.  
             setTimeout( function() { 
              // desired_children = []; 
               removeTreeOverlay(); 
-              toggleTreeSpinner(); 
+              toggleTreeSpinner();
+              tree.select_node(selected);
             }, 1000); 
             
             // now let's  unlock da the form
