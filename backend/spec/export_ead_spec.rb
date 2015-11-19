@@ -478,7 +478,7 @@ describe "EAD export mappings" do
       end
 
 
-      it "maps {archival_object}.instance[].instance_type to {desc_path}/did/container@label" do
+      it "maps {archival_object}.instance[].instance_type and {archival_object}.instance[].container.barcode_1 to {desc_path}/did/container@label" do
         instances.each do |inst|
           cont = inst['container']
           (1..3).each do |i|
@@ -487,10 +487,14 @@ describe "EAD export mappings" do
             next unless i == 1
             data = cont["indicator_#{i}"]
             mt(data, "#{desc_path}/did/container[#{@count}]")
-            data = translate('enumerations.instance_instance_type', inst['instance_type'])
+            data = "#{translate('enumerations.instance_instance_type', inst['instance_type'])} (#{cont['barcode_1']})"
             mt(data, "#{desc_path}/did/container[#{@count}]", "label")
           end
         end
+      end
+
+      it "maps {archival_object}.instances[].container.barcode_1 to {desc_path}/did/container@label" do
+        
       end
     end
 
