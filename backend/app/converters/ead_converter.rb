@@ -248,7 +248,7 @@ class EADConverter < Converter
       physfacet_texts = []
     
       # If there is already a portion of 'part' specified, use it
-      if att('altrender').downcase == 'part'
+      if att('altrender') && att('altrender').downcase == 'part'
         portion = 'part'
       else
         portion = 'whole'
