@@ -204,50 +204,113 @@ class EADConverter < Converter
     end
 
 
+    def make_single_note(note_name, tag, tag_name="")
+      content = tag.inner_text
+      if !tag_name.empty?
+        content = tag_name + ": " + content
+      end
+      make :note_singlepart, {
+        :type => note_name,
+        :persistent_id => att('id'),
+        :content => format_content( content.sub(/<head>.?<\/head>/, '').strip)
+      } do |note|
+        set ancestor(:resource, :archival_object), :notes, note
+      end
+    end
+    
+    def make_nested_note(note_name, tag)
+      content = tag.inner_text
+    
+      make :note_multipart, {
+        :type => note_name,
+        :persistent_id => att('id'),
+        :subnotes => {
+          'jsonmodel_type' => 'note_text',
+          'content' => format_content( content )
+        }
+      } do |note|
+        set ancestor(:resource, :archival_object), :notes, note
+      end
+    end
+    
     with 'physdesc' do
       physdesc = Nokogiri::XML::DocumentFragment.parse(inner_xml)
+    
       extent_number_and_type = nil
+    
+      dimensions = []
+      physfacets = []
+      container_summaries = []
       other_extent_data = []
-      make_note_too = false
+    
+      container_summary_texts = []
+      dimensions_texts = []
+      physfacet_texts = []
+    
+      # If there is already a portion of 'part' specified, use it
+      if att('altrender') && att('altrender').downcase == 'part'
+        portion = 'part'
+      else
+        portion = 'whole'
+      end
+    
       physdesc.children.each do |child|
-        if child.respond_to?(:name) && child.name == 'extent'
-          child_content = child.content.strip 
+        # "extent" can have one of two kinds of semantic meanings: either a true extent with number and type,
+        # or a container summary. Disambiguation is done through a regex.
+        if child.name == 'extent'
+          child_content = child.content.strip
           if extent_number_and_type.nil? && child_content =~ /^([0-9\.]+)+\s+(.*)$/
             extent_number_and_type = {:number => $1, :extent_type => $2}
           else
-            other_extent_data << child_content
+            container_summaries << child
+            container_summary_texts << child.content.strip
           end
-        else
-          # there's other info here; make a note as well
-          make_note_too = true unless child.text.strip.empty?
+    
+        elsif child.name == 'physfacet'
+          physfacets << child
+          physfacet_texts << child.content.strip
+    
+        elsif child.name == 'dimensions'
+          dimensions << child
+          dimensions_texts << child.content.strip
+    
+        elsif child.name != 'text'
+          other_extent_data << child
         end
       end
-
-      # only make an extent if we got a number and type
+    
+      # only make an extent if we got a number and type, otherwise put all tags in the physdesc in new notes
       if extent_number_and_type
         make :extent, {
           :number => $1,
           :extent_type => $2,
-          :portion => 'whole',
-          :container_summary => other_extent_data.join('; ')
+          :portion => portion,
+          :container_summary => container_summary_texts.join('; '),
+          :physical_details => physfacet_texts.join('; '),
+          :dimensions => dimensions_texts.join('; ')
         } do |extent|
           set ancestor(:resource, :archival_object), :extents, extent
         end
+    
+      # there's no true extent; split up the rest into individual notes
       else
-        make_note_too = true;
-      end
-
-      if make_note_too
-        content =  physdesc.to_xml(:encoding => 'utf-8') 
-        make :note_singlepart, {
-          :type => 'physdesc',
-          :persistent_id => att('id'),
-          :content => format_content( content.sub(/<head>.*?<\/head>/, '').strip )
-        } do |note|
-          set ancestor(:resource, :archival_object), :notes, note
+        container_summaries.each do |summary|
+          make_single_note("physdesc", summary)
+        end
+    
+        physfacets.each do |physfacet|
+          make_single_note("physfacet", physfacet)
+        end
+        
+        dimensions.each do |dimension|
+          make_nested_note("dimensions", dimension)
         end
       end
-
+    
+      other_extent_data.each do |unknown_tag|
+        make_single_note("physdesc", unknown_tag, unknown_tag.name)
+      end
+    
     end
 
 
@@ -318,7 +381,7 @@ class EADConverter < Converter
 
     %w(accessrestrict accessrestrict/legalstatus \
        accruals acqinfo altformavail appraisal arrangement \
-       bioghist custodhist dimensions \
+       bioghist custodhist \
        fileplan odd otherfindaid originalsloc phystech \
        prefercite processinfo relatedmaterial scopecontent \
        separatedmaterial userestrict ).each do |note|
@@ -343,7 +406,7 @@ class EADConverter < Converter
     end
 
 
-    %w(abstract materialspec physfacet physloc).each do |note|
+    %w(abstract materialspec physloc).each do |note|
       with note do |node|
         content = inner_xml
 

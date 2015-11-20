@@ -67,9 +67,11 @@
             </langmaterial>
             <container id="cid1" type="Box" label="Text">1</container>
             <container parent="cid1" type="Folder">1</container>
-            <physdesc>
+            <physdesc altrender="part">
                 <extent>5.0 Linear feet</extent>
                 <extent>Resource-ContainerSummary-AT</extent>
+                <physfacet>Resource-PhysicalFacet-AT</physfacet>
+                <dimensions>Resource-Dimensions-AT</dimensions>
             </physdesc>
             <unitdate normal="1960/1970" type="bulk">Bulk, 1960-1970</unitdate>
             <unitdate normal="1960/1970" type="inclusive">Resource-Title-AT</unitdate>

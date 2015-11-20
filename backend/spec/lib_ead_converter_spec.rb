@@ -134,13 +134,22 @@ ANEAD
       # 	ELSE
     end
 
-    it "maps '<extent>' correctly" do
+    it "maps '<physdesc>' correctly" do
+      # <extent> tag mapping
       #  	IF value starts with a number followed by a space and can be parsed
       @resource['extents'][0]['number'].should eq("5.0")
       @resource['extents'][0]['extent_type'].should eq("Linear feet")
-
+ 
       # 	ELSE
       @resource['extents'][0]['container_summary'].should eq("Resource-ContainerSummary-AT")
+
+
+      # further physdesc tags - dimensions and physfacet tags are mapped appropriately
+      @resource['extents'][0]['dimensions'].should eq("Resource-Dimensions-AT")
+      @resource['extents'][0]['physical_details'].should eq("Resource-Physfacet-AT")
+
+      # physdesc altrender mapping
+      @resource['extents'][0]['portion'].should eq("part")
     end
 
 
