@@ -23,7 +23,7 @@ require_relative 'lib/reports/report_helper'
 require_relative 'lib/component_transfer'
 require_relative 'lib/progress_ticker'
 require_relative 'lib/resequencer'
-
+require_relative 'lib/container_management_migration'
 require 'solr_snapshotter'
 
 require 'barcode_check'
@@ -122,6 +122,7 @@ class ArchivesSpaceService < Sinatra::Base
       end
 
 
+
       [File.dirname(__FILE__), *ASUtils.find_local_directories('backend')].each do |prefix|
         ['model/mixins', 'model', 'model/reports', 'controllers'].each do |path|
           Dir.glob(File.join(prefix, path, "*.rb")).sort.each do |file|
@@ -203,6 +204,12 @@ class ArchivesSpaceService < Sinatra::Base
       Notifications.notify("BACKEND_STARTED")
       Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}"
       Resequencer.run( [ :ArchivalObject,  :DigitalObjectComponent, :ClassificationTerm ] ) if AppConfig[:resequence_on_startup]
+      
+      if AppConfig.has_key?(:migrate_to_container_management) && AppConfig[:migrate_to_container_management]
+        Log.info("Migrating existing containers to the new container model...")
+        ContainerManagementMigration.new.run
+        Log.info("Completed: existing containers have been migrated to the new container model.")
+      end
 
     rescue
       ASUtils.dump_diagnostics($!)

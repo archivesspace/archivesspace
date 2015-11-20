@@ -207,3 +207,9 @@ AppConfig[:demo_data_url] = "https://s3-us-west-2.amazonaws.com/archivesspacedem
 # Expose external ids in the frontend
 AppConfig[:show_external_ids] = false
 
+
+
+# When updating from < v1.4.2, you will need to migrate your data to the new
+# container management model. This only needs to be done once during an
+# upgrade.
+AppConfig[:migrate_to_container_management]

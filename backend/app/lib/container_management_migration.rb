@@ -1,3 +1,6 @@
+require_relative 'aspace_json_to_managed_container_mapper'
+
+
 class ContainerManagementMigration
 
   # For performance reasons, we're going to feed the ASpace -> Container
