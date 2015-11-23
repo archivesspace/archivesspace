@@ -72,6 +72,8 @@
 
 <p>If you wish to add static assets to the core project (i.e., javascript, css, less files) please use <code>bower</code> to add and install them so we know what&#8217;s what and when to upgrade.</p>
 
+<p>If you wish to do a good deed for ArchivesSpace you can track down the source of any vendor assets not included in bower.json and get them updated and installed according to this protocol.</p>
+
 <h1 id="general-setup">General Setup</h1>
 
 <h2 id="step-1-install-npm">Step 1: install npm</h2>
@@ -101,6 +103,7 @@
 <h2 id="step-2-map-bower--rails">Step 2: map Bower &gt; Rails</h2>
 
 <pre class="code ruby"><code class="ruby"><span class='rubyid_Edit constant id'>Edit</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_bower identifier id'>bower</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span> <span class='rubyid_file identifier id'>file</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_map identifier id'>map</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_assets identifier id'>assets</span> <span class='rubyid_you identifier id'>you</span> <span class='rubyid_want identifier id'>want</span> <span class='rubyid_from identifier id'>from</span> <span class='rubyid_bower_components identifier id'>bower_components</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_assets identifier id'>assets</span><span class='dot token'>.</span> <span class='rubyid_See constant id'>See</span> <span class='rubyid_examples identifier id'>examples</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_bower identifier id'>bower</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span>
+<span class='rubyid_This constant id'>This</span> <span class='rubyid_is identifier id'>is</span> <span class='rubyid_kind identifier id'>kind</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_hack identifier id'>hack</span> <span class='rubyid_to identifier id'>to</span> <span class='label val'>workaround:</span> <span class='label val'>https:</span><span class='div op'>/</span><span class='regexp val'>/github.com/</span><span class='rubyid_blittle identifier id'>blittle</span><span class='div op'>/</span><span class='rubyid_bower identifier id'>bower</span><span class='minus op'>-</span><span class='rubyid_installer identifier id'>installer</span><span class='div op'>/</span><span class='rubyid_issues identifier id'>issues</span><span class='div op'>/</span><span class='integer val'>75</span>
 </code></pre>
 
 <h2 id="step-3-install-assets">Step 3: Install assets</h2>
@@ -111,7 +114,7 @@
 
 <h2 id="step-4-check-assets-in">Step 4: Check assets in</h2>
 
-<p>Check everything into Git. We still version control the dist files.</p>
+<p>Check the installed assets into Git. We version control bower.json and the installed files, but not the bower_components directory.</p>
 
 <h2 id="production">Production!</h2>
 
@@ -119,7 +122,7 @@
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version v1.4.2-rc2 Documentation Generated on Fri Oct 23 11:18:47 2015 by
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:49 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

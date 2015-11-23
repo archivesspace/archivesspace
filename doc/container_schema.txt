@@ -2,6 +2,8 @@ JSON Schema: Container
 
 Properties
 
+string	container_profile_key
+
 string	type_1
 
 string (max length: 255)	indicator_1
