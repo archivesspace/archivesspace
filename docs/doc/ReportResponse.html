@@ -153,32 +153,6 @@ specific format.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#format-instance_method" title="#format (instance method)">- (Object) <strong>format</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute format.</p>
-</div></span>
-  
-</li>
-
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#report-instance_method" title="#report (instance method)">- (Object) <strong>report</strong> </a>
     
 
@@ -241,7 +215,7 @@ specific format.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (ReportResponse) <strong>initialize</strong>(report, format, params = {}) </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (ReportResponse) <strong>initialize</strong>(report, params = {}) </a>
     
 
     
@@ -272,7 +246,7 @@ specific format.</p>
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="ReportResponse (class)">ReportResponse</a></span></tt>) <strong>initialize</strong>(report, format, params = {}) 
+    - (<tt><span class='object_link'><a href="" title="ReportResponse (class)">ReportResponse</a></span></tt>) <strong>initialize</strong>(report, params = {}) 
   
 
   
@@ -297,15 +271,13 @@ specific format.</p>
 17
 18
 19
-20
-21</pre>
+20</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 17</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_report identifier id'>report</span><span class='comma token'>,</span> <span class='rubyid_format identifier id'>format</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>  <span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_report identifier id'>report</span><span class='comma token'>,</span>  <span class='rubyid_params identifier id'>params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>  <span class='rparen token'>)</span>
   <span class='rubyid_@report ivar id'>@report</span> <span class='assign token'>=</span> <span class='rubyid_report identifier id'>report</span>
-  <span class='rubyid_@format ivar id'>@format</span> <span class='assign token'>=</span> <span class='rubyid_format identifier id'>format</span> 
   <span class='rubyid_@params ivar id'>@params</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span> 
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -363,49 +335,6 @@ specific format.</p>
 </div>
     
       
-      <span id="format=-instance_method"></span>
-      <div class="method_details ">
-  <h3 class="signature " id="format-instance_method">
-  
-    - (<tt>Object</tt>) <strong>format</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>Returns the value of attribute format</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-14
-15
-16</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 14</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_format identifier id'>format</span>
-  <span class='rubyid_@format ivar id'>@format</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      
       <span id="report=-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="report-instance_method">
@@ -432,12 +361,12 @@ specific format.</p>
       <pre class="lines">
 
 
-13
 14
-15</pre>
+15
+16</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 14</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_report identifier id'>report</span>
   <span class='rubyid_@report ivar id'>@report</span>
@@ -470,6 +399,7 @@ specific format.</p>
       <pre class="lines">
 
 
+22
 23
 24
 25
@@ -477,16 +407,27 @@ specific format.</p>
 27
 28
 29
-30</pre>
+30
+31
+32
+33
+34
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 22</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_generate identifier id'>generate</span>
   <span class='rubyid_if if kw'>if</span>  <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_JasperReport constant id'>JasperReport</span><span class='rparen token'>)</span> 
-    <span class='rubyid_String constant id'>String</span><span class='dot token'>.</span><span class='rubyid_from_java_bytes identifier id'>from_java_bytes</span><span class='lparen token'>(</span> <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_render identifier id'>render</span><span class='lparen token'>(</span><span class='rubyid_@format ivar id'>@format</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span><span class='comma token'>,</span> <span class='rubyid_@params ivar id'>@params</span><span class='rparen token'>)</span> <span class='rparen token'>)</span> 
+    <span class='rubyid_format identifier id'>format</span> <span class='assign token'>=</span> <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_format identifier id'>format</span>    
+    <span class='rubyid_String constant id'>String</span><span class='dot token'>.</span><span class='rubyid_from_java_bytes identifier id'>from_java_bytes</span><span class='lparen token'>(</span> <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_render identifier id'>render</span><span class='lparen token'>(</span><span class='rubyid_format identifier id'>format</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span><span class='comma token'>,</span> <span class='rubyid_@params ivar id'>@params</span><span class='rparen token'>)</span> <span class='rparen token'>)</span> 
   <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_klass identifier id'>klass</span> <span class='assign token'>=</span> <span class='rubyid_Object constant id'>Object</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{@format.upcase}Response&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_file identifier id'>file</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_dirname identifier id'>dirname</span><span class='lparen token'>(</span><span class='rubyid___FILE__ __file__ kw'>__FILE__</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='string val'>&quot;../../views/reports/report.erb&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_@params ivar id'>@params</span><span class='lbrack token'>[</span><span class='symbol val'>:html_report</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span>  <span class='rubyid_ERB constant id'>ERB</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span> <span class='rubyid_IO constant id'>IO</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span><span class='lparen token'>(</span> <span class='rubyid_file identifier id'>file</span> <span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_result identifier id'>result</span><span class='lparen token'>(</span><span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_get_binding identifier id'>get_binding</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+  
+    <span class='rubyid_format identifier id'>format</span> <span class='assign token'>=</span> <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_format identifier id'>format</span>
+
+    <span class='rubyid_klass identifier id'>klass</span> <span class='assign token'>=</span> <span class='rubyid_Object constant id'>Object</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{format.upcase}Response&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_klass identifier id'>klass</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='symbol val'>:new</span><span class='comma token'>,</span> <span class='rubyid_@report ivar id'>@report</span><span class='comma token'>,</span> <span class='rubyid_@params ivar id'>@params</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_generate identifier id'>generate</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -501,7 +442,7 @@ specific format.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.4.2-rc2 Documentation Generated on Fri Oct 23 11:19:09 2015 by
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:08 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

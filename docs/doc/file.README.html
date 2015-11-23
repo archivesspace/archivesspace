@@ -79,7 +79,7 @@ IRC: #archivesspace ( chat.freenode.net )</p>
 <ul>
   <li>Java 1.6 or higher; Java 1.7 or 1.8 recommended.</li>
   <li>At least 1024 MB RAM allocated to the application</li>
-  <li>A <a href="https://github.com/archivesspace/archivesspace/wiki/Supported-browsers">supported browser</a></li>
+  <li>A <a href="https://archivesspace.atlassian.net/wiki/display/ADC/Supported+Browsers">supported browser</a></li>
 </ul>
 
 <p>ArchivesSpace has been tested on Linux (Red Hat and Ubuntu), Mac OS X, and
@@ -200,10 +200,6 @@ that the system runs under, JVM options, and so on.</p>
 
 <p>Running ArchivesSpace as a Windows service requires some additional 
 configuration.</p>
-
-<p>A popular method is to use Tomcat, which ships with a script that 
-configures Tomcat as a service. For more information, please see :
-<a href="https://github.com/archivesspace/archivesspace/blob/master/README_TOMCAT.md">Instructions for running under Tomcat</a>.</p>
 
 <p>You can also use Apache [procrun]((http://commons.apache.org/proper/commons-daemon/procrun.html) to configure ArchivesSpace. We have 
 provided a service.bat script that will attempt to configure 
@@ -465,6 +461,22 @@ indexer to remember what it last indexed.</li>
        <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_data identifier id'>data</span><span class='div op'>/</span>
 </code></pre>
 
+<h3 id="checking-your-search-indexes">Checking your search indexes</h3>
+
+<p>ArchivesSpace ships with a script that can run Lucene&#8217;s CheckIndex
+tool for you, verifying that a given Solr index is free from
+corruption.  To test an index, run the following command from your
+<code>archivesspace</code> directory:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='comment val'># Or scripts/checkindex.bat for Windows</span>
+ <span class='rubyid_scripts identifier id'>scripts</span><span class='div op'>/</span><span class='rubyid_checkindex identifier id'>checkindex</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span> <span class='rubyid_data identifier id'>data</span><span class='div op'>/</span><span class='rubyid_solr_index identifier id'>solr_index</span><span class='div op'>/</span><span class='rubyid_index identifier id'>index</span>
+</code></pre>
+
+<p>You can use the same script to check that your Solr backups are valid:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_scripts identifier id'>scripts</span><span class='div op'>/</span><span class='rubyid_checkindex identifier id'>checkindex</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span> <span class='regexp val'>/unpacked/</span><span class='rubyid_zip identifier id'>zip</span><span class='div op'>/</span><span class='rubyid_solr identifier id'>solr</span><span class='dot token'>.</span><span class='rubyid_backup identifier id'>backup</span><span class='minus op'>-</span><span class='integer val'>26475</span><span class='minus op'>-</span><span class='integer val'>1373323208</span><span class='div op'>/</span><span class='rubyid_snapshot identifier id'>snapshot</span><span class='integer val'>.20130709084008464</span>
+</code></pre>
+
 <h1 id="re-creating-indexes">Re-creating indexes</h1>
 
 <p>ArchivesSpace keeps track of what has been indexed by using the files
@@ -586,10 +598,6 @@ determines the order that the plug-ins will be loaded.</p>
 <p>For more information about plug-ins and how to use them to override and
 customize ArchivesSpace, please see the README in the <code>plugins</code> directory.</p>
 
-<h1 id="running-archivesspace-under-tomcat">Running ArchivesSpace under Tomcat</h1>
-
-<p><a href="https://github.com/archivesspace/archivesspace/blob/master/README_TOMCAT.md">Instructions for running under Tomcat</a>.</p>
-
 <h1 id="running-archivesspace-with-an-external-solr-instance">Running ArchivesSpace with an external Solr instance</h1>
 
 <p><a href="https://github.com/archivesspace/archivesspace/blob/master/README_SOLR.md">Instructions for using an external Solr server</a></p>
@@ -609,7 +617,7 @@ customize ArchivesSpace, please see the README in the <code>plugins</code> direc
 <h1 id="further-documentation">Further documentation</h1>
 
 <p>Additional documentation can be found on the ArchivesSpace
-wiki at <a href="https://github.com/archivesspace/archivesspace/wiki">https://github.com/archivesspace/archivesspace/wiki</a>.</p>
+wiki at <a href="https://archivesspace.atlassian.net/wiki/display/ADC">https://archivesspace.atlassian.net/wiki/display/ADC</a>.</p>
 
 <p>A document describing the architecture of ArchivesSpace is published
 at <a href="https://github.com/archivesspace/archivesspace/blob/master/ARCHITECTURE.md">https://github.com/archivesspace/archivesspace/blob/master/ARCHITECTURE.md</a>.</p>
@@ -638,7 +646,7 @@ LYRASIS, and contributions from diverse persons in the archives community.</p>
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version v1.4.2-rc2 Documentation Generated on Fri Oct 23 11:18:46 2015 by
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:48 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

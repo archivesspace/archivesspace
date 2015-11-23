@@ -97,6 +97,8 @@
 			
 				<h3 class="signature"> - (object) <strong>resource</strong></h3>
 			
+				<h3 class="signature"> - (object) <strong>series</strong></h3>
+			
 				<h3 class="signature"> - (integer) <strong>position</strong></h3>
 			
 				<h3 class="signature"> - (array (JSONModel(:instance) object)) <strong>instances</strong></h3>
@@ -172,7 +174,19 @@
 57
 58
 59
-60</pre>
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/archival_object.rb', line 1</span>
@@ -220,6 +234,18 @@
           <span class='rbrace token'>}</span>
         <span class='rbrace token'>}</span>
       <span class='rbrace token'>}</span><span class='comma token'>,</span>
+      
+      <span class='string val'>&quot;series&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;object&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;subtype&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;ref&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;properties&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+          <span class='string val'>&quot;ref&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:archival_object) uri&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+          <span class='string val'>&quot;_resolved&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+            <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;object&quot;</span><span class='comma token'>,</span>
+            <span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;true&quot;</span>
+          <span class='rbrace token'>}</span>
+        <span class='rbrace token'>}</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
       <span class='string val'>&quot;position&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;integer&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;required&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
 
@@ -250,7 +276,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.4.2-rc2 Documentation Generated on Fri Oct 23 11:19:17 2015 by
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:16 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

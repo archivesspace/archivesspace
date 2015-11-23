@@ -22,6 +22,8 @@ object	parent
 
 object	resource
 
+object	series
+
 integer	position
 
 array (JSONModel(:instance) object)	instances

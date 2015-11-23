@@ -220,7 +220,7 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_report identifier id'>report</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span> <span class='rparen token'>)</span>
   <span class='rubyid_@report ivar id'>@report</span> <span class='assign token'>=</span> <span class='rubyid_report identifier id'>report</span>
   <span class='rubyid_@html_report ivar id'>@html_report</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:html_report</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span> 
-  <span class='rubyid_@base_url ivar id'>@base_url</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:base_url</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@base_url ivar id'>@base_url</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:base_url</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>&quot;/&quot;</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -287,7 +287,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.4.2-rc2 Documentation Generated on Fri Oct 23 11:19:08 2015 by
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:06 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

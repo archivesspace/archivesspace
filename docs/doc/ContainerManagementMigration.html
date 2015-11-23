@@ -1,0 +1,571 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: ContainerManagementMigration
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!ContainerManagementMigration.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (C)</a> &raquo;
+    
+    
+    <span class="title">ContainerManagementMigration</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: ContainerManagementMigration
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ContainerManagementMigration</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">backend/app/lib/container_management_migration.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="ContainerManagementMigration/MigrationMapper.html" title="ContainerManagementMigration::MigrationMapper (class)">MigrationMapper</a></span>
+    
+  
+    
+  
+</p>
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="MIGRATION_MODELS-constant" class="">MIGRATION_MODELS =
+          <div class="docstring">
+  <div class="discussion">
+    <p>For performance reasons, we&#8217;re going to feed the ASpace -&gt; Container
+Management mapper something that behaves like a JSONModel but isn&#8217;t fully
+realized.</p>
+
+<p>We don&#8217;t want to have to pull every field of every record back just to
+update their instances.</p>
+
+<p>So, this implements just enough of our JSONModels to keep the mapper happy.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+</pre></dd>
+      
+        <dt id="MAX_RECORDS_PER_TRANSACTION-constant" class="">MAX_RECORDS_PER_TRANSACTION =
+          
+        </dt>
+        <dd><pre class="code"><span class='integer val'>10</span>
+</pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ContainerMigrationModel-instance_method" title="#ContainerMigrationModel (instance method)">- (Object) <strong>ContainerMigrationModel</strong>(model_type) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#run-instance_method" title="#run (instance method)">- (Object) <strong>run</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="ContainerMigrationModel-instance_method">
+  
+    - (<tt>Object</tt>) <strong>ContainerMigrationModel</strong>(model_type) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/container_management_migration.rb', line 16</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_ContainerMigrationModel constant id'>ContainerMigrationModel</span><span class='lparen token'>(</span><span class='rubyid_model_type identifier id'>model_type</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_MIGRATION_MODELS constant id'>MIGRATION_MODELS</span><span class='lbrack token'>[</span><span class='rubyid_model_type identifier id'>model_type</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_Class constant id'>Class</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_model_type identifier id'>model_type</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
+
+    <span class='rubyid_include identifier id'>include</span> <span class='rubyid_JSONModel constant id'>JSONModel</span>
+
+    <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='rparen token'>)</span>
+      <span class='rubyid_@acting_as ivar id'>@acting_as</span> <span class='assign token'>=</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span>
+      <span class='rubyid_@fields ivar id'>@fields</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+
+      <span class='rubyid_load_relevant_fields identifier id'>load_relevant_fields</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_def def kw'>def</span> <span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_clz identifier id'>clz</span><span class='rparen token'>)</span>
+      <span class='rubyid_@acting_as ivar id'>@acting_as</span><span class='dot token'>.</span><span class='rubyid_my_jsonmodel identifier id'>my_jsonmodel</span> <span class='eq op'>==</span> <span class='rubyid_clz identifier id'>clz</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_def def kw'>def</span> <span class='aref op'>[]</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='rparen token'>)</span>
+      <span class='rubyid_@fields ivar id'>@fields</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_def def kw'>def</span> <span class='rubyid_create_containers identifier id'>create_containers</span><span class='lparen token'>(</span><span class='rubyid_top_containers_in_this_tree identifier id'>top_containers_in_this_tree</span><span class='rparen token'>)</span>
+      <span class='comment val'># If our incoming instance records already have their subcontainers created, we won't create them again.</span>
+      <span class='rubyid_instances_with_subcontainers identifier id'>instances_with_subcontainers</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='string val'>'instance_ids'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='string val'>'instances'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_instance_id identifier id'>instance_id</span><span class='comma token'>,</span> <span class='rubyid_instance identifier id'>instance</span><span class='bitor op'>|</span>
+        <span class='rubyid_if if kw'>if</span> <span class='rubyid_instance identifier id'>instance</span><span class='lbrack token'>[</span><span class='string val'>'sub_container'</span><span class='rbrack token'>]</span>
+          <span class='rubyid_instance_id identifier id'>instance_id</span>
+        <span class='rubyid_end end kw'>end</span>
+      <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
+
+      <span class='rubyid_MigrationMapper constant id'>MigrationMapper</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='comma token'>,</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_top_containers_in_this_tree identifier id'>top_containers_in_this_tree</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span>
+
+      <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='string val'>'instance_ids'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='string val'>'instances'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_instance_id identifier id'>instance_id</span><span class='comma token'>,</span> <span class='rubyid_instance identifier id'>instance</span><span class='bitor op'>|</span>
+        <span class='comment val'># Create a new subcontainer that links everything up</span>
+        <span class='rubyid_if if kw'>if</span> <span class='rubyid_instance identifier id'>instance</span><span class='lbrack token'>[</span><span class='string val'>'sub_container'</span><span class='rbrack token'>]</span>
+
+          <span class='comment val'># This subcontainer was added by the mapping process.  Create it.</span>
+          <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_instances_with_subcontainers identifier id'>instances_with_subcontainers</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_instance_id identifier id'>instance_id</span><span class='rparen token'>)</span>
+            <span class='rubyid_SubContainer constant id'>SubContainer</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:sub_container</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_instance identifier id'>instance</span><span class='lbrack token'>[</span><span class='string val'>'sub_container'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:instance_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_instance_id identifier id'>instance_id</span><span class='rparen token'>)</span>
+          <span class='rubyid_end end kw'>end</span>
+
+          <span class='comment val'># Extract the top container we linked to and return it if we haven't seen it before</span>
+          <span class='rubyid_top_container_id identifier id'>top_container_id</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:top_container</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_instance identifier id'>instance</span><span class='lbrack token'>[</span><span class='string val'>'sub_container'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'top_container'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'ref'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+          <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_top_containers_in_this_tree identifier id'>top_containers_in_this_tree</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_top_container_id identifier id'>top_container_id</span><span class='rparen token'>)</span>
+            <span class='rubyid_TopContainer constant id'>TopContainer</span><span class='lbrack token'>[</span><span class='rubyid_top_container_id identifier id'>top_container_id</span><span class='rbrack token'>]</span>
+          <span class='rubyid_else else kw'>else</span>
+            <span class='rubyid_nil nil kw'>nil</span>
+          <span class='rubyid_end end kw'>end</span>
+        <span class='rubyid_end end kw'>end</span>
+      <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
+    <span class='rubyid_end end kw'>end</span>
+
+
+    <span class='rubyid_private identifier id'>private</span>
+
+    <span class='rubyid_def def kw'>def</span> <span class='rubyid_load_relevant_fields identifier id'>load_relevant_fields</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='rparen token'>)</span>
+      <span class='rubyid_@fields ivar id'>@fields</span><span class='lbrack token'>[</span><span class='string val'>'uri'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
+
+      <span class='comment val'># Set the fields that are used by the mapper to walk the tree.</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='rparen token'>)</span>
+        <span class='rubyid_if if kw'>if</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_parent_id identifier id'>parent_id</span>
+          <span class='rubyid_@fields ivar id'>@fields</span><span class='lbrack token'>[</span><span class='string val'>'parent'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>'ref'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='comma token'>,</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+        <span class='rubyid_end end kw'>end</span>
+
+        <span class='rubyid_if if kw'>if</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span>
+          <span class='rubyid_@fields ivar id'>@fields</span><span class='lbrack token'>[</span><span class='string val'>'resource'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>'ref'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Resource constant id'>Resource</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='comma token'>,</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+        <span class='rubyid_end end kw'>end</span>
+      <span class='rubyid_end end kw'>end</span>
+
+      <span class='comment val'># Find the existing instances and their IDs and load them in as well.</span>
+      <span class='rubyid_instance_join_column identifier id'>instance_join_column</span> <span class='assign token'>=</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_association_reflection identifier id'>association_reflection</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:key</span><span class='rbrack token'>]</span>
+
+      <span class='rubyid_@fields ivar id'>@fields</span><span class='lbrack token'>[</span><span class='string val'>'instances'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+      <span class='rubyid_@fields ivar id'>@fields</span><span class='lbrack token'>[</span><span class='string val'>'instance_ids'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+      <span class='rubyid_Instance constant id'>Instance</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='rubyid_instance_join_column identifier id'>instance_join_column</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_instance identifier id'>instance</span><span class='bitor op'>|</span>
+        <span class='rubyid_@fields ivar id'>@fields</span><span class='lbrack token'>[</span><span class='string val'>'instances'</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_Instance constant id'>Instance</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_instance identifier id'>instance</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span><span class='lparen token'>(</span><span class='symbol val'>:trusted</span><span class='rparen token'>)</span>
+        <span class='rubyid_@fields ivar id'>@fields</span><span class='lbrack token'>[</span><span class='string val'>'instance_ids'</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_instance identifier id'>instance</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="run-instance_method">
+  
+    - (<tt>Object</tt>) <strong>run</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/container_management_migration.rb', line 132</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_run identifier id'>run</span>
+  <span class='rubyid_records_migrated identifier id'>records_migrated</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
+
+  <span class='rubyid_Repository constant id'>Repository</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_repo identifier id'>repo</span><span class='bitor op'>|</span>
+    <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_repo identifier id'>repo</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span>
+                        <span class='symbol val'>:is_high_priority</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+                        <span class='symbol val'>:current_username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;admin&quot;</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
+
+      <span class='comment val'># Migrate accession records</span>
+      <span class='rubyid_Accession constant id'>Accession</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_repo identifier id'>repo</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_accession identifier id'>accession</span><span class='bitor op'>|</span>
+        <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Working on Accession #{accession.id} (records migrated: #{records_migrated})&quot;</span><span class='rparen token'>)</span>
+        <span class='rubyid_records_migrated identifier id'>records_migrated</span> <span class='opasgn op'>+=</span> <span class='integer val'>1</span>
+        <span class='rubyid_ContainerMigrationModel constant id'>ContainerMigrationModel</span><span class='lparen token'>(</span><span class='symbol val'>:accession</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_accession identifier id'>accession</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_create_containers identifier id'>create_containers</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+
+      <span class='comment val'># Then resources and containers</span>
+      <span class='rubyid_Resource constant id'>Resource</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_repo identifier id'>repo</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_resource identifier id'>resource</span><span class='bitor op'>|</span>
+        <span class='rubyid_top_containers_in_this_tree identifier id'>top_containers_in_this_tree</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+
+        <span class='rubyid_records_migrated identifier id'>records_migrated</span> <span class='opasgn op'>+=</span> <span class='integer val'>1</span>
+        <span class='rubyid_ContainerMigrationModel constant id'>ContainerMigrationModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_resource identifier id'>resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_create_containers identifier id'>create_containers</span><span class='lparen token'>(</span><span class='rubyid_top_containers_in_this_tree identifier id'>top_containers_in_this_tree</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_top_container identifier id'>top_container</span><span class='bitor op'>|</span>
+          <span class='rubyid_top_containers_in_this_tree identifier id'>top_containers_in_this_tree</span><span class='lbrack token'>[</span><span class='rubyid_top_container identifier id'>top_container</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_top_container identifier id'>top_container</span>
+        <span class='rubyid_end end kw'>end</span>
+
+        <span class='rubyid_ao_roots identifier id'>ao_roots</span> <span class='assign token'>=</span> <span class='rubyid_resource identifier id'>resource</span><span class='dot token'>.</span><span class='rubyid_tree identifier id'>tree</span><span class='lbrack token'>[</span><span class='string val'>'children'</span><span class='rbrack token'>]</span>
+
+        <span class='rubyid_ao_roots identifier id'>ao_roots</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_ao_root identifier id'>ao_root</span><span class='bitor op'>|</span>
+          <span class='rubyid_work_queue identifier id'>work_queue</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_ao_root identifier id'>ao_root</span><span class='rbrack token'>]</span>
+
+          <span class='rubyid_while while kw'>while</span> <span class='notop op'>!</span><span class='rubyid_work_queue identifier id'>work_queue</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+
+            <span class='rubyid_nodes_for_transaction identifier id'>nodes_for_transaction</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+            <span class='rubyid_while while kw'>while</span> <span class='notop op'>!</span><span class='rubyid_work_queue identifier id'>work_queue</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+              <span class='rubyid_nodes_for_transaction identifier id'>nodes_for_transaction</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_work_queue identifier id'>work_queue</span><span class='dot token'>.</span><span class='rubyid_shift identifier id'>shift</span>
+              <span class='rubyid_break break kw'>break</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_nodes_for_transaction identifier id'>nodes_for_transaction</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='eq op'>==</span> <span class='rubyid_MAX_RECORDS_PER_TRANSACTION constant id'>MAX_RECORDS_PER_TRANSACTION</span>
+            <span class='rubyid_end end kw'>end</span>
+
+            <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Running #{nodes_for_transaction.length} for the next transaction&quot;</span><span class='rparen token'>)</span>
+
+            <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span>
+              <span class='rubyid_nodes_for_transaction identifier id'>nodes_for_transaction</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_node identifier id'>node</span><span class='bitor op'>|</span>
+                <span class='rubyid_work_queue identifier id'>work_queue</span><span class='dot token'>.</span><span class='rubyid_concat identifier id'>concat</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='lbrack token'>[</span><span class='string val'>'children'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+                <span class='rubyid_record identifier id'>record</span> <span class='assign token'>=</span> <span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='lbrack token'>[</span><span class='rubyid_node identifier id'>node</span><span class='lbrack token'>[</span><span class='string val'>'id'</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+
+                <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Working on ArchivalObject #{record.id} (records migrated: #{records_migrated})&quot;</span><span class='rparen token'>)</span>
+
+                <span class='rubyid_migration_record identifier id'>migration_record</span> <span class='assign token'>=</span> <span class='rubyid_ContainerMigrationModel constant id'>ContainerMigrationModel</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='rparen token'>)</span>
+
+                <span class='rubyid_migration_record identifier id'>migration_record</span><span class='dot token'>.</span><span class='rubyid_create_containers identifier id'>create_containers</span><span class='lparen token'>(</span><span class='rubyid_top_containers_in_this_tree identifier id'>top_containers_in_this_tree</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_top_container identifier id'>top_container</span><span class='bitor op'>|</span>
+                  <span class='rubyid_top_containers_in_this_tree identifier id'>top_containers_in_this_tree</span><span class='lbrack token'>[</span><span class='rubyid_top_container identifier id'>top_container</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_top_container identifier id'>top_container</span>
+                <span class='rubyid_end end kw'>end</span>
+
+                <span class='rubyid_records_migrated identifier id'>records_migrated</span> <span class='opasgn op'>+=</span> <span class='integer val'>1</span>
+              <span class='rubyid_end end kw'>end</span>
+            <span class='rubyid_end end kw'>end</span>
+          <span class='rubyid_end end kw'>end</span>
+        <span class='rubyid_end end kw'>end</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:09 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

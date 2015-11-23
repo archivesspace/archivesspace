@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Schema: rights_restriction_schema
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!top-level-namespace.html#rights_restriction_schema-schema";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (r)</a> &raquo;
+    
+    
+    <span class="title">rights_restriction_schema</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content">
+
+    	<h1>JSON Schema: Rights_restriction</h1>
+
+			<h2>URI Template</h2>
+			<h3></h3>
+
+			<h2>Properties</h2>
+			
+				<h3 class="signature"> - (string) <strong>begin</strong></h3>
+			
+				<h3 class="signature"> - (string) <strong>end</strong></h3>
+			
+				<h3 class="signature"> - (array (string)) <strong>local_access_restriction_type</strong></h3>
+			
+				<h3 class="signature"> - (object) <strong>linked_records</strong></h3>
+			
+				<h3 class="signature"> - (string) <strong>restriction_note_type</strong></h3>
+			
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+
+      <table class="source_code">
+        <tr>
+          <td>
+            <pre class="lines">
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41</pre>
+          </td>
+          <td>
+            <pre class="code"><span class="info file"># File 'common/schemas/rights_restriction.rb', line 1</span>
+
+<span class='lbrace token'>{</span>
+  <span class='symbol val'>:schema</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+    <span class='string val'>&quot;$schema&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;http://www.archivesspace.org/archivesspace.json&quot;</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;version&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;object&quot;</span><span class='comma token'>,</span>
+
+    <span class='string val'>&quot;properties&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+      <span class='string val'>&quot;begin&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;end&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;local_access_restriction_type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span>
+                    <span class='string val'>&quot;dynamic_enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;restriction_type&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;linked_records&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;object&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;subtype&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;ref&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;properties&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+          <span class='string val'>&quot;ref&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:archival_object) uri&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+                               <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:resource) uri&quot;</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+          <span class='string val'>&quot;_resolved&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+            <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;object&quot;</span><span class='comma token'>,</span>
+            <span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;true&quot;</span>
+          <span class='rbrace token'>}</span>
+        <span class='rbrace token'>}</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;restriction_note_type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;true&quot;</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+    <span class='rbrace token'>}</span>
+  <span class='rbrace token'>}</span>
+<span class='rbrace token'>}</span>
+</pre>
+          </td>
+        </tr>
+      </table>
+			<br />
+			<span><a href="rights_restriction_schema.txt">Plain Text Version</a></span>
+			</div>
+
+
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:16 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

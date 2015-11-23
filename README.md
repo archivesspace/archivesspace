@@ -12,7 +12,7 @@ IRC: #archivesspace ( chat.freenode.net )
 
 * Java 1.6 or higher; Java 1.7 or 1.8 recommended.
 * At least 1024 MB RAM allocated to the application
-* A [supported browser](https://github.com/archivesspace/archivesspace/wiki/Supported-browsers)
+* A [supported browser](https://archivesspace.atlassian.net/wiki/display/ADC/Supported+Browsers)
 
 ArchivesSpace has been tested on Linux (Red Hat and Ubuntu), Mac OS X, and
 Windows (XP, Windows 7, Windows 8, Windows Server 2008 & 2012 ).
@@ -122,10 +122,6 @@ that the system runs under, JVM options, and so on.
 
 Running ArchivesSpace as a Windows service requires some additional 
 configuration. 
-
-A popular method is to use Tomcat, which ships with a script that 
-configures Tomcat as a service. For more information, please see :
-[Instructions for running under Tomcat](https://github.com/archivesspace/archivesspace/blob/master/README_TOMCAT.md).
 
 You can also use Apache [procrun]((http://commons.apache.org/proper/commons-daemon/procrun.html) to configure ArchivesSpace. We have 
 provided a service.bat script that will attempt to configure 
@@ -513,10 +509,6 @@ For more information about plug-ins and how to use them to override and
 customize ArchivesSpace, please see the README in the `plugins` directory.
 
 
-# Running ArchivesSpace under Tomcat
-
-[Instructions for running under Tomcat](https://github.com/archivesspace/archivesspace/blob/master/README_TOMCAT.md).
-
 # Running ArchivesSpace with an external Solr instance
 
 [Instructions for using an external Solr server](https://github.com/archivesspace/archivesspace/blob/master/README_SOLR.md)
@@ -537,7 +529,7 @@ customize ArchivesSpace, please see the README in the `plugins` directory.
 # Further documentation
 
 Additional documentation can be found on the ArchivesSpace
-wiki at [https://github.com/archivesspace/archivesspace/wiki](https://github.com/archivesspace/archivesspace/wiki).
+wiki at [https://archivesspace.atlassian.net/wiki/display/ADC](https://archivesspace.atlassian.net/wiki/display/ADC).
 
 A document describing the architecture of ArchivesSpace is published
 at [https://github.com/archivesspace/archivesspace/blob/master/ARCHITECTURE.md](https://github.com/archivesspace/archivesspace/blob/master/ARCHITECTURE.md).

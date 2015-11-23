@@ -6,7 +6,7 @@ permalink: /user/system-requirements/
 
 * Java 1.6 or higher; Java 1.7 or 1.8 recommended.
 * At least 1024 MB RAM allocated to the application
-* A [supported browser](https://github.com/archivesspace/archivesspace/wiki/Supported-browsers)
+* A [supported browser](https://archivesspace.atlassian.net/wiki/display/ADC/Supported+Browsers)
 
 ArchivesSpace has been tested on Linux (Red Hat and Ubuntu), Mac OS X, and
 Windows (XP, Windows 7, Windows 8, Windows Server 2008 & 2012 ).
