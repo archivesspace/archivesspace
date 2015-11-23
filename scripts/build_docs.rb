@@ -4,7 +4,7 @@ outdir = "./docs/user/"
 FileUtils::mkdir_p outdir
 
 
-[ "CUSTOMIZING_THEMING.md", "ARCHITECTURE.md", "./build/BUILD_README.md", "./selenium/SELENIUM_README.md", "README.md", "UPGRADING.md", "README_HTTPS.md",  "README_PREFIX.md", "README_SOLR.md","README_TOMCAT.md",
+[ "CUSTOMIZING_THEMING.md", "ARCHITECTURE.md", "./build/BUILD_README.md", "./selenium/SELENIUM_README.md", "README.md", "UPGRADING.md", "README_HTTPS.md",  "README_PREFIX.md", "README_SOLR.md",
   "./plugins/PLUGINS_README.md", "plugins/newrelic/README_NEWRELIC.md" ].each do |file|
     IO.read(open(file)).split(/^\# /).each do |sec|
       begin 
