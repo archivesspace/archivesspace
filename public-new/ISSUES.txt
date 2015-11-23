@@ -1,0 +1,35 @@
+
+
+X No 404 when the router doesn't catch the URL
+
+X Back button causes overlay to hang
+
+X Need better overlay graphic
+
+* Search result row template has dummy data
+
+* Need Record pages for each type
+  * Record Model / Endpoint
+  * Tests
+  * Templating
+
+X Need to catch the click events in the navbar
+
+* Don't show Next and Previous if there's only 1 page
+
+* Sorting dropdown doesn't work
+
+* Dates filter doesn't work
+
+* Breadcrumb doesn't work
+
+* Display options tabs don't work
+
+* Facets need a "see more" link over 20 or so
+
+* Keywords in context doesn't work
+
+* Error handling
+  * server error: search, record
+  * timeout
+  * 404

@@ -1,60 +1,33 @@
 var app = app || {};
 
 
-(function() {
+(function(Bb, $) {
   'use strict';
 
-  function parseQueryString(queryString){
-    var params = {};
-    if(queryString){
-      _.each(
-        _.map(decodeURI(queryString).split(/&/g),function(el,i){
-          var aux = el.split('='), o = {};
-          if(aux.length >= 1){
-            var val = undefined;
-            if(aux.length == 2)
-              val = aux[1];
-            o[aux[0]] = val;            
-          }
-          return o;
-        }),
-        function(o){
-          _.assign(params,o, function(value, other) {
-            if (_.isUndefined(value)) {
-              return other;
-            } else {
-              return _.flatten([value, other]);
-            }
-          });
-        }
-      );
-    }
-    return params;
-  }
-
-  
   var Router = Backbone.Router.extend({
     routes: {
       "": "welcome",
       "search?*queryString": "showSearchResults",
-      "repositories/:repo_id/collections/:id": "showResource"
+      "repositories/:repo_id/collections/:id": "showResource",
+      "*path": "defaultPage"
     },
 
     welcome: function() {
-      var welcomeView = new WelcomeView();
-      var searchBoxView = new SearchBoxView();
+      var welcomeView = new app.WelcomeView();
+      var searchBoxView = new app.SearchBoxView();
     },
 
 
     showSearchResults: function(queryString) {
-      var searchParams = parseQueryString(queryString);
+      var searchParams = app.utils.parseQueryString(queryString);
 
       searchParams.page = searchParams.page || 1;
       console.log(searchParams);
 
-      var searchResults = new SearchResults([], {
+      var searchResults = new app.SearchResults([], {
         state: {
-          currentPage: searchParams.page
+          currentPage: searchParams.page,
+          pageSize: searchParams.pageSize || 20
         }
       });
 
@@ -63,51 +36,84 @@ var app = app || {};
       $('#wait-modal').foundation('reveal', 'open');
       searchResults.fetch({data: searchParams}).then(function() {
         $("#search-box").empty();
-        var searchToolbarView = new SearchToolbarView({
+        var searchToolbarView = new app.SearchToolbarView({
           collection: searchResults,
           searchParams: searchParams
         });
 
-        var containerView = new ContainerView({
+        var containerView = new app.ContainerView({
           mainWidth: 9,
           sidebarWidth: 3
         });
 
-        var searchResultsView = new SearchResultsView({
+        var searchResultsView = new app.SearchResultsView({
           collection: searchResults,
           searchParams: searchParams
         });
 
-        var sideBar = new SearchFacetsView({
+        var sideBar = new app.SearchFacetsView({
           collection: searchResults
         });
 
         $.scrollTo($('#header'));
-        $('#wait-modal').foundation('reveal', 'close');  
+        $('#wait-modal').foundation('reveal', 'close');
+        //Sometimes the modal doesn't have time to finish opening
+        //and misses the first close call
+        setTimeout(function() {
+          $('#wait-modal').foundation('reveal', 'close');
+        }, 500);
+
       });
     },
 
 
-
-    showResource: function() {      
-      var containerView = new ContainerView({
-        mainWidth: 7,
-        sidebarWidth: 5
+    showResource: function(repo_id, id) {
+      var record = new app.RecordModel({
+        type: 'resource',
+        id: id,
+        repo_id: repo_id
       });
-      
-      var recordView = new RecordView();
-      var sideBar = new RecordSidebarView();
 
-      $("#main-content").html(recordView.$el.html());
-      $("#sidebar").html(sideBar.$el.html());
+      app.debug = record;
+
+      $('#wait-modal').foundation('reveal', 'open');
+      record.fetch().then(function() {
+        var containerView = new app.ContainerView({
+          mainWidth: 7,
+          sidebarWidth: 5
+        });
+      
+        var recordView = new app.RecordView({
+          record: record
+        });
+        var sideBar = new app.RecordSidebarView();
+
+        $("#main-content").html(recordView.$el.html());
+        $("#sidebar").html(sideBar.$el.html());
+
+        setTimeout(function() {
+          $('#wait-modal').foundation('reveal', 'close');
+        }, 500);
+      });
+
+
+    },
+
+    defaultPage: function() {
+      var containerView = new app.ContainerView({
+        mainWidth: 12,
+        sidebarWidth: 0
+      });
+
+      $("#main-content").html("<h1>Route not found</h1>");
     }
   });
 
 
   $(function() {
     app.router = new Router();
-    Backbone.history.start({pushState: true});
+    Bb.history.start({pushState: true});
   });
-})();
+})(Backbone, jQuery);
 
 

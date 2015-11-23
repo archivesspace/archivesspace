@@ -27,7 +27,7 @@ class SearchController < ApplicationController
 
   def set_search_criteria
     @criteria = params.select{|k,v|
-      ["page", "q", "type", "sort",
+      ["page", "page_size", "q", "type", "sort",
        "filter_term", "root_record", "format"].include?(k) and not v.blank?
     }
 

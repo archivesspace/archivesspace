@@ -1,75 +1,115 @@
 var app = app || {};
 
-_.templateSettings.evaluate = /{([\s\S]+?)}/g;
+(function(Bb, _, $) {
 
-var HeaderView = Backbone.View.extend({
-  el: "#header",
-  initialize: function() {
-    this.render();
-  },
-  render: function() {
-    var tmpl = _.template($('#header-tmpl').html());
-    this.$el.html(tmpl());
-    return this;
-  }
+  _.templateSettings.evaluate = /{([\s\S]+?)}/g;
 
-});
+  var HeaderView = Backbone.View.extend({
+    el: "#header",
+    initialize: function() {
+      this.render();
+    },
+    render: function() {
+      var tmpl = _.template($('#header-tmpl').html());
+      this.$el.html(tmpl());
+      return this;
+    }
 
-
-var NavbarView = Backbone.View.extend({
-  el: "#navigation",
-  initialize: function() {
-    var tmpl = _.template($('#navbar-tmpl').html());
-    this.$el.html(tmpl());
-    return this;
-  }
-
-});
+  });
 
 
-var WelcomeView = Backbone.View.extend({
-  el: "#welcome",
-  initialize: function() {
-    var tmpl = _.template($('#welcome-tmpl').html());
-    this.$el.html(tmpl());
-    return this;
-  }
-});
+  var NavbarView = Backbone.View.extend({
+    el: "#navigation",
+    initialize: function() {
+      var tmpl = _.template($('#navbar-tmpl').html());
+      this.$el.html(tmpl());
+      return this;
+    },
+
+    events: {
+      "click .top-bar-section a": function(e) {
+        e.preventDefault();
+        var url = e.target.getAttribute('href');
+        app.router.navigate(url, {trigger: true});
+      }
+    }
+  });
 
 
-var RecordView = Backbone.View.extend({
-  tagName: "div",
-  initialize: function() {
-    var tmpl = _.template($('#record-tmpl').html());
-    this.$el.html(tmpl());
-    return this;
-  }
-});
+  var WelcomeView = Backbone.View.extend({
+    el: "#welcome",
+    initialize: function() {
+      var tmpl = _.template($('#welcome-tmpl').html());
+      this.$el.html(tmpl());
+      return this;
+    }
+  });
 
 
-var RecordSidebarView = Backbone.View.extend({
-  tagName: "div",
-  initialize: function() {
-    var tmpl = _.template($('#record-sidebar-tmpl').html());
-    this.$el.html(tmpl());
-    return this;
-  }
-});
+  var RecordView = Backbone.View.extend({
+    tagName: "div",
+    initialize: function(opts) {
+      var tmpl = _.template($('#record-tmpl').html());
+      this.$el.html(tmpl(opts.record));
+      return this;
+    }
+  });
 
 
-var ContainerView = Backbone.View.extend({
-  el: "#container",
-  initialize: function(opts) {
-    var tmpl = _.template($('#container-tmpl').html());
-    this.$el.html(tmpl(opts));
-    return this;
-  }
-});
+  var RecordSidebarView = Backbone.View.extend({
+    tagName: "div",
+    initialize: function() {
+      var tmpl = _.template($('#record-sidebar-tmpl').html());
+      this.$el.html(tmpl());
+      return this;
+    }
+  });
 
 
+  var ContainerView = Backbone.View.extend({
+    el: "#container",
+    initialize: function(opts) {
+      var tmpl = _.template($('#container-tmpl').html());
+      this.$el.html(tmpl(opts));
+      return this;
+    }
+  });
 
 
-$(function() {
-  var headerView = new HeaderView();
-  var navbarView = new NavbarView();
-});
+  var RecordModel = Backbone.Model.extend({
+    initialize: function(opts) {
+      this.type = opts.type;
+      this.id = opts.id;
+      this.scope = opts.repo_id ? 'repository' : 'global'
+      if(this.scope === 'repository')
+        this.repo_id = opts.repo_id;
+      return this;
+    },
+
+    url: function() {
+      var url = RAILS_API;
+      if(this.scope === 'repository') {
+        url += "/repositories/" + this.repo_id;
+      }
+      url += "/" + this.type + "s/" + this.id;
+
+      return url;
+    },
+
+    getTitle: function() {
+      return this.attributes.title;
+    }
+  });
+
+  app.WelcomeView = WelcomeView;
+  app.RecordView = RecordView;
+  app.RecordSidebarView = RecordSidebarView;
+  app.ContainerView = ContainerView;
+  app.RecordModel = RecordModel;
+
+
+  $(function() {
+    new HeaderView();
+    new NavbarView();
+  });
+})(Backbone, _, jQuery);

@@ -21,7 +21,8 @@
     "jquery": "~2.1.4",
     "foundation": "~5.5.3",
     "lodash": "~3.10.1",
-    "jquery.scrollTo": "~2.1.2"
+    "jquery.scrollTo": "~2.1.2",
+    "load-awesome": "~1.1.0"
   },
   "install": {
     "path": {
@@ -51,7 +52,12 @@
             "bower_components/backbone.paginator/lib/backbone.paginator.js": "backbone.paginator.js"
           }
         ]
-      }
+      },
+      "load-awesome": [
+        "bower_components/load-awesome/css/ball-pulse-rise.css",
+        "bower_components/load-awesome/css/ball-fall.css",
+        "bower_components/load-awesome/css/line-spin-clockwise-fade.css"
+      ]
     }
   }
 }
