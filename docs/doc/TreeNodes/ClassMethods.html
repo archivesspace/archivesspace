@@ -944,9 +944,9 @@ sequences</p>
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sequence_for identifier id'>sequence_for</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='rubyid_root_record_type identifier id'>root_record_type</span><span class='rbrack token'>]</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_parent identifier id'>parent</span>
-      <span class='dstring node'>&quot;#{json[root_record_type]['ref']}_#{json.parent['ref']}_children_position&quot;</span>
+      <span class='dstring node'>&quot;#{json.parent['ref']}_children_position&quot;</span>
     <span class='rubyid_else else kw'>else</span>
-      <span class='dstring node'>&quot;#{json[root_record_type]['ref']}__children_position&quot;</span>
+      <span class='dstring node'>&quot;#{json[root_record_type]['ref']}_children_position&quot;</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -1085,7 +1085,7 @@ sequences</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.4.2-rc2 Documentation Generated on Fri Oct 23 11:18:53 2015 by
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:53 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

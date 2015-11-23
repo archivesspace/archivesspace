@@ -239,12 +239,12 @@
       <pre class="lines">
 
 
-106
-107
-108</pre>
+104
+105
+106</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 106</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 104</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_inherited identifier id'>inherited</span><span class='lparen token'>(</span><span class='rubyid_subclass identifier id'>subclass</span><span class='rparen token'>)</span>
   <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_register_serializer identifier id'>register_serializer</span><span class='lparen token'>(</span><span class='rubyid_subclass identifier id'>subclass</span><span class='rparen token'>)</span>
@@ -270,12 +270,12 @@
       <pre class="lines">
 
 
-111
-112
-113</pre>
+109
+110
+111</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 111</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 109</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_serializer_for identifier id'>serializer_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
   <span class='rubyid_@serializer_for ivar id'>@serializer_for</span> <span class='assign token'>=</span> <span class='rubyid_name identifier id'>name</span>
@@ -324,12 +324,12 @@
       <pre class="lines">
 
 
-116
-117
-118</pre>
+114
+115
+116</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 114</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_serializer_for? fid id'>serializer_for?</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
   <span class='rubyid_@serializer_for ivar id'>@serializer_for</span> <span class='eq op'>==</span> <span class='rubyid_name identifier id'>name</span>
@@ -366,15 +366,15 @@ for example, MODS data wrapped in METS</p>
       <pre class="lines">
 
 
+120
+121
 122
 123
 124
-125
-126
-127</pre>
+125</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/exporter.rb', line 120</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_with_namespace identifier id'>with_namespace</span><span class='lparen token'>(</span><span class='rubyid_prefix identifier id'>prefix</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
   <span class='rubyid_ns identifier id'>ns</span> <span class='assign token'>=</span> <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_doc identifier id'>doc</span><span class='dot token'>.</span><span class='rubyid_root identifier id'>root</span><span class='dot token'>.</span><span class='rubyid_namespace_definitions identifier id'>namespace_definitions</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_ns identifier id'>ns</span><span class='bitor op'>|</span> <span class='rubyid_ns identifier id'>ns</span><span class='dot token'>.</span><span class='rubyid_prefix identifier id'>prefix</span> <span class='eq op'>==</span> <span class='rubyid_prefix identifier id'>prefix</span><span class='rbrace token'>}</span>
@@ -393,7 +393,7 @@ for example, MODS data wrapped in METS</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.4.2-rc2 Documentation Generated on Fri Oct 23 11:19:06 2015 by
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:05 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

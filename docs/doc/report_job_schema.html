@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Schema: report_job_schema
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!top-level-namespace.html#report_job_schema-schema";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (r)</a> &raquo;
+    
+    
+    <span class="title">report_job_schema</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content">
+
+    	<h1>JSON Schema: Report_job</h1>
+
+			<h2>URI Template</h2>
+			<h3></h3>
+
+			<h2>Properties</h2>
+			
+				<h3 class="signature"> - (string) <strong>report_type</strong></h3>
+			
+				<h3 class="signature"> - (string) <strong>format</strong></h3>
+			
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+
+      <table class="source_code">
+        <tr>
+          <td>
+            <pre class="lines">
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre>
+          </td>
+          <td>
+            <pre class="code"><span class="info file"># File 'common/schemas/report_job.rb', line 1</span>
+
+<span class='lbrace token'>{</span>
+  <span class='symbol val'>:schema</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+    <span class='string val'>&quot;$schema&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;http://www.archivesspace.org/archivesspace.json&quot;</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;version&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;object&quot;</span><span class='comma token'>,</span>
+
+    <span class='string val'>&quot;properties&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+
+      <span class='string val'>&quot;report_type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span> 
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span> 
+      
+      <span class='string val'>&quot;format&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span> 
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span>
+      <span class='rbrace token'>}</span> 
+      
+
+    <span class='rbrace token'>}</span>
+  <span class='rbrace token'>}</span>
+<span class='rbrace token'>}</span>
+</pre>
+          </td>
+        </tr>
+      </table>
+			<br />
+			<span><a href="report_job_schema.txt">Plain Text Version</a></span>
+			</div>
+
+
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:16 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

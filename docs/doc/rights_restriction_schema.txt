@@ -1,0 +1,18 @@
+JSON Schema: Rights_restriction
+
+Properties
+
+string	begin
+
+string	end
+
+array (string)	local_access_restriction_type
+
+object	linked_records
+
+string	restriction_note_type
+
+
+
+
+

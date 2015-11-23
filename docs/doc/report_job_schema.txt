@@ -1,0 +1,12 @@
+JSON Schema: Report_job
+
+Properties
+
+string	report_type
+
+string	format
+
+
+
+
+

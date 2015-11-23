@@ -88,7 +88,9 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">backend/app/model/mixins/resource_trees.rb</dd>
+    <dd class="r2 last">backend/app/model/resource_trees_ext.rb<span class="defines">,<br />
+  backend/app/model/mixins/resource_trees.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
@@ -181,6 +183,29 @@
   <span class="summary_signature">
     
       <a href="#set_node_instances-instance_method" title="#set_node_instances (instance method)">- (Object) <strong>set_node_instances</strong>(node, properties) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_node_instances_pre_container_management-instance_method" title="#set_node_instances_pre_container_management (instance method)">- (Object) <strong>set_node_instances_pre_container_management</strong> </a>
     
 
     
@@ -372,6 +397,21 @@ information from the tree anyway.</p>
       <pre class="lines">
 
 
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
 18
 19
 20
@@ -388,14 +428,10 @@ information from the tree anyway.</p>
 31
 32
 33
-34
-35
-36
-37
-38</pre>
+34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/resource_trees.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/resource_trees_ext.rb', line 3</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_node_instances identifier id'>set_node_instances</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_properties identifier id'>properties</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_instance identifier id'>instance</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
@@ -404,20 +440,58 @@ information from the tree anyway.</p>
     <span class='rbrace token'>}</span>
 
     <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='symbol val'>:containers</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_instance identifier id'>instance</span><span class='dot token'>.</span><span class='rubyid_collect identifier id'>collect</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_instance identifier id'>instance</span><span class='bitor op'>|</span>
-      <span class='rubyid_instance identifier id'>instance</span><span class='dot token'>.</span><span class='rubyid_container identifier id'>container</span>
-    <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_flatten identifier id'>flatten</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_container identifier id'>container</span><span class='bitor op'>|</span>
+      <span class='rubyid_instance identifier id'>instance</span><span class='dot token'>.</span><span class='rubyid_sub_container identifier id'>sub_container</span>
+    <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_flatten identifier id'>flatten</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_sub_container identifier id'>sub_container</span><span class='bitor op'>|</span>
       <span class='rubyid_properties identifier id'>properties</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
-      <span class='lbrack token'>[</span><span class='integer val'>1</span><span class='comma token'>,</span> <span class='integer val'>2</span><span class='comma token'>,</span> <span class='integer val'>3</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span>
-        <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;type_#{i}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_BackendEnumSource constant id'>BackendEnumSource</span><span class='dot token'>.</span><span class='rubyid_value_for_id identifier id'>value_for_id</span><span class='lparen token'>(</span><span class='string val'>&quot;container_type&quot;</span><span class='comma token'>,</span>
-                                                                 <span class='rubyid_container identifier id'>container</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;type_#{i}_id&quot;</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 
-        <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;indicator_#{i}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_container identifier id'>container</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;indicator_#{i}&quot;</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rbrack token'>]</span>
+      <span class='rubyid_top_container identifier id'>top_container</span> <span class='assign token'>=</span> <span class='rubyid_sub_container identifier id'>sub_container</span><span class='dot token'>.</span><span class='rubyid_related_records identifier id'>related_records</span><span class='lparen token'>(</span><span class='symbol val'>:top_container_link</span><span class='rparen token'>)</span>
+
+      <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_top_container identifier id'>top_container</span><span class='rparen token'>)</span>
+        <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='string val'>&quot;type_1&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;Container&quot;</span>
+        <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='string val'>&quot;indicator_1&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_top_container identifier id'>top_container</span><span class='dot token'>.</span><span class='rubyid_indicator identifier id'>indicator</span>
+        <span class='rubyid_if if kw'>if</span> <span class='rubyid_top_container identifier id'>top_container</span><span class='dot token'>.</span><span class='rubyid_barcode identifier id'>barcode</span>
+          <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='string val'>&quot;indicator_1&quot;</span><span class='rbrack token'>]</span> <span class='opasgn op'>+=</span> <span class='dstring node'>&quot; [#{top_container.barcode}]&quot;</span>
+        <span class='rubyid_end end kw'>end</span>
       <span class='rubyid_end end kw'>end</span>
+
+      <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='string val'>&quot;type_2&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_BackendEnumSource constant id'>BackendEnumSource</span><span class='dot token'>.</span><span class='rubyid_value_for_id identifier id'>value_for_id</span><span class='lparen token'>(</span><span class='string val'>&quot;container_type&quot;</span><span class='comma token'>,</span>
+                                                            <span class='rubyid_sub_container identifier id'>sub_container</span><span class='dot token'>.</span><span class='rubyid_type_2_id identifier id'>type_2_id</span><span class='rparen token'>)</span>
+      <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='string val'>&quot;indicator_2&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_sub_container identifier id'>sub_container</span><span class='dot token'>.</span><span class='rubyid_indicator_2 identifier id'>indicator_2</span>
+      <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='string val'>&quot;type_3&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_BackendEnumSource constant id'>BackendEnumSource</span><span class='dot token'>.</span><span class='rubyid_value_for_id identifier id'>value_for_id</span><span class='lparen token'>(</span><span class='string val'>&quot;container_type&quot;</span><span class='comma token'>,</span>
+                                                            <span class='rubyid_sub_container identifier id'>sub_container</span><span class='dot token'>.</span><span class='rubyid_type_3_id identifier id'>type_3_id</span><span class='rparen token'>)</span>
+      <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='string val'>&quot;indicator_3&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_sub_container identifier id'>sub_container</span><span class='dot token'>.</span><span class='rubyid_indicator_3 identifier id'>indicator_3</span>
 
       <span class='rubyid_properties identifier id'>properties</span>
     <span class='rbrace token'>}</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_node_instances_pre_container_management-instance_method">
+  
+    - (<tt>Object</tt>) <strong>set_node_instances_pre_container_management</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+2</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/resource_trees_ext.rb', line 2</span>
+
+<span class='rubyid_alias_method identifier id'>alias_method</span> <span class='symbol val'>:set_node_instances_pre_container_management</span><span class='comma token'>,</span> <span class='symbol val'>:set_node_instances</span>
 </pre>
     </td>
   </tr>
@@ -468,7 +542,7 @@ information from the tree anyway.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.4.2-rc2 Documentation Generated on Fri Oct 23 11:18:54 2015 by
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:53 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>
