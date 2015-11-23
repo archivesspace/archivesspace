@@ -1211,7 +1211,7 @@
       <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 220</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span>
-  <span class='rubyid_@node ivar id'>@node</span><span class='dot token'>.</span><span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
+  <span class='rubyid_@node ivar id'>@node</span><span class='dot token'>.</span><span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;&amp;&quot;</span><span class='comma token'>,</span><span class='string val'>&quot;&amp;amp;&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1843,7 +1843,7 @@ will discharge the JSON subrecord once it is complete</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.4.2-rc2 Documentation Generated on Fri Oct 23 11:18:52 2015 by
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:52 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

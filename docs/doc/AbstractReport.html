@@ -116,6 +116,89 @@
 
 
 
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#format-instance_method" title="#format (instance method)">- (Object) <strong>format</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute format.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#params-instance_method" title="#params (instance method)">- (Object) <strong>params</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute params.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#repo_id-instance_method" title="#repo_id (instance method)">- (Object) <strong>repo_id</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute repo_id.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
 
 
 
@@ -131,6 +214,29 @@
   <span class="summary_signature">
     
       <a href="#each-instance_method" title="#each (instance method)">- (Object) <strong>each</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_binding-instance_method" title="#get_binding (instance method)">- (Object) <strong>get_binding</strong> </a>
     
 
     
@@ -225,6 +331,29 @@
   <span class="summary_signature">
     
       <a href="#query-instance_method" title="#query (instance method)">- (Object) <strong>query</strong>(db) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#report-instance_method" title="#report (instance method)">- (Object) <strong>report</strong> </a>
     
 
     
@@ -355,15 +484,23 @@
       <pre class="lines">
 
 
-6
-7
-8</pre>
+10
+11
+12
+13
+14
+15
+16</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/reports/abstract_report.rb', line 6</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/abstract_report.rb', line 10</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
+  <span class='comment val'># sanity check, please. </span>
+  <span class='rubyid_params identifier id'>params</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_inject identifier id'>inject</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_memo identifier id'>memo</span><span class='comma token'>,</span><span class='lparen token'>(</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span><span class='bitor op'>|</span> <span class='rubyid_memo identifier id'>memo</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_v identifier id'>v</span><span class='semicolon token'>;</span> <span class='rubyid_memo identifier id'>memo</span><span class='rbrace token'>}</span>
   <span class='rubyid_@repo_id ivar id'>@repo_id</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span> <span class='neq op'>!=</span> <span class='string val'>&quot;&quot;</span>
+  <span class='rubyid_@format ivar id'>@format</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:format</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:format</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:format</span><span class='rbrack token'>]</span> <span class='neq op'>!=</span> <span class='string val'>&quot;&quot;</span> 
+  <span class='rubyid_@params ivar id'>@params</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span> 
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -372,6 +509,140 @@
 </div>
   
 </div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="format=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="format-instance_method">
+  
+    - (<tt>Object</tt>) <strong>format</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute format</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+7
+8
+9</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/abstract_report.rb', line 7</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_format identifier id'>format</span>
+  <span class='rubyid_@format ivar id'>@format</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="params=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="params-instance_method">
+  
+    - (<tt>Object</tt>) <strong>params</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute params</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/abstract_report.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_params identifier id'>params</span>
+  <span class='rubyid_@params ivar id'>@params</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="repo_id=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="repo_id-instance_method">
+  
+    - (<tt>Object</tt>) <strong>repo_id</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute repo_id</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+6
+7
+8</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/abstract_report.rb', line 6</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_repo_id identifier id'>repo_id</span>
+  <span class='rubyid_@repo_id ivar id'>@repo_id</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
 
 
   <div id="instance_method_details" class="method_details_list">
@@ -393,21 +664,21 @@
       <pre class="lines">
 
 
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45</pre>
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/reports/abstract_report.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/abstract_report.rb', line 50</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_each identifier id'>each</span>
   <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
@@ -420,6 +691,37 @@
       <span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_binding-instance_method">
+  
+    - (<tt>Object</tt>) <strong>get_binding</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+18
+19
+20</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/abstract_report.rb', line 18</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_binding identifier id'>get_binding</span>
+  <span class='rubyid_binding identifier id'>binding</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -442,12 +744,12 @@
       <pre class="lines">
 
 
-18
-19
-20</pre>
+34
+35
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/reports/abstract_report.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/abstract_report.rb', line 34</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_layout identifier id'>layout</span>
   <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:report_page_layout</span><span class='rbrack token'>]</span>
@@ -473,12 +775,12 @@
       <pre class="lines">
 
 
-22
-23
-24</pre>
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/reports/abstract_report.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/abstract_report.rb', line 38</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_processor identifier id'>processor</span>
   <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -504,6 +806,37 @@
       <pre class="lines">
 
 
+42
+43
+44</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/abstract_report.rb', line 42</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_query identifier id'>query</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;Please specific a query to return your reportable results&quot;</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="report-instance_method">
+  
+    - (<tt>Object</tt>) <strong>report</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
 26
 27
 28</pre>
@@ -511,8 +844,8 @@
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/reports/abstract_report.rb', line 26</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_query identifier id'>query</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
-  <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;Please specific a query to return your reportable results&quot;</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_report identifier id'>report</span>
+  <span class='rubyid_self self kw'>self</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -535,12 +868,12 @@
       <pre class="lines">
 
 
-30
-31
-32</pre>
+46
+47
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/reports/abstract_report.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/abstract_report.rb', line 46</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_scope_by_repo_id identifier id'>scope_by_repo_id</span><span class='lparen token'>(</span><span class='rubyid_dataset identifier id'>dataset</span><span class='rparen token'>)</span>
   <span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@repo_id ivar id'>@repo_id</span><span class='rparen token'>)</span>
@@ -566,12 +899,12 @@
       <pre class="lines">
 
 
-14
-15
-16</pre>
+30
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/reports/abstract_report.rb', line 14</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/abstract_report.rb', line 30</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_template identifier id'>template</span>
   <span class='symbol val'>:'reports/_listing'</span>
@@ -597,12 +930,12 @@
       <pre class="lines">
 
 
-10
-11
-12</pre>
+22
+23
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/reports/abstract_report.rb', line 10</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/abstract_report.rb', line 22</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_title identifier id'>title</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span>
@@ -618,7 +951,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.4.2-rc2 Documentation Generated on Fri Oct 23 11:19:10 2015 by
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:09 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

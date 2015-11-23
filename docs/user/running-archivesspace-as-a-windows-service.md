@@ -7,10 +7,6 @@ permalink: /user/running-archivesspace-as-a-windows-service/
 Running ArchivesSpace as a Windows service requires some additional 
 configuration. 
 
-A popular method is to use Tomcat, which ships with a script that 
-configures Tomcat as a service. For more information, please see :
-[Instructions for running under Tomcat](https://github.com/archivesspace/archivesspace/blob/master/README_TOMCAT.md).
-
 You can also use Apache [procrun]((http://commons.apache.org/proper/commons-daemon/procrun.html) to configure ArchivesSpace. We have 
 provided a service.bat script that will attempt to configure 
 procrun for you (under `launcher\service.bat`). 

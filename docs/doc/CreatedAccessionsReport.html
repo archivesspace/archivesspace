@@ -112,6 +112,11 @@
 
 
 
+  <h2>Instance Attribute Summary</h2>
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="AbstractReport.html" title="AbstractReport (class)">AbstractReport</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="AbstractReport.html#format-instance_method" title="AbstractReport#format (method)">#format</a></span>, <span class='object_link'><a href="AbstractReport.html#params-instance_method" title="AbstractReport#params (method)">#params</a></span>, <span class='object_link'><a href="AbstractReport.html#repo_id-instance_method" title="AbstractReport#repo_id (method)">#repo_id</a></span></p>
+
 
   
     <h2>
@@ -251,7 +256,7 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="AbstractReport.html" title="AbstractReport (class)">AbstractReport</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="AbstractReport.html#each-instance_method" title="AbstractReport#each (method)">#each</a></span>, <span class='object_link'><a href="AbstractReport.html#layout-instance_method" title="AbstractReport#layout (method)">#layout</a></span>, <span class='object_link'><a href="AbstractReport.html#scope_by_repo_id-instance_method" title="AbstractReport#scope_by_repo_id (method)">#scope_by_repo_id</a></span>, <span class='object_link'><a href="AbstractReport.html#template-instance_method" title="AbstractReport#template (method)">#template</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="AbstractReport.html#each-instance_method" title="AbstractReport#each (method)">#each</a></span>, <span class='object_link'><a href="AbstractReport.html#get_binding-instance_method" title="AbstractReport#get_binding (method)">#get_binding</a></span>, <span class='object_link'><a href="AbstractReport.html#layout-instance_method" title="AbstractReport#layout (method)">#layout</a></span>, <span class='object_link'><a href="AbstractReport.html#report-instance_method" title="AbstractReport#report (method)">#report</a></span>, <span class='object_link'><a href="AbstractReport.html#scope_by_repo_id-instance_method" title="AbstractReport#scope_by_repo_id (method)">#scope_by_repo_id</a></span>, <span class='object_link'><a href="AbstractReport.html#template-instance_method" title="AbstractReport#template (method)">#template</a></span></p>
 
   
   
@@ -291,19 +296,27 @@
       <pre class="lines">
 
 
-9
 10
 11
 12
-13</pre>
+13
+14
+15
+16
+17
+18</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/reports/created_accessions_report.rb', line 9</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/created_accessions_report.rb', line 10</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
   <span class='rubyid_super super kw'>super</span>
-  <span class='rubyid_@from ivar id'>@from</span> <span class='assign token'>=</span> <span class='rubyid_DateTime constant id'>DateTime</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:from</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_strftime identifier id'>strftime</span><span class='lparen token'>(</span><span class='string val'>&quot;%Y-%m-%d&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-  <span class='rubyid_@to ivar id'>@to</span> <span class='assign token'>=</span> <span class='rubyid_DateTime constant id'>DateTime</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:to</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_strftime identifier id'>strftime</span><span class='lparen token'>(</span><span class='string val'>&quot;%Y-%m-%d&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_from identifier id'>from</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&quot;from&quot;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+  <span class='rubyid_to identifier id'>to</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&quot;to&quot;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+ 
+  <span class='rubyid_@from ivar id'>@from</span> <span class='assign token'>=</span> <span class='rubyid_DateTime constant id'>DateTime</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_from identifier id'>from</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_time identifier id'>to_time</span><span class='dot token'>.</span><span class='rubyid_strftime identifier id'>strftime</span><span class='lparen token'>(</span><span class='string val'>&quot;%Y-%m-%d %H:%M:%S&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_@to ivar id'>@to</span> <span class='assign token'>=</span> <span class='rubyid_DateTime constant id'>DateTime</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_to identifier id'>to</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_time identifier id'>to_time</span><span class='dot token'>.</span><span class='rubyid_strftime identifier id'>strftime</span><span class='lparen token'>(</span><span class='string val'>&quot;%Y-%m-%d %H:%M:%S&quot;</span><span class='rparen token'>)</span>
+
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -333,12 +346,12 @@
       <pre class="lines">
 
 
-19
-20
-21</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/reports/created_accessions_report.rb', line 19</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/created_accessions_report.rb', line 24</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_headers identifier id'>headers</span>
   <span class='lbrack token'>[</span><span class='string val'>'id'</span><span class='comma token'>,</span> <span class='string val'>'identifier'</span><span class='comma token'>,</span> <span class='string val'>'title'</span><span class='comma token'>,</span> <span class='string val'>'create_date'</span><span class='comma token'>,</span> <span class='string val'>'create_time'</span><span class='rbrack token'>]</span>
@@ -364,16 +377,16 @@
       <pre class="lines">
 
 
-23
-24
-25
-26
-27
 28
-29</pre>
+29
+30
+31
+32
+33
+34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/reports/created_accessions_report.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/created_accessions_report.rb', line 28</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_processor identifier id'>processor</span>
   <span class='lbrace token'>{</span>
@@ -403,12 +416,12 @@
       <pre class="lines">
 
 
-31
-32
-33</pre>
+36
+37
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/reports/created_accessions_report.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/created_accessions_report.rb', line 36</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_query identifier id'>query</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
   <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:accession</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span><span class='lparen token'>(</span><span class='symbol val'>:create_time</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_@from ivar id'>@from</span><span class='dot2 op'>..</span><span class='rubyid_@to ivar id'>@to</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_order identifier id'>order</span><span class='lparen token'>(</span><span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_asc identifier id'>asc</span><span class='lparen token'>(</span><span class='symbol val'>:create_time</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -434,15 +447,15 @@
       <pre class="lines">
 
 
-15
-16
-17</pre>
+20
+21
+22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/reports/created_accessions_report.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/created_accessions_report.rb', line 20</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_title identifier id'>title</span>
-  <span class='dstring node'>&quot;Accessions created between #{@from.strftime(&quot;%Y-%m-%d&quot;)} and #{@to.strftime(&quot;%Y-%m-%d&quot;)}&quot;</span>
+  <span class='dstring node'>&quot;Accessions created between #{@from} and #{@to}&quot;</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -455,7 +468,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.4.2-rc2 Documentation Generated on Fri Oct 23 11:19:10 2015 by
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:10 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

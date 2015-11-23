@@ -222,7 +222,7 @@ in the db post-migration. Backend will not start if this value is off.</p>
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_SCHEMA_INFO constant id'>SCHEMA_INFO</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_@SCHEMA_INFO ivar id'>@SCHEMA_INFO</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@SCHEMA_INFO ivar id'>@SCHEMA_INFO</span>
   <span class='comment val'># this gets changed by dist ant task </span>
-  <span class='rubyid_@SCHEMA_INFO ivar id'>@SCHEMA_INFO</span> <span class='assign token'>=</span> <span class='integer val'>59</span>
+  <span class='rubyid_@SCHEMA_INFO ivar id'>@SCHEMA_INFO</span> <span class='assign token'>=</span> <span class='integer val'>64</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -276,7 +276,7 @@ in the db post-migration. Backend will not start if this value is off.</p>
     <span class='rubyid_else else kw'>else</span> <span class='comment val'># some servlet containers have a hard time finding the resource...</span>
       <span class='comment val'># fallback_version variable gets changed in dist ant task . The a is</span>
       <span class='comment val'># just a cue that we're using this..</span>
-      <span class='rubyid_fallback_version identifier id'>fallback_version</span> <span class='assign token'>=</span> <span class='string val'>&quot;v1.4.2-rc2.a&quot;</span>
+      <span class='rubyid_fallback_version identifier id'>fallback_version</span> <span class='assign token'>=</span> <span class='string val'>&quot;v1.4.5-dev18.a&quot;</span>
       <span class='rubyid_@VERSION ivar id'>@VERSION</span> <span class='assign token'>=</span> <span class='rubyid_fallback_version identifier id'>fallback_version</span> 
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_rescue rescue kw'>rescue</span>
@@ -294,7 +294,7 @@ in the db post-migration. Backend will not start if this value is off.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.4.2-rc2 Documentation Generated on Fri Oct 23 11:18:57 2015 by
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:57 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>
