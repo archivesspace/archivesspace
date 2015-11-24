@@ -8,7 +8,8 @@ var app = app || {};
     routes: {
       "": "welcome",
       "search?*queryString": "showSearchResults",
-      "repositories/:repo_id/collections/:id": "showResource",
+      "repositories/:repo_id/:type_plural/:id": "showRecord",
+
       "*path": "defaultPage"
     },
 
@@ -67,9 +68,12 @@ var app = app || {};
     },
 
 
-    showResource: function(repo_id, id) {
+    showRecord: function(repo_id, type_plural, id) {
+      var realType = app.utils.getASType(type_plural);
+
+
       var record = new app.RecordModel({
-        type: 'resource',
+        type: realType,
         id: id,
         repo_id: repo_id
       });

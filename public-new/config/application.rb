@@ -34,6 +34,8 @@ module ArchivesSpacePublic
     # config.i18n.default_locale = :de
 
     config.assets.enabled = true
+    config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
+
 
     # config.paths["app/controllers"].concat(ASUtils.find_local_directories("public/controllers"))
 

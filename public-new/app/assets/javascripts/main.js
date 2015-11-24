@@ -98,7 +98,19 @@ var app = app || {};
 
     getTitle: function() {
       return this.attributes.title;
+    },
+
+    getDisplayType: function() {
+      switch (this.type) {
+      case 'resource':
+        return 'collection';
+      case 'archival_object':
+        return 'object'
+      default:
+        return this.type
+      }
     }
+
   });
 
   app.WelcomeView = WelcomeView;

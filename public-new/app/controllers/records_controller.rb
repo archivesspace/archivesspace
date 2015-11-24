@@ -8,15 +8,16 @@ class RecordsController < ApplicationController
 
 
     render :json => resource.to_json
-    # breadcrumb_title = title_or_finding_aid_filing_title(resource) 
-    # @resource = ResourceView.new(resource)
-
-    # @breadcrumbs = [
-    #   [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"],
-    #   [breadcrumb_title, "#", "resource"]
-    # ]
-
   end
+
+
+  def archival_object
+    archival_object = JSONModel(:archival_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents"])
+    raise RecordNotFound.new if (!archival_object || archival_object.has_unpublished_ancestor || !archival_object.publish)
+
+    render :json => archival_object.to_json
+  end
+
 
 
 

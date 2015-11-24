@@ -7,7 +7,7 @@ describe('Search Results', function() {
 
   beforeEach(function() {
     jasmine.Ajax.install();
-  })
+  });
 
   beforeEach(function() {
 
@@ -25,7 +25,6 @@ describe('Search Results', function() {
       }
     });
     this.request = jasmine.Ajax.requests.mostRecent();
-    console.log(this.request.url);
   });
 
 

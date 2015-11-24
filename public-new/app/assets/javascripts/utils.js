@@ -31,6 +31,17 @@ var app = app || {};
         );
       }
     return params;
+    },
+
+    getASType: function(type) {
+      switch(type) {
+      case 'collections':
+        return 'resource';
+      case 'collection':
+        return 'resource';
+      case 'objects':
+        return 'archival_object';
+      }
     }
   };
 })();

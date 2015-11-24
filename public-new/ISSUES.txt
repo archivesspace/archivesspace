@@ -9,8 +9,8 @@ X Need better overlay graphic
 * Search result row template has dummy data
 
 * Need Record pages for each type
-  * Record Model / Endpoint
-  * Tests
+  X Record Model / Endpoint
+  X Tests
   * Templating
 
 X Need to catch the click events in the navbar

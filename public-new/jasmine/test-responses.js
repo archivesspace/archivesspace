@@ -33,5 +33,14 @@ var TestResponses = {
       status: 500,
       responseText: 'BARF'
     }
+  },
+
+  resource: {
+    success: {
+      status: 200,
+      responseText: JSON.stringify({
+        title: "Dick Cavett Papers"
+      })
+    }
   }
 };

@@ -35,9 +35,15 @@ var RAILS_API = "/api";
   var SearchResultItem = Bb.Model.extend({
     getURL: function() {
       var url = this.attributes.uri;
-      if (this.attributes.primary_type === 'resource') {
+      switch(this.attributes.primary_type) {
+      case 'resource':
         url = url.replace(/resources/, 'collections');
+        break;
+      case 'archival_object':
+        url = url.replace(/archival_object/, 'object');
+        break;
       }
+
       return url;
     }
   });
