@@ -4,7 +4,7 @@
 %>
 
 
-<div class="modal" id="<%= id %>">
+<div class="modal<% if defined?(klass)%> <%= klass %><% end %>" id="<%= id %>">
   <div class="modal-dialog <% if defined?(large) %>modal-lg<% end %>">
     <div class="modal-content" >
       <div class="modal-header">
@@ -14,6 +14,6 @@
       <div class="modal-body">
          <%= render :partial => partial %>
       </div>
-   </div>
- </div>
+    </div>
+  </div>
 </div>
