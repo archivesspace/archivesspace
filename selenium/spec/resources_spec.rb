@@ -187,6 +187,40 @@ describe "Resources and archival objects" do
     @driver.find_element(:link, "Revert Changes").click
     @driver.find_element(:id, "dismissChangesButton").click
   end
+  
+  it "can create a new digital object instance with a note to a resource" do
+    @driver.get_edit_page(@resource)
+
+    sleep(1)
+    @driver.find_element_with_text('//button', /Add Digital Object/).click
+    sleep(1)
+
+    @driver.find_element(:css => "#resource_instances_ .linker-wrapper a.btn").click
+    @driver.find_element(:css => "#resource_instances_ a.linker-create-btn").click
+    
+    @driver.clear_and_send_keys([:id, "digital_object_title_"],("digital_object_title"))
+    @driver.clear_and_send_keys([:id, "digital_object_digital_object_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
+
+    @driver.find_element(:css => '#digital_object_notes .subrecord-form-heading .btn.add-note').click
+    @driver.find_last_element(:css => '#digital_object_notes select.top-level-note-type').select_option_with_text("Summary")
+
+    @driver.clear_and_send_keys([:id, 'digital_object_notes__0__label_'], "Summary label")
+    @driver.execute_script("$('#digital_object_notes__0__content__0_').data('CodeMirror').setValue('Summary content')")
+    @driver.execute_script("$('#digital_object_notes__0__content__0_').data('CodeMirror').save()")
+
+    @driver.execute_script("$('#digital_object_notes__0__content__0_').data('CodeMirror').toTextArea()")
+    @driver.find_element(:id => "digital_object_notes__0__content__0_").attribute("value").should eq("Summary content")
+
+    @driver.find_element(:id, "createAndLinkButton").click
+    @driver.wait_for_ajax
+    @driver.find_element(:css => "form#resource_form button[type='submit']").click
+    @driver.wait_for_ajax
+    
+    @driver.find_element(:css, ".token-input-token .digital_object").click
+
+    # so the subject is here now
+    assert(5) { @driver.find_element(:css, ".token-input-token .digital_object").text.should match(/digital_object_title/) }
+  end
 
 
   # Archival Object Trees
@@ -300,6 +334,7 @@ describe "Resources and archival objects" do
     # so the subject is here now
     assert(5) { @driver.find_element(:css, "#archival_object_subjects_ ul.token-input-list").text.should match(/#{$$}FooTerm456/) }
   end
+  
 
 
   it "can view a read only Archival Object" do
