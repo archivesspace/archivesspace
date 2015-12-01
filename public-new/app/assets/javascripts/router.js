@@ -80,6 +80,7 @@ var app = app || {};
 
       app.debug = record;
 
+
       $('#wait-modal').foundation('reveal', 'open');
       record.fetch().then(function() {
         var containerView = new app.ContainerView({
@@ -95,6 +96,17 @@ var app = app || {};
         $("#main-content").html(recordView.$el.html());
         $("#sidebar").html(sideBar.$el.html());
 
+      }).fail(function(response) {
+        var containerView = new app.ContainerView({
+          mainWidth: 12,
+        });
+
+        var errorView = new app.ServerErrorView({
+          response: response
+        });
+
+        $("#main-content").html(errorView.$el.html());
+      }).always(function() {
         setTimeout(function() {
           $('#wait-modal').foundation('reveal', 'close');
         }, 500);
@@ -103,13 +115,13 @@ var app = app || {};
 
     },
 
-    defaultPage: function() {
+    defaultPage: function(path) {
       var containerView = new app.ContainerView({
         mainWidth: 12,
         sidebarWidth: 0
       });
 
-      $("#main-content").html("<h1>Route not found</h1>");
+      $("#main-content").html("<h1>Route not found</h1><p>"+path+"</p>");
     }
   });
 

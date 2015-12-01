@@ -9,6 +9,17 @@ class ApplicationController < ActionController::API
   before_filter :establish_session
   before_filter :assign_repositories
 
+  rescue_from RecordNotFound, :with => :handle_404
+
+
+  def handle_404
+    if env["REQUEST_PATH"] =~ /^\/api/
+      render :json => {:error => "not-found"}.to_json, :status => 404
+    else
+      render "errors/404"
+    end
+  end
+
 
   def establish_session
     Thread.current[:backend_session] = BackendSession.get_active_session

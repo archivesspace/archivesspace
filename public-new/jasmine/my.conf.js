@@ -18,8 +18,11 @@ module.exports = function(config) {
       'vendor/assets/javascripts/jquery/jquery.js',
       'vendor/assets/javascripts/exoskeleton/exoskeleton.js',
       'vendor/assets/javascripts/backbone.paginator/backbone.paginator.js',
-      'vendor/assets/javascripts/**/*.js',
-
+      'vendor/assets/javascripts/foundation/vendor/modernizr.js',
+      'vendor/assets/javascripts/foundation/foundation.js',
+      'vendor/assets/javascripts/foundation/foundation/foundation.reveal.js',
+      'vendor/assets/javascripts/foundation/foundation/foundation.dropdown.js',
+      // 'vendor/assets/javascripts/**/*.js',
       'app/assets/javascripts/*.js',
       'node_modules/jasmine-jquery/lib/jasmine-jquery.js',
       'node_modules/jasmine-ajax/lib/mock-ajax.js',

@@ -105,7 +105,7 @@
   <script type="text/template" id="search-box-tmpl">
     <div class="row panel">
       <h3>Search the archives</h3>
-      
+
       <div class="row">
         <form id="search-form" action="/search">
           <div class="medium-5 columns">
@@ -157,7 +157,7 @@
           {}); }
         </ul>
       </p>
-      <p class="medium-6 columns">Sort by: 
+      <p class="medium-6 columns">Sort by:
         <button href="#" data-dropdown="relevance" aria-controls="relevance" aria-expanded="false" class="button dropdown tiny">Relevance</button><br>
         <ul id="relevance" data-dropdown-content class="f-dropdown" aria-hidden="true">
           <li><a href="#">Title</a></li>
@@ -185,6 +185,12 @@
   </script>
 
 
+  <!-- server error -->
+  <script type="text/template" id="server-error-tmpl">
+    <h2>Server Error: ${ status }</h2>
+    <pre>${ responseText }</pre>
+  </script>
+
   <!-- record -->
   <script type="text/template" id="record-tmpl">
     <h2>${ getTitle() }</h2>
@@ -196,7 +202,7 @@
       <li><a href="04landing-repository.html">Repository name</a></li>
       <li class="unavailable"><a href="#">Collection title</a></li>
     </ul>
-    
+
     <div class="recordsummary">
       <p>Contents of the abstract field. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec id elit non mi porta gravida at eget metus. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
       <h4>Dates</h4>
@@ -218,8 +224,8 @@
       <h4>Conditions governing use</h4>
       <p>Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
     </div>
-    
-    
+
+
     <dl class="accordion" data-accordion>
       <dd class="accordion-navigation">
         <a href="#objectnotes"><i class="fi-plus"> </i>Additional Description &raquo;</a>
@@ -227,7 +233,7 @@
           <h3>Scope and Content</h3>
           <p>Nullam id dolor id nibh ultricies vehicula ut id elit. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla.</p>
           <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Nullam id dolor id nibh ultricies vehicula ut id elit. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Donec id elit non mi porta gravida at eget metus.</p>
-          <p>Etiam porta sem malesuada magna mollis euismod. Sed posuere consectetur est at lobortis. Maecenas sed diam eget risus varius blandit sit amet non magna. Donec sed odio dui. Nulla vitae elit libero, a pharetra augue.</p>   
+          <p>Etiam porta sem malesuada magna mollis euismod. Sed posuere consectetur est at lobortis. Maecenas sed diam eget risus varius blandit sit amet non magna. Donec sed odio dui. Nulla vitae elit libero, a pharetra augue.</p>
           <div class="panel callout">For WG: following is a list of all of the note fields. We need your help determining the default order for those fields that show up in this section, and where other fields should display. Anything that already has a placement has a strikethrough and where it is placed in ().
             <ol>
               <li><strike>Abstract</strike> (displays at top of record)</li>
@@ -351,7 +357,7 @@
   </div>
 </div><!-- / inventory -->
 
-    <p> &nbsp;</p>    
+    <p> &nbsp;</p>
   </script>
 
   <!-- RECORD SIDEBAR -->
@@ -386,7 +392,7 @@
             </div>
             <div class="row">
               <div class="small-4 columns"><strong>Finding aid date:</strong></div>
-              <div class="small-8 columns">2011</div>    
+              <div class="small-8 columns">2011</div>
             </div>
             <div class="row">
               <div class="small-4 columns"><strong>Description rules:</strong></div>
@@ -394,7 +400,7 @@
             </div>
             <div class="row">
               <div class="small-5 columns"><strong>Language of description:</strong></div>
-              <div class="small-7 columns small-pull-1">English, German</div>    
+              <div class="small-7 columns small-pull-1">English, German</div>
             </div>
             <div class="row">
               <div class="small-4 columns"><strong>Acquisition:</strong></div>
@@ -407,7 +413,7 @@
                 <li><em>November 2, 2010:</em> Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</li>
               </ul>
             </div>
-            <div class="panel callout">For WG: we need guidance about which of the Finding Aid Data fields should be in here. The additional fields from the form (not represented above) are: 
+            <div class="panel callout">For WG: we need guidance about which of the Finding Aid Data fields should be in here. The additional fields from the form (not represented above) are:
               <ul>
                 <li>EAD ID</li>
                 <li>EAD Location</li>
@@ -454,7 +460,7 @@
   </script>
 
 
-  <!-- facets sidebar --> 
+  <!-- facets sidebar -->
   <script type="text/template" id="facets-tmpl">
     <h2>Filter results</h2>
     <span class="definition">Remove</span>
@@ -519,7 +525,7 @@
 
   <!-- Search Pager -->
   <script type="text/template" id="search-pager-tmpl">
-    <ul class="pagination" role="menubar" aria-label="Pagination">      
+    <ul class="pagination" role="menubar" aria-label="Pagination">
       <li class='arrow${hasPreviousPage() ? "'>": " unavailable' aria-disabled='true'>"}<a href="${hasPreviousPage() ? getPreviousPageURL() : ''}">&#171; Previous</a></li>
           {_.times((getPagerEnd() - getPagerStart() + 1), function(n) {}
 <li>

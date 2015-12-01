@@ -41,6 +41,11 @@ var TestResponses = {
       responseText: JSON.stringify({
         title: "Dick Cavett Papers"
       })
+    },
+
+    failure: {
+      status: 500,
+      responseText: 'PUKE'
     }
   }
 };

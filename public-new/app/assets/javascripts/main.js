@@ -46,6 +46,17 @@ var app = app || {};
   });
 
 
+  var ServerErrorView = Backbone.View.extend({
+    tagName: "div",
+    initialize: function(opts) {
+      var tmpl = _.template($('#server-error-tmpl').html());
+      this.$el.html(tmpl(opts.response));
+      return this;
+    }
+
+  });
+
+
   var RecordView = Backbone.View.extend({
     tagName: "div",
     initialize: function(opts) {
@@ -69,6 +80,7 @@ var app = app || {};
   var ContainerView = Backbone.View.extend({
     el: "#container",
     initialize: function(opts) {
+      opts.sidebarWidth = opts.sidebarWidth || 0;
       var tmpl = _.template($('#container-tmpl').html());
       this.$el.html(tmpl(opts));
       return this;
@@ -118,7 +130,7 @@ var app = app || {};
   app.RecordSidebarView = RecordSidebarView;
   app.ContainerView = ContainerView;
   app.RecordModel = RecordModel;
-
+  app.ServerErrorView = ServerErrorView;
 
   $(function() {
     new HeaderView();
