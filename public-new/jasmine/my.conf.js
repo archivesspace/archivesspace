@@ -23,9 +23,8 @@ module.exports = function(config) {
       'app/assets/javascripts/*.js',
       'node_modules/jasmine-jquery/lib/jasmine-jquery.js',
       'node_modules/jasmine-ajax/lib/mock-ajax.js',
+      'jasmine/spec_helper.js',
       'jasmine/*.js',
-      'jasmine/fixtures/*.js',
-
       {
         pattern: 'jasmine/fixtures/*.html',
         watched: false,
@@ -66,7 +65,7 @@ module.exports = function(config) {
 
 
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: false,
+    autoWatch: true,
 
 
     // start these browsers
