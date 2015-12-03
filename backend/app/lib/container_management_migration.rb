@@ -128,8 +128,29 @@ class ContainerManagementMigration
 
   MAX_RECORDS_PER_TRANSACTION = 10
 
+  def already_run?
+    DB.open do |db|
+      return  !db[:system_event].where( :title => "CONTAINER_MANAGEMENT_UPGRADE_COMPLETED" ).empty? 
+    end
+  end
+
 
   def run
+   
+    if already_run?
+      Log.info("*" * 100 )
+      Log.info("The upgrade to container managment has already been run. If for some reason you want to rerun this, remove the CONTAINER_MANAGMENT from the system_events table in your database.")
+      Log.info("Nothing will be done now. We return you to your regular ASPACE startup....") 
+      Log.info("To remove this message, change AppConfig[:migrate_to_container_management] = false in your AppConfig )")
+      Log.info("*" * 100 )
+      return    
+    end
+    
+    DB.open do |db|
+      db[:system_event].insert(:title => "CONTAINER_MANAGEMENT_UPGRADE_STARTED",
+                                 :time => Time.now)
+    end
+    
     records_migrated = 0
 
     Repository.all.each do |repo|
@@ -190,5 +211,13 @@ class ContainerManagementMigration
         end
       end
     end
+
+    DB.open do |db|
+      db[:system_event].insert(:title => "CONTAINER_MANAGEMENT_UPGRADE_COMPLETED",
+                                 :time => Time.now)
+    end
+
+
+
   end
 end

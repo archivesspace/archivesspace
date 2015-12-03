@@ -3,22 +3,34 @@ require_relative 'utils'
 Sequel.migration do
 
 	up do
+    
+    create_table(:system_event) do
+      primary_key :id
+
+      String :title
+      DateTime :time, :null => false, :index => true
+      String :message
+
+    end
+    
     warning = <<EOF
 
 
 
 
     #{ "*" * 100 }
-    #{ "!" *  25} VERY IMPORTANT #{"!" * 25 } 
+    #{ "!" *  42} VERY IMPORTANT #{"!" * 42 } 
+    #{ "*" * 100 }
    
 
     You are updating to a version of ASPACE that has a new container managment model. If you have existing data,
-    you will need to migrate it. To do this, change 'AppConfig[:migrate_to_container_management] = true' in your
-    config.rb file and start ASPACE. Once this migration process has completed, change the setting back to
-    false, and restart ASPACE. 
+    this will be migrated when you start the application for the first time. The application will not be available 
+    until this has completed. 
+    PLEASE NOTE : The process wil provide warning and information regarding records that might need to be manually
+    fixed. Keep the log from this processes for data cleanup. 
+    
 
-    If this is a new install and you have no data in your database, you can ignore this step.
-
+    #{ "*" * 100 }
     #{ "*" * 100 }
 
 
