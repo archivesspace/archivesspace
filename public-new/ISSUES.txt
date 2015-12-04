@@ -1,12 +1,11 @@
-
-
 X No 404 when the router doesn't catch the URL
 
 X Back button causes overlay to hang
 
 X Need better overlay graphic
 
-* Search result row template has dummy data
+X Search result row template has dummy data
+  * "Summary" field has dummy data
 
 * Need Record pages for each type
   X Record Model / Endpoint
@@ -27,9 +26,11 @@ X Need to catch the click events in the navbar
 
 * Facets need a "see more" link over 20 or so
 
-* Keywords in context doesn't work
+X Keywords in context doesn't work
+  X widget
+  * see more link isn't functional
 
 * Error handling
   * server error: search, record
   * timeout
-  * 404
+  X 404

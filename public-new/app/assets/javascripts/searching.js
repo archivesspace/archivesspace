@@ -33,6 +33,41 @@ var RAILS_API = "/api";
   };
 
   var SearchResultItem = Bb.Model.extend({
+    initialize: function(opts) {
+      var recordJson = JSON.parse(this.attributes.json);
+
+      this.render = {
+        title: this.attributes.title,
+        recordTypeClass: this.attributes.primary_type,
+        recordTypeLabel: _.capitalize(this.attributes.primary_type),
+        identifier: this.attributes.uri,
+        url: this.attributes.uri,
+        summary: 'Maecenas faucibus mollis <span class="searchterm2">astronomy</span>. Maecenas sed diam eget risus varius blandit sit amet non magna. Vestibulum id ligula porta semper.',
+        dates: [],
+        context: undefined
+      }
+
+      this.render.highlights = _.reduce(this.attributes.highlighting, function(result, list, field) {
+        return result.concat(list);
+      }, []);
+
+      switch(this.attributes.primary_type) {
+      case 'resource':
+        this.render.url = this.attributes.uri.replace(/resources/, 'collections');
+        this.render.recordTypeLabel = "Collection";
+        break;
+      case 'archival_object':
+        this.render.url = this.attributes.uri.replace(/archival_object/, 'object');
+        this.render.recordTypeLabel = "Object";
+        break;
+      case 'repository':
+        this.render.title = recordJson.name;
+        this.render.identifier = recordJson.repo_code;
+        break;
+      }
+    },
+
+
     getURL: function() {
       var url = this.attributes.uri;
       switch(this.attributes.primary_type) {
@@ -45,6 +80,10 @@ var RAILS_API = "/api";
       }
 
       return url;
+    },
+
+    getDisplay: function() {
+      return this.attributes.primary_type
     }
   });
 
@@ -181,7 +220,6 @@ var RAILS_API = "/api";
       },
 
       "click .applied-filters a": function(e) {
-        console.log("APPLIED");
         e.preventDefault();
         var url = e.target.getAttribute('href');
         app.router.navigate(url, {trigger: true});
@@ -196,7 +234,7 @@ var RAILS_API = "/api";
     initialize: function() {
       console.log(this.model);
       var tmpl = _.template($('#search-result-row-tmpl').html());
-      this.$el.html(tmpl(this.model));
+      this.$el.html(tmpl(this.model.render));
       return this;
     }
   });
@@ -221,7 +259,8 @@ var RAILS_API = "/api";
     render: function() {
       var $el = this.$el;
       $el.html("<h2>Search results</h2>");
-      this.collection.forEach(function(item) {
+      this.collection.forEach(function(item, index) {
+        item.render.index = index;
         var searchItemView = new SearchItemView({
           model: item
         });
@@ -231,6 +270,7 @@ var RAILS_API = "/api";
 
       var pagerTmpl = _.template($('#search-pager-tmpl').html());
       $el.append(pagerTmpl(this.collection));
+      $el.foundation();
     }
   });
 

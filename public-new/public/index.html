@@ -37,6 +37,8 @@
   <script src="/assets/foundation/foundation.js" type="text/javascript"></script>
   <script src="/assets/foundation/foundation/foundation.reveal.js" type="text/javascript"></script>
   <script src="/assets/foundation/foundation/foundation.dropdown.js" type="text/javascript"></script>
+  <script src="/assets/foundation/foundation/foundation.accordion.js" type="text/javascript"></script>
+
   <script src="/assets/utils.js" type="text/javascript"></script>
   <script src="/assets/router.js" type="text/javascript"></script>
   <script src="/assets/main.js" type="text/javascript"></script>
@@ -498,20 +500,25 @@
   <!-- Search result row -->
   <script type="text/template" id="search-result-row-tmpl">
     <div class="recordrow">
-      <h3><a href="${ getURL() }">${ attributes.title }</a></h3>
-      <div class="recordtype"><span class="collection"><i class="fi-clipboard small"> </i> Collection</span> &nbsp; | &nbsp; <strong>Identifier:</strong> ABCDEFGHIJKL</div>
-      <div class="recordsummary">Maecenas faucibus mollis <span class="searchterm2">astronomy</span>. Maecenas sed diam eget risus varius blandit sit amet non magna. Vestibulum id ligula porta semper.</div>
-      <div class="recorddate"><strong>Date(s):</strong> 1903-1943</div>
+      <h3><a href="${ url }">${ title }</a></h3>
+      <div class="recordtype"><span class="${ recordTypeClass }"><i class="fi-clipboard small"> </i> ${ recordTypeLabel }</span> &nbsp; | &nbsp; <strong>Identifier:</strong> ${ identifier }</div>
+      <div class="recordsummary">${ summary }</div>
+      {if(dates.length) { }
+      <div class="recorddate"><strong>Date(s):</strong> ${ dates.join("; ") }</div>
+      {} }
+
+      {if(context) {}
       <div class="recordcontext"><strong>Context:</strong> <a href="#">Repository name</a></div>
+      {}}
       <div class="keywordscontext">
         <dl class="accordion" data-accordion>
           <dd class="accordion-navigation">
-            <a href="#panelcontents"><i class="fi-plus"> </i>Keywords in context</a>
-            <div id="panelcontents" class="content">
+            <a href="#panelcontents_${ index }"><i class="fi-plus"> </i>Keywords in context</a>
+            <div id="panelcontents_${ index }" class="content">
               <ul class="recordchildren">
-                <li>...Zinner, Ernst, 1886-1970 <span class="searchterm2">Astronomy</span> -- History -- Sources The documents Zinner's...</li>
-                <li>...service. He returned to the field of <span class="searchterm2">astronomy</span> at the end of the war, becoming...</li>
-                <li>...a professor at Vassar College, <span class="searchterm1">Maria Mitchell</span>...</li>
+                {_.forEach(highlights, function(snip) {}
+                <li>...${ snip }...</li>
+                {}); }
                 <li class="smallnote">29 more references to search keywords</li>
               </ul>
               <a href="03record-collection.html" class="button">View collection</a>

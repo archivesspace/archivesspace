@@ -11,15 +11,12 @@ class SearchController < ApplicationController
 
 
   def search
-    
-    Rails.logger.debug(params);
 
     set_search_criteria
 
     @search_data = Search.all(@criteria, @repositories)
 
     render :json => @search_data
-
   end
 
 
@@ -48,6 +45,8 @@ class SearchController < ApplicationController
 
     @criteria['exclude[]'] = params[:exclude] if not params[:exclude].blank?
     @criteria['facet[]'] = FACETS
+
+    @criteria['hl'] = true
   end
 
 end

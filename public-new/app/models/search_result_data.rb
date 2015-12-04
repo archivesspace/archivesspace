@@ -1,4 +1,3 @@
-Rails.logger.debug(Rails.env)
 class SearchResultData
 
   def initialize(search_data, repository_data)
@@ -10,6 +9,21 @@ class SearchResultData
     init_facets
     init_sorts
     init_filter_label_map
+    init_highlights
+  end
+
+  def init_highlights
+    if results?
+      @search_data['results'].map! {|result|
+        if @search_data['highlighting'].has_key?(result["id"]) && !@search_data['highlighting'][result["id"]].keys.empty?
+          result["highlighting"] = @search_data['highlighting'][result["id"]]
+        end
+
+        result
+      }
+    end
+
+    @search_data.delete('highlighting')
   end
 
   def init_facets
@@ -237,5 +251,4 @@ class SearchResultData
           proc { title_column_header(I18n.t('subject.terms')) }
     }
   end
-
 end

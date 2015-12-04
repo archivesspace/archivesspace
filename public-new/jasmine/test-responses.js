@@ -12,13 +12,22 @@ var TestResponses = {
             {
               title: "Jimmy Page Papers",
               primary_type: 'resource',
-              uri: "/repositories/13/resources/666"
+              uri: "/repositories/13/resources/666",
+              json: JSON.stringify({
+                title: "Jimmy Page Papers"
+              })
             },
             {
-              title: "Robert Plant Papers"
+              title: "Robert Plant Papers",
+              json: JSON.stringify({
+                title: "Jimmy Page Papers"
+              })
             },
             {
-              title: "Stairway to Heaven Manuscript"
+              title: "Stairway to Heaven Manuscript",
+              json: JSON.stringify({
+                title: "Jimmy Page Papers"
+              })
             }
           ],
           criteria: {
