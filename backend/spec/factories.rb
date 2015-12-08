@@ -296,6 +296,7 @@ FactoryGirl.define do
   
   factory :json_top_container, class: JSONModel(:top_container) do
     indicator { generate(:alphanumstr) }
+    type { generate(:container_type) }
     barcode { generate(:alphanumstr)[0..4] }
     ils_holding_id { generate(:alphanumstr) }
     ils_item_id { generate(:alphanumstr) }

@@ -248,8 +248,8 @@ describe "Notes" do
     @driver.clear_and_send_keys([:id, "digital_object_digital_object_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
 
     # Add a Summary note
-    @driver.find_element(:css => '#notes .subrecord-form-heading .btn.add-note').click
-    @driver.find_last_element(:css => '#notes select.top-level-note-type').select_option_with_text("Summary")
+    @driver.find_element(:css => '#digital_object_notes .subrecord-form-heading .btn.add-note').click
+    @driver.find_last_element(:css => '#digital_object_notes select.top-level-note-type').select_option_with_text("Summary")
 
     @driver.clear_and_send_keys([:id, 'digital_object_notes__0__label_'], "Summary label")
     @driver.execute_script("$('#digital_object_notes__0__content__0_').data('CodeMirror').setValue('Summary content')")

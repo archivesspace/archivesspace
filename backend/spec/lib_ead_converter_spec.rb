@@ -146,7 +146,7 @@ ANEAD
 
       # further physdesc tags - dimensions and physfacet tags are mapped appropriately
       @resource['extents'][0]['dimensions'].should eq("Resource-Dimensions-AT")
-      @resource['extents'][0]['physical_details'].should eq("Resource-Physfacet-AT")
+      @resource['extents'][0]['physical_details'].should eq("Resource-PhysicalFacet-AT")
 
       # physdesc altrender mapping
       @resource['extents'][0]['portion'].should eq("part")

@@ -65,7 +65,7 @@ describe 'ArchivalObject model' do
 
     ArchivalObject[ao[:id]].instance.length.should eq(1)
     ArchivalObject[ao[:id]].instance[0].instance_type.should eq(opts[:instances][0]['instance_type'])
-    ArchivalObject.to_jsonmodel(ao[:id])['instances'][0]["container"]["type_1"].should eq('box')
+    ArchivalObject.to_jsonmodel(ao[:id])['instances'][0]["container"]["type_1"].should eq(opts[:instances][0]["container"]["type_1"])
   end
 
 

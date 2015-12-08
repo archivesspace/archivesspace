@@ -984,6 +984,7 @@ en:
   top_container:
     indicator: Indicator
     barcode: Barcode
+    type: Container Type 
     ils_holding_id: ILS Holding ID
     ils_item_id: ILS Item ID
     exported_to_ils: Exported to ILS

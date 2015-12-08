@@ -39,7 +39,7 @@ Sequel.migration do
 EOF
     
       $stderr.puts(warning)
-      sleep(10) 
+  
   end
 
   down do

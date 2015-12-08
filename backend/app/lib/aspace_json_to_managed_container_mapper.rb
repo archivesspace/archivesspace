@@ -51,7 +51,8 @@ class AspaceJsonToManagedContainerMapper
           container = instance['container']
 
           top_container = create_top_container({'indicator' => get_default_indicator(container['indicator_1']),
-                                                'container_locations' => container['container_locations']})
+                                               'type' => container['type_1'], 
+                                               'container_locations' => container['container_locations']})
         else
           raise e
         end
@@ -101,6 +102,7 @@ class AspaceJsonToManagedContainerMapper
         indicator = container['indicator_1'] || get_default_indicator
         create_top_container({'barcode' => barcode,
                               'indicator' => indicator,
+                              'type' => container['type_1'], 
                               'container_locations' => container['container_locations']})
       end
     else
