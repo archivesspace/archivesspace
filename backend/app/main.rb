@@ -205,8 +205,10 @@ class ArchivesSpaceService < Sinatra::Base
       Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}"
       Resequencer.run( [ :ArchivalObject,  :DigitalObjectComponent, :ClassificationTerm ] ) if AppConfig[:resequence_on_startup]
      
-      
-      if AppConfig.has_key?(:migrate_to_container_management) && AppConfig[:migrate_to_container_management]
+     
+      # this checks the system_event table to see if we've already run the CMM
+      # for the upgrade from =< v1.4.2
+      unless ContainerManagementMigration.already_run? 
         Log.info("\n") 
         Log.info("*" * 100 )
         Log.info("Migrating existing containers to the new container model...")
