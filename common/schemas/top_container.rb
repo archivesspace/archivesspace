@@ -31,7 +31,6 @@
         "items" => {"type" => "JSONModel(:rights_restriction) object"},
       },
 
-      "legacy_restricted" => {"type" => "boolean", "default" => false},
 
       "container_locations" => {
         "type" => "array",
