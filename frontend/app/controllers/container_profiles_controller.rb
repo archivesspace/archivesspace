@@ -45,6 +45,7 @@ class ContainerProfilesController < ApplicationController
                     render :json => @container_profile.to_hash if inline?
                   else
                     flash[:success] = I18n.t("container_profile._frontend.messages.created")
+                    return redirect_to :controller => :container_profiles, :action => :new if params.has_key?(:plus_one)
                     redirect_to(:controller => :container_profiles, :action => :show, :id => id)
                   end
                 })
