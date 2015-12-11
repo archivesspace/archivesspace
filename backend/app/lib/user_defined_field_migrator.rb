@@ -31,7 +31,6 @@ class UserDefinedFieldMigrator
     update_values = {
       :ils_holding_id => container_data.voyager_holding_id,
       :exported_to_ils => Time.now,
-      :legacy_restricted => container_data.restricted ? 1 : 0
     }
 
     profile = container_data.container_profile

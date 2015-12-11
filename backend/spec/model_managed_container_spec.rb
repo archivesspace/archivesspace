@@ -40,15 +40,13 @@ describe 'Managed Container model' do
     ils_holding_id = '112358'
     ils_item_id = '853211'
     exported_to_ils = Time.at(1234567890).iso8601
-    legacy_restricted = false
 
     top_container = build(:json_top_container,
                                'barcode' => barcode,
                                'ils_holding_id' => ils_holding_id,
                                'ils_item_id' => ils_item_id,
                                'exported_to_ils' => exported_to_ils,
-                               'legacy_restricted' => legacy_restricted)
-
+                         )
     box_id = TopContainer.create_from_json(top_container, :repo_id => $repo_id).id
 
     box = TopContainer.to_jsonmodel(box_id)
@@ -56,7 +54,6 @@ describe 'Managed Container model' do
     box.ils_holding_id.should eq(ils_holding_id)
     box.ils_item_id.should eq(ils_item_id)
     box.exported_to_ils.should eq(exported_to_ils)
-    box.legacy_restricted.should eq(legacy_restricted)
   end
 
 
