@@ -16,10 +16,8 @@ Sequel.migration do
     warning = <<EOF
 
 
-
-
     #{ "*" * 100 }
-    #{ "!" *  42} VERY IMPORTANT #{"!" * 42 } 
+    #{ "v" *  42} VERY IMPORTANT #{"v" * 42 } 
     #{ "*" * 100 }
    
 
@@ -31,6 +29,7 @@ Sequel.migration do
     
 
     #{ "*" * 100 }
+    #{ "^" *  42} VERY IMPORTANT #{"^" * 42 } 
     #{ "*" * 100 }
 
 
@@ -39,7 +38,6 @@ Sequel.migration do
 EOF
     
       $stderr.puts(warning)
-  
   end
 
   down do
