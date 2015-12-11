@@ -1,0 +1,145 @@
+.spacer {
+	padding-top: 3em;
+}
+.first-row {
+	margin-top: 1em;
+}
+.searchterm1, .searchterm2, .keywordscontext li em{
+	font-weight:bold;
+	padding: 0 0.5em;
+	background-color: #d5f7e9;
+}
+.searchterm2 {
+	background-color: #f8d6f7;
+}
+.facets h2 {
+	font-size: 2em;
+}
+.facets h3 {
+	font-size: 1.2em;
+	border-bottom: 1px solid;
+}
+.facets h4 {
+	font-size: 1em;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.facets p {
+	font-size: 0.9em;
+}
+.facets li {
+	width: 100%;
+	border-bottom: 1px solid;
+}
+li.remove {
+	background-image: url("../img/remove.png");
+	background-position: right;
+	background-repeat: no-repeat;
+}
+.recordnumber {
+	background-color: #ccc;
+	padding: 0 5px;
+	font-weight: bold;
+	position: absolute;
+	right: 20px;
+}
+.definition {
+	font-size: 0.7em;
+	float: right;
+}
+
+
+/* search results */
+
+.recordrow {
+	margin: 1em 0 1.5em;
+}
+.recordrow h3 {
+	font-size: 1.5em;
+}
+.recordtype {
+	margin-top: -0.75em;
+}
+.object {
+	color:#de1965;
+}
+.collection {
+	color:#00cf35;
+}
+.subject {
+	color:#cf7a00;
+}
+.person {
+	color:#b700cf;
+}
+.folder {
+	color:#009fcf;
+}
+.recordtype.repository {
+	color: olive;
+}
+.recordtype.classification {
+	color: gray;
+}
+.digitized {
+	float: right;
+	text-align: center;
+	color: #999;
+}
+.grid-item {
+	text-align: center;
+}
+.smallnote {
+	color: #999;
+	font-style: italic;
+}
+/* / search results */
+
+/* hierarchy tree */
+
+.contentsarrangement ul {
+	margin-left: 2em;
+}
+.recordchildren li i.fi-plus,
+.recordchildren li i.fi-minus {
+	margin-left: -2em;
+}
+.recordchildren li .treeitemdesc {
+	color: #999;
+	font-style: italic;
+	margin-left: 0.5em;
+}
+.contentsarrangement li.panel {
+	margin-left: -1.25em;
+	margin-bottom: 0;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+}
+
+/* /hierarchy tree */
+
+/* icon sizes */
+i.small {
+	font-size: 1.2em;
+}
+i.medium {
+	font-size: 3em;
+	line-height: 0em;
+}
+i.large {
+	font-size: 5em;
+}
+i.giant {
+	font-size: 8em;
+	line-height: 0em;
+}
+.attention {
+	color: green;
+}
+
+/* record details */
+.objectimage {
+		width: 50%;
+		float:right;
+		margin: 0 0 1em 1em;
+}

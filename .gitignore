@@ -33,7 +33,7 @@ config/gemnasium.yml
 build/demo_db_backups
 *.jasper
 .bundle
-frontend/node_modules
+*/node_modules
 locales.diff
-frontend/bower_components
+*/bower_components
 Gemfile.local

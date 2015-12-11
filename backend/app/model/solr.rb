@@ -16,8 +16,6 @@ class Solr
   end
 
 
-
-
   class Query
 
     def self.create_match_all_query
@@ -88,6 +86,7 @@ class Solr
       @pagination = nil
       @solr_params = []
       @facet_fields = []
+      @highlighting = false
 
       @show_suppressed = false
       @show_published_only = false
@@ -102,6 +101,12 @@ class Solr
 
     def use_standard_query_type
       @query_type = :standard
+      self
+    end
+
+
+    def highlighting(yes_please = true)
+      @highlighting = yes_please
       self
     end
 
@@ -232,6 +237,11 @@ class Solr
         add_solr_param(:fq, "publish:true")
       end
 
+
+      if @highlighting
+        add_solr_param(:hl, "true")
+      end
+
       unless @show_suppressed
         add_solr_param(:fq, "suppressed:false")
       end
@@ -260,7 +270,6 @@ class Solr
                                        [:start, (@pagination[:page] - 1) * @pagination[:page_size]],
                                        [:rows, @pagination[:page_size]]] +
                                       @solr_params)
-
 
       url
     end
@@ -293,6 +302,7 @@ class Solr
 
         page_size = query.page_size
 
+        result['page_size'] = page_size
         result['first_page'] = 1
         result['last_page'] = (json['response']['numFound'] / page_size.to_f).ceil
         result['this_page'] = (json['response']['start'] / page_size) + 1
@@ -308,6 +318,10 @@ class Solr
         }
 
         result['facets'] = json['facet_counts']
+
+        if json['highlighting']
+          result['highlighting'] = json['highlighting']
+        end
 
         return result
       else

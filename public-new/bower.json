@@ -1,0 +1,72 @@
+{
+  "name": "archivesspace_public",
+  "description": "ArchivesSpace Public Interface",
+  "main": "index.js",
+  "authors": [
+    "Brian Hoffman <brianjhoffman@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/archivesspace/archivesspace",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "exoskeleton": "~0.7.0",
+    "jquery": "~2.1.4",
+    "foundation": "~5.5.3",
+    "lodash": "~3.10.1",
+    "jquery.scrollTo": "~2.1.2",
+    "load-awesome": "~1.1.0",
+    "foundation-icon-fonts": "*"
+  },
+  "install": {
+    "path": {
+      "js": "vendor/assets/javascripts",
+      "css": "vendor/assets/stylesheets",
+      "scss": "vendor/assets/stylesheets",
+      "map": "vendor/assets/stylesheets",
+      "eot": "vendor/assets/fonts",
+      "ttf": "vendor/assets/fonts",
+      "woff": "vendor/assets/fonts",
+      "svg": "vendor/assets/fonts"
+    },
+    "sources": {
+      "exoskeleton": [
+        "bower_components/exoskeleton/exoskeleton.js"
+      ],
+      "jquery": {
+        "mapping": [
+          {
+            "bower_components/jquery/dist/jquery.js": "jquery.js"
+          }
+        ]
+      },
+      "foundation": [
+        "bower_components/foundation/js/**",
+        "bower_components/foundation/scss/**"
+      ],
+      "backbone.paginator": {
+        "mapping": [
+          {
+            "bower_components/backbone.paginator/lib/backbone.paginator.js": "backbone.paginator.js"
+          }
+        ]
+      },
+      "load-awesome": [
+        "bower_components/load-awesome/css/ball-pulse-rise.css",
+        "bower_components/load-awesome/css/ball-fall.css",
+        "bower_components/load-awesome/css/line-spin-clockwise-fade.css"
+      ],
+      "foundation-icon-fonts": [
+        "bower_components/foundation-icon-fonts/_foundation-icons.scss",
+        "bower_components/foundation-icon-fonts/foundation-icons.*"
+      ]
+    }
+  }
+}
