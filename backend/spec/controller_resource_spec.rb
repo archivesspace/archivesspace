@@ -125,7 +125,7 @@ describe 'Resources controller' do
 
     JSONModel(:resource).find(id).instances.length.should eq(1)
     JSONModel(:resource).find(id).instances[0]["instance_type"].should eq(opts[:instance_type])
-    JSONModel(:resource).find(id).instances[0]["container"]["type_1"].should eq('box')
+    JSONModel(:resource).find(id).instances[0]["container"]["type_1"].should eq(opts[:container]['type_1'])
   end
 
 

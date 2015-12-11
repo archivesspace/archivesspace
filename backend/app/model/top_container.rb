@@ -124,9 +124,8 @@ class TopContainer < Sequel::Model(:top_container)
     end
   end
 
-
   def display_string
-    ["Container", "#{indicator}:", series_label, format_barcode].compact.join(" ").gsub(/:\Z/,'')
+    ["#{type ? type.capitalize : ''}", "#{indicator}:", series_label, format_barcode].compact.join(" ").gsub(/:\Z/,'')
   end
 
 
@@ -135,7 +134,7 @@ class TopContainer < Sequel::Model(:top_container)
     resource &&= Identifiers.format(Identifiers.parse(resource.identifier))
     container_profile = related_records(:top_container_profile)
     container_profile &&= container_profile.name
-    container_bit = ["Container", "#{indicator}", format_barcode].compact.join(" ")
+    container_bit = ["#{type ? type.capitalize : ''}", "#{indicator}", format_barcode].compact.join(" ")
 
     [resource, series_label, container_bit, container_profile].compact.join(", ")
   end

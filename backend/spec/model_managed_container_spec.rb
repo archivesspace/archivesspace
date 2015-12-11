@@ -151,7 +151,7 @@ describe 'Managed Container model' do
     let (:top_container) { TopContainer[box.id] }
 
     it "can show a display string for a top container that isn't linked to anything" do
-      top_container.display_string.should eq("Container 1: [123]")
+      top_container.display_string.should eq("#{top_container.type.capitalize} 1: [123]")
     end
 
 
@@ -222,7 +222,7 @@ describe 'Managed Container model' do
                                                              'component_id' => "3",
                                                            })
 
-      top_container.display_string.should eq("Container 1: Series 3 [123]")
+      top_container.display_string.should eq("#{top_container.type.capitalize} 1: Series 3 [123]")
     end
 
     it "doesn't show a display string for a non-series other-level AO" do
@@ -233,7 +233,7 @@ describe 'Managed Container model' do
                                                              'other_level' => 'Handbag'
                                                            })
 
-      top_container.display_string.should eq("Container 1: [123]")
+      top_container.display_string.should eq("#{top_container.type.capitalize} 1: [123]")
     end
 
 
@@ -244,7 +244,7 @@ describe 'Managed Container model' do
                                                              'level' => 'series'
                                                            })
 
-      top_container.display_string.should eq("Container 1: [123]")
+      top_container.display_string.should eq("#{top_container.type.capitalize} 1: [123]")
     end
 
 
@@ -256,20 +256,20 @@ describe 'Managed Container model' do
                                                              'other_level' => 'Accession'
                                                            })
 
-      top_container.display_string.should eq("Container 1: Accession 9 [123]")
+      top_container.display_string.should eq("#{top_container.type.capitalize} 1: Accession 9 [123]")
     end
 
     it "shows a display string for a linked accession" do
       accession = create_accession({"instances" => [build_instance(box)]})
 
-      top_container.display_string.should eq("Container 1: [123]")
+      top_container.display_string.should eq("#{top_container.type.capitalize} 1: [123]")
     end
 
 
     it "shows a display string for a linked resource" do
       resource = create_resource({"instances" => [build_instance(box)]})
 
-      top_container.display_string.should eq("Container 1: [123]")
+      top_container.display_string.should eq("#{top_container.type.capitalize} 1: [123]")
     end
 
   end

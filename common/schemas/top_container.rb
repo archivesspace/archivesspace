@@ -10,11 +10,12 @@
       "uri" => {"type" => "string", "required" => false},
 
       "indicator" => {"type" => "string", "maxLength" => 255, "minLength" => 1, "ifmissing" => "error" },
+      "type" => {"type" => "string", "dynamic_enum" => "container_type", "required" => false},
+      "barcode" => {"type" => "string", "maxLength" => 255},
 
       "display_string" => {"type" => "string", "readonly" => true},
       "long_display_string" => {"type" => "string", "readonly" => true},
 
-      "barcode" => {"type" => "string", "maxLength" => 255},
 
       "ils_holding_id" => {"type" => "string", "maxLength" => 255, "required" => false},
       "ils_item_id" => {"type" => "string", "maxLength" => 255, "required" => false},

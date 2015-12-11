@@ -21,7 +21,7 @@ class SubContainerToAspaceJsonMapper
   end
 
   def type_1
-    'box'
+    top_container.type || 'box'
   end
 
 

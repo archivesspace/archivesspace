@@ -204,11 +204,16 @@ class ArchivesSpaceService < Sinatra::Base
       Notifications.notify("BACKEND_STARTED")
       Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}"
       Resequencer.run( [ :ArchivalObject,  :DigitalObjectComponent, :ClassificationTerm ] ) if AppConfig[:resequence_on_startup]
+     
       
       if AppConfig.has_key?(:migrate_to_container_management) && AppConfig[:migrate_to_container_management]
+        Log.info("\n") 
+        Log.info("*" * 100 )
         Log.info("Migrating existing containers to the new container model...")
         ContainerManagementMigration.new.run
         Log.info("Completed: existing containers have been migrated to the new container model.")
+        Log.info("*" * 100 )
+        Log.info("\n") 
       end
 
     rescue
