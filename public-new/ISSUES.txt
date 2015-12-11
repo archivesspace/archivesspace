@@ -34,3 +34,9 @@ X Keywords in context doesn't work
   * server error: search, record
   * timeout
   X 404
+
+X Revise Search Functionality
+
+* Returning to / using back button doesn't clear search results view 
+
+* How to make the back button restore the search query form state..

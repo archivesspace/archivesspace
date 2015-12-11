@@ -107,52 +107,78 @@
   <script type="text/template" id="search-box-tmpl">
     <div class="row panel">
       <h3>Search the archives</h3>
-
-      <div class="row">
-        <form id="search-form" action="/search">
-          <div class="medium-5 columns">
-
-            <input name="q" type="text" placeholder="Enter your search terms" />
-          </div>
-          <div class="medium-3 columns">
-            <button href="#" data-dropdown="recordtype" aria-controls="recordtype" aria-expanded="false" class="button dropdown tiny secondary">Search all record types</button><br>
-            <ul id="recordtype" data-dropdown-content class="f-dropdown" aria-hidden="true">
-              <li><a href="#">Search collections</a></li>
-              <li><a href="#">Search digital materials</a></li>
-              <li><a href="#">etc. input needed</a></li>
-            </ul>
-          </div>
-          <div class="medium-2 columns">
-            <button href="#" data-dropdown="fieldsearched" aria-controls="fieldsearched" aria-expanded="false" class="button dropdown tiny secondary">Keyword</button><br>
-            <ul id="fieldsearched" data-dropdown-content class="f-dropdown" aria-hidden="true">
-              <li><a href="#">Creator</a></li>
-              <li><a href="#">Notes</a></li>
-              <li><a href="#">Subject</a></li>
-              <li><a href="#">Title</a></li>
-            </ul>
-          </div>
-          <div class="medium-1 columns">
-            <a href="01landingB.html" class="button tiny secondary">+</a>
-          </div>
-          <div class="medium-1 columns">
-            <button id="search-button" class="button tiny">Search</button>
-          </div>
-        </form>
-      </div>
+      <form id="search-form" action="/search">
+      </form>
       <div class="text-right"><p><a href="#" data-tooltip aria-haspopup="true" class="has-tip" title="Clicking this will take the user to a seprate page with helpful information on how to search.">Search help</a></p></div>
     </div>
+  </script>
+
+  <!-- search box query row -->
+  <script type="text/template" id="search-box-query-row-tmpl">
+    <div class="row search-query-row">
+      <!-- <input type="hidden" name="recordtype" value="all" /> -->
+
+      <div class="medium-1 columns">
+        { if(index > 0) { }
+        <button href="#" data-dropdown="op${index}" aria-controls="operator${index}" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
+        <ul id="op${index}" data-dropdown-content="" class="f-dropdown" aria-hidden="true">
+          <li data-value="AND" class="selected"><a href="#">And</a></li>
+          <li data-value="OR"><a href="#">Or</a></li>
+          <li data-value="NOT"><a href="#">Not</a></li>
+        </ul>
+        {} else { }
+        &#160;
+        {} }
+      </div>
+      <div class="medium-4 columns">
+        <input name="q${index}" type="text" placeholder="Enter your search terms" />
+      </div>
+      <div class="medium-3 columns">
+        { if(index === 0) { }
+        <button type="button" data-dropdown="recordtype" aria-controls="recordtype" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
+        <ul id="recordtype" data-dropdown-content class="f-dropdown" aria-hidden="true">
+          <li data-value="any" class="selected"><a href="#">Search all record types</a></li>
+          <li data-value="collection"><a href="#">Search collections</a></li>
+          <li data-value="digital_object"><a href="#">Search digital materials</a></li>
+        </ul>
+        {} else { }
+        &#160;
+        {} }
+      </div>
+      <div class="medium-2 columns">
+        <button href="#" data-dropdown="f${index}" aria-controls="fieldsearched" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
+        <ul id="f${index}" data-dropdown-content class="f-dropdown" aria-hidden="true">
+          <li data-value="keyword" class="selected"><a href="#">Keyword</a></li>
+          <li data-value="creator"><a href="#">Creator</a></li>
+          <li data-value="notes"><a href="#">Notes</a></li>
+          <li data-value="subject"><a href="#">Subject</a></li>
+          <li data-value="title"><a href="#">Title</a></li>
+        </ul>
+      </div>
+      <div class="medium-1 columns add-query-row">
+        <a href="#" class="button tiny secondary">+</a>
+      </div>
+      <div class="medium-1 columns">
+        <button id="search-button" class="button tiny">Search</button>
+      </div>
+    </div>
+
+
   </script>
 
 
   <!-- search toolbar -->
   <script type="text/template" id="search-toolbar-tmpl">
     <div class="row first-row panel">
-      <p class="small-12 columns">Your search for {_.forEach(displayTerms().split('+'), function(term, key) {}
-        { if(key > 0) {} AND {} }
+      <p class="small-12 columns">Your search for {_.forEach(displayTerms(), function(term, key) {}
+        { if(key % 2 === 0) {}
         <span class="searchterm1">${term}</span>
+        {} else {}
+        ${term}
+        {} }
         {});} yielded ${state.totalRecords} results.</p>
       <p class="medium-6 columns">Change number of results displayed at once:
-        <button href="#" data-dropdown="numberresults" aria-controls="numberresults" aria-expanded="false" class="button dropdown tiny">${state.pageSize}</button><br>
+        <button type="button" data-dropdown="numberresults" aria-controls="numberresults" aria-expanded="false" class="button dropdown tiny">${state.pageSize}</button><br>
         <ul id="numberresults" data-dropdown-content class="f-dropdown" aria-hidden="true">
           { _.forEach([20, 40, 60, 100], function(inc) { }
           <li><a href="${getPageSizeURL(inc)}">${inc}</a></li>
@@ -171,7 +197,7 @@
       <div class="medium-6 columns">
         Search controls:
         <ul class="button-group ">
-          <li><a href="01landing.html" class="button small">New search</a></li>
+          <li><a href="/" class="button small">New search</a></li>
           <li><a href="02searchresultsmodify.html" class="button small">Revise current search</a></li>
         </ul>
       </div>

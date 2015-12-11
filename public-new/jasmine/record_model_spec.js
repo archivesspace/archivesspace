@@ -46,7 +46,6 @@ describe('Record Model(s)', function() {
 
     it('accepts an error handling callback', function() {
       expect(this.request.url).toEqual('/api/repositories/2/resources/1');
-      console.log(this.resourceRecord);
       expect(this.resourceRecord.barf).toEqual(true);
     });
   });

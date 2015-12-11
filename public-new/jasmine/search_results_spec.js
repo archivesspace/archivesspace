@@ -86,8 +86,5 @@ describe('Search Results', function() {
       expect(this.item.getURL()).toEqual('/repositories/13/collections/666');
     });
 
-
   });
-
-
 });
