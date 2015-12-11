@@ -36,7 +36,7 @@ ANEAD
     parsed = JSON(IO.read(converter.get_output_path))
 
     parsed.length.should eq(3)
-    parsed.find{|r| r['ref_id'] == '1'}['instances'][1]['container']['type_1'].should eq('Folder')
+    parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['container']['type_2'].should eq('Folder')
   end
   
   it "should remove unitdate from unittitle" do
