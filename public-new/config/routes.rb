@@ -11,6 +11,8 @@ ArchivesSpacePublic::Application.routes.draw do
 
 
       match 'api/search' => 'search#search', :via => [:get]
+      match 'api/advanced_search' => 'search#advanced_search', :via => [:get]
+
 
       get '/(*url)' => "site#index"
 

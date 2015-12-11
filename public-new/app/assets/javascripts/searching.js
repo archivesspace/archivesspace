@@ -4,21 +4,49 @@ var RAILS_API = "/api";
 
 (function(Bb, _) {
 
-  // This builds a URL for the location toolbar (not Ajax calls)
-  // from the internal state of a SearchResults collection
-  function buildBaseURL(filter) {
-    var filter = filter || function() {
+  // take a solr-style filter and convert it for our
+  // public URL
+  // example: '{"repositories":"/repositories/2"}'
+  //    -> {repository: '/repositories/2'}
+  function convertFilter(solrFilter) {
+    var parsed = JSON.parse(solrFilter);
+    var mapped = _.transform(parsed, function(result, val, key) {
+      result[key
+        .replace(/repositories/, "repository")
+        .replace(/primary_type/, "recordtype")] =
+        val
+        .replace(/archival_object/, 'object')
+
+    });
+    return mapped;
+  }
+
+
+  // This builds a URL (to drive the router, not for calling the API)
+  // from the internal state of a SearchResults collection +
+  // an optional filter function supplied by the caller +
+  // an optional param object supplied by the caller
+  function buildBaseURL(paramFilter, addedParams) {
+    var addedParams = addedParams || _.isUndefined(paramFilter) ? {} : _.isFunction(paramFilter) ? {} : paramFilter;
+
+    var paramFilter = _.isFunction(paramFilter) ? paramFilter : function() {
       return true;
     };
 
     var url = "/search?";
     var params = [];
 
-    if(this.state.pageSize) {
-      params.push('pageSize='+this.state.pageSize);
+    if(this.pageSize) {
+      params.push('pageSize='+this.pageSize);
     }
-    _.forOwn(_.pick(this.state.criteria, ['q', 'filter_term[]']), function(value, key) {
-      if(_.isArray(value)) {
+    _.forOwn(_.omit(this.criteria, ['facet[]', 'type[]']), function(value, key) {
+      if(key === 'aq') {
+        var aqParams = app.utils.convertAdvancedQuery(value);
+        _.forOwn(aqParams, function(value, key) {
+          params.push(""+key+"="+value);
+        });
+
+      } else if(_.isArray(value)) {
         _.forEach(value, function(filter) {
           params.push(""+key+"="+filter);
         });
@@ -26,10 +54,116 @@ var RAILS_API = "/api";
         params.push(key+"="+value);
       }
     });
-    params = _.filter(params, filter);
+    params = _.filter(params, paramFilter);
+
+    _.forOwn(addedParams, function(val, key) {
+      params.push(key+"="+val);
+    });
 
     url += params.join('&');
     return url;
+  };
+
+
+  //an object that can hold search
+  //params taken from the public URL
+  //and convert them for the API
+  function SearchQuery(queryString) {
+    var that = this;
+    var publicParams = this.parseQueryString(queryString);
+    publicParams.page = publicParams.page || 1;
+    publicParams.pageSize = publicParams.pageSize || 20;
+
+    _.forOwn(publicParams, function(value, key) {
+      that[key] = value;
+    });
+
+    return this;
+  }
+
+
+  SearchQuery.prototype.parseQueryString = function(queryString) {
+    var params = {};
+    if(queryString){
+      _.each(
+        _.map(decodeURI(queryString).split(/&/g),function(el,i){
+          var aux = el.split('='), o = {};
+          if(aux.length >= 1){
+            var val = undefined;
+            if(aux.length == 2)
+              val = aux[1];
+            o[aux[0]] = val;
+          }
+          return o;
+        }),
+        function(o){
+          _.assign(params,o, function(value, other) {
+            if (_.isUndefined(value)) {
+              return other;
+            } else {
+              return _.flatten([value, other]);
+            }
+          });
+        }
+      );
+    }
+    return params;
+  };
+
+  // maybe all this gets pushed back to Rails
+  SearchQuery.prototype.toApi = function() {
+    var apiParams = {}
+    _.forOwn(this, function(value, key) {
+      switch(key) {
+      case 'recordtype':
+        var type = app.utils.getASType(value);
+        if(type) {
+          apiParams['filter_term[]'] = apiParams['filter_term[]'] || [];
+          apiParams['filter_term[]'].push('{"primary_type":"'+type+'"}');
+        }
+
+        break;
+      case 'repository':
+        _.forEach(_.flatten([value]), function(repoUri) {
+          apiParams['filter_term[]'] = apiParams['filter_term[]'] || [];
+          apiParams['filter_term[]'].push('{"repository":"'+repoUri+'"}');
+        });
+        break;
+      case 'subject':
+        _.forEach(_.flatten([value]), function(subject) {
+          apiParams['filter_term[]'] = apiParams['filter_term[]'] || [];
+          apiParams['filter_term[]'].push('{"subjects":"'+subject+'"}');
+        });
+      default:
+        apiParams[key] = value;
+        break;
+      }
+    });
+
+    //q0 => v0
+    _.forEach(_.range(5), function(i) {
+      if(apiParams['q'+i] && apiParams['f'+i]) {
+        apiParams['v'+i] = apiParams['q'+i];
+        delete apiParams['q'+i];
+      }
+    });
+
+    console.log(apiParams);
+    return apiParams;
+  };
+
+
+
+  //take the raw criteria object returned by the server
+  // and clean it up for our results object
+  function parseCriteria(criteria) {
+    if (_.has(criteria, 'aq')) {
+      var aqObj = JSON.parse(criteria.aq);
+      criteria.aq = aqObj;
+    }
+
+    return criteria;
+
   };
 
   var SearchResultItem = Bb.Model.extend({
@@ -90,10 +224,15 @@ var RAILS_API = "/api";
   var SearchResults = Bb.PageableCollection.extend({
     model: SearchResultItem,
 
-    url: RAILS_API+"/search",
+    url: function() {
+      if(this.advanced) {
+        return RAILS_API+"/advanced_search";
+      } else {
+        return RAILS_API+"/search";
+      }
+    },
 
     parseRecords: function(data) {
-      console.log(data);
       return data.search_data.results
     },
 
@@ -103,13 +242,12 @@ var RAILS_API = "/api";
         lastPage: data.search_data.last_page,
         totalPages: data.search_data.last_page,
         currentPage: data.search_data.this_page,
-        criteria: data.search_data.criteria,
+        criteria: parseCriteria(data.search_data.criteria),
         facetData: data.facet_data,
         filterLabelMap: data.filter_label_map,
         totalRecords: data.search_data.total_hits
       }
     },
-
 
     forEachAppliedFilterWithLabel: function(cb) {
       var state = this.state;
@@ -138,10 +276,11 @@ var RAILS_API = "/api";
 
 
     getRemoveFilterURL: function(filterToRemove) {
-      var url = buildBaseURL.call(this, function(param) {
+      var url = buildBaseURL.call(this.state, function(param) {
         if(filterToRemove === 'q') {
           return !param.match(/^q=/);
         } else {
+          console.log(param);
           return !(param === 'filter_term[]='+filterToRemove);
         }
       });
@@ -150,13 +289,12 @@ var RAILS_API = "/api";
 
 
     getAddFilterURL: function(filterToAdd) {
-      var url = buildBaseURL.call(this);
-      url += "&filter_term[]="+filterToAdd;
+      var url = buildBaseURL.call(this.state, convertFilter(filterToAdd));
       return encodeURI(url);
     },
 
     getPageSizeURL: function(pageSize) {
-      var url = buildBaseURL.call(this, function(param) {
+      var url = buildBaseURL.call(this.state, function(param) {
         return !param.match(/^pageSize=/);
       });
       url += "&pageSize="+pageSize;
@@ -165,7 +303,7 @@ var RAILS_API = "/api";
 
 
     getPageURL: function(page) {
-      var url = buildBaseURL.call(this);
+      var url = buildBaseURL.call(this.state);
       url += "&page="+page;
       return encodeURI(url);
     },
@@ -188,7 +326,9 @@ var RAILS_API = "/api";
 
     displayTerms: function(){
       if (this.state.criteria.q) {
-        return this.state.criteria.q
+        return this.state.criteria.q.split('+')
+      } else if (this.state.criteria.aq) {
+        return app.utils.flattenAdvancedQuery(this.state.criteria.aq);
       } else {
         return '*'
       }
@@ -232,7 +372,6 @@ var RAILS_API = "/api";
   var SearchItemView = Bb.View.extend({
     tagName: "div",
     initialize: function() {
-      console.log(this.model);
       var tmpl = _.template($('#search-result-row-tmpl').html());
       this.$el.html(tmpl(this.model.render));
       return this;
@@ -270,7 +409,6 @@ var RAILS_API = "/api";
 
       var pagerTmpl = _.template($('#search-pager-tmpl').html());
       $el.append(pagerTmpl(this.collection));
-      $el.foundation();
     }
   });
 
@@ -281,7 +419,6 @@ var RAILS_API = "/api";
     initialize: function() {
       var tmpl = _.template($('#search-toolbar-tmpl').html());
       this.$el.html(tmpl(this.collection));
-      $(document).foundation();
       return this;
     },
     events: {
@@ -302,19 +439,66 @@ var RAILS_API = "/api";
     initialize: function() {
       var tmpl = _.template($('#search-box-tmpl').html());
       this.$el.html(tmpl());
+      this.addQueryRow();
       return this;
     },
     events: {
-      "click #search-button" : "search"
+      "click #search-button" : "search",
+      "click .f-dropdown li a": function(e) {
+        e.preventDefault();
+        var $a = $(e.target);
+        $($a.closest("ul")).children("li").removeClass("selected");
+        $($a.closest("li")).addClass("selected");
+        $($a.closest("ul")).siblings("button").text($a.text());
+      },
+      "click .add-query-row a": function(e) {
+        e.preventDefault();
+        this.addQueryRow();
+      }
     },
     search: function (e) {
       e.preventDefault();
+      var state = {
+        criteria: {}
+      };
 
-      app.router.navigate('/search?' + $('#search-form').serialize(), {trigger: true});
+      _.forEach($("#search-form").serializeArray(), function(n) {
+        state.criteria[n.name] = n.value;
+      });
+
+      _.forEach($("#search-form li.selected"), function(elt) {
+        state.criteria[$(elt).closest("ul").attr('id')] = $(elt).
+          data('value');
+      });
+
+      var url = buildBaseURL.call(state);
+      app.router.navigate(url, {trigger: true});
+    },
+
+    addQueryRow: function(opts) {
+      var tmpl = _.template($('#search-box-query-row-tmpl').html());
+      var opts = opts || {};
+
+      opts.index = $(".search-query-row", this.$el).length;
+
+      $("#search-form", this.$el).append(tmpl(opts));
+
+      // hide all but last add button
+      $("#search-form .search-query-row:not(:last-child)").each(function(i, div) {
+        $(".add-query-row", $(div)).hide();
+        $("#search-button", $(div)).hide();
+      });
+
+      //initialize select boxes
+      $("button.dropdown", this.$el).each(function(i, button) {
+        var placeholderText = $("ul#"+$(button).data("dropdown")+" li.selected").text();
+        $(button).text(placeholderText);
+      });
     }
   });
 
 
+  app.SearchQuery = SearchQuery;
   app.SearchResults = SearchResults;
   app.SearchBoxView = SearchBoxView;
   app.SearchToolbarView = SearchToolbarView;

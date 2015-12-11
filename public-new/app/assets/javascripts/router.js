@@ -1,6 +1,5 @@
 var app = app || {};
 
-
 (function(Bb, $) {
   'use strict';
 
@@ -13,6 +12,12 @@ var app = app || {};
       "*path": "defaultPage"
     },
 
+    execute: function(callback, args) {
+      if (callback) callback.apply(this, args);
+      $(document).foundation();
+    },
+
+
     welcome: function() {
       var welcomeView = new app.WelcomeView();
       var searchBoxView = new app.SearchBoxView();
@@ -20,26 +25,31 @@ var app = app || {};
 
 
     showSearchResults: function(queryString) {
-      var searchParams = app.utils.parseQueryString(queryString);
+      // var query = app.utils.parseQueryString(queryString);
+      var searchQuery = new app.SearchQuery(queryString);
 
-      searchParams.page = searchParams.page || 1;
-      console.log(searchParams);
+      //only doing advanced search for now
+      searchQuery.advanced = true;
 
       var searchResults = new app.SearchResults([], {
         state: {
-          currentPage: searchParams.page,
-          pageSize: searchParams.pageSize || 20
+          currentPage: searchQuery.page,
+          pageSize: searchQuery.pageSize
         }
       });
+
+      searchResults.advanced = true;
 
       app.debug = searchResults;
 
       $('#wait-modal').foundation('reveal', 'open');
-      searchResults.fetch({data: searchParams}).then(function() {
+      var opts = {data: searchQuery.toApi()};
+      console.log(_.merge(opts, {what: "search query parsed from URL and prepared for fetching from the API"}));
+      searchResults.fetch(opts).then(function() {
         $("#search-box").empty();
         var searchToolbarView = new app.SearchToolbarView({
           collection: searchResults,
-          searchParams: searchParams
+          searchParams: searchQuery
         });
 
         var containerView = new app.ContainerView({
@@ -49,7 +59,7 @@ var app = app || {};
 
         var searchResultsView = new app.SearchResultsView({
           collection: searchResults,
-          searchParams: searchParams
+          searchParams: searchQuery
         });
 
         var sideBar = new app.SearchFacetsView({
@@ -62,6 +72,8 @@ var app = app || {};
         //and misses the first close call
         setTimeout(function() {
           $('#wait-modal').foundation('reveal', 'close');
+          // reinitalize foundation
+          $(document).foundation();
         }, 500);
 
       });
