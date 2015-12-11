@@ -1,0 +1,558 @@
+<html>
+<head>
+  <link rel="stylesheet" href="/assets/application.css" />
+  <link rel="stylesheet" href="/assets/load-awesome/line-spin-clockwise-fade.css" />
+</head>
+<body>
+  <section id="header"></section>
+  <section id="navigation"></section>
+  <section id="welcome"></section>
+  <section id="search-box"></section>
+  <section id="container"></section>
+
+  <div class="reveal-modal" id="wait-modal" data-reveal data-options="animation_speed: 0; close_on_background_click: false; close_on_esc: false;" style="background-color: transparent; border: 0px; box-shadow: 0 0 0 0;">
+    <center>
+      <div class="la-line-spin-clockwise-fade la-3x">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </center>
+  </div>
+
+
+  <script src="/assets/lodash/lodash.js" type="text/javascript"></script>
+  <script src="/assets/jquery/jquery.js" type="text/javascript"></script>
+  <script src="/assets/exoskeleton/exoskeleton.js" type="text/javascript"></script>
+  <script src="/assets/backbone.paginator/backbone.paginator.js" type="text/javascript"></script>
+
+  <script src="/assets/jquery.scrollTo/jquery.scrollTo.js" type="text/javascript"></script>
+
+  <script src="/assets/foundation/vendor/modernizr.js" type="text/javascript"></script>
+  <script src="/assets/foundation/foundation.js" type="text/javascript"></script>
+  <script src="/assets/foundation/foundation/foundation.reveal.js" type="text/javascript"></script>
+  <script src="/assets/foundation/foundation/foundation.dropdown.js" type="text/javascript"></script>
+  <script src="/assets/foundation/foundation/foundation.accordion.js" type="text/javascript"></script>
+
+  <script src="/assets/utils.js" type="text/javascript"></script>
+  <script src="/assets/router.js" type="text/javascript"></script>
+  <script src="/assets/main.js" type="text/javascript"></script>
+  <script src="/assets/searching.js" type="text/javascript"></script>
+
+
+
+
+  <!-- templates -->
+
+  <!-- header -->
+  <script type="text/template" id="header-tmpl">
+    <div class="row">
+      <div class="small-12 columns"><h2 title="Title can be customized by the institution."><a href="/">ArchivesSpace Instance Title</a></h2></div>
+    </div>
+  </script>
+
+  <!-- navbar -->
+  <script type="text/template" id="navbar-tmpl">
+    <div class="contain-to-grid">
+      <nav class="top-bar" data-topbar role="navigation">
+        <ul class="title-area">
+          <li class="name">
+            <h1><a href="#"></a></h1>
+          </li>
+          <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+        </ul>
+
+        <section class="top-bar-section">
+          <!-- Left Nav Section -->
+          <ul class="left">
+            <li><a href="${ encodeURI( '/search?type=repository' ) }">Repositories</a></li>
+            <li><a href="${ encodeURI( '/search?type=resource' ) }">Collections</a></li>
+            <li><a href="${ encodeURI( '/search?type=digital_object' ) }">Digital items</a></li>
+            <li><a href="${ encodeURI( '/search?type=accession' ) }">Unprocessed Material</a></li>
+            <li><a href="${ encodeURI( '/search?type=subject' ) }">Subjects</a></li>
+            <li><a href="${ encodeURI( '/search?type=agent_person&type=agent_family&type=agent_corporate_entity' ) }">People & Organizations</a></li>
+            <li><a href="${ encodeURI( '/search?type=classification' ) }">Record Groups</a></li>
+          </ul>
+        </section>
+      </nav>
+    </div>
+  </script>
+
+  <!-- main:sidebar -->
+  <script type="text/template" id="container-tmpl">
+    <div class="row">
+      <p>&nbsp;</p>
+      <!-- main content -->
+      <div id="main-content" class="medium-${mainWidth } columns"></div>
+      <!-- sidebar -->
+      <div id="sidebar" class="medium-${sidebarWidth } columns"></div>
+    </div>
+  </script>
+
+
+  <!-- welcome -->
+  <script type="text/template" id="welcome-tmpl">
+    <div class="row first-row">
+      <p>Customizable intro area. The institution should be able to put formatting in here, as well, including images, a header, links, etc.</p>
+    </div>
+  </script>
+
+
+  <!-- search box (welcome page)-->
+  <script type="text/template" id="search-box-tmpl">
+    <div class="row panel">
+      <h3>Search the archives</h3>
+
+      <div class="row">
+        <form id="search-form" action="/search">
+          <div class="medium-5 columns">
+
+            <input name="q" type="text" placeholder="Enter your search terms" />
+          </div>
+          <div class="medium-3 columns">
+            <button href="#" data-dropdown="recordtype" aria-controls="recordtype" aria-expanded="false" class="button dropdown tiny secondary">Search all record types</button><br>
+            <ul id="recordtype" data-dropdown-content class="f-dropdown" aria-hidden="true">
+              <li><a href="#">Search collections</a></li>
+              <li><a href="#">Search digital materials</a></li>
+              <li><a href="#">etc. input needed</a></li>
+            </ul>
+          </div>
+          <div class="medium-2 columns">
+            <button href="#" data-dropdown="fieldsearched" aria-controls="fieldsearched" aria-expanded="false" class="button dropdown tiny secondary">Keyword</button><br>
+            <ul id="fieldsearched" data-dropdown-content class="f-dropdown" aria-hidden="true">
+              <li><a href="#">Creator</a></li>
+              <li><a href="#">Notes</a></li>
+              <li><a href="#">Subject</a></li>
+              <li><a href="#">Title</a></li>
+            </ul>
+          </div>
+          <div class="medium-1 columns">
+            <a href="01landingB.html" class="button tiny secondary">+</a>
+          </div>
+          <div class="medium-1 columns">
+            <button id="search-button" class="button tiny">Search</button>
+          </div>
+        </form>
+      </div>
+      <div class="text-right"><p><a href="#" data-tooltip aria-haspopup="true" class="has-tip" title="Clicking this will take the user to a seprate page with helpful information on how to search.">Search help</a></p></div>
+    </div>
+  </script>
+
+
+  <!-- search toolbar -->
+  <script type="text/template" id="search-toolbar-tmpl">
+    <div class="row first-row panel">
+      <p class="small-12 columns">Your search for {_.forEach(displayTerms().split('+'), function(term, key) {}
+        { if(key > 0) {} AND {} }
+        <span class="searchterm1">${term}</span>
+        {});} yielded ${state.totalRecords} results.</p>
+      <p class="medium-6 columns">Change number of results displayed at once:
+        <button href="#" data-dropdown="numberresults" aria-controls="numberresults" aria-expanded="false" class="button dropdown tiny">${state.pageSize}</button><br>
+        <ul id="numberresults" data-dropdown-content class="f-dropdown" aria-hidden="true">
+          { _.forEach([20, 40, 60, 100], function(inc) { }
+          <li><a href="${getPageSizeURL(inc)}">${inc}</a></li>
+          {}); }
+        </ul>
+      </p>
+      <p class="medium-6 columns">Sort by:
+        <button href="#" data-dropdown="relevance" aria-controls="relevance" aria-expanded="false" class="button dropdown tiny">Relevance</button><br>
+        <ul id="relevance" data-dropdown-content class="f-dropdown" aria-hidden="true">
+          <li><a href="#">Title</a></li>
+          <li><a href="#">Date added</a></li>
+          <li><a href="#">Date of material</a></li>
+          <li><a href="#">Anything else?</a></li>
+        </ul>
+      </p>
+      <div class="medium-6 columns">
+        Search controls:
+        <ul class="button-group ">
+          <li><a href="01landing.html" class="button small">New search</a></li>
+          <li><a href="02searchresultsmodify.html" class="button small">Revise current search</a></li>
+        </ul>
+      </div>
+      <div class="medium-6 columns text-right">
+        Display search results as:
+        <ul class="button-group text-right">
+          <li><a href="02searchresults.html" class="button small fi-list-thumbnails disabled"> All items</a></li>
+          <li><a href="02searchresultstree.html" class="button small fi-page-multiple"> Collections</a></li>
+          <li><a href="02searchresultsgrid.html" class="button small fi-thumbnails"> Digital items</a></li>
+        </ul>
+      </div>
+    </div>
+  </script>
+
+
+  <!-- server error -->
+  <script type="text/template" id="server-error-tmpl">
+    <h2>Server Error: ${ status }</h2>
+    <pre>${ responseText }</pre>
+  </script>
+
+  <!-- record -->
+  <script type="text/template" id="record-tmpl">
+    <h2>${ getTitle() }</h2>
+    <div>
+      <span class="recordtype ${ getDisplayType() }"><i class="fi-clipboard small"> </i>Collection</span>  &nbsp; &nbsp; <strong>Identifier:</strong> ABCDE12345FGHI
+      </div><!-- / ID -->
+    <ul class="breadcrumbs">
+      <li class="current">Context:</li>
+      <li><a href="04landing-repository.html">Repository name</a></li>
+      <li class="unavailable"><a href="#">Collection title</a></li>
+    </ul>
+
+    <div class="recordsummary">
+      <p>Contents of the abstract field. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec id elit non mi porta gravida at eget metus. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
+      <h4>Dates</h4>
+      <ul>
+        <li>Creation: 1803 - 1888 (approximate)</li>
+        <li>Event: 1824 ce</li>
+        </ul>
+      <h4>Language</h4>
+      <ul>
+        <li>English</li>
+      </ul>
+      <h4>Physical description</h4>
+      <p>2.6 Linear Feet (Whole), 2 archive boxes, one archive carton</p>
+      <h4>Physical storage and access information</h4>
+      <p>Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+      <h4>Conditions governing access</h4>
+      <p>STORED OFFSITE. Request access in advance.</p>
+      <a href="#" data-reveal-id="request-modal" class="button tiny fi-telephone"> Request access</a> <i data-tooltip aria-haspopup="true" class="fi-info has-tip" title="This is also an icon at the top right. Does it need to be in both places?"> </i>
+      <h4>Conditions governing use</h4>
+      <p>Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+    </div>
+
+
+    <dl class="accordion" data-accordion>
+      <dd class="accordion-navigation">
+        <a href="#objectnotes"><i class="fi-plus"> </i>Additional Description &raquo;</a>
+        <div id="objectnotes" class="content">
+          <h3>Scope and Content</h3>
+          <p>Nullam id dolor id nibh ultricies vehicula ut id elit. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla.</p>
+          <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Nullam id dolor id nibh ultricies vehicula ut id elit. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Donec id elit non mi porta gravida at eget metus.</p>
+          <p>Etiam porta sem malesuada magna mollis euismod. Sed posuere consectetur est at lobortis. Maecenas sed diam eget risus varius blandit sit amet non magna. Donec sed odio dui. Nulla vitae elit libero, a pharetra augue.</p>
+          <div class="panel callout">For WG: following is a list of all of the note fields. We need your help determining the default order for those fields that show up in this section, and where other fields should display. Anything that already has a placement has a strikethrough and where it is placed in ().
+            <ol>
+              <li><strike>Abstract</strike> (displays at top of record)</li>
+              <li>Accruals</li>
+              <li>Appraisal</li>
+              <li>Arrangement</li>
+              <li>Bibliography</li>
+              <li>Bibliographical / Historical</li>
+              <li><strike>Conditions Governing Access</strike> (displays at top of record)</li>
+              <li><strike>Conditions Governing Use</strike> (displays at top of record)</li>
+              <li>Custodial History</li>
+              <li>Dimensions</li>
+              <li>Existence and Location of Copies</li>
+              <li>Existence and Location of Originals</li>
+              <li>File Plan</li>
+              <li>General</li>
+              <li>Immediate Source of Acquisition</li>
+              <li>Index</li>
+              <li><strike>Language of Materials</strike> (displays at top of record)</li>
+              <li>Legal Status</li>
+              <li>Materials Specific Details</li>
+              <li>Other Finding Aids</li>
+              <li>Physical Characteristics and Technical Requirements</li>
+              <li>Physical Description</li>
+              <li>Physical Facet</li>
+              <li>Physical Location</li>
+              <li><strike>Preferred Citation</strike> (displays via modal accessed from icon at top of record)</li>
+              <li>Processing Information</li>
+              <li>Related Materials</li>
+              <li>Scope and Contents</li>
+              <li>Separated Materials</li>
+            </ol>
+          </div>
+        </div>
+      </dd><!-- / citation -->
+      <dd class="accordion-navigation">
+        <a href="#objectagentlinks"><i class="fi-plus"> </i>Related People and Organizations (3 records) &raquo;</a>
+        <div id="objectagentlinks" class="content">
+          <div class="row">
+            <div class="medium-12 columns">
+              <h4>Creator</h4>
+              <ul>
+                <li><a href="">Last name, First name, 1903-1978</a> (author, person)</li>
+                <li><a href="">Last name, First name, 1951-</a> (photographer, person)
+                </li>
+              </ul>
+              <h4>Contributor</h4>
+              <ul>
+                <li><a href="">Company name, 1971-</a> (contributor, corporate body)</li>
+              </ul>
+            </div>
+            <div class="medium-12 columns panel callout">
+              <p>Question for WG: would it be helpful to include any other information with the agents listed here? Such as number of records referencing the agent?</p>
+              <p>This was originally split up by People/Corporate Bodies/etc. but changed to role divisions instead based on notes from WG member Cory Nimer.</p>
+            </div>
+          </div>
+        </div>
+      </dd><!-- / agent links -->
+      <dd class="accordion-navigation">
+        <a href="#objectsubjectlinks"><i class="fi-plus"> </i>Subjects (6 records) &raquo;</a>
+        <div id="objectsubjectlinks" class="content">
+          <ul>
+            <li><a href="#">[Theater -- Austria -- 20th century -- Archival resources]</a></li>
+            <li><a href="#">[Theater -- Germany -- 20th century -- Archival resources]</a></li>
+            <li><a href="#">[Actresses -- United States -- History -- 20th century -- Archival resources]</a></li>
+            <li><a href="#">[Actors -- California -- Los Angeles -- Archival resources]</a></li>
+            <li><a href="#">[Clippings]</a></li>
+            <li><a href="#">[Newsletters]</a></li>
+          </ul>
+          <div class="panel callout">Question for WG: would it be helpful to include any other information with the subjects listed here? Such as number of records referencing the subject?</div>
+        </div>
+      </dd><!-- / subject links -->
+      <dd class="accordion-navigation">
+        <a href="#externaldocs"><i class="fi-plus"> </i>External Documents (2 links) &raquo;</a>
+        <div id="externaldocs" class="content">
+          <ul>
+            <li><a href="#">Document name, format, size</a></li>
+            <li><a href="#">Document name, format, size</a></li>
+          </ul>
+        </div>
+      </dd><!-- / external documents -->
+    </dl>
+<br />
+
+<div class="contentsarrangement">
+  <h4>Contents & Arrangement (option A)</h4>
+  <div id="inventory" class="content">
+    <div class="row">
+      <div class="large-12 columns">
+        <div class="row collapse">
+          <div class="small-10 columns">
+            <input type="text" placeholder="Search collection contents">
+          </div>
+          <div class="small-2 columns" data-tooltip aria-haspopup="true" class="has-tip" title="Patron can use this to refine what is listed in the inventory.">
+            <a href="#" class="button postfix">Search</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ul class="no-bullet recordchildren">
+      <li><i class="fi-plus"> &nbsp; </i><span class="recordtype folder"><i class="fi-folder small"> </i> Series 1</span>  Record title <span class="treeitemdesc">(dates)</span></li>
+      <li><i class="fi-minus"> &nbsp; </i><span class="recordtype folder"><i class="fi-folder small"> </i> Series 2</span>  Record title two (user expanded) <span class="treeitemdesc">(dates)</span>
+        <ul>
+          <li><i class="fi-plus"> &nbsp; </i><span class="recordtype folder"><i class="fi-folder small"> </i> Suberies 2A</span>  Record title <span class="treeitemdesc">(dates)</span></li>
+          <li><i class="fi-minus"> &nbsp; </i><span class="recordtype folder"><i class="fi-folder small"> </i> Suberies 2B</span>  Record title (user expanded) <span class="treeitemdesc">(dates)</span>
+            <ul>
+              <li><span class="recordtype object"><i class="fi-book small"> </i> Box 5 Folder 1</span> Record title no sub items  <span class="treeitemdesc">(dates) <i class="fi-info"> </i></span></li>
+            </ul>
+          </li>
+          <li><i class="fi-plus"> &nbsp; </i><span class="recordtype folder"><i class="fi-folder small"> </i> Suberies 2C</span>  Record title <span class="treeitemdesc">(dates)</span></li>
+        </ul>
+      </li>
+      <li><i class="fi-plus"> &nbsp; </i><span class="recordtype folder"><i class="fi-folder small"> </i> Series 3</span> Record title three  <span class="treeitemdesc">(dates)</span></li>
+    </ul>
+    <div class="panel callout">
+      <p>This goes on as long as it needs to for the collection.</p>
+      <p>Each item <strong>links</strong> to the record.</p>
+      <p>This layout is largely based on the Princeton finding aids (<a href="http://findingaids.princeton.edu/collections/LAE035/c027">example</a>).</p>
+      <p>We're a/b'ing Contents & Arrangement to include a sidebar presentation. <a href="03record-collectionB.html">Review option B.</a></p>
+    </div>
+  </div>
+</div><!-- / inventory -->
+
+    <p> &nbsp;</p>
+  </script>
+
+  <!-- RECORD SIDEBAR -->
+  <script type="text/template" id="record-sidebar-tmpl">
+
+    <div>
+      <ul class="small-block-grid-4">
+        <li class="text-center"><a href="#" data-reveal-id="citation-modal"><i class="fi-page-copy medium"></i><br>Citation</a></li>
+        <li class="text-center"><a href="#" data-reveal-id="bookmark-modal"><i class="fi-bookmark medium"></i><br>Bookmark</a></li>
+        <li class="text-center"><a href="#" data-reveal-id="request-modal"><i class="fi-telephone medium"></i><br>Request</a></li>
+        <li class="text-center"><a href="#" data-tooltip="" aria-haspopup="true" class="has-tip" data-selector="tooltip-igfk5rl7c" aria-describedby="tooltip-igfk5rl7c" title=""><i class="fi-print medium"></i><br>Print</a></li>
+      </ul>
+    </div><!-- helpful icons -->
+    <div>
+      <img src="/img/wood.jpg" alt="sample featured collection image" title="photo by Rain Michaels cc-sa-nc-by">
+      <div class="panel">Optional image, with caption... lorem ipsum. <i data-tooltip="" aria-haspopup="true" class="fi-info has-tip" data-selector="tooltip-igfk5rl7d" aria-describedby="tooltip-igfk5rl7d" title=""> </i><br>This collection contains <a href="#" data-tooltip="" aria-haspopup="true" class="has-tip" data-selector="tooltip-igfk5rl7e" aria-describedby="tooltip-igfk5rl7e" title="">95 digital items</a>.</div>
+      <div class="panel">
+        <h4>Repository details</h4>
+        <p>Part of the <a href="04landing-repository.html">[Repo name here] repository</a>.</p>
+        <p><strong>Contact:</strong> contact info goes here, freeform set up in repository.</p>
+        <p><strong>Location:</strong> location info here.</p>
+      </div>
+
+
+      <dl class="accordion" data-accordion="">
+        <dd class="accordion-navigation">
+          <a href="#objectadmininfo" aria-expanded="false"><i class="fi-plus"> </i>Administrative Information »</a>
+          <div id="objectadmininfo" class="content">
+            <div class="row">
+              <div class="small-4 columns"><strong>Finding aid author:</strong></div>
+              <div class="small-8 columns">Micha Rand, data transfer by Nike Mueller</div>
+            </div>
+            <div class="row">
+              <div class="small-4 columns"><strong>Finding aid date:</strong></div>
+              <div class="small-8 columns">2011</div>
+            </div>
+            <div class="row">
+              <div class="small-4 columns"><strong>Description rules:</strong></div>
+              <div class="small-8 columns">Describing Archives: A Content Standard</div>
+            </div>
+            <div class="row">
+              <div class="small-5 columns"><strong>Language of description:</strong></div>
+              <div class="small-7 columns small-pull-1">English, German</div>
+            </div>
+            <div class="row">
+              <div class="small-4 columns"><strong>Acquisition:</strong></div>
+              <div class="small-8 columns">Donated by Mr. and Mrs. Meryl B. Jones, 1983</div>
+            </div>
+            <div>
+              <h5>Revision Statements</h5>
+              <ul>
+                <li><em>June 3, 2014:</em> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                <li><em>November 2, 2010:</em> Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</li>
+              </ul>
+            </div>
+            <div class="panel callout">For WG: we need guidance about which of the Finding Aid Data fields should be in here. The additional fields from the form (not represented above) are:
+              <ul>
+                <li>EAD ID</li>
+                <li>EAD Location</li>
+                <li>Finding Aid Title</li>
+                <li>Finding Aid Subtitle</li>
+                <li>Finding Aid Filing Title</li>
+                <li>Sponsor</li>
+                <li>Edition Statement</li>
+                <li>Series Statement</li>
+                <li>Finding Aid Status</li>
+                <li>Finding Aid Note</li>
+              </ul>
+              Also, should the title of this group be Finding Aid &amp; Administrative Information, or just Administrative Information?
+            </div>
+          </div>
+        </dd><!-- / admin information -->
+        <dd class="accordion-navigation">
+          <a href="#objectaccessions" aria-expanded="false"><i class="fi-plus"> </i>Related Accession Records »</a>
+          <div id="objectaccessions" class="content">
+            <h5>Accession Records</h5>
+            <ul>
+              <li><strong>Gift:</strong> Acton, Harold, 1904-1994. Papers: writings, correspondence, printed material, and personal papers by or relating to Harold Acton</li>
+            </ul>
+            <h5>Deaccession Records</h5>
+            <ul>
+              <li class="panel callout">Question for WG: should this information be displaying at all?</li>
+            </ul>
+          </div>
+        </dd><!-- / accession info -->
+      </dl>
+    </div>
+
+
+    <div class="panel callout">
+      <h3>More questions for WG</h3>
+      <p>Should any of the Collection Management data display on the public UI?</p>
+      <p>How do the user defined fields work? How many people are actually using them and for what purposes? Should this data be included in an additional accordion labeled "Other Information »"?</p>
+      <p>We've included Revision Statements under Administrative Info, but is this correct? Or should this not display in the public UI?</p>
+    </div>
+
+
+<!-- / sidebar -->
+
+  </script>
+
+
+  <!-- facets sidebar -->
+  <script type="text/template" id="facets-tmpl">
+    <h2>Filter results</h2>
+    <span class="definition">Remove</span>
+    <h3 data-tooltip aria-haspopup="true" class="has-tip" title="These results include each term individually using the OR modifier.">Search terms <i class="fi-info"></i></h3>
+    <div>
+      <ul class="applied-filters side-nav">
+        {forEachAppliedFilterWithLabel(function(filter, label) { }
+        <li class="remove"><a href="${getRemoveFilterURL(filter) }">${label }</a></li>
+        {}); }
+      </ul>
+    </div>
+    <h3 data-tooltip aria-haspopup="true" class="has-tip" title="This filter narrow the results down based on the date the original object was created, authored, or otherwise came into existence. They do not correlate to when the record itself was created. Date searches may not be all inclusive because some dates are too vague to be machine readable. Those records cannot be caught by this filter.">Dates to include <i class="fi-info"></i></h3>
+    <div>
+      <form>
+        <input type="text" placeholder="Start year"> to
+        <input type="text" placeholder="End year">
+        <a href="#" class="button postfix">Filter</a>
+        </form>
+      </div>
+    <h3 data-tooltip aria-haspopup="true" class="has-tip" title="Following are additional filters available based on your current search parameters. These options will narrow your results down to each specific category.">Additional filters <i class="fi-info"></i></h3>
+    <div>
+      {eachUsableFacetGroup(function(facets, facetGroup) { }
+      <span class="definition"># of records</span>
+      <h5>${facetGroup }</h5>
+      <ul class="facet-group side-nav">
+        {_.forOwn(facets, function(facetMap, facet) { }
+        <li><a href="${getAddFilterURL(facetMap.filter_term) }">${facetMap.label }<span class="recordnumber">${facetMap.count }</span></a></li>
+        {}); }
+      </ul>
+      {}); }
+    </div>
+  </script>
+
+
+  <!-- Search result row -->
+  <script type="text/template" id="search-result-row-tmpl">
+    <div class="recordrow">
+      <h3><a href="${ url }">${ title }</a></h3>
+      <div class="recordtype"><span class="${ recordTypeClass }"><i class="fi-clipboard small"> </i> ${ recordTypeLabel }</span> &nbsp; | &nbsp; <strong>Identifier:</strong> ${ identifier }</div>
+      <div class="recordsummary">${ summary }</div>
+      {if(dates.length) { }
+      <div class="recorddate"><strong>Date(s):</strong> ${ dates.join("; ") }</div>
+      {} }
+
+      {if(context) {}
+      <div class="recordcontext"><strong>Context:</strong> <a href="#">Repository name</a></div>
+      {}}
+      <div class="keywordscontext">
+        <dl class="accordion" data-accordion>
+          <dd class="accordion-navigation">
+            <a href="#panelcontents_${ index }"><i class="fi-plus"> </i>Keywords in context</a>
+            <div id="panelcontents_${ index }" class="content">
+              <ul class="recordchildren">
+                {_.forEach(highlights, function(snip) {}
+                <li>...${ snip }...</li>
+                {}); }
+                <li class="smallnote">29 more references to search keywords</li>
+              </ul>
+              <a href="03record-collection.html" class="button">View collection</a>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </script>
+
+
+  <!-- Search Pager -->
+  <script type="text/template" id="search-pager-tmpl">
+    <ul class="pagination" role="menubar" aria-label="Pagination">
+      <li class='arrow${hasPreviousPage() ? "'>": " unavailable' aria-disabled='true'>"}<a href="${hasPreviousPage() ? getPreviousPageURL() : ''}">&#171; Previous</a></li>
+          {_.times((getPagerEnd() - getPagerStart() + 1), function(n) {}
+<li>
+  {if(n + getPagerStart() === state.currentPage) { }
+  <li>${n+getPagerStart() }</li>
+  {} else { }
+  <a href="${getPageURL((n + getPagerStart())) }">${n+getPagerStart() }</a></li>
+{} }
+  {}); }
+      <!-- <li class="current"><a href="">1</a></li> -->
+      <!-- <li><a href="">2</a></li> -->
+      <!-- <li><a href="">3</a></li> -->
+      <!-- <li><a href="" data-tooltip="" aria-haspopup="true" class="has-tip" data-selector="tooltip-igioah321" aria-describedby="tooltip-igioah321" title=""><strong>4</strong></a></li> -->
+      <!-- <li class="unavailable" aria-disabled="true"><a href="">…</a></li> -->
+      <!-- <li><a href="">12</a></li> -->
+      <!-- <li><a href="">13</a></li> -->
+      <li class='arrow${hasNextPage() ? "'>": " unavailable' aria-disabled='true'>"}<a href="${hasNextPage() ? getNextPageURL() : ''}">Next &#187;</a></li>
+    </ul>
+  </script>
+
+
+</body>
+</html>

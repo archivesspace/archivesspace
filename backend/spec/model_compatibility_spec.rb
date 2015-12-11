@@ -51,7 +51,7 @@ describe 'Managed Container compatibility' do
 
       generated_container = Accession.to_jsonmodel(accession.id)['instances'].first['container']
 
-      generated_container['type_1'].should eq('box')
+      generated_container['type_1'].should eq(container_with_profile.type)
       generated_container['indicator_1'].should eq('1000')
       generated_container['barcode_1'].should eq('9999')
 
@@ -66,7 +66,7 @@ describe 'Managed Container compatibility' do
 
     it "maps a minimal subcontainer/topcontainer/container profile to an ArchivesSpace instance record" do
       # no container profile, no barcode
-      container = TopContainer.create_from_json(JSONModel(:top_container).from_hash('indicator' => '1234'))
+      container = TopContainer.create_from_json(JSONModel(:top_container).from_hash('indicator' => '1234', 'type' => 'case' ))
 
       # top container but no subcontainer fields (they're all optional)
       instance = JSONModel(:instance).from_hash("instance_type" => "text",
@@ -81,7 +81,9 @@ describe 'Managed Container compatibility' do
 
       generated_container = Accession.to_jsonmodel(accession.id)['instances'].first['container']
 
-      generated_container['type_1'].should eq('box')
+      $stderr.puts container.to_json
+      $stderr.puts container.type
+      generated_container['type_1'].should eq(container.type)
       generated_container['indicator_1'].should eq('1234')
     end
 

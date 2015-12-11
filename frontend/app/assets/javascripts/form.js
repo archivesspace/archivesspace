@@ -21,7 +21,16 @@ $(function() {
 
               $(":input[type='submit']", $form).removeAttr("disabled");
 
+              // we might have gotten logged out while trying to save some data in a modal,
+              // e.g., a linker
+              var $existingModal = $('.modal.initialised');
+
+              if($existingModal.length) {
+                $existingModal.hide();
+              };
+
               var $modal = AS.openAjaxModal(APP_PATH + "login");
+              $modal.removeClass("inline-login-modal");
               var $loginForm = $("form", $modal);
               AS.LoginHelper.init($loginForm);
               $loginForm.on("loginsuccess.aspace", function(event, data) {
@@ -29,8 +38,14 @@ $(function() {
                 $(":input[name=authenticity_token]").val(data.csrf_token);
 
                 // unbind the session check and resubmit the form
-                $form.unbind("submit", checkForSession);
-                $form.submit();
+                if($existingModal.length === 0) {
+                  $form.unbind("submit", checkForSession);
+                  $form.submit();
+                } else {
+                  $modal.hide();
+                  $modal.remove();
+                  $existingModal.show();
+                }
 
                 // remove the modal, the job is done.
                 $modal.on("hidden", function() {
@@ -71,13 +86,13 @@ $(function() {
   var lockForm = function() {
     $(this).each(function() {
       $(".form-overlay", $(this) ).height('100%').fadeIn();
-      $(this).addClass('locked'); 
-    }); 
+      $(this).addClass('locked');
+    });
   }
-  
+
   var showUnlockForm = function() {
     $(this).each(function() {
-      
+
       var $unlock = $(AS.renderTemplate("form_overlay_unlock_template"));
       $unlock.on("click", function(event) {
         event.preventDefault();
@@ -85,10 +100,10 @@ $(function() {
         $(window).trigger('hashchange');
       });
       $("#archives_form_overlay", $(this) ).append($unlock);
-      $(".alert", $unlock).fadeIn(); 
-    }); 
+      $(".alert", $unlock).fadeIn();
+    });
   }
-    
+
   var ignoredKeycodes = [37,39,9];
 
   var initFormChangeDetection = function() {
@@ -98,11 +113,11 @@ $(function() {
       if ($this.data("changedDetectionEnabled")) {
         return;
       }
-      
+
       $this.data("form_changed", $this.data("form_changed") || false);
       $this.data("changedDetectionEnabled", true);
 
-      // this is the overlay we can use to lock the form. 
+      // this is the overlay we can use to lock the form.
       $("> .form-context > .row > .col-md-9", $this).prepend('<div id="archives_form_overlay"><div class="modal-backdrop in form-overlay"></div></div>');
       $("> .form-context > .row > .col-md-3 .form-actions", $this).prepend('<div id="archives_form_actions_overlay" class="modal-backdrop in form-overlay"></div>');
 
@@ -169,7 +184,7 @@ $(function() {
       $(".form-actions .btn-cancel", $this).click(function() {
         $this.data("form_changed", false);
         return true;
-      });        
+      });
 
 
       $(window).bind("beforeunload", function(event) {
@@ -192,14 +207,14 @@ $(function() {
   $(document).bind("loadedrecordform.aspace", function(event, $container) {
     $.proxy(initFormChangeDetection, $("form.aspace-record-form", $container))();
   });
- 
+
   // we need to lock the form because somethingis happening
   $(document).bind("lockform.aspace", function(event, $container) {
-    $.proxy(lockForm, [$container] )();   
+    $.proxy(lockForm, [$container] )();
   });
-  // and now the thing is done, so we can now allow the user to unlock it. 
+  // and now the thing is done, so we can now allow the user to unlock it.
   $(document).bind("unlockform.aspace", function(event, $container) {
-    $.proxy(showUnlockForm, [$container] )();   
+    $.proxy(showUnlockForm, [$container] )();
   });
 
   $.proxy(initFormChangeDetection, $("form.aspace-record-form"))();

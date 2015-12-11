@@ -85,6 +85,9 @@
     <delete dir="gems/specifications" />
     <property name="excluded-gem-groups" value="" />
     <property name="build.home" location="."/>
+    <condition property="public-dir" value="public-new" else="public">
+      <equals arg1="${env.ASPACE_PUBLIC_DEV}" arg2="true" />
+    </condition>
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
@@ -102,7 +105,7 @@
     <antcall target="bundler"><param name="gemfile" value="../frontend/Gemfile" /></antcall>
     <antcall target="bundler"><param name="gemfile" value="../selenium/Gemfile" /></antcall>
     <antcall target="bundler"><param name="gemfile" value="../_yard/Gemfile" /></antcall>
-    <antcall target="bundler"><param name="gemfile" value="../public/Gemfile" /></antcall>
+    <antcall target="bundler"><param name="gemfile" value="../${public-dir}/Gemfile" /></antcall>
     <antcall target="bundler"><param name="gemfile" value="../selenium-public/Gemfile" /></antcall>
     <antcall target="bundler"><param name="gemfile" value="../indexer/Gemfile" /></antcall>
   </target>
@@ -724,14 +727,20 @@
 
 
   <target name="public:devserver" depends="set-classpath, public:clean" description="Start an instance of the ArchivesSpacePublic development server">
+    <condition property="public-dir" value="public-new" else="public">
+      <equals arg1="${env.ASPACE_PUBLIC_DEV}" arg2="true" />
+    </condition>
+    <condition property="rails-bin" value="bin" else="script">
+      <equals arg1="${env.ASPACE_PUBLIC_DEV}" arg2="true" />
+    </condition>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
-          dir="../public">
+          dir="../${public-dir}">
       <jvmarg line="-Daspace.config.backend_url=http://localhost:${aspace.backend.port}/ ${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
-      <arg line="--1.9 script/rails s Puma --port=${aspace.public.port}" />
+      <arg line="--1.9 ${rails-bin}/rails s Puma --port=${aspace.public.port}" />
     </java>
   </target>
 

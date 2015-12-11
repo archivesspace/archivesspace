@@ -274,6 +274,15 @@ $(function() {
   $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     initTooltips(subform);
   });
+
+  $(document).bind("shown.bs.modal", function(events) {
+    $(".modal-content").delegate($(".has-tooltip"), "mouseenter", function() {
+      initTooltips($( this ));
+      $("a.has-tooltip", $( this )).on("click", function() {
+        window.open($( this ).attr('href'));
+      });
+    });
+  });
 });
 
 

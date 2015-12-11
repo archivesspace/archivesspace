@@ -4,7 +4,8 @@
   <% form.push("container_profile", form.obj["container_profile"] || {}) do %>
       <%= render_aspace_partial :partial => "container_profiles/linker", :locals => {:form => form, :label => I18n.t("container_profile._singular"), :required => false} %>
   <% end %>
-
+  
+  <%= form.label_and_select "type", form.possible_options_for('type', true) %>
   <%= form.label_and_textfield("indicator") %>
 
   <%= form.label_and_textfield("barcode") %>
@@ -19,9 +20,6 @@
   <%= form.hidden_input("ils_item_id") %>
   <%= form.label_and_readonly("exported_to_ils", I18n.t("top_container.not_exported")) %>
   <%= form.hidden_input("exported_to_ils") %>
-
-  <%= form.label_with_field "legacy_restricted", I18n.t("boolean.#{form.obj["legacy_restricted"].to_s}"), :controls_class => "label-only" %>
-  <%= form.hidden_input "legacy_restricted", form.obj["legacy_restricted"] ? 1 : 0 %>
 
   <div class="subrecord-form-container">
     <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "container_locations"} %>

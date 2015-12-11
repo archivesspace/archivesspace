@@ -18,7 +18,7 @@ class SessionController < ApplicationController
 
 
   def login_inline
-    render_aspace_partial :partial => "shared/modal", :locals => {:title => I18n.t("session.inline_login_title"), :partial => "shared/login", :id => "inlineLoginModal"}
+    render_aspace_partial :partial => "shared/modal", :locals => {:title => I18n.t("session.inline_login_title"), :partial => "shared/login", :id => "inlineLoginModal", :klass => "inline-login-modal"}
   end
 
 

@@ -1,13 +1,10 @@
 require_relative 'converter'
-require_relative 'lib/converter_extra_container_values'
 class EADConverter < Converter
 
   require 'securerandom'
   require_relative 'lib/xml_sax'
   include ASpaceImport::XML::SAX
 
-  # This is included down below #configure since the mixin add to the method..
-  #include ConverterExtraContainerValues
 
   def self.import_types(show_hidden = false)
     [
@@ -549,41 +546,63 @@ class EADConverter < Converter
 
     # example of a 1:many tag:record relation (1+ <container> => 1 instance with 1 container)
     with 'container' do
-      
-      @containers ||= {} 
-      
-      # we've found that the container has a parent att and the parent is in
-      # our queue
-      if att("parent") && @containers[att('parent')] 
-        cont = @containers[att('parent')] 
+        @containers ||= {}
 
-      else 
-        instance_label = att("label") ? att("label").downcase : 'mixed_materials'
-        make :instance, {
-            :instance_type => instance_label
-          } do |instance|
-            set ancestor(:resource, :archival_object), :instances, instance
+        # we've found that the container has a parent att and the parent is in
+        # our queue
+        if att("parent") && @containers[att('parent')]
+          cont = @containers[att('parent')]
+
+        else
+          # there is not a parent. if there is an id, let's check if there's an
+          # instance before we proceed
+          inst = context == :instance ? context_obj : context_obj.instances.last 
+         
+          # if there are no instances, we need to make a new one.
+          # or, if there is an @id ( but no @parent) we can assume its a new
+          # top level container that will be referenced later, so we need to
+          # make a new instance
+          if ( inst.nil? or  att('id')  )
+            instance_label = att("label") ? att("label").downcase : 'mixed_materials'
+
+            if instance_label =~ /(.*)\s\[([0-9]+)\]$/
+              instance_label = $1
+              barcode = $2
+            end
+
+            make :instance, {
+              :instance_type => instance_label
+            } do |instance|
+              set ancestor(:resource, :archival_object), :instances, instance
+            end
+            
+            inst = context_obj
+          end
+        
+          # now let's check out instance to see if there's a container...
+          if inst.container.nil?
+            make :container do |cont|
+              set inst, :container, cont
+            end
+          end
+
+          # and now finally we get the container. 
+          cont =  inst.container || context_obj
+          cont['barcode_1'] = barcode if barcode
+          cont['container_profile_key'] = att("altrender")
         end
 
-        inst = context_obj
-       
-        make :container do |cont|
-          set inst, :container, cont
+        # now we fill it in
+        (1..3).to_a.each do |i|
+          next unless cont["type_#{i}"].nil?
+          cont["type_#{i}"] = att('type')
+          cont["indicator_#{i}"] = format_content( inner_xml )
+          break
         end
+        
+        #store it here incase we find it has a parent
+        @containers[att("id")] = cont if att("id")
 
-        cont =  inst.container 
-      end
-      
-      # now we fill it in
-      (1..3).to_a.each do |i|
-        next unless cont["type_#{i}"].nil?
-        cont["type_#{i}"] = att('type')
-        cont["indicator_#{i}"] = format_content( inner_xml )
-        break
-      end
-      #store it here incase we find it has a parent 
-      @containers[att("id")] = cont 
-    
     end
 
 
@@ -760,8 +779,6 @@ class EADConverter < Converter
   
   end
  
-  # We have to put this down here so the mixin doesn't freeeeaaak
-  include ConverterExtraContainerValues
   
   
   # Templates Section
