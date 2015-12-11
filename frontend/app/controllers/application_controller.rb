@@ -340,7 +340,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_403
-    return render :template => "403", :layout => nil if inline?
+    return render :status => 403, :template => "403", :layout => nil if inline?
 
     render "/403"
   end
