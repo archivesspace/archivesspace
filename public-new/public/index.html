@@ -115,15 +115,18 @@
 
   <!-- search box query row -->
   <script type="text/template" id="search-box-query-row-tmpl">
-    <div class="row search-query-row">
+    <!-- <div class="row search-query-row"> -->
       <!-- <input type="hidden" name="recordtype" value="all" /> -->
+      { var recordType = recordType || 'any' }
+      { var field = field || 'keyword' }
+      { var op = op || 'AND' }
 
       <div class="medium-1 columns">
         { if(index > 0) { }
         <button href="#" data-dropdown="op${index}" aria-controls="operator${index}" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
         <ul id="op${index}" data-dropdown-content="" class="f-dropdown" aria-hidden="true">
-          <li data-value="AND" class="selected"><a href="#">And</a></li>
-          <li data-value="OR"><a href="#">Or</a></li>
+          <li data-value="AND" { if(!op || op === 'AND') {} class="selected" {} }><a href="#">And</a></li>
+          <li data-value="OR" class="${ op === 'OR' ? 'selected' : ''}"><a href="#">Or</a></li>
           <li data-value="NOT"><a href="#">Not</a></li>
         </ul>
         {} else { }
@@ -131,15 +134,20 @@
         {} }
       </div>
       <div class="medium-4 columns">
+        { if(typeof(value) != 'undefined') {}
+        <h5><strong> &#160; ${value}</strong></h5>
+        <input name="q${index}" type="hidden" value="${value}"/>
+        {} else { }
         <input name="q${index}" type="text" placeholder="Enter your search terms" />
+        {} }
       </div>
       <div class="medium-3 columns">
         { if(index === 0) { }
         <button type="button" data-dropdown="recordtype" aria-controls="recordtype" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
         <ul id="recordtype" data-dropdown-content class="f-dropdown" aria-hidden="true">
-          <li data-value="any" class="selected"><a href="#">Search all record types</a></li>
-          <li data-value="collection"><a href="#">Search collections</a></li>
-          <li data-value="digital_object"><a href="#">Search digital materials</a></li>
+          <li data-value="any" class="${recordType === 'any' ? 'selected' : ''}"><a href="#">Search all record types</a></li>
+          <li data-value="collection" class="${recordType === 'collection' ? 'selected' : ''}"><a href="#">Search collections</a></li>
+          <li data-value="digital_object" class="${recordType === 'digital_object' ? 'selected' : ''}"><a href="#">Search digital materials</a></li>
         </ul>
         {} else { }
         &#160;
@@ -148,11 +156,11 @@
       <div class="medium-2 columns">
         <button href="#" data-dropdown="f${index}" aria-controls="fieldsearched" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
         <ul id="f${index}" data-dropdown-content class="f-dropdown" aria-hidden="true">
-          <li data-value="keyword" class="selected"><a href="#">Keyword</a></li>
-          <li data-value="creator"><a href="#">Creator</a></li>
-          <li data-value="notes"><a href="#">Notes</a></li>
-          <li data-value="subject"><a href="#">Subject</a></li>
-          <li data-value="title"><a href="#">Title</a></li>
+          <li data-value="keyword" { if(!field || field === 'keyword'){ } class="selected" {} }><a href="#">Keyword</a></li>
+          <li data-value="creator" { if(field === 'creator'){ } class="selected" {} }><a href="#">Creator</a></li>
+          <li data-value="notes" { if(field === 'notes'){ } class="selected" {} }><a href="#">Notes</a></li>
+          <li data-value="subject" { if(field === 'subject'){ } class="selected" {} }><a href="#">Subject</a></li>
+          <li data-value="title" { if(field === 'title'){ } class="selected" {} }><a href="#">Title</a></li>
         </ul>
       </div>
       <div class="medium-1 columns add-query-row">
@@ -161,7 +169,7 @@
       <div class="medium-1 columns">
         <button id="search-button" class="button tiny">Search</button>
       </div>
-    </div>
+    <!-- </div> -->
 
 
   </script>
@@ -198,7 +206,7 @@
         Search controls:
         <ul class="button-group ">
           <li><a href="/" class="button small">New search</a></li>
-          <li><a href="02searchresultsmodify.html" class="button small">Revise current search</a></li>
+          <li><a id="revise-search-button" href="#" class="button small">Revise current search</a></li>
         </ul>
       </div>
       <div class="medium-6 columns text-right">

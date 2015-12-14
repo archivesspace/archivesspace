@@ -48,8 +48,7 @@ var app = app || {};
       searchResults.fetch(opts).then(function() {
         $("#search-box").empty();
         var searchToolbarView = new app.SearchToolbarView({
-          collection: searchResults,
-          searchParams: searchQuery
+          collection: searchResults
         });
 
         var containerView = new app.ContainerView({

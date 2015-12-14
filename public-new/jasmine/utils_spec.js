@@ -42,4 +42,21 @@ describe('Utils', function() {
     expect(list).toEqual(["title:objective", "OR", "title:subjective"])
   });
 
+  it("can iterate over advanced query as a set of rows", function() {
+    var rowCount = 0
+    app.utils.eachAdvancedQueryRow(advancedQuery, function(rowObj, i) {
+      if(i === 0) {
+        expect(rowObj.field).toEqual("title");
+        expect(rowObj.value).toEqual("objective");
+      } else {
+        expect(rowObj.op).toEqual("OR");
+        expect(rowObj.value).toEqual("subjective");
+      }
+
+      rowCount += 1;
+    });
+
+    expect(rowCount).toEqual(2);
+  });
+
 });

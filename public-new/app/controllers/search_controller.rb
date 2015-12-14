@@ -79,6 +79,8 @@ class SearchController < ApplicationController
       @criteria["aq"] = AdvancedQueryBuilder.new(terms, :public).build_query.to_json
       @criteria['facet[]'] = FACETS
     end
+
+    @criteria['hl'] = true
   end
 
   def search_term(i)

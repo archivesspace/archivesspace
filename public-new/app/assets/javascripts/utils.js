@@ -55,6 +55,31 @@ var app = app || {};
         result.push(q.field+":"+q.value);
       }
       return result;
+    },
+
+    eachAdvancedQueryRow: function(q, callback, opts) {
+      var opts = opts || {
+        index: 0,
+      };
+      if(q.query) {
+        this.eachAdvancedQueryRow(q.query, callback);
+      } else if(q.jsonmodel_type === "boolean_query") {
+        this.eachAdvancedQueryRow(q.subqueries[0], callback, {
+          index: opts.index
+        });
+        this.eachAdvancedQueryRow(q.subqueries[1], callback, {
+          index: opts.index + 1,
+          op: q.op
+        });
+      } else if(q.jsonmodel_type === "field_query") {
+        callback({
+          field: q.field,
+          value: q.value,
+          op: opts.op,
+          index: opts.index
+        }, opts.index);
+      }
     }
+
   };
 })();
