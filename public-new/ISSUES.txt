@@ -40,3 +40,9 @@ X Revise Search Functionality
 * Returning to / using back button doesn't clear search results view 
 
 * How to make the back button restore the search query form state..
+
+* When user toggles the "Revise Search" tools, and changes the state of the dropdowns, what should happen if she changes a settings that don't affect the query, such as pageSize? 
+  - discard the "Revise Search" state?
+  - try to apply the revisions and the page size change?
+  - not possible because "Revise Search" disables other controls?
+

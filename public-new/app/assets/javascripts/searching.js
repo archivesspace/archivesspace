@@ -153,6 +153,21 @@ var RAILS_API = "/api";
   };
 
 
+  // take the raw criteria object returned by the server
+  // and figure out the 'recordtype' parameter
+  function parseRecordType(criteria) {
+    var primaryTypeFilter = _.find(criteria["filter_term[]"], function(rawFilter) {
+      return _.has(JSON.parse(rawFilter), 'primary_type');
+    });
+
+    if(primaryTypeFilter) {
+      primaryTypeFilter = JSON.parse(primaryTypeFilter);
+      return primaryTypeFilter.primary_type.replace(/resource/, 'collection');
+    } else {
+      return 'any';
+    }
+  };
+
 
   //take the raw criteria object returned by the server
   // and clean it up for our results object
@@ -163,7 +178,6 @@ var RAILS_API = "/api";
     }
 
     return criteria;
-
   };
 
   var SearchResultItem = Bb.Model.extend({
@@ -233,6 +247,7 @@ var RAILS_API = "/api";
     },
 
     parseRecords: function(data) {
+      console.log(_.merge(data, {debug: "Raw search response"}));
       return data.search_data.results
     },
 
@@ -243,6 +258,7 @@ var RAILS_API = "/api";
         totalPages: data.search_data.last_page,
         currentPage: data.search_data.this_page,
         criteria: parseCriteria(data.search_data.criteria),
+        recordType: parseRecordType(data.search_data.criteria),
         facetData: data.facet_data,
         filterLabelMap: data.filter_label_map,
         totalRecords: data.search_data.total_hits
@@ -280,7 +296,6 @@ var RAILS_API = "/api";
         if(filterToRemove === 'q') {
           return !param.match(/^q=/);
         } else {
-          console.log(param);
           return !(param === 'filter_term[]='+filterToRemove);
         }
       });
@@ -413,6 +428,45 @@ var RAILS_API = "/api";
   });
 
 
+  // A row in a query-builder form.
+  var SearchQueryRowView = Bb.View.extend({
+    tagName: 'div',
+    className: 'row search-query-row',
+    events: {
+      "click .f-dropdown li a": function(e) {
+        e.preventDefault();
+        var $a = $(e.target);
+        $($a.closest("ul")).children("li").removeClass("selected");
+        $($a.closest("li")).addClass("selected");
+        $($a.closest("ul")).siblings("button").text($a.text());
+      }
+    },
+
+    initialize: function(rowData) {
+      this.rowData = rowData;
+      this.render();
+    },
+
+    append: function($container) {
+      var tmpl = _.template($('#search-box-query-row-tmpl').html());
+      this.$el.html(tmpl(this.rowData));
+
+      $(".search-query-row", $container).each(function(i, div) {
+        $(".add-query-row", $(div)).removeClass("add-query-row").addClass("remove-query-row").children("a").html("-");
+        $("#search-button", $(div)).hide();
+      });
+
+      $container.append(this.$el);
+
+      //initialize select boxes
+      $("button.dropdown", this.$el).each(function(i, button) {
+        var placeholderText = $("ul#"+$(button).data("dropdown")+" li.selected").text();
+        $(button).text(placeholderText);
+      });
+    }
+  });
+
+
   //Search Toolbar on Results Page
   var SearchToolbarView = Bb.View.extend({
     el: "#search-box",
@@ -422,12 +476,49 @@ var RAILS_API = "/api";
       return this;
     },
     events: {
-      "click #search-button" : "search"
+      "click #search-button" : "search",
+      "click #revise-search-button" : function(e) {
+        e.preventDefault();
+        this.toggled = this.toggled || false;
+
+        if(this.toggled) {
+          $(".search-query-row", this.$el).remove();
+        } else {
+          var that = this;
+          var advancedQuery = this.collection.state.criteria.aq;
+
+          app.utils.eachAdvancedQueryRow(advancedQuery, function(row, i) {
+            if (i === 0)
+              row.recordType = that.collection.state.recordType;
+
+            var searchQueryRowView = new SearchQueryRowView(row);
+            searchQueryRowView.append($(".first-row", that.$el));
+          });
+
+        }
+        this.toggled = !this.toggled;
+      }
     },
     search: function (e) {
       e.preventDefault();
 
-      app.router.navigate('/search?' + $('#search-form').serialize(), {trigger: true});
+      var state = {
+        criteria: {}
+      };
+
+      _.forEach($(".search-query-row"), function($row, i) {
+        var $input = $("input[name='q"+i+"']", $row)
+        state.criteria[$input.attr('name')] = $input.val();
+
+        _.forEach($("li.selected", $row), function(elt) {
+          state.criteria[$(elt).closest("ul").attr('id')] = $(elt).
+            data('value');
+        });
+
+      });
+
+      var url = buildBaseURL.call(state);
+      app.router.navigate(url, {trigger: true});
     }
 
   });
@@ -444,13 +535,6 @@ var RAILS_API = "/api";
     },
     events: {
       "click #search-button" : "search",
-      "click .f-dropdown li a": function(e) {
-        e.preventDefault();
-        var $a = $(e.target);
-        $($a.closest("ul")).children("li").removeClass("selected");
-        $($a.closest("li")).addClass("selected");
-        $($a.closest("ul")).siblings("button").text($a.text());
-      },
       "click .add-query-row a": function(e) {
         e.preventDefault();
         this.addQueryRow();
@@ -476,24 +560,13 @@ var RAILS_API = "/api";
     },
 
     addQueryRow: function(opts) {
-      var tmpl = _.template($('#search-box-query-row-tmpl').html());
+      // var tmpl = _.template($('#search-box-query-row-tmpl').html());
       var opts = opts || {};
 
       opts.index = $(".search-query-row", this.$el).length;
 
-      $("#search-form", this.$el).append(tmpl(opts));
-
-      // hide all but last add button
-      $("#search-form .search-query-row:not(:last-child)").each(function(i, div) {
-        $(".add-query-row", $(div)).hide();
-        $("#search-button", $(div)).hide();
-      });
-
-      //initialize select boxes
-      $("button.dropdown", this.$el).each(function(i, button) {
-        var placeholderText = $("ul#"+$(button).data("dropdown")+" li.selected").text();
-        $(button).text(placeholderText);
-      });
+      var searchQueryRowView = new SearchQueryRowView(opts);
+      searchQueryRowView.append($("#search-form", this.$el));
     }
   });
 
@@ -504,5 +577,6 @@ var RAILS_API = "/api";
   app.SearchToolbarView = SearchToolbarView;
   app.SearchResultsView = SearchResultsView;
   app.SearchFacetsView = SearchFacetsView;
+  app.SearchQueryRowView = SearchQueryRowView;
 
 })(Backbone, _);
