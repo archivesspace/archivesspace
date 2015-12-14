@@ -15,20 +15,18 @@ Monlongo](http://www.hudsonmolonglo.com/). You can read more about this plugin
 at [ArchivesSpace @ Yale
 blog](http://campuspress.yale.edu/yalearchivesspace/2014/11/20/managing-content-managing-containers-managing-access/)
 
-It is important to note, the v1.5.0  migration process has an additional step.
+It is important to note, the v1.5.0 migration process has an additional step.
 You run the standard setup-database set, which will modify your database
-struture to add the additional required tables. When ArchivesSpace v1.5.0
-starts for the first time, a process to move data from the previous container
-tables into the new tables will kick-off. While this process is underway, the
-application will be unavailable while the data is moved. 
+structure to add the additional required tables. When ArchivesSpace v1.5.0
+starts for the first time, it will kick-off a conversion process to move data from the previous container
+tables into the new tables. While this process is underway, the
+application will be unavailable. 
 
-*Important to note that the process will output information that will indicate
-records that might need manual intervertion and data cleanup. Keep the output
+**Important: This conversion process will output information that will indicate
+records that might need manual intervention and data cleanup. Keep the output
 from the log to inform actions that might be required to fix problem container
 data. Be sure to ask the ArchivesSpace user with any questions/concerns you
-have about your data.*
+have about your data.**
 
 As always, it is critical to backup your data before you begin the update if
-you need to revert to a previous version. .
-
----
+you need to revert to a previous version.
