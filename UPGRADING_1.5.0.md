@@ -10,7 +10,7 @@ As was requested in the ArchivesSpace [feature voting in
 2015](https://archivesspace.atlassian.net/browse/AR-1182), we have
 implemented the [Container Management
 Plugin](https://github.com/hudmol/container_management) developed by by Yale University and [Hudson
-Monlongo](http://www.hudsonmolonglo.com/)into the core ArchivesSpace code. You can read more about the original container management plugin
+Monlongo](http://www.hudsonmolonglo.com/) into the core ArchivesSpace code. You can read more about the original container management plugin
 at [ArchivesSpace @ Yale
 blog](http://campuspress.yale.edu/yalearchivesspace/2014/11/20/managing-content-managing-containers-managing-access/)
 
