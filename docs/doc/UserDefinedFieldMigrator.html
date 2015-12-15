@@ -305,8 +305,7 @@
 94
 95
 96
-97
-98</pre>
+97</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/user_defined_field_migrator.rb', line 28</span>
@@ -317,7 +316,6 @@
   <span class='rubyid_update_values identifier id'>update_values</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
     <span class='symbol val'>:ils_holding_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_container_data identifier id'>container_data</span><span class='dot token'>.</span><span class='rubyid_voyager_holding_id identifier id'>voyager_holding_id</span><span class='comma token'>,</span>
     <span class='symbol val'>:exported_to_ils</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='comma token'>,</span>
-    <span class='symbol val'>:legacy_restricted</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_container_data identifier id'>container_data</span><span class='dot token'>.</span><span class='rubyid_restricted identifier id'>restricted</span> <span class='integer val'>? </span><span class='integer val'>1</span> <span class='colon op'>:</span> <span class='integer val'>0</span>
   <span class='rbrace token'>}</span>
 
   <span class='rubyid_profile identifier id'>profile</span> <span class='assign token'>=</span> <span class='rubyid_container_data identifier id'>container_data</span><span class='dot token'>.</span><span class='rubyid_container_profile identifier id'>container_profile</span>
@@ -457,6 +455,7 @@
       <pre class="lines">
 
 
+100
 101
 102
 103
@@ -545,11 +544,10 @@
 186
 187
 188
-189
-190</pre>
+189</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/user_defined_field_migrator.rb', line 101</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/user_defined_field_migrator.rb', line 100</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_migrate identifier id'>migrate</span>
 
@@ -652,7 +650,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:09 2015 by
+  ArchivesSpace Version v1.4.5-dev18.a Documentation Generated on Tue Dec 15 21:14:40 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

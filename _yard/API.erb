@@ -21,27 +21,11 @@ This example API documentation page was created with [Slate](http://github.com/t
 
 # Authentication
 
-> To authorize, use this code:
-
-<!-- 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
--->
-
 > Example Request:
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+$ curl -s -F password="admin" "http://localhost:8089/users/admin/login"
 ```
 
 > Example Response:
@@ -156,6 +140,11 @@ curl -s -F password="admin" "http://localhost:8089/users/admin/login"
 
 > It's a good idea to save the "session" id, since this will be used for later requests. 
 
+```shell
+$ export SESSION=9528190655b979f00817a5d38f9daf07d1686fed99a1d53dd2c9ff2d852a0c6e
+```
+
+> We'll use the $SESSION variable in the following examples. 
 
 Most requests to the ArchivesSpace backend requires a user to be authenticated.
 This can be done with a simple POST request to the /users/:user_name/login
@@ -170,6 +159,11 @@ As of <%= @time.inspect %> the following REST endpoints exist in the master bran
 <% @endpoints.each do | e | %>
 
 ## <%= e[:method].upcase%> <%= e[:uri]%> 
+
+<% if @endpoint_examples[e[:uri]] %>
+> Example Request:
+<%= @format_endpoint.call( e, @endpoint_examples[e[:uri]][e[:method].to_s]  ) %>
+<% end %>
 
 __Description__
 
@@ -193,7 +187,7 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
   opts = (param[3] or {})
   vs = opts[:validation] ? " -- #{opts[:validation][0]}" : "" %>
 <% if opts[:body] %>
-	<%= "#{param[1]} <request body> -- #{param[2]}#{vs}" %>
+  <a href="#<%=  param[1].respond_to?(:record_type) ? param[1].record_type : param[1] %>"><%= "#{param[1]} \<request body\> -- #{param[2]}#{vs}" %></a>
 <% else %>
 	<%= "#{param[1]} #{param[0]} -- #{param[2]}#{vs}" %>
 <% end %>
@@ -205,6 +199,17 @@ __Returns__
 <%= "\t#{ret[0]} -- #{ret[1]}\n" %>
 <% end %>
 
+
+
 <% end %>
 
+# Schemas
 
+<% @models.each_pair do |name, model| %>
+
+##  <a id="<%= name %>" ></a> <%= model %> 
+<script src="/archivesspace/docson/widget.js" 
+  data-schema="/archivesspace/schemas/<%= name %>.json">      
+</script>
+
+<% end %>

@@ -1,0 +1,128 @@
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "parent": "abstract_name",
+  "type": "object",
+  "properties": {
+    "authority_id": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "dates": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "use_dates": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:date) object"
+      }
+    },
+    "qualifier": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "source": {
+      "type": "string",
+      "dynamic_enum": "name_source"
+    },
+    "rules": {
+      "type": "string",
+      "dynamic_enum": "name_rule"
+    },
+    "authorized": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_display_name": {
+      "type": "boolean",
+      "default": false
+    },
+    "sort_name": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "sort_name_auto_generate": {
+      "type": "boolean",
+      "default": true
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "primary_name": {
+      "type": "string",
+      "maxLength": 65000,
+      "ifmissing": "error"
+    },
+    "subordinate_name_1": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "subordinate_name_2": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "number": {
+      "type": "string",
+      "maxLength": 255
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "name_corporate_entity_check_source"
+    ],
+    [
+      "error",
+      "name_corporate_entity_check_name"
+    ],
+    [
+      "warning",
+      "name_corporate_entity_check_authority_id"
+    ]
+  ]
+}

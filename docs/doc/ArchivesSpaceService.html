@@ -156,6 +156,10 @@
 <span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
 <span class='string val'>&quot;A list of document IDs that should be excluded from results&quot;</span><span class='comma token'>,</span>
 <span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+<span class='lbrack token'>[</span><span class='string val'>&quot;hl&quot;</span><span class='comma token'>,</span>
+<span class='rubyid_BooleanParam constant id'>BooleanParam</span><span class='comma token'>,</span>
+<span class='string val'>&quot;Whether to use highlighting&quot;</span><span class='comma token'>,</span>
+<span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
      <span class='lbrack token'>[</span><span class='string val'>&quot;root_record&quot;</span><span class='comma token'>,</span>
 <span class='rubyid_String constant id'>String</span><span class='comma token'>,</span>
 <span class='string val'>&quot;Search within a collection of records (defined by the record at the root of the tree)&quot;</span><span class='comma token'>,</span>
@@ -1443,12 +1447,12 @@
       <pre class="lines">
 
 
-225
-226
-227</pre>
+232
+233
+234</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 225</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 232</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_current_user identifier id'>current_user</span>
   <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='symbol val'>:aspace_user</span><span class='rbrack token'>]</span>
@@ -1497,12 +1501,12 @@
       <pre class="lines">
 
 
-230
-231
-232</pre>
+237
+238
+239</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 230</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 237</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_high_priority_request? fid id'>high_priority_request?</span>
   <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>&quot;HTTP_X_ARCHIVESSPACE_PRIORITY&quot;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='lparen token'>(</span><span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>&quot;HTTP_X_ARCHIVESSPACE_PRIORITY&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_downcase identifier id'>downcase</span> <span class='eq op'>==</span> <span class='string val'>&quot;high&quot;</span><span class='rparen token'>)</span>
@@ -1528,12 +1532,12 @@
       <pre class="lines">
 
 
-220
-221
-222</pre>
+227
+228
+229</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 220</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 227</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_session identifier id'>session</span>
   <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='symbol val'>:aspace_session</span><span class='rbrack token'>]</span>
@@ -1549,7 +1553,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:58 2015 by
+  ArchivesSpace Version v1.4.5-dev18.a Documentation Generated on Tue Dec 15 21:14:29 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>
