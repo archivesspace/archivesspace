@@ -1,0 +1,189 @@
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/repositories/:repo_id/events",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "external_ids": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_id) object"
+      }
+    },
+    "external_documents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_document) object"
+      }
+    },
+    "event_type": {
+      "type": "string",
+      "ifmissing": "error",
+      "dynamic_enum": "event_event_type"
+    },
+    "date": {
+      "type": "JSONModel(:date) object"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "outcome": {
+      "type": "string",
+      "dynamic_enum": "event_outcome"
+    },
+    "outcome_note": {
+      "type": "string",
+      "maxLength": 16384
+    },
+    "suppressed": {
+      "type": "boolean",
+      "readonly": "true"
+    },
+    "linked_agents": {
+      "type": "array",
+      "ifmissing": "error",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "role": {
+            "type": "string",
+            "dynamic_enum": "linked_agent_event_roles",
+            "ifmissing": "error"
+          },
+          "ref": {
+            "type": [
+              {
+                "type": "JSONModel(:agent_corporate_entity) uri"
+              },
+              {
+                "type": "JSONModel(:agent_family) uri"
+              },
+              {
+                "type": "JSONModel(:agent_person) uri"
+              },
+              {
+                "type": "JSONModel(:agent_software) uri"
+              }
+            ],
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "linked_records": {
+      "type": "array",
+      "ifmissing": "error",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "role": {
+            "type": "string",
+            "dynamic_enum": "linked_event_archival_record_roles",
+            "ifmissing": "error"
+          },
+          "ref": {
+            "type": [
+              {
+                "type": "JSONModel(:agent_person) uri"
+              },
+              {
+                "type": "JSONModel(:agent_family) uri"
+              },
+              {
+                "type": "JSONModel(:agent_corporate_entity) uri"
+              },
+              {
+                "type": "JSONModel(:agent_software) uri"
+              },
+              {
+                "type": "JSONModel(:accession) uri"
+              },
+              {
+                "type": "JSONModel(:resource) uri"
+              },
+              {
+                "type": "JSONModel(:digital_object) uri"
+              },
+              {
+                "type": "JSONModel(:archival_object) uri"
+              },
+              {
+                "type": "JSONModel(:digital_object_component) uri"
+              }
+            ],
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "check_event"
+    ]
+  ]
+}

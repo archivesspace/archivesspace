@@ -30,3 +30,8 @@ EOF
       end
     end
 end
+
+# now let's take the config and add it to the configuration file.
+config = IO.read('common/config/config-defaults.rb')
+intro = "\nBelow are the configuration settings with their default values:\n"
+File.open(File.join(outdir, "configuring-archivesspace.md") , 'a' ) { |f| f << "#{intro}\n```ruby\n#{config}\n```" }

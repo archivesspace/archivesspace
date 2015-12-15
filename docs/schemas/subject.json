@@ -1,0 +1,108 @@
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/subjects",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "title": {
+      "type": "string",
+      "readonly": true
+    },
+    "external_ids": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_id) object"
+      }
+    },
+    "is_linked_to_published_record": {
+      "type": "boolean",
+      "readonly": true
+    },
+    "publish": {
+      "type": "boolean",
+      "default": true,
+      "readonly": true
+    },
+    "source": {
+      "type": "string",
+      "dynamic_enum": "subject_source",
+      "ifmissing": "error"
+    },
+    "scope_note": {
+      "type": "string"
+    },
+    "terms": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:term) uri_or_object"
+      },
+      "ifmissing": "error",
+      "minItems": 1
+    },
+    "vocabulary": {
+      "type": "JSONModel(:vocabulary) uri",
+      "ifmissing": "error"
+    },
+    "authority_id": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "external_documents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_document) object"
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}

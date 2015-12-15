@@ -50,6 +50,7 @@ accessing the following URLs in your browser:
   - http://localhost:8080/ -- the staff interface
   - http://localhost:8081/ -- the public interface
   - http://localhost:8090/ -- the Solr admin console
+  - http://localhost:8888/archivesspace -- documentation
 
 To start using the Staff interface application, log in using the adminstrator 
 account:

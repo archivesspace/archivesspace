@@ -1,3 +1,4 @@
+HI!
 JSON Schema: Top_container
 /repositories/:repo_id/top_containers
 Properties
@@ -6,11 +7,13 @@ string	uri
 
 string (max length: 255)	indicator
 
+string	type
+
+string (max length: 255)	barcode
+
 string	display_string
 
 string	long_display_string
-
-string (max length: 255)	barcode
 
 string (max length: 255)	ils_holding_id
 
@@ -21,8 +24,6 @@ string	exported_to_ils
 boolean	restricted
 
 array (JSONModel(:rights_restriction) object)	active_restrictions
-
-boolean	legacy_restricted
 
 array (JSONModel(:container_location) object)	container_locations
 

@@ -1,0 +1,113 @@
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "maxLength": 65000,
+      "ifmissing": "error"
+    },
+    "salutation": {
+      "type": "string",
+      "dynamic_enum": "agent_contact_salutation"
+    },
+    "address_1": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "address_2": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "address_3": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "city": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "region": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "country": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "post_code": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "telephones": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:telephone) object"
+      }
+    },
+    "fax": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "email": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "email_signature": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "note": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}

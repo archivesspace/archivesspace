@@ -781,15 +781,15 @@
       <pre class="lines">
 
 
+302
 303
 304
 305
 306
-307
-308</pre>
+307</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 303</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 302</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_types identifier id'>types</span><span class='rparen token'>)</span>
   <span class='rubyid_queue_offset identifier id'>queue_offset</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_@context_nodes ivar id'>@context_nodes</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_@node_name ivar id'>@node_name</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@context_nodes ivar id'>@context_nodes</span><span class='lbrack token'>[</span><span class='rubyid_@node_name ivar id'>@node_name</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_@node_depth ivar id'>@node_depth</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='integer val'>-2</span> <span class='colon op'>:</span> <span class='integer val'>-1</span>
@@ -818,6 +818,7 @@
       <pre class="lines">
 
 
+233
 234
 235
 236
@@ -826,11 +827,10 @@
 239
 240
 241
-242
-243</pre>
+242</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 234</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 233</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_append identifier id'>append</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_context_obj identifier id'>context_obj</span><span class='comma token'>,</span> <span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
   <span class='rubyid_property_type identifier id'>property_type</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Utils constant id'>Utils</span><span class='dot token'>.</span><span class='rubyid_get_property_type identifier id'>get_property_type</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -863,17 +863,17 @@
       <pre class="lines">
 
 
+310
 311
 312
 313
 314
 315
 316
-317
-318</pre>
+317</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 311</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 310</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='rubyid_attribute identifier id'>attribute</span><span class='rparen token'>)</span>
   <span class='rubyid_att_pair identifier id'>att_pair</span> <span class='assign token'>=</span> <span class='rubyid_@node ivar id'>@node</span><span class='dot token'>.</span><span class='rubyid_attributes identifier id'>attributes</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span> <span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_attribute identifier id'>attribute</span><span class='rbrace token'>}</span>
@@ -904,6 +904,7 @@
       <pre class="lines">
 
 
+207
 208
 209
 210
@@ -912,11 +913,10 @@
 213
 214
 215
-216
-217</pre>
+216</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 208</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 207</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_close_context identifier id'>close_context</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@batch ivar id'>@batch</span><span class='dot token'>.</span><span class='rubyid_working_area identifier id'>working_area</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='dot token'>.</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='neq op'>!=</span> <span class='rubyid_type identifier id'>type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
@@ -949,12 +949,12 @@
       <pre class="lines">
 
 
+320
 321
-322
-323</pre>
+322</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 321</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 320</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_context identifier id'>context</span>
   <span class='rubyid_@contexts ivar id'>@contexts</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span>
@@ -980,12 +980,12 @@
       <pre class="lines">
 
 
+330
 331
-332
-333</pre>
+332</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 331</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 330</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_context_obj identifier id'>context_obj</span>
   <span class='rubyid_@batch ivar id'>@batch</span><span class='dot token'>.</span><span class='rubyid_working_area identifier id'>working_area</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span>
@@ -1011,12 +1011,12 @@
       <pre class="lines">
 
 
+325
 326
-327
-328</pre>
+327</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 326</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 325</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_full_context identifier id'>full_context</span>
   <span class='rubyid_@contexts ivar id'>@contexts</span>
@@ -1058,8 +1058,7 @@
 181
 182
 183
-184
-185</pre>
+184</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 168</span>
@@ -1070,7 +1069,6 @@
   <span class='rubyid_node_info identifier id'>node_info</span> <span class='assign token'>=</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_node identifier id'>node</span> <span class='colon op'>:</span> <span class='lbrack token'>[</span><span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_local_name identifier id'>local_name</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_depth identifier id'>depth</span><span class='rbrack token'>]</span>
     
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='dstring node'>&quot;_closing_#{@node_name}&quot;</span><span class='rparen token'>)</span>
-    <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;HI!&quot;</span> 
     <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;_closing_#{@node_name}&quot;</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -1203,12 +1201,12 @@
       <pre class="lines">
 
 
+219
 220
-221
-222</pre>
+221</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 220</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 219</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span>
   <span class='rubyid_@node ivar id'>@node</span><span class='dot token'>.</span><span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;&amp;&quot;</span><span class='comma token'>,</span><span class='string val'>&quot;&amp;amp;&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
@@ -1302,12 +1300,12 @@ expected to be very deep.</p>
       <pre class="lines">
 
 
+335
 336
-337
-338</pre>
+337</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 336</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 335</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_sticky identifier id'>make_sticky</span><span class='lparen token'>(</span><span class='rubyid_node_name identifier id'>node_name</span><span class='rparen token'>)</span>
   <span class='rubyid_@stickies ivar id'>@stickies</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_node_name identifier id'>node_name</span>
@@ -1333,12 +1331,12 @@ expected to be very deep.</p>
       <pre class="lines">
 
 
+297
 298
-299
-300</pre>
+299</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 298</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 297</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_node identifier id'>node</span>
   <span class='rubyid_@node ivar id'>@node</span>
@@ -1439,6 +1437,7 @@ to clear it.  This might not be necessary in new versions of Nokogiri.</p>
       <pre class="lines">
 
 
+187
 188
 189
 190
@@ -1452,11 +1451,10 @@ to clear it.  This might not be necessary in new versions of Nokogiri.</p>
 198
 199
 200
-201
-202</pre>
+201</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 188</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 187</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_open_context identifier id'>open_context</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_properties identifier id'>properties</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
@@ -1494,12 +1492,12 @@ to clear it.  This might not be necessary in new versions of Nokogiri.</p>
       <pre class="lines">
 
 
+223
 224
-225
-226</pre>
+225</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 224</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 223</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_outer_xml identifier id'>outer_xml</span>
   <span class='rubyid_@node ivar id'>@node</span><span class='dot token'>.</span><span class='rubyid_outer_xml identifier id'>outer_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
@@ -1525,14 +1523,14 @@ to clear it.  This might not be necessary in new versions of Nokogiri.</p>
       <pre class="lines">
 
 
+227
 228
 229
 230
-231
-232</pre>
+231</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 228</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 227</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_pprint_current_node identifier id'>pprint_current_node</span>
   <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='colon2 op'>::</span><span class='rubyid_Builder constant id'>Builder</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_b identifier id'>b</span><span class='bitor op'>|</span>
@@ -1573,12 +1571,12 @@ will discharge the JSON subrecord once it is complete</p>
       <pre class="lines">
 
 
+292
 293
-294
-295</pre>
+294</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 293</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 292</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_proxy identifier id'>proxy</span><span class='lparen token'>(</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='assign token'>=</span> <span class='rubyid_context identifier id'>context</span><span class='rparen token'>)</span>
   <span class='rubyid_@proxies ivar id'>@proxies</span><span class='dot token'>.</span><span class='rubyid_get_proxy_for identifier id'>get_proxy_for</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{record_type}-#{@contexts.length}&quot;</span><span class='comma token'>,</span> <span class='rubyid_record_type identifier id'>record_type</span><span class='rparen token'>)</span>
@@ -1727,12 +1725,12 @@ will discharge the JSON subrecord once it is complete</p>
       <pre class="lines">
 
 
+245
 246
-247
-248</pre>
+247</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 246</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 245</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set identifier id'>set</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
   <span class='rubyid_set_property identifier id'>set_property</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
@@ -1758,6 +1756,7 @@ will discharge the JSON subrecord once it is complete</p>
       <pre class="lines">
 
 
+250
 251
 252
 253
@@ -1791,11 +1790,10 @@ will discharge the JSON subrecord once it is complete</p>
 281
 282
 283
-284
-285</pre>
+284</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 251</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 250</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_property identifier id'>set_property</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_context_obj identifier id'>context_obj</span><span class='comma token'>,</span> <span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -1843,7 +1841,7 @@ will discharge the JSON subrecord once it is complete</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:52 2015 by
+  ArchivesSpace Version v1.4.5-dev18.a Documentation Generated on Tue Dec 15 21:14:23 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>
