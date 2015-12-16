@@ -1,0 +1,527 @@
+{
+  "/agents/corporate_entities": {
+    "post": "{\n  \"jsonmodel_type\": \"agent_corporate_entity\",\n  \"agent_contacts\": [\n    {\n      \"jsonmodel_type\": \"agent_contact\",\n      \"telephones\": [\n        {\n          \"jsonmodel_type\": \"telephone\",\n          \"number_type\": \"cell\",\n          \"number\": \"753 25202 1654 07054\",\n          \"ext\": \"MHDPA\"\n        }\n      ],\n      \"name\": \"Name Number 5\",\n      \"address_1\": \"4H735534V\",\n      \"country\": \"82691V643281\",\n      \"fax\": \"440YPQR\",\n      \"email\": \"HQ854RL\",\n      \"email_signature\": \"PHCDG\"\n    }\n  ],\n  \"linked_agent_roles\": [\n\n  ],\n  \"external_documents\": [\n\n  ],\n  \"rights_statements\": [\n\n  ],\n  \"notes\": [\n\n  ],\n  \"dates_of_existence\": [\n    {\n      \"jsonmodel_type\": \"date\",\n      \"date_type\": \"bulk\",\n      \"label\": \"existence\",\n      \"begin\": \"1975-05-13\",\n      \"end\": \"1975-05-13\",\n      \"expression\": \"225E934M425\"\n    }\n  ],\n  \"names\": [\n    {\n      \"jsonmodel_type\": \"name_corporate_entity\",\n      \"use_dates\": [\n\n      ],\n      \"authorized\": false,\n      \"is_display_name\": false,\n      \"sort_name_auto_generate\": true,\n      \"rules\": \"aacr\",\n      \"primary_name\": \"Name Number 4\",\n      \"subordinate_name_1\": \"Y730V810985\",\n      \"subordinate_name_2\": \"VM55669861\",\n      \"number\": \"843379REF\",\n      \"sort_name\": \"SORT e - 2\",\n      \"dates\": \"H950POS\",\n      \"qualifier\": \"MSAY348\"\n    }\n  ],\n  \"related_agents\": [\n\n  ],\n  \"agent_type\": \"agent_corporate_entity\"\n}"
+  },
+  "/agents/corporate_entities/:id": {
+    "post": "{\n  \"jsonmodel_type\": \"agent_corporate_entity\",\n  \"agent_contacts\": [\n    {\n      \"jsonmodel_type\": \"agent_contact\",\n      \"telephones\": [\n        {\n          \"jsonmodel_type\": \"telephone\",\n          \"number_type\": \"cell\",\n          \"number\": \"753 25202 1654 07054\",\n          \"ext\": \"MHDPA\"\n        }\n      ],\n      \"name\": \"Name Number 5\",\n      \"address_1\": \"4H735534V\",\n      \"country\": \"82691V643281\",\n      \"fax\": \"440YPQR\",\n      \"email\": \"HQ854RL\",\n      \"email_signature\": \"PHCDG\"\n    }\n  ],\n  \"linked_agent_roles\": [\n\n  ],\n  \"external_documents\": [\n\n  ],\n  \"rights_statements\": [\n\n  ],\n  \"notes\": [\n\n  ],\n  \"dates_of_existence\": [\n    {\n      \"jsonmodel_type\": \"date\",\n      \"date_type\": \"bulk\",\n      \"label\": \"existence\",\n      \"begin\": \"1975-05-13\",\n      \"end\": \"1975-05-13\",\n      \"expression\": \"225E934M425\"\n    }\n  ],\n  \"names\": [\n    {\n      \"jsonmodel_type\": \"name_corporate_entity\",\n      \"use_dates\": [\n\n      ],\n      \"authorized\": false,\n      \"is_display_name\": false,\n      \"sort_name_auto_generate\": true,\n      \"rules\": \"aacr\",\n      \"primary_name\": \"Name Number 4\",\n      \"subordinate_name_1\": \"Y730V810985\",\n      \"subordinate_name_2\": \"VM55669861\",\n      \"number\": \"843379REF\",\n      \"sort_name\": \"SORT e - 2\",\n      \"dates\": \"H950POS\",\n      \"qualifier\": \"MSAY348\"\n    }\n  ],\n  \"related_agents\": [\n\n  ],\n  \"agent_type\": \"agent_corporate_entity\"\n}"
+  },
+  "/agents/families": {
+    "get": {
+
+    }
+  },
+  "/agents/families/:id": {
+    "delete": "1"
+  },
+  "/agents/people": {
+    "get": {
+
+    }
+  },
+  "/agents/people/:id": {
+    "delete": "1"
+  },
+  "/agents/software": {
+    "post": "{\n  \"jsonmodel_type\": \"agent_software\",\n  \"agent_contacts\": [\n\n  ],\n  \"linked_agent_roles\": [\n\n  ],\n  \"external_documents\": [\n\n  ],\n  \"rights_statements\": [\n\n  ],\n  \"notes\": [\n\n  ],\n  \"dates_of_existence\": [\n    {\n      \"jsonmodel_type\": \"date\",\n      \"date_type\": \"bulk\",\n      \"label\": \"existence\",\n      \"begin\": \"1980-07-15\",\n      \"end\": \"1980-07-15\",\n      \"expression\": \"O235WL818\"\n    }\n  ],\n  \"names\": [\n    {\n      \"jsonmodel_type\": \"name_software\",\n      \"use_dates\": [\n\n      ],\n      \"authorized\": false,\n      \"is_display_name\": false,\n      \"sort_name_auto_generate\": true,\n      \"rules\": \"aacr\",\n      \"software_name\": \"Name Number 8\",\n      \"sort_name\": \"SORT e - 5\"\n    }\n  ],\n  \"agent_type\": \"agent_software\"\n}"
+  },
+  "/agents/software/:id": {
+    "delete": "1"
+  },
+  "/batch_delete": {
+    "post": "630JAUW"
+  },
+  "/by-external-id": {
+    "get": "JFDFS"
+  },
+  "/config/enumeration_values/:enum_val_id": {
+    "post": "{\n  \"jsonmodel_type\": \"enumeration_value\",\n  \"value\": \"627MSSA\"\n}"
+  },
+  "/config/enumeration_values/:enum_val_id/position": {
+    "post": "1"
+  },
+  "/config/enumeration_values/:enum_val_id/suppressed": {
+    "post": "BooleanParam"
+  },
+  "/config/enumerations": {
+    "get": {
+
+    }
+  },
+  "/config/enumerations/:enum_id": {
+    "get": "1"
+  },
+  "/config/enumerations/migration": {
+    "post": "{\n  \"jsonmodel_type\": \"enumeration_migration\",\n  \"enum_uri\": \"/config/enumerations/67\",\n  \"from\": \"QJ738G248\",\n  \"to\": \"AY99075036\"\n}"
+  },
+  "/container_profiles": {
+    "get": {
+
+    }
+  },
+  "/container_profiles/:id": {
+    "post": "{\n  \"jsonmodel_type\": \"container_profile\",\n  \"name\": \"878EL926B\",\n  \"url\": \"JJ392IV\",\n  \"dimension_units\": \"inches\",\n  \"extent_dimension\": \"width\",\n  \"depth\": \"17\",\n  \"height\": \"67\",\n  \"width\": \"34\"\n}"
+  },
+  "/current_global_preferences": {
+    "get": {
+
+    }
+  },
+  "/delete-feed": {
+    "get": {
+
+    }
+  },
+  "/extent_calculator": {
+    "get": "W775LF49"
+  },
+  "/locations": {
+    "get": {
+
+    }
+  },
+  "/locations/:id": {
+    "post": "{\n  \"jsonmodel_type\": \"location\",\n  \"external_ids\": [\n\n  ],\n  \"building\": \"32 E 9th Street\",\n  \"floor\": \"11\",\n  \"room\": \"3\",\n  \"area\": \"Back\",\n  \"barcode\": \"01101011000101100110\",\n  \"temporary\": \"conservation\"\n}"
+  },
+  "/locations/batch": {
+    "post": "{\n  \"jsonmodel_type\": \"location_batch\",\n  \"external_ids\": [\n\n  ],\n  \"locations\": [\n\n  ],\n  \"building\": \"41 W 7th Street\",\n  \"floor\": \"11\",\n  \"room\": \"5\",\n  \"area\": \"Back\",\n  \"barcode\": \"00101111001110011111\",\n  \"temporary\": \"loan\",\n  \"coordinate_1_range\": {\n    \"label\": \"GUK746L\",\n    \"start\": \"0\",\n    \"end\": \"10\"\n  }\n}"
+  },
+  "/locations/batch_update": {
+    "post": "{\n  \"jsonmodel_type\": \"location_batch_update\",\n  \"external_ids\": [\n\n  ],\n  \"record_uris\": [\n\n  ],\n  \"building\": \"114 E 6th Street\",\n  \"floor\": \"6\",\n  \"room\": \"3\",\n  \"area\": \"Front\",\n  \"barcode\": \"11001111001110011000\",\n  \"temporary\": \"conservation\"\n}"
+  },
+  "/logout": {
+    "post": {
+
+    }
+  },
+  "/merge_requests/agent": {
+    "post": "{\n  \"jsonmodel_type\": \"merge_request\",\n  \"victims\": [\n    {\n      \"ref\": \"/repositories/2/resources/2\"\n    }\n  ],\n  \"target\": {\n    \"ref\": \"/repositories/2/resources/1\"\n  }\n}"
+  },
+  "/merge_requests/digital_object": {
+    "post": "{\n  \"jsonmodel_type\": \"merge_request\",\n  \"victims\": [\n    {\n      \"ref\": \"/repositories/2/resources/2\"\n    }\n  ],\n  \"target\": {\n    \"ref\": \"/repositories/2/resources/1\"\n  }\n}"
+  },
+  "/merge_requests/resource": {
+    "post": "{\n  \"jsonmodel_type\": \"merge_request\",\n  \"victims\": [\n    {\n      \"ref\": \"/repositories/2/resources/2\"\n    }\n  ],\n  \"target\": {\n    \"ref\": \"/repositories/2/resources/1\"\n  }\n}"
+  },
+  "/merge_requests/subject": {
+    "post": "{\n  \"jsonmodel_type\": \"merge_request\",\n  \"victims\": [\n    {\n      \"ref\": \"/repositories/2/resources/2\"\n    }\n  ],\n  \"target\": {\n    \"ref\": \"/repositories/2/resources/1\"\n  }\n}"
+  },
+  "/notifications": {
+    "get": "1"
+  },
+  "/permissions": {
+    "get": "KI183GF"
+  },
+  "/plugins/public_formats/repository/:repo_id/:type/:format/:id.pdf": {
+    "get": "1"
+  },
+  "/plugins/public_formats/repository/:repo_id/:type/:format/:id.xml": {
+    "get": "1"
+  },
+  "/reports": {
+    "get": {
+
+    }
+  },
+  "/reports/static/*": {
+    "get": "KNL759L"
+  },
+  "/repositories": {
+    "post": "{\n  \"jsonmodel_type\": \"repository\",\n  \"name\": \"Description: 11\",\n  \"repo_code\": \"ASPACE REPO 2 -- 631024\",\n  \"org_code\": \"970UV228G\",\n  \"image_url\": \"http://www.example-3.com\",\n  \"url\": \"http://www.example-4.com\"\n}"
+  },
+  "/repositories/:id": {
+    "post": "{\n  \"jsonmodel_type\": \"repository\",\n  \"name\": \"Description: 11\",\n  \"repo_code\": \"ASPACE REPO 2 -- 631024\",\n  \"org_code\": \"970UV228G\",\n  \"image_url\": \"http://www.example-3.com\",\n  \"url\": \"http://www.example-4.com\"\n}"
+  },
+  "/repositories/:repo_id": {
+    "delete": "1"
+  },
+  "/repositories/:repo_id/accessions": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/accessions/:id": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/accessions/:id/suppressed": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/accessions/:id/transfer": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/archival_contexts/corporate_entities/:id.:fmt/metadata": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/archival_contexts/corporate_entities/:id.xml": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/archival_contexts/families/:id.:fmt/metadata": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/archival_contexts/families/:id.xml": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/archival_contexts/people/:id.:fmt/metadata": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/archival_contexts/people/:id.xml": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/archival_contexts/softwares/:id.:fmt/metadata": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/archival_contexts/softwares/:id.xml": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/archival_objects": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/archival_objects/:id": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/archival_objects/:id/accept_children": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/archival_objects/:id/children": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/archival_objects/:id/parent": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/archival_objects/:id/suppressed": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/batch_imports": {
+    "post": "Q524VPF"
+  },
+  "/repositories/:repo_id/classification_terms": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/classification_terms/:id": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/classification_terms/:id/accept_children": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/classification_terms/:id/children": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/classification_terms/:id/parent": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/classifications": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/classifications/:id": {
+    "get": "WL662KB"
+  },
+  "/repositories/:repo_id/classifications/:id/accept_children": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/classifications/:id/tree": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/component_transfers": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/current_preferences": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/default_values/:record_type": {
+    "post": "JF681N373"
+  },
+  "/repositories/:repo_id/digital_object_components": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/digital_object_components/:id": {
+    "get": "QCIPY"
+  },
+  "/repositories/:repo_id/digital_object_components/:id/accept_children": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/digital_object_components/:id/children": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/digital_object_components/:id/parent": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/digital_object_components/:id/suppressed": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/digital_objects": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/digital_objects/:id": {
+    "delete": "1"
+  },
+  "/repositories/:repo_id/digital_objects/:id/accept_children": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/digital_objects/:id/children": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/digital_objects/:id/publish": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/digital_objects/:id/suppressed": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/digital_objects/:id/transfer": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/digital_objects/:id/tree": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/digital_objects/dublin_core/:id.:fmt/metadata": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/digital_objects/dublin_core/:id.xml": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/digital_objects/mets/:id.:fmt/metadata": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/digital_objects/mets/:id.xml": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/digital_objects/mods/:id.:fmt/metadata": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/digital_objects/mods/:id.xml": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/events": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/events/:id": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/events/:id/suppressed": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/find_by_id/archival_objects": {
+    "get": "RT357NJ"
+  },
+  "/repositories/:repo_id/find_by_id/digital_object_components": {
+    "get": "WUO143442"
+  },
+  "/repositories/:repo_id/groups": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/groups/:id": {
+    "post": "BooleanParam"
+  },
+  "/repositories/:repo_id/jobs": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/jobs/:id": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/jobs/:id/cancel": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/jobs/:id/log": {
+    "get": "NonNegativeInteger"
+  },
+  "/repositories/:repo_id/jobs/:id/output_files": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/jobs/:id/output_files/:file_id": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/jobs/:id/records": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/jobs/active": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/jobs/archived": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/jobs/import_types": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/jobs/types": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/jobs_with_files": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/preferences": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/preferences/:id": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/preferences/defaults": {
+    "get": "K225AEY"
+  },
+  "/repositories/:repo_id/rde_templates": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/rde_templates/:id": {
+    "delete": "1"
+  },
+  "/repositories/:repo_id/resource_descriptions/:id.:fmt/metadata": {
+    "get": "108XLJ213"
+  },
+  "/repositories/:repo_id/resource_descriptions/:id.pdf": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/resource_descriptions/:id.xml": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/resource_labels/:id.:fmt/metadata": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/resource_labels/:id.tsv": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/resources": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/resources/:id": {
+    "delete": "1"
+  },
+  "/repositories/:repo_id/resources/:id/accept_children": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/resources/:id/children": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/resources/:id/models_in_graph": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/resources/:id/publish": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/resources/:id/suppressed": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/resources/:id/transfer": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/resources/:id/tree": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/resources/marc21/:id.:fmt/metadata": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/resources/marc21/:id.xml": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/search": {
+    "get": "DO29537D"
+  },
+  "/repositories/:repo_id/top_containers": {
+    "get": "1"
+  },
+  "/repositories/:repo_id/top_containers/:id": {
+    "delete": "1"
+  },
+  "/repositories/:repo_id/top_containers/batch/container_profile": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/top_containers/batch/ils_holding_id": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/top_containers/batch/location": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/top_containers/bulk/barcodes": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/top_containers/search": {
+    "get": "DO29537D"
+  },
+  "/repositories/:repo_id/transfer": {
+    "post": "1"
+  },
+  "/repositories/:repo_id/users/:id": {
+    "get": "1"
+  },
+  "/repositories/with_agent": {
+    "post": "{\n  \"jsonmodel_type\": \"repository_with_agent\",\n  \"repository\": {\n    \"jsonmodel_type\": \"repository\",\n    \"name\": \"Description: 12\",\n    \"repo_code\": \"ASPACE REPO 3 -- 83816\",\n    \"org_code\": \"BJ26310812\",\n    \"image_url\": \"http://www.example-5.com\",\n    \"url\": \"http://www.example-6.com\"\n  },\n  \"agent_representation\": {\n    \"jsonmodel_type\": \"agent_corporate_entity\",\n    \"agent_contacts\": [\n      {\n        \"jsonmodel_type\": \"agent_contact\",\n        \"telephones\": [\n          {\n            \"jsonmodel_type\": \"telephone\",\n            \"number_type\": \"cell\",\n            \"number\": \"53384 68481 03307 458 18032\",\n            \"ext\": \"548FJB643\"\n          }\n        ],\n        \"name\": \"Name Number 15\",\n        \"address_2\": \"253HWNA\",\n        \"address_3\": \"MWGQ694\",\n        \"region\": \"R18028PD\",\n        \"country\": \"590811QWW\",\n        \"fax\": \"PDT154I\",\n        \"note\": \"429448XUH\"\n      }\n    ],\n    \"linked_agent_roles\": [\n\n    ],\n    \"external_documents\": [\n\n    ],\n    \"rights_statements\": [\n\n    ],\n    \"notes\": [\n\n    ],\n    \"dates_of_existence\": [\n      {\n        \"jsonmodel_type\": \"date\",\n        \"date_type\": \"bulk\",\n        \"label\": \"existence\",\n        \"begin\": \"1981-08-13\",\n        \"end\": \"1981-08-13\",\n        \"expression\": \"PTTA946\"\n      }\n    ],\n    \"names\": [\n      {\n        \"jsonmodel_type\": \"name_corporate_entity\",\n        \"use_dates\": [\n\n        ],\n        \"authorized\": false,\n        \"is_display_name\": false,\n        \"sort_name_auto_generate\": true,\n        \"rules\": \"rda\",\n        \"primary_name\": \"Name Number 14\",\n        \"subordinate_name_1\": \"L171484GE\",\n        \"subordinate_name_2\": \"B834217562G\",\n        \"number\": \"264WXB399\",\n        \"sort_name\": \"SORT l - 11\",\n        \"dates\": \"285385KEY\",\n        \"qualifier\": \"N906ENG\"\n      }\n    ],\n    \"related_agents\": [\n\n    ],\n    \"agent_type\": \"agent_corporate_entity\"\n  }\n}"
+  },
+  "/repositories/with_agent/:id": {
+    "get": "1"
+  },
+  "/search": {
+    "get": "DO29537D"
+  },
+  "/search/published_tree": {
+    "get": "850N821PS"
+  },
+  "/search/repositories": {
+    "get": "DO29537D"
+  },
+  "/search/subjects": {
+    "get": "DO29537D"
+  },
+  "/subjects": {
+    "post": "{\n  \"jsonmodel_type\": \"subject\",\n  \"external_ids\": [\n\n  ],\n  \"publish\": true,\n  \"terms\": [\n    {\n      \"jsonmodel_type\": \"term\",\n      \"term\": \"Term 1\",\n      \"term_type\": \"technique\",\n      \"vocabulary\": \"/vocabularies/2\"\n    }\n  ],\n  \"external_documents\": [\n\n  ],\n  \"vocabulary\": \"/vocabularies/3\",\n  \"authority_id\": \"http://www.example-7.com\",\n  \"scope_note\": \"NR888166E\",\n  \"source\": \"gmgpc\"\n}"
+  },
+  "/subjects/:id": {
+    "post": "{\n  \"jsonmodel_type\": \"subject\",\n  \"external_ids\": [\n\n  ],\n  \"publish\": true,\n  \"terms\": [\n    {\n      \"jsonmodel_type\": \"term\",\n      \"term\": \"Term 1\",\n      \"term_type\": \"technique\",\n      \"vocabulary\": \"/vocabularies/2\"\n    }\n  ],\n  \"external_documents\": [\n\n  ],\n  \"vocabulary\": \"/vocabularies/3\",\n  \"authority_id\": \"http://www.example-7.com\",\n  \"scope_note\": \"NR888166E\",\n  \"source\": \"gmgpc\"\n}"
+  },
+  "/system/demo_db_snapshot": {
+    "post": {
+
+    }
+  },
+  "/system/info": {
+    "get": {
+
+    }
+  },
+  "/system/log": {
+    "get": {
+
+    }
+  },
+  "/system/resequence": {
+    "get": "W283HPW"
+  },
+  "/terms": {
+    "get": "AQ817K57"
+  },
+  "/update-feed": {
+    "get": "IC670930711"
+  },
+  "/update_monitor": {
+    "post": "{\n  \"jsonmodel_type\": \"active_edits\",\n  \"active_edits\": [\n    {\n      \"user\": \"PK994JL\",\n      \"uri\": \"TOBLQ\",\n      \"time\": \"2015-12-16T18:57:34+01:00\"\n    }\n  ]\n}"
+  },
+  "/users": {
+    "get": {
+
+    }
+  },
+  "/users/:id": {
+    "delete": "1"
+  },
+  "/users/:username/become-user": {
+    "post": "username_2"
+  },
+  "/users/:username/login": {
+    "post": "BooleanParam"
+  },
+  "/users/complete": {
+    "get": "QBMDJ"
+  },
+  "/users/current-user": {
+    "get": {
+
+    }
+  },
+  "/version": {
+    "get": {
+
+    }
+  },
+  "/vocabularies": {
+    "get": "HEXT656"
+  },
+  "/vocabularies/:id": {
+    "post": "{\n  \"jsonmodel_type\": \"vocabulary\",\n  \"terms\": [\n\n  ],\n  \"name\": \"Vocabulary 4 - 2015-12-16 18:57:37 +0100\",\n  \"ref_id\": \"vocab_ref_4 - 2015-12-16 18:57:37 +0100\"\n}"
+  },
+  "/vocabularies/:id/terms": {
+    "get": "1"
+  }
+}

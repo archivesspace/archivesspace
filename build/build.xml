@@ -238,7 +238,7 @@
   </target>
 
 
-  <target name="backend:doc" depends="set-classpath" description="Generate documentation for endpoints">
+  <target name="backend:doc" depends="set-classpath" description="Spit out some information about the endpoints">
     <property name="match" value=""/>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="../backend">
@@ -471,8 +471,31 @@
       <arg line="--1.9 build/gems/bin/yardoc -f txt" />
     </java>
   </target>
+  
+  <target name="docs:enpoint-examples" depends="set-classpath"
+    description="Make some examples for the endpoints">
+    <property name="spec" value=""/>
+    <property name="example" value=""/>
+    <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
+      <isset property="example"/>
+    </condition>
+    <dirset id="plugins" dir="../plugins">
+      <include name="**/backend/spec"/>
+    </dirset>
+    <pathconvert pathsep=" " property="plugin-spec-dirs" refid="plugins"/>
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
+          failonerror="true"
+          dir="../backend">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
+      <arg line="--1.9 --debug -X-C ../build/gems/bin/rspec -b --format d -P '*_examples.rb' --order rand:1 ${example-arg} spec/${spec} ${plugin-spec-dirs}" />
+    </java>
+  </target>
 
-  <target name="doc:build" depends="set-classpath, doc:yard" description="Generate documentation for endpoints">
+  <target name="doc:build" depends="set-classpath, docs:enpoint-examples, doc:yard" description="Generate documentation for endpoints">
     <property name="match" value=""/>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="..">

@@ -227,7 +227,7 @@ endpoint, with :user_name and :password parameters being supplied.</p>
 for other requests. Sessions will expire after an hour, although you can change this in your config.rb file.</p>
 
 <h1 id="archivesspace-rest-api">ArchivesSpace REST API</h1>
-<p>As of 2015-12-15 21:13:56 +0100 the following REST endpoints exist in the master branch of the development repository:</p>
+<p>As of 2015-12-16 18:57:41 +0100 the following REST endpoints exist in the master branch of the development repository:</p>
 
 <h2 id="get-agentscorporateentities">GET /agents/corporate_entities</h2>
 
@@ -277,16 +277,17 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221;<br />
       &#8220;telephones&#8221;: [
         {
           &#8220;jsonmodel_type&#8221;: &#8220;telephone&#8221;,
-          &#8220;number_type&#8221;: &#8220;home&#8221;,
-          &#8220;number&#8221;: &#8220;733 042 21572 07533 3547&#8221;,
-          &#8220;ext&#8221;: &#8220;X996369774E&#8221;
+          &#8220;number_type&#8221;: &#8220;cell&#8221;,
+          &#8220;number&#8221;: &#8220;753 25202 1654 07054&#8221;,
+          &#8220;ext&#8221;: &#8220;MHDPA&#8221;
         }
       ],
-      &#8220;name&#8221;: &#8220;Name Number 498&#8221;,
-      &#8220;region&#8221;: &#8220;HO875NE&#8221;,
-      &#8220;fax&#8221;: &#8220;528E491VX&#8221;,
-      &#8220;email&#8221;: &#8220;939T895510X&#8221;,
-      &#8220;email_signature&#8221;: &#8220;RNSVS&#8221;
+      &#8220;name&#8221;: &#8220;Name Number 5&#8221;,
+      &#8220;address_1&#8221;: &#8220;4H735534V&#8221;,
+      &#8220;country&#8221;: &#8220;82691V643281&#8221;,
+      &#8220;fax&#8221;: &#8220;440YPQR&#8221;,
+      &#8220;email&#8221;: &#8220;HQ854RL&#8221;,
+      &#8220;email_signature&#8221;: &#8220;PHCDG&#8221;
     }
   ],
   &#8220;linked_agent_roles&#8221;: [</p>
@@ -304,11 +305,11 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221;<br />
   &#8220;dates_of_existence&#8221;: [
     {
       &#8220;jsonmodel_type&#8221;: &#8220;date&#8221;,
-      &#8220;date_type&#8221;: &#8220;inclusive&#8221;,
+      &#8220;date_type&#8221;: &#8220;bulk&#8221;,
       &#8220;label&#8221;: &#8220;existence&#8221;,
-      &#8220;begin&#8221;: &#8220;2000-03-12&#8221;,
-      &#8220;end&#8221;: &#8220;2000-03-12&#8221;,
-      &#8220;expression&#8221;: &#8220;F516L486428&#8221;
+      &#8220;begin&#8221;: &#8220;1975-05-13&#8221;,
+      &#8220;end&#8221;: &#8220;1975-05-13&#8221;,
+      &#8220;expression&#8221;: &#8220;225E934M425&#8221;
     }
   ],
   &#8220;names&#8221;: [
@@ -320,14 +321,14 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221;<br />
   <span class='string val'>&quot;authorized&quot;</span><span class='colon op'>:</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
   <span class='string val'>&quot;is_display_name&quot;</span><span class='colon op'>:</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
   <span class='string val'>&quot;sort_name_auto_generate&quot;</span><span class='colon op'>:</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span>
-  <span class='string val'>&quot;rules&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;dacs&quot;</span><span class='comma token'>,</span>
-  <span class='string val'>&quot;primary_name&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;Name Number 497&quot;</span><span class='comma token'>,</span>
-  <span class='string val'>&quot;subordinate_name_1&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;YWF385O&quot;</span><span class='comma token'>,</span>
-  <span class='string val'>&quot;subordinate_name_2&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;WQTEE&quot;</span><span class='comma token'>,</span>
-  <span class='string val'>&quot;number&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;UR387LE&quot;</span><span class='comma token'>,</span>
-  <span class='string val'>&quot;sort_name&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;SORT h - 418&quot;</span><span class='comma token'>,</span>
-  <span class='string val'>&quot;dates&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;UK215438T&quot;</span><span class='comma token'>,</span>
-  <span class='string val'>&quot;qualifier&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;W946341620U&quot;</span>
+  <span class='string val'>&quot;rules&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;aacr&quot;</span><span class='comma token'>,</span>
+  <span class='string val'>&quot;primary_name&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;Name Number 4&quot;</span><span class='comma token'>,</span>
+  <span class='string val'>&quot;subordinate_name_1&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;Y730V810985&quot;</span><span class='comma token'>,</span>
+  <span class='string val'>&quot;subordinate_name_2&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;VM55669861&quot;</span><span class='comma token'>,</span>
+  <span class='string val'>&quot;number&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;843379REF&quot;</span><span class='comma token'>,</span>
+  <span class='string val'>&quot;sort_name&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;SORT e - 2&quot;</span><span class='comma token'>,</span>
+  <span class='string val'>&quot;dates&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;H950POS&quot;</span><span class='comma token'>,</span>
+  <span class='string val'>&quot;qualifier&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;MSAY348&quot;</span>
 <span class='rbrace token'>}</span>   <span class='rbrack token'>]</span><span class='comma token'>,</span>   <span class='string val'>&quot;related_agents&quot;</span><span class='colon op'>:</span> <span class='lbrack token'>[</span>
 </code></pre>
 
@@ -421,16 +422,17 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221;<br />
       &#8220;telephones&#8221;: [
         {
           &#8220;jsonmodel_type&#8221;: &#8220;telephone&#8221;,
-          &#8220;number&#8221;: &#8220;0426 3406 2363&#8221;
+          &#8220;number_type&#8221;: &#8220;cell&#8221;,
+          &#8220;number&#8221;: &#8220;753 25202 1654 07054&#8221;,
+          &#8220;ext&#8221;: &#8220;MHDPA&#8221;
         }
       ],
-      &#8220;name&#8221;: &#8220;Name Number 500&#8221;,
-      &#8220;address_1&#8221;: &#8220;EA492MT&#8221;,
-      &#8220;region&#8221;: &#8220;DK358598500&#8221;,
-      &#8220;country&#8221;: &#8220;241263F88J&#8221;,
-      &#8220;fax&#8221;: &#8220;EVU563K&#8221;,
-      &#8220;email&#8221;: &#8220;W62387RN&#8221;,
-      &#8220;note&#8221;: &#8220;LVBAU&#8221;
+      &#8220;name&#8221;: &#8220;Name Number 5&#8221;,
+      &#8220;address_1&#8221;: &#8220;4H735534V&#8221;,
+      &#8220;country&#8221;: &#8220;82691V643281&#8221;,
+      &#8220;fax&#8221;: &#8220;440YPQR&#8221;,
+      &#8220;email&#8221;: &#8220;HQ854RL&#8221;,
+      &#8220;email_signature&#8221;: &#8220;PHCDG&#8221;
     }
   ],
   &#8220;linked_agent_roles&#8221;: [</p>
@@ -448,11 +450,11 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221;<br />
   &#8220;dates_of_existence&#8221;: [
     {
       &#8220;jsonmodel_type&#8221;: &#8220;date&#8221;,
-      &#8220;date_type&#8221;: &#8220;inclusive&#8221;,
+      &#8220;date_type&#8221;: &#8220;bulk&#8221;,
       &#8220;label&#8221;: &#8220;existence&#8221;,
-      &#8220;begin&#8221;: &#8220;2004-11-16&#8221;,
-      &#8220;end&#8221;: &#8220;2004-11-16&#8221;,
-      &#8220;expression&#8221;: &#8220;785FG995N&#8221;
+      &#8220;begin&#8221;: &#8220;1975-05-13&#8221;,
+      &#8220;end&#8221;: &#8220;1975-05-13&#8221;,
+      &#8220;expression&#8221;: &#8220;225E934M425&#8221;
     }
   ],
   &#8220;names&#8221;: [
@@ -464,14 +466,14 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221;<br />
   <span class='string val'>&quot;authorized&quot;</span><span class='colon op'>:</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
   <span class='string val'>&quot;is_display_name&quot;</span><span class='colon op'>:</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
   <span class='string val'>&quot;sort_name_auto_generate&quot;</span><span class='colon op'>:</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span>
-  <span class='string val'>&quot;rules&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;rda&quot;</span><span class='comma token'>,</span>
-  <span class='string val'>&quot;primary_name&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;Name Number 499&quot;</span><span class='comma token'>,</span>
-  <span class='string val'>&quot;subordinate_name_1&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;PMXF88&quot;</span><span class='comma token'>,</span>
-  <span class='string val'>&quot;subordinate_name_2&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;OG980T319&quot;</span><span class='comma token'>,</span>
-  <span class='string val'>&quot;number&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;I646D905283&quot;</span><span class='comma token'>,</span>
-  <span class='string val'>&quot;sort_name&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;SORT h - 419&quot;</span><span class='comma token'>,</span>
-  <span class='string val'>&quot;dates&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;584JGH856&quot;</span><span class='comma token'>,</span>
-  <span class='string val'>&quot;qualifier&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;385936843SL&quot;</span>
+  <span class='string val'>&quot;rules&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;aacr&quot;</span><span class='comma token'>,</span>
+  <span class='string val'>&quot;primary_name&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;Name Number 4&quot;</span><span class='comma token'>,</span>
+  <span class='string val'>&quot;subordinate_name_1&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;Y730V810985&quot;</span><span class='comma token'>,</span>
+  <span class='string val'>&quot;subordinate_name_2&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;VM55669861&quot;</span><span class='comma token'>,</span>
+  <span class='string val'>&quot;number&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;843379REF&quot;</span><span class='comma token'>,</span>
+  <span class='string val'>&quot;sort_name&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;SORT e - 2&quot;</span><span class='comma token'>,</span>
+  <span class='string val'>&quot;dates&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;H950POS&quot;</span><span class='comma token'>,</span>
+  <span class='string val'>&quot;qualifier&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;MSAY348&quot;</span>
 <span class='rbrace token'>}</span>   <span class='rbrack token'>]</span><span class='comma token'>,</span>   <span class='string val'>&quot;related_agents&quot;</span><span class='colon op'>:</span> <span class='lbrack token'>[</span>
 </code></pre>
 
@@ -810,9 +812,9 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221;<br />
       &#8220;jsonmodel_type&#8221;: &#8220;date&#8221;,
       &#8220;date_type&#8221;: &#8220;bulk&#8221;,
       &#8220;label&#8221;: &#8220;existence&#8221;,
-      &#8220;begin&#8221;: &#8220;2002-12-23&#8221;,
-      &#8220;end&#8221;: &#8220;2002-12-23&#8221;,
-      &#8220;expression&#8221;: &#8220;UY1572292&#8221;
+      &#8220;begin&#8221;: &#8220;1980-07-15&#8221;,
+      &#8220;end&#8221;: &#8220;1980-07-15&#8221;,
+      &#8220;expression&#8221;: &#8220;O235WL818&#8221;
     }
   ],
   &#8220;names&#8221;: [
@@ -824,9 +826,9 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221;<br />
   <span class='string val'>&quot;authorized&quot;</span><span class='colon op'>:</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
   <span class='string val'>&quot;is_display_name&quot;</span><span class='colon op'>:</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
   <span class='string val'>&quot;sort_name_auto_generate&quot;</span><span class='colon op'>:</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span>
-  <span class='string val'>&quot;rules&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;local&quot;</span><span class='comma token'>,</span>
-  <span class='string val'>&quot;software_name&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;Name Number 505&quot;</span><span class='comma token'>,</span>
-  <span class='string val'>&quot;sort_name&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;SORT i - 424&quot;</span>
+  <span class='string val'>&quot;rules&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;aacr&quot;</span><span class='comma token'>,</span>
+  <span class='string val'>&quot;software_name&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;Name Number 8&quot;</span><span class='comma token'>,</span>
+  <span class='string val'>&quot;sort_name&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;SORT e - 5&quot;</span>
 <span class='rbrace token'>}</span>   <span class='rbrack token'>]</span><span class='comma token'>,</span>   <span class='string val'>&quot;agent_type&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;agent_software&quot;</span> <span class='rbrace token'>}</span>    <span class='string val'>'http://localhost:8089/agents/software'</span> <span class='xstring val'>``</span><span class='xstring val'>`
 </span></code></pre>
 
@@ -967,7 +969,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d VUNIY  
+ -d 630JAUW  
  'http://localhost:8089/batch_delete'
 </code></p>
 
@@ -1022,7 +1024,10 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d enumeration_value  
+ -d {
+  "jsonmodel_type": "enumeration_value",
+  "value": "627MSSA"
+}  
  'http://localhost:8089/config/enumeration_values/:enum_val_id'
 </code></p>
 
@@ -1076,7 +1081,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d position  
+ -d 1  
  'http://localhost:8089/config/enumeration_values/:enum_val_id/position'
 </code></p>
 
@@ -1105,7 +1110,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d suppressed  
+ -d BooleanParam  
  'http://localhost:8089/config/enumeration_values/:enum_val_id/suppressed'
 </code></p>
 
@@ -1236,7 +1241,12 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d migration  
+ -d {
+  "jsonmodel_type": "enumeration_migration",
+  "enum_uri": "/config/enumerations/67",
+  "from": "QJ738G248",
+  "to": "AY99075036"
+}  
  'http://localhost:8089/config/enumerations/migration'
 </code></p>
 
@@ -1321,13 +1331,13 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 curl -H "X-ArchivesSpace-Session: $SESSION"  
  -d {
   "jsonmodel_type": "container_profile",
-  "name": "YJU311F",
-  "url": "NTB942N",
-  "dimension_units": "yards",
-  "extent_dimension": "depth",
-  "depth": "39",
-  "height": "42",
-  "width": "71"
+  "name": "878EL926B",
+  "url": "JJ392IV",
+  "dimension_units": "inches",
+  "extent_dimension": "width",
+  "depth": "17",
+  "height": "67",
+  "width": "34"
 }  
  'http://localhost:8089/container_profiles/1'
 </code></p>
@@ -1603,11 +1613,11 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221;<br />
   &#8220;external_ids&#8221;: [</p>
 
 <p>],
-  &#8220;building&#8221;: &#8220;172 W 4th Street&#8221;,
-  &#8220;floor&#8221;: &#8220;7&#8221;,
-  &#8220;room&#8221;: &#8220;10&#8221;,
-  &#8220;area&#8221;: &#8220;Front&#8221;,
-  &#8220;barcode&#8221;: &#8220;10010010011001011010&#8221;,
+  &#8220;building&#8221;: &#8220;32 E 9th Street&#8221;,
+  &#8220;floor&#8221;: &#8220;11&#8221;,
+  &#8220;room&#8221;: &#8220;3&#8221;,
+  &#8220;area&#8221;: &#8220;Back&#8221;,
+  &#8220;barcode&#8221;: &#8220;01101011000101100110&#8221;,
   &#8220;temporary&#8221;: &#8220;conservation&#8221;
 }<br />
  &#8216;http://localhost:8089/locations/1&#8217;
@@ -1635,11 +1645,30 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221;<br />
   <p>Example Request:</p>
 </blockquote>
 
-<p><code>shell
-curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d location_batch  
- 'http://localhost:8089/locations/batch'
-</code></p>
+<p>```shell
+curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221;<br />
+ -d {
+  &#8220;jsonmodel_type&#8221;: &#8220;location_batch&#8221;,
+  &#8220;external_ids&#8221;: [</p>
+
+<p>],
+  &#8220;locations&#8221;: [</p>
+
+<p>],
+  &#8220;building&#8221;: &#8220;41 W 7th Street&#8221;,
+  &#8220;floor&#8221;: &#8220;11&#8221;,
+  &#8220;room&#8221;: &#8220;5&#8221;,
+  &#8220;area&#8221;: &#8220;Back&#8221;,
+  &#8220;barcode&#8221;: &#8220;00101111001110011111&#8221;,
+  &#8220;temporary&#8221;: &#8220;loan&#8221;,
+  &#8220;coordinate_1_range&#8221;: {
+    &#8220;label&#8221;: &#8220;GUK746L&#8221;,
+    &#8220;start&#8221;: &#8220;0&#8221;,
+    &#8220;end&#8221;: &#8220;10&#8221;
+  }
+}<br />
+ &#8216;http://localhost:8089/locations/batch&#8217;
+```</p>
 
 <p><strong>Description</strong></p>
 
@@ -1663,11 +1692,25 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
   <p>Example Request:</p>
 </blockquote>
 
-<p><code>shell
-curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d location_batch_update  
- 'http://localhost:8089/locations/batch_update'
-</code></p>
+<p>```shell
+curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221;<br />
+ -d {
+  &#8220;jsonmodel_type&#8221;: &#8220;location_batch_update&#8221;,
+  &#8220;external_ids&#8221;: [</p>
+
+<p>],
+  &#8220;record_uris&#8221;: [</p>
+
+<p>],
+  &#8220;building&#8221;: &#8220;114 E 6th Street&#8221;,
+  &#8220;floor&#8221;: &#8220;6&#8221;,
+  &#8220;room&#8221;: &#8220;3&#8221;,
+  &#8220;area&#8221;: &#8220;Front&#8221;,
+  &#8220;barcode&#8221;: &#8220;11001111001110011000&#8221;,
+  &#8220;temporary&#8221;: &#8220;conservation&#8221;
+}<br />
+ &#8216;http://localhost:8089/locations/batch_update&#8217;
+```</p>
 
 <p><strong>Description</strong></p>
 
@@ -1713,7 +1756,17 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d merge_request  
+ -d {
+  "jsonmodel_type": "merge_request",
+  "victims": [
+    {
+      "ref": "/repositories/2/resources/2"
+    }
+  ],
+  "target": {
+    "ref": "/repositories/2/resources/1"
+  }
+}  
  'http://localhost:8089/merge_requests/agent'
 </code></p>
 
@@ -1738,7 +1791,17 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d merge_request  
+ -d {
+  "jsonmodel_type": "merge_request",
+  "victims": [
+    {
+      "ref": "/repositories/2/resources/2"
+    }
+  ],
+  "target": {
+    "ref": "/repositories/2/resources/1"
+  }
+}  
  'http://localhost:8089/merge_requests/digital_object'
 </code></p>
 
@@ -1766,7 +1829,17 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d merge_request  
+ -d {
+  "jsonmodel_type": "merge_request",
+  "victims": [
+    {
+      "ref": "/repositories/2/resources/2"
+    }
+  ],
+  "target": {
+    "ref": "/repositories/2/resources/1"
+  }
+}  
  'http://localhost:8089/merge_requests/resource'
 </code></p>
 
@@ -1794,7 +1867,17 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d merge_request  
+ -d {
+  "jsonmodel_type": "merge_request",
+  "victims": [
+    {
+      "ref": "/repositories/2/resources/2"
+    }
+  ],
+  "target": {
+    "ref": "/repositories/2/resources/1"
+  }
+}  
  'http://localhost:8089/merge_requests/subject'
 </code></p>
 
@@ -1938,7 +2021,14 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repository  
+ -d {
+  "jsonmodel_type": "repository",
+  "name": "Description: 11",
+  "repo_code": "ASPACE REPO 2 -- 631024",
+  "org_code": "970UV228G",
+  "image_url": "http://www.example-3.com",
+  "url": "http://www.example-4.com"
+}  
  'http://localhost:8089/repositories'
 </code></p>
 
@@ -1965,7 +2055,14 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repository  
+ -d {
+  "jsonmodel_type": "repository",
+  "name": "Description: 11",
+  "repo_code": "ASPACE REPO 2 -- 631024",
+  "org_code": "970UV228G",
+  "image_url": "http://www.example-3.com",
+  "url": "http://www.example-4.com"
+}  
  'http://localhost:8089/repositories/1'
 </code></p>
 
@@ -2165,7 +2262,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/accessions/1'
 </code></p>
 
@@ -2196,7 +2293,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/accessions/1/suppressed'
 </code></p>
 
@@ -2226,7 +2323,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/accessions/1/transfer'
 </code></p>
 
@@ -2472,7 +2569,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/archival_objects'
 </code></p>
 
@@ -2564,7 +2661,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/archival_objects/1'
 </code></p>
 
@@ -2626,7 +2723,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/archival_objects/1/accept_children'
 </code></p>
 
@@ -2660,7 +2757,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/archival_objects/1/children'
 </code></p>
 
@@ -2720,7 +2817,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/archival_objects/1/parent'
 </code></p>
 
@@ -2753,7 +2850,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/archival_objects/1/suppressed'
 </code></p>
 
@@ -2783,7 +2880,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d LMLQQ  
+ -d Q524VPF  
  'http://localhost:8089/repositories/:repo_id/batch_imports'
 </code></p>
 
@@ -2879,7 +2976,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/classification_terms/1'
 </code></p>
 
@@ -2969,7 +3066,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/classification_terms/1/accept_children'
 </code></p>
 
@@ -3031,7 +3128,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/classification_terms/1/parent'
 </code></p>
 
@@ -3064,7 +3161,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/classifications'
 </code></p>
 
@@ -3217,7 +3314,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/classifications/1/accept_children'
 </code></p>
 
@@ -3278,7 +3375,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/component_transfers'
 </code></p>
 
@@ -3363,7 +3460,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d V694J120643  
+ -d JF681N373  
  'http://localhost:8089/repositories/:repo_id/default_values/:record_type'
 </code></p>
 
@@ -3548,7 +3645,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/digital_object_components/1/accept_children'
 </code></p>
 
@@ -3642,7 +3739,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/digital_object_components/1/parent'
 </code></p>
 
@@ -3675,7 +3772,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/digital_object_components/1/suppressed'
 </code></p>
 
@@ -3705,7 +3802,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/digital_objects'
 </code></p>
 
@@ -3858,7 +3955,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/digital_objects/1/accept_children'
 </code></p>
 
@@ -3892,7 +3989,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/digital_objects/1/children'
 </code></p>
 
@@ -3924,7 +4021,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/digital_objects/1/publish'
 </code></p>
 
@@ -3953,7 +4050,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/digital_objects/1/suppressed'
 </code></p>
 
@@ -3983,7 +4080,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/digital_objects/1/transfer'
 </code></p>
 
@@ -4324,7 +4421,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/events/1'
 </code></p>
 
@@ -4355,7 +4452,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/events/1/suppressed'
 </code></p>
 
@@ -4472,7 +4569,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/groups'
 </code></p>
 
@@ -4561,7 +4658,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d with_members  
+ -d BooleanParam  
  'http://localhost:8089/repositories/:repo_id/groups/1'
 </code></p>
 
@@ -4688,7 +4785,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/jobs/1/cancel'
 </code></p>
 
@@ -4952,7 +5049,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/jobs_with_files'
 </code></p>
 
@@ -4982,7 +5079,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/preferences'
 </code></p>
 
@@ -5567,7 +5664,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/resources/1/accept_children'
 </code></p>
 
@@ -5601,7 +5698,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/resources/1/children'
 </code></p>
 
@@ -5660,7 +5757,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/resources/1/publish'
 </code></p>
 
@@ -5689,7 +5786,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/resources/1/suppressed'
 </code></p>
 
@@ -5719,7 +5816,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/resources/1/transfer'
 </code></p>
 
@@ -6038,7 +6135,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/top_containers/batch/container_profile'
 </code></p>
 
@@ -6068,7 +6165,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/top_containers/batch/ils_holding_id'
 </code></p>
 
@@ -6098,7 +6195,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/top_containers/batch/location'
 </code></p>
 
@@ -6128,7 +6225,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/top_containers/bulk/barcodes'
 </code></p>
 
@@ -6201,7 +6298,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/transfer'
 </code></p>
 
@@ -6254,11 +6351,86 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
   <p>Example Request:</p>
 </blockquote>
 
-<p><code>shell
-curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repository_with_agent  
- 'http://localhost:8089/repositories/with_agent'
-</code></p>
+<p>```shell
+curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221;<br />
+ -d {
+  &#8220;jsonmodel_type&#8221;: &#8220;repository_with_agent&#8221;,
+  &#8220;repository&#8221;: {
+    &#8220;jsonmodel_type&#8221;: &#8220;repository&#8221;,
+    &#8220;name&#8221;: &#8220;Description: 12&#8221;,
+    &#8220;repo_code&#8221;: &#8220;ASPACE REPO 3 &#8211; 83816&#8221;,
+    &#8220;org_code&#8221;: &#8220;BJ26310812&#8221;,
+    &#8220;image_url&#8221;: &#8220;http://www.example-5.com&#8221;,
+    &#8220;url&#8221;: &#8220;http://www.example-6.com&#8221;
+  },
+  &#8220;agent_representation&#8221;: {
+    &#8220;jsonmodel_type&#8221;: &#8220;agent_corporate_entity&#8221;,
+    &#8220;agent_contacts&#8221;: [
+      {
+        &#8220;jsonmodel_type&#8221;: &#8220;agent_contact&#8221;,
+        &#8220;telephones&#8221;: [
+          {
+            &#8220;jsonmodel_type&#8221;: &#8220;telephone&#8221;,
+            &#8220;number_type&#8221;: &#8220;cell&#8221;,
+            &#8220;number&#8221;: &#8220;53384 68481 03307 458 18032&#8221;,
+            &#8220;ext&#8221;: &#8220;548FJB643&#8221;
+          }
+        ],
+        &#8220;name&#8221;: &#8220;Name Number 15&#8221;,
+        &#8220;address_2&#8221;: &#8220;253HWNA&#8221;,
+        &#8220;address_3&#8221;: &#8220;MWGQ694&#8221;,
+        &#8220;region&#8221;: &#8220;R18028PD&#8221;,
+        &#8220;country&#8221;: &#8220;590811QWW&#8221;,
+        &#8220;fax&#8221;: &#8220;PDT154I&#8221;,
+        &#8220;note&#8221;: &#8220;429448XUH&#8221;
+      }
+    ],
+    &#8220;linked_agent_roles&#8221;: [</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rbrack token'>]</span><span class='comma token'>,</span>
+<span class='string val'>&quot;external_documents&quot;</span><span class='colon op'>:</span> <span class='lbrack token'>[</span>
+
+<span class='rbrack token'>]</span><span class='comma token'>,</span>
+<span class='string val'>&quot;rights_statements&quot;</span><span class='colon op'>:</span> <span class='lbrack token'>[</span>
+
+<span class='rbrack token'>]</span><span class='comma token'>,</span>
+<span class='string val'>&quot;notes&quot;</span><span class='colon op'>:</span> <span class='lbrack token'>[</span>
+
+<span class='rbrack token'>]</span><span class='comma token'>,</span>
+<span class='string val'>&quot;dates_of_existence&quot;</span><span class='colon op'>:</span> <span class='lbrack token'>[</span>
+  <span class='lbrace token'>{</span>
+    <span class='string val'>&quot;jsonmodel_type&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;date&quot;</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;date_type&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;bulk&quot;</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;label&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;existence&quot;</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;begin&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;1981-08-13&quot;</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;end&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;1981-08-13&quot;</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;expression&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;PTTA946&quot;</span>
+  <span class='rbrace token'>}</span>
+<span class='rbrack token'>]</span><span class='comma token'>,</span>
+<span class='string val'>&quot;names&quot;</span><span class='colon op'>:</span> <span class='lbrack token'>[</span>
+  <span class='lbrace token'>{</span>
+    <span class='string val'>&quot;jsonmodel_type&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;name_corporate_entity&quot;</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;use_dates&quot;</span><span class='colon op'>:</span> <span class='lbrack token'>[</span>
+
+    <span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;authorized&quot;</span><span class='colon op'>:</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;is_display_name&quot;</span><span class='colon op'>:</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;sort_name_auto_generate&quot;</span><span class='colon op'>:</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;rules&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;rda&quot;</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;primary_name&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;Name Number 14&quot;</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;subordinate_name_1&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;L171484GE&quot;</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;subordinate_name_2&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;B834217562G&quot;</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;number&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;264WXB399&quot;</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;sort_name&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;SORT l - 11&quot;</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;dates&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;285385KEY&quot;</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;qualifier&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;N906ENG&quot;</span>
+  <span class='rbrace token'>}</span>
+<span class='rbrack token'>]</span><span class='comma token'>,</span>
+<span class='string val'>&quot;related_agents&quot;</span><span class='colon op'>:</span> <span class='lbrack token'>[</span>
+
+<span class='rbrack token'>]</span><span class='comma token'>,</span>
+<span class='string val'>&quot;agent_type&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;agent_corporate_entity&quot;</span>   <span class='rbrace token'>}</span> <span class='rbrace token'>}</span>    <span class='string val'>'http://localhost:8089/repositories/with_agent'</span> <span class='xstring val'>``</span><span class='xstring val'>`
+</span></code></pre>
 
 <p><strong>Description</strong></p>
 
@@ -6531,18 +6703,18 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221;<br />
   &#8220;terms&#8221;: [
     {
       &#8220;jsonmodel_type&#8221;: &#8220;term&#8221;,
-      &#8220;term&#8221;: &#8220;Term 132&#8221;,
-      &#8220;term_type&#8221;: &#8220;genre_form&#8221;,
-      &#8220;vocabulary&#8221;: &#8220;/vocabularies/156&#8221;
+      &#8220;term&#8221;: &#8220;Term 1&#8221;,
+      &#8220;term_type&#8221;: &#8220;technique&#8221;,
+      &#8220;vocabulary&#8221;: &#8220;/vocabularies/2&#8221;
     }
   ],
   &#8220;external_documents&#8221;: [</p>
 
 <p>],
-  &#8220;vocabulary&#8221;: &#8220;/vocabularies/157&#8221;,
-  &#8220;authority_id&#8221;: &#8220;http://www.example-88.com&#8221;,
-  &#8220;scope_note&#8221;: &#8220;215TIGT&#8221;,
-  &#8220;source&#8221;: &#8220;local&#8221;
+  &#8220;vocabulary&#8221;: &#8220;/vocabularies/3&#8221;,
+  &#8220;authority_id&#8221;: &#8220;http://www.example-7.com&#8221;,
+  &#8220;scope_note&#8221;: &#8220;NR888166E&#8221;,
+  &#8220;source&#8221;: &#8220;gmgpc&#8221;
 }<br />
  &#8216;http://localhost:8089/subjects&#8217;
 ```</p>
@@ -6660,18 +6832,18 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221;<br />
   &#8220;terms&#8221;: [
     {
       &#8220;jsonmodel_type&#8221;: &#8220;term&#8221;,
-      &#8220;term&#8221;: &#8220;Term 133&#8221;,
-      &#8220;term_type&#8221;: &#8220;style_period&#8221;,
-      &#8220;vocabulary&#8221;: &#8220;/vocabularies/158&#8221;
+      &#8220;term&#8221;: &#8220;Term 1&#8221;,
+      &#8220;term_type&#8221;: &#8220;technique&#8221;,
+      &#8220;vocabulary&#8221;: &#8220;/vocabularies/2&#8221;
     }
   ],
   &#8220;external_documents&#8221;: [</p>
 
 <p>],
-  &#8220;vocabulary&#8221;: &#8220;/vocabularies/159&#8221;,
-  &#8220;authority_id&#8221;: &#8220;http://www.example-89.com&#8221;,
-  &#8220;scope_note&#8221;: &#8220;252PDX512&#8221;,
-  &#8220;source&#8221;: &#8220;aat&#8221;
+  &#8220;vocabulary&#8221;: &#8220;/vocabularies/3&#8221;,
+  &#8220;authority_id&#8221;: &#8220;http://www.example-7.com&#8221;,
+  &#8220;scope_note&#8221;: &#8220;NR888166E&#8221;,
+  &#8220;source&#8221;: &#8220;gmgpc&#8221;
 }<br />
  &#8216;http://localhost:8089/subjects/1&#8217;
 ```</p>
@@ -6752,7 +6924,16 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d active_edits  
+ -d {
+  "jsonmodel_type": "active_edits",
+  "active_edits": [
+    {
+      "user": "PK994JL",
+      "uri": "TOBLQ",
+      "time": "2015-12-16T18:57:34+01:00"
+    }
+  ]
+}  
  'http://localhost:8089/update_monitor'
 </code></p>
 
@@ -6928,7 +7109,7 @@ Integer repo_id -- The Repository groups to clear
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d username_23  
+ -d username_2  
  'http://localhost:8089/users/:username/become-user'
 </code></p>
 
@@ -6955,7 +7136,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 
 <p><code>shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d expiring  
+ -d BooleanParam  
  'http://localhost:8089/users/:username/login'
 </code></p>
 
@@ -7104,11 +7285,18 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
   <p>Example Request:</p>
 </blockquote>
 
-<p><code>shell
-curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d vocabulary  
- 'http://localhost:8089/vocabularies/1'
-</code></p>
+<p>```shell
+curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221;<br />
+ -d {
+  &#8220;jsonmodel_type&#8221;: &#8220;vocabulary&#8221;,
+  &#8220;terms&#8221;: [</p>
+
+<p>],
+  &#8220;name&#8221;: &#8220;Vocabulary 4 - 2015-12-16 18:57:37 +0100&#8221;,
+  &#8220;ref_id&#8221;: &#8220;vocab_ref_4 - 2015-12-16 18:57:37 +0100&#8221;
+}<br />
+ &#8216;http://localhost:8089/vocabularies/1&#8217;
+```</p>
 
 <p><strong>Description</strong></p>
 
@@ -7577,7 +7765,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18.a Documentation Generated on Tue Dec 15 21:14:20 2015 by
+  ArchivesSpace Version v1.4.5-dev18.a Documentation Generated on Wed Dec 16 18:58:04 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

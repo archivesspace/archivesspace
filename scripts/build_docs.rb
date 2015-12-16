@@ -35,3 +35,24 @@ end
 config = IO.read('common/config/config-defaults.rb')
 intro = "\nBelow are the configuration settings with their default values:\n"
 File.open(File.join(outdir, "configuring-archivesspace.md") , 'a' ) { |f| f << "#{intro}\n```ruby\n#{config}\n```" }
+
+msg = <<EOF
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The documentation has been generated. You made need to rebuild the Jekyll and 
+Slate pages. These cannot use jRuby, so you have to use a CRuby. For Jekyll, in 
+the ./docs directly, use the :
+$ ./bin/jekyll build
+
+command. For Slate, in the docs/slate director, use: 
+$ ./bin/middleman build
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+EOF
+
+puts msg
+

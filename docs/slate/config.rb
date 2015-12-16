@@ -28,6 +28,8 @@ end
 activate :relative_assets
 set :relative_links, true
 
+set :build_dir,  "../api"
+
 # Build Configuration
 configure :build do
   activate :minify_css

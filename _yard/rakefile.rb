@@ -38,20 +38,19 @@ namespace :doc do
     
 
     require_relative '../backend/app/lib/export'
-    require 'pp'
 
     Dir.glob(File.dirname(__FILE__) + '/../backend/app/controllers/*.rb') {|file| require file unless file =~ /system/}
 
     @models = JSONModel.models
     @endpoints = ArchivesSpaceService::Endpoint.all.sort{|a,b| a[:uri] <=> b[:uri]}
-    @endpoint_examples = JSON.parse(IO.read( File.dirname(__FILE__) + '/../backend/spec/endpoint_examples.json'))
+    @endpoint_examples = JSON.parse(IO.read( File.dirname(__FILE__) + '/../docs/endpoint_examples.json'))
 
     @format_endpoint = lambda do |endpoint,  request |
       action = endpoint[:method].to_s
       uri = endpoint[:uri].gsub(":id", "1") 
       results = "\n```shell\n" 
       if action == 'post'         
-        results << "curl -H \"X-ArchivesSpace-Session: $SESSION\" \ \n -d #{pp(request)} \ \n 'http://localhost:8089#{uri}'"
+        results << "curl -H \"X-ArchivesSpace-Session: $SESSION\" \ \n -d #{request} \ \n 'http://localhost:8089#{uri}'"
       elsif action == 'get' 
         if endpoint[:paginated] 
           results << "curl -H \"X-ArchivesSpace-Session: $SESSION\" \ \n 'http://localhost:8089#{uri}?page=1'"
@@ -70,6 +69,8 @@ namespace :doc do
     File.open('../API.md', 'w') do |f|
       f.write erb.result(binding)
     end
+
+    FileUtils.cp("../API.md", "../docs/slate/source/index.md")
 
     @models.each_pair do |name, klass| 
       File.open("../docs/schemas/#{name}.json", 'w') { |f| f << JSON.pretty_generate( klass.send(:schema) ) }

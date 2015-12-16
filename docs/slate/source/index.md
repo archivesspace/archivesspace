@@ -154,7 +154,7 @@ The JSON that is returned will have a session key, which can be stored and used
 for other requests. Sessions will expire after an hour, although you can change this in your config.rb file.
 
 # ArchivesSpace REST API
-As of 2015-12-15 21:13:56 +0100 the following REST endpoints exist in the master branch of the development repository:
+As of 2015-12-16 18:57:41 +0100 the following REST endpoints exist in the master branch of the development repository:
 
 
 ## GET /agents/corporate_entities 
@@ -203,16 +203,17 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
       "telephones": [
         {
           "jsonmodel_type": "telephone",
-          "number_type": "home",
-          "number": "733 042 21572 07533 3547",
-          "ext": "X996369774E"
+          "number_type": "cell",
+          "number": "753 25202 1654 07054",
+          "ext": "MHDPA"
         }
       ],
-      "name": "Name Number 498",
-      "region": "HO875NE",
-      "fax": "528E491VX",
-      "email": "939T895510X",
-      "email_signature": "RNSVS"
+      "name": "Name Number 5",
+      "address_1": "4H735534V",
+      "country": "82691V643281",
+      "fax": "440YPQR",
+      "email": "HQ854RL",
+      "email_signature": "PHCDG"
     }
   ],
   "linked_agent_roles": [
@@ -230,11 +231,11 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
   "dates_of_existence": [
     {
       "jsonmodel_type": "date",
-      "date_type": "inclusive",
+      "date_type": "bulk",
       "label": "existence",
-      "begin": "2000-03-12",
-      "end": "2000-03-12",
-      "expression": "F516L486428"
+      "begin": "1975-05-13",
+      "end": "1975-05-13",
+      "expression": "225E934M425"
     }
   ],
   "names": [
@@ -246,14 +247,14 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
       "authorized": false,
       "is_display_name": false,
       "sort_name_auto_generate": true,
-      "rules": "dacs",
-      "primary_name": "Name Number 497",
-      "subordinate_name_1": "YWF385O",
-      "subordinate_name_2": "WQTEE",
-      "number": "UR387LE",
-      "sort_name": "SORT h - 418",
-      "dates": "UK215438T",
-      "qualifier": "W946341620U"
+      "rules": "aacr",
+      "primary_name": "Name Number 4",
+      "subordinate_name_1": "Y730V810985",
+      "subordinate_name_2": "VM55669861",
+      "number": "843379REF",
+      "sort_name": "SORT e - 2",
+      "dates": "H950POS",
+      "qualifier": "MSAY348"
     }
   ],
   "related_agents": [
@@ -349,16 +350,17 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
       "telephones": [
         {
           "jsonmodel_type": "telephone",
-          "number": "0426 3406 2363"
+          "number_type": "cell",
+          "number": "753 25202 1654 07054",
+          "ext": "MHDPA"
         }
       ],
-      "name": "Name Number 500",
-      "address_1": "EA492MT",
-      "region": "DK358598500",
-      "country": "241263F88J",
-      "fax": "EVU563K",
-      "email": "W62387RN",
-      "note": "LVBAU"
+      "name": "Name Number 5",
+      "address_1": "4H735534V",
+      "country": "82691V643281",
+      "fax": "440YPQR",
+      "email": "HQ854RL",
+      "email_signature": "PHCDG"
     }
   ],
   "linked_agent_roles": [
@@ -376,11 +378,11 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
   "dates_of_existence": [
     {
       "jsonmodel_type": "date",
-      "date_type": "inclusive",
+      "date_type": "bulk",
       "label": "existence",
-      "begin": "2004-11-16",
-      "end": "2004-11-16",
-      "expression": "785FG995N"
+      "begin": "1975-05-13",
+      "end": "1975-05-13",
+      "expression": "225E934M425"
     }
   ],
   "names": [
@@ -392,14 +394,14 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
       "authorized": false,
       "is_display_name": false,
       "sort_name_auto_generate": true,
-      "rules": "rda",
-      "primary_name": "Name Number 499",
-      "subordinate_name_1": "PMXF88",
-      "subordinate_name_2": "OG980T319",
-      "number": "I646D905283",
-      "sort_name": "SORT h - 419",
-      "dates": "584JGH856",
-      "qualifier": "385936843SL"
+      "rules": "aacr",
+      "primary_name": "Name Number 4",
+      "subordinate_name_1": "Y730V810985",
+      "subordinate_name_2": "VM55669861",
+      "number": "843379REF",
+      "sort_name": "SORT e - 2",
+      "dates": "H950POS",
+      "qualifier": "MSAY348"
     }
   ],
   "related_agents": [
@@ -741,9 +743,9 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
       "jsonmodel_type": "date",
       "date_type": "bulk",
       "label": "existence",
-      "begin": "2002-12-23",
-      "end": "2002-12-23",
-      "expression": "UY1572292"
+      "begin": "1980-07-15",
+      "end": "1980-07-15",
+      "expression": "O235WL818"
     }
   ],
   "names": [
@@ -755,9 +757,9 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
       "authorized": false,
       "is_display_name": false,
       "sort_name_auto_generate": true,
-      "rules": "local",
-      "software_name": "Name Number 505",
-      "sort_name": "SORT i - 424"
+      "rules": "aacr",
+      "software_name": "Name Number 8",
+      "sort_name": "SORT e - 5"
     }
   ],
   "agent_type": "agent_software"
@@ -903,7 +905,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d VUNIY  
+ -d 630JAUW  
  'http://localhost:8089/batch_delete'
 ```
 
@@ -958,7 +960,10 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d enumeration_value  
+ -d {
+  "jsonmodel_type": "enumeration_value",
+  "value": "627MSSA"
+}  
  'http://localhost:8089/config/enumeration_values/:enum_val_id'
 ```
 
@@ -1012,7 +1017,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d position  
+ -d 1  
  'http://localhost:8089/config/enumeration_values/:enum_val_id/position'
 ```
 
@@ -1041,7 +1046,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d suppressed  
+ -d BooleanParam  
  'http://localhost:8089/config/enumeration_values/:enum_val_id/suppressed'
 ```
 
@@ -1174,7 +1179,12 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d migration  
+ -d {
+  "jsonmodel_type": "enumeration_migration",
+  "enum_uri": "/config/enumerations/67",
+  "from": "QJ738G248",
+  "to": "AY99075036"
+}  
  'http://localhost:8089/config/enumerations/migration'
 ```
 
@@ -1261,13 +1271,13 @@ __Returns__
 curl -H "X-ArchivesSpace-Session: $SESSION"  
  -d {
   "jsonmodel_type": "container_profile",
-  "name": "YJU311F",
-  "url": "NTB942N",
-  "dimension_units": "yards",
-  "extent_dimension": "depth",
-  "depth": "39",
-  "height": "42",
-  "width": "71"
+  "name": "878EL926B",
+  "url": "JJ392IV",
+  "dimension_units": "inches",
+  "extent_dimension": "width",
+  "depth": "17",
+  "height": "67",
+  "width": "34"
 }  
  'http://localhost:8089/container_profiles/1'
 ```
@@ -1545,11 +1555,11 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
   "external_ids": [
 
   ],
-  "building": "172 W 4th Street",
-  "floor": "7",
-  "room": "10",
-  "area": "Front",
-  "barcode": "10010010011001011010",
+  "building": "32 E 9th Street",
+  "floor": "11",
+  "room": "3",
+  "area": "Back",
+  "barcode": "01101011000101100110",
   "temporary": "conservation"
 }  
  'http://localhost:8089/locations/1'
@@ -1579,7 +1589,26 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d location_batch  
+ -d {
+  "jsonmodel_type": "location_batch",
+  "external_ids": [
+
+  ],
+  "locations": [
+
+  ],
+  "building": "41 W 7th Street",
+  "floor": "11",
+  "room": "5",
+  "area": "Back",
+  "barcode": "00101111001110011111",
+  "temporary": "loan",
+  "coordinate_1_range": {
+    "label": "GUK746L",
+    "start": "0",
+    "end": "10"
+  }
+}  
  'http://localhost:8089/locations/batch'
 ```
 
@@ -1607,7 +1636,21 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d location_batch_update  
+ -d {
+  "jsonmodel_type": "location_batch_update",
+  "external_ids": [
+
+  ],
+  "record_uris": [
+
+  ],
+  "building": "114 E 6th Street",
+  "floor": "6",
+  "room": "3",
+  "area": "Front",
+  "barcode": "11001111001110011000",
+  "temporary": "conservation"
+}  
  'http://localhost:8089/locations/batch_update'
 ```
 
@@ -1657,7 +1700,17 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d merge_request  
+ -d {
+  "jsonmodel_type": "merge_request",
+  "victims": [
+    {
+      "ref": "/repositories/2/resources/2"
+    }
+  ],
+  "target": {
+    "ref": "/repositories/2/resources/1"
+  }
+}  
  'http://localhost:8089/merge_requests/agent'
 ```
 
@@ -1683,7 +1736,17 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d merge_request  
+ -d {
+  "jsonmodel_type": "merge_request",
+  "victims": [
+    {
+      "ref": "/repositories/2/resources/2"
+    }
+  ],
+  "target": {
+    "ref": "/repositories/2/resources/1"
+  }
+}  
  'http://localhost:8089/merge_requests/digital_object'
 ```
 
@@ -1711,7 +1774,17 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d merge_request  
+ -d {
+  "jsonmodel_type": "merge_request",
+  "victims": [
+    {
+      "ref": "/repositories/2/resources/2"
+    }
+  ],
+  "target": {
+    "ref": "/repositories/2/resources/1"
+  }
+}  
  'http://localhost:8089/merge_requests/resource'
 ```
 
@@ -1739,7 +1812,17 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d merge_request  
+ -d {
+  "jsonmodel_type": "merge_request",
+  "victims": [
+    {
+      "ref": "/repositories/2/resources/2"
+    }
+  ],
+  "target": {
+    "ref": "/repositories/2/resources/1"
+  }
+}  
  'http://localhost:8089/merge_requests/subject'
 ```
 
@@ -1886,7 +1969,14 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repository  
+ -d {
+  "jsonmodel_type": "repository",
+  "name": "Description: 11",
+  "repo_code": "ASPACE REPO 2 -- 631024",
+  "org_code": "970UV228G",
+  "image_url": "http://www.example-3.com",
+  "url": "http://www.example-4.com"
+}  
  'http://localhost:8089/repositories'
 ```
 
@@ -1914,7 +2004,14 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repository  
+ -d {
+  "jsonmodel_type": "repository",
+  "name": "Description: 11",
+  "repo_code": "ASPACE REPO 2 -- 631024",
+  "org_code": "970UV228G",
+  "image_url": "http://www.example-3.com",
+  "url": "http://www.example-4.com"
+}  
  'http://localhost:8089/repositories/1'
 ```
 
@@ -2113,7 +2210,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/accessions/1'
 ```
 
@@ -2143,7 +2240,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/accessions/1/suppressed'
 ```
 
@@ -2173,7 +2270,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/accessions/1/transfer'
 ```
 
@@ -2419,7 +2516,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/archival_objects'
 ```
 
@@ -2510,7 +2607,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/archival_objects/1'
 ```
 
@@ -2571,7 +2668,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/archival_objects/1/accept_children'
 ```
 
@@ -2605,7 +2702,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/archival_objects/1/children'
 ```
 
@@ -2665,7 +2762,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/archival_objects/1/parent'
 ```
 
@@ -2698,7 +2795,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/archival_objects/1/suppressed'
 ```
 
@@ -2728,7 +2825,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d LMLQQ  
+ -d Q524VPF  
  'http://localhost:8089/repositories/:repo_id/batch_imports'
 ```
 
@@ -2823,7 +2920,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/classification_terms/1'
 ```
 
@@ -2912,7 +3009,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/classification_terms/1/accept_children'
 ```
 
@@ -2974,7 +3071,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/classification_terms/1/parent'
 ```
 
@@ -3007,7 +3104,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/classifications'
 ```
 
@@ -3158,7 +3255,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/classifications/1/accept_children'
 ```
 
@@ -3219,7 +3316,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/component_transfers'
 ```
 
@@ -3304,7 +3401,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d V694J120643  
+ -d JF681N373  
  'http://localhost:8089/repositories/:repo_id/default_values/:record_type'
 ```
 
@@ -3487,7 +3584,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/digital_object_components/1/accept_children'
 ```
 
@@ -3581,7 +3678,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/digital_object_components/1/parent'
 ```
 
@@ -3614,7 +3711,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/digital_object_components/1/suppressed'
 ```
 
@@ -3644,7 +3741,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/digital_objects'
 ```
 
@@ -3795,7 +3892,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/digital_objects/1/accept_children'
 ```
 
@@ -3829,7 +3926,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/digital_objects/1/children'
 ```
 
@@ -3861,7 +3958,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/digital_objects/1/publish'
 ```
 
@@ -3890,7 +3987,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/digital_objects/1/suppressed'
 ```
 
@@ -3920,7 +4017,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/digital_objects/1/transfer'
 ```
 
@@ -4260,7 +4357,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/events/1'
 ```
 
@@ -4290,7 +4387,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/events/1/suppressed'
 ```
 
@@ -4407,7 +4504,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/groups'
 ```
 
@@ -4496,7 +4593,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d with_members  
+ -d BooleanParam  
  'http://localhost:8089/repositories/:repo_id/groups/1'
 ```
 
@@ -4621,7 +4718,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/jobs/1/cancel'
 ```
 
@@ -4883,7 +4980,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/jobs_with_files'
 ```
 
@@ -4913,7 +5010,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/preferences'
 ```
 
@@ -5495,7 +5592,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/resources/1/accept_children'
 ```
 
@@ -5529,7 +5626,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/resources/1/children'
 ```
 
@@ -5588,7 +5685,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/resources/1/publish'
 ```
 
@@ -5617,7 +5714,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/resources/1/suppressed'
 ```
 
@@ -5647,7 +5744,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/resources/1/transfer'
 ```
 
@@ -5963,7 +6060,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/top_containers/batch/container_profile'
 ```
 
@@ -5993,7 +6090,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/top_containers/batch/ils_holding_id'
 ```
 
@@ -6023,7 +6120,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/top_containers/batch/location'
 ```
 
@@ -6053,7 +6150,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/top_containers/bulk/barcodes'
 ```
 
@@ -6126,7 +6223,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repo_id  
+ -d 1  
  'http://localhost:8089/repositories/:repo_id/transfer'
 ```
 
@@ -6181,7 +6278,85 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d repository_with_agent  
+ -d {
+  "jsonmodel_type": "repository_with_agent",
+  "repository": {
+    "jsonmodel_type": "repository",
+    "name": "Description: 12",
+    "repo_code": "ASPACE REPO 3 -- 83816",
+    "org_code": "BJ26310812",
+    "image_url": "http://www.example-5.com",
+    "url": "http://www.example-6.com"
+  },
+  "agent_representation": {
+    "jsonmodel_type": "agent_corporate_entity",
+    "agent_contacts": [
+      {
+        "jsonmodel_type": "agent_contact",
+        "telephones": [
+          {
+            "jsonmodel_type": "telephone",
+            "number_type": "cell",
+            "number": "53384 68481 03307 458 18032",
+            "ext": "548FJB643"
+          }
+        ],
+        "name": "Name Number 15",
+        "address_2": "253HWNA",
+        "address_3": "MWGQ694",
+        "region": "R18028PD",
+        "country": "590811QWW",
+        "fax": "PDT154I",
+        "note": "429448XUH"
+      }
+    ],
+    "linked_agent_roles": [
+
+    ],
+    "external_documents": [
+
+    ],
+    "rights_statements": [
+
+    ],
+    "notes": [
+
+    ],
+    "dates_of_existence": [
+      {
+        "jsonmodel_type": "date",
+        "date_type": "bulk",
+        "label": "existence",
+        "begin": "1981-08-13",
+        "end": "1981-08-13",
+        "expression": "PTTA946"
+      }
+    ],
+    "names": [
+      {
+        "jsonmodel_type": "name_corporate_entity",
+        "use_dates": [
+
+        ],
+        "authorized": false,
+        "is_display_name": false,
+        "sort_name_auto_generate": true,
+        "rules": "rda",
+        "primary_name": "Name Number 14",
+        "subordinate_name_1": "L171484GE",
+        "subordinate_name_2": "B834217562G",
+        "number": "264WXB399",
+        "sort_name": "SORT l - 11",
+        "dates": "285385KEY",
+        "qualifier": "N906ENG"
+      }
+    ],
+    "related_agents": [
+
+    ],
+    "agent_type": "agent_corporate_entity"
+  }
+}  
  'http://localhost:8089/repositories/with_agent'
 ```
 
@@ -6454,18 +6629,18 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
   "terms": [
     {
       "jsonmodel_type": "term",
-      "term": "Term 132",
-      "term_type": "genre_form",
-      "vocabulary": "/vocabularies/156"
+      "term": "Term 1",
+      "term_type": "technique",
+      "vocabulary": "/vocabularies/2"
     }
   ],
   "external_documents": [
 
   ],
-  "vocabulary": "/vocabularies/157",
-  "authority_id": "http://www.example-88.com",
-  "scope_note": "215TIGT",
-  "source": "local"
+  "vocabulary": "/vocabularies/3",
+  "authority_id": "http://www.example-7.com",
+  "scope_note": "NR888166E",
+  "source": "gmgpc"
 }  
  'http://localhost:8089/subjects'
 ```
@@ -6584,18 +6759,18 @@ curl -H "X-ArchivesSpace-Session: $SESSION"
   "terms": [
     {
       "jsonmodel_type": "term",
-      "term": "Term 133",
-      "term_type": "style_period",
-      "vocabulary": "/vocabularies/158"
+      "term": "Term 1",
+      "term_type": "technique",
+      "vocabulary": "/vocabularies/2"
     }
   ],
   "external_documents": [
 
   ],
-  "vocabulary": "/vocabularies/159",
-  "authority_id": "http://www.example-89.com",
-  "scope_note": "252PDX512",
-  "source": "aat"
+  "vocabulary": "/vocabularies/3",
+  "authority_id": "http://www.example-7.com",
+  "scope_note": "NR888166E",
+  "source": "gmgpc"
 }  
  'http://localhost:8089/subjects/1'
 ```
@@ -6676,7 +6851,16 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d active_edits  
+ -d {
+  "jsonmodel_type": "active_edits",
+  "active_edits": [
+    {
+      "user": "PK994JL",
+      "uri": "TOBLQ",
+      "time": "2015-12-16T18:57:34+01:00"
+    }
+  ]
+}  
  'http://localhost:8089/update_monitor'
 ```
 
@@ -6853,7 +7037,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d username_23  
+ -d username_2  
  'http://localhost:8089/users/:username/become-user'
 ```
 
@@ -6880,7 +7064,7 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d expiring  
+ -d BooleanParam  
  'http://localhost:8089/users/:username/login'
 ```
 
@@ -7034,7 +7218,14 @@ __Returns__
 
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION"  
- -d vocabulary  
+ -d {
+  "jsonmodel_type": "vocabulary",
+  "terms": [
+
+  ],
+  "name": "Vocabulary 4 - 2015-12-16 18:57:37 +0100",
+  "ref_id": "vocab_ref_4 - 2015-12-16 18:57:37 +0100"
+}  
  'http://localhost:8089/vocabularies/1'
 ```
 
