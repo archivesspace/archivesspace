@@ -15,7 +15,7 @@ class CommonIndexer
 
   include JSONModel
 
-  @@record_types = [ :top_container,:container_profile, 
+  @@record_types = [ :top_container,:container_profile,
                      :archival_object, :resource,
                     :digital_object, :digital_object_component,
                     :subject, :location, :classification, :classification_term,
@@ -75,7 +75,7 @@ class CommonIndexer
       hook.call(self)
     end
   end
-  
+
   def self.generate_permutations_for_identifier(identifer)
     return [] if identifer.nil?
 
@@ -152,15 +152,15 @@ class CommonIndexer
        Array( ASUtils.search_nested(record["record"], field) ).each  { |val| doc["#{field}_enum_s"] ||= [];  doc["#{field}_enum_s"] << val }
 
      end
-     Array( ASUtils.search_nested(record["record"], "items") ).each  do |val| 
-       begin 
-         next unless val.key?("type") 
-         doc["type_enum_s"] ||= []; 
-         doc["type_enum_s"] << val["type"]    
+     Array( ASUtils.search_nested(record["record"], "items") ).each  do |val|
+       begin
+         next unless val.key?("type")
+         doc["type_enum_s"] ||= [];
+         doc["type_enum_s"] << val["type"]
       rescue
         next
       end
-    end 
+    end
     }
 
     add_document_prepare_hook {|doc, record|
@@ -430,22 +430,6 @@ class CommonIndexer
       end
     }
 
-
-    add_document_prepare_hook {|doc, record|
-      if doc['primary_type'] == 'container_profile'
-        doc['json'] = record['record'].to_json
-        doc['title'] = record['record']['display_string']
-        doc['display_string'] = record['record']['display_string']
-
-        ['width', 'height', 'depth'].each do |property|
-          doc["container_profile_#{property}_u_sstr"] = record['record'][property]
-        end
-
-        doc["container_profile_dimension_units_u_sstr"] = record['record']['dimension_units']
-
-        doc['typeahead_sort_key_u_sort'] = record['record']['display_string']
-      end
-    }
 
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'container_profile'
