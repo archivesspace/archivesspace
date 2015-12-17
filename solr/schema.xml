@@ -71,6 +71,7 @@
    <field name="agents_text" type="text_general" indexed="true" stored="false" multiValued="true"/>
 
    <field name="json" type="string" indexed="false" stored="true" multiValued="false" />
+   <field name="summary" type="text_general" indexed="false" stored="true" multiValued="false" />
 
    <!-- Archival Record properties required for facets -->
    <field name="level" type="string" indexed="true" stored="true" multiValued="false"/>
