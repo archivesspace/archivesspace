@@ -15,7 +15,7 @@ class CommonIndexer
 
   include JSONModel
 
-  @@record_types = [ :top_container,:container_profile, 
+  @@record_types = [ :top_container,:container_profile,
                      :archival_object, :resource,
                     :digital_object, :digital_object_component,
                     :subject, :location, :classification, :classification_term,
@@ -75,7 +75,7 @@ class CommonIndexer
       hook.call(self)
     end
   end
-  
+
   def self.generate_permutations_for_identifier(identifer)
     return [] if identifer.nil?
 
@@ -127,10 +127,23 @@ class CommonIndexer
   end
 
 
+  def add_summary(doc, record)
+    if record['record'].has_key?('notes') && record['record']['notes'].is_a?(Array)
+      notes = record['record']['notes']
+      abstract = notes.find {|note| note['type'] == 'abstract'}
+      if abstract
+        doc['summary'] = abstract['content'].join("\n")
+      else
+        scopecontent = notes.find {|note| note['type'] == 'scopecontent'}
+        if scopecontent
+          doc['summary'] = scopecontent['subnotes'].map {|sn| sn['content']}.join("\n")
+        end
+      end
+    end
+  end
+
+
   def configure_doc_rules
-
-
-
 
     add_delete_hook { |records, delete_request|
       records.each do |rec|
@@ -152,15 +165,15 @@ class CommonIndexer
        Array( ASUtils.search_nested(record["record"], field) ).each  { |val| doc["#{field}_enum_s"] ||= [];  doc["#{field}_enum_s"] << val }
 
      end
-     Array( ASUtils.search_nested(record["record"], "items") ).each  do |val| 
-       begin 
-         next unless val.key?("type") 
-         doc["type_enum_s"] ||= []; 
-         doc["type_enum_s"] << val["type"]    
+     Array( ASUtils.search_nested(record["record"], "items") ).each  do |val|
+       begin
+         next unless val.key?("type")
+         doc["type_enum_s"] ||= [];
+         doc["type_enum_s"] << val["type"]
       rescue
         next
       end
-    end 
+    end
     }
 
     add_document_prepare_hook {|doc, record|
@@ -176,6 +189,7 @@ class CommonIndexer
       add_audit_info(doc, record)
       add_notes(doc, record)
       add_level(doc, record)
+      add_summary(doc, record)
     }
 
     add_document_prepare_hook {|doc, record|
