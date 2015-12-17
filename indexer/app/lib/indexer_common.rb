@@ -206,7 +206,6 @@ class CommonIndexer
         doc['repository'] = doc["id"]
         doc['title'] = record['record']['repo_code']
         doc['publish'] = true
-        doc['json'] = record['record'].to_json
       end
     }
 
@@ -259,7 +258,6 @@ class CommonIndexer
 
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'event'
-        doc['json'] = record['record'].to_json
         doc['event_type'] = record['record']['event_type']
         doc['title'] = record['record']['event_type'] # adding this for emedded searches
         doc['outcome'] = record['record']['outcome']
@@ -270,7 +268,6 @@ class CommonIndexer
     add_document_prepare_hook {|doc, record|
       if ['agent_person', 'agent_family', 'agent_software', 'agent_corporate_entity'].include?(doc['primary_type'])
         record['record'].reject! { |rec| rec === 'agent_contacts' }
-        doc['json'] = record['record'].to_json
         doc['title'] = record['record']['display_name']['sort_name']
 
         authorized_name = record['record']['names'].find {|name| name['authorized']}
@@ -433,7 +430,6 @@ class CommonIndexer
 
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'container_profile'
-        doc['json'] = record['record'].to_json
         doc['title'] = record['record']['display_string']
         doc['display_string'] = record['record']['display_string']
 
