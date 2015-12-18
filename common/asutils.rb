@@ -130,7 +130,7 @@ module ASUtils
 
   def self.dump_diagnostics(exception = nil)
     diagnostics = self.get_diagnostics( exception ) 
-    tmp = File.join(Dir.tmpdir, "aspaue_diagnostic_#{Time.now.to_i}.txt")
+    tmp = File.join(Dir.tmpdir, "aspace_diagnostic_#{Time.now.to_i}.txt")
     File.open(tmp, "w") do |fh|
       fh.write(JSON.pretty_generate(diagnostics))
     end
