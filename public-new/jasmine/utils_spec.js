@@ -20,10 +20,24 @@ describe('Utils', function() {
   };
 
 
-  it("can turn public app terminology into proper ASpace jargon", function() {
-    expect(app.utils.getASType('collections')).toEqual('resource');
+  var anotherQuery = {
+    query: {
+      field: "title",
+      jsonmodel_type: "field_query",
+      value: "rejective"
+    }
+  };
+
+
+  it("can turn public app terminology into proper ASpace record type", function() {
+    expect(app.utils.getASType('collection')).toEqual('resource');
+    expect(app.utils.getASType('accession')).toEqual('accession');
   });
 
+  it("can rename ASpace record type for the public app", function() {
+    expect(app.utils.getPublicType('resource')).toEqual('collection');
+    expect(app.utils.getPublicType('accession')).toEqual('accession');
+  });
 
   it("can convert advanced query objects into url params", function() {
 
@@ -57,6 +71,19 @@ describe('Utils', function() {
     });
 
     expect(rowCount).toEqual(2);
+
+    rowCount = 0;
+    app.utils.eachAdvancedQueryRow(anotherQuery, function(rowObj, i) {
+      expect(rowObj.field).toEqual("title");
+      expect(rowObj.value).toEqual("rejective");
+      expect(rowObj.op).toBeUndefined();
+
+      rowCount += 1;
+    });
+
+    expect(rowCount).toEqual(1);
+
   });
+
 
 });
