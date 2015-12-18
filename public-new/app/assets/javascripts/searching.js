@@ -118,8 +118,9 @@ var RAILS_API = "/api";
       case 'recordtype':
         var type = app.utils.getASType(value);
         if(type) {
-          apiParams['filter_term[]'] = apiParams['filter_term[]'] || [];
-          apiParams['filter_term[]'].push('{"primary_type":"'+type+'"}');
+          // apiParams['filter_term[]'] = apiParams['filter_term[]'] || [];
+          // apiParams['filter_term[]'].push('{"primary_type":"'+type+'"}');
+          apiParams['type'] = type
         }
 
         break;
@@ -148,24 +149,32 @@ var RAILS_API = "/api";
       }
     });
 
-    console.log(apiParams);
     return apiParams;
   };
 
 
   // take the raw criteria object returned by the server
   // and figure out the 'recordtype' parameter
-  function parseRecordType(criteria) {
-    var primaryTypeFilter = _.find(criteria["filter_term[]"], function(rawFilter) {
-      return _.has(JSON.parse(rawFilter), 'primary_type');
-    });
+  // As far as our app is concerned, the 'type[]' param
+  // and the filter_term[]='{'primary_type'...are redundant
 
-    if(primaryTypeFilter) {
-      primaryTypeFilter = JSON.parse(primaryTypeFilter);
-      return primaryTypeFilter.primary_type.replace(/resource/, 'collection');
+  function parseRecordType(criteria) {
+    var result = 'any';
+
+    if (_.has(criteria, 'type[]') && _.isArray(criteria['type[]']) && criteria['type[]'].length === 1) {
+      result = app.utils.getPublicType(criteria['type[]'][0]);
     } else {
-      return 'any';
+      var primaryTypeFilter = _.find(criteria["filter_term[]"], function(rawFilter) {
+        return _.has(JSON.parse(rawFilter), 'primary_type');
+      });
+
+      if(primaryTypeFilter) {
+        primaryTypeFilter = JSON.parse(primaryTypeFilter);
+        result = app.utils.getPublicType(primaryTypeFilter.primary_type);
+      }
     }
+
+    return result;
   };
 
 
@@ -188,9 +197,9 @@ var RAILS_API = "/api";
         title: this.attributes.title,
         recordTypeClass: this.attributes.primary_type,
         recordTypeLabel: _.capitalize(this.attributes.primary_type),
-        identifier: this.attributes.uri,
+        identifier: this.attributes.identifier || this.attributes.uri,
         url: this.attributes.uri,
-        summary: 'Maecenas faucibus mollis <span class="searchterm2">astronomy</span>. Maecenas sed diam eget risus varius blandit sit amet non magna. Vestibulum id ligula porta semper.',
+        summary: this.attributes.summary || 'Maecenas faucibus mollis <span class="searchterm2">astronomy</span>. Maecenas sed diam eget risus varius blandit sit amet non magna. Vestibulum id ligula porta semper.',
         dates: [],
         context: undefined
       }
@@ -339,23 +348,11 @@ var RAILS_API = "/api";
       return _.min([_.max([(this.state.currentPage + 5), 10]), this.state.totalPages]);
     },
 
-    displayTerms: function(){
-      if (this.state.criteria.q) {
-        return this.state.criteria.q.split('+')
-      } else if (this.state.criteria.aq) {
-        return app.utils.flattenAdvancedQuery(this.state.criteria.aq);
-      } else {
-        return '*'
-      }
-    },
-
-
     queryParams: {
       // firstPage: "first_page",
       currentPage: "page",
       pageSize: "page_size"
     }
-
   });
 
 
@@ -428,7 +425,104 @@ var RAILS_API = "/api";
   });
 
 
-  // A row in a query-builder form.
+  // QUERY BUILDING AND REVISING
+  // adding and subtracting rows, etc.
+  function SearchEditor($container) {
+    var $container = $container;
+    var rowViews = [];
+    var that = this;
+
+    var reindexRows = function() {
+      _.forEach(rowViews, function(rowView, i) {
+        console.log(rowView.rowData);
+        if(rowView.rowData.index != i) {
+          rowView.setRowIndex(i);
+        }
+      });
+    };
+
+    var removeRow = function(rowIndex) {
+      var rowToRemove = rowViews[rowIndex];
+      rowViews = _.reject(rowViews, function(n, i) {
+        return i === rowIndex;
+      });
+
+
+      if(rowIndex === 0) {
+        var $recordTypeCol = $(".search-query-recordtype-col", rowToRemove.$el).detach();
+        $(".search-query-recordtype-col", rowViews[0].$el).replaceWith($recordTypeCol);
+      }
+
+      rowToRemove.remove();
+      reindexRows();
+    };
+
+    this.addRow = function(rowData) {
+      var rowData = rowData || {};
+
+      if(_.isUndefined(rowData.index)) {
+        rowData.index = $(".search-query-row", $container).length;
+      }
+
+      var searchQueryRowView = new SearchQueryRowView(rowData);
+
+      _.forEach(rowViews, function(rowView) {
+        $(".add-query-row", rowView.$el).removeClass("add-query-row").addClass("remove-query-row").children("a").html("-");
+        $("#search-button", rowView.$el).hide();
+      });
+
+      searchQueryRowView.on("addRow", function(e) {
+        that.addRow();
+      });
+
+      searchQueryRowView.on("removeRow", function(index) {
+        removeRow(index);
+      });
+
+      rowViews.push(searchQueryRowView);
+      $container.append(searchQueryRowView.$el);
+
+      //initialize select boxes
+      $("button.dropdown", this.$el).each(function(i, button) {
+        var placeholderText = $("ul#"+$(button).data("dropdown")+" li.selected").text();
+        $(button).text(placeholderText);
+      });
+
+    };
+
+    // take a criteria object from a result object
+    // and load up the search rows
+    this.loadCriteria = function(criteria) {
+      var addRow = this.addRow;
+      app.utils.eachAdvancedQueryRow(criteria.aq, function(rowData, i) {
+        if (i === 0)
+          rowData.recordType = parseRecordType(criteria);
+        addRow(rowData);
+      });
+    }
+
+    // export values as a criteria object
+    this.extract = function() {
+      var criteria = {};
+      _.forEach(rowViews, function(rowView, i) {
+        var $input = $("input[name='q"+i+"']", rowView.$el)
+        criteria[$input.attr('name')] = $input.val();
+
+        _.forEach($("li.selected", rowView.$el), function(elt) {
+          criteria[$(elt).closest("ul").attr('id')] = $(elt).
+            data('value');
+        });
+      });
+
+      return criteria;
+    };
+
+
+    return this;
+  };
+
+
+  // A row in a search editor form (or container).
   var SearchQueryRowView = Bb.View.extend({
     tagName: 'div',
     className: 'row search-query-row',
@@ -439,30 +533,32 @@ var RAILS_API = "/api";
         $($a.closest("ul")).children("li").removeClass("selected");
         $($a.closest("li")).addClass("selected");
         $($a.closest("ul")).siblings("button").text($a.text());
+      },
+      "click .add-query-row a": function(e) {
+        e.preventDefault();
+        this.trigger("addRow");
+      },
+      "click .remove-query-row a": function(e) {
+        e.preventDefault();
+        this.trigger("removeRow", this.rowData.index);
       }
     },
 
     initialize: function(rowData) {
       this.rowData = rowData;
       this.render();
+      var tmpl = _.template($('#search-query-row-tmpl').html());
+      this.$el.html(tmpl(this.rowData));
     },
 
-    append: function($container) {
-      var tmpl = _.template($('#search-box-query-row-tmpl').html());
-      this.$el.html(tmpl(this.rowData));
-
-      $(".search-query-row", $container).each(function(i, div) {
-        $(".add-query-row", $(div)).removeClass("add-query-row").addClass("remove-query-row").children("a").html("-");
-        $("#search-button", $(div)).hide();
+    setRowIndex: function(index) {
+      var oldIndex = this.rowData.index;
+      this.rowData.index = index;
+      _.forEach(['op', 'f'], function(ctrl) {
+        $("button[data-dropdown='"+ctrl+oldIndex+"']", this.$el).attr('data-dropdown', ctrl+index).attr("aria-controls", ctrl+index);
+      $("ul#"+ctrl+oldIndex, this.$el).attr("id", ctrl+index);
       });
-
-      $container.append(this.$el);
-
-      //initialize select boxes
-      $("button.dropdown", this.$el).each(function(i, button) {
-        var placeholderText = $("ul#"+$(button).data("dropdown")+" li.selected").text();
-        $(button).text(placeholderText);
-      });
+      $("input[name='q"+oldIndex+"']", this.$el).attr('name', "q"+index);
     }
   });
 
@@ -471,8 +567,34 @@ var RAILS_API = "/api";
   var SearchToolbarView = Bb.View.extend({
     el: "#search-box",
     initialize: function() {
+      var state = this.collection.state;
+      var render = {
+        pageSize: state.pageSize,
+        totalRecords: state.totalRecords,
+        getPageSizeURL: this.collection.getPageSizeURL,
+        searchTermsString: function(spanClass) {
+          if (state.criteria.q) {
+            return state.criteria.q.split('+')
+          } else if (state.criteria.aq) {
+            return _.map(app.utils.flattenAdvancedQuery(state.criteria.aq), function(n, i) {
+              if((i % 2) === 0) {
+                return "<span class='"+spanClass+"'>"+n+"</span>";
+              } else {
+                return n;
+              }
+            }).join(" ");
+          } else if (state.recordType) {
+            return "'" + app.utils.getLabelForRecordType(state.recordType) + "' records";
+          } else {
+            return '*'
+          }
+        }
+      };
+
+
       var tmpl = _.template($('#search-toolbar-tmpl').html());
-      this.$el.html(tmpl(this.collection));
+      this.$el.html(tmpl(render));
+      this.searchEditor = new SearchEditor($(".first-row", this.$el));
       return this;
     },
     events: {
@@ -484,17 +606,7 @@ var RAILS_API = "/api";
         if(this.toggled) {
           $(".search-query-row", this.$el).remove();
         } else {
-          var that = this;
-          var advancedQuery = this.collection.state.criteria.aq;
-
-          app.utils.eachAdvancedQueryRow(advancedQuery, function(row, i) {
-            if (i === 0)
-              row.recordType = that.collection.state.recordType;
-
-            var searchQueryRowView = new SearchQueryRowView(row);
-            searchQueryRowView.append($(".first-row", that.$el));
-          });
-
+          this.searchEditor.loadCriteria(this.collection.state.criteria)
         }
         this.toggled = !this.toggled;
       }
@@ -502,22 +614,9 @@ var RAILS_API = "/api";
     search: function (e) {
       e.preventDefault();
 
-      var state = {
-        criteria: {}
-      };
-
-      _.forEach($(".search-query-row"), function($row, i) {
-        var $input = $("input[name='q"+i+"']", $row)
-        state.criteria[$input.attr('name')] = $input.val();
-
-        _.forEach($("li.selected", $row), function(elt) {
-          state.criteria[$(elt).closest("ul").attr('id')] = $(elt).
-            data('value');
-        });
-
+      var url = buildBaseURL.call({
+        criteria: this.searchEditor.extract()
       });
-
-      var url = buildBaseURL.call(state);
       app.router.navigate(url, {trigger: true});
     }
 
@@ -530,53 +629,36 @@ var RAILS_API = "/api";
     initialize: function() {
       var tmpl = _.template($('#search-box-tmpl').html());
       this.$el.html(tmpl());
-      this.addQueryRow();
+      this.searchEditor = new SearchEditor($("#search-form", this.$el))
+      this.searchEditor.addRow();
       return this;
     },
     events: {
       "click #search-button" : "search",
-      "click .add-query-row a": function(e) {
+      "click .remove-query-row a": function(e) {
         e.preventDefault();
-        this.addQueryRow();
       }
     },
     search: function (e) {
       e.preventDefault();
-      var state = {
-        criteria: {}
-      };
 
-      _.forEach($("#search-form").serializeArray(), function(n) {
-        state.criteria[n.name] = n.value;
+      var url = buildBaseURL.call({
+        criteria: this.searchEditor.extract()
       });
 
-      _.forEach($("#search-form li.selected"), function(elt) {
-        state.criteria[$(elt).closest("ul").attr('id')] = $(elt).
-          data('value');
-      });
-
-      var url = buildBaseURL.call(state);
       app.router.navigate(url, {trigger: true});
-    },
-
-    addQueryRow: function(opts) {
-      // var tmpl = _.template($('#search-box-query-row-tmpl').html());
-      var opts = opts || {};
-
-      opts.index = $(".search-query-row", this.$el).length;
-
-      var searchQueryRowView = new SearchQueryRowView(opts);
-      searchQueryRowView.append($("#search-form", this.$el));
     }
   });
 
 
   app.SearchQuery = SearchQuery;
   app.SearchResults = SearchResults;
+  app.SearchEditor = SearchEditor;
   app.SearchBoxView = SearchBoxView;
   app.SearchToolbarView = SearchToolbarView;
   app.SearchResultsView = SearchResultsView;
   app.SearchFacetsView = SearchFacetsView;
   app.SearchQueryRowView = SearchQueryRowView;
+
 
 })(Backbone, _);

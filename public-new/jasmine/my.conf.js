@@ -26,6 +26,7 @@ module.exports = function(config) {
       'app/assets/javascripts/*.js',
       'node_modules/jasmine-jquery/lib/jasmine-jquery.js',
       'node_modules/jasmine-ajax/lib/mock-ajax.js',
+      'node_modules/jasmine-fixture/dist/jasmine-fixture.js',
       'jasmine/spec_helper.js',
       'jasmine/*.js',
       {

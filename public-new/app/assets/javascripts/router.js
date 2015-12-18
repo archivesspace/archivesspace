@@ -6,7 +6,7 @@ var app = app || {};
   var Router = Backbone.Router.extend({
     routes: {
       "": "welcome",
-      "search?*queryString": "showSearchResults",
+      "search?*queryString": "search",
       "repositories/:repo_id/:type_plural/:id": "showRecord",
 
       "*path": "defaultPage"
@@ -24,8 +24,7 @@ var app = app || {};
     },
 
 
-    showSearchResults: function(queryString) {
-      // var query = app.utils.parseQueryString(queryString);
+    search: function(queryString) {
       var searchQuery = new app.SearchQuery(queryString);
 
       //only doing advanced search for now
@@ -40,7 +39,12 @@ var app = app || {};
 
       searchResults.advanced = true;
 
-      app.debug = searchResults;
+
+      app.debug = {
+        query: searchQuery,
+        results: searchResults
+      };
+
 
       $('#wait-modal').foundation('reveal', 'open');
       var opts = {data: searchQuery.toApi()};

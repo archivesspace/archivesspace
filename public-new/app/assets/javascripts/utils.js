@@ -21,20 +21,60 @@ var app = app || {};
     return params;
   }
 
+
+  // TODO - make a JSON model for this or
+  // hang it on some existing preference
+  function getRecordLabelPreferences() {
+    return {
+      resource: {
+        key_for_public_urls: "collection",
+        label_singular: "Collection",
+        label_plural: "Collections"
+      }
+    }
+
+
+  }
+
+  var recordLabelMap = getRecordLabelPreferences();
+
   app.utils = {
 
-    getASType: function(type) {
-      switch(type) {
-      case 'collections':
-      case 'collection':
-        return 'resource';
-      case 'objects':
-      case 'object':
-        return 'archival_object';
-      case 'digital_object':
-      case 'accession':
-        return type;
+    getLabelForRecordType: function(type) {
+      var result = type;
+
+      if(_.has(recordLabelMap, type) && _.has(recordLabelMap[type], 'label_singular')) {
+        result = recordLabelMap[type].label_singular;
+      } else {
+        _.forEach(recordLabelMap, function(mapping, asType) {
+          if(mapping.key_for_public_urls === type && mapping.label_sungular);
+          result = mapping.label_singular;
+        });
       }
+
+      return result;
+    },
+
+
+    getPublicType: function(asType) {
+      if(_.has(recordLabelMap, asType)) {
+        return recordLabelMap[asType].key_for_public_urls;
+      } else {
+        return asType;
+      }
+    },
+
+
+    getASType: function(type) {
+      var result = type;
+
+      _.forEach(recordLabelMap, function(mapping, asType) {
+        if (mapping.key_for_public_urls === type) {
+          result = asType;
+        }
+      });
+
+      return result;
     },
 
     convertAdvancedQuery: function(aq) {
