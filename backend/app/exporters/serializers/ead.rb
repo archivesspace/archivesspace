@@ -33,12 +33,16 @@ class EADSerializer < ASpaceExport::Serializer
   def handle_linebreaks(content)
     # if there's already p tags, just leave as is
     return content if ( content.strip =~ /^<p(\s|\/|>)/ or content.strip.length < 1 )
+    original_content = content
     blocks = content.split("\n\n").select { |b| !b.strip.empty? }
     if blocks.length > 1
       content = blocks.inject("") { |c,n| c << "<p>#{n.chomp}</p>"  }
     else
       content = "<p>#{content.strip}</p>"
     end
+    # in some cases adding p tags can create invalid markup with mixed content
+    # the "wrap" is just to ensure that there is a psuedo root element to eliminate a "false" error
+    content = original_content if Nokogiri::XML("<wrap>#{content}</wrap>").errors.any?
     content
   end
 

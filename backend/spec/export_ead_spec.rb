@@ -1006,4 +1006,34 @@ describe "EAD export mappings" do
       end
     end
   end
+
+  describe "Testing EAD Serializer mixed content behavior" do
+
+    let(:note_with_p) { "<p>A NOTE!</p>" }
+    let(:note_with_linebreaks) { "Something, something,\n\nsomething." }
+    let(:note_with_linebreaks_and_good_mixed_content) { "Something, something,\n\n<bioghist>something.</bioghist>\n\n" }
+    let(:note_with_linebreaks_and_evil_mixed_content) { "Something, something,\n\n<bioghist>something.\n\n</bioghist>\n\n" }
+    let(:serializer) { EADSerializer.new }
+
+    it "can strip <p> tags from content when disallowed" do
+      serializer.strip_p(note_with_p).should eq("A NOTE!")
+    end
+
+    it "can leave <p> tags in content" do
+      serializer.handle_linebreaks(note_with_p).should eq(note_with_p)
+    end
+
+    it "will add <p> tags to content with linebreaks" do
+      serializer.handle_linebreaks(note_with_linebreaks).should eq("<p>Something, something,</p><p>something.</p>")
+    end
+
+    it "will add <p> tags to content with linebreaks and mixed content" do
+      serializer.handle_linebreaks(note_with_linebreaks_and_good_mixed_content).should eq("<p>Something, something,</p><p><bioghist>something.</bioghist></p>")
+    end
+
+    it "will return original content when linebreaks and mixed content produce invalid markup" do
+      serializer.handle_linebreaks(note_with_linebreaks_and_evil_mixed_content).should eq(note_with_linebreaks_and_evil_mixed_content)
+    end
+
+  end
 end
