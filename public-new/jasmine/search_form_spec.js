@@ -1,43 +1,36 @@
-describe('Search Form', function() {
+describe('SearchEditor', function() {
 
   beforeEach(function(done) {
-    jasmine.getFixtures().fixturesPath = 'base/jasmine/fixtures';
-    loadFixtures("layout.html");
 
-    jasmine.Ajax.install();
+    affix("#search-editor-container");
+    affix("#search-query-row-tmpl").affix("div.add-query-row").affix("a");
 
     $(function() {
       done();
     });
-
   });
 
 
-  afterEach(function() {
-    jasmine.Ajax.uninstall();
-  });
+  it("can bind to a DOM container and add search query rows", function() {
+    var $container = $("#search-editor-container");
+    var editor = new app.SearchEditor($container);
 
-
-  it("captures the 'click' event in $('#search-form') and serializes $('input') and $('li.selected') to navigate to the correct search url", function() {
-    var routerSpy = spyOn(app.router, 'navigate').and.returnValue(true);
- 
-    var searchBoxView = new app.SearchBoxView();
-    expect($('#search-form')).toBeInDOM();
-
-    $("#search-button").click();
-
-    expect(routerSpy).toHaveBeenCalledWith('/search?', {trigger: true});
-
-    // now tweak the form DOM a bit
-    $("#search-form").append("<input name='foo' value='bar' />");
-    _.forEach([0,1], function(i) {
-      $("#search-form").append("<ul id='beep"+i+"'><li data-value='boop"+i+"' class='selected'>whatev</li></ul>");
+    _.times(3, function() {
+      editor.addRow();
     });
 
-    $("#search-button").click();
-
-    expect(routerSpy).toHaveBeenCalledWith('/search?foo=bar&beep0=boop0&beep1=boop1', {trigger: true});
+    expect($(".search-query-row", $container).length).toEqual(3);
   });
 
+  it("can remove query rows and update the index accordingly", function() {
+    var $container = $("#search-editor-container");
+    var editor = new app.SearchEditor($container);
 
+    _.times(3, function() {
+      editor.addRow();
+    });
+
+    $(".remove-query-row a", $(".search-query-row").first()).trigger("click");
+    expect($(".search-query-row", $container).length).toEqual(2);
+  });
 });

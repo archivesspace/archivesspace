@@ -70,13 +70,13 @@
         <section class="top-bar-section">
           <!-- Left Nav Section -->
           <ul class="left">
-            <li><a href="${ encodeURI( '/search?type=repository' ) }">Repositories</a></li>
-            <li><a href="${ encodeURI( '/search?type=resource' ) }">Collections</a></li>
-            <li><a href="${ encodeURI( '/search?type=digital_object' ) }">Digital items</a></li>
-            <li><a href="${ encodeURI( '/search?type=accession' ) }">Unprocessed Material</a></li>
-            <li><a href="${ encodeURI( '/search?type=subject' ) }">Subjects</a></li>
-            <li><a href="${ encodeURI( '/search?type=agent_person&type=agent_family&type=agent_corporate_entity' ) }">People & Organizations</a></li>
-            <li><a href="${ encodeURI( '/search?type=classification' ) }">Record Groups</a></li>
+            <li><a href="${ encodeURI( '/search?recordtype=repository' ) }">Repositories</a></li>
+            <li><a href="${ encodeURI( '/search?recordtype=collection' ) }">Collections</a></li>
+            <li><a href="${ encodeURI( '/search?recordtype=digital_object' ) }">Digital items</a></li>
+            <li><a href="${ encodeURI( '/search?recordtype=accession' ) }">Unprocessed Material</a></li>
+            <li><a href="${ encodeURI( '/search?recordtype=subject' ) }">Subjects</a></li>
+            <li><a href="${ encodeURI( '/search?recordtype=agent_person&type=agent_family&type=agent_corporate_entity' ) }">People & Organizations</a></li>
+            <li><a href="${ encodeURI( '/search?recordtype=classification' ) }">Record Groups</a></li>
           </ul>
         </section>
       </nav>
@@ -114,16 +114,14 @@
   </script>
 
   <!-- search box query row -->
-  <script type="text/template" id="search-box-query-row-tmpl">
-    <!-- <div class="row search-query-row"> -->
-      <!-- <input type="hidden" name="recordtype" value="all" /> -->
+  <script type="text/template" id="search-query-row-tmpl">
       { var recordType = recordType || 'any' }
       { var field = field || 'keyword' }
       { var op = op || 'AND' }
 
       <div class="medium-1 columns">
         { if(index > 0) { }
-        <button href="#" data-dropdown="op${index}" aria-controls="operator${index}" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
+        <button href="#" data-dropdown="op${index}" aria-controls="op${index}" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
         <ul id="op${index}" data-dropdown-content="" class="f-dropdown" aria-hidden="true">
           <li data-value="AND" { if(!op || op === 'AND') {} class="selected" {} }><a href="#">And</a></li>
           <li data-value="OR" class="${ op === 'OR' ? 'selected' : ''}"><a href="#">Or</a></li>
@@ -141,7 +139,7 @@
         <input name="q${index}" type="text" placeholder="Enter your search terms" />
         {} }
       </div>
-      <div class="medium-3 columns">
+      <div class="medium-3 columns search-query-recordtype-col">
         { if(index === 0) { }
         <button type="button" data-dropdown="recordtype" aria-controls="recordtype" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
         <ul id="recordtype" data-dropdown-content class="f-dropdown" aria-hidden="true">
@@ -177,16 +175,11 @@
 
   <!-- search toolbar -->
   <script type="text/template" id="search-toolbar-tmpl">
+
     <div class="row first-row panel">
-      <p class="small-12 columns">Your search for {_.forEach(displayTerms(), function(term, key) {}
-        { if(key % 2 === 0) {}
-        <span class="searchterm1">${term}</span>
-        {} else {}
-        ${term}
-        {} }
-        {});} yielded ${state.totalRecords} results.</p>
+      <p class="small-12 columns">Your search for ${searchTermsString('searchterm1')} yielded ${totalRecords} results.</p>
       <p class="medium-6 columns">Change number of results displayed at once:
-        <button type="button" data-dropdown="numberresults" aria-controls="numberresults" aria-expanded="false" class="button dropdown tiny">${state.pageSize}</button><br>
+        <button type="button" data-dropdown="numberresults" aria-controls="numberresults" aria-expanded="false" class="button dropdown tiny">${pageSize}</button><br>
         <ul id="numberresults" data-dropdown-content class="f-dropdown" aria-hidden="true">
           { _.forEach([20, 40, 60, 100], function(inc) { }
           <li><a href="${getPageSizeURL(inc)}">${inc}</a></li>
