@@ -431,13 +431,11 @@ var RAILS_API = "/api";
     var $container = $container;
     var rowViews = [];
     var that = this;
+    var counter = 0;
 
     var reindexRows = function() {
       _.forEach(rowViews, function(rowView, i) {
-        console.log(rowView.rowData);
-        if(rowView.rowData.index != i) {
-          rowView.setRowIndex(i);
-        }
+        rowView.rowData.index = i;
       });
     };
 
@@ -446,7 +444,6 @@ var RAILS_API = "/api";
       rowViews = _.reject(rowViews, function(n, i) {
         return i === rowIndex;
       });
-
 
       if(rowIndex === 0) {
         var $recordTypeCol = $(".search-query-recordtype-col", rowToRemove.$el).detach();
@@ -459,39 +456,35 @@ var RAILS_API = "/api";
 
     this.addRow = function(rowData) {
       var rowData = rowData || {};
+      rowData.rowId = counter;
+      counter += 1;
 
       if(_.isUndefined(rowData.index)) {
         rowData.index = $(".search-query-row", $container).length;
       }
 
-      var searchQueryRowView = new SearchQueryRowView(rowData);
+      var newRowView = new SearchQueryRowView(rowData);
 
       _.forEach(rowViews, function(rowView) {
         $(".add-query-row", rowView.$el).removeClass("add-query-row").addClass("remove-query-row").children("a").html("-");
         $("#search-button", rowView.$el).hide();
       });
 
-      searchQueryRowView.on("addRow", function(e) {
+      newRowView.on("addRow", function(e) {
         that.addRow();
       });
 
-      searchQueryRowView.on("removeRow", function(index) {
+      newRowView.on("removeRow", function(index) {
         removeRow(index);
       });
 
-      rowViews.push(searchQueryRowView);
-      $container.append(searchQueryRowView.$el);
-
-      //initialize select boxes
-      $("button.dropdown", this.$el).each(function(i, button) {
-        var placeholderText = $("ul#"+$(button).data("dropdown")+" li.selected").text();
-        $(button).text(placeholderText);
-      });
-
+      rowViews.push(newRowView);
+      $container.append(newRowView.$el);
+      newRowView.initDropdowns();
     };
 
     // take a criteria object from a result object
-    // and load up the search rows
+    // and load the search rows
     this.loadCriteria = function(criteria) {
       var addRow = this.addRow;
       app.utils.eachAdvancedQueryRow(criteria.aq, function(rowData, i) {
@@ -499,24 +492,28 @@ var RAILS_API = "/api";
           rowData.recordType = parseRecordType(criteria);
         addRow(rowData);
       });
+
+      addRow();
     }
 
     // export values as a criteria object
     this.extract = function() {
       var criteria = {};
       _.forEach(rowViews, function(rowView, i) {
-        var $input = $("input[name='q"+i+"']", rowView.$el)
-        criteria[$input.attr('name')] = $input.val();
+        var rowId = rowView.rowData.rowId;
+        var queryVal = $("input[name='q"+rowId+"']", rowView.$el).val();
 
-        _.forEach($("li.selected", rowView.$el), function(elt) {
-          criteria[$(elt).closest("ul").attr('id')] = $(elt).
-            data('value');
-        });
+        if(queryVal && queryVal.length) {
+          criteria["q"+i] = queryVal;
+          _.forEach($("li.selected", rowView.$el), function(elt) {
+            criteria[$(elt).closest("ul").data('name')+i] = $(elt).
+              data('value');
+          });
+        }
       });
 
       return criteria;
     };
-
 
     return this;
   };
@@ -546,19 +543,20 @@ var RAILS_API = "/api";
 
     initialize: function(rowData) {
       this.rowData = rowData;
-      this.render();
       var tmpl = _.template($('#search-query-row-tmpl').html());
       this.$el.html(tmpl(this.rowData));
     },
 
-    setRowIndex: function(index) {
-      var oldIndex = this.rowData.index;
-      this.rowData.index = index;
-      _.forEach(['op', 'f'], function(ctrl) {
-        $("button[data-dropdown='"+ctrl+oldIndex+"']", this.$el).attr('data-dropdown', ctrl+index).attr("aria-controls", ctrl+index);
-      $("ul#"+ctrl+oldIndex, this.$el).attr("id", ctrl+index);
+    initDropdowns: function() {
+      // initialize select boxes
+      $("button.dropdown", this.$el).each(function(i, button) {
+        var placeholderText = $("ul#"+$(button).data("dropdown")+" li.selected").text();
+        $(button).text(placeholderText);
       });
-      $("input[name='q"+oldIndex+"']", this.$el).attr('name', "q"+index);
+    },
+
+    setRowIndex: function(index) {
+      this.rowData.index = index;
     }
   });
 

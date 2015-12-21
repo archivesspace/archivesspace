@@ -121,8 +121,8 @@
 
       <div class="medium-1 columns">
         { if(index > 0) { }
-        <button href="#" data-dropdown="op${index}" aria-controls="op${index}" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
-        <ul id="op${index}" data-dropdown-content="" class="f-dropdown" aria-hidden="true">
+        <button href="#" data-dropdown="op${rowId}" aria-controls="op${rowId}" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
+        <ul data-name="op" id="op${rowId}" data-dropdown-content="" class="f-dropdown" aria-hidden="true">
           <li data-value="AND" { if(!op || op === 'AND') {} class="selected" {} }><a href="#">And</a></li>
           <li data-value="OR" class="${ op === 'OR' ? 'selected' : ''}"><a href="#">Or</a></li>
           <li data-value="NOT"><a href="#">Not</a></li>
@@ -134,15 +134,15 @@
       <div class="medium-4 columns">
         { if(typeof(value) != 'undefined') {}
         <h5><strong> &#160; ${value}</strong></h5>
-        <input name="q${index}" type="hidden" value="${value}"/>
+        <input name="q${rowId}" type="hidden" value="${value}"/>
         {} else { }
-        <input name="q${index}" type="text" placeholder="Enter your search terms" />
+        <input name="q${rowId}" type="text" placeholder="Enter your search terms" />
         {} }
       </div>
       <div class="medium-3 columns search-query-recordtype-col">
         { if(index === 0) { }
         <button type="button" data-dropdown="recordtype" aria-controls="recordtype" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
-        <ul id="recordtype" data-dropdown-content class="f-dropdown" aria-hidden="true">
+        <ul data-name="recordtype" id="recordtype" data-dropdown-content class="f-dropdown" aria-hidden="true">
           <li data-value="any" class="${recordType === 'any' ? 'selected' : ''}"><a href="#">Search all record types</a></li>
           <li data-value="collection" class="${recordType === 'collection' ? 'selected' : ''}"><a href="#">Search collections</a></li>
           <li data-value="digital_object" class="${recordType === 'digital_object' ? 'selected' : ''}"><a href="#">Search digital materials</a></li>
@@ -152,8 +152,8 @@
         {} }
       </div>
       <div class="medium-2 columns">
-        <button href="#" data-dropdown="f${index}" aria-controls="fieldsearched" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
-        <ul id="f${index}" data-dropdown-content class="f-dropdown" aria-hidden="true">
+        <button href="#" data-dropdown="f${rowId}" aria-controls="fieldsearched" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
+        <ul data-name="f" id="f${rowId}" data-dropdown-content class="f-dropdown" aria-hidden="true">
           <li data-value="keyword" { if(!field || field === 'keyword'){ } class="selected" {} }><a href="#">Keyword</a></li>
           <li data-value="creator" { if(field === 'creator'){ } class="selected" {} }><a href="#">Creator</a></li>
           <li data-value="notes" { if(field === 'notes'){ } class="selected" {} }><a href="#">Notes</a></li>
@@ -181,8 +181,10 @@
       <p class="medium-6 columns">Change number of results displayed at once:
         <button type="button" data-dropdown="numberresults" aria-controls="numberresults" aria-expanded="false" class="button dropdown tiny">${pageSize}</button><br>
         <ul id="numberresults" data-dropdown-content class="f-dropdown" aria-hidden="true">
-          { _.forEach([20, 40, 60, 100], function(inc) { }
-          <li><a href="${getPageSizeURL(inc)}">${inc}</a></li>
+          { _.forEach([20, 40, 60, 100], function(sizeOption) { }
+          <li { if(sizeOption === pageSize) {} class="selected" {} }>
+            <a href="${getPageSizeURL(sizeOption)}">${sizeOption}</a>
+          </li>
           {}); }
         </ul>
       </p>
