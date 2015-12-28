@@ -119,6 +119,11 @@ var app = app || {};
           index: opts.index
         }, opts.index);
       }
+    },
+
+    tmpl: function(templateId, data) {
+      templateId = templateId.replace(/-tmpl$/, '') + '-tmpl';
+      return _.template($('#'+templateId).html())(data);
     }
 
   };
