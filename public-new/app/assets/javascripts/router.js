@@ -25,61 +25,7 @@ var app = app || {};
 
 
     search: function(queryString) {
-      var searchQuery = new app.SearchQuery(queryString);
-
-      //only doing advanced search for now
-      searchQuery.advanced = true;
-
-      var searchResults = new app.SearchResults([], {
-        state: {
-          currentPage: searchQuery.page,
-          pageSize: searchQuery.pageSize
-        }
-      });
-
-      searchResults.advanced = true;
-
-
-      app.debug = {
-        query: searchQuery,
-        results: searchResults
-      };
-
-
-      $('#wait-modal').foundation('reveal', 'open');
-      var opts = {data: searchQuery.toApi()};
-      console.log(_.merge(opts, {what: "search query parsed from URL and prepared for fetching from the API"}));
-      searchResults.fetch(opts).then(function() {
-        $("#search-box").empty();
-        var searchToolbarView = new app.SearchToolbarView({
-          collection: searchResults
-        });
-
-        var containerView = new app.ContainerView({
-          mainWidth: 9,
-          sidebarWidth: 3
-        });
-
-        var searchResultsView = new app.SearchResultsView({
-          collection: searchResults,
-          searchParams: searchQuery
-        });
-
-        var sideBar = new app.SearchFacetsView({
-          collection: searchResults
-        });
-
-        $.scrollTo($('#header'));
-        $('#wait-modal').foundation('reveal', 'close');
-        //Sometimes the modal doesn't have time to finish opening
-        //and misses the first close call
-        setTimeout(function() {
-          $('#wait-modal').foundation('reveal', 'close');
-          // reinitalize foundation
-          $(document).foundation();
-        }, 500);
-
-      });
+      var searchContainerView = new app.SearchContainerView(queryString);
     },
 
 
@@ -102,7 +48,7 @@ var app = app || {};
           mainWidth: 7,
           sidebarWidth: 5
         });
-      
+
         var recordView = new app.RecordView({
           record: record
         });
@@ -146,5 +92,3 @@ var app = app || {};
     Bb.history.start({pushState: true});
   });
 })(Backbone, jQuery);
-
-

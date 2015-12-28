@@ -85,6 +85,8 @@
 
   <!-- main:sidebar -->
   <script type="text/template" id="container-tmpl">
+    { var mainWidth = _.isUndefined(mainWidth) ?  9 : mainWidth; }
+    { var sidebarWidth = _.isUndefined(sidebarWidth) ? 3 : sidebarWidth; }
     <div class="row">
       <p>&nbsp;</p>
       <!-- main content -->
@@ -123,7 +125,7 @@
         { if(index > 0) { }
         <button href="#" data-dropdown="op${rowId}" aria-controls="op${rowId}" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
         <ul data-name="op" id="op${rowId}" data-dropdown-content="" class="f-dropdown" aria-hidden="true">
-          <li data-value="AND" { if(!op || op === 'AND') {} class="selected" {} }><a href="#">And</a></li>
+          <li data-value="AND" class="${ op === 'AND' ? 'selected' : ''}"><a href="#">And</a></li>
           <li data-value="OR" class="${ op === 'OR' ? 'selected' : ''}"><a href="#">Or</a></li>
           <li data-value="NOT"><a href="#">Not</a></li>
         </ul>
@@ -172,29 +174,32 @@
 
   </script>
 
+  <script type="text/template" id="search-toolbar-results-tmpl">
+    Your search for ${searchTermsString('searchterm1')} yielded ${totalRecords} results.
+  </script>
 
   <!-- search toolbar -->
   <script type="text/template" id="search-toolbar-tmpl">
 
     <div class="row first-row panel">
-      <p class="small-12 columns">Your search for ${searchTermsString('searchterm1')} yielded ${totalRecords} results.</p>
+      <p class="small-12 columns search-toolbar-results">Executing query</p>
       <p class="medium-6 columns">Change number of results displayed at once:
         <button type="button" data-dropdown="numberresults" aria-controls="numberresults" aria-expanded="false" class="button dropdown tiny">${pageSize}</button><br>
         <ul id="numberresults" data-dropdown-content class="f-dropdown" aria-hidden="true">
           { _.forEach([20, 40, 60, 100], function(sizeOption) { }
           <li { if(sizeOption === pageSize) {} class="selected" {} }>
-            <a href="${getPageSizeURL(sizeOption)}">${sizeOption}</a>
+            <a href="#">${sizeOption}</a>
           </li>
           {}); }
         </ul>
       </p>
       <p class="medium-6 columns">Sort by:
-        <button href="#" data-dropdown="relevance" aria-controls="relevance" aria-expanded="false" class="button dropdown tiny">Relevance</button><br>
-        <ul id="relevance" data-dropdown-content class="f-dropdown" aria-hidden="true">
-          <li><a href="#">Title</a></li>
-          <li><a href="#">Date added</a></li>
-          <li><a href="#">Date of material</a></li>
-          <li><a href="#">Anything else?</a></li>
+        <button href="#" data-dropdown="sortorder" aria-controls="sortorder" aria-expanded="false" class="button dropdown tiny">Relevance</button><br>
+        <ul id="sortorder" data-dropdown-content class="f-dropdown" aria-hidden="true">
+          <li data-value="relevance"><a href="#" class="selected">Relevance</a></li>
+          <li data-value="title"><a href="#">Title</a></li>
+          <li data-value="date_added"><a href="#">Date added</a></li>
+          <li data-value="material_date"><a href="#">Date of material</a></li>
         </ul>
       </p>
       <div class="medium-6 columns">
