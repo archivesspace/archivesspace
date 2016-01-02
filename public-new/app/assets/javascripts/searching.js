@@ -138,6 +138,13 @@ var RAILS_API = "/api";
         }
       );
     }
+
+    if (_.isArray(params.page))
+      params.page = params.page[0];
+
+    if (_.isString(params.page))
+      params.page = parseInt(params.page);
+
     return params;
   };
 
@@ -149,8 +156,6 @@ var RAILS_API = "/api";
   };
 
 
-
-  // maybe easier if all this param-translation gets pushed back to Rails
   SearchQuery.prototype.toApi = function() {
     var apiParams = {}
     _.forOwn(this, function(value, key) {
@@ -379,28 +384,6 @@ var RAILS_API = "/api";
       return encodeURI(url);
     },
 
-    getPageURL: function(page) {
-      var url = buildBaseURL.call(this.state);
-      url += "&page="+page;
-      return encodeURI(url);
-    },
-
-    getNextPageURL: function() {
-      return this.getPageURL(this.state.currentPage + 1);
-    },
-
-    getPreviousPageURL: function() {
-      return this.getPageURL(this.state.currentPage - 1);
-    },
-
-    getPagerStart: function() {
-      return _.max([this.state.currentPage - (_.max([10 - (this.state.totalPages - this.state.currentPage), 5])), 1]);
-    },
-
-    getPagerEnd: function(){
-      return _.min([_.max([(this.state.currentPage + 5), 10]), this.state.totalPages]);
-    },
-
     queryParams: {
       currentPage: "page",
       pageSize: "page_size"
@@ -432,6 +415,59 @@ var RAILS_API = "/api";
   });
 
 
+  var SearchPagerView = Bb.View.extend({
+    tagName: "div",
+
+    initialize: function(opts) {
+      console.log(opts);
+      this.query = opts.query;
+      this.resultsState = opts.resultsState;
+
+
+      var pagerHelper = new this.PagerHelper(opts)
+      console.log(pagerHelper);
+
+      this.$el.html(app.utils.tmpl('search-pager', pagerHelper));
+    },
+  });
+
+  SearchPagerView.prototype.PagerHelper = function(opts) {
+
+    console.log(opts.query.page < opts.resultsState.totalPages)
+    console.log(opts.query.page)
+    console.log(opts.resultsState.totalPages)
+
+
+
+    this.hasPreviousPage = opts.query.page > 1;
+    this.hasNextPage = (opts.query.page < opts.resultsState.totalPages);
+    this.currentPage = opts.resultsState.currentPage;
+
+
+    this.getPreviousPageURL = function() {
+      return opts.query.buildQueryString({page: opts.resultsState.currentPage - 1});
+    };
+
+    this.getPagerEnd = function() {
+      return _.min([_.max([(opts.resultsState.currentPage + 5), 10]), opts.resultsState.totalPages]);
+    };
+
+    this.getPagerStart = function() {
+      return _.max([opts.resultsState.currentPage - (_.max([10 - (opts.resultsState.totalPages - opts.resultsState.currentPage), 5])), 1]);
+    };
+
+    this.getNextPageURL = function() {
+      return opts.query.buildQueryString({page: opts.resultsState.currentPage + 1});
+    };
+
+    this.getPageURL = function(page) {
+      return opts.query.buildQueryString({page: page});
+    };
+  };
+
+
+
+
   var SearchItemView = Bb.View.extend({
     tagName: "div",
 
@@ -446,6 +482,8 @@ var RAILS_API = "/api";
     el: "#main-content",
 
     initialize: function(opts) {
+      this.query = opts.query;
+
       this.render();
       return this;
     },
@@ -470,7 +508,12 @@ var RAILS_API = "/api";
         $el.append(searchItemView.$el.html());
       });
 
-      $el.append(app.utils.tmpl('search-pager', this.collection));
+      var searchPagerView = new SearchPagerView({
+        query: this.query,
+        resultsState: this.collection.state
+      });
+
+      $el.append(searchPagerView.$el.html());
     }
   });
 
@@ -649,10 +692,7 @@ var RAILS_API = "/api";
       this.query = opts.query;
       var that = this;
       var render = {
-        pageSize: this.query.pageSize,
-        getPageSizeURL: function(size) {
-          return that.query.buildQueryString({pageSize: size});
-        }
+        pageSize: this.query.pageSize
       };
 
       this.$el.html(app.utils.tmpl('search-toolbar', render));
@@ -669,7 +709,7 @@ var RAILS_API = "/api";
         $($a.closest("li")).addClass("selected");
         $("button[data-dropdown='numberresults']").text($a.text());
 
-        this.query.pageSize = $a.text();
+        this.query.pageSize = parseInt($a.text());
         this.trigger("modifiedquery.aspace", this.query);
       },
 
@@ -830,11 +870,10 @@ var RAILS_API = "/api";
       var opts = {data: apiQuery};
       $('#wait-modal').foundation('reveal', 'open');
       searchResults.fetch(opts).then(function() {
-        // $("#search-box").empty();
         searchToolbarView.updateResultState(searchResults.state);
         var searchResultsView = new app.SearchResultsView({
           collection: searchResults,
-          searchParams: searchQuery
+          query: searchQuery
         });
 
         var sideBar = new app.SearchFacetsView({
@@ -866,6 +905,6 @@ var RAILS_API = "/api";
   app.SearchResultsView = SearchResultsView;
   app.SearchFacetsView = SearchFacetsView;
   app.SearchQueryRowView = SearchQueryRowView;
-
+  app.SearchPagerView = SearchPagerView;
 
 })(Backbone, _);
