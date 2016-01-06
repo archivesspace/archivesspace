@@ -499,12 +499,10 @@
   <!-- facets sidebar -->
   <script type="text/template" id="facets-tmpl">
     <h2>Filter results</h2>
-    <span class="definition">Remove</span>
-    <h3 data-tooltip aria-haspopup="true" class="has-tip" title="These results include each term individually using the OR modifier.">Search terms <i class="fi-info"></i></h3>
     <div>
       <ul class="applied-filters side-nav">
         {forEachAppliedFilterWithLabel(function(filter, label) { }
-        <li class="remove"><a href="${getRemoveFilterURL(filter) }">${label }</a></li>
+        <li class="remove" data-value='${JSON.stringify(filter)}'><a href="${getRemoveFilterURL(filter) }">${label }</a></li>
         {}); }
       </ul>
     </div>
@@ -523,7 +521,7 @@
       <h5>${facetGroup }</h5>
       <ul class="facet-group side-nav">
         {_.forOwn(facets, function(facetMap, facet) { }
-        <li><a href="${getAddFilterURL(facetMap.filter_term) }">${facetMap.label }<span class="recordnumber">${facetMap.count }</span></a></li>
+        <li data-value='${facetMap.filter_term}'><a href="${getAddFilterURL(facetMap.filter_term) }">${facetMap.label }<span class="recordnumber">${facetMap.count }</span></a></li>
         {}); }
       </ul>
       {}); }
@@ -567,23 +565,16 @@
   <!-- Search Pager -->
   <script type="text/template" id="search-pager-tmpl">
     <ul class="pagination" role="menubar" aria-label="Pagination">
-      <li class='arrow${hasPreviousPage() ? "'>": " unavailable' aria-disabled='true'>"}<a href="${hasPreviousPage() ? getPreviousPageURL() : ''}">&#171; Previous</a></li>
+      <li class='arrow${hasPreviousPage ? "'>": " unavailable' aria-disabled='true'>"}<a href="${hasPreviousPage ? getPreviousPageURL() : ''}">&#171; Previous</a></li>
           {_.times((getPagerEnd() - getPagerStart() + 1), function(n) {}
 <li>
-  {if(n + getPagerStart() === state.currentPage) { }
+  {if(n + getPagerStart() === currentPage) { }
   <li>${n+getPagerStart() }</li>
   {} else { }
   <a href="${getPageURL((n + getPagerStart())) }">${n+getPagerStart() }</a></li>
 {} }
   {}); }
-      <!-- <li class="current"><a href="">1</a></li> -->
-      <!-- <li><a href="">2</a></li> -->
-      <!-- <li><a href="">3</a></li> -->
-      <!-- <li><a href="" data-tooltip="" aria-haspopup="true" class="has-tip" data-selector="tooltip-igioah321" aria-describedby="tooltip-igioah321" title=""><strong>4</strong></a></li> -->
-      <!-- <li class="unavailable" aria-disabled="true"><a href="">…</a></li> -->
-      <!-- <li><a href="">12</a></li> -->
-      <!-- <li><a href="">13</a></li> -->
-      <li class='arrow${hasNextPage() ? "'>": " unavailable' aria-disabled='true'>"}<a href="${hasNextPage() ? getNextPageURL() : ''}">Next &#187;</a></li>
+      <li class='arrow${hasNextPage ? "'>": " unavailable' aria-disabled='true'>"}<a href="${hasNextPage ? getNextPageURL() : ''}">Next &#187;</a></li>
     </ul>
   </script>
 
