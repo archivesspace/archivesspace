@@ -4,21 +4,9 @@ var RAILS_API = "/api";
 
 (function(Bb, _) {
 
-  // take a solr-style filter and convert it for our
-  // public URL
-  // example: '{"repositories":"/repositories/2"}'
-  //    -> {repository: '/repositories/2'}
   function convertFilter(solrFilter) {
     var parsed = JSON.parse(solrFilter);
-    var mapped = _.transform(parsed, function(result, val, key) {
-      result[key
-        .replace(/repositories/, "repository")
-        .replace(/primary_type/, "recordtype")] =
-        val
-        .replace(/archival_object/, 'object')
-
-    });
-    return mapped;
+    return parsed;
   }
 
 
@@ -26,7 +14,7 @@ var RAILS_API = "/api";
   // from the internal state of a SearchResults collection +
   // an optional filter function supplied by the caller +
   // an optional param object supplied by the caller
-  function buildBaseURL(paramFilter, addedParams) {
+  function buildLocationURL(paramFilter, addedParams) {
     var addedParams = addedParams || _.isUndefined(paramFilter) ? {} : _.isFunction(paramFilter) ? {} : paramFilter;
 
     var paramFilter = _.isFunction(paramFilter) ? paramFilter : function() {
@@ -39,21 +27,27 @@ var RAILS_API = "/api";
     if(this.pageSize) {
       params.push('pageSize='+this.pageSize);
     }
-    _.forOwn(_.omit(this.criteria, ['facet[]', 'type[]']), function(value, key) {
-      if(key === 'aq') {
-        var aqParams = app.utils.convertAdvancedQuery(value);
-        _.forOwn(aqParams, function(value, key) {
-          params.push(""+key+"="+value);
-        });
 
-      } else if(_.isArray(value)) {
-        _.forEach(value, function(filter) {
-          params.push(""+key+"="+filter);
-        });
-      } else {
-        params.push(key+"="+value);
-      }
+    _.forEach(this.filters, function(filter) {
+      params.push(_.keys(filter)[0]+"="+_.values(filter)[0]);
     });
+
+    if(_.isArray(this.query)) {
+      _.forEach(this.query, function(row, i) {
+        if(row.field)
+          params.push("f"+i+"="+row.field);
+
+        if(row.value)
+          params.push("q"+i+"="+row.value);
+
+        if(row.op)
+          params.push("op"+i+"="+row.op);
+
+        if(row.recordtype && i < 1)
+          params.push("recordtype="+row.recordtype);
+      });
+    }
+
     params = _.filter(params, paramFilter);
 
     _.forOwn(addedParams, function(val, key) {
@@ -67,7 +61,7 @@ var RAILS_API = "/api";
 
   //an object that can hold search
   //params taken from the public URL
-  //and convert them for the API
+  //and convert them for instantiating a SearchResults state
   function SearchQuery(queryString) {
     var that = this;
     var publicParams = this.parseQueryString(queryString);
@@ -88,7 +82,7 @@ var RAILS_API = "/api";
     var that = this;
     var rowData = {
       index: index
-    }
+    };
     var map = {
       'f': 'field',
       'q': 'value',
@@ -151,62 +145,8 @@ var RAILS_API = "/api";
 
   SearchQuery.prototype.buildQueryString = function(arg1, arg2) {
     var criteria = _.pick(_.toPlainObject(this), _.isString)
-    var url = buildBaseURL.call({criteria: criteria}, arg1, arg2);
+    var url = buildLocationURL.call({criteria: criteria}, arg1, arg2);
     return url;
-  };
-
-
-  SearchQuery.prototype.toApi = function() {
-    var apiParams = {}
-    _.forOwn(this, function(value, key) {
-      if(_.isFunction(value))
-        return false;
-
-      switch(key) {
-      case 'recordtype':
-        var type = app.utils.getASType(value);
-        if(type) {
-          // apiParams['filter_term[]'] = apiParams['filter_term[]'] || [];
-          // apiParams['filter_term[]'].push('{"primary_type":"'+type+'"}');
-          apiParams['type'] = type
-        }
-
-        break;
-      case 'repository':
-        _.forEach(_.flatten([value]), function(repoUri) {
-          apiParams['filter_term[]'] = apiParams['filter_term[]'] || [];
-          apiParams['filter_term[]'].push('{"repository":"'+repoUri+'"}');
-        });
-        break;
-      case 'subject':
-        _.forEach(_.flatten([value]), function(subject) {
-          apiParams['filter_term[]'] = apiParams['filter_term[]'] || [];
-          apiParams['filter_term[]'].push('{"subjects":"'+subject+'"}');
-        });
-        break;
-      case 'sortOrder':
-        if (value != 'relevance') {
-          apiParams['sort'] = {
-            'title': 'title_sort asc',
-            'date_added': 'create_time asc'
-          }[value]
-        }
-        break;
-      default:
-        apiParams[key] = value;
-        break;
-      }
-    });
-
-    //q0 => v0
-    _.forEach(_.range(5), function(i) {
-      if(apiParams['q'+i] && apiParams['f'+i]) {
-        apiParams['v'+i] = apiParams['q'+i];
-        delete apiParams['q'+i];
-      }
-    });
-
-    return apiParams;
   };
 
 
@@ -323,7 +263,7 @@ var RAILS_API = "/api";
     },
 
     parseRecords: function(data) {
-      // console.log(_.merge(data, {debug: "Raw search response"}));
+      console.log(_.merge(data, {debug: "Raw search response"}));
       return data.search_data.results
     },
 
@@ -341,20 +281,125 @@ var RAILS_API = "/api";
       }
     },
 
-    forEachAppliedFilterWithLabel: function(cb) {
-      var state = this.state;
-      if (!_.isEmpty(state.criteria.q)) {
-        cb('q', state.filterLabelMap['q']);
-      }
 
-      _.forEach(state.criteria["filter_term[]"], function(filter) {
-        cb(filter, state.filterLabelMap[filter]);
-      });
+    updateQuery: function(query) {
+      var state = this.state;
+      state = this.state = this._checkState(_.extend({}, state, {
+        query: query
+      }));
+
+      return this.getPage(1, _.omit({}, ["first"]));
     },
 
 
-    eachUsableFacetGroup: function(cb) {
+    applyFilter: function(filter) {
+      var filters = this.state.filters || [];
       var state = this.state;
+      filters.push(filter);
+      state = this.state = this._checkState(_.extend({}, state, {
+        filters: filters
+      }));
+
+      return this.getPage(1, _.omit({}, ["first"]));
+    },
+
+
+    removeFilter: function(filterToRemove) {
+      var filters = this.state.filters || [];
+      _.remove(filters, function(filter) {
+        return JSON.stringify(filter) === JSON.stringify(filterToRemove);
+      });
+
+      var state = this.state;
+      state = this.state = this._checkState(_.extend({}, state, {
+        filters: filters
+      }));
+
+      return this.getPage(1, _.omit({}, ["first"]));
+    },
+
+
+    queryParams: function() {
+      var map = {
+        currentPage: "page",
+        pageSize: "page_size",
+        sortKey: 'sort',
+        sort: function() {
+          switch(this.state.sortKey) {
+          case 'title':
+            return 'title_sort asc';
+          case 'date_added':
+            return 'create_time asc';
+          }
+        },
+        'filter_term[]': function() {
+          if(this.state.filters) {
+            return _.map(this.state.filters, function(filt) {
+              return JSON.stringify(filt);
+            });
+          }
+        }
+      };
+
+      _.times(5, function(n) {
+        map['v'+n] = function() {
+          if(this.state.query[n])
+            return this.state.query[n]['value'];
+        };
+        map['f'+n] = function() {
+          if(this.state.query[n])
+            return this.state.query[n]['field'];
+        };
+        map['op'+n] = function() {
+          if(n > 0 && this.state.query[n])
+            return this.state.query[n]['op'];
+        };
+      });
+
+      map['type'] = function() {
+        if(this.state.query[0])
+          return this.state.query[0]['recordtype'] === 'any' ? undefined : this.state.query[0]['recordtype'];
+      };
+
+      return map
+    }(),
+
+  });
+
+
+  var SearchFacetsView = Bb.View.extend({
+    el: "#sidebar",
+    initialize: function() {
+      return this;
+    },
+
+    render: function(state) {
+      var helper = new this.FacetHelper(state);
+      this.$el.html(app.utils.tmpl('facets', helper));
+    },
+
+    events: {
+      "click .facet-group a": function(e) {
+        e.preventDefault();
+        var filter = $(e.target).closest("li").data("value");
+        this.trigger("applyfilter.aspace", filter);
+      },
+
+      "click .applied-filters a": function(e) {
+        e.preventDefault();
+        var filter = $(e.target).closest("li").data("value");
+        this.trigger("removefilter.aspace", filter);
+      }
+    }
+
+  });
+
+
+  SearchFacetsView.prototype.FacetHelper = function(state) {
+    var state = state || {};
+
+    this.addFilterURLs = {};
+    this.eachUsableFacetGroup = function(cb) {
       _.forOwn(state.facetData, function(facets, facetGroup) {
         var usableFacets = _.filter(facets, function(facet) {
           return facet.count != state.totalRecords;
@@ -364,80 +409,45 @@ var RAILS_API = "/api";
           cb(usableFacets, facetGroup);
         }
       });
-    },
+    };
 
 
-    getRemoveFilterURL: function(filterToRemove) {
-      var url = buildBaseURL.call(this.state, function(param) {
-        if(filterToRemove === 'q') {
-          return !param.match(/^q=/);
-        } else {
-          return !(param === 'filter_term[]='+filterToRemove);
-        }
+    this.getAddFilterURL = function(filterToAdd) {
+      var url = buildLocationURL.call(state, convertFilter(filterToAdd));
+      return encodeURI(url);
+    };
+
+
+    this.getRemoveFilterURL = function(filter) {
+      var url = buildLocationURL.call(state, function(param) {
+        return !(param === _.keys(filter)[0]+"="+_.values(filter)[0]);
       });
       return encodeURI(url);
-    },
+    };
 
 
-    getAddFilterURL: function(filterToAdd) {
-      var url = buildBaseURL.call(this.state, convertFilter(filterToAdd));
-      return encodeURI(url);
-    },
-
-    queryParams: {
-      currentPage: "page",
-      pageSize: "page_size"
-    }
-  });
-
-
-  var SearchFacetsView = Bb.View.extend({
-    el: "#sidebar",
-    initialize: function() {
-      this.$el.html(app.utils.tmpl('facets-tmpl', this.collection));
-      return this;
-    },
-
-    events: {
-      "click .facet-group a": function(e) {
-        e.preventDefault();
-        var url = e.target.getAttribute('href');
-        app.router.navigate(url, {trigger: true});
-      },
-
-      "click .applied-filters a": function(e) {
-        e.preventDefault();
-        var url = e.target.getAttribute('href');
-        app.router.navigate(url, {trigger: true});
-      }
-    }
-
-  });
+    this.forEachAppliedFilterWithLabel = function(cb) {
+      _.forEach(state.filters, function(filter) {
+        cb(filter, state.filterLabelMap[JSON.stringify(filter)]);
+      });
+    };
+  };
 
 
   var SearchPagerView = Bb.View.extend({
     tagName: "div",
 
     initialize: function(opts) {
-      console.log(opts);
       this.query = opts.query;
       this.resultsState = opts.resultsState;
 
-
       var pagerHelper = new this.PagerHelper(opts)
-      console.log(pagerHelper);
 
       this.$el.html(app.utils.tmpl('search-pager', pagerHelper));
     },
   });
 
   SearchPagerView.prototype.PagerHelper = function(opts) {
-
-    console.log(opts.query.page < opts.resultsState.totalPages)
-    console.log(opts.query.page)
-    console.log(opts.resultsState.totalPages)
-
-
 
     this.hasPreviousPage = opts.query.page > 1;
     this.hasNextPage = (opts.query.page < opts.resultsState.totalPages);
@@ -466,8 +476,6 @@ var RAILS_API = "/api";
   };
 
 
-
-
   var SearchItemView = Bb.View.extend({
     tagName: "div",
 
@@ -484,7 +492,7 @@ var RAILS_API = "/api";
     initialize: function(opts) {
       this.query = opts.query;
 
-      this.render();
+      // this.render();
       return this;
     },
 
@@ -689,6 +697,7 @@ var RAILS_API = "/api";
   var SearchToolbarView = Bb.View.extend({
     el: "#search-box",
     initialize: function(opts) {
+      var editorEl = opts.editorEl || ".first-row";
       this.query = opts.query;
       var that = this;
       var render = {
@@ -696,7 +705,7 @@ var RAILS_API = "/api";
       };
 
       this.$el.html(app.utils.tmpl('search-toolbar', render));
-      this.searchEditor = new SearchEditor($(".first-row", this.$el));
+      this.searchEditor = new SearchEditor($(editorEl, this.$el));
 
       return this;
     },
@@ -709,8 +718,8 @@ var RAILS_API = "/api";
         $($a.closest("li")).addClass("selected");
         $("button[data-dropdown='numberresults']").text($a.text());
 
-        this.query.pageSize = parseInt($a.text());
-        this.trigger("modifiedquery.aspace", this.query);
+        var pageSize = parseInt($a.text());
+        this.trigger("changepagesize.aspace", pageSize);
       },
 
       "click #sortorder a": function(e) {
@@ -722,7 +731,7 @@ var RAILS_API = "/api";
 
         var selection = $($a.closest("li")).data("value");
         this.query.sortOrder = selection;
-        this.trigger("modifiedquery.aspace", this.query);
+        this.trigger("changesortorder.aspace", selection);
       },
 
       "click #revise-search-button" : function(e) {
@@ -769,13 +778,8 @@ var RAILS_API = "/api";
 
     search: function (e) {
       e.preventDefault();
-
       this.query.updateCriteria(this.searchEditor.extract());
-
-      console.log(this.query);
       this.trigger("modifiedquery.aspace", this.query);
-
-      app.router.navigate(this.query.buildQueryString());
     }
 
   });
@@ -799,7 +803,7 @@ var RAILS_API = "/api";
     search: function (e) {
       e.preventDefault();
 
-      var url = buildBaseURL.call({
+      var url = buildLocationURL.call({
         criteria: this.searchEditor.extract()
       });
 
@@ -811,11 +815,39 @@ var RAILS_API = "/api";
   var SearchContainerView = Bb.View.extend({
     el: "#container",
     initialize: function(queryString) {
-      this.searchQuery = new app.SearchQuery(queryString);
-      console.log(queryString);
-      console.log(this.searchQuery);
+      sq = this.searchQuery = new app.SearchQuery(queryString);
       //only doing advanced search for now
       this.searchQuery.advanced = true;
+
+      var state = {
+        currentPage: this.searchQuery.page,
+        pageSize: this.searchQuery.pageSize,
+        query: []
+      }
+
+      _.forEach(['repository', 'primary_type', 'subjects' ], function(filterKey) {
+        if(sq[filterKey]){
+          _.forEach(_.flatten([sq[filterKey]]), function(filterVal) {
+            state.filters = state.filters || [];
+            state.filters.push(JSON.parse('{"'+filterKey+'": "'+filterVal+'"}'));
+          });
+        }
+      });
+
+      sq.forEachRow(function(rowData, i) {
+        state.query.push(rowData);
+      });
+
+      this.searchResults = new app.SearchResults([], {
+        state: state
+      });
+
+      this.searchResults.advanced = true;
+
+      app.debug = {
+        results: this.searchResults,
+        query: this.searchQuery
+      };
 
       this.$el.html(app.utils.tmpl('container-tmpl'));
 
@@ -824,77 +856,113 @@ var RAILS_API = "/api";
       return this;
     },
 
+
+    // Build the views for displaying and changing the search
+    // results. Listen to views for user-driven events and trigger
+    // updates to results as necessary
+    // TODO 'changedates.aspace'
+
     loadToolbarAndResults: function() {
       var searchQuery = this.searchQuery;
-      var refreshResults = $.proxy(this.refreshResults, this);
+      var searchResults = this.searchResults;
+      var redrawResults = $.proxy(this.redrawResults, this);
 
-      this.searchToolbarView = new app.SearchToolbarView({
+      var stv = this.searchToolbarView = new app.SearchToolbarView({
         query: searchQuery
       });
 
+      var srv = this.searchResultsView = new app.SearchResultsView({
+        collection: searchResults,
+        query: searchQuery
+      });
 
-      this.searchToolbarView.on("modifiedquery.aspace",
-                                function(modifiedQuery) {
-                                  refreshResults(modifiedQuery);
-                                });
+      var sfv = this.searchFacetsView = new app.SearchFacetsView();
 
-      this.searchToolbarView.trigger("modifiedquery.aspace", searchQuery);
+      sfv.on("applyfilter.aspace", function(filter) {
+        $('#wait-modal').foundation('reveal', 'open');
+        searchResults.applyFilter(filter).then(function() {
+          var url = buildLocationURL.call(searchResults.state);
+          app.router.navigate(url);
+          redrawResults();
+          setTimeout(function() {
+            $('#wait-modal').foundation('reveal', 'close');
+            // reinitalize foundation
+            $("#main-content").foundation();
+          }, 500);
+        });
+      });
+
+
+      sfv.on("removefilter.aspace", function(filter) {
+        $('#wait-modal').foundation('reveal', 'open');
+        searchResults.removeFilter(filter).then(function() {
+          var url = buildLocationURL.call(searchResults.state);
+          app.router.navigate(url);
+          redrawResults();
+          setTimeout(function() {
+            $('#wait-modal').foundation('reveal', 'close');
+            // reinitalize foundation
+            $("#main-content").foundation();
+          }, 500);
+        });
+      });
+
+      stv.on("changepagesize.aspace", function(newSize) {
+        $('#wait-modal').foundation('reveal', 'open');
+        searchResults.setPageSize(newSize).then(function() {
+          redrawResults();
+          setTimeout(function() {
+            $('#wait-modal').foundation('reveal', 'close');
+            // reinitalize foundation
+            $("#main-content").foundation();
+          }, 500);
+        });
+      });
+
+      stv.on("changesortorder.aspace", function(newSort) {
+        $('#wait-modal').foundation('reveal', 'open');
+        searchResults.setSorting(newSort);
+        searchResults.fetch().then(function() {
+          redrawResults();
+          setTimeout(function() {
+            $('#wait-modal').foundation('reveal', 'close');
+            // reinitalize foundation
+            $("#main-content").foundation();
+          }, 500);
+        });
+      });
+
+
+      stv.on("modifiedquery.aspace", function(modifiedQuery) {
+        var query = [];
+          // to do - add method to query object for this
+        modifiedQuery.forEachRow(function(data) {
+          query.push(data);
+        });
+        $('#wait-modal').foundation('reveal', 'open');
+        searchResults.updateQuery(query).then(function() {
+          var url = buildLocationURL.call(searchResults.state);
+          app.router.navigate(url);
+          redrawResults();
+          setTimeout(function() {
+            $('#wait-modal').foundation('reveal', 'close');
+            // reinitalize foundation
+            $("#main-content").foundation();
+          }, 500);
+        });
+      });
+
+      stv.trigger("modifiedquery.aspace", searchQuery);
     },
 
-    refreshResults: function(searchQuery) {
-      var searchToolbarView = this.searchToolbarView;
 
-      var searchResults = new app.SearchResults([], {
-        state: {
-          currentPage: searchQuery.page,
-          pageSize: searchQuery.pageSize
-        }
-      });
-
-      app.debug = {
-        results: searchResults,
-        query: searchQuery
-      };
-
-      searchResults.advanced = true;
-
-      if(this.searchResults) {
-        this.searchResults.remove();
-        this.searchResults.unbind();
-      }
-
-      this.searchResults = searchResults;
-
-      var apiQuery = searchQuery.toApi();
-
-      var opts = {data: apiQuery};
-      $('#wait-modal').foundation('reveal', 'open');
-      searchResults.fetch(opts).then(function() {
-        searchToolbarView.updateResultState(searchResults.state);
-        var searchResultsView = new app.SearchResultsView({
-          collection: searchResults,
-          query: searchQuery
-        });
-
-        var sideBar = new app.SearchFacetsView({
-          collection: searchResults
-        });
-
-        $.scrollTo($('#header'));
-        $('#wait-modal').foundation('reveal', 'close');
-        //Sometimes the modal doesn't have time to finish opening
-        //and misses the first close call
-        setTimeout(function() {
-          $('#wait-modal').foundation('reveal', 'close');
-          // reinitalize foundation
-          $(document).foundation();
-        }, 500);
-
-      });
+    redrawResults: function() {
+      this.searchToolbarView.updateResultState(this.searchResults.state);
+      this.searchResultsView.render();
+      this.searchFacetsView.render(this.searchResults.state);
     }
 
   });
-
 
   app.SearchQuery = SearchQuery;
   app.SearchResults = SearchResults;
