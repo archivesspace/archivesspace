@@ -14,12 +14,16 @@ Monlongo](http://www.hudsonmolonglo.com/) into the core ArchivesSpace code. You 
 at [ArchivesSpace @ Yale
 blog](http://campuspress.yale.edu/yalearchivesspace/2014/11/20/managing-content-managing-containers-managing-access/)
 
-It is important to note, the v1.5.0 migration process has an additional step.
-You run the standard setup-database set, which will modify your database
+If you are using ArchivesSpace with version v1.5.0 for the first time and are not upgrading from a previous version, you do not need to take any other steps with your install. 
+
+If you are upgrading from a previous verions, it is important to note the v1.5.0 migration process has an additional step.
+You run the standard setup-database step, which will modify your database
 structure to add the additional required tables. When ArchivesSpace v1.5.0
 starts for the first time, it will kick-off a conversion process to move data from the previous container
 tables into the new container tables. While this process is underway, the
 application will be unavailable. 
+
+If you previously used a container management plugin, \[ Not really sure what to put here since it hasn't yet been surfaced what the steps and / or issues are. Will know when we have testing back \] 
 
 **Important: This conversion process will output information indicating
 records that might need manual review and cleanup. Keep the output
