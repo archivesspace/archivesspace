@@ -30,6 +30,9 @@ var app = app || {};
         key_for_public_urls: "collection",
         label_singular: "Collection",
         label_plural: "Collections"
+      },
+      archival_object: {
+        key_for_public_urls: "objects"
       }
     }
 

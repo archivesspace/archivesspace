@@ -491,8 +491,6 @@ var RAILS_API = "/api";
 
     initialize: function(opts) {
       this.query = opts.query;
-
-      // this.render();
       return this;
     },
 
@@ -506,7 +504,6 @@ var RAILS_API = "/api";
 
     render: function() {
       var $el = this.$el;
-      $el.html("<h2>Search results</h2>");
       this.collection.forEach(function(item, index) {
         item.render.index = index;
         var searchItemView = new SearchItemView({
@@ -697,15 +694,16 @@ var RAILS_API = "/api";
   var SearchToolbarView = Bb.View.extend({
     el: "#search-box",
     initialize: function(opts) {
-      var editorEl = opts.editorEl || ".first-row";
       this.query = opts.query;
+
       var that = this;
       var render = {
         pageSize: this.query.pageSize
       };
 
       this.$el.html(app.utils.tmpl('search-toolbar', render));
-      this.searchEditor = new SearchEditor($(editorEl, this.$el));
+      var $editorEl = opts.editorEl || $(".search-panel", this.$el);
+      this.searchEditor = new SearchEditor($editorEl);
 
       return this;
     },
@@ -757,7 +755,7 @@ var RAILS_API = "/api";
           } else if (state.criteria.aq) {
             return _.map(app.utils.flattenAdvancedQuery(state.criteria.aq), function(n, i) {
               if((i % 2) === 0) {
-                return "<span class='"+spanClass+"'>"+n+"</span>";
+                return "<span class='"+spanClass+"'>"+n.replace(/^.*:/, '')+"</span>";
               } else {
                 return n;
               }
@@ -771,7 +769,7 @@ var RAILS_API = "/api";
         totalRecords: state.totalRecords
       }
 
-      $("p.search-toolbar-results", this.$el)
+      $(".search-toolbar-results", this.$el)
         .html(app.utils.tmpl('search-toolbar-results', render));
     },
 
@@ -849,7 +847,7 @@ var RAILS_API = "/api";
         query: this.searchQuery
       };
 
-      this.$el.html(app.utils.tmpl('container-tmpl'));
+      this.$el.html(app.utils.tmpl('container-tmpl', {headerText: "Search Results"}));
 
       this.loadToolbarAndResults();
 

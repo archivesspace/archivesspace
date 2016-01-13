@@ -10,7 +10,6 @@ describe('SearchToolbarView', function() {
 
     $container.affix("ul#sortorder").affix('li[data-value="bar"]').affix("a");
 
-
     $(function() {
       done();
     });
