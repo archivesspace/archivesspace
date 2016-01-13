@@ -1,5 +1,7 @@
 <html>
 <head>
+  <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="/assets/application.css" />
   <link rel="stylesheet" href="/assets/load-awesome/line-spin-clockwise-fade.css" />
 </head>
@@ -9,6 +11,7 @@
   <section id="welcome"></section>
   <section id="search-box"></section>
   <section id="container"></section>
+
 
   <div class="reveal-modal" id="wait-modal" data-reveal data-options="animation_speed: 0; close_on_background_click: false; close_on_esc: false;" style="background-color: transparent; border: 0px; box-shadow: 0 0 0 0;">
     <center>
@@ -44,30 +47,23 @@
   <script src="/assets/main.js" type="text/javascript"></script>
   <script src="/assets/searching.js" type="text/javascript"></script>
 
-
-
-
   <!-- templates -->
 
   <!-- header -->
   <script type="text/template" id="header-tmpl">
-    <div class="row">
-      <div class="small-12 columns"><h2 title="Title can be customized by the institution."><a href="/">ArchivesSpace Instance Title</a></h2></div>
+    <div class="row collapse cover fullwidth valign-middle">
+      <div class="small-8 columns"><h1 title="Title can be customized by the institution."><a href="/">ArchivesSpace Instance Title</a></h1></div>
+
+      <div class="small-4 columns logo">
+        <img src="/img/Aspace-logo.png" />
+      </div>
     </div>
   </script>
 
   <!-- navbar -->
   <script type="text/template" id="navbar-tmpl">
-    <div class="contain-to-grid">
-      <nav class="top-bar" data-topbar role="navigation">
-        <ul class="title-area">
-          <li class="name">
-            <h1><a href="#"></a></h1>
-          </li>
-          <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-        </ul>
-
-        <section class="top-bar-section">
+    <nav class="top-bar" data-topbar role="navigation">
+      <section class="top-bar-section">
           <!-- Left Nav Section -->
           <ul class="left">
             <li><a href="${ encodeURI( '/search?recordtype=repository' ) }">Repositories</a></li>
@@ -80,15 +76,17 @@
           </ul>
         </section>
       </nav>
-    </div>
   </script>
 
-  <!-- main:sidebar -->
+  <!-- content and sidebar -->
   <script type="text/template" id="container-tmpl">
-    { var mainWidth = _.isUndefined(mainWidth) ?  9 : mainWidth; }
-    { var sidebarWidth = _.isUndefined(sidebarWidth) ? 3 : sidebarWidth; }
-    <div class="row">
-      <p>&nbsp;</p>
+    { var mainWidth = _.isUndefined(mainWidth) ?  8 : mainWidth; }
+    { var sidebarWidth = _.isUndefined(sidebarWidth) ? 4 : sidebarWidth; }
+    <div class="row collapse">
+      { if(typeof(headerText) != 'undefined') {}
+      <h2>${headerText}</h2>
+      {} }
+
       <!-- main content -->
       <div id="main-content" class="medium-${mainWidth } columns"></div>
       <!-- sidebar -->
@@ -121,7 +119,7 @@
       { var field = field || 'keyword' }
       { var op = op || 'AND' }
 
-      <div class="medium-1 columns">
+      <div class="small-1 columns">
         { if(index > 0) { }
         <button href="#" data-dropdown="op${rowId}" aria-controls="op${rowId}" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
         <ul data-name="op" id="op${rowId}" data-dropdown-content="" class="f-dropdown" aria-hidden="true">
@@ -133,7 +131,7 @@
         &#160;
         {} }
       </div>
-      <div class="medium-4 columns">
+      <div class="small-3 columns">
         { if(typeof(value) != 'undefined') {}
         <h5><strong> &#160; ${value}</strong></h5>
         <input name="q${rowId}" type="hidden" value="${value}"/>
@@ -141,7 +139,7 @@
         <input name="q${rowId}" type="text" placeholder="Enter your search terms" />
         {} }
       </div>
-      <div class="medium-3 columns search-query-recordtype-col">
+      <div class="small-3 columns search-query-recordtype-col">
         { if(index === 0) { }
         <button type="button" data-dropdown="recordtype" aria-controls="recordtype" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
         <ul data-name="recordtype" id="recordtype" data-dropdown-content class="f-dropdown" aria-hidden="true">
@@ -153,7 +151,7 @@
         &#160;
         {} }
       </div>
-      <div class="medium-2 columns">
+      <div class="small-2 columns">
         <button href="#" data-dropdown="f${rowId}" aria-controls="fieldsearched" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
         <ul data-name="f" id="f${rowId}" data-dropdown-content class="f-dropdown" aria-hidden="true">
           <li data-value="keyword" { if(!field || field === 'keyword'){ } class="selected" {} }><a href="#">Keyword</a></li>
@@ -163,10 +161,10 @@
           <li data-value="title" { if(field === 'title'){ } class="selected" {} }><a href="#">Title</a></li>
         </ul>
       </div>
-      <div class="medium-1 columns add-query-row">
+      <div class="small-1 columns add-query-row">
         <a href="#" class="button tiny secondary">+</a>
       </div>
-      <div class="medium-1 columns">
+      <div class="small-2 columns text-right">
         <button id="search-button" class="button tiny">Search</button>
       </div>
     <!-- </div> -->
@@ -175,48 +173,60 @@
   </script>
 
   <script type="text/template" id="search-toolbar-results-tmpl">
-    Your search for ${searchTermsString('searchterm1')} yielded ${totalRecords} results.
+    Your search for ${searchTermsString('searchterm')} yielded ${totalRecords} results.
   </script>
 
   <!-- search toolbar -->
   <script type="text/template" id="search-toolbar-tmpl">
-
-    <div class="row first-row panel">
-      <p class="small-12 columns search-toolbar-results">Executing query</p>
-      <p class="medium-6 columns">Change number of results displayed at once:
-        <button type="button" data-dropdown="numberresults" aria-controls="numberresults" aria-expanded="false" class="button dropdown tiny">${pageSize}</button><br>
-        <ul id="numberresults" data-dropdown-content class="f-dropdown" aria-hidden="true">
+    <div class="panel search-panel">
+    <div class="row first-row valign-middle">
+      <div class="small-5 columns">
+        <p class="search-toolbar-results">Executing query</p>
+      </div>
+      <div class="small-4 columns valign-middle">
+        <p class="search-toolbar-display-ctrl">Number of results displayed:
+          <button type="button" data-dropdown="numberresults" aria-controls="numberresults" aria-expanded="false" class="button dropdown tiny">${pageSize}</button><br>
+          <ul id="numberresults" data-dropdown-content class="f-dropdown" aria-hidden="true">
           { _.forEach([20, 40, 60, 100], function(sizeOption) { }
           <li { if(sizeOption === pageSize) {} class="selected" {} }>
             <a href="#">${sizeOption}</a>
           </li>
           {}); }
-        </ul>
-      </p>
-      <p class="medium-6 columns">Sort by:
-        <button href="#" data-dropdown="sortorder" aria-controls="sortorder" aria-expanded="false" class="button dropdown tiny">Relevance</button><br>
-        <ul id="sortorder" data-dropdown-content class="f-dropdown" aria-hidden="true">
-          <li data-value="relevance"><a href="#" class="selected">Relevance</a></li>
-          <li data-value="title"><a href="#">Title</a></li>
-          <li data-value="date_added"><a href="#">Date added</a></li>
-          <li data-value="material_date"><a href="#">Date of material</a></li>
-        </ul>
-      </p>
-      <div class="medium-6 columns">
+          </ul>
+        </p>
+      </div>
+      <div class="small-3 columns valign-middle">
+        <p class="search-toolbar-display-ctrl">Sort by:
+          <button href="#" data-dropdown="sortorder" aria-controls="sortorder" aria-expanded="false" class="button dropdown tiny">Relevance</button><br>
+          <ul id="sortorder" data-dropdown-content class="f-dropdown" aria-hidden="true">
+            <li data-value="relevance"><a href="#" class="selected">Relevance</a></li>
+            <li data-value="title"><a href="#">Title</a></li>
+            <li data-value="date_added"><a href="#">Date added</a></li>
+            <li data-value="material_date"><a href="#">Date of material</a></li>
+          </ul>
+        </p>
+      </div>
+    </div>
+    <div class="row second-row">
+      <div class="small-6 columns">
         Search controls:
-        <ul class="button-group ">
-          <li><a href="/" class="button small">New search</a></li>
-          <li><a id="revise-search-button" href="#" class="button small">Revise current search</a></li>
+        <ul class="button-group round">
+          <li><a href="/" class="button small">New Search</a></li>
+          <li><a id="revise-search-button" href="#" class="button small">Revise Current Search</a></li>
         </ul>
       </div>
-      <div class="medium-6 columns text-right">
+      <div class="small-6 columns">
+        <div style="float:left"></div>
+        <div class="align-left" style="float:right">
         Display search results as:
-        <ul class="button-group text-right">
+        <ul class="button-group round" id="foo">
           <li><a href="02searchresults.html" class="button small fi-list-thumbnails disabled"> All items</a></li>
           <li><a href="02searchresultstree.html" class="button small fi-page-multiple"> Collections</a></li>
           <li><a href="02searchresultsgrid.html" class="button small fi-thumbnails"> Digital items</a></li>
         </ul>
+        </div>
       </div>
+    </div>
     </div>
   </script>
 
@@ -498,7 +508,7 @@
 
   <!-- facets sidebar -->
   <script type="text/template" id="facets-tmpl">
-    <h2>Filter results</h2>
+    <h3>Filter results</h3>
     <div>
       <ul class="applied-filters side-nav">
         {forEachAppliedFilterWithLabel(function(filter, label) { }
