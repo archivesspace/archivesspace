@@ -15,6 +15,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'vendor/assets/javascripts/lodash/lodash.js',
+      'app/assets/javascripts/lodash.aspace.js',
       'vendor/assets/javascripts/jquery/jquery.js',
       'vendor/assets/javascripts/exoskeleton/exoskeleton.js',
       'vendor/assets/javascripts/backbone.paginator/backbone.paginator.js',
