@@ -18,9 +18,9 @@
   ],
   "dependencies": {
     "exoskeleton": "~0.7.0",
-    "jquery": "~2.1.4",
+    "jquery": "~2.2.0",
     "foundation": "~5.5.3",
-    "lodash": "~3.10.1",
+    "lodash": "~4.0.0",
     "jquery.scrollTo": "~2.1.2",
     "load-awesome": "~1.1.0",
     "foundation-icon-fonts": "*"
@@ -44,6 +44,13 @@
         "mapping": [
           {
             "bower_components/jquery/dist/jquery.js": "jquery.js"
+          }
+        ]
+      },
+      "lodash": {
+        "mapping": [
+          {
+            "bower_components/lodash/lodash.js": "lodash.js"
           }
         ]
       },
