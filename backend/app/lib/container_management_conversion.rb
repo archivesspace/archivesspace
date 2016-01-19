@@ -1,7 +1,7 @@
 require_relative 'aspace_json_to_managed_container_mapper'
 
 
-class ContainerManagementMigration
+class ContainerManagementConversion
     
    
   def self.already_run?
@@ -126,6 +126,12 @@ class ContainerManagementMigration
       begin
         super
       rescue ValidationException => e
+        DB.open do |db|
+          db[:system_event].insert(:title => "CONTAINER_MANAGEMENT_UPGRADE_WARNING",
+                                   :message => e.message, 
+                                   :time => Time.now)
+        end
+         
         Log.error("A ValidationException was raised while the container migration took place.  Please investigate this, as it likely indicates data issues that will need to be resolved by hand")
         Log.exception(e)
       end
@@ -151,7 +157,7 @@ class ContainerManagementMigration
       db[:system_event].insert(:title => "CONTAINER_MANAGEMENT_UPGRADE_STARTED",
                                  :time => Time.now)
     end
-    
+
     records_migrated = 0
 
     Repository.all.each do |repo|
