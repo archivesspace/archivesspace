@@ -14,13 +14,13 @@ describe('SearchQuery', function() {
   // });
 
 
-  it("will ignore supernumerary page params", function() {
-    var queryString = 'page=2&page=1&subject=rocks';
+  // it("will ignore supernumerary page params", function() {
+  //   var queryString = 'page=2&page=1&subject=rocks';
 
-    var sq = new app.SearchQuery(queryString);
+  //   var sq = new app.SearchQuery(queryString);
 
-    expect(sq.page).toEqual(2);
-  });
+  //   expect(sq.page).toEqual(2);
+  // });
 
 
 });
