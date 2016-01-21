@@ -135,5 +135,6 @@ var app = app || {};
   $(function() {
     new HeaderView();
     new NavbarView();
+    $(document).foundation();
   });
 })(Backbone, _, jQuery);

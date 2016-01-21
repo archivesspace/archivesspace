@@ -876,6 +876,8 @@ var RAILS_API = "/api";
 
       var sfv = this.searchFacetsView = new app.SearchFacetsView();
 
+      // $(document).foundation();
+
       sfv.on("applyfilter.aspace", function(filter) {
         $('#wait-modal').foundation('reveal', 'open');
         searchResults.applyFilter(filter).then(function() {
@@ -937,20 +939,22 @@ var RAILS_API = "/api";
         modifiedQuery.forEachRow(function(data) {
           query.push(data);
         });
-        $('#wait-modal').foundation('reveal', 'open');
+        $('#wait-modal').foundation('open');
         searchResults.updateQuery(query).then(function() {
           var url = buildLocationURL.call(searchResults.state);
           app.router.navigate(url);
           redrawResults();
           setTimeout(function() {
-            $('#wait-modal').foundation('reveal', 'close');
+            $('#wait-modal').foundation('close');
             // reinitalize foundation
             $("#main-content").foundation();
           }, 500);
         });
       });
 
-      stv.trigger("modifiedquery.aspace", searchQuery);
+      $(function() {
+        stv.trigger("modifiedquery.aspace", searchQuery);
+      });
     },
 
 
