@@ -19,11 +19,11 @@
   "dependencies": {
     "exoskeleton": "~0.7.0",
     "jquery": "~2.2.0",
-    "foundation": "~5.5.3",
     "lodash": "~4.0.0",
     "jquery.scrollTo": "~2.1.2",
     "load-awesome": "~1.1.0",
-    "foundation-icon-fonts": "*"
+    "foundation-icon-fonts": "*",
+    "foundation-sites": "~6.1.1"
   },
   "install": {
     "path": {
@@ -54,9 +54,9 @@
           }
         ]
       },
-      "foundation": [
-        "bower_components/foundation/js/**",
-        "bower_components/foundation/scss/**"
+      "foundation-sites": [
+        "bower_components/foundation-sites/js/**",
+        "bower_components/foundation-sites/scss/**"
       ],
       "backbone.paginator": {
         "mapping": [

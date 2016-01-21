@@ -13,7 +13,7 @@
   <section id="container"></section>
 
 
-  <div class="reveal-modal" id="wait-modal" data-reveal data-options="animation_speed: 0; close_on_background_click: false; close_on_esc: false;" style="background-color: transparent; border: 0px; box-shadow: 0 0 0 0;">
+  <div class="reveal" id="wait-modal" data-reveal data-options="animation_speed: 0; close_on_background_click: false; close_on_esc: false;" style="background-color: transparent; border: 0px; box-shadow: 0 0 0 0;">
     <center>
       <div class="la-line-spin-clockwise-fade la-3x">
         <div></div>
@@ -37,11 +37,18 @@
 
   <script src="/assets/jquery.scrollTo/jquery.scrollTo.js" type="text/javascript"></script>
 
-  <script src="/assets/foundation/vendor/modernizr.js" type="text/javascript"></script>
-  <script src="/assets/foundation/foundation.js" type="text/javascript"></script>
-  <script src="/assets/foundation/foundation/foundation.reveal.js" type="text/javascript"></script>
-  <script src="/assets/foundation/foundation/foundation.dropdown.js" type="text/javascript"></script>
-  <script src="/assets/foundation/foundation/foundation.accordion.js" type="text/javascript"></script>
+  <!-- <script src="/assets/foundation-sites/vendor/modernizr.js" type="text/javascript"></script> -->
+  <script src="/assets/foundation-sites/foundation.core.js" type="text/javascript"></script>
+
+  <script src="/assets/foundation-sites/foundation.util.keyboard.js" type="text/javascript"></script>
+  <script src="/assets/foundation-sites/foundation.util.box.js" type="text/javascript"></script>
+  <script src="/assets/foundation-sites/foundation.util.triggers.js" type="text/javascript"></script>
+  <script src="/assets/foundation-sites/foundation.util.mediaQuery.js" type="text/javascript"></script>
+  <script src="/assets/foundation-sites/foundation.util.motion.js" type="text/javascript"></script>
+
+  <script src="/assets/foundation-sites/foundation.reveal.js" type="text/javascript"></script>
+  <script src="/assets/foundation-sites/foundation.dropdown.js" type="text/javascript"></script>
+  <script src="/assets/foundation-sites/foundation.accordion.js" type="text/javascript"></script>
 
   <script src="/assets/utils.js" type="text/javascript"></script>
   <script src="/assets/router.js" type="text/javascript"></script>
@@ -63,10 +70,10 @@
 
   <!-- navbar -->
   <script type="text/template" id="navbar-tmpl">
-    <nav class="top-bar" data-topbar role="navigation">
-      <section class="top-bar-section">
+    <div class="top-bar" role="navigation">
+      <div class="top-bar-left">
           <!-- Left Nav Section -->
-          <ul class="left">
+          <ul class="dropdown menu" data-dropdown-menu>
             <li><a href="${ encodeURI( '/search?recordtype=repository' ) }">Repositories</a></li>
             <li><a href="${ encodeURI( '/search?recordtype=collection' ) }">Collections</a></li>
             <li><a href="${ encodeURI( '/search?recordtype=digital_object' ) }">Digital items</a></li>
@@ -75,8 +82,8 @@
             <li><a href="${ encodeURI( '/search?recordtype=agent_person&type=agent_family&type=agent_corporate_entity' ) }">People & Organizations</a></li>
             <li><a href="${ encodeURI( '/search?recordtype=classification' ) }">Record Groups</a></li>
           </ul>
-        </section>
-      </nav>
+        </div>
+      </div>
   </script>
 
   <!-- content and sidebar -->
@@ -123,7 +130,7 @@
       <div class="small-1 columns">
         { if(index > 0) { }
         <button href="#" data-dropdown="op${rowId}" aria-controls="op${rowId}" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
-        <ul data-name="op" id="op${rowId}" data-dropdown-content="" class="f-dropdown" aria-hidden="true">
+        <ul data-name="op" id="op${rowId}" data-dropdown-content="" class="dropdown" aria-hidden="true">
           <li data-value="AND" class="${ op === 'AND' ? 'selected' : ''}"><a href="#">And</a></li>
           <li data-value="OR" class="${ op === 'OR' ? 'selected' : ''}"><a href="#">Or</a></li>
           <li data-value="NOT"><a href="#">Not</a></li>
@@ -143,7 +150,7 @@
       <div class="small-3 columns search-query-recordtype-col">
         { if(index === 0) { }
         <button type="button" data-dropdown="recordtype" aria-controls="recordtype" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
-        <ul data-name="recordtype" id="recordtype" data-dropdown-content class="f-dropdown" aria-hidden="true">
+        <ul data-name="recordtype" id="recordtype" data-dropdown-content class="dropdown" aria-hidden="true">
           <li data-value="any" class="${recordType === 'any' ? 'selected' : ''}"><a href="#">Search all record types</a></li>
           <li data-value="collection" class="${recordType === 'collection' ? 'selected' : ''}"><a href="#">Search collections</a></li>
           <li data-value="digital_object" class="${recordType === 'digital_object' ? 'selected' : ''}"><a href="#">Search digital materials</a></li>
@@ -186,8 +193,8 @@
       </div>
       <div class="small-4 columns valign-middle">
         <p class="search-toolbar-display-ctrl">Number of results displayed:
-          <button type="button" data-dropdown="numberresults" aria-controls="numberresults" aria-expanded="false" class="button dropdown tiny">${pageSize}</button><br>
-          <ul id="numberresults" data-dropdown-content class="f-dropdown" aria-hidden="true">
+          <button type="button" data-toggle="numberresults" aria-controls="numberresults" aria-expanded="false" class="button dropdown tiny">${pageSize}</button><br>
+          <ul id="numberresults" data-dropdown class="dropdown-pane" aria-hidden="true">
           { _.forEach([20, 40, 60, 100], function(sizeOption) { }
           <li { if(sizeOption === pageSize) {} class="selected" {} }>
             <a href="#">${sizeOption}</a>
@@ -198,8 +205,8 @@
       </div>
       <div class="small-3 columns valign-middle">
         <p class="search-toolbar-display-ctrl">Sort by:
-          <button href="#" data-dropdown="sortorder" aria-controls="sortorder" aria-expanded="false" class="button dropdown tiny">Relevance</button><br>
-          <ul id="sortorder" data-dropdown-content class="f-dropdown" aria-hidden="true">
+          <button href="#" data-toggle="sortorder" aria-controls="sortorder" aria-expanded="false" class="button dropdown tiny">Relevance</button><br>
+          <ul id="sortorder" data-dropdown class="dropdown-pane" aria-hidden="true">
             <li data-value="relevance"><a href="#" class="selected">Relevance</a></li>
             <li data-value="title"><a href="#">Title</a></li>
             <li data-value="date_added"><a href="#">Date added</a></li>
@@ -211,20 +218,20 @@
     <div class="row second-row">
       <div class="small-6 columns">
         Search controls:
-        <ul class="button-group round">
-          <li><a href="/" class="button small">New Search</a></li>
-          <li><a id="revise-search-button" href="#" class="button small">Revise Current Search</a></li>
-        </ul>
+        <div class="button-group round small">
+          <a href="/" class="button">New Search</a>
+          <a id="revise-search-button" href="#" class="button">Revise Current Search</a>
+        </div>
       </div>
       <div class="small-6 columns">
         <div style="float:left"></div>
         <div class="align-left" style="float:right">
         Display search results as:
-        <ul class="button-group round" id="foo">
-          <li><a href="02searchresults.html" class="button small fi-list-thumbnails disabled"> All items</a></li>
-          <li><a href="02searchresultstree.html" class="button small fi-page-multiple"> Collections</a></li>
-          <li><a href="02searchresultsgrid.html" class="button small fi-thumbnails"> Digital items</a></li>
-        </ul>
+        <div class="button-group round small">
+          <a href="02searchresults.html" class="button fi-list-thumbnails disabled"> All items</a>
+          <a href="02searchresultstree.html" class="button fi-page-multiple"> Collections</a>
+          <a href="02searchresultsgrid.html" class="button fi-thumbnails"> Digital items</a>
+        </div>
         </div>
       </div>
     </div>
@@ -528,11 +535,11 @@
     <h3 data-tooltip aria-haspopup="true" class="has-tip" title="Following are additional filters available based on your current search parameters. These options will narrow your results down to each specific category.">Additional filters <i class="fi-info"></i></h3>
     <div>
       {eachUsableFacetGroup(function(facets, facetGroup) { }
-      <span class="definition"># of records</span>
+      <!-- <span class="definition"># of records</span> -->
       <h5>${facetGroup }</h5>
       <ul class="facet-group side-nav">
         {_.forOwn(facets, function(facetMap, facet) { }
-        <li data-value='${facetMap.filter_term}'><a href="${getAddFilterURL(facetMap.filter_term) }">${facetMap.label }<span class="recordnumber">${facetMap.count }</span></a></li>
+        <li data-value='${facetMap.filter_term}'><a href="${getAddFilterURL(facetMap.filter_term) }">${facetMap.label }</a><span class="recordnumber">${facetMap.count }</span></li>
         {}); }
       </ul>
       {}); }

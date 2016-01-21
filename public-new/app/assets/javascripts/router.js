@@ -14,7 +14,9 @@ var app = app || {};
 
     execute: function(callback, args) {
       if (callback) callback.apply(this, args);
-      $(document).foundation();
+      // $(function() {
+      //   $(document).foundation('reflow');
+      // });
     },
 
 

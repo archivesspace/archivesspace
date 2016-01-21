@@ -14,7 +14,8 @@
  * NO = require_self
  */
 @import "archivesspace/variables";
-@import "foundation/foundation";
+@import "foundation-sites/foundation";
+@include foundation-everything;
 @import "foundation-icon-fonts/_foundation-icons";
 @import "archivesspace/buttons";
 @import "archivesspace/aspace";
