@@ -48,6 +48,10 @@ var RAILS_API = "/api";
       });
     }
 
+    if (this.recordType) {
+      params.push("recordtype="+this.recordType);
+    }
+
     params = _.filter(params, paramFilter);
 
     _.forOwn(addedParams, function(val, key) {
@@ -357,8 +361,11 @@ var RAILS_API = "/api";
       });
 
       map['type'] = function() {
-        if(this.state.query[0])
+        if(this.state.recordType) {
+          return this.state.recordType;
+        } else if (this.state.query[0]) {
           return this.state.query[0]['recordtype'] === 'any' ? undefined : this.state.query[0]['recordtype'];
+        }
       };
 
       return map
@@ -787,13 +794,14 @@ var RAILS_API = "/api";
   var SearchBoxView = Bb.View.extend({
     el: "#search-box",
     initialize: function() {
+      // this.welcomeView = welcomeView;
       this.$el.html(app.utils.tmpl('search-box-tmpl'));
-      this.searchEditor = new SearchEditor($("#search-form", this.$el))
+      this.searchEditor = new SearchEditor($(".search-row-container", this.$el))
       this.searchEditor.addRow();
       return this;
     },
     events: {
-      "click #search-button" : "search",
+      // "click #search-button" : "search",
       "click .remove-query-row a": function(e) {
         e.preventDefault();
       }
@@ -805,7 +813,18 @@ var RAILS_API = "/api";
         criteria: this.searchEditor.extract()
       });
 
-      app.router.navigate(url, {trigger: true});
+      var queryObj = new app.SearchQuery();
+      queryObj.updateCriteria(this.searchEditor.extract());
+
+      this.tigger("newquery.aspace", queryObj);
+
+      // this.welcomeView.unbind();
+      // this.welcomeView.remove();
+
+      // this.unbind();
+      // this.remove();
+
+      // app.router.navigate(url, {trigger: true});
     }
   });
 
@@ -822,6 +841,9 @@ var RAILS_API = "/api";
         pageSize: this.searchQuery.pageSize,
         query: []
       }
+
+      if (sq.recordtype)
+        state.recordType = app.utils.getASType(sq.recordtype);
 
       _.forEach(['repository', 'primary_type', 'subjects' ], function(filterKey) {
         if(sq[filterKey]){
@@ -913,7 +935,6 @@ var RAILS_API = "/api";
           redrawResults();
           setTimeout(function() {
             $('#wait-modal').foundation('reveal', 'close');
-            // reinitalize foundation
             $("#main-content").foundation();
           }, 500);
         });
@@ -926,12 +947,10 @@ var RAILS_API = "/api";
           redrawResults();
           setTimeout(function() {
             $('#wait-modal').foundation('reveal', 'close');
-            // reinitalize foundation
             $("#main-content").foundation();
           }, 500);
         });
       });
-
 
       stv.on("modifiedquery.aspace", function(modifiedQuery) {
         var query = [];
@@ -952,9 +971,24 @@ var RAILS_API = "/api";
         });
       });
 
-      $(function() {
-        stv.trigger("modifiedquery.aspace", searchQuery);
+
+      // $(function() {
+      //   stv.trigger("modifiedquery.aspace", searchQuery);
+      // });
+
+      var query = [];
+      searchQuery.forEachRow(function(data) {
+        query.push(data);
       });
+      $('#wait-modal').foundation('reveal', 'open');
+      searchResults.updateQuery(query).then(function() {
+        redrawResults();
+        setTimeout(function() {
+          $('#wait-modal').foundation('reveal', 'close');
+          $("#main-content").foundation();
+        }, 500);
+      });
+
     },
 
 

@@ -33,10 +33,12 @@ var app = app || {};
       },
       archival_object: {
         key_for_public_urls: "objects"
+      },
+      accession: {
+        key_for_public_urls: "accession",
+        label_singular: "Unprocessed Material"
       }
     }
-
-
   }
 
   var recordLabelMap = getRecordLabelPreferences();
@@ -62,6 +64,14 @@ var app = app || {};
     getPublicType: function(asType) {
       if(_.has(recordLabelMap, asType)) {
         return recordLabelMap[asType].key_for_public_urls;
+      } else {
+        return asType;
+      }
+    },
+
+    getPublicTypeLabel: function(asType) {
+      if(_.has(recordLabelMap, asType)) {
+        return recordLabelMap[asType].label_singular;
       } else {
         return asType;
       }
@@ -127,7 +137,22 @@ var app = app || {};
     tmpl: function(templateId, data) {
       templateId = templateId.replace(/-tmpl$/, '') + '-tmpl';
       return _.template($('#'+templateId).html())(data);
+    },
+
+
+    formatDateString: function(date)  {
+      var string = "";
+      if (date.begin && date.end) {
+        string += date.begin+"-"+date.end;
+      } else if(date.begin) {
+        string += date.begin
+      }
+
+      return string;
     }
 
-  };
+
+
+
+  }
 })();
