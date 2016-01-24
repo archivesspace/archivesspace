@@ -8,7 +8,7 @@ describe('Record Model(s)', function() {
     this.resourceRecord = new app.RecordModel({
       type: 'resource',
       id: 1,
-      repo_id: 2
+      repoId: 2
     });
 
     this.resourceRecord.fetch({

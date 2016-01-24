@@ -16,7 +16,7 @@ describe('Router', function() {
       return d;
     }
   }
-  
+
   beforeEach(function() {
     jasmine.getFixtures().fixturesPath = 'base/jasmine/fixtures';
     loadFixtures("layout.html");
@@ -47,11 +47,12 @@ describe('Router', function() {
         $(document).foundation();
         done();
       });
-      
+
     });
 
+    // TODO - move to record model spec
 
-    it("instantiates a SeverErrorView when model fails", function(done) {
+    xit("instantiates a SeverErrorView when model fails", function(done) {
       var spy = spyOn(app, 'ServerErrorView').and.returnValue(
         this.mockView("BUMMER"));
 
@@ -62,7 +63,7 @@ describe('Router', function() {
       done();
     });
 
-    it("instantiates a RecordView when the model loads", function(done) {
+    xit("instantiates a RecordView when the model loads", function(done) {
       var spy = spyOn(app, 'RecordView').and.returnValue(
         this.mockView("FAR OUT"));
 

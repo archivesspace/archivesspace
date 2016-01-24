@@ -1,3 +1,8 @@
+// TODO -
+// this file needs to lose anything
+// that isn't directly related to booting the app
+// in the browser.
+
 var app = app || {};
 
 (function(Bb, _, $) {
@@ -30,17 +35,53 @@ var app = app || {};
       "click .top-bar-section a": function(e) {
         e.preventDefault();
         var url = e.target.getAttribute('href');
-        app.router.navigate(url, {trigger: true});
+        var trigger = true;
+
+        if(url.match(/^\/search?/)) {
+          var queryString = url.replace("/search?", "");
+          $("#welcome").empty();
+          $("#search-box").empty();
+          var searchContainerView = new app.SearchContainerView(queryString);
+          trigger = false;
+        }
+
+        app.router.navigate(url, {trigger: trigger});
       }
     }
   });
 
 
+  // to do -
+  // attach listener to searchBoxView
+  // - catch query and init SearchContainerView
+
   var WelcomeView = Backbone.View.extend({
     el: "#welcome",
     initialize: function() {
+      var that = this;
       var tmpl = _.template($('#welcome-tmpl').html());
       this.$el.html(tmpl());
+
+      var searchBoxView = new app.SearchBoxView();
+      searchBoxView.on("submitquery.aspace", function(newQuery){
+        console.log(newQuery);
+        var query = [];
+        newQuery.forEachRow(function(data) {
+          query.push(data);
+        });
+
+        var queryString = newQuery.buildQueryString();
+        var searchContainerView = new app.SearchContainerView(queryString);
+
+        searchBoxView.unbind();
+        searchBoxView.remove();
+
+        this.unbind();
+        this.remove();
+
+      });
+
+
       return this;
     }
   });
@@ -88,48 +129,11 @@ var app = app || {};
   });
 
 
-  var RecordModel = Backbone.Model.extend({
-    initialize: function(opts) {
-      this.type = opts.type;
-      this.id = opts.id;
-      this.scope = opts.repo_id ? 'repository' : 'global'
-      if(this.scope === 'repository')
-        this.repo_id = opts.repo_id;
-      return this;
-    },
-
-    url: function() {
-      var url = RAILS_API;
-      if(this.scope === 'repository') {
-        url += "/repositories/" + this.repo_id;
-      }
-      url += "/" + this.type + "s/" + this.id;
-
-      return url;
-    },
-
-    getTitle: function() {
-      return this.attributes.title;
-    },
-
-    getDisplayType: function() {
-      switch (this.type) {
-      case 'resource':
-        return 'collection';
-      case 'archival_object':
-        return 'object'
-      default:
-        return this.type
-      }
-    }
-
-  });
 
   app.WelcomeView = WelcomeView;
   app.RecordView = RecordView;
   app.RecordSidebarView = RecordSidebarView;
   app.ContainerView = ContainerView;
-  app.RecordModel = RecordModel;
   app.ServerErrorView = ServerErrorView;
 
   $(function() {

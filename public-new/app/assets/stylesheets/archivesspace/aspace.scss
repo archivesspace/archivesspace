@@ -4,9 +4,10 @@ html {
 }
 
 #header {
-  .row {
+  > .row {
     height: rem-calc(120);
-    margin-left:
+    margin-left: 0;
+    margin-right: 0;
     padding-left: rem-calc(60);
     padding-right: rem-calc(40);
     border-bottom: rem-calc(4) solid $lightblue;
@@ -33,8 +34,27 @@ html {
     }
   }
 
-  .li {
+  ul {
     background: none !important;
+  }
+
+  /* li { */
+  /*   background: none !important; */
+  /* } */
+}
+
+
+#welcome {
+  padding-left: rem-calc(60);
+  padding-right: rem-calc(130);
+  padding-top: rem-calc(30);
+
+  .row {
+    width: $row-width;
+
+    .small-12 {
+      border: 1px solid $grey;
+    }
   }
 }
 
@@ -49,7 +69,6 @@ html {
   }
 
   .panel {
-    background: $lightgrey;
     padding: 0;
 
     .second-row{
@@ -69,16 +88,6 @@ html {
 
       p {
         margin-bottom: 0;
-      }
-
-
-      button {
-        background: $lightgrey;
-        color: $black;
-      }
-
-      button:after {
-        border-top-color: $black;
       }
 
       .columns {
@@ -115,6 +124,63 @@ html {
     button {
       border-radius: 12px;
     }
+  }
+
+  .search-panel {
+    background: $lightgrey;
+
+    .button {
+      background: $lightgrey;
+      color: $black;
+    }
+
+    .second-row .button {
+      background: $lightblue;
+    }
+
+    .button:after {
+      border-top-color: $black;
+    }
+
+    .search-query-row {
+      .button {
+        background: $midblue;
+        color: $white !important;
+      }
+
+      .button.dropdown::after {
+        border-color: $white transparent transparent transparent;
+      }
+    }
+  }
+
+  .search-panel-blue {
+    background: $midblue;
+    padding-top: rem-calc(10);
+
+    p a {
+      color: $white !important;
+      text-decoration: none;
+      border-bottom: 0 !important;
+    }
+
+    .button {
+      background: $white;
+    }
+
+    .button:after {
+      border-top-color: $white;
+    }
+
+    .search-query-row {
+      .button {
+        color: $darkgrey !important;
+      }
+
+      .button.dropdown::after {
+        border-color: $darkgrey transparent transparent transparent;
+      }
+    }
 
   }
 
@@ -146,6 +212,81 @@ html {
   h3 {
     color: $midblue;
   }
+}
+
+
+.record-container {
+  margin-top: rem-calc(20);
+  padding: rem-calc(20);
+  border: 1px solid $grey;
+}
+
+
+.record-header {
+  word-wrap: break-word;
+}
+
+.record-toolbar {
+  ul {
+    display: table;
+    width: 100%;
+  }
+
+  li {
+    display: table-cell;
+    width: 25%;
+    text-align: center;
+
+    a {
+      padding: 0 !important;
+    }
+  }
+
+  i {
+    font-size: 2.0rem;
+  }
+}
+
+
+.type-label {
+  float: left;
+  padding: rem-calc(4);
+  border: 1px solid #333;
+  font-family: $serif-font;
+  font-weight: bold;
+  i {
+    margin-right: rem-calc(2);
+  }
+}
+
+.type-label.accession {
+  color: $collection-color;
+  border-color: $collection-color;
+}
+
+.identifier {
+  float: left;
+  margin-left: rem-calc(10);
+  padding: rem-calc(4);
+
+  .id-label {
+    float: left;
+    font-family: $serif-font;
+  }
+}
+
+.record-image {
+  float: right;
+  padding: rem-calc(20);
+  background-color: $grey;
+}
+
+
+.row.context-row {
+  margin-top: rem-calc(10);
+  background-color: $lightgrey;
+  border: 1px solid $grey;
+  padding-left: rem-calc(10);
 }
 
 .recordrow {
