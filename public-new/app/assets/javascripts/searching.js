@@ -506,7 +506,13 @@ var RAILS_API = "/api";
         e.preventDefault();
         var url = e.target.getAttribute('href');
         app.router.navigate(url, {trigger: true});
+      },
+
+      "click .recordrow a.record-title": function(e) {
+        e.preventDefault();
+        this.trigger("showrecord.aspace", e.target.getAttribute('href'));
       }
+
     },
 
     render: function() {
@@ -817,14 +823,6 @@ var RAILS_API = "/api";
       queryObj.updateCriteria(this.searchEditor.extract());
 
       this.tigger("newquery.aspace", queryObj);
-
-      // this.welcomeView.unbind();
-      // this.welcomeView.remove();
-
-      // this.unbind();
-      // this.remove();
-
-      // app.router.navigate(url, {trigger: true});
     }
   });
 
@@ -886,6 +884,11 @@ var RAILS_API = "/api";
       var searchQuery = this.searchQuery;
       var searchResults = this.searchResults;
       var redrawResults = $.proxy(this.redrawResults, this);
+      var destroy = $.proxy(this.destroy, this);
+
+      // not great -
+      if(!$('#container').prev('#search-box').length)
+        $("<section id='search-box'></section>").insertBefore('#container');
 
       var stv = this.searchToolbarView = new app.SearchToolbarView({
         query: searchQuery
@@ -899,15 +902,27 @@ var RAILS_API = "/api";
       var sfv = this.searchFacetsView = new app.SearchFacetsView();
 
       // $(document).foundation();
+      srv.on("showrecord.aspace", function(url) {
+        var parsed = /repositories\/(\d+)\/([a-z_]+)\/(\d+)/.exec(url)
+        var opts = {
+          repoId: parsed[1],
+          recordType: parsed[2],
+          id: parsed[3]
+        }
+        app.router.navigate(url);
+        destroy();
+        new app.RecordContainerView(opts);
+      });
+
 
       sfv.on("applyfilter.aspace", function(filter) {
-        $('#wait-modal').foundation('reveal', 'open');
+        $('#wait-modal').foundation('open');
         searchResults.applyFilter(filter).then(function() {
           var url = buildLocationURL.call(searchResults.state);
           app.router.navigate(url);
           redrawResults();
           setTimeout(function() {
-            $('#wait-modal').foundation('reveal', 'close');
+            $('#wait-modal').foundation('close');
             // reinitalize foundation
             $("#main-content").foundation();
           }, 500);
@@ -916,13 +931,13 @@ var RAILS_API = "/api";
 
 
       sfv.on("removefilter.aspace", function(filter) {
-        $('#wait-modal').foundation('reveal', 'open');
+        $('#wait-modal').foundation('open');
         searchResults.removeFilter(filter).then(function() {
           var url = buildLocationURL.call(searchResults.state);
           app.router.navigate(url);
           redrawResults();
           setTimeout(function() {
-            $('#wait-modal').foundation('reveal', 'close');
+            $('#wait-modal').foundation('close');
             // reinitalize foundation
             $("#main-content").foundation();
           }, 500);
@@ -930,23 +945,23 @@ var RAILS_API = "/api";
       });
 
       stv.on("changepagesize.aspace", function(newSize) {
-        $('#wait-modal').foundation('reveal', 'open');
+        $('#wait-modal').foundation('open');
         searchResults.setPageSize(newSize).then(function() {
           redrawResults();
           setTimeout(function() {
-            $('#wait-modal').foundation('reveal', 'close');
+            $('#wait-modal').foundation('close');
             $("#main-content").foundation();
           }, 500);
         });
       });
 
       stv.on("changesortorder.aspace", function(newSort) {
-        $('#wait-modal').foundation('reveal', 'open');
+        $('#wait-modal').foundation('open');
         searchResults.setSorting(newSort);
         searchResults.fetch().then(function() {
           redrawResults();
           setTimeout(function() {
-            $('#wait-modal').foundation('reveal', 'close');
+            $('#wait-modal').foundation('close');
             $("#main-content").foundation();
           }, 500);
         });
@@ -980,24 +995,28 @@ var RAILS_API = "/api";
       searchQuery.forEachRow(function(data) {
         query.push(data);
       });
-      $('#wait-modal').foundation('reveal', 'open');
+      $('#wait-modal').foundation('open');
       searchResults.updateQuery(query).then(function() {
         redrawResults();
         setTimeout(function() {
-          $('#wait-modal').foundation('reveal', 'close');
+          $('#wait-modal').foundation('close');
           $("#main-content").foundation();
         }, 500);
       });
 
     },
 
-
     redrawResults: function() {
       this.searchToolbarView.updateResultState(this.searchResults.state);
       this.searchResultsView.render();
       this.searchFacetsView.render(this.searchResults.state);
-    }
+    },
 
+    destroy: function() {
+      this.unbind();
+      this.$el.empty();
+      // also destroy subviews???
+    }
   });
 
   app.SearchQuery = SearchQuery;
