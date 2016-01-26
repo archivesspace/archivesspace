@@ -65,7 +65,7 @@
 
   <!-- header -->
   <script type="text/template" id="header-tmpl">
-    <div class="row collapse cover fullwidth valign-middle">
+    <div class="row collapse expanded fullwidth valign-middle">
       <div class="small-8 columns"><h1 title="Title can be customized by the institution."><a href="/">ArchivesSpace Instance Title</a></h1></div>
 
       <div class="small-4 columns logo">
@@ -258,12 +258,12 @@
     <div class="record-container">
       <div class="row collapse">
         <div class="columns small-8 record-header">
-          <h2>${getTitle()}</h2>
-          <div class="type-label ${getRecordType()}">
-            <i class="fi-home"></i>&#160;${getRecordTypeLabel()}
+          <h2>${title}</h2>
+          <div class="type-label ${recordType}">
+            <i class="fi-home"></i>&#160;${recordTypeLabel}
           </div>
           <div class="identifier">
-            <span class="id-label">Identifier:</span>&#160;${getIdentifier()}
+            <span class="id-label">Identifier:</span>&#160;${identifier}
           </div>
         </div>
         <div class="columns small-4 text-right record-toolbar">
@@ -277,13 +277,13 @@
       </div>
       <div class="row collapse context-row">
         <div class="columns small-12">
-          CONTEXT: | <a href="#">Repository Name</a> | ${getTitle()}
+          CONTEXT: | <a href="#">Repository Name</a> | ${title}
         </div>
       </div>
       <!-- TODO Row with button group here for Collections -->
 
       <div class="row collapse">
-        <div class="columns small-${hasContentSidebar() ? 8 : 12}">
+        <div class="columns small-${hasContentSidebar ? 8 : 12}">
 
           <!-- optional image with caption -->
           <div class="record-image">
@@ -291,14 +291,14 @@
             <p>Optional image, with caption.</p>
           </div>
 
-          <p>${getAbstract()}</p>
+          <p>${abstract}</p>
           <h3>Dates</h3>
           <ul>
-            {forEachDate(function(dateString) { }
+            {_.forEach(dates, function(dateString) { }
             <li>${dateString}</li>
             {}); }
           </ul>
-          { if(hasLanguage()) {}
+          { if(has('language')) {}
           <h3>Language</h3>
           <!--TODO-->
           {}}
@@ -358,7 +358,7 @@
 
         </div>
 
-        { if(hasContentSidebar()) {}
+        { if(hasContentSidebar) {}
         <div class="columns small-4">
           Sidebar
         </div>
@@ -406,7 +406,7 @@
   <!-- Search result row -->
   <script type="text/template" id="search-result-row-tmpl">
     <div class="recordrow">
-      <h3><a href="${ url }">${ title }</a></h3>
+      <h3><a class="record-title" href="${ url }">${ title }</a></h3>
       <div class="recordtype"><span class="${ recordTypeClass }"><i class="fi-clipboard small"> </i> ${ recordTypeLabel }</span> &nbsp; | &nbsp; <strong>Identifier:</strong> ${ identifier }</div>
       <div class="recordsummary">${ summary }</div>
       {if(dates.length) { }

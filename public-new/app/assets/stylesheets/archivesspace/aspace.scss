@@ -248,21 +248,6 @@ html {
 }
 
 
-.type-label {
-  float: left;
-  padding: rem-calc(4);
-  border: 1px solid #333;
-  font-family: $serif-font;
-  font-weight: bold;
-  i {
-    margin-right: rem-calc(2);
-  }
-}
-
-.type-label.accession {
-  color: $collection-color;
-  border-color: $collection-color;
-}
 
 .identifier {
   float: left;

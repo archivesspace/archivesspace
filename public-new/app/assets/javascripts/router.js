@@ -26,7 +26,9 @@ var app = app || {};
 
 
     search: function(queryString) {
-      var searchContainerView = new app.SearchContainerView(queryString);
+      $(function() {
+        var searchContainerView = new app.SearchContainerView(queryString);
+      });
     },
 
 

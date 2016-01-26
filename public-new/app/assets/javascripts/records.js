@@ -2,6 +2,45 @@ var app = app || {};
 
 (function(Bb, _, $) {
 
+  function RecordPresenter(model) {
+
+    if(model.attributes.title) {
+      this.title = model.attributes.title;
+    } else if(model.attributes.jsonmodel_type == 'accession') {
+      this.title = model.attributes.id_0;
+    } else {
+      this.title = "NO TITLE";
+    }
+
+    this.recordType = model.attributes.jsonmodel_type;
+
+    this.recordTypeLabel =  app.utils.getPublicTypeLabel(this.recordType);
+
+    if(model.attributes.identifier) {
+      this.identifier = model.attributes.identifier;
+    } else if(model.attributes.id_0) {
+      this.identifier = model.attributes.id_0;
+    } else if(model.attributes.digital_object_id) {
+      this.identifier = model.attributes.digital_object_id;
+    } else {
+      this.identifier = "NO ID";
+    }
+
+    this.hasContentSidebar = (this.recordType === 'resource');
+
+    this.abstract = "Contents of the abstract field. Maecenas faucibus mollis. Maecenas sed diam eget risus varius blandit sit amet non magna. Vestibulum id ligula porta semper.";
+
+    this.dates = _.map(model.attributes.dates, function(date) {
+      return app.utils.formatDateString(date);
+    });
+  }
+
+  RecordPresenter.prototype.has = function(key) {
+    return !_.isUndefined(this[key])
+  };
+
+
+
   var RecordContainerView = Bb.View.extend({
     el: "#container",
     initialize: function(opts) {
@@ -12,6 +51,7 @@ var app = app || {};
 
     render: function() {
       var model = this.model;
+      var presenter;
       var $el = this.$el;
 
       $('#search-box').remove();
@@ -21,9 +61,10 @@ var app = app || {};
       // TODO - fetch, etc.
 
       model.fetch().then(function() {
-        console.log(model);
+        app.debug = model;
+        presenter = new RecordPresenter(model);
 
-        $el.html(app.utils.tmpl('record-tmpl', model));
+        $el.html(app.utils.tmpl('record-tmpl', presenter));
       }).fail(function(response) {
         var errorView = new app.ServerErrorView({
           response: response
@@ -55,13 +96,15 @@ var app = app || {};
 
     url: function() {
       var url = RAILS_API;
+      var asType = app.utils.getASType(this.collectionType.replace(/s$/, ''));
       if(this.scope === 'repository') {
         url += "/repositories/" + this.repoId;
       }
 
       url += "/";
 
-      url += this.collectionType ? this.collectionType : this.type+"s";
+      // url += this.collectionType ? this.collectionType : this.type+"s";
+      url += asType+"s";
 
       url += "/"+this.id;
 
@@ -102,26 +145,6 @@ var app = app || {};
 
   });
 
-  RecordModel.prototype.getAbstract = function() {
-    return "Contents of the abstract field. Maecenas faucibus mollis. Maecenas sed diam eget risus varius blandit sit amet non magna. Vestibulum id ligula porta semper.";
-  }
-
-  RecordModel.prototype.hasContentSidebar = function() {
-    return this.attributes.jsonmodel_type === 'resource'
-  }
-
-  RecordModel.prototype.forEachDate = function(callback) {
-    _.forEach(this.attributes.dates, function(date) {
-      var dateString = app.utils.formatDateString(date);
-      callback(dateString);
-    });
-  }
-
-  RecordModel.prototype.hasLanguage = function() {
-    if(this.attributes.jsonmodel_type === 'accession') {
-      return false;
-    }
-  }
 
 
 
