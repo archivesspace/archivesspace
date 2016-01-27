@@ -40,6 +40,23 @@
     padding-left: rem-calc(40);
     padding-top: rem-calc(10);
     padding-bottom: rem-calc(10);
+
+    ul {
+      list-style: none;
+    }
+
+    li {
+      font-weight: bold;
+    }
+
+    li li {
+      font-weight: normal;
+    }
+
+    > ul {
+      margin-left: 0;
+    }
+
   }
 
 }

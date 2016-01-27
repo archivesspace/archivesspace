@@ -77,7 +77,6 @@ var app = app || {};
       }
     },
 
-
     getASType: function(type) {
       var result = type;
 

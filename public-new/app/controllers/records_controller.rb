@@ -3,9 +3,8 @@ class RecordsController < ApplicationController
 
 
   def resource
-    resource = JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents", "related_accessions"])
+    resource = JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents", "related_accessions", "repository", "repository::agent_representation"])
     raise RecordNotFound.new if (!resource || !resource.publish)
-
 
     render :json => resource.to_json
   end

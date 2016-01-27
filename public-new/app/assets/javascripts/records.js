@@ -33,6 +33,24 @@ var app = app || {};
     this.dates = _.map(model.attributes.dates, function(date) {
       return app.utils.formatDateString(date);
     });
+
+    if(true) { // really: if scope === repo
+      this.repository = {};
+      this.repository.name = model.attributes.repository._resolved.name;
+
+      var contact = _.get(model, 'attributes.repository._resolved.agent_representation._resolved.agent_contacts[0]');
+
+      if(contact) {
+        this.repository.phone = _.get(contact, 'telephones[0].number');
+        this.repository.email = _.get(contact, 'email');
+
+        this.repository.address = _.compact([
+          _.get(contact, 'address_1'),
+          _.get(contact, 'address_2'),
+          _.get(contact, 'city')
+        ]).join("<br />");
+      }
+    }
   }
 
   RecordPresenter.prototype.has = function(key) {
@@ -58,13 +76,11 @@ var app = app || {};
       $('#welcome').remove();
       $('#wait-modal').foundation('open');
 
-      // TODO - fetch, etc.
-
       model.fetch().then(function() {
         app.debug = model;
         presenter = new RecordPresenter(model);
 
-        $el.html(app.utils.tmpl('record-tmpl', presenter));
+        $el.html(app.utils.tmpl('record', presenter));
       }).fail(function(response) {
         var errorView = new app.ServerErrorView({
           response: response
