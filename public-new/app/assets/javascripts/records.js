@@ -51,7 +51,14 @@ var app = app || {};
         ]).join("<br />");
       }
     }
+
+    if(model.attributes.subjects && model.attributes.subjects.length) {
+      this.subjects = _.compact(_.map(model.attributes.subjects, function(obj) {
+        return _.get(obj, '_resolved.title');
+      })).sort();
+    }
   }
+
 
   RecordPresenter.prototype.has = function(key) {
     return !_.isUndefined(this[key])
