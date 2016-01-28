@@ -327,6 +327,7 @@
               </div>
             </div>
 
+            {if(_.get('subjects')) {}
             <div class="navigation-row" data-header-for="subjects">
               <div><div class="arrow-right"></div></div>
               <div>Subjects</div>
@@ -341,6 +342,7 @@
                 </ul>
               </div>
             </div>
+            {}}
 
             <div class="navigation-row" data-header-for="repo-details">
               <div><div class="arrow-right"></div></div>
@@ -381,6 +383,24 @@
             </div>
 
 
+            <div class="navigation-row" data-header-for="admin-info">
+              <div><div class="arrow-right"></div></div>
+              <div>Administrative Information</div>
+            </div>
+            <div id="admin-info" class="content-row">
+              <div></div>
+              <div>
+                <ul>
+                  {if(finding_aid_author) {}
+                  <li>Finding Aid Author
+                    <ul>
+                      <li>${finding_aid_author}</li>
+                    </ul>
+                  </li>
+                  {}}
+                </ul>
+              </div>
+            </div>
           </div>
 
 
