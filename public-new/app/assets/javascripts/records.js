@@ -36,7 +36,7 @@ var app = app || {};
 
     if(true) { // really: if scope === repo
       this.repository = {};
-      this.repository.name = model.attributes.repository._resolved.name;
+      this.repository.name = _.get(model, 'attributes.repository._resolved.name');
 
       var contact = _.get(model, 'attributes.repository._resolved.agent_representation._resolved.agent_contacts[0]');
 
@@ -57,6 +57,9 @@ var app = app || {};
         return _.get(obj, '_resolved.title');
       })).sort();
     }
+
+    this.finding_aid_author = _.get(model.attributes, 'finding_aid_author');
+
   }
 
 

@@ -19,7 +19,7 @@ class RecordsController < ApplicationController
 
 
   def accession
-    accession = JSONModel(:accession).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_agents", "container_locations", "digital_object", "related_resources"])
+    accession = JSONModel(:accession).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_agents", "container_locations", "digital_object", "related_resources", "repository", "repository::agent_representation"])
 
     raise RecordNotFound.new if (!accession || !accession.publish)
 
