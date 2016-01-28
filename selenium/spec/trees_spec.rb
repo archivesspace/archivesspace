@@ -73,7 +73,17 @@ describe "Tree UI" do
 
     target = @driver.find_element(:id, js_node(@a2).li_id)
     # now open the target
-    target.find_element(:css => "i.jstree-icon").click
+    3.times do
+      begin
+        target.find_element(:css => "i.jstree-icon").click
+        target.find_element_orig(:css => "ul.jstree-children")
+        break 
+      rescue
+        $stderr.puts "hmm...lets try and reopen the node"
+        sleep(2)
+        next
+      end
+    end
     # and find the former sibling
     target.find_element(:id, js_node(@a1).li_id)
 
@@ -241,9 +251,19 @@ describe "Tree UI" do
     @driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")
 
     # lets add some nodes
+    first_born = nil
     ["Fruit Cake", "Ham", "Coca-cola bears"].each_with_index do |ao, i|
+      
+      unless first_born 
+        # lets make a baby! 
+        @driver.click_and_wait_until_gone(:link, "Add Child")
+        first_born = ao 
+      else
+        # really?!? another one?!? 
+        @driver.find_element_with_text("//div[@id='archives_tree']//a", /#{first_born}/).click
+        @driver.click_and_wait_until_gone(:link, "Add Sibling")
+      end
 
-      @driver.click_and_wait_until_gone(:link, "Add #{i == 0 ? 'Child' : 'Sibling'}")
       @driver.clear_and_send_keys([:id, "archival_object_title_"], ao)
       @driver.find_element(:id, "archival_object_level_").select_option("item")
       @driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")
@@ -257,16 +277,16 @@ describe "Tree UI" do
 
     # now lets move and delete some nodes
     ["Ham", "Coca-cola bears"].each do |ao|
-
       target = @driver.find_element_with_text("//div[@id='archives_tree']//a", /Gifts/)
       source = @driver.find_element_with_text("//div[@id='archives_tree']//a", /#{ao}/)
       y_off = target.location[:y] - source.location[:y]
      
-      sleep(5)
       @driver.action.drag_and_drop_by(source, 0, y_off - 10).perform
       @driver.wait_until_gone(:css, ".spinner")
+      
+      sleep(2)
+      @driver.wait_for_ajax
 
-      @driver.find_element_with_text("//div[@id='archives_tree']//a", /Gifts/).click
       @driver.find_element_with_text("//div[@id='archives_tree']//a", /#{ao}/).click
       sleep(2) 
       @driver.find_element(:link, "Move").click
@@ -281,6 +301,11 @@ describe "Tree UI" do
       
       @driver.find_element(:css, ".alert-info").click
       @driver.wait_for_ajax
+      
+      @driver.find_element_with_text("//div[@id='archives_tree']//a", /Gifts/).click
+      @driver.find_element_with_text("//div[@id='archives_tree']//a", /#{ao}/).click
+      @driver.wait_for_ajax
+     
       @driver.find_element(:css, ".delete-record.btn").click
       @driver.wait_for_ajax
       sleep(2) 
@@ -289,11 +314,33 @@ describe "Tree UI" do
       @driver.click_and_wait_until_gone(:link, "Edit")
       @driver.click_and_wait_until_gone(:css, "li.jstree-closed > i.jstree-icon")
     end
+      
+    @driver.find_element(:id, js_node(@r).li_id).click
+    @driver.find_element_with_text("//div[@id='archives_tree']//a", /Gifts/).click
+    @driver.click_and_wait_until_gone(:link, "Add Sibling")
+    @driver.clear_and_send_keys([:id, "archival_object_title_"], "Nothing")
+    @driver.find_element(:id, "archival_object_level_").select_option("item")
+    @driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")
 
 
     # now lets add some more and move them around
     [ "Santa Crap", "Japanese KFC", "Kalle Anka"].each do |ao|
+      
+      @driver.find_element(:id, js_node(@r).li_id).click
+      @driver.wait_for_ajax
       @driver.find_element_with_text("//div[@id='archives_tree']//a", /Gifts/).click
+      @driver.wait_for_ajax
+      sleep(2)    
+      
+      # lets make sure the form is unlocked..
+      #begin
+      #  @driver.find_element_orig(:css, "div.unlock-notice div.alert").click
+      #rescue
+        #forgetabowit 
+      #end
+
+      
+      
       @driver.click_and_wait_until_gone(:link, "Add Sibling")
       @driver.clear_and_send_keys([:id, "archival_object_title_"], ao)
       @driver.find_element(:id, "archival_object_level_").select_option("item")
@@ -307,19 +354,30 @@ describe "Tree UI" do
       @driver.wait_for_ajax
       @driver.wait_until_gone(:css, ".spinner")
     end
-
+    
+    @driver.find_element(:id, js_node(@r).li_id).click
     @driver.click_and_wait_until_gone(:link, 'Close Record')
-
+    @driver.wait_for_ajax
+    sleep(2) 
+    
+    
     # now lets add some notes
     [ "Japanese KFC", "Kalle Anka", "Santa Crap"].each do |ao|
-      sleep(10)
-      @driver.find_element_with_text("//div[@id='archives_tree']//a", /#{ao}/).click
+      
       # sanity check to make sure we're editing..
       edit_btn = @driver.find_element_with_text("//div[@class='record-toolbar']/div/a",  /Edit/, true, true)
 
       if edit_btn
         @driver.click_and_wait_until_gone(:link, 'Edit')
       end
+    
+      @driver.find_element(:id, js_node(@r).li_id).click
+      
+      @driver.find_element_with_text("//div[@id='archives_tree']//a", /Gifts/).click
+      @driver.find_element(:css, "a.refresh-tree").click
+      @driver.wait_for_ajax
+       
+      @driver.find_element_with_text("//div[@id='archives_tree']//a", /#{ao}/).click
       @driver.wait_for_ajax
       @driver.find_element_with_text("//button", /Add Note/).click
       # @driver.find_element(:css => '#notes .subrecord-form-heading .btn:not(.show-all)').click

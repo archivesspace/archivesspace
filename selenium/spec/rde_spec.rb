@@ -105,8 +105,10 @@ describe "RDE" do
     @driver.clear_and_send_keys([:id, "archival_record_children_children__0__title_"], "Child 1")
 
     @driver.find_element_with_text("//div[@id='rapidDataEntryModal']//th", /Title/).click
-
+    
+    @modal.find_element(:css, ".btn.add-rows-dropdown").click
     @modal.find_element(:css, ".btn.add-row").click
+    
     @modal.find_element(:id, "archival_record_children_children__1__level_").get_select_value.should eq("fonds")
     @modal.find_element(:id, "archival_record_children_children__1__dates__0__date_type_").get_select_value.should eq("single")
     @modal.find_element(:id, "archival_record_children_children__1__publish_" ).attribute("checked").should be_truthy
@@ -125,13 +127,23 @@ describe "RDE" do
   end
 
   it "can add multiple rows in one action" do
+    
     @driver.find_element(:link, "Rapid Data Entry").click
     modal = @driver.find_element(:id => "rapidDataEntryModal")
 
     modal.find_element(:id, "archival_record_children_children__0__level_").select_option("fonds")
     modal.find_element(:id, "archival_record_children_children__0__publish_").click
 
-    modal.find_element(:css, ".btn.add-rows-dropdown").click
+    3.times do
+      begin 
+        modal.find_element(:css, ".btn.add-rows-dropdown").click
+        add_rows_input = modal.find_element_orig(:css => '.add-rows-form input') 
+        break 
+      rescue
+        $stderr.puts "hmmm...can't find the input..lets try and reopen the dropdown.. " 
+        next 
+      end 
+    end
     #7.times { @modal.find_element(:css, ".add-rows-form input").send_keys(:arrow_up) }
     @driver.wait_for_ajax
     @driver.clear_and_send_keys([:css, ".add-rows-form input"], "9")
