@@ -64,6 +64,7 @@ end
 
 require 'rack/test'
 require_relative "../app/lib/bootstrap"
+require_relative "../../common/jsonmodel_translatable.rb"
 ASpaceEnvironment.init(:unit_test)
 
 AppConfig[:search_user_secret] = "abc123"
@@ -73,6 +74,8 @@ require_relative "../app/model/backend_enum_source"
 JSONModel::init(:client_mode => true, :strict_mode => true,
                 :url => 'http://example.com', :allow_other_unmapped => true,
                 :enum_source => BackendEnumSource,
+                :mixins => [JSONModelTranslatable],
+                :i18n_source => I18n,
                 :priority => :high)
 
 module JSONModel
