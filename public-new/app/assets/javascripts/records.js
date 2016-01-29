@@ -12,6 +12,8 @@ var app = app || {};
       this.title = "NO TITLE";
     }
 
+    this.language = _.get(model, 'attributes.language');
+
     this.recordType = model.attributes.jsonmodel_type;
 
     this.recordTypeLabel =  app.utils.getPublicTypeLabel(this.recordType);

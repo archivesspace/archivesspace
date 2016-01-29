@@ -6,7 +6,10 @@ class RecordsController < ApplicationController
     resource = JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents", "related_accessions", "repository", "repository::agent_representation"])
     raise RecordNotFound.new if (!resource || !resource.publish)
 
-    render :json => resource.to_json
+    hash = resource.to_hash_with_translated_enums(['language_iso639_2'])
+    json = ASUtils.to_json(hash, {:max_nesting => false})
+
+    render :json => json
   end
 
 

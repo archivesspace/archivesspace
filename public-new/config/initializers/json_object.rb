@@ -1,13 +1,16 @@
 require "jsonmodel"
 require "memoryleak"
 require "client_enum_source"
+require "jsonmodel_translatable"
 
 if not ENV['DISABLE_STARTUP']
   while true
     begin
       JSONModel::init(:client_mode => true,
                       :priority => :high,
+                      :mixins => [JSONModelTranslatable],
                       :enum_source => ClientEnumSource.new,
+                      :i18n_source => I18n,
                       :url => AppConfig[:backend_url])
       break
     rescue
