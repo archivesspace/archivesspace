@@ -18,13 +18,17 @@ module JSONModelTranslatable
 
   end
 
-
+  # I'm only building this out as needed - won't translate
+  # all nested properties as of now
   def self.translate_hash(hash, schema, enums_to_translate)
     result = hash.clone
 
     schema["properties"].each do |property, definition|
 
-      if definition.has_key?("dynamic_enum")
+      if (definition['type'] == 'array') and (definition['items']['type'] == 'object')
+        result[property] = hash[property].map {|item| self.translate_hash(item, definition['items'], enums_to_translate) }
+
+      elsif definition.has_key?("dynamic_enum")
         enum_name = definition["dynamic_enum"]
 
         next unless enums_to_translate.include? enum_name
