@@ -318,18 +318,29 @@
               </div>
             </div>
 
+            {if(has('related_agents')) {}
             <div class="navigation-row" data-header-for="related-agents">
               <div><div class="arrow-right"></div></div>
-              <div>Related Agents</div>
+              <div>Related People and Organizations</div>
             </div>
             <div id="related-agents" class="content-row">
               <div></div>
               <div>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                <ul>
+                  {_.forEach(related_agents, function(agents, role) {}
+                  <li>${role}
+                    <ul>
+                      {_.forEach(agents, function(agent) {}
+                      <li>${agent}</li>
+                      {});}
+                    </ul>
+                  </li>
+                  {});}
               </div>
             </div>
+            {}}
 
-            {if(_.get('subjects')) {}
+            {if(has('subjects')) {}
             <div class="navigation-row" data-header-for="subjects">
               <div><div class="arrow-right"></div></div>
               <div>Subjects</div>
