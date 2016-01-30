@@ -9,7 +9,7 @@ Sequel.migration do
   
   down do
     alter_table(:top_container) do
-      add_colum(:legacy_restricted, Integer ) 
+      add_column(:legacy_restricted, Integer ) 
     end
   end
 
