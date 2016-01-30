@@ -1,5 +1,4 @@
 var app = app || {};
-
 (function(Bb, _, $) {
 
   function RecordPresenter(model) {
@@ -54,6 +53,21 @@ var app = app || {};
       }
     }
 
+    if(model.attributes.linked_agents && model.attributes.linked_agents.length) {
+      var related_agents = {}
+      _.forEach(model.attributes.linked_agents, function(agent_link) {
+        related_agents[agent_link['role']] = related_agents[agent_link['role']] || [];
+        related_agents[agent_link['role']].push(agent_link._resolved.title);
+      });
+
+      _.forEach(related_agents, function(agents, header) {
+        agents.sort();
+      });
+
+      this.related_agents = related_agents;
+    }
+
+
     if(model.attributes.subjects && model.attributes.subjects.length) {
       this.subjects = _.compact(_.map(model.attributes.subjects, function(obj) {
         return _.get(obj, '_resolved.title');
@@ -89,8 +103,10 @@ var app = app || {};
       $('#wait-modal').foundation('open');
 
       model.fetch().then(function() {
-        app.debug = model;
         presenter = new RecordPresenter(model);
+        app.debug = {};
+        app.debug.model = model;
+        app.debug.presenter = presenter;
 
         $el.html(app.utils.tmpl('record', presenter));
       }).fail(function(response) {
