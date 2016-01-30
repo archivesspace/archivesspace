@@ -485,16 +485,37 @@ describe 'JSON model' do
                                  "type" => "object",
                                  "$schema" => "http://www.archivesspace.org/archivesspace.json",
                                  "properties" => {
-                                   "language" => {"type" => "string", "dynamic_enum" => "language_iso639_2"}
-
+                                   "language" => {"type" => "string", "dynamic_enum" => "language_iso639_2"},
+                                   "linked_agents" => {
+                                     "type" => "array",
+                                     "items" => {
+                                       "type" => "object",
+                                       "properties" => {
+                                         "role" => {
+                                           "type" => "string",
+                                           "dynamic_enum" => "linked_agent_role",
+                                           "ifmissing" => "error",
+                                         }
+                                       }
+                                     }
+                                   }
                                  }
                                })
 
-    obj = JSONModel(:coolschema).from_hash({"language" => "eng"})
+    hash = {
+      "language" => "eng",
+      "linked_agents" => [{
+                            'role' => 'creator'
+                         }]
+    }
 
-    hash = obj.to_hash_with_translated_enums(['language_iso639_2'])
+
+    obj = JSONModel(:coolschema).from_hash(hash)
+
+    hash = obj.to_hash_with_translated_enums(['language_iso639_2', 'linked_agent_role'])
 
     hash['language'].should eq("English")
+    hash['linked_agents'].first['role'].should eq("Creator");
   end
 
 end
