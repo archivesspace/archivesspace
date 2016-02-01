@@ -18,6 +18,7 @@ class CSVResponse
   def generate
     output = "" 
     self.each { |r| output << r } 
+    output
   end
 
 end
