@@ -156,19 +156,24 @@ describe 'Resource model' do
     uris = ["http://foo.com/bar1", "http://foo.com/bar2", "http://foo.com/bar3"]
 
     do1 = create(:json_digital_object, {
+                   :publish => true,
                    :file_versions => [
                                       build(:json_file_version, {
+                                              :publish => true,
                                               :file_uri => uris.shift,
                                               :use_statement => 'audio-service'
                                             })]})
 
     do2 = create(:json_digital_object, {
+                   :publish => true,
                    :file_versions => [
                                       build(:json_file_version, {
+                                              :publish => true,
                                               :file_uri => uris.shift,
                                               :use_statement => 'audio-service'
                                             }),
                                       build(:json_file_version, {
+                                              :publish => true,
                                               :file_uri => uris.shift,
                                               :use_statement => 'image-service'
                                             })
@@ -191,4 +196,58 @@ describe 'Resource model' do
     Resource.to_jsonmodel(resource.id).representative_image['file_uri'].should match(/bar3/)
 
   end
+
+
+  it "won't use a file_instance from a non-published digital object as the representative image" do
+    dobj = create(:json_digital_object, {
+                    :publish => false,
+                    :file_versions => [build(:json_file_version, {
+                                               :publish => true,
+                                               :file_uri => 'http://secret.cia.gov/puppetmaster.jpg',
+                                               :use_statement => 'image-service'
+                                            })
+                                     ]})
+
+
+    resource = create_resource({
+                                 :instances => [build(:json_instance_digital, {
+                                                        :digital_object => {'ref' => dobj.uri}
+                                                      })]
+                               })
+
+    r = Resource.to_jsonmodel(resource.id)
+
+    Resource.to_jsonmodel(resource.id).representative_image.should be_falsey
+
+  end
+
+
+  it "won't use a non-published file_instance from a published digital object as the representative image" do
+    dobj = create(:json_digital_object, {
+                    :publish => true,
+                    :file_versions => [build(:json_file_version, {
+                                               :publish => false,
+                                               :file_uri => 'http://secret.cia.gov/puppetmaster.jpg',
+                                               :use_statement => 'image-service'
+                                            })
+                                     ]})
+
+
+    resource = create_resource({
+                                 :instances => [build(:json_instance_digital, {
+                                                        :digital_object => {'ref' => dobj.uri}
+                                                      })]
+                               })
+
+    r = Resource.to_jsonmodel(resource.id)
+
+    Resource.to_jsonmodel(resource.id).representative_image.should be_falsey
+
+  end
+
+  # don't allow multiple files to have the boolean
+  # allow the boolean to override the default choice
+
+
+
 end
