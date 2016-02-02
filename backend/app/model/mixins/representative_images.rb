@@ -16,7 +16,7 @@ module RepresentativeImages
   module ClassMethods
 
     def populate_representative_image(json)
-      file_versions = json['instances'].select{|i| i['instance_type'] == 'digital_object'}.map {|inst| inst['digital_object']['ref'] }.map{|ref| JSONModel(:digital_object).id_for(ref, json['repo_id'])}.map {|id| DigitalObject.to_jsonmodel(id) }.map {|obj| obj['file_versions'] }.flatten.select{|fv| fv['use_statement'] == 'image-service' }
+      file_versions = json['instances'].select{|i| i['instance_type'] == 'digital_object'}.map {|inst| inst['digital_object']['ref'] }.map{|ref| JSONModel(:digital_object).id_for(ref, json['repo_id'])}.map {|id| DigitalObject.to_jsonmodel(id) }.map {|obj| obj['publish'] ? obj['file_versions'] : []}.flatten.select{|fv| fv['use_statement'] == 'image-service' && fv['publish']}
 
       if file_versions.length > 0
         json.representative_image = JSONModel(:file_version).from_hash(file_versions.first)
