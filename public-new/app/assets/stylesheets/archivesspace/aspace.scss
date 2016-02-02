@@ -264,6 +264,22 @@ html {
   float: right;
   padding: rem-calc(20);
   background-color: $grey;
+  text-align: center;
+
+  p {
+    margin-top: 1rem;
+    margin-bottom: 0;
+  }
+
+  .image-container {
+    width: rem-calc(300);
+    height: rem-calc(280);
+    overflow: hidden;
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
 }
 
 
