@@ -110,6 +110,11 @@
                                {"type" => "JSONModel(:note_singlepart) object"}]},
       },
 
+      "representative_image" => {
+        "type" => "JSONModel(:file_version) object",
+        "readonly" => true
+      }
+
     },
   },
 }

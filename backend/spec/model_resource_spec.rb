@@ -4,7 +4,7 @@ describe 'Resource model' do
 
   it "allows resources to be created" do
     opts = {:title => generate(:generic_title)}
-    
+
     resource = create_resource(opts)
 
     Resource[resource[:id]].title.should eq(opts[:title])
@@ -13,7 +13,7 @@ describe 'Resource model' do
 
   it "prevents duplicate IDs " do
     opts = {:id_0 => generate(:alphanumstr)}
-    
+
     create_resource(opts)
 
     expect { create_resource(opts) }.to raise_error(Sequel::ValidationFailed)
@@ -22,7 +22,7 @@ describe 'Resource model' do
 
   it "reports an error if id_0 has no value" do
     opts = {:id_0 => nil}
-    
+
     expect { create_resource(opts) }.to raise_error(JSONModel::ValidationException)
   end
 
@@ -48,7 +48,7 @@ describe 'Resource model' do
 
   it "allows resources to be created with a date" do
     opts = {:dates => [build(:json_date)]}
-    
+
     resource = create_resource(opts)
 
     Resource[resource[:id]].date.length.should eq(1)
@@ -136,10 +136,10 @@ describe 'Resource model' do
       :finding_aid_title => "Test",
       :finding_aid_subtitle => "SubTest"
     }
-    
+
     json = build(:json_resource, opts)
 
-    json[:external_ids] = 
+    json[:external_ids] =
       [{
          :source => "Archivists Toolkit Database::RESOURCE",
          :external_id => "1"
@@ -148,7 +148,47 @@ describe 'Resource model' do
     resource = Resource.create_from_json(json, :repo_id => $repo_id)
 
     json[:lock_version] = 0
-    
+
     expect { resource.update_from_json(json) }.to_not raise_error
+  end
+
+  it "defaults the representative image to the first 'image-service' file_version it is linked to through it's instances" do
+    uris = ["http://foo.com/bar1", "http://foo.com/bar2", "http://foo.com/bar3"]
+
+    do1 = create(:json_digital_object, {
+                   :file_versions => [
+                                      build(:json_file_version, {
+                                              :file_uri => uris.shift,
+                                              :use_statement => 'audio-service'
+                                            })]})
+
+    do2 = create(:json_digital_object, {
+                   :file_versions => [
+                                      build(:json_file_version, {
+                                              :file_uri => uris.shift,
+                                              :use_statement => 'audio-service'
+                                            }),
+                                      build(:json_file_version, {
+                                              :file_uri => uris.shift,
+                                              :use_statement => 'image-service'
+                                            })
+                                     ]})
+
+
+
+    resource = create_resource({
+                               :instances => [build(:json_instance_digital, {
+                                                      :digital_object => {'ref' => do1.uri}
+                                                    }),
+                                              build(:json_instance_digital, {
+                                                      :digital_object => {'ref' => do2.uri}
+                                                    })
+                                             ]
+                             })
+
+    r = Resource.to_jsonmodel(resource.id)
+
+    Resource.to_jsonmodel(resource.id).representative_image['file_uri'].should match(/bar3/)
+
   end
 end
