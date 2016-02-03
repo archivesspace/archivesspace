@@ -87,4 +87,21 @@ describe 'Digital object model' do
 
   end
 
+
+  it "supports optional captions for file versions" do
+    obj = create(:json_digital_object, {
+                   :publish => true,
+                   :file_versions => [build(:json_file_version, {
+                                              :publish => true,
+                                              :file_uri => 'http://foo.com/bar1',
+                                              :caption => "bar one"
+                                            })]
+                 })
+
+    obj = JSONModel(:digital_object).find(obj.id)
+
+
+    obj.file_versions.first['caption'].should eq("bar one");
+  end
+
 end
