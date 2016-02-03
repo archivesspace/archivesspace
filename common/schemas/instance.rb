@@ -23,6 +23,8 @@
           }
         }
       },
+
+      "is_representative" => {"type" => "boolean", "default" => false},
     },
   },
 }
