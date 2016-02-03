@@ -346,6 +346,7 @@ en:
       accumulation: Accumulation
       acknowledgement: Acknowledgement
       acknowledgement_sent: Acknowledgement Sent
+      acknowledgement_received: Acknowledgement Received
       agreement_received: Agreement Received
       agreement_sent: Agreement Sent
       agreement_signed: Agreement Signed
@@ -371,6 +372,9 @@ en:
       normalization: Normalization
       processed: Processed
       processing_new: Processing New
+      processing_started: Processing Started
+      processing_in_progress: Processing in Progress
+      processing_completed: Processing Completed
       publication: Publication
       replication: Replication
       rights_transferred: Rights Transferred
