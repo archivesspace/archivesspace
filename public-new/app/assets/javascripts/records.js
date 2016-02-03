@@ -5,6 +5,8 @@ var app = app || {};
 
     this.representativeImage = _.get(model, 'attributes.representative_image.file_uri') || "https://s-media-cache-ak0.pinimg.com/736x/2b/bf/e5/2bbfe51b1761d2dd0e88e5a540722451.jpg";
 
+    this.representativeImageCaption = _.get(model, 'attributes.representative_image.caption') || "Optional image, with caption";
+
     if(model.attributes.title) {
       this.title = model.attributes.title;
     } else if(model.attributes.jsonmodel_type == 'accession') {

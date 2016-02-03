@@ -19,6 +19,7 @@ Sequel.migration do
     alter_table(:file_version) do
       add_unique_constraint([:is_representative, :digital_object_id],
                               :name => "digital_object_one_representative_file_version")
+      add_column(:caption, String, :null => true)
 
     end
   end

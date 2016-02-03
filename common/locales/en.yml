@@ -825,6 +825,7 @@ en:
         <li>SHA-256</li>
         </ul>
     identifier: Identifier
+    caption: Caption
 
   extent: &extent_attributes
     portion: Portion
