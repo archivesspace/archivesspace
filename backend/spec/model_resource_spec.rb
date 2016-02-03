@@ -245,9 +245,113 @@ describe 'Resource model' do
 
   end
 
-  # don't allow multiple files to have the boolean
-  # allow the boolean to override the default choice
 
+  it "will use the instance flagged with 'is_representative'" do
+    d1 = create(:json_digital_object, {
+                  :publish => true,
+                  :file_versions => [build(:json_file_version, {
+                                             :publish => true,
+                                             :file_uri => 'http://foo.com/bar1',
+                                             :use_statement => 'image-service'
+                                            })
+                                     ]})
+
+    d2 = create(:json_digital_object, {
+                  :publish => true,
+                  :file_versions => [build(:json_file_version, {
+                                             :publish => true,
+                                             :file_uri => 'http://foo.com/bar2',
+                                             :use_statement => 'image-service'
+                                            })
+                                     ]})
+
+
+
+    resource = create_resource({
+                                 :instances => [build(:json_instance_digital, {
+                                                        :digital_object => {'ref' => d1.uri}
+                                                      }),
+                                                build(:json_instance_digital, {
+                                                        :is_representative => true,
+                                                        :digital_object => {'ref' => d2.uri}
+                                                      })]
+                               })
+
+    r = Resource.to_jsonmodel(resource.id)
+
+    Resource.to_jsonmodel(resource.id).representative_image['file_uri'].should match(/bar2/)
+
+  end
+
+
+  it "will use the file_version flagged with 'is_representative'" do
+    d1 = create(:json_digital_object, {
+                  :publish => true,
+                  :file_versions => [build(:json_file_version, {
+                                             :publish => true,
+                                             :file_uri => 'http://foo.com/bar1',
+                                             :use_statement => 'image-service'
+                                            }),
+                                     build(:json_file_version, {
+                                             :publish => true,
+                                             :is_representative => true,
+                                             :file_uri => 'http://foo.com/bar2',
+                                             :use_statement => 'image-service'
+                                           })
+
+                                     ]})
+
+    resource = create_resource({
+                                 :instances => [build(:json_instance_digital, {
+                                                        :digital_object => {'ref' => d1.uri}
+                                                      })]
+                               })
+
+    r = Resource.to_jsonmodel(resource.id)
+
+    Resource.to_jsonmodel(resource.id).representative_image['file_uri'].should match(/bar2/)
+  end
+
+
+  it "won't allow more than one intance flagged 'is_representative'" do
+    d1 = create(:json_digital_object, {
+                  :publish => true,
+                  :file_versions => [build(:json_file_version, {
+                                             :publish => true,
+                                             :file_uri => 'http://foo.com/bar1',
+                                             :use_statement => 'image-service'
+                                            })
+                                     ]})
+
+    d2 = create(:json_digital_object, {
+                  :publish => true,
+                  :file_versions => [build(:json_file_version, {
+                                             :publish => true,
+                                             :file_uri => 'http://foo.com/bar2',
+                                             :use_statement => 'image-service'
+                                            })
+                                     ]})
+
+    json = build(:json_resource, {
+                   :instances => [build(:json_instance_digital, {
+                                          :is_representative => true,
+                                          :digital_object => {'ref' => d1.uri}
+                                        }),
+                                  build(:json_instance_digital, {
+                                          :is_representative => true,
+                                          :digital_object => {'ref' => d1.uri}
+                                        })
+]
+                 })
+
+
+    expect {
+      Resource.create_from_json(json)
+
+    }.to raise_error(Sequel::ValidationFailed)
+
+
+  end
 
 
 end
