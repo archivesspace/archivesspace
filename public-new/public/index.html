@@ -285,12 +285,14 @@
         <div class="columns small-${hasContentSidebar ? 8 : 12}">
 
           <!-- optional image with caption -->
+          { if(has('representativeImage')) {}
           <div class="record-image">
             <div class="image-container">
               <img src="${representativeImage}" />
             </div>
             <p>${representativeImageCaption}</p>
           </div>
+          {}}
 
           <p>${abstract}</p>
           <h3>Dates</h3>
@@ -406,13 +408,28 @@
               <div></div>
               <div>
                 <ul>
-                  {if(finding_aid_author) {}
-                  <li>Finding Aid Author
+                  <% %w(finding_aid_author
+                     finding_aid_title
+                     finding_aid_subtitle
+                     finding_aid_filing_title
+                     finding_aid_date
+                     finding_aid_author
+                     finding_aid_description_rules
+                     finding_aid_language
+                     finding_aid_sponsor
+                     finding_aid_edition_statement
+                     finding_aid_series_statement
+                     finding_aid_status
+                     finding_aid_note).each do |field| %>
+
+                  {if(<%= field %>) {}
+                  <li><%= I18n.t("resource.#{field}") %>
                     <ul>
-                      <li>${finding_aid_author}</li>
+                      <li>${<%= field %>}</li>
                     </ul>
                   </li>
                   {}}
+                  <% end %>
                 </ul>
               </div>
             </div>
