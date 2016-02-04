@@ -79,6 +79,18 @@ var app = app || {};
     }
 
     this.finding_aid_author = _.get(model.attributes, 'finding_aid_author');
+    this.finding_aid_title = _.get(model.attributes, 'finding_aid_title');
+    this.finding_aid_subtitle = _.get(model.attributes, 'finding_aid_subtitle');
+    this.finding_aid_filing_title = _.get(model.attributes, 'finding_aid_filing_title');
+    this.finding_aid_date = _.get(model.attributes, 'finding_aid_date');
+    this.finding_aid_author = _.get(model.attributes, 'finding_aid_author');
+    this.finding_aid_description_rules = _.get(model.attributes, 'finding_aid_description_rules');
+    this.finding_aid_language = _.get(model.attributes, 'finding_aid_language');
+    this.finding_aid_sponsor = _.get(model.attributes, 'finding_aid_sponsor');
+    this.finding_aid_edition_statement = _.get(model.attributes, 'finding_aid_edition_statement');
+    this.finding_aid_series_statement = _.get(model.attributes, 'finding_aid_series_statement');
+    this.finding_aid_status = _.get(model.attributes, 'finding_aid_status');
+    this.finding_aid_note = _.get(model.attributes, 'finding_aid_note');
 
   }
 
