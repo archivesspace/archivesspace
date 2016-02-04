@@ -7,10 +7,10 @@
 
 .form-context .form-overlay {
   opacity: 0.2;
-  
+
 }
 
-#archives_form_overlay { 
+#archives_form_overlay {
   .unlock-notice {
     position: absolute;
     top: 10%;
@@ -681,7 +681,7 @@ label {
   fieldset {
     width: 300px;
     padding: 10px;
-    #template { display:none;  } 
+    #template { display:none;  }
   }
   .form-actions {
     margin: 0;
@@ -741,7 +741,8 @@ label {
 
 // Name form styles
 .is-authoritive-label,
-.is-display-name-label {
+.is-display-name-label,
+.is-representative-label {
   display: none;
 }
 .authoritive-name {
@@ -761,10 +762,18 @@ label {
   }
 }
 
+.is-representative {
+  .is-representative-label {
+    display: inline;
+  }
+  .is-representative-toggle {
+    display: none;
+  }
+}
+
 // four part id controls
 .form-group {
   .id_0, .id_1, .id_2, .id_3 {
     display: inline;
   }
 }
-

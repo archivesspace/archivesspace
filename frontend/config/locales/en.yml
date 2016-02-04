@@ -604,6 +604,7 @@ en:
     _frontend:
       action:
         add: Add File Version
+        make_representative: Make Representative
 
   group:
     _frontend:

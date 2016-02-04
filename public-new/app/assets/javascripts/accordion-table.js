@@ -100,7 +100,6 @@
       var id = $elem.data('header-for');
       var $content = $elem.next('#'+id);
       if ($content.length) {
-        console.log("yeS");
         $elem.off('click.zf.accordionTable keydown.zf.accordionTable')
           .on('click.zf.accordionTable', function(e){
         // $(this).children('a').on('click.zf.accordion', function(e) {
