@@ -32,7 +32,7 @@ var app = app || {};
         label_plural: "Collections"
       },
       archival_object: {
-        key_for_public_urls: "objects"
+        key_for_public_urls: "object"
       },
       accession: {
         key_for_public_urls: "accession",
