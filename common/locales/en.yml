@@ -7,7 +7,7 @@ en:
   boolean:
     "true": "True"
     "false": "False"
-  
+
   user_defined: &user_defined_attributes
     boolean_1: Boolean 1
     boolean_2: Boolean 2
@@ -75,8 +75,8 @@ en:
 
   digital_object: &digital_object_attributes
     <<: *section_tooltips
-    user_defined: 
-      <<: *user_defined_attributes 
+    user_defined:
+      <<: *user_defined_attributes
     title: Title
     title_tooltip: |
         <p>A title expression for the digital object.  May be transcribed from the object, or inherited from a source resource/resource component record, or provided by the repository.</p>
@@ -576,8 +576,8 @@ en:
     _plural: Contact Details
 
   telephone: &telephone
-    _plural: Telephone Numbers 
-    number_type: Number Type 
+    _plural: Telephone Numbers
+    number_type: Number Type
     number: Number
     number_tooltip: |
         <p>Telephone number for the contact person.</p>
@@ -826,6 +826,7 @@ en:
         </ul>
     identifier: Identifier
     caption: Caption
+    is_representative: Representative
 
   extent: &extent_attributes
     portion: Portion
@@ -1094,8 +1095,8 @@ en:
 
   accession:
     <<: *section_tooltips
-    user_defined: 
-      <<: *user_defined_attributes 
+    user_defined:
+      <<: *user_defined_attributes
     accession_date: Accession Date
     accession_date_inline_help: e.g. YYYY-MM-DD
     accession_date_tooltip: |
@@ -1411,8 +1412,8 @@ en:
   resource:
     <<: *archival_object_attributes
     <<: *section_tooltips
-    user_defined: 
-      <<: *user_defined_attributes 
+    user_defined:
+      <<: *user_defined_attributes
     id_0: Identifier
     id_1: Identifier 2
     id_2: Identifier 3
@@ -1882,7 +1883,7 @@ en:
     cannot_be_previous_if_location_is_not_temporary: Cannot transfer to previous if the location is not temporary.
     authority_id_must_be_unique: Authority ID is already in use
     either_type_1_or_barcode_is_required: A container must contain Container 1 Type or Barcode.
-    must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Must be a number with no more than nine digits and five decimal places. 
+    must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Must be a number with no more than nine digits and five decimal places.
     container_2_requires_both_a_type_and_indicator: You must provide an Indicator if you provide a Type
     container_3_requires_both_a_type_and_indicator: You must provide an Indicator if you provide a Type
     container_2_is_required_if_container_3_is_provided: You must provide a Child Container if you provide a Grandchild Container
