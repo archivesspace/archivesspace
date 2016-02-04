@@ -251,6 +251,7 @@ describe 'Resource model' do
                   :publish => true,
                   :file_versions => [build(:json_file_version, {
                                              :publish => true,
+                                             :is_representative => true,
                                              :file_uri => 'http://foo.com/bar1',
                                              :use_statement => 'image-service'
                                             })
