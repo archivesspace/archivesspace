@@ -253,8 +253,9 @@ class AspaceJsonToManagedContainerMapper
     end
 
     Log.info("Creating a new Top Container for a container with no barcode")
-    create_top_container({'indicator' => (container['indicator_1'] || get_default_indicator),
-                          'container_locations' => container['container_locations']})
+    create_top_container( {'indicator' => (container['indicator_1'] || get_default_indicator),
+                         'type' => container["type_1"],  
+                         'container_locations' => container['container_locations']})
   end
 
 
