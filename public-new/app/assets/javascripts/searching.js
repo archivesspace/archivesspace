@@ -207,36 +207,6 @@ var RAILS_API = "/api";
   var SearchResultItem = Bb.Model.extend({
     initialize: function(opts) {
       var recordJson = JSON.parse(this.attributes.json);
-
-      this.render = {
-        title: this.attributes.title,
-        recordTypeClass: this.attributes.primary_type,
-        recordTypeLabel: _.capitalize(this.attributes.primary_type),
-        identifier: this.attributes.identifier || this.attributes.uri,
-        url: this.attributes.uri,
-        summary: this.attributes.summary || 'Maecenas faucibus mollis <span class="searchterm2">astronomy</span>. Maecenas sed diam eget risus varius blandit sit amet non magna. Vestibulum id ligula porta semper.',
-        dates: [],
-        context: undefined
-      }
-
-      this.render.highlights = _.reduce(this.attributes.highlighting, function(result, list, field) {
-        return result.concat(list);
-      }, []);
-
-      switch(this.attributes.primary_type) {
-      case 'resource':
-        this.render.url = this.attributes.uri.replace(/resources/, 'collections');
-        this.render.recordTypeLabel = "Collection";
-        break;
-      case 'archival_object':
-        this.render.url = this.attributes.uri.replace(/archival_object/, 'object');
-        this.render.recordTypeLabel = "Object";
-        break;
-      case 'repository':
-        this.render.title = recordJson.name;
-        this.render.identifier = recordJson.repo_code;
-        break;
-      }
     },
 
 
@@ -482,14 +452,59 @@ var RAILS_API = "/api";
     };
   };
 
+  function SearchResultItemPresenter(model) {
+    var att = model.attributes;
+    var recordJson = JSON.parse(att.json);
+    this.index = model.index;
+    this.title = _.get(att, 'title');
+    this.recordTypeClass = att.primary_type;
+    this.recordTypeLabel = _.capitalize(att.primary_type);
+    this.identifier = att.identifier || att.uri;
+    this.url = att.uri;
+    this.summary = att.summary || 'Maecenas faucibus mollis <span class="searchterm2">astronomy</span>. Maecenas sed diam eget risus varius blandit sit amet non magna. Vestibulum id ligula porta semper.';
+    this.dates = [];
+    this.context = undefined;
+
+    if(att.highlighting) {
+      this.highlights = _.reduce(att.highlighting, function(result, list, field) {
+        return result.concat(list);
+      }, []);
+    }
+
+    switch(att.primary_type) {
+    case 'resource':
+      this.url = att.uri.replace(/resources/, 'collections');
+      this.recordTypeLabel = "Collection";
+      break;
+    case 'archival_object':
+      this.url = att.uri.replace(/archival_object/, 'object');
+      this.recordTypeLabel = "Object";
+      break;
+    case 'repository':
+      this.title = recordJson.name;
+      this.identifier = recordJson.repo_code;
+      break;
+    }
+  }
+
+  SearchResultItemPresenter.prototype.has = function(key) {
+    return !_.isUndefined(this[key])
+  };
+
 
   var SearchItemView = Bb.View.extend({
     tagName: "div",
 
     initialize: function() {
-      this.$el.html(app.utils.tmpl('search-result-row', this.model.render));
+      var presenter = new SearchResultItemPresenter(this.model);
+      this.$el.html(app.utils.tmpl('search-result-row', presenter));
+      this.keywordsToggle = false;
       return this;
-    }
+    },
+
+    // events: {
+
+    // }
   });
 
 
@@ -511,14 +526,29 @@ var RAILS_API = "/api";
       "click .recordrow a.record-title": function(e) {
         e.preventDefault();
         this.trigger("showrecord.aspace", e.target.getAttribute('href'));
+      },
+
+      "click .keywordscontext button": function(e) {
+        e.preventDefault();
+        console.log("--");
+        var $container = $(e.target).closest("div");
+        var $content = $(".content", $container);
+
+        $content.toggle({duration: 400});
+        // if(this.keywordsToggle) {
+        //   $(".keywordscontext .content", this.$el).show();
+        // } else {
+        //   $(".keywordscontext .content", this.$el).hide();
+        // }
       }
 
     },
 
     render: function() {
       var $el = this.$el;
+      $el.empty();
       this.collection.forEach(function(item, index) {
-        item.render.index = index;
+        item.index = index;
         var searchItemView = new SearchItemView({
           model: item
         });
@@ -968,6 +998,7 @@ var RAILS_API = "/api";
       });
 
       stv.on("modifiedquery.aspace", function(modifiedQuery) {
+        console.log("modifiedquery.aspace");
         var query = [];
           // to do - add method to query object for this
         modifiedQuery.forEachRow(function(data) {

@@ -520,22 +520,34 @@
       {if(context) {}
       <div class="recordcontext"><strong>Context:</strong> <a href="#">Repository name</a></div>
       {}}
+      {if(has('highlights')){}
       <div class="keywordscontext">
-        <dl class="accordion" data-accordion>
-          <dd class="accordion-navigation">
-            <a href="#panelcontents_${ index }"><i class="fi-plus"> </i>Keywords in context</a>
-            <div id="panelcontents_${ index }" class="content">
-              <ul class="recordchildren">
-                {_.forEach(highlights, function(snip) {}
-                <li>...${ snip }...</li>
-                {}); }
-                <li class="smallnote">29 more references to search keywords</li>
-              </ul>
-              <a href="03record-collection.html" class="button">View collection</a>
-            </div>
-          </dd>
-        </dl>
+        <button class="button radius"><span>+</span>&#160;Search Terms in Context</button>
+        <div class="content">
+        <ul class="recordchildren">
+          {_.forEach(highlights, function(snip) {}
+          <li>...${ snip }...</li>
+          {}); }
+          <li class="smallnote">29 more references to search keywords</li>
+        </ul>
+        </div>
+
+        <!-- <dl class="accordion" data-accordion> -->
+        <!--   <dd class="accordion-navigation"> -->
+        <!--     <a href="#panelcontents_${ index }"><i class="fi-plus"> </i>Keywords in context</a> -->
+        <!--     <div id="panelcontents_${ index }" class="content"> -->
+        <!--       <ul class="recordchildren"> -->
+        <!--         {_.forEach(highlights, function(snip) {} -->
+        <!--         <li>...${ snip }...</li> -->
+        <!--         {}); } -->
+        <!--         <li class="smallnote">29 more references to search keywords</li> -->
+        <!--       </ul> -->
+        <!--       <a href="03record-collection.html" class="button">View collection</a> -->
+        <!--     </div> -->
+        <!--   </dd> -->
+        <!-- </dl> -->
       </div>
+      {}}
     </div>
   </script>
 

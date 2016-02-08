@@ -21,3 +21,14 @@ $button-font-color: $white;
     }
   }
 }
+
+.button.radius {
+  border-radius: rem-calc(20);
+}
+
+
+.keywordscontext {
+  .button {
+    @include button-style($grey, $darkgrey, $black);
+  }
+}

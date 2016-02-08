@@ -519,3 +519,10 @@ i.giant {
     float:right;
     margin: 0 0 1em 1em;
 }
+
+.keywordscontext {
+  .content {
+    padding-left: rem-calc(20);
+    display: none;
+  }
+}
