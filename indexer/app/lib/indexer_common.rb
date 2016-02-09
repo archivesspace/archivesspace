@@ -335,38 +335,6 @@ class CommonIndexer
     }
 
 
-    record_has_children('collection_management')
-    add_extra_documents_hook {|record|
-      docs = []
-
-      cm = record['record']['collection_management']
-      if cm
-        parent_type = JSONModel.parse_reference(record['uri'])[:type]
-        docs << {
-          'id' => "#{record['uri']}##{parent_type}_collection_management",
-          'parent_id' => record['uri'],
-          'parent_title' => record['record']['title'] || record['record']['display_string'],
-          'parent_type' => parent_type,
-          'title' => record['record']['title'] || record['record']['display_string'],
-          'types' => ['collection_management'],
-          'primary_type' => 'collection_management',
-          'json' => cm.to_json(:max_nesting => false),
-          'cm_uri' => cm['uri'],
-          'processing_priority' => cm['processing_priority'],
-          'processing_hours_total' => cm['processing_hours_total'],
-          'processing_funding_source' => cm['processing_funding_source'],
-          'processors' => cm['processors'],
-          'suppressed' => record['record']['suppressed'].to_s,
-          'repository' => get_record_scope(record['uri']),
-          'created_by' => cm['created_by'],
-          'last_modified_by' => cm['last_modified_by'],
-          'system_mtime' => cm['system_mtime'],
-          'user_mtime' => cm['user_mtime'],
-          'create_time' => cm['create_time'],
-        }
-      end
-
-
     add_document_prepare_hook {|doc, record|
       if record['record']['jsonmodel_type'] == 'top_container'
         doc['title'] = record['record']['long_display_string']
@@ -444,6 +412,36 @@ class CommonIndexer
     }
 
 
+    record_has_children('collection_management')
+    add_extra_documents_hook {|record|
+      docs = []
+
+      cm = record['record']['collection_management']
+      if cm
+        parent_type = JSONModel.parse_reference(record['uri'])[:type]
+        docs << {
+          'id' => "#{record['uri']}##{parent_type}_collection_management",
+          'parent_id' => record['uri'],
+          'parent_title' => record['record']['title'] || record['record']['display_string'],
+          'parent_type' => parent_type,
+          'title' => record['record']['title'] || record['record']['display_string'],
+          'types' => ['collection_management'],
+          'primary_type' => 'collection_management',
+          'json' => cm.to_json(:max_nesting => false),
+          'cm_uri' => cm['uri'],
+          'processing_priority' => cm['processing_priority'],
+          'processing_hours_total' => cm['processing_hours_total'],
+          'processing_funding_source' => cm['processing_funding_source'],
+          'processors' => cm['processors'],
+          'suppressed' => record['record']['suppressed'].to_s,
+          'repository' => get_record_scope(record['uri']),
+          'created_by' => cm['created_by'],
+          'last_modified_by' => cm['last_modified_by'],
+          'system_mtime' => cm['system_mtime'],
+          'user_mtime' => cm['user_mtime'],
+          'create_time' => cm['create_time'],
+        }
+      end
 
       docs
     }
