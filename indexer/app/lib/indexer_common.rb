@@ -15,7 +15,7 @@ class CommonIndexer
 
   include JSONModel
 
-  @@record_types = [ :top_container,:container_profile, 
+  @@record_types = [ :top_container,:container_profile,
                      :archival_object, :resource,
                     :digital_object, :digital_object_component,
                     :subject, :location, :classification, :classification_term,
@@ -75,7 +75,7 @@ class CommonIndexer
       hook.call(self)
     end
   end
-  
+
   def self.generate_permutations_for_identifier(identifer)
     return [] if identifer.nil?
 
@@ -152,15 +152,15 @@ class CommonIndexer
        Array( ASUtils.search_nested(record["record"], field) ).each  { |val| doc["#{field}_enum_s"] ||= [];  doc["#{field}_enum_s"] << val }
 
      end
-     Array( ASUtils.search_nested(record["record"], "items") ).each  do |val| 
-       begin 
-         next unless val.key?("type") 
-         doc["type_enum_s"] ||= []; 
-         doc["type_enum_s"] << val["type"]    
+     Array( ASUtils.search_nested(record["record"], "items") ).each  do |val|
+       begin
+         next unless val.key?("type")
+         doc["type_enum_s"] ||= [];
+         doc["type_enum_s"] << val["type"]
       rescue
         next
       end
-    end 
+    end
     }
 
     add_document_prepare_hook {|doc, record|
@@ -206,7 +206,6 @@ class CommonIndexer
         doc['repository'] = doc["id"]
         doc['title'] = record['record']['repo_code']
         doc['publish'] = true
-        doc['json'] = record['record'].to_json
       end
     }
 
@@ -259,7 +258,6 @@ class CommonIndexer
 
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'event'
-        doc['json'] = record['record'].to_json
         doc['event_type'] = record['record']['event_type']
         doc['title'] = record['record']['event_type'] # adding this for emedded searches
         doc['outcome'] = record['record']['outcome']
@@ -270,7 +268,6 @@ class CommonIndexer
     add_document_prepare_hook {|doc, record|
       if ['agent_person', 'agent_family', 'agent_software', 'agent_corporate_entity'].include?(doc['primary_type'])
         record['record'].reject! { |rec| rec === 'agent_contacts' }
-        doc['json'] = record['record'].to_json
         doc['title'] = record['record']['display_name']['sort_name']
 
         authorized_name = record['record']['names'].find {|name| name['authorized']}
@@ -338,38 +335,6 @@ class CommonIndexer
     }
 
 
-    record_has_children('collection_management')
-    add_extra_documents_hook {|record|
-      docs = []
-
-      cm = record['record']['collection_management']
-      if cm
-        parent_type = JSONModel.parse_reference(record['uri'])[:type]
-        docs << {
-          'id' => "#{record['uri']}##{parent_type}_collection_management",
-          'parent_id' => record['uri'],
-          'parent_title' => record['record']['title'] || record['record']['display_string'],
-          'parent_type' => parent_type,
-          'title' => record['record']['title'] || record['record']['display_string'],
-          'types' => ['collection_management'],
-          'primary_type' => 'collection_management',
-          'json' => cm.to_json(:max_nesting => false),
-          'cm_uri' => cm['uri'],
-          'processing_priority' => cm['processing_priority'],
-          'processing_hours_total' => cm['processing_hours_total'],
-          'processing_funding_source' => cm['processing_funding_source'],
-          'processors' => cm['processors'],
-          'suppressed' => record['record']['suppressed'].to_s,
-          'repository' => get_record_scope(record['uri']),
-          'created_by' => cm['created_by'],
-          'last_modified_by' => cm['last_modified_by'],
-          'system_mtime' => cm['system_mtime'],
-          'user_mtime' => cm['user_mtime'],
-          'create_time' => cm['create_time'],
-        }
-      end
-
-
     add_document_prepare_hook {|doc, record|
       if record['record']['jsonmodel_type'] == 'top_container'
         doc['title'] = record['record']['long_display_string']
@@ -433,23 +398,6 @@ class CommonIndexer
 
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'container_profile'
-        doc['json'] = record['record'].to_json
-        doc['title'] = record['record']['display_string']
-        doc['display_string'] = record['record']['display_string']
-
-        ['width', 'height', 'depth'].each do |property|
-          doc["container_profile_#{property}_u_sstr"] = record['record'][property]
-        end
-
-        doc["container_profile_dimension_units_u_sstr"] = record['record']['dimension_units']
-
-        doc['typeahead_sort_key_u_sort'] = record['record']['display_string']
-      end
-    }
-
-    add_document_prepare_hook {|doc, record|
-      if doc['primary_type'] == 'container_profile'
-        doc['json'] = record['record'].to_json
         doc['title'] = record['record']['display_string']
         doc['display_string'] = record['record']['display_string']
 
@@ -464,6 +412,36 @@ class CommonIndexer
     }
 
 
+    record_has_children('collection_management')
+    add_extra_documents_hook {|record|
+      docs = []
+
+      cm = record['record']['collection_management']
+      if cm
+        parent_type = JSONModel.parse_reference(record['uri'])[:type]
+        docs << {
+          'id' => "#{record['uri']}##{parent_type}_collection_management",
+          'parent_id' => record['uri'],
+          'parent_title' => record['record']['title'] || record['record']['display_string'],
+          'parent_type' => parent_type,
+          'title' => record['record']['title'] || record['record']['display_string'],
+          'types' => ['collection_management'],
+          'primary_type' => 'collection_management',
+          'json' => cm.to_json(:max_nesting => false),
+          'cm_uri' => cm['uri'],
+          'processing_priority' => cm['processing_priority'],
+          'processing_hours_total' => cm['processing_hours_total'],
+          'processing_funding_source' => cm['processing_funding_source'],
+          'processors' => cm['processors'],
+          'suppressed' => record['record']['suppressed'].to_s,
+          'repository' => get_record_scope(record['uri']),
+          'created_by' => cm['created_by'],
+          'last_modified_by' => cm['last_modified_by'],
+          'system_mtime' => cm['system_mtime'],
+          'user_mtime' => cm['user_mtime'],
+          'create_time' => cm['create_time'],
+        }
+      end
 
       docs
     }
