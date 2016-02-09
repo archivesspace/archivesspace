@@ -221,7 +221,7 @@ describe 'Managed Container compatibility' do
 
     expect {
       accession = create_accession({"instances" => [instance]})
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
 
   end
 
@@ -289,7 +289,7 @@ describe 'Managed Container compatibility' do
 
     expect {
       create_resource({"instances" => instances})
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 
@@ -373,7 +373,7 @@ describe 'Managed Container compatibility' do
 
     expect {
       create_resource({"instances" => [instance]})
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 

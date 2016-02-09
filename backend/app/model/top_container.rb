@@ -219,11 +219,8 @@ class TopContainer < Sequel::Model(:top_container)
 
 
   def reindex_linked_records
-    linked_archival_records.group_by(&:class).each do |clz, records|
-      clz.update_mtime_for_ids(records.map(&:id))
-    end
+        self.class.update_mtime_for_ids([self.id])
   end
-
 
   def self.search_stream(params, repo_id, &block)
     query = if params[:q]
@@ -351,26 +348,30 @@ class TopContainer < Sequel::Model(:top_container)
   end
 
 
-  def self.bulk_update_barcodes(barcode_data)
-    updated = []
+ def self.bulk_update_barcodes(barcode_data)
+      updated = []
 
-    # null out barcodes to avoid duplicate error as bulk updates are applied
-    TopContainer.filter(:id => barcode_data.map{|uri,_| my_jsonmodel.id_for(uri)}).update(:barcode => nil)
+      ids = barcode_data.map{|uri,_| my_jsonmodel.id_for(uri)}
 
-    barcode_data.each do |uri, barcode|
-      id = my_jsonmodel.id_for(uri)
-
-      top_container = TopContainer[id]
-      top_container.barcode = barcode
-      top_container.system_mtime = Time.now
-      top_container.save(:columns => [:barcode, :system_mtime])
-
-      updated << id
-    end
-
-    updated
-  end
-
+      # null out barcodes to avoid duplicate error as bulk updates are
+      # applied
+      TopContainer.filter(:id => ids).update(:barcode => nil)
+           
+      barcode_data.each do |uri, barcode|
+        id = my_jsonmodel.id_for(uri)
+      
+        top_container = TopContainer[id]
+        top_container.barcode = barcode
+        top_container.system_mtime = Time.now
+        
+        top_container.save(:columns => [:barcode, :system_mtime])
+        updated << id
+      end
+      
+      TopContainer.update_mtime_for_ids(ids)
+      updated
+ 
+ end
 
   def self.for_barcode(barcode)
     TopContainer[:barcode => barcode, :repo_id => self.active_repository]
@@ -378,6 +379,24 @@ class TopContainer < Sequel::Model(:top_container)
 
   def self.for_indicator(indicator)
     TopContainer[:indicator => indicator, :repo_id => self.active_repository]
+  end
+
+  def self.update_mtime_for_ids(ids)
+    # Update the Top Container records themselves
+    super
+
+    # ... and all of their linked records
+    ASModel.all_models.each do |model|
+      next unless model.associations.include?(:instance)
+      association =  model.association_reflection(:instance)
+      key = association[:key]
+      linked_ids = TopContainer.linked_instance_ds.
+                   join(model.table_name, Sequel.qualify(model.table_name, :id) => Sequel.qualify(:instance, key)).
+                   filter(:top_container__id => ids).
+                   select(Sequel.qualify(model.table_name, :id)).map {|row| row[:id] }
+      model.update_mtime_for_ids(linked_ids)
+
+    end  
   end
 
 

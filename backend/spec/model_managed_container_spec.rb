@@ -2,7 +2,6 @@ require 'spec_helper'
 require_relative 'factories'
 require_relative 'container_spec_helper'
 
-include JSONModel
 
 def create_archival_object_with_rights(top_container_json, dates = [])
   rights_statements = dates.map{|date| build(:json_rights_statement, {
@@ -45,8 +44,9 @@ describe 'Managed Container model' do
                                'barcode' => barcode,
                                'ils_holding_id' => ils_holding_id,
                                'ils_item_id' => ils_item_id,
-                               'exported_to_ils' => exported_to_ils,
-                         )
+                               'exported_to_ils' => exported_to_ils
+                               )
+
     box_id = TopContainer.create_from_json(top_container, :repo_id => $repo_id).id
 
     box = TopContainer.to_jsonmodel(box_id)
@@ -78,7 +78,7 @@ describe 'Managed Container model' do
   it "doesn't blow up if you don't provide a barcode for a top-level element" do
     expect {
       create(:json_top_container, :barcode => nil)
-    }.to_not raise_error
+    }.to_not raise_error(JSONModel::ValidationException)
   end
 
 
@@ -87,7 +87,7 @@ describe 'Managed Container model' do
 
     expect {
       create(:json_top_container, :barcode => "1234")
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 
@@ -97,15 +97,15 @@ describe 'Managed Container model' do
 
     expect {
       create(:json_top_container, :barcode => "1234")
-    }.to_not raise_error
+    }.to_not raise_error(JSONModel::ValidationException)
 
     expect {
       create(:json_top_container, :barcode => "123")
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
 
     expect {
       create(:json_top_container, :barcode => "1234567")
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
 
   end
 
@@ -384,7 +384,57 @@ describe 'Managed Container model' do
       container1.refresh.system_mtime.should be > container1_original_mtime
       container2.refresh.system_mtime.should be > container2_original_mtime
     end
+
+
+    it "reindexes linked archival object when top container is updated" do
+      (resource, grandparent, parent, child) = create_tree(top_container_json)
+
+      ao = ArchivalObject[child.id]
+      original_mtime = ao.system_mtime
+
+      json = TopContainer.to_jsonmodel(top_container_json.id)
+      json.barcode = "1122334455"
+
+      top_container.refresh.update_from_json(json)
+
+      ao.refresh.system_mtime.should be > original_mtime
+    end
+
+
+    it "reindexes linked archival object when top container is changed via container profile bulk update" do
+      (resource, grandparent, parent, child) = create_tree(top_container_json)
+
+      ao = ArchivalObject[child.id]
+      original_mtime = ao.system_mtime
+
+      json = TopContainer.to_jsonmodel(top_container_json.id)
+
+      container_profile = create(:json_container_profile)
+      TopContainer.bulk_update_container_profile([json.id],
+                                                 container_profile.uri)
+
+      ao.refresh.system_mtime.should be > original_mtime
+    end
+
+
+    it "reindexes linked archival object when top container is changed via barcode bulk update" do
+      (resource, grandparent, parent, child) = create_tree(top_container_json)
+
+      ao = ArchivalObject[child.id]
+      original_mtime = ao.system_mtime
+
+      json = TopContainer.to_jsonmodel(top_container_json.id)
+
+      barcode_data = {}
+      barcode_data[json.uri] = "987654321"
+
+      TopContainer.bulk_update_barcodes(barcode_data)
+
+      ao.refresh.system_mtime.should be > original_mtime
+    end
+
   end
+
 
 
   describe "bulk action" do
@@ -450,7 +500,7 @@ describe 'Managed Container model' do
 
         expect {
           TopContainer.bulk_update_barcodes(barcode_data)
-        }.to_not raise_error
+        }.to_not raise_error(Sequel::DatabaseError)
 
         TopContainer[container1_json.id].barcode.should eq("22222222")
         TopContainer[container2_json.id].barcode.should eq("11111111")

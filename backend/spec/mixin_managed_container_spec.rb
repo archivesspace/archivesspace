@@ -38,7 +38,7 @@ describe 'Managed Container mixin' do
                            "sub_container" => build(:json_sub_container)
                          })]
                        })
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 
@@ -57,7 +57,7 @@ describe 'Managed Container mixin' do
                            })
                          })]
                        })
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 
@@ -76,7 +76,7 @@ describe 'Managed Container mixin' do
                            })
                          })]
                        })
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 
@@ -93,7 +93,7 @@ describe 'Managed Container mixin' do
                            })
                          })]
                        })
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 
@@ -110,7 +110,7 @@ describe 'Managed Container mixin' do
                            })
                          })]
                        })
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
   end
 
   it "requires a container 2 if container 3 is provided" do
@@ -127,7 +127,7 @@ describe 'Managed Container mixin' do
                            })
                          })]
                        })
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 end
