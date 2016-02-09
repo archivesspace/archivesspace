@@ -21,6 +21,16 @@ starts for the first time, it will kick-off a conversion process to move data fr
 tables into the new container tables. While this process is underway, the
 application will be unavailable. 
 
+If you have previously used the container_management plugin, simply run the
+update are normal, but be sure to keep 'container_management' in your
+AppConfigs[:plugins] setting. This will instruct the application to not attempt
+to add the related container_management tables to the database, as well as not
+run the top_container conversion process. After you have run the setup-database
+and started, you can remove the container_management setting from your
+AppConfig[:plugins] settings, if you wish to not have the plugin load on
+future restarts. 
+
+
 **Important: This conversion process will output information indicating
 records that might need manual review and cleanup. Keep the output
 from the log to inform actions that might be required to fix problematic container

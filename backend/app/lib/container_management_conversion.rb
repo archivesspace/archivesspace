@@ -128,7 +128,7 @@ class ContainerManagementConversion
       rescue ValidationException => e
         DB.open do |db|
           db[:system_event].insert(:title => "CONTAINER_MANAGEMENT_UPGRADE_WARNING",
-                                   :message => e.message, 
+                                   :message => e.message[0..250], 
                                    :time => Time.now)
         end
          
@@ -141,23 +141,15 @@ class ContainerManagementConversion
 
 
   MAX_RECORDS_PER_TRANSACTION = 10
-
-
-  def run
-  
-    # just in case....
-    if self.class.already_run?
+  def convert
+    
+    if AppConfig[:plugins].include?("container_management") 
       Log.info("*" * 100 )
-      Log.info("*\t\t How did you get here? The container management conversion process has already run, or at least there's log of it in the system_event table.") 
+      Log.info("*\t\t You have the container_managment set in your AppConfig[:plugins] setting. We will not run the container conversion process.") 
       Log.info("*" * 100 )
       return    
     end
     
-    DB.open do |db|
-      db[:system_event].insert(:title => "CONTAINER_MANAGEMENT_UPGRADE_STARTED",
-                                 :time => Time.now)
-    end
-
     records_migrated = 0
 
     Repository.all.each do |repo|
@@ -219,6 +211,30 @@ class ContainerManagementConversion
       end
     end
 
+
+
+  end
+
+
+
+
+  def run
+  
+    # just in case....
+    if self.class.already_run?
+      Log.info("*" * 100 )
+      Log.info("*\t\t How did you get here? The container management conversion process has already run, or at least there's log of it in the system_event table.") 
+      Log.info("*" * 100 )
+      return    
+    end
+    
+    DB.open do |db|
+      db[:system_event].insert(:title => "CONTAINER_MANAGEMENT_UPGRADE_STARTED",
+                                 :time => Time.now)
+    end
+
+    convert
+    
     DB.open do |db|
       db[:system_event].insert(:title => "CONTAINER_MANAGEMENT_UPGRADE_COMPLETED",
                                  :time => Time.now)
