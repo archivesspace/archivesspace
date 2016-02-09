@@ -40,7 +40,12 @@ class ReportRunner < JobRunner
       report_model = report[:model] 
 
 
-      file.write(ReportResponse.new( report_model.new(params)  ).generate)
+      output = ReportResponse.new( report_model.new(params)  ).generate 
+      if output.respond_to? :string
+        file.write(output.string)
+      else 
+        file.write(output)
+      end
       file.rewind
        
       
