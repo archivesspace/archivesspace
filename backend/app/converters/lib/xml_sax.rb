@@ -226,7 +226,7 @@ module ASpaceImport
       end
 
       def pprint_current_node
-        Nokogiri::XML::Builder.new {|b|
+        Nokogiri::XML::Builder.new( :encoding => 'UTF-8' ) {|b|
           b.send(@node.name.intern, @node.attributes).cdata(" ... ")
         }.doc.root.to_s
       end
