@@ -717,9 +717,10 @@ var RAILS_API = "/api";
     initDropdowns: function() {
       // initialize select boxes
       $("button.dropdown", this.$el).each(function(i, button) {
-        var placeholderText = $("ul#"+$(button).data("dropdown")+" li.selected").text();
+        var placeholderText = $("ul#"+$(button).data("toggle")+" li.selected").text();
         $(button).text(placeholderText);
       });
+      this.$el.foundation();
     },
 
     setRowIndex: function(index) {
@@ -931,7 +932,7 @@ var RAILS_API = "/api";
 
       var sfv = this.searchFacetsView = new app.SearchFacetsView();
 
-      // $(document).foundation();
+      $(document).foundation();
       srv.on("showrecord.aspace", function(url) {
         var parsed = /repositories\/(\d+)\/([a-z_]+)\/(\d+)/.exec(url)
         var opts = {

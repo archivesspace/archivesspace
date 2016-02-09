@@ -32,12 +32,6 @@ var app = app || {};
     },
 
 
-    // 1/15 - TODO: Just follow the pattern used for Search.
-    // The Record is no different from the search result content
-    // I.e. Just make a container view and pass it whatever
-    // data the router has to send. this func should be as short
-    // as the above.
-
     showRecord: function(repoId, collectionType, id) {
       var opts = {
         repoId: repoId,
@@ -50,53 +44,6 @@ var app = app || {};
       })
     },
 
-
-    //   var realType = app.utils.getASType(collectionType);
-
-    //   var record = new app.RecordModel({
-    //     type: realType,
-    //     collectionType: collectionType,
-    //     id: id,
-    //     repo_id: repoId
-    //   });
-
-    //   app.debug = record;
-
-
-    //   $('#wait-modal').foundation('reveal', 'open');
-    //   record.fetch().then(function(resp) {
-
-    //     var containerView = new app.ContainerView({
-    //       mainWidth: 7,
-    //       sidebarWidth: 5
-    //     });
-
-    //     var recordView = new app.RecordView({
-    //       record: record
-    //     });
-    //     var sideBar = new app.RecordSidebarView();
-
-    //     $("#main-content").html(recordView.$el.html());
-    //     $("#sidebar").html(sideBar.$el.html());
-
-    //   }).fail(function(response) {
-    //     var containerView = new app.ContainerView({
-    //       mainWidth: 12,
-    //     });
-
-    //     var errorView = new app.ServerErrorView({
-    //       response: response
-    //     });
-
-    //     $("#main-content").html(errorView.$el.html());
-    //   }).always(function() {
-    //     setTimeout(function() {
-    //       $('#wait-modal').foundation('reveal', 'close');
-    //     }, 500);
-    //   });
-
-
-    // },
 
     defaultPage: function(path) {
       var containerView = new app.ContainerView({

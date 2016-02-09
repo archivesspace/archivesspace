@@ -251,8 +251,6 @@ Foundation.util = {
  * @param {String|Array} method - An action to perform on the current jQuery object.
  */
 var foundation = function(method) {
-  console.log(this);
-  console.log(method);
   var type = typeof method,
       $meta = $('meta.foundation-mq'),
       $noJS = $('.no-js');
