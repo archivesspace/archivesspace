@@ -8,7 +8,7 @@ describe('Record Model(s)', function() {
     this.resourceRecord = new app.RecordModel({
       type: 'resource',
       id: 1,
-      repo_id: 2
+      repoId: 2
     });
 
     this.resourceRecord.fetch({
@@ -46,7 +46,6 @@ describe('Record Model(s)', function() {
 
     it('accepts an error handling callback', function() {
       expect(this.request.url).toEqual('/api/repositories/2/resources/1');
-      console.log(this.resourceRecord);
       expect(this.resourceRecord.barf).toEqual(true);
     });
   });

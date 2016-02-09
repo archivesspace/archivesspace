@@ -26,6 +26,7 @@ class Resource < Sequel::Model(:resource)
   include ReindexTopContainers
   include RightsRestrictionNotes 
   include MapToAspaceContainer
+  include RepresentativeImages
 
   enable_suppression
 

@@ -22,8 +22,13 @@
 
 <% define_template "instance_digital_object", jsonmodel_definition(:instance) do |form| %>
   <div class="subrecord-form-fields">
+    <h4 class="subrecord-form-heading">
+      <span class="badge badge-info is-representative-label"><%= I18n.t("file_version.is_representative") %></span>
+      <button class="btn btn-small is-representative-toggle"><%= I18n.t("file_version._frontend.action.make_representative") %></button>
+    </h4>
     <div class="subrecord-form-container">
       <%= form.hidden_input "instance_type", "digital_object" %>
+      <%= form.hidden_input "is_representative", form["is_representative"] ? 1 : 0 %>
       <%= form.fields_for(form["digital_object"] || {}, "digital_object") do |item| %>
         <%= render_aspace_partial :partial => "digital_objects/linker", :locals => {:form => form} %>
       <% end %>

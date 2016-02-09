@@ -240,6 +240,9 @@ class Solr
 
       if @highlighting
         add_solr_param(:hl, "true")
+        if @query_type == :standard
+          add_solr_param(:"hl.fl", "*")
+        end
       end
 
       unless @show_suppressed

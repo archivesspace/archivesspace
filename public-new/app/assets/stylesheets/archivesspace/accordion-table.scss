@@ -1,0 +1,96 @@
+.accordion-table {
+  display: table;
+  width: 100%;
+
+  .navigation-row {
+    display: table-row;
+
+    &:hover {
+      cursor: pointer;
+      cursor: hand;
+    }
+
+    > div {
+      display: table-cell;
+    }
+  }
+
+  .content-row {
+
+    > div {
+      display: table-cell;
+    }
+  }
+}
+
+.accordion-table > .content-row {
+  @include accordion-content;
+  background-color: $lightgrey;
+
+  > div:first-child {
+    border-top: 1px solid $grey;
+    border-left: 1px solid $grey;
+  }
+
+  > div:last-child {
+    background-color: $lightgrey;
+    border-top: 1px solid $grey;
+    border-left: 1px solid $grey;
+    border-right: 1px solid $grey;
+    padding-left: rem-calc(40);
+    padding-top: rem-calc(10);
+    padding-bottom: rem-calc(10);
+
+    ul {
+      list-style: none;
+    }
+
+    li {
+      font-weight: bold;
+    }
+
+    li li {
+      font-weight: normal;
+    }
+
+    > ul {
+      margin-left: 0;
+    }
+
+  }
+
+}
+
+.accordion-table {
+  border-bottom: 1px solid $grey;
+
+  .navigation-row {
+
+    > div:first-child {
+      background-color: $lightblue;
+      border-left: 1px solid $grey;
+      border-top: 1px solid $grey;
+
+
+      .arrow-down {
+        margin: rem-calc(20);
+        @include css-triangle(rem-calc(10), $white, 'down');
+      }
+
+      .arrow-right {
+        margin: rem-calc(20);
+        @include css-triangle(rem-calc(10), $white, 'right');
+      }
+    }
+
+    > div:last-child {
+      width: 100%;
+      background-color: $lightgrey;
+      border-left: 1px solid $grey;
+      border-right: 1px solid $grey;
+      border-top: 1px solid $grey;
+      vertical-align: middle;
+      padding-left: rem-calc(20);
+    }
+  }
+}

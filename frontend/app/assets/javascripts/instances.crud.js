@@ -1,4 +1,5 @@
 //= require subrecord.collapsible.js
+//= require representativemembers.js
 
 $(function() {
 

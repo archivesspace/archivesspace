@@ -14,13 +14,22 @@ describe('Search Results', function() {
     this.searchResults = new app.SearchResults([], {
       state: {
         pageSize: 40,
-        currentPage: 1
+        currentPage: 1,
+        query: [{
+          field: "title",
+          recordtype: "any",
+          value: "big"
+        }, {
+          field: "keyword",
+          op: "OR",
+          value: "paper"
+        }]
       }
     });
 
     this.searchResults.fetch({
+      // don't really need this anymore - use applyFilter method.
       data: {
-        q: 'foo',
         filter_term: ['{"repositories":"/repositories/2"}'],
       }
     });
@@ -41,34 +50,80 @@ describe('Search Results', function() {
   it('translates query params for the server', function() {
     expect(this.request.url).toMatch(/^\/api\/search/);
     var decoded = decodeURIComponent(this.request.url).replace(/.*\?/, '').split('&');
-    expect(decoded).toContain('q=foo');
+    expect(decoded).toContain('v0=big');
+    expect(decoded).toContain('f0=title');
     expect(decoded).toContain('page_size=40');
     expect(decoded).toContain('page=1');
     expect(decoded).toContain('filter_term[]={"repositories":"/repositories/2"}');
   });
 
-  it('knows how many results it has', function() {
-    expect(this.searchResults.state.totalRecords).toEqual(3);
+  it('can fetch a new page size', function(done) {
+    this.searchResults.setPageSize(60);
+    var request = jasmine.Ajax.requests.mostRecent();
+    request.respondWith(TestResponses.search.success);
+    expect(request.url).toContain('page_size=60');
+    done();
   });
 
-  it('can create filtering and pagination links with current criteria', function() {
-    var biggerPageURL = this.searchResults.getPageSizeURL(200);
-    var nextPageURL = this.searchResults.getNextPageURL();
-    var anotherFilterURL = this.searchResults.getAddFilterURL('{"subjects":"parties"}');
-    var removeFilterURL = this.searchResults.getRemoveFilterURL('{"repositories":"/repositories/2"}');
 
-    _.each([biggerPageURL, nextPageURL, anotherFilterURL], function(URL) {
-      var decoded = splitURLParams(URL);
-      expect(decoded).toContain('q=foo');
-      expect(decoded).toContain('filter_term[]={"repositories":"/repositories/2"}');
-    });
+  it('can change sort order and re fetch', function(done) {
+    this.searchResults.setSorting("title");
+    this.searchResults.fetch();
+    var request = jasmine.Ajax.requests.mostRecent();
+    request.respondWith(TestResponses.search.success);
+    console.log(request.url);
+    expect(request.url).toContain('title_sort+asc');
+    done();
+  });
 
-    expect(splitURLParams(anotherFilterURL)).toContain('pageSize=40');
-    expect(splitURLParams(biggerPageURL)).toContain('pageSize=200');
-    expect(splitURLParams(biggerPageURL)).not.toContain('pageSize=40');
 
-    expect(splitURLParams(removeFilterURL)).not.toContain('filter_term[]={"repositories":"/repositories/2"}');
-    expect(splitURLParams(removeFilterURL)).toContain('pageSize=40');
+  it('can update the base query and refetch', function(done) {
+    var newQuery = [{
+      field: "title",
+      recordtype: "any",
+      value: "small"
+    }, {
+      field: "keyword",
+      op: "OR",
+      value: "paper"
+    }];
+
+    this.searchResults.updateQuery(newQuery);
+    var request = jasmine.Ajax.requests.mostRecent();
+    request.respondWith(TestResponses.search.success);
+    expect(request.url).toContain('v0=small');
+    done();
+  });
+
+
+  it('can apply multiple filters', function() {
+    this.searchResults.applyFilter({'repositories': "/repositories/99"});
+    this.searchResults.applyFilter({'repositories': "/repositories/98"});
+    var request = jasmine.Ajax.requests.mostRecent();
+    request.respondWith(TestResponses.search.success);
+    var decoded = decodeURIComponent(request.url).replace(/.*\?/, '').split('&');
+    expect(decoded).toContain('filter_term[]={"repositories":"/repositories/99"}');
+    expect(decoded).toContain('filter_term[]={"repositories":"/repositories/98"}');
+  });
+
+
+  it('can remove a filter', function() {
+    this.searchResults.applyFilter({'repositories': "/repositories/99"});
+    var request = jasmine.Ajax.requests.mostRecent();
+    request.respondWith(TestResponses.search.success);
+    var decoded = decodeURIComponent(request.url).replace(/.*\?/, '').split('&');
+    expect(decoded).toContain('filter_term[]={"repositories":"/repositories/99"}');
+
+    this.searchResults.removeFilter({'repositories': "/repositories/99"});
+    var request = jasmine.Ajax.requests.mostRecent();
+    request.respondWith(TestResponses.search.success);
+    var decoded = decodeURIComponent(request.url).replace(/.*\?/, '').split('&');
+    expect(decoded).not.toContain('filter_term[]={"repositories":"/repositories/99"}');
+  });
+
+
+  it('knows how many results it has', function() {
+    expect(this.searchResults.state.totalRecords).toEqual(3);
   });
 
 
@@ -86,8 +141,5 @@ describe('Search Results', function() {
       expect(this.item.getURL()).toEqual('/repositories/13/collections/666');
     });
 
-
   });
-
-
 });

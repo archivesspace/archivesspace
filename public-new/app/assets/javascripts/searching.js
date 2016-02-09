@@ -4,32 +4,204 @@ var RAILS_API = "/api";
 
 (function(Bb, _) {
 
-  // This builds a URL for the location toolbar (not Ajax calls)
-  // from the internal state of a SearchResults collection
-  function buildBaseURL(filter) {
-    var filter = filter || function() {
+  function convertFilter(solrFilter) {
+    var parsed = JSON.parse(solrFilter);
+    return parsed;
+  }
+
+
+  // This builds a search URL to be sent to the router
+  // from the internal state of a SearchResults collection +
+  // an optional filter function supplied by the caller +
+  // an optional param object supplied by the caller
+  function buildLocationURL(paramFilter, addedParams) {
+    var addedParams = addedParams || _.isUndefined(paramFilter) ? {} : _.isFunction(paramFilter) ? {} : paramFilter;
+
+    var paramFilter = _.isFunction(paramFilter) ? paramFilter : function() {
       return true;
     };
 
     var url = "/search?";
     var params = [];
 
-    if(this.state.pageSize) {
-      params.push('pageSize='+this.state.pageSize);
+    if(this.pageSize) {
+      params.push('pageSize='+this.pageSize);
     }
-    _.forOwn(_.pick(this.state.criteria, ['q', 'filter_term[]']), function(value, key) {
-      if(_.isArray(value)) {
-        _.forEach(value, function(filter) {
-          params.push(""+key+"="+filter);
-        });
-      } else {
-        params.push(key+"="+value);
-      }
+
+    _.forEach(this.filters, function(filter) {
+      params.push(_.keys(filter)[0]+"="+_.values(filter)[0]);
     });
-    params = _.filter(params, filter);
+
+    if(_.isArray(this.query)) {
+      _.forEach(this.query, function(row, i) {
+        if(row.field)
+          params.push("f"+i+"="+row.field);
+
+        if(row.value)
+          params.push("q"+i+"="+row.value);
+
+        if(row.op)
+          params.push("op"+i+"="+row.op);
+
+        if(row.recordtype && i < 1)
+          params.push("recordtype="+row.recordtype);
+      });
+    }
+
+    if (this.recordType) {
+      params.push("recordtype="+this.recordType);
+    }
+
+    params = _.filter(params, paramFilter);
+
+    _.forOwn(addedParams, function(val, key) {
+      params.push(key+"="+val);
+    });
 
     url += params.join('&');
     return url;
+  };
+
+
+  //an object that can hold search
+  //params taken from the public URL
+  //and convert them for instantiating a SearchResults state
+  function SearchQuery(queryString) {
+    var that = this;
+    var publicParams = this.parseQueryString(queryString);
+    publicParams.page = publicParams.page || 1;
+    publicParams.pageSize = publicParams.pageSize || 20;
+
+    _.forOwn(publicParams, function(value, key) {
+      that[key] = value;
+    });
+
+    return this;
+  }
+
+
+  SearchQuery.prototype.forEachRow = function(cb, i) {
+    var index = i || 0;
+    var hasData = false;
+    var that = this;
+    var rowData = {
+      index: index
+    };
+    var map = {
+      'f': 'field',
+      'q': 'value',
+      'op': 'op'
+    };
+
+    if(index === 0 && this.recordtype)
+      rowData.recordtype = this.recordtype;
+
+    _.forEach(['f', 'q', 'op'], function(paramStem) {
+      if(that[paramStem+index]) {
+        rowData[map[paramStem]] = that[paramStem+index];
+        hasData = true;
+      }
+    });
+
+    if(hasData) {
+      cb(rowData);
+      this.forEachRow(cb, index+1);
+    }
+
+  };
+
+
+  SearchQuery.prototype.parseQueryString = function(queryString) {
+    var params = {};
+    if(queryString){
+      _.each(
+        _.map(decodeURI(queryString).split(/&/g),function(el,i){
+          var aux = el.split('='), o = {};
+          if(aux.length >= 1){
+            var val = undefined;
+            if(aux.length == 2)
+              val = aux[1];
+            o[aux[0]] = val;
+          }
+          return o;
+        }),
+        function(o){
+          _.assign(params,o, function(value, other) {
+            if (_.isUndefined(value)) {
+              return other;
+            } else {
+              return _.flatten([value, other]);
+            }
+          });
+        }
+      );
+    }
+
+    if (_.isArray(params.page))
+      params.page = params.page[0];
+
+    if (_.isString(params.page))
+      params.page = parseInt(params.page);
+
+    return params;
+  };
+
+
+  SearchQuery.prototype.buildQueryString = function(arg1, arg2) {
+    var criteria = _.pick(_.toPlainObject(this), _.isString)
+    var url = buildLocationURL.call({criteria: criteria}, arg1, arg2);
+    return url;
+  };
+
+
+  SearchQuery.prototype.updateCriteria = function(criteria) {
+    var that = this;
+    _.forOwn(that, function(value, key) {
+      if (key.match(/^(f|q|op)\d$/)) {
+        that[key] = undefined;
+      }
+    });
+
+    _.forOwn(criteria, function(value, key) {
+      that[key] = value;
+    });
+  };
+
+
+  // take the raw criteria object returned by the server
+  // and figure out the 'recordtype' parameter
+  // As far as our app is concerned, the 'type[]' param
+  // and the filter_term[]='{'primary_type'...are redundant
+
+  function parseRecordType(criteria) {
+    var result = 'any';
+
+    if (_.has(criteria, 'type[]') && _.isArray(criteria['type[]']) && criteria['type[]'].length === 1) {
+      result = app.utils.getPublicType(criteria['type[]'][0]);
+    } else {
+      var primaryTypeFilter = _.find(criteria["filter_term[]"], function(rawFilter) {
+        return _.has(JSON.parse(rawFilter), 'primary_type');
+      });
+
+      if(primaryTypeFilter) {
+        primaryTypeFilter = JSON.parse(primaryTypeFilter);
+        result = app.utils.getPublicType(primaryTypeFilter.primary_type);
+      }
+    }
+
+    return result;
+  };
+
+
+  //take the raw criteria object returned by the server
+  // and clean it up for our results object
+  function parseCriteria(criteria) {
+    if (_.has(criteria, 'aq')) {
+      var aqObj = JSON.parse(criteria.aq);
+      criteria.aq = aqObj;
+    }
+
+    return criteria;
   };
 
   var SearchResultItem = Bb.Model.extend({
@@ -40,9 +212,9 @@ var RAILS_API = "/api";
         title: this.attributes.title,
         recordTypeClass: this.attributes.primary_type,
         recordTypeLabel: _.capitalize(this.attributes.primary_type),
-        identifier: this.attributes.uri,
+        identifier: this.attributes.identifier || this.attributes.uri,
         url: this.attributes.uri,
-        summary: 'Maecenas faucibus mollis <span class="searchterm2">astronomy</span>. Maecenas sed diam eget risus varius blandit sit amet non magna. Vestibulum id ligula porta semper.',
+        summary: this.attributes.summary || 'Maecenas faucibus mollis <span class="searchterm2">astronomy</span>. Maecenas sed diam eget risus varius blandit sit amet non magna. Vestibulum id ligula porta semper.',
         dates: [],
         context: undefined
       }
@@ -90,10 +262,12 @@ var RAILS_API = "/api";
   var SearchResults = Bb.PageableCollection.extend({
     model: SearchResultItem,
 
-    url: RAILS_API+"/search",
+    url: function() {
+      return RAILS_API+(this.advanced ? "/advanced_search": "/search");
+    },
 
     parseRecords: function(data) {
-      console.log(data);
+      console.log(_.merge(data, {debug: "Raw search response"}));
       return data.search_data.results
     },
 
@@ -103,7 +277,8 @@ var RAILS_API = "/api";
         lastPage: data.search_data.last_page,
         totalPages: data.search_data.last_page,
         currentPage: data.search_data.this_page,
-        criteria: data.search_data.criteria,
+        criteria: parseCriteria(data.search_data.criteria),
+        recordType: parseRecordType(data.search_data.criteria),
         facetData: data.facet_data,
         filterLabelMap: data.filter_label_map,
         totalRecords: data.search_data.total_hits
@@ -111,20 +286,127 @@ var RAILS_API = "/api";
     },
 
 
-    forEachAppliedFilterWithLabel: function(cb) {
+    updateQuery: function(query) {
       var state = this.state;
-      if (!_.isEmpty(state.criteria.q)) {
-        cb('q', state.filterLabelMap['q']);
-      }
+      state = this.state = this._checkState(_.extend({}, state, {
+        query: query
+      }));
 
-      _.forEach(state.criteria["filter_term[]"], function(filter) {
-        cb(filter, state.filterLabelMap[filter]);
-      });
+      return this.getPage(1, _.omit({}, ["first"]));
     },
 
 
-    eachUsableFacetGroup: function(cb) {
+    applyFilter: function(filter) {
+      var filters = this.state.filters || [];
       var state = this.state;
+      filters.push(filter);
+      state = this.state = this._checkState(_.extend({}, state, {
+        filters: filters
+      }));
+
+      return this.getPage(1, _.omit({}, ["first"]));
+    },
+
+
+    removeFilter: function(filterToRemove) {
+      var filters = this.state.filters || [];
+      _.remove(filters, function(filter) {
+        return JSON.stringify(filter) === JSON.stringify(filterToRemove);
+      });
+
+      var state = this.state;
+      state = this.state = this._checkState(_.extend({}, state, {
+        filters: filters
+      }));
+
+      return this.getPage(1, _.omit({}, ["first"]));
+    },
+
+
+    queryParams: function() {
+      var map = {
+        currentPage: "page",
+        pageSize: "page_size",
+        sortKey: 'sort',
+        sort: function() {
+          switch(this.state.sortKey) {
+          case 'title':
+            return 'title_sort asc';
+          case 'date_added':
+            return 'create_time asc';
+          }
+        },
+        'filter_term[]': function() {
+          if(this.state.filters) {
+            return _.map(this.state.filters, function(filt) {
+              return JSON.stringify(filt);
+            });
+          }
+        }
+      };
+
+      _.times(5, function(n) {
+        map['v'+n] = function() {
+          if(this.state.query[n])
+            return this.state.query[n]['value'];
+        };
+        map['f'+n] = function() {
+          if(this.state.query[n])
+            return this.state.query[n]['field'];
+        };
+        map['op'+n] = function() {
+          if(n > 0 && this.state.query[n])
+            return this.state.query[n]['op'];
+        };
+      });
+
+      map['type'] = function() {
+        if(this.state.recordType) {
+          return this.state.recordType;
+        } else if (this.state.query[0]) {
+          return this.state.query[0]['recordtype'] === 'any' ? undefined : this.state.query[0]['recordtype'];
+        }
+      };
+
+      return map
+    }(),
+
+  });
+
+
+  var SearchFacetsView = Bb.View.extend({
+    el: "#sidebar",
+    initialize: function() {
+      return this;
+    },
+
+    render: function(state) {
+      var helper = new this.FacetHelper(state);
+      this.$el.html(app.utils.tmpl('facets', helper));
+    },
+
+    events: {
+      "click .facet-group a": function(e) {
+        e.preventDefault();
+        var filter = $(e.target).closest("li").data("value");
+        this.trigger("applyfilter.aspace", filter);
+      },
+
+      "click .applied-filters a": function(e) {
+        e.preventDefault();
+        var filter = $(e.target).closest("li").data("value");
+        this.trigger("removefilter.aspace", filter);
+      }
+    }
+
+  });
+
+
+  SearchFacetsView.prototype.FacetHelper = function(state) {
+    var state = state || {};
+
+    this.addFilterURLs = {};
+    this.eachUsableFacetGroup = function(cb) {
       _.forOwn(state.facetData, function(facets, facetGroup) {
         var usableFacets = _.filter(facets, function(facet) {
           return facet.count != state.totalRecords;
@@ -134,107 +416,78 @@ var RAILS_API = "/api";
           cb(usableFacets, facetGroup);
         }
       });
-    },
+    };
 
 
-    getRemoveFilterURL: function(filterToRemove) {
-      var url = buildBaseURL.call(this, function(param) {
-        if(filterToRemove === 'q') {
-          return !param.match(/^q=/);
-        } else {
-          return !(param === 'filter_term[]='+filterToRemove);
-        }
+    this.getAddFilterURL = function(filterToAdd) {
+      var url = buildLocationURL.call(state, convertFilter(filterToAdd));
+      return encodeURI(url);
+    };
+
+
+    this.getRemoveFilterURL = function(filter) {
+      var url = buildLocationURL.call(state, function(param) {
+        return !(param === _.keys(filter)[0]+"="+_.values(filter)[0]);
       });
       return encodeURI(url);
-    },
+    };
 
 
-    getAddFilterURL: function(filterToAdd) {
-      var url = buildBaseURL.call(this);
-      url += "&filter_term[]="+filterToAdd;
-      return encodeURI(url);
-    },
-
-    getPageSizeURL: function(pageSize) {
-      var url = buildBaseURL.call(this, function(param) {
-        return !param.match(/^pageSize=/);
+    this.forEachAppliedFilterWithLabel = function(cb) {
+      _.forEach(state.filters, function(filter) {
+        cb(filter, state.filterLabelMap[JSON.stringify(filter)]);
       });
-      url += "&pageSize="+pageSize;
-      return encodeURI(url);
+    };
+  };
+
+
+  var SearchPagerView = Bb.View.extend({
+    tagName: "div",
+
+    initialize: function(opts) {
+      this.query = opts.query;
+      this.resultsState = opts.resultsState;
+
+      var pagerHelper = new this.PagerHelper(opts)
+
+      this.$el.html(app.utils.tmpl('search-pager', pagerHelper));
     },
-
-
-    getPageURL: function(page) {
-      var url = buildBaseURL.call(this);
-      url += "&page="+page;
-      return encodeURI(url);
-    },
-
-    getNextPageURL: function() {
-      return this.getPageURL(this.state.currentPage + 1);
-    },
-
-    getPreviousPageURL: function() {
-      return this.getPageURL(this.state.currentPage - 1);
-    },
-
-    getPagerStart: function() {
-      return _.max([this.state.currentPage - (_.max([10 - (this.state.totalPages - this.state.currentPage), 5])), 1]);
-    },
-
-    getPagerEnd: function(){
-      return _.min([_.max([(this.state.currentPage + 5), 10]), this.state.totalPages]);
-    },
-
-    displayTerms: function(){
-      if (this.state.criteria.q) {
-        return this.state.criteria.q
-      } else {
-        return '*'
-      }
-    },
-
-
-    queryParams: {
-      // firstPage: "first_page",
-      currentPage: "page",
-      pageSize: "page_size"
-    }
-
   });
 
+  SearchPagerView.prototype.PagerHelper = function(opts) {
 
-  var SearchFacetsView = Bb.View.extend({
-    el: "#sidebar",
-    initialize: function() {
-      var tmpl = _.template($('#facets-tmpl').html());
-      this.$el.html(tmpl(this.collection));
-      return this;
-    },
+    this.hasPreviousPage = opts.query.page > 1;
+    this.hasNextPage = (opts.query.page < opts.resultsState.totalPages);
+    this.currentPage = opts.resultsState.currentPage;
 
-    events: {
-      "click .facet-group a": function(e) {
-        e.preventDefault();
-        var url = e.target.getAttribute('href');
-        app.router.navigate(url, {trigger: true});
-      },
 
-      "click .applied-filters a": function(e) {
-        e.preventDefault();
-        var url = e.target.getAttribute('href');
-        app.router.navigate(url, {trigger: true});
-      }
-    }
+    this.getPreviousPageURL = function() {
+      return opts.query.buildQueryString({page: opts.resultsState.currentPage - 1});
+    };
 
-  });
+    this.getPagerEnd = function() {
+      return _.min([_.max([(opts.resultsState.currentPage + 5), 10]), opts.resultsState.totalPages]);
+    };
+
+    this.getPagerStart = function() {
+      return _.max([opts.resultsState.currentPage - (_.max([10 - (opts.resultsState.totalPages - opts.resultsState.currentPage), 5])), 1]);
+    };
+
+    this.getNextPageURL = function() {
+      return opts.query.buildQueryString({page: opts.resultsState.currentPage + 1});
+    };
+
+    this.getPageURL = function(page) {
+      return opts.query.buildQueryString({page: page});
+    };
+  };
 
 
   var SearchItemView = Bb.View.extend({
     tagName: "div",
+
     initialize: function() {
-      console.log(this.model);
-      var tmpl = _.template($('#search-result-row-tmpl').html());
-      this.$el.html(tmpl(this.model.render));
+      this.$el.html(app.utils.tmpl('search-result-row', this.model.render));
       return this;
     }
   });
@@ -242,9 +495,9 @@ var RAILS_API = "/api";
 
   var SearchResultsView = Bb.View.extend({
     el: "#main-content",
-    // tagName: "div",
+
     initialize: function(opts) {
-      this.render();
+      this.query = opts.query;
       return this;
     },
 
@@ -253,12 +506,17 @@ var RAILS_API = "/api";
         e.preventDefault();
         var url = e.target.getAttribute('href');
         app.router.navigate(url, {trigger: true});
+      },
+
+      "click .recordrow a.record-title": function(e) {
+        e.preventDefault();
+        this.trigger("showrecord.aspace", e.target.getAttribute('href'));
       }
+
     },
 
     render: function() {
       var $el = this.$el;
-      $el.html("<h2>Search results</h2>");
       this.collection.forEach(function(item, index) {
         item.render.index = index;
         var searchItemView = new SearchItemView({
@@ -268,9 +526,179 @@ var RAILS_API = "/api";
         $el.append(searchItemView.$el.html());
       });
 
-      var pagerTmpl = _.template($('#search-pager-tmpl').html());
-      $el.append(pagerTmpl(this.collection));
-      $el.foundation();
+      var searchPagerView = new SearchPagerView({
+        query: this.query,
+        resultsState: this.collection.state
+      });
+
+      $el.append(searchPagerView.$el.html());
+    }
+  });
+
+
+  // QUERY BUILDING AND REVISING WIDGET
+  // instantiate with a DOM container and
+  // it will create and remove row views, using
+  // UI events or an existing query (on page load);
+  // also extracts a criteria object from widget state
+  function SearchEditor($container) {
+    var $container = $container;
+    var rowViews = [];
+    var that = this;
+    var counter = 0;
+    var loaded = false;
+
+    var reindexRows = function() {
+      _.forEach(rowViews, function(rowView, i) {
+        rowView.rowData.index = i;
+      });
+    };
+
+    var removeRow = function(rowIndex) {
+      var rowToRemove = rowViews[rowIndex];
+      rowViews = _.reject(rowViews, function(n, i) {
+        return i === rowIndex;
+      });
+
+      if(rowIndex === 0) {
+        var $recordTypeCol = $(".search-query-recordtype-col", rowToRemove.$el).detach();
+        $(".search-query-recordtype-col", rowViews[0].$el).replaceWith($recordTypeCol);
+      }
+
+      rowToRemove.remove();
+      reindexRows();
+    };
+
+    this.addRow = function(rowData) {
+      var rowData = rowData || {};
+      rowData.rowId = counter;
+      counter += 1;
+
+      if(_.isUndefined(rowData.index)) {
+        rowData.index = $(".search-query-row", $container).length;
+      }
+
+      var newRowView = new SearchQueryRowView(rowData);
+
+      _.forEach(rowViews, function(rowView) {
+        $(".add-query-row", rowView.$el).removeClass("add-query-row").addClass("remove-query-row").children("a").html("-");
+        $("#search-button", rowView.$el).hide();
+      });
+
+      newRowView.on("addRow", function(e) {
+        that.addRow();
+      });
+
+      newRowView.on("removeRow", function(index) {
+        removeRow(index);
+      });
+
+      rowViews.push(newRowView);
+      $container.append(newRowView.$el);
+      newRowView.initDropdowns();
+    };
+
+    this.loadQuery = function(query) {
+      var addRow = this.addRow;
+      query.forEachRow(function(rowData) {
+        addRow(rowData);
+      });
+
+      addRow();
+      loaded = true;
+    }
+
+    this.loaded = function() {
+      return loaded;
+    },
+
+    this.hide = function() {
+      _.forEach(rowViews, function(rowView) {
+        rowView.$el.hide();
+      });
+    },
+
+    this.show = function() {
+      _.forEach(rowViews, function(rowView) {
+        rowView.$el.show();
+      });
+    },
+
+
+    this.close = function() {
+      _.forEach(rowViews, function(rowView) {
+        rowView.close();
+      });
+    },
+
+    // export values as a criteria object
+    this.extract = function() {
+      var criteria = {};
+      var i = 0;
+      _.forEach(rowViews, function(rowView) {
+        var rowId = rowView.rowData.rowId;
+        var queryVal = $("input", rowView.$el).val();
+
+        if(queryVal && queryVal.length) {
+          criteria["q"+i] = queryVal;
+          _.forEach($("li.selected", rowView.$el), function(elt) {
+            var name = $(elt).closest("ul").data('name');
+            name = (name === 'recordtype' ? name : name + i);
+            criteria[name] = $(elt).data('value');
+          });
+          i += 1;
+        }
+      });
+
+      return criteria;
+    };
+
+    return this;
+  };
+
+
+  // A row in a search editor form (or container).
+  var SearchQueryRowView = Bb.View.extend({
+    tagName: 'div',
+    className: 'row search-query-row',
+    events: {
+      "click .f-dropdown li a": function(e) {
+        e.preventDefault();
+        var $a = $(e.target);
+        $($a.closest("ul")).children("li").removeClass("selected");
+        $($a.closest("li")).addClass("selected");
+        $($a.closest("ul")).siblings("button").text($a.text());
+      },
+      "click .add-query-row a": function(e) {
+        e.preventDefault();
+        this.trigger("addRow");
+      },
+      "click .remove-query-row a": function(e) {
+        e.preventDefault();
+        this.trigger("removeRow", this.rowData.index);
+      }
+    },
+
+    initialize: function(rowData) {
+      this.rowData = rowData;
+      this.$el.html(app.utils.tmpl('search-query-row', rowData));
+    },
+
+    initDropdowns: function() {
+      // initialize select boxes
+      $("button.dropdown", this.$el).each(function(i, button) {
+        var placeholderText = $("ul#"+$(button).data("dropdown")+" li.selected").text();
+        $(button).text(placeholderText);
+      });
+    },
+
+    setRowIndex: function(index) {
+      this.rowData.index = index;
+    },
+
+    close: function() {
+      this.remove();
+      this.unbind();
     }
   });
 
@@ -278,19 +706,91 @@ var RAILS_API = "/api";
   //Search Toolbar on Results Page
   var SearchToolbarView = Bb.View.extend({
     el: "#search-box",
-    initialize: function() {
-      var tmpl = _.template($('#search-toolbar-tmpl').html());
-      this.$el.html(tmpl(this.collection));
-      $(document).foundation();
+    initialize: function(opts) {
+      this.query = opts.query;
+
+      var that = this;
+      var render = {
+        pageSize: this.query.pageSize
+      };
+
+      this.$el.html(app.utils.tmpl('search-toolbar', render));
+      var $editorEl = opts.editorEl || $(".search-panel", this.$el);
+      this.searchEditor = new SearchEditor($editorEl);
+
       return this;
     },
     events: {
-      "click #search-button" : "search"
+      "click #search-button" : "search",
+      "click #numberresults a": function(e) {
+        e.preventDefault();
+        var $a = $(e.target);
+        $($a.closest("ul")).children("li").removeClass("selected");
+        $($a.closest("li")).addClass("selected");
+        $("button[data-dropdown='numberresults']").text($a.text());
+
+        var pageSize = parseInt($a.text());
+        this.trigger("changepagesize.aspace", pageSize);
+      },
+
+      "click #sortorder a": function(e) {
+        e.preventDefault();
+        var $a = $(e.target);
+        $($a.closest("ul")).children("li").removeClass("selected");
+        $($a.closest("li")).addClass("selected");
+        $("button[data-dropdown='sortorder']").text($a.text());
+
+        var selection = $($a.closest("li")).data("value");
+        this.query.sortOrder = selection;
+        this.trigger("changesortorder.aspace", selection);
+      },
+
+      "click #revise-search-button" : function(e) {
+        e.preventDefault();
+        this.toggled = this.toggled || false;
+
+        if(this.toggled) {
+          this.searchEditor.hide();
+        } else if(this.searchEditor.loaded()) {
+          this.searchEditor.show();
+        } else {
+          this.searchEditor.loadQuery(this.query);
+        }
+        this.toggled = !this.toggled;
+      }
     },
+
+    updateResultState: function(state) {
+      var render = {
+        searchTermsString: function(spanClass) {
+          if (state.criteria.q) {
+            return state.criteria.q.split('+')
+          } else if (state.criteria.aq) {
+            return _.map(app.utils.flattenAdvancedQuery(state.criteria.aq), function(n, i) {
+              if((i % 2) === 0) {
+                return "<span class='"+spanClass+"'>"+n.replace(/^.*:/, '')+"</span>";
+              } else {
+                return n;
+              }
+            }).join(" ");
+          } else if (state.recordType) {
+            return "'" + app.utils.getLabelForRecordType(state.recordType) + "' records";
+          } else {
+            return '*'
+          }
+        },
+        totalRecords: state.totalRecords
+      }
+
+      $(".search-toolbar-results", this.$el)
+        .html(app.utils.tmpl('search-toolbar-results', render));
+    },
+
+
     search: function (e) {
       e.preventDefault();
-
-      app.router.navigate('/search?' + $('#search-form').serialize(), {trigger: true});
+      this.query.updateCriteria(this.searchEditor.extract());
+      this.trigger("modifiedquery.aspace", this.query);
     }
 
   });
@@ -300,25 +800,234 @@ var RAILS_API = "/api";
   var SearchBoxView = Bb.View.extend({
     el: "#search-box",
     initialize: function() {
-      var tmpl = _.template($('#search-box-tmpl').html());
-      this.$el.html(tmpl());
+      // this.welcomeView = welcomeView;
+      this.$el.html(app.utils.tmpl('search-box-tmpl'));
+      this.searchEditor = new SearchEditor($(".search-row-container", this.$el))
+      this.searchEditor.addRow();
       return this;
     },
     events: {
-      "click #search-button" : "search"
+      // "click #search-button" : "search",
+      "click .remove-query-row a": function(e) {
+        e.preventDefault();
+      }
     },
     search: function (e) {
       e.preventDefault();
 
-      app.router.navigate('/search?' + $('#search-form').serialize(), {trigger: true});
+      var url = buildLocationURL.call({
+        criteria: this.searchEditor.extract()
+      });
+
+      var queryObj = new app.SearchQuery();
+      queryObj.updateCriteria(this.searchEditor.extract());
+
+      this.tigger("newquery.aspace", queryObj);
     }
   });
 
 
+  var SearchContainerView = Bb.View.extend({
+    el: "#container",
+    initialize: function(queryString) {
+      sq = this.searchQuery = new app.SearchQuery(queryString);
+      //only doing advanced search for now
+      this.searchQuery.advanced = true;
+
+      var state = {
+        currentPage: this.searchQuery.page,
+        pageSize: this.searchQuery.pageSize,
+        query: []
+      }
+
+      if (sq.recordtype)
+        state.recordType = app.utils.getASType(sq.recordtype);
+
+      _.forEach(['repository', 'primary_type', 'subjects' ], function(filterKey) {
+        if(sq[filterKey]){
+          _.forEach(_.flatten([sq[filterKey]]), function(filterVal) {
+            state.filters = state.filters || [];
+            state.filters.push(JSON.parse('{"'+filterKey+'": "'+filterVal+'"}'));
+          });
+        }
+      });
+
+      sq.forEachRow(function(rowData, i) {
+        state.query.push(rowData);
+      });
+
+      this.searchResults = new app.SearchResults([], {
+        state: state
+      });
+
+      this.searchResults.advanced = true;
+
+      app.debug = {
+        results: this.searchResults,
+        query: this.searchQuery
+      };
+
+      this.$el.html(app.utils.tmpl('container-tmpl', {headerText: "Search Results"}));
+
+      this.loadToolbarAndResults();
+
+      return this;
+    },
+
+
+    // Build the views for displaying and changing the search
+    // results. Listen to views for user-driven events and trigger
+    // updates to results as necessary
+    // TODO 'changedates.aspace'
+
+    loadToolbarAndResults: function() {
+      var searchQuery = this.searchQuery;
+      var searchResults = this.searchResults;
+      var redrawResults = $.proxy(this.redrawResults, this);
+      var destroy = $.proxy(this.destroy, this);
+
+      // not great -
+      if(!$('#container').prev('#search-box').length)
+        $("<section id='search-box'></section>").insertBefore('#container');
+
+      var stv = this.searchToolbarView = new app.SearchToolbarView({
+        query: searchQuery
+      });
+
+      var srv = this.searchResultsView = new app.SearchResultsView({
+        collection: searchResults,
+        query: searchQuery
+      });
+
+      var sfv = this.searchFacetsView = new app.SearchFacetsView();
+
+      // $(document).foundation();
+      srv.on("showrecord.aspace", function(url) {
+        var parsed = /repositories\/(\d+)\/([a-z_]+)\/(\d+)/.exec(url)
+        var opts = {
+          repoId: parsed[1],
+          recordType: parsed[2],
+          id: parsed[3]
+        }
+        app.router.navigate(url);
+        destroy();
+        new app.RecordContainerView(opts);
+      });
+
+
+      sfv.on("applyfilter.aspace", function(filter) {
+        $('#wait-modal').foundation('open');
+        searchResults.applyFilter(filter).then(function() {
+          var url = buildLocationURL.call(searchResults.state);
+          app.router.navigate(url);
+          redrawResults();
+          setTimeout(function() {
+            $('#wait-modal').foundation('close');
+            // reinitalize foundation
+            $("#main-content").foundation();
+          }, 500);
+        });
+      });
+
+
+      sfv.on("removefilter.aspace", function(filter) {
+        $('#wait-modal').foundation('open');
+        searchResults.removeFilter(filter).then(function() {
+          var url = buildLocationURL.call(searchResults.state);
+          app.router.navigate(url);
+          redrawResults();
+          setTimeout(function() {
+            $('#wait-modal').foundation('close');
+            // reinitalize foundation
+            $("#main-content").foundation();
+          }, 500);
+        });
+      });
+
+      stv.on("changepagesize.aspace", function(newSize) {
+        $('#wait-modal').foundation('open');
+        searchResults.setPageSize(newSize).then(function() {
+          redrawResults();
+          setTimeout(function() {
+            $('#wait-modal').foundation('close');
+            $("#main-content").foundation();
+          }, 500);
+        });
+      });
+
+      stv.on("changesortorder.aspace", function(newSort) {
+        $('#wait-modal').foundation('open');
+        searchResults.setSorting(newSort);
+        searchResults.fetch().then(function() {
+          redrawResults();
+          setTimeout(function() {
+            $('#wait-modal').foundation('close');
+            $("#main-content").foundation();
+          }, 500);
+        });
+      });
+
+      stv.on("modifiedquery.aspace", function(modifiedQuery) {
+        var query = [];
+          // to do - add method to query object for this
+        modifiedQuery.forEachRow(function(data) {
+          query.push(data);
+        });
+        $('#wait-modal').foundation('open');
+        searchResults.updateQuery(query).then(function() {
+          var url = buildLocationURL.call(searchResults.state);
+          app.router.navigate(url);
+          redrawResults();
+          setTimeout(function() {
+            $('#wait-modal').foundation('close');
+            // reinitalize foundation
+            $("#main-content").foundation();
+          }, 500);
+        });
+      });
+
+
+      // $(function() {
+      //   stv.trigger("modifiedquery.aspace", searchQuery);
+      // });
+
+      var query = [];
+      searchQuery.forEachRow(function(data) {
+        query.push(data);
+      });
+      $('#wait-modal').foundation('open');
+      searchResults.updateQuery(query).then(function() {
+        redrawResults();
+        setTimeout(function() {
+          $('#wait-modal').foundation('close');
+          $("#main-content").foundation();
+        }, 500);
+      });
+
+    },
+
+    redrawResults: function() {
+      this.searchToolbarView.updateResultState(this.searchResults.state);
+      this.searchResultsView.render();
+      this.searchFacetsView.render(this.searchResults.state);
+    },
+
+    destroy: function() {
+      this.unbind();
+      this.$el.empty();
+      // also destroy subviews???
+    }
+  });
+
+  app.SearchQuery = SearchQuery;
   app.SearchResults = SearchResults;
+  app.SearchEditor = SearchEditor;
   app.SearchBoxView = SearchBoxView;
+  app.SearchContainerView = SearchContainerView;
   app.SearchToolbarView = SearchToolbarView;
   app.SearchResultsView = SearchResultsView;
   app.SearchFacetsView = SearchFacetsView;
+  app.SearchQueryRowView = SearchQueryRowView;
+  app.SearchPagerView = SearchPagerView;
 
 })(Backbone, _);

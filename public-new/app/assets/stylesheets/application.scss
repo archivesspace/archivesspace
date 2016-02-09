@@ -10,10 +10,15 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_tree .
- *= require_self
+ * NO = require_tree .
+ * NO = require_self
  */
 @import "archivesspace/variables";
-@import "foundation/foundation";
+@import "foundation-sites/foundation";
+@include foundation-everything;
 @import "foundation-icon-fonts/_foundation-icons";
+@import "archivesspace/colors";
+@import "archivesspace/accordion-table";
+@import "archivesspace/buttons";
+@import "archivesspace/typography";
 @import "archivesspace/aspace";
