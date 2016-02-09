@@ -381,7 +381,10 @@
 28
 29
 30
-31</pre>
+31
+32
+33
+34</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/search.rb', line 4</span>
@@ -389,6 +392,8 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_search identifier id'>search</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='comma token'>,</span> <span class='rubyid_repo_id identifier id'>repo_id</span><span class='rparen token'>)</span>
   <span class='rubyid_show_suppressed identifier id'>show_suppressed</span> <span class='assign token'>=</span> <span class='notop op'>!</span><span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:enforce_suppression</span><span class='rparen token'>)</span>
   <span class='rubyid_show_published_only identifier id'>show_published_only</span> <span class='assign token'>=</span> <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:current_username</span><span class='rparen token'>)</span> <span class='eqq op'>===</span> <span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_PUBLIC_USERNAME constant id'>PUBLIC_USERNAME</span>
+
+  <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_inspect identifier id'>inspect</span><span class='rparen token'>)</span>
 
   <span class='rubyid_query identifier id'>query</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:q</span><span class='rbrack token'>]</span>
             <span class='rubyid_Solr constant id'>Solr</span><span class='colon2 op'>::</span><span class='rubyid_Query constant id'>Query</span><span class='dot token'>.</span><span class='rubyid_create_keyword_search identifier id'>create_keyword_search</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:q</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -409,7 +414,8 @@
         <span class='rubyid_set_simple_filters identifier id'>set_simple_filters</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:simple_filter</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span>
         <span class='rubyid_set_facets identifier id'>set_facets</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:facet</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span>
         <span class='rubyid_set_sort identifier id'>set_sort</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:sort</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span>
-        <span class='rubyid_set_root_record identifier id'>set_root_record</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:root_record</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+        <span class='rubyid_set_root_record identifier id'>set_root_record</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:root_record</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+        <span class='rubyid_highlighting identifier id'>highlighting</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:hl</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 
 
   <span class='rubyid_Solr constant id'>Solr</span><span class='dot token'>.</span><span class='rubyid_search identifier id'>search</span><span class='lparen token'>(</span><span class='rubyid_query identifier id'>query</span><span class='rparen token'>)</span>
@@ -425,7 +431,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:00 2015 by
+  ArchivesSpace Version v1.4.5-dev18.a Documentation Generated on Wed Dec 16 18:58:15 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

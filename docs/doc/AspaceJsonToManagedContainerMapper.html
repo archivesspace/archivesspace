@@ -339,7 +339,8 @@
 85
 86
 87
-88</pre>
+88
+89</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/aspace_json_to_managed_container_mapper.rb', line 20</span>
@@ -378,7 +379,8 @@
         <span class='rubyid_container identifier id'>container</span> <span class='assign token'>=</span> <span class='rubyid_instance identifier id'>instance</span><span class='lbrack token'>[</span><span class='string val'>'container'</span><span class='rbrack token'>]</span>
 
         <span class='rubyid_top_container identifier id'>top_container</span> <span class='assign token'>=</span> <span class='rubyid_create_top_container identifier id'>create_top_container</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='string val'>'indicator'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_get_default_indicator identifier id'>get_default_indicator</span><span class='lparen token'>(</span><span class='rubyid_container identifier id'>container</span><span class='lbrack token'>[</span><span class='string val'>'indicator_1'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-                                              <span class='string val'>'container_locations'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_container identifier id'>container</span><span class='lbrack token'>[</span><span class='string val'>'container_locations'</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+                                             <span class='string val'>'type'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_container identifier id'>container</span><span class='lbrack token'>[</span><span class='string val'>'type_1'</span><span class='rbrack token'>]</span><span class='comma token'>,</span> 
+                                             <span class='string val'>'container_locations'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_container identifier id'>container</span><span class='lbrack token'>[</span><span class='string val'>'container_locations'</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
       <span class='rubyid_else else kw'>else</span>
         <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_e identifier id'>e</span>
       <span class='rubyid_end end kw'>end</span>
@@ -424,7 +426,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:10 2015 by
+  ArchivesSpace Version v1.4.5-dev18.a Documentation Generated on Wed Dec 16 18:58:24 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>

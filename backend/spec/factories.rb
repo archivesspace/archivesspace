@@ -30,6 +30,24 @@ FactoryGirl.define do
 
   sequence(:level) { %w(series subseries item)[rand(3)] }
 
+  sequence(:record_type) {
+ [
+          "archival_object",
+          "digital_object_component",
+          "resource",
+          "accession",
+          "subject",
+          "digital_object",
+          "agent_person",
+          "agent_family",
+          "agent_software",
+          "agent_corporate_entity",
+          "event",
+          "location",
+          "classification",
+          "classification_term"
+        ].sample 
+  }
 
   # AS Models
   if defined? ASModel
@@ -146,6 +164,44 @@ FactoryGirl.define do
     accession_date { generate(:yyyy_mm_dd) }
   end
 
+  factory :json_merge_request, class: JSONModel(:merge_request) do
+    target {{  "ref" => create(:json_resource).uri } }
+    victims  { [  {  "ref" => create(:json_resource).uri }] }
+  end
+
+  factory :json_user_defined, class: JSONModel(:user_defined) do
+    boolean_1 { [true, false].sample }
+    string_1 { generate(:alphanumstr) }
+  end
+
+  factory :json_field_query, class: JSONModel(:field_query) do
+    field { generate(:alphanumstr) }
+    value { generate(:alphanumstr) }
+  end
+ 
+  factory :json_advanced_query, class: JSONModel(:advanced_query) do
+    query { build(:json_field_query) }
+  end
+  
+  factory :json_active_edits, class: JSONModel(:active_edits) do
+    active_edits { [ { "user" => generate(:alphanumstr), "uri" => generate(:alphanumstr), "time" =>Time.now.iso8601    }  ] }
+  end
+
+
+  factory :json_default_values, class: JSONModel(:default_values) do
+    record_type { generate(:record_type) }
+  end
+
+  factory :json_rde_template, class: JSONModel(:rde_template) do
+    record_type { [
+            "archival_object",
+            "digital_object_component"
+          ].sample }
+    name { generate(:alphanumstr) }
+  end
+
+
+
   factory :json_telephone, class: JSONModel(:telephone) do
     number_type { [nil, 'business', 'home', 'cell', 'fax'].sample }
     number {  generate(:phone_number) }
@@ -199,6 +255,10 @@ FactoryGirl.define do
     level { generate(:level) }
     title { "Archival Object #{generate(:generic_title)}" }
   end
+  
+  factory :json_archival_record_children, class: JSONModel(:archival_record_children) do
+    children { [create(:json_archival_object), create(:json_archival_object)] } 
+  end
 
   factory :json_archival_object_normal, class: JSONModel(:archival_object) do
     ref_id { generate(:alphanumstr) }
@@ -215,6 +275,7 @@ FactoryGirl.define do
   end
 
   factory :json_classification_term, class: JSONModel(:classification_term) do
+    classification {{ "ref" => create(:json_classification).uri } } 
     identifier { generate(:alphanumstr) }
     title { "Classification #{generate(:generic_title)}" }
     description { generate(:generic_description) }
@@ -286,6 +347,22 @@ FactoryGirl.define do
     items { [ generate(:alphanumstr) ] }
   end
 
+  factory :json_enumeration, class: JSONModel(:enumeration) do
+    name { generate(:alphanumstr) }
+    values { [ generate(:alphanumstr) ] }
+    default_value {  generate(:alphanumstr)  }
+  end
+
+  factory :json_enumeration_value, class: JSONModel(:enumeration_value) do
+    value {  generate(:alphanumstr)  }
+  end
+  
+  factory :json_enumeration_migration, class: JSONModel(:enumeration_migration) do
+    enum_uri { create(:json_enumeration).uri } 
+    from {  generate(:alphanumstr)  }
+    to {  generate(:alphanumstr)  }
+  end
+
   factory :json_container, class: JSONModel(:container) do
     type_1 { generate(:container_type) }
     indicator_1 { generate(:indicator) }
@@ -348,6 +425,10 @@ FactoryGirl.define do
     component_id { generate(:alphanumstr) }
     title { "Digital Object Component #{generate(:generic_title)}" }
   end
+  
+  factory :json_digital_record_children, class: JSONModel(:digital_record_children) do
+    children { [create(:json_digital_object_component), create(:json_digital_object_component)] } 
+  end
 
   factory :json_event, class: JSONModel(:event) do
     date { build(:json_date) }
@@ -396,6 +477,25 @@ FactoryGirl.define do
 
 
   factory :json_location, class: JSONModel(:location) do
+    building { generate(:downtown_address) }
+    floor { "#{rand(13)}" }
+    room { "#{rand(20)}" }
+    area { %w(Back Front).sample }
+    barcode { generate(:barcode) }
+    temporary { generate(:temporary_location_type) }
+  end
+  
+  factory :json_location_batch, class: JSONModel(:location_batch) do
+    building { generate(:downtown_address) }
+    floor { "#{rand(13)}" }
+    room { "#{rand(20)}" }
+    area { %w(Back Front).sample }
+    barcode { generate(:barcode) }
+    temporary { generate(:temporary_location_type) }
+    coordinate_1_range {{ "label" => generate(:alphanumstr), "start" => "0", "end" => "10" }}
+  end
+  
+  factory :json_location_batch_update, class: JSONModel(:location_batch_update) do
     building { generate(:downtown_address) }
     floor { "#{rand(13)}" }
     room { "#{rand(20)}" }
@@ -494,7 +594,7 @@ FactoryGirl.define do
     description { generate(:alphanumstr) }
   end
 
-  factory :json_repo, class: JSONModel(:repository) do
+  factory :json_repo, aliases: [ :json_repository ], class: JSONModel(:repository) do
     repo_code { generate(:repo_code) }
     name { generate(:generic_description) }
     org_code { generate(:alphanumstr) }
@@ -503,7 +603,7 @@ FactoryGirl.define do
   end
 
 
-  factory :json_repo_with_agent, class: JSONModel(:repository_with_agent) do
+  factory :json_repo_with_agent,aliases: [ :json_repository_with_agent ], class: JSONModel(:repository_with_agent) do
     repository { build(:json_repo) }
     agent_representation { build(:json_agent_corporate_entity) }
   end
@@ -535,7 +635,7 @@ FactoryGirl.define do
     name { generate(:generic_name) }
   end
 
-  factory :json_vocab, class: JSONModel(:vocabulary) do
+  factory :json_vocab, aliases: [:json_vocabulary],  class: JSONModel(:vocabulary) do
     name { generate(:vocab_name) }
     ref_id { generate(:vocab_refid) }
   end

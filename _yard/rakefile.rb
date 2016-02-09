@@ -1,5 +1,5 @@
 namespace :doc do
-  
+
   desc "Generate the documentation"
   task :yard do
     puts "Generating YARD documentation"
@@ -7,7 +7,7 @@ namespace :doc do
   end
 
 
-  desc "Create the API.md file"
+  desc "Create the API.md and Schema files"
   task :api do
     require 'erb'
     require 'sinatra'
@@ -34,18 +34,48 @@ namespace :doc do
     @time = Time.new
 
     JSONModel::init(:enum_source => BackendEnumSource)
+    
+    
 
     require_relative '../backend/app/lib/export'
 
     Dir.glob(File.dirname(__FILE__) + '/../backend/app/controllers/*.rb') {|file| require file unless file =~ /system/}
 
+    @models = JSONModel.models
     @endpoints = ArchivesSpaceService::Endpoint.all.sort{|a,b| a[:uri] <=> b[:uri]}
+    @endpoint_examples = JSON.parse(IO.read( File.dirname(__FILE__) + '/../docs/endpoint_examples.json'))
+
+    @format_endpoint = lambda do |endpoint,  request |
+      action = endpoint[:method].to_s
+      uri = endpoint[:uri].gsub(":id", "1") 
+      results = "\n```shell\n" 
+      if action == 'post'         
+        results << "curl -H \"X-ArchivesSpace-Session: $SESSION\" \ \n -d #{request} \ \n 'http://localhost:8089#{uri}'"
+      elsif action == 'get' 
+        if endpoint[:paginated] 
+          results << "curl -H \"X-ArchivesSpace-Session: $SESSION\" \ \n 'http://localhost:8089#{uri}?page=1'"
+        else
+          results << "curl -H \"X-ArchivesSpace-Session: $SESSION\" \ \n 'http://localhost:8089#{uri}'"
+        end 
+      elsif action == 'delete' 
+        results << "curl -H \"X-ArchivesSpace-Session: $SESSION\" \ \n -X DELETE \n 'http://localhost:8089#{uri}'"
+      end
+      results << "\n```\n"
+      results
+    end
 
     erb = ERB.new(File.read('API.erb'), nil, '<>')
 
     File.open('../API.md', 'w') do |f|
       f.write erb.result(binding)
     end
+
+    FileUtils.cp("../API.md", "../docs/slate/source/index.md")
+
+    @models.each_pair do |name, klass| 
+      File.open("../docs/schemas/#{name}.json", 'w') { |f| f << JSON.pretty_generate( klass.send(:schema) ) }
+    end
+
 
   end
   

@@ -760,6 +760,7 @@
       <pre class="lines">
 
 
+262
 263
 264
 265
@@ -768,11 +769,10 @@
 268
 269
 270
-271
-272</pre>
+271</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 263</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 262</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_batch_update identifier id'>batch_update</span><span class='lparen token'>(</span><span class='rubyid_ids identifier id'>ids</span><span class='comma token'>,</span> <span class='rubyid_fields identifier id'>fields</span><span class='rparen token'>)</span>
   <span class='rubyid_out identifier id'>out</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -805,6 +805,7 @@
       <pre class="lines">
 
 
+354
 355
 356
 357
@@ -822,11 +823,10 @@
 369
 370
 371
-372
-373</pre>
+372</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 355</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 354</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_bulk_update_barcodes identifier id'>bulk_update_barcodes</span><span class='lparen token'>(</span><span class='rubyid_barcode_data identifier id'>barcode_data</span><span class='rparen token'>)</span>
   <span class='rubyid_updated identifier id'>updated</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -868,6 +868,7 @@
       <pre class="lines">
 
 
+274
 275
 276
 277
@@ -905,11 +906,10 @@
 309
 310
 311
-312
-313</pre>
+312</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 275</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 274</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_bulk_update_container_profile identifier id'>bulk_update_container_profile</span><span class='lparen token'>(</span><span class='rubyid_ids identifier id'>ids</span><span class='comma token'>,</span> <span class='rubyid_container_profile_uri identifier id'>container_profile_uri</span><span class='rparen token'>)</span>
   <span class='rubyid_out identifier id'>out</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:records_updated</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ids identifier id'>ids</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span><span class='rbrace token'>}</span>
@@ -971,6 +971,7 @@
       <pre class="lines">
 
 
+315
 316
 317
 318
@@ -1006,11 +1007,10 @@
 348
 349
 350
-351
-352</pre>
+351</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 316</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 315</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_bulk_update_location identifier id'>bulk_update_location</span><span class='lparen token'>(</span><span class='rubyid_ids identifier id'>ids</span><span class='comma token'>,</span> <span class='rubyid_location_uri identifier id'>location_uri</span><span class='rparen token'>)</span>
   <span class='rubyid_out identifier id'>out</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:records_updated</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ids identifier id'>ids</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span><span class='rbrace token'>}</span>
@@ -1101,12 +1101,12 @@
       <pre class="lines">
 
 
+375
 376
-377
-378</pre>
+377</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 376</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 375</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_for_barcode identifier id'>for_barcode</span><span class='lparen token'>(</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rparen token'>)</span>
   <span class='rubyid_TopContainer constant id'>TopContainer</span><span class='lbrack token'>[</span><span class='symbol val'>:barcode</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_barcode identifier id'>barcode</span><span class='comma token'>,</span> <span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_active_repository identifier id'>active_repository</span><span class='rbrack token'>]</span>
@@ -1132,12 +1132,12 @@
       <pre class="lines">
 
 
+379
 380
-381
-382</pre>
+381</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 380</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 379</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_for_indicator identifier id'>for_indicator</span><span class='lparen token'>(</span><span class='rubyid_indicator identifier id'>indicator</span><span class='rparen token'>)</span>
   <span class='rubyid_TopContainer constant id'>TopContainer</span><span class='lbrack token'>[</span><span class='symbol val'>:indicator</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_indicator identifier id'>indicator</span><span class='comma token'>,</span> <span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_active_repository identifier id'>active_repository</span><span class='rbrack token'>]</span>
@@ -1200,6 +1200,7 @@
       <pre class="lines">
 
 
+228
 229
 230
 231
@@ -1230,11 +1231,10 @@
 256
 257
 258
-259
-260</pre>
+259</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 229</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 228</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_search_stream identifier id'>search_stream</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='comma token'>,</span> <span class='rubyid_repo_id identifier id'>repo_id</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_query identifier id'>query</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:q</span><span class='rbrack token'>]</span>
@@ -1289,6 +1289,7 @@
       <pre class="lines">
 
 
+143
 144
 145
 146
@@ -1320,11 +1321,10 @@
 172
 173
 174
-175
-176</pre>
+175</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 144</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 143</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_jsons identifier id'>jsons</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -1453,13 +1453,13 @@
       <pre class="lines">
 
 
+209
 210
 211
-212
-213</pre>
+212</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 210</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 209</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
   <span class='rubyid_related_records identifier id'>related_records</span><span class='lparen token'>(</span><span class='symbol val'>:top_container_link</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_sub identifier id'>sub</span><span class='bitor op'>|</span> <span class='rubyid_Instance constant id'>Instance</span><span class='lbrack token'>[</span><span class='rubyid_sub identifier id'>sub</span><span class='dot token'>.</span><span class='rubyid_instance_id identifier id'>instance_id</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span> <span class='rbrace token'>}</span>
@@ -1486,15 +1486,15 @@
       <pre class="lines">
 
 
+127
 128
-129
-130</pre>
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 128</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 127</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_display_string identifier id'>display_string</span>
-  <span class='lbrack token'>[</span><span class='string val'>&quot;Container&quot;</span><span class='comma token'>,</span> <span class='dstring node'>&quot;#{indicator}:&quot;</span><span class='comma token'>,</span> <span class='rubyid_series_label identifier id'>series_label</span><span class='comma token'>,</span> <span class='rubyid_format_barcode identifier id'>format_barcode</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot; &quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/:\Z/</span><span class='comma token'>,</span><span class='string val'>''</span><span class='rparen token'>)</span>
+  <span class='lbrack token'>[</span><span class='dstring node'>&quot;#{type ? type.capitalize : ''}&quot;</span><span class='comma token'>,</span> <span class='dstring node'>&quot;#{indicator}:&quot;</span><span class='comma token'>,</span> <span class='rubyid_series_label identifier id'>series_label</span><span class='comma token'>,</span> <span class='rubyid_format_barcode identifier id'>format_barcode</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot; &quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/:\Z/</span><span class='comma token'>,</span><span class='string val'>''</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1691,6 +1691,7 @@
       <pre class="lines">
 
 
+132
 133
 134
 135
@@ -1698,18 +1699,17 @@
 137
 138
 139
-140
-141</pre>
+140</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 133</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 132</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_long_display_string identifier id'>long_display_string</span>
   <span class='rubyid_resource identifier id'>resource</span> <span class='assign token'>=</span> <span class='rubyid_collections identifier id'>collections</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
   <span class='rubyid_resource identifier id'>resource</span> <span class='opasgn op'>&amp;&amp;=</span> <span class='rubyid_Identifiers constant id'>Identifiers</span><span class='dot token'>.</span><span class='rubyid_format identifier id'>format</span><span class='lparen token'>(</span><span class='rubyid_Identifiers constant id'>Identifiers</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_resource identifier id'>resource</span><span class='dot token'>.</span><span class='rubyid_identifier identifier id'>identifier</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='rubyid_container_profile identifier id'>container_profile</span> <span class='assign token'>=</span> <span class='rubyid_related_records identifier id'>related_records</span><span class='lparen token'>(</span><span class='symbol val'>:top_container_profile</span><span class='rparen token'>)</span>
   <span class='rubyid_container_profile identifier id'>container_profile</span> <span class='opasgn op'>&amp;&amp;=</span> <span class='rubyid_container_profile identifier id'>container_profile</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span>
-  <span class='rubyid_container_bit identifier id'>container_bit</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>&quot;Container&quot;</span><span class='comma token'>,</span> <span class='dstring node'>&quot;#{indicator}&quot;</span><span class='comma token'>,</span> <span class='rubyid_format_barcode identifier id'>format_barcode</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot; &quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_container_bit identifier id'>container_bit</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='dstring node'>&quot;#{type ? type.capitalize : ''}&quot;</span><span class='comma token'>,</span> <span class='dstring node'>&quot;#{indicator}&quot;</span><span class='comma token'>,</span> <span class='rubyid_format_barcode identifier id'>format_barcode</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot; &quot;</span><span class='rparen token'>)</span>
 
   <span class='lbrack token'>[</span><span class='rubyid_resource identifier id'>resource</span><span class='comma token'>,</span> <span class='rubyid_series_label identifier id'>series_label</span><span class='comma token'>,</span> <span class='rubyid_container_bit identifier id'>container_bit</span><span class='comma token'>,</span> <span class='rubyid_container_profile identifier id'>container_profile</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;, &quot;</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
@@ -1734,14 +1734,14 @@
       <pre class="lines">
 
 
+221
 222
 223
 224
-225
-226</pre>
+225</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 222</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 221</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_reindex_linked_records identifier id'>reindex_linked_records</span>
   <span class='rubyid_linked_archival_records identifier id'>linked_archival_records</span><span class='dot token'>.</span><span class='rubyid_group_by identifier id'>group_by</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:class</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_clz identifier id'>clz</span><span class='comma token'>,</span> <span class='rubyid_records identifier id'>records</span><span class='bitor op'>|</span>
@@ -1890,14 +1890,14 @@
       <pre class="lines">
 
 
+214
 215
 216
 217
-218
-219</pre>
+218</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 215</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/top_container.rb', line 214</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_nested_records identifier id'>apply_nested_records</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -1966,7 +1966,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:03 2015 by
+  ArchivesSpace Version v1.4.5-dev18.a Documentation Generated on Wed Dec 16 18:58:17 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-1.9.3).
 </div>
