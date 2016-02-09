@@ -313,7 +313,6 @@
 
   <!-- Copy fields ... perhaps for sort fields -->
   <copyField source="title" dest="title_sort"/>
-  <copyField source="json" dest="fullrecord"/>
   <copyField source="subjects" dest="subjects_text"/>
   <copyField source="agents" dest="agents_text"/>
   <copyField source="creators" dest="creators_text"/>

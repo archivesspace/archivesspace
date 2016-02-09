@@ -87,6 +87,31 @@ class CommonIndexer
     ].uniq
   end
 
+
+  def self.extract_string_values(doc)
+    text = ""
+    doc.each do |key, val|
+      if %w(json types create_time date_type jsonmodel_type publish extent_type).include?(key)
+      elsif key =~ /_enum_s$/
+      elsif val.is_a?(String)
+        text << "#{val} "
+      elsif val.is_a?(Hash)
+        text << self.extract_string_values(val)
+      elsif val.is_a?(Array)
+        val.each do |v|
+          if v.is_a?(String)
+            text << "#{v} "
+          elsif v.is_a?(Hash)
+            text << self.extract_string_values(v)
+          end
+        end
+      end
+    end
+
+    text
+  end
+
+
   def add_agents(doc, record)
     if record['record']['linked_agents']
       # index all linked agents first
@@ -115,7 +140,7 @@ class CommonIndexer
 
   def add_notes(doc, record)
     if record['record']['notes']
-      doc['notes'] = record['record']['notes'].to_json
+      doc['notes'] = record['record']['notes'].map {|note| CommonIndexer.extract_string_values(note) }.join(" ");
     end
   end
 
@@ -423,6 +448,11 @@ class CommonIndexer
 
         doc['typeahead_sort_key_u_sort'] = record['record']['display_string']
       end
+    }
+
+
+    add_document_prepare_hook { |doc, record|
+      doc['fullrecord'] = CommonIndexer.extract_string_values(doc)
     }
 
 
