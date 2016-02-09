@@ -33,6 +33,19 @@ class JobRunner
   end
 
 
+  def add_success_hook(&block)
+    @success_hooks ||= []
+    @success_hooks << block
+  end
+
+
+  def success!
+    Array(@success_hooks).each do |hook|
+      hook.call
+    end
+  end
+
+
   def canceled(canceled)
     @job_canceled = canceled
     self

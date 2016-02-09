@@ -153,11 +153,22 @@ class Job < Sequel::Model(:job)
   end
 
 
+  def success?
+    self.reload
+    self.status == 'completed'
+  end
+
+
   def cancel!
     if ["queued", "running"].include? self.status
       self.status = "canceled"
       self.save
     end
+  end
+
+
+  def update_mtime
+    Job.update_mtime_for_ids([self.id])
   end
 
 end

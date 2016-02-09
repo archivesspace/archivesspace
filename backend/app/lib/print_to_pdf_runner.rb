@@ -49,6 +49,7 @@ class PrintToPDFRunner < JobRunner
         pdf.unlink
         @job.record_modified_uris( [@json.job["source"]] ) 
         @job.write_output("All done. Please click refresh to view your download link.")
+        self.success!
         job_file
       end 
     rescue Exception => e

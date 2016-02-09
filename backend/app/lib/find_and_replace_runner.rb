@@ -89,9 +89,10 @@ class FindAndReplaceRunner < JobRunner
             @job.write_output("All done, logging modified records.")
           end
 
+          self.success!
+
           # just reuse JobCreated api for now...
           @job.record_created_uris(modified_records.uniq)
-
         rescue Exception => e
           terminal_error = e
           raise Sequel::Rollback

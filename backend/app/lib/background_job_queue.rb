@@ -78,7 +78,7 @@ class BackgroundJobQueue
 
     watchdog_thread = Thread.new do
       while !finished.value
-        DB.open do
+        DB.open do |db|
           Log.debug("Running job #{job.class.to_s}:#{job.id}")
           job = job.class.any_repo[job.id]
 
@@ -88,7 +88,7 @@ class BackgroundJobQueue
             job_canceled.value = true
           end
 
-          job.save
+          job.update_mtime
         end
 
         sleep [5, (JOB_TIMEOUT_SECONDS / 2)].min
@@ -97,24 +97,49 @@ class BackgroundJobQueue
 
     begin
       runner = JobRunner.for(job).canceled(job_canceled)
+      runner.add_success_hook do
+        # Upon success, have the job set our status to "completed" at the right
+        # point.  This allows the batch import to set the job status within the
+        # same DB transaction that handled the import (avoiding a situation
+        # where the import completes and commits, but the job status update
+        # fails separately)
+        #
+        finished.value = true
+        watchdog_thread.join
+
+        job.finish(:completed)
+      end
+
       runner.run
 
       finished.value = true
       watchdog_thread.join
 
       if job_canceled.value
+        # Mark the job as permanently canceled
         job.finish(:canceled)
       else
-        job.finish(:completed)
+        unless job.success?
+          # If the job didn't record success, mark it as finished ourselves.
+          # This isn't really a problem, but it does mean that the job status
+          # update is now happening in a separate DB transaction than the one
+          # that ran the job.  If the system crashed after the job finished but
+          # prior to this point, the job might have finished successfully
+          # without being recorded as such.
+          #
+          Log.warn("Job #{job.id} finished successfully but didn't report success.  Marking it as finished successfully ourselves.")
+          runner.success!
+        end
       end
-
     rescue
       Log.error("Job #{job.id} failed: #{$!} #{$@}")
       # If anything went wrong, make sure the watchdog thread still stops.
       finished.value = true
       watchdog_thread.join
 
-      job.finish(:failed)
+      unless job.success?
+        job.finish(:failed)
+      end
     end
 
     Log.debug("Completed job #{job.class.to_s}:#{job.id}")

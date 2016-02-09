@@ -63,7 +63,7 @@ class BatchImportRunner < JobRunner
     begin
       DB.open(DB.supports_mvcc?,
               :retry_on_optimistic_locking_fail => true) do
-
+        created_uris = []
         begin
           @job.job_files.each_with_index do |input_file, i|
             ticker.log(("=" * 50) + "\n#{filenames[i]}\n" + ("=" * 50)) if filenames[i]
@@ -78,7 +78,11 @@ class BatchImportRunner < JobRunner
                 File.open(converter.get_output_path, "r") do |fh|
                   batch = StreamingImport.new(fh, ticker, @import_canceled)
                   batch.process
-                  log_created_uris(batch)
+
+                  if batch.created_records
+                    created_uris.concat(batch.created_records.values)
+                  end
+
                   success = true
                 end
               end
@@ -86,6 +90,23 @@ class BatchImportRunner < JobRunner
               converter.remove_files
             end
           end
+
+          # Note: it's important to call `success!` before attempting to store
+          # the created URIs here.
+          #
+          # It turns out that the process of adding a new row to the
+          # `job_created_record` table is enough to take a row-level lock on the
+          # corresponding job entry in the `job` table (because of the foreign
+          # key relationship).  If the import thread locks that row, the
+          # watchdog thread ends up deadlocked, and we can't finish the import
+          # job.
+          #
+          # Calling `success!` ensures that the watchdog thread gets shut down.
+          # Then it's safe for this thread to do whatever it needs to do to the
+          # job tables.
+          #
+          self.success!
+          log_created_uris(created_uris)
         rescue ImportCanceled
           raise Sequel::Rollback
         rescue JSONModel::ValidationException, ImportException, Converter::ConverterMappingError, Sequel::ValidationFailed, ReferenceError => e
@@ -143,10 +164,10 @@ class BatchImportRunner < JobRunner
 
   private
 
-  def log_created_uris(batch)
-    if batch.created_records
+  def log_created_uris(uris)
+    if !uris.empty?
       DB.open do |db|
-        @job.record_created_uris(batch.created_records.values)
+        @job.record_created_uris(uris)
       end
     end
   end

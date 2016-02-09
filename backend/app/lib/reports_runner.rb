@@ -48,6 +48,7 @@ class ReportRunner < JobRunner
       @job.write_output("Adding report file.")
       @job.add_file( file )
     
+      self.success!
     rescue Exception => e
       @job.write_output(e.message)
       @job.write_output(e.backtrace)
