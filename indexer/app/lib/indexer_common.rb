@@ -453,6 +453,11 @@ class CommonIndexer
 
     add_document_prepare_hook { |doc, record|
       doc['fullrecord'] = CommonIndexer.extract_string_values(doc)
+      %w(finding_aid_subtitle finding_aid_author).each do |field|
+        if record['record'].has_key?(field)
+          doc['fullrecord'] << "#{record['record'][field]} "
+        end
+      end
     }
 
 
