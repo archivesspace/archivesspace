@@ -25,7 +25,7 @@ class UsersController < ApplicationController
   end
 
   def new
-    if AppConfig[:allow_user_registration]
+    if AppConfig[:allow_user_registration] or (session['user'] and user_can? 'manage_users')
       @user = JSONModel(:user).new._always_valid!
       render action: "new"
     else
