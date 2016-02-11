@@ -8,7 +8,7 @@ require_relative 'find_and_replace_runner'
 require_relative 'print_to_pdf_runner'
 require_relative 'reports_runner'
 require_relative 'batch_import_runner'
-
+require_relative 'container_conversion_runner'
 
 class BackgroundJobQueue
 

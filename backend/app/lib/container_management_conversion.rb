@@ -1,3 +1,4 @@
+require 'csv'
 require_relative 'aspace_json_to_managed_container_mapper'
 
 
@@ -26,10 +27,11 @@ class ContainerManagementConversion
 
       include JSONModel
 
-      def initialize(record)
+      def initialize(record, job = nil)
         @acting_as = record.class
         @fields = {}
-
+        @job = job
+        @errors = nil 
         load_relevant_fields(record)
       end
 
@@ -49,7 +51,66 @@ class ContainerManagementConversion
           end
         }.compact
 
-        MigrationMapper.new(self, false, top_containers_in_this_tree).call
+        begin
+          MigrationMapper.new(self, false, top_containers_in_this_tree).call
+        rescue JSONModel::ValidationException => e
+        
+          DB.open do |db|
+            db[:system_event].insert(:title => "CONTAINER_MANAGEMENT_UPGRADE_WARNING",
+                                   :message => e.message[0..250], 
+                                   :time => Time.now)
+          end
+          
+          
+          top_container = e.object_context[:top_container] 
+          aspace_container = e.object_context[:aspace_container] 
+          
+          headers = [:error, :message] + @fields.keys + [ :preconversion_locations, :top_container_locations ]  
+
+          unless @errors
+            h = CSV::Row.new(headers,[],true)
+            @errors = CSV::Table.new([h])
+          end
+
+         
+          row = CSV::Row.new([],[],false)
+       
+          row << { :error => e.class }
+          e.errors.each do |ek, ev|
+            row << { :message => "#{ek} -- #{ev.join(',') }" } 
+          end
+
+          @fields.each do |k, v|
+            case v
+            when String
+              row << {k => v}
+            when Array
+              row << {k => v.join(" ; ")}
+            when Hash
+              row << {k => v.values.join(" ; ")}
+            else # i dunno?
+              row << {k => v}
+            end
+          end
+          
+          row << { :top_container_locations => e.object_context[:top_container_locations].join('; '), 
+                    :preconversion_locations => e.object_context[:aspace_locations].join("; ") } 
+
+          @errors << row.fields(*headers)
+          
+          Log.error("A ValidationException was raised while the container migration took place.  Please investigate this, as it likely indicates data issues that will need to be resolved by hand")
+          Log.exception(e)
+          
+          @job.write_output(Log.backlog) if @job
+          
+          file = ASUtils.tempfile("container_conversion_")
+          file.write(@errors.to_csv)
+          file.rewind
+         
+          @job.add_file( file )
+
+        
+        end
 
         self['instance_ids'].zip(self['instances']).map {|instance_id, instance|
           # Create a new subcontainer that links everything up
@@ -122,20 +183,6 @@ class ContainerManagementConversion
     end
 
 
-    def ensure_harmonious_values(*)
-      begin
-        super
-      rescue ValidationException => e
-        DB.open do |db|
-          db[:system_event].insert(:title => "CONTAINER_MANAGEMENT_UPGRADE_WARNING",
-                                   :message => e.message[0..250], 
-                                   :time => Time.now)
-        end
-         
-        Log.error("A ValidationException was raised while the container migration took place.  Please investigate this, as it likely indicates data issues that will need to be resolved by hand")
-        Log.exception(e)
-      end
-    end
 
   end
 
@@ -153,60 +200,91 @@ class ContainerManagementConversion
     records_migrated = 0
 
     Repository.all.each do |repo|
+      
       RequestContext.open(:repo_id => repo.id,
                           :is_high_priority => false,
                           :current_username => "admin") do
 
-        # Migrate accession records
-        Accession.filter(:repo_id => repo.id).each do |accession|
-          Log.info("Working on Accession #{accession.id} (records migrated: #{records_migrated})")
-          records_migrated += 1
-          ContainerMigrationModel(:accession).new(accession).create_containers({})
-        end
+        
+        begin 
+          job_json = JSONModel::JSONModel(:job).from_hash({
+                                  :job => JSONModel::JSONModel(:container_conversion_job).from_hash({ :format => 'csv' }), 
+                                  :job_type => 'container_conversion_job',
+                                 })
 
-        # Then resources and containers
-        Resource.filter(:repo_id => repo.id).each do |resource|
-          top_containers_in_this_tree = {}
 
-          records_migrated += 1
-          ContainerMigrationModel(:resource).new(resource).create_containers(top_containers_in_this_tree).each do |top_container|
-            top_containers_in_this_tree[top_container.id] = top_container
+          user = User.find(:username => 'admin') 
+          @job = Job.create_from_json(job_json,
+                             :repo_id => repo.id, :user => user
+                                     ) 
+
+
+
+
+
+          # Migrate accession records
+          Accession.filter(:repo_id => repo.id).each do |accession|
+            Log.info("Working on Accession #{accession.id} (records migrated: #{records_migrated})")
+            @job.write_output(Log.backlog) if @job
+            records_migrated += 1
+            ContainerMigrationModel(:accession).new(accession, @job).create_containers({})
           end
 
-          ao_roots = resource.tree['children']
+          # Then resources and containers
+          Resource.filter(:repo_id => repo.id).each do |resource|
+            top_containers_in_this_tree = {}
 
-          ao_roots.each do |ao_root|
-            work_queue = [ao_root]
+            records_migrated += 1
+            ContainerMigrationModel(:resource).new(resource, @job).create_containers(top_containers_in_this_tree).each do |top_container|
+              top_containers_in_this_tree[top_container.id] = top_container
+            end
 
-            while !work_queue.empty?
+            ao_roots = resource.tree['children']
 
-              nodes_for_transaction = []
+            ao_roots.each do |ao_root|
+              work_queue = [ao_root]
+
               while !work_queue.empty?
-                nodes_for_transaction << work_queue.shift
-                break if nodes_for_transaction.length == MAX_RECORDS_PER_TRANSACTION
-              end
 
-              Log.info("Running #{nodes_for_transaction.length} for the next transaction")
+                nodes_for_transaction = []
+                while !work_queue.empty?
+                  nodes_for_transaction << work_queue.shift
+                  break if nodes_for_transaction.length == MAX_RECORDS_PER_TRANSACTION
+                end
 
-              DB.open do
-                nodes_for_transaction.each do |node|
-                  work_queue.concat(node['children'])
+                Log.info("Running #{nodes_for_transaction.length} for the next transaction")
+                @job.write_output(Log.backlog) if @job
 
-                  record = ArchivalObject[node['id']]
+                DB.open do
+                  nodes_for_transaction.each do |node|
+                    work_queue.concat(node['children'])
 
-                  Log.info("Working on ArchivalObject #{record.id} (records migrated: #{records_migrated})")
+                    record = ArchivalObject[node['id']]
 
-                  migration_record = ContainerMigrationModel(:archival_object).new(record)
+                    Log.info("Working on ArchivalObject #{record.id} (records migrated: #{records_migrated})")
+                    @job.write_output(Log.backlog) if @job
 
-                  migration_record.create_containers(top_containers_in_this_tree).each do |top_container|
-                    top_containers_in_this_tree[top_container.id] = top_container
+                    migration_record = ContainerMigrationModel(:archival_object).new(record, @job)
+
+                    migration_record.create_containers(top_containers_in_this_tree).each do |top_container|
+                      top_containers_in_this_tree[top_container.id] = top_container
+                    end
+
+                    records_migrated += 1
                   end
-
-                  records_migrated += 1
                 end
               end
             end
-          end
+        
+          end # Resource.each
+        
+        ensure
+        
+          if @job
+            @job.write_output("Finished container conversion for repository #{repo.id}")
+            @job.finish(:completed)
+          end 
+          
         end
       end
     end
