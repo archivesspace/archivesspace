@@ -8,9 +8,15 @@ ArchivesSpacePublic::Application.routes.draw do
 
       match 'api/repositories/:repo_id/resources/:id' => 'records#resource', :via => [:get]
       match 'api/repositories/:repo_id/archival_objects/:id' => 'records#archival_object', :via => [:get]
+      match 'api/repositories/:repo_id/accessions/:id' => 'records#accession', :via => [:get]
+      match 'api/repositories/:repo_id/digital_objects/:id' => 'records#digital_object', :via => [:get]
+
 
 
       match 'api/search' => 'search#search', :via => [:get]
+      match 'api/advanced_search' => 'search#advanced_search', :via => [:get]
+
+      match 'api/(*url)' => "site#bad_request", :via => [:get]
 
       get '/(*url)' => "site#index"
 

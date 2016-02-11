@@ -22,6 +22,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include ArchivalObjectSeries
   include RightsRestrictionNotes
   include MapToAspaceContainer
+  include RepresentativeImages
 
   enable_suppression
 

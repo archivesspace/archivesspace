@@ -49,22 +49,22 @@ describe 'JSON model' do
                                      })
   end
 
-  
+
   it "can give a list of models" do
     JSONModel.models.keys.should include("testschema")
   end
 
-  
+
   it "rreturns nil  if you ask it for a schema source for a non-existent schema" do
     JSONModel.schema_src("somenonexistenttestschema").should be_nil
   end
 
-  
+
   it "raises an error if you try to substitute a symbol into a uri" do
     expect { JSONModel(:testschema).substitute_parameters("/uri/number/:number", :number => :wtf) }.to raise_error(RuntimeError)
   end
 
-  
+
   it "can recognize a valid url" do
     expect {
       JSONModel(:testschema).from_hash({"elt_0" => "001", "url" => "http://www.foo.bar"})
@@ -382,7 +382,7 @@ describe 'JSON model' do
   it "reports errors correctly for simple errors too" do
     begin
       JSONModel(:subject).from_hash({
-                                      "source" => "local", 
+                                      "source" => "local",
                                       "vocabulary" => "/vocabularies/1",
                                       "terms" => [{
                                                     "term" => "",
@@ -394,21 +394,21 @@ describe 'JSON model' do
     end
 
   end
-  
+
   it "allows a schema to override the ifmissing key of its abstract parent" do
-    
+
     # Resources don't allow language to be nil
     begin
-      create(:json_resource, {:language => nil})      
+      create(:json_resource, {:language => nil})
     rescue JSONModel::ValidationException => ve
       ve.to_s.should match /^\#<:ValidationException: /
     end
-    
+
     # Abstract archival object don't allow language to be klingon
     expect {
-      create(:json_resource, {:language => "klingon"}) 
+      create(:json_resource, {:language => "klingon"})
     }.to raise_error(JSONModel::ValidationException)
-    
+
     # Abstract archival objects do allow language to be nil
     expect {
       create(:json_archival_object, {:language => nil})
@@ -475,6 +475,47 @@ describe 'JSON model' do
       t.join
       t.value.should eq(:ok)
     end
+  end
+
+
+  it "supports optional translatable enum to_hash method" do
+
+    JSONModel.create_model_for("coolschema",
+                               {
+                                 "type" => "object",
+                                 "$schema" => "http://www.archivesspace.org/archivesspace.json",
+                                 "properties" => {
+                                   "language" => {"type" => "string", "dynamic_enum" => "language_iso639_2"},
+                                   "linked_agents" => {
+                                     "type" => "array",
+                                     "items" => {
+                                       "type" => "object",
+                                       "properties" => {
+                                         "role" => {
+                                           "type" => "string",
+                                           "dynamic_enum" => "linked_agent_role",
+                                           "ifmissing" => "error",
+                                         }
+                                       }
+                                     }
+                                   }
+                                 }
+                               })
+
+    hash = {
+      "language" => "eng",
+      "linked_agents" => [{
+                            'role' => 'creator'
+                         }]
+    }
+
+
+    obj = JSONModel(:coolschema).from_hash(hash)
+
+    hash = obj.to_hash_with_translated_enums(['language_iso639_2', 'linked_agent_role'])
+
+    hash['language'].should eq("English")
+    hash['linked_agents'].first['role'].should eq("Creator");
   end
 
 end

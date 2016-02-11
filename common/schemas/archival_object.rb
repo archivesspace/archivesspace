@@ -67,6 +67,12 @@
       },
 
       "has_unpublished_ancestor" => {"type" => "boolean", "readonly" => "true"},
+
+      "representative_image" => {
+        "type" => "JSONModel(:file_version) object",
+        "readonly" => true
+      }
+
     },
   },
 }

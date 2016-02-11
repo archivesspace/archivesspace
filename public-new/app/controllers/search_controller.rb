@@ -1,3 +1,6 @@
+require 'advanced_search'
+require 'advanced_query_builder'
+
 class SearchController < ApplicationController
 
   DETAIL_TYPES = ['accession', 'resource', 'archival_object', 'digital_object',
@@ -13,6 +16,15 @@ class SearchController < ApplicationController
   def search
 
     set_search_criteria
+
+    @search_data = Search.all(@criteria, @repositories)
+
+    render :json => @search_data
+  end
+
+
+  def advanced_search
+    set_advanced_search_criteria
 
     @search_data = Search.all(@criteria, @repositories)
 
@@ -48,5 +60,34 @@ class SearchController < ApplicationController
 
     @criteria['hl'] = true
   end
+
+  def set_advanced_search_criteria
+    set_search_criteria
+
+    terms = (0..2).collect{|i|
+      term = search_term(i)
+
+      if term and term["op"] === "NOT"
+        term["op"] = "AND"
+        term["negated"] = true
+      end
+
+      term
+    }.compact
+
+    if not terms.empty?
+      @criteria["aq"] = AdvancedQueryBuilder.new(terms, :public).build_query.to_json
+      @criteria['facet[]'] = FACETS
+    end
+
+    @criteria['hl'] = true
+  end
+
+  def search_term(i)
+    if not params["v#{i}"].blank?
+      { "field" => params["f#{i}"], "value" => params["v#{i}"], "op" => params["op#{i}"], "type" => "text" }
+    end
+  end
+
 
 end
