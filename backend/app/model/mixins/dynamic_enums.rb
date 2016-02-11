@@ -51,7 +51,7 @@ module DynamicEnums
                 BackendEnumSource.value_for_id(enum_name, self[property_id])
               }.compact.first
 
-              raise "Couldn't find enum for #{self[property_id]}" unless result
+              raise "Couldn't find enum in #{property} for #{self.class} with id #{self[property_id]}" unless result
               result
             else
               nil
