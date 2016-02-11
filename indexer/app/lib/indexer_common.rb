@@ -91,7 +91,7 @@ class CommonIndexer
   def self.extract_string_values(doc)
     text = ""
     doc.each do |key, val|
-      if %w(json types create_time date_type jsonmodel_type publish extent_type).include?(key)
+      if %w(json types create_time date_type jsonmodel_type publish extent_type system_generated suppressed source rules name_order).include?(key)
       elsif key =~ /_enum_s$/
       elsif val.is_a?(String)
         text << "#{val} "
@@ -440,6 +440,12 @@ class CommonIndexer
         if record['record'].has_key?(field)
           doc['fullrecord'] << "#{record['record'][field]} "
         end
+      end
+
+      if record['record'].has_key?('names')
+        doc['fullrecord'] << record['record']['names'].map {|name|
+          CommonIndexer.extract_string_values(name)
+        }.join(" ")
       end
     }
 
