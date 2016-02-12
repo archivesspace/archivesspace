@@ -22,15 +22,23 @@ class ApplicationController < ActionController::API
 
 
   def establish_session
-    Thread.current[:backend_session] = BackendSession.get_active_session
+    begin
+      Thread.current[:backend_session] = BackendSession.get_active_session
+    rescue Exception => e
+      render :json => {:error => e.to_s}.to_json, :status => 404
+    end
   end
 
   def reestablish_session
-    Thread.current[:backend_session] = nil
-    BackendSession.refresh_active_session
+    begin
+      Thread.current[:backend_session] = nil
+      BackendSession.refresh_active_session
 
-    establish_session
-    redirect_to request.url
+      establish_session
+      redirect_to request.url
+    rescue Exception => e
+      render :json => {:error => e.to_s}.to_json, :status => 404
+    end
   end
 
 
