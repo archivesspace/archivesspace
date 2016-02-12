@@ -131,6 +131,7 @@ class AspaceJsonToManagedContainerMapper
     return nil if !model
 
     id = @json.class.id_for(@json['uri'])
+    return nil if id.to_i == 0 # it's a new record and we have nothing to create. 
 
     join_column = model.association_reflection(:instance)[:key]
     find_top_container_by_instances(Instance.filter(join_column => id).select(:id), indicator, type)
