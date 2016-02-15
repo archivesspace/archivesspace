@@ -294,7 +294,7 @@ class PeriodicIndexer < CommonIndexer
     repositories.each_with_index do |repository, i|
       JSONModel.set_repository(repository.id)
 
-      checkpoints = []
+      did_something = false 
 
       # we roll through all our record types
       @@record_types.each do |type|
@@ -314,7 +314,6 @@ class PeriodicIndexer < CommonIndexer
         # this will manage our treaded tasks
         executor = ThreadPoolExecutor.new(THREAD_COUNT, THREAD_COUNT, 5000, java.util.concurrent.TimeUnit::MILLISECONDS, LinkedBlockingQueue.new)
         tasks = []
-        did_something = false 
         
         begin
           # lets take it one chunk ata time 
@@ -348,7 +347,7 @@ class PeriodicIndexer < CommonIndexer
             
             # let's check if we did something, unless of course we alread know
             # we did something
-            did_something = tasks.any? {|t| t } unless did_something 
+            did_something ||= tasks.any? {|t| t } unless did_something 
             tasks.clear # clears the tasks.. 
           
           end # done iterating over ids
@@ -363,6 +362,9 @@ class PeriodicIndexer < CommonIndexer
 
 
         # lets update the state...
+        # moved this to update per each type since before it would only update
+        # after completely finishing an entire repo ( so if you intterupted it,
+        # you'd have to start all over again for each repo )
         @state.set_last_mtime(repository.id, type, start)
 
         $stderr.puts "~" * 100
@@ -370,12 +372,13 @@ class PeriodicIndexer < CommonIndexer
         $stderr.puts "~" * 100
       end # done iterating over types
 
-      # courtesy flush.. 
+      # courtesy flush for the repo 
       send_commit if did_something
 
     
     end # done iterating over repositories
 
+    # now lets delete
     handle_deletes
   
   end
