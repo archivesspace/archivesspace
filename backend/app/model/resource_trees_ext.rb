@@ -14,7 +14,7 @@ module ResourceTrees
         top_container = sub_container.related_records(:top_container_link)
 
         if (top_container)
-          properties["type_1"] = "Container"
+          properties["type_1"] = top_container.type || "Container"
           properties["indicator_1"] = top_container.indicator
           if top_container.barcode
             properties["indicator_1"] += " [#{top_container.barcode}]"
