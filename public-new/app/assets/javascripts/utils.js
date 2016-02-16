@@ -52,8 +52,10 @@ var app = app || {};
         result = recordLabelMap[type].label_singular;
       } else {
         _.forEach(recordLabelMap, function(mapping, asType) {
-          if(mapping.key_for_public_urls === type && mapping.label_sungular);
-          result = mapping.label_singular;
+          if((mapping.key_for_public_urls === type) && mapping.label_singular) {
+
+            result = mapping.label_singular;
+          }
         });
       }
 
