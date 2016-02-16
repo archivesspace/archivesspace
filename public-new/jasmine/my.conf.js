@@ -15,6 +15,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'vendor/assets/javascripts/lodash/lodash.js',
+      'vendor/assets/javascripts/lodash-inflection/lodash-inflection.js',
       'app/assets/javascripts/lodash.aspace.js',
       'vendor/assets/javascripts/jquery/jquery.js',
       'vendor/assets/javascripts/exoskeleton/exoskeleton.js',

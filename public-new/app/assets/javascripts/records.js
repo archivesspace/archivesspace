@@ -144,8 +144,7 @@ var app = app || {};
 
   var RecordModel = Bb.Model.extend({
     initialize: function(opts) {
-      this.type = opts.type;
-      this.collectionType = opts.recordType;
+      this.recordType = opts.recordType;
       this.id = opts.id;
       this.scope = opts.repoId ? 'repository' : 'global'
       if(this.scope === 'repository')
@@ -156,17 +155,12 @@ var app = app || {};
 
     url: function() {
       var url = RAILS_API;
-      var asType = app.utils.getASType(this.collectionType.replace(/s$/, ''));
+      var asType = app.utils.getASType(this.recordType);
       if(this.scope === 'repository') {
         url += "/repositories/" + this.repoId;
       }
 
-      url += "/";
-
-      // url += this.collectionType ? this.collectionType : this.type+"s";
-      url += asType+"s";
-
-      url += "/"+this.id;
+      url += "/" + _.pluralize(asType) + "/" + this.id;
 
       return url;
     },
