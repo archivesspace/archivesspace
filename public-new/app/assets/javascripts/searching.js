@@ -530,7 +530,6 @@ var RAILS_API = "/api";
 
       "click .keywordscontext button": function(e) {
         e.preventDefault();
-        console.log("--");
         var $container = $(e.target).closest("div");
         var $content = $(".content", $container);
 
@@ -937,7 +936,7 @@ var RAILS_API = "/api";
         var parsed = /repositories\/(\d+)\/([a-z_]+)\/(\d+)/.exec(url)
         var opts = {
           repoId: parsed[1],
-          recordType: parsed[2],
+          recordType: _.singularize(parsed[2]),
           id: parsed[3]
         }
         app.router.navigate(url);
@@ -1047,7 +1046,6 @@ var RAILS_API = "/api";
     destroy: function() {
       this.unbind();
       this.$el.empty();
-      // also destroy subviews???
     }
   });
 
