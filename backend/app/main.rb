@@ -23,7 +23,7 @@ require_relative 'lib/reports/report_helper'
 require_relative 'lib/component_transfer'
 require_relative 'lib/progress_ticker'
 require_relative 'lib/resequencer'
-require_relative 'lib/container_management_migration'
+require_relative 'lib/container_management_conversion'
 require 'solr_snapshotter'
 
 require 'barcode_check'
@@ -208,11 +208,11 @@ class ArchivesSpaceService < Sinatra::Base
      
       # this checks the system_event table to see if we've already run the CMM
       # for the upgrade from =< v1.4.2
-      unless ContainerManagementMigration.already_run? 
+      unless ContainerManagementConversion.already_run? 
         Log.info("\n") 
         Log.info("*" * 100 )
         Log.info("Migrating existing containers to the new container model...")
-        ContainerManagementMigration.new.run
+        ContainerManagementConversion.new.run
         Log.info("Completed: existing containers have been migrated to the new container model.")
         Log.info("*" * 100 )
         Log.info("\n") 

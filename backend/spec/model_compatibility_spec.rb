@@ -132,7 +132,9 @@ describe 'Managed Container compatibility' do
 
 
     it "finds top containers within the same collection" do
-      container = TopContainer.create_from_json(JSONModel(:top_container).from_hash('indicator' => '1234'))
+      container = TopContainer.create_from_json(JSONModel(:top_container).from_hash(
+        'type' => 'box', 'indicator' => '1234')
+      )
 
       # child links to our top container
       (resource, grandparent, parent, child) = create_tree(container)
@@ -186,7 +188,10 @@ describe 'Managed Container compatibility' do
 
 
     it "updates and links the top container even if we're updating the series AO" do
-      container = TopContainer.create_from_json(JSONModel(:top_container).from_hash('indicator' => '1234'))
+      container = TopContainer.create_from_json(
+                      JSONModel(:top_container).from_hash('indicator' => '1234',
+                                                          'type' => 'box' 
+                                                         ))
 
       # child links to our top container
       (resource, grandparent, parent, child) = create_tree(container)

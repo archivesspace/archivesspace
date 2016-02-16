@@ -19,6 +19,15 @@ class ArchivesSpaceService < Sinatra::Base
   do
     [200, {}, Log.backlog ]
   end
+  
+  Endpoint.get('/system/events')
+  .description("Get the systems events that have been logged for this install") 
+  .permissions([:administer_system])
+  .returns([200, "String"],
+           [403, "Access Denied"]) \
+  do
+    [200, {}, SystemEvent.all.collect { |a| a.values }.to_json  ]
+  end
 
   Endpoint.get('/system/resequence')
   .description("Get the log information and start the 15 second log recorder") 
