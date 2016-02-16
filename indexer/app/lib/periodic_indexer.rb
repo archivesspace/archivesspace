@@ -2,13 +2,26 @@ require_relative 'indexer_common'
 require 'time'
 require 'thread'
 require 'java'
+require 'singleton'
+
+java_import 'java.util.concurrent.ThreadPoolExecutor'
+java_import 'java.util.concurrent.TimeUnit'
+java_import 'java.util.concurrent.LinkedBlockingQueue'
+java_import 'java.util.concurrent.FutureTask'
+java_import 'java.util.concurrent.Callable'
 
 # Eagerly load this constant since we access it from multiple threads.  Having
 # two threads try to load it simultaneously seems to create the possibility for
 # race conditions.
 java.util.concurrent.TimeUnit::MILLISECONDS
 
+# a place for trees...
+# not totaly sure how i feel about this...
+class ProcessedTrees < java.util.concurrent.ConcurrentHashMap
+  include Singleton
+end
 
+# we store the state of uri's index in the indexer_State directory
 class IndexState
 
   def initialize
@@ -18,7 +31,6 @@ class IndexState
 
   def path_for(repository_id, record_type)
     FileUtils.mkdir_p(@state_dir)
-
     File.join(@state_dir, "#{repository_id}_#{record_type}")
   end
 
@@ -50,16 +62,38 @@ class IndexState
 end
 
 
-class PeriodicIndexer < CommonIndexer
+## this is the task that will be called to run the indexer
+class PeriodicIndexerTask
+  include Callable
+  
+  def initialize(params)
+    @params = params 
+  end
 
-  # A small window to account for the fact that transactions might be committed
-  # after the periodic indexer has checked for updates, but with timestamps from
-  # prior to the check.
-  WINDOW_SECONDS = 30
+  # how we run the worker
+  def call
+    PeriodicIndexerWorker.new(@params).run
+  end
 
-  THREAD_COUNT = AppConfig[:indexer_thread_count].to_i
-  RECORDS_PER_THREAD = AppConfig[:indexer_records_per_thread].to_i
+end
 
+
+# not really a worker...just some temp we hire to do a task
+# we kill this guy after he's done his job ( don't tell him ) 
+class PeriodicIndexerWorker < CommonIndexer
+
+  # this is ugly
+  def initialize(params)
+    super(AppConfig[:backend_url])
+    @state = params[:state] || IndexState.new
+    @record_type = params[:record_type] || "repository"
+    @id_set = params[:id_set] || [] 
+    @repo_id = params[:repo_id] || "0"
+    @session = params[:session]
+    @indexed_count = params[:indexed_count] || 0 
+  end
+ 
+  # this was pulled from the original pindexer
   def load_tree_docs(tree, result, root_uri, path_to_root = [], index_whole_tree = false)
     return unless tree['publish']
 
@@ -102,7 +136,7 @@ class PeriodicIndexer < CommonIndexer
     end
   end
 
-
+  # also pulled from the original pindexer
   def delete_trees_for(resource_uris)
     return if resource_uris.empty?
 
@@ -124,10 +158,9 @@ class PeriodicIndexer < CommonIndexer
   end
 
 
+  # this is where we configure how the solr doc is generated
   def configure_doc_rules
     super
-
-    @processed_trees = java.util.concurrent.ConcurrentHashMap.new
 
     add_batch_hook {|batch|
       records = batch.map {|rec|
@@ -145,7 +178,7 @@ class PeriodicIndexer < CommonIndexer
       }.compact.uniq
 
       # Don't reprocess trees we've already covered during previous batches
-      records -= @processed_trees.keySet
+      records -= ProcessedTrees.instance.keySet
 
       ## Each record needs its tree indexed
 
@@ -156,7 +189,7 @@ class PeriodicIndexer < CommonIndexer
         # To avoid all of the indexing threads hitting the same tree at the same
         # moment, use @processed_trees to ensure that only one of them handles
         # it.
-        next if @processed_trees.putIfAbsent(record_uri, true)
+        next if ProcessedTrees.instance.putIfAbsent(record_uri, true)
 
         record_data = JSONModel.parse_reference(record_uri)
 
@@ -164,10 +197,62 @@ class PeriodicIndexer < CommonIndexer
 
         load_tree_docs(tree.to_hash(:trusted), batch, record_uri, [],
                        ['classification'].include?(record_data[:type]))
-        @processed_trees.put(record_uri, true)
+        ProcessedTrees.instance.put(record_uri, true)
       end
     }
   end
+
+  def run
+    begin 
+      t_0 = Time.now 
+       
+      if @session
+         JSONModel::HTTP.current_backend_session = @session
+      else
+        login
+      end
+      
+      JSONModel.set_repository(@repo_id)
+       
+      # Inherit the repo_id and user session from the parent thread
+      records = JSONModel(@record_type).all(:id_set => @id_set.join(","),
+                                                 'resolve[]' => @@resolved_attributes)
+      
+      
+      if records.empty?
+        return false
+      else records.empty?
+          index_records(records.map {|record|
+                              {
+                                'record' => record.to_hash(:trusted),
+                                'uri' => record.uri
+                              }
+                            })
+      end
+     
+      t_1 = Time.now 
+      time_ms = (t_1-t_0) * 1000.0   
+      return [ records.length, time_ms, @indexed_count ] 
+    
+    rescue
+      $stderr.puts("Failure in periodic indexer worker thread: #{$!}")
+      raise $!
+    end
+  end
+
+end
+
+# this is the master who runs the tasks. also handles deletes and 'easy' tasks
+# ( like indexing repositories ) . 
+class PeriodicIndexer < CommonIndexer
+
+  # A small window to account for the fact that transactions might be committed
+  # after the periodic indexer has checked for updates, but with timestamps from
+  # prior to the check.
+  WINDOW_SECONDS = 30
+
+  THREAD_COUNT = AppConfig[:indexer_thread_count].to_i
+  RECORDS_PER_THREAD = AppConfig[:indexer_records_per_thread].to_i
 
 
   def initialize(state = nil)
@@ -175,6 +260,128 @@ class PeriodicIndexer < CommonIndexer
     @state = state || IndexState.new
   end
 
+  
+  def run_index_round
+    $stderr.puts "#{Time.now}: Running index round"
+
+    login
+
+    # Index any repositories that were changed
+    start = Time.now
+    repositories = JSONModel(:repository).all
+
+    modified_since = [@state.get_last_mtime('repositories', 'repositories') - WINDOW_SECONDS, 0].max
+    updated_repositories = repositories.reject {|repository| Time.parse(repository['system_mtime']).to_i < modified_since}.
+    map {|repository| {
+        'record' => repository.to_hash(:trusted),
+        'uri' => repository.uri
+      }
+    }
+
+    # indexing repos is usually easy, since its unlikely there will be lots of
+    # them.
+    if !updated_repositories.empty?
+      index_records(updated_repositories)
+      send_commit
+    end
+
+    @state.set_last_mtime('repositories', 'repositories', start)
+
+    # Set the list of tree URIs back to empty to start over again
+    ProcessedTrees.instance.clear    
+
+    # And any records in any repositories
+    repositories.each_with_index do |repository, i|
+      JSONModel.set_repository(repository.id)
+
+      did_something = false 
+
+      # we roll through all our record types
+      @@record_types.each do |type|
+          
+        next if @@global_types.include?(type) && i > 0
+        start = Time.now
+
+        modified_since = [@state.get_last_mtime(repository.id, type) - WINDOW_SECONDS, 0].max
+
+        # we get all the ids of this record type out of the repo
+        id_set = JSONModel::HTTP.get_json(JSONModel(type).uri_for, :all_ids => true, :modified_since => modified_since)
+
+        next if id_set.empty?
+
+        indexed_count = 0
+      
+        # this will manage our treaded tasks
+        executor = ThreadPoolExecutor.new(THREAD_COUNT, THREAD_COUNT, 5000, java.util.concurrent.TimeUnit::MILLISECONDS, LinkedBlockingQueue.new)
+        tasks = []
+        
+        begin
+          # lets take it one chunk ata time 
+          id_set.each_slice(  RECORDS_PER_THREAD * THREAD_COUNT  ) do |id_subset|  
+            
+            
+            # now we load a task with the number of tasks 
+            id_subset.each_slice(RECORDS_PER_THREAD) do |set|
+              indexed_count += set.length
+              task_order = { :repo_id => repository.id, 
+                             :session => JSONModel::HTTP.current_backend_session,  
+                             :record_type => type, 
+                             :id_set => set, 
+                             :state => @state,
+                             :indexed_count => indexed_count
+                            } 
+              task = FutureTask.new( PeriodicIndexerTask.new( task_order ) )
+              
+              # execute the task..
+              executor.execute(task) 
+              tasks << task 
+            end  
+           
+            # we're blocking here until all the tasks are completed 
+            tasks.map! do |t|
+              count, time, counter = t.get
+              next unless count # if the worker returned false, we move on
+              $stderr.puts "~~~ Indexed #{counter} of #{id_set.length} #{type} records in repository #{repository.id} ( added #{count.to_s} records in  #{time.to_s}ms ) ~~~"
+              true 
+            end
+            
+            # let's check if we did something, unless of course we alread know
+            # we did something
+            did_something ||= tasks.any? {|t| t } unless did_something 
+            tasks.clear # clears the tasks.. 
+          
+          end # done iterating over ids
+        ensure # Let us be sure that...
+          # wnce we're done, we instruct the workers to finish up.
+          executor.shutdown 
+          # we also tell solr to commit
+          send_commit if did_something
+          # and lets make sure we clear this out too 
+          ProcessedTrees.instance.clear    
+        end
+
+
+        # lets update the state...
+        # moved this to update per each type since before it would only update
+        # after completely finishing an entire repo ( so if you intterupted it,
+        # you'd have to start all over again for each repo )
+        @state.set_last_mtime(repository.id, type, start)
+
+        $stderr.puts "~" * 100
+        $stderr.puts("~~~ Indexed #{id_set.length} #{type} records in #{Time.now.to_i - start.to_i} seconds ~~~")
+        $stderr.puts "~" * 100
+      end # done iterating over types
+
+      # courtesy flush for the repo 
+      send_commit if did_something
+
+    
+    end # done iterating over repositories
+
+    # now lets delete
+    handle_deletes
+  
+  end
 
   def handle_deletes
     start = Time.now
@@ -203,139 +410,6 @@ class PeriodicIndexer < CommonIndexer
   end
 
 
-  def start_worker_thread(queue, record_type)
-    repo_id = JSONModel.repository
-    session = JSONModel::HTTP.current_backend_session
-
-    Thread.new do
-      begin
-        # Inherit the repo_id and user session from the parent thread
-        JSONModel.set_repository(repo_id)
-        JSONModel::HTTP.current_backend_session = session
-
-        did_something = false
-
-        while true
-          id_subset = queue.poll(10000, java.util.concurrent.TimeUnit::MILLISECONDS)
-
-          # If the parent thread has finished, it should have pushed a :finished
-          # token.  But if we time out after a reasonable amount of time, assume
-          # it isn't coming back.
-          break if (id_subset == :finished || id_subset.nil?)
-
-          records = JSONModel(record_type).all(:id_set => id_subset.join(","),
-                                               'resolve[]' => @@resolved_attributes)
-
-          if !records.empty?
-            did_something = true
-            index_records(records.map {|record|
-                            {
-                              'record' => record.to_hash(:trusted),
-                              'uri' => record.uri
-                            }
-                          })
-          end
-        end
-
-        did_something
-      rescue
-        $stderr.puts("Failure in periodic indexer worker thread: #{$!}")
-        raise $!
-      end
-    end
-  end
-
-  def run_index_round
-    $stderr.puts "#{Time.now}: Running index round"
-
-    login
-
-    # Index any repositories that were changed
-    start = Time.now
-    repositories = JSONModel(:repository).all
-
-    modified_since = [@state.get_last_mtime('repositories', 'repositories') - WINDOW_SECONDS, 0].max
-    updated_repositories = repositories.reject {|repository| Time.parse(repository['system_mtime']).to_i < modified_since}.
-    map {|repository| {
-        'record' => repository.to_hash(:trusted),
-        'uri' => repository.uri
-      }
-    }
-
-    if !updated_repositories.empty?
-      index_records(updated_repositories)
-      send_commit
-    end
-
-    @state.set_last_mtime('repositories', 'repositories', start)
-
-    # Set the list of tree URIs back to empty to start over again
-    @processed_trees.clear
-
-    # And any records in any repositories
-    repositories.each_with_index do |repository, i|
-      JSONModel.set_repository(repository.id)
-
-      checkpoints = []
-
-      did_something = false
-
-      @@record_types.each do |type|
-        next if @@global_types.include?(type) && i > 0
-        start = Time.now
-
-        modified_since = [@state.get_last_mtime(repository.id, type) - WINDOW_SECONDS, 0].max
-
-        id_set = JSONModel::HTTP.get_json(JSONModel(type).uri_for, :all_ids => true, :modified_since => modified_since)
-
-        next if id_set.empty?
-
-        indexed_count = 0
-        work_queue = java.util.concurrent.LinkedBlockingQueue.new(THREAD_COUNT)
-
-        workers = (0...THREAD_COUNT).map {|thread_idx|
-          start_worker_thread(work_queue, type)
-        }
-
-        begin
-          # Feed our worker threads subsets of IDs to process
-          id_set.each_slice(RECORDS_PER_THREAD) do |id_subset|
-            # This will block if all threads are currently busy indexing.
-            while !work_queue.offer(id_subset, 5000, java.util.concurrent.TimeUnit::MILLISECONDS)
-              # If any of the workers have caught an exception, rethrow it immediately
-              workers.each do |thread|
-                thread.value if thread.status.nil?
-              end
-            end
-
-            indexed_count += id_subset.length
-            $stderr.puts("Indexed #{indexed_count} of #{id_set.length} #{type} records in repository #{repository.repo_code}")
-          end
-
-        ensure
-          # Once we're done, instruct the workers to finish up.
-          THREAD_COUNT.times { work_queue.offer(:finished, 5000, java.util.concurrent.TimeUnit::MILLISECONDS) }
-        end
-
-        # If any worker reports that they indexed some records, we'll send a
-        # commit.
-        results = workers.map {|thread| thread.join; thread.value}
-        did_something ||= results.any? {|status| status}
-
-        checkpoints << [repository, type, start]
-
-        $stderr.puts("Indexed #{id_set.length} records in #{Time.now.to_i - start.to_i} seconds")
-      end
-
-      send_commit if did_something
-
-      checkpoints.each do |repository, type, start|
-        @state.set_last_mtime(repository.id, type, start)
-      end
-    end
-
-    handle_deletes
-  end
 
 
   def run
@@ -344,6 +418,8 @@ class PeriodicIndexer < CommonIndexer
         run_index_round unless paused?
       rescue
         reset_session
+        puts "#{$!.backtrace.join("\n")}"
+        
         puts "#{$!.inspect}"
       end
 
