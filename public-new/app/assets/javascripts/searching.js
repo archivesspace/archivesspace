@@ -467,7 +467,7 @@ var RAILS_API = "/api";
 
     if(att.highlighting) {
       this.highlights = _.reduce(att.highlighting, function(result, list, field) {
-        return result.concat(list);
+        return _.uniq(result.concat(list));
       }, []);
     }
 
