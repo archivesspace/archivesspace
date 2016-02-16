@@ -494,10 +494,12 @@
         <button class="button radius"><span>+</span>&#160;Search Terms in Context</button>
         <div class="content">
         <ul class="recordchildren">
-          {_.forEach(highlights, function(snip) {}
+          {_.forEach(_.slice(highlights, 0, 2), function(snip) {}
           <li>...${ snip }...</li>
           {}); }
-          <li class="smallnote">29 more references to search keywords</li>
+          { if (highlights.length > 3 ) {}
+          <li class="smallnote">${highlights.length - 3} more references to search keywords</li>
+          {}}
         </ul>
         </div>
 

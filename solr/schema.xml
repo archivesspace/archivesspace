@@ -64,11 +64,11 @@
    <field name="creators" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="agents" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="agent_uris" type="string" indexed="true" stored="true" multiValued="true"/>
-   <field name="notes" type="text_general" indexed="true" stored="false" multiValued="false"/>
+   <field name="notes" type="text_general" indexed="true" stored="true" multiValued="false"/>
 
-   <field name="subjects_text" type="text_general" indexed="true" stored="false" multiValued="true"/>
-   <field name="creators_text" type="text_general" indexed="true" stored="false" multiValued="true"/>
-   <field name="agents_text" type="text_general" indexed="true" stored="false" multiValued="true"/>
+   <field name="subjects_text" type="text_general" indexed="true" stored="true" multiValued="true"/>
+   <field name="creators_text" type="text_general" indexed="true" stored="true" multiValued="true"/>
+   <field name="agents_text" type="text_general" indexed="true" stored="true" multiValued="true"/>
 
    <field name="json" type="string" indexed="false" stored="true" multiValued="false" />
    <field name="summary" type="text_general" indexed="false" stored="true" multiValued="false" />
@@ -111,8 +111,8 @@
    <field name="first_term_type" type="string" indexed="true" stored="true" multiValued="false" />
 
    <!-- Resource stores some Finding Aid data -->
-   <field name="finding_aid_title" type="string" indexed="true" stored="true" multiValued="false" />
-   <field name="finding_aid_filing_title" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="finding_aid_title" type="text_general" indexed="true" stored="true" multiValued="false" />
+   <field name="finding_aid_filing_title" type="text_general" indexed="true" stored="true" multiValued="false" />
 
    <!-- Location properties required for facets -->
    <field name="temporary" type="string" indexed="true" stored="true" multiValued="false" />
