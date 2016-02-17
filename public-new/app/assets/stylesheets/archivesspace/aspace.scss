@@ -214,9 +214,11 @@ html {
   }
 }
 
-
 .record-container {
   margin-top: rem-calc(20);
+}
+
+.record-container.with-border {
   padding: rem-calc(20);
   border: 1px solid $grey;
 }
