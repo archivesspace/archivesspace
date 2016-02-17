@@ -15,11 +15,44 @@ var app = app || {};
       this.title = "NO TITLE";
     }
 
+    if(model.attributes.repository && model.attributes.repository._resolved) {
+      this.repositoryName = model.attributes.repository._resolved.name;
+    }
+
     this.language = _.get(model, 'attributes.language');
 
     this.recordType = model.attributes.jsonmodel_type;
-
     this.recordTypeLabel =  app.utils.getPublicTypeLabel(this.recordType);
+    this.recordTypeIconClass = "fi-home";
+
+
+    this.abstract = "Contents of the abstract field. Maecenas faucibus mollis. Maecenas sed diam eget risus varius blandit sit amet non magna. Vestibulum id ligula porta semper.";
+
+
+    switch(this.recordType) {
+    case 'resource':
+      this.hasContentSidebar = true;
+      this.hasAccordion = true;
+      this.hasOuterBorder = true;
+      this.hasToolbar = true;
+      this.hasFullWidthContext = true;
+      break;
+    case 'classification':
+      this.recordTypeIconClass = "fi-page-multiple";
+      this.hasAccordion = false;
+      this.hasOuterBorder = false;
+      this.hasContentSidebar = true;
+      this.hasToolbar = false;
+      this.hasFullWidthContext = false;
+      this.abstract = _.get(model, 'attributes.description');
+      break;
+
+    default:
+      this.hasAccordion = true;
+      this.hasOuterBorder = true;
+      this.hasToolbar = true;
+      this.hasFullWidthContext = true;
+    }
 
     if(model.attributes.identifier) {
       this.identifier = model.attributes.identifier;
@@ -31,9 +64,7 @@ var app = app || {};
       this.identifier = "NO ID";
     }
 
-    this.hasContentSidebar = (this.recordType === 'resource');
 
-    this.abstract = "Contents of the abstract field. Maecenas faucibus mollis. Maecenas sed diam eget risus varius blandit sit amet non magna. Vestibulum id ligula porta semper.";
 
     this.dates = _.map(model.attributes.dates, function(date) {
       return app.utils.formatDateString(date);
@@ -78,6 +109,14 @@ var app = app || {};
       })).sort();
     }
 
+    if(model.attributes.classifications && model.attributes.classifications.length) {
+      this.classifications = _.compact(_.map(model.attributes.classifications, function(obj) {
+        var title = _.get(obj, '_resolved.title');
+        var uri = _.get(obj, 'ref');
+        return "<a href='"+uri+"'>"+title+"</a>";
+      })).sort();
+    }
+
     this.finding_aid_author = _.get(model.attributes, 'finding_aid_author');
     this.finding_aid_title = _.get(model.attributes, 'finding_aid_title');
     this.finding_aid_subtitle = _.get(model.attributes, 'finding_aid_subtitle');
@@ -97,6 +136,16 @@ var app = app || {};
 
   RecordPresenter.prototype.has = function(key) {
     return !_.isUndefined(this[key])
+  };
+
+  RecordPresenter.prototype.present = function(key) {
+    if (_.isUndefined(this[key])) {
+      return false;
+    } else if (_.isArray(this[key]) && this[key].length < 1) {
+      return false;
+    } else {
+      return true;
+    }
   };
 
 
@@ -190,18 +239,6 @@ var app = app || {};
     getRecordTypeLabel: function() {
       return app.utils.getPublicTypeLabel(this.attributes.jsonmodel_type);
     }
-
-
-    // getDisplayType: function() {
-    //   switch (this.type) {
-    //   case 'resource':
-    //     return 'collection';
-    //   case 'archival_object':
-    //     return 'object'
-    //   default:
-    //     return this.type
-    //   }
-    // }
 
   });
 

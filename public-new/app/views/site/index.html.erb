@@ -223,17 +223,18 @@
 
   <!-- record -->
   <script type="text/template" id="record-tmpl">
-    <div class="record-container">
+    <div class="record-container ${hasOuterBorder ? 'with-border' : ''}">
       <div class="row collapse">
-        <div class="columns small-8 record-header">
+        <div class="columns small-${hasToolbar ? 8 : 12} record-header">
           <h2>${title}</h2>
           <div class="type-label ${recordType}">
-            <i class="fi-home"></i>&#160;${recordTypeLabel}
+            <i class="${recordTypeIconClass}"></i>&#160;${recordTypeLabel}
           </div>
           <div class="identifier">
             <span class="id-label">Identifier:</span>&#160;${identifier}
           </div>
         </div>
+        { if(hasToolbar) {}
         <div class="columns small-4 text-right record-toolbar">
           <ul class="menu icon-top">
             <li class=""><a href="#" class="item"><i class="fi-bookmark"></i>Citation</a></li>
@@ -242,16 +243,25 @@
             <li class=""><a href="#" class="item"><i class="fi-bookmark"></i>Print</a></li>
           </ul>
         </div>
+        {}}
       </div>
+      { if(hasFullWidthContext) {}
       <div class="row collapse context-row">
         <div class="columns small-12">
           CONTEXT: | <a href="#">Repository Name</a> | ${title}
         </div>
       </div>
+      {}}
       <!-- TODO Row with button group here for Collections -->
 
       <div class="row collapse">
         <div class="columns small-${hasContentSidebar ? 8 : 12}">
+
+          { if(!hasFullWidthContext) {}
+          <div class="row collapse context-row">
+              CONTEXT: | ${repositoryName}
+          </div>
+          {}}
 
           <!-- optional image with caption -->
           { if(has('representativeImage')) {}
@@ -264,12 +274,15 @@
           {}}
 
           <p>${abstract}</p>
+
+          { if(present('dates')) {}
           <h3>Dates</h3>
           <ul>
             {_.forEach(dates, function(dateString) { }
             <li>${dateString}</li>
             {}); }
           </ul>
+          {}}
           { if(has('language')) {}
           <h3>Language</h3>
           <ul>
@@ -277,7 +290,7 @@
           </ul>
           {}}
 
-
+          { if(hasAccordion) {}
           <div class="accordion-table" data-accordion-table>
 
             <div class="navigation-row" data-header-for="additional-description">
@@ -324,6 +337,23 @@
                 <ul>
                 {_.forEach(subjects, function(subj) {}
                 <li>${subj}</li>
+                {});}
+                </ul>
+              </div>
+            </div>
+            {}}
+
+            {if(has('classifications')) {}
+            <div class="navigation-row" data-header-for="classifications">
+              <div><div class="arrow-right"></div></div>
+              <div>Classifications</div>
+            </div>
+            <div id="classifications" class="content-row">
+              <div></div>
+              <div>
+                <ul>
+                {_.forEach(classifications, function(classif) {}
+                <li>${classif}</li>
                 {});}
                 </ul>
               </div>
@@ -403,37 +433,13 @@
               </div>
             </div>
           </div>
-
-
-          <!-- <div class="accordion record-accordion" data-accordion> -->
-          <!--   <div class="record-accordion-row accordion-navigation"> -->
-          <!--     <a href="#additional-description"> -->
-          <!--       <div class="">v</div> -->
-          <!--       <div class="accordion-header">Additional Description</div> -->
-          <!--     </a> -->
-          <!--   </div> -->
-          <!--   <div class="record-accordion-row"> -->
-          <!--     <div>foo</div> -->
-          <!--     <div id="additional-description" class="content"> -->
-          <!--       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. -->
-          <!--     </div> -->
-          <!--   </div> -->
-          <!-- </div> -->
-
-          <!-- <ul class="accordion" data-accordion> -->
-          <!--   <li class="accordion-navigation"> -->
-          <!--     <a href="#additional-description">Additional Description</a> -->
-          <!--     <div id="additional-description" class="content"> -->
-          <!--       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. -->
-          <!--     </div> -->
-          <!--   </li> -->
-          <!-- </ul> -->
-
+          {}}
         </div>
+
 
         { if(hasContentSidebar) {}
         <div class="columns small-4">
-          Sidebar
+          <!-- Sidebar -->
         </div>
         {}}
       </div>
