@@ -37,6 +37,10 @@ var app = app || {};
       accession: {
         key_for_public_urls: "accession",
         label_singular: "Unprocessed Material"
+      },
+      classification: {
+        label_singular: "Record Group",
+        label_plural: "Record Groups"
       }
     }
   }

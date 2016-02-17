@@ -23,6 +23,11 @@
   @include type-label-colored($accession-color);
 }
 
+.type-label.classification {
+  @include type-label-colored($darkblue);
+}
+
+
 .type-label.digital_object {
   @include type-label-colored($digital-object-color);
 }
