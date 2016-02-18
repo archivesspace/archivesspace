@@ -3,7 +3,7 @@ class RecordsController < ApplicationController
 
 
   def resource
-    resource = JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents", "related_accessions", "repository", "repository::agent_representation"])
+    resource = JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents", "related_accessions", "repository", "repository::agent_representation", "classifications"])
     raise RecordNotFound.new if (!resource || !resource.publish)
 
     hash = resource.to_hash_with_translated_enums(['language_iso639_2', 'linked_agent_role'])
@@ -22,7 +22,7 @@ class RecordsController < ApplicationController
 
 
   def accession
-    accession = JSONModel(:accession).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_agents", "container_locations", "digital_object", "related_resources", "repository", "repository::agent_representation"])
+    accession = JSONModel(:accession).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_agents", "container_locations", "digital_object", "related_resources", "repository", "repository::agent_representation", "classifications"])
 
     raise RecordNotFound.new if (!accession || !accession.publish)
 
@@ -36,6 +36,14 @@ class RecordsController < ApplicationController
     raise RecordNotFound.new if (!digital_object || !digital_object.publish)
 
     render :json => digital_object.to_json
+  end
+
+
+  def classification
+    classification = JSONModel(:classification).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_agents", "repository"])
+    raise RecordNotFound.new if (!classification || !classification.publish)
+
+    render :json => classification.to_json
   end
 
 

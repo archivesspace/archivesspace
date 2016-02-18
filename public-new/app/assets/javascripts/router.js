@@ -32,12 +32,13 @@ var app = app || {};
     },
 
 
-    showRecord: function(repoId, collectionType, id) {
+    showRecord: function(repoId, recordTypePlural, id) {
       var opts = {
         repoId: repoId,
-        recordType: collectionType,
+        recordType: _.singularize(recordTypePlural),
         id: id
       };
+
 
       $(function() {
         var recordContainerView = new app.RecordContainerView(opts);

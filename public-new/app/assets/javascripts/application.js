@@ -1,5 +1,6 @@
 //= require lodash/lodash
 //= require lodash.aspace
+//= require lodash-inflection/lodash-inflection
 //= require jquery/jquery
 //= require exoskeleton/exoskeleton
 //= require backbone.paginator/backbone.paginator

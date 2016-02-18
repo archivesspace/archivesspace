@@ -6,7 +6,7 @@ describe('Record Model(s)', function() {
 
   beforeEach(function() {
     this.resourceRecord = new app.RecordModel({
-      type: 'resource',
+      recordType: 'resource',
       id: 1,
       repoId: 2
     });
