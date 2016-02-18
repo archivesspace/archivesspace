@@ -6,9 +6,9 @@
 module JSONModelTranslatable
 
 
-  def to_hash_with_translated_enums(enums_to_translate)
+  def to_hash_with_translated_enums(enums_to_translate, mode = nil)
 
-    hash = self.to_hash
+    hash = self.to_hash(mode)
 
     if enums_to_translate
       hash = JSONModelTranslatable.translate_hash(hash, self.class.schema, enums_to_translate)
