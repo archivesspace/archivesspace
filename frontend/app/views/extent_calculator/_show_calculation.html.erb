@@ -1,5 +1,5 @@
-<div class="row-fluid">
-  <div class="record-pane">
+<div class="col-md-10 col-md-offset-1">
+  <div>
     <h2>
       <% if results['resource'] %>
         <%= results['resource']['title']  %> --
@@ -59,17 +59,17 @@
       <h3>
         <%= I18n.t("extent_calculator.extent_record_header") %>
         <div class="pull-right">
-          <button class="btn btn-cancel" data-dismiss="modal"><%= I18n.t("actions.close") %></button>
+          <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t("actions.close") %></button>
           <a href="javascript:void(0);" class="btn btn-primary create-extent-btn"><%= I18n.t("extent_calculator.create_extent") %></a>
         </div>
       </h3>
 
       <%= form_for extent, :as => "extent", :url => {:action => :report}, :html => {:class => 'form-horizontal aspace-record-form', :id => "extent_form"} do |f| %>
 
-      <div class="row-fluid">
-        <div class="span3"></div>
+      <div class="row">
+        <div class="col-md-3"></div>
 
-        <div class="span9">
+        <div class="col-md-9">
           <div class="record-pane">
             <div class="subrecord-form-container">
               <%= form_context :extent, extent do |form| %>
@@ -87,12 +87,12 @@
       <h3>
         <%= I18n.t("extent_calculator.extent_record_header") %>
         <div class="pull-right">
-          <button class="btn btn-cancel" data-dismiss="modal"><%= I18n.t("actions.close") %></button>
+          <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t("actions.close") %></button>
         </div>
       </h3>
       <div class="row-fluid">
-        <div class="span3"></div>
-        <div class="span9">
+        <div class="col-md-3"></div>
+        <div class="col-md-9">
           <p><%= I18n.t("extent_calculator.create_extent_record_message") %></p>
         </div>
       </div>

@@ -50,6 +50,7 @@ $(function () {
 
   }
 
+  
   $(document).bind("loadedrecordform.aspace", function(event, $container) {
     init();
   });

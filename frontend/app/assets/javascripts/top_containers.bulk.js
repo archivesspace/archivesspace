@@ -14,6 +14,8 @@ function BulkContainerSearch($search_form, $results_container, $toolbar) {
 BulkContainerSearch.prototype.setup_form = function() {
   var self = this;
 
+  $(document).trigger("loadedrecordsubforms.aspace", this.$search_form);
+
   this.$search_form.on("submit", function(event) {
     event.preventDefault();
     self.perform_search(self.$search_form.serializeArray());
@@ -23,7 +25,7 @@ BulkContainerSearch.prototype.setup_form = function() {
 BulkContainerSearch.prototype.perform_search = function(data) {
   var self = this;
 
-  self.$results_container.closest(".bulk-operation-results-wrapper").show();
+  self.$results_container.closest(".row").show();
   self.$results_container.html(AS.renderTemplate("template_bulk_operation_loading"));
 
   $.ajax({
@@ -64,11 +66,11 @@ BulkContainerSearch.prototype.setup_results_list = function(docs) {
     var $first_row_state = $row[0].className
 
     if (event.altKey) {
-  $row = $row.prev();
-  while ($row[0] != null && $row[0].className != $first_row_state) {
-      $row.find(":checkbox").click();
-      $row = $row.prev();
-  }
+	$row = $row.prev();
+	while ($row[0] != null && $row[0].className != $first_row_state) {
+	    $row.find(":checkbox").click();
+	    $row = $row.prev();
+	}
     }
 
     self.update_button_state();
@@ -97,15 +99,11 @@ BulkContainerSearch.prototype.update_button_state = function() {
 };
 
 BulkContainerSearch.prototype.setup_table_sorter = function() {
-
   function padValue(value) {
     return (new Array(255).join("#") + value).slice(-255)
   };
 
   var tablesorter_opts = {
-    theme: 'bootstrap',
-    widgets: ['uitheme'],
-    widthFixed: false,
     // only sort on the second row of header columns
     selectorHeaders: "thead tr.sortable-columns th",
     // disable sort on the checkbox column
@@ -241,7 +239,7 @@ BulkActionContainerProfileUpdate.prototype.setup_update_form = function($modal) 
 
   var $form = $modal.find("form");
 
-  $(document).trigger("loadedrecordform.aspace", [$form]);
+  $(document).trigger("loadedrecordsubforms.aspace", [$form]);
 
   $form.on("submit", function(event) {
     event.preventDefault();
@@ -307,7 +305,7 @@ BulkActionLocationUpdate.prototype.setup_update_form = function($modal) {
 
   var $form = $modal.find("form");
 
-  $(document).trigger("loadedrecordform.aspace", [$form]);
+  $(document).trigger("loadedrecordsubforms.aspace", [$form]);
 
   $form.on("submit", function(event) {
     event.preventDefault();
@@ -399,9 +397,10 @@ BulkActionBarcodeRapidEntry.prototype.setup_keyboard_handling = function($modal)
   $(":input", $modal).
     on("focus",
     function() {
-      $(this).ScrollTo({
-        duration: 0,
-        offsetTop: 400
+      $.scrollTo($(this), 0, {
+        offset: {
+          top: 400
+        }
       });
     }).
     on("keypress",
@@ -436,9 +435,9 @@ BulkActionBarcodeRapidEntry.prototype.setup_form_submission = function($modal) {
     error: function(jqXHR, textStatus, errorThrown) {
       var error = $("<div>").attr("id", "alertBucket").html(jqXHR.responseText);
       $('#alertBucket').replaceWith(error);
-      var uri = $('.alert-error:first', '#alertBucket').data("uri");
+      var uri = $('.alert-danger:first', '#alertBucket').data("uri");
       if (uri) {
-        $(":input[value='"+uri+"']", $form).closest("td").addClass("control-group").addClass("error");
+        $(":input[value='"+uri+"']", $form).closest("td").addClass("form-group").addClass("error");
       }
       $form.find(":submit").removeClass("disabled").removeAttr("disabled");
     }
@@ -472,8 +471,8 @@ function BulkActionDelete(bulkContainerSearch) {
 $(function() {
 
   var bulkContainerSearch = new BulkContainerSearch(
-                                                  $("#bulk-operation-form"),
-                                                  $("#bulk-operation-results"),
+                                                  $("#bulk_operation_form"),
+                                                  $("#bulk_operation_results"),
                                                   $(".record-toolbar.bulk-operation-toolbar"));
 
   new BulkActionBarcodeRapidEntry(bulkContainerSearch);
@@ -481,7 +480,4 @@ $(function() {
   new BulkActionContainerProfileUpdate(bulkContainerSearch);
   new BulkActionLocationUpdate(bulkContainerSearch);
   new BulkActionDelete(bulkContainerSearch);
-
-
-
 });
