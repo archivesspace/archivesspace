@@ -1,7 +1,7 @@
 class ArchivesSpaceService < Sinatra::Base
 
   BASE_SEARCH_PARAMS =
-    [["q", String, "A search query string",
+    [["q", String, "A search query string.  Uses Lucene 4.0 syntax: http://lucene.apache.org/core/4_0_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html  Search index structure can be found in solr/schema.xml",
       :optional => true],
      ["aq", JSONModel(:advanced_query), "A json string containing the advanced query",
       :optional => true],
