@@ -28,6 +28,24 @@ var app = app || {};
 
     this.abstract = "Contents of the abstract field. Maecenas faucibus mollis. Maecenas sed diam eget risus varius blandit sit amet non magna. Vestibulum id ligula porta semper.";
 
+    if(_.get(model, 'attributes.notes')) {
+      var scopenote = _.find(model.attributes.notes, function(note) {
+        return _.get(note, 'type') === 'scopecontent';
+      });
+
+      if(scopenote) {
+        this.abstract = app.utils.extractNoteText(scopenote);
+      } else {
+        var abstractnote = _.find(model.attributes.notes, function(note) {
+          return _.get(note, 'type') === 'abstract';
+        });
+
+        if(abstractnote)
+          this.abstract = app.utils.extractNoteText(abstractnote);
+      }
+
+    }
+
 
     switch(this.recordType) {
     case 'resource':
@@ -174,6 +192,7 @@ var app = app || {};
         app.debug.presenter = presenter;
 
         $el.html(app.utils.tmpl('record', presenter));
+        $('.abstract', $el).readmore(300);
       }).fail(function(response) {
         var errorView = new app.ServerErrorView({
           response: response

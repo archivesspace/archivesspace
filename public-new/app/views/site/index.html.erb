@@ -2,6 +2,7 @@
 <head>
   <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <%= stylesheet_link_tag "application" %>
 </head>
 <body>
@@ -273,7 +274,9 @@
           </div>
           {}}
 
-          <p>${abstract}</p>
+          <div class="abstract">
+          ${abstract}
+          </div>
 
           { if(present('dates')) {}
           <h3>Dates</h3>
