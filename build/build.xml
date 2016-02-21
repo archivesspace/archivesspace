@@ -5,8 +5,8 @@
   <property name="jruby_url" value="http://jruby.org.s3.amazonaws.com/downloads/1.7.22/jruby-complete-1.7.22.jar" />
   <property name="jruby_file" value="jruby-complete-1.7.22.jar" />
 
-  <property name="solr_url" value="http://repo1.maven.org/maven2/org/apache/solr/solr/4.0.0/solr-4.0.0.war" />
-  <property name="solr_file" value="solr-4.0.0.war" />
+  <property name="solr_url" value="http://repo1.maven.org/maven2/org/apache/solr/solr/4.9.1/solr-4.9.1.war" />
+  <property name="solr_file" value="solr-4.9.1.war" />
 
   <property name="winstone_url" value="http://repo1.maven.org/maven2/org/jvnet/hudson/winstone/winstone/0.9.10/winstone-0.9.10.jar" />
   <property name="winstone_file" value="winstone-0.9.10.jar" />
@@ -217,7 +217,8 @@
     <mkdir dir="${java.io.tmpdir}/winstone.${user.name}" />
     <parallel>
       <daemons>
-        <java classpath="${winstone_file}:../solr"
+        <java
+          classpath="${winstone_file}:../solr:../common/lib/slf4j-api-1.7.17.jar:../common/lib/jcl-over-slf4j-1.7.17.jar"
               classname="winstone.Launcher" fork="true">
           <jvmarg line="${solr.properties} -Djava.io.tmpdir=${java.io.tmpdir}/winstone.${user.name}" />
           <arg line="--warfile=${solr_file} --httpPort=${aspace.solr.port} --ajp13Port=-1" />
@@ -385,7 +386,7 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="../selenium">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS} -Xmx64m -XX:MaxPermSize=96m"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS} -Xmx300m -XX:MaxPermSize=96m"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
@@ -408,7 +409,7 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="../selenium-public">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS} -Xmx64m -XX:MaxPermSize=96m"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS} -Xmx300m -XX:MaxPermSize=96m"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
