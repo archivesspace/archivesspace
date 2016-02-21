@@ -11,7 +11,6 @@ class RecordsController < ApplicationController
                                                    'linked_agent_role'],
                                                   :publishing)
 
-
     json = ASUtils.to_json(hash, {:max_nesting => false})
 
     render :json => json
