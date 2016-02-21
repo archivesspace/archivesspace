@@ -2,33 +2,26 @@
 
 <%= render_aspace_partial :partial => "top_containers/bulk_operations/search_criteria" %>
 <br/>
-<div class="row bulk-operation-results-wrapper" style="display: none">
+<div class="row" style="display: none">
   <div class="col-md-12">
     <%= render_aspace_partial :partial => "top_containers/bulk_operations/toolbar" %>
-    <div class="record-pane" id="bulk-operation-results"></div>
+    <div id="bulk_operation_results" class="record-pane"></div>
     <%= render_aspace_partial :partial => "top_containers/bulk_operations/toolbar" %>
   </div>
 </div>
 
 <div id="template_bulk_operation_loading"><!--
-  <center><i class='spinner'></i></center>
+  <center>
+    <%= image_tag "#{AppConfig[:frontend_prefix]}assets/managed_container_loading.gif" %>
+  </center>
 --></div>
 <div id="template_bulk_operation_error_message"><!--
-  <div id="alertBucket" class="alert alert-error">
+  <div id="alertBucket" class="alert alert-danger">
     ${message}
   </div>
 --></div>
 
-<script src="<%= "#{AppConfig[:frontend_proxy_prefix]}assets/jquery.tablesorter.min.js" %>"></script>
-<script src="<%= "#{AppConfig[:frontend_proxy_prefix]}assets/jquery.tablesorter.widgets.min.js" %>"></script>
-<script src="<%= "#{AppConfig[:frontend_proxy_prefix]}assets/top_containers.bulk.js" %>"></script>
-
-<script>
-  $(document).trigger("loadedrecordform.aspace", [$(".bulk-operations-search-criteria")]);
-  $(function() {
-        $(".linker:not(.initialised)", $(".bulk-operations-search-criteria")).linker();
-  });
-</script>
-
+<script src="<%= "#{AppConfig[:frontend_prefix]}assets/jquery.tablesorter.min.js" %>"></script>
+<script src="<%= "#{AppConfig[:frontend_prefix]}assets/top_containers.bulk.js" %>"></script>
 
 <%= render_aspace_partial :partial => "top_containers/bulk_operations/bulk_action_templates" %>

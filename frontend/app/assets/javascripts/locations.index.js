@@ -18,9 +18,9 @@ $(function() {
       var output; 
       itemCount = json["search_data"]["total_hits"];
       if ( itemCount == 1 ) { 
-          output = "1 related item."; 
+          output = "1 top container."; 
        } else if (itemCount > 0 ) {
-        output = itemCount + " related items.";  
+        output = itemCount + " top containers.";  
       } else {
         output = "This location is empty.";  
       } 

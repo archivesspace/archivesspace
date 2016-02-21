@@ -286,6 +286,28 @@ module Selenium
         raise Selenium::WebDriver::Error::NoSuchElementError
       end
 
+
+      def open_rde_add_row_dropdown
+        modal = self.find_element(:id => "rapidDataEntryModal")
+        3.times do
+          begin 
+            modal.find_element(:css, ".btn.add-rows-dropdown").click
+            modal.find_element_orig(:css => '.add-rows-form input').click
+            break 
+          rescue
+            $stderr.puts "hmmm...can't find the input..lets try and reopen the dropdown.. " 
+            next 
+          end 
+        end
+      end
+
+
+
+
+
+
+
+
     end
 
 

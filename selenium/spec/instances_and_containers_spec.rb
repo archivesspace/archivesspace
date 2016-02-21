@@ -51,7 +51,7 @@ describe "Resource instances and containers" do
 
     @driver.wait_for_ajax
 
-    results = @driver.find_element(:id => "bulk-operation-results")
+    results = @driver.find_element(:id => "bulk_operation_results")
 
     results.find_elements(:css => "tbody tr").length.should eq(5)
 
@@ -61,9 +61,9 @@ describe "Resource instances and containers" do
     @driver.wait_for_ajax
 
     
-    @driver.find_element(:css => "#bulk-operation-results tbody tr:first-child td.top-container-indicator").text.should eq('Letter E')
+    @driver.find_element(:css => "#bulk_operation_results tbody tr:first-child td.top-container-indicator").text.should eq('Letter E')
 
-    @driver.find_element(:css => "#bulk-operation-results tbody tr:first-child td:first-child input").click
+    @driver.find_element(:css => "#bulk_operation_results tbody tr:first-child td:first-child input").click
 
     # Now bulk update Letter E's ILD #
     @driver.find_element(:css => ".bulk-operation-toolbar:first-child a.dropdown-toggle").click
@@ -84,7 +84,7 @@ describe "Resource instances and containers" do
 
     modal.find_element(:css => ".modal-footer button").click
 
-    @driver.click_and_wait_until_gone(:css => "#bulk-operation-results tbody tr:first-child td:last-child a:first-child")
+    @driver.click_and_wait_until_gone(:css => "#bulk_operation_results tbody tr:first-child td:last-child a:first-child")
 
     @driver.find_element(:css => ".form-group:nth-child(3) div.label-only").text.should eq("xyzpdq")
   end
