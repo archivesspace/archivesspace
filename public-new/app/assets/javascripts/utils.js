@@ -154,10 +154,14 @@ var app = app || {};
       }
 
       return string;
+    },
+
+    extractNoteText: function(note) {
+      var subnotes = _.get(note, 'subnotes') || [];
+      return _.compact([_.get(note, 'content')].concat(_.map(
+        subnotes, function(subnote) {
+          return _.get(subnote, 'content');
+        }))).join('<br />');
     }
-
-
-
-
   }
 })();
